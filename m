@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7866F205499
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:28:42 +0200 (CEST)
-Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA692054CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:35:07 +0200 (CEST)
+Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnjuj-00087s-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
+	id 1jnk0v-0000Ad-M0
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpu-0001o4-2M
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56096
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjps-0001lR-FI
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54280
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpn-0007jt-3W
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpm-0007jO-KK
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592922214;
+ s=mimecast20190719; t=1592922213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kzGTCuv62dGXjoqG/dxgPQGfQJ3gb0Hc/Prq5bnFGaY=;
- b=Y8eW1UObNq8JhZyw9B/BxNlzBznRcvC5Eg64mbvCD7InrYSgihm9LiTHFHHY8n8XjSHH26
- Dk6wGIDbZRQm470j6B6eTdgWWG8I+ThWD4fllLBi/ua8DDm6eE3FN2kvijKeYfBd/XQfZW
- 042VaUse07IuKnlh/OteAKZt9yhAvhw=
+ bh=rRYO5Kp2/Cqw5IF/GTlj3GcMJBhYHOwBjK3oiYKcEs8=;
+ b=YjfdTcna9anQDpBij6zBR8xczbz/RTVJZqjKxjWzuHzj5rrUCGLVddsTvJVCB8BpQftXzb
+ Vwl+gyKm0RSeOGc49vZeFiXeS9yVDTXCBwFDWz3AWe36FvF6oM90FM4S7Mu+hCUgJhwufn
+ s2E9GLk9gxZh0m7Ns7EfCSyyAYIUnUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-eE8ZgLcuO2GYUuWvb0NoHQ-1; Tue, 23 Jun 2020 10:23:32 -0400
-X-MC-Unique: eE8ZgLcuO2GYUuWvb0NoHQ-1
+ us-mta-120-iG3rxjJFPBiXyGW4ANaZSA-1; Tue, 23 Jun 2020 10:23:30 -0400
+X-MC-Unique: iG3rxjJFPBiXyGW4ANaZSA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DBB01005513;
- Tue, 23 Jun 2020 14:23:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0882464AD2
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2D295DA27;
- Tue, 23 Jun 2020 14:23:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE72E5D9DA
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6EDE9113847D; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
+ id 39CA31138470; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] sd/pxa2xx_mmci: Don't crash on pxa2xx_mmci_init() error
-Date: Tue, 23 Jun 2020 16:23:25 +0200
-Message-Id: <20200623142326.2349416-16-armbru@redhat.com>
+Subject: [PULL 02/16] iotests/172: Cover empty filename and multiple use of
+ drives
+Date: Tue, 23 Jun 2020 16:23:12 +0200
+Message-Id: <20200623142326.2349416-3-armbru@redhat.com>
 In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
 References: <20200623142326.2349416-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -80,77 +83,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On error, pxa2xx_mmci_init() reports to stderr and returns NULL.
-Callers don't check for errors.  Machines akita, borzoi, mainstone,
-spitz, terrier, tosa, and z2 crash shortly after, like this:
-
-    $ qemu-system-aarch64 -M akita -drive if=sd,readonly=on
-    qemu-system-aarch64: failed to init SD card: Cannot use read-only drive as SD card
-    Segmentation fault (core dumped)
-
-Machines connex and verdex reach the check for orphaned drives first:
-
-    $ aarch64-softmmu/qemu-system-aarch64 -M connex -drive if=sd,readonly=on -accel qtest
-    qemu-system-aarch64: failed to init SD card: Cannot use read-only drive as SD card
-    qemu-system-aarch64: -drive if=sd,readonly=on: machine type does not support if=sd,bus=0,unit=0
-
-Make pxa2xx_mmci_init() fail cleanly right away.
-
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200622094227.1271650-16-armbru@redhat.com>
+Message-Id: <20200622094227.1271650-3-armbru@redhat.com>
 ---
- hw/sd/pxa2xx_mmci.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/172     | 12 +++++++++
+ tests/qemu-iotests/172.out | 50 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 3407617afc..68bed24480 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -18,7 +18,6 @@
- #include "hw/arm/pxa.h"
- #include "hw/sd/sd.h"
- #include "hw/qdev-properties.h"
--#include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "trace.h"
-@@ -483,7 +482,6 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
-     DeviceState *dev, *carddev;
-     SysBusDevice *sbd;
-     PXA2xxMMCIState *s;
--    Error *err = NULL;
+diff --git a/tests/qemu-iotests/172 b/tests/qemu-iotests/172
+index 19c2516cf8..714c7527b4 100755
+--- a/tests/qemu-iotests/172
++++ b/tests/qemu-iotests/172
+@@ -111,6 +111,7 @@ echo === Using -fda/-fdb options ===
+ check_floppy_qtree -fda "$TEST_IMG"
+ check_floppy_qtree -fdb "$TEST_IMG"
+ check_floppy_qtree -fda "$TEST_IMG" -fdb "$TEST_IMG.2"
++check_floppy_qtree -fdb ""
  
-     dev = qdev_new(TYPE_PXA2XX_MMCI);
-     s = PXA2XX_MMCI(dev);
-@@ -496,16 +494,9 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
  
-     /* Create and plug in the sd card */
-     carddev = qdev_new(TYPE_SD_CARD);
--    qdev_prop_set_drive_err(carddev, "drive", blk, &err);
--    if (err) {
--        error_reportf_err(err, "failed to init SD card: ");
--        return NULL;
--    }
--    qdev_realize_and_unref(carddev, qdev_get_child_bus(dev, "sd-bus"), &err);
--    if (err) {
--        error_reportf_err(err, "failed to init SD card: ");
--        return NULL;
--    }
-+    qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
-+    qdev_realize_and_unref(carddev, qdev_get_child_bus(dev, "sd-bus"),
-+                           &error_fatal);
+ echo
+@@ -198,6 +199,17 @@ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IM
+ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IMG.2" \
+                    -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=1
  
-     return s;
- }
++echo
++echo
++echo === Attempt to use drive twice ===
++
++# if=none
++check_floppy_qtree -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
++# if=floppy
++check_floppy_qtree -fda "" -device floppy,drive=floppy0
++# default if=floppy (not found, because it's created later)
++check_floppy_qtree -device floppy,drive=floppy0
++
+ echo
+ echo
+ echo === Too many floppy drives ===
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index a315866e17..0665cdcb51 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -187,6 +187,44 @@ sd0: [not inserted]
+ (qemu) quit
+ 
+ 
++Testing: -fdb 
++
++          dev: isa-fdc, id ""
++            iobase = 1008 (0x3f0)
++            irq = 6 (0x6)
++            dma = 2 (0x2)
++            driveA = ""
++            driveB = ""
++            check_media_rate = true
++            fdtypeA = "auto"
++            fdtypeB = "auto"
++            fallback = "288"
++            isa irq 6
++            bus: floppy-bus.0
++              type floppy-bus
++              dev: floppy, id ""
++                unit = 1 (0x1)
++                drive = "floppy1"
++                logical_block_size = 512 (0x200)
++                physical_block_size = 512 (0x200)
++                min_io_size = 0 (0x0)
++                opt_io_size = 0 (0x0)
++                discard_granularity = 4294967295 (0xffffffff)
++                write-cache = "auto"
++                share-rw = false
++                drive-type = "288"
++              dev: floppy, id ""
++                unit = 0 (0x0)
++                drive = "floppy0"
++                logical_block_size = 512 (0x200)
++                physical_block_size = 512 (0x200)
++                min_io_size = 0 (0x0)
++                opt_io_size = 0 (0x0)
++                discard_granularity = 4294967295 (0xffffffff)
++                write-cache = "auto"
++                share-rw = false
++                drive-type = "288"
++
+ 
+ === Using -drive options ===
+ 
+@@ -1407,6 +1445,18 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+ QEMU_PROG: -device floppy,drive=none1,unit=1: Floppy unit 1 is in use
+ 
+ 
++=== Attempt to use drive twice ===
++
++Testing: -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
++QEMU_PROG: -device floppy,drive=none0: Drive 'none0' is already in use by another device
++
++Testing: -fda  -device floppy,drive=floppy0
++QEMU_PROG: -device floppy,drive=floppy0: Drive 'floppy0' is already in use because it has been automatically connected to another device (did you need 'if=none' in the drive options?)
++
++Testing: -device floppy,drive=floppy0
++QEMU_PROG: -device floppy,drive=floppy0: Property 'floppy.drive' can't find value 'floppy0'
++
++
+ === Too many floppy drives ===
+ 
+ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -drive if=none,file=TEST_DIR/t.qcow2.3 -global isa-fdc.driveB=none0 -device floppy,drive=none1
 -- 
 2.26.2
 
