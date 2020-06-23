@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9453206119
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:56:50 +0200 (CEST)
-Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C393C20611F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:59:45 +0200 (CEST)
+Received: from localhost ([::1]:41926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpyL-0005tE-M4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1jnq1A-0003Mu-PD
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsL-0004V9-Fv; Tue, 23 Jun 2020 16:50:37 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56398
+ id 1jnpsN-0004av-Vn; Tue, 23 Jun 2020 16:50:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56408
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsI-0001es-NH; Tue, 23 Jun 2020 16:50:37 -0400
+ id 1jnpsM-0001id-6w; Tue, 23 Jun 2020 16:50:39 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsF-0007T1-Of; Tue, 23 Jun 2020 21:50:36 +0100
+ id 1jnpsK-0007T1-NF; Tue, 23 Jun 2020 21:50:40 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Tue, 23 Jun 2020 21:49:23 +0100
-Message-Id: <20200623204936.24064-10-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 23 Jun 2020 21:49:24 +0100
+Message-Id: <20200623204936.24064-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 09/22] pmu: convert to use ADBBusState internal autopoll
- variables
+Subject: [PATCH v2 10/22] mac_via: convert to use ADBBusState internal
+ autopoll variables
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,146 +68,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/misc/macio/pmu.c         | 39 ++++++++++++++-----------------------
- include/hw/misc/macio/pmu.h |  3 ---
- 2 files changed, 15 insertions(+), 27 deletions(-)
+ hw/misc/mac_via.c         | 22 ++++++++++------------
+ include/hw/misc/mac_via.h |  1 -
+ 2 files changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index bae0b440d0..01d49e6695 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -92,10 +92,11 @@ static void pmu_update_extirq(PMUState *s)
- static void pmu_adb_poll(void *opaque)
- {
-     PMUState *s = opaque;
-+    ADBBusState *adb_bus = &s->adb_bus;
-     int olen;
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 9cd313c812..7a28bb37ac 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -601,6 +601,8 @@ static void via1_rtc_update(MacVIAState *m)
  
-     if (!(s->intbits & PMU_INT_ADB)) {
--        olen = adb_poll(&s->adb_bus, s->adb_reply, s->adb_poll_mask);
-+        olen = adb_poll(adb_bus, s->adb_reply, adb_bus->autopoll_mask);
-         trace_pmu_adb_poll(olen);
- 
-         if (olen > 0) {
-@@ -104,9 +105,6 @@ static void pmu_adb_poll(void *opaque)
-             pmu_update_extirq(s);
-         }
-     }
--
--    timer_mod(s->adb_poll_timer,
--              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
- }
- 
- static void pmu_one_sec_timer(void *opaque)
-@@ -173,18 +171,15 @@ static void pmu_cmd_set_int_mask(PMUState *s,
- 
- static void pmu_cmd_set_adb_autopoll(PMUState *s, uint16_t mask)
- {
--    trace_pmu_cmd_set_adb_autopoll(mask);
-+    ADBBusState *adb_bus = &s->adb_bus;
- 
--    if (s->adb_poll_mask == mask) {
--        return;
--    }
-+    trace_pmu_cmd_set_adb_autopoll(mask);
- 
--    s->adb_poll_mask = mask;
-     if (mask) {
--        timer_mod(s->adb_poll_timer,
--                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
-+        adb_set_autopoll_mask(adb_bus, mask);
-+        adb_set_autopoll_enabled(adb_bus, true);
-     } else {
--        timer_del(s->adb_poll_timer);
-+        adb_set_autopoll_enabled(adb_bus, false);
-     }
- }
- 
-@@ -267,6 +262,8 @@ static void pmu_cmd_adb_poll_off(PMUState *s,
-                                  const uint8_t *in_data, uint8_t in_len,
-                                  uint8_t *out_data, uint8_t *out_len)
+ static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
  {
 +    ADBBusState *adb_bus = &s->adb_bus;
 +
-     if (in_len != 0) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "PMU: ADB POLL OFF command, invalid len: %d want: 0\n",
-@@ -274,9 +271,8 @@ static void pmu_cmd_adb_poll_off(PMUState *s,
-         return;
+     if (state != ADB_STATE_IDLE) {
+         return 0;
      }
+@@ -615,7 +617,8 @@ static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
  
--    if (s->has_adb && s->adb_poll_mask) {
--        timer_del(s->adb_poll_timer);
--        s->adb_poll_mask = 0;
-+    if (s->has_adb) {
-+        adb_set_autopoll_enabled(adb_bus, false);
+     s->adb_data_in_index = 0;
+     s->adb_data_out_index = 0;
+-    s->adb_data_in_size = adb_poll(&s->adb_bus, s->adb_data_in, 0xffff);
++    s->adb_data_in_size = adb_poll(adb_bus, s->adb_data_in,
++                                   adb_bus->autopoll_mask);
+ 
+     if (s->adb_data_in_size) {
+         *data = s->adb_data_in[s->adb_data_in_index++];
+@@ -768,10 +771,6 @@ static void via_adb_poll(void *opaque)
+             s->b &= ~VIA1B_vADBInt;
+         }
      }
+-
+-    timer_mod(m->adb_poll_timer,
+-              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
  }
  
-@@ -684,12 +680,10 @@ static bool pmu_adb_state_needed(void *opaque)
+ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
+@@ -854,10 +853,9 @@ static void mac_via_reset(DeviceState *dev)
+ {
+     MacVIAState *m = MAC_VIA(dev);
+     MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
++    ADBBusState *adb_bus = &m->adb_bus;
  
- static const VMStateDescription vmstate_pmu_adb = {
-     .name = "pmu/adb",
--    .version_id = 0,
--    .minimum_version_id = 0,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-     .needed = pmu_adb_state_needed,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT16(adb_poll_mask, PMUState),
--        VMSTATE_TIMER_PTR(adb_poll_timer, PMUState),
-         VMSTATE_UINT8(adb_reply_size, PMUState),
-         VMSTATE_BUFFER(adb_reply, PMUState),
-         VMSTATE_END_OF_LIST()
-@@ -714,7 +708,6 @@ static const VMStateDescription vmstate_pmu = {
-         VMSTATE_BUFFER(cmd_rsp, PMUState),
-         VMSTATE_UINT8(intbits, PMUState),
-         VMSTATE_UINT8(intmask, PMUState),
--        VMSTATE_UINT8(autopoll_rate_ms, PMUState),
-         VMSTATE_UINT32(tick_offset, PMUState),
-         VMSTATE_TIMER_PTR(one_sec_timer, PMUState),
-         VMSTATE_INT64(one_sec_target, PMUState),
-@@ -734,7 +727,6 @@ static void pmu_reset(DeviceState *dev)
-     s->intbits = 0;
+-    timer_mod(m->adb_poll_timer,
+-              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
++    adb_set_autopoll_enabled(adb_bus, true);
  
-     s->cmd_state = pmu_state_idle;
--    s->adb_poll_mask = 0;
- }
- 
- static void pmu_realize(DeviceState *dev, Error **errp)
-@@ -742,6 +734,7 @@ static void pmu_realize(DeviceState *dev, Error **errp)
-     PMUState *s = VIA_PMU(dev);
-     Error *err = NULL;
-     SysBusDevice *sbd;
-+    ADBBusState *adb_bus = &s->adb_bus;
+     timer_del(v1s->VBL_timer);
+     v1s->next_VBL = 0;
+@@ -872,6 +870,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+ {
+     MacVIAState *m = MAC_VIA(dev);
+     MOS6522State *ms;
++    ADBBusState *adb_bus = &m->adb_bus;
      struct tm tm;
+     int ret;
  
-     sysbus_realize(SYS_BUS_DEVICE(&s->mos6522_pmu), &err);
-@@ -763,9 +756,7 @@ static void pmu_realize(DeviceState *dev, Error **errp)
-     if (s->has_adb) {
-         qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
-                             dev, "adb.0");
--        s->adb_poll_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, pmu_adb_poll, s);
--        s->adb_poll_mask = 0xffff;
--        s->autopoll_rate_ms = 20;
-+        adb_register_autopoll_callback(adb_bus, pmu_adb_poll, s);
-     }
- }
+@@ -907,7 +906,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+     qemu_get_timedate(&tm, 0);
+     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
  
-diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
-index 4f34b6f9e7..72f75612b6 100644
---- a/include/hw/misc/macio/pmu.h
-+++ b/include/hw/misc/macio/pmu.h
-@@ -218,9 +218,6 @@ typedef struct PMUState {
+-    m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
++    adb_register_autopoll_callback(adb_bus, via_adb_poll, m);
+     m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
+                                                VIA1_IRQ_ADB_READY_BIT);
+ 
+@@ -980,8 +979,8 @@ static int mac_via_post_load(void *opaque, int version_id)
+ 
+ static const VMStateDescription vmstate_mac_via = {
+     .name = "mac-via",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .post_load = mac_via_post_load,
+     .fields = (VMStateField[]) {
+         /* VIAs */
+@@ -1005,7 +1004,6 @@ static const VMStateDescription vmstate_mac_via = {
+         VMSTATE_INT32(wprotect, MacVIAState),
+         VMSTATE_INT32(alt, MacVIAState),
+         /* ADB */
+-        VMSTATE_TIMER_PTR(adb_poll_timer, MacVIAState),
+         VMSTATE_INT32(adb_data_in_size, MacVIAState),
+         VMSTATE_INT32(adb_data_in_index, MacVIAState),
+         VMSTATE_INT32(adb_data_out_index, MacVIAState),
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index e74f85be0f..2aaf9e27bf 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -106,7 +106,6 @@ typedef struct MacVIAState {
+ 
      /* ADB */
-     bool has_adb;
      ADBBusState adb_bus;
--    uint16_t adb_poll_mask;
--    uint8_t autopoll_rate_ms;
 -    QEMUTimer *adb_poll_timer;
-     uint8_t adb_reply_size;
-     uint8_t adb_reply[ADB_MAX_OUT_LEN];
- 
+     qemu_irq adb_data_ready;
+     int adb_data_in_size;
+     int adb_data_in_index;
 -- 
 2.20.1
 
