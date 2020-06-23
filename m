@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EFB2051CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:07:06 +0200 (CEST)
-Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AD92051A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:00:59 +0200 (CEST)
+Received: from localhost ([::1]:49048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhhh-0005oC-Au
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45256)
+	id 1jnhbm-0005y0-E2
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIv-0006Nl-C7
+ id 1jnhIv-0006NI-6c
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42240)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIt-0004kB-AZ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:29 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1jnhIs-0004k0-GJ
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:28 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBWlLf036523; Tue, 23 Jun 2020 07:41:25 -0400
+ 05NBUwPQ181284; Tue, 23 Jun 2020 07:41:25 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udff7f0x-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udt2eq1b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 23 Jun 2020 07:41:25 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBX0ZY038010;
- Tue, 23 Jun 2020 07:41:25 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBVcLT183747;
+ Tue, 23 Jun 2020 07:41:24 -0400
 Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
  [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udff7f0d-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udt2eq12-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:25 -0400
+ Tue, 23 Jun 2020 07:41:24 -0400
 Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQDW3028316;
- Tue, 23 Jun 2020 11:41:23 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma02wdc.us.ibm.com with ESMTP id 31sa38xts5-1
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQHh5028386;
+ Tue, 23 Jun 2020 11:41:24 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma02wdc.us.ibm.com with ESMTP id 31sa38xts8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 11:41:23 +0000
+ Tue, 23 Jun 2020 11:41:24 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfMk427656636
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05NBfNGE40567094
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jun 2020 11:41:23 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9495C6057;
- Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7EAF6C6059;
+ Tue, 23 Jun 2020 11:41:23 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5FA89C6055;
- Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 05627C6055;
+ Tue, 23 Jun 2020 11:41:23 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
  Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 08/12] hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local
- to tpm_util.c
-Date: Tue, 23 Jun 2020 07:41:10 -0400
-Message-Id: <20200623114114.1375104-9-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 09/12] hw/tpm: Move few declarations from 'tpm_util.h' to
+ 'tpm_int.h'
+Date: Tue, 23 Jun 2020 07:41:11 -0400
+Message-Id: <20200623114114.1375104-10-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
 References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
@@ -74,15 +74,16 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-23_06:2020-06-23,
  2020-06-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- spamscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- suspectscore=1 impostorscore=0 clxscore=1015 adultscore=0 mlxscore=0
- bulkscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006230092
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:29:31
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+ phishscore=0
+ cotscore=-2147483648 mlxscore=0 bulkscore=0 priorityscore=1501
+ clxscore=1015 mlxlogscore=999 malwarescore=0 adultscore=0 spamscore=0
+ impostorscore=0 suspectscore=1 lowpriorityscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006230088
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:41:20
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -108,62 +109,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The trace_event_get_state_backends() call is useful to avoid
-making extensive calls (usually preparing arguments passed to
-the tracing framework. In this case, the extensive work is
-done in tpm_util_show_buffer(), and the arguments used to
-call it don't involve extra processing. Simplify by moving
-the TRACE_TPM_UTIL_SHOW_BUFFER check to tpm_util_show_buffer.
+We are going to make "tpm_util.h" publicly accessible by
+moving it to the include/ directory in a pair of commits.
+Keep declarations internals to hw/tpm/ in "tpm_int.h".
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200612085444.8362-9-philmd@redhat.com
+Message-id: 20200612085444.8362-10-philmd@redhat.com
 Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
 ---
- hw/tpm/tpm_tis_common.c | 8 ++------
- hw/tpm/tpm_util.c       | 3 +++
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ hw/tpm/tpm_int.h  | 11 +++++++++++
+ hw/tpm/tpm_util.h | 10 ----------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index 94704870f6..1779b4fc1e 100644
---- a/hw/tpm/tpm_tis_common.c
-+++ b/hw/tpm/tpm_tis_common.c
-@@ -78,9 +78,7 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t flags)
-  */
- static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
- {
--    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
+index fd5ebc6489..9f72879d89 100644
+--- a/hw/tpm/tpm_int.h
++++ b/hw/tpm/tpm_int.h
+@@ -13,6 +13,7 @@
+ #define TPM_TPM_INT_H
  
-     /*
-      * rw_offset serves as length indicator for length of data;
-@@ -246,9 +244,7 @@ void tpm_tis_request_completed(TPMState *s, int ret)
-     s->loc[locty].state = TPM_TIS_STATE_COMPLETION;
-     s->rw_offset = 0;
+ #include "qemu/option.h"
++#include "sysemu/tpm.h"
  
--    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
+ #define TPM_STANDARD_CMDLINE_OPTS \
+     { \
+@@ -74,4 +75,14 @@ struct tpm_resp_hdr {
+ #define TPM_RC_FAILURE            0x101
+ #define TPM_RC_LOCALITY           0x907
  
-     if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
-         tpm_tis_abort(s);
-diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-index c0a0f3d71f..12f19465c5 100644
---- a/hw/tpm/tpm_util.c
-+++ b/hw/tpm/tpm_util.c
-@@ -357,6 +357,9 @@ void tpm_util_show_buffer(const unsigned char *buffer,
-     size_t len, i;
-     char *line_buffer, *p;
++int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
++                             size_t *buffersize);
++
++typedef struct TPMSizedBuffer {
++    uint32_t size;
++    uint8_t  *buffer;
++} TPMSizedBuffer;
++
++void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
++
+ #endif /* TPM_TPM_INT_H */
+diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
+index 7889081fba..d524935576 100644
+--- a/hw/tpm/tpm_util.h
++++ b/hw/tpm/tpm_util.h
+@@ -66,19 +66,9 @@ static inline void tpm_cmd_set_error(void *b, uint32_t error)
+     stl_be_p(b + 6, error);
+ }
  
-+    if (!trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-+        return;
-+    }
-     len = MIN(tpm_cmd_get_size(buffer), buffer_size);
+-int tpm_util_get_buffer_size(int tpm_fd, TPMVersion tpm_version,
+-                             size_t *buffersize);
+-
+ #define DEFINE_PROP_TPMBE(_n, _s, _f)                     \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_tpm, TPMBackend *)
  
-     /*
+-typedef struct TPMSizedBuffer {
+-    uint32_t size;
+-    uint8_t  *buffer;
+-} TPMSizedBuffer;
+-
+-void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
+-
+ void tpm_util_show_buffer(const unsigned char *buffer,
+                           size_t buffer_size, const char *string);
+ 
 -- 
 2.24.1
 
