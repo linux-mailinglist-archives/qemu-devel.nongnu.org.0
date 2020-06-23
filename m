@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30F6205317
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 15:12:03 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C654205303
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 15:04:24 +0200 (CEST)
+Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jniiY-0008FJ-PI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 09:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
+	id 1jnib9-000252-4l
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 09:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnihn-0007o8-8s
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:11:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnihk-0006Tf-Ue
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:11:15 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jnihh-0003e2-FN
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 13:11:09 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D0612E8050
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 13:11:09 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jniaA-0001Em-Tc
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:03:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32088
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jnia8-0003Pe-79
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:03:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592917398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nhooRDZRoeoCB8hD8sojsZV4rMxRQ+mOUNx4EzvRRjg=;
+ b=OllQbGUNzjlGRh57Fky2M53/0iozxCMcvgVVsm7f3mnQ6RaDmMwqO+GO/rASlhJQ5yKarf
+ lRkilsyHhsJW5tSV/QoxS24x7RydpbEoyFMYU+/ip3pKoZzjDK+dZxCpL0svosqA/UUPtp
+ qY5umZd0/wAkH2jFOCl0hDIpmEv5/hs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-57-FhgTfHbjOQ-i6PwdoNntRQ-1; Tue, 23 Jun 2020 09:02:12 -0400
+X-MC-Unique: FhgTfHbjOQ-i6PwdoNntRQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EFC08031C2;
+ Tue, 23 Jun 2020 13:02:11 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 161215C1D4;
+ Tue, 23 Jun 2020 13:01:57 +0000 (UTC)
+Date: Tue, 23 Jun 2020 15:01:56 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Subject: Re: [PATCH v4 5/8] acpi: Enable TPM IRQ
+Message-ID: <20200623150156.2e350e18@redhat.com>
+In-Reply-To: <20200617142305.1198672-6-stefanb@linux.vnet.ibm.com>
+References: <20200617142305.1198672-1-stefanb@linux.vnet.ibm.com>
+ <20200617142305.1198672-6-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jun 2020 12:56:53 -0000
-From: Stefan Hajnoczi <1882241@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: i82551
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: stefanha tim-tree-of-life
-X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
-References: <159136023930.32294.17616621945608188739.malonedeb@gac.canonical.com>
- <159240575569.16985.2747320831416406615.malone@chaenomeles.canonical.com>
-Message-Id: <20200623125653.GI36568@stefanha-x1.localdomain>
-Subject: Re: [Bug 1882241] Re: file transfer over cifs to 64bit guest corrupts
- large files
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 593f3bf3ba3ebb105d925f0e2b45a8a4dadfeab3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 09:11:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,81 +82,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882241 <1882241@bugs.launchpad.net>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com, mkedzier@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 17, 2020 at 02:55:55PM -0000, timsoft wrote:
-> thanks for the suggestion. I tried using netcat (nc) to transfer a large =
-file from host to guest, and also from fileserver to guest with the problem=
-atic i82551 emulated network adapter on the host and the files transfered r=
-eliably. (correct md5sum 3 out of 3 attempts)
-> I also tried md5sum of the same file mounted on the guest fs as before an=
-d it still corrupts the data.
-> this seems to imply there is something in the cifs implementation which r=
-eacts adversly with this particular combination of virtual network hardware=
-, the fact it works with the vmxnet3 emulated card, would support that conc=
-lusion.
+On Wed, 17 Jun 2020 10:23:02 -0400
+Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
 
-I'm not sure if someone will look into it because the eepro100
-(i82551) NIC device is old an not used much nowadays.
+> From: Stefan Berger <stefanb@linux.ibm.com>
+>=20
+> Move the TPM TIS IRQ to unused IRQ 13, which is the only one accepted by
+> Windows. Query for the TPM's irq number and enable the TPM IRQ unless
+> TPM_IRQ_DISABLED is returned.
+>=20
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Message-id: 20200616205721.1191408-6-stefanb@linux.vnet.ibm.com
+> CC: Michael S. Tsirkin <mst@redhat.com>
 
-However, if someone does decide to investigate and wants to brainstorm
-debugging ideas or needs help, feel free to contact me.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
--- =
+> ---
+>  hw/i386/acpi-build.c  | 11 +++++------
+>  include/hw/acpi/tpm.h |  2 +-
+>  2 files changed, 6 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 900f786d08..bb9a7f8497 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2021,6 +2021,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>              build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en=
+);
+> =20
+>              if (TPM_IS_TIS_ISA(tpm)) {
+> +                int8_t irq =3D tpm_get_irqnum(tpm);
+>                  if (misc->tpm_version =3D=3D TPM_VERSION_2_0) {
+>                      dev =3D aml_device("TPM");
+>                      aml_append(dev, aml_name_decl("_HID",
+> @@ -2035,12 +2036,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker=
+,
+>                  crs =3D aml_resource_template();
+>                  aml_append(crs, aml_memory32_fixed(TPM_TIS_ADDR_BASE,
+>                             TPM_TIS_ADDR_SIZE, AML_READ_WRITE));
+> -                /*
+> -                    FIXME: TPM_TIS_IRQ=3D5 conflicts with PNP0C0F irqs,
+> -                    Rewrite to take IRQ from TPM device model and
+> -                    fix default IRQ value there to use some unused IRQ
+> -                 */
+> -                /* aml_append(crs, aml_irq_no_flags(TPM_TIS_IRQ)); */
+> +
+> +                if (irq !=3D TPM_IRQ_DISABLED) {
+> +                    aml_append(crs, aml_irq_no_flags(irq));
+> +                }
+>                  aml_append(dev, aml_name_decl("_CRS", crs));
+> =20
+>                  tpm_build_ppi_acpi(tpm, dev);
+> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+> index d5caee9771..d356f2e06e 100644
+> --- a/include/hw/acpi/tpm.h
+> +++ b/include/hw/acpi/tpm.h
+> @@ -24,7 +24,7 @@
+>  #define TPM_TIS_ADDR_BASE           0xFED40000
+>  #define TPM_TIS_ADDR_SIZE           0x5000
+> =20
+> -#define TPM_TIS_ISA_IRQ             5
+> +#define TPM_TIS_ISA_IRQ             13    /* only one possible */
+>  #define TPM_TIS_SYSBUS_IRQ          5
+> =20
+>  #define TPM_TIS_NUM_LOCALITIES      5     /* per spec */
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882241
-
-Title:
-  file transfer over cifs to 64bit guest corrupts large files
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu 4.0 compiled fom source.
-  vm called by
-  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive file=3D/data/images/sl=
-ack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom /mnt/smb1/slackware/iso/slac=
-kware64-14.2-install-dvd.iso -boot c -net nic,macaddr=3D02:00:00:11:11:17,m=
-odel=3Di82551 -net bridge,br=3Dbr0 -enable-kvm -k en-gb -display vnc=3D:3 -=
-monitor telnet:localhost:7103,server,nowait,nodelay
-
-  copying large files eg 2.4gb or reading them on a cifs mount in the guest=
- causes corruption every time. For smaller files 40-60mb corruption is more=
- than 50% of the time. tested by md5sum on cifs server, or on host machine =
-vs. on guest vm.
-  corruption is seen only with 64bit guest using cifs with i82551 emulated =
-network device
-  ie. 32bit guest using cifs with i82551 emulated network device gives no c=
-orruption.
-
-  changing the emulated device to vmxnet3 removes the data corruption
-  (see below)
-
-  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive
-  file=3D/data/images/slack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom
-  /mnt/smb1/slackware/iso/slackware64-14.2-install-dvd.iso -boot c -net
-  nic,macaddr=3D02:00:00:11:11:17,model=3Dvmxnet3 -net bridge,br=3Dbr0
-  -enable-kvm -k en-gb -display vnc=3D:3 -monitor
-  telnet:localhost:7103,server,nowait,nodelay
-
-  this corruption is repeatable. ie. I created new vm, call using top examp=
-le, installed 64bit linux, mounted cifs share and copied 2.4gb file to /tmp=
- then run md5sum "filecopied"
-  the md5sum is different every time. copy same file to the host, or to a 3=
-2bit guest with the same virtual network device and bridge and md5sums are =
-correct. The host pysical network adapter is
-  lspci|grep Ether
-  1e:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168=
-/8411 PCI Express Gigabit Ethernet Controller (rev 11)
-
-  physically connected via gigabit ethernet to cifs server (via gigabit
-  switch)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882241/+subscriptions
 
