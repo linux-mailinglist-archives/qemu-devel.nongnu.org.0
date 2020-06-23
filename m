@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA4120611B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:57:51 +0200 (CEST)
-Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4061220611E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:59:44 +0200 (CEST)
+Received: from localhost ([::1]:41778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpzK-00082M-0h
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
+	id 1jnq19-0003JK-8x
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:59:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpt3-0005Vt-Km; Tue, 23 Jun 2020 16:51:23 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56478
+ id 1jnptN-0005yJ-0z; Tue, 23 Jun 2020 16:51:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56504
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpt0-00029N-RV; Tue, 23 Jun 2020 16:51:21 -0400
+ id 1jnptL-0002Jk-5n; Tue, 23 Jun 2020 16:51:40 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsu-0007T1-SG; Tue, 23 Jun 2020 21:51:20 +0100
+ id 1jnptG-0007T1-Tk; Tue, 23 Jun 2020 21:51:41 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Tue, 23 Jun 2020 21:49:32 +0100
-Message-Id: <20200623204936.24064-19-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 23 Jun 2020 21:49:35 +0100
+Message-Id: <20200623204936.24064-22-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 18/22] mac_via: move VIA1 portB write logic into
- mos6522_q800_via1_write()
+Subject: [PATCH v2 21/22] adb: use adb_device prefix for ADB device trace
+ events
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,74 +66,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the logic is split between the mos6522 portB_write() callback and
-the memory region used to capture the VIA1 MMIO accesses. Move everything
-into the latter mos6522_q800_via1_write() function to keep all the logic in
-one place to make it easier to follow.
+This is to allow us to distinguish between ADB device events and ADB
+bus events separately.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/misc/mac_via.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ hw/input/adb-kbd.c    | 12 ++++++------
+ hw/input/adb-mouse.c  | 12 ++++++------
+ hw/input/trace-events | 20 ++++++++++----------
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 7a28bb37ac..a1dc00d9f6 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -801,11 +801,21 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
-                                     unsigned size)
- {
-     MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(opaque);
-+    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
-     MOS6522State *ms = MOS6522(v1s);
+diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
+index 23760ecf7b..3cfb6a7a20 100644
+--- a/hw/input/adb-kbd.c
++++ b/hw/input/adb-kbd.c
+@@ -243,7 +243,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+     olen = 0;
+     switch (cmd) {
+     case ADB_WRITEREG:
+-        trace_adb_kbd_writereg(reg, buf[1]);
++        trace_adb_device_kbd_writereg(reg, buf[1]);
+         switch (reg) {
+         case 2:
+             /* LED status */
+@@ -256,7 +256,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+             case ADB_CMD_CHANGE_ID_AND_ACT:
+             case ADB_CMD_CHANGE_ID_AND_ENABLE:
+                 d->devaddr = buf[1] & 0xf;
+-                trace_adb_kbd_request_change_addr(d->devaddr);
++                trace_adb_device_kbd_request_change_addr(d->devaddr);
+                 break;
+             default:
+                 d->devaddr = buf[1] & 0xf;
+@@ -270,8 +270,8 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+                     d->handler = buf[2];
+                 }
  
-     addr = (addr >> 9) & 0xf;
-     mos6522_write(ms, addr, val, size);
+-                trace_adb_kbd_request_change_addr_and_handler(d->devaddr,
+-                                                              d->handler);
++                trace_adb_device_kbd_request_change_addr_and_handler(
++                    d->devaddr, d->handler);
+                 break;
+             }
+         }
+@@ -294,7 +294,7 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+             olen = 2;
+             break;
+         }
+-        trace_adb_kbd_readreg(reg, obuf[0], obuf[1]);
++        trace_adb_device_kbd_readreg(reg, obuf[0], obuf[1]);
+         break;
+     }
+     return olen;
+@@ -321,7 +321,7 @@ static void adb_keyboard_event(DeviceState *dev, QemuConsole *src,
+     /* FIXME: take handler into account when translating qcode */
+     keycode = qcode_to_adb_keycode[qcode];
+     if (keycode == NO_KEY) {  /* We don't want to send this to the guest */
+-        trace_adb_kbd_no_key();
++        trace_adb_device_kbd_no_key();
+         return;
+     }
+     if (evt->u.key.data->down == false) { /* if key release event */
+diff --git a/hw/input/adb-mouse.c b/hw/input/adb-mouse.c
+index e2359fd74d..577a38ff2e 100644
+--- a/hw/input/adb-mouse.c
++++ b/hw/input/adb-mouse.c
+@@ -121,7 +121,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+         s->dx = 0;
+         s->dy = 0;
+         s->dz = 0;
+-        trace_adb_mouse_flush();
++        trace_adb_device_mouse_flush();
+         return 0;
+     }
  
-+    switch (addr) {
-+    case VIA_REG_B:
-+        via1_rtc_update(m);
-+        via1_adb_update(m);
-+
-+        v1s->last_b = ms->b;
-+        break;
-+    }
-+
-     via1_one_second_update(v1s);
-     via1_VBL_update(v1s);
- }
-@@ -1037,18 +1047,6 @@ static TypeInfo mac_via_info = {
- };
+@@ -130,7 +130,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+     olen = 0;
+     switch (cmd) {
+     case ADB_WRITEREG:
+-        trace_adb_mouse_writereg(reg, buf[1]);
++        trace_adb_device_mouse_writereg(reg, buf[1]);
+         switch (reg) {
+         case 2:
+             break;
+@@ -152,7 +152,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+             case ADB_CMD_CHANGE_ID_AND_ACT:
+             case ADB_CMD_CHANGE_ID_AND_ENABLE:
+                 d->devaddr = buf[1] & 0xf;
+-                trace_adb_mouse_request_change_addr(d->devaddr);
++                trace_adb_device_mouse_request_change_addr(d->devaddr);
+                 break;
+             default:
+                 d->devaddr = buf[1] & 0xf;
+@@ -172,8 +172,8 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+                     d->handler = buf[2];
+                 }
  
- /* VIA 1 */
--static void mos6522_q800_via1_portB_write(MOS6522State *s)
--{
--    MOS6522Q800VIA1State *v1s = container_of(s, MOS6522Q800VIA1State,
--                                             parent_obj);
--    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
--
--    via1_rtc_update(m);
--    via1_adb_update(m);
--
--    v1s->last_b = s->b;
--}
--
- static void mos6522_q800_via1_reset(DeviceState *dev)
- {
-     MOS6522State *ms = MOS6522(dev);
-@@ -1071,10 +1069,8 @@ static void mos6522_q800_via1_init(Object *obj)
- static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
--    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
+-                trace_adb_mouse_request_change_addr_and_handler(d->devaddr,
+-                                                                d->handler);
++                trace_adb_device_mouse_request_change_addr_and_handler(
++                    d->devaddr, d->handler);
+                 break;
+             }
+         }
+@@ -191,7 +191,7 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+             olen = 2;
+             break;
+         }
+-        trace_adb_mouse_readreg(reg, obuf[0], obuf[1]);
++        trace_adb_device_mouse_readreg(reg, obuf[0], obuf[1]);
+         break;
+     }
+     return olen;
+diff --git a/hw/input/trace-events b/hw/input/trace-events
+index a2888fd10c..6f0d78241c 100644
+--- a/hw/input/trace-events
++++ b/hw/input/trace-events
+@@ -1,18 +1,18 @@
+ # See docs/devel/tracing.txt for syntax documentation.
  
-     dc->reset = mos6522_q800_via1_reset;
--    mdc->portB_write = mos6522_q800_via1_portB_write;
- }
+ # adb-kbd.c
+-adb_kbd_no_key(void) "Ignoring NO_KEY"
+-adb_kbd_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
+-adb_kbd_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
+-adb_kbd_request_change_addr(int devaddr) "change addr to 0x%x"
+-adb_kbd_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
++adb_device_kbd_no_key(void) "Ignoring NO_KEY"
++adb_device_kbd_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
++adb_device_kbd_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
++adb_device_kbd_request_change_addr(int devaddr) "change addr to 0x%x"
++adb_device_kbd_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
  
- static const TypeInfo mos6522_q800_via1_type_info = {
+ # adb-mouse.c
+-adb_mouse_flush(void) "flush"
+-adb_mouse_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
+-adb_mouse_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
+-adb_mouse_request_change_addr(int devaddr) "change addr to 0x%x"
+-adb_mouse_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
++adb_device_mouse_flush(void) "flush"
++adb_device_mouse_writereg(int reg, uint8_t val) "reg %d val 0x%2.2x"
++adb_device_mouse_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x%2.2x obuf[1] 0x%2.2x"
++adb_device_mouse_request_change_addr(int devaddr) "change addr to 0x%x"
++adb_device_mouse_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
+ 
+ # pckbd.c
+ pckbd_kbd_read_data(uint32_t val) "0x%02x"
 -- 
 2.20.1
 
