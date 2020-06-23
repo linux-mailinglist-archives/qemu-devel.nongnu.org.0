@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4CF204D2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 10:56:32 +0200 (CEST)
-Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D95204CC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 10:44:09 +0200 (CEST)
+Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnejH-0006pG-1v
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 04:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
+	id 1jneXI-00040N-43
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 04:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jneiW-00064Z-QY
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 04:55:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jneiT-0005Q3-IO
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 04:55:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jneiQ-0004bm-TS
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B8A472E8109
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:55:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jneWS-0003SA-1U
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 04:43:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36397
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jneWP-0003r5-7L
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 04:43:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592901792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GiYxue/hTD9hiqfrdIwcau36savsF5wzRFxPiMpLGKg=;
+ b=IGNKIgdRGwJH9XX5veBfceiVUr4DqCNeDPG8Zf2xZWVuPENHv1jMtpnu+ULF12MoSKsNpL
+ lNFau6XgLK0Zr/o5sic69j9lSOP9NaLoUM3KJ8jiMfyW0MiwFHaBis2jEpbXLcfb4+8xS0
+ Y9RMVaya/GZK0DHmjGJCyOyI+Uu6dbo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-t_GXV9FeNwimdPE_mys7BQ-1; Tue, 23 Jun 2020 04:43:08 -0400
+X-MC-Unique: t_GXV9FeNwimdPE_mys7BQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D0D01005512;
+ Tue, 23 Jun 2020 08:43:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C21A60F80;
+ Tue, 23 Jun 2020 08:43:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A4B5E113846D; Tue, 23 Jun 2020 10:43:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v5 7/9] hw/arm/aspeed: Describe each PCA9552 device
+References: <20200622183428.12255-1-f4bug@amsat.org>
+ <20200622183428.12255-8-f4bug@amsat.org>
+Date: Tue, 23 Jun 2020 10:43:04 +0200
+In-Reply-To: <20200622183428.12255-8-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 22 Jun 2020 20:34:26
+ +0200")
+Message-ID: <87ftamkw9z.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jun 2020 08:40:59 -0000
-From: Harshit Monish <1884728@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: harshitm
-X-Launchpad-Bug-Reporter: Harshit Monish (harshitm)
-X-Launchpad-Bug-Modifier: Harshit Monish (harshitm)
-Message-Id: <159290165958.6424.14085230914697784861.malonedeb@soybean.canonical.com>
-Subject: [Bug 1884728] [NEW] facing build error for qemu-4.0.0 on SUSE11 OS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c51e5bbb255a2428d9faab993caf10e48edc8ff1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 03:45:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,116 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884728 <1884728@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?C=C3=A9d?= =?utf-8?Q?ric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-I am trying to compile qemu-4.0.0 on suse11 OS and facing the following err=
-or on the console:
-ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
-       You probably need to set PKG_CONFIG_LIBDIR
-       to point to the right pkg-config files for your
-       build target
+> We have 2 distinct PCA9552 devices. Set their description
+> to distinguish them when looking at the trace events.
+>
+> Description name taken from:
+> https://github.com/open-power/witherspoon-xml/blob/master/witherspoon.xml
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Looking into the config.log file following is the error that is listed:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-config-temp/qemu-conf.c:12:11: error: 'WACS_DEGREE' undeclared (first use i=
-n this function)
-   add_wch(WACS_DEGREE);
-           ^
-config-temp/qemu-conf.c:12:11: note: each undeclared identifier is reported=
- only once for each function it appears in
-
-ld: skipping incompatible /usr/lib//libc.so when searching for -lc
-ld: skipping incompatible /usr/lib//libc.a when searching for -lc
-/tmp/ccmme6E4.o: In function `main':
-qemu-conf.c:(.text+0x2b): undefined reference to `resize_term'
-qemu-conf.c:(.text+0x32): undefined reference to `stdscr'
-qemu-conf.c:(.text+0x49): undefined reference to `waddnwstr'
-qemu-conf.c:(.text+0x50): undefined reference to `stdscr'
-qemu-conf.c:(.text+0x67): undefined reference to `waddnwstr'
-qemu-conf.c:(.text+0x6e): undefined reference to `_nc_wacs'
-qemu-conf.c:(.text+0x7f): undefined reference to `stdscr'
-qemu-conf.c:(.text+0x8d): undefined reference to `wadd_wch'
-collect2: error: ld returned 1 exit status
-
-Following are the details of the tools versions:
-OS version =3D SUSE Linux Enterprise Server 11 (x86_64)
-python =3D v2.7.10
-glib =3D v2.56.1
-gcc =3D v4.8.3
-sdl2 =3D v2.0.12
-
-Can someone help me understand the cause of this error?
-
-regards,
-Harshit
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "attaching the config.log file."
-   https://bugs.launchpad.net/bugs/1884728/+attachment/5386371/+files/confi=
-g.log
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884728
-
-Title:
-  facing build error for qemu-4.0.0 on SUSE11 OS
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am trying to compile qemu-4.0.0 on suse11 OS and facing the following e=
-rror on the console:
-  ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
-         You probably need to set PKG_CONFIG_LIBDIR
-         to point to the right pkg-config files for your
-         build target
-
-  Looking into the config.log file following is the error that is
-  listed:
-
-  config-temp/qemu-conf.c:12:11: error: 'WACS_DEGREE' undeclared (first use=
- in this function)
-     add_wch(WACS_DEGREE);
-             ^
-  config-temp/qemu-conf.c:12:11: note: each undeclared identifier is report=
-ed only once for each function it appears in
-
-  ld: skipping incompatible /usr/lib//libc.so when searching for -lc
-  ld: skipping incompatible /usr/lib//libc.a when searching for -lc
-  /tmp/ccmme6E4.o: In function `main':
-  qemu-conf.c:(.text+0x2b): undefined reference to `resize_term'
-  qemu-conf.c:(.text+0x32): undefined reference to `stdscr'
-  qemu-conf.c:(.text+0x49): undefined reference to `waddnwstr'
-  qemu-conf.c:(.text+0x50): undefined reference to `stdscr'
-  qemu-conf.c:(.text+0x67): undefined reference to `waddnwstr'
-  qemu-conf.c:(.text+0x6e): undefined reference to `_nc_wacs'
-  qemu-conf.c:(.text+0x7f): undefined reference to `stdscr'
-  qemu-conf.c:(.text+0x8d): undefined reference to `wadd_wch'
-  collect2: error: ld returned 1 exit status
-
-  Following are the details of the tools versions:
-  OS version =3D SUSE Linux Enterprise Server 11 (x86_64)
-  python =3D v2.7.10
-  glib =3D v2.56.1
-  gcc =3D v4.8.3
-  sdl2 =3D v2.0.12
-
-  Can someone help me understand the cause of this error?
-
-  regards,
-  Harshit
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884728/+subscriptions
 
