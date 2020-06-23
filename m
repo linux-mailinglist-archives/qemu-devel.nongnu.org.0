@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E89205590
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:12:16 +0200 (CEST)
-Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A2B205596
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:15:35 +0200 (CEST)
+Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkat-0001QZ-KU
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60460)
+	id 1jnke6-0006MK-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:15:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkDP-0008PR-Ma; Tue, 23 Jun 2020 10:47:59 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53551)
+ id 1jnkHi-0005Ia-DW
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:26 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkDN-0005PP-VA; Tue, 23 Jun 2020 10:47:59 -0400
-Received: by mail-wm1-x344.google.com with SMTP id j18so3236152wmi.3;
- Tue, 23 Jun 2020 07:47:57 -0700 (PDT)
+ id 1jnkHg-0000z0-J8
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:26 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t194so3526678wmt.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=nHH/5HcJjGJrbqd+zi6VW/xh2OGjZUFq9HtreqvbFjE=;
- b=j88sNPcvKbsKR66W5xYiI3S/L1nE4Fsfg0V7zivseJ4toP3aHhJmq16CV8J+X5QJvi
- 7t1w7z3+Vvl+PdGRLiF3E0PQjD4O1JLh65f2mCHSTwlelWUNu0hS8uzBUPPnCXqshYuT
- K+a6m40zTbZLr2tgNVtxDXP1CsX6yFn4FawIl6F41vISUaVx/4fQ+0NzDbkcQgffc3M1
- 8knaAJE4Lyt2OWJ906bSH71BS/p/jjZQsTiy3f4eeCuzt7y4nkWxlN2F6hT38ui6BxfQ
- /SqmSKhDR8zGrJ1SExvAzHi8ZgZ0sXQnLsIQ2czvXrSV7l8wdWRGSgC6SpKCIFHWQmFS
- bmBw==
+ bh=dv5krdPi5QPpwymN3LEesqLpWMN5StpM+D7F384XbNM=;
+ b=dWk4oaDlubeLDEuwMns6/4YTWcmQeBrs/VXKwaXo3dsNGd6CFBSjuzDfhtkd7NYWTm
+ 6rtivLFyRw1GUcsi2mhz+FXBdBeEzvsLDnnHaxrmAhi+J4/KeIPphxe7nErSuhMQ6R9D
+ PPt2h87aYZ/N+shPWFuy6UOtNHTYnbCwf4np1dVQCEh0EQxL1q2qKRWFGQLqEaQpJtFF
+ JKyMDl7u4/yZIFDt0I5D26CH9UPG8sagEKrroae5oUMkcvFrpPsl8vJBsi9KrjaqDT03
+ SEqaQsI7px+XHPt/Kpr7xY2m8A6bGwU+mnNAchWvvMR3/+Hj7zxr6Hl2hvDGhmE54yRO
+ CZ0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=nHH/5HcJjGJrbqd+zi6VW/xh2OGjZUFq9HtreqvbFjE=;
- b=bt8o0T5MM0gG1E+tZuG736tWHXviHOcrG0AxWUi29QN1ImWj0nA73fohd1JF+oOqSd
- 4t23wDh6wor63qQX0f+aqbsf491RvDF48ItkF3wCjdHWGVj3evY0WEVUi3w7bz67jK44
- SLjNLJU7Gt670SIh/nvxFQofqWq7KxL4fR0nsxjlbZVuvYxWYHYoNiRYDpNbnI33uuo9
- pgVh8XbGVszpvMhi2znwAp5kTGWHRVV3Qq+48o9dx7KMRSlZMkcLSiG0t9pChMR3P4q1
- /scGo+3K1WeMWwa1AKpXwckMDYiGuHG39TxbDV85pyLt3NlJIighSdCRRR8X+Um05fhF
- tjaQ==
-X-Gm-Message-State: AOAM530GrDFPArnZM1doEzf+kSagJ5Zpwcd4gS1dUIwHqPE6wnOSLWC5
- gJLbd1uNaBf0gTqMN6Oz2WQ=
-X-Google-Smtp-Source: ABdhPJwVuMWH18T8+Vr8EoiJNUY1m6sdb2K808sRWdv9zmrwmOiOsOcxsTaS52nP+PeAH4xw5/PUQQ==
-X-Received: by 2002:a1c:b007:: with SMTP id z7mr2252440wme.37.1592923676000;
- Tue, 23 Jun 2020 07:47:56 -0700 (PDT)
+ bh=dv5krdPi5QPpwymN3LEesqLpWMN5StpM+D7F384XbNM=;
+ b=tK9OCGKaTafiNinJoHhE9w4A6zAzpcoO11DpIh8jCZ/ejskAn9MW5NKhgcBE4sdlOc
+ HXZ1zOtJRh8z3dl3B5r9y6TnWqRgIuo1GP4lt58pJmhuQwFBpeVQE8slteJWB1LI+F/J
+ /JSoROe0cxV3PfdSY+SMJd521hvf5Ue0Xqf6H2Rmm9Odn2dUHwS0Ffat3AmfA35v9OYZ
+ JU0M1nKgSTkRgmy92IX6YGMrETn7n2wY7pvnoivO8Se5ZCA9QdiDqNDYMyauwEbrYpuO
+ hBTpIKOpWTlR+5pIBOu2ksOE1KRXt2v4brRX4NYLgh+jCUdnMCMaog0jl51nKzwEerzh
+ Pe5w==
+X-Gm-Message-State: AOAM530bFhnyteru5qpTCVcjdxohz/1FmyNZM2oJHBkSEUZC8SsX49K8
+ bG4OH6FdVkjoBuSzWJ9mpII=
+X-Google-Smtp-Source: ABdhPJw9ONLpIjtxKUXPwq6kntCfUeobjtRvoaJn7g/Soq93VH661OGxRU7wN2H+025YRag4Iq/lXg==
+X-Received: by 2002:a7b:c76a:: with SMTP id x10mr24804890wmk.16.1592923942997; 
+ Tue, 23 Jun 2020 07:52:22 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id z1sm14432596wru.30.2020.06.23.07.47.54
+ by smtp.gmail.com with ESMTPSA id u65sm4291883wmg.5.2020.06.23.07.52.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:47:54 -0700 (PDT)
-Date: Tue, 23 Jun 2020 15:47:53 +0100
+ Tue, 23 Jun 2020 07:52:22 -0700 (PDT)
+Date: Tue, 23 Jun 2020 15:52:20 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/2] scripts/tracetool: Add plainlog backend
-Message-ID: <20200623144753.GR36568@stefanha-x1.localdomain>
-References: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
- <20200618073124.GA1956319@stefanha-x1.localdomain>
- <20200618090741.GC671599@redhat.com>
- <20200618153516.GE1956319@stefanha-x1.localdomain>
- <20200618154323.GK671599@redhat.com>
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+Subject: Re: [PATCH v3] docs: vhost-user: add Virtio status protocol feature
+Message-ID: <20200623145220.GS36568@stefanha-x1.localdomain>
+References: <20200618134501.145747-1-maxime.coquelin@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="X35wERi4JU/f1kly"
+ protocol="application/pgp-signature"; boundary="fqIB0bRxfTYxTb/F"
 Content-Disposition: inline
-In-Reply-To: <20200618154323.GK671599@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
+In-Reply-To: <20200618134501.145747-1-maxime.coquelin@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,8 +71,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,144 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: jasowang@redhat.com, amorenoz@redhat.com, qemu-devel@nongnu.org,
+ lulu@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---X35wERi4JU/f1kly
-Content-Type: text/plain; charset=iso-8859-1
+--fqIB0bRxfTYxTb/F
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2020 at 04:43:23PM +0100, Daniel P. Berrang=E9 wrote:
-> On Thu, Jun 18, 2020 at 04:35:16PM +0100, Stefan Hajnoczi wrote:
-> > On Thu, Jun 18, 2020 at 10:07:41AM +0100, Daniel P. Berrang=E9 wrote:
-> > > On Thu, Jun 18, 2020 at 08:31:24AM +0100, Stefan Hajnoczi wrote:
-> > > > On Wed, Jun 17, 2020 at 03:36:29PM +0200, BALATON Zoltan wrote:
-> > > > > Add a backend that is the same as the log backend but omits the
-> > > > > process id and timestamp so logs are easier to read and diff-able.
-> > > > >=20
-> > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > > ---
-> > > > >  scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++=
-++++++
-> > > > >  1 file changed, 48 insertions(+)
-> > > > >  create mode 100644 scripts/tracetool/backend/plainlog.py
-> > > > >=20
-> > > > > diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/trac=
-etool/backend/plainlog.py
-> > > > > new file mode 100644
-> > > > > index 0000000000..40bbfa6d76
-> > > > > --- /dev/null
-> > > > > +++ b/scripts/tracetool/backend/plainlog.py
-> > > > > @@ -0,0 +1,48 @@
-> > > > > +# -*- coding: utf-8 -*-
-> > > > > +
-> > > > > +"""
-> > > > > +Stderr built-in backend, plain log without proc ID and time.
-> > > > > +"""
-> > > > > +
-> > > > > +__author__     =3D "Llu????s Vilanova <vilanova@ac.upc.edu>"
-> > > > > +__copyright__  =3D "Copyright 2012-2017, Llu????s Vilanova <vila=
-nova@ac.upc.edu>"
-> > > >=20
-> > > > There is a Unicode issue here, Llu=EDs' name is not printed correct=
-ly.
-> > > >=20
-> > > > > +__license__    =3D "GPL version 2 or (at your option) any later =
-version"
-> > > > > +
-> > > > > +__maintainer__ =3D "Stefan Hajnoczi"
-> > > > > +__email__      =3D "stefanha@linux.vnet.ibm.com"
-> > > > > +
-> > > > > +
-> > > > > +from tracetool import out
-> > > > > +
-> > > > > +
-> > > > > +PUBLIC =3D True
-> > > > > +
-> > > > > +
-> > > > > +def generate_h_begin(events, group):
-> > > > > +    out('#include "qemu/log-for-trace.h"',
-> > > > > +        '')
-> > > > > +
-> > > > > +
-> > > > > +def generate_h(event, group):
-> > > > > +    argnames =3D ", ".join(event.args.names())
-> > > > > +    if len(event.args) > 0:
-> > > > > +        argnames =3D ", " + argnames
-> > > > > +
-> > > > > +    if "vcpu" in event.properties:
-> > > > > +        # already checked on the generic format code
-> > > > > +        cond =3D "true"
-> > > > > +    else:
-> > > > > +        cond =3D "trace_event_get_state(%s)" % ("TRACE_" + event=
-=2Ename.upper())
-> > > > > +
-> > > > > +    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
-> > > > > +        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s=
-);',
-> > > > > +        '    }',
-> > > > > +        cond=3Dcond,
-> > > > > +        name=3Devent.name,
-> > > > > +        fmt=3Devent.fmt.rstrip("\n"),
-> > > > > +        argnames=3Dargnames)
-> > > >=20
-> > > > It is not necessary to introduce a new backend. There could be an o=
-ption
-> > > > that controls whether or not the timestamp/tid is printed. For exam=
-ple,
-> > > > -trace timestamp=3Doff or maybe the timestmap/tid can be integrated=
- into
-> > > > qemu_log() itself so that it's used more consistently and a -d time=
-stamp
-> > > > option enables it.
-> > >=20
-> > > QEMU already has a "-msg timestamp=3Don|off" option that controls whe=
-ther
-> > > error reports on stderr get a timestamp. I think it is probably reaso=
-nable
-> > > for this existing option to apply to anything QEMU prints to stdout/e=
-rr,
-> > > and thus we could wire it up for qemu_log().
-> >=20
-> > I thought about that but the features are somewhat unrelated.
-> >=20
-> > If we unify them, how about making the timestamp/tid apply to *all*
-> > qemu_log() output, not just tracing?
+On Thu, Jun 18, 2020 at 03:45:01PM +0200, Maxime Coquelin wrote:
+> This patch specifies the VHOST_USER_SET_STATUS and
+> VHOST_USER_GET_STATUS requests, which are sent by
+> the master to update and query the Virtio status
+> in the backend.
 >=20
-> That's exactly what I intended.
+> Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
+> ---
+> Changes since v2:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - Typo: fix missing # (Jason)
 >=20
-> Essentially if QEMU is going to add timestamps to things it writes to
-> stdout/err, then it should do that universally for all parts of the code
-> base that use stdio. This means error_report(), qemu_log(), and any
-> other places that are relevant wrt stdio.
+> Changes since v1:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - Only keep the spec part in this patch, the implementation will
+>   be part of Cindy's Vhost vDPA series it depends on. The goal is
+>   to be able to implement it in next DPDK release even if Qemu part
+>   is not merged.
+> - Add GET_STATUS after discussions with Michael and Jason. It can
+>   be used by the master to ensure FEATURES_OK bit set is
+>   acknowledged by the backend.
 >=20
-> Having separate timestamp on/off switches for each feature is not
-> desirable.
+>  docs/interop/vhost-user.rst | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 
-Okay. I'll take a look at this tomorrow.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Thanks!
-
-Stefan
-
---X35wERi4JU/f1kly
+--fqIB0bRxfTYxTb/F
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yFhkACgkQnKSrs4Gr
-c8jScwf/Vwuncu8SvXwB9876y2Tr01ig5w19YjLirNu7pfu4TXkeIrp9sdUZ2v7v
-HYCMqMFOXVLWp6wr6kySGUDFLyIQiLBEVkoCP+XTDT4dlnnS8E6QQICVjxlIxI2X
-UEYZkT06G5XT+ICcVDgEq0KidEaqtZhFLJipd33d/9mHVvwNM6HCrm3shKmWR2CB
-J6PHLaVDk+4YjHcRMI0uF9D16HAX00qljYPqjbVJNdpihCc3JDQy1sCbREugR8kp
-/PiJE1M/htwZYNZO+2ik7eEL2Rf5gfuabxQdNJdxvifgMfSGjSNDYJCEyP5Jyd5m
-rf1nwb5aJKHCridtaj4l7WRa+aGCGQ==
-=8swd
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yFyQACgkQnKSrs4Gr
+c8gE5AgAyI2l3JYA15whXcjnSrWuPf4eXgwPqQvp+zhF1pNxM6N3vViBvpHRW3MK
+wDgDq+77R07alffG3tsx5++eYtkvi7NDtNF+vSKTlSjunmaVOdUSHKSIM1elsL+d
+OzbSkx9+35TXJbGoGTtMUbJEBtAje5IPU3E6ZdfEzk3unJ2pw0T8sAbpAdLiIczR
+5T9h/ULEMZjcTHOICFLOLKGg6X5XFhAm86eywjLfLB4bnUhmNxasuyu4gcGqjNW9
+q/a/u1ZaYIs4KKz2QAbfrKdR/g9nYFxuMpYVaCLFfJYsFP4mGkVvlYq7o7ve0C+Q
+m1pZNCeTAOeYLxZKwMtJTAosJoxBSQ==
+=fyBF
 -----END PGP SIGNATURE-----
 
---X35wERi4JU/f1kly--
+--fqIB0bRxfTYxTb/F--
 
