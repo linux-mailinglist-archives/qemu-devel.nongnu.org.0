@@ -2,124 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C1D206857
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:25:58 +0200 (CEST)
-Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F528206872
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:31:30 +0200 (CEST)
+Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnsIf-0008Jw-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:25:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
+	id 1jnsO1-0007VQ-7Y
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jnsH8-0006gd-RH
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:24:22 -0400
-Received: from mail-mw2nam10on2064.outbound.protection.outlook.com
- ([40.107.94.64]:36705 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jnsN7-0006yu-U2; Tue, 23 Jun 2020 19:30:33 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:48224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jnsH6-0004bT-BW
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:24:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nM9Eso/9zU6RbVvvwgVPNVTXZIhdOwxqO2FONdVV4fxCVoYlYGM10RMj5tv/quoftEwgv0VuNdp9hdoBhrgvEAxYSpKJEPjvTqGdQuLm21TMi5fhHk7qWDvBCPatTNs7RbUyyBiR+hd7Hm5onzwoeY2Mdg8yOoej9zDxLRB2QcHC4txC7Fs0rCCz+TlC6SZH7p1pEjoySwo3bcMwCSaIZH5ceBhopGG32WNtiHHD9MxeQznPh+C68BMwf6HL+hv2ISIHiSyY5DwBQfcQmTetRJuZENF3rvMRdoftWDGzPx2bwT16prGuTVJkGJP0WC/fT1DYvoxUlYxoUe+IffM/FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YTd7VQ1lkDciKQEWhPCjmzjd1i7+Sh4PFpUjwuLTIo=;
- b=QyXy4LnN9mHngT1Rb+9wD89z6tGJu3BSDT1bzSMDFblX8nVJQ9fa0qKQJu0WwZzqWgwuqAoasEfk7pjFWjubQZTJrLJRD+hPlJwQwMEinorBRKkh3XnBpeAqplHYIYggjqARKxxrR1AcBow7IYYZwO3tQg0S+phD6Ki0meAjqkVrqBSh3YXx4h5q6hnHLVPiLP95G6Ye1wehq0aAJgTvvsyiOe941C29CKdSxtQLuWJMEkyAnh5cuYpECAvXE48tUZs+VOlZ5kG/kPz1blp6dpB67evqg++jqwp+uudaUw12x7a6l/vWXZ1ttI9XTrGIncnhYyF67VtMANcDwZUC8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YTd7VQ1lkDciKQEWhPCjmzjd1i7+Sh4PFpUjwuLTIo=;
- b=OvzoYRRwY6AH54HDr65t7Po859dDJE5Zg/lQAOmYWOm7XFTmvo7KxwOy+2CHhjj1wNz//1BQQtdaGrRxo9NpYVGMROhj5MTq3ob1FuASYPwyUh+oXtqwMbXACt7LoC+sZd5okhGouNrVlbeOl18iM/Xp/OpwGzQaZTfbSrdFU5M=
-Received: from SN4PR0201CA0039.namprd02.prod.outlook.com
- (2603:10b6:803:2e::25) by CH2PR02MB7063.namprd02.prod.outlook.com
- (2603:10b6:610:83::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.23; Tue, 23 Jun
- 2020 23:24:17 +0000
-Received: from SN1NAM02FT062.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:2e:cafe::a4) by SN4PR0201CA0039.outlook.office365.com
- (2603:10b6:803:2e::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
- Transport; Tue, 23 Jun 2020 23:24:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT062.mail.protection.outlook.com (10.152.72.208) with Microsoft SMTP
- Server id 15.20.3109.22 via Frontend Transport; Tue, 23 Jun 2020 23:24:17
- +0000
-Received: from [149.199.38.66] (port=36400 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1jnsFr-0000A2-Qs
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:23:03 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1jnsH2-0008DN-U0
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:24:16 -0700
-Received: from xsj-pvapsmtp01 (smtp-fallback.xilinx.com [149.199.38.66] (may
- be forged))
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 05NNOB21019187; 
- Tue, 23 Jun 2020 16:24:11 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1jnsGx-00084e-FQ; Tue, 23 Jun 2020 16:24:11 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Tue, 23 Jun 2020 16:23:36 -0700
-Message-Id: <1592954616-65393-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592954616-65393-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1592954616-65393-1-git-send-email-fnu.vikram@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(346002)(376002)(39850400004)(136003)(396003)(46966005)(8936002)(426003)(2616005)(336012)(47076004)(8676002)(7696005)(36756003)(356005)(107886003)(316002)(26005)(4326008)(9786002)(186003)(478600001)(81166007)(4744005)(5660300002)(6666004)(70206006)(82740400003)(70586007)(2906002)(82310400002)(6916009)(42866002);
- DIR:OUT; SFP:1101; 
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jnsN5-0006hX-Hs; Tue, 23 Jun 2020 19:30:33 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07548427|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.136839-8.07347e-05-0.86308;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=8; SR=0; TI=SMTPD_---.HrSyapx_1592955025; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HrSyapx_1592955025)
+ by smtp.aliyun-inc.com(10.147.40.26); Wed, 24 Jun 2020 07:30:25 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v11 45/61] target/riscv: vector single-width integer reduction
+ instructions
+Date: Wed, 24 Jun 2020 05:59:04 +0800
+Message-Id: <20200623215920.2594-46-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200623215920.2594-1-zhiwei_liu@c-sky.com>
+References: <20200623215920.2594-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: eccdf0e4-4a0e-43dd-c409-08d817cc8c91
-X-MS-TrafficTypeDiagnostic: CH2PR02MB7063:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB7063AC632A4207DA72E83034BC940@CH2PR02MB7063.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-Forefront-PRVS: 04433051BF
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EivG2LqPFeFyXSpo17WgLaH0Alh+d0V81xgqUx6HeKp69OcHaiwi+/swgu5+qBrMUxqzOGvFazzV/fbMoJ9Q0uvy6lxQXhOR8MAVrT+faUMe0gF4/nPJgunUxW1NZEbGcreY285gFGaWU+QR8J1s0k87zeYZhOO2gU0oPxwH/Gs8+BNaHClb0w5ZYq9fMyvLHyye5MK5N4Net4X8SB1HsrlOhUMJ0kA/dCJOv4J0be4RZclJ50R4x0qJSe4L8KBuba0nx+yekH6XHhBUsR850l64DD/sZLreq+wjCHjXCbfRlQQGoWxLJYe7SuYjDoVj6EmWI0q7phS8bj6yxGqWpbgM4UpOxA2mXkrEkbfPlkdxjOnQJ+vdd0WyBxebHAcmFY1rb/sHNSMxOCMFEb3ZmffymQP8jLVoXBw4EE1MjpM=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2020 23:24:17.2025 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eccdf0e4-4a0e-43dd-c409-08d817cc8c91
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB7063
-Received-SPF: pass client-ip=40.107.94.64; envelope-from=fnuv@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 19:24:18
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 17:32:41
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,37 +57,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
+ palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/riscv/helper.h                   | 33 +++++++++++
+ target/riscv/insn32.decode              |  8 +++
+ target/riscv/insn_trans/trans_rvv.inc.c | 18 ++++++
+ target/riscv/vector_helper.c            | 74 +++++++++++++++++++++++++
+ 4 files changed, 133 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 63b3bb3..6f73a60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1466,6 +1466,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 5870c4041e..a7fe4443e4 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1039,3 +1039,36 @@ DEF_HELPER_5(vfncvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfncvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfncvt_f_f_v_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfncvt_f_f_v_w, void, ptr, ptr, ptr, env, i32)
 +
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
++DEF_HELPER_6(vredsum_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmaxu_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmaxu_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmaxu_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmaxu_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmax_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredminu_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredminu_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredminu_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredminu_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmin_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmin_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredand_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredand_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredand_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredand_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredor_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredor_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredor_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredor_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredxor_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredxor_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredxor_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vredxor_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 55fbe166d8..878eeecb7e 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -531,6 +531,14 @@ vfncvt_x_f_v    100010 . ..... 10001 001 ..... 1010111 @r2_vm
+ vfncvt_f_xu_v   100010 . ..... 10010 001 ..... 1010111 @r2_vm
+ vfncvt_f_x_v    100010 . ..... 10011 001 ..... 1010111 @r2_vm
+ vfncvt_f_f_v    100010 . ..... 10100 001 ..... 1010111 @r2_vm
++vredsum_vs      000000 . ..... ..... 010 ..... 1010111 @r_vm
++vredand_vs      000001 . ..... ..... 010 ..... 1010111 @r_vm
++vredor_vs       000010 . ..... ..... 010 ..... 1010111 @r_vm
++vredxor_vs      000011 . ..... ..... 010 ..... 1010111 @r_vm
++vredminu_vs     000100 . ..... ..... 010 ..... 1010111 @r_vm
++vredmin_vs      000101 . ..... ..... 010 ..... 1010111 @r_vm
++vredmaxu_vs     000110 . ..... ..... 010 ..... 1010111 @r_vm
++vredmax_vs      000111 . ..... ..... 010 ..... 1010111 @r_vm
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 6c46d893b0..b4e3f904d3 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -2324,3 +2324,21 @@ GEN_OPFV_NARROW_TRANS(vfncvt_x_f_v)
+ GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_v)
+ GEN_OPFV_NARROW_TRANS(vfncvt_f_x_v)
+ GEN_OPFV_NARROW_TRANS(vfncvt_f_f_v)
++
++/*
++ *** Vector Reduction Operations
++ */
++/* Vector Single-Width Integer Reduction Instructions */
++static bool reduction_check(DisasContext *s, arg_rmrr *a)
++{
++    return vext_check_isa_ill(s) && vext_check_reg(s, a->rs2, false);
++}
++
++GEN_OPIVV_TRANS(vredsum_vs, reduction_check)
++GEN_OPIVV_TRANS(vredmaxu_vs, reduction_check)
++GEN_OPIVV_TRANS(vredmax_vs, reduction_check)
++GEN_OPIVV_TRANS(vredminu_vs, reduction_check)
++GEN_OPIVV_TRANS(vredmin_vs, reduction_check)
++GEN_OPIVV_TRANS(vredand_vs, reduction_check)
++GEN_OPIVV_TRANS(vredor_vs, reduction_check)
++GEN_OPIVV_TRANS(vredxor_vs, reduction_check)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 32cd298f43..1bf3c870d3 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4332,3 +4332,77 @@ RVVCALL(OPFVV1, vfncvt_f_f_v_h, NOP_UU_H, H2, H4, vfncvtffv16)
+ RVVCALL(OPFVV1, vfncvt_f_f_v_w, NOP_UU_W, H4, H8, float64_to_float32)
+ GEN_VEXT_V_ENV(vfncvt_f_f_v_h, 2, 2, clearh)
+ GEN_VEXT_V_ENV(vfncvt_f_f_v_w, 4, 4, clearl)
++
++/*
++ *** Vector Reduction Operations
++ */
++/* Vector Single-Width Integer Reduction Instructions */
++#define GEN_VEXT_RED(NAME, TD, TS2, HD, HS2, OP, CLEAR_FN)\
++void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
++        void *vs2, CPURISCVState *env, uint32_t desc)     \
++{                                                         \
++    uint32_t mlen = vext_mlen(desc);                      \
++    uint32_t vm = vext_vm(desc);                          \
++    uint32_t vl = env->vl;                                \
++    uint32_t i;                                           \
++    uint32_t tot = env_archcpu(env)->cfg.vlen / 8;        \
++    TD s1 =  *((TD *)vs1 + HD(0));                        \
++                                                          \
++    for (i = 0; i < vl; i++) {                            \
++        TS2 s2 = *((TS2 *)vs2 + HS2(i));                  \
++        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
++            continue;                                     \
++        }                                                 \
++        s1 = OP(s1, (TD)s2);                              \
++    }                                                     \
++    *((TD *)vd + HD(0)) = s1;                             \
++    CLEAR_FN(vd, 1, sizeof(TD), tot);                     \
++}
++
++/* vd[0] = sum(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredsum_vs_b, int8_t, int8_t, H1, H1, DO_ADD, clearb)
++GEN_VEXT_RED(vredsum_vs_h, int16_t, int16_t, H2, H2, DO_ADD, clearh)
++GEN_VEXT_RED(vredsum_vs_w, int32_t, int32_t, H4, H4, DO_ADD, clearl)
++GEN_VEXT_RED(vredsum_vs_d, int64_t, int64_t, H8, H8, DO_ADD, clearq)
++
++/* vd[0] = maxu(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredmaxu_vs_b, uint8_t, uint8_t, H1, H1, DO_MAX, clearb)
++GEN_VEXT_RED(vredmaxu_vs_h, uint16_t, uint16_t, H2, H2, DO_MAX, clearh)
++GEN_VEXT_RED(vredmaxu_vs_w, uint32_t, uint32_t, H4, H4, DO_MAX, clearl)
++GEN_VEXT_RED(vredmaxu_vs_d, uint64_t, uint64_t, H8, H8, DO_MAX, clearq)
++
++/* vd[0] = max(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredmax_vs_b, int8_t, int8_t, H1, H1, DO_MAX, clearb)
++GEN_VEXT_RED(vredmax_vs_h, int16_t, int16_t, H2, H2, DO_MAX, clearh)
++GEN_VEXT_RED(vredmax_vs_w, int32_t, int32_t, H4, H4, DO_MAX, clearl)
++GEN_VEXT_RED(vredmax_vs_d, int64_t, int64_t, H8, H8, DO_MAX, clearq)
++
++/* vd[0] = minu(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredminu_vs_b, uint8_t, uint8_t, H1, H1, DO_MIN, clearb)
++GEN_VEXT_RED(vredminu_vs_h, uint16_t, uint16_t, H2, H2, DO_MIN, clearh)
++GEN_VEXT_RED(vredminu_vs_w, uint32_t, uint32_t, H4, H4, DO_MIN, clearl)
++GEN_VEXT_RED(vredminu_vs_d, uint64_t, uint64_t, H8, H8, DO_MIN, clearq)
++
++/* vd[0] = min(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredmin_vs_b, int8_t, int8_t, H1, H1, DO_MIN, clearb)
++GEN_VEXT_RED(vredmin_vs_h, int16_t, int16_t, H2, H2, DO_MIN, clearh)
++GEN_VEXT_RED(vredmin_vs_w, int32_t, int32_t, H4, H4, DO_MIN, clearl)
++GEN_VEXT_RED(vredmin_vs_d, int64_t, int64_t, H8, H8, DO_MIN, clearq)
++
++/* vd[0] = and(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredand_vs_b, int8_t, int8_t, H1, H1, DO_AND, clearb)
++GEN_VEXT_RED(vredand_vs_h, int16_t, int16_t, H2, H2, DO_AND, clearh)
++GEN_VEXT_RED(vredand_vs_w, int32_t, int32_t, H4, H4, DO_AND, clearl)
++GEN_VEXT_RED(vredand_vs_d, int64_t, int64_t, H8, H8, DO_AND, clearq)
++
++/* vd[0] = or(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredor_vs_b, int8_t, int8_t, H1, H1, DO_OR, clearb)
++GEN_VEXT_RED(vredor_vs_h, int16_t, int16_t, H2, H2, DO_OR, clearh)
++GEN_VEXT_RED(vredor_vs_w, int32_t, int32_t, H4, H4, DO_OR, clearl)
++GEN_VEXT_RED(vredor_vs_d, int64_t, int64_t, H8, H8, DO_OR, clearq)
++
++/* vd[0] = xor(vs1[0], vs2[*]) */
++GEN_VEXT_RED(vredxor_vs_b, int8_t, int8_t, H1, H1, DO_XOR, clearb)
++GEN_VEXT_RED(vredxor_vs_h, int16_t, int16_t, H2, H2, DO_XOR, clearh)
++GEN_VEXT_RED(vredxor_vs_w, int32_t, int32_t, H4, H4, DO_XOR, clearl)
++GEN_VEXT_RED(vredxor_vs_d, int64_t, int64_t, H8, H8, DO_XOR, clearq)
 -- 
-2.7.4
+2.23.0
 
 
