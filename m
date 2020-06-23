@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6008E204D92
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:10:14 +0200 (CEST)
-Received: from localhost ([::1]:38930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99A7204DA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:16:35 +0200 (CEST)
+Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnewX-0002iz-EY
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47068)
+	id 1jnf2g-0006oL-Nf
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jneun-0000XB-5N
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:08:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38969
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jneuk-000454-5V
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:08:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592903301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Uhg4WOZQdNZ1CRUamur1MbLAoMb/HQRZOtcr18AlXX0=;
- b=U5HXZZwmnb3dqxTowtW2k+xmGrTZoTz7iYzG1JOm42G0BEKIqfFDheHNbJ0X9pb9SzF7DD
- 5Y/O5+WW1bGSWrOc0rVHi3X/ton60TGa5PQMYaAhSdMFIObk6mCEL9fG2KYsZP5KXKZJMC
- EV6regsvmyzE/AiYgSLPJLMyCFjm7cs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-BFsh9SmuMOK_ENrLkKdrBQ-1; Tue, 23 Jun 2020 05:08:17 -0400
-X-MC-Unique: BFsh9SmuMOK_ENrLkKdrBQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE084804033;
- Tue, 23 Jun 2020 09:08:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A859A512FE;
- Tue, 23 Jun 2020 09:08:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2EAEF113846D; Tue, 23 Jun 2020 11:08:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PULL v2 03/32] riscv: Generalize CPU init routine for the base
- CPU
-References: <20200619165817.4144200-1-alistair.francis@wdc.com>
- <20200619165817.4144200-4-alistair.francis@wdc.com>
- <CAEUhbmUEREaNBXBP6a0UgAYK6dmVbGFtDu8wLGUjNXHL5mWtoA@mail.gmail.com>
-Date: Tue, 23 Jun 2020 11:08:14 +0200
-In-Reply-To: <CAEUhbmUEREaNBXBP6a0UgAYK6dmVbGFtDu8wLGUjNXHL5mWtoA@mail.gmail.com>
- (Bin Meng's message of "Tue, 23 Jun 2020 14:22:46 +0800")
-Message-ID: <87lfkejgjl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnf1t-0006OA-3Y
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:15:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnf1q-0008Ah-AV
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:15:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jnf1o-0006fz-5B
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 09:15:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 258312E80E7
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 09:15:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Jun 2020 09:09:50 -0000
+From: Peter Maydell <1884728@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: harshitm pmaydell
+X-Launchpad-Bug-Reporter: Harshit Monish (harshitm)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <159290165958.6424.14085230914697784861.malonedeb@soybean.canonical.com>
+Message-Id: <159290339093.17802.1234849895711932446.malone@chaenomeles.canonical.com>
+Subject: [Bug 1884728] Re: facing build error for qemu-4.0.0 on SUSE11 OS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e9e8454a0b170824a5e2dd16ca4a8146720746a4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 03:45:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,68 +71,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Reply-To: Bug 1884728 <1884728@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bin Meng <bmeng.cn@gmail.com> writes:
+The part of the log you quote isn't the part which caused the failure.
+This bit is:
 
-> Hi Alistair,
->
-> On Sat, Jun 20, 2020 at 1:09 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> There is no need to have two functions that have exactly the same
->> codes for 32-bit and 64-bit base CPUs.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> Message-id: 1591837729-27486-1-git-send-email-bmeng.cn@gmail.com
->> Message-Id: <1591837729-27486-1-git-send-email-bmeng.cn@gmail.com>
->
-> I noticed that patches from other people than you have the
-> "Message-id" tags, but your patch [1] does not. Is this intentional?
->
-> (not sure why we need 2 "Message-id" tags here, with one has <> ?)
 
-We don't.  Looks like an accident.
+funcs: do_compiler do_cc compile_prog main
+lines: 92 128 3672 0
+/grid/avs/install/xcelium/1803/latest//tools/cdsgcc/gcc/bin/64bit/gcc -pthr=
+ead -I/grid/common/pkgs/glib/v2.56.1/include/glib-2.0 -I/grid/common/pkgs/g=
+lib/v2.56.1/lib/glib-2.0/include -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_B=
+ITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wall -W=
+undef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common=
+ -fwrapv -std=3Dgnu99 -fPIC -I/grid/cva/p4_04/harshitm/ltssm_sj/panda/dev/s=
+rc//Xtor/include -Wendif-labels -Wno-missing-include-dirs -Wempty-body -Wne=
+sted-externs -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifier=
+s -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wno-missing=
+-braces -o config-temp/qemu-conf.exe config-temp/qemu-conf.c -m64 -L/grid/c=
+va/p4_04/harshitm/ltssm_sj/panda/dev/src//Xtor/lib -L/usr/lib/ -pthread -L/=
+grid/common/pkgs/glib/v2.56.1/lib -lgthread-2.0 -lrt -lglib-2.0
+ld: skipping incompatible /usr/lib//librt.so when searching for -lrt
+ld: skipping incompatible /usr/lib//librt.a when searching for -lrt
+ld: skipping incompatible /usr/lib//libpthread.so when searching for -lpthr=
+ead
+ld: skipping incompatible /usr/lib//libpthread.a when searching for -lpthre=
+ad
+ld: skipping incompatible /usr/lib//libc.so when searching for -lc
+ld: skipping incompatible /usr/lib//libc.a when searching for -lc
+/grid/common/pkgs/glib/v2.56.1/lib/libglib-2.0.so: undefined reference to `=
+pthread_setname_np@GLIBC_2.12'
+collect2: error: ld returned 1 exit status
 
-> Just want to know what's the best practice here.
 
-The Message-Id tag's purpose is connecting commits back to the mailing
-list.  Useful when you want to look up their review later.
+That is, we tried to link against libglib, and it failed, because the compi=
+ler couldn't find a working pthread library. I see from your configure opti=
+ons that you're specifying a different C compiler and also different librar=
+ies:
 
-To get them into git, maintainers should use git-am -m to apply
-patches.  I have
+'--cc=3D/grid/avs/install/xcelium/1803/latest//tools/cdsgcc/gcc/bin/64bit/g=
+cc'
+'--extra-cflags=3D-I/grid/cva/p4_04/harshitm/ltssm_sj/panda/dev/src//Xtor/i=
+nclude'
+'--extra-ldflags=3D-L/grid/cva/p4_04/harshitm/ltssm_sj/panda/dev/src//Xtor/=
+lib'
+'--extra-ldflags=3D-L/usr/lib/'
+'--cxx=3D/usr/bin/g++'
 
-    [am]
-            messageid = true
+This is what's causing your problem -- the compile has picked up a
+version of libglib from whatever this /grid/ stuff is
+(/grid/common/pkgs/glib/v2.56.1/lib/libglib-2.0.so) but you're trying to
+get it to look for system libraries in /usr/lib when they are not
+compatible with the toolchain you're using (ld complains about them
+being incompatible). Trying to use this /grid/ gcc and the system g++ is
+probably not going to work very well either.
 
-in my .gitconfig.
+I think you need to either:
+ (1) drop all this /grid/ tooling and use the system compiler and libraries=
+ to build QEMU
+ (2) don't try to use the system compiler and libraries at all, instead mak=
+e sure you have all the libraries and tools you need in /grid/ (including t=
+he C++ compiler and the pthread library and the C library), and don't tell =
+configure to add the system libraries to the search path
 
-Maintainers may be tempted to use git-rebase or git-cherry-pick instead
-for patches they already have in their local git (such as their own
-patches).  No good, because we don't get the Message-Id that way.
+-- =
 
-Patch submissions (as opposed to pull requests) generally do not have
-Message-Id tags in commit messages.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884728
 
-Hope this helps!
+Title:
+  facing build error for qemu-4.0.0 on SUSE11 OS
 
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  target/riscv/cpu.c | 18 +++++-------------
->>  1 file changed, 5 insertions(+), 13 deletions(-)
->>
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06208.html
->
-> Regards,
-> Bin
+Status in QEMU:
+  New
 
+Bug description:
+  I am trying to compile qemu-4.0.0 on suse11 OS and facing the following e=
+rror on the console:
+  ERROR: sizeof(size_t) doesn't match GLIB_SIZEOF_SIZE_T.
+         You probably need to set PKG_CONFIG_LIBDIR
+         to point to the right pkg-config files for your
+         build target
+
+  Looking into the config.log file following is the error that is
+  listed:
+
+  config-temp/qemu-conf.c:12:11: error: 'WACS_DEGREE' undeclared (first use=
+ in this function)
+     add_wch(WACS_DEGREE);
+             ^
+  config-temp/qemu-conf.c:12:11: note: each undeclared identifier is report=
+ed only once for each function it appears in
+
+  ld: skipping incompatible /usr/lib//libc.so when searching for -lc
+  ld: skipping incompatible /usr/lib//libc.a when searching for -lc
+  /tmp/ccmme6E4.o: In function `main':
+  qemu-conf.c:(.text+0x2b): undefined reference to `resize_term'
+  qemu-conf.c:(.text+0x32): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x49): undefined reference to `waddnwstr'
+  qemu-conf.c:(.text+0x50): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x67): undefined reference to `waddnwstr'
+  qemu-conf.c:(.text+0x6e): undefined reference to `_nc_wacs'
+  qemu-conf.c:(.text+0x7f): undefined reference to `stdscr'
+  qemu-conf.c:(.text+0x8d): undefined reference to `wadd_wch'
+  collect2: error: ld returned 1 exit status
+
+  Following are the details of the tools versions:
+  OS version =3D SUSE Linux Enterprise Server 11 (x86_64)
+  python =3D v2.7.10
+  glib =3D v2.56.1
+  gcc =3D v4.8.3
+  sdl2 =3D v2.0.12
+
+  Can someone help me understand the cause of this error?
+
+  regards,
+  Harshit
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884728/+subscriptions
 
