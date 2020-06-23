@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03D12055B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:22:33 +0200 (CEST)
-Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C96205591
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:12:51 +0200 (CEST)
+Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkkq-0003T0-DX
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1jnkbS-0002J8-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkVA-0003EH-74
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:06:20 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkV8-0001W8-Bn
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:06:19 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 22so2441751wmg.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=PxEXhYLbmH1o6u+grMyWsHnAH2Lm9BUoWtjkfx2PRsQ=;
- b=bzFcLRPM8dyN9xEr89boLO7PFuM5iyjGW3txKKFfgQxhDIfqZi5nNZHQvyYlaZYXcx
- 81zVul/FpqrsJVOVuCWUwa4zNwQSeuYzdXdEg4dIblNfyM4D/EgW0J2g0ozZ36iRMK8y
- /aX9bUNzJPAkXTxXJfq7z2KL78d3fN4jzkhrZEzg+9sLMozo/xGME8RMYOXZ9co/Jfpz
- n8SnlV0ISCXu0GFCvGS22seukEKAOikwv/NTaLv9ckJYxRwXxSbAi3XtTHbrm6Agj5LR
- 4LHnKSZxc8csvXm/u/m/PEddMqTCMG6/zTkOo9HWXNBvjDa1GeONVXIscchGhseIn+VN
- i/Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PxEXhYLbmH1o6u+grMyWsHnAH2Lm9BUoWtjkfx2PRsQ=;
- b=dPeXuF51dpHSqpcSQrL1wxvypKEcLxVd/Vwo6qNvuXCX1NogL0mXRJDpWwsz8tncGL
- Stbri74zUtopNAgooktQwmfXmho40Rs6QiQ9DLRTzFOlL5TywLc/WmSqEnHr9nn5uHk8
- xXa66pwKA2UQ4b0Pcfmh0WrfYXxEXfKoZEg2ZacHKXhIkV1R9ALdjAIY8VFEJLOhGwHH
- qvj0abUoU5N1rQQz177qLa/GY8Fpt4bLQdABPxczCooB2jM70M3EIOINS3wxGXFtX2s1
- EugUOESVyWP+cWHXFSka3bbNQD0ZZMlrJHjPR9PmQot2UV8TvUV4dScOiU6hz8TsqSg4
- yYJQ==
-X-Gm-Message-State: AOAM530TlshEZ0sDCk84BwLLqYhg1YsGu6GrdEByKFNjOk3T83shstPK
- Ti1sUC7IGQ6JN4F9j9DJleo=
-X-Google-Smtp-Source: ABdhPJyTbBEPTxsNv7WhA6YDtQz5c3O0kmktdUbyvXJt36jPXn25Qb5H17B3hYEEs3Bz3pwLYUOkfQ==
-X-Received: by 2002:a1c:ba08:: with SMTP id k8mr11127633wmf.28.1592924776803; 
- Tue, 23 Jun 2020 08:06:16 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id w13sm23154330wrr.67.2020.06.23.08.06.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 08:06:15 -0700 (PDT)
-Date: Tue, 23 Jun 2020 16:06:14 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v2] Stop vhost-user sending uninitialized mmap_offsets
-Message-ID: <20200623150614.GV36568@stefanha-x1.localdomain>
-References: <1592650156-25845-1-git-send-email-raphael.norwitz@nutanix.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jnkYv-0008Uv-7e
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:10:13 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29922
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jnkYs-00042v-Ae
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:10:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592925008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RGwLTMh557i9eYUW7REGF96qLnJ0L6G/wEg1q0P6YDE=;
+ b=WYdHLXufcmXoTSuGz3YrjdlvvsO2w+7MzomBP2pXhzeGPd6CCDAc6dq3PZTfd+2Eg+P0h+
+ irbGl5OyXMJvK6PghfOPGxufmQf1IfDX64IezU7wd19bzqYnNjByk3UQNz3L3shcmq4cLE
+ DVvEHkZja89ZQ0RUucHvi/eP/t8oV8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-eduePZ8KPySyTx5Fu4OYRQ-1; Tue, 23 Jun 2020 11:10:01 -0400
+X-MC-Unique: eduePZ8KPySyTx5Fu4OYRQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AEF5107AFB6;
+ Tue, 23 Jun 2020 15:10:00 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C269060F8D;
+ Tue, 23 Jun 2020 15:09:56 +0000 (UTC)
+Date: Tue, 23 Jun 2020 17:09:55 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH v3 3/3] acpi: i386: Move VMBus DSDT entry to SB
+Message-ID: <20200623170955.0a4f3ae7@redhat.com>
+In-Reply-To: <20200618030027.759594-4-arilou@gmail.com>
+References: <20200618030027.759594-1-arilou@gmail.com>
+ <20200618030027.759594-4-arilou@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U8v/hV883cEE9JJG"
-Content-Disposition: inline
-In-Reply-To: <1592650156-25845-1-git-send-email-raphael.norwitz@nutanix.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:54:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,55 +82,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com, mst@redhat.com
+Cc: rvkagan@yandex-team.ru, pbonzini@redhat.com, mail@maciej.szmigiero.name,
+ qemu-devel@nongnu.org, vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 18 Jun 2020 06:00:27 +0300
+Jon Doron <arilou@gmail.com> wrote:
 
---U8v/hV883cEE9JJG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 22, 2020 at 11:50:44PM +0000, Raphael Norwitz wrote:
-> Prior to this change, the vhost_user_fill_msg_region function filled out
-> all elements of the VhostUserMemoryRegion struct except the mmap_offset.
->=20
-> This function is often called on uninitialized structs, which are then
-> copied into VHOST_USER_SET_MEM_TABLE and VHOST_USER_ADD/REM_MEM_REG
-> messages. In some cases, where the mmap_offset was not needed, it was
-> left uninitialized, causing QEMU to send the backend uninitialized data,
-> which Coverity flagged as a series of issues.
->=20
-> This change augments the vhost_user_fill_msg_region API, adding a
-> mmap_offset paramenter, forcing the caller to initialize mmap_offset.
->=20
-> Fixes: ece99091c2d0aeb23734289a50ef2ff4e0a08929
-> Fixes: f1aeb14b0809e313c74244d838645ed25e85ea63
-> Reported-by: Coverity (CIDs 1429802, 1429803 and 1429804)
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Signed-off-by: Jon Doron <arilou@gmail.com>
 > ---
->  hw/virtio/vhost-user.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  hw/i386/acpi-build.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 6d9df38e31..38be9e5a58 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1092,7 +1092,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
+>  static void build_isa_devices_aml(Aml *table)
+>  {
+>      ISADevice *fdc = pc_find_fdc0();
+> -    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+>      bool ambiguous;
+>  
+>      Aml *scope = aml_scope("_SB.PCI0.ISA");
+> @@ -1113,10 +1112,6 @@ static void build_isa_devices_aml(Aml *table)
+>          isa_build_aml(ISA_BUS(obj), scope);
+>      }
+>  
+> -    if (vmbus_bridge) {
+> -        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
+> -    }
+> -
+>      aml_append(table, scope);
+>  }
+>  
+> @@ -1661,6 +1656,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      PCIBus *bus = NULL;
+>      TPMIf *tpm = tpm_find();
+>      int i;
+> +    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+>  
+>      dsdt = init_aml_allocator();
+>  
+> @@ -1675,6 +1671,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>          aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>          aml_append(sb_scope, dev);
+> +        if (vmbus_bridge) {
+> +            aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
+> +        }
+>          aml_append(dsdt, sb_scope);
+>  
+>          build_hpet_aml(dsdt);
+> @@ -1692,6 +1691,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>          aml_append(dev, build_q35_osc_method());
+>          aml_append(sb_scope, dev);
+> +        if (vmbus_bridge) {
+> +            aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
+> +        }
+>          aml_append(dsdt, sb_scope);
+>  
+>          build_hpet_aml(dsdt);
+why are you duplicating instead of putting one if () block after
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+if (misc->is_piix4) {
+} else {
+}
 
---U8v/hV883cEE9JJG
-Content-Type: application/pgp-signature; name="signature.asc"
+?
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yGmYACgkQnKSrs4Gr
-c8jGCQgAsfDgSYJlS14g6FIBIco9/+A5fjN/eZKlpFKPeb3OCGY15I4RriyMzWAr
-ELe80wovYoKcAfyXT4EslHIt0OXxQCBi4aRtH/XbTGG+eDdTd/f30q4q/47iFcoU
-mjaZrf4mz11PEZX0tZ7H+qPLkd20RfJZTqhP8cgBJndKP2qeHMmtffgABmj0SRw/
-EsiF9GIG40NeDmK9fr8dfONaJAS+65GfvoiDpbXSz2aXLpBVxT4pWH5n1UoXVOua
-M4APv5egoYiIi32QJN+zhU5H7BYUiMa9iDCEd49c45nE5V9EOcCKWY/J0PGRqTgM
-btmxc9Kk3I8MflSOT2XPrh6n051ruQ==
-=wMjz
------END PGP SIGNATURE-----
-
---U8v/hV883cEE9JJG--
 
