@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16B92051A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:01:05 +0200 (CEST)
-Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77E12051B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:03:52 +0200 (CEST)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhbs-00069F-L4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:01:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
+	id 1jnheZ-0001hA-N4
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIt-0006K6-UL
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14508)
+ id 1jnhIu-0006Lr-Ks
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIs-0004jP-0b
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:27 -0400
+ id 1jnhIs-0004jt-ML
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:28 -0400
 Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBWRcV111247; Tue, 23 Jun 2020 07:41:24 -0400
+ 05NBWSYf111302; Tue, 23 Jun 2020 07:41:24 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyhw-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyja-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 23 Jun 2020 07:41:24 -0400
 Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBX2Ux113376;
- Tue, 23 Jun 2020 07:41:23 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyhe-1
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBWRIS111239;
+ Tue, 23 Jun 2020 07:41:24 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyhs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:23 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBPsx7004551;
- Tue, 23 Jun 2020 11:41:22 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 31sa394hue-1
+ Tue, 23 Jun 2020 07:41:24 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQ3dB032619;
+ Tue, 23 Jun 2020 11:41:23 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04wdc.us.ibm.com with ESMTP id 31u20cw6j3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 11:41:22 +0000
+ Tue, 23 Jun 2020 11:41:23 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfK3V10158462
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05NBfMkt27656630
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jun 2020 11:41:20 GMT
+ Tue, 23 Jun 2020 11:41:22 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 98A3EC6059;
- Tue, 23 Jun 2020 11:41:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3FEEFC6057;
+ Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E392C6055;
+ by IMSVA (Postfix) with ESMTP id B8E99C6055;
  Tue, 23 Jun 2020 11:41:21 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
  Tue, 23 Jun 2020 11:41:21 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 06/12] hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to
- sources
-Date: Tue, 23 Jun 2020 07:41:08 -0400
-Message-Id: <20200623114114.1375104-7-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 07/12] hw/tpm: Remove unnecessary 'tpm_int.h' header
+ inclusion
+Date: Tue, 23 Jun 2020 07:41:09 -0400
+Message-Id: <20200623114114.1375104-8-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
 References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
@@ -109,68 +109,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Nothing in "tpm_ppi.h" require declarations from "hw/acpi/tpm.h".
-Reduce dependencies and include it only in the files requiring it.
+Remove unnecessary 'tpm_int.h' header inclusion.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200612085444.8362-7-philmd@redhat.com
+Message-id: 20200612085444.8362-8-philmd@redhat.com
 Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
 ---
- hw/tpm/tpm_ppi.c        | 1 +
- hw/tpm/tpm_ppi.h        | 1 -
- hw/tpm/tpm_tis_isa.c    | 1 +
- hw/tpm/tpm_tis_sysbus.c | 1 +
- 4 files changed, 3 insertions(+), 1 deletion(-)
+ hw/tpm/tpm_crb.c        | 1 -
+ hw/tpm/tpm_spapr.c      | 1 -
+ hw/tpm/tpm_tis_common.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
-index 6d9c1a3e40..72d7a3d926 100644
---- a/hw/tpm/tpm_ppi.c
-+++ b/hw/tpm/tpm_ppi.c
-@@ -17,6 +17,7 @@
- #include "cpu.h"
- #include "sysemu/memory_mapping.h"
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index cd004e7f8e..664ff70ef9 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -25,7 +25,6 @@
  #include "migration/vmstate.h"
-+#include "hw/acpi/tpm.h"
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/reset.h"
+-#include "tpm_int.h"
+ #include "tpm_util.h"
  #include "tpm_ppi.h"
  #include "trace.h"
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index ce65eb2e45..ab1a86ad6e 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -20,7 +20,6 @@
+ #include "migration/vmstate.h"
  
-diff --git a/hw/tpm/tpm_ppi.h b/hw/tpm/tpm_ppi.h
-index d33ef27de6..6f773c25a0 100644
---- a/hw/tpm/tpm_ppi.h
-+++ b/hw/tpm/tpm_ppi.h
-@@ -12,7 +12,6 @@
- #ifndef TPM_TPM_PPI_H
- #define TPM_TPM_PPI_H
+ #include "sysemu/tpm_backend.h"
+-#include "tpm_int.h"
+ #include "tpm_util.h"
  
--#include "hw/acpi/tpm.h"
- #include "exec/address-spaces.h"
- 
- typedef struct TPMPPI {
-diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
-index 30ba37079d..42f909ff1e 100644
---- a/hw/tpm/tpm_tis_isa.c
-+++ b/hw/tpm/tpm_tis_isa.c
-@@ -26,6 +26,7 @@
- #include "hw/isa/isa.h"
+ #include "hw/ppc/spapr.h"
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index 1af4bce139..94704870f6 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -33,7 +33,6 @@
  #include "hw/qdev-properties.h"
  #include "migration/vmstate.h"
-+#include "hw/acpi/tpm.h"
+ #include "sysemu/tpm_backend.h"
+-#include "tpm_int.h"
  #include "tpm_util.h"
- #include "tpm_tis.h"
- 
-diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
-index eced1fc843..edca1dae0d 100644
---- a/hw/tpm/tpm_tis_sysbus.c
-+++ b/hw/tpm/tpm_tis_sysbus.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "hw/acpi/tpm.h"
- #include "tpm_util.h"
- #include "hw/sysbus.h"
- #include "tpm_tis.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
 -- 
 2.24.1
 
