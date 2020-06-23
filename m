@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205A9205C0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:44:58 +0200 (CEST)
-Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248C3205C1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:48:02 +0200 (CEST)
+Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnoqn-0000bj-5n
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41812)
+	id 1jnotl-0006A1-2d
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnojN-0003Y1-UW
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:17 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37281)
+ id 1jnojP-0003an-97
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:19 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnojL-0005az-PJ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:17 -0400
-Received: by mail-pg1-x544.google.com with SMTP id d4so23351pgk.4
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:15 -0700 (PDT)
+ id 1jnojN-0005bp-4D
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:18 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q17so3363302pfu.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vTCb/+JBTsRkBioBgq12HWwp1QoPq+XXUl9Yc9AuV4g=;
- b=KUPvLJbNSc801mbX205g3IWjHsgwWICYKYiYfWPXI00YKXV1T2Ih9/IF5DSYD1ItjQ
- XhBloOL5rCGw6ztEsUgtbPp5RFlNm5PKAniO1df5jTBGszQQG7gxslCu0mTJYMqnXhvS
- dN2RKqfTbjTUXZw3VbzXlkDin7Y5wvOokiQ4vblZpLVeXBC5vG93JtnPEWPKxbIDKunb
- eVaST1AYtDDEe2C+zKgB0HVTb8plZBYWcR7qS/9wpXCWkivvvIrChvRq1gIjoGytf/NL
- rGzAiiona7IhZo1ODMbeinYfBJmGhVWz67YXRVIYwtXga06CLGkFO+gGuvhSu7662wGc
- nwUA==
+ bh=QBDMF3A6g4i6U3PY+gnBip+Ec52Yqe21zljrRBJfq1A=;
+ b=jDPwGL1Ly4EyM2axfeRipxpFaVFsYwyFNWHiahxJDkSbJLMqm9xlg7+j/CFNjJboE6
+ Nv3z/WQKVl5552kArzR+es6hIa40KhnztZnxRzNHLyNgw+dEEoblwiz6S2ySe1n1XtgS
+ duTYlA+yrzRL1hdw0jxFRd9L2I7FM6N85uE0qpF6Cxg5pkwXd145bp/kUUlW9ydwEuVw
+ Q8LKO2J07+0WSF7PXyPY+mj5AGshZaGoPlqriWBjRysyhCX03BNzpFaTPNZ1s1FmTPM+
+ 9ioCESx4RPUwm37OJsOfcjp0lXqnmGEuoDIsfEIS7jBcHuIkjTwn4UfYdx9Gi5idAVa0
+ AZ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vTCb/+JBTsRkBioBgq12HWwp1QoPq+XXUl9Yc9AuV4g=;
- b=kt1sgkVXgRGmxZlFoyXYkF2oT12meoVM+PDINHGO7ForPfClMQ/Qkk89UUh554MIsF
- UouDghNuQBEvEJVCAicahjU3B9AoWExMu/B0QX0uawNeLxM3KuZkSvUd2P765uAeI4Aj
- 5NwVRwl79EKgAkTFxesTeYC5im142hEb8JyeX5WP7wO48jGYcbmF6nwq9zPZwzrUv2OX
- hU+iEmGC9wg+ZRSlqR74op2+yt+BISCGHFLQQLc5H366Bs5IXEQtxW7d6Z/EDMeSfBGz
- 6a83zMYCMPb1IohNGcWpu15oa6/FABeA2nqrm4C2Dg8U32w/h7o5O9Xhb1ASMyic85Ax
- gYAg==
-X-Gm-Message-State: AOAM5323Lb5/SPWF92y4BJiS+Qou6Xa+g8jUDmNjg/OzlLCLso8mqkox
- 3z6K/xgxTcUIKagZHG4jpKXuTU36VQQ=
-X-Google-Smtp-Source: ABdhPJxacp0tppHKmQVl3BlPOTrKCXxrmOb+E158iM+6pWeoEyQ/Ha5HNS0GVqH6+PvJB5tSEkA8tw==
-X-Received: by 2002:a63:b915:: with SMTP id z21mr19382355pge.145.1592941034148; 
- Tue, 23 Jun 2020 12:37:14 -0700 (PDT)
+ bh=QBDMF3A6g4i6U3PY+gnBip+Ec52Yqe21zljrRBJfq1A=;
+ b=i9d3mz/8GXqND9y2MlrXevnu4/wHzGrqaWmOrPV8cmHA6GPMJghFPW4NzUGizQc0ZB
+ +kTqutT0Mn1HcUwAiLsApmNdrNgrfrRVcq7MwV0oRoKpY7FsQhsTAixhoOD2qbUyaf3u
+ ilM1NlGxXD2PmvdtKMTivwRCyK7A8pUVUnzY7mMwTeFqEosq76ZherccfapAc4bYmU6h
+ +Jia/JA2smsW1ZYWxmBG2kNeo7yKawQg7a6+9InXrObkm7MoCfBZEQAF1pSUDmYY5ss6
+ rLX8aeO6ZjJYHgX0/i6Nxa0pE0LczoRoP3Q7Sljwof6Xf82yl3OSNaeoUGdG8wu5mF6o
+ nJpA==
+X-Gm-Message-State: AOAM533mjhXH1Uv8XKHMSiZTdLIsgEBOd1YrLwCWGL09kyp7piZiRiFI
+ xzKX8aHG6bBrMlvlGHjol5HuSVuaDQg=
+X-Google-Smtp-Source: ABdhPJy5yafM6q6AguhsbkvikRmJcaTBMf3NfPhOb0H/Nd/ECbBAoQgDaTezlkI3lHoL/R1iJSeHlw==
+X-Received: by 2002:a65:6447:: with SMTP id s7mr17690553pgv.320.1592941035322; 
+ Tue, 23 Jun 2020 12:37:15 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.13
+ by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 12:37:13 -0700 (PDT)
+ Tue, 23 Jun 2020 12:37:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 10/45] target/arm: Revise decoding for disas_add_sub_imm
-Date: Tue, 23 Jun 2020 12:36:23 -0700
-Message-Id: <20200623193658.623279-11-richard.henderson@linaro.org>
+Subject: [PATCH v8 11/45] target/arm: Implement the ADDG, SUBG instructions
+Date: Tue, 23 Jun 2020 12:36:24 -0700
+Message-Id: <20200623193658.623279-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
 References: <20200623193658.623279-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,76 +90,134 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current Arm ARM has adjusted the official decode of
-"Add/subtract (immediate)" so that the shift field is only bit 22,
-and bit 23 is part of the op1 field of the parent category
-"Data processing - immediate".
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+v2: Shift offset in translate; use extract32.
+v6: Implement inline for !ATA.
+v8: Use separate decode function.
+---
+ target/arm/helper-a64.h    |  1 +
+ target/arm/internals.h     |  9 +++++++
+ target/arm/mte_helper.c    | 10 ++++++++
+ target/arm/translate-a64.c | 51 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 71 insertions(+)
 
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index 587ccbe42f..6c116481e8 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
+@@ -105,3 +105,4 @@ DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
+ DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
+ 
+ DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_4(addsubg, TCG_CALL_NO_RWG_SE, i64, env, i64, s32, i32)
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index ae611a6ff5..5c69d4e5a5 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1261,6 +1261,15 @@ void arm_log_exception(int idx);
+  */
+ #define GMID_EL1_BS  6
+ 
++/* We associate one allocation tag per 16 bytes, the minimum.  */
++#define LOG2_TAG_GRANULE 4
++#define TAG_GRANULE      (1 << LOG2_TAG_GRANULE)
++
++static inline int allocation_tag_from_addr(uint64_t ptr)
++{
++    return extract64(ptr, 56, 4);
++}
++
+ static inline uint64_t address_with_allocation_tag(uint64_t ptr, int rtag)
+ {
+     return deposit64(ptr, 56, 4, rtag);
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 539a04de84..9ab9ed749d 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -70,3 +70,13 @@ uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
+ 
+     return address_with_allocation_tag(rn, rtag);
+ }
++
++uint64_t HELPER(addsubg)(CPUARMState *env, uint64_t ptr,
++                         int32_t offset, uint32_t tag_offset)
++{
++    int start_tag = allocation_tag_from_addr(ptr);
++    uint16_t exclude = extract32(env->cp15.gcr_el1, 0, 16);
++    int rtag = choose_nonexcluded_tag(start_tag, tag_offset, exclude);
++
++    return address_with_allocation_tag(ptr + offset, rtag);
++}
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 14d51c0dd1..59f44fc412 100644
+index 59f44fc412..e9bc7e90af 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -3754,22 +3754,22 @@ static void disas_pc_rel_adr(DisasContext *s, uint32_t insn)
- /*
-  * Add/subtract (immediate)
-  *
-- *  31 30 29 28       24 23 22 21         10 9   5 4   0
-- * +--+--+--+-----------+-----+-------------+-----+-----+
-- * |sf|op| S| 1 0 0 0 1 |shift|    imm12    |  Rn | Rd  |
-- * +--+--+--+-----------+-----+-------------+-----+-----+
-+ *  31 30 29 28         23 22 21         10 9   5 4   0
-+ * +--+--+--+-------------+--+-------------+-----+-----+
-+ * |sf|op| S| 1 0 0 0 1 0 |sh|    imm12    |  Rn | Rd  |
-+ * +--+--+--+-------------+--+-------------+-----+-----+
-  *
-  *    sf: 0 -> 32bit, 1 -> 64bit
-  *    op: 0 -> add  , 1 -> sub
-  *     S: 1 -> set flags
-- * shift: 00 -> LSL imm by 0, 01 -> LSL imm by 12
-+ *    sh: 1 -> LSL imm by 12
-  */
- static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
- {
-     int rd = extract32(insn, 0, 5);
-     int rn = extract32(insn, 5, 5);
-     uint64_t imm = extract32(insn, 10, 12);
--    int shift = extract32(insn, 22, 2);
-+    bool shift = extract32(insn, 22, 1);
-     bool setflags = extract32(insn, 29, 1);
-     bool sub_op = extract32(insn, 30, 1);
-     bool is_64bit = extract32(insn, 31, 1);
-@@ -3778,15 +3778,8 @@ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
-     TCGv_i64 tcg_rd = setflags ? cpu_reg(s, rd) : cpu_reg_sp(s, rd);
-     TCGv_i64 tcg_result;
+@@ -3808,6 +3808,54 @@ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
+     tcg_temp_free_i64(tcg_result);
+ }
  
--    switch (shift) {
--    case 0x0:
--        break;
--    case 0x1:
-+    if (shift) {
-         imm <<= 12;
--        break;
--    default:
--        unallocated_encoding(s);
--        return;
-     }
- 
-     tcg_result = tcg_temp_new_i64();
-@@ -4174,7 +4167,7 @@ static void disas_data_proc_imm(DisasContext *s, uint32_t insn)
-     case 0x20: case 0x21: /* PC-rel. addressing */
-         disas_pc_rel_adr(s, insn);
-         break;
--    case 0x22: case 0x23: /* Add/subtract (immediate) */
-+    case 0x22: /* Add/subtract (immediate) */
++/*
++ * Add/subtract (immediate, with tags)
++ *
++ *  31 30 29 28         23 22 21     16 14      10 9   5 4   0
++ * +--+--+--+-------------+--+---------+--+-------+-----+-----+
++ * |sf|op| S| 1 0 0 0 1 0 |o2|  uimm6  |o3| uimm4 |  Rn | Rd  |
++ * +--+--+--+-------------+--+---------+--+-------+-----+-----+
++ *
++ *    op: 0 -> add, 1 -> sub
++ */
++static void disas_add_sub_imm_with_tags(DisasContext *s, uint32_t insn)
++{
++    int rd = extract32(insn, 0, 5);
++    int rn = extract32(insn, 5, 5);
++    int uimm4 = extract32(insn, 10, 4);
++    int uimm6 = extract32(insn, 16, 6);
++    bool sub_op = extract32(insn, 30, 1);
++    TCGv_i64 tcg_rn, tcg_rd;
++    int imm;
++
++    /* Test all of sf=1, S=0, o2=0, o3=0.  */
++    if ((insn & 0xc040e000u) != 0x80000000u ||
++        !dc_isar_feature(aa64_mte_insn_reg, s)) {
++        unallocated_encoding(s);
++        return;
++    }
++
++    imm = uimm6 << LOG2_TAG_GRANULE;
++    if (sub_op) {
++        imm = -imm;
++    }
++
++    tcg_rn = cpu_reg_sp(s, rn);
++    tcg_rd = cpu_reg_sp(s, rd);
++
++    if (s->ata) {
++        TCGv_i32 offset = tcg_const_i32(imm);
++        TCGv_i32 tag_offset = tcg_const_i32(uimm4);
++
++        gen_helper_addsubg(tcg_rd, cpu_env, tcg_rn, offset, tag_offset);
++        tcg_temp_free_i32(tag_offset);
++        tcg_temp_free_i32(offset);
++    } else {
++        tcg_gen_addi_i64(tcg_rd, tcg_rn, imm);
++        gen_address_with_allocation_tag0(tcg_rd, tcg_rd);
++    }
++}
++
+ /* The input should be a value in the bottom e bits (with higher
+  * bits zero); returns that value replicated into every element
+  * of size e in a 64 bit integer.
+@@ -4170,6 +4218,9 @@ static void disas_data_proc_imm(DisasContext *s, uint32_t insn)
+     case 0x22: /* Add/subtract (immediate) */
          disas_add_sub_imm(s, insn);
          break;
++    case 0x23: /* Add/subtract (immediate, with tags) */
++        disas_add_sub_imm_with_tags(s, insn);
++        break;
      case 0x24: /* Logical (immediate) */
+         disas_logic_imm(s, insn);
+         break;
 -- 
 2.25.1
 
