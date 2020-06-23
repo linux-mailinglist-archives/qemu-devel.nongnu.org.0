@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B97A2054C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:30:51 +0200 (CEST)
-Received: from localhost ([::1]:47560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6599A2054E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:37:30 +0200 (CEST)
+Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnjwo-000390-D0
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
+	id 1jnk3F-0004Uk-5f
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpv-0001qz-Dy
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50383
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpn-0007kg-9u
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592922214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JW+K+F+cBl7Afy5FOM0LYsgEpF08Y8jYZE0qPWSBVWg=;
- b=gOjZGnRoVNyvNOu1wEWkqMDAcUn9lRfw3PVBWEaivQ1zHwhruL1NXYlILL42a8anIIaxKz
- tOv479RSSR5VJzNvBIIS52Phu8bNvRPTCk0Y8fSFrhglVYZ85zi6HS6B7PiZkn6AZCUCTw
- kizwUuv93bDgKJzZBBVF9hwJ09+rCrE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-Bq8BZVm2N-KUuXh2eHlgZg-1; Tue, 23 Jun 2020 10:23:32 -0400
-X-MC-Unique: Bq8BZVm2N-KUuXh2eHlgZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 369DC805EE2;
- Tue, 23 Jun 2020 14:23:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3F9971688;
- Tue, 23 Jun 2020 14:23:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7271E113847E; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 16/16] sd/milkymist-memcard: Fix error API violation
-Date: Tue, 23 Jun 2020 16:23:26 +0200
-Message-Id: <20200623142326.2349416-17-armbru@redhat.com>
-In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
-References: <20200623142326.2349416-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnjvb-0002qF-5S
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:29:35 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnjvZ-0003mC-Bv
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:29:34 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s10so800246wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Nfq4b7XRtmRJ0N2iBCFewwmIeXH6karw7NeyaEHuiTc=;
+ b=TNyBmtsEs3Y+gyv2c/F8va50J61zC7VigTX9/DP4PNQjEx6ovPuTmrcEzbGiMmyZBo
+ 0RnLrlQ76peowezKem8STxEcqn6Xbd3AAevHNAXqw854cR67EfrSo2bv0umQFY3lpvRk
+ Zwtl/PRGW6AexGguO18WM0FX6X+f3BXIV4ZNngfjrROMWLMgXjMhGm9wIX/96vxFUX2b
+ dOHdP7FJOSp7sQaEyvx1e5VD24yUGAjKniLyrgJVT6VPYdatITswrKW4AlxLMsBMPx1Q
+ HeY0MJdlpwMji5458/XItPdYnuQPlraiGmGcNDmacXSfjqfB2458jORJ4ZXtaRzelDp+
+ XAgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Nfq4b7XRtmRJ0N2iBCFewwmIeXH6karw7NeyaEHuiTc=;
+ b=uMbYjQPT90sQhxlvTzNkxfXx6hsmf6oMu6nTMv6gILjh6CpyJjUyCu5ddZMcXSrWGw
+ uEU1rbDVLBvdIyHm58P0pU5awE07oPmgNAaPKfTNw9bQEYJhBnRcfcLb3rgHrabxsSvM
+ tBeaU2aUEk4SXNe1Q1bnpqLAM/APTv8sYkIef5mzyQgrazTwKcNUeZvOTJ9IP0izkkyV
+ BuEQEbd+a/2wuiD6Xm4ZUJizHpX3xS9OrgaFlEYTqu3/xR4pEPw1EZ0pB5X+949VlHbP
+ cSG/Pd513n6rMKZT0i5BVA0ErDq22lLECBTfWvB8D2Zr1hlmjIEgptrp/Kc1dDLAsA13
+ Gs8A==
+X-Gm-Message-State: AOAM5317xAfWtUpYMgi4y1qgNTnb9atEwpQ6bUOTyx6z5XK1Q0hip9Jn
+ mFC/5VVfq6iaquGjr0FqE3BYptTsDNM=
+X-Google-Smtp-Source: ABdhPJxW4TPZymFI1waDsZS1N4zb5h8d14nh0Xa4Y51dQM6jIS9+rOxci1/5w9fgk31rlHP0+DKgrA==
+X-Received: by 2002:adf:f311:: with SMTP id i17mr10931512wro.237.1592922571838; 
+ Tue, 23 Jun 2020 07:29:31 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id i17sm16748788wrc.34.2020.06.23.07.29.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 07:29:30 -0700 (PDT)
+Date: Tue, 23 Jun 2020 15:29:29 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Bug 1883400 <1883400@bugs.launchpad.net>
+Subject: Re: [Bug 1883400] [NEW] Windows 10 extremely slow and unresponsive
+Message-ID: <20200623142929.GN36568@stefanha-x1.localdomain>
+References: <159209820759.11242.7518482343283209679.malonedeb@soybean.canonical.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3hAdtgBjtgL7p0NQ"
+Content-Disposition: inline
+In-Reply-To: <159209820759.11242.7518482343283209679.malonedeb@soybean.canonical.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x430.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,47 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Walle <michael@walle.cc>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
 
-milkymist_memcard_realize() is wrong that way: it passes &err to
-qdev_prop_set_drive_err() and qdev_realize_and_unref().  Currently
-harmless, because the latter uses it only as first argument of
-error_propagate().
+--3hAdtgBjtgL7p0NQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Making qdev_prop_set_drive_err() fail involves abuse of -global.
-Leave handling that to qdev_prop_set_drive(), like we do elsewhere.
+On Sun, Jun 14, 2020 at 01:30:07AM -0000, Toddandmargo-n wrote:
+> Public bug reported:
+>=20
+> Hi,
+>=20
+> Fedora 32, x64
+> qemu-5.0.0-2.fc32.x86_64
+>=20
+> https://www.microsoft.com/en-us/software-download/windows10ISO
+> Win10_2004_English_x64.iso
+>=20
+> Windows 10 is excruciatingly slow since upgrading to 5.0.0-2.fc32.
+> Disabling your repo and downgrading to 2:4.2.0-7.fc32 and corrects the
+> issue (the package in the Fedora repo).
+>=20
+> You can duplicate this off of the Windows 10 ISO (see above) and do not
+> even have to install Windows 10 itself.
 
-Cc: Michael Walle <michael@walle.cc>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200622094227.1271650-17-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/milkymist-memcard.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Could this be a duplicate of
+https://bugs.launchpad.net/qemu/+bug/1877716?
 
-diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-index 1c23310715..482e97191e 100644
---- a/hw/sd/milkymist-memcard.c
-+++ b/hw/sd/milkymist-memcard.c
-@@ -279,7 +279,7 @@ static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
-     dinfo = drive_get_next(IF_SD);
-     blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
-     carddev = qdev_new(TYPE_SD_CARD);
--    qdev_prop_set_drive_err(carddev, "drive", blk, &err);
-+    qdev_prop_set_drive(carddev, "drive", blk);
-     qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err);
-     if (err) {
-         error_setg(errp, "failed to init SD card: %s", error_get_pretty(err));
--- 
-2.26.2
+Stefan
 
+--3hAdtgBjtgL7p0NQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yEckACgkQnKSrs4Gr
+c8jwNQgAoQfcerC6vnd1B++7Wlgw8BXim547qWbIWl5uZUxF9fdOP3GsmBEwm3N7
+xe3wGTGYUPHRfL0nbUYEI1GoBvpsh7ynEPQr70aFnhEID9S6rlso0rB3JPBbOO6k
+kJpZd3U0JrrhLJwOLdlyFKEyHHtuWZ+hP1qfrDyTZJjx3XuWg/6vJbbO5B0pYHg6
+gNZisa3y9XmAIEpGqDBsAxI+MtfzVHmlDB2NYcxVFn/beIGTb2FWvN2xn0QYLJOY
+1ZAbp8rsEp693DXgwY1sD1H4AT2RuLOKkO4SccKKbu3k22/bG/NTNf22xX7CAwhr
+SIjaiUXprFhQDP97/c89PdAoz3iE5A==
+=tcCE
+-----END PGP SIGNATURE-----
+
+--3hAdtgBjtgL7p0NQ--
 
