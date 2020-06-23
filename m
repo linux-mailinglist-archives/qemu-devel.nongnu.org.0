@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4542055C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:24:14 +0200 (CEST)
-Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E784C2055CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:26:07 +0200 (CEST)
+Received: from localhost ([::1]:57268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkmT-0005RE-5Z
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45576)
+	id 1jnkoI-0007qm-KU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jnkl6-0004XM-HM
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:22:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48580
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jnkl3-0007o5-RG
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:22:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592925764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yurOEOR3+8OV7Dyuj+11/b4vu7uceWZ/I62bnyA8Ua4=;
- b=B3fUD4x9SovfERfu9uIvfGsYKaQoqXjTjXo76VCxc1dfnJmD7iTDXY80XCCgGR/NSa3Jmq
- p9abv9oW5uQjcF+yaQOqXOXPXfopTxnemaO4akODixXt7Y0Cf0iGpM1rUJYfDfSex6T3OQ
- hCCk4XwNiKidtPJko+JZVihLzhJMH2g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-K_kaor1YPV62cLTXSoxDUw-1; Tue, 23 Jun 2020 11:22:38 -0400
-X-MC-Unique: K_kaor1YPV62cLTXSoxDUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5636E1005512;
- Tue, 23 Jun 2020 15:22:37 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D685D7166A;
- Tue, 23 Jun 2020 15:22:34 +0000 (UTC)
-Subject: Re: [PATCH v3 1/5] qdev: Introduce DEFINE_PROP_RESERVED_REGION
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200611151209.22547-1-eric.auger@redhat.com>
- <20200611151209.22547-2-eric.auger@redhat.com>
- <87k0zzz6nt.fsf@dusky.pond.sub.org>
- <f0ec7470-d683-1bfd-103d-54c57ebd3863@redhat.com>
- <87imfhhkyz.fsf@dusky.pond.sub.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <e5964e6e-2ee2-577d-775a-b02d63bca651@redhat.com>
-Date: Tue, 23 Jun 2020 17:22:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnkli-00059U-6D
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:23:26 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:34648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnklg-0007xd-2P
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:23:25 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t6so2188724pgq.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=o9V1MuqsW9OY9KmhDxGL2xqVK55QccJLbpUNhAXoZrk=;
+ b=JX+WGfX5MsKqitANt1hf5+s2uh86UFCyTxT+yT5uBHUyNVPkNDMWwmK0m3cjszT+mm
+ xbr4ekSv/Px0ntssPwOAbQG6KCiGi72HRDnfKF0iyoy7qpmZTcb4tK7aUZG9SOwGi6jq
+ 882YkXO3GmP8mZbHrAG8uB+4clitqFoldD6Lkaiu5jX81KrsY+SdyuPDW38K8MJvewp5
+ mjIq7TcLXStMrcuBAAFgmf/AH+3xQSW11SfFBazK1wwX7Btzr3Ttsava0ewBhTk9hfx/
+ cv3nMlgsPDz5fCcXVFKlL97Wt/W6w/O19o2ZIDr5lahyJMCkaX9LDAjiWzRyubKuETYs
+ pTHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o9V1MuqsW9OY9KmhDxGL2xqVK55QccJLbpUNhAXoZrk=;
+ b=Z1GdM9gQv0UZDQjQd75+KmtZfTQrni07fD+fj/5uIWPu6+9wohpiKiWvepNcvQjJWP
+ 3I60uVaX5rlVVxpveMtd/9DfzRxXVHMaYCkTJwskReqxdgF6oBO0Pg9ZCWI6sPcRA3eL
+ 8EH8GA/wCZTGK7jLVk6vp0jEyEgmyjUto3M4S1in3vtU85mHQ+DvfZVGoChzO800UXRm
+ +w6W2/MUovp0n/XVcVR0Q2sU49+v3nEN3vkDpOfAxJfQpRB9B64l6Mv+I4Hw6gKo+QU5
+ ecgefxUZFn/ztBe/gxvBYby/EnCCbaOI1aj97knhALJ6Z0iIe3PAD6V1yLT7bhtfZ8Ku
+ SJuA==
+X-Gm-Message-State: AOAM532cEZvO4mG7nn59rJgky1LJTaLD4BT+xt9G9N4sgv8ckdtocseY
+ LDUSCGofY0ZFSC6E8xuRh3b9mjHSOdo=
+X-Google-Smtp-Source: ABdhPJxxiuvvvQZq3Xi3FvfWmLM9kdjAh/NfnEqc66DmwqQQ9YaPD7oCK3b5/T/dpxg9rzdM9n7ZVw==
+X-Received: by 2002:a63:5013:: with SMTP id e19mr17279391pgb.68.1592925802139; 
+ Tue, 23 Jun 2020 08:23:22 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id l195sm17996188pfd.18.2020.06.23.08.23.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Jun 2020 08:23:21 -0700 (PDT)
+Subject: Re: [PATCH] risu: don't do a full register compare for OP_SIGILL
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200522023440.26261-1-richard.henderson@linaro.org>
+ <20200623144446.4243-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1cf5e2e6-6fe3-7fdb-30d1-0ce3cce08ee7@linaro.org>
+Date: Tue, 23 Jun 2020 08:23:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <87imfhhkyz.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200623144446.4243-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,56 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- jean-philippe@linaro.org, bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+On 6/23/20 7:44 AM, Alex Bennée wrote:
+> +        } else if (header.pc != get_pc(&ri[APPRENTICE])) {
+> +            res = RES_MISMATCH_REG;
 
-On 6/23/20 5:15 PM, Markus Armbruster wrote:
-> Auger Eric <eric.auger@redhat.com> writes:
-> 
->> Hi Markus,
->>
->> On 6/22/20 1:22 PM, Markus Armbruster wrote:
->>> Eric Auger <eric.auger@redhat.com> writes:
->>>
->>>> Introduce a new property defining a reserved region:
->>>> <low address>, <high address>, <type>.
-> [...]
->>> I dimly remember discussing the wisdom of numeric type here, dig, dig,
->>> ..., aha:
->>>
->>>     Subject: Re: [PATCH for-5.0 v11 12/20] qapi: Introduce DEFINE_PROP_INTERVAL
->>>     Date: Fri, 13 Dec 2019 11:03:02 +0100
->>>     Message-ID: <87y2vg4k6h.fsf@dusky.pond.sub.org>
->>>
->>>     >> So the "label" part of "<low address>,<high address>,label" is a number?
->>>     > yes it is.
->>>     >> 
->>>     >> Is a number appropriate for your use case, or would an enum be better?
->>>     > I think a number is OK. There might be other types of reserved regions
->>>     > in the future. Also if we want to allow somebody else to reuse that
->>>     > property in another context, I would rather leave it open?
->>>
->>>     I'd prioritize the user interface over possible reuse (which might never
->>>     happen).  Mind, I'm not telling you using numbers is a bad user
->>>     interface.  In general, enums are nicer, but I don't know enough about
->>>     this particular case.
->> Yep I remember too ;-) I left as it was because I think this property
->> could be used for other use cases.
-> 
-> YAGNI :)
-> 
-> A string would work, too, wouldn't it?
-:-)
+You need a new MISMATCH code, because this one implies that you have a reginfo
+struct to compare.
 
-Eric
-> 
-> [...]
-> 
-> 
+But thanks, I'll incorporate this.
 
+
+r~
 
