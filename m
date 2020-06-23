@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA692054CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:35:07 +0200 (CEST)
-Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825DB2054C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:32:07 +0200 (CEST)
+Received: from localhost ([::1]:51272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnk0v-0000Ad-M0
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
+	id 1jnjy2-0004s2-Ea
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjps-0001lR-FI
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjps-0001kx-6n
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:40 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54280
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26467
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpm-0007jO-KK
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpm-0007jC-Bp
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592922213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rRYO5Kp2/Cqw5IF/GTlj3GcMJBhYHOwBjK3oiYKcEs8=;
- b=YjfdTcna9anQDpBij6zBR8xczbz/RTVJZqjKxjWzuHzj5rrUCGLVddsTvJVCB8BpQftXzb
- Vwl+gyKm0RSeOGc49vZeFiXeS9yVDTXCBwFDWz3AWe36FvF6oM90FM4S7Mu+hCUgJhwufn
- s2E9GLk9gxZh0m7Ns7EfCSyyAYIUnUE=
+ bh=tbGgaGbdyMpubECOCuSha0DKU/iPXl7DhSMfTT9fjVs=;
+ b=Jx854BCVZilgjzVCK/LCZApT9JkEXh0dLGU3R1pefIlrHPda2ykSSCXSC3kPtmEaaUdS/c
+ IMjQBthRRQ1m9RP/me9RxTse0zKjAqd+6tAxvQyseO/oinOYBsDeVU5odx4K/YhRIpm+eR
+ iFfAYPOyaIeEAoWfU05ip1kGRHjEOcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-iG3rxjJFPBiXyGW4ANaZSA-1; Tue, 23 Jun 2020 10:23:30 -0400
-X-MC-Unique: iG3rxjJFPBiXyGW4ANaZSA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-378-Xx10HPaUPlih8hm4GZ9dRA-1; Tue, 23 Jun 2020 10:23:29 -0400
+X-MC-Unique: Xx10HPaUPlih8hm4GZ9dRA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0882464AD2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CD8188360A
  for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE72E5D9DA
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6BB919932
  for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 39CA31138470; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
+ id 3D9B61138471; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/16] iotests/172: Cover empty filename and multiple use of
- drives
-Date: Tue, 23 Jun 2020 16:23:12 +0200
-Message-Id: <20200623142326.2349416-3-armbru@redhat.com>
+Subject: [PULL 03/16] iotests/172: Cover -global floppy.drive=...
+Date: Tue, 23 Jun 2020 16:23:13 +0200
+Message-Id: <20200623142326.2349416-4-armbru@redhat.com>
 In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
 References: <20200623142326.2349416-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -86,52 +83,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use of -global to set a default backend for non-singleton devices is a
+bad idea.  But as long as we permit it, we better test it.
+
+Test output demonstrates we screw up when -global floppy clashes with
+-fda or with -device floppy: according to "info qtree", only the
+latter backend is attached, but according to "info block", both are.
+Here's the clash with -device:
+
+    Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global floppy.drive=none0 -device floppy,drive=none1,unit=0
+
+              dev: isa-fdc, id ""
+                [...]
+                driveA = ""
+                driveB = ""
+                [...]
+                bus: floppy-bus.0
+                  type floppy-bus
+                  dev: floppy, id ""
+                    unit = 0 (0x0)
+--->                drive = "none1"
+    [...]
+    none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+--->    Attached to:      /machine/peripheral-anon/device[0]
+        Cache mode:       writeback
+
+    none1 (NODE_NAME): TEST_DIR/t.qcow2.2 (qcow2)
+--->    Attached to:      /machine/peripheral-anon/device[0]
+        Removable device: not locked, tray closed
+        Cache mode:       writeback
+
+/machine/peripheral-anon/device[0] is the floppy created with -device.
+
+Test output further demonstrates the "Drive 'FOO' is already in use
+because it has been automatically connected to another device" error
+message can be misleading.  With '-fda "" -global
+floppy.drive=floppy0', it's in use because -global reuses -fda's
+backend.  There is no other device involved.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200622094227.1271650-3-armbru@redhat.com>
+Message-Id: <20200622094227.1271650-4-armbru@redhat.com>
 ---
- tests/qemu-iotests/172     | 12 +++++++++
- tests/qemu-iotests/172.out | 50 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
+ tests/qemu-iotests/172     |   7 ++
+ tests/qemu-iotests/172.out | 134 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 141 insertions(+)
 
 diff --git a/tests/qemu-iotests/172 b/tests/qemu-iotests/172
-index 19c2516cf8..714c7527b4 100755
+index 714c7527b4..18056bcef7 100755
 --- a/tests/qemu-iotests/172
 +++ b/tests/qemu-iotests/172
-@@ -111,6 +111,7 @@ echo === Using -fda/-fdb options ===
- check_floppy_qtree -fda "$TEST_IMG"
- check_floppy_qtree -fdb "$TEST_IMG"
- check_floppy_qtree -fda "$TEST_IMG" -fdb "$TEST_IMG.2"
-+check_floppy_qtree -fdb ""
- 
+@@ -151,6 +151,7 @@ check_floppy_qtree -fdb "$TEST_IMG" -drive if=none,file="$TEST_IMG.2" -global is
+ # Conflicting (-fdX wins)
+ check_floppy_qtree -fda "$TEST_IMG" -drive if=none,file="$TEST_IMG.2" -global isa-fdc.driveA=none0
+ check_floppy_qtree -fdb "$TEST_IMG" -drive if=none,file="$TEST_IMG.2" -global isa-fdc.driveB=none0
++check_floppy_qtree -fda "$TEST_IMG" -drive if=none,file="$TEST_IMG.2" -global floppy.drive=none0
  
  echo
-@@ -198,6 +199,17 @@ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IM
+ echo
+@@ -192,12 +193,16 @@ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IM
+                    -global isa-fdc.driveB=none0 -device floppy,drive=none1
+ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IMG.2" \
+                    -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=0
++check_floppy_qtree -drive if=none,file="$TEST_IMG" \
++                   -global floppy.drive=none0 -device floppy,unit=0
+ 
+ # Conflicting
+ check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IMG.2" \
+                    -global isa-fdc.driveA=none0 -device floppy,drive=none1,unit=0
  check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IMG.2" \
                     -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=1
++check_floppy_qtree -drive if=none,file="$TEST_IMG" -drive if=none,file="$TEST_IMG.2" \
++                   -global floppy.drive=none0 -device floppy,drive=none1,unit=0
  
-+echo
-+echo
-+echo === Attempt to use drive twice ===
-+
-+# if=none
-+check_floppy_qtree -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
-+# if=floppy
-+check_floppy_qtree -fda "" -device floppy,drive=floppy0
-+# default if=floppy (not found, because it's created later)
-+check_floppy_qtree -device floppy,drive=floppy0
-+
  echo
  echo
- echo === Too many floppy drives ===
+@@ -205,8 +210,10 @@ echo === Attempt to use drive twice ===
+ 
+ # if=none
+ check_floppy_qtree -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
++check_floppy_qtree -drive if=none -global floppy.drive=none0 -device floppy -device floppy
+ # if=floppy
+ check_floppy_qtree -fda "" -device floppy,drive=floppy0
++check_floppy_qtree -fda "" -global floppy.drive=floppy0
+ # default if=floppy (not found, because it's created later)
+ check_floppy_qtree -device floppy,drive=floppy0
+ 
 diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-index a315866e17..0665cdcb51 100644
+index 0665cdcb51..68e7a5ea5f 100644
 --- a/tests/qemu-iotests/172.out
 +++ b/tests/qemu-iotests/172.out
-@@ -187,6 +187,44 @@ sd0: [not inserted]
+@@ -860,6 +860,50 @@ sd0: [not inserted]
  (qemu) quit
  
  
-+Testing: -fdb 
++Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global floppy.drive=none0
 +
 +          dev: isa-fdc, id ""
 +            iobase = 1008 (0x3f0)
@@ -147,17 +192,6 @@ index a315866e17..0665cdcb51 100644
 +            bus: floppy-bus.0
 +              type floppy-bus
 +              dev: floppy, id ""
-+                unit = 1 (0x1)
-+                drive = "floppy1"
-+                logical_block_size = 512 (0x200)
-+                physical_block_size = 512 (0x200)
-+                min_io_size = 0 (0x0)
-+                opt_io_size = 0 (0x0)
-+                discard_granularity = 4294967295 (0xffffffff)
-+                write-cache = "auto"
-+                share-rw = false
-+                drive-type = "288"
-+              dev: floppy, id ""
 +                unit = 0 (0x0)
 +                drive = "floppy0"
 +                logical_block_size = 512 (0x200)
@@ -167,30 +201,140 @@ index a315866e17..0665cdcb51 100644
 +                discard_granularity = 4294967295 (0xffffffff)
 +                write-cache = "auto"
 +                share-rw = false
-+                drive-type = "288"
++                drive-type = "144"
++floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
++    Attached to:      /machine/unattached/device[15]
++    Removable device: not locked, tray closed
++    Cache mode:       writeback
++
++none0 (NODE_NAME): TEST_DIR/t.qcow2.2 (qcow2)
++    Attached to:      /machine/unattached/device[15]
++    Cache mode:       writeback
++
++ide1-cd0: [not inserted]
++    Attached to:      /machine/unattached/device[22]
++    Removable device: not locked, tray closed
++
++sd0: [not inserted]
++    Removable device: not locked, tray closed
++(qemu) quit
++
 +
  
- === Using -drive options ===
+ === Mixing -fdX and -device ===
  
-@@ -1407,6 +1445,18 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+@@ -1438,21 +1482,111 @@ sd0: [not inserted]
+ (qemu) quit
+ 
+ 
++Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device floppy,unit=0
++
++          dev: isa-fdc, id ""
++            iobase = 1008 (0x3f0)
++            irq = 6 (0x6)
++            dma = 2 (0x2)
++            driveA = ""
++            driveB = ""
++            check_media_rate = true
++            fdtypeA = "auto"
++            fdtypeB = "auto"
++            fallback = "288"
++            isa irq 6
++            bus: floppy-bus.0
++              type floppy-bus
++              dev: floppy, id ""
++                unit = 0 (0x0)
++                drive = "none0"
++                logical_block_size = 512 (0x200)
++                physical_block_size = 512 (0x200)
++                min_io_size = 0 (0x0)
++                opt_io_size = 0 (0x0)
++                discard_granularity = 4294967295 (0xffffffff)
++                write-cache = "auto"
++                share-rw = false
++                drive-type = "144"
++none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
++    Attached to:      /machine/peripheral-anon/device[0]
++    Removable device: not locked, tray closed
++    Cache mode:       writeback
++
++ide1-cd0: [not inserted]
++    Attached to:      /machine/unattached/device[21]
++    Removable device: not locked, tray closed
++
++sd0: [not inserted]
++    Removable device: not locked, tray closed
++(qemu) quit
++
++
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveA=none0 -device floppy,drive=none1,unit=0
+ QEMU_PROG: -device floppy,drive=none1,unit=0: Floppy unit 0 is in use
+ 
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global isa-fdc.driveB=none0 -device floppy,drive=none1,unit=1
  QEMU_PROG: -device floppy,drive=none1,unit=1: Floppy unit 1 is in use
  
++Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -global floppy.drive=none0 -device floppy,drive=none1,unit=0
++
++          dev: isa-fdc, id ""
++            iobase = 1008 (0x3f0)
++            irq = 6 (0x6)
++            dma = 2 (0x2)
++            driveA = ""
++            driveB = ""
++            check_media_rate = true
++            fdtypeA = "auto"
++            fdtypeB = "auto"
++            fallback = "288"
++            isa irq 6
++            bus: floppy-bus.0
++              type floppy-bus
++              dev: floppy, id ""
++                unit = 0 (0x0)
++                drive = "none1"
++                logical_block_size = 512 (0x200)
++                physical_block_size = 512 (0x200)
++                min_io_size = 0 (0x0)
++                opt_io_size = 0 (0x0)
++                discard_granularity = 4294967295 (0xffffffff)
++                write-cache = "auto"
++                share-rw = false
++                drive-type = "144"
++none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
++    Attached to:      /machine/peripheral-anon/device[0]
++    Cache mode:       writeback
++
++none1 (NODE_NAME): TEST_DIR/t.qcow2.2 (qcow2)
++    Attached to:      /machine/peripheral-anon/device[0]
++    Removable device: not locked, tray closed
++    Cache mode:       writeback
++
++ide1-cd0: [not inserted]
++    Attached to:      /machine/unattached/device[21]
++    Removable device: not locked, tray closed
++
++sd0: [not inserted]
++    Removable device: not locked, tray closed
++(qemu) quit
++
++
  
-+=== Attempt to use drive twice ===
-+
-+Testing: -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
-+QEMU_PROG: -device floppy,drive=none0: Drive 'none0' is already in use by another device
-+
-+Testing: -fda  -device floppy,drive=floppy0
-+QEMU_PROG: -device floppy,drive=floppy0: Drive 'floppy0' is already in use because it has been automatically connected to another device (did you need 'if=none' in the drive options?)
-+
-+Testing: -device floppy,drive=floppy0
-+QEMU_PROG: -device floppy,drive=floppy0: Property 'floppy.drive' can't find value 'floppy0'
-+
-+
- === Too many floppy drives ===
+ === Attempt to use drive twice ===
  
- Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -drive if=none,file=TEST_DIR/t.qcow2.3 -global isa-fdc.driveB=none0 -device floppy,drive=none1
+ Testing: -drive if=none -device floppy,drive=none0 -device floppy -device floppy,drive=none0
+ QEMU_PROG: -device floppy,drive=none0: Drive 'none0' is already in use by another device
+ 
++Testing: -drive if=none -global floppy.drive=none0 -device floppy -device floppy
++QEMU_PROG: -device floppy: can't apply global floppy.drive=none0: Drive 'none0' is already in use by another device
++
+ Testing: -fda  -device floppy,drive=floppy0
+ QEMU_PROG: -device floppy,drive=floppy0: Drive 'floppy0' is already in use because it has been automatically connected to another device (did you need 'if=none' in the drive options?)
+ 
++Testing: -fda  -global floppy.drive=floppy0
++QEMU_PROG: can't apply global floppy.drive=floppy0: Drive 'floppy0' is already in use because it has been automatically connected to another device (did you need 'if=none' in the drive options?)
++
+ Testing: -device floppy,drive=floppy0
+ QEMU_PROG: -device floppy,drive=floppy0: Property 'floppy.drive' can't find value 'floppy0'
+ 
 -- 
 2.26.2
 
