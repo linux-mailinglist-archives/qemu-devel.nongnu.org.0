@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77E12051B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:03:52 +0200 (CEST)
-Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EFB2051CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:07:06 +0200 (CEST)
+Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnheZ-0001hA-N4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
+	id 1jnhhh-0005oC-Au
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIu-0006Lr-Ks
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38720)
+ id 1jnhIv-0006Nl-C7
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIs-0004jt-ML
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:28 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ id 1jnhIt-0004kB-AZ
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:29 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBWSYf111302; Tue, 23 Jun 2020 07:41:24 -0400
+ 05NBWlLf036523; Tue, 23 Jun 2020 07:41:25 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyja-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udff7f0x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:24 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBWRIS111239;
- Tue, 23 Jun 2020 07:41:24 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31udkceyhs-1
+ Tue, 23 Jun 2020 07:41:25 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBX0ZY038010;
+ Tue, 23 Jun 2020 07:41:25 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31udff7f0d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:24 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQ3dB032619;
+ Tue, 23 Jun 2020 07:41:25 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQDW3028316;
  Tue, 23 Jun 2020 11:41:23 GMT
 Received: from b03cxnp08028.gho.boulder.ibm.com
  (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04wdc.us.ibm.com with ESMTP id 31u20cw6j3-1
+ by ppma02wdc.us.ibm.com with ESMTP id 31sa38xts5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 23 Jun 2020 11:41:23 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
  by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfMkt27656630
+ 05NBfMk427656636
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jun 2020 11:41:22 GMT
+ Tue, 23 Jun 2020 11:41:23 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FEEFC6057;
+ by IMSVA (Postfix) with ESMTP id D9495C6057;
  Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B8E99C6055;
- Tue, 23 Jun 2020 11:41:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5FA89C6055;
+ Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jun 2020 11:41:21 +0000 (GMT)
+ Tue, 23 Jun 2020 11:41:22 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 07/12] hw/tpm: Remove unnecessary 'tpm_int.h' header
- inclusion
-Date: Tue, 23 Jun 2020 07:41:09 -0400
-Message-Id: <20200623114114.1375104-8-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 08/12] hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local
+ to tpm_util.c
+Date: Tue, 23 Jun 2020 07:41:10 -0400
+Message-Id: <20200623114114.1375104-9-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
 References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
@@ -74,12 +74,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-23_06:2020-06-23,
  2020-06-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- cotscore=-2147483648 lowpriorityscore=0 bulkscore=0 phishscore=0
- clxscore=1015 adultscore=0 suspectscore=1 priorityscore=1501
- malwarescore=0 spamscore=0 mlxscore=0 impostorscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006230088
+ mlxlogscore=999 phishscore=0
+ spamscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ suspectscore=1 impostorscore=0 clxscore=1015 adultscore=0 mlxscore=0
+ bulkscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006230092
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:29:31
@@ -109,54 +108,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Remove unnecessary 'tpm_int.h' header inclusion.
+The trace_event_get_state_backends() call is useful to avoid
+making extensive calls (usually preparing arguments passed to
+the tracing framework. In this case, the extensive work is
+done in tpm_util_show_buffer(), and the arguments used to
+call it don't involve extra processing. Simplify by moving
+the TRACE_TPM_UTIL_SHOW_BUFFER check to tpm_util_show_buffer.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200612085444.8362-8-philmd@redhat.com
+Message-id: 20200612085444.8362-9-philmd@redhat.com
 Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
 ---
- hw/tpm/tpm_crb.c        | 1 -
- hw/tpm/tpm_spapr.c      | 1 -
- hw/tpm/tpm_tis_common.c | 1 -
- 3 files changed, 3 deletions(-)
+ hw/tpm/tpm_tis_common.c | 8 ++------
+ hw/tpm/tpm_util.c       | 3 +++
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
-index cd004e7f8e..664ff70ef9 100644
---- a/hw/tpm/tpm_crb.c
-+++ b/hw/tpm/tpm_crb.c
-@@ -25,7 +25,6 @@
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/reset.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index ce65eb2e45..ab1a86ad6e 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -20,7 +20,6 @@
- #include "migration/vmstate.h"
- 
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- 
- #include "hw/ppc/spapr.h"
 diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-index 1af4bce139..94704870f6 100644
+index 94704870f6..1779b4fc1e 100644
 --- a/hw/tpm/tpm_tis_common.c
 +++ b/hw/tpm/tpm_tis_common.c
-@@ -33,7 +33,6 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "sysemu/tpm_backend.h"
--#include "tpm_int.h"
- #include "tpm_util.h"
- #include "tpm_ppi.h"
- #include "trace.h"
+@@ -78,9 +78,7 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t flags)
+  */
+ static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
+ {
+-    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+ 
+     /*
+      * rw_offset serves as length indicator for length of data;
+@@ -246,9 +244,7 @@ void tpm_tis_request_completed(TPMState *s, int ret)
+     s->loc[locty].state = TPM_TIS_STATE_COMPLETION;
+     s->rw_offset = 0;
+ 
+-    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
+ 
+     if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
+         tpm_tis_abort(s);
+diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+index c0a0f3d71f..12f19465c5 100644
+--- a/hw/tpm/tpm_util.c
++++ b/hw/tpm/tpm_util.c
+@@ -357,6 +357,9 @@ void tpm_util_show_buffer(const unsigned char *buffer,
+     size_t len, i;
+     char *line_buffer, *p;
+ 
++    if (!trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
++        return;
++    }
+     len = MIN(tpm_cmd_get_size(buffer), buffer_size);
+ 
+     /*
 -- 
 2.24.1
 
