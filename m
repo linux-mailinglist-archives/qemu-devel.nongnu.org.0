@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D12E205C48
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:57:30 +0200 (CEST)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C449A205C69
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:02:01 +0200 (CEST)
+Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnp2v-0007XA-Di
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
+	id 1jnp7I-0006r9-SB
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnozI-0001bn-9o
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:53:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59607
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnozG-0006Qy-C6
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:53:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592942021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ijBJ39bc+vSoTtVS8ZuRaEc6t5ZyCnt60sn8O7R1ja8=;
- b=UF/yFAfRIxW4XlOCjQOoUklBFEUASY25dqyFwj7h56GUJhxXh2rWgEP/qEOfLBQLz3byYP
- eJLq/+k+9XLcg+viQQZntdYRGtZ5SEyDW5jg/b2fTe0Q/UuGk53UitWHx8gXLNrgApaM4R
- GSYcY3Nhb8eMFBfUtQUeDnslWSqVeKY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-Yx23ilhtM4SSQcwKpNbkyw-1; Tue, 23 Jun 2020 15:53:33 -0400
-X-MC-Unique: Yx23ilhtM4SSQcwKpNbkyw-1
-Received: by mail-wm1-f70.google.com with SMTP id s134so5581571wme.6
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:53:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnojn-0004ZF-AL
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:43 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:52905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnojl-0005pe-HS
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:42 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id u14so1913044pjj.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=W/rZx6/dQQS4+8bjQVnnd9qMpghesUglRuSwZ7vUtvw=;
+ b=Ha5HGUKejv0XFOetYZTmisMG/dkUnI4OXuLRS1tlXDpjS+ilMoT+UaCvcMj/E5McLs
+ YFpwhAIgIBLKULTXpURyP0rZ9wNenvLf5mzkIkgK0+4I15jZoPW7MKnKRieAQkAYH9Qm
+ 8b4TdVM2klWi0iAL1kxoRT/jqw8Rs3S2sBDtmuA44h2zjeJdNiQdTTRRPU0U+7x6gjpY
+ bjvl/K1KcAp5NocAo6rn/4se+fZbg0qcVWidqMdWuIui6Q8TkJVY4x0LziKUPWRe4x9M
+ 8KjN3yePFvNXX4MUpiuXQinIHpDFxxhiLJpNrfcYBkucgMIyP8Nn/iVozsXbaRp2OFvS
+ tZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ijBJ39bc+vSoTtVS8ZuRaEc6t5ZyCnt60sn8O7R1ja8=;
- b=nejr90to1rRx7RWpa5S1VQXhDJN7W7v29xuIVFMQFTf7FP5gc93IN+PvpJO4M7fxLA
- lQllFYJ6qH2G2TWLGdMwq9tmh5tdz8FpCOsdDS7hweAYI2VEx11aYLTY0w8RosaKnH0s
- 0FHtclgPqfDmNbne/F/sg8AVWiQe8ChCcAlYAYZpkDhyr7+NF2KD5lchT9xLsdsqFDe/
- +cunCcY1CaJSbiOcX3S103mRYicUVWUQnQ3Bj3WgoMHXUwBCEuTqMGS4zqxa1ey1ys6E
- BNXUrYxa9Ln0zCsvoYM2pdovFqe/YXeC6EBUoFTc7/U1J2ty9Cxs2FtjiBIA86doZBdo
- dwvg==
-X-Gm-Message-State: AOAM531mHYmCcmsyC/6fwtv8I22/36kpRQm1xb4CFVzXRW4sIamslkUv
- +qjzSeWVsvgFT57q+F2maad8CgwYCGaCK+sBvFg5zGfjZ++hrg2fFJKEv/tXNW8S57BhQgCeUcL
- M4ZmKvgYmEXyn7VY=
-X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr27134383wmg.91.1592942012568; 
- Tue, 23 Jun 2020 12:53:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSNc92feIJX8/1g4eSEQdZLJq+H5ggGcTXEne+ytbzy373yNC0ouo6MqVA54ObdQrOwoqWAw==
-X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr27134367wmg.91.1592942012283; 
- Tue, 23 Jun 2020 12:53:32 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:24f5:23b:4085:b879?
- ([2001:b07:6468:f312:24f5:23b:4085:b879])
- by smtp.gmail.com with ESMTPSA id w17sm25115229wra.42.2020.06.23.12.53.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 12:53:31 -0700 (PDT)
-Subject: Re: [PATCH] configure: disable -Wxor-used-as-pow
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200623173726.20909-1-pbonzini@redhat.com>
- <cc8efdbc-0d09-37ca-199a-2b82700aea00@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e5cefdc7-b470-50a7-8c02-8f712d8f2c0c@redhat.com>
-Date: Tue, 23 Jun 2020 21:53:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W/rZx6/dQQS4+8bjQVnnd9qMpghesUglRuSwZ7vUtvw=;
+ b=apAbPWVyHrJXgt536/TG7WP/6J1M3i6bJeBiHI2X+F3VUqgssJjh8woziUmJDNkejI
+ zYLBMZOku3RwOE4ptuJ9XWLL7m5L1jc/aW+dvjNpqywivKtRPxDE5hV0SqU7Dloc1n14
+ ngEueeIx4+hL3ux1L0nhaDUqzOuCdyaoVdIxWhRMjMMgSEAJXw+RpTlDtQvJgP51TDVQ
+ AeFD9qQtF0OxFaOGaILWbrMxYpdjaklbiYDWbuPdWNxEhe8ilrH+EOwrdx1LOwfgTeIp
+ /HrEivFQsrKdLpKZV4MS0PXh0BGzJ78FnKaWBWoL3fNvJOvyfeAIW7upzpirrnHX1YVa
+ CzWA==
+X-Gm-Message-State: AOAM5326yWLasVweXHjgsAmUdbN3kfFgLpDH67eIdYM3l+b/Y4VY56Va
+ DasrBFls1vDu2FlaHDs+GClY7KoD81o=
+X-Google-Smtp-Source: ABdhPJxbEuWuJbH/illEEOpaJ3cnquVmP8ahCTHXguYB7U9BHUVQKGhLdZ4+yq57s1/S789WI31+tA==
+X-Received: by 2002:a17:902:9b92:: with SMTP id
+ y18mr23782189plp.228.1592941059702; 
+ Tue, 23 Jun 2020 12:37:39 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 12:37:39 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 28/45] target/arm: Use mte_checkN for sve unpredicated loads
+Date: Tue, 23 Jun 2020 12:36:41 -0700
+Message-Id: <20200623193658.623279-29-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <cc8efdbc-0d09-37ca-199a-2b82700aea00@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,30 +86,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
+ steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/06/20 20:41, Eric Blake wrote:
-> On 6/23/20 12:37 PM, Paolo Bonzini wrote:
->> Clang being clang and adding more pointless warnings.  In a hardware
->> emulator there are going to be plenty of bitwise operations, and the
->> chance of someone writing ^ for pow and not being caught is basically
->> zero.
-> 
-> Did this warning actually fire?
-> 
-> My understanding (from a quick glance of
-> https://reviews.llvm.org/D63423) is that it is supposed to catch
-> instances of '2 ^ 16' where someone meant '1 << 16' instead of 18.  I
-> don't know if it is supposed to flag 'a ^ 16' (if it does, then it is
-> indeed useless), or only when both lhs and rhs are constants and where
-> lhs is 2 or 10, so my initial reaction is that without seeing an actual
-> false positive, we are premature in disabling it.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v8: Drop the out-of-line helper (pmm).
+---
+ target/arm/translate-sve.c | 61 +++++++++++++++++++++-----------------
+ 1 file changed, 33 insertions(+), 28 deletions(-)
 
-There is an instance of 2 ^ 20.
-
-But it's actually a bug.  Objection (and faith in humanity) retracted.
-
-Paolo
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index ac7b3119e5..11e0dfc210 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4342,71 +4342,76 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+     int len_remain = len % 8;
+     int nparts = len / 8 + ctpop8(len_remain);
+     int midx = get_mem_index(s);
+-    TCGv_i64 addr, t0, t1;
++    TCGv_i64 dirty_addr, clean_addr, t0, t1;
+ 
+-    addr = tcg_temp_new_i64();
+-    t0 = tcg_temp_new_i64();
++    dirty_addr = tcg_temp_new_i64();
++    tcg_gen_addi_i64(dirty_addr, cpu_reg_sp(s, rn), imm);
++    clean_addr = gen_mte_checkN(s, dirty_addr, false, rn != 31, len, MO_8);
++    tcg_temp_free_i64(dirty_addr);
+ 
+-    /* Note that unpredicated load/store of vector/predicate registers
++    /*
++     * Note that unpredicated load/store of vector/predicate registers
+      * are defined as a stream of bytes, which equates to little-endian
+-     * operations on larger quantities.  There is no nice way to force
+-     * a little-endian load for aarch64_be-linux-user out of line.
+-     *
++     * operations on larger quantities.
+      * Attempt to keep code expansion to a minimum by limiting the
+      * amount of unrolling done.
+      */
+     if (nparts <= 4) {
+         int i;
+ 
++        t0 = tcg_temp_new_i64();
+         for (i = 0; i < len_align; i += 8) {
+-            tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + i);
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
+             tcg_gen_st_i64(t0, cpu_env, vofs + i);
++            tcg_gen_addi_i64(clean_addr, cpu_reg_sp(s, rn), 8);
+         }
++        tcg_temp_free_i64(t0);
+     } else {
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
+ 
++        /* Copy the clean address into a local temp, live across the loop. */
++        t0 = clean_addr;
++        clean_addr = tcg_temp_local_new_i64();
++        tcg_gen_mov_i64(clean_addr, t0);
++        tcg_temp_free_i64(t0);
++
+         gen_set_label(loop);
+ 
+-        /* Minimize the number of local temps that must be re-read from
+-         * the stack each iteration.  Instead, re-compute values other
+-         * than the loop counter.
+-         */
++        t0 = tcg_temp_new_i64();
++        tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
++        tcg_gen_addi_i64(clean_addr, clean_addr, 8);
++
+         tp = tcg_temp_new_ptr();
+-        tcg_gen_addi_ptr(tp, i, imm);
+-        tcg_gen_extu_ptr_i64(addr, tp);
+-        tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, rn));
+-
+-        tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
+-
+         tcg_gen_add_ptr(tp, cpu_env, i);
+         tcg_gen_addi_ptr(i, i, 8);
+         tcg_gen_st_i64(t0, tp, vofs);
+         tcg_temp_free_ptr(tp);
++        tcg_temp_free_i64(t0);
+ 
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+     }
+ 
+-    /* Predicate register loads can be any multiple of 2.
++    /*
++     * Predicate register loads can be any multiple of 2.
+      * Note that we still store the entire 64-bit unit into cpu_env.
+      */
+     if (len_remain) {
+-        tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + len_align);
+-
++        t0 = tcg_temp_new_i64();
+         switch (len_remain) {
+         case 2:
+         case 4:
+         case 8:
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LE | ctz32(len_remain));
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx,
++                                MO_LE | ctz32(len_remain));
+             break;
+ 
+         case 6:
+             t1 = tcg_temp_new_i64();
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEUL);
+-            tcg_gen_addi_i64(addr, addr, 4);
+-            tcg_gen_qemu_ld_i64(t1, addr, midx, MO_LEUW);
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUL);
++            tcg_gen_addi_i64(clean_addr, clean_addr, 4);
++            tcg_gen_qemu_ld_i64(t1, clean_addr, midx, MO_LEUW);
+             tcg_gen_deposit_i64(t0, t0, t1, 32, 32);
+             tcg_temp_free_i64(t1);
+             break;
+@@ -4415,9 +4420,9 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+             g_assert_not_reached();
+         }
+         tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
++        tcg_temp_free_i64(t0);
+     }
+-    tcg_temp_free_i64(addr);
+-    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(clean_addr);
+ }
+ 
+ /* Similarly for stores.  */
+-- 
+2.25.1
 
 
