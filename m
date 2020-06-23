@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1C5205F7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:41:43 +0200 (CEST)
-Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A7B20610D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:51:53 +0200 (CEST)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpji-0005Fq-CW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
+	id 1jnptY-0004zh-BA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jnpie-0004FT-LX
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:40:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58042
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jnpic-0006NG-Gs
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:40:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592944833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9sMjX157x60ZvIB3P9AI0ZK0X9iE9R5i1AsXk/EgEAU=;
- b=TcKW8KvjLVdZZkhHO1Wht/4LBOgEm8PWfOjIPyfjYoqETxBPni15or++jPzjDTMFWqhy6X
- a4c+1WwN4UIKbluHMRFi3KWia6Y0YqjS9fXra14x0XWQ4HL+fjDByLZElXURcmu09Gz0kS
- FtdCDHVHLioAGTy02Xwlgt9tBiE+0m8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-8cJAiPixN06__vZ4b7SnsA-1; Tue, 23 Jun 2020 16:40:31 -0400
-X-MC-Unique: 8cJAiPixN06__vZ4b7SnsA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62094804002;
- Tue, 23 Jun 2020 20:40:29 +0000 (UTC)
-Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 994C35D9D3;
- Tue, 23 Jun 2020 20:40:24 +0000 (UTC)
-Date: Tue, 23 Jun 2020 14:40:24 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v25 08/17] vfio: Add save state functions to
- SaveVMHandlers
-Message-ID: <20200623144024.44be4807@x1.home>
-In-Reply-To: <f9b1a2a6-fc63-113d-6eb9-c10681f32d02@nvidia.com>
-References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
- <1592684486-18511-9-git-send-email-kwankhede@nvidia.com>
- <20200622165038.2701e03c@x1.home>
- <f9b1a2a6-fc63-113d-6eb9-c10681f32d02@nvidia.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jnprc-0002rH-KI; Tue, 23 Jun 2020 16:49:52 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56326
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jnpra-0001IL-9H; Tue, 23 Jun 2020 16:49:52 -0400
+Received: from host86-158-109-79.range86-158.btcentralplus.com
+ ([86.158.109.79] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jnprU-0007T1-0m; Tue, 23 Jun 2020 21:49:50 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
+ fthain@telegraphics.com.au
+Date: Tue, 23 Jun 2020 21:49:14 +0100
+Message-Id: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.158.109.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v2 00/22] ADB: fix autopoll issues and rework mac_via state
+ machine
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,234 +61,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Jun 2020 02:04:24 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+This patchset is something I have been chipping away at for a while since
+spending some time over the Christmas holidays trying to boot the MacOS
+toolbox ROM on the new q800 machine.
 
-> On 6/23/2020 4:20 AM, Alex Williamson wrote:
-> > On Sun, 21 Jun 2020 01:51:17 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> >> Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
-> >> functions. These functions handles pre-copy and stop-and-copy phase.
-> >>
-> >> In _SAVING|_RUNNING device state or pre-copy phase:
-> >> - read pending_bytes. If pending_bytes > 0, go through below steps.
-> >> - read data_offset - indicates kernel driver to write data to staging
-> >>    buffer.
-> >> - read data_size - amount of data in bytes written by vendor driver in
-> >>    migration region.
-> >> - read data_size bytes of data from data_offset in the migration region.
-> >> - Write data packet to file stream as below:
-> >> {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
-> >> VFIO_MIG_FLAG_END_OF_STATE }
-> >>
-> >> In _SAVING device state or stop-and-copy phase
-> >> a. read config space of device and save to migration file stream. This
-> >>     doesn't need to be from vendor driver. Any other special config state
-> >>     from driver can be saved as data in following iteration.
-> >> b. read pending_bytes. If pending_bytes > 0, go through below steps.
-> >> c. read data_offset - indicates kernel driver to write data to staging
-> >>     buffer.
-> >> d. read data_size - amount of data in bytes written by vendor driver in
-> >>     migration region.
-> >> e. read data_size bytes of data from data_offset in the migration region.
-> >> f. Write data packet as below:
-> >>     {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
-> >> g. iterate through steps b to f while (pending_bytes > 0)
-> >> h. Write {VFIO_MIG_FLAG_END_OF_STATE}
-> >>
-> >> When data region is mapped, its user's responsibility to read data from
-> >> data_offset of data_size before moving to next steps.
-> >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> ---
-> >>   hw/vfio/migration.c           | 283 ++++++++++++++++++++++++++++++++++++++++++
-> >>   hw/vfio/trace-events          |   6 +
-> >>   include/hw/vfio/vfio-common.h |   1 +
-> >>   3 files changed, 290 insertions(+)
-> >>
-> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >> index 133bb5b1b3b2..ef1150c1ff02 100644
-> >> --- a/hw/vfio/migration.c
-> >> +++ b/hw/vfio/migration.c
-> >> @@ -140,6 +140,168 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
-> >>       return 0;
-> >>   }
-> >>   
-> >> +static void *get_data_section_size(VFIORegion *region, uint64_t data_offset,
-> >> +                                   uint64_t data_size, uint64_t *size)
-> >> +{
-> >> +    void *ptr = NULL;
-> >> +    int i;
-> >> +
-> >> +    if (!region->mmaps) {
-> >> +        *size = data_size;
-> >> +        return ptr;
-> >> +    }
-> >> +
-> >> +    /* check if data_offset in within sparse mmap areas */
-> >> +    for (i = 0; i < region->nr_mmaps; i++) {
-> >> +        VFIOMmap *map = region->mmaps + i;
-> >> +
-> >> +        if ((data_offset >= map->offset) &&
-> >> +            (data_offset < map->offset + map->size)) {
-> >> +            ptr = map->mmap + data_offset - map->offset;
-> >> +
-> >> +            if (data_offset + data_size <= map->offset + map->size) {
-> >> +                *size = data_size;
-> >> +            } else {
-> >> +                *size = map->offset + map->size - data_offset;
-> >> +            }  
-> > 
-> > Ultimately we take whichever result is smaller, so we could just use:
-> > 
-> > *size = MIN(data_size, map->offset + map->size - data_offset);
-> >   
-> >> +            break;
-> >> +        }
-> >> +    }
-> >> +
-> >> +    if (!ptr) {
-> >> +        uint64_t limit = 0;
-> >> +
-> >> +        /*
-> >> +         * data_offset is not within sparse mmap areas, find size of non-mapped
-> >> +         * area. Check through all list since region->mmaps list is not sorted.
-> >> +         */
-> >> +        for (i = 0; i < region->nr_mmaps; i++) {
-> >> +            VFIOMmap *map = region->mmaps + i;
-> >> +
-> >> +            if ((data_offset < map->offset) &&
-> >> +                (!limit || limit > map->offset)) {
-> >> +                limit = map->offset;
-> >> +            }  
-> > 
-> > We could have done this in an else branch of the previous loop to avoid
-> > walking the entries twice.
-> >   
-> 
-> Ok. updating with above 2 changes.
-> 
-> >> +        }
-> >> +
-> >> +        *size = limit ? limit - data_offset : data_size;
-> >> +    }
-> >> +    return ptr;
-> >> +}
-> >> +
-> >> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
-> >> +{
-> >> +    VFIOMigration *migration = vbasedev->migration;
-> >> +    VFIORegion *region = &migration->region;
-> >> +    uint64_t data_offset = 0, data_size = 0, size;
-> >> +    int ret;
-> >> +
-> >> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> >> +                                             data_offset));
-> >> +    if (ret != sizeof(data_offset)) {
-> >> +        error_report("%s: Failed to get migration buffer data offset %d",
-> >> +                     vbasedev->name, ret);
-> >> +        return -EINVAL;
-> >> +    }
-> >> +
-> >> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
-> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> >> +                                             data_size));
-> >> +    if (ret != sizeof(data_size)) {
-> >> +        error_report("%s: Failed to get migration buffer data size %d",
-> >> +                     vbasedev->name, ret);
-> >> +        return -EINVAL;
-> >> +    }
-> >> +
-> >> +    trace_vfio_save_buffer(vbasedev->name, data_offset, data_size,
-> >> +                           migration->pending_bytes);
-> >> +
-> >> +    qemu_put_be64(f, data_size);
-> >> +    size = data_size;
-> >> +
-> >> +    while (size) {
-> >> +        void *buf = NULL;
-> >> +        bool buffer_mmaped;
-> >> +        uint64_t sec_size;
-> >> +
-> >> +        buf = get_data_section_size(region, data_offset, size, &sec_size);
-> >> +
-> >> +        buffer_mmaped = (buf != NULL);
-> >> +
-> >> +        if (!buffer_mmaped) {
-> >> +            buf = g_try_malloc(sec_size);
-> >> +            if (!buf) {
-> >> +                error_report("%s: Error allocating buffer ", __func__);
-> >> +                return -ENOMEM;
-> >> +            }
-> >> +
-> >> +            ret = pread(vbasedev->fd, buf, sec_size,
-> >> +                        region->fd_offset + data_offset);  
-> > 
-> > Is the trade-off to allocate this buffer worth it?  I'd be tempted to
-> > iterate with a basic data type here to avoid what could potentially be
-> > a large memory allocation above.  It feels a little more robust, if not
-> > perhaps as fast, but I this will mostly be a fallback or only cover
-> > small ranges in normal operation.  Of course the data stream needs to
-> > be compatible either way we retrieve it.
-> >   
-> 
-> What should be basic data type here, u8, u16, u32, u64? We don't know at 
-> what granularity vendor driver is writing, then I thnk we have to go 
-> with smallest u8, right?
+Initially I discovered that there were some problems when the MacOS ROM was
+enumerating ADB devices due to multiple meanings of the vADBInt bit. After
+fixing this there were still issues with keys being dropped during autopoll
+which were eventually traced back to the autopoll timer re-firing before
+the host had managed to read back the previous response.
 
-That'd be a little on the ridiculous side.  We could make a helper like
-in vfio_pci_rdwr that reads at the largest aligned size up to u64.
+At this point I noticed that CUDA/PMU/mac_via all had their own implementations
+of ADB autopoll, and that it would make sense to consolidate the autopoll timer,
+mask, interval and locking into the ADB bus. This would allow the logic to be
+removed from each separate device and managed in just one place.
 
-> >> +            if (ret != sec_size) {
-> >> +                error_report("%s: Failed to get migration data %d",
-> >> +                             vbasedev->name, ret);
-> >> +                g_free(buf);
-> >> +                return -EINVAL;
-> >> +            }
-> >> +        }
-> >> +
-> >> +        qemu_put_buffer(f, buf, sec_size);
-> >> +
-> >> +        if (!buffer_mmaped) {
-> >> +            g_free(buf);
-> >> +        }
-> >> +        size -= sec_size;
-> >> +        data_offset += sec_size;
-> >> +    }
-> >> +
-> >> +    ret = qemu_file_get_error(f);
-> >> +    if (ret) {
-> >> +        return ret;
-> >> +    }
-> >> +
-> >> +    return data_size;  
-> > 
-> > This function returns int, data_size is uint64_t.  Thanks,
-> >   
-> 
-> Yes, returns for this function:
-> < 0 => error
-> ==0 => no more data to save
-> data_size => amount of data saved in this function.
+Finally I updated the trace-events to allow separate tracing of bus requests
+and device responses which makes it easier to follow the ADB enumeration process.
 
-So when data_size exceeds MAX_UINT, the return value goes negative...
+The breakdown of the patchset is as follows:
 
-Thanks,
-Alex
+- Patch 1 keeps checkpatch happy for the remainder of the patchset whilst patch
+  2 is the proper fix for a spurious ADB register 3 write during enumeration
+  caused by ignoring the request length which I had tried to work around earlier.
+
+- Patches 3 to 10 are part of the autopoll consolidation process which moves the
+  separate autopoll implementations into a single implementation within
+  ADBBusState.
+
+- Patches 11 to 13 update the ADB implementation to hold a status variable
+  indicating the result of the last request and allow devices to indicate
+  whether they have data to send. This extra information is required by the
+  upcoming mac_via state machine changes.
+
+- Patches 14 to 17 add a variable and functions to block and unblock ADB
+  autopoll at bus level, adding the functions at the correct places within
+  CUDA and PMU.
+
+- Patches 18 and 19 rework the mac_via ADB state machine so that the bus
+  can be enumerated correctly, and both explicit and autopoll requests work
+  under both MacOS and Linux.
+
+- Patch 20 enforces the blocking and unblocking of autopoll at the ADB
+  level, including adding an assert() to prevent developers from trying to
+  make an ADB request whilst autopoll is in progress.
+  
+- Patches 21 and 22 update the trace-events to separate out ADB device and
+  ADB bus events.
+
+The patch has been tested by myself and a couple of others during the development
+process across the PPC g3beige/mac99 and 68K q800 machine so it should be quite
+solid.
+
+One thing to indicate is that the patchset bumps the VMState versions for the
+affected devices but does not allow older versions to load. This is a conscious
+decision given that for the mac_via device used in the q800 machine it would be
+just about impossible to map this in a way that would work for all cases. Similarly
+for the Mac PPC machines migration is already hit/miss due to timebase issues so
+I don't see this as being a big loss.
+
+To finish off I'd also like to say a big thank-you to both Laurent Vivier and
+Finn Thain who both took time to answer my questions, dump information from a
+real q800, and analyse it in very fine detail. Without them this patchset would
+still be several months away.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+v2:
+- Rebased onto master
+- Added R-B tags from Philippe
+- Fixed byte discrepency at end of bus timeout spotted by Finn
+- Added Tested-by tag from Finn
+
+
+Mark Cave-Ayland (22):
+  adb: coding style update to fix checkpatch errors
+  adb: fix adb-mouse read length and revert disable-reg3-direct-writes
+    workaround
+  cuda: convert ADB autopoll timer from ns to ms
+  pmu: fix duplicate autopoll mask variable
+  pmu: honour autopoll_rate_ms when rearming the ADB autopoll timer
+  adb: introduce realize/unrealize and VMStateDescription for ADB bus
+  adb: create autopoll variables directly within ADBBusState
+  cuda: convert to use ADBBusState internal autopoll variables
+  pmu: convert to use ADBBusState internal autopoll variables
+  mac_via: convert to use ADBBusState internal autopoll variables
+  adb: introduce new ADBDeviceHasData method to ADBDeviceClass
+  adb: keep track of devices with pending data
+  adb: add status field for holding information about the last ADB
+    request
+  adb: use adb_request() only for explicit requests
+  adb: add autopoll_blocked variable to block autopoll
+  cuda: add adb_autopoll_block() and adb_autopoll_unblock() functions
+  pmu: add adb_autopoll_block() and adb_autopoll_unblock() functions
+  mac_via: move VIA1 portB write logic into mos6522_q800_via1_write()
+  mac_via: rework ADB state machine to be compatible with both MacOS and
+    Linux
+  adb: only call autopoll callbacks when autopoll is not blocked
+  adb: use adb_device prefix for ADB device trace events
+  adb: add ADB bus trace events
+
+ hw/input/adb-kbd.c           |  42 ++--
+ hw/input/adb-mouse.c         |  65 ++++--
+ hw/input/adb.c               | 210 ++++++++++++++++--
+ hw/input/trace-events        |  27 ++-
+ hw/misc/mac_via.c            | 411 +++++++++++++++++++++++------------
+ hw/misc/macio/cuda.c         |  60 +++--
+ hw/misc/macio/pmu.c          |  47 ++--
+ hw/misc/trace-events         |   3 +
+ hw/ppc/mac_newworld.c        |   2 -
+ include/hw/input/adb.h       |  26 ++-
+ include/hw/misc/mac_via.h    |   2 +-
+ include/hw/misc/macio/cuda.h |   4 -
+ include/hw/misc/macio/pmu.h  |   4 -
+ 13 files changed, 620 insertions(+), 283 deletions(-)
+
+-- 
+2.20.1
 
 
