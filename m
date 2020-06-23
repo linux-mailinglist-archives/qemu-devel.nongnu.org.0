@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF0C205A02
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 19:57:48 +0200 (CEST)
-Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D81A205A04
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 19:57:55 +0200 (CEST)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnnB4-0001GL-N5
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 13:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50746)
+	id 1jnnBC-0001YF-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 13:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnn9T-00082d-9p
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 13:56:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55653
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnn9c-0008Bb-By
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 13:56:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33568
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnn9Q-0007cI-Ut
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 13:56:06 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jnn9a-0007kB-IT
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 13:56:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592934963;
+ s=mimecast20190719; t=1592934973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Is2tIf/0DtLHm8mVWWn82hWvvU03LrDXNghp6ja0Zdw=;
- b=eKGT/JyePkgOWR7pTGpOQIBrnu4/CJkFq62JpsSVVJvSpBvwr+QLs8w2R7IPTE/GohP2MF
- 9E+UhdvcIgYeveqQWg2lUsfAAYTs4AgwBnkNkKw8b/pA2VpZ7s8rQLBbt8/3kGb7rW60Ee
- 6BGEWjKMKal8ZqA6OJHkjYWjSRhlzVw=
+ bh=FgdQVUU+c96FREVYYy6jwZmKqe+mIDuQTqsn1ngJqEw=;
+ b=B/jQNGYjQSPYLfb5oD3UbTrarmlRnSSI2bYwygQHVwiMV9FF4uj52eryjKyqtVgaTJVbuh
+ jXLyzTcqKrWRkoKsrTUhGTaU/9wcyISolr9qDiILIKtxP8rf24FTY0kw/Rho9gcTNy1VqO
+ Ck01f3Vuws1j3Bni8QkLrUqJmvQazbs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-wODfEqFEMdiC6HtJeFfl9g-1; Tue, 23 Jun 2020 13:55:59 -0400
-X-MC-Unique: wODfEqFEMdiC6HtJeFfl9g-1
+ us-mta-37-W5niruuhPbys0Amc5VqEeg-1; Tue, 23 Jun 2020 13:56:11 -0400
+X-MC-Unique: W5niruuhPbys0Amc5VqEeg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47222100A61E;
- Tue, 23 Jun 2020 17:55:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFF76CF640;
+ Tue, 23 Jun 2020 17:55:58 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-115-78.ams2.redhat.com [10.36.115.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2161C71688;
- Tue, 23 Jun 2020 17:55:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FE4E7169A;
+ Tue, 23 Jun 2020 17:55:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] vvfat: Check that updated filenames are valid
-Date: Tue, 23 Jun 2020 19:55:33 +0200
-Message-Id: <20200623175534.38286-2-kwolf@redhat.com>
+Subject: [PATCH 2/2] vvfat: Fix array_remove_slice()
+Date: Tue, 23 Jun 2020 19:55:34 +0200
+Message-Id: <20200623175534.38286-3-kwolf@redhat.com>
 In-Reply-To: <20200623175534.38286-1-kwolf@redhat.com>
 References: <20200623175534.38286-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,62 +84,80 @@ Cc: kwolf@redhat.com, nhuck15@gmail.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FAT allows only a restricted set of characters in file names, and for
-some of the illegal characters, it's actually important that we catch
-them: If filenames can contain '/', the guest can construct filenames
-containing "../" and escape from the assigned vvfat directory. The same
-problem could arise if ".." was ever accepted as a literal filename.
+array_remove_slice() calls array_roll() with array->next - 1 as the
+destination index. This is only correct for count == 1, otherwise we're
+writing past the end of the array. array->next - count would be correct.
 
-Fix this by adding a check that all filenames are valid in
-check_directory_consistency().
+However, this is the only place ever calling array_roll(), so this
+rather complicated operation isn't even necessary.
+
+Fix the problem and simplify the code by replacing it with a single
+memmove() call. array_roll() can now be removed.
 
 Reported-by: Nathan Huckleberry <nhuck15@gmail.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vvfat.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ block/vvfat.c | 42 +++++-------------------------------------
+ 1 file changed, 5 insertions(+), 37 deletions(-)
 
 diff --git a/block/vvfat.c b/block/vvfat.c
-index c65a98e3ee..2fab371258 100644
+index 2fab371258..d6e464c595 100644
 --- a/block/vvfat.c
 +++ b/block/vvfat.c
-@@ -520,6 +520,25 @@ static void set_begin_of_direntry(direntry_t* direntry, uint32_t begin)
-     direntry->begin_hi = cpu_to_le16((begin >> 16) & 0xffff);
+@@ -140,48 +140,16 @@ static inline void* array_insert(array_t* array,unsigned int index,unsigned int
+     return array->pointer+index*array->item_size;
  }
  
-+static bool valid_filename(const unsigned char *name)
-+{
-+    unsigned char c;
-+    if (!strcmp((const char*)name, ".") || !strcmp((const char*)name, "..")) {
-+        return false;
-+    }
-+    for (; (c = *name); name++) {
-+        if (!((c >= '0' && c <= '9') ||
-+              (c >= 'A' && c <= 'Z') ||
-+              (c >= 'a' && c <= 'z') ||
-+              c > 127 ||
-+              strchr("$%'-_@~`!(){}^#&.+,;=[]", c) != 0))
-+        {
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
- static uint8_t to_valid_short_char(gunichar c)
+-/* this performs a "roll", so that the element which was at index_from becomes
+- * index_to, but the order of all other elements is preserved. */
+-static inline int array_roll(array_t* array,int index_to,int index_from,int count)
+-{
+-    char* buf;
+-    char* from;
+-    char* to;
+-    int is;
+-
+-    if(!array ||
+-            index_to<0 || index_to>=array->next ||
+-            index_from<0 || index_from>=array->next)
+-        return -1;
+-
+-    if(index_to==index_from)
+-        return 0;
+-
+-    is=array->item_size;
+-    from=array->pointer+index_from*is;
+-    to=array->pointer+index_to*is;
+-    buf=g_malloc(is*count);
+-    memcpy(buf,from,is*count);
+-
+-    if(index_to<index_from)
+-        memmove(to+is*count,to,from-to);
+-    else
+-        memmove(from,from+is*count,to-from);
+-
+-    memcpy(to,buf,is*count);
+-
+-    g_free(buf);
+-
+-    return 0;
+-}
+-
+ static inline int array_remove_slice(array_t* array,int index, int count)
  {
-     c = g_unichar_toupper(c);
-@@ -2098,6 +2117,10 @@ DLOG(fprintf(stderr, "check direntry %d:\n", i); print_direntry(direntries + i))
-             }
-             lfn.checksum = 0x100; /* cannot use long name twice */
- 
-+            if (!valid_filename(lfn.name)) {
-+                fprintf(stderr, "Invalid file name\n");
-+                goto fail;
-+            }
-             if (path_len + 1 + lfn.len >= PATH_MAX) {
-                 fprintf(stderr, "Name too long: %s/%s\n", path, lfn.name);
-                 goto fail;
+     assert(index >=0);
+     assert(count > 0);
+     assert(index + count <= array->next);
+-    if(array_roll(array,array->next-1,index,count))
+-        return -1;
++
++    memmove(array->pointer + index * array->item_size,
++            array->pointer + (index + count) * array->item_size,
++            (array->next - index - count) * array->item_size);
++
+     array->next -= count;
+     return 0;
+ }
 -- 
 2.25.4
 
