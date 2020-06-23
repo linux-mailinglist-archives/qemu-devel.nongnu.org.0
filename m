@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A93520516B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:56:46 +0200 (CEST)
-Received: from localhost ([::1]:60862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1D8205185
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:58:55 +0200 (CEST)
+Received: from localhost ([::1]:41150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhXh-0007Lw-Hz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
+	id 1jnhZm-0002Sb-7H
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIr-0006Dv-62
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34566)
+ id 1jnhIs-0006Fz-6o
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIp-0004i6-99
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:24 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1jnhIp-0004i9-O7
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:25 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBWpqP183461; Tue, 23 Jun 2020 07:41:20 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31sk2s8b9e-1
+ 05NBZDh7049386; Tue, 23 Jun 2020 07:41:22 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ud79fryu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:20 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBPuuf032315;
- Tue, 23 Jun 2020 11:41:18 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04wdc.us.ibm.com with ESMTP id 31u20cw6hk-1
+ Tue, 23 Jun 2020 07:41:21 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBZEdE049536;
+ Tue, 23 Jun 2020 07:41:21 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ud79fryc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 11:41:18 +0000
+ Tue, 23 Jun 2020 07:41:21 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBPM7C031231;
+ Tue, 23 Jun 2020 11:41:20 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 31sa38vmak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jun 2020 11:41:20 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfHde49152332
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05NBfHdr11272476
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jun 2020 11:41:17 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A871DC6057;
- Tue, 23 Jun 2020 11:41:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id F1D94C6055;
+ Tue, 23 Jun 2020 11:41:18 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DB87C6055;
- Tue, 23 Jun 2020 11:41:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 77A06C6057;
+ Tue, 23 Jun 2020 11:41:18 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jun 2020 11:41:17 +0000 (GMT)
+ Tue, 23 Jun 2020 11:41:18 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 00/12] Merge tpm 2020/06/23 v1
-Date: Tue, 23 Jun 2020 07:41:02 -0400
-Message-Id: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 02/12] backends: Add TPM files into their own directory
+Date: Tue, 23 Jun 2020 07:41:04 -0400
+Message-Id: <20200623114114.1375104-3-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
+References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,16 +73,16 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-23_06:2020-06-23,
  2020-06-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=834
- suspectscore=1 clxscore=1015 lowpriorityscore=0 bulkscore=0
- cotscore=-2147483648 mlxscore=0 priorityscore=1501 malwarescore=0
- adultscore=0 spamscore=0 phishscore=0 impostorscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ bulkscore=0 spamscore=0
+ cotscore=-2147483648 impostorscore=0 malwarescore=0 adultscore=0
+ phishscore=0 clxscore=1015 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=953 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
  definitions=main-2006230092
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:29:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -91,86 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This PR cleans up header includes in TPM code and moves some backend components
-into backends/tpm.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The following changes since commit 292ef18a38270e1cb8e9a3dc06bca589068f293d:
+As we will have various TPM backend files, it is cleaner
+to use a single directory.
 
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2020-06-18 16:52:10 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-06-23-1
-
-for you to fetch changes up to ca64b08638e259c313a3e7c3da106116b59be8e9:
-
-  tpm: Move backend code under the 'backends/' directory (2020-06-19 07:25:55 -0400)
-
-----------------------------------------------------------------
-Merge tpm 2020/06/23 v1
-
-----------------------------------------------------------------
-Philippe Mathieu-Daudé (12):
-      docs/specs/tpm: Correct header path name
-      backends: Add TPM files into their own directory
-      hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
-      hw/tpm: Do not include 'qemu/osdep.h' in header
-      hw/tpm: Include missing 'qemu/option.h' header
-      hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
-      hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
-      hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local to tpm_util.c
-      hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
-      hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
-      hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
-      tpm: Move backend code under the 'backends/' directory
-
- MAINTAINERS                            |  2 +-
- Makefile                               |  2 +-
- Makefile.objs                          |  1 +
- backends/Kconfig                       |  1 +
- backends/Makefile.objs                 |  2 +-
- backends/tpm/Kconfig                   | 14 ++++++++++++++
- backends/tpm/Makefile.objs             |  4 ++++
- backends/{tpm.c => tpm/tpm_backend.c}  |  0
- {hw => backends}/tpm/tpm_emulator.c    |  2 +-
- {hw => backends}/tpm/tpm_int.h         | 19 ++++++++++++++++---
- {hw => backends}/tpm/tpm_ioctl.h       |  0
- {hw => backends}/tpm/tpm_passthrough.c |  2 +-
- {hw => backends}/tpm/tpm_util.c        |  5 ++++-
- backends/tpm/trace-events              | 33 +++++++++++++++++++++++++++++++++
- docs/specs/tpm.rst                     | 14 +++++++-------
- hw/tpm/Kconfig                         | 21 +++------------------
- hw/tpm/Makefile.objs                   |  3 ---
- hw/tpm/tpm_crb.c                       |  4 ++--
- hw/tpm/tpm_ppi.c                       |  1 +
- hw/tpm/tpm_ppi.h                       |  1 -
- hw/tpm/tpm_prop.h                      | 31 +++++++++++++++++++++++++++++++
- hw/tpm/tpm_spapr.c                     |  4 ++--
- hw/tpm/tpm_tis.h                       |  1 -
- hw/tpm/tpm_tis_common.c                | 11 +++--------
- hw/tpm/tpm_tis_isa.c                   |  3 ++-
- hw/tpm/tpm_tis_sysbus.c                |  3 ++-
- hw/tpm/trace-events                    | 34 +---------------------------------
- {hw/tpm => include/sysemu}/tpm_util.h  | 19 +++----------------
- tests/qtest/tpm-emu.c                  |  2 +-
- 29 files changed, 136 insertions(+), 103 deletions(-)
- create mode 100644 backends/Kconfig
- create mode 100644 backends/tpm/Kconfig
+Suggested-by: Stefan Berger <stefanb@linux.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Message-id: 20200612085444.8362-3-philmd@redhat.com
+Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
+---
+ MAINTAINERS                           | 2 +-
+ backends/Makefile.objs                | 2 +-
+ backends/tpm/Makefile.objs            | 1 +
+ backends/{tpm.c => tpm/tpm_backend.c} | 0
+ 4 files changed, 3 insertions(+), 2 deletions(-)
  create mode 100644 backends/tpm/Makefile.objs
  rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
- rename {hw => backends}/tpm/tpm_emulator.c (99%)
- rename {hw => backends}/tpm/tpm_int.h (81%)
- rename {hw => backends}/tpm/tpm_ioctl.h (100%)
- rename {hw => backends}/tpm/tpm_passthrough.c (99%)
- rename {hw => backends}/tpm/tpm_util.c (98%)
- create mode 100644 backends/tpm/trace-events
- create mode 100644 hw/tpm/tpm_prop.h
- rename {hw/tpm => include/sysemu}/tpm_util.h (80%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 955cc8dd5c..60a183c117 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2395,7 +2395,7 @@ F: hw/tpm/*
+ F: include/hw/acpi/tpm.h
+ F: include/sysemu/tpm*
+ F: qapi/tpm.json
+-F: backends/tpm.c
++F: backends/tpm/
+ F: tests/qtest/*tpm*
+ T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
+ 
+diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+index 28a847cd57..22d204cb48 100644
+--- a/backends/Makefile.objs
++++ b/backends/Makefile.objs
+@@ -1,7 +1,7 @@
+ common-obj-y += rng.o rng-egd.o rng-builtin.o
+ common-obj-$(CONFIG_POSIX) += rng-random.o
+ 
+-common-obj-$(CONFIG_TPM) += tpm.o
++common-obj-$(CONFIG_TPM) += tpm/
+ 
+ common-obj-y += hostmem.o hostmem-ram.o
+ common-obj-$(CONFIG_POSIX) += hostmem-file.o
+diff --git a/backends/tpm/Makefile.objs b/backends/tpm/Makefile.objs
+new file mode 100644
+index 0000000000..8cf5772824
+--- /dev/null
++++ b/backends/tpm/Makefile.objs
+@@ -0,0 +1 @@
++common-obj-y += tpm_backend.o
+diff --git a/backends/tpm.c b/backends/tpm/tpm_backend.c
+similarity index 100%
+rename from backends/tpm.c
+rename to backends/tpm/tpm_backend.c
 -- 
 2.24.1
 
