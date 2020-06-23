@@ -2,50 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463622067C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 00:59:09 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8553B206736
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 00:39:00 +0200 (CEST)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnrsi-0008Sm-AM
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 18:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47212)
+	id 1jnrZD-0007qX-Jj
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 18:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jnrry-00080K-OQ; Tue, 23 Jun 2020 18:58:22 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:55574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jnrrv-0008LB-7G; Tue, 23 Jun 2020 18:58:22 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.144939-0.000344041-0.854717;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01l10434; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=8; SR=0; TI=SMTPD_---.HrSFDCv_1592953092; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HrSFDCv_1592953092)
- by smtp.aliyun-inc.com(10.147.42.135);
- Wed, 24 Jun 2020 06:58:13 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v11 29/61] target/riscv: vector narrowing fixed-point clip
- instructions
-Date: Wed, 24 Jun 2020 05:58:48 +0800
-Message-Id: <20200623215920.2594-30-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200623215920.2594-1-zhiwei_liu@c-sky.com>
-References: <20200623215920.2594-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnrYG-0006nx-2J
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 18:38:00 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44061)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jnrYC-0000el-G3
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 18:37:59 -0400
+Received: by mail-pl1-x642.google.com with SMTP id bh7so67611plb.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 15:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wT6E8j6m4VapGwgCmLEFjV+Geu7JMe2PEbBC/bafX7c=;
+ b=Vb8yV8b5wmqFDfNKR8qRmpr5WdpxM4h8ain93+pbhg2FOm1aheAw1U2E3jzrEQnXfS
+ cAHuT2rjv6/sQkTsR+cv2kPXRXPP27MJMV+jP4jEYNlrxpCjrc4fChKr8sOUXwE8nD7t
+ /xX6hN8tOI9IvU56WQr9uCQgl9r0BOz3r0XI9HwUSC6eKUnYwnHPeK8rwSf/nzHpg1H6
+ Bc36S4DWsCzqAcZJtsF+5SQqE6MUewbt0pzo6Cxmv1/UUl/9nCBtz8VKTBHK7GjLKTF+
+ A4UQJhO5yFaZcAqJ80asnaVdJPvXsYe/Ne8JkUQzvZWI2ckUHtUirT/A0ATIRsLRZ3M8
+ RMsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wT6E8j6m4VapGwgCmLEFjV+Geu7JMe2PEbBC/bafX7c=;
+ b=q4kcmikqLG93Gs2zR/lCVLBhCCrYz8m3jB/7/LvtkkKXMUabhrwgFwRli4CBR0X/LB
+ h5ixkOKE/YVCPtzbxmL4rxgzAZhUh7D5KV/9h4bTjxCOIVY3IdMfHLaAafzglzL3kryH
+ qhb9SvvsythylvgYkYUbCBZUt3TXxr/vlfBhH+kggstf6iF4c/WfokFqTAnIVOt5o7B9
+ y9GUrTMPHKeVk1nhCmZYpHqQYF1BXc0/Lsh4BB7w/asQta2qVfkMQDsVRfWzl/sfi5yv
+ UKT4s4wwlDcZBbdW2uMw9BemMEGz0D48eRfLka4H5xKNb5Jk2wVNR58fik/z92Qfm57t
+ TOiw==
+X-Gm-Message-State: AOAM530bk9FQFf/DqZYY/SEsjqtEKchY7g9nOmXwUpK7veLo5dUy6dob
+ lI+qO3E1VkVSkw05/DZ5ousmoA==
+X-Google-Smtp-Source: ABdhPJzqgFEJqVIdqVO1mMlgUr5w+OG3qgRQelLMg2DovreFm7fO65w6wByZiwbaCz7rCBnzXfai0A==
+X-Received: by 2002:a17:90a:e283:: with SMTP id
+ d3mr4594815pjz.170.1592951873731; 
+ Tue, 23 Jun 2020 15:37:53 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id 9sm2553288pfh.160.2020.06.23.15.37.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Jun 2020 15:37:52 -0700 (PDT)
+Subject: Re: [PATCH] tests/qht-bench: Adjust rate computation and comparisons
+To: "Emilio G. Cota" <cota@braap.org>
+References: <20200620214551.447392-1-richard.henderson@linaro.org>
+ <20200621212825.GB168836@sff>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d8e64843-832c-5939-0c85-27b2ad0fe13c@linaro.org>
+Date: Tue, 23 Jun 2020 15:37:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 17:32:41
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200621212825.GB168836@sff>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,240 +90,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
- palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/helper.h                   |  13 +++
- target/riscv/insn32.decode              |   6 +
- target/riscv/insn_trans/trans_rvv.inc.c |   8 ++
- target/riscv/vector_helper.c            | 141 ++++++++++++++++++++++++
- 4 files changed, 168 insertions(+)
+On 6/21/20 2:28 PM, Emilio G. Cota wrote:
+>> -    if (info->r < resize_threshold) {
+>> +    if (info->r <= resize_threshold) {
+>>          size_t size = info->resize_down ? resize_min : resize_max;
+>>          bool resized;
+> 
+> This works, but only because info->r cannot be 0 since xorshift never
+> returns it. (xorshift returns a random number in the range [1, u64max],
+> a fact that I missed when I wrote this code.)
+> If r were 0, then we would resize even if resize_threshold == 0.0.
+> 
+> I think it will be easier to reason about this if we rename info->r
+> to info->seed, and then have a local r = info->seed - 1. Then we can keep
+> the "if random < threshold" form (and its negated "if random >= threshold"
+> as below), which (at least to me) is intuitive provided that random's range
+> is [0, threshold), e.g. [0.0, 1.0) with drand48(3).
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 78438f1ad6..5fa4330200 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -790,3 +790,16 @@ DEF_HELPER_6(vssra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+
-+DEF_HELPER_6(vnclip_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 7d5dfeb5c7..78e6da6205 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -439,6 +439,12 @@ vssrl_vi        101010 . ..... ..... 011 ..... 1010111 @r_vm
- vssra_vv        101011 . ..... ..... 000 ..... 1010111 @r_vm
- vssra_vx        101011 . ..... ..... 100 ..... 1010111 @r_vm
- vssra_vi        101011 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclipu_vv      101110 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclipu_vx      101110 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclipu_vi      101110 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclip_vv       101111 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclip_vx       101111 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclip_vi       101111 . ..... ..... 011 ..... 1010111 @r_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 31be40f4ba..b9d29f4051 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1775,3 +1775,11 @@ GEN_OPIVX_TRANS(vssrl_vx,  opivx_check)
- GEN_OPIVX_TRANS(vssra_vx,  opivx_check)
- GEN_OPIVI_TRANS(vssrl_vi, 1, vssrl_vx, opivx_check)
- GEN_OPIVI_TRANS(vssra_vi, 0, vssra_vx, opivx_check)
-+
-+/* Vector Narrowing Fixed-Point Clip Instructions */
-+GEN_OPIVV_NARROW_TRANS(vnclipu_vv)
-+GEN_OPIVV_NARROW_TRANS(vnclip_vv)
-+GEN_OPIVX_NARROW_TRANS(vnclipu_vx)
-+GEN_OPIVX_NARROW_TRANS(vnclip_vx)
-+GEN_OPIVI_NARROW_TRANS(vnclipu_vi, 1, vnclipu_vx)
-+GEN_OPIVI_NARROW_TRANS(vnclip_vi, 1, vnclip_vx)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index b22651d7d5..64e26085ef 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -875,6 +875,12 @@ GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
- #define WOP_SSU_B int16_t, int8_t, uint8_t, int16_t, uint16_t
- #define WOP_SSU_H int32_t, int16_t, uint16_t, int32_t, uint32_t
- #define WOP_SSU_W int64_t, int32_t, uint32_t, int64_t, uint64_t
-+#define NOP_SSS_B int8_t, int8_t, int16_t, int8_t, int16_t
-+#define NOP_SSS_H int16_t, int16_t, int32_t, int16_t, int32_t
-+#define NOP_SSS_W int32_t, int32_t, int64_t, int32_t, int64_t
-+#define NOP_UUU_B uint8_t, uint8_t, uint16_t, uint8_t, uint16_t
-+#define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
-+#define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
- 
- /* operation of two vector elements */
- typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
-@@ -3009,6 +3015,7 @@ vssra64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-     res   = (a >> shift)  + round;
-     return res;
- }
-+
- RVVCALL(OPIVV2_RM, vssra_vv_b, OP_SSS_B, H1, H1, H1, vssra8)
- RVVCALL(OPIVV2_RM, vssra_vv_h, OP_SSS_H, H2, H2, H2, vssra16)
- RVVCALL(OPIVV2_RM, vssra_vv_w, OP_SSS_W, H4, H4, H4, vssra32)
-@@ -3026,3 +3033,137 @@ GEN_VEXT_VX_RM(vssra_vx_b, 1, 1, clearb)
- GEN_VEXT_VX_RM(vssra_vx_h, 2, 2, clearh)
- GEN_VEXT_VX_RM(vssra_vx_w, 4, 4, clearl)
- GEN_VEXT_VX_RM(vssra_vx_d, 8, 8, clearq)
-+
-+/* Vector Narrowing Fixed-Point Clip Instructions */
-+static inline int8_t
-+vnclip8(CPURISCVState *env, int vxrm, int16_t a, int8_t b)
-+{
-+    uint8_t round, shift = b & 0xf;
-+    int16_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT8_MAX) {
-+        env->vxsat = 0x1;
-+        return INT8_MAX;
-+    } else if (res < INT8_MIN) {
-+        env->vxsat = 0x1;
-+        return INT8_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline int16_t
-+vnclip16(CPURISCVState *env, int vxrm, int32_t a, int16_t b)
-+{
-+    uint8_t round, shift = b & 0x1f;
-+    int32_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT16_MAX) {
-+        env->vxsat = 0x1;
-+        return INT16_MAX;
-+    } else if (res < INT16_MIN) {
-+        env->vxsat = 0x1;
-+        return INT16_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline int32_t
-+vnclip32(CPURISCVState *env, int vxrm, int64_t a, int32_t b)
-+{
-+    uint8_t round, shift = b & 0x3f;
-+    int64_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT32_MAX) {
-+        env->vxsat = 0x1;
-+        return INT32_MAX;
-+    } else if (res < INT32_MIN) {
-+        env->vxsat = 0x1;
-+        return INT32_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+RVVCALL(OPIVV2_RM, vnclip_vv_b, NOP_SSS_B, H1, H2, H1, vnclip8)
-+RVVCALL(OPIVV2_RM, vnclip_vv_h, NOP_SSS_H, H2, H4, H2, vnclip16)
-+RVVCALL(OPIVV2_RM, vnclip_vv_w, NOP_SSS_W, H4, H8, H4, vnclip32)
-+GEN_VEXT_VV_RM(vnclip_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vnclip_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vnclip_vv_w, 4, 4, clearl)
-+
-+RVVCALL(OPIVX2_RM, vnclip_vx_b, NOP_SSS_B, H1, H2, vnclip8)
-+RVVCALL(OPIVX2_RM, vnclip_vx_h, NOP_SSS_H, H2, H4, vnclip16)
-+RVVCALL(OPIVX2_RM, vnclip_vx_w, NOP_SSS_W, H4, H8, vnclip32)
-+GEN_VEXT_VX_RM(vnclip_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vnclip_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vnclip_vx_w, 4, 4, clearl)
-+
-+static inline uint8_t
-+vnclipu8(CPURISCVState *env, int vxrm, uint16_t a, uint8_t b)
-+{
-+    uint8_t round, shift = b & 0xf;
-+    uint16_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT8_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT8_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline uint16_t
-+vnclipu16(CPURISCVState *env, int vxrm, uint32_t a, uint16_t b)
-+{
-+    uint8_t round, shift = b & 0x1f;
-+    uint32_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT16_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT16_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline uint32_t
-+vnclipu32(CPURISCVState *env, int vxrm, uint64_t a, uint32_t b)
-+{
-+    uint8_t round, shift = b & 0x3f;
-+    int64_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT32_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT32_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+RVVCALL(OPIVV2_RM, vnclipu_vv_b, NOP_UUU_B, H1, H2, H1, vnclipu8)
-+RVVCALL(OPIVV2_RM, vnclipu_vv_h, NOP_UUU_H, H2, H4, H2, vnclipu16)
-+RVVCALL(OPIVV2_RM, vnclipu_vv_w, NOP_UUU_W, H4, H8, H4, vnclipu32)
-+GEN_VEXT_VV_RM(vnclipu_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vnclipu_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vnclipu_vv_w, 4, 4, clearl)
-+
-+RVVCALL(OPIVX2_RM, vnclipu_vx_b, NOP_UUU_B, H1, H2, vnclipu8)
-+RVVCALL(OPIVX2_RM, vnclipu_vx_h, NOP_UUU_H, H2, H4, vnclipu16)
-+RVVCALL(OPIVX2_RM, vnclipu_vx_w, NOP_UUU_W, H4, H8, vnclipu32)
-+GEN_VEXT_VX_RM(vnclipu_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vnclipu_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vnclipu_vx_w, 4, 4, clearl)
--- 
-2.23.0
+Fair enough.
 
+>>  static void do_threshold(double rate, uint64_t *threshold)
+>>  {
+>> +    /*
+>> +     * For 0 <= rate <= 1, scale to fit in a uint64_t.
+>> +     *
+>> +     * For rate == 1, returning UINT64_MAX means 100% certainty: all
+>> +     * uint64_t will match using <=.  The largest representable value
+>> +     * for rate less than 1 is 0.999999999999999889; scaling that
+>> +     * by 2**64 results in 0xfffffffffffff800.
+>> +     */
+>>      if (rate == 1.0) {
+>>          *threshold = UINT64_MAX;
+>>      } else {
+>> -        *threshold = (rate * 0xffff000000000000ull)
+>> -                   + (rate * 0x0000ffffffffffffull);
+>> +        *threshold = rate * 0x1p64;
+> 
+> I'm sorry this caused a breakage for some integration tests; I thought
+> this was fixed in May with:
+>   https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg01477.html
+> 
+> Just for my own education, why isn't nextafter needed here?
+
+I hoped I was being clear in the comment, but re-reading, it doesn't finish the
+thought.
+
+We have removed 1.0, so the rate values are between 0 and nextafter(1, 0) =
+0x1.fffffffffffff00000p-1 = 0.999999999999999889.
+
+Scaling by 2**64 results in an exact extract of the 53-bit mantessa, evenly
+spread across 0 to 0xfffffffffffff800.  Plus 1.0 -> UINT64_MAX, which we could
+consider off-by-one its "proper" value.
+
+If we scale by nextafter(0x1p64, 0), then the values are spread across 0 to
+0xfffffffffffff000.  The gap is twice as large between 1.0 and nextafter(1, 0).
+
+
+r~
 
