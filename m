@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681812051BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:05:14 +0200 (CEST)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B577A2051AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:02:35 +0200 (CEST)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhft-0003mf-CI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1jnhdK-00081Y-O7
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:02:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHE-0003PI-5G
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:44 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50939)
+ id 1jnhHG-0003VJ-Qf
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:46 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHC-0003NC-5m
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:43 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id l17so2683972wmj.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:41 -0700 (PDT)
+ id 1jnhHF-0003Or-5X
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:46 -0400
+Received: by mail-wr1-x442.google.com with SMTP id o11so12449557wrv.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8i5mWLDYm92VN12vLJvLbPoNaenvMWjlwAjnUllix3o=;
- b=YDKObtXFwXMCIzdepmoAfM7zWem9h+MIjd44q/zTHfaQQPBjMw8wTpK0ZaEh0ZqT6s
- Ox5GSYkostcLV4TCk7o46S7pHnUDOB5e6JuQdVgqusBKCPf+MzabHuZMsQgM3wW32QW8
- y+6uzqKwnz878Xrg1BXPdpu3zoDFbEQ8ozXiOvfeXP2RxaAz7+TWXzZDGkBj+VlFJCNL
- o3BSbr1msQ39LAkD3NlUHTE0VVMufc5uqS1vMmchJd8FbvEWm3ySvfbJHansu7MS26Rh
- Ekw4kPMiMahahKOs7MiRrB4JbShoTQMKKpHxwZNMInHeayGiN0+LCcBJ7R4U5/Z+AV8d
- 1Mkw==
+ bh=SI0UuaYn0LhrgnH6JJza5nCoeq6PoqqyPFPSDuwFopc=;
+ b=L4n6WaKjnTeSm0Jxq6WbowY1X3LmIW5sUu3GadFqIli6aDuffMh4u7jJpFaMsaoutN
+ bZjNx1DiVKiVr+B9nEl7OKMGz4g5RZxEhd8bvQ8llVLvhVWyIFCDRgmWR8BR3WCw696p
+ W0u29LQ56sKu0aF9WHBQjLdzmI4/wc+nC2fgYK7z0UGxOdMz81DDkb6tlbK9pkqf8Nm0
+ bqYCJ5xa79BUDClvWuBcQ8mZuGlHeBJ3wrJQiUHSl1nS3xy8gD5Lmq4Wb6r9cR6IIYBj
+ Lvyt+31RslVDuzrb6HKDLz9pnf3zNcqwDyYzJAcjNAhKkhKQmJy4SoiZVdR4sIZrFD0Z
+ wTxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8i5mWLDYm92VN12vLJvLbPoNaenvMWjlwAjnUllix3o=;
- b=X/+ZXNpaUAufEgxIRPwY8SAw+Se82OguLGhQ+vDC5dy0M5u9z4lPKl+00aVZMDmIL0
- ya/jLbXJn40Rt9tcTp22AOwB/YT0gqgoEAyJdNv/EbAhTZS5Opx1sdAP0rkF9uWmiAQY
- 56edzCjKxATLeIb/76MSxF6O+gDA9jDH2h2CewOiI/cDpr+RX+Z6UT5UNVIXEYHDw3Au
- 10BmkqVsoJZbTAVHWQ6daUYfzYWwNe4D17d8OKCOtktPdsj/MK9u7mLEvhM2cOD6wQF9
- f8vnYsTNLYkUA4nE+LbRXawNcxboBsbuVsqnxbslIQhnABTnf/C81v1i/gCytq1hQB2Y
- Jgog==
-X-Gm-Message-State: AOAM533HgBSPKKtT1gowLjhL4CYPmk1fQ4410B4rLygyPrJOxFGhx8D0
- oHaXcJ5cNlfPR7aMXbktJNDDIW4nwWb4OQ==
-X-Google-Smtp-Source: ABdhPJzGBdvwuJ5WS2Z5YVaT9VWnJrJb9tnSBpcEoIO0MJhFpOTYJ2kprycMohFoL2fEzS+Q7JrIuQ==
-X-Received: by 2002:a1c:4343:: with SMTP id q64mr12173523wma.20.1592912380492; 
- Tue, 23 Jun 2020 04:39:40 -0700 (PDT)
+ bh=SI0UuaYn0LhrgnH6JJza5nCoeq6PoqqyPFPSDuwFopc=;
+ b=d8LcqpDNv0FrnxiX5MTdi97jdlolJvTgT0redciLcxg/8XYhuKBX5NzZno7p2JIbvq
+ b9cNqIiUSwqMnuHO6smrDNwm+pYv2kxWEikYbxLt90593CLnk1u5u8g4YidAIxHebGuI
+ 3oKU4w9U8jsKqoh8yXVtel0+TlpF0G+RwJB4MT7Zrnl9Fsc0qfDvbLABZbGYDif0PeSW
+ Wvqkmmhcu+N/hTT9OLL921DcVBkZO4He/bx3UrZQdyNZGxpjiyIkJ4hGSvRCkvJSitkH
+ +U3AL1bCL2liPs/TBdKNwgjYx+5zc2fsyUpG/QvcTPldFnaui8Fu/+5S8tlzeXTjbVm7
+ bm4g==
+X-Gm-Message-State: AOAM532GYuKjrvNqFzQ6qhwSGWaCb4r7kKQBN0w0xoGJpKLz1RfXCOxD
+ f3l0HkHAO54oai32JcGJd0yWsG/3MhjGTg==
+X-Google-Smtp-Source: ABdhPJw+K8zcNWdkInPj0drZXSSwDG4JPuvYaOweHgzPiQTWKabs9nbsx76d+yO1TKWCiEOYwHseAw==
+X-Received: by 2002:a5d:5642:: with SMTP id j2mr17589023wrw.19.1592912383658; 
+ Tue, 23 Jun 2020 04:39:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.39
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:40 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/42] hw/i2c: Add header for ARM SBCon two-wire serial bus
- interface
-Date: Tue, 23 Jun 2020 12:38:51 +0100
-Message-Id: <20200623113904.28805-30-peter.maydell@linaro.org>
+Subject: [PULL 32/42] hw/arm/mps2: Rename CMSDK AHB peripheral region
+Date: Tue, 23 Jun 2020 12:38:54 +0100
+Message-Id: <20200623113904.28805-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,127 +91,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-'ARM SBCon two-wire serial bus interface' is the official
-name describing the pair of registers used to bitbanging
-I2C in the Versatile boards.
+To differenciate with the CMSDK APB peripheral region,
+rename this region 'CMSDK AHB peripheral region'.
 
-Make the private VersatileI2CState structure as public
-ArmSbconI2CState.
-Add the TYPE_ARM_SBCON_I2C, alias to our current
-TYPE_VERSATILE_I2C model.
-Rename the memory region description as 'arm_sbcon_i2c'.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200617072539.32686-5-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200617072539.32686-8-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/i2c/arm_sbcon_i2c.h | 35 ++++++++++++++++++++++++++++++++++
- hw/i2c/versatile_i2c.c         | 17 +++++------------
- MAINTAINERS                    |  1 +
- 3 files changed, 41 insertions(+), 12 deletions(-)
- create mode 100644 include/hw/i2c/arm_sbcon_i2c.h
+ hw/arm/mps2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/i2c/arm_sbcon_i2c.h b/include/hw/i2c/arm_sbcon_i2c.h
-new file mode 100644
-index 00000000000..5d96507ab6e
---- /dev/null
-+++ b/include/hw/i2c/arm_sbcon_i2c.h
-@@ -0,0 +1,35 @@
-+/*
-+ * ARM SBCon two-wire serial bus interface (I2C bitbang)
-+ *   a.k.a.
-+ * ARM Versatile I2C controller
-+ *
-+ * Copyright (c) 2006-2007 CodeSourcery.
-+ * Copyright (c) 2012 Oskar Andero <oskar.andero@gmail.com>
-+ * Copyright (C) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef HW_I2C_ARM_SBCON_H
-+#define HW_I2C_ARM_SBCON_H
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index ee555f919de..4fe5cc8622f 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -212,10 +212,11 @@ static void mps2_common_init(MachineState *machine)
+      */
+     create_unimplemented_device("CMSDK APB peripheral region @0x40000000",
+                                 0x40000000, 0x00010000);
+-    create_unimplemented_device("CMSDK peripheral region @0x40010000",
++    create_unimplemented_device("CMSDK AHB peripheral region @0x40010000",
+                                 0x40010000, 0x00010000);
+     create_unimplemented_device("Extra peripheral region @0x40020000",
+                                 0x40020000, 0x00010000);
 +
-+#include "hw/sysbus.h"
-+#include "hw/i2c/bitbang_i2c.h"
-+
-+#define TYPE_VERSATILE_I2C "versatile_i2c"
-+#define TYPE_ARM_SBCON_I2C TYPE_VERSATILE_I2C
-+
-+#define ARM_SBCON_I2C(obj) \
-+    OBJECT_CHECK(ArmSbconI2CState, (obj), TYPE_ARM_SBCON_I2C)
-+
-+typedef struct ArmSbconI2CState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion iomem;
-+    bitbang_i2c_interface bitbang;
-+    int out;
-+    int in;
-+} ArmSbconI2CState;
-+
-+#endif /* HW_I2C_ARM_SBCON_H */
-diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-index 0ce10a1bcc0..da8cda2ec1c 100644
---- a/hw/i2c/versatile_i2c.c
-+++ b/hw/i2c/versatile_i2c.c
-@@ -1,5 +1,6 @@
- /*
-- * ARM Versatile I2C controller
-+ * ARM SBCon two-wire serial bus interface (I2C bitbang)
-+ * a.k.a. ARM Versatile I2C controller
-  *
-  * Copyright (c) 2006-2007 CodeSourcery.
-  * Copyright (c) 2012 Oskar Andero <oskar.andero@gmail.com>
-@@ -22,24 +23,16 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/sysbus.h"
--#include "hw/i2c/bitbang_i2c.h"
-+#include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/registerfields.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- 
--#define TYPE_VERSATILE_I2C "versatile_i2c"
- #define VERSATILE_I2C(obj) \
-     OBJECT_CHECK(VersatileI2CState, (obj), TYPE_VERSATILE_I2C)
- 
--typedef struct VersatileI2CState {
--    SysBusDevice parent_obj;
-+typedef ArmSbconI2CState VersatileI2CState;
- 
--    MemoryRegion iomem;
--    bitbang_i2c_interface bitbang;
--    int out;
--    int in;
--} VersatileI2CState;
- 
- REG32(CONTROL_GET, 0)
- REG32(CONTROL_SET, 0)
-@@ -99,7 +92,7 @@ static void versatile_i2c_init(Object *obj)
-     bus = i2c_init_bus(dev, "i2c");
-     bitbang_i2c_init(&s->bitbang, bus);
-     memory_region_init_io(&s->iomem, obj, &versatile_i2c_ops, s,
--                          "versatile_i2c", 0x1000);
-+                          "arm_sbcon_i2c", 0x1000);
-     sysbus_init_mmio(sbd, &s->iomem);
- }
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f0cb1fd3371..f1a74b1dfe6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -842,6 +842,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/*/versatile*
-+F: include/hw/i2c/arm_sbcon_i2c.h
- F: hw/misc/arm_sysctl.c
- F: docs/system/arm/versatile.rst
+     create_unimplemented_device("RESERVED 4", 0x40030000, 0x001D0000);
+     create_unimplemented_device("VGA", 0x41000000, 0x0200000);
  
 -- 
 2.20.1
