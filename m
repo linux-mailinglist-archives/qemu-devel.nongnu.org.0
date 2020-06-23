@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DAF20457C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 02:34:42 +0200 (CEST)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8B820461E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 02:47:35 +0200 (CEST)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnWte-00079b-0l
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 20:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52206)
+	id 1jnX66-0004gn-Cp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 20:47:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnWsR-00060B-3W
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 20:33:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60210
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnWsP-0006eD-Dk
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 20:33:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592872404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KOmEJ2oxzESZ3EuEW5xU1n8YJTu+KDq1M6AO0eMmXRo=;
- b=FCv7QLn+V6pynmtdxZXLfNbGUsM8oBZJl9SovUcjmEsScJqHdhbdhjgqxbqksAs/lVm2k2
- wSMt+b0QlINdnbNkWS0uyZgnoT4OUMAnBOLc0WM6cCd2/v7cjeamoguZfKyLlV/vXzaKFn
- s7X0eRjyLBZlj909gllAM8bGi4VnNmg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-tt_mO76HNz6PTE2gE8gqyw-1; Mon, 22 Jun 2020 20:33:22 -0400
-X-MC-Unique: tt_mO76HNz6PTE2gE8gqyw-1
-Received: by mail-wr1-f71.google.com with SMTP id z3so6435903wrr.7
- for <qemu-devel@nongnu.org>; Mon, 22 Jun 2020 17:33:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KOmEJ2oxzESZ3EuEW5xU1n8YJTu+KDq1M6AO0eMmXRo=;
- b=LpcahGE7uKtzYT0A00c1aJ9zPV91reFYa6/NOxm+ootoOmH6UTNTO5orrBaWRz6pC0
- YXjQojJdJ0rPSIeMfCwEGs1uiAowH9Bfbh/Q32etkvvya4+Fs2NNBYoAm+MijA21IGVm
- RgoeIsUqMwBu+LCWdcRcK4Zf9j0OtKdulp+rqc9YqtTNieHbHy4qNQD86T72L4Tv5KJJ
- 5LahHKATifgoVWnshq3eVLX+JTRoEH8nXAHs9C74Z1c8ywAnJGoHdlfMVMsaL8eDZ5MK
- cXwXJr9zyF4J2wSo6ps2B9aa4jBpBQ4bbJxI7dOoMb6BcmKPdyNeMBEzAn9AFLUIfM2H
- bSXg==
-X-Gm-Message-State: AOAM531ZKQI6RafY/K7IKuHUcpfBYQ+j0MAal2GZn2LQm6T519v6PXdV
- yX1SXSCKQYjO2DIpBDI9WxBq91juvy4jbf5SgKylbAXRI/f7Fg2rQBrIGXX+V+f5V+C+b8i16x+
- /EFtmq+2f6MN1fbU=
-X-Received: by 2002:adf:a396:: with SMTP id l22mr21742276wrb.24.1592872401622; 
- Mon, 22 Jun 2020 17:33:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkx05z733Qq+ThgqlOQ3tRDJeYr1nU+3hok92SdnvMz36tDaXWQrSIE1uWk2ZpkOZX8oXMHw==
-X-Received: by 2002:adf:a396:: with SMTP id l22mr21742249wrb.24.1592872401297; 
- Mon, 22 Jun 2020 17:33:21 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id j41sm21022293wre.12.2020.06.22.17.33.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 17:33:20 -0700 (PDT)
-Subject: Re: [PATCH v2] target/i386: reimplement fpatan using floatx80
- operations
-To: Joseph Myers <joseph@codesourcery.com>, qemu-devel@nongnu.org,
- rth@twiddle.net, ehabkost@redhat.com
-References: <alpine.DEB.2.21.2006230000340.24721@digraph.polyomino.org.uk>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <27588539-95cc-f10f-b8c2-c263b56c921a@redhat.com>
-Date: Tue, 23 Jun 2020 02:33:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnX4P-0003lc-D3
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 20:45:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jnX4J-0007HA-Ee
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 20:45:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jnX4H-0004r4-Ap
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 00:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 506702E8025
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 00:45:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2006230000340.24721@digraph.polyomino.org.uk>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 02:57:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Jun 2020 00:37:08 -0000
+From: TheCatFelix <1884684@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: thecatfelix
+X-Launchpad-Bug-Reporter: TheCatFelix (thecatfelix)
+X-Launchpad-Bug-Modifier: TheCatFelix (thecatfelix)
+Message-Id: <159287262873.13509.14889128175029136647.malonedeb@wampee.canonical.com>
+Subject: [Bug 1884684] [NEW] QEMU 5.0: Guest VM hangs/freeze when unplugging
+ USB device
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 492667f8eab5b311a81fcf1f8c28f8296d4bf5b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 20:45:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,25 +71,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1884684 <1884684@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/06/20 02:01, Joseph Myers wrote:
-> The x87 fpatan emulation is currently based around conversion to
-> double.  This is inherently unsuitable for a good emulation of any
-> floatx80 operation.  Reimplement using the soft-float operations, as
-> for other such instructions.
-> 
-> Signed-off-by: Joseph Myers <joseph@codesourcery.com>
+Public bug reported:
 
-Queued, thanks.
+Setup:
 
-Just one question: do recent processors still use the same CORDIC
-approximations as the 8087, and if so would it be better or simpler to
-do that instead of using a good implementation such as this one?
+Host: Debian/SID, Kernel 5.6, QEMU 5.0
+Guest: Windows 10 VM with PCI and USB device passthrough.
 
-Thanks,
+Problem: Guest VM suddenly hangs when pulling USB device out from the
+Host.
 
-Paolo
+Observations:
+ - Issue appears to be related to QEMU 5.0
+   - It started after an upgrade to QEMU 5.0.
+   - Downgrading only QEMU on multiple systems fixes the issue.
 
+ - Issue is very reproducible.
+   - Most of the time within a few attempts of pulling/reconnecting the dev=
+ice.
+   - Issue happens with multiple devices (I did try standard HID devices, a=
+ webcam and an x-ray sensor).
+
+ - Guest just hangs.
+   - Display output remains on last frame shown.
+   - Ping to Guest immediately stops working.
+   - Logs in the Guest stop logging immediately.
+
+ - Host is fine and thinks the Guest is fine. =
+
+   - Guest continues to show as running in "virsh list".
+   - No suspicious entries in the QEMU logs.
+   - No suspicious entries in Host syslogs/messages.
+   - Host can can kill guest "virsh destroy" and respawn fine.
+
+ - Issue seems widespread.
+   - Multiple similar reports from ProxMox users after upgrade to ProxMox 6=
+.2 for both Windows and Linux guests (First version that uses QEMU 5.0)
+
+https://forum.proxmox.com/threads/vm-freezes-when-disconnecting-usb-keyboar=
+d-and-mouse.70287/
+https://forum.proxmox.com/threads/usb-drive-crashes-vm.70214/
+https://forum.proxmox.com/threads/latest-proxmox-usb-disconnects-freeze-kvm=
+.70398/
+https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-turn=
+ing-off-monitor-after-proxmox-6-2-upgrade.69821/
+https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-turn=
+ing-off-monitor-after-proxmox-6-2-upgrade.69824/
+
+I'd be more than happy any debugs that might be helpful.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884684
+
+Title:
+  QEMU 5.0: Guest VM hangs/freeze when unplugging USB device
+
+Status in QEMU:
+  New
+
+Bug description:
+  Setup:
+
+  Host: Debian/SID, Kernel 5.6, QEMU 5.0
+  Guest: Windows 10 VM with PCI and USB device passthrough.
+
+  Problem: Guest VM suddenly hangs when pulling USB device out from the
+  Host.
+
+  Observations:
+   - Issue appears to be related to QEMU 5.0
+     - It started after an upgrade to QEMU 5.0.
+     - Downgrading only QEMU on multiple systems fixes the issue.
+
+   - Issue is very reproducible.
+     - Most of the time within a few attempts of pulling/reconnecting the d=
+evice.
+     - Issue happens with multiple devices (I did try standard HID devices,=
+ a webcam and an x-ray sensor).
+
+   - Guest just hangs.
+     - Display output remains on last frame shown.
+     - Ping to Guest immediately stops working.
+     - Logs in the Guest stop logging immediately.
+
+   - Host is fine and thinks the Guest is fine. =
+
+     - Guest continues to show as running in "virsh list".
+     - No suspicious entries in the QEMU logs.
+     - No suspicious entries in Host syslogs/messages.
+     - Host can can kill guest "virsh destroy" and respawn fine.
+
+   - Issue seems widespread.
+     - Multiple similar reports from ProxMox users after upgrade to ProxMox=
+ 6.2 for both Windows and Linux guests (First version that uses QEMU 5.0)
+
+  https://forum.proxmox.com/threads/vm-freezes-when-disconnecting-usb-keybo=
+ard-and-mouse.70287/
+  https://forum.proxmox.com/threads/usb-drive-crashes-vm.70214/
+  https://forum.proxmox.com/threads/latest-proxmox-usb-disconnects-freeze-k=
+vm.70398/
+  https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-tu=
+rning-off-monitor-after-proxmox-6-2-upgrade.69821/
+  https://forum.proxmox.com/threads/vm-with-gpu-passthrough-freezes-when-tu=
+rning-off-monitor-after-proxmox-6-2-upgrade.69824/
+
+  I'd be more than happy any debugs that might be helpful.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884684/+subscriptions
 
