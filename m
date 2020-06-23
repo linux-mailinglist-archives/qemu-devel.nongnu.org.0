@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B505204AF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:24:31 +0200 (CEST)
-Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC44204AFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:27:27 +0200 (CEST)
+Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jndIE-0003nM-6W
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
+	id 1jndL4-0006eS-OW
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jndFV-0007eL-V4; Tue, 23 Jun 2020 03:21:41 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jndFU-0003FN-Cm; Tue, 23 Jun 2020 03:21:41 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 22so1090837wmg.1;
- Tue, 23 Jun 2020 00:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZzgsyFKQ+0jPZU1EMlN0VKvlb6aohKF8k/McGbTdz6k=;
- b=c9oXLHvCoSj113SCvh5uXN7SSau0tvSh07arZdET1KzoCQbd2YzZhIxFT08WYYeGQV
- +OfHKjt5FDQWJ4zVBm/1jyqzxBzV1HitH/1g8UM+wbIHtOb2WnHo32t9e4dh/o60I83F
- R4lWMzoLFbEtCdwkLjle7jUa+zbjCDXsxI6Y/20vqHumm3ecc6QGEajEQy3eaxmzSPSz
- WU10r5sahqBFWlgS+6sYtEsyVMd/E9BoItLiS0yz2yqgYgMRxqLFm8CKnwg2G8MnK/fG
- TAv4sbNpsMAMwMSRV6ULP20Kh16sq12ki+giB/wlqqQsZIUYZee55ieGqyJS/wnwx8mB
- IzvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZzgsyFKQ+0jPZU1EMlN0VKvlb6aohKF8k/McGbTdz6k=;
- b=ogANjFFWBNwaq+mlVzNYxb8S/If0ws1Eb1aSKqUp5KjSWCxORTF6eTctezwIZBRqy7
- j5XjIGWexFSS1JX5Dw645WUY8t8PVsiCDnhz2NC2BATK28xxs5XjmttyizKJSxjg5ns/
- MdrrGOzxM7NB3xmF0cLJ3bIzBAD4B/qAjNVOG2BGLGCyl1KASCxs03+nb0DAORccgPwW
- BrdN2dfboPVUeVF3Unt1EvQFSq+IpoKMLsVI4XinYdauJCQHwp0ewk3qDRmTHGofSR3m
- jNfqe6VnJ3mhPViMLA3zVlsBHIuBPuAQwGiWhb9tLS2+reP/8qtokaAfMbexC5UXfOWE
- zjtg==
-X-Gm-Message-State: AOAM531ckaQKyNscWaDSItGIQwWkBtPvmke3bASV/9X8Z6EzsJcBbYby
- gvuyV8QOVAILhg792vtfWDrn2BSL
-X-Google-Smtp-Source: ABdhPJz/gzgzur3L68NzRoUqOPZtKRp4snJxyEVg2JF6+RXsEbp496oqKbXD7IEdxzZeleYpbszR7A==
-X-Received: by 2002:a1c:9687:: with SMTP id y129mr22520132wmd.30.1592896898479; 
- Tue, 23 Jun 2020 00:21:38 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id x13sm21877236wre.83.2020.06.23.00.21.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 00:21:37 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] hw/arm/aspeed: QOM'ify AspeedMachineState
-Date: Tue, 23 Jun 2020 09:21:32 +0200
-Message-Id: <20200623072132.2868-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200623072132.2868-1-f4bug@amsat.org>
-References: <20200623072132.2868-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jndJs-0005hH-IL
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:26:12 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26549
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jndJq-0004fs-Th
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:26:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592897169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zoRef+Xi6yejA1qip3hZU4Pj/YqgSSKoAIu+yvs6QVo=;
+ b=NiZURkzvC/07PBe2jiqFmn3chwr8dLHHIcBkb0M8jfgbFnAjW8bSI5kBbpx7lncyEebG0z
+ DFczK3V/Fj8V5TIklaN06VP/NU8Gg5hAh8gjKpLJ0mXrQp/BP1lSdcvUS4XsJty8YpHtM3
+ +oSRQXoLETfANxB9EBoHPJajfZcNdA8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-OUbIblnpODCmRFF3GBGX6Q-1; Tue, 23 Jun 2020 03:26:05 -0400
+X-MC-Unique: OUbIblnpODCmRFF3GBGX6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 567A38005AD;
+ Tue, 23 Jun 2020 07:26:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B9E05C1D4;
+ Tue, 23 Jun 2020 07:26:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C8D86113846D; Tue, 23 Jun 2020 09:26:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v4 1/8] hw/i2c/core: Add i2c_try_create_slave() and
+ i2c_realize_and_unref()
+References: <20200620225854.31160-1-f4bug@amsat.org>
+ <20200620225854.31160-2-f4bug@amsat.org>
+ <874kr36sg7.fsf@dusky.pond.sub.org>
+ <e28de977-4e29-901f-58df-74095bcd2c91@amsat.org>
+Date: Tue, 23 Jun 2020 09:26:01 +0200
+In-Reply-To: <e28de977-4e29-901f-58df-74095bcd2c91@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 22 Jun 2020 17:41:37
+ +0200")
+Message-ID: <87lfkemeeu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,92 +87,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AspeedMachineState seems crippled. We use incorrectly 2
-different structures to do the same thing. Merge them
-altogether:
-- Move AspeedMachine fields to AspeedMachineState
-- AspeedMachineState is now QOM
-- Remove unused AspeedMachine structure
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/arm/aspeed.h |  8 +-------
- hw/arm/aspeed.c         | 11 +++++++----
- 2 files changed, 8 insertions(+), 11 deletions(-)
+> On 6/22/20 5:17 PM, Markus Armbruster wrote:
+>>=20
+>> No objections, except I want to see actual users.
+>
+> You weren't Cc'ed on the whole series.
+>
+> User is patch #6/8 "hw/arm/aspeed: Describe each PCA9552 device":
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714658.html
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index 5114ba0bd4..09da9d9acc 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -15,13 +15,7 @@ typedef struct AspeedMachineState AspeedMachineState;
- 
- #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
- #define ASPEED_MACHINE(obj) \
--    OBJECT_CHECK(AspeedMachine, (obj), TYPE_ASPEED_MACHINE)
--
--typedef struct AspeedMachine {
--    MachineState parent_obj;
--
--    bool mmio_exec;
--} AspeedMachine;
-+    OBJECT_CHECK(AspeedMachineState, (obj), TYPE_ASPEED_MACHINE)
- 
- #define ASPEED_MAC0_ON   (1 << 0)
- #define ASPEED_MAC1_ON   (1 << 1)
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 680345beca..ccf127b328 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -33,9 +33,14 @@ static struct arm_boot_info aspeed_board_binfo = {
- };
- 
- struct AspeedMachineState {
-+    /* Private */
-+    MachineState parent_obj;
-+    /* Public */
-+
-     AspeedSoCState soc;
-     MemoryRegion ram_container;
-     MemoryRegion max_ram;
-+    bool mmio_exec;
- };
- 
- /* Palmetto hardware value: 0x120CE416 */
-@@ -253,7 +258,7 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
- 
- static void aspeed_machine_init(MachineState *machine)
- {
--    AspeedMachineState *bmc;
-+    AspeedMachineState *bmc = ASPEED_MACHINE(machine);
-     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
-     AspeedSoCClass *sc;
-     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
-@@ -261,8 +266,6 @@ static void aspeed_machine_init(MachineState *machine)
-     int i;
-     NICInfo *nd = &nd_table[0];
- 
--    bmc = g_new0(AspeedMachineState, 1);
--
-     memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-                        4 * GiB);
-     memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
-@@ -751,7 +754,7 @@ static const TypeInfo aspeed_machine_types[] = {
-     }, {
-         .name          = TYPE_ASPEED_MACHINE,
-         .parent        = TYPE_MACHINE,
--        .instance_size = sizeof(AspeedMachine),
-+        .instance_size = sizeof(AspeedMachineState),
-         .instance_init = aspeed_machine_instance_init,
-         .class_size    = sizeof(AspeedMachineClass),
-         .class_init    = aspeed_machine_class_init,
--- 
-2.21.3
+Fat-fingered my grep, sorry for the noise.
 
 
