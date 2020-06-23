@@ -2,63 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE95204E40
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:43:53 +0200 (CEST)
-Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57A1204E51
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:45:53 +0200 (CEST)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnfT6-0004I1-Tu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:43:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
+	id 1jnfV2-0006pc-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jnfQW-00089V-Es; Tue, 23 Jun 2020 05:41:12 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2115 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jnfQP-0005T6-Op; Tue, 23 Jun 2020 05:41:12 -0400
-Received: from lhreml707-chm.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 639625B962EF103F83A1;
- Tue, 23 Jun 2020 10:40:59 +0100 (IST)
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- lhreml707-chm.china.huawei.com (10.201.108.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Tue, 23 Jun 2020 10:40:58 +0100
-Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
- lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
- Tue, 23 Jun 2020 10:40:59 +0100
-From: Salil Mehta <salil.mehta@huawei.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: RE: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation
- support
-Thread-Topic: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation
- support
-Thread-Index: AQHWQcvP5xOa2jCJCEaicIhkNVfTfKjl4RiAgAAP/MA=
-Date: Tue, 23 Jun 2020 09:40:58 +0000
-Message-ID: <0126fb3d008d4690950cf843d6ece70b@huawei.com>
-References: <20200613213629.21984-1-salil.mehta@huawei.com>
- <20200613213629.21984-2-salil.mehta@huawei.com>
- <20200623084603.i4kv3udz3dlcxlak@kamzik.brq.redhat.com>
-In-Reply-To: <20200623084603.i4kv3udz3dlcxlak@kamzik.brq.redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.79.3]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jnfSn-0004RT-3D
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:43:33 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57392
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jnfSl-0006Hn-IE
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:43:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592905410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nEtukad9MnLt+gKf7X+qH5fOBlYUE8JROO+7a3AgKIk=;
+ b=JRCapSTyThFUlLcX6DlrMI7NNi7zVI3mLFgk/pFGABIkyRFRuujwG9DnbmmOmSt0IuYfe8
+ eqkVJ4hM7vZ+vCpaXpK+gzyzu+TzgW3tuck5aOFMPeDwKTS8OLZ7Zp4x4mOo6db25zM09s
+ OEYRPVwQT3f+0TwRtA4MM7A7323RB8E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-7BRymzv7OwCZGNIgRv26jQ-1; Tue, 23 Jun 2020 05:43:26 -0400
+X-MC-Unique: 7BRymzv7OwCZGNIgRv26jQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1719E804001;
+ Tue, 23 Jun 2020 09:43:24 +0000 (UTC)
+Received: from [10.72.12.144] (ovpn-12-144.pek2.redhat.com [10.72.12.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0446778910;
+ Tue, 23 Jun 2020 09:43:03 +0000 (UTC)
+Subject: Re: [PATCH v1 00/10] vDPA support in qemu
+To: Cindy Lu <lulu@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20200622153756.19189-1-lulu@redhat.com>
+ <877dvy45vr.fsf@dusky.pond.sub.org>
+ <CACLfguWUoV7Ngt0U3Rdenvyp1s0PcWk2xsJirYGvHR3KSmZoeA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c8929663-27f2-93d6-e7b5-a3dc269fa7d2@redhat.com>
+Date: Tue, 23 Jun 2020 17:43:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.76.210;
- envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 05:40:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CACLfguWUoV7Ngt0U3Rdenvyp1s0PcWk2xsJirYGvHR3KSmZoeA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,204 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mehta.salil.lnk@gmail.com" <mehta.salil.lnk@gmail.com>,
- "gshan@redhat.com" <gshan@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "jiakernel2@gmail.com" <jiakernel2@gmail.com>,
- "maz@kernel.org" <maz@kernel.org>, "david@redhat.com" <david@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "will@kernel.org" <will@kernel.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "maran.wilson@oracle.com" <maran.wilson@oracle.com>,
- zhukeqian <zhukeqian1@huawei.com>,
- "wangxiongfeng \(C\)" <wangxiongfeng2@huawei.com>
+Cc: rdunlap@infradead.org, Michael Tsirkin <mst@redhat.com>,
+ mhabets@solarflare.com, qemu-devel@nongnu.org,
+ Rob Miller <rob.miller@broadcom.com>, saugatm@xilinx.com, hanand@xilinx.com,
+ hch@infradead.org, Eugenio Perez Martin <eperezma@redhat.com>,
+ jgg@mellanox.com, Shahaf Shuler <shahafs@mellanox.com>, kevin.tian@intel.com,
+ parav@mellanox.com, Vitaly Mireyno <vmireyno@marvell.com>, "Liang,
+ Cunming" <cunming.liang@intel.com>, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>, "Wang,
+ Zhihong" <zhihong.wang@intel.com>, Ariel Adam <aadam@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Andrew,
 
-> From: Andrew Jones [mailto:drjones@redhat.com]
-> Sent: Tuesday, June 23, 2020 9:46 AM
-> To: Salil Mehta <salil.mehta@huawei.com>
-> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org; peter.maydell@linaro.org;
-> sudeep.holla@arm.com; gshan@redhat.com; mst@redhat.com; jiakernel2@gmail.=
-com;
-> maz@kernel.org; zhukeqian <zhukeqian1@huawei.com>; david@redhat.com;
-> richard.henderson@linaro.org; Linuxarm <linuxarm@huawei.com>;
-> eric.auger@redhat.com; james.morse@arm.com; catalin.marinas@arm.com;
-> imammedo@redhat.com; pbonzini@redhat.com; mehta.salil.lnk@gmail.com;
-> maran.wilson@oracle.com; will@kernel.org; wangxiongfeng (C)
-> <wangxiongfeng2@huawei.com>
-> Subject: Re: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation =
-support
->=20
-> On Sat, Jun 13, 2020 at 10:36:08PM +0100, Salil Mehta wrote:
-> > For now, vcpu hotplug is only supported with single socket single threa=
-d,
-> > single die. NUMA is not supported either and everthing falls into singl=
-e
-> > node. Work to properly support these could be taken later once communit=
-y
-> > agrees with the base framework changes being presented to support ARM v=
-cpu
-> > hotplug in QEMU. Hence, these checks.
-> >
-> > Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
-> > Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
-> > ---
-> >  hw/arm/virt.c | 41 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> >
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index 37462a6f78..5d1afdd031 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -2201,6 +2201,46 @@ static HotplugHandler
-> *virt_machine_get_hotplug_handler(MachineState *machine,
-> >      return NULL;
-> >  }
-> >
-> > +static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
-> > +{
-> > +    if (opts) {
-> > +        unsigned cpus    =3D qemu_opt_get_number(opts, "cpus", 1);
-> > +        unsigned sockets =3D qemu_opt_get_number(opts, "sockets", 1);
-> > +        unsigned cores   =3D qemu_opt_get_number(opts, "cores", cpus);
-> > +        unsigned threads =3D qemu_opt_get_number(opts, "threads", 1);
-> > +        unsigned int max_cpus;
-> > +
-> > +        if (sockets > 1 || threads > 1) {
-> > +            error_report("does not support more than one socket or thr=
-ead");
-> > +            exit(1);
-> > +        }
-> > +
-> > +        if (cores !=3D cpus) {
-> > +            error_report("cpu topology: "
-> > +                         "sockets (%u) * cores (%u) * threads (%u) < "
-> > +                         "smp_cpus (%u)",
-> > +                         sockets, cores, threads, cpus);
-> > +            exit(1);
-> > +        }
-> > +
-> > +        max_cpus =3D qemu_opt_get_number(opts, "maxcpus", cpus);
-> > +        if (sockets * cores * threads > max_cpus) {
-> > +            error_report("cpu topology: "
-> > +                         "sockets (%u) * cores (%u) * threads (%u) > "
-> > +                         "maxcpus (%u)",
-> > +                         sockets, cores, threads,
-> > +                         max_cpus);
-> > +            exit(1);
-> > +        }
-> > +
-> > +        ms->smp.max_cpus =3D max_cpus;
-> > +        ms->smp.sockets =3D sockets;
-> > +        ms->smp.cpus =3D cpus;
-> > +        ms->smp.cores =3D cores;
-> > +        ms->smp.threads =3D threads;
-> > +    }
-> > +}
-> > +
-> >  /*
-> >   * for arm64 kvm_type [7-0] encodes the requested number of bits
-> >   * in the IPA address space
-> > @@ -2266,6 +2306,7 @@ static void virt_machine_class_init(ObjectClass *=
-oc,
-> void *data)
-> >      mc->nvdimm_supported =3D true;
-> >      mc->auto_enable_numa_with_memhp =3D true;
-> >      mc->default_ram_id =3D "mach-virt.ram";
-> > +    mc->smp_parse =3D virt_smp_parse;
-> >
-> >      object_class_property_add(oc, "acpi", "OnOffAuto",
-> >          virt_get_acpi, virt_set_acpi,
-> > --
-> > 2.17.1
-> >
-> >
-> >
->=20
-> Hi Salil,
->=20
-> This patch and the whole series has inspired me to pick up the vcpu
-> topology work again.=20
+On 2020/6/23 下午5:16, Cindy Lu wrote:
+> On Tue, Jun 23, 2020 at 3:07 PM Markus Armbruster <armbru@redhat.com> wrote:
+>> Cindy Lu <lulu@redhat.com> writes:
+>>
+>>> vDPA device is a device that uses a datapath which complies with the
+>>> virtio specifications with vendor specific control path. vDPA devices
+>>> can be both physically located on the hardware or emulated by software.
+>>> This RFC introduce the vDPA support in qemu
+>>> TODO
+>>> 1) vIOMMU support
+>>> 2) live migration support
+>> This gives me the foggiest of ideas on what vDPA is.  Could we use
+>> docs/interop/vhost-vdpa.rst?
+>>
+> Sure will add this
+>
+>
 
+Not sure it's the best place since vhost-vdpa is kernel specific.
 
-Thanks for looking into this QEMU series. I am glad to hear that this
-work looks sensible at least :)
+Maybe kernel docs (TBD) is a better place and we can refer it this file 
+in the future.
 
+But it doesn't harm if you said something more here and refer the kernel 
+commit here: 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4c8cf31885f69e86be0b5b9e6677a26797365e1d
 
-> In fact, I think it may be necessary in order
-> to properly describe a cpu when hot[un]plugging.
+Thanks
 
-
-Agreed. it is required. Since, MPIDR derived using topo specified by
-the user should match that assigned by the KVM/Host(which derives it
-using vcpu-id).=20
-
-
-? I'll try to pull
-> together an RFC soon, at least for TCG. For KVM, we may need to
-> change KVM in order to allow user-controlled MPIDR. Although I'm
-> not sure about that anymore, because, as you stated somewhere else,
-> we already have user-controlled MPIDR to some degree, since KVM simply
-> transforms the cpu index.
-
-
-Yes, kind-of, if you actually see the KVM logic and how it derives the
-MPIDR for vcpu in reset_mpidr() you will know that the only variable
-it is using is vcpu-id which is specified by QEMU during the vcpu
-creation time. This clearly means end MPIDR value is actually dependent
-on QEMU and KVM/host just programs it. Of course user of the QEMU does
-not have any direct interface and this is as of now done implicitly
-at QEMU level.=20
-
-But the thing which concerned me was the idea of threads. Marc recently
-clarified about that aspect as well, that KVM always(with some exception
-of thunderX) uses MT=3D0(a bit in MPIDR register) even for the hardware
-which support threads. IMHO there has to be some way to distinguish
-between threads and cores at the QEMU level whether QEMU fetches this
-info using sysfs interface like lscpu etc does or devise some other way.
-But QEMU should ensure that right thread/core info is being facilitated
-to the guest kernel. This could either be done wrapped as part of the
-MPIDR or PPTT Table.
-
-
->=20
-> Regarding this patch specifically, I would change this to allow
-> sockets, but prefer cores (i.e. when only '-smp N' is given, then
-> N is the number of cores, not sockets). Also I would allow threads,
-> but only for !kvm_enabled(). Then the function would be similar to
-> something I think I once posted long ago, or at least wrote and maybe
-> never posted...
-
-
-Ok. We need to modify the logic to derive the arch-id/MPIDR using the
-topology info instead of just vcpu-id. Hope you will be doing that
-as well for TCG? and this will require check to distinguish the KVM and
-TCG part there as well. I am specifically talking about {pre|post}_plug
-functions. BTW, can 'N' (in -smp N) ever be sockets?
-
-
-In case you require my help for anything like testing on real ARM64
-server hardware or anything else please give a nudge and we can co-work
-from here :)
-
-
-Regarding kernel part, I will be posting the guest kernel changes
-today to the community. If you have time please have a look at them
-as well.
-
-
-Many thanks
-Salil.
 
 
