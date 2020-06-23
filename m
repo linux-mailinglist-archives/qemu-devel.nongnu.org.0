@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499A22056C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 18:07:26 +0200 (CEST)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E77D205717
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 18:19:29 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnlSH-0004l5-2a
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 12:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32980)
+	id 1jnldw-0003SD-MP
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 12:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnlRM-00048P-Ce
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 12:06:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39869
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jnlRJ-0006HZ-TI
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 12:06:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592928384;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0US6GDuh07pH8weAGaDvQ4hRB7czZAk5H3N2hrRoNqk=;
- b=APqBXevvDctaiOTUGut8ukFqAnBtgGX1LalQ+b67HPbx260eqJUEpMPhTwAElQ4L3dG3sK
- 6eGxawK/qlZ5nDhA94A2wsI9+p0ItmOLjTnV9tzEPp01jmKTWgCYBf4mdyyLL3lbo0D46r
- c66CaS8TGFf7VUW9bWUXkslNBydpxSE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-GoJGm2OmOSWu6fzGZxfBzQ-1; Tue, 23 Jun 2020 12:05:54 -0400
-X-MC-Unique: GoJGm2OmOSWu6fzGZxfBzQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA791194092C;
- Tue, 23 Jun 2020 16:05:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63FD9101E66C;
- Tue, 23 Jun 2020 16:05:11 +0000 (UTC)
-Date: Tue, 23 Jun 2020 17:05:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH] qom: Allow object_property_add_child() to fail
-Message-ID: <20200623160508.GK751477@redhat.com>
-References: <20200623155452.30954-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jnlc1-000274-JS; Tue, 23 Jun 2020 12:17:29 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:46632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jnlbz-0000PD-J8; Tue, 23 Jun 2020 12:17:29 -0400
+Received: by mail-io1-xd43.google.com with SMTP id a12so10716723ion.13;
+ Tue, 23 Jun 2020 09:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0NXZOS3erP74m5/j5EcxH6vz7pSf9Mgae6UGdH6KvUk=;
+ b=tMAXf77ukwmWT/2nCXDQIcd66NML5uAQaKpAy+du8N/ujrbDAiYLIOaLvj2C9A+ji/
+ 07LFOCMfyvfp5du3eSnHZh6ch7bANRoEK0tG6xhPp7ahCfghu6BL3IB//Eng79yUApSE
+ rw2KGECayHP5mnuAvKNNz9Il5IbrxrBzqT1iWysphTSkvf0gUNf4yiREpstdU4NChKVY
+ G05DaQgMjwpzVnITDA9FrDMcZ3tNrvOhAOXWmbI/nUoand3L9Hro+1ZHwHfFtpJgtbhB
+ /AkKpQxQ1ezs2uQRlp5IGWk/HufO4q0Uc+qhtBgrRo+9hDgllZwMhjxgCI/9amqvmFgh
+ LcFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0NXZOS3erP74m5/j5EcxH6vz7pSf9Mgae6UGdH6KvUk=;
+ b=si/8U/8z21X283vgMoeK2KM+tnoIqGFSDAJIEAr8QTFagG43jQkMHBGiGI4oiZ6CBv
+ VYTRaNYybO8D2XEJIs7CkUnaNnBTO5V1GgpQj+vout83AnzzLqYL+W3fmsIg+8+KWxxG
+ DpH0zKGk/5L050r3JqHIlPqA7KDcnBIlTo3TPJbxARl2oDp2XjB9UfewjMYllIbSYzSp
+ 5EJ8v1p+pLHNFVUu+ZvAJs8kJSMCQoTQHiXsF7NRt+7JdAfc4IM/XLgub3eh5p/aDIpy
+ q3Eg6Fr8ArN9dxfSAREytxyeZt7lEcwwrlmiVAYgm0WX7cnfzr859/8PWrzZS4e40fyE
+ wEkg==
+X-Gm-Message-State: AOAM532I+fzF5WvxHRQqetkuk0jFJ5/kcAnnq+q6lKrdYnBbENVRJnxG
+ NLgrguU5wGDPJwCMrXo/FJF0wOtGvIgC5xfVb3k=
+X-Google-Smtp-Source: ABdhPJx2KlYdGeS3GmsnmhIenMciyWreLv73kD2m3XXO+09fLi3JIb2QGk3KefisZ3/Kj3oeIaldZqVgLanTdt1teJ8=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr25614181jaj.106.1592929045987; 
+ Tue, 23 Jun 2020 09:17:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200623155452.30954-1-eric.auger@redhat.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <CAEUhbmXh_tYqubC4nF6PymQW795ExfPUN9Ap1u7PNPN2hws=CA@mail.gmail.com>
+ <mhng-fd27972e-5f98-4fdb-b4dc-bd020f4fe8e2@palmer-si-x1e>
+ <CAEUhbmUgE7v0-E4q128Tw-94938w4ibsxcPHQgHAk=5qhTViPA@mail.gmail.com>
+In-Reply-To: <CAEUhbmUgE7v0-E4q128Tw-94938w4ibsxcPHQgHAk=5qhTViPA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 23 Jun 2020 09:07:53 -0700
+Message-ID: <CAKmqyKPyDwv8sOsue5=w+fZowm_Kso3ceHgvRPUXLi7mE-GPow@mail.gmail.com>
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH] riscv: sifive_e: Correct
+ various SoC IP block sizes
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +83,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, eric.auger.pro@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Chih-Min Chao <chihmin.chao@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 23, 2020 at 05:54:52PM +0200, Eric Auger wrote:
-> object_property_add() does not allow object_property_try_add()
-> to gracefully fail as &error_abort is passed as an error handle.
-> 
-> However such failure can easily be triggered from the QMP shell when,
-> for instance, one attempts to create an object with an id that already
-> exists:
-> 
-> For instance, call twice:
-> object-add qom-type=memory-backend-ram id=mem1 props.size=1073741824
-> and QEMU aborts.
-> 
-> This behavior is undesired as a user/management application mistake
-> in reusing a property ID shouldn't result in loss of the VM and live
-> data within.
-> 
-> This patch introduces two new functions, object_property_add_err() and
-> object_property_add_child_err() whose prototype features an error handle.
-> object_property_add_child_err() now gets called from user_creatable_add_type.
-> This solution was chosen instead of changing the prototype of existing
-> functions because the number of existing callers is huge.
-> 
-> The error now is returned gracefully to the QMP client.
-> 
-> (QEMU) object-add qom-type=memory-backend-ram id=mem2  props.size=4294967296
-> {"return": {}}
-> (QEMU) object-add qom-type=memory-backend-ram id=mem2  props.size=4294967296
-> {"error": {"class": "GenericError", "desc": "attempt to add duplicate property
-> 'mem2' to object (type 'container')"}}
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  include/qom/object.h    | 24 ++++++++++++++++++++++--
->  qom/object.c            | 33 ++++++++++++++++++++++++++++-----
->  qom/object_interfaces.c |  7 +++++--
->  3 files changed, 55 insertions(+), 9 deletions(-)
+On Mon, Jun 22, 2020 at 11:36 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi,
+>
+> On Thu, Sep 5, 2019 at 2:34 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+> >
+> > On Tue, 03 Sep 2019 20:41:52 PDT (-0700), bmeng.cn@gmail.com wrote:
+> > > Palmer,
+> > >
+> > > On Wed, Aug 14, 2019 at 5:34 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >>
+> > >> Hi Palmer,
+> > >>
+> > >> On Wed, Aug 7, 2019 at 10:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >> >
+> > >> > On Wed, Aug 7, 2019 at 5:06 AM Philippe Mathieu-Daud=C3=A9 <philmd=
+@redhat.com> wrote:
+> > >> > >
+> > >> > > On 8/5/19 8:43 AM, Bin Meng wrote:
+> > >> > > > On Mon, Aug 5, 2019 at 2:14 PM Chih-Min Chao <chihmin.chao@sif=
+ive.com> wrote:
+> > >> > > >> On Sat, Aug 3, 2019 at 8:27 AM Bin Meng <bmeng.cn@gmail.com> =
+wrote:
+> > >> > > >>>
+> > >> > > >>> Some of the SoC IP block sizes are wrong. Correct them accor=
+ding
+> > >> > > >>> to the FE310 manual.
+> > >> > > >>>
+> > >> > > >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > >> > > >>> ---
+> > >> > > >>>
+> > >> > > >>>  hw/riscv/sifive_e.c | 6 +++---
+> > >> > > >>>  1 file changed, 3 insertions(+), 3 deletions(-)
+> > >> > > >>>
+> > >> > > >>> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> > >> > > >>> index 2a499d8..9655847 100644
+> > >> > > >>> --- a/hw/riscv/sifive_e.c
+> > >> > > >>> +++ b/hw/riscv/sifive_e.c
+> > >> > > >>> @@ -53,13 +53,13 @@ static const struct MemmapEntry {
+> > >> > > >>>      hwaddr base;
+> > >> > > >>>      hwaddr size;
+> > >> > > >>>  } sifive_e_memmap[] =3D {
+> > >> > > >>> -    [SIFIVE_E_DEBUG] =3D    {        0x0,      0x100 },
+> > >> > > >>> +    [SIFIVE_E_DEBUG] =3D    {        0x0,     0x1000 },
+> > >> > > >>>      [SIFIVE_E_MROM] =3D     {     0x1000,     0x2000 },
+> > >> > > >>>      [SIFIVE_E_OTP] =3D      {    0x20000,     0x2000 },
+> > >> > > >>>      [SIFIVE_E_CLINT] =3D    {  0x2000000,    0x10000 },
+> > >> > > >>>      [SIFIVE_E_PLIC] =3D     {  0xc000000,  0x4000000 },
+> > >> > > >>> -    [SIFIVE_E_AON] =3D      { 0x10000000,     0x8000 },
+> > >> > > >>> -    [SIFIVE_E_PRCI] =3D     { 0x10008000,     0x8000 },
+> > >> > > >>> +    [SIFIVE_E_AON] =3D      { 0x10000000,     0x1000 },
+> > >> > > >>> +    [SIFIVE_E_PRCI] =3D     { 0x10008000,     0x1000 },
+> > >> > > >>>      [SIFIVE_E_OTP_CTRL] =3D { 0x10010000,     0x1000 },
+> > >> > > >>>      [SIFIVE_E_GPIO0] =3D    { 0x10012000,     0x1000 },
+> > >> > > >>>      [SIFIVE_E_UART0] =3D    { 0x10013000,     0x1000 },
+> > >> > > >>> --
+> > >> > > >>> 2.7.4
+> > >> > > >>>
+> > >> > > >>
+> > >> > > >> It seems the modification follows  E310-G002(Hifive1 Rev B) s=
+pec and the origin is for E310-G000(Hifive1) spec.
+> > >> > > >> There should be some way to specify different board version w=
+ith different memory map or we have policy, always support the latest spec.
+> > >> > >
+> > >> > > I agree with Chao, it would be cleaner to have two different boa=
+rds
+> > >> > > (machines).
+> > >> > > Since the SoCs are very similar, you could add a 'revision' prop=
+erty and
+> > >> > > use it to select the correct map.
+> > >> > >
+> > >> >
+> > >> > I am not sure if adding two different machines will bring us a lot=
+ of
+> > >> > benefits, since the only difference is the SoC revision with diffe=
+rent
+> > >> > block sizes.
+> > >> >
+> > >> > > >>
+> > >> > > >
+> > >> > > > Yes, I checked both specs. The older spec says these bigger si=
+zes,
+> > >> > > > however their register sizes fit well in the smaller range as =
+well. So
+> > >> > > > I think the modification works well for both.
+> > >> > >
+> > >> > > This is OK for the PRCI, since sifive_prci_create() does not use
+> > >> > > memmap[SIFIVE_E_PRCI].size.
+> > >> > >
+> > >> > > However the AON case is borderline, since you shrink it from 32K=
+iB to 4KiB.
+> > >> > >
+> > >> >
+> > >> > AON is not implemented anyway currently. And I checked the FE310 o=
+ld
+> > >> > spec, its register block size is still within the 4KiB range, so
+> > >> > shrinking the size should be fine for both old and new SoC.
+> > >> >
+> > >> > > BTW (not related to this patch) it is odd a function named
+> > >> > > sifive_mmio_emulate() creates a RAM region with memory_region_in=
+it_ram()
+> > >> > > and does not use the UnimplementedDevice (see make_unimp_dev() i=
+n
+> > >> > > hw/arm/musca.c).
+> > >> > >
+> > >>
+> > >> What's your suggestion regarding this patch?
+> > >
+> > > Ping?
+> >
+> > Sorry, I missed this the first time around.  In retrospect, it looks li=
+ke we
+> > ended up with the wrong naming scheme for boards: sifive_e is very ambi=
+guous,
+> > as there are many boards that look like this.  We'd originally chosen a=
+ more
+> > explicit scheme (something like "sifive-fe310-g000"), but that was NAK'=
+d as
+> > resulting in too many machine types.
+> >
+> > Peter: would you be OK deprecating "sifive_e" and adding "sifive-fe310-=
+g000"
+> > and "sifive-fe310-g002" targets?  We'll end up with a lot of machines t=
+his way,
+> > but I don't see another way to closely match what's out there.  In embe=
+dded
+> > land there isn't really any runtime portability, so if the memory maps =
+don't
+> > match exactly then it's not a useful target for users.
+>
+> Just want to restart the discussion for this patch. Now that we have
+> "revB" support for sifive_e machine, I guess we can do something?
+>
+> But renaming the sifive_e machine to something like sifive-fe31-g000
+> is another topic .. Thoughts?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+I would prefer not to have "sifive-fe310-g000" and "sifive-fe310-g002"
+boards as that seems like it might lead to way too many boards in the
+future.
 
+In saying that board properties aren't that much better if there are
+lots of boards as well.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+One option would be something like what the ARM virt board does. Where
+"sifive_e" is always the latest and you can specify different
+versions. We would then have some deprecation scheme to remove older
+boards.
 
+I think for now properties seem to work, we can have revB=3Dtrue to
+change anything required to match revB and the default is revA (or
+whatever they call it).
+
+If a revC comes out it should be easy to handle that via a property.
+In the future we can re-evaluate what to do if that gets too hard to
+maintain. Eventually we probably want the default to be the revB, but
+that will break users so let's try to avoid that for now.
+
+It's also possible that a revC won't break compatibility. For example
+if revC just adds a new device, we can just expose that for all revs.
+
+Alistair
+
+>
+> Regards,
+> Bin
+>
 
