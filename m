@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC75C2051DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:09:43 +0200 (CEST)
-Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12592205252
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:23:47 +0200 (CEST)
+Received: from localhost ([::1]:58482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhkE-00010z-S5
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45212)
+	id 1jnhxq-0004jQ-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIt-0006JB-Fu
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10826)
+ id 1jnhIs-0006GQ-Cs
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50712
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jnhIq-0004iF-Ix
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:27 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05NBXBjt119131; Tue, 23 Jun 2020 07:41:23 -0400
+ id 1jnhIq-0004iS-KO
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:41:26 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05NBUxck085413; Tue, 23 Jun 2020 07:41:23 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ufg7k3c4-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31ufmyta02-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBXIlD119914;
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ufg7k3b7-1
+ Tue, 23 Jun 2020 07:41:23 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05NBVH5P086531;
+ Tue, 23 Jun 2020 07:41:23 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31ufmyt9yh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 07:41:22 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBQBHX015236;
- Tue, 23 Jun 2020 11:41:21 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 31sa38pvvt-1
+ Tue, 23 Jun 2020 07:41:23 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05NBPfkl023800;
+ Tue, 23 Jun 2020 11:41:22 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 31sa38vjwn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jun 2020 11:41:21 +0000
+ Tue, 23 Jun 2020 11:41:22 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05NBfIef26345874
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05NBfJs514418362
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jun 2020 11:41:18 GMT
+ Tue, 23 Jun 2020 11:41:19 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4FE4FC6059;
+ by IMSVA (Postfix) with ESMTP id F255DC6057;
  Tue, 23 Jun 2020 11:41:20 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C0CFBC6055;
- Tue, 23 Jun 2020 11:41:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6F5E2C6055;
+ Tue, 23 Jun 2020 11:41:20 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jun 2020 11:41:19 +0000 (GMT)
+ Tue, 23 Jun 2020 11:41:20 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 04/12] hw/tpm: Do not include 'qemu/osdep.h' in header
-Date: Tue, 23 Jun 2020 07:41:06 -0400
-Message-Id: <20200623114114.1375104-5-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 05/12] hw/tpm: Include missing 'qemu/option.h' header
+Date: Tue, 23 Jun 2020 07:41:07 -0400
+Message-Id: <20200623114114.1375104-6-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
 References: <20200623114114.1375104-1-stefanb@linux.vnet.ibm.com>
@@ -73,15 +74,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-23_06:2020-06-23,
  2020-06-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 adultscore=0 cotscore=-2147483648
- mlxscore=0 impostorscore=0 spamscore=0 priorityscore=1501 suspectscore=1
- clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006230092
-Received-SPF: none client-ip=148.163.156.1;
+ mlxscore=0 malwarescore=0
+ suspectscore=1 priorityscore=1501 phishscore=0 spamscore=0 clxscore=1015
+ cotscore=-2147483648 mlxlogscore=999 adultscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006230088
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:29:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 07:41:20
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -107,33 +108,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-From CODING_STYLE.rst:
-
-  Do not include "qemu/osdep.h" from header files since the .c
-  file will have already included it.
-
-Remove "qemu/osdep.h" from "tpm_tis.h".
+Files using the TPM_STANDARD_CMDLINE_OPTS macro declared in
+"tpm_int.h" will use QEMU_OPT_STRING definition declared in
+"qemu/option.h".
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200612085444.8362-5-philmd@redhat.com
+Message-id: 20200612085444.8362-6-philmd@redhat.com
 Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
 ---
- hw/tpm/tpm_tis.h | 1 -
- 1 file changed, 1 deletion(-)
+ hw/tpm/tpm_int.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
-index 5554989395..f6b5872ba6 100644
---- a/hw/tpm/tpm_tis.h
-+++ b/hw/tpm/tpm_tis.h
-@@ -24,7 +24,6 @@
- #ifndef TPM_TPM_TIS_H
- #define TPM_TPM_TIS_H
+diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
+index 3fb28a9d6c..fd5ebc6489 100644
+--- a/hw/tpm/tpm_int.h
++++ b/hw/tpm/tpm_int.h
+@@ -12,6 +12,8 @@
+ #ifndef TPM_TPM_INT_H
+ #define TPM_TPM_INT_H
  
--#include "qemu/osdep.h"
- #include "sysemu/tpm_backend.h"
- #include "tpm_ppi.h"
- 
++#include "qemu/option.h"
++
+ #define TPM_STANDARD_CMDLINE_OPTS \
+     { \
+         .name = "type", \
 -- 
 2.24.1
 
