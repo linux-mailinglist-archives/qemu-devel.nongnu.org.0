@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0419D205D3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:13:16 +0200 (CEST)
-Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBD4205C6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:02:08 +0200 (CEST)
+Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpIB-00055K-4O
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43140)
+	id 1jnp7Q-0006vN-0v
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnokA-0005Vb-Er
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:06 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42703)
+ id 1jnokC-0005bP-EY
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:08 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnok5-0005wz-1K
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:06 -0400
-Received: by mail-pl1-x641.google.com with SMTP id k6so9533534pll.9
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:38:00 -0700 (PDT)
+ id 1jnok6-0005xO-CY
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:08 -0400
+Received: by mail-pg1-x542.google.com with SMTP id b5so13958pgm.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zyEHdJWwYhTj12SKxTq5TMOt6kdP7E77bjUjnXgXSbo=;
- b=JHHPgyNn1RiHD56GsRLT2F1Q1xXhpVu7wlqf5du1IibbR5D9AetC9Ps1/lRWEdZ27J
- xkiGdlDyM391zzaoYTMgPNk4PPtObA7+LLo0sblGnqKDXGAhNjtCognGBBZ727rs6l2V
- Bi6ajgiBIVYO+kjid5p5W1ZbAXeVHtYOFeL+wOxrKDtkLpovW+lll/MkPsG/q0PtsFX7
- UhF1p9N05EJFt3R8dySgYb5uY8Kz+2eH18yRCQ+Hoes9LzjUbFjVbMz2Up+k86KLX/eG
- y3esBAxLWbUNoCUY5qTC12QU4bcyjDgdoAJkqtsqv8rTO3yEA3OIusqgP7zAUkNpC6JT
- +Row==
+ bh=tGDG+ujJfFVLYNmYlA8Z4jYqGTGnE3to6p0u9zyaEeY=;
+ b=ZQ5Lvswud7aj6rNkMYUnnBoLAX76FhSJNOZOW7FBtcdciT3UYrLLPCcOq3sEI1GK/z
+ YvHBmN71w4f6OsIxo35Y1Kn86LLYF0Y/NuQPX1b1POFqq6/PUjN9IPDYySdvKGX2x70b
+ pQPCIgp5yWGOOS756DJ2aqAliDsZH8Ze4W4mZxT4ETaxqIOvcZmGCW6HaYF936UzGELf
+ r9ZZQPEg2RAGYEVn+CuHTaoj5HOYaAOz1oS7cnDn4NXM36v0fJWjoxvRDTkED1pAP4Sn
+ wmVV1IPnr47yOdVifqPvL4qZyz2B22kDOKfu0fDtT7BzNxupjxaEC4Dl5bKwN8GY5btu
+ 6cJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zyEHdJWwYhTj12SKxTq5TMOt6kdP7E77bjUjnXgXSbo=;
- b=fk9YeoFmSc6sy7wen1U+yp5zfRxEYlj1h/4Hcj+cjbT4DdEF9urG3jGdZ3/lgUB3HL
- 9zDoip231oNtZATbpJ+MU8ZL+0XDcQWOX3DWph4Z4eFkLqV8orddRGgngpRzRP7iiiFa
- jkwhzkjCBYU7paEe+W40N6C2W2zwv4ZR5pt6IyTNtQfTmhHje/aNZM8li/bhGRsDUUZ1
- KfO3JsoEDYOsDJWujloZlciJAoX7mNOp2NKuXNseyFUpUeQ9SoqwTjmKwhbzVaFLPT07
- peT5uOgZxqeqrH2ga/JfqhuqF84n5S+1UV+QiBuc1WYdirqQpydTxJkRS4LPiyXkS27/
- AzSQ==
-X-Gm-Message-State: AOAM530q7hzS1knuoyv0cRwWhm2mipQ0FQd2uRVbw2opHeBiusS2ayDH
- E3maYR6Nm1Qs/uarU/+M/z2qkaDhpJQ=
-X-Google-Smtp-Source: ABdhPJw5ErH5ZInlORVYGepyLu/e/aplhtK6mkaLJ2+VxRRokiGz+BsYXXvv+5Gf9FYbRuzgy0aT8g==
-X-Received: by 2002:a17:902:8b82:: with SMTP id
- ay2mr14248871plb.185.1592941079197; 
- Tue, 23 Jun 2020 12:37:59 -0700 (PDT)
+ bh=tGDG+ujJfFVLYNmYlA8Z4jYqGTGnE3to6p0u9zyaEeY=;
+ b=AfisScVrJwjhYQHy49gSApaSCXQE0MCwT4abzlbQKcZ+SxmxHG/9J54CCtHHKWZXT8
+ u8lhNE6XKvMpIeiiam+RbiPB28LYCV9ZkNSoOuS3EbY/pauluM0y/ZzKqAUtmA+D2dpR
+ vii/ym6iIOd41i750s/nMTl1mufSkgCZgrsufGn36QdY3B/mjJ3JKBcnrvFC4qlxi8yN
+ eIQxJYr8LsFet+TqUXF8p3HsHzoZ+hZtInPRRW0cGcRboa6g6AbfhYDMWLLLOpzh0jw5
+ r8E15CZuTbVHRoxlAnImwCw84RE8phXizVJo1oEvhP4iQh7AIw4LlmApTwo9GBM8VDRB
+ wjtA==
+X-Gm-Message-State: AOAM53335/NtgbrQ2ICA0d55zJ7ep0gZo0QARoCXMKvRmzsFRzlTSevG
+ 0b11YUFcsIRo0ScpcM6a4apRBp7mU+A=
+X-Google-Smtp-Source: ABdhPJyNPROP0q57/cYzzm1PFgnv3ZInRfkiKsyZX1T27OAbL+R1Bx2RTx1+uuEyHIMxHW0qTRleoQ==
+X-Received: by 2002:aa7:8a4c:: with SMTP id n12mr26360643pfa.326.1592941080532; 
+ Tue, 23 Jun 2020 12:38:00 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.58
+ by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 12:37:58 -0700 (PDT)
+ Tue, 23 Jun 2020 12:37:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 43/45] target/arm: Create tagged ram when MTE is enabled
-Date: Tue, 23 Jun 2020 12:36:56 -0700
-Message-Id: <20200623193658.623279-44-richard.henderson@linaro.org>
+Subject: [PATCH v8 44/45] target/arm: Add allocation tag storage for system
+ mode
+Date: Tue, 23 Jun 2020 12:36:57 -0700
+Message-Id: <20200623193658.623279-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
 References: <20200623193658.623279-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,291 +91,161 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Look up the physical address for the given virtual address,
+convert that to a tag physical address, and finally return
+the host address that backs it.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v5: Assign cs->num_ases to the final value first.
-    Downgrade to ID_AA64PFR1.MTE=1 if tag memory is not available.
-v6: Add secure tag memory for EL3.
-v8: Add arm,armv8.5-memtag.
----
- include/hw/arm/boot.h |  3 +++
- target/arm/cpu.h      |  6 +++++
- hw/arm/boot.c         | 12 ++++++---
- hw/arm/virt.c         | 57 +++++++++++++++++++++++++++++++++++++++++--
- target/arm/cpu.c      | 51 +++++++++++++++++++++++++++++++++++---
- 5 files changed, 121 insertions(+), 8 deletions(-)
+ target/arm/mte_helper.c | 126 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 126 insertions(+)
 
-diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-index ce2b48b88b..605446afe7 100644
---- a/include/hw/arm/boot.h
-+++ b/include/hw/arm/boot.h
-@@ -116,6 +116,9 @@ struct arm_boot_info {
-      */
-     bool secure_board_setup;
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 4f9bd3add3..4911cbca50 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -21,6 +21,7 @@
+ #include "cpu.h"
+ #include "internals.h"
+ #include "exec/exec-all.h"
++#include "exec/ram_addr.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/helper-proto.h"
  
-+    /* If set, all ram objects have tag memory objects. */
-+    bool tag_memory;
-+
-     arm_endianness endianness;
- };
- 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 10c4d031b1..206e617c25 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -792,6 +792,10 @@ struct ARMCPU {
-     /* MemoryRegion to use for secure physical accesses */
-     MemoryRegion *secure_memory;
- 
-+    /* MemoryRegion to use for allocation tag accesses */
-+    MemoryRegion *tag_memory;
-+    MemoryRegion *secure_tag_memory;
-+
-     /* For v8M, pointer to the IDAU interface provided by board/SoC */
-     Object *idau;
- 
-@@ -2985,6 +2989,8 @@ typedef enum ARMMMUIdxBit {
- typedef enum ARMASIdx {
-     ARMASIdx_NS = 0,
-     ARMASIdx_S = 1,
-+    ARMASIdx_TagNS = 2,
-+    ARMASIdx_TagS = 3,
- } ARMASIdx;
- 
- /* Return the Exception Level targeted by debug exceptions. */
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index fef4072db1..4f96ce42fe 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -427,7 +427,7 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
- 
- static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-                                uint32_t scells, hwaddr mem_len,
--                               int numa_node_id)
-+                               int numa_node_id, bool tag_memory)
+@@ -74,8 +75,133 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+                                    int ptr_size, MMUAccessType tag_access,
+                                    int tag_size, uintptr_t ra)
  {
-     char *nodename;
-     int ret;
-@@ -446,6 +446,10 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-         ret = qemu_fdt_setprop_cell(fdt, nodename,
-                                     "numa-node-id", numa_node_id);
-     }
-+    if (tag_memory) {
-+        qemu_fdt_setprop(fdt, nodename, "arm,armv8.5-memtag", "", 0);
++#ifdef CONFIG_USER_ONLY
+     /* Tag storage not implemented.  */
+     return NULL;
++#else
++    uintptr_t index;
++    CPUIOTLBEntry *iotlbentry;
++    int in_page, flags;
++    ram_addr_t ptr_ra;
++    hwaddr ptr_paddr, tag_paddr, xlat;
++    MemoryRegion *mr;
++    ARMASIdx tag_asi;
++    AddressSpace *tag_as;
++    void *host;
++
++    /*
++     * Probe the first byte of the virtual address.  This raises an
++     * exception for inaccessible pages, and resolves the virtual address
++     * into the softmmu tlb.
++     *
++     * When RA == 0, this is for mte_probe1.  The page is expected to be
++     * valid.  Indicate to probe_access_flags no-fault, then assert that
++     * we received a valid page.
++     */
++    flags = probe_access_flags(env, ptr, ptr_access, ptr_mmu_idx,
++                               ra == 0, &host, ra);
++    assert(!(flags & TLB_INVALID_MASK));
++
++    /*
++     * Find the iotlbentry for ptr.  This *must* be present in the TLB
++     * because we just found the mapping.
++     * TODO: Perhaps there should be a cputlb helper that returns a
++     * matching tlb entry + iotlb entry.
++     */
++    index = tlb_index(env, ptr_mmu_idx, ptr);
++# ifdef CONFIG_DEBUG_TCG
++    {
++        CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
++        target_ulong comparator = (ptr_access == MMU_DATA_LOAD
++                                   ? entry->addr_read
++                                   : tlb_addr_write(entry));
++        g_assert(tlb_hit(comparator, ptr));
++    }
++# endif
++    iotlbentry = &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
++
++    /* If the virtual page MemAttr != Tagged, access unchecked. */
++    if (!arm_tlb_mte_tagged(&iotlbentry->attrs)) {
++        return NULL;
 +    }
 +
- out:
-     g_free(nodename);
-     return ret;
-@@ -534,6 +538,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     hwaddr mem_base, mem_len;
-     char **node_path;
-     Error *err = NULL;
-+    bool tag_memory;
- 
-     if (binfo->dtb_filename) {
-         char *filename;
-@@ -599,12 +604,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     }
-     g_strfreev(node_path);
- 
-+    tag_memory = binfo->tag_memory;
-     if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
-         mem_base = binfo->loader_start;
-         for (i = 0; i < ms->numa_state->num_nodes; i++) {
-             mem_len = ms->numa_state->nodes[i].node_mem;
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
--                                     scells, mem_len, i);
-+                                     scells, mem_len, i, tag_memory);
-             if (rc < 0) {
-                 fprintf(stderr, "couldn't add /memory@%"PRIx64" node\n",
-                         mem_base);
-@@ -615,7 +621,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-         }
-     } else {
-         rc = fdt_add_memory_node(fdt, acells, binfo->loader_start,
--                                 scells, binfo->ram_size, -1);
-+                                 scells, binfo->ram_size, -1, tag_memory);
-         if (rc < 0) {
-             fprintf(stderr, "couldn't add /memory@%"PRIx64" node\n",
-                     binfo->loader_start);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index caceb1e4a0..0d81e0d3ac 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1390,8 +1390,19 @@ static void create_platform_bus(VirtMachineState *vms)
-                                 sysbus_mmio_get_region(s, 0));
- }
- 
-+static void create_tag_ram(MemoryRegion *tag_sysmem,
-+                           hwaddr base, hwaddr size,
-+                           const char *name)
-+{
-+    MemoryRegion *tagram = g_new(MemoryRegion, 1);
-+
-+    memory_region_init_ram(tagram, NULL, name, size / 32, &error_fatal);
-+    memory_region_add_subregion(tag_sysmem, base / 32, tagram);
-+}
-+
- static void create_secure_ram(VirtMachineState *vms,
--                              MemoryRegion *secure_sysmem)
-+                              MemoryRegion *secure_sysmem,
-+                              MemoryRegion *secure_tag_sysmem)
- {
-     MemoryRegion *secram = g_new(MemoryRegion, 1);
-     char *nodename;
-@@ -1409,6 +1420,11 @@ static void create_secure_ram(VirtMachineState *vms,
-     qemu_fdt_setprop_string(vms->fdt, nodename, "status", "disabled");
-     qemu_fdt_setprop_string(vms->fdt, nodename, "secure-status", "okay");
- 
-+    if (secure_tag_sysmem) {
-+        create_tag_ram(secure_tag_sysmem, base, size, "mach-virt.secure-tag");
-+        qemu_fdt_setprop(vms->fdt, nodename, "arm,armv8.5-memtag", "", 0);
++    /* If not normal memory, there is no tag storage: access unchecked. */
++    if (unlikely(flags & TLB_MMIO)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Page @ 0x%" PRIx64 " indicates Tagged Normal memory "
++                      "but is Device memory\n", ptr);
++        return NULL;
 +    }
 +
-     g_free(nodename);
- }
- 
-@@ -1665,6 +1681,8 @@ static void machvirt_init(MachineState *machine)
-     const CPUArchIdList *possible_cpus;
-     MemoryRegion *sysmem = get_system_memory();
-     MemoryRegion *secure_sysmem = NULL;
-+    MemoryRegion *tag_sysmem = NULL;
-+    MemoryRegion *secure_tag_sysmem = NULL;
-     int n, virt_max_cpus;
-     bool firmware_loaded;
-     bool aarch64 = true;
-@@ -1819,6 +1837,36 @@ static void machvirt_init(MachineState *machine)
-                                      "secure-memory", &error_abort);
-         }
- 
-+        /*
-+         * The cpu adds the property if and only if MemTag is supported.
-+         * If it is, we must allocate the ram to back that up.
-+         */
-+        if (object_property_find(cpuobj, "tag-memory", NULL)) {
-+            if (!tag_sysmem) {
-+                vms->bootinfo.tag_memory = true;
-+                tag_sysmem = g_new(MemoryRegion, 1);
-+                memory_region_init(tag_sysmem, OBJECT(machine),
-+                                   "tag-memory", UINT64_MAX / 32);
-+
-+                if (vms->secure) {
-+                    secure_tag_sysmem = g_new(MemoryRegion, 1);
-+                    memory_region_init(secure_tag_sysmem, OBJECT(machine),
-+                                       "secure-tag-memory", UINT64_MAX / 32);
-+
-+                    /* As with ram, secure-tag takes precedence over tag.  */
-+                    memory_region_add_subregion_overlap(secure_tag_sysmem, 0,
-+                                                        tag_sysmem, -1);
-+                }
-+            }
-+
-+            object_property_set_link(cpuobj, OBJECT(tag_sysmem),
-+                                     "tag-memory", &error_abort);
-+            if (vms->secure) {
-+                object_property_set_link(cpuobj, OBJECT(secure_tag_sysmem),
-+                                         "secure-tag-memory", &error_abort);
-+            }
-+        }
-+
-         qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
-         object_unref(cpuobj);
-     }
-@@ -1857,10 +1905,15 @@ static void machvirt_init(MachineState *machine)
-     create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
- 
-     if (vms->secure) {
--        create_secure_ram(vms, secure_sysmem);
-+        create_secure_ram(vms, secure_sysmem, secure_tag_sysmem);
-         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
-     }
- 
-+    if (tag_sysmem) {
-+        create_tag_ram(tag_sysmem, vms->memmap[VIRT_MEM].base,
-+                       machine->ram_size, "mach-virt.tag");
++    /*
++     * The Normal memory access can extend to the next page.  E.g. a single
++     * 8-byte access to the last byte of a page will check only the last
++     * tag on the first page.
++     * Any page access exception has priority over tag check exception.
++     */
++    in_page = -(ptr | TARGET_PAGE_MASK);
++    if (unlikely(ptr_size > in_page)) {
++        void *ignore;
++        flags |= probe_access_flags(env, ptr + in_page, ptr_access,
++                                    ptr_mmu_idx, false, &ignore, ra);
 +    }
 +
-     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
- 
-     create_rtc(vms);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f09efc4370..7159188247 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1249,6 +1249,25 @@ void arm_cpu_post_init(Object *obj)
-     if (kvm_enabled()) {
-         kvm_arm_add_vcpu_properties(obj);
-     }
-+
-+#ifndef CONFIG_USER_ONLY
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64) &&
-+        cpu_isar_feature(aa64_mte, cpu)) {
-+        object_property_add_link(obj, "tag-memory",
-+                                 TYPE_MEMORY_REGION,
-+                                 (Object **)&cpu->tag_memory,
-+                                 qdev_prop_allow_set_link_before_realize,
-+                                 OBJ_PROP_LINK_STRONG);
-+
-+        if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
-+            object_property_add_link(obj, "secure-tag-memory",
-+                                     TYPE_MEMORY_REGION,
-+                                     (Object **)&cpu->secure_tag_memory,
-+                                     qdev_prop_allow_set_link_before_realize,
-+                                     OBJ_PROP_LINK_STRONG);
-+        }
++    /* Any debug exception has priority over a tag check exception. */
++    if (unlikely(flags & TLB_WATCHPOINT)) {
++        int wp = ptr_access == MMU_DATA_LOAD ? BP_MEM_READ : BP_MEM_WRITE;
++        cpu_check_watchpoint(env_cpu(env), ptr, ptr_size,
++                             iotlbentry->attrs, wp, ra);
 +    }
++
++    /*
++     * Find the physical address within the normal mem space.
++     * The memory region lookup must succeed because TLB_MMIO was
++     * not set in the cputlb lookup above.
++     */
++    mr = memory_region_from_host(host, &ptr_ra);
++    tcg_debug_assert(mr != NULL);
++    tcg_debug_assert(memory_region_is_ram(mr));
++    ptr_paddr = ptr_ra;
++    do {
++        ptr_paddr += mr->addr;
++        mr = mr->container;
++    } while (mr);
++
++    /* Convert to the physical address in tag space.  */
++    tag_paddr = ptr_paddr >> (LOG2_TAG_GRANULE + 1);
++
++    /* Look up the address in tag space. */
++    tag_asi = iotlbentry->attrs.secure ? ARMASIdx_TagS : ARMASIdx_TagNS;
++    tag_as = cpu_get_address_space(env_cpu(env), tag_asi);
++    mr = address_space_translate(tag_as, tag_paddr, &xlat, NULL,
++                                 tag_access == MMU_DATA_STORE,
++                                 iotlbentry->attrs);
++
++    /*
++     * Note that @mr will never be NULL.  If there is nothing in the address
++     * space at @tag_paddr, the translation will return the unallocated memory
++     * region.  For our purposes, the result must be ram.
++     */
++    if (unlikely(!memory_region_is_ram(mr))) {
++        /* ??? Failure is a board configuration error. */
++        qemu_log_mask(LOG_UNIMP,
++                      "Tag Memory @ 0x%" HWADDR_PRIx " not found for "
++                      "Normal Memory @ 0x%" HWADDR_PRIx "\n",
++                      tag_paddr, ptr_paddr);
++        return NULL;
++    }
++
++    /*
++     * Ensure the tag memory is dirty on write, for migration.
++     * Tag memory can never contain code or display memory (vga).
++     */
++    if (tag_access == MMU_DATA_STORE) {
++        ram_addr_t tag_ra = memory_region_get_ram_addr(mr) + xlat;
++        cpu_physical_memory_set_dirty_flag(tag_ra, DIRTY_MEMORY_MIGRATION);
++    }
++
++    return memory_region_get_ram_ptr(mr) + xlat;
 +#endif
  }
  
- static void arm_cpu_finalizefn(Object *obj)
-@@ -1739,17 +1758,43 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     unsigned int smp_cpus = ms->smp.cpus;
- 
--    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-+    /*
-+     * We must set cs->num_ases to the final value before
-+     * the first call to cpu_address_space_init.
-+     */
-+    if (cpu->tag_memory != NULL) {
-+        cs->num_ases = 4;
-+    } else if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-         cs->num_ases = 2;
-+    } else {
-+        cs->num_ases = 1;
-+    }
- 
-+    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-         if (!cpu->secure_memory) {
-             cpu->secure_memory = cs->memory;
-         }
-         cpu_address_space_init(cs, ARMASIdx_S, "cpu-secure-memory",
-                                cpu->secure_memory);
--    } else {
--        cs->num_ases = 1;
-     }
-+
-+    if (cpu->tag_memory != NULL) {
-+        cpu_address_space_init(cs, ARMASIdx_TagNS, "cpu-tag-memory",
-+                               cpu->tag_memory);
-+        if (cpu->has_el3) {
-+            cpu_address_space_init(cs, ARMASIdx_TagS, "cpu-tag-memory",
-+                                   cpu->secure_tag_memory);
-+        }
-+    } else if (cpu_isar_feature(aa64_mte, cpu)) {
-+        /*
-+         * Since there is no tag memory, we can't meaningfully support MTE
-+         * to its fullest.  To avoid problems later, when we would come to
-+         * use the tag memory, downgrade support to insns only.
-+         */
-+        cpu->isar.id_aa64pfr1 =
-+            FIELD_DP64(cpu->isar.id_aa64pfr1, ID_AA64PFR1, MTE, 1);
-+    }
-+
-     cpu_address_space_init(cs, ARMASIdx_NS, "cpu-memory", cs->memory);
- 
-     /* No core_count specified, default to smp_cpus. */
+ uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
 -- 
 2.25.1
 
