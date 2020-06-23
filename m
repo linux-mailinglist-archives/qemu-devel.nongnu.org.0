@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D5620558A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:09:43 +0200 (CEST)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E89205590
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:12:16 +0200 (CEST)
+Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkYQ-0007Dy-GJ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
+	id 1jnkat-0001QZ-KU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkCp-00082o-6l
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:47:23 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27565
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkCm-00053V-VN
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:47:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592923639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KfTV00r4zwY1bMonb5TaDC87hCBsUPGzujh6IisZV2w=;
- b=f8OgLdtaKdfQr2CEvfSJY+lxR/t46K6d49b9G34SRNAmtXJYAGLvYrM2eUzJEJp38YLGkz
- dNsBusXL+gEoB1iHeJskbC1TPTS11PuN9Xm9Ztab4qcfdd5kKqlAnO4FfAFC/3IbWAZOGx
- YQfUn3+QUzN11dLOEVwhntuGonJ4eRM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-LqKd-_w8MRqZhn05pCoR9g-1; Tue, 23 Jun 2020 10:47:17 -0400
-X-MC-Unique: LqKd-_w8MRqZhn05pCoR9g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E509108BD09;
- Tue, 23 Jun 2020 14:47:16 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DDFFF60CD3;
- Tue, 23 Jun 2020 14:47:13 +0000 (UTC)
-Date: Tue, 23 Jun 2020 16:47:10 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v2 1/3] hyperv: vmbus: Remove the 2nd IRQ
-Message-ID: <20200623164710.395f408e@redhat.com>
-In-Reply-To: <20200617160904.681845-2-arilou@gmail.com>
-References: <20200617160904.681845-1-arilou@gmail.com>
- <20200617160904.681845-2-arilou@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnkDP-0008PR-Ma; Tue, 23 Jun 2020 10:47:59 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnkDN-0005PP-VA; Tue, 23 Jun 2020 10:47:59 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j18so3236152wmi.3;
+ Tue, 23 Jun 2020 07:47:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nHH/5HcJjGJrbqd+zi6VW/xh2OGjZUFq9HtreqvbFjE=;
+ b=j88sNPcvKbsKR66W5xYiI3S/L1nE4Fsfg0V7zivseJ4toP3aHhJmq16CV8J+X5QJvi
+ 7t1w7z3+Vvl+PdGRLiF3E0PQjD4O1JLh65f2mCHSTwlelWUNu0hS8uzBUPPnCXqshYuT
+ K+a6m40zTbZLr2tgNVtxDXP1CsX6yFn4FawIl6F41vISUaVx/4fQ+0NzDbkcQgffc3M1
+ 8knaAJE4Lyt2OWJ906bSH71BS/p/jjZQsTiy3f4eeCuzt7y4nkWxlN2F6hT38ui6BxfQ
+ /SqmSKhDR8zGrJ1SExvAzHi8ZgZ0sXQnLsIQ2czvXrSV7l8wdWRGSgC6SpKCIFHWQmFS
+ bmBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nHH/5HcJjGJrbqd+zi6VW/xh2OGjZUFq9HtreqvbFjE=;
+ b=bt8o0T5MM0gG1E+tZuG736tWHXviHOcrG0AxWUi29QN1ImWj0nA73fohd1JF+oOqSd
+ 4t23wDh6wor63qQX0f+aqbsf491RvDF48ItkF3wCjdHWGVj3evY0WEVUi3w7bz67jK44
+ SLjNLJU7Gt670SIh/nvxFQofqWq7KxL4fR0nsxjlbZVuvYxWYHYoNiRYDpNbnI33uuo9
+ pgVh8XbGVszpvMhi2znwAp5kTGWHRVV3Qq+48o9dx7KMRSlZMkcLSiG0t9pChMR3P4q1
+ /scGo+3K1WeMWwa1AKpXwckMDYiGuHG39TxbDV85pyLt3NlJIighSdCRRR8X+Um05fhF
+ tjaQ==
+X-Gm-Message-State: AOAM530GrDFPArnZM1doEzf+kSagJ5Zpwcd4gS1dUIwHqPE6wnOSLWC5
+ gJLbd1uNaBf0gTqMN6Oz2WQ=
+X-Google-Smtp-Source: ABdhPJwVuMWH18T8+Vr8EoiJNUY1m6sdb2K808sRWdv9zmrwmOiOsOcxsTaS52nP+PeAH4xw5/PUQQ==
+X-Received: by 2002:a1c:b007:: with SMTP id z7mr2252440wme.37.1592923676000;
+ Tue, 23 Jun 2020 07:47:56 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id z1sm14432596wru.30.2020.06.23.07.47.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 07:47:54 -0700 (PDT)
+Date: Tue, 23 Jun 2020 15:47:53 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 2/2] scripts/tracetool: Add plainlog backend
+Message-ID: <20200623144753.GR36568@stefanha-x1.localdomain>
+References: <20200617134505.9D06E7482D3@zero.eik.bme.hu>
+ <20200618073124.GA1956319@stefanha-x1.localdomain>
+ <20200618090741.GC671599@redhat.com>
+ <20200618153516.GE1956319@stefanha-x1.localdomain>
+ <20200618154323.GK671599@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="X35wERi4JU/f1kly"
+Content-Disposition: inline
+In-Reply-To: <20200618154323.GK671599@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +87,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rvkagan@yandex-team.ru, pbonzini@redhat.com, mail@maciej.szmigiero.name,
- qemu-devel@nongnu.org, vkuznets@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Jun 2020 19:09:02 +0300
-Jon Doron <arilou@gmail.com> wrote:
 
-> It seems like Windows does not really require 2 IRQs to have a
-> functioning VMBus.
-> 
-> Signed-off-by: Jon Doron <arilou@gmail.com>
-> ---
->  dtc                              | 2 +-
->  hw/hyperv/vmbus.c                | 3 +--
->  hw/i386/acpi-build.c             | 4 +---
->  include/hw/hyperv/vmbus-bridge.h | 3 +--
->  4 files changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/dtc b/dtc
-> index 85e5d83984..88f18909db 160000
-> --- a/dtc
-> +++ b/dtc
-> @@ -1 +1 @@
-> -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
-> +Subproject commit 88f18909db731a627456f26d779445f84e449536
-> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-> index f371240176..a8bcb41026 100644
-> --- a/hw/hyperv/vmbus.c
-> +++ b/hw/hyperv/vmbus.c
-> @@ -2741,8 +2741,7 @@ static const VMStateDescription vmstate_vmbus_bridge = {
->  };
->  
->  static Property vmbus_bridge_props[] = {
-> -    DEFINE_PROP_UINT8("irq0", VMBusBridge, irq0, 7),
-> -    DEFINE_PROP_UINT8("irq1", VMBusBridge, irq1, 13),
+--X35wERi4JU/f1kly
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-good riddance,
-I've just seen that TPM would use this IRQ for Windows sake
+On Thu, Jun 18, 2020 at 04:43:23PM +0100, Daniel P. Berrang=E9 wrote:
+> On Thu, Jun 18, 2020 at 04:35:16PM +0100, Stefan Hajnoczi wrote:
+> > On Thu, Jun 18, 2020 at 10:07:41AM +0100, Daniel P. Berrang=E9 wrote:
+> > > On Thu, Jun 18, 2020 at 08:31:24AM +0100, Stefan Hajnoczi wrote:
+> > > > On Wed, Jun 17, 2020 at 03:36:29PM +0200, BALATON Zoltan wrote:
+> > > > > Add a backend that is the same as the log backend but omits the
+> > > > > process id and timestamp so logs are easier to read and diff-able.
+> > > > >=20
+> > > > > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > > > ---
+> > > > >  scripts/tracetool/backend/plainlog.py | 48 +++++++++++++++++++++=
+++++++
+> > > > >  1 file changed, 48 insertions(+)
+> > > > >  create mode 100644 scripts/tracetool/backend/plainlog.py
+> > > > >=20
+> > > > > diff --git a/scripts/tracetool/backend/plainlog.py b/scripts/trac=
+etool/backend/plainlog.py
+> > > > > new file mode 100644
+> > > > > index 0000000000..40bbfa6d76
+> > > > > --- /dev/null
+> > > > > +++ b/scripts/tracetool/backend/plainlog.py
+> > > > > @@ -0,0 +1,48 @@
+> > > > > +# -*- coding: utf-8 -*-
+> > > > > +
+> > > > > +"""
+> > > > > +Stderr built-in backend, plain log without proc ID and time.
+> > > > > +"""
+> > > > > +
+> > > > > +__author__     =3D "Llu????s Vilanova <vilanova@ac.upc.edu>"
+> > > > > +__copyright__  =3D "Copyright 2012-2017, Llu????s Vilanova <vila=
+nova@ac.upc.edu>"
+> > > >=20
+> > > > There is a Unicode issue here, Llu=EDs' name is not printed correct=
+ly.
+> > > >=20
+> > > > > +__license__    =3D "GPL version 2 or (at your option) any later =
+version"
+> > > > > +
+> > > > > +__maintainer__ =3D "Stefan Hajnoczi"
+> > > > > +__email__      =3D "stefanha@linux.vnet.ibm.com"
+> > > > > +
+> > > > > +
+> > > > > +from tracetool import out
+> > > > > +
+> > > > > +
+> > > > > +PUBLIC =3D True
+> > > > > +
+> > > > > +
+> > > > > +def generate_h_begin(events, group):
+> > > > > +    out('#include "qemu/log-for-trace.h"',
+> > > > > +        '')
+> > > > > +
+> > > > > +
+> > > > > +def generate_h(event, group):
+> > > > > +    argnames =3D ", ".join(event.args.names())
+> > > > > +    if len(event.args) > 0:
+> > > > > +        argnames =3D ", " + argnames
+> > > > > +
+> > > > > +    if "vcpu" in event.properties:
+> > > > > +        # already checked on the generic format code
+> > > > > +        cond =3D "true"
+> > > > > +    else:
+> > > > > +        cond =3D "trace_event_get_state(%s)" % ("TRACE_" + event=
+=2Ename.upper())
+> > > > > +
+> > > > > +    out('    if (%(cond)s && qemu_loglevel_mask(LOG_TRACE)) {',
+> > > > > +        '        qemu_log("%(name)s " %(fmt)s "\\n" %(argnames)s=
+);',
+> > > > > +        '    }',
+> > > > > +        cond=3Dcond,
+> > > > > +        name=3Devent.name,
+> > > > > +        fmt=3Devent.fmt.rstrip("\n"),
+> > > > > +        argnames=3Dargnames)
+> > > >=20
+> > > > It is not necessary to introduce a new backend. There could be an o=
+ption
+> > > > that controls whether or not the timestamp/tid is printed. For exam=
+ple,
+> > > > -trace timestamp=3Doff or maybe the timestmap/tid can be integrated=
+ into
+> > > > qemu_log() itself so that it's used more consistently and a -d time=
+stamp
+> > > > option enables it.
+> > >=20
+> > > QEMU already has a "-msg timestamp=3Don|off" option that controls whe=
+ther
+> > > error reports on stderr get a timestamp. I think it is probably reaso=
+nable
+> > > for this existing option to apply to anything QEMU prints to stdout/e=
+rr,
+> > > and thus we could wire it up for qemu_log().
+> >=20
+> > I thought about that but the features are somewhat unrelated.
+> >=20
+> > If we unify them, how about making the timestamp/tid apply to *all*
+> > qemu_log() output, not just tracing?
+>=20
+> That's exactly what I intended.
+>=20
+> Essentially if QEMU is going to add timestamps to things it writes to
+> stdout/err, then it should do that universally for all parts of the code
+> base that use stdio. This means error_report(), qemu_log(), and any
+> other places that are relevant wrt stdio.
+>=20
+> Having separate timestamp on/off switches for each feature is not
+> desirable.
 
-> +    DEFINE_PROP_UINT8("irq", VMBusBridge, irq, 7),
->      DEFINE_PROP_END_OF_LIST()
->  };
->  
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 900f786d08..91af0d2d0d 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1082,9 +1082,7 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
->      aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
->  
->      crs = aml_resource_template();
-> -    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq0));
-> -    /* FIXME: newer HyperV gets by with only one IRQ */
-> -    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq1));
-> +    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq));
->      aml_append(dev, aml_name_decl("_CRS", crs));
->  
->      return dev;
-> diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
-> index c0a06d832c..33f93de64d 100644
-> --- a/include/hw/hyperv/vmbus-bridge.h
-> +++ b/include/hw/hyperv/vmbus-bridge.h
-> @@ -19,8 +19,7 @@ typedef struct VMBus VMBus;
->  typedef struct VMBusBridge {
->      SysBusDevice parent_obj;
->  
-> -    uint8_t irq0;
-> -    uint8_t irq1;
-> +    uint8_t irq;
->  
->      VMBus *bus;
->  } VMBusBridge;
+Okay. I'll take a look at this tomorrow.
 
+Thanks!
+
+Stefan
+
+--X35wERi4JU/f1kly
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yFhkACgkQnKSrs4Gr
+c8jScwf/Vwuncu8SvXwB9876y2Tr01ig5w19YjLirNu7pfu4TXkeIrp9sdUZ2v7v
+HYCMqMFOXVLWp6wr6kySGUDFLyIQiLBEVkoCP+XTDT4dlnnS8E6QQICVjxlIxI2X
+UEYZkT06G5XT+ICcVDgEq0KidEaqtZhFLJipd33d/9mHVvwNM6HCrm3shKmWR2CB
+J6PHLaVDk+4YjHcRMI0uF9D16HAX00qljYPqjbVJNdpihCc3JDQy1sCbREugR8kp
+/PiJE1M/htwZYNZO+2ik7eEL2Rf5gfuabxQdNJdxvifgMfSGjSNDYJCEyP5Jyd5m
+rf1nwb5aJKHCridtaj4l7WRa+aGCGQ==
+=8swd
+-----END PGP SIGNATURE-----
+
+--X35wERi4JU/f1kly--
 
