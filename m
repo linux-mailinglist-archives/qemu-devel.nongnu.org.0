@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9249C2054B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:29:24 +0200 (CEST)
-Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BA420548A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:27:29 +0200 (CEST)
+Received: from localhost ([::1]:34428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnjvP-0001CJ-A4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51500)
+	id 1jnjtY-0006FP-4a
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpp-0001fu-AG
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpp-0001fR-0Y
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:37 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52811
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57860
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpl-0007hw-4n
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpl-0007hr-6t
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592922212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S6+SXKHm2YJJ94V216e5x2QAVQmPP4XEKgLli7B7ET0=;
- b=Z7M8REckMkKRVOk5a+RZ+ByiY3EQoxV7AGzeRcEFfiohX6nurYwbpnoGuM+PCZKLMGVF4j
- AJKy9ZrOsU80iWtlC+xd6wXq7z3AQWm2btPC/hKDTVM1+l8ky0z7iBN8uUDKSdHayUvQ6i
- 1EKvx4fdgZsPc4hNT1L1Dgr7/xXUswc=
+ bh=a1I3WqrrfPmxBDbZXhSPi23ZNKJws33Wu6BUpoSalVA=;
+ b=UNCJwEjUYXQ5pi8n7XaUxymE2heg8eGaYB44XpOfjx1Ft92GDYtVsXiYsrITup8UTxI2O+
+ +H0kmPCDrnwbm/Te4zeFKUBXcv7PVY/4VI4JTBT/8tn6XgYmRXqWc+o9RKso01nzD7/KCM
+ 6mA8SYlM3ybC/dUuDj/TseJsYDENWNE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-6Q5DdsPTN1KsTWlTXXv30A-1; Tue, 23 Jun 2020 10:23:30 -0400
-X-MC-Unique: 6Q5DdsPTN1KsTWlTXXv30A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-394-i4XNS73xMBOlRtbtbj-q4Q-1; Tue, 23 Jun 2020 10:23:30 -0400
+X-MC-Unique: i4XNS73xMBOlRtbtbj-q4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E4E0107BEF8
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D5C0107BEF7
  for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 580871002393;
- Tue, 23 Jun 2020 14:23:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E19E71688
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 480511138473; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
+ id 50FC11138475; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/16] fdc: Open-code fdctrl_init_isa()
-Date: Tue, 23 Jun 2020 16:23:15 +0200
-Message-Id: <20200623142326.2349416-6-armbru@redhat.com>
+Subject: [PULL 07/16] docs/qdev-device-use.txt: Update section "Default
+ Devices"
+Date: Tue, 23 Jun 2020 16:23:17 +0200
+Message-Id: <20200623142326.2349416-8-armbru@redhat.com>
 In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
 References: <20200623142326.2349416-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:54:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,86 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Helper function fdctrl_init_isa() is less than helpful: one of three
-places creating "isa-fdc" devices use it.  Open-code it there, and
-drop the function.
+Resynchronize the table of default device suppressions with vl.c's
+default_list[].
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200622094227.1271650-6-armbru@redhat.com>
+Message-Id: <20200622094227.1271650-8-armbru@redhat.com>
 ---
- include/hw/block/fdc.h |  1 -
- hw/block/fdc.c         | 14 --------------
- hw/i386/pc.c           |  8 ++++++--
- 3 files changed, 6 insertions(+), 17 deletions(-)
+ docs/qdev-device-use.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
-index 8855d3476c..d232d3fa1e 100644
---- a/include/hw/block/fdc.h
-+++ b/include/hw/block/fdc.h
-@@ -10,7 +10,6 @@
- #define TYPE_ISA_FDC "isa-fdc"
+diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+index 3d781be547..4bbbcf561f 100644
+--- a/docs/qdev-device-use.txt
++++ b/docs/qdev-device-use.txt
+@@ -384,8 +384,8 @@ some DEVNAMEs:
+     parallel            isa-parallel
+     serial              isa-serial
+     VGA                 VGA, cirrus-vga, isa-vga, isa-cirrus-vga,
+-                        vmware-svga, qxl-vga, virtio-vga
+-    virtioconsole       virtio-serial-pci, virtio-serial
++                        vmware-svga, qxl-vga, virtio-vga, ati-vga,
++                        vhost-user-vga
  
- void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds);
--ISADevice *fdctrl_init_isa(ISABus *bus, DriveInfo **fds);
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds);
- void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 2650dcb0df..d1f7722cff 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -2565,20 +2565,6 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
-     }
- }
- 
--ISADevice *fdctrl_init_isa(ISABus *bus, DriveInfo **fds)
--{
--    ISADevice *isadev;
--
--    isadev = isa_try_new(TYPE_ISA_FDC);
--    if (!isadev) {
--        return NULL;
--    }
--    isa_realize_and_unref(isadev, bus, &error_fatal);
--
--    isa_fdc_init_drives(isadev, fds);
--    return isadev;
--}
--
- void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
-                         hwaddr mmio_base, DriveInfo **fds)
- {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d103b8c0ab..f670bcd6e6 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1142,7 +1142,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
-     int i;
-     DriveInfo *fd[MAX_FD];
-     qemu_irq *a20_line;
--    ISADevice *i8042, *port92, *vmmouse;
-+    ISADevice *fdc, *i8042, *port92, *vmmouse;
- 
-     serial_hds_isa_init(isa_bus, 0, MAX_ISA_SERIAL_PORTS);
-     parallel_hds_isa_init(isa_bus, MAX_PARALLEL_PORTS);
-@@ -1152,7 +1152,11 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
-         create_fdctrl |= !!fd[i];
-     }
-     if (create_fdctrl) {
--        fdctrl_init_isa(isa_bus, fd);
-+        fdc = isa_new(TYPE_ISA_FDC);
-+        if (fdc) {
-+            isa_realize_and_unref(fdc, isa_bus, &error_fatal);
-+            isa_fdc_init_drives(fdc, fd);
-+        }
-     }
- 
-     i8042 = isa_create_simple(isa_bus, "i8042");
+ The default NIC is connected to a default part created along with it.
+ It is *not* suppressed by configuring a NIC with -device (you may call
 -- 
 2.26.2
 
