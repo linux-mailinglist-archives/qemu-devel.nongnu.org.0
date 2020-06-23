@@ -2,79 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7403A205C4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:59:02 +0200 (CEST)
-Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D12E205C48
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:57:30 +0200 (CEST)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnp4P-0002Wg-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1jnp2v-0007XA-Di
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnok8-0005PK-Br
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:04 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:32769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnok3-0005wX-LY
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:38:03 -0400
-Received: by mail-pl1-x644.google.com with SMTP id 35so9563237ple.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EytV8fA8967EnswtTLvmJxzReykydC3hrRXQ99z0dGM=;
- b=e6gDYDn0gmxtvtTgGpUYnVmDY5uJKHESXD0FgLsPzNcID1nk9Jbdxwu1P+nKW2vYu/
- 9PLS1oj+7Ks94oYTWNd7ZUISfuBwyD+dWiCLSoUy7jTd0s9txkxdXXkfxKKMc+1yS11R
- nsVIGSiEj+xG35FOeAamccnUBWYrH8UKgPN+dILJgL8BtEwaqyuJ8C4j0521FF3Ttwyw
- 6yRD+F2R6Ps4Fev6rcrrtmKmM8ItMS8zkoBvEaeTt77Ud3jUGtjRDbXUA8dW+rjDQUCZ
- BncDmq/yaMoyMBmpbXMNjC/O5w08XPKSQKY4pW5+Z3vX1bxWi8Tqg539cGHfA2ZVwZ4n
- a5yQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jnozI-0001bn-9o
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:53:44 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59607
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jnozG-0006Qy-C6
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:53:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592942021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ijBJ39bc+vSoTtVS8ZuRaEc6t5ZyCnt60sn8O7R1ja8=;
+ b=UF/yFAfRIxW4XlOCjQOoUklBFEUASY25dqyFwj7h56GUJhxXh2rWgEP/qEOfLBQLz3byYP
+ eJLq/+k+9XLcg+viQQZntdYRGtZ5SEyDW5jg/b2fTe0Q/UuGk53UitWHx8gXLNrgApaM4R
+ GSYcY3Nhb8eMFBfUtQUeDnslWSqVeKY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-Yx23ilhtM4SSQcwKpNbkyw-1; Tue, 23 Jun 2020 15:53:33 -0400
+X-MC-Unique: Yx23ilhtM4SSQcwKpNbkyw-1
+Received: by mail-wm1-f70.google.com with SMTP id s134so5581571wme.6
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:53:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EytV8fA8967EnswtTLvmJxzReykydC3hrRXQ99z0dGM=;
- b=aI3R1e1LljR2yVB3bTE2Hr2rbSRM5FP/dboIgX0j4EntA7wd2+FNUCAuayWnPSUzdQ
- rkQNNm1lGnFV7xvluC8Di6g7vfLnH/1tTjJkqRZoAfwn4Fp0IIDRZHhhnovsrO2Wqm5W
- fpAokdtfoU5nNHxTAEijhJFD7DUNHB7YmEx/7kYBfgC7Xr2Y5muOBJ6HXfgXnMZfpG3u
- q7vmwFLMXQDhADTZq54mInPS+HEr25fxjMGqZF/YyCNx1saDcHKrp6NJuyoNF2hY+Fh9
- fF/GVXDuZqYKcU6ZyVqgISaEFZKm1LFBMj01sI5W6hZBYKEpNDhTL6pT/5A8fiCR9QxL
- jI+w==
-X-Gm-Message-State: AOAM530hxJBTovNVUVvS6wZclgGmshRLmqV93cLZxHv0XIOY2mgJsaPs
- xqY8oQ/aSKgthE80tR+B9rQdK0OLVE4=
-X-Google-Smtp-Source: ABdhPJwXHfatEWojjQDpJGK6AxfeypDKuuscB+hTk3N+DYTMIx+YP0rO5mI3e0u3oTYCwCJZHaGyJQ==
-X-Received: by 2002:a17:90a:49c5:: with SMTP id
- l5mr25343641pjm.31.1592941077976; 
- Tue, 23 Jun 2020 12:37:57 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 12:37:57 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 42/45] target/arm: Cache the Tagged bit for a page in
- MemTxAttrs
-Date: Tue, 23 Jun 2020 12:36:55 -0700
-Message-Id: <20200623193658.623279-43-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
-References: <20200623193658.623279-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ijBJ39bc+vSoTtVS8ZuRaEc6t5ZyCnt60sn8O7R1ja8=;
+ b=nejr90to1rRx7RWpa5S1VQXhDJN7W7v29xuIVFMQFTf7FP5gc93IN+PvpJO4M7fxLA
+ lQllFYJ6qH2G2TWLGdMwq9tmh5tdz8FpCOsdDS7hweAYI2VEx11aYLTY0w8RosaKnH0s
+ 0FHtclgPqfDmNbne/F/sg8AVWiQe8ChCcAlYAYZpkDhyr7+NF2KD5lchT9xLsdsqFDe/
+ +cunCcY1CaJSbiOcX3S103mRYicUVWUQnQ3Bj3WgoMHXUwBCEuTqMGS4zqxa1ey1ys6E
+ BNXUrYxa9Ln0zCsvoYM2pdovFqe/YXeC6EBUoFTc7/U1J2ty9Cxs2FtjiBIA86doZBdo
+ dwvg==
+X-Gm-Message-State: AOAM531mHYmCcmsyC/6fwtv8I22/36kpRQm1xb4CFVzXRW4sIamslkUv
+ +qjzSeWVsvgFT57q+F2maad8CgwYCGaCK+sBvFg5zGfjZ++hrg2fFJKEv/tXNW8S57BhQgCeUcL
+ M4ZmKvgYmEXyn7VY=
+X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr27134383wmg.91.1592942012568; 
+ Tue, 23 Jun 2020 12:53:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSNc92feIJX8/1g4eSEQdZLJq+H5ggGcTXEne+ytbzy373yNC0ouo6MqVA54ObdQrOwoqWAw==
+X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr27134367wmg.91.1592942012283; 
+ Tue, 23 Jun 2020 12:53:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:24f5:23b:4085:b879?
+ ([2001:b07:6468:f312:24f5:23b:4085:b879])
+ by smtp.gmail.com with ESMTPSA id w17sm25115229wra.42.2020.06.23.12.53.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Jun 2020 12:53:31 -0700 (PDT)
+Subject: Re: [PATCH] configure: disable -Wxor-used-as-pow
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200623173726.20909-1-pbonzini@redhat.com>
+ <cc8efdbc-0d09-37ca-199a-2b82700aea00@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e5cefdc7-b470-50a7-8c02-8f712d8f2c0c@redhat.com>
+Date: Tue, 23 Jun 2020 21:53:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <cc8efdbc-0d09-37ca-199a-2b82700aea00@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,129 +100,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
- steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This "bit" is a particular value of the page's MemAttr.
+On 23/06/20 20:41, Eric Blake wrote:
+> On 6/23/20 12:37 PM, Paolo Bonzini wrote:
+>> Clang being clang and adding more pointless warnings.  In a hardware
+>> emulator there are going to be plenty of bitwise operations, and the
+>> chance of someone writing ^ for pow and not being caught is basically
+>> zero.
+> 
+> Did this warning actually fire?
+> 
+> My understanding (from a quick glance of
+> https://reviews.llvm.org/D63423) is that it is supposed to catch
+> instances of '2 ^ 16' where someone meant '1 << 16' instead of 18.  I
+> don't know if it is supposed to flag 'a ^ 16' (if it does, then it is
+> indeed useless), or only when both lhs and rhs are constants and where
+> lhs is 2 or 10, so my initial reaction is that without seeing an actual
+> false positive, we are premature in disabling it.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v6: Test HCR_EL2.{DC,DCT}; test Stage2 attributes.
-v8: Fill in cacheattrs for S1 disabled; retain tagging when
-    combining attributes; set mte_tagging in arm_cpu_tlb_fill.
----
- target/arm/helper.c     | 48 ++++++++++++++++++++++++++++++++++++++---
- target/arm/tlb_helper.c |  5 +++++
- 2 files changed, 50 insertions(+), 3 deletions(-)
+There is an instance of 2 ^ 20.
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2072db2f92..e614d7c4bd 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11834,9 +11834,19 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
-  */
- static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
- {
--    uint8_t s1lo = extract32(s1.attrs, 0, 4), s2lo = extract32(s2.attrs, 0, 4);
--    uint8_t s1hi = extract32(s1.attrs, 4, 4), s2hi = extract32(s2.attrs, 4, 4);
-+    uint8_t s1lo, s2lo, s1hi, s2hi;
-     ARMCacheAttrs ret;
-+    bool tagged = false;
-+
-+    if (s1.attrs == 0xf0) {
-+        tagged = true;
-+        s1.attrs = 0xff;
-+    }
-+
-+    s1lo = extract32(s1.attrs, 0, 4);
-+    s2lo = extract32(s2.attrs, 0, 4);
-+    s1hi = extract32(s1.attrs, 4, 4);
-+    s2hi = extract32(s2.attrs, 4, 4);
- 
-     /* Combine shareability attributes (table D4-43) */
-     if (s1.shareability == 2 || s2.shareability == 2) {
-@@ -11884,6 +11894,11 @@ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
-         }
-     }
- 
-+    /* TODO: CombineS1S2Desc does not consider transient, only WB, RWA. */
-+    if (tagged && ret.attrs == 0xff) {
-+        ret.attrs = 0xf0;
-+    }
-+
-     return ret;
- }
- 
-@@ -11963,8 +11978,11 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                  *  Normal Non-Shareable,
-                  *  Inner Write-Back Read-Allocate Write-Allocate,
-                  *  Outer Write-Back Read-Allocate Write-Allocate.
-+                 * Do not overwrite Tagged within attrs.
-                  */
--                cacheattrs->attrs = 0xff;
-+                if (cacheattrs->attrs != 0xf0) {
-+                    cacheattrs->attrs = 0xff;
-+                }
-                 cacheattrs->shareability = 0;
-             }
-             *cacheattrs = combine_cacheattrs(*cacheattrs, cacheattrs2);
-@@ -12029,6 +12047,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-     /* Definitely a real MMU, not an MPU */
- 
-     if (regime_translation_disabled(env, mmu_idx)) {
-+        uint64_t hcr;
-+        uint8_t memattr;
-+
-         /*
-          * MMU disabled.  S1 addresses within aa64 translation regimes are
-          * still checked for bounds -- see AArch64.TranslateAddressS1Off.
-@@ -12066,6 +12087,27 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-         *phys_ptr = address;
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         *page_size = TARGET_PAGE_SIZE;
-+
-+        /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
-+        hcr = arm_hcr_el2_eff(env);
-+        cacheattrs->shareability = 0;
-+        if (hcr & HCR_DC) {
-+            if (hcr & HCR_DCT) {
-+                memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
-+            } else {
-+                memattr = 0xff;  /* Normal, WB, RWA */
-+            }
-+        } else if (access_type == MMU_INST_FETCH) {
-+            if (regime_sctlr(env, mmu_idx) & SCTLR_I) {
-+                memattr = 0xee;  /* Normal, WT, RA, NT */
-+            } else {
-+                memattr = 0x44;  /* Normal, NC, No */
-+            }
-+            cacheattrs->shareability = 2; /* outersharable */
-+        } else {
-+            memattr = 0x00;      /* Device, nGnRnE */
-+        }
-+        cacheattrs->attrs = memattr;
-         return 0;
-     }
- 
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 89d90465a3..b35dc8a011 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -188,6 +188,11 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             phys_addr &= TARGET_PAGE_MASK;
-             address &= TARGET_PAGE_MASK;
-         }
-+        /* Notice and record tagged memory. */
-+        if (cpu_isar_feature(aa64_mte, cpu) && cacheattrs.attrs == 0xf0) {
-+            arm_tlb_mte_tagged(&attrs) = true;
-+        }
-+
-         tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
-                                 prot, mmu_idx, page_size);
-         return true;
--- 
-2.25.1
+But it's actually a bug.  Objection (and faith in humanity) retracted.
+
+Paolo
 
 
