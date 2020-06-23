@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60F8205274
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:26:51 +0200 (CEST)
-Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3C2205247
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:19:53 +0200 (CEST)
+Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jni0o-0007dz-QS
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56630)
+	id 1jnhu4-0007s8-TQ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jnhn2-00087m-IH
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:12:38 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44481)
+ id 1jnhna-0000SU-4O
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:10 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jnhn0-0003mp-BH
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:12:36 -0400
-Received: by mail-pf1-x442.google.com with SMTP id p11so1316804pff.11
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 05:12:33 -0700 (PDT)
+ id 1jnhnY-00043E-Be
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:09 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id u8so1396344pje.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 05:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=OVDqplI3BSmcOcVVEmMRQgeE9FJBzXXwKXNZsE2j7Wo=;
- b=QUWAlpJCkT37hQAq9Fj9WWxjjVc48IDE2gcxVaf6vepOejJYLRm9dlRua7UQWEIiCE
- PlunFm9v8m+9e/wxIAvJRIkydDaxotjDSGZfAQkNfMe2EQ0HYkrOS13g6STjsTEHPZQG
- O7b7/yEr6czsB1ycTFsqk+8ZmaLy3u0ry+/OGhw6rDRJ7N2Ixt1i14ot0cZ2lwtTJHsh
- OQR908aDFdMdPrVdB0mytGHrnIBgPwFtEJuEr/0NOdSk3SGFGR50bja10bN+lya1SAJ9
- 3y1IhmTWsWSxqqHp/UaLLLM+rBKLfgviOPtNdLKpZ7NsUUW0jV5L4K4RJZE6YB4l01ZJ
- 4veA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6zv4LKrUNZWMbaVi6BSvUFBtq8jf6g3exSrZ11NT8kw=;
+ b=spLQRCt0Y4/TyOw3VLkZP9SKZhuN5SYJ13ICSq54UdiDmYlnYod1b3PpIPkxcsipMT
+ Sv79N7i7/n5rrJjfRwNAPJyGpmmAmK5SMWrElsH1ak3EvrlNpvCsGH5rB3eym+ULLQKK
+ x1orVh6nFzK/QOmqgYuAMFyvYCxAIXk/Iisz3q+nJtKPj39GZ9OIlRuMKAK3UFTCRxtl
+ XBk5X8BB9QfTsWXPYRR/3RjuYx+VBVeb/l7Chm2wsY/EXxffoSPii18Bciv1pO6YBe1J
+ kGQIP/Y3c6NPMLuyiYb1yi4iN4eegkh+GT3s6fSXvGEDC/t8V5MkBypYp+pd1vcDIQkU
+ QVlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=OVDqplI3BSmcOcVVEmMRQgeE9FJBzXXwKXNZsE2j7Wo=;
- b=gAnSgmvE/b5FnueqiaNKmwQ95g7IeSdQV+E9JqPLJaX0LqEMITdF/M3B0EYrcx1cGb
- fOc0KrmjuVfeaSRRMF+nZSWStpYrwJIyL4N6X6NGJ57yfO8fUgEvBYM3QsOJHIWQqUbH
- GiRnUZcJ1tp2EGqo8ifWo4FhipvPPlnly2t5BN6kRhNAyq/FRLrwuafT3libVoBtZY0q
- xosz2s3BWV8o+wP0EZBxkrkV6i3PCtnnVUkZzVT3TaB9Q240uC7fXURU9upO3Nf4TefO
- BpiOXHGFjLnTzxuRJN9HHOMWnOn/1BnF5vspniw3bBGYoS+AJOe4tiAKIOnUHs6Go6Ml
- AtIA==
-X-Gm-Message-State: AOAM531GS2Lq17YbdGqimd1OEh3xmoW3pQAGthVWAt/oGpz2ePj7CPPV
- U6a4NCth8r7YrXT16U1k+iw=
-X-Google-Smtp-Source: ABdhPJxX0lh7hj2GmtWEMvsBd8O3BOxR4B2pMsnre734qAHg4OGOKomSaJurVDz3CS2SLemgtSqXlg==
-X-Received: by 2002:a62:382:: with SMTP id 124mr24829482pfd.190.1592914352099; 
- Tue, 23 Jun 2020 05:12:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=6zv4LKrUNZWMbaVi6BSvUFBtq8jf6g3exSrZ11NT8kw=;
+ b=JgwuDUk/RsUveUat4nNVObAdOZWaGMnFd3/qgE3OOhfQZlnKSamiQDNJ4e34y3XzET
+ p9TFoF2mYL+R+FEkfNtt+vdsqSAu7n21MkWv8PH6RR5mKDnwcsn2lTtrN03U9BOCuAHp
+ ivyu6qarBZEHlMJ4A2014Dy7/j270AU9zyWPTSDYqedQWtsOQiOqcUf1Kr41N1DpCig1
+ XI37dsPbKMPJRTrfnaCyadsSyhztgRArI/8N3qufh8x14GYii+srJmkmHOTjA05zZwAr
+ W1EOOrxzCk7rcWXMbokmfWt1CMz5TiCSUSdTRVDgKszfwAkNHGhAGD3/2KULFGof2/En
+ UvvQ==
+X-Gm-Message-State: AOAM5327nZ7omeHonmVE29ZOskLgBcIgSFQ9VyGn4Vej4b09K+uQDE3H
+ rn0E2cziOebvRdvHPhlmp5M=
+X-Google-Smtp-Source: ABdhPJxbM4TQhJZKtJ+VeCOaq0doWDkvpt8fHmUNzivtfQQr6J4qZ754QjKjzGfI8O1Fbjm9Q/dxzQ==
+X-Received: by 2002:a17:90a:2843:: with SMTP id
+ p3mr21629341pjf.187.1592914386911; 
+ Tue, 23 Jun 2020 05:13:06 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id m18sm17022782pfo.173.2020.06.23.05.12.29
+ by smtp.gmail.com with ESMTPSA id m18sm17022782pfo.173.2020.06.23.05.13.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jun 2020 05:12:31 -0700 (PDT)
+ Tue, 23 Jun 2020 05:13:06 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH for-5.1 V5 0/4] mips: Add Loongson-3 machine support (with KVM)
-Date: Tue, 23 Jun 2020 20:13:54 +0800
-Message-Id: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
+Subject: [PATCH for-5.1 V5 1/4] hw/mips: Implement the kvm_type() hook in
+ MachineClass
+Date: Tue, 23 Jun 2020 20:13:55 +0800
+Message-Id: <1592914438-30317-2-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x442.google.com
+In-Reply-To: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
+References: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -67,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,118 +92,86 @@ Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
-Loongson-3A R4 is the newest and its ISA is almost the superset of all
-others. To reduce complexity, in QEMU we just define two CPU types:
+MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
+can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
+MachineClass. This patch add the the kvm_type() hook to support both of
+the two types.
 
-1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
-   suitable for TCG because Loongson-3A R1 has fewest ASE.
-2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
-   suitable for KVM because Loongson-3A R4 has the VZ ASE.
-
-Loongson-3 lacks English documents. I've tried to translated them with
-translate.google.com, and the machine translated documents (together
-with their original Chinese versions) are available here.
-
-Loongson-3A R1 (Loongson-3A1000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.pdf (Chinese Version)
-
-Loongson-3A R2 (Loongson-3A2000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Version)
-
-Loongson-3A R3 (Loongson-3A3000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Chinese Version)
-User Manual Part 2:
-http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
-http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Chinese Version)
-
-Loongson-3A R4 (Loongson-3A4000)
-User Manual Part 1:
-http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
-http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
-User Manual Part 2:
-I'm sorry that it is unavailable now.
-
-We are preparing to add QEMU's Loongson-3 support. MIPS VZ extension is
-fully supported in Loongson-3A R4+, so we at first add QEMU/KVM support
-in this series. And the next series will add QEMU/TCG support (it will
-emulate Loongson-3A R1).
-
-We already have a full functional Linux kernel (based on Linux-5.4.x LTS
-but not upstream yet) here:
-
-https://github.com/chenhuacai/linux
-
-How to use QEMU/Loongson-3?
-1, Download kernel source from the above URL;
-2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
-3, Boot a Loongson-3A4000 host with this kernel;
-4, Build QEMU-5.0.0 with this patchset;
-5, modprobe kvm;
-6, Use QEMU with TCG (available in future):
-       qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
-   Use QEMU with KVM (available at present):
-       qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
-
-   The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
-
-V1 -> V2:
-1, Add a cover letter;
-2, Improve CPU definitions;
-3, Remove LS7A-related things (Use GPEX instead);
-4, Add a description of how to run QEMU/Loongson-3.
-
-V2 -> V3:
-1, Fix all possible checkpatch.pl errors and warnings.
-
-V3 -> V4:
-1, Sync code with upstream;
-2, Remove merged patches;
-3, Fix build failure without CONFIG_KVM;
-4, Add Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>.
-
-V4 -> V5:
-1, Improve coding style;
-2, Remove merged patches;
-3, Rename machine name from "loongson3" to "loongson3-virt";
-4, Rework the "loongson3-virt" machine to drop any ISA things;
-5, Rework "hw/mips: Implement the kvm_type() hook in MachineClass";
-6, Add Jiaxun Yang as a reviewer of Loongson-3.
-
-Huacai Chen(4):
- hw/mips: Implement the kvm_type() hook in MachineClass
- hw/intc: Add Loongson liointc support
- hw/mips: Add Loongson-3 machine support (with KVM)
- MAINTAINERS: Add Loongson-3 maintainer and reviewer
-
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- MAINTAINERS                          |   6 +
- default-configs/mips64el-softmmu.mak |   1 +
- hw/intc/Kconfig                      |   3 +
- hw/intc/Makefile.objs                |   1 +
- hw/intc/loongson_liointc.c           | 246 +++++++++
- hw/mips/Kconfig                      |  11 +
- hw/mips/Makefile.objs                |   1 +
- hw/mips/loongson3_virt.c             | 969 +++++++++++++++++++++++++++++++++++
- target/mips/kvm.c                    |  20 +
- target/mips/kvm_mips.h               |  11 +
- 10 files changed, 1269 insertions(+)
- create mode 100644 hw/intc/loongson_liointc.c
- create mode 100644 hw/mips/loongson3_virt.c
---
+ target/mips/kvm.c      | 20 ++++++++++++++++++++
+ target/mips/kvm_mips.h | 11 +++++++++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index 96cfa10..373f582 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -21,10 +21,12 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/kvm_int.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/cpus.h"
+ #include "kvm_mips.h"
+ #include "exec/memattrs.h"
++#include "hw/boards.h"
+ 
+ #define DEBUG_KVM 0
+ 
+@@ -1270,3 +1272,21 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+ {
+     abort();
+ }
++
++int mips_kvm_type(MachineState *machine, const char *vm_type)
++{
++    int r;
++    KVMState *s = KVM_STATE(machine->accelerator);
++
++    r = kvm_check_extension(s, KVM_CAP_MIPS_VZ);
++    if (r > 0) {
++        return KVM_VM_MIPS_VZ;
++    }
++
++    r = kvm_check_extension(s, KVM_CAP_MIPS_TE);
++    if (r > 0) {
++        return KVM_VM_MIPS_TE;
++    }
++
++    return -1;
++}
+diff --git a/target/mips/kvm_mips.h b/target/mips/kvm_mips.h
+index 1e40147..171d53d 100644
+--- a/target/mips/kvm_mips.h
++++ b/target/mips/kvm_mips.h
+@@ -12,6 +12,8 @@
+ #ifndef KVM_MIPS_H
+ #define KVM_MIPS_H
+ 
++#include "cpu.h"
++
+ /**
+  * kvm_mips_reset_vcpu:
+  * @cpu: MIPSCPU
+@@ -23,4 +25,13 @@ void kvm_mips_reset_vcpu(MIPSCPU *cpu);
+ int kvm_mips_set_interrupt(MIPSCPU *cpu, int irq, int level);
+ int kvm_mips_set_ipi_interrupt(MIPSCPU *cpu, int irq, int level);
+ 
++#ifdef CONFIG_KVM
++int mips_kvm_type(MachineState *machine, const char *vm_type);
++#else
++static inline int mips_kvm_type(MachineState *machine, const char *vm_type)
++{
++    return 0;
++}
++#endif
++
+ #endif /* KVM_MIPS_H */
+-- 
 2.7.0
+
 
