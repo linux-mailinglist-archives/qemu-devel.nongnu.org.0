@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC8C205163
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:55:08 +0200 (CEST)
-Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF2020516D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:57:37 +0200 (CEST)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhW7-0003ff-P8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1jnhYW-0000H5-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHW-0003eU-9z
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:40:02 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40405)
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jnhHD-0003NE-6z
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:43 -0400
+Received: from do158-143.mg.gitlab.com ([192.237.158.143]:37817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHP-0003Te-G8
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:40:01 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f139so1439855wmf.5
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=tzG6H3dx3q2JVxVlZDbfro7dUJHnE2QjtMtXPZaJA+0=;
- b=CCja5DE2ZECh2W8PuEL9w6oURea8cnznEHL4ArLGM1RCcgCsroHs352FrubyPuCboY
- 3IU5WIoj26Zae/rALGUynzYGWz9+fsE9rQM5Jl+BWxDWpwmQ7mvF5VhV0kehkiRjJBWP
- G8yvSMLsNrrGks3DJMKUd9r98728oAlOQEckxUd55ESh73qaEbabIb9RMkEri2BnISiU
- 2Gv8ppju3wAe5V5BEIre5fJ3U6ydcS1QPwybAjh/Oy4pm/kftTR1sq0ObVSZqihLp47Q
- 9KNw5clcT0rJgT0Mnj1JYiFAeZfZ+l+ccoWofq/dJP87Paj4+HrFcIk/k0cfzyXhyzD7
- 7Vyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tzG6H3dx3q2JVxVlZDbfro7dUJHnE2QjtMtXPZaJA+0=;
- b=mxo43njKsaosxd9eLhWcmQ2EHPMoxfZhHBjTUf68Mzz/bCMxAxhIXER/ssF9e6n8Ow
- yPCI5d0JGYwJWm9n87TsoJ5i/Ya4B0SvyWewqWU9+e3W4iqjL/ydJl94XjAIqIig19ST
- o57PcjaiCfkGFyEi91lz9oUHX2jtZXsLxyO6rWInG9S1OLhkYSNbLzhS5UorhPE3xpqv
- bkKFTISlAGKyKnP9izhd0de2JUlCH4c58q/phjWRV9d5oSnEOTIHPIuFYCvPCmYWkY/l
- pjXgPwRWIxMrnTPSFzafk1lP4QbPb+XW7UObOlezWHthQyMQ1KM0KpzCwoiUVJK1RjKE
- DHFA==
-X-Gm-Message-State: AOAM531DPxub6+BVHZpl++eA9BA9tUYAH7t9Yh7jo4jj75BBvQy8+one
- kaUPTBrUuELU8Zadt2i/iQrDhnV4wYJSzg==
-X-Google-Smtp-Source: ABdhPJyZoI5ZrVoGwYF8/c/WCxfeLiL5H2obw1zn3Mwi8Y8zrokUD9gI9k9jm4Q0SwkiTSoew/TMLg==
-X-Received: by 2002:a1c:4e1a:: with SMTP id g26mr23189153wmh.148.1592912392295; 
- Tue, 23 Jun 2020 04:39:52 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.51
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 40/42] target/arm: Check supported KVM features globally (not
- per vCPU)
-Date: Tue, 23 Jun 2020 12:39:02 +0100
-Message-Id: <20200623113904.28805-41-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
-References: <20200623113904.28805-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1)
+ (envelope-from <bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com>)
+ id 1jnhHA-0003Kc-62
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:42 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com;
+ q=dns/txt; 
+ s=mailo; t=1592912379; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: Reply-To: From: Date:
+ Sender; bh=LLUJ50iDdsw5sZXT0/9MTFC/cniTE8F87mPyHzMwD10=;
+ b=AVW9FRxyKUWHQXq18+LMl0I4t/JGIYrjWMbullJl0pdRXSGDx3QH9Uchd7i4IuZzYOd3xPNx
+ H9/99vT3YrMcUZr7V8jQM7+u7kQWonxh9GTsIvy95toDkeuNUVCPpEj83gUANb13e38f4biQ
+ Rh5x1ScM23vGxN2bJqMMAeCdQss=
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyI3MWYzYSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOTQ3YjQiXQ==
+Received: from mg.gitlab.com (67.90.74.34.bc.googleusercontent.com
+ [34.74.90.67]) by smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5ef1e9ed4c9690533aea54ff (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Tue, 23 Jun 2020 11:39:25 GMT
+Date: Tue, 23 Jun 2020 11:39:09 +0000
+Message-ID: <5ef1e9dd2093_50d03fd9f3365670158153@sidekiq-catchall-02-sv-gprd.mail>
+Subject: QEMU | Pipeline #159156363 has failed for master | 61fee7f4
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5ef1e9dcee004_50d03fd9f336567015802e";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: QEMU
+X-GitLab-Project-Id: 11167699
+X-GitLab-Project-Path: qemu-project/qemu
+X-GitLab-Pipeline-Id: 159156363
+X-GitLab-Pipeline-Ref: master
+X-GitLab-Pipeline-Status: failed
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+Received-SPF: pass client-ip=192.237.158.143;
+ envelope-from=bounce+2dc402.947b4-qemu-devel=nongnu.org@mg.gitlab.com;
+ helo=do158-143.mg.gitlab.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 05:57:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, MISSING_HEADERS=1.021,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.01, RCVD_IN_MSPIKE_L5=2.5,
+ REPLYTO_WITHOUT_TO_CC=1.552, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,239 +79,675 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: GitLab <noreply@gitlab.com>, GitLab <gitlab@mg.gitlab.com>
+From: GitLab via <qemu-devel@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since commit d70c996df23f, when enabling the PMU we get:
+----==_mimepart_5ef1e9dcee004_50d03fd9f336567015802e
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  $ qemu-system-aarch64 -cpu host,pmu=on -M virt,accel=kvm,gic-version=3
-  Segmentation fault (core dumped)
 
-  Thread 1 "qemu-system-aar" received signal SIGSEGV, Segmentation fault.
-  0x0000aaaaaae356d0 in kvm_ioctl (s=0x0, type=44547) at accel/kvm/kvm-all.c:2588
-  2588        ret = ioctl(s->fd, type, arg);
-  (gdb) bt
-  #0  0x0000aaaaaae356d0 in kvm_ioctl (s=0x0, type=44547) at accel/kvm/kvm-all.c:2588
-  #1  0x0000aaaaaae31568 in kvm_check_extension (s=0x0, extension=126) at accel/kvm/kvm-all.c:916
-  #2  0x0000aaaaaafce254 in kvm_arm_pmu_supported (cpu=0xaaaaac214ab0) at target/arm/kvm.c:213
-  #3  0x0000aaaaaafc0f94 in arm_set_pmu (obj=0xaaaaac214ab0, value=true, errp=0xffffffffe438) at target/arm/cpu.c:1111
-  #4  0x0000aaaaab5533ac in property_set_bool (obj=0xaaaaac214ab0, v=0xaaaaac223a80, name=0xaaaaac11a970 "pmu", opaque=0xaaaaac222730, errp=0xffffffffe438) at qom/object.c:2170
-  #5  0x0000aaaaab5512f0 in object_property_set (obj=0xaaaaac214ab0, v=0xaaaaac223a80, name=0xaaaaac11a970 "pmu", errp=0xffffffffe438) at qom/object.c:1328
-  #6  0x0000aaaaab551e10 in object_property_parse (obj=0xaaaaac214ab0, string=0xaaaaac11b4c0 "on", name=0xaaaaac11a970 "pmu", errp=0xffffffffe438) at qom/object.c:1561
-  #7  0x0000aaaaab54ee8c in object_apply_global_props (obj=0xaaaaac214ab0, props=0xaaaaac018e20, errp=0xaaaaabd6fd88 <error_fatal>) at qom/object.c:407
-  #8  0x0000aaaaab1dd5a4 in qdev_prop_set_globals (dev=0xaaaaac214ab0) at hw/core/qdev-properties.c:1218
-  #9  0x0000aaaaab1d9fac in device_post_init (obj=0xaaaaac214ab0) at hw/core/qdev.c:1050
-  ...
-  #15 0x0000aaaaab54f310 in object_initialize_with_type (obj=0xaaaaac214ab0, size=52208, type=0xaaaaabe237f0) at qom/object.c:512
-  #16 0x0000aaaaab54fa24 in object_new_with_type (type=0xaaaaabe237f0) at qom/object.c:687
-  #17 0x0000aaaaab54fa80 in object_new (typename=0xaaaaabe23970 "host-arm-cpu") at qom/object.c:702
-  #18 0x0000aaaaaaf04a74 in machvirt_init (machine=0xaaaaac0a8550) at hw/arm/virt.c:1770
-  #19 0x0000aaaaab1e8720 in machine_run_board_init (machine=0xaaaaac0a8550) at hw/core/machine.c:1138
-  #20 0x0000aaaaaaf95394 in qemu_init (argc=5, argv=0xffffffffea58, envp=0xffffffffea88) at softmmu/vl.c:4348
-  #21 0x0000aaaaaada3f74 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at softmmu/main.c:48
 
-This is because in frame #2, cpu->kvm_state is still NULL
-(the vCPU is not yet realized).
+Your pipeline has failed.
 
-KVM has a hard requirement of all cores supporting the same
-feature set. We only need to check if the accelerator supports
-a feature, not each vCPU individually.
+Project: QEMU ( https://gitlab.com/qemu-project/qemu )
+Branch: master ( https://gitlab.com/qemu-project/qemu/-/commits/master )
 
-Fix by removing the 'CPUState *cpu' argument from the
-kvm_arm_<FEATURE>_supported() functions.
+Commit: 61fee7f4 ( https://gitlab.com/qemu-project/qemu/-/commit/61fee7f4=
+5955cd0bf9b79be9fa9c7ebabb5e6a85 )
+Commit Message: Merge remote-tracking branch 'remotes/philmd-gi...
+Commit Author: Peter Maydell ( https://gitlab.com/pm215 )
 
-Fixes: d70c996df23f ('Use CPUState::kvm_state in kvm_arm_pmu_supported')
-Reported-by: Haibo Xu <haibo.xu@linaro.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/kvm_arm.h | 21 +++++++++------------
- target/arm/cpu.c     |  2 +-
- target/arm/cpu64.c   | 10 +++++-----
- target/arm/kvm.c     |  4 ++--
- target/arm/kvm64.c   | 14 +++++---------
- 5 files changed, 22 insertions(+), 29 deletions(-)
+Pipeline #159156363 ( https://gitlab.com/qemu-project/qemu/-/pipelines/15=
+9156363 ) triggered by Alex Benn=C3=A9e ( https://gitlab.com/stsquad )
+had 1 failed build.
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 48bf5e16d58..a4ce4fd93db 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -269,29 +269,26 @@ void kvm_arm_add_vcpu_properties(Object *obj);
- 
- /**
-  * kvm_arm_aarch32_supported:
-- * @cs: CPUState
-  *
-- * Returns: true if the KVM VCPU can enable AArch32 mode
-+ * Returns: true if KVM can enable AArch32 mode
-  * and false otherwise.
-  */
--bool kvm_arm_aarch32_supported(CPUState *cs);
-+bool kvm_arm_aarch32_supported(void);
- 
- /**
-  * kvm_arm_pmu_supported:
-- * @cs: CPUState
-  *
-- * Returns: true if the KVM VCPU can enable its PMU
-+ * Returns: true if KVM can enable the PMU
-  * and false otherwise.
-  */
--bool kvm_arm_pmu_supported(CPUState *cs);
-+bool kvm_arm_pmu_supported(void);
- 
- /**
-  * kvm_arm_sve_supported:
-- * @cs: CPUState
-  *
-- * Returns true if the KVM VCPU can enable SVE and false otherwise.
-+ * Returns true if KVM can enable SVE and false otherwise.
-  */
--bool kvm_arm_sve_supported(CPUState *cs);
-+bool kvm_arm_sve_supported(void);
- 
- /**
-  * kvm_arm_get_max_vm_ipa_size:
-@@ -359,17 +356,17 @@ static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
- 
- static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
- 
--static inline bool kvm_arm_aarch32_supported(CPUState *cs)
-+static inline bool kvm_arm_aarch32_supported(void)
- {
-     return false;
- }
- 
--static inline bool kvm_arm_pmu_supported(CPUState *cs)
-+static inline bool kvm_arm_pmu_supported(void)
- {
-     return false;
- }
- 
--static inline bool kvm_arm_sve_supported(CPUState *cs)
-+static inline bool kvm_arm_sve_supported(void)
- {
-     return false;
- }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5b7a36b5d7e..e44e18062cf 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1108,7 +1108,7 @@ static void arm_set_pmu(Object *obj, bool value, Error **errp)
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-     if (value) {
--        if (kvm_enabled() && !kvm_arm_pmu_supported(CPU(cpu))) {
-+        if (kvm_enabled() && !kvm_arm_pmu_supported()) {
-             error_setg(errp, "'pmu' feature not supported by KVM on this host");
-             return;
-         }
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 778cecc2e6c..a0c1d8894b7 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -266,7 +266,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- 
-     /* Collect the set of vector lengths supported by KVM. */
-     bitmap_zero(kvm_supported, ARM_MAX_VQ);
--    if (kvm_enabled() && kvm_arm_sve_supported(CPU(cpu))) {
-+    if (kvm_enabled() && kvm_arm_sve_supported()) {
-         kvm_arm_sve_get_vls(CPU(cpu), kvm_supported);
-     } else if (kvm_enabled()) {
-         assert(!cpu_isar_feature(aa64_sve, cpu));
-@@ -473,7 +473,7 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    if (kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
-+    if (kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "cannot set sve-max-vq");
-         error_append_hint(errp, "SVE not supported by KVM on this host\n");
-         return;
-@@ -519,7 +519,7 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    if (value && kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
-+    if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "cannot enable %s", name);
-         error_append_hint(errp, "SVE not supported by KVM on this host\n");
-         return;
-@@ -556,7 +556,7 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    if (value && kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
-+    if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "'sve' feature not supported by KVM on this host");
-         return;
-     }
-@@ -751,7 +751,7 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
-      * uniform execution state like do_interrupt.
-      */
-     if (value == false) {
--        if (!kvm_enabled() || !kvm_arm_aarch32_supported(CPU(cpu))) {
-+        if (!kvm_enabled() || !kvm_arm_aarch32_supported()) {
-             error_setg(errp, "'aarch64' feature cannot be disabled "
-                              "unless KVM is enabled and 32-bit EL1 "
-                              "is supported");
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index eef3bbd1cc2..7c672c78b88 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -208,9 +208,9 @@ void kvm_arm_add_vcpu_properties(Object *obj)
-     }
- }
- 
--bool kvm_arm_pmu_supported(CPUState *cpu)
-+bool kvm_arm_pmu_supported(void)
- {
--    return kvm_check_extension(cpu->kvm_state, KVM_CAP_ARM_PMU_V3);
-+    return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
- }
- 
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index f09ed9f4df3..3dc494aaa7e 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -652,18 +652,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     return true;
- }
- 
--bool kvm_arm_aarch32_supported(CPUState *cpu)
-+bool kvm_arm_aarch32_supported(void)
- {
--    KVMState *s = KVM_STATE(current_accel());
--
--    return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
-+    return kvm_check_extension(kvm_state, KVM_CAP_ARM_EL1_32BIT);
- }
- 
--bool kvm_arm_sve_supported(CPUState *cpu)
-+bool kvm_arm_sve_supported(void)
- {
--    KVMState *s = KVM_STATE(current_accel());
--
--    return kvm_check_extension(s, KVM_CAP_ARM_SVE);
-+    return kvm_check_extension(kvm_state, KVM_CAP_ARM_SVE);
- }
- 
- QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
-@@ -798,7 +794,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         env->features &= ~(1ULL << ARM_FEATURE_PMU);
-     }
-     if (cpu_isar_feature(aa64_sve, cpu)) {
--        assert(kvm_arm_sve_supported(cs));
-+        assert(kvm_arm_sve_supported());
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
-     }
- 
--- 
-2.20.1
+Job #607468119 ( https://gitlab.com/qemu-project/qemu/-/jobs/607468119/ra=
+w )
 
+Stage: test
+Name: build-tcg-disabled
+Trace: 208      ...        [11:02:40]             ...              =
+
+208      =1B[32mpass      =1B[0m [11:02:40] [11:02:40]   0s              =
+ =
+
+209      ...        [11:02:40]             ...              =
+
+209      =1B[32mpass      =1B[0m [11:02:40] [11:02:40]   0s              =
+ =
+
+215      ...        [11:02:40]             ...              =
+
+215      =1B[32mpass      =1B[0m [11:02:40] [11:04:00]  80s              =
+ =
+
+216      ...        [11:04:00]             ...              =
+
+216      =1B[32mpass      =1B[0m [11:04:00] [11:04:05]   4s              =
+ =
+
+218      ...        [11:04:05]             ...              =
+
+218      =1B[32mpass      =1B[0m [11:04:05] [11:04:06]   1s              =
+ =
+
+222      ...        [11:04:06]             ...              =
+
+222      =1B[32mpass      =1B[0m [11:04:06] [11:04:07]   1s              =
+ =
+
+227      ...        [11:04:07]             ...              =
+
+227      =1B[32mpass      =1B[0m [11:04:07] [11:04:07]   0s              =
+ =
+
+234      ...        [11:04:07]             ...              =
+
+234      =1B[32mpass      =1B[0m [11:04:07] [11:04:08]   1s              =
+ =
+
+246      ...        [11:04:08]             ...              =
+
+246      =1B[32mpass      =1B[0m [11:04:08] [11:04:09]   1s              =
+ =
+
+247      ...        [11:04:09]             ...              =
+
+247      =1B[32mpass      =1B[0m [11:04:09] [11:04:10]   1s              =
+ =
+
+248      ...        [11:04:10]             ...              =
+
+248      =1B[32mpass      =1B[0m [11:04:10] [11:04:11]   1s              =
+ =
+
+250      ...        [11:04:11]             ...              =
+
+250      =1B[32mpass      =1B[0m [11:04:11] [11:04:11]   0s              =
+ =
+
+254      ...        [11:04:11]             ...              =
+
+254      =1B[32mpass      =1B[0m [11:04:11] [11:04:11]   0s              =
+ =
+
+255      ...        [11:04:11]             ...              =
+
+255      =1B[32mpass      =1B[0m [11:04:11] [11:04:13]   2s              =
+ =
+
+257      ...        [11:04:13]             ...              =
+
+257      =1B[32mpass      =1B[0m [11:04:13] [11:04:24]  11s              =
+ =
+
+258      ...        [11:04:24]             ...              =
+
+258      =1B[32mpass      =1B[0m [11:04:24] [11:04:25]   1s              =
+ =
+
+260      ...        [11:04:25]             ...              =
+
+260      =1B[32mpass      =1B[0m [11:04:25] [11:04:26]   1s              =
+ =
+
+261      ...        [11:04:26]             ...              =
+
+261      =1B[32mpass      =1B[0m [11:04:26] [11:04:53]  27s              =
+ =
+
+262      ...        [11:04:53]             ...              =
+
+262      =1B[32mpass      =1B[0m [11:04:53] [11:04:54]   1s              =
+ =
+
+263      ...        [11:04:54]             ...              =
+
+263      =1B[32mpass      =1B[0m [11:04:54] [11:04:56]   2s              =
+ =
+
+264      ...        [11:04:56]             ...              =
+
+264      =1B[32mpass      =1B[0m [11:04:56] [11:05:00]   4s              =
+ =
+
+270      ...        [11:05:00]             ...              =
+
+270      =1B[32mpass      =1B[0m [11:05:00] [11:05:02]   2s              =
+ =
+
+272      ...        [11:05:02]             ...              =
+
+272      =1B[32mpass      =1B[0m [11:05:02] [11:05:03]   1s              =
+ =
+
+273      ...        [11:05:03]             ...              =
+
+273      =1B[32mpass      =1B[0m [11:05:03] [11:05:03]   0s              =
+ =
+
+277      ...        [11:05:03]             ...              =
+
+277      =1B[32mpass      =1B[0m [11:05:03] [11:05:05]   2s              =
+ =
+
+279      ...        [11:05:05]             ...              =
+
+279      =1B[32mpass      =1B[0m [11:05:05] [11:05:05]   0s              =
+ =
+
+Failures: 051
+Failed 1 of 57 iotests
+section_end:1592910316:step_script
+=1B[0K=1B[31;1mERROR: Job failed: exit code 1
+=1B[0;m
+
+
+-- =
+
+You're receiving this email because of your account on gitlab.com.
+
+
+
+
+----==_mimepart_5ef1e9dcee004_50d03fd9f336567015802e
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww=
+w.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"en" xml:lang=3D"en">=
+
+<head>
+<meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Type" =
+/>
+<meta content=3D"width=3Ddevice-width, initial-scale=3D1" name=3D"viewpor=
+t" />
+<meta content=3D"IE=3Dedge" http-equiv=3D"X-UA-Compatible" />
+<title>QEMU | Pipeline #159156363 has failed for master | 61fee7f4</title=
+>
+<style data-premailer=3D"ignore" type=3D"text/css">
+body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}t=
+able,td{mso-table-lspace:0pt;mso-table-rspace:0pt}img{-ms-interpolation-m=
+ode:bicubic}.hidden{display:none !important;visibility:hidden !important}=
+a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !=
+important;font-size:inherit !important;font-family:inherit !important;fon=
+t-weight:inherit !important;line-height:inherit !important}div[style*=3D'=
+margin: 16px 0']{margin:0 !important}@media only screen and (max-width: 6=
+39px){body,#body{min-width:320px !important}table.wrapper{width:100% !imp=
+ortant;min-width:320px !important}table.wrapper td.wrapper-cell{border-le=
+ft:0 !important;border-right:0 !important;border-radius:0 !important;padd=
+ing-left:10px !important;padding-right:10px !important}}
+
+</style>
+
+<style>body {
+margin: 0 !important; background-color: #fafafa; padding: 0; text-align: =
+center; min-width: 640px; width: 100%; height: 100%; font-family: "Helvet=
+ica Neue", Helvetica, Arial, sans-serif;
+}
+</style></head>
+<body style=3D"text-align: center; min-width: 640px; width: 100%; height:=
+ 100%; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-se=
+rif; margin: 0; padding: 0;" bgcolor=3D"#fafafa">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"body" style=
+=3D"text-align: center; min-width: 640px; width: 100%; margin: 0; padding=
+: 0;" bgcolor=3D"#fafafa">
+<tbody>
+<tr class=3D"line">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; height: 4px; font-size: 4px; line-height: 4px;" bgcolor=3D"#6b=
+4fbb"></td>
+</tr>
+<tr class=3D"header">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+
+<img alt=3D"GitLab" src=3D"https://gitlab.com/assets/mailers/gitlab_heade=
+r_logo-153749eaa7ea6fafcb995161abd3247bc4c4500f31498b0c4024f50093983ac0.g=
+if" width=3D"55" height=3D"50" />
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"wrapper"=
+ style=3D"width: 640px; border-collapse: separate; border-spacing: 0; mar=
+gin: 0 auto;">
+<tbody>
+<tr>
+<td class=3D"wrapper-cell" style=3D"font-family: &quot;Helvetica Neue&quo=
+t;, Helvetica, Arial, sans-serif; border-radius: 3px; overflow: hidden; p=
+adding: 18px 25px; border: 1px solid #ededed;" align=3D"left" bgcolor=3D"=
+#ffffff">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"content"=
+ style=3D"width: 100%; border-collapse: separate; border-spacing: 0;">
+<tbody>
+<tr class=3D"alert">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; font-size: 14px; line-height: 1.3; overflow: hidden; co=
+lor: #ffffff; padding: 10px;" align=3D"center" bgcolor=3D"#d22f57">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff; padding-right: 5px; line-height: 1;" align=3D"center" valig=
+n=3D"middle">
+<img alt=3D"&#10006;" height=3D"13" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-inverted-06edddd39ba2a7f9a32f6201e420=
+175db85a4b6ac0348203fdc069001b440149.gif" style=3D"display: block;" width=
+=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #ffffff;" align=3D"center" valign=3D"middle">
+Your pipeline has failed.
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 3px; overflow: hidden; padding: 0 15px; border: 1px solid #e=
+deded;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"table-in=
+fo" style=3D"width: 100%;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; margin=
+: 0; padding: 14px 0;">Project</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; margin: 0; padding: 14px 0 14px 5px;">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project" style=3D"colo=
+r: #333333; text-decoration: none;">
+QEMU
+</a>
+/
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu" style=3D=
+"color: #333333; text-decoration: none;">
+QEMU
+</a>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Branch</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-branch-gray-53618a7fc19d4d32ccbabac2f6d59bebe67202a=
+9f2f1255e3f72c69756c0dd9c.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/qemu-project/qemu/-/commits=
+/master" style=3D"color: #333333; text-decoration: none;">
+master
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 400; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" height=3D"13" src=3D"https://gitlab.com/assets/mailers/ci_p=
+ipeline_notif_v1/icon-commit-gray-c10243ac24cde64b549aec91de35e6b49c8739b=
+506b86472b54614c10d8b4aac.gif" style=3D"display: block;" width=3D"13" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/commit/61fee7f45955cd0b=
+f9b79be9fa9c7ebabb5e6a85" style=3D"color: #3777b0; text-decoration: none;=
+">
+61fee7f4
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"commit" style=3D"color: #5c5c5c; font-weight: 300;">
+Merge remote-tracking branch 'remotes/philmd-gi...
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; color: #8c8c8c; font-weight: 300; border=
+-top-width: 1px; border-top-color: #ededed; border-top-style: solid; marg=
+in: 0; padding: 14px 0;">Commit Author</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; font-weight: 500; color: #333333; width:=
+ 75%; border-top-width: 1px; border-top-color: #ededed; border-top-style:=
+ solid; margin: 0; padding: 14px 0 14px 5px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px;" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/98261ce19b4e9da714d577154686723a?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4;" valign=3D"middle">
+<a class=3D"muted" href=3D"https://gitlab.com/pm215" style=3D"color: #333=
+333; text-decoration: none;">
+Peter Maydell
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class=3D"spacer">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; he=
+ight: 18px; font-size: 18px; line-height: 18px;">
+&#160;
+</td>
+</tr>
+<tr class=3D"pre-section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #333333; font-size: 15px; font-weight: 400; line-height: 1.4; paddin=
+g: 15px 5px 0;" align=3D"center">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse; margin: 0 auto;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+Pipeline
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/159156363" st=
+yle=3D"color: #3777b0; text-decoration: none;">
+#159156363
+</a>
+triggered by
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; line-height: 1.4; padding-right: 5px; padding-left: 5px;" =
+width=3D"24" valign=3D"middle">
+<img alt=3D"" class=3D"avatar" height=3D"24" src=3D"https://secure.gravat=
+ar.com/avatar/a7d7f408c0b3370bbbeb98833d6c50e4?s=3D48&amp;d=3Didenticon" =
+style=3D"display: block; border-radius: 12px; margin: -2px 0;" width=3D"2=
+4" />
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; fo=
+nt-size: 15px; font-weight: 500; line-height: 1.4;" valign=3D"baseline">
+<a class=3D"muted" href=3D"https://gitlab.com/stsquad" style=3D"color: #3=
+33333; text-decoration: none;">
+Alex Benn&#233;e
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; color: #333333; font-size: 14px; font-weight: 400; line-heigh=
+t: 1.4; padding: 0 8px 16px;" align=3D"center">
+had
+1
+failed
+build.
+</td>
+</tr>
+<tr class=3D"table-warning">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; bo=
+rder-radius: 4px 4px 0 0; overflow: hidden; color: #d22852; font-size: 14=
+px; line-height: 1.4; padding: 8px 16px; border-color: #ededed; border-st=
+yle: solid; border-width: 1px 1px 0;" align=3D"center" bgcolor=3D"#fdf4f6=
+">
+Logs may contain sensitive data. Please consider before forwarding this e=
+mail.
+</td>
+</tr>
+<tr class=3D"section">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; ov=
+erflow: hidden; border-radius: 0 0 4px 4px; padding: 0 16px; border-color=
+: #ededed; border-style: solid; border-width: 0 1px 1px;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"builds" =
+style=3D"width: 100%; border-collapse: collapse;">
+<tbody>
+<tr class=3D"build-state">
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px; padding: 16px 0;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"img" sty=
+le=3D"border-collapse: collapse;">
+<tbody>
+<tr>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #d22f57; font-weight: 500; font-size: 16px; padding-right: 8px; line=
+-height: 10px;" valign=3D"middle">
+<img alt=3D"&#10006;" height=3D"10" src=3D"https://gitlab.com/assets/mail=
+ers/ci_pipeline_notif_v1/icon-x-red-67056b7b99899e30453df79abfbe16162f6a2=
+6ed789d8236f81afcaea216ffe6.gif" style=3D"display: block;" width=3D"10" /=
+>
+</td>
+<td style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; co=
+lor: #8c8c8c; font-weight: 500; font-size: 14px;" valign=3D"middle">
+test
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td align=3D"right" style=3D"font-family: 'Helvetica Neue',Helvetica,Aria=
+l,sans-serif; color: #8c8c8c; font-weight: 500; font-size: 14px; padding:=
+ 16px 0;">
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/607468119" style=3D=
+"color: #3777b0; text-decoration: none;">
+build-tcg-disabled
+</a>
+
+</td>
+</tr>
+<tr class=3D"build-log">
+<td colspan=3D"2" style=3D"font-family: 'Helvetica Neue',Helvetica,Arial,=
+sans-serif; padding: 0 0 16px;">
+<pre style=3D"font-family: Monaco,'Lucida Console','Courier New',Courier,=
+monospace; background-color: #fafafa; border-radius: 4px; overflow: hidde=
+n; white-space: pre-wrap; word-break: break-all; font-size: 13px; line-he=
+ight: 1.4; color: #333333; margin: 0; padding: 16px 8px;"><span>208      =
+...        [11:02:40]             ...              =
+
+208      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:02:40] [11:02:40]   0s               <br />209      ...        [11:02:40=
+]             ...              =
+
+209      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:02:40] [11:02:40]   0s               <br />215      ...        [11:02:40=
+]             ...              =
+
+215      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:02:40] [11:04:00]  80s               <br />216      ...        [11:04:00=
+]             ...              =
+
+216      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:00] [11:04:05]   4s               <br />218      ...        [11:04:05=
+]             ...              =
+
+218      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:05] [11:04:06]   1s               <br />222      ...        [11:04:06=
+]             ...              =
+
+222      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:06] [11:04:07]   1s               <br />227      ...        [11:04:07=
+]             ...              =
+
+227      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:07] [11:04:07]   0s               <br />234      ...        [11:04:07=
+]             ...              =
+
+234      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:07] [11:04:08]   1s               <br />246      ...        [11:04:08=
+]             ...              =
+
+246      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:08] [11:04:09]   1s               <br />247      ...        [11:04:09=
+]             ...              =
+
+247      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:09] [11:04:10]   1s               <br />248      ...        [11:04:10=
+]             ...              =
+
+248      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:10] [11:04:11]   1s               <br />250      ...        [11:04:11=
+]             ...              =
+
+250      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:11] [11:04:11]   0s               <br />254      ...        [11:04:11=
+]             ...              =
+
+254      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:11] [11:04:11]   0s               <br />255      ...        [11:04:11=
+]             ...              =
+
+255      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:11] [11:04:13]   2s               <br />257      ...        [11:04:13=
+]             ...              =
+
+257      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:13] [11:04:24]  11s               <br />258      ...        [11:04:24=
+]             ...              =
+
+258      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:24] [11:04:25]   1s               <br />260      ...        [11:04:25=
+]             ...              =
+
+260      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:25] [11:04:26]   1s               <br />261      ...        [11:04:26=
+]             ...              =
+
+261      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:26] [11:04:53]  27s               <br />262      ...        [11:04:53=
+]             ...              =
+
+262      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:53] [11:04:54]   1s               <br />263      ...        [11:04:54=
+]             ...              =
+
+263      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:54] [11:04:56]   2s               <br />264      ...        [11:04:56=
+]             ...              =
+
+264      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:04:56] [11:05:00]   4s               <br />270      ...        [11:05:00=
+]             ...              =
+
+270      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:05:00] [11:05:02]   2s               <br />272      ...        [11:05:02=
+]             ...              =
+
+272      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:05:02] [11:05:03]   1s               <br />273      ...        [11:05:03=
+]             ...              =
+
+273      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:05:03] [11:05:03]   0s               <br />277      ...        [11:05:03=
+]             ...              =
+
+277      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:05:03] [11:05:05]   2s               <br />279      ...        [11:05:05=
+]             ...              =
+
+279      </span><span class=3D"term-fg-green">pass      </span><span> [11=
+:05:05] [11:05:05]   0s               <br />Failures: 051<br />Failed 1 o=
+f 57 iotests<br /></span><span class=3D"term-fg-l-red term-bold">ERROR: J=
+ob failed: exit code 1<br /></span></pre>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr class=3D"footer">
+<td style=3D"font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, s=
+ans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; padding: 25=
+px 0;">
+<img alt=3D"GitLab" height=3D"33" src=3D"https://gitlab.com/assets/mailer=
+s/gitlab_footer_logo-078860f148cc9596195e6bb3fa7db31c30538355576c5c3b569c=
+414902e3d095.gif" width=3D"90" style=3D"display: block; margin: 0 auto 1e=
+m;" />
+<div>
+You're receiving this email because of your account on gitlab.com. <a cla=
+ss=3D"mng-notif-link" href=3D"https://gitlab.com/profile/notifications" s=
+tyle=3D"color: #3777b0; text-decoration: none;">Manage all notifications<=
+/a> &#183; <a class=3D"help-link" href=3D"https://gitlab.com/help" style=3D=
+"color: #3777b0; text-decoration: none;">Help</a>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class=3D"footer-message" style=3D"font-family: &quot;Helvetica Neue&q=
+uot;, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.6; co=
+lor: #5c5c5c; padding: 25px 0;">
+
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+----==_mimepart_5ef1e9dcee004_50d03fd9f336567015802e--
 
