@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDBF204E2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:41:32 +0200 (CEST)
-Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AD4204E30
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:42:33 +0200 (CEST)
+Received: from localhost ([::1]:45740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnfQp-0007fE-Vo
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
+	id 1jnfRo-0001oi-9I
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnfP7-0005tJ-63
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26488
- helo=us-smtp-1.mimecast.com)
+ id 1jnfPG-00067y-V7
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43001
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnfP4-0004Zs-Mi
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:44 -0400
+ id 1jnfPF-0004d8-1w
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592905181;
+ s=mimecast20190719; t=1592905192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QAyHMjGrIY+gp3B4y8RnP6f20oBImSd39btLyzeNz3E=;
- b=UgA6hb6DS3rSLq7HvFBZR+JKsWOL/NTdOfmM3XvTg9evj6aRjM8S8wJPq0Yv/Cp6K1a96K
- C1p29PDrnybl3Bp8vUIdtQDiXPMQkeglpIjojusHsAy5+MnTKDGiUMGk1HlnHbEmsgrevZ
- KpVC0QtsaRt3p8EpZwlpe+XwYbal4LU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-mkz-qyeAOX-bcvvm5rm4eA-1; Tue, 23 Jun 2020 05:39:30 -0400
-X-MC-Unique: mkz-qyeAOX-bcvvm5rm4eA-1
-Received: by mail-wm1-f69.google.com with SMTP id e15so3237750wme.8
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:39:30 -0700 (PDT)
+ bh=devLSGWOsZYzYWfZieWlop+g3AQTWag//5NZrI0WjsI=;
+ b=f7/UTLPqlUeAnBCyPvo6A/2DdDPHvICcElQZjL0E/nIBkQddO2pCfaHv4JR6tk5SrSWjRD
+ v9SjO4RRQQBbMMWtStLebU3MWVc4cyku19LXvIrrIeumM4qtbwaJgXr7C8AjRyJgx67/zB
+ owumWLOYPO+YLGYU1+ahEeLgfhiD4Vk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-vSMY9sFONfCeFAyMEM6axg-1; Tue, 23 Jun 2020 05:39:50 -0400
+X-MC-Unique: vSMY9sFONfCeFAyMEM6axg-1
+Received: by mail-wm1-f71.google.com with SMTP id v24so3379873wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:39:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QAyHMjGrIY+gp3B4y8RnP6f20oBImSd39btLyzeNz3E=;
- b=YQ1TtsSHKHJYGQsOTXfxcPYOuZjSLeegFUihzyhswLx/MVHfddRS9j6FWOB2nZMl1K
- IZ0nMtYpxlwkIoD9Gn9zSVZBngtzQrix4G2pgO7VCEzr7zVlKXZg6vo9p+1+5wIV+7Jh
- z0e/10rUjUicdDymWSrRJp3jw9VmTznWhzCMFBPcPvo9/TtwhvmoB4IwxL2fYkLFXsGZ
- +ysMfkRvgLgN4LP+9AfFWGkOk5CpMqPayUNUp9u9+2EnKw5DjOdweZUeBZjxb58lvDpZ
- m2N6VWKKFOQ19VKsCbMywunW8U6jfMMpeRRsUoE2EKJwHKrxHSg5aWbRl9ZqrKJbGPJg
- ptkw==
-X-Gm-Message-State: AOAM5324E64zI6SXDi/2EzYFp8DqeKnQKW81WIgVQR+YLadfSaKRoEdj
- ngHjAgW47/uZ2o7NBnBOepk1zkbe89kVTQQI2KtK2+6A9Kk50i5CDg45Fpt5VxJty3D53OyptpA
- r9b0xux4qWewSZpE=
-X-Received: by 2002:adf:e6c8:: with SMTP id y8mr25511816wrm.40.1592905169195; 
- Tue, 23 Jun 2020 02:39:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJzXwOjRjbzOJ42zrzLB6Vs+O/1/yuX7aPp0kRxyxEkpA3lhLEviQqOvZiYe3viSV4n2jVcQ==
-X-Received: by 2002:adf:e6c8:: with SMTP id y8mr25511791wrm.40.1592905168934; 
- Tue, 23 Jun 2020 02:39:28 -0700 (PDT)
+ bh=devLSGWOsZYzYWfZieWlop+g3AQTWag//5NZrI0WjsI=;
+ b=nXYB36Hri0TRYl2aQu62lzbv5cu14HPWIn9sImpt9l3c2YBKnQ0oLcVsKn4DGrZqmc
+ l6TscU0QxBxQimOf0KMnnKI+1vYo9Yo8xn9+02FOSTUho0MLEKKxUGS3yNtrVxYgz+5s
+ 6nF56auQ/eFo9FLtQURoYVftWd9u3t1igsu3o+9Xb/9LlHMCzhMtUto4pozzAC5KwmUD
+ tXIe5N8QeG7GoZ/zFB52Vtob/CGbP+kFgGV9U8LKyKVfjobmMR6OeGGYWqrGWoo25mRj
+ AJKqYT8pWS+Y2A5RszppPqYm2souBu/afCNFiAUupw0AV9MqT39v9QH5E/VpkdJJYnbd
+ 3/BA==
+X-Gm-Message-State: AOAM53220vmk26WlleOWbtBENBL3Iqmifnhmq3v99xIkm39KBZ2ixqys
+ GiDAWbWwxfnPm58QYtY64REhOeEJEM/XFpeGbvdmVl1ulbHKvWP27mmJYqjYqO+KTHUVu/lztJR
+ uJoYzkEJ+i2q6iTk=
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr21975597wmf.97.1592905189182; 
+ Tue, 23 Jun 2020 02:39:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcz8IPvvE0DqJQZ4OE0m1m8U6YasMoSoOm1DLWdWRUDI1C47D866oDSaqIgIyg5+cz7tXymQ==
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr21975584wmf.97.1592905188956; 
+ Tue, 23 Jun 2020 02:39:48 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:fd64:dd90:5ad5:d2e1?
  ([2001:b07:6468:f312:fd64:dd90:5ad5:d2e1])
- by smtp.gmail.com with ESMTPSA id x5sm3070363wmg.2.2020.06.23.02.39.27
+ by smtp.gmail.com with ESMTPSA id c65sm2910949wme.8.2020.06.23.02.39.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 02:39:28 -0700 (PDT)
-Subject: Re: [PATCH v2 00/11] tpm: Split hw/ vs backends/
+ Tue, 23 Jun 2020 02:39:48 -0700 (PDT)
+Subject: Re: [PATCH v3 00/12] tpm: Split hw/ vs backends/
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200611160306.2751-1-philmd@redhat.com>
+References: <20200612085444.8362-1-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6aa5846b-6be4-5d33-87b5-7c0afd00b5dc@redhat.com>
-Date: Tue, 23 Jun 2020 11:39:27 +0200
+Message-ID: <03924193-9774-9f85-2008-05c047fe91cf@redhat.com>
+Date: Tue, 23 Jun 2020 11:39:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200611160306.2751-1-philmd@redhat.com>
+In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -102,12 +102,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
+On 12/06/20 10:54, Philippe Mathieu-Daudé wrote:
+> Missing review: last patch
+> - #12 "tpm: Move backend code under the 'backends/' directory"
+> 
 > Hi,
 > 
 > Yesterday I started to review some vTPM patches and got very
@@ -122,13 +125,17 @@ On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
 > 
 > As there is no particular reason to keep this mixed, clean it up.
 > 
+> Since v2:
+> - Resolved the FIXME in tpm_tis_common.c by making the
+>   TRACE_TPM_UTIL_SHOW_BUFFER check locally to tpm_util.c
+> 
 > Since v1:
 > - Amended docs/ changes
 > - Renamed Kconfig TPM_BACKEND variable
 > - Move backend files under backends/tpm/ (Marc-André & Stefan)
 > - Fix x86-64 build error (patchew)
 > 
-> Philippe Mathieu-Daudé (11):
+> Philippe Mathieu-Daudé (12):
 >   docs/specs/tpm: Correct header path name
 >   backends: Add TPM files into their own directory
 >   hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
@@ -136,6 +143,7 @@ On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
 >   hw/tpm: Include missing 'qemu/option.h' header
 >   hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
 >   hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
+>   hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local to tpm_util.c
 >   hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
 >   hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
 >   hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
@@ -153,11 +161,11 @@ On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
 >  backends/{tpm.c => tpm/tpm_backend.c}  |  0
 >  {hw => backends}/tpm/tpm_emulator.c    |  2 +-
 >  {hw => backends}/tpm/tpm_passthrough.c |  2 +-
->  {hw => backends}/tpm/tpm_util.c        |  2 +-
+>  {hw => backends}/tpm/tpm_util.c        |  5 +++-
 >  hw/tpm/tpm_crb.c                       |  4 +--
 >  hw/tpm/tpm_ppi.c                       |  1 +
 >  hw/tpm/tpm_spapr.c                     |  4 +--
->  hw/tpm/tpm_tis_common.c                |  4 +--
+>  hw/tpm/tpm_tis_common.c                | 11 +++------
 >  hw/tpm/tpm_tis_isa.c                   |  3 ++-
 >  hw/tpm/tpm_tis_sysbus.c                |  3 ++-
 >  tests/qtest/tpm-emu.c                  |  2 +-
@@ -170,7 +178,7 @@ On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
 >  hw/tpm/Kconfig                         | 21 +++-------------
 >  hw/tpm/Makefile.objs                   |  3 ---
 >  hw/tpm/trace-events                    | 34 +-------------------------
->  29 files changed, 132 insertions(+), 97 deletions(-)
+>  29 files changed, 136 insertions(+), 103 deletions(-)
 >  rename {hw => backends}/tpm/tpm_int.h (81%)
 >  rename {hw => backends}/tpm/tpm_ioctl.h (100%)
 >  create mode 100644 hw/tpm/tpm_prop.h
@@ -178,14 +186,14 @@ On 11/06/20 18:02, Philippe Mathieu-Daudé wrote:
 >  rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
 >  rename {hw => backends}/tpm/tpm_emulator.c (99%)
 >  rename {hw => backends}/tpm/tpm_passthrough.c (99%)
->  rename {hw => backends}/tpm/tpm_util.c (99%)
+>  rename {hw => backends}/tpm/tpm_util.c (98%)
 >  create mode 100644 backends/Kconfig
 >  create mode 100644 backends/tpm/Kconfig
 >  create mode 100644 backends/tpm/Makefile.objs
 >  create mode 100644 backends/tpm/trace-events
 > 
 
-Queued, thanks.
+Queued this one, actually.
 
 Paolo
 
