@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA909205312
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 15:10:49 +0200 (CEST)
-Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6D2205342
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 15:17:19 +0200 (CEST)
+Received: from localhost ([::1]:48342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnihM-0007Ce-Vd
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 09:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51906)
+	id 1jnind-0001q0-LU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 09:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnigO-0006kz-IY
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:09:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59398
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jnigM-0005Z2-Kv
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:09:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592917785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ftNVvr7o2kixxqU+15fnHbqtnCG16g4/IFaY19W+FWE=;
- b=LhfqnVXljjSu9kC7FRmIENfYfKSytIxmcbWn1lphUb6iFJTtZLp6U3z5dQvIzuX+Fj9PhP
- SuOTipAvBbynpETgYW9DiJ4F27WMPpDXW0WsXeOMw3lxHPeL7ijdRG2V73597A6xc9cwAt
- bRDNCUQ0hfbQ7EMz5DB4lmm+V5qnC1I=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-xKryCeo0P9eMWDauJbDSgQ-1; Tue, 23 Jun 2020 09:09:43 -0400
-X-MC-Unique: xKryCeo0P9eMWDauJbDSgQ-1
-Received: by mail-wr1-f69.google.com with SMTP id l3so6401636wrw.4
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 06:09:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ftNVvr7o2kixxqU+15fnHbqtnCG16g4/IFaY19W+FWE=;
- b=GvChLlNBriBMU4ZUvWeiOU4giXpyTnqAwrBOkcDDQd07n0rIatsU4txtG2gb/Gu/EI
- JYvYbkJmZsj43ryh8PkWGHwxhBHF9oQGaEJ71g/rRBjFhbRBfirv/1FnRGUCbFHp0e0A
- YAH1bRYiETPGB70Uo6fBCWWcWwMf9IMp1p7B/5t1eCvGKXRpkSUiFGz4TTB8eMw58OpS
- Fi5M9KxlP3JN9wwUQej9ToNrNJTdjRfDkvl5qUeda1Y184X8aIeElfZgVpNmn7T/kFGy
- 8M968bUiUl3sbWWX5Zt1LFYJ4P9EENIm0RhAHbqM6yY6Sc5m508h6RaZbiqgamVMw1DD
- Imsg==
-X-Gm-Message-State: AOAM532uTvnWCeHLkCyDbex5uyzCgvvlShN6wwuvzT3fOImTrcHh05kq
- uwOjZKIvtBuFN9XQygndEM09IAP0CF2dcB05dhPdKvSIiE/2tDNjV7imJ7L3Kpmq9qEa/ltWBbK
- 7ttRyEAj4Kszj004=
-X-Received: by 2002:a1c:2485:: with SMTP id
- k127mr21271487wmk.138.1592917782656; 
- Tue, 23 Jun 2020 06:09:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwr2lfEZMrKpghBUsZMxoAuiUEeun6vKBbv4vHzz6YzdIWLARx76XKq7+7dNj8zfHUd8/o0vA==
-X-Received: by 2002:a1c:2485:: with SMTP id
- k127mr21271465wmk.138.1592917782440; 
- Tue, 23 Jun 2020 06:09:42 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
- by smtp.gmail.com with ESMTPSA id
- d28sm24360942wrc.50.2020.06.23.06.09.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 06:09:41 -0700 (PDT)
-Date: Tue, 23 Jun 2020 09:09:38 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PATCH v4 0/8] tpm: Enable usage of TPM TIS with interrupts
-Message-ID: <20200623090840-mutt-send-email-mst@kernel.org>
-References: <20200617142305.1198672-1-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jnimK-0001LB-Nx
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:15:56 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:39674 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jnimI-0000FX-VE
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 09:15:56 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 615F14C89B;
+ Tue, 23 Jun 2020 13:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1592918149;
+ x=1594732550; bh=M/3F70WDmO2uu/pgfl2MLCgrlWmCZfHZH2atOkb5Tw4=; b=
+ Oaa79o99UdNUCzTjMAWr51xqJ6SKApDUuBYRJGuFW42Cc1NoLJS5XKvnFbJUq8bZ
+ nCA7tKb6ZcrTPvbz1F6wTaex+FG0xsD1xX/6MHhRsbkAwDYJBWlAWoDLUfadDsec
+ i9P3smqzwpLeV+yXRJJ9+rkDERMlwvFgG0URCRfprAA=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 542jZsCQ_9yN; Tue, 23 Jun 2020 16:15:49 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 4BD154C855;
+ Tue, 23 Jun 2020 16:15:49 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 23
+ Jun 2020 16:15:49 +0300
+Date: Tue, 23 Jun 2020 16:15:48 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH] configure: Don't warn about lack of PIE on macOS
+Message-ID: <20200623131548.GB25104@SPB-NB-133.local>
+References: <20200601124257.32057-1-r.bolshakov@yadro.com>
+ <20200623124857.GH36568@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200617142305.1198672-1-stefanb@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200623124857.GH36568@stefanha-x1.localdomain>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 09:15:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,55 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, philmd@redhat.com, mkedzier@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 17, 2020 at 10:22:57AM -0400, Stefan Berger wrote:
-> This series of patches enables the usage of the TPM TIS with interrupts.
-> We use the unused IRQ 13, which is the only one accepted by Windows.
+On Tue, Jun 23, 2020 at 01:48:57PM +0100, Stefan Hajnoczi wrote:
+> On Mon, Jun 01, 2020 at 03:42:57PM +0300, Roman Bolshakov wrote:
+> > ld64 is making PIE executables for 10.7 and above by default, as
+> > documented in ld(1).
+> > 
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > ---
+> >  configure | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/configure b/configure
+> > index af2ba83f0e..6dddbca4b2 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -2137,6 +2137,8 @@ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+> >    QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+> >    QEMU_LDFLAGS="-pie $QEMU_LDFLAGS"
+> >    pie="yes"
+> > +elif test "$darwin" = "yes"; then
+> > +  pie="yes"
 > 
->     Stefan
+> Hi Roman,
+> I'm wondering why the elif above doesn't detect the presence of PIE
+> automatically?
+> 
+>   elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+>     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+>     QEMU_LDFLAGS="-pie $QEMU_LDFLAGS"
+>     pie="yes"
+> 
+> Can this code be tweaked to cover macOS too?
+> 
+> Also CCing Peter Maydell in case he wants to merge this patch directly
+> into qemu.git.
+> 
+> Stefan
 
+Hi Stefan,
 
-ACPI parts:
+It's because clang does not accept -pie/-no-pie directly:
+  $ cc -Werror -fPIE -DPIE -pie main.c
+  clang: error: argument unused during compilation: '-pie' [-Werror,-Wunused-command-line-argument]
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+It has to be passed as linker option, i.e. -Wl,-pie or -Wl,-no_pie. pie
+is also a default behaviour of clang/ld64.
 
-How do we want this merged? TPM tree or mine?
+I had a patch to enable proper support of pie/no-pie for macOS but I see
+little value in it. I don't know where no_pie would be helfpul becuase
+clang from Apple Developer Tools can't cross-compile option ROMs.
 
-> v3->v4:
->  - Changed TPM_IRQ_DISABLED from -1 to ~0
-> 
-> v2->v3:
->  - Extended series to disable IRQ for TIS on sysbus
-> 
-> v1->v2:
->  - Added updated DSDT
-> 
-> Stefan Berger (8):
->   tpm_tis: Allow lowering of IRQ also when locality is not active
->   tpm: Extend TPMIfClass with get_irqnum() function
->   tests: Temporarily ignore DSDT table differences
->   tpm: Split TPM_TIS_IRQ into TPM_TIS_ISA_IRQ and TPM_TIS_SYSBUS_IRQ
->   acpi: Enable TPM IRQ
->   tests: Add updated DSDT
->   tpm: Guard irq related ops in case interrupts are disabled
->   tpm: Disable interrupt support for TIS on sysbus
-> 
->  hw/i386/acpi-build.c         |  11 +++++------
->  hw/tpm/tpm_tis_common.c      |  12 +++++++++---
->  hw/tpm/tpm_tis_isa.c         |  17 ++++++++++++++---
->  hw/tpm/tpm_tis_sysbus.c      |  12 +++++++++++-
->  include/hw/acpi/tpm.h        |   3 ++-
->  include/sysemu/tpm.h         |  12 ++++++++++++
->  tests/data/acpi/q35/DSDT.tis | Bin 8357 -> 8360 bytes
->  7 files changed, 53 insertions(+), 14 deletions(-)
-> 
-> -- 
-> 2.24.1
-> 
-> 
-
+Thanks,
+Roman
 
