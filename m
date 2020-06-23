@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC2F2067D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:03:05 +0200 (CEST)
-Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90FF206843
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:24:13 +0200 (CEST)
+Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnrwW-0002yp-1k
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48176)
+	id 1jnsGy-0006DH-Sk
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jnruv-0001jg-8T
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:01:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36120
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnsGE-0005jz-7c
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:23:26 -0400
+Resent-Date: Tue, 23 Jun 2020 19:23:26 -0400
+Resent-Message-Id: <E1jnsGE-0005jz-7c@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jnrus-00020F-1Z
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:01:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592953280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dSxfIsiKAOAuOkcH6/6KkAm1SJMN+fb41ElIwudmlpc=;
- b=T9jsu/6/vmW7ko9hCgfcWleTjt8YjgY7PI3Oc1+P+MI5M0qIyWOfxR7YtYDoFfbRVsreI9
- u/ZKe5oFFmo7+DaGTAgGcNetRt/Tc4/4KsT0oQj/uIZBLxZdyi93OWWdEz60UNILkWzC25
- xasSrFgavufaY9femhDmj7s+cn6SAFs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-TlDUT0zNOF2W3H6FnjZElg-1; Tue, 23 Jun 2020 19:01:18 -0400
-X-MC-Unique: TlDUT0zNOF2W3H6FnjZElg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 503B7107ACF2;
- Tue, 23 Jun 2020 23:01:17 +0000 (UTC)
-Received: from localhost (ovpn-113-247.phx2.redhat.com [10.3.113.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 111725C1D4;
- Tue, 23 Jun 2020 23:01:16 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] i386: Mask SVM features if nested SVM is disabled
-Date: Tue, 23 Jun 2020 19:01:16 -0400
-Message-Id: <20200623230116.277409-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnsGB-0004OI-QL
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:23:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592954593; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WF/5J9ai1/ZUhNBZO7PBSWB09tvYRAVoc1q4kcGPzYQVGtiPBev2D+6ZBw2HzMSEjm+0dDO07ChrN7oKOVWhS4yFbj4GRK96yM91KzyVwjngEo2b1MPh03pmUtl7Pw3jp21FvuB4UOnkYtuxTGVu48X4eKNGuAJg6/6npX1Gp10=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592954593;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=GCCyV/a3m0z8D5iR1CscHagRoi+zbNuZnwpQgsKV1PI=; 
+ b=GywVYdE2JBQ6UYmf3EjKQYfaT4jiW9d7wVRlX7aIDh0Xo837AWkmC6YusYpqGQZ3m3olRWjXibdZ5jRC4ZOBOZrwBOFhVjyLGScX6r8lDogJgag8TENkXNa3p5XUSkulAG2ysb0lEW7lOI9PJ/tx66/2iFsk7XPfHH0qSHOY8UY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 159295459033385.77043038554234;
+ Tue, 23 Jun 2020 16:23:10 -0700 (PDT)
+Message-ID: <159295458868.6613.7707534523153132348@d1fd068a5071>
+Subject: Re: [PATCH] i386: Mask SVM features if nested SVM is disabled
+In-Reply-To: <20200623230116.277409-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ehabkost@redhat.com
+Date: Tue, 23 Jun 2020 16:23:10 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 19:23:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,50 +69,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Fu <yfu@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Babu Moger <babu.moger@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: yfu@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, babu.moger@amd.com, imammedo@redhat.com,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU incorrectly validates FEAT_SVM feature flags against
-GET_SUPPORTED_CPUID even if SVM features are being masked out by
-cpu_x86_cpuid().  This can make QEMU print warnings on most AMD
-CPU models, even when SVM nesting is disabled (which is the
-default).
-
-This bug was never detected before because of a Linux KVM bug:
-until Linux v5.6, KVM was not filtering out SVM features in
-GET_SUPPORTED_CPUID when nested was disabled.  This KVM bug was
-fixed in Linux v5.7-rc1, on Linux commit a50718cc3f43 ("KVM:
-nSVM: Expose SVM features to L1 iff nested is enabled").
-
-Fix the problem by adding a CPUID_EXT3_SVM dependency to all
-FEAT_SVM feature flags in the feature_dependencies table.
-
-Reported-by: Yanan Fu <yfu@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- target/i386/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b1b311baa2..a9edcaf531 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1404,6 +1404,10 @@ static FeatureDep feature_dependencies[] = {
-         .from = { FEAT_VMX_SECONDARY_CTLS,  VMX_SECONDARY_EXEC_ENABLE_VMFUNC },
-         .to = { FEAT_VMX_VMFUNC,            ~0ull },
-     },
-+    {
-+        .from = { FEAT_8000_0001_ECX,       CPUID_EXT3_SVM },
-+        .to = { FEAT_SVM,                   ~0ull },
-+    },
- };
- 
- typedef struct X86RegisterInfo32 {
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyMzIzMDExNi4yNzc0
+MDktMS1laGFia29zdEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
+Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
+bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBpb3Rlc3Qt
+cWNvdzI6IDE4NAogIFRFU1QgICAgY2hlY2stcXRlc3QteDg2XzY0OiB0ZXN0cy9xdGVzdC90ZXN0
+LXg4Ni1jcHVpZC1jb21wYXQKICBURVNUICAgIGlvdGVzdC1xY293MjogMTg2CnFlbXUtc3lzdGVt
+LXg4Nl82NDogd2FybmluZzogVGhpcyBmZWF0dXJlIGRlcGVuZHMgb24gb3RoZXIgZmVhdHVyZXMg
+dGhhdCB3ZXJlIG5vdCByZXF1ZXN0ZWQ6IENQVUlELjgwMDAwMDBBSDpFRFgubnB0IFtiaXQgMF0K
+KioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L3Rlc3QteDg2LWNwdWlkLWNv
+bXBhdC5jOjY0OnRlc3RfY3B1aWRfcHJvcDogYXNzZXJ0aW9uIGZhaWxlZCAodmFsID09IGFyZ3Mt
+PmV4cGVjdGVkX3ZhbHVlKTogKDAgPT0gMjE0NzQ4MzY1OCkKRVJST1IgLSBCYWlsIG91dCEgRVJS
+T1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L3Rlc3QteDg2LWNwdWlkLWNvbXBhdC5j
+OjY0OnRlc3RfY3B1aWRfcHJvcDogYXNzZXJ0aW9uIGZhaWxlZCAodmFsID09IGFyZ3MtPmV4cGVj
+dGVkX3ZhbHVlKTogKDAgPT0gMjE0NzQ4MzY1OCkKbWFrZTogKioqIFtjaGVjay1xdGVzdC14ODZf
+NjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBU
+RVNUICAgIGlvdGVzdC1xY293MjogMTg3CiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6IDE5MAotLS0K
+ICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2Fs
+bGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bics
+ICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MmE1NWM0NGRjNTRkNDBhNDkzOGY4
+NDg3MzAzZjZkYmEnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVu
+Y29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09O
+RklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9Jywg
+Jy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAn
+LXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9j
+Y2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtbmFhYWdsbDYvc3Jj
+L2RvY2tlci1zcmMuMjAyMC0wNi0yMy0xOS4wNy40My42MTAyOi92YXIvdG1wL3FlbXU6eixybycs
+ICdxZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1
+cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFl
+bXUuaW5zdGFuY2UudXVpZD0yYTU1YzQ0ZGM1NGQ0MGE0OTM4Zjg0ODczMDNmNmRiYQptYWtlWzFd
+OiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92
+YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1uYWFhZ2xsNi9zcmMnCm1ha2U6ICoqKiBbZG9ja2Vy
+LXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9yIDIKCnJlYWwgICAgMTVtMjUuMTIxcwp1c2Vy
+ICAgIDBtOC41MTVzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
+dy5vcmcvbG9ncy8yMDIwMDYyMzIzMDExNi4yNzc0MDktMS1laGFia29zdEByZWRoYXQuY29tL3Rl
+c3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
+YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
+YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
