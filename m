@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF0D205446
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:18:39 +0200 (CEST)
-Received: from localhost ([::1]:49558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F3C20547F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:25:20 +0200 (CEST)
+Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnjl0-0006Pf-GI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
+	id 1jnjrT-0003FL-E1
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:25:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnjiZ-0003r0-HZ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:16:07 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnjiX-0004Iy-QC
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:16:07 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g21so3414312wmg.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ve11soKIvGhQlYJuWeIT4U79417CZFGjqvWFfV4CPnQ=;
- b=Sn+5a3BVvMPDLt/91qVadHkrBEmvCAzMNv3I+RHxBG90w9GZ0FgCeGCqu0SdIOMeq2
- Uw0IRZeruRsN801jBBCjiLwk8dNCLuaKBbymcOsPHOENv8gmq2YpAMEaIUVr4jNsMPCb
- kGFJ/Nul1fx5SGoMuKD2ujN48bxMNt+p2S98xqp5ht/PRMuTvvCMfP/oOjO75PrmVGzn
- F+jh7Ru7BVgQ7wS+MxhVsjwLNeJ/osEP2gfeOY0QlUJmDjKGn0L5nZUtwK3f5EdsUlbB
- oisnRv4mBDOIeNOSdZAVVdS79o2sluD3oqu06ps0eQsOz4tdA20W90Kc/rO3bC+W0AnJ
- mQKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ve11soKIvGhQlYJuWeIT4U79417CZFGjqvWFfV4CPnQ=;
- b=kzPV7V5TtHUrv5/KhFFOvU8IBEOYbY0RDQV6ZijTwUo2JIWJRA48GEut3qxGqra9WE
- VOipNq8iXa28UtE+w3sjuiIZC1Hpi74TAljeXkDTnS6K/ufLeg/SYi7kiojeShzOXSD6
- kyIc9i5+sQVrS86HL9asMEIlnAgfJRJh/HPwReaysXsmjSAOpep1ZWJDGLhm1rcstea4
- 22xdvUhSq1trmPn/oyV1hIu+1A6/M2y3UCJJm3fetscWf9s90c3svSG9h9fGEVUeBA+Q
- mFUBIQCTWs5AkF9uY2M21XZEi4Q0h2OJULBef+9WXYoA0m/fnXz24YwKR8fPNfvaxcqU
- OxRg==
-X-Gm-Message-State: AOAM531u9Cl+a4uqofbVAsMSzGO/RwwDhrIcmX69yWGOfE76P6LgX9u3
- iUBMrQcUHgF91h0zhZnMdLA=
-X-Google-Smtp-Source: ABdhPJxTUJeDRagWCVeIfPdi8zIEIxNnKwGrCsHMZRly7qpcJBrw/m5pENc26RVA6j9HhkwtVKE6/w==
-X-Received: by 2002:a1c:2b86:: with SMTP id r128mr25687065wmr.13.1592921764040; 
- Tue, 23 Jun 2020 07:16:04 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id f17sm2039744wrq.3.2020.06.23.07.16.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:16:03 -0700 (PDT)
-Date: Tue, 23 Jun 2020 15:16:01 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [RFC PATCH 0/3] fuzz: add generic fuzzer
-Message-ID: <20200623141601.GL36568@stefanha-x1.localdomain>
-References: <20200611055651.13784-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpn-0001cw-5Q
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:35 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42690
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jnjpk-0007gf-BI
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:23:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592922210;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XGDbtPDwq/ubIzTWRwC9l56GEedbKO84aS6vrVYbOaA=;
+ b=dcssocLklgI1hsqeb8iukoI6/9JPJJaCc31ScqcJv/X6HpX9Rea/g3gY5+5ZMt4Rk0qTau
+ WQOXSIex8hQpk2e6jg/1OnYuX/Fb0wUNcWg2WS+IQ5aV/sXM527Sk9DV5bP1/gI6Xs9Fjy
+ kKk+PZfGsDf0EEthVYil7fJsCh4dfSk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-ZqzL34pXOuWHatvgo29dNw-1; Tue, 23 Jun 2020 10:23:28 -0400
+X-MC-Unique: ZqzL34pXOuWHatvgo29dNw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 110C964AD4
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6CE07166A
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 14:23:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2F5D1113846D; Tue, 23 Jun 2020 16:23:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] Qdev patches for 2020-06-23
+Date: Tue, 23 Jun 2020 16:23:10 +0200
+Message-Id: <20200623142326.2349416-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QWRRbczYj8mXuejp"
-Content-Disposition: inline
-In-Reply-To: <20200611055651.13784-1-alxndr@bu.edu>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:54:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,74 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, dstepanov.src@gmail.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 61fee7f45955cd0bf9b79be9fa9c7ebabb5e6a85:
 
---QWRRbczYj8mXuejp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/acceptance-testing-20200622' into staging (2020-06-22 20:50:10 +0100)
 
-On Thu, Jun 11, 2020 at 01:56:48AM -0400, Alexander Bulekov wrote:
-> These patches add a generic fuzzer for virtual devices. This should
-> allow us to fuzz devices that accept inputs over MMIO, PIO and DMA
-> without any device-specific code.
->=20
-> Example:
-> QEMU_FUZZ_ARGS=3D"-device virtio-net" \
-> FUZZ_REGION_WHITELIST=3D"virtio pci-" \
-> ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=3Dgeneral-pci-enum-fuzz
->=20
-> The above command will add a virtio-net device to the QEMU arguments and
-> restrict the fuzzer to only interact with MMIO and PIO regions with
-> names that contain "virtio" or "pci-". I find these names using the info
-> mtree monitor command.=20
->=20
-> Basically, the fuzzer splits the input into a series of commands, such
-> as mmio_write, pio_write, etc. Additionally, these patches add "hooks"
-> to functions that are typically used by virtual-devices to read from RAM
-> (DMA). These hooks attempt to populate these DMA regions with fuzzed
-> data, just in time.  There are some differences from my reference code
-> that seem to result in performance issues that I am still trying to iron
-> out. I also need to figure out how to add the DMA "hooks" in a neat way.
-> Maybe I can use -Wl,--wrap for this. I appreciate any feedback.
->=20
-> Alexander Bulekov (3):
->   fuzz: add a general fuzzer for any qemu arguments
->   fuzz: add support for fuzzing DMA regions
->   fuzz: Add callbacks for dma-access functions
->=20
->  exec.c                                |  17 +-
->  include/exec/memory.h                 |   8 +
->  include/exec/memory_ldst_cached.inc.h |   9 +
->  include/sysemu/dma.h                  |   5 +-
->  memory_ldst.inc.c                     |  12 +
->  tests/qtest/fuzz/Makefile.include     |   1 +
->  tests/qtest/fuzz/general_fuzz.c       | 556 ++++++++++++++++++++++++++
->  7 files changed, 606 insertions(+), 2 deletions(-)
->  create mode 100644 tests/qtest/fuzz/general_fuzz.c
+are available in the Git repository at:
 
-CCing Dima in case he is interested in this generic fuzzing approach.
+  git://repo.or.cz/qemu/armbru.git tags/pull-qdev-2020-06-23
 
-Stefan
+for you to fetch changes up to 953cd66139b6e28fdc7cdbf28065a0a98ce7877c:
 
---QWRRbczYj8mXuejp
-Content-Type: application/pgp-signature; name="signature.asc"
+  sd/milkymist-memcard: Fix error API violation (2020-06-23 16:07:21 +0200)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Qdev patches for 2020-06-23
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yDqEACgkQnKSrs4Gr
-c8jjoggAmueA8E4fmB1xW/8kTfM+bAP+Cynl9eH9E3SYunbDz08yHZzpUYkssF2K
-XBLZh017byxar7F1KzdKsO1mjYDESd82yzeLaOf8GTHljDQkgguvSGu/CukWKx3A
-qhevu8hwFuC2MKmK0MrlI/c0ClZh8LEiEmBpoSnOAEJKYYu3j+25+TyubJ/0Hgog
-W+S8qiO4j7Lzdz3szb9MN5cl2yuQWxXSKcUfzho1hK45Xqxx095/FqA5CkF472iK
-5US+I7X6ikjMED8bYVDf3Aoc2qv+OvhvQQmXsotbITB810YJcjc/hMFbbuZApD++
-K3/IFBeZ1fSuwQ452p8F/fIWC8ghdw==
-=pDZ1
------END PGP SIGNATURE-----
+* Reject clash between -drive if=floppy and -global isa-fdc
+* Deprecate configuring floppies with -global isa-fdc
+* Deprecate -drive with bogus interface type
+* Reject drive property override instead of screwing up
+* Reject chardev property override instead of screwing up
+* Various error handling improvements
+* Extend iotests/172
 
---QWRRbczYj8mXuejp--
+----------------------------------------------------------------
+Markus Armbruster (16):
+      iotests/172: Include "info block" in test output
+      iotests/172: Cover empty filename and multiple use of drives
+      iotests/172: Cover -global floppy.drive=...
+      fdc: Reject clash between -drive if=floppy and -global isa-fdc
+      fdc: Open-code fdctrl_init_isa()
+      fdc: Deprecate configuring floppies with -global isa-fdc
+      docs/qdev-device-use.txt: Update section "Default Devices"
+      blockdev: Deprecate -drive with bogus interface type
+      qdev: Eliminate get_pointer(), set_pointer()
+      qdev: Improve netdev property override error a bit
+      qdev: Reject drive property override
+      qdev: Reject chardev property override
+      qdev: Make qdev_prop_set_drive() match the other helpers
+      arm/aspeed: Drop aspeed_board_init_flashes() parameter @errp
+      sd/pxa2xx_mmci: Don't crash on pxa2xx_mmci_init() error
+      sd/milkymist-memcard: Fix error API violation
+
+ docs/qdev-device-use.txt            |  17 +-
+ docs/system/deprecated.rst          |  34 ++
+ include/hw/block/fdc.h              |   2 +-
+ include/hw/qdev-properties.h        |  18 +-
+ include/sysemu/blockdev.h           |   2 +
+ blockdev.c                          |  27 +-
+ hw/arm/aspeed.c                     |  16 +-
+ hw/arm/cubieboard.c                 |   2 +-
+ hw/arm/exynos4210.c                 |   2 +-
+ hw/arm/imx25_pdk.c                  |   2 +-
+ hw/arm/mcimx6ul-evk.c               |   2 +-
+ hw/arm/mcimx7d-sabre.c              |   2 +-
+ hw/arm/msf2-som.c                   |   4 +-
+ hw/arm/nseries.c                    |   4 +-
+ hw/arm/orangepi.c                   |   2 +-
+ hw/arm/raspi.c                      |   2 +-
+ hw/arm/sabrelite.c                  |   6 +-
+ hw/arm/vexpress.c                   |   3 +-
+ hw/arm/xilinx_zynq.c                |   7 +-
+ hw/arm/xlnx-versal-virt.c           |   2 +-
+ hw/arm/xlnx-zcu102.c                |  10 +-
+ hw/block/fdc.c                      |  82 +++--
+ hw/block/nand.c                     |   2 +-
+ hw/block/pflash_cfi01.c             |   6 +-
+ hw/block/pflash_cfi02.c             |   2 +-
+ hw/core/qdev-properties-system.c    | 151 +++++----
+ hw/core/qdev-properties.c           |  17 +
+ hw/i386/pc.c                        |   8 +-
+ hw/ide/qdev.c                       |   4 +-
+ hw/isa/isa-superio.c                |  18 +-
+ hw/m68k/q800.c                      |   3 +-
+ hw/microblaze/petalogix_ml605_mmu.c |   5 +-
+ hw/ppc/pnv.c                        |   3 +-
+ hw/ppc/spapr.c                      |   4 +-
+ hw/scsi/scsi-bus.c                  |   2 +-
+ hw/sd/milkymist-memcard.c           |   2 +-
+ hw/sd/pxa2xx_mmci.c                 |  15 +-
+ hw/sd/sd.c                          |   2 +-
+ hw/sd/ssi-sd.c                      |   3 +-
+ hw/sparc64/sun4u.c                  |   9 +-
+ hw/xtensa/xtfpga.c                  |   3 +-
+ softmmu/vl.c                        |   8 +
+ tests/qemu-iotests/172              |  27 +-
+ tests/qemu-iotests/172.out          | 656 ++++++++++++++++++++++++++++++++----
+ 44 files changed, 928 insertions(+), 270 deletions(-)
+
+-- 
+2.26.2
+
 
