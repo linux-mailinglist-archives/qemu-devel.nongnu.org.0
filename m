@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A124C204E1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:38:26 +0200 (CEST)
-Received: from localhost ([::1]:57376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4E1204E24
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:40:40 +0200 (CEST)
+Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnfNp-0002WX-MZ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60986)
+	id 1jnfPz-00066B-KK
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liran.alon@oracle.com>)
- id 1jnfKg-0006FO-W3
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:35:11 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:38686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liran.alon@oracle.com>)
- id 1jnfKe-0002PL-SU
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:35:10 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05N9GRAs018714;
- Tue, 23 Jun 2020 09:35:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=vmTtrMHoiA3S4bpytCmU19WHDVMsvnzESuYGioZFyjk=;
- b=IqH450CZ9MUCIoZCPJqByhiEOCb+NTzASjArjSboBN8MNSAsoHzRlZAeVeTkK8T00aF5
- B1GNzI5bzCiv2+seCnb6iP90dIWj94A4ABLsu32zG9KOErZ0IJa8BpJx62GJLPmJ+X6H
- yKZxlYCOKt2aDnUnRUXJoLBEdB2DHOzz/C4uwj/q5EQgG9ibUJoHiZ6A0/aBrPqkVzR1
- qDAtIh7CjPiHsThbtd2Zbck6MWoXYyDB7sQEnIhWJCciUplPWw3G7Q37WJu+xRXJBp3L
- ZsWtCG8i4jim/4pKcf9E1gijfKiaF8Kby9Xxvn6Fj32CUxB5FtlSosC8VybytROEMMrl JA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 31sebbm73y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 23 Jun 2020 09:35:05 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05N9I0BV034912;
- Tue, 23 Jun 2020 09:35:04 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 31svc3nrmv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jun 2020 09:35:04 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05N9Z2Fg007217;
- Tue, 23 Jun 2020 09:35:02 GMT
-Received: from [192.168.14.112] (/79.176.227.138)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 23 Jun 2020 09:35:02 +0000
-Subject: Re: [PULL 027/115] hw/i386/vmport: Propagate IOPort read to vCPU EAX
- register
-To: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- qemu-devel@nongnu.org
-References: <20200611194449.31468-1-pbonzini@redhat.com>
- <20200611194449.31468-28-pbonzini@redhat.com>
- <f6f506ab-99a9-0f64-3bc0-2090f58f80f0@redhat.com>
-From: Liran Alon <liran.alon@oracle.com>
-Message-ID: <db41f0d2-386c-44c9-9b44-2e1e72648e2a@oracle.com>
-Date: Tue, 23 Jun 2020 12:34:59 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnfLM-0007b9-R0
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:35:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnfLK-0002z0-PI
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:35:52 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 22so1469683wmg.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=i0cdc4gxmc7qXsxd2sWD8X36uiHVHiQMeSYFiEJpQ3c=;
+ b=iGEZ6Hr0H5VL3s14jERgHqyEuqzzrbT3lUZd9hpHP3UVScLZsRnMWvxgckw7yU4SPH
+ f77IgJ+nffjzJ2v5aUtHDYgPODkhtQ+8G7RSzHHD1PALRrmTH0w2QXw7mgomDI0zkqGh
+ ManwoxRb2AF67nKqrziDrQLv8AoTAXvIhO1AAT0GrC/ndq0yU27/srUFjFb7EiiRhY8G
+ qYeyEAmePoy9qHiOHxOcBcKp7VkMosVpiJgl7KRGKc806JcCXVkWyqogteqcrQ0H/RiH
+ /xpYpkRlJ0g7N/O04iLD2PW/y8edYlbkbHhPsoK9N+yR7BTIW4viQT2QZ6kmvyoXDmYR
+ hnVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=i0cdc4gxmc7qXsxd2sWD8X36uiHVHiQMeSYFiEJpQ3c=;
+ b=k7fXZVAp4PAUaGFRbs8ambBHVEPdpID9faxUKkxP3biuUwTy/3/C27zqB7CdxM46vC
+ /8Rh5RhYH3eg2EGcxQBD0pTBYD2w5Ru7o8Y20eBjN4C30a/H3wbSyEvJNEk1DUl2425R
+ TlUHTJFTQqJwjvp8VrDZWqDsyUtkXChJKwByW4JBWRKcEUrnNJCiC5k6By2Z6D+jBEik
+ Rh2AYnBG7agnM4M4ozoIHpPtlPVDnfr02NANTUOU1yjScNhTMjaM6wYzq6Z8CnWF2Lhw
+ sBtTg20mokrBiTYxnxB8gdkC/qq7FOWTn27NzCoiaGjzzWJensgYsnYKY7xvSpkAGoGc
+ eKrw==
+X-Gm-Message-State: AOAM531rmC4l0+uKymhJ5ZrTxToPWbLy2INzAwtRNs4VhYGLQ3CD7aJ/
+ l6J1mNED8c5L1lnM5LgAJm3nnb1OzI0=
+X-Google-Smtp-Source: ABdhPJz+97PyIraxxMlC61mLiaE9WfxQoT5q30r+9TKe5yzZQNicmoXdXqzR3P5q/lEz1dWc5u/jAA==
+X-Received: by 2002:a7b:c348:: with SMTP id l8mr24840923wmj.54.1592904948369; 
+ Tue, 23 Jun 2020 02:35:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j41sm22702518wre.12.2020.06.23.02.35.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 02:35:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A22611FF7E;
+ Tue, 23 Jun 2020 10:35:43 +0100 (BST)
+References: <20200622153318.751107-1-berrange@redhat.com>
+ <20200622153318.751107-3-berrange@redhat.com> <87a70v9ctc.fsf@linaro.org>
+ <20200623084759.GB751477@redhat.com>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH RFC 2/3] gitlab: build all container images during CI
+In-reply-to: <20200623084759.GB751477@redhat.com>
+Date: Tue, 23 Jun 2020 10:35:43 +0100
+Message-ID: <87sgem86q8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f6f506ab-99a9-0f64-3bc0-2090f58f80f0@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9660
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 bulkscore=0
- spamscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006230074
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9660
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- lowpriorityscore=0
- mlxlogscore=999 cotscore=-2147483648 mlxscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 suspectscore=0 clxscore=1011
- impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006230074
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=liran.alon@oracle.com;
- helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 05:35:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,81 +90,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nikita Leshenko <nikita.leshchenko@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 23/06/2020 11:46, Laurent Vivier wrote:
-> On 11/06/2020 21:43, Paolo Bonzini wrote:
->> From: Liran Alon <liran.alon@oracle.com>
->>
->> vmport_ioport_read() returns the value that should propagate to vCPU EAX
->> register when guest reads VMPort IOPort (i.e. By x86 IN instruction).
->>
->> However, because vmport_ioport_read() calls cpu_synchronize_state(), the
->> returned value gets overridden by the value in QEMU vCPU EAX register.
->> i.e. cpu->env.regs[R_EAX].
->>
->> To fix this issue, change vmport_ioport_read() to explicitly override
->> cpu->env.regs[R_EAX] with the value it wish to propagate to vCPU EAX
->> register.
->>
->> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
->> Signed-off-by: Liran Alon <liran.alon@oracle.com>
->> Message-Id: <20200312165431.82118-4-liran.alon@oracle.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   hw/core/machine.c |  1 +
->>   hw/i386/vmport.c  | 32 +++++++++++++++++++++++++++++---
->>   2 files changed, 30 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index bb3a7b18b1..83f0fe5c91 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -43,6 +43,7 @@ GlobalProperty hw_compat_4_2[] = {
->>       { "qxl", "revision", "4" },
->>       { "qxl-vga", "revision", "4" },
->>       { "fw_cfg", "acpi-mr-restore", "false" },
->> +    { "vmport", "x-read-set-eax", "off" },
-> This is modifying the hw_compat_4_2 properties while qemu-5.0 has been
-> already released. I think all the vmport property updates [1] should go
-> to hw_compat_5_0.
->
-> Liran? Paolo?
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-When I submitted these patches, QEMU 5.0 wasn't released yet. That's why 
-I updated hw_compat_4_2[].
+> On Mon, Jun 22, 2020 at 07:26:39PM +0100, Alex Benn=C3=A9e wrote:
+>>=20
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > We have a number of container images in tests/docker/dockerfiles
+>> > that are intended to provide well defined environments for doing
+>> > test builds. We want our CI system to use these containers too.
+>> >
+>> > This introduces builds of all of them as the first stage in the
+>> > CI, so that the built containers are available for later build
+>> > jobs. The containers are setup to use the GitLab container
+>> > registry as the cache, so we only pay the penalty of the full
+>> > build when the dockerfiles change. The main qemu-project/qemu
+>> > repo is used as a second cache, so that users forking QEMU will
+>> > see a fast turnaround time on their CI jobs.
+>> >
+>> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> > ---
+>> >  .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
+>> >  .gitlab-ci.yml              |   3 +
+>> >  2 files changed, 251 insertions(+)
+>> >  create mode 100644 .gitlab-ci.d/containers.yml
+>> >
+>> > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+>> > new file mode 100644
+>> > index 0000000000..ea1edbb196
+>> > --- /dev/null
+>> > +++ b/.gitlab-ci.d/containers.yml
+>> > @@ -0,0 +1,248 @@
+>> > +
+>> > +
+>> > +.container_job_template: &container_job_definition
+>> > +  image: docker:stable
+>> > +  stage: containers
+>> > +  services:
+>> > +    - docker:dind
+>> > +  before_script:
+>> > +    - export TAG=3D"$CI_REGISTRY_IMAGE/ci-$NAME:latest"
+>> > +    - export
+>> > COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/ci-$NAME:latest"
+>>=20
+>> It would be nice if we could keep the same form as they have in the
+>> local registry which would make it easier to integrate with the rest of
+>> the tooling, e.g. "$CI_REGISTRY/qemu-project/qemu:$NAME"
+>
+> Every time I re-discover it, I find the QEMU container naming really
+> surprising. It is not following the normal best practice for naming
+> containers. Expected container naming convention is that the image
+> name reflects the general content set, and the tag reflects a version
+> number. QEMU has shifted it along, so container name is just a fixed
+> string, and the tag reflects the contenet set, and there is no version.
+>
+> QEMU's naming will cause problems with caching in GitLab. As GitLab
+> expects the normal container naming scheme, it has a job which expires
+> old versions of an image once there are more than 10 tags. So we have
+> to use the normal naming scheme. Ideally we would change rest of QEMU
+> to use the normal scheme too.
 
-Having said that, I believe the compatibility risk here is very small 
-and therefore because QEMU 5.0 was
-released for a very short time-span before these patches were merged, 
-I'm not sure it's really preferable
-to move these flags to hw_compat_5_0[]. But I will leave this for Paolo 
-to decide.
-(Note that moving these flags will also risk in comparability people 
-running with current patches and
-specifying explicitly machine-type 5.0...)
-
--Liran
+Fair enough.. I'll look into it.
 
 >
-> Thanks,
-> Laurent
->
-> [1]
->
-> b889212973da hw/i386/vmport: Propagate IOPort read to vCPU EAX register
-> 0342ee761ef2 hw/i386/vmport: Set EAX to -1 on failed and unsupported
-> commands
-> f8bdc550370f hw/i386/vmport: Report vmware-vmx-type in CMD_GETVERSION
-> aaacf1c15a22 hw/i386/vmport: Add support for CMD_GETBIOSUUID
->
->      { "vmport", "x-read-set-eax", "off" },
->      { "vmport", "x-signal-unsupported-cmd", "off" },
->      { "vmport", "x-report-vmx-type", "off" },
->      { "vmport", "x-cmds-v2", "off" },
->
+> Regards,
+> Daniel
+
+
+--=20
+Alex Benn=C3=A9e
 
