@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A712054EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:37:51 +0200 (CEST)
-Received: from localhost ([::1]:41362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4619A205507
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:42:07 +0200 (CEST)
+Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnk3a-00054M-RN
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1jnk7i-0002yv-4X
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnjzr-0000C3-Sr
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:33:59 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnjzp-0006zN-R4
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:33:59 -0400
-Received: by mail-wm1-x333.google.com with SMTP id j18so3190375wmi.3
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=GmJJzNcIvIb2p/+MkDt2IkLQS7EdJcXX08SQq+h1p/o=;
- b=HCGdvqp5sKloBCJt2sWaqc3IxVf+OYAUXBBByf4IUTXgk0EZgmVnE4MLzc4SxrUNV6
- ff5uL9g+fDBGulQeBZy43edSaq6c+mpJTF2z/j2J4xn88ohiUyAmeGEJ63RvO9SUhx3Q
- cO9VPHOhjZJGrXycxut9Xl859QMxyKsg3edxg+enS2lW+/g9otpD2JhkDCmOamNh2ShK
- 3KBHayWibx72xI/jJZ80r3YzTKThk1prGTqgisQBECHW4uWcGzCriQdsrEUfwCx6kh0J
- CltQQPueGLXdFbTFheqHLhfFOfw2NMaGzMOMSVQ56KEQ1GZZb8T4a7OKugo7UXhu2eao
- juKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=GmJJzNcIvIb2p/+MkDt2IkLQS7EdJcXX08SQq+h1p/o=;
- b=KMerGuCCDV3kr8Ysx9+Hoi3IVNiDKXXZ1lLko2/Gf2ws7zyDahU1okRulGxrLTqt5+
- 1qFuTx91t5je/3bSHgFwwGcq804lDuYXemBBMuDTUtoZfzHlLVGi7ZeVgADKp9HsOysD
- EAw83u3mcZISF2Gp3+AHGMFrFHdPbE7uAjwNwq/9mQnHVmUMe6ZCy83g80NkkctQxWnX
- HQaP2oHwohy3uWaz9vab7fznDsQyp73kMSceao8TW7g2Oan8b71x7Yl70lEOR089hiDU
- kdyKmjorwpP+ISsvn0RS0uV7NgPMJQYi4Gxpf08CKNKyNSoYEGcyf/SeIToyolXzP2Wz
- 7cXA==
-X-Gm-Message-State: AOAM532Z/1uhZeq+c+z0r90FB78NdlcZWoCBi52zZHseL9GQHFJKVyxc
- DjyK7fmn8APiM//2nFrbBS4=
-X-Google-Smtp-Source: ABdhPJzQJQJU1ZPfjoHsOBaXsmBKphdr1xAZjQy2exsIyBDGzrSpJ/X/jjCDs7g+cKgehvlHqZ7/Lg==
-X-Received: by 2002:a1c:2b86:: with SMTP id r128mr25790192wmr.13.1592922836154; 
- Tue, 23 Jun 2020 07:33:56 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id j24sm20909380wrd.43.2020.06.23.07.33.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:33:54 -0700 (PDT)
-Date: Tue, 23 Jun 2020 15:33:53 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Dario Ciriminna <dario@ciriminna.com>
-Subject: Re: qemu win10 host winxp quest very slow
-Message-ID: <20200623143353.GO36568@stefanha-x1.localdomain>
-References: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnk6Q-0002Hf-J1
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:40:46 -0400
+Resent-Date: Tue, 23 Jun 2020 10:40:46 -0400
+Resent-Message-Id: <E1jnk6Q-0002Hf-J1@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnk6N-0001VZ-PF
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:40:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592923237; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=NzmTi518osYDPvYt8oycTOggUyAEInzPnT9S9qRamvNfoO9aODvYlMlIqsPBP/zKAWkzIMYE8cU78vcfauX1yr556z4DqVemxhk/N0bczHqb2+IfBK90HCxm+YIkC8pgzwJ2CCE/+y2h2dFVmCO59p7rM+W20g4qwPCl/veSBkk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592923237;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=oT/RnN3x/LWLUxB7s9ZZZvvvxAQiyK/6IqehLJp+O6U=; 
+ b=NdfjtSBM8Y5uuCzBFLW1QgaXKHaQO1bgpjG6EvG4RZtZpkDvyTcb8ccUMWEiHcyS8pxUNtXRj9s3G53WDmt31Zv2FMqtK9Lub0cEuFKA+aE6Bl+foUmK5YSur+HFqMZeaeKEkeg6QA8fBfdixCtoI45d2AHOnPtBkJ6hqIjezTk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1592923234041652.6409926611818;
+ Tue, 23 Jun 2020 07:40:34 -0700 (PDT)
+Message-ID: <159292323314.6613.14411653927906993400@d1fd068a5071>
+Subject: Re: [PULL 00/16] Qdev patches for 2020-06-23
+In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/UvyDgxjlFfP/4zZ"
-Content-Disposition: inline
-In-Reply-To: <127ef1aa-bcb3-835d-21ba-0918bb62b0f8@ciriminna.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x333.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: armbru@redhat.com
+Date: Tue, 23 Jun 2020 07:40:34 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 08:25:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +69,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
 Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---/UvyDgxjlFfP/4zZ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 15, 2020 at 11:03:40AM +0200, Dario Ciriminna wrote:
-> Hello folks,
->=20
-> i need to compile and run qemu under Windows 10 host (Pentium G860, very
-> bad)=A0 with a Windows XP guest.
-> Precompiled downloaded binary run smoothly, but my compiled version is ve=
-ry
-> very slow (I NEED to compile it).
->=20
-> I start it with :
->=20
-> "C:\Program Files\qemu\qemu-system-x86_64w.exe" .\WindowsXP.img -m 1024M
-> -usb -vga std -netdev user,id=3Dn0 -device rtl8139,netdev=3Dn0 -fda
-> .\ZSK_DSK.img -D .\qemu.log
->=20
-> ah and -D .\qemu.log doesn't log nothing. 0k log file.
->=20
-> What can i try ? 3 min to start Windows XP is unacceptable and after start
-> system run slow!
-
-According to this page the G860 has virtualization support:
-https://ark.intel.com/content/www/us/en/ark/products/53492/intel-pentium-pr=
-ocessor-g860-3m-cache-3-00-ghz.html
-
-Did you build with ./configure --enable-whpx for hardware assisted
-virtualization support?
-
-If you cannot use WHPX then you may be stuck with the current speed.
-
-Stefan
-
---/UvyDgxjlFfP/4zZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yEtEACgkQnKSrs4Gr
-c8gDSwgAnbuM4w+INhJmO6Hf0pi0yqa/ck8Sc+nmMbH+kbIrYayJL3HRcUWjSlF+
-FvI1pWbucnOzeFKclJitMSFnSbWgbLi5GB7/KFJ9FayepmU8HH1jjzxwLiypN+TY
-9IICnIDvBrHAGmfIS7Hj+qblNIQAzGyIIj3iRnxhkzMY/KGZGUWRUMT+ykrOAyTT
-3bLlckQseYE1/xEbv6bYr91i3tTPDH/iWuIZEHEej0TOMun8qy7giJ272qF3OFrH
-Mg3iaMmrRc2TeC+jyF1HkegsDPtdzGe1gM1AudKmskrsJtej/0tjBZuPEC+8azc/
-RRCPvjq8d1F4Xokg5m+1muWm+yCBiQ==
-=dp0e
------END PGP SIGNATURE-----
-
---/UvyDgxjlFfP/4zZ--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyMzE0MjMyNi4yMzQ5
+NDE2LTEtYXJtYnJ1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQVUxMIDAwLzE2XSBRZGV2IHBhdGNoZXMgZm9yIDIwMjAt
+MDYtMjMKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwNjIzMTQyMzI2LjIzNDk0MTYtMS1h
+cm1icnVAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApn
+aXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVl
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2No
+ZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZy
+b20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAg
+ICAgICAgIHBhdGNoZXcvMjAyMDA2MjMxNDIzMjYuMjM0OTQxNi0xLWFybWJydUByZWRoYXQuY29t
+IC0+IHBhdGNoZXcvMjAyMDA2MjMxNDIzMjYuMjM0OTQxNi0xLWFybWJydUByZWRoYXQuY29tClN3
+aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYWM2N2RlZiBzZC9taWxreW1pc3QtbWVtY2Fy
+ZDogRml4IGVycm9yIEFQSSB2aW9sYXRpb24KNzZiNzgyYyBzZC9weGEyeHhfbW1jaTogRG9uJ3Qg
+Y3Jhc2ggb24gcHhhMnh4X21tY2lfaW5pdCgpIGVycm9yCjA4NmNmMmIgYXJtL2FzcGVlZDogRHJv
+cCBhc3BlZWRfYm9hcmRfaW5pdF9mbGFzaGVzKCkgcGFyYW1ldGVyIEBlcnJwCjZiZDY3MGMgcWRl
+djogTWFrZSBxZGV2X3Byb3Bfc2V0X2RyaXZlKCkgbWF0Y2ggdGhlIG90aGVyIGhlbHBlcnMKN2Vl
+YWM5ZSBxZGV2OiBSZWplY3QgY2hhcmRldiBwcm9wZXJ0eSBvdmVycmlkZQpjZTAxNWJlIHFkZXY6
+IFJlamVjdCBkcml2ZSBwcm9wZXJ0eSBvdmVycmlkZQo0YWRkOWE4IHFkZXY6IEltcHJvdmUgbmV0
+ZGV2IHByb3BlcnR5IG92ZXJyaWRlIGVycm9yIGEgYml0CmNiNTVjNmIgcWRldjogRWxpbWluYXRl
+IGdldF9wb2ludGVyKCksIHNldF9wb2ludGVyKCkKNjA0NzE5MiBibG9ja2RldjogRGVwcmVjYXRl
+IC1kcml2ZSB3aXRoIGJvZ3VzIGludGVyZmFjZSB0eXBlCmE4OTVmN2UgZG9jcy9xZGV2LWRldmlj
+ZS11c2UudHh0OiBVcGRhdGUgc2VjdGlvbiAiRGVmYXVsdCBEZXZpY2VzIgpiMTZhOWRkIGZkYzog
+RGVwcmVjYXRlIGNvbmZpZ3VyaW5nIGZsb3BwaWVzIHdpdGggLWdsb2JhbCBpc2EtZmRjCjIxYWU5
+MGEgZmRjOiBPcGVuLWNvZGUgZmRjdHJsX2luaXRfaXNhKCkKN2YyOGVhMiBmZGM6IFJlamVjdCBj
+bGFzaCBiZXR3ZWVuIC1kcml2ZSBpZj1mbG9wcHkgYW5kIC1nbG9iYWwgaXNhLWZkYwozMmFiZDFl
+IGlvdGVzdHMvMTcyOiBDb3ZlciAtZ2xvYmFsIGZsb3BweS5kcml2ZT0uLi4KOTRkODdlNCBpb3Rl
+c3RzLzE3MjogQ292ZXIgZW1wdHkgZmlsZW5hbWUgYW5kIG11bHRpcGxlIHVzZSBvZiBkcml2ZXMK
+ZTg2ZWQwOCBpb3Rlc3RzLzE3MjogSW5jbHVkZSAiaW5mbyBibG9jayIgaW4gdGVzdCBvdXRwdXQK
+Cj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTYgQ2hlY2tpbmcgY29tbWl0IGU4NmVkMDhkZDU5MCAo
+aW90ZXN0cy8xNzI6IEluY2x1ZGUgImluZm8gYmxvY2siIGluIHRlc3Qgb3V0cHV0KQoyLzE2IENo
+ZWNraW5nIGNvbW1pdCA5NGQ4N2U0YjcwZDkgKGlvdGVzdHMvMTcyOiBDb3ZlciBlbXB0eSBmaWxl
+bmFtZSBhbmQgbXVsdGlwbGUgdXNlIG9mIGRyaXZlcykKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3Bh
+Y2UKIzQ5OiBGSUxFOiB0ZXN0cy9xZW11LWlvdGVzdHMvMTcyLm91dDoxOTA6CitUZXN0aW5nOiAt
+ZmRiICQKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgODYgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMi8xNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy8xNiBDaGVja2luZyBjb21taXQg
+MzJhYmQxZTI3MWRlIChpb3Rlc3RzLzE3MjogQ292ZXIgLWdsb2JhbCBmbG9wcHkuZHJpdmU9Li4u
+KQo0LzE2IENoZWNraW5nIGNvbW1pdCA3ZjI4ZWEyZDBmYjMgKGZkYzogUmVqZWN0IGNsYXNoIGJl
+dHdlZW4gLWRyaXZlIGlmPWZsb3BweSBhbmQgLWdsb2JhbCBpc2EtZmRjKQo1LzE2IENoZWNraW5n
+IGNvbW1pdCAyMWFlOTBhOTM5YTAgKGZkYzogT3Blbi1jb2RlIGZkY3RybF9pbml0X2lzYSgpKQo2
+LzE2IENoZWNraW5nIGNvbW1pdCBiMTZhOWRkNzkzMDAgKGZkYzogRGVwcmVjYXRlIGNvbmZpZ3Vy
+aW5nIGZsb3BwaWVzIHdpdGggLWdsb2JhbCBpc2EtZmRjKQo3LzE2IENoZWNraW5nIGNvbW1pdCBh
+ODk1ZjdlNTYwYTcgKGRvY3MvcWRldi1kZXZpY2UtdXNlLnR4dDogVXBkYXRlIHNlY3Rpb24gIkRl
+ZmF1bHQgRGV2aWNlcyIpCjgvMTYgQ2hlY2tpbmcgY29tbWl0IDYwNDcxOTJhNjBiNiAoYmxvY2tk
+ZXY6IERlcHJlY2F0ZSAtZHJpdmUgd2l0aCBib2d1cyBpbnRlcmZhY2UgdHlwZSkKOS8xNiBDaGVj
+a2luZyBjb21taXQgY2I1NWM2Yjk1NjBjIChxZGV2OiBFbGltaW5hdGUgZ2V0X3BvaW50ZXIoKSwg
+c2V0X3BvaW50ZXIoKSkKMTAvMTYgQ2hlY2tpbmcgY29tbWl0IDRhZGQ5YTgyZTEyMCAocWRldjog
+SW1wcm92ZSBuZXRkZXYgcHJvcGVydHkgb3ZlcnJpZGUgZXJyb3IgYSBiaXQpCjExLzE2IENoZWNr
+aW5nIGNvbW1pdCBjZTAxNWJlNDRlMjMgKHFkZXY6IFJlamVjdCBkcml2ZSBwcm9wZXJ0eSBvdmVy
+cmlkZSkKMTIvMTYgQ2hlY2tpbmcgY29tbWl0IDdlZWFjOWU0YWFjOCAocWRldjogUmVqZWN0IGNo
+YXJkZXYgcHJvcGVydHkgb3ZlcnJpZGUpCjEzLzE2IENoZWNraW5nIGNvbW1pdCA2YmQ2NzBjNTk2
+YTkgKHFkZXY6IE1ha2UgcWRldl9wcm9wX3NldF9kcml2ZSgpIG1hdGNoIHRoZSBvdGhlciBoZWxw
+ZXJzKQoxNC8xNiBDaGVja2luZyBjb21taXQgMDg2Y2YyYjNmYmU3IChhcm0vYXNwZWVkOiBEcm9w
+IGFzcGVlZF9ib2FyZF9pbml0X2ZsYXNoZXMoKSBwYXJhbWV0ZXIgQGVycnApCjE1LzE2IENoZWNr
+aW5nIGNvbW1pdCA3NmI3ODJjOGZlMTYgKHNkL3B4YTJ4eF9tbWNpOiBEb24ndCBjcmFzaCBvbiBw
+eGEyeHhfbW1jaV9pbml0KCkgZXJyb3IpCjE2LzE2IENoZWNraW5nIGNvbW1pdCBhYzY3ZGVmNGRm
+YTcgKHNkL21pbGt5bWlzdC1tZW1jYXJkOiBGaXggZXJyb3IgQVBJIHZpb2xhdGlvbikKPT09IE9V
+VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA2MjMxNDIz
+MjYuMjM0OTQxNi0xLWFybWJydUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
+ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
+cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
+ZGV2ZWxAcmVkaGF0LmNvbQ==
 
