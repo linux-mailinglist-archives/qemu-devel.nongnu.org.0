@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E8B205237
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:17:20 +0200 (CEST)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08999205248
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:19:55 +0200 (CEST)
+Received: from localhost ([::1]:48468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhrb-0005UV-Of
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44518)
+	id 1jnhu6-0007tH-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHU-0003de-RI
+ id 1jnhHV-0003dg-0k
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:40:01 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37987)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHN-0003TU-Kg
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:58 -0400
-Received: by mail-wm1-x330.google.com with SMTP id f18so2854103wml.3
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:52 -0700 (PDT)
+ id 1jnhHP-0003U9-Dm
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:40:00 -0400
+Received: by mail-wr1-x435.google.com with SMTP id o11so12450054wrv.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=32ydQvoqd2RGUyvJM88qaq2rPeJ++f/3bS2LA96loH4=;
- b=a6q5G+4wTLzlZu3yG8SB9vJ4picfdgn0b8gLUzybHTshXFZ+0PExe2yoVlRhg2bF7v
- o4Kc/pmKTsWENEY6KDkj10PTqtqXzwgGC0nMHwTARIzZptm84FGOghou2TaqdY39vP/s
- 8yPeSb6C0Uq0ifE+x4lPZGn9kFfH0PBB8uAbP58i9CWR3006qIjDoBqKQIIuIygzGR6M
- 2dgkW//Hy+z5ZVHPYg/lwlKidjoaZNusAF+aLMT9AClbjSCyFSMT/nYYhMdc+L0j7r5u
- uX9Myrb0fzH+8f8Sf962tQ/TGkftwgE9cMHXTh6jqU5PdX8dDtOHHHPXeBkXh1ByJOdI
- lEBQ==
+ bh=n6zJE0yRFKX8qUS2j9Gbp90DG/pGEs6Utl5blOSwKkE=;
+ b=KxSkZ4CxYJYh0vSGxFXyjuv1LH+k8DwHeLKMrr4FRJN2mX2MX/pqkD0cZZCifihqtI
+ woXWscOYu7SOUUmXxILNgY5Vz+3pHpFnDy+7BcncLFg8MIEk0mdlLO7lmy5DwaicepjA
+ EqcuHxNxaj+uFb0MieYayoAM8ZtgCALXu4SeL3H1oSjbNWOGZHfAiZjZNlpOW1pWPYTS
+ GWg/NnJdwDs0oOMs8MhJ87Pzra+NDUIMjCAem9DY3zqRur3BJklNRXkSbvwcvMN2V5am
+ j5DWjJkB5K8LM6k/n17eu5hf1pNVGt/j7f7rT2BalAcnG2beJOpE/kwQ9KL5pX2mLFU5
+ jkKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=32ydQvoqd2RGUyvJM88qaq2rPeJ++f/3bS2LA96loH4=;
- b=cjcIibXxPVGBM7nv6ySnxK6wQ0BNTJOPCr/MfJ6R3SX0AXHTZLwY3Sx4kHak7PJV0T
- KfT88xPvQGFat8k40XbwI6UdNQR1k3vZpt2AoK0Jcl+GM6lQwJyvhqVU1DmLwJhqGJtJ
- zbPyXW7gPbHYZOyaOr8CesJLlA1g4Bl4tm6/vtfUGeDbo2aDexlPyu1PHkqfMUA1Ff01
- dGvHl57ryiePhAd+kzUoOSkcfkCgRIcsOt3l/2/1UOhadMqbLSBcU6tfDziuEpbua0Md
- m3D06fIM5dOHWnWsnyizHYv9MLv1NdBN7aiYZBgZQS7hksokp1TqmTwlfuDJAuSXW0/s
- 6XkA==
-X-Gm-Message-State: AOAM533i7YKE8mkRpjtMoJohjaPEdkmZubYY17ZbBdbFIxqRUiU4bRde
- UHEEs9yugIOc1l7cf+EWdBomYYzC3AMJTw==
-X-Google-Smtp-Source: ABdhPJw74bFjM4ZfPsUnXpidLKhbskLZqlmlwtY38ZAkmaSdjeFgSkgRP/uDX+1F/53Iy0UTp/dKoQ==
-X-Received: by 2002:a1c:e910:: with SMTP id q16mr10373014wmc.188.1592912391245; 
- Tue, 23 Jun 2020 04:39:51 -0700 (PDT)
+ bh=n6zJE0yRFKX8qUS2j9Gbp90DG/pGEs6Utl5blOSwKkE=;
+ b=qNTJMx84CmKJia6N6EP3ipT2PUIC6LptLEScCqh81lQEfk02N2yZZVqCJHBCI8L2pA
+ 12E6oscHX/DIwsVZPsqgDLqzFdh8namicRcrzef2I9pnWbifMQEeVn7w5MBwZBeAiHWV
+ b3byTgaTz0GcY6volWRHrrsyYQqtrXOsSJysjlWlkE+l6GFIaDVCZeYaFrk3/ssRLeHx
+ wl5EG9sqALYMPj1p+MkxSD7HOqrsDTqsvZidQTdN79o4b7ERCDlAlf71FfsE0YDZFmvm
+ BbLXwyivDy/SwxD70JTKo75ScdjhuiNUA9f9PD/zC67XUd2AwsDkbTRHU0T+a90Nf1D1
+ gO0g==
+X-Gm-Message-State: AOAM5331210/DvCk088Ok5rR7rzlXpUJ+8Kz7BA6OV/dSIxnUcKORIrE
+ Ia6cPCXU1tdK2pTwpFEZADyqpA6Pk+GeVw==
+X-Google-Smtp-Source: ABdhPJxsS/kvwA25vSYO0t3MBLnO2e6iVLujEakx+4/Nt3nVSwHk5n1bAoJ3kaZjAg2WrFfMN0wUQA==
+X-Received: by 2002:a5d:458a:: with SMTP id p10mr19518630wrq.184.1592912393453; 
+ Tue, 23 Jun 2020 04:39:53 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.50
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:50 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/42] hw/arm/mps2-tz: Use the ARM SBCon two-wire serial bus
- interface
-Date: Tue, 23 Jun 2020 12:39:01 +0100
-Message-Id: <20200623113904.28805-40-peter.maydell@linaro.org>
+Subject: [PULL 41/42] tests/qtest/arm-cpu-features: Add feature setting tests
+Date: Tue, 23 Jun 2020 12:39:03 +0100
+Message-Id: <20200623113904.28805-42-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,81 +89,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Andrew Jones <drjones@redhat.com>
 
-From 'Application Note AN521', chapter 4.7:
+Some cpu features may be enabled and disabled for all configurations
+that support the feature. Let's test that.
 
-  The SMM implements four SBCon serial modules:
+A recent regression[*] inspired adding these tests.
 
-  One SBCon module for use by the Color LCD touch interface.
-  One SBCon module to configure the audio controller.
-  Two general purpose SBCon modules, that connect to the
-  Expansion headers J7 and J8, are intended for use with the
-  V2C-Shield1 which provide an I2C interface on the headers.
+[*] '-cpu host,pmu=on' caused a segfault
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200617072539.32686-15-f4bug@amsat.org
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200623090622.30365-2-philmd@redhat.com
+Message-Id: <20200623082310.17577-1-drjones@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ tests/qtest/arm-cpu-features.c | 38 ++++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 8155c35418d..a4fd5ddede7 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -58,6 +58,7 @@
- #include "hw/arm/armsse.h"
- #include "hw/dma/pl080.h"
- #include "hw/ssi/pl022.h"
-+#include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/net/lan9118.h"
- #include "net/net.h"
- #include "hw/core/split-irq.h"
-@@ -87,7 +88,7 @@ typedef struct {
-     TZPPC ppc[5];
-     TZMPC ssram_mpc[3];
-     PL022State spi[5];
--    UnimplementedDeviceState i2c[4];
-+    ArmSbconI2CState i2c[4];
-     UnimplementedDeviceState i2s_audio;
-     UnimplementedDeviceState gpio[4];
-     UnimplementedDeviceState gfx;
-@@ -365,6 +366,18 @@ static MemoryRegion *make_spi(MPS2TZMachineState *mms, void *opaque,
-     return sysbus_mmio_get_region(s, 0);
- }
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 46921736766..f7e062c1891 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -159,16 +159,35 @@ static bool resp_get_feature(QDict *resp, const char *feature)
+     qobject_unref(_resp);                                              \
+ })
  
-+static MemoryRegion *make_i2c(MPS2TZMachineState *mms, void *opaque,
-+                              const char *name, hwaddr size)
-+{
-+    ArmSbconI2CState *i2c = opaque;
-+    SysBusDevice *s;
+-#define assert_feature(qts, cpu_type, feature, expected_value)         \
++#define resp_assert_feature(resp, feature, expected_value)             \
+ ({                                                                     \
+-    QDict *_resp, *_props;                                             \
++    QDict *_props;                                                     \
+                                                                        \
+-    _resp = do_query_no_props(qts, cpu_type);                          \
+     g_assert(_resp);                                                   \
+     g_assert(resp_has_props(_resp));                                   \
+     _props = resp_get_props(_resp);                                    \
+     g_assert(qdict_get(_props, feature));                              \
+     g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
++})
 +
-+    object_initialize_child(OBJECT(mms), name, i2c, TYPE_ARM_SBCON_I2C);
-+    s = SYS_BUS_DEVICE(i2c);
-+    sysbus_realize(s, &error_fatal);
-+    return sysbus_mmio_get_region(s, 0);
-+}
++#define assert_feature(qts, cpu_type, feature, expected_value)         \
++({                                                                     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query_no_props(qts, cpu_type);                          \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, expected_value);               \
++    qobject_unref(_resp);                                              \
++})
 +
- static void mps2tz_common_init(MachineState *machine)
- {
-     MPS2TZMachineState *mms = MPS2TZ_MACHINE(machine);
-@@ -499,10 +512,10 @@ static void mps2tz_common_init(MachineState *machine)
-                 { "uart2", make_uart, &mms->uart[2], 0x40202000, 0x1000 },
-                 { "uart3", make_uart, &mms->uart[3], 0x40203000, 0x1000 },
-                 { "uart4", make_uart, &mms->uart[4], 0x40204000, 0x1000 },
--                { "i2c0", make_unimp_dev, &mms->i2c[0], 0x40207000, 0x1000 },
--                { "i2c1", make_unimp_dev, &mms->i2c[1], 0x40208000, 0x1000 },
--                { "i2c2", make_unimp_dev, &mms->i2c[2], 0x4020c000, 0x1000 },
--                { "i2c3", make_unimp_dev, &mms->i2c[3], 0x4020d000, 0x1000 },
-+                { "i2c0", make_i2c, &mms->i2c[0], 0x40207000, 0x1000 },
-+                { "i2c1", make_i2c, &mms->i2c[1], 0x40208000, 0x1000 },
-+                { "i2c2", make_i2c, &mms->i2c[2], 0x4020c000, 0x1000 },
-+                { "i2c3", make_i2c, &mms->i2c[3], 0x4020d000, 0x1000 },
-             },
-         }, {
-             .name = "apb_ppcexp2",
++#define assert_set_feature(qts, cpu_type, feature, value)              \
++({                                                                     \
++    const char *_fmt = (value) ? "{ %s: true }" : "{ %s: false }";     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query(qts, cpu_type, _fmt, feature);                    \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, value);                        \
+     qobject_unref(_resp);                                              \
+ })
+ 
+@@ -424,10 +443,14 @@ static void test_query_cpu_model_expansion(const void *data)
+     assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
+ 
+     /* Test expected feature presence/absence for some cpu types */
+-    assert_has_feature_enabled(qts, "max", "pmu");
+     assert_has_feature_enabled(qts, "cortex-a15", "pmu");
+     assert_has_not_feature(qts, "cortex-a15", "aarch64");
+ 
++    /* Enabling and disabling pmu should always work. */
++    assert_has_feature_enabled(qts, "max", "pmu");
++    assert_set_feature(qts, "max", "pmu", false);
++    assert_set_feature(qts, "max", "pmu", true);
++
+     assert_has_not_feature(qts, "max", "kvm-no-adjvtime");
+ 
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+@@ -464,7 +487,10 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         return;
+     }
+ 
++    /* Enabling and disabling kvm-no-adjvtime should always work. */
+     assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
++    assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
++    assert_set_feature(qts, "host", "kvm-no-adjvtime", false);
+ 
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+         bool kvm_supports_sve;
+@@ -475,7 +501,11 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         char *error;
+ 
+         assert_has_feature_enabled(qts, "host", "aarch64");
++
++        /* Enabling and disabling pmu should always work. */
+         assert_has_feature_enabled(qts, "host", "pmu");
++        assert_set_feature(qts, "host", "pmu", false);
++        assert_set_feature(qts, "host", "pmu", true);
+ 
+         assert_error(qts, "cortex-a15",
+             "We cannot guarantee the CPU type 'cortex-a15' works "
 -- 
 2.20.1
 
