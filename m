@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409D7205563
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:02:29 +0200 (CEST)
-Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F86205575
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:05:23 +0200 (CEST)
+Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkRQ-0004ev-8P
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35812)
+	id 1jnkUE-0000JQ-89
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkNe-0000vF-R0
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:58:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34919
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkNd-0004R3-2c
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:58:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592924312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bUBs5+JKlyJtdULGxedpuQNXfn9HPkiPWBVdnn7V3c4=;
- b=LpBOtB3wplvOyjRPGu8rDK4ONEMtCI7/jSs/VWmFh33sGgvreJ2hCOYowfpUrIwZmIbtPE
- V3kdXPVgApYkeEzwS/iJXiBOSYa2rp0tFTXM/MS4EygvFGoN3kdnThJlDI9PMDknE+jbxC
- Anbx9gxUCljno8JiUkEn74CyWOCP8aI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-MM_7eBD6NF-D8GDoMdvv0g-1; Tue, 23 Jun 2020 10:58:28 -0400
-X-MC-Unique: MM_7eBD6NF-D8GDoMdvv0g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ECC7805EE3;
- Tue, 23 Jun 2020 14:58:27 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E061F5C3E7;
- Tue, 23 Jun 2020 14:58:23 +0000 (UTC)
-Date: Tue, 23 Jun 2020 16:58:22 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v3 1/3] hyperv: vmbus: Remove the 2nd IRQ
-Message-ID: <20200623165822.2fd73965@redhat.com>
-In-Reply-To: <20200618030027.759594-2-arilou@gmail.com>
-References: <20200618030027.759594-1-arilou@gmail.com>
- <20200618030027.759594-2-arilou@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnkRv-0006yk-LB
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:03:00 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jnkRt-0007CL-Kz
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:02:59 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l17so3294687wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5PwrATtHZw1hjoYBvmunfj7/De2WHM1t+Yv+XjrCkOs=;
+ b=Wh2KqRhpkz4M7ZwcRF7Gax42p/3O90C8CMFoXKsM2QXJbFwZnRe2TFILvLiEG4moG0
+ lt6gufsWNFS3tkMngkAMOTGIxhwAtQVaPNCRPlIL9K7MOrNd5wSP+0IV9Q9+E7kUWPlk
+ +cUe73j1+0QveydEC/wCqrFWVhzB2tbN0SzuXvtiyXoWRj/HYpKES69Q9OHCFvglVoxK
+ 2seRB9JOOfR0oFCHhArN3S9n5VXoFwyxTX5SH2VlfE7iJVMgMDIrVqTzfiOGZcO+lZEj
+ TCkoDuymU77dVO9OZszN//XiMJHw9E856sx48dauLA9NtTuaS+EOOxQbyWzKUKF7UxeL
+ XVTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5PwrATtHZw1hjoYBvmunfj7/De2WHM1t+Yv+XjrCkOs=;
+ b=KRZC8dcS2s3uM8qUMj13CPXvlp40FYFHbej/8QNLu1e9usDrT2pj0soHtP04HfHEos
+ l0tGP1YMA5zXU4V4OcOg0KzYTHS+2DrzSLoEsLUsMoxA4+EmL2MbBnkNkQfMscP4qVtp
+ ONbrZWGkm8C/+h2Xfk9XneX0PeOlZL4YRAVg2snQCzwFxowD/JJ4gPsc7zBftdo2mT2m
+ BeznNQenDO1XmRm01sCRdDveBjWYYTvMTtXC1l1rVnrt0D9qdmauuEAmy/MlWvsvi100
+ HRYU3fUsVMVxOj4Ih8lrLhor4nYSHurIBRF+H6geJNKYCpa2+kihYrmByU/Ez0x3Jx8S
+ cnGg==
+X-Gm-Message-State: AOAM533LlztzM5qLt94LSkadr7rT0RXy87bwTJvIpgK7bSV5rhvCrT11
+ dbix9IyQExWu+cVC7yz57ak=
+X-Google-Smtp-Source: ABdhPJxVOkLhkOzjPjhVc31NO+RXr2uklUx05PsilDeb94LL+FdPE9aw/TOrVqGtDI1dQhuajoim5w==
+X-Received: by 2002:a1c:3c82:: with SMTP id j124mr1650804wma.155.1592924575894; 
+ Tue, 23 Jun 2020 08:02:55 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id c143sm3931928wmd.1.2020.06.23.08.02.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 08:02:54 -0700 (PDT)
+Date: Tue, 23 Jun 2020 16:02:53 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Antonio Raffaele <windowsnotfound@gmail.com>
+Subject: Re: Overriding PCI Vendor/Device IDs
+Message-ID: <20200623150253.GT36568@stefanha-x1.localdomain>
+References: <CAFES52nPcmpF9dB175J4xdAqsJO+GK2614OOoKDArt+=cX2mhA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4Kq+wHeKEs1nwG7z"
+Content-Disposition: inline
+In-Reply-To: <CAFES52nPcmpF9dB175J4xdAqsJO+GK2614OOoKDArt+=cX2mhA@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rvkagan@yandex-team.ru, pbonzini@redhat.com, vkuznets@redhat.com,
- mail@maciej.szmigiero.name, qemu-devel@nongnu.org
+Cc: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Jun 2020 06:00:25 +0300
-Jon Doron <arilou@gmail.com> wrote:
 
-> It seems like Windows does not really require 2 IRQs to have a
-> functioning VMBus.
-> 
-> Signed-off-by: Jon Doron <arilou@gmail.com>
+--4Kq+wHeKEs1nwG7z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+On Sun, Jun 21, 2020 at 09:31:30AM +0200, Antonio Raffaele wrote:
+> Hi I'm trying to create a qemu virtual machine that runs windows 10. I
+> would like to try to make it almost indistinguishable from a real computer
+> (I know it's impossible, but at least I get close). I have already changed
+> any suspicious identifiers (smbios, hard disk, card network and so on,
+> host-passthroug cpu etc.) But now checking the various components that the
+> guest computer recognizes, I realized (through the hwinfo64 program) that
+> in the bus section, then pcibus there are devices called "Red Hat , Device
+> ID "and with the same devicename, as device class have:" PCI-to-PCI Bridge
+> ". Is there a way to change the devicename of these virtual compontents
+> (maybe even changing the qemu source)?
 
-> ---
->  hw/hyperv/vmbus.c                | 3 +--
->  hw/i386/acpi-build.c             | 4 +---
->  include/hw/hyperv/vmbus-bridge.h | 3 +--
->  3 files changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-> index f371240176..a8bcb41026 100644
-> --- a/hw/hyperv/vmbus.c
-> +++ b/hw/hyperv/vmbus.c
-> @@ -2741,8 +2741,7 @@ static const VMStateDescription vmstate_vmbus_bridge = {
->  };
->  
->  static Property vmbus_bridge_props[] = {
-> -    DEFINE_PROP_UINT8("irq0", VMBusBridge, irq0, 7),
-> -    DEFINE_PROP_UINT8("irq1", VMBusBridge, irq1, 13),
-> +    DEFINE_PROP_UINT8("irq", VMBusBridge, irq, 7),
->      DEFINE_PROP_END_OF_LIST()
->  };
->  
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 900f786d08..91af0d2d0d 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1082,9 +1082,7 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
->      aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
->  
->      crs = aml_resource_template();
-> -    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq0));
-> -    /* FIXME: newer HyperV gets by with only one IRQ */
-> -    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq1));
-> +    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq));
->      aml_append(dev, aml_name_decl("_CRS", crs));
->  
->      return dev;
-> diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
-> index c0a06d832c..33f93de64d 100644
-> --- a/include/hw/hyperv/vmbus-bridge.h
-> +++ b/include/hw/hyperv/vmbus-bridge.h
-> @@ -19,8 +19,7 @@ typedef struct VMBus VMBus;
->  typedef struct VMBusBridge {
->      SysBusDevice parent_obj;
->  
-> -    uint8_t irq0;
-> -    uint8_t irq1;
-> +    uint8_t irq;
->  
->      VMBus *bus;
->  } VMBusBridge;
+As far as I know there is no command-line parameter for overriding PCI
+Vendor/Device IDs.
 
+If you are able to modify the QEMU source code you can change the
+PCIDeviceClass fields. For example, in hw/pci-bridge/pci_bridge_dev.c:
+
+  k->vendor_id = PCI_VENDOR_ID_REDHAT;
+  k->device_id = PCI_DEVICE_ID_REDHAT_BRIDGE;
+
+Stefan
+
+--4Kq+wHeKEs1nwG7z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yGZ0ACgkQnKSrs4Gr
+c8iVAQf7BClvhFdAgUFOaWhaYBKWdPctSv/Cgt8PO+EvNfIEKMw5gUKnq+vpZgwT
+5O74HKDcWLXq9KSh9Fl83H5CAMA8kentq4BEEUdaUUwVu8pJTndD73ZutcWZB09y
+57Zjn6UbnzBcIFfPnLHVOBx7dk/iogvxCPel7gFfvMu5t9XtWjPKvIO4arGuiDeq
+9J46oM/LHpEnVuMS3ewQn5qBiw7pyxxf6JT9qCWces2e/LQLcA3kzVz0OVh7Ccuf
+7jVsk0E5WTtZcmROYqp6ZH2HjJiRLQZJS6OIdeJEqDnp03o0+KMIMlbHHQPElGLH
+PD9Y2OkkeOPoPRVjQRo/gOJ5JwkEnQ==
+=jcYx
+-----END PGP SIGNATURE-----
+
+--4Kq+wHeKEs1nwG7z--
 
