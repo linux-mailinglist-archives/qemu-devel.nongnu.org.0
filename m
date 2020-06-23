@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AD4204E30
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:42:33 +0200 (CEST)
-Received: from localhost ([::1]:45740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE95204E40
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:43:53 +0200 (CEST)
+Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnfRo-0001oi-9I
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
+	id 1jnfT6-0004I1-Tu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnfPG-00067y-V7
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43001
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jnfPF-0004d8-1w
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:39:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592905192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=devLSGWOsZYzYWfZieWlop+g3AQTWag//5NZrI0WjsI=;
- b=f7/UTLPqlUeAnBCyPvo6A/2DdDPHvICcElQZjL0E/nIBkQddO2pCfaHv4JR6tk5SrSWjRD
- v9SjO4RRQQBbMMWtStLebU3MWVc4cyku19LXvIrrIeumM4qtbwaJgXr7C8AjRyJgx67/zB
- owumWLOYPO+YLGYU1+ahEeLgfhiD4Vk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-vSMY9sFONfCeFAyMEM6axg-1; Tue, 23 Jun 2020 05:39:50 -0400
-X-MC-Unique: vSMY9sFONfCeFAyMEM6axg-1
-Received: by mail-wm1-f71.google.com with SMTP id v24so3379873wmh.3
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:39:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=devLSGWOsZYzYWfZieWlop+g3AQTWag//5NZrI0WjsI=;
- b=nXYB36Hri0TRYl2aQu62lzbv5cu14HPWIn9sImpt9l3c2YBKnQ0oLcVsKn4DGrZqmc
- l6TscU0QxBxQimOf0KMnnKI+1vYo9Yo8xn9+02FOSTUho0MLEKKxUGS3yNtrVxYgz+5s
- 6nF56auQ/eFo9FLtQURoYVftWd9u3t1igsu3o+9Xb/9LlHMCzhMtUto4pozzAC5KwmUD
- tXIe5N8QeG7GoZ/zFB52Vtob/CGbP+kFgGV9U8LKyKVfjobmMR6OeGGYWqrGWoo25mRj
- AJKqYT8pWS+Y2A5RszppPqYm2souBu/afCNFiAUupw0AV9MqT39v9QH5E/VpkdJJYnbd
- 3/BA==
-X-Gm-Message-State: AOAM53220vmk26WlleOWbtBENBL3Iqmifnhmq3v99xIkm39KBZ2ixqys
- GiDAWbWwxfnPm58QYtY64REhOeEJEM/XFpeGbvdmVl1ulbHKvWP27mmJYqjYqO+KTHUVu/lztJR
- uJoYzkEJ+i2q6iTk=
-X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr21975597wmf.97.1592905189182; 
- Tue, 23 Jun 2020 02:39:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcz8IPvvE0DqJQZ4OE0m1m8U6YasMoSoOm1DLWdWRUDI1C47D866oDSaqIgIyg5+cz7tXymQ==
-X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr21975584wmf.97.1592905188956; 
- Tue, 23 Jun 2020 02:39:48 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:fd64:dd90:5ad5:d2e1?
- ([2001:b07:6468:f312:fd64:dd90:5ad5:d2e1])
- by smtp.gmail.com with ESMTPSA id c65sm2910949wme.8.2020.06.23.02.39.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 02:39:48 -0700 (PDT)
-Subject: Re: [PATCH v3 00/12] tpm: Split hw/ vs backends/
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200612085444.8362-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <03924193-9774-9f85-2008-05c047fe91cf@redhat.com>
-Date: Tue, 23 Jun 2020 11:39:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200612085444.8362-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jnfQW-00089V-Es; Tue, 23 Jun 2020 05:41:12 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2115 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jnfQP-0005T6-Op; Tue, 23 Jun 2020 05:41:12 -0400
+Received: from lhreml707-chm.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id 639625B962EF103F83A1;
+ Tue, 23 Jun 2020 10:40:59 +0100 (IST)
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ lhreml707-chm.china.huawei.com (10.201.108.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 23 Jun 2020 10:40:58 +0100
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
+ Tue, 23 Jun 2020 10:40:59 +0100
+From: Salil Mehta <salil.mehta@huawei.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: RE: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation
+ support
+Thread-Topic: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation
+ support
+Thread-Index: AQHWQcvP5xOa2jCJCEaicIhkNVfTfKjl4RiAgAAP/MA=
+Date: Tue, 23 Jun 2020 09:40:58 +0000
+Message-ID: <0126fb3d008d4690950cf843d6ece70b@huawei.com>
+References: <20200613213629.21984-1-salil.mehta@huawei.com>
+ <20200613213629.21984-2-salil.mehta@huawei.com>
+ <20200623084603.i4kv3udz3dlcxlak@kamzik.brq.redhat.com>
+In-Reply-To: <20200623084603.i4kv3udz3dlcxlak@kamzik.brq.redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.79.3]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.76.210;
+ envelope-from=salil.mehta@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 05:40:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,101 +71,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "mehta.salil.lnk@gmail.com" <mehta.salil.lnk@gmail.com>,
+ "gshan@redhat.com" <gshan@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "jiakernel2@gmail.com" <jiakernel2@gmail.com>,
+ "maz@kernel.org" <maz@kernel.org>, "david@redhat.com" <david@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "will@kernel.org" <will@kernel.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "maran.wilson@oracle.com" <maran.wilson@oracle.com>,
+ zhukeqian <zhukeqian1@huawei.com>,
+ "wangxiongfeng \(C\)" <wangxiongfeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/20 10:54, Philippe Mathieu-Daudé wrote:
-> Missing review: last patch
-> - #12 "tpm: Move backend code under the 'backends/' directory"
-> 
-> Hi,
-> 
-> Yesterday I started to review some vTPM patches and got very
-> confused by the files under hw/tpm/. In particular after
-> running:
-> 
->   $ git grep TYPE_TPM_BACKEND
->   backends/tpm.c:188:    .name = TYPE_TPM_BACKEND,
->   hw/tpm/tpm_emulator.c:985:    .parent = TYPE_TPM_BACKEND,
->   hw/tpm/tpm_passthrough.c:393:    .parent = TYPE_TPM_BACKEND,
->   include/sysemu/tpm_backend.h:21:#define TYPE_TPM_BACKEND "tpm-backend"
-> 
-> As there is no particular reason to keep this mixed, clean it up.
-> 
-> Since v2:
-> - Resolved the FIXME in tpm_tis_common.c by making the
->   TRACE_TPM_UTIL_SHOW_BUFFER check locally to tpm_util.c
-> 
-> Since v1:
-> - Amended docs/ changes
-> - Renamed Kconfig TPM_BACKEND variable
-> - Move backend files under backends/tpm/ (Marc-André & Stefan)
-> - Fix x86-64 build error (patchew)
-> 
-> Philippe Mathieu-Daudé (12):
->   docs/specs/tpm: Correct header path name
->   backends: Add TPM files into their own directory
->   hw/tpm: Rename TPMDEV as TPM_BACKEND in Kconfig
->   hw/tpm: Do not include 'qemu/osdep.h' in header
->   hw/tpm: Include missing 'qemu/option.h' header
->   hw/tpm: Move 'hw/acpi/tpm.h' inclusion from header to sources
->   hw/tpm: Remove unnecessary 'tpm_int.h' header inclusion
->   hw/tpm: Make TRACE_TPM_UTIL_SHOW_BUFFER check local to tpm_util.c
->   hw/tpm: Move few declarations from 'tpm_util.h' to 'tpm_int.h'
->   hw/tpm: Move DEFINE_PROP_TPMBE() macro to 'tmp_prop.h' local header
->   hw/tpm: Make 'tpm_util.h' publicly accessible as "sysemu/tpm_util.h"
->   tpm: Move backend code under the 'backends/' directory
-> 
->  docs/specs/tpm.rst                     | 14 +++++------
->  Makefile                               |  2 +-
->  Makefile.objs                          |  1 +
->  {hw => backends}/tpm/tpm_int.h         | 19 +++++++++++---
->  {hw => backends}/tpm/tpm_ioctl.h       |  0
->  hw/tpm/tpm_ppi.h                       |  1 -
->  hw/tpm/tpm_prop.h                      | 31 +++++++++++++++++++++++
->  hw/tpm/tpm_tis.h                       |  1 -
->  {hw/tpm => include/sysemu}/tpm_util.h  | 19 +++-----------
->  backends/{tpm.c => tpm/tpm_backend.c}  |  0
->  {hw => backends}/tpm/tpm_emulator.c    |  2 +-
->  {hw => backends}/tpm/tpm_passthrough.c |  2 +-
->  {hw => backends}/tpm/tpm_util.c        |  5 +++-
->  hw/tpm/tpm_crb.c                       |  4 +--
->  hw/tpm/tpm_ppi.c                       |  1 +
->  hw/tpm/tpm_spapr.c                     |  4 +--
->  hw/tpm/tpm_tis_common.c                | 11 +++------
->  hw/tpm/tpm_tis_isa.c                   |  3 ++-
->  hw/tpm/tpm_tis_sysbus.c                |  3 ++-
->  tests/qtest/tpm-emu.c                  |  2 +-
->  MAINTAINERS                            |  2 +-
->  backends/Kconfig                       |  1 +
->  backends/Makefile.objs                 |  2 +-
->  backends/tpm/Kconfig                   | 14 +++++++++++
->  backends/tpm/Makefile.objs             |  4 +++
->  backends/tpm/trace-events              | 33 +++++++++++++++++++++++++
->  hw/tpm/Kconfig                         | 21 +++-------------
->  hw/tpm/Makefile.objs                   |  3 ---
->  hw/tpm/trace-events                    | 34 +-------------------------
->  29 files changed, 136 insertions(+), 103 deletions(-)
->  rename {hw => backends}/tpm/tpm_int.h (81%)
->  rename {hw => backends}/tpm/tpm_ioctl.h (100%)
->  create mode 100644 hw/tpm/tpm_prop.h
->  rename {hw/tpm => include/sysemu}/tpm_util.h (80%)
->  rename backends/{tpm.c => tpm/tpm_backend.c} (100%)
->  rename {hw => backends}/tpm/tpm_emulator.c (99%)
->  rename {hw => backends}/tpm/tpm_passthrough.c (99%)
->  rename {hw => backends}/tpm/tpm_util.c (98%)
->  create mode 100644 backends/Kconfig
->  create mode 100644 backends/tpm/Kconfig
->  create mode 100644 backends/tpm/Makefile.objs
->  create mode 100644 backends/tpm/trace-events
-> 
+Hi Andrew,
 
-Queued this one, actually.
+> From: Andrew Jones [mailto:drjones@redhat.com]
+> Sent: Tuesday, June 23, 2020 9:46 AM
+> To: Salil Mehta <salil.mehta@huawei.com>
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org; peter.maydell@linaro.org;
+> sudeep.holla@arm.com; gshan@redhat.com; mst@redhat.com; jiakernel2@gmail.=
+com;
+> maz@kernel.org; zhukeqian <zhukeqian1@huawei.com>; david@redhat.com;
+> richard.henderson@linaro.org; Linuxarm <linuxarm@huawei.com>;
+> eric.auger@redhat.com; james.morse@arm.com; catalin.marinas@arm.com;
+> imammedo@redhat.com; pbonzini@redhat.com; mehta.salil.lnk@gmail.com;
+> maran.wilson@oracle.com; will@kernel.org; wangxiongfeng (C)
+> <wangxiongfeng2@huawei.com>
+> Subject: Re: [PATCH RFC 01/22] arm/cpuhp: Add QMP vcpu params validation =
+support
+>=20
+> On Sat, Jun 13, 2020 at 10:36:08PM +0100, Salil Mehta wrote:
+> > For now, vcpu hotplug is only supported with single socket single threa=
+d,
+> > single die. NUMA is not supported either and everthing falls into singl=
+e
+> > node. Work to properly support these could be taken later once communit=
+y
+> > agrees with the base framework changes being presented to support ARM v=
+cpu
+> > hotplug in QEMU. Hence, these checks.
+> >
+> > Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
+> > Signed-off-by: Salil Mehta <salil.mehta@huawei.com>
+> > ---
+> >  hw/arm/virt.c | 41 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 37462a6f78..5d1afdd031 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -2201,6 +2201,46 @@ static HotplugHandler
+> *virt_machine_get_hotplug_handler(MachineState *machine,
+> >      return NULL;
+> >  }
+> >
+> > +static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+> > +{
+> > +    if (opts) {
+> > +        unsigned cpus    =3D qemu_opt_get_number(opts, "cpus", 1);
+> > +        unsigned sockets =3D qemu_opt_get_number(opts, "sockets", 1);
+> > +        unsigned cores   =3D qemu_opt_get_number(opts, "cores", cpus);
+> > +        unsigned threads =3D qemu_opt_get_number(opts, "threads", 1);
+> > +        unsigned int max_cpus;
+> > +
+> > +        if (sockets > 1 || threads > 1) {
+> > +            error_report("does not support more than one socket or thr=
+ead");
+> > +            exit(1);
+> > +        }
+> > +
+> > +        if (cores !=3D cpus) {
+> > +            error_report("cpu topology: "
+> > +                         "sockets (%u) * cores (%u) * threads (%u) < "
+> > +                         "smp_cpus (%u)",
+> > +                         sockets, cores, threads, cpus);
+> > +            exit(1);
+> > +        }
+> > +
+> > +        max_cpus =3D qemu_opt_get_number(opts, "maxcpus", cpus);
+> > +        if (sockets * cores * threads > max_cpus) {
+> > +            error_report("cpu topology: "
+> > +                         "sockets (%u) * cores (%u) * threads (%u) > "
+> > +                         "maxcpus (%u)",
+> > +                         sockets, cores, threads,
+> > +                         max_cpus);
+> > +            exit(1);
+> > +        }
+> > +
+> > +        ms->smp.max_cpus =3D max_cpus;
+> > +        ms->smp.sockets =3D sockets;
+> > +        ms->smp.cpus =3D cpus;
+> > +        ms->smp.cores =3D cores;
+> > +        ms->smp.threads =3D threads;
+> > +    }
+> > +}
+> > +
+> >  /*
+> >   * for arm64 kvm_type [7-0] encodes the requested number of bits
+> >   * in the IPA address space
+> > @@ -2266,6 +2306,7 @@ static void virt_machine_class_init(ObjectClass *=
+oc,
+> void *data)
+> >      mc->nvdimm_supported =3D true;
+> >      mc->auto_enable_numa_with_memhp =3D true;
+> >      mc->default_ram_id =3D "mach-virt.ram";
+> > +    mc->smp_parse =3D virt_smp_parse;
+> >
+> >      object_class_property_add(oc, "acpi", "OnOffAuto",
+> >          virt_get_acpi, virt_set_acpi,
+> > --
+> > 2.17.1
+> >
+> >
+> >
+>=20
+> Hi Salil,
+>=20
+> This patch and the whole series has inspired me to pick up the vcpu
+> topology work again.=20
 
-Paolo
+
+Thanks for looking into this QEMU series. I am glad to hear that this
+work looks sensible at least :)
+
+
+> In fact, I think it may be necessary in order
+> to properly describe a cpu when hot[un]plugging.
+
+
+Agreed. it is required. Since, MPIDR derived using topo specified by
+the user should match that assigned by the KVM/Host(which derives it
+using vcpu-id).=20
+
+
+? I'll try to pull
+> together an RFC soon, at least for TCG. For KVM, we may need to
+> change KVM in order to allow user-controlled MPIDR. Although I'm
+> not sure about that anymore, because, as you stated somewhere else,
+> we already have user-controlled MPIDR to some degree, since KVM simply
+> transforms the cpu index.
+
+
+Yes, kind-of, if you actually see the KVM logic and how it derives the
+MPIDR for vcpu in reset_mpidr() you will know that the only variable
+it is using is vcpu-id which is specified by QEMU during the vcpu
+creation time. This clearly means end MPIDR value is actually dependent
+on QEMU and KVM/host just programs it. Of course user of the QEMU does
+not have any direct interface and this is as of now done implicitly
+at QEMU level.=20
+
+But the thing which concerned me was the idea of threads. Marc recently
+clarified about that aspect as well, that KVM always(with some exception
+of thunderX) uses MT=3D0(a bit in MPIDR register) even for the hardware
+which support threads. IMHO there has to be some way to distinguish
+between threads and cores at the QEMU level whether QEMU fetches this
+info using sysfs interface like lscpu etc does or devise some other way.
+But QEMU should ensure that right thread/core info is being facilitated
+to the guest kernel. This could either be done wrapped as part of the
+MPIDR or PPTT Table.
+
+
+>=20
+> Regarding this patch specifically, I would change this to allow
+> sockets, but prefer cores (i.e. when only '-smp N' is given, then
+> N is the number of cores, not sockets). Also I would allow threads,
+> but only for !kvm_enabled(). Then the function would be similar to
+> something I think I once posted long ago, or at least wrote and maybe
+> never posted...
+
+
+Ok. We need to modify the logic to derive the arch-id/MPIDR using the
+topology info instead of just vcpu-id. Hope you will be doing that
+as well for TCG? and this will require check to distinguish the KVM and
+TCG part there as well. I am specifically talking about {pre|post}_plug
+functions. BTW, can 'N' (in -smp N) ever be sockets?
+
+
+In case you require my help for anything like testing on real ARM64
+server hardware or anything else please give a nudge and we can co-work
+from here :)
+
+
+Regarding kernel part, I will be posting the guest kernel changes
+today to the community. If you have time please have a look at them
+as well.
+
+
+Many thanks
+Salil.
 
 
