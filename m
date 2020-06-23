@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A442055A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:17:17 +0200 (CEST)
-Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACB72055AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:18:50 +0200 (CEST)
+Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkfk-00084G-JD
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33758)
+	id 1jnkhF-0001Qb-Qg
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnkHz-0005fe-Sx
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:44 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41947)
+ id 1jnkJl-0006VS-LG
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:54:33 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnkHy-00014w-0d
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h15so889935wrq.8
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:52:41 -0700 (PDT)
+ id 1jnkJj-0001nQ-MS
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:54:33 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v3so13367178wrc.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=n3MRUD+QRMjfDSjSikC2bHhO8rpeXdlIDDxtDUZz3Iw=;
- b=KDvRn03at0cn4SR3hDvUoJYQYEkz6Kc1wX3BosewmCrLHZnok9ujLCdqYadKflUFKD
- ofAxHsCuRRElXsKnw7sKWi33BN6TTf7KrvDcl/PCFkN8DU2RBwAqHW8M9tB/tXMyduIg
- mF+m/1wjCh6d4GrdsqzKlEmKYCjdifb+XwLGPYPfYmW8D3dUzjQgRxEff3+ZkXwu95PI
- God4XhTQfgJ6meNH3yLxeIsD7ffz3lPdQ8meABgnKAvZfgy5iZQna4GB8Ux12bxoIuoX
- YpXfQR3JZ2FySh1qfHW1stWHaaw2ozDL41FgsJfeHnh3PrrG0g3K4IGKN6KLI6lbVRtQ
- JTPA==
+ bh=ZoO3pyibE8uz7naSIOnMdxj99BGlER8qDsCbmWL+SiA=;
+ b=aqlqAliCDHnUhluDlEnLVUsj3YTRKgvhySTFzokrl1tBpilSe5B0zMphJVH/E7Gq8I
+ 4AqU9HPW8QzzwenNhSA0EuPeuj24+//hF+0DVKuo2Yars4f3FXLaec9e+Yp6vU6hpssc
+ iF844jvVH+ieBEV8LuX+/BPs2jNTbEaloj3PSxw9zaF1hknZdmRA6Ot9ts46eT0LF2Y2
+ k7o+UOTGZ5iZqiubNXXmRq+cgEKoMxGunmjaxu8uQrS+3BwkbfdL7fwteb3tP9f4XfIO
+ MNDtwc9F293Xj8Y0dO4J2lxh44uMZ2S+1SWomZPw1UG02mFKKYynfXkKRLNp5YMDfMW0
+ 2I5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=n3MRUD+QRMjfDSjSikC2bHhO8rpeXdlIDDxtDUZz3Iw=;
- b=Iw6bJifRMV12QcwTiiu4CaqxqZEf75IaY21etnvRqzrcpYUSfJIG+A7VoJi9FxXqC2
- +D05mwOiQykujvKlibxqUyZNZuxFm7QMTgLNkISDrZAIUCEXCAB5RnRbuJvyqp3AxI2s
- lwWfkmqKFAiZy73VSmWmTxuEyhOQIW2dbVaTXT8tT3I44Kho/cbcHR4AsbbCoK037Fga
- LfEZtUiT7loNkKKMprxBC37e7/wGBqehZQ3ov72kzcExNcZK3ZcGBZuItJuR4ZFx0tEp
- phi+3PowW1UgU0gwQLTj7i/RSrPVdW8KUo1B7H7pPEYK5q2IKsABTB4QIOSCUWsR7yug
- ogJA==
-X-Gm-Message-State: AOAM533xUkuFE6c+bKznBadBr2NSdnmZz5WZu28kn0W+VZBbIYcgol33
- /fAfb9Mw4ZT2n/oJHpYU0jwgVw==
-X-Google-Smtp-Source: ABdhPJxux8B3O8ZTp8BNGG90uhTWYb7FX6k8f59lK+qT7m/MdHZuzOfmVp1Upq+/7T2w3ajZNIQhDw==
-X-Received: by 2002:a05:6000:1283:: with SMTP id
- f3mr7856198wrx.106.1592923960329; 
- Tue, 23 Jun 2020 07:52:40 -0700 (PDT)
+ bh=ZoO3pyibE8uz7naSIOnMdxj99BGlER8qDsCbmWL+SiA=;
+ b=iWSpkOJT1EGSPlH1K24Q4oGkj38Uh7WNQcYJB5RPTBErDXhdLC1y/CwWQmXtRdeyjt
+ Tgvaxvao4nKd6tN+5G87anBshtj1K5kRR8B40GHOix8Ynfv2ZSXFEHAmTZP/gctfF9RJ
+ pzZiWGFzbNdwdJ5qWVHPK+yIvLMBLONdOSynR8L/jyZKoB6PFBSNX/pZgswU1cHeaFVk
+ rsGP3eXRJDGF8sbqHFLduJngnNsDAhvsVGnvpvcMmkDutqmJbYbHSQtbQ8VLbhoHGogZ
+ mJbPG/CNLqfIXJDzpt6A7uSzJf5wm4FQb/4CZppKhcYpoU2x9wdO9oVJ/HyLi4vADI5h
+ EYnQ==
+X-Gm-Message-State: AOAM530tRr0h+4L6PeZIi0mYm3oTpW8ogK83cKjARMJ3OOjzIl912N49
+ wujYBS8PtPHZXD5AmJXtb4L/zg==
+X-Google-Smtp-Source: ABdhPJyln5omtga9prkeoHAdsQ+K+GIUz4zuIaukwLGsCQ06Ny4HVdnIlhk8s5Z5Xbdr5oWgpVkD4Q==
+X-Received: by 2002:a5d:4c82:: with SMTP id z2mr3182821wrs.287.1592924069975; 
+ Tue, 23 Jun 2020 07:54:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm3922833wma.48.2020.06.23.07.52.38
+ by smtp.gmail.com with ESMTPSA id o82sm4283982wmo.40.2020.06.23.07.54.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:52:39 -0700 (PDT)
+ Tue, 23 Jun 2020 07:54:28 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D3771FF7E;
- Tue, 23 Jun 2020 15:52:38 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 354F11FF7E;
+ Tue, 23 Jun 2020 15:54:28 +0100 (BST)
 References: <20200522023440.26261-1-richard.henderson@linaro.org>
- <20200522023440.26261-18-richard.henderson@linaro.org>
+ <20200522023440.26261-19-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.3; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 17/25] Add magic and size to the trace header
-In-reply-to: <20200522023440.26261-18-richard.henderson@linaro.org>
-Date: Tue, 23 Jun 2020 15:52:38 +0100
-Message-ID: <87k0zx96mh.fsf@linaro.org>
+Subject: Re: [PATCH v3 18/25] Compute reginfo_size based on the reginfo
+In-reply-to: <20200522023440.26261-19-richard.henderson@linaro.org>
+Date: Tue, 23 Jun 2020 15:54:28 +0100
+Message-ID: <87h7v196jf.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,49 +96,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Sanity check that we're not getting out of sync with
-> the trace stream.  This will be especially bad with
-> the change in size of the sve save data.
+> This will allow dumping of SVE frames without having
+> to know the SVE vector length beforehand.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  risu.h |  10 +++-
->  risu.c | 162 ++++++++++++++++++++++++++++++++++++++++++++-------------
->  2 files changed, 136 insertions(+), 36 deletions(-)
->
-> diff --git a/risu.h b/risu.h
-> index dd9fda5..bfcf0af 100644
-> --- a/risu.h
-> +++ b/risu.h
-> @@ -55,7 +55,11 @@ typedef enum {
->      RES_END,
->      RES_MISMATCH_REG,
->      RES_MISMATCH_MEM,
-> +    RES_MISMATCH_OP,
->      RES_BAD_IO,
-> +    RES_BAD_MAGIC,
-> +    RES_BAD_SIZE,
-> +    RES_BAD_OP,
->  } RisuResult;
->=20=20
->  /* The memory block should be this long */
-> @@ -69,10 +73,14 @@ typedef enum {
->  struct reginfo;
->=20=20
->  typedef struct {
-> -   uintptr_t pc;
-> +   uint32_t magic;
-> +   uint32_t size;
->     uint32_t risu_op;
-> +   uintptr_t pc;
->  } trace_header_t;
->=20=20
-> +#define RISU_MAGIC  (('R' << 24) | ('I' << 16) | ('S' << 8) | 'U')
-> +
-
-I guess a fixed constant magic value should compress well.
-
-Anyway:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
