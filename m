@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E052D206128
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 23:02:58 +0200 (CEST)
-Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00D120612D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 23:05:18 +0200 (CEST)
+Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnq4H-00085l-VW
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 17:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45812)
+	id 1jnq6X-0004Is-VE
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 17:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnptG-0005k9-MR; Tue, 23 Jun 2020 16:51:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56496
+ id 1jnptT-00069I-FI; Tue, 23 Jun 2020 16:51:47 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56512
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnptE-0002Ej-TB; Tue, 23 Jun 2020 16:51:34 -0400
+ id 1jnptR-0002Og-Ie; Tue, 23 Jun 2020 16:51:47 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpt8-0007T1-3b; Tue, 23 Jun 2020 21:51:34 +0100
+ id 1jnptN-0007T1-BS; Tue, 23 Jun 2020 21:51:47 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Tue, 23 Jun 2020 21:49:34 +0100
-Message-Id: <20200623204936.24064-21-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 23 Jun 2020 21:49:36 +0100
+Message-Id: <20200623204936.24064-23-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 20/22] adb: only call autopoll callbacks when autopoll is
- not blocked
+Subject: [PATCH v2 22/22] adb: add ADB bus trace events
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,64 +65,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle this at the ADB bus level so that individual implementations do not need
-to handle this themselves.
-
-Finally add an assert() into adb_request() to prevent developers from accidentally
-making an explicit ADB request without blocking autopoll.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/input/adb.c    | 7 +++++--
- hw/misc/mac_via.c | 6 +-----
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/input/adb.c        | 21 ++++++++++++++++++++-
+ hw/input/trace-events |  7 +++++++
+ 2 files changed, 27 insertions(+), 1 deletion(-)
 
 diff --git a/hw/input/adb.c b/hw/input/adb.c
-index 70aa1f4570..fe0f6c7ef3 100644
+index fe0f6c7ef3..013fcc9c54 100644
 --- a/hw/input/adb.c
 +++ b/hw/input/adb.c
-@@ -86,10 +86,11 @@ static int do_adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf,
+@@ -29,10 +29,18 @@
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "adb-internal.h"
++#include "trace.h"
+ 
+ /* error codes */
+ #define ADB_RET_NOTPRESENT (-2)
+ 
++static const char *adb_commands[] = {
++    "RESET", "FLUSH", "(Reserved 0x2)", "(Reserved 0x3)",
++    "Reserved (0x4)", "(Reserved 0x5)", "(Reserved 0x6)", "(Reserved 0x7)",
++    "LISTEN r0", "LISTEN r1", "LISTEN r2", "LISTEN r3",
++    "TALK r0", "TALK r1", "TALK r2", "TALK r3",
++};
++
+ static void adb_device_reset(ADBDevice *d)
+ {
+     qdev_reset_all(DEVICE(d));
+@@ -86,9 +94,16 @@ static int do_adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf,
  
  int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
  {
-+    assert(s->autopoll_blocked);
++    int ret;
 +
-     return do_adb_request(s, obuf, buf, len);
++    trace_adb_bus_request(buf[0] >> 4, adb_commands[buf[0] & 0xf], len);
++
+     assert(s->autopoll_blocked);
+ 
+-    return do_adb_request(s, obuf, buf, len);
++    ret = do_adb_request(s, obuf, buf, len);
++
++    trace_adb_bus_request_done(buf[0] >> 4, adb_commands[buf[0] & 0xf], ret);
++    return ret;
  }
  
--/* XXX: move that to cuda ? */
  int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
+@@ -161,6 +176,7 @@ void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask)
+ void adb_autopoll_block(ADBBusState *s)
  {
-     ADBDevice *d;
-@@ -181,7 +182,9 @@ static void adb_autopoll(void *opaque)
+     s->autopoll_blocked = true;
++    trace_adb_bus_autopoll_block(s->autopoll_blocked);
+ 
+     if (s->autopoll_enabled) {
+         timer_del(s->autopoll_timer);
+@@ -170,6 +186,7 @@ void adb_autopoll_block(ADBBusState *s)
+ void adb_autopoll_unblock(ADBBusState *s)
  {
+     s->autopoll_blocked = false;
++    trace_adb_bus_autopoll_block(s->autopoll_blocked);
+ 
+     if (s->autopoll_enabled) {
+         timer_mod(s->autopoll_timer,
+@@ -183,7 +200,9 @@ static void adb_autopoll(void *opaque)
      ADBBusState *s = opaque;
  
--    s->autopoll_cb(s->autopoll_cb_opaque);
-+    if (!s->autopoll_blocked) {
-+        s->autopoll_cb(s->autopoll_cb_opaque);
-+    }
+     if (!s->autopoll_blocked) {
++        trace_adb_bus_autopoll_cb(s->autopoll_mask);
+         s->autopoll_cb(s->autopoll_cb_opaque);
++        trace_adb_bus_autopoll_cb_done(s->autopoll_mask);
+     }
  
      timer_mod(s->autopoll_timer,
-               qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 71b6f92645..d76d7b28d3 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -615,11 +615,7 @@ static void adb_via_poll(void *opaque)
-      * received, however we must block autopoll until the point where
-      * the entire reply has been read back to the host
-      */
--    if (adb_bus->autopoll_blocked) {
--        return;
--    } else {
--        adb_autopoll_block(adb_bus);
--    }
-+    adb_autopoll_block(adb_bus);
+diff --git a/hw/input/trace-events b/hw/input/trace-events
+index 6f0d78241c..1dd8ad6018 100644
+--- a/hw/input/trace-events
++++ b/hw/input/trace-events
+@@ -14,6 +14,13 @@ adb_device_mouse_readreg(int reg, uint8_t val0, uint8_t val1) "reg %d obuf[0] 0x
+ adb_device_mouse_request_change_addr(int devaddr) "change addr to 0x%x"
+ adb_device_mouse_request_change_addr_and_handler(int devaddr, int handler) "change addr and handler to 0x%x, 0x%x"
  
-     m->adb_data_in_index = 0;
-     m->adb_data_out_index = 0;
++# adb.c
++adb_bus_request(uint8_t addr, const char *cmd, int size) "device 0x%x %s cmdsize=%d"
++adb_bus_request_done(uint8_t addr, const char *cmd, int size) "device 0x%x %s replysize=%d"
++adb_bus_autopoll_block(bool blocked) "blocked: %d"
++adb_bus_autopoll_cb(uint16_t mask) "executing autopoll_cb with autopoll mask 0x%x"
++adb_bus_autopoll_cb_done(uint16_t mask) "done executing autopoll_cb with autopoll mask 0x%x"
++
+ # pckbd.c
+ pckbd_kbd_read_data(uint32_t val) "0x%02x"
+ pckbd_kbd_read_status(int status) "0x%02x"
 -- 
 2.20.1
 
