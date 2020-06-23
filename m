@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7445F205157
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:53:21 +0200 (CEST)
-Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A1E205168
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:55:49 +0200 (CEST)
+Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhUO-0000Gv-F4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
+	id 1jnhWm-00059j-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHB-0003IX-7H
+ id 1jnhHB-0003JM-II
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:41 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34349)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhH7-0003JP-97
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:40 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v3so12682975wrc.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:36 -0700 (PDT)
+ id 1jnhH8-0003KA-Af
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:41 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 17so2865672wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=vCRlIZ7cqAXG2v+VfE7BrmBrtfArLobRZmrL/chqA/A=;
- b=gS96TwDWMAs8e1l1VaynySl7FRjOlMFCHHP1HcP4ugKcY3GHtxzFFJU25RCeE4z5Ts
- v+rnKMiP9kzMad9sqgN2dEHFwoN7egAxl8K3gcVzfpu+y/vBm4LNk+xQ0Kc14Txc2cAe
- 3lG7WpiH2OksaF0CNFbnQabJtGDpyke60TSv+2PIEW69LucqxEDTea3FzDHnzREW92uM
- rLOnWCmwlo32EyH6S4NHcO1Tnhc5GNwCv3oBRrtgt41rrR/GJFuHTei+nys1Y6/Wc09D
- LhS8ViCaBIQWA4wFKzc9sDO+ucyb5lRM1vujl3I0IF09p6JXi4kDoX9u4gs4RME8DlGJ
- ROvQ==
+ bh=evNmXaMAc+WETlIBriOddwBkHq02IBzTdOsbeZtXxH0=;
+ b=V1i0e5AftduDNvxoxWYqBZHXZmxvk88QGzGVDJ/waLg36jQRM/IbMkINbierncjWc3
+ Eayp5Vg8DH6J+M5PfsHxa/w7gzEfkWMhMBdeMHiNsHueA1avbOGM4ctonOrWNm3BT4aX
+ iYaLoe2Er5cJ9dybxIAVzKZxqVii60+AFaepXlfuv4kWkP+Fq6WOdIe87rIjMkpyLda3
+ Uw3GG5i0+o+sYHmJbgTUbudiafloYcLzh8jNrkz1g+pLtlXlBdffYR9ihGW1XhnGTC1s
+ FRXycClLwJ5OAX9gPSgPfemZrbAWvtkyvrfRn2m1amC+1+DvLEr12zYdG94ZzD5RaDHb
+ VUSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vCRlIZ7cqAXG2v+VfE7BrmBrtfArLobRZmrL/chqA/A=;
- b=tJ7bfdJUGOqZmbNJodnQCJlF/fN8fIffApPp1upRw65m8d7jNB59MYJnKbbPMACjaf
- s5Lp/m7GuoXdaKdVqE9YxXAScXIJcqvFnVh0R3cRibFeZ+AhMVPgEq6Y1Gwtia2sG6ym
- wr7sbGNfKknFvdoBq2rcEOLu9D8iw/KsZU7CKoIgymqIdUqTxM30qxWw57DNnqpdVgAD
- bGlG1k3k9gcdUgtL3C8sAal7C0BUx7/Uqp50s0t2VrkTlZlyoH2SU/Ir1T3/e85LX2B+
- /JR5dB/S4UQn6oTV2S/dJ9cWhqGaTVJfO5+dzso9qiHQ+1urk+0E7WjCccTsnUnfu57v
- t+aw==
-X-Gm-Message-State: AOAM530ZyJewlRlqDXEZ2gire3KFyWJaMlVg2HFp3kRiMW6IpL+znBv9
- QkXAL04Hs9nz8VhcUoIj5FWGUzLaDGqepg==
-X-Google-Smtp-Source: ABdhPJxjB3+ZE4tz/B9jtbVnpFwGFbtH1qXmO/VZgP5ebGn1KhyvgT6LukfQmYdXzZql9gIHwIGepQ==
-X-Received: by 2002:adf:ff83:: with SMTP id j3mr24873176wrr.264.1592912375626; 
- Tue, 23 Jun 2020 04:39:35 -0700 (PDT)
+ bh=evNmXaMAc+WETlIBriOddwBkHq02IBzTdOsbeZtXxH0=;
+ b=q9hhcBHGJdv1y5r34oe4XQPW1s2NevZf7qIMsnpbr9fxLIreDjYdOKwDEhT4N28YFf
+ nA5zCLZZe3NPr7+pEEdIwrUncQ99xYWSk4WAyGbshyQDvcPg2kclMZGZANaGup/HoEqd
+ P6USXj/kkuTL0dOKv3rm+S9elxt0jqCouM8BuAQph4TarTq36iH8n0utIlELQE0+oVSG
+ OrkeD+DWB34smZeexCbhJ2g+uf/mMmoDk0wnSL1NyWU0+DH/k9liT+RF4PldBMeDrvTx
+ Y+MLh/FqZeHDLXNAt5+DneeK/1af82fYptwJQ1V8eOs2882ZhaGso1N9psgyXvYM5Lci
+ VTXw==
+X-Gm-Message-State: AOAM532uPJGB0LeRJf/TXxBPtQZ9ePfrXjkvHwmHoFRFKZF8iFYzy9y0
+ 1NXct9Flmhz8HQ21sdCNA0PMpi8WUy3o/w==
+X-Google-Smtp-Source: ABdhPJwCwqg/y288Drs+f4M02kOAwxq9jdAVf9KfGmACG8w/fQeGpf7ggDeZA0hFA05A8fBHyDVRXw==
+X-Received: by 2002:a1c:1b90:: with SMTP id b138mr13305102wmb.21.1592912376598; 
+ Tue, 23 Jun 2020 04:39:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.34
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:34 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/42] target/arm: Remove dead code relating to SABA and UABA
-Date: Tue, 23 Jun 2020 12:38:47 +0100
-Message-Id: <20200623113904.28805-26-peter.maydell@linaro.org>
+Subject: [PULL 26/42] hw/watchdog/cmsdk-apb-watchdog: Add trace event for lock
+ status
+Date: Tue, 23 Jun 2020 12:38:48 +0100
+Message-Id: <20200623113904.28805-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,45 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit cfdb2c0c95ae9205b0 ("target/arm: Vectorize SABA/UABA") we
-replaced the old handling of SABA/UABA with a vectorized implementation
-which returns early rather than falling into the loop-ever-elements
-code. We forgot to delete the part of the old looping code that
-did the accumulate step, and Coverity correctly warns (CID 1428955)
-that this code is now dead. Delete it.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes: cfdb2c0c95ae9205b0
+Add a trace event to see when a guest disable/enable the watchdog.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200617072539.32686-2-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200619171547.29780-1-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ hw/watchdog/cmsdk-apb-watchdog.c | 1 +
+ hw/watchdog/trace-events         | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 12040984981..4cef862c415 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -11370,18 +11370,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-                 genfn(tcg_res, tcg_op1, tcg_op2);
-             }
- 
--            if (opcode == 0xf) {
--                /* SABA, UABA: accumulating ops */
--                static NeonGenTwoOpFn * const fns[3] = {
--                    gen_helper_neon_add_u8,
--                    gen_helper_neon_add_u16,
--                    tcg_gen_add_i32,
--                };
--
--                read_vec_element_i32(s, tcg_op1, rd, pass, MO_32);
--                fns[size](tcg_res, tcg_op1, tcg_res);
--            }
--
-             write_vec_element_i32(s, tcg_res, rd, pass, MO_32);
- 
-             tcg_temp_free_i32(tcg_res);
+diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
+index 1541365914e..5bbadadfa68 100644
+--- a/hw/watchdog/cmsdk-apb-watchdog.c
++++ b/hw/watchdog/cmsdk-apb-watchdog.c
+@@ -225,6 +225,7 @@ static void cmsdk_apb_watchdog_write(void *opaque, hwaddr offset,
+         break;
+     case A_WDOGLOCK:
+         s->lock = (value != WDOG_UNLOCK_VALUE);
++        trace_cmsdk_apb_watchdog_lock(s->lock);
+         break;
+     case A_WDOGITCR:
+         if (s->is_luminary) {
+diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
+index ab94d7df502..3124ca1f1b6 100644
+--- a/hw/watchdog/trace-events
++++ b/hw/watchdog/trace-events
+@@ -4,3 +4,4 @@
+ cmsdk_apb_watchdog_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_watchdog_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_watchdog_reset(void) "CMSDK APB watchdog: reset"
++cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB watchdog: lock %" PRIu32
 -- 
 2.20.1
 
