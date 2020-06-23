@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B52204FA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 12:56:08 +0200 (CEST)
-Received: from localhost ([::1]:52934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB67204FAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 12:57:26 +0200 (CEST)
+Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jngb1-0006Lb-26
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 06:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45794)
+	id 1jngcH-0007yq-NN
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 06:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWd-0006GB-KE
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20552
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWk-0006Vg-58
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53814
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWa-0007br-SH
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWi-0007eT-5I
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592909492;
+ s=mimecast20190719; t=1592909498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oZQ1iXj/Bq+YaBfUtLyYjvldkQlNyk/VkfsOF9orImA=;
- b=C6cIv/00Au+ZCW3qI45aM3wn2F74bjDuOdE5i9qeU9qJa7nI7kKXUbhOWUl1aJjfte7YdI
- UnmjhNl8xkI8c1dSzgiWP9DwQVK70sPu/+xuO+eLhg+HmWXEsSsWOK651MKDcd7MxoDC1Q
- EnU6ZkrIgjukfth3ruZtv1npakf4c64=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-Tuaaaku3POW1ghMqPMXcUQ-1; Tue, 23 Jun 2020 06:51:30 -0400
-X-MC-Unique: Tuaaaku3POW1ghMqPMXcUQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 23so3595283wmi.4
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 03:51:30 -0700 (PDT)
+ bh=LVjwKVhnoJ/NkeP5BdSwAibBor9Meggq390h5glu26Q=;
+ b=M2N/q/wZWCsbXrbMyFFDz2nGxP4jntEOn/uNzDD0ziDT1MCUIR5FcCdowwQqKrJ09fDCHs
+ 2FoY9DfvsFEHj7YFt4D0C/O3I95vv2PKGeAkzNHdEp7G3CZVYjjGRCEaXlA82lU2RKVByO
+ 2YViMROPB6+0vqKEGwqqMWg7y8EiHQs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-ElwkCYZBP7ub7ibvuL6dPw-1; Tue, 23 Jun 2020 06:51:37 -0400
+X-MC-Unique: ElwkCYZBP7ub7ibvuL6dPw-1
+Received: by mail-wr1-f69.google.com with SMTP id i14so3909405wru.17
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 03:51:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oZQ1iXj/Bq+YaBfUtLyYjvldkQlNyk/VkfsOF9orImA=;
- b=EVkkqjLRd9o8d6LE7RLcl0e0Y+lCNGoa3SWB8wyGBtH77T+S4owa946N5LHKMiUJWF
- IMBV8qEtmUnlHv4OhWoEyoU+pXBx016pOfTISJQhTW9f+Wm+sLygHFV0x/ttNMrEXDKn
- dTLZsvgOBBbGN2IsuSwtR0Cfq5Y3QMfzG0n7x0eiI/zPnBc6w+ZIsTGNSsVHG7dJjop7
- RpmthCHfb78AgVjaxB3qUb8s9gNQCoUmYXwe1ORsGw4u4kRdnoI5JRMu/L3t+HOP/LV2
- t9AFy9t98xZCcMY28qnd1hrVbUyXk0Tkb/Zp6e6S3ib4FqCW0NEfGkW31eOb4FbK5yN6
- qI/g==
-X-Gm-Message-State: AOAM5318SHD2fd+zOTKtdTOcpm38dwKIQ1Uw9JGDHmNsWnyhb1zvr3GP
- MpTRKg9kBVHahFcLkS0q0J5KuapCtgfbZ4Dx8D6G3QGR/4SeRcmbBF6cKcPeswt+kECvbt6f51r
- qPE7h08LYrQxYvz4=
-X-Received: by 2002:adf:e50a:: with SMTP id j10mr26012279wrm.71.1592909489441; 
- Tue, 23 Jun 2020 03:51:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyuS/JbnpSn9OgQJWh9mW9to5y+6XJc1jU0fAPSPVWArLyfs8W2ovPuZhWk97kfUtl8tfn0Q==
-X-Received: by 2002:adf:e50a:: with SMTP id j10mr26012236wrm.71.1592909489238; 
- Tue, 23 Jun 2020 03:51:29 -0700 (PDT)
+ bh=LVjwKVhnoJ/NkeP5BdSwAibBor9Meggq390h5glu26Q=;
+ b=LpW9lVIvkBpj/KoOtbzC4hh1d77JCsn/j2N9YN3N4F2lAO8E3I+MqeYrNU4jBkqG+i
+ w+b2jG9gm3NrIh9FNxx+Q+WZcHvhfJnRazo042FZ35Df1SeoPypCgvbQMQy8DnidxIKE
+ 9Q7uDrMlksMrVeTVXG3eBGC+rwYwZUlkMRsL7Fus2ukvKiATCKz7rVTEpg3Qp9twbqNT
+ DH4USd6F1YPH7SOroUoICWPNxBCimmgCElWpTTCvshPt8+DJF+yGBUXs3cA0L+5vmV3G
+ +tC0dDYWJyI/uq9kXajylAfAoyNX36gnP+31l8l9WQnXkxdnzUpftQZr7mdTnN+khE35
+ 7Tpg==
+X-Gm-Message-State: AOAM533l/CFP0EZfeYvwPWxKuMaxwA/WtdDy0m7BjfJVsH9U7MxYt0Qm
+ rITeBnZtLqS1sykGJX8HVTID/X1/KTsYMMHjVBxvtFdjvKUF5YyMj4PBTEVakZ572reFiaU2a7z
+ zJgk6YHkwJGr2rLI=
+X-Received: by 2002:a7b:c08e:: with SMTP id r14mr24504264wmh.78.1592909495620; 
+ Tue, 23 Jun 2020 03:51:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+lUmsOxGGyNhicD4Qre6EUQ9uDD12JC437h5LIw7lhq7cKVmWoabmNrYpUWBP1jZa8ZjEtQ==
+X-Received: by 2002:a7b:c08e:: with SMTP id r14mr24504225wmh.78.1592909495383; 
+ Tue, 23 Jun 2020 03:51:35 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id v4sm6965597wro.26.2020.06.23.03.51.27
+ by smtp.gmail.com with ESMTPSA id b201sm3199953wmb.36.2020.06.23.03.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 03:51:28 -0700 (PDT)
+ Tue, 23 Jun 2020 03:51:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 6/7] target/i386/kvm: Simplify kvm_get_mce_cap_supported()
-Date: Tue, 23 Jun 2020 12:50:51 +0200
-Message-Id: <20200623105052.1700-7-philmd@redhat.com>
+Subject: [RFC PATCH 7/7] target/i386/kvm: Simplify
+ kvm_get_supported_[feature]_msrs()
+Date: Tue, 23 Jun 2020 12:50:52 +0200
+Message-Id: <20200623105052.1700-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200623105052.1700-1-philmd@redhat.com>
 References: <20200623105052.1700-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:54:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -111,46 +114,89 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the MCE supported capabilities should be the same for
-all VMs, it is safe to directly use the global kvm_state.
+As the MSR supported features should be the same for all
+VMs, it is safe to directly use the global kvm_state.
 Remove the unnecessary KVMState* argument.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/i386/kvm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/i386/kvm.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 19d3db657a..626cb04d88 100644
+index 626cb04d88..988ed3c238 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -536,7 +536,7 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
+@@ -1887,7 +1887,7 @@ void kvm_arch_do_init_vcpu(X86CPU *cpu)
      }
  }
  
--static int kvm_get_mce_cap_supported(KVMState *s, uint64_t *mce_cap,
-+static int kvm_get_mce_cap_supported(uint64_t *mce_cap,
-                                      int *max_banks)
+-static int kvm_get_supported_feature_msrs(KVMState *s)
++static int kvm_get_supported_feature_msrs(void)
  {
-     int r;
-@@ -544,7 +544,7 @@ static int kvm_get_mce_cap_supported(KVMState *s, uint64_t *mce_cap,
-     r = kvm_check_extension(KVM_CAP_MCE);
-     if (r > 0) {
-         *max_banks = r;
--        return kvm_ioctl(s, KVM_X86_GET_MCE_CAP_SUPPORTED, mce_cap);
-+        return kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, mce_cap);
-     }
-     return -ENOSYS;
- }
-@@ -1707,7 +1707,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         int banks;
-         int ret;
+     int ret = 0;
  
--        ret = kvm_get_mce_cap_supported(cs->kvm_state, &mcg_cap, &banks);
-+        ret = kvm_get_mce_cap_supported(&mcg_cap, &banks);
-         if (ret < 0) {
-             fprintf(stderr, "kvm_get_mce_cap_supported: %s", strerror(-ret));
-             return ret;
+@@ -1902,7 +1902,7 @@ static int kvm_get_supported_feature_msrs(KVMState *s)
+     struct kvm_msr_list msr_list;
+ 
+     msr_list.nmsrs = 0;
+-    ret = kvm_ioctl(s, KVM_GET_MSR_FEATURE_INDEX_LIST, &msr_list);
++    ret = kvm_ioctl(kvm_state, KVM_GET_MSR_FEATURE_INDEX_LIST, &msr_list);
+     if (ret < 0 && ret != -E2BIG) {
+         error_report("Fetch KVM feature MSR list failed: %s",
+             strerror(-ret));
+@@ -1915,7 +1915,8 @@ static int kvm_get_supported_feature_msrs(KVMState *s)
+                  msr_list.nmsrs * sizeof(msr_list.indices[0]));
+ 
+     kvm_feature_msrs->nmsrs = msr_list.nmsrs;
+-    ret = kvm_ioctl(s, KVM_GET_MSR_FEATURE_INDEX_LIST, kvm_feature_msrs);
++    ret = kvm_ioctl(kvm_state, KVM_GET_MSR_FEATURE_INDEX_LIST,
++                    kvm_feature_msrs);
+ 
+     if (ret < 0) {
+         error_report("Fetch KVM feature MSR list failed: %s",
+@@ -1928,7 +1929,7 @@ static int kvm_get_supported_feature_msrs(KVMState *s)
+     return 0;
+ }
+ 
+-static int kvm_get_supported_msrs(KVMState *s)
++static int kvm_get_supported_msrs(void)
+ {
+     int ret = 0;
+     struct kvm_msr_list msr_list, *kvm_msr_list;
+@@ -1938,7 +1939,7 @@ static int kvm_get_supported_msrs(KVMState *s)
+      *  save/restore.
+      */
+     msr_list.nmsrs = 0;
+-    ret = kvm_ioctl(s, KVM_GET_MSR_INDEX_LIST, &msr_list);
++    ret = kvm_ioctl(kvm_state, KVM_GET_MSR_INDEX_LIST, &msr_list);
+     if (ret < 0 && ret != -E2BIG) {
+         return ret;
+     }
+@@ -1951,7 +1952,7 @@ static int kvm_get_supported_msrs(KVMState *s)
+                                           sizeof(msr_list.indices[0])));
+ 
+     kvm_msr_list->nmsrs = msr_list.nmsrs;
+-    ret = kvm_ioctl(s, KVM_GET_MSR_INDEX_LIST, kvm_msr_list);
++    ret = kvm_ioctl(kvm_state, KVM_GET_MSR_INDEX_LIST, kvm_msr_list);
+     if (ret >= 0) {
+         int i;
+ 
+@@ -2107,12 +2108,12 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+         }
+     }
+ 
+-    ret = kvm_get_supported_msrs(s);
++    ret = kvm_get_supported_msrs();
+     if (ret < 0) {
+         return ret;
+     }
+ 
+-    kvm_get_supported_feature_msrs(s);
++    kvm_get_supported_feature_msrs();
+ 
+     uname(&utsname);
+     lm_capable_kernel = strcmp(utsname.machine, "x86_64") == 0;
 -- 
 2.21.3
 
