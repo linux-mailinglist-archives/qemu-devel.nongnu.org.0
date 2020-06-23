@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C475B206881
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:37:22 +0200 (CEST)
-Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA0B20688E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 01:39:22 +0200 (CEST)
+Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnsTh-0003iF-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56278)
+	id 1jnsVd-0006Sh-P1
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 19:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnsSt-0002pj-K1
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:36:31 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33936)
+ id 1jnsUa-0005FJ-3K
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:38:16 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:41266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnsSr-0000bl-TM
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:36:31 -0400
-Received: by mail-io1-xd44.google.com with SMTP id m81so195698ioa.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 16:36:28 -0700 (PDT)
+ id 1jnsUX-0000sb-7R
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 19:38:15 -0400
+Received: by mail-io1-xd41.google.com with SMTP id o5so161110iow.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 16:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Nl9jXdNtjAnTCrHlyLE4JKGJ5lvNmMPxJLiGu3DMeiA=;
- b=bGUWXkAy3TXr3oqC4qPelN2zc8gnMZEdpLP3VY7K5r7JmUbDA8HAemH5enETUY40Ef
- klZqEdT/SgPvSvXiGUWF9u9yei1XgAxtRCDI2xY7OA9DFFuFAZy/d+8kLePVF+u7+vvZ
- RsIVhKxrpvMGzfGrGpsX72gKEtAG4qDD4irnwoZl1kDxgDN6B4jqfX6tfOdc8ZFpIs97
- qnT3Up1OC/neH3j4Ar6MC0k92cL9C/A8K3hmHqXYMdvFb5hY+mf1W3fShSUnEMkN4LRi
- y9TG85ymRuLH8RcbfuV9w1lgtg8rqeBQG9HAE95zop8gE+Tb+ajzdtwRRjC/qQ8RAswf
- Wq6A==
+ :cc; bh=9bYlMqHOLWYPKQBoZvSGF2HTnYsADWDiU6/R7whPhxE=;
+ b=u+0FoqBE3RQDi/qoPeFJTFJHP7P7QPypUsk8GchDgUKOuxVMnGqFU+ytNnb5oM3kSv
+ aHU0Sq7gnmqfijojyeF6t46kZmoadQJ9fv5f9D1gi1Wv8l8jj0o9T9dvU4jRaVfjZrZE
+ nRkhe/gNx+aqVTtCY7lsSWSoizPlp3ZZAK1cGLv9IQk8NUzV4ndy/yH60FggNhGt94nG
+ Mly666RlfqDfjcdBLt56LyIIvwDmqFFTeSDJrDBTgKYOZlhY6sE7ncRcQCWPXfzgNGgr
+ DYnCPcsK8K/OsOQKoEP6y7tzrVBXLNbdeQ/sADi460SShS9Njk2KcCBz57FpHGnwzTks
+ NacQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Nl9jXdNtjAnTCrHlyLE4JKGJ5lvNmMPxJLiGu3DMeiA=;
- b=E0hy4c25UPtcIz+Mh8NRBpJb0FhXFtstHYXFLDBUtqb320C0bot0tIr8Ga7ZYPLF6O
- vRyQUnBLWXbM0rzvV9EQlyUGXM0FyiO1wDVUFxQYKC5RNye8V20iBEBpBkacTt0OJ1hq
- 4CNm7CJ+AOGc+TOHpgm+9TscQDR0dLu2jq6mFCrjGnVWI9vkz7PGrQkbHgJn8HPtRe5e
- +z3bonTwWHK4Hr77kvr7EcpoQTF0i9G0lc5jw+faBi2geCS2EthPgYjbQZoFU6gQeE+e
- /1UCwyX/oMp7K9OMVzS8FB7HM3s8u+wKFneUZ7RsQIubFNphfpbjQln5O0+gmveJnGNE
- wrGw==
-X-Gm-Message-State: AOAM5325cQybRQQ2Q35KIEXVktCaDeNJLgrElcNDRU/7theOut3bTf9O
- u1AOV6d87Q0HEg6pdCuHsKpjpCLYdHKjGwzVGaBKBkL3
-X-Google-Smtp-Source: ABdhPJyoWCpXE02O8apDVS06t7kC4vVJSaHSXlmwx830+TITN6vpvY+apUvd8LkTDwagCLEc4pw4kPB+6YELt59QxWI=
-X-Received: by 2002:a05:6638:dd3:: with SMTP id
- m19mr27460860jaj.106.1592955387989; 
- Tue, 23 Jun 2020 16:36:27 -0700 (PDT)
+ bh=9bYlMqHOLWYPKQBoZvSGF2HTnYsADWDiU6/R7whPhxE=;
+ b=YuYuqsJjtV8I9r8A8XOX61aDr4xU6M/gYoIhBhgah7Z0lIgr3L8pZlCmADy2zQJcmx
+ 12RaKBPpardOZ8EUJSUAX3gaWV2oo/41RW3izzd/7NrZBRSknDf0LeolFrS8iDO3i1q4
+ qHgqH5jQPvmzLqSBeYt9t6Tu30qOboBw4P50ZsLzE3olbSLHcIhnGVhWqBATlHVzmFfx
+ dk8Xj8oCHfHtlTDkFuo40zNFwYV9JHckkNZcdM6Vz74TzVAHz5CAQJ+hL/lmD8lld/uV
+ WJ34SqibJD9IyNsozWRGaCQg1ywWS2d7E7zqr4RzLTgLBCp8FjbEB3nZSp6xlmhe+hAh
+ aUlw==
+X-Gm-Message-State: AOAM532GhvaCcLsVx6PqQwAB0ZY1cjwn3Oq/8jz3HlWBZj3BLfZpKBfc
+ iJoZdg6ffcH108un1aGdJgtQoGliUStrVLeQWxs=
+X-Google-Smtp-Source: ABdhPJwRz9tUA17etAVRtEktrJEsqupVXz+ST6kX08Et0u52J3B+u1iS1BH5c4F9oSZPFeIzH1g4p+X0+DGu+RPlqKk=
+X-Received: by 2002:a6b:6412:: with SMTP id t18mr9259666iog.175.1592955492134; 
+ Tue, 23 Jun 2020 16:38:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200623195441.14646-1-pbonzini@redhat.com>
-In-Reply-To: <20200623195441.14646-1-pbonzini@redhat.com>
+References: <20200619165817.4144200-1-alistair.francis@wdc.com>
+ <20200619165817.4144200-4-alistair.francis@wdc.com>
+ <CAEUhbmUEREaNBXBP6a0UgAYK6dmVbGFtDu8wLGUjNXHL5mWtoA@mail.gmail.com>
+ <87lfkejgjl.fsf@dusky.pond.sub.org>
+In-Reply-To: <87lfkejgjl.fsf@dusky.pond.sub.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Jun 2020 16:26:55 -0700
-Message-ID: <CAKmqyKP4c1qBcWYP3R1bXB8xCR-6GBqwRe6qEYHkMNBjH3LVnA@mail.gmail.com>
-Subject: Re: [PATCH] ibex_uart: fix XOR-as-pow
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 23 Jun 2020 16:28:39 -0700
+Message-ID: <CAKmqyKOtm7fLq1jUgLpvAX3srsB1cVgOJxnb5bFoCCbRNDagMw@mail.gmail.com>
+Subject: Re: [PULL v2 03/32] riscv: Generalize CPU init routine for the base
+ CPU
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -80,42 +83,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 23, 2020 at 1:07 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Tue, Jun 23, 2020 at 2:08 AM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> The xor-as-pow warning in clang actually detected a genuine bug.
-> Fix it.
+> Bin Meng <bmeng.cn@gmail.com> writes:
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/char/ibex_uart.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Hi Alistair,
+> >
+> > On Sat, Jun 20, 2020 at 1:09 AM Alistair Francis
+> > <alistair.francis@wdc.com> wrote:
+> >>
+> >> From: Bin Meng <bin.meng@windriver.com>
+> >>
+> >> There is no need to have two functions that have exactly the same
+> >> codes for 32-bit and 64-bit base CPUs.
+> >>
+> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >> Message-id: 1591837729-27486-1-git-send-email-bmeng.cn@gmail.com
+> >> Message-Id: <1591837729-27486-1-git-send-email-bmeng.cn@gmail.com>
+> >
+> > I noticed that patches from other people than you have the
+> > "Message-id" tags, but your patch [1] does not. Is this intentional?
+> >
+> > (not sure why we need 2 "Message-id" tags here, with one has <> ?)
 >
-> diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-> index 3e0dd9968e..45cd724998 100644
-> --- a/hw/char/ibex_uart.c
-> +++ b/hw/char/ibex_uart.c
-> @@ -331,7 +331,7 @@ static void ibex_uart_write(void *opaque, hwaddr addr,
->          if (value & UART_CTRL_NCO) {
->              uint64_t baud = ((value & UART_CTRL_NCO) >> 16);
->              baud *= 1000;
-> -            baud /= 2 ^ 20;
-> +            baud >>= 20;
+> We don't.  Looks like an accident.
 
-Whoops, that is clearly wrong. Thanks for catching this.
+Yeah, that must have been an accident.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> > Just want to know what's the best practice here.
+>
+> The Message-Id tag's purpose is connecting commits back to the mailing
+> list.  Useful when you want to look up their review later.
+>
+> To get them into git, maintainers should use git-am -m to apply
+> patches.  I have
+>
+>     [am]
+>             messageid = true
+>
+> in my .gitconfig.
+>
+> Maintainers may be tempted to use git-rebase or git-cherry-pick instead
+> for patches they already have in their local git (such as their own
+> patches).  No good, because we don't get the Message-Id that way.
+
+Ah, thanks for clarifying that. I was never sure. I'll be sure to not
+rebase or cherry-pick my own patches in the future.
 
 Alistair
 
 >
->              s->char_tx_time = (NANOSECONDS_PER_SECOND / baud) * 10;
->          }
-> --
-> 2.26.2
+> Patch submissions (as opposed to pull requests) generally do not have
+> Message-Id tags in commit messages.
 >
+> Hope this helps!
+>
+> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >> ---
+> >>  target/riscv/cpu.c | 18 +++++-------------
+> >>  1 file changed, 5 insertions(+), 13 deletions(-)
+> >>
+> >
+> > [1] https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06208.html
+> >
+> > Regards,
+> > Bin
 >
 
