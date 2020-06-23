@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DCB2050ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:40:56 +0200 (CEST)
-Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063EE205100
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:43:21 +0200 (CEST)
+Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhIN-00045F-KZ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43750)
+	id 1jnhKi-00087x-0C
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhGh-0002Gh-Tq
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:11 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33273)
+ id 1jnhGj-0002Hp-AZ
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:13 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhGg-00034F-D2
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:11 -0400
-Received: by mail-wm1-x335.google.com with SMTP id a6so2054015wmm.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:10 -0700 (PDT)
+ id 1jnhGh-00035u-M7
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:13 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g18so11113462wrm.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=e266PxlxI12WIYe2b81DHcJwXbjmet15CRZzovOJKkQ=;
- b=J4xoYTT80RBlY5T0MCRlP3aAe884iA1hWTOX8NckEEk5skPw5XVJ2yH/A8o9cuzCrN
- BsOfxxoVTDwQ7jLQeGRaRJWVtB9/IhyINRDxldb1Tzzb5azk+nrd71d+KkpnIEXvnfMG
- D2G466I3n2TpVHYtOEb3iJ0P9K4on4egQK1jNZhDR4i/WQPVV2y2L07CyykQvB637X8j
- nIrgoKtpUYIM+RdSYPLJe6FhF5DRqVzAzlXeaeVRRROb3/uoopJ50qCbOr64g4eDxOLm
- U4vXg8LKqAWHw70OMJAazkrUNzkw5CNnuffBmP3OwqtZ9UTeAatRI573em3nO+PdeLfk
- o7nA==
+ bh=t1bCYdeRbvwavbyNWTI7wfZT9Q1x2S0UP6cctTswOsE=;
+ b=TiwGiwcQMCbhDKWzguYEFWCyGX/XSPwxvNhab1W824OzRD5UR7cu7VeH0ERYXEb617
+ bNAcPeRhVMDlUPygA92oRX4FuEeAXl2sieUV9FJNApNnPLJibhTUgOJbrknmitYVIhIB
+ srIeCQEgL3zMwzl6/1jlctp2K5/Aj3kSzzOzofZ7NScaZ7NHChtVQPurajKb41xKWuTZ
+ ctvkJZ4i1hSwPMseb1aYiqObfloAbxDoEf7K53ugime7K5HUUj8ASgB3XfXSZaUbx5W4
+ jAREqsTHqhhOYnla0c2QAK9Vj+BfUA/Ji+B7i0aXLmanClriCNZM4TD31giy3NQjaaQm
+ nVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e266PxlxI12WIYe2b81DHcJwXbjmet15CRZzovOJKkQ=;
- b=BLcHSMV6K+T0ejT3kKbh2JGOUkA9EWZrTX/hE447gZzdf4Wl9oVXJYQ0SNyBLIuUO8
- 3yMimxBz06XA14sctCY/WUEyPzpNIHAXgw9kxsLVNxGCc1k22TC8jQAbHCBDJKfMQVWx
- 5xgE4opXYqy8VS9QJuvnnoakQb1iiyobv3eyfvrKgqh7RhpLYISILh6UMsR1g5tSiVzy
- 5wAnGbKGZnj5UwLPIwwwEOlBvqAevHZzmOgvdFfHC1M91Z7vWQgO8wVEtESXS7c/htOc
- dvI01tpEi0oUsPfgmpf0CEtI8dxyQfzlxqSOmJvo5g4MiDJdNAdb7QIBhNXS9PqLa52h
- iJYw==
-X-Gm-Message-State: AOAM531VMSYYWsgXlME9FC5A8gDm/ntMZ3KEzr73fqAyInrzmNy32xSq
- Hxxf0dAAJL3870qB3ZoIOGw/wxYLgst5Qw==
-X-Google-Smtp-Source: ABdhPJyI0c+Rhc2M5a2pdRs+oP/rdDLkVkaPCX4Zl/0SQQCDZcCe9fN5/Y+7ItNGGfCG6+A+P68TCQ==
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr16341769wmj.20.1592912348879; 
- Tue, 23 Jun 2020 04:39:08 -0700 (PDT)
+ bh=t1bCYdeRbvwavbyNWTI7wfZT9Q1x2S0UP6cctTswOsE=;
+ b=Ai7r/hHK4FSAOb9vMr5N7G2sZR8h4A2D9t7GBB+bm66pmwDdSHuiJ8C1JIe27gU0Uu
+ vo8a3XmRrD7XjjJ5NRVl7CwYLPz7Ek4Pb4M+Lrt5ZlCHmvt7ZbZq3zrmwGt28Pke0AWu
+ KiOy3io89A/+5o0BlWva5FzokJbP2Ygsn6cbQEk3QOASmC5mhrGlvcd67+HEpN6AQ6QL
+ yV0M5ezdMSiQXMqWN+x/GCoWcMkcled7dVh1eFvs+hFqcNhfbD+9rNT59bfZ9wAWaWfQ
+ LE/QB34nd8A8X7NLux0asnyyjKHygtb0+JhLKW4UHwLMXPBPPEFjMrsEr1KANItfnD/V
+ lCNg==
+X-Gm-Message-State: AOAM533zd+hNVvesLmO9NoAoQo+KENgMD051UUY21HpM6TJzzT5sktKg
+ JoxI07iJerDCYjkySc3pDRCdfsG55IxedQ==
+X-Google-Smtp-Source: ABdhPJzqm1DK9hmGLCyK++Z/fkah/8+GrwEzGW7oYX+a00SPU1ENqjM6jSLQ+xdEKyxcjslF6zF0kw==
+X-Received: by 2002:adf:ff83:: with SMTP id j3mr24871322wrr.264.1592912349843; 
+ Tue, 23 Jun 2020 04:39:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:08 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/42] util/oslib-posix : qemu_init_exec_dir implementation for
- Mac
-Date: Tue, 23 Jun 2020 12:38:24 +0100
-Message-Id: <20200623113904.28805-3-peter.maydell@linaro.org>
+Subject: [PULL 03/42] target/arm: Convert Neon 2-reg-misc VREV64 to decodetree
+Date: Tue, 23 Jun 2020 12:38:25 +0100
+Message-Id: <20200623113904.28805-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,56 +88,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David CARLIER <devnexen@gmail.com>
+Convert the Neon VREV64 insn from the 2-reg-misc grouping to decodetree.
 
-From 3025a0ce3fdf7d3559fc35a52c659f635f5c750c Mon Sep 17 00:00:00 2001
-From: David Carlier <devnexen@gmail.com>
-Date: Tue, 26 May 2020 21:35:27 +0100
-Subject: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation for Mac
-
-Using dyld API to get the full path of the current process.
-
-Signed-off-by: David Carlier <devnexen@gmail.com>
-Message-id: CA+XhMqxwC10XHVs4Z-JfE0-WLAU3ztDuU9QKVi31mjr59HWCxg@mail.gmail.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200616170844.13318-2-peter.maydell@linaro.org
 ---
- util/oslib-posix.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ target/arm/neon-dp.decode       | 12 ++++++++
+ target/arm/translate-neon.inc.c | 50 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c          | 24 ++--------------
+ 3 files changed, 64 insertions(+), 22 deletions(-)
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 916f1be2243..39ddc77c85b 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -57,6 +57,10 @@
- #include <lwp.h>
- #endif
- 
-+#ifdef __APPLE__
-+#include <mach-o/dyld.h>
-+#endif
+diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
+index 6d890b2161f..e12fdf30957 100644
+--- a/target/arm/neon-dp.decode
++++ b/target/arm/neon-dp.decode
+@@ -429,6 +429,18 @@ Vimm_1r          1111 001 . 1 . 000 ... .... cmode:4 0 . op:1 1 .... @1reg_imm
+                  vm=%vm_dp vd=%vd_dp size=1
+     VDUP_scalar  1111 001 1 1 . 11 index:1 100 .... 11 000 q:1 . 0 .... \
+                  vm=%vm_dp vd=%vd_dp size=2
 +
- #include "qemu/mmap-alloc.h"
++    ##################################################################
++    # 2-reg-misc grouping:
++    # 1111 001 11 D 11 size:2 opc1:2 Vd:4 0 opc2:4 q:1 M 0 Vm:4
++    ##################################################################
++
++    &2misc vd vm q size
++
++    @2misc       .... ... .. . .. size:2 .. .... . .... q:1 . . .... \
++                 &2misc vm=%vm_dp vd=%vd_dp
++
++    VREV64       1111 001 11 . 11 .. 00 .... 0 0000 . . 0 .... @2misc
+   ]
  
- #ifdef CONFIG_DEBUG_STACK_USAGE
-@@ -375,6 +379,17 @@ void qemu_init_exec_dir(const char *argv0)
-             p = buf;
-         }
-     }
-+#elif defined(__APPLE__)
-+    {
-+        char fpath[PATH_MAX];
-+        uint32_t len = sizeof(fpath);
-+        if (_NSGetExecutablePath(fpath, &len) == 0) {
-+            p = realpath(fpath, buf);
-+            if (!p) {
-+                return;
+   # Subgroup for size != 0b11
+diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
+index a5aa56bbdeb..90431a5383f 100644
+--- a/target/arm/translate-neon.inc.c
++++ b/target/arm/translate-neon.inc.c
+@@ -2970,3 +2970,53 @@ static bool trans_VDUP_scalar(DisasContext *s, arg_VDUP_scalar *a)
+                          a->q ? 16 : 8, a->q ? 16 : 8);
+     return true;
+ }
++
++static bool trans_VREV64(DisasContext *s, arg_VREV64 *a)
++{
++    int pass, half;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if ((a->vd | a->vm) & a->q) {
++        return false;
++    }
++
++    if (a->size == 3) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    for (pass = 0; pass < (a->q ? 2 : 1); pass++) {
++        TCGv_i32 tmp[2];
++
++        for (half = 0; half < 2; half++) {
++            tmp[half] = neon_load_reg(a->vm, pass * 2 + half);
++            switch (a->size) {
++            case 0:
++                tcg_gen_bswap32_i32(tmp[half], tmp[half]);
++                break;
++            case 1:
++                gen_swap_half(tmp[half]);
++                break;
++            case 2:
++                break;
++            default:
++                g_assert_not_reached();
 +            }
 +        }
++        neon_store_reg(a->vd, pass * 2, tmp[1]);
++        neon_store_reg(a->vd, pass * 2 + 1, tmp[0]);
 +    }
- #endif
-     /* If we don't have any way of figuring out the actual executable
-        location then try argv[0].  */
++    return true;
++}
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 6d18892adee..5fca38b5fae 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5092,28 +5092,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                 }
+                 switch (op) {
+                 case NEON_2RM_VREV64:
+-                    for (pass = 0; pass < (q ? 2 : 1); pass++) {
+-                        tmp = neon_load_reg(rm, pass * 2);
+-                        tmp2 = neon_load_reg(rm, pass * 2 + 1);
+-                        switch (size) {
+-                        case 0: tcg_gen_bswap32_i32(tmp, tmp); break;
+-                        case 1: gen_swap_half(tmp); break;
+-                        case 2: /* no-op */ break;
+-                        default: abort();
+-                        }
+-                        neon_store_reg(rd, pass * 2 + 1, tmp);
+-                        if (size == 2) {
+-                            neon_store_reg(rd, pass * 2, tmp2);
+-                        } else {
+-                            switch (size) {
+-                            case 0: tcg_gen_bswap32_i32(tmp2, tmp2); break;
+-                            case 1: gen_swap_half(tmp2); break;
+-                            default: abort();
+-                            }
+-                            neon_store_reg(rd, pass * 2, tmp2);
+-                        }
+-                    }
+-                    break;
++                    /* handled by decodetree */
++                    return 1;
+                 case NEON_2RM_VPADDL: case NEON_2RM_VPADDL_U:
+                 case NEON_2RM_VPADAL: case NEON_2RM_VPADAL_U:
+                     for (pass = 0; pass < q + 1; pass++) {
 -- 
 2.20.1
 
