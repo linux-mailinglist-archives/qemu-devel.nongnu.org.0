@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A9F204E5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:46:57 +0200 (CEST)
-Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A19204E34
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:42:49 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnfW4-00007o-G6
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
+	id 1jnfS4-0002Nl-Uj
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnfV1-0007Lm-Jy
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:45:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnfUz-0007yl-DQ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:45:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jnfUx-0002Bx-KE
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 09:45:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9816F2E8105
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 09:45:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jnfNh-0003Xr-Hh
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:38:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30885
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jnfNf-00040D-Au
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:38:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592905094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EDVNEO/7e2ojQSQx8Xt92oDqQaSqEwwyiSdNzE8kGtY=;
+ b=GeAddJ3Or5gQK4xB6ISTbPcHc0g+GCsranTvMphoEP6gCDICgubWKOhMcSh0nmwCkjrEAT
+ GcLYpAucXAvKhnK25i8JijD0suW6KfgGOmHgqgxm5u6dd8hXw0ZJPo4l/Ds9QfA39oTA2M
+ eHlSo2y8RggoVivgUAv7XpCfK2Pd2ss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-Pwh_a9bsP7iv-LW2Yq8sVg-1; Tue, 23 Jun 2020 05:38:10 -0400
+X-MC-Unique: Pwh_a9bsP7iv-LW2Yq8sVg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 210E8464;
+ Tue, 23 Jun 2020 09:38:08 +0000 (UTC)
+Received: from [10.72.12.144] (ovpn-12-144.pek2.redhat.com [10.72.12.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DBEA78EB3;
+ Tue, 23 Jun 2020 09:37:45 +0000 (UTC)
+Subject: Re: [PATCH v1 08/10] vhost: implement vhost_dev_start method
+To: Cindy Lu <lulu@redhat.com>
+References: <20200622153756.19189-1-lulu@redhat.com>
+ <20200622153756.19189-9-lulu@redhat.com>
+ <3fab12a1-1c44-b18d-cfb8-f069190e0b2c@redhat.com>
+ <CACLfguWkntyF0Syrcy=90X8jweCJFASgz7=tN4yS1CpZ+Bo7=g@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <cb056761-1a02-c8d3-962c-b5ed1b5a525e@redhat.com>
+Date: Tue, 23 Jun 2020 17:37:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jun 2020 09:37:07 -0000
-From: Thomas Huth <1884507@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159281693063.26203.17684483283242220275.malonedeb@gac.canonical.com>
-Message-Id: <159290502710.17540.13647899452781731746.malone@chaenomeles.canonical.com>
-Subject: [Bug 1884507] Re: 'none' machine should use 'none' display option
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5000baaa29019881d9430fcc6e63e2b81efe6120
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 03:45:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CACLfguWkntyF0Syrcy=90X8jweCJFASgz7=tN4yS1CpZ+Bo7=g@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,32 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884507 <1884507@bugs.launchpad.net>
+Cc: Cornelia Huck <cohuck@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ mhabets@solarflare.com, qemu-devel@nongnu.org, hanand@xilinx.com,
+ Rob Miller <rob.miller@broadcom.com>, saugatm@xilinx.com,
+ Markus Armbruster <armbru@redhat.com>, hch@infradead.org,
+ Eugenio Perez Martin <eperezma@redhat.com>, jgg@mellanox.com,
+ Shahaf Shuler <shahafs@mellanox.com>, kevin.tian@intel.com, parav@mellanox.com,
+ Vitaly Mireyno <vmireyno@marvell.com>, "Liang,
+ Cunming" <cunming.liang@intel.com>, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>, "Wang,
+ Zhihong" <zhihong.wang@intel.com>, Ariel Adam <aadam@redhat.com>,
+ rdunlap@infradead.org, Maxime Coquelin <maxime.coquelin@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could be as simple as setting MachineClass->default_display =3D "none" ...
-have you tried whether that's working as expected?
 
--- =
+On 2020/6/23 下午5:34, Cindy Lu wrote:
+> On Tue, Jun 23, 2020 at 3:21 PM Jason Wang<jasowang@redhat.com>  wrote:
+>> On 2020/6/22 下午11:37, Cindy Lu wrote:
+>>> use the vhost_dev_start callback to send the status to backend
+>> I suggest to squash this into previous patch.
+>>
+> Sure will do
+>>> Signed-off-by: Cindy Lu<lulu@redhat.com>
+>>> ---
+>>>    hw/virtio/vhost.c         | 17 +++++++++++++++++
+>>>    include/hw/virtio/vhost.h |  2 ++
+>>>    2 files changed, 19 insertions(+)
+>>>
+>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>> index 01ebe12f28..bfd7f9ce1f 100644
+>>> --- a/hw/virtio/vhost.c
+>>> +++ b/hw/virtio/vhost.c
+>>> @@ -744,6 +744,7 @@ static void vhost_iommu_region_del(MemoryListener *listener,
+>>>        }
+>>>    }
+>>>
+>>> +
+>>>    static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
+>>>                                        struct vhost_virtqueue *vq,
+>>>                                        unsigned idx, bool enable_log)
+>>> @@ -1661,6 +1662,11 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>>            }
+>>>        }
+>>>
+>>> +    r = vhost_set_start(hdev, true);
+>> I think we need a better name for this function.
+>>
+> Shall we change it to vhost_set_device_start ? Since the
+> vhost_dev_start was occupied by other function
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884507
 
-Title:
-  'none' machine should use 'none' display option
+Or maybe just open code the vhost_set_start here since there's no other 
+users.
 
-Status in QEMU:
-  New
-
-Bug description:
-  As the 'none' machine doesn't have any peripheral (except CPU cores)
-  it is pointless to start a display. =
+Thanks
 
 
-  '-M none' should imply '-display none'.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884507/+subscriptions
 
