@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF50F205140
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:50:15 +0200 (CEST)
-Received: from localhost ([::1]:36108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82437205156
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:52:35 +0200 (CEST)
+Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhRO-00046G-Tb
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
+	id 1jnhTe-0007YY-Ga
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhGt-0002e0-GL
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:23 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38944)
+ id 1jnhGu-0002gJ-EA
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:24 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhGr-0003CF-MB
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:23 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q5so7772664wru.6
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:21 -0700 (PDT)
+ id 1jnhGs-0003CN-Mh
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:24 -0400
+Received: by mail-wm1-x335.google.com with SMTP id o8so922773wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=atbuaNCQdYY84+MOuxQ6o76AKw2wUTKV2kwqEbNgCzQ=;
- b=chYVmqbe3T6vUaGNE3PUksF8A3j9SLTIP1MLiTf+GOAch10FN1KIPk4EMJ3sFXNLfF
- 8RYRcmo8h4kJ+RXkDo1q45VUBw5JxDgG1JllwSqsUmbTiysuqw16gNs4W+hfZAxoGWUO
- HN7P6MURtvPWJvYBolWY/gpxm/h4Skw71j0lJx0P2AiVy9QJLCShZRVhM+WykJnc5CSL
- j6Jat+febKc4iIFN1BCy9ceL5pnsRAITQoySxzSQIe36i5la8OULG47jQXcSiI8TFaTC
- yYypLvSLuMKCZB1lSqaVESnz9UlACfZJ+BjzdqEGmYU+cwGaQ229YtNtDUvpJyoCVC9w
- HHkQ==
+ bh=+2zDeEiCTHBTGs+Yj4qcOYD6SxZptA1+PpcqVpemOu4=;
+ b=t1XHmtOavjRV1hx9LxkRQ6E1WIJ2h7ucu3BPdLf5ZJvjUAljM4fvL1QUracdqOuOWb
+ Lla3WSEHp/5YFu/3d5DZ6F0e7JLTOuHpiKaOjjpjt3ULsq3q4nFJpd7T7Jj/Bu/QRIvJ
+ Fmk1ORTnqQqhFWVCx0yPNZZtsoV05dkuOSqKULXd+GTlb9NJcKYxDVfkwxU3yjCAcQIn
+ dk4yzEI+P2NOBYTwytgqQBzsugdxZKM2Ke7+ggIzw2jK3zIllAqWFbQ2BMaYQ0Ss2IJR
+ QvrqW1cR6eIbSS7mpQY0wfFmEH57J3RryAOcSkpinDcDUJZxu08wfYSX/OitWdK5H83F
+ MHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=atbuaNCQdYY84+MOuxQ6o76AKw2wUTKV2kwqEbNgCzQ=;
- b=sE8atJsz8CDho0WjPNidH6BWT1LDmNeGmWMWL9PYPMVciztc+zDJFGyrNdtLJ5Dq0Z
- BYfeCb4nlVhnyU/B6RMMctZL3bAW8C1rD0/4iSOa/DOVLH6jnnJ0Rfrpakh5+1EbLkFI
- qsg3wB4TSgg/piyrQxGbvpkoDYaqGoGFRW693yefDPfyQZSj2RgupbwR2f18Fct4vwtq
- ThNQybNPLhiOyLhiS+k2xuC0u7NtNdaSYxVKuMoqKwd2aVerf+SK3VHzp2twOMaGSt/R
- xW9LO58MGdubuHlmxpT/C6ZIvVUVn1i+uxFow8mCtmNLprGpXlNPRUo3yffptBG0CIZ/
- KwTg==
-X-Gm-Message-State: AOAM532T8ahrIc/LWdAHmttoGPvhYi4u3sLofE+xH+RQNJmTnt14p0F9
- 5gTP4C+ZiZfxhFcI0DFtkdR1ER4ZWsQfjQ==
-X-Google-Smtp-Source: ABdhPJwGMupc3Rv91569St4ISblYlbxywAM+b2/yUrogNCK+YjuZWF7tAwv33iQ76+0zTzmBHaGsWQ==
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr24881220wrw.260.1592912360080; 
- Tue, 23 Jun 2020 04:39:20 -0700 (PDT)
+ bh=+2zDeEiCTHBTGs+Yj4qcOYD6SxZptA1+PpcqVpemOu4=;
+ b=WxNSphs/D3tTJib5Ur8WzSWKkQsY9D6V0ceZMwE8g46Wk2sVXGK6Kq7HINK7dXlfWy
+ ZpX0SQ4unGgAi3sSB1QAnYjSSDqfkZ0q6xeZExYfL6k3qxYUd9y5JRBhjQN/SnmvVyce
+ KqRcZuGhs22OIJ37KCBsgM1LgRk0txCAR5muEwg3TCHjMOR2GeTUTlGL9/4wArLjsn5X
+ BhnK4kGThHTfJA3o4s3c9A4olDcS5yBaogCq4dNiU8PZggJ53g8CkRUif1H0AUa483iN
+ vXREUKDLeecocbR9CubBfa/CFa70yFO9y6gkwIbIQ+xqCfxivYHxYYUCvk3DrW1LpOjE
+ ZLBg==
+X-Gm-Message-State: AOAM530zjW1rHByKJ3nLJ3URTeh/QdG8LzXVuzenNorTYK9IMRWw3QUU
+ aS/+9a+ufxfcRYE67BqlnKxGkIMnSvbjTg==
+X-Google-Smtp-Source: ABdhPJwP+MqLjXq64PEAe6U/gZHWUn8RqqXjMqBYImpx2IOn1HlN1M30PAQ5tNEQ6pQjqikqL/4ujA==
+X-Received: by 2002:a1c:5603:: with SMTP id k3mr24134196wmb.116.1592912361081; 
+ Tue, 23 Jun 2020 04:39:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.19
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:19 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/42] target/arm: Fix capitalization in NeonGenTwo{Single,
- Double}OPFn typedefs
-Date: Tue, 23 Jun 2020 12:38:34 +0100
-Message-Id: <20200623113904.28805-13-peter.maydell@linaro.org>
+Subject: [PULL 13/42] target/arm: Make gen_swap_half() take separate src and
+ dest
+Date: Tue, 23 Jun 2020 12:38:35 +0100
+Message-Id: <20200623113904.28805-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,69 +89,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the other typedefs like these spell "Op" with a lowercase 'p';
-remane the NeonGenTwoSingleOPFn and NeonGenTwoDoubleOPFn typedefs to
-match.
+Make gen_swap_half() take a source and destination TCGv_i32 rather
+than modifying the input TCGv_i32; we're going to want to be able to
+use it with the more flexible function signature, and this also
+brings it into line with other functions like gen_rev16() and
+gen_revsh().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200616170844.13318-11-peter.maydell@linaro.org
+Message-id: 20200616170844.13318-12-peter.maydell@linaro.org
 ---
- target/arm/translate.h          | 4 ++--
- target/arm/translate-a64.c      | 4 ++--
- target/arm/translate-neon.inc.c | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ target/arm/translate-neon.inc.c |  2 +-
+ target/arm/translate.c          | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 35218b3fdf1..467c5291101 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -372,8 +372,8 @@ typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
- typedef void NeonGenNarrowEnvFn(TCGv_i32, TCGv_ptr, TCGv_i64);
- typedef void NeonGenWidenFn(TCGv_i64, TCGv_i32);
- typedef void NeonGenTwoOpWidenFn(TCGv_i64, TCGv_i32, TCGv_i32);
--typedef void NeonGenTwoSingleOPFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
--typedef void NeonGenTwoDoubleOPFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
-+typedef void NeonGenTwoSingleOpFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
-+typedef void NeonGenTwoDoubleOpFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
- typedef void NeonGenOne64OpFn(TCGv_i64, TCGv_i64);
- typedef void CryptoTwoOpFn(TCGv_ptr, TCGv_ptr);
- typedef void CryptoThreeOpIntFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 7cb5fbfba80..12040984981 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -9534,7 +9534,7 @@ static void handle_2misc_fcmp_zero(DisasContext *s, int opcode,
-         TCGv_i64 tcg_op = tcg_temp_new_i64();
-         TCGv_i64 tcg_zero = tcg_const_i64(0);
-         TCGv_i64 tcg_res = tcg_temp_new_i64();
--        NeonGenTwoDoubleOPFn *genfn;
-+        NeonGenTwoDoubleOpFn *genfn;
-         bool swap = false;
-         int pass;
- 
-@@ -9576,7 +9576,7 @@ static void handle_2misc_fcmp_zero(DisasContext *s, int opcode,
-         TCGv_i32 tcg_op = tcg_temp_new_i32();
-         TCGv_i32 tcg_zero = tcg_const_i32(0);
-         TCGv_i32 tcg_res = tcg_temp_new_i32();
--        NeonGenTwoSingleOPFn *genfn;
-+        NeonGenTwoSingleOpFn *genfn;
-         bool swap = false;
-         int pass, maxpasses;
- 
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 5e2cd18bf71..c39443c8cae 100644
+index c39443c8cae..4967e974386 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1664,7 +1664,7 @@ static bool trans_VSHLL_U_2sh(DisasContext *s, arg_2reg_shift *a)
+@@ -3007,7 +3007,7 @@ static bool trans_VREV64(DisasContext *s, arg_VREV64 *a)
+                 tcg_gen_bswap32_i32(tmp[half], tmp[half]);
+                 break;
+             case 1:
+-                gen_swap_half(tmp[half]);
++                gen_swap_half(tmp[half], tmp[half]);
+                 break;
+             case 2:
+                 break;
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 38644995ab2..64b18a95b64 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -378,9 +378,9 @@ static void gen_revsh(TCGv_i32 dest, TCGv_i32 var)
  }
  
- static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
--                      NeonGenTwoSingleOPFn *fn)
-+                      NeonGenTwoSingleOpFn *fn)
+ /* Swap low and high halfwords.  */
+-static void gen_swap_half(TCGv_i32 var)
++static void gen_swap_half(TCGv_i32 dest, TCGv_i32 var)
  {
-     /* FP operations in 2-reg-and-shift group */
-     TCGv_i32 tmp, shiftv;
+-    tcg_gen_rotri_i32(var, var, 16);
++    tcg_gen_rotri_i32(dest, var, 16);
+ }
+ 
+ /* Dual 16-bit add.  Result placed in t0 and t1 is marked as dead.
+@@ -4960,7 +4960,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         case NEON_2RM_VREV32:
+                             switch (size) {
+                             case 0: tcg_gen_bswap32_i32(tmp, tmp); break;
+-                            case 1: gen_swap_half(tmp); break;
++                            case 1: gen_swap_half(tmp, tmp); break;
+                             default: abort();
+                             }
+                             break;
+@@ -8046,7 +8046,7 @@ static bool op_smlad(DisasContext *s, arg_rrrr *a, bool m_swap, bool sub)
+     t1 = load_reg(s, a->rn);
+     t2 = load_reg(s, a->rm);
+     if (m_swap) {
+-        gen_swap_half(t2);
++        gen_swap_half(t2, t2);
+     }
+     gen_smul_dual(t1, t2);
+ 
+@@ -8104,7 +8104,7 @@ static bool op_smlald(DisasContext *s, arg_rrrr *a, bool m_swap, bool sub)
+     t1 = load_reg(s, a->rn);
+     t2 = load_reg(s, a->rm);
+     if (m_swap) {
+-        gen_swap_half(t2);
++        gen_swap_half(t2, t2);
+     }
+     gen_smul_dual(t1, t2);
+ 
 -- 
 2.20.1
 
