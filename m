@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C23204FA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 12:54:59 +0200 (CEST)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65650204FA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 12:55:09 +0200 (CEST)
+Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jngZu-0003Ra-5s
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 06:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45452)
+	id 1jnga4-0004cX-GS
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 06:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWN-0005br-3M
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27185
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWS-0005p6-Oa
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44120
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWK-0007Ud-3S
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jngWP-0007Wn-WE
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 06:51:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592909475;
+ s=mimecast20190719; t=1592909481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HfdDklJm7xq7V0EjioTwWRWt93bUpNOFzkHuwwNGVEE=;
- b=aWh5ZUPhBIrjuIxtTF/NgJ5Wqh9A1fQY/sveJ+HZmXOHoSGNCRo9ucgrNRqLeJoWqJ+KNw
- e3IasCG/vfwHY1QljaPhyqaCwqnLNZopFkdGPqsZdN3HqJvZRJ96cOpG0EGPBx4iVL+EZo
- 3CBZCBcI818uJEC6j66RHt4dmLGm4e0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-TMY6qV4HPt2J2YZPb-z0cQ-1; Tue, 23 Jun 2020 06:51:13 -0400
-X-MC-Unique: TMY6qV4HPt2J2YZPb-z0cQ-1
-Received: by mail-wr1-f69.google.com with SMTP id y16so11064750wrr.20
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 03:51:13 -0700 (PDT)
+ bh=7T6k8rDooEOp5R0yTFBiO/Qp4O8fYn54pnxO67whtxE=;
+ b=VXQg9MpX4HycWOgVXIa1x7+c5KMbs4GrIQivyJ5xG+/LBgq9WgSTn8dxWl76DmPaJtFBQ/
+ lVkg06mWzH1XVYoaJY9BTqmM24DIYxELPtLlYxBx68tuSmDB3G+7nEDzWFqGn0bw58dBdO
+ DAPoLdbzNRDvohr4D/gznJA/SKMaoa4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-hUtzkeniPrKmxaDnSYmXog-1; Tue, 23 Jun 2020 06:51:19 -0400
+X-MC-Unique: hUtzkeniPrKmxaDnSYmXog-1
+Received: by mail-wm1-f69.google.com with SMTP id o13so3589573wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 03:51:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HfdDklJm7xq7V0EjioTwWRWt93bUpNOFzkHuwwNGVEE=;
- b=ivnoVah6zu+bjJm7ms5zvOItxCJS7/SQoVYE54gS2K1vlonLGwIYHnkJIRLmfY5WxY
- xln8Itk8/xIY9SLztM+yqqtUU19jeigJkbRLgkijL7IuHHerLNX793oxlweXttLsZCJN
- jwqkh6rNelkTGFRFOS/72dMM6Oo0pSdt+73fhOWAiM7eHC00oSpOt4wu/tx24HZQbMpv
- 2hHaarIBLsE0ZdOoEZ84NUc4i9yigpg3jtk4uWHU9+zytKbGxL0VGhTdjo2UMQ+/cl/9
- L1OsbSzn55/wkcsWoTd+dUMO5cpE9oFZAdYs9+92BNHiVRm/wsw4mSLrKPGYlb2XKE0k
- C2ZA==
-X-Gm-Message-State: AOAM530dWpPfYEy6ulSBZtk9iJCsZGRjx4YymVMi2KQJ1i+xKQxFvpQN
- bHG60ui0gZBVf0vHQrlhG+nBZzVo7OTxEnriE3a48NC3cfvzWKoxBgSe4dqG6KieoLnQHm5M8VT
- Y7o4CHmW/BRGePQw=
-X-Received: by 2002:adf:f889:: with SMTP id u9mr26631722wrp.149.1592909472563; 
- Tue, 23 Jun 2020 03:51:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9WRvI2kbpsPLHP97oIP7w6Av+O3l+a0GhoMq90nNnJIF5O7szSibw72P2QsuBd0UT4wQtdA==
-X-Received: by 2002:adf:f889:: with SMTP id u9mr26631685wrp.149.1592909472348; 
- Tue, 23 Jun 2020 03:51:12 -0700 (PDT)
+ bh=7T6k8rDooEOp5R0yTFBiO/Qp4O8fYn54pnxO67whtxE=;
+ b=oeFGugF9I5WzhACW2BU2XrMDtQoM+V9psPA5EVpSkr9F63CXBFcBwx/UvwPsIEk8rk
+ k/h3MYBWoiEgZ6SG+3+MrV9b8tc4h1OlWTSfvdUUYCzslYk9TLN7ib0JUKs0ZHvpWJEG
+ NtFCMYxzj2Ui8rqgmCH2l2lIMZ3o8/Tq4FoB/0MvNCQNFFrdAtbQlxsgRr3ZRQXvt6S2
+ NVOvGL2vle83e9iLVk20VIwaiyAf5aQCGgVCbWX5MCO76pBVuELHQLwZ3KnWNzFqJfy2
+ 8qMOfmbvE3A9RvNjSuSPaRTfXTTD7QgRKPlvzyJ9qQ4YBcqoO6aplxRfd6QQt7JgO6C5
+ 1cqQ==
+X-Gm-Message-State: AOAM530HvX6DUe/HwqjRzqJ83FRQWCzE0v5qv8nC0/flwKVu/AXjORvA
+ ZgosBll+IMCQQ0vX8oRi9UbH1K+R4cCO5Ghw/BwsWLsm3CM7jY+8yVjzrrDIbIwxqa0Qw2iU5Iw
+ Z7F48iytg1tp6ZkU=
+X-Received: by 2002:a1c:49c1:: with SMTP id w184mr22722088wma.46.1592909478437; 
+ Tue, 23 Jun 2020 03:51:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKlUNG19p2ou+jCN0MXVN7uyCXrtT3qGTGAn5SMFlQPMWCuwgEDnxemEGRDjqST39js2Ao/w==
+X-Received: by 2002:a1c:49c1:: with SMTP id w184mr22722054wma.46.1592909478207; 
+ Tue, 23 Jun 2020 03:51:18 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p13sm11583726wrn.0.2020.06.23.03.51.10
+ by smtp.gmail.com with ESMTPSA id s18sm24085181wra.85.2020.06.23.03.51.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 03:51:11 -0700 (PDT)
+ Tue, 23 Jun 2020 03:51:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] accel/kvm: Simplify kvm_check_extension_list()
-Date: Tue, 23 Jun 2020 12:50:48 +0200
-Message-Id: <20200623105052.1700-4-philmd@redhat.com>
+Subject: [RFC PATCH 4/7] accel/kvm: Simplify kvm_set_sigmask_len()
+Date: Tue, 23 Jun 2020 12:50:49 +0200
+Message-Id: <20200623105052.1700-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200623105052.1700-1-philmd@redhat.com>
 References: <20200623105052.1700-1-philmd@redhat.com>
@@ -111,39 +111,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The KVMState* argument is now unused, drop it.
+The sigmask_len is a property of the accelerator, not the VM.
+Simplify by directly using the global kvm_state, remove the
+unnecessary KVMState* argument.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- accel/kvm/kvm-all.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/sysemu/kvm.h | 2 +-
+ accel/kvm/kvm-all.c  | 4 ++--
+ target/mips/kvm.c    | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 3662641c99..44c1767a7f 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -469,7 +469,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
+ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
+ 
+ 
+-void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
++void kvm_set_sigmask_len(unsigned int sigmask_len);
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b6b39b0e92..afd14492a0 100644
+index afd14492a0..7b3f76f23d 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -1088,7 +1088,7 @@ static int kvm_check_many_ioeventfds(void)
+@@ -2240,9 +2240,9 @@ err:
+     return ret;
  }
  
- static const KVMCapabilityInfo *
--kvm_check_extension_list(KVMState *s, const KVMCapabilityInfo *list)
-+kvm_check_extension_list(const KVMCapabilityInfo *list)
+-void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len)
++void kvm_set_sigmask_len(unsigned int sigmask_len)
  {
-     while (list->name) {
-         if (!kvm_check_extension(list->value)) {
-@@ -2104,10 +2104,10 @@ static int kvm_init(MachineState *ms)
-         nc++;
-     }
+-    s->sigmask_len = sigmask_len;
++    kvm_state->sigmask_len = sigmask_len;
+ }
  
--    missing_cap = kvm_check_extension_list(s, kvm_required_capabilites);
-+    missing_cap = kvm_check_extension_list(kvm_required_capabilites);
-     if (!missing_cap) {
-         missing_cap =
--            kvm_check_extension_list(s, kvm_arch_required_capabilities);
-+            kvm_check_extension_list(kvm_arch_required_capabilities);
-     }
-     if (missing_cap) {
-         ret = -EINVAL;
+ static void kvm_handle_io(uint16_t port, MemTxAttrs attrs, void *data, int direction,
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index 0adfa70210..cc3e09bdef 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -48,7 +48,7 @@ unsigned long kvm_arch_vcpu_id(CPUState *cs)
+ int kvm_arch_init(MachineState *ms, KVMState *s)
+ {
+     /* MIPS has 128 signals */
+-    kvm_set_sigmask_len(s, 16);
++    kvm_set_sigmask_len(16);
+ 
+     kvm_mips_fpu_cap = kvm_check_extension(KVM_CAP_MIPS_FPU);
+     kvm_mips_msa_cap = kvm_check_extension(KVM_CAP_MIPS_MSA);
 -- 
 2.21.3
 
