@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACB72055AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:18:50 +0200 (CEST)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D97A2055B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:20:25 +0200 (CEST)
+Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkhF-0001Qb-Qg
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34352)
+	id 1jnkil-0002Lt-R6
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnkJl-0006VS-LG
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:54:33 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jnkJj-0001nQ-MS
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:54:33 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v3so13367178wrc.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ZoO3pyibE8uz7naSIOnMdxj99BGlER8qDsCbmWL+SiA=;
- b=aqlqAliCDHnUhluDlEnLVUsj3YTRKgvhySTFzokrl1tBpilSe5B0zMphJVH/E7Gq8I
- 4AqU9HPW8QzzwenNhSA0EuPeuj24+//hF+0DVKuo2Yars4f3FXLaec9e+Yp6vU6hpssc
- iF844jvVH+ieBEV8LuX+/BPs2jNTbEaloj3PSxw9zaF1hknZdmRA6Ot9ts46eT0LF2Y2
- k7o+UOTGZ5iZqiubNXXmRq+cgEKoMxGunmjaxu8uQrS+3BwkbfdL7fwteb3tP9f4XfIO
- MNDtwc9F293Xj8Y0dO4J2lxh44uMZ2S+1SWomZPw1UG02mFKKYynfXkKRLNp5YMDfMW0
- 2I5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ZoO3pyibE8uz7naSIOnMdxj99BGlER8qDsCbmWL+SiA=;
- b=iWSpkOJT1EGSPlH1K24Q4oGkj38Uh7WNQcYJB5RPTBErDXhdLC1y/CwWQmXtRdeyjt
- Tgvaxvao4nKd6tN+5G87anBshtj1K5kRR8B40GHOix8Ynfv2ZSXFEHAmTZP/gctfF9RJ
- pzZiWGFzbNdwdJ5qWVHPK+yIvLMBLONdOSynR8L/jyZKoB6PFBSNX/pZgswU1cHeaFVk
- rsGP3eXRJDGF8sbqHFLduJngnNsDAhvsVGnvpvcMmkDutqmJbYbHSQtbQ8VLbhoHGogZ
- mJbPG/CNLqfIXJDzpt6A7uSzJf5wm4FQb/4CZppKhcYpoU2x9wdO9oVJ/HyLi4vADI5h
- EYnQ==
-X-Gm-Message-State: AOAM530tRr0h+4L6PeZIi0mYm3oTpW8ogK83cKjARMJ3OOjzIl912N49
- wujYBS8PtPHZXD5AmJXtb4L/zg==
-X-Google-Smtp-Source: ABdhPJyln5omtga9prkeoHAdsQ+K+GIUz4zuIaukwLGsCQ06Ny4HVdnIlhk8s5Z5Xbdr5oWgpVkD4Q==
-X-Received: by 2002:a5d:4c82:: with SMTP id z2mr3182821wrs.287.1592924069975; 
- Tue, 23 Jun 2020 07:54:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o82sm4283982wmo.40.2020.06.23.07.54.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:54:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 354F11FF7E;
- Tue, 23 Jun 2020 15:54:28 +0100 (BST)
-References: <20200522023440.26261-1-richard.henderson@linaro.org>
- <20200522023440.26261-19-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 18/25] Compute reginfo_size based on the reginfo
-In-reply-to: <20200522023440.26261-19-richard.henderson@linaro.org>
-Date: Tue, 23 Jun 2020 15:54:28 +0100
-Message-ID: <87h7v196jf.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnkLV-0007Ki-Jw
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:56:21 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:50945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jnkLT-00031y-Lq
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:56:20 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 05NEt0ou014755
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 23 Jun 2020 10:55:04 -0400
+Date: Tue, 23 Jun 2020 10:55:00 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC PATCH 3/3] fuzz: Add callbacks for dma-access functions
+Message-ID: <20200623145500.jtdb5skwj5htgfcz@mozz.bu.edu>
+References: <20200611055651.13784-1-alxndr@bu.edu>
+ <20200611055651.13784-4-alxndr@bu.edu>
+ <20200623141456.GK36568@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200623141456.GK36568@stefanha-x1.localdomain>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 10:56:19
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,20 +59,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 200623 1514, Stefan Hajnoczi wrote:
+> On Thu, Jun 11, 2020 at 01:56:51AM -0400, Alexander Bulekov wrote:
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  exec.c                                | 17 ++++++++++++++++-
+> >  include/exec/memory.h                 |  8 ++++++++
+> >  include/exec/memory_ldst_cached.inc.h |  9 +++++++++
+> >  include/sysemu/dma.h                  |  5 ++++-
+> >  memory_ldst.inc.c                     | 12 ++++++++++++
+> >  5 files changed, 49 insertions(+), 2 deletions(-)
+> 
+> Please rename dma_read_cb() to fuzz_dma_read_cb() so the purpose of the
+> function is clear.
+> 
+> The ifdefs can be avoided by defining an empty function when CONFIG_FUZZ
+> is undefined. In a header file:
+> 
+>   #ifdef CONFIG_FUZZ
+>   void fuzz_dma_read_cb(size_t addr, size_t len);
+>   #else
+>   static inline void fuzz_dma_read_cb(size_t addr, size_t len)
+>   {
+>       /* Do nothing */
+>   }
+>   #endif
+> 
+> Now the compiler should eliminate the deadcode:
+> 
+>   #ifdef CONFIG_FUZZ
+>   if (as->root == get_system_memory()) {
+>       dma_read_cb(addr, len);
+>   }
+>   #endif
+> 
+> becomes:
+> 
+>   if (as->root == get_system_memory()) {
+>       fuzz_dma_read_cb(addr, len);
+>   }
+> 
+> Hopefully gcc and clang will eliminate this and emit no instructions
+> when CONFIG_FUZZ is undefined. If not, you can simply pass in 'as' and
+> 'is_write' too:
+> 
+>   void fuzz_dma_read_cb(AddressSpace *as, bool is_write, size_t addr, size_t len)
+> 
+> This way the conditional is moved inside fuzz_dma_read_cb() and deadcode
+> elimination becomes trivial for the compiler:
+> 
+>   fuzz_read_cb(as, is_write, addr, len);
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> This will allow dumping of SVE frames without having
-> to know the SVE vector length beforehand.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Do you think it would be better to have a "trace_dma_read" or
+"trace_device_read_from_guest_memory"? I haven't looked under the hood
+too much for the tracepoint api, but these would just be standard
+tracepoints(disabled for the majority of builds). When we build the
+fuzzer, we could compile with --wrap="trace_dma_read" and implement
+a __wrap_trace_dma_read in the generic fuzzer. I looked at the symbols
+for a qemu build and it looks like trace_* are actual functions, rather
+than preprocessor magic, so maybe this could work?
+-Alex
 
