@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A2B205596
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:15:35 +0200 (CEST)
-Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A442055A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:17:17 +0200 (CEST)
+Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnke6-0006MK-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:15:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33686)
+	id 1jnkfk-00084G-JD
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:17:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkHi-0005Ia-DW
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:26 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39341)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnkHz-0005fe-Sx
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:44 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkHg-0000z0-J8
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:26 -0400
-Received: by mail-wm1-x342.google.com with SMTP id t194so3526678wmt.4
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dv5krdPi5QPpwymN3LEesqLpWMN5StpM+D7F384XbNM=;
- b=dWk4oaDlubeLDEuwMns6/4YTWcmQeBrs/VXKwaXo3dsNGd6CFBSjuzDfhtkd7NYWTm
- 6rtivLFyRw1GUcsi2mhz+FXBdBeEzvsLDnnHaxrmAhi+J4/KeIPphxe7nErSuhMQ6R9D
- PPt2h87aYZ/N+shPWFuy6UOtNHTYnbCwf4np1dVQCEh0EQxL1q2qKRWFGQLqEaQpJtFF
- JKyMDl7u4/yZIFDt0I5D26CH9UPG8sagEKrroae5oUMkcvFrpPsl8vJBsi9KrjaqDT03
- SEqaQsI7px+XHPt/Kpr7xY2m8A6bGwU+mnNAchWvvMR3/+Hj7zxr6Hl2hvDGhmE54yRO
- CZ0w==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jnkHy-00014w-0d
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:52:43 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h15so889935wrq.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 07:52:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=n3MRUD+QRMjfDSjSikC2bHhO8rpeXdlIDDxtDUZz3Iw=;
+ b=KDvRn03at0cn4SR3hDvUoJYQYEkz6Kc1wX3BosewmCrLHZnok9ujLCdqYadKflUFKD
+ ofAxHsCuRRElXsKnw7sKWi33BN6TTf7KrvDcl/PCFkN8DU2RBwAqHW8M9tB/tXMyduIg
+ mF+m/1wjCh6d4GrdsqzKlEmKYCjdifb+XwLGPYPfYmW8D3dUzjQgRxEff3+ZkXwu95PI
+ God4XhTQfgJ6meNH3yLxeIsD7ffz3lPdQ8meABgnKAvZfgy5iZQna4GB8Ux12bxoIuoX
+ YpXfQR3JZ2FySh1qfHW1stWHaaw2ozDL41FgsJfeHnh3PrrG0g3K4IGKN6KLI6lbVRtQ
+ JTPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dv5krdPi5QPpwymN3LEesqLpWMN5StpM+D7F384XbNM=;
- b=tK9OCGKaTafiNinJoHhE9w4A6zAzpcoO11DpIh8jCZ/ejskAn9MW5NKhgcBE4sdlOc
- HXZ1zOtJRh8z3dl3B5r9y6TnWqRgIuo1GP4lt58pJmhuQwFBpeVQE8slteJWB1LI+F/J
- /JSoROe0cxV3PfdSY+SMJd521hvf5Ue0Xqf6H2Rmm9Odn2dUHwS0Ffat3AmfA35v9OYZ
- JU0M1nKgSTkRgmy92IX6YGMrETn7n2wY7pvnoivO8Se5ZCA9QdiDqNDYMyauwEbrYpuO
- hBTpIKOpWTlR+5pIBOu2ksOE1KRXt2v4brRX4NYLgh+jCUdnMCMaog0jl51nKzwEerzh
- Pe5w==
-X-Gm-Message-State: AOAM530bFhnyteru5qpTCVcjdxohz/1FmyNZM2oJHBkSEUZC8SsX49K8
- bG4OH6FdVkjoBuSzWJ9mpII=
-X-Google-Smtp-Source: ABdhPJw9ONLpIjtxKUXPwq6kntCfUeobjtRvoaJn7g/Soq93VH661OGxRU7wN2H+025YRag4Iq/lXg==
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr24804890wmk.16.1592923942997; 
- Tue, 23 Jun 2020 07:52:22 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id u65sm4291883wmg.5.2020.06.23.07.52.21
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=n3MRUD+QRMjfDSjSikC2bHhO8rpeXdlIDDxtDUZz3Iw=;
+ b=Iw6bJifRMV12QcwTiiu4CaqxqZEf75IaY21etnvRqzrcpYUSfJIG+A7VoJi9FxXqC2
+ +D05mwOiQykujvKlibxqUyZNZuxFm7QMTgLNkISDrZAIUCEXCAB5RnRbuJvyqp3AxI2s
+ lwWfkmqKFAiZy73VSmWmTxuEyhOQIW2dbVaTXT8tT3I44Kho/cbcHR4AsbbCoK037Fga
+ LfEZtUiT7loNkKKMprxBC37e7/wGBqehZQ3ov72kzcExNcZK3ZcGBZuItJuR4ZFx0tEp
+ phi+3PowW1UgU0gwQLTj7i/RSrPVdW8KUo1B7H7pPEYK5q2IKsABTB4QIOSCUWsR7yug
+ ogJA==
+X-Gm-Message-State: AOAM533xUkuFE6c+bKznBadBr2NSdnmZz5WZu28kn0W+VZBbIYcgol33
+ /fAfb9Mw4ZT2n/oJHpYU0jwgVw==
+X-Google-Smtp-Source: ABdhPJxux8B3O8ZTp8BNGG90uhTWYb7FX6k8f59lK+qT7m/MdHZuzOfmVp1Upq+/7T2w3ajZNIQhDw==
+X-Received: by 2002:a05:6000:1283:: with SMTP id
+ f3mr7856198wrx.106.1592923960329; 
+ Tue, 23 Jun 2020 07:52:40 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p9sm3922833wma.48.2020.06.23.07.52.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 07:52:22 -0700 (PDT)
-Date: Tue, 23 Jun 2020 15:52:20 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: [PATCH v3] docs: vhost-user: add Virtio status protocol feature
-Message-ID: <20200623145220.GS36568@stefanha-x1.localdomain>
-References: <20200618134501.145747-1-maxime.coquelin@redhat.com>
+ Tue, 23 Jun 2020 07:52:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5D3771FF7E;
+ Tue, 23 Jun 2020 15:52:38 +0100 (BST)
+References: <20200522023440.26261-1-richard.henderson@linaro.org>
+ <20200522023440.26261-18-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.3; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 17/25] Add magic and size to the trace header
+In-reply-to: <20200522023440.26261-18-richard.henderson@linaro.org>
+Date: Tue, 23 Jun 2020 15:52:38 +0100
+Message-ID: <87k0zx96mh.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fqIB0bRxfTYxTb/F"
-Content-Disposition: inline
-In-Reply-To: <20200618134501.145747-1-maxime.coquelin@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -85,58 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, amorenoz@redhat.com, qemu-devel@nongnu.org,
- lulu@redhat.com, mst@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---fqIB0bRxfTYxTb/F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Thu, Jun 18, 2020 at 03:45:01PM +0200, Maxime Coquelin wrote:
-> This patch specifies the VHOST_USER_SET_STATUS and
-> VHOST_USER_GET_STATUS requests, which are sent by
-> the master to update and query the Virtio status
-> in the backend.
->=20
-> Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
+> Sanity check that we're not getting out of sync with
+> the trace stream.  This will be especially bad with
+> the change in size of the sve save data.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> Changes since v2:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - Typo: fix missing # (Jason)
->=20
-> Changes since v1:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - Only keep the spec part in this patch, the implementation will
->   be part of Cindy's Vhost vDPA series it depends on. The goal is
->   to be able to implement it in next DPDK release even if Qemu part
->   is not merged.
-> - Add GET_STATUS after discussions with Michael and Jason. It can
->   be used by the master to ensure FEATURES_OK bit set is
->   acknowledged by the backend.
->=20
->  docs/interop/vhost-user.rst | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  risu.h |  10 +++-
+>  risu.c | 162 ++++++++++++++++++++++++++++++++++++++++++++-------------
+>  2 files changed, 136 insertions(+), 36 deletions(-)
+>
+> diff --git a/risu.h b/risu.h
+> index dd9fda5..bfcf0af 100644
+> --- a/risu.h
+> +++ b/risu.h
+> @@ -55,7 +55,11 @@ typedef enum {
+>      RES_END,
+>      RES_MISMATCH_REG,
+>      RES_MISMATCH_MEM,
+> +    RES_MISMATCH_OP,
+>      RES_BAD_IO,
+> +    RES_BAD_MAGIC,
+> +    RES_BAD_SIZE,
+> +    RES_BAD_OP,
+>  } RisuResult;
+>=20=20
+>  /* The memory block should be this long */
+> @@ -69,10 +73,14 @@ typedef enum {
+>  struct reginfo;
+>=20=20
+>  typedef struct {
+> -   uintptr_t pc;
+> +   uint32_t magic;
+> +   uint32_t size;
+>     uint32_t risu_op;
+> +   uintptr_t pc;
+>  } trace_header_t;
+>=20=20
+> +#define RISU_MAGIC  (('R' << 24) | ('I' << 16) | ('S' << 8) | 'U')
+> +
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+I guess a fixed constant magic value should compress well.
 
---fqIB0bRxfTYxTb/F
-Content-Type: application/pgp-signature; name="signature.asc"
+Anyway:
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yFyQACgkQnKSrs4Gr
-c8gE5AgAyI2l3JYA15whXcjnSrWuPf4eXgwPqQvp+zhF1pNxM6N3vViBvpHRW3MK
-wDgDq+77R07alffG3tsx5++eYtkvi7NDtNF+vSKTlSjunmaVOdUSHKSIM1elsL+d
-OzbSkx9+35TXJbGoGTtMUbJEBtAje5IPU3E6ZdfEzk3unJ2pw0T8sAbpAdLiIczR
-5T9h/ULEMZjcTHOICFLOLKGg6X5XFhAm86eywjLfLB4bnUhmNxasuyu4gcGqjNW9
-q/a/u1ZaYIs4KKz2QAbfrKdR/g9nYFxuMpYVaCLFfJYsFP4mGkVvlYq7o7ve0C+Q
-m1pZNCeTAOeYLxZKwMtJTAosJoxBSQ==
-=fyBF
------END PGP SIGNATURE-----
-
---fqIB0bRxfTYxTb/F--
+--=20
+Alex Benn=C3=A9e
 
