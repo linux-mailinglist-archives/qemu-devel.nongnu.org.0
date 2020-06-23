@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F86205575
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:05:23 +0200 (CEST)
-Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7425E20557E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:07:16 +0200 (CEST)
+Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkUE-0000JQ-89
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
+	id 1jnkW3-0003c0-HX
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkRv-0006yk-LB
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:03:00 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50582)
+ id 1jnkTw-0001i0-20
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:05:04 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jnkRt-0007CL-Kz
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:02:59 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l17so3294687wmj.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:02:57 -0700 (PDT)
+ id 1jnkTu-0000av-8q
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 11:05:03 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a6so18935237wrm.4
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 08:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=5PwrATtHZw1hjoYBvmunfj7/De2WHM1t+Yv+XjrCkOs=;
- b=Wh2KqRhpkz4M7ZwcRF7Gax42p/3O90C8CMFoXKsM2QXJbFwZnRe2TFILvLiEG4moG0
- lt6gufsWNFS3tkMngkAMOTGIxhwAtQVaPNCRPlIL9K7MOrNd5wSP+0IV9Q9+E7kUWPlk
- +cUe73j1+0QveydEC/wCqrFWVhzB2tbN0SzuXvtiyXoWRj/HYpKES69Q9OHCFvglVoxK
- 2seRB9JOOfR0oFCHhArN3S9n5VXoFwyxTX5SH2VlfE7iJVMgMDIrVqTzfiOGZcO+lZEj
- TCkoDuymU77dVO9OZszN//XiMJHw9E856sx48dauLA9NtTuaS+EOOxQbyWzKUKF7UxeL
- XVTw==
+ bh=lU27h3focvbgoLfr0h4prGMxg1a7SxSdgbHNcPtkQBE=;
+ b=mngUCcGx/Kfwc6M9dRYN3b3MFgPNgIDBGPOZU9WFrxt0GaxI8I6zinmXYt8j8qcMya
+ htOjg07dB16E7xefQmcE+q+/wwFfHQhfHC8A2FWHwez3jAcxUEsgMdSLgcc6SfhFgcfq
+ cCAFvvjURhH4pISTOmQ5F5JgiWEdz0BE693XGHt/iuWNLLSq4jjAr2XXJJueoFXHSlUB
+ 9lsQxzB/xyRvkzrIiz9ONX6Q9TlJKRbUkME2jcrXFROEvqyBEtidQmEQ5fptrHEu4knj
+ MEgpr/QpriCQ24P5a5JsdeOpi+EwtxcI02Z8Gsuk2hyYNfA+5XwOeGWohPfp+44G+x8W
+ MVdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=5PwrATtHZw1hjoYBvmunfj7/De2WHM1t+Yv+XjrCkOs=;
- b=KRZC8dcS2s3uM8qUMj13CPXvlp40FYFHbej/8QNLu1e9usDrT2pj0soHtP04HfHEos
- l0tGP1YMA5zXU4V4OcOg0KzYTHS+2DrzSLoEsLUsMoxA4+EmL2MbBnkNkQfMscP4qVtp
- ONbrZWGkm8C/+h2Xfk9XneX0PeOlZL4YRAVg2snQCzwFxowD/JJ4gPsc7zBftdo2mT2m
- BeznNQenDO1XmRm01sCRdDveBjWYYTvMTtXC1l1rVnrt0D9qdmauuEAmy/MlWvsvi100
- HRYU3fUsVMVxOj4Ih8lrLhor4nYSHurIBRF+H6geJNKYCpa2+kihYrmByU/Ez0x3Jx8S
- cnGg==
-X-Gm-Message-State: AOAM533LlztzM5qLt94LSkadr7rT0RXy87bwTJvIpgK7bSV5rhvCrT11
- dbix9IyQExWu+cVC7yz57ak=
-X-Google-Smtp-Source: ABdhPJxVOkLhkOzjPjhVc31NO+RXr2uklUx05PsilDeb94LL+FdPE9aw/TOrVqGtDI1dQhuajoim5w==
-X-Received: by 2002:a1c:3c82:: with SMTP id j124mr1650804wma.155.1592924575894; 
- Tue, 23 Jun 2020 08:02:55 -0700 (PDT)
+ bh=lU27h3focvbgoLfr0h4prGMxg1a7SxSdgbHNcPtkQBE=;
+ b=ClismB+pUjfotO6P/hhFLXYsfdwGWCpZ+gQMa0RXebeFC3EZRuQFcZGDsmRbw6/0Hp
+ Asn0qm6SaE7UzE7Rlob6kit2buDc/Mn2O2nSGU7I7lVTi3IarbSn5eTWWAepfejRHBTS
+ VxDhptlLoWent3fo5wcFp6MFvUu82/scpFNT0I8RoMQ/+ijqQaoCpZ+fEfEwwnSf72If
+ M/Utn+nQPfno1Zch2fHiNPcqDxZuMyvZReHvuTn3NMAxOhW7EVztKgSA10GCtXbI6QfD
+ CDuEz9Ow1WBNhkJAbGrZIcMWoED+2aPh5zwxTdsdzwZa96DaDFb2azkM8yJ8pjHPFDR+
+ QG4A==
+X-Gm-Message-State: AOAM533I2IYavyMiC5eLse7ZnWYJyPcu/4xQDM/NPUbx6xmBq5yWkcB4
+ HKqgkJwu4e2FUeabuoTx8sU=
+X-Google-Smtp-Source: ABdhPJx76PMh9Zh6fLZBGbQsVekKRNp6M/+xuOugKdJmpMLxu/qHCl/Riv2cL8gjpOJ9O8ZtbfgZXA==
+X-Received: by 2002:a5d:4c86:: with SMTP id z6mr14250913wrs.345.1592924700510; 
+ Tue, 23 Jun 2020 08:05:00 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id c143sm3931928wmd.1.2020.06.23.08.02.54
+ by smtp.gmail.com with ESMTPSA id u20sm3970662wmc.44.2020.06.23.08.04.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 08:02:54 -0700 (PDT)
-Date: Tue, 23 Jun 2020 16:02:53 +0100
+ Tue, 23 Jun 2020 08:04:59 -0700 (PDT)
+Date: Tue, 23 Jun 2020 16:04:58 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Antonio Raffaele <windowsnotfound@gmail.com>
-Subject: Re: Overriding PCI Vendor/Device IDs
-Message-ID: <20200623150253.GT36568@stefanha-x1.localdomain>
-References: <CAFES52nPcmpF9dB175J4xdAqsJO+GK2614OOoKDArt+=cX2mhA@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/7] build some devices as modules.
+Message-ID: <20200623150458.GU36568@stefanha-x1.localdomain>
+References: <20200622135601.12433-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4Kq+wHeKEs1nwG7z"
+ protocol="application/pgp-signature"; boundary="H5pgEA8DvTwLpheO"
 Content-Disposition: inline
-In-Reply-To: <CAFES52nPcmpF9dB175J4xdAqsJO+GK2614OOoKDArt+=cX2mhA@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x341.google.com
+In-Reply-To: <20200622135601.12433-1-kraxel@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,52 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
+Cc: dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4Kq+wHeKEs1nwG7z
+--H5pgEA8DvTwLpheO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Jun 21, 2020 at 09:31:30AM +0200, Antonio Raffaele wrote:
-> Hi I'm trying to create a qemu virtual machine that runs windows 10. I
-> would like to try to make it almost indistinguishable from a real computer
-> (I know it's impossible, but at least I get close). I have already changed
-> any suspicious identifiers (smbios, hard disk, card network and so on,
-> host-passthroug cpu etc.) But now checking the various components that the
-> guest computer recognizes, I realized (through the hwinfo64 program) that
-> in the bus section, then pcibus there are devices called "Red Hat , Device
-> ID "and with the same devicename, as device class have:" PCI-to-PCI Bridge
-> ". Is there a way to change the devicename of these virtual compontents
-> (maybe even changing the qemu source)?
+On Mon, Jun 22, 2020 at 03:55:54PM +0200, Gerd Hoffmann wrote:
+> Specifically devices which depend on shared libraries,
+> to reduce the runtime dependencies of core qemu.
 
-As far as I know there is no command-line parameter for overriding PCI
-Vendor/Device IDs.
-
-If you are able to modify the QEMU source code you can change the
-PCIDeviceClass fields. For example, in hw/pci-bridge/pci_bridge_dev.c:
-
-  k->vendor_id = PCI_VENDOR_ID_REDHAT;
-  k->device_id = PCI_DEVICE_ID_REDHAT_BRIDGE;
+Just wanted to say great that you are doing this! Nice that progress is
+being made on QEMU modularization.
 
 Stefan
 
---4Kq+wHeKEs1nwG7z
+--H5pgEA8DvTwLpheO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yGZ0ACgkQnKSrs4Gr
-c8iVAQf7BClvhFdAgUFOaWhaYBKWdPctSv/Cgt8PO+EvNfIEKMw5gUKnq+vpZgwT
-5O74HKDcWLXq9KSh9Fl83H5CAMA8kentq4BEEUdaUUwVu8pJTndD73ZutcWZB09y
-57Zjn6UbnzBcIFfPnLHVOBx7dk/iogvxCPel7gFfvMu5t9XtWjPKvIO4arGuiDeq
-9J46oM/LHpEnVuMS3ewQn5qBiw7pyxxf6JT9qCWces2e/LQLcA3kzVz0OVh7Ccuf
-7jVsk0E5WTtZcmROYqp6ZH2HjJiRLQZJS6OIdeJEqDnp03o0+KMIMlbHHQPElGLH
-PD9Y2OkkeOPoPRVjQRo/gOJ5JwkEnQ==
-=jcYx
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7yGhoACgkQnKSrs4Gr
+c8j8/AgAmZNGqiKYOpbeugii6kxPyE2c2nABwyspCVIdczaMyiqjoyr4JmaTEGmn
+ETD9kNT9TJSNYalFnTsno+7NIBar+S/M5FkSNbqRRgItPahiYOmWqPlletLNe30O
+KWzcjSanZpiISSPKXhv3mBgGAY421kBX1cWlQaLMx8wrNu4dS+tCaokuCA6Q4JIK
+PWlksPIppZ/yJxU0qJW3PyT/Selko4pg+r3YZVlTwU+IDr7G1KkOsHM+/lNPROPk
+IRUUr/sXVZwpFxxGbX4tALrFOSnlmzDj0ymASe9A2cDyl7R5OgUX7Ci1K+kn/zgC
+DKf2Fg7t9MdvnH9wmX/4mr08RfJHRg==
+=ffIu
 -----END PGP SIGNATURE-----
 
---4Kq+wHeKEs1nwG7z--
+--H5pgEA8DvTwLpheO--
 
