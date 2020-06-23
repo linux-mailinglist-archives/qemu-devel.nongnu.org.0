@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CF8206116
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:54:54 +0200 (CEST)
-Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76855206118
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:56:04 +0200 (CEST)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpwT-0001po-CO
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1jnpxb-0004cm-EV
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnps3-0003tY-Sa; Tue, 23 Jun 2020 16:50:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56376
+ id 1jnpsA-00047Q-Jn; Tue, 23 Jun 2020 16:50:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56384
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnps2-0001Sg-6X; Tue, 23 Jun 2020 16:50:19 -0400
+ id 1jnps8-0001b5-PE; Tue, 23 Jun 2020 16:50:26 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnps1-0007T1-0Q; Tue, 23 Jun 2020 21:50:19 +0100
+ id 1jnps3-0007T1-Te; Tue, 23 Jun 2020 21:50:26 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Tue, 23 Jun 2020 21:49:20 +0100
-Message-Id: <20200623204936.24064-7-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 23 Jun 2020 21:49:21 +0100
+Message-Id: <20200623204936.24064-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 06/22] adb: introduce realize/unrealize and
- VMStateDescription for ADB bus
+Subject: [PATCH v2 07/22] adb: create autopoll variables directly within
+ ADBBusState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,59 +65,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Rather than each ADB implementation requiring its own functions to manage
+autopoll state, timers, and autopoll masks prepare to move this information
+directly into ADBBusState.
+
+Add external functions within adb.h to allow each ADB implementation to
+manage the new autopoll variables.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/input/adb.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ hw/input/adb.c         | 77 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/input/adb.h | 13 +++++++
+ 2 files changed, 90 insertions(+)
 
 diff --git a/hw/input/adb.c b/hw/input/adb.c
-index d85278a7b7..21a9b3aa96 100644
+index 21a9b3aa96..bb36ce6fad 100644
 --- a/hw/input/adb.c
 +++ b/hw/input/adb.c
-@@ -89,10 +89,42 @@ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
+@@ -27,6 +27,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
++#include "qemu/timer.h"
+ #include "adb-internal.h"
+ 
+ /* error codes */
+@@ -89,19 +90,92 @@ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
      return olen;
  }
  
-+static const VMStateDescription vmstate_adb_bus = {
-+    .name = "adb_bus",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_END_OF_LIST()
++void adb_set_autopoll_enabled(ADBBusState *s, bool enabled)
++{
++    if (s->autopoll_enabled != enabled) {
++        s->autopoll_enabled = enabled;
++        if (s->autopoll_enabled) {
++            timer_mod(s->autopoll_timer,
++                      qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++                      s->autopoll_rate_ms);
++        } else {
++            timer_del(s->autopoll_timer);
++        }
 +    }
-+};
-+
-+static void adb_bus_realize(BusState *qbus, Error **errp)
-+{
-+    ADBBusState *adb_bus = ADB_BUS(qbus);
-+
-+    vmstate_register(NULL, -1, &vmstate_adb_bus, adb_bus);
 +}
 +
-+static void adb_bus_unrealize(BusState *qbus)
++void adb_set_autopoll_rate_ms(ADBBusState *s, int rate_ms)
 +{
-+    ADBBusState *adb_bus = ADB_BUS(qbus);
++    s->autopoll_rate_ms = rate_ms;
 +
-+    vmstate_unregister(NULL, &vmstate_adb_bus, adb_bus);
++    if (s->autopoll_enabled) {
++        timer_mod(s->autopoll_timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++                  s->autopoll_rate_ms);
++    }
 +}
 +
-+static void adb_bus_class_init(ObjectClass *klass, void *data)
++void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask)
 +{
-+    BusClass *k = BUS_CLASS(klass);
-+
-+    k->realize = adb_bus_realize;
-+    k->unrealize = adb_bus_unrealize;
++    if (s->autopoll_mask != mask) {
++        s->autopoll_mask = mask;
++        if (s->autopoll_enabled && s->autopoll_mask) {
++            timer_mod(s->autopoll_timer,
++                      qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++                      s->autopoll_rate_ms);
++        } else {
++            timer_del(s->autopoll_timer);
++        }
++    }
 +}
 +
- static const TypeInfo adb_bus_type_info = {
-     .name = TYPE_ADB_BUS,
-     .parent = TYPE_BUS,
-     .instance_size = sizeof(ADBBusState),
-+    .class_init = adb_bus_class_init,
++static void adb_autopoll(void *opaque)
++{
++    ADBBusState *s = opaque;
++
++    s->autopoll_cb(s->autopoll_cb_opaque);
++
++    timer_mod(s->autopoll_timer,
++              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++              s->autopoll_rate_ms);
++}
++
++void adb_register_autopoll_callback(ADBBusState *s, void (*cb)(void *opaque),
++                                    void *opaque)
++{
++    s->autopoll_cb = cb;
++    s->autopoll_cb_opaque = opaque;
++}
++
+ static const VMStateDescription vmstate_adb_bus = {
+     .name = "adb_bus",
+     .version_id = 0,
+     .minimum_version_id = 0,
+     .fields = (VMStateField[]) {
++        VMSTATE_TIMER_PTR(autopoll_timer, ADBBusState),
++        VMSTATE_BOOL(autopoll_enabled, ADBBusState),
++        VMSTATE_UINT8(autopoll_rate_ms, ADBBusState),
++        VMSTATE_UINT16(autopoll_mask, ADBBusState),
+         VMSTATE_END_OF_LIST()
+     }
  };
  
- const VMStateDescription vmstate_adb_device = {
++static void adb_bus_reset(BusState *qbus)
++{
++    ADBBusState *adb_bus = ADB_BUS(qbus);
++
++    adb_bus->autopoll_enabled = false;
++    adb_bus->autopoll_mask = 0xffff;
++    adb_bus->autopoll_rate_ms = 20;
++}
++
+ static void adb_bus_realize(BusState *qbus, Error **errp)
+ {
+     ADBBusState *adb_bus = ADB_BUS(qbus);
+ 
++    adb_bus->autopoll_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, adb_autopoll,
++                                           adb_bus);
++
+     vmstate_register(NULL, -1, &vmstate_adb_bus, adb_bus);
+ }
+ 
+@@ -109,6 +183,8 @@ static void adb_bus_unrealize(BusState *qbus)
+ {
+     ADBBusState *adb_bus = ADB_BUS(qbus);
+ 
++    timer_del(adb_bus->autopoll_timer);
++
+     vmstate_unregister(NULL, &vmstate_adb_bus, adb_bus);
+ }
+ 
+@@ -118,6 +194,7 @@ static void adb_bus_class_init(ObjectClass *klass, void *data)
+ 
+     k->realize = adb_bus_realize;
+     k->unrealize = adb_bus_unrealize;
++    k->reset = adb_bus_reset;
+ }
+ 
+ static const TypeInfo adb_bus_type_info = {
+diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
+index 4d2c565f54..15b1874a3d 100644
+--- a/include/hw/input/adb.h
++++ b/include/hw/input/adb.h
+@@ -75,12 +75,25 @@ struct ADBBusState {
+     ADBDevice *devices[MAX_ADB_DEVICES];
+     int nb_devices;
+     int poll_index;
++
++    QEMUTimer *autopoll_timer;
++    bool autopoll_enabled;
++    uint8_t autopoll_rate_ms;
++    uint16_t autopoll_mask;
++    void (*autopoll_cb)(void *opaque);
++    void *autopoll_cb_opaque;
+ };
+ 
+ int adb_request(ADBBusState *s, uint8_t *buf_out,
+                 const uint8_t *buf, int len);
+ int adb_poll(ADBBusState *s, uint8_t *buf_out, uint16_t poll_mask);
+ 
++void adb_set_autopoll_enabled(ADBBusState *s, bool enabled);
++void adb_set_autopoll_rate_ms(ADBBusState *s, int rate_ms);
++void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask);
++void adb_register_autopoll_callback(ADBBusState *s, void (*cb)(void *opaque),
++                                    void *opaque);
++
+ #define TYPE_ADB_KEYBOARD "adb-keyboard"
+ #define TYPE_ADB_MOUSE "adb-mouse"
+ 
 -- 
 2.20.1
 
