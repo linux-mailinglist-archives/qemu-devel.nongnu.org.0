@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9CF2051BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:05:06 +0200 (CEST)
-Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F1C2051DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:09:07 +0200 (CEST)
+Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhfl-0003fM-B8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:05:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44394)
+	id 1jnhje-0007tr-8n
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHH-0003Xs-V5
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:47 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43800)
+ id 1jnhHK-0003Zk-1U
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:51 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHG-0003P8-AQ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:47 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l10so20171743wrr.10
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:45 -0700 (PDT)
+ id 1jnhHI-0003QK-6W
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:49 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g18so11115320wrm.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/vPwTiNjsUuSz4xxL6SaRORcPSapebKMLMVKI6DJOgo=;
- b=S7cgaYV7JfVKEMdrUCz9dL8U//ENhEze6PdXWT7DuyWTKe7KXHWeNNPoM4kmqKLqD9
- NvCO7IgotPlxkwFUvRUl2nJ9BS7veAtmWqA1b/a939kLfxrsT7LADc3zYO7BUkPfEMUv
- dH73fwqjuq346OjCn9HwFktYxVAW0bELWt/L7csMTi244AFOTSdfFY6mEJ1qc77IkjEq
- Kotob/neEfEZNCVRERnin8mI1LJjzCRs6VRyyd9rB+viLCxPceet/Pf/PQqKW7/C6bSP
- bCekpLs6oA+NAgnmiLv46VrKtrcHGIPlhdyONdmm/HmRZcdj9nbxlnydmEFYtLP0cQ2a
- qjnQ==
+ bh=93DPZhJ1c1kkfDUxuVzeumq5Pucl+HwBkMTUco5Vv4s=;
+ b=sEOZ/GDyjhvVCbIlCJvzcF5VFWIEdBoz72F2afWiErqUcTUpLc1jOZiLTuP1/klN1j
+ RVAtgBU3Bdu47Jn/1u1oSui6D9gNkolO/c81o4wyJRzennyLaeYpGx/xLarrUbE5E8QK
+ SFrCGEjonIA3i3AJpvgrRHryoAep+bvV2jfIUEdqcI7Eie2gmrM+VCnJ/RzxFquJmVKq
+ CCdbcW7+y3H2qrtXF+rg4wlXm6EPaipExOblzTNX+FNnnvGiUJN2bNl6wV0w+bUWaXwK
+ U7CLCALM3/3/xsHN5T6Db3pmDOjx6tuicoABlqbbh2UtvPNidYGKQ4UPsccZoySgBfr1
+ QMnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/vPwTiNjsUuSz4xxL6SaRORcPSapebKMLMVKI6DJOgo=;
- b=HI0VnwUqwkBU9iK/MA9xwJBbZAvsuGQg2xTMfQ6KYspmM60B8zEMqARibwg3VytBcc
- SDke8Xs51Hs5Pc9pMcqwdYEMfoYIOJagsOiqG1jhjoCmkbg94+Aw34s1AYDJXGewDepi
- N5UcIst8JOLHZbRLHcv3DQ5pdqoCaxxRHl+k17GF0UQn32D5tPuVHBM6c1oPh+o79e1J
- RWnYr9xNccFVmd0hWPU3BsIKHTYo5kZvh4FVprw3+wgbeMId/4xjpYhNMLGpespPrDBd
- Bjro0Ehhsp8FRMMOmVLl6Sy3Lxy/L5czWrOOcbhm4Tet7htLDQUg6AIBxlMbsfYCkq5a
- EHRg==
-X-Gm-Message-State: AOAM5304KaK4iTt7oJqPVsa4nKE8m4Bz9Kbl50kO2vjClYavpm4jQj6n
- kMNe6LcwgW4xOT6mnlNrURNa60fSmUya4w==
-X-Google-Smtp-Source: ABdhPJwd/dWcX0+dq9yu0WXDpIo5KIfFytG0rxXOY4vo/oKOU7FIIbpsnlAyI6707CNKFBDY6yteEw==
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr24882992wrw.260.1592912384633; 
- Tue, 23 Jun 2020 04:39:44 -0700 (PDT)
+ bh=93DPZhJ1c1kkfDUxuVzeumq5Pucl+HwBkMTUco5Vv4s=;
+ b=h22Id99MM+/GrHfixAZvNXoBnKrIKg4iyY+DCSSTLwqWP3pvsd/9y0fwBVQWDWrnf9
+ y1xeaGA975uwsDf1PKvgZlY51i7I91icYwxfFF9dJLRnEyrg43P4FA1Jas00HQytZhh2
+ sS9TTDu2BbLWr6aXU+r6K+UZWKNkubLpJqZL1c6z9IOeNM2gwDeT0CvuIa+BrJcPuJGX
+ vykjUwKgtpn78djXcDBKZqSUvpsEqpdaorpTvFVLlRkYPF/mwNK0FdoCgjPW+cXH+q9U
+ nsxigeO1o7PEnXVM/fMEIpEPBpPHYrrMqx5Mcxtsrg5XKoaQgKlcLuJc+broOdrPS4mv
+ 6wsQ==
+X-Gm-Message-State: AOAM530/lYCrNgkJSqtx+g7xHm2APXJ7iDmMZfG1JCEfjMEc2VIClj/K
+ qRXQw4R/mWxCCwJ5HKAEp5y9SCCJC7uNYg==
+X-Google-Smtp-Source: ABdhPJxPycm0Ikd8zT3zc99AWXQxkI8AN51v/lDK9OociMTo4wmZC2Pz5emckJjutVidFplvWIAU5A==
+X-Received: by 2002:adf:c382:: with SMTP id p2mr24322388wrf.283.1592912386516; 
+ Tue, 23 Jun 2020 04:39:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.43
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:44 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/42] hw/arm/mps2: Add CMSDK APB watchdog device
-Date: Tue, 23 Jun 2020 12:38:55 +0100
-Message-Id: <20200623113904.28805-34-peter.maydell@linaro.org>
+Subject: [PULL 35/42] hw/arm/mps2: Map the FPGA I/O block
+Date: Tue, 23 Jun 2020 12:38:57 +0100
+Message-Id: <20200623113904.28805-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,48 +91,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We already model the CMSDK APB watchdog device, let's use it!
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200617072539.32686-9-f4bug@amsat.org
+Message-id: 20200617072539.32686-11-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2.c  | 7 +++++++
- hw/arm/Kconfig | 1 +
- 2 files changed, 8 insertions(+)
+ hw/arm/mps2.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 4fe5cc8622f..f7bef20b405 100644
+index c66c595d4a0..e1061232254 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -312,6 +312,13 @@ static void mps2_common_init(MachineState *machine)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&mms->dualtimer), 0,
-                        qdev_get_gpio_in(armv7m, 10));
-     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
-+    object_initialize_child(OBJECT(mms), "watchdog", &mms->watchdog,
-+                            TYPE_CMSDK_APB_WATCHDOG);
-+    qdev_prop_set_uint32(DEVICE(&mms->watchdog), "wdogclk-frq", SYSCLK_FRQ);
-+    sysbus_realize(SYS_BUS_DEVICE(&mms->watchdog), &error_fatal);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&mms->watchdog), 0,
-+                       qdev_get_gpio_in_named(armv7m, "NMI", 0));
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&mms->watchdog), 0, 0x40008000);
+@@ -38,8 +38,10 @@
+ #include "hw/timer/cmsdk-apb-timer.h"
+ #include "hw/timer/cmsdk-apb-dualtimer.h"
+ #include "hw/misc/mps2-scc.h"
++#include "hw/misc/mps2-fpgaio.h"
+ #include "hw/net/lan9118.h"
+ #include "net/net.h"
++#include "hw/watchdog/cmsdk-apb-watchdog.h"
  
+ typedef enum MPS2FPGAType {
+     FPGA_AN385,
+@@ -67,8 +69,10 @@ typedef struct {
+     MemoryRegion sram;
      /* FPGA APB subsystem */
-     object_initialize_child(OBJECT(mms), "scc", &mms->scc, TYPE_MPS2_SCC);
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 9afa6eee799..5c8f689b3dd 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -405,6 +405,7 @@ config MPS2
-     select PL080    # DMA controller
-     select SPLIT_IRQ
-     select UNIMP
-+    select CMSDK_APB_WATCHDOG
+     MPS2SCC scc;
++    MPS2FPGAIO fpgaio;
+     /* CMSDK APB subsystem */
+     CMSDKAPBDualTimer dualtimer;
++    CMSDKAPBWatchdog watchdog;
+ } MPS2MachineState;
  
- config FSL_IMX7
-     bool
+ #define TYPE_MPS2_MACHINE "mps2"
+@@ -332,6 +336,11 @@ static void mps2_common_init(MachineState *machine)
+     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->scc), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
++    object_initialize_child(OBJECT(mms), "fpgaio",
++                            &mms->fpgaio, TYPE_MPS2_FPGAIO);
++    qdev_prop_set_uint32(DEVICE(&mms->fpgaio), "prescale-clk", 25000000);
++    sysbus_realize(SYS_BUS_DEVICE(&mms->fpgaio), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&mms->fpgaio), 0, 0x40028000);
+ 
+     /* In hardware this is a LAN9220; the LAN9118 is software compatible
+      * except that it doesn't support the checksum-offload feature.
 -- 
 2.20.1
 
