@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F75205BFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:40:59 +0200 (CEST)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A091F205BE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:38:44 +0200 (CEST)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnomw-0001YB-CI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
+	id 1jnokl-0005qs-82
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnojD-0003BF-I5
+ id 1jnojD-0003BB-Gm
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:07 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33122)
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnojA-0005Uf-01
+ id 1jnojB-0005VE-DV
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:07 -0400
-Received: by mail-pf1-x433.google.com with SMTP id f9so1731452pfn.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:03 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id cm23so1954816pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=udQrbI6Tw9/vGRMuSJ3l4nv9mjeaNNPNMMavnVln8O8=;
- b=T5RXR/aVcos3lQjNNAEVCLAyslHCr55JEJnwUyAkeoGbWo1k9Ww8KHGc/z2NTLQCCS
- P4rM4H1uQkyW80vkEUDC58/ksQuNbGVIkaYMZ0fqtOSzyEAk0IYYsUxAMpkMzNTxv+4W
- BamdiJxUO9bNAo22YJkfQDjT+eK1wfb6gOFQZD+pDl3ly8ZhxEG7vBARBoo5kx8UjjmK
- 8sU+I0+2V51YiodztY5iIng98/tHMeav+EBo9tcfkDw6oMEbMvmZlRebem286tMAVz61
- GnBWsN5o+knHpnmRjFJ9C/6HmPZCr3s+rxLLV4K7bSArlC0HqIx31HeYBZ99Xnk6P9Bt
- p4zg==
+ bh=UZWgT5KzsbdnnIQS6h1nh35owoxC0Bf2W5wbwlUKiR4=;
+ b=tDZdvVUqKdRWzIX/vgYGSkxInlTaRMTI6223OI3OBbexvJEifp4aaqIifoGCCIXCDi
+ jypGBlYrZSuAS4SdACIJSavo5WAcnJY4ipq2OLIynQvl3IDFh5XrvzWLjlwY+0giyC/n
+ WaVexWmIEOQOhiZwiOC/szSCsgWpDd/iVYQB0TMvb2bvdU2abF1tShdkNrr8wKaqYDuw
+ 5EBStcfyUzfE1+4F5Ds/s7LUswiw54fTYCibDScmfCjZ09hB5qUA4YrKoBwWeC5KIKcP
+ 0yG77MofzU7VN5yCDfqdlri/v1qDNZfOompf+E2bchVfpxOgXKK1aq4ef200UszTSV0i
+ udIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=udQrbI6Tw9/vGRMuSJ3l4nv9mjeaNNPNMMavnVln8O8=;
- b=emOu+3KQbWn2xekA4hnDMyXuDUnXpEXXmfaz+8EnDzttYbQQbbwTaeIMaBpbI19pHH
- Sv8Xm8v3LhxJXb5MskeEyhci/17vW+w4HLPOWBbNFDrZncrw+0Tg+MJ1A8AEYJhH59T+
- t2iR+pvyCrkvXDWSZUmDdkMwL1803jDcWI/wgTbwMnUannLnuYNiWwF+x/YGlFO/B8p+
- 0/CjbVUJkOVGBaqotXWUgdo5vf0WOzRItww9GA5MaaXVLTpEQMLIb1Ae2oXWaMl+02j8
- +NQR1PG3xdiOIAwBoXMHgyIB3QstQUndNacqtikCwuk+ttA19XRYB+zhh/U/gKDq1O8I
- d7oA==
-X-Gm-Message-State: AOAM530wr+4xnfkWKW72yqiphRenU/aj1hF2AC2oRnoa+w7N0mooSwHx
- p/n4hPovf8Y1yedLtXuFHqCqoBk5Yl4=
-X-Google-Smtp-Source: ABdhPJyhTBd1/oSLRo7hWiEwoJ4+o2rCTrB/Es63EM7nypg976eK+QpzRBQAZHh3uk3+qEKt6OSwVQ==
-X-Received: by 2002:a63:e707:: with SMTP id b7mr19120038pgi.35.1592941022227; 
- Tue, 23 Jun 2020 12:37:02 -0700 (PDT)
+ bh=UZWgT5KzsbdnnIQS6h1nh35owoxC0Bf2W5wbwlUKiR4=;
+ b=kkrYFUE7XVsIlred9VlBRZTdSn3soWfxiemYAdKp1bd6vxZBrQMsmaAQpoeVhJpRjC
+ sLovC+KSsEHQc9aawQnKmWF14bW0f/8ZzXX/OHd2nhN0Bcs2prWDpeUtVJ8xwgr+eq/v
+ Ml8wetvd9xEnDYTdlqI3lhGXyie2fAGCb5h7eDk6mX495ldORl8RwzpEw0bMYWkBNPdf
+ f8uGtGB3jiyIFm8cv798MO3ULSBzck54I3ZCg0MFqQZILLAFduH7Me75Lzyo1e1RWaoY
+ npRoJKQ7D7R/7Jh+crq648QZ61yK3mNSdBK1s3KfUZGKeiiHaDvMWhyFbsSHzv8MlxOl
+ WX2g==
+X-Gm-Message-State: AOAM533geLl/eG9CPd25pWyuNTMp2RDuTUfFFI7dbkQv/znFAlnGtndw
+ T0jeUr/WU0o581s8p8GqQ7UKgTX4tuY=
+X-Google-Smtp-Source: ABdhPJxEtu2UH+Z7IX5qh8RjXFElcNxsH693qe0SjHmjSjVlHaonNuTbez9Faqu+wSZNxPZk0a6/Ng==
+X-Received: by 2002:a17:90a:2683:: with SMTP id
+ m3mr24946133pje.196.1592941023691; 
+ Tue, 23 Jun 2020 12:37:03 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.01
+ by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 12:37:01 -0700 (PDT)
+ Tue, 23 Jun 2020 12:37:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 01/45] target/arm: Add isar tests for mte
-Date: Tue, 23 Jun 2020 12:36:14 -0700
-Message-Id: <20200623193658.623279-2-richard.henderson@linaro.org>
+Subject: [PATCH v8 02/45] target/arm: Improve masking of SCR RES0 bits
+Date: Tue, 23 Jun 2020 12:36:15 -0700
+Message-Id: <20200623193658.623279-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
 References: <20200623193658.623279-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,33 +91,51 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Protect reads of aa64 id registers with ARM_CP_STATE_AA64.
+Use this as a simpler test than arm_el_is_aa64, since EL3
+cannot change mode.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/arm/helper.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 677584e5da..f8ac11e73b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3814,6 +3814,16 @@ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
- }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 972a766730..a29f0a28d8 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2011,9 +2011,16 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     uint32_t valid_mask = 0x3fff;
+     ARMCPU *cpu = env_archcpu(env);
  
-+static inline bool isar_feature_aa64_mte_insn_reg(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) != 0;
-+}
+-    if (arm_el_is_aa64(env, 3)) {
++    if (ri->state == ARM_CP_STATE_AA64) {
+         value |= SCR_FW | SCR_AW;   /* these two bits are RES1.  */
+         valid_mask &= ~SCR_NET;
 +
-+static inline bool isar_feature_aa64_mte(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 4 &&
++        if (cpu_isar_feature(aa64_lor, cpu)) {
++            valid_mask |= SCR_TLOR;
++        }
++        if (cpu_isar_feature(aa64_pauth, cpu)) {
++            valid_mask |= SCR_API | SCR_APK;
++        }
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+     }
+@@ -2032,12 +2039,6 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+             valid_mask &= ~SCR_SMD;
+         }
+     }
+-    if (cpu_isar_feature(aa64_lor, cpu)) {
+-        valid_mask |= SCR_TLOR;
+-    }
+-    if (cpu_isar_feature(aa64_pauth, cpu)) {
+-        valid_mask |= SCR_API | SCR_APK;
+-    }
+ 
+     /* Clear all-context RES0 bits.  */
+     value &= valid_mask;
 -- 
 2.25.1
 
