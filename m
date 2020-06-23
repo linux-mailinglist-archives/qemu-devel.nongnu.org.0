@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E77D205717
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 18:19:29 +0200 (CEST)
-Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941192056D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 18:13:51 +0200 (CEST)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnldw-0003SD-MP
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 12:19:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
+	id 1jnlYU-0006lu-7a
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 12:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnlc1-000274-JS; Tue, 23 Jun 2020 12:17:29 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:46632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jnlbz-0000PD-J8; Tue, 23 Jun 2020 12:17:29 -0400
-Received: by mail-io1-xd43.google.com with SMTP id a12so10716723ion.13;
- Tue, 23 Jun 2020 09:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0NXZOS3erP74m5/j5EcxH6vz7pSf9Mgae6UGdH6KvUk=;
- b=tMAXf77ukwmWT/2nCXDQIcd66NML5uAQaKpAy+du8N/ujrbDAiYLIOaLvj2C9A+ji/
- 07LFOCMfyvfp5du3eSnHZh6ch7bANRoEK0tG6xhPp7ahCfghu6BL3IB//Eng79yUApSE
- rw2KGECayHP5mnuAvKNNz9Il5IbrxrBzqT1iWysphTSkvf0gUNf4yiREpstdU4NChKVY
- G05DaQgMjwpzVnITDA9FrDMcZ3tNrvOhAOXWmbI/nUoand3L9Hro+1ZHwHfFtpJgtbhB
- /AkKpQxQ1ezs2uQRlp5IGWk/HufO4q0Uc+qhtBgrRo+9hDgllZwMhjxgCI/9amqvmFgh
- LcFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0NXZOS3erP74m5/j5EcxH6vz7pSf9Mgae6UGdH6KvUk=;
- b=si/8U/8z21X283vgMoeK2KM+tnoIqGFSDAJIEAr8QTFagG43jQkMHBGiGI4oiZ6CBv
- VYTRaNYybO8D2XEJIs7CkUnaNnBTO5V1GgpQj+vout83AnzzLqYL+W3fmsIg+8+KWxxG
- DpH0zKGk/5L050r3JqHIlPqA7KDcnBIlTo3TPJbxARl2oDp2XjB9UfewjMYllIbSYzSp
- 5EJ8v1p+pLHNFVUu+ZvAJs8kJSMCQoTQHiXsF7NRt+7JdAfc4IM/XLgub3eh5p/aDIpy
- q3Eg6Fr8ArN9dxfSAREytxyeZt7lEcwwrlmiVAYgm0WX7cnfzr859/8PWrzZS4e40fyE
- wEkg==
-X-Gm-Message-State: AOAM532I+fzF5WvxHRQqetkuk0jFJ5/kcAnnq+q6lKrdYnBbENVRJnxG
- NLgrguU5wGDPJwCMrXo/FJF0wOtGvIgC5xfVb3k=
-X-Google-Smtp-Source: ABdhPJx2KlYdGeS3GmsnmhIenMciyWreLv73kD2m3XXO+09fLi3JIb2QGk3KefisZ3/Kj3oeIaldZqVgLanTdt1teJ8=
-X-Received: by 2002:a05:6638:dd3:: with SMTP id
- m19mr25614181jaj.106.1592929045987; 
- Tue, 23 Jun 2020 09:17:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jnlXU-0006Lf-Jh
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 12:12:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49387
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jnlXR-0007te-Tz
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 12:12:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592928764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NL8eZXdAMuU++GdJcAm8uQFDTgr2NCc51N9WURycMcA=;
+ b=SsX6tXWLCi96YAkJ9ctB03T9SMdZI393chAsXrfa9unBWtjlJcQJ2Bc+mzLjhUecXPrZH3
+ siwKFHCbStZj0QZgbmGFZn7r9H6zq4G5tJBIjF1G15gmcr6Q8g1NQKw3uZNqFrlecT3+n0
+ KaeWBJN2/zVrRZmyTNH+AYpfXvzJMO4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-tlMbGE7uPqCSBOMwI8yoVg-1; Tue, 23 Jun 2020 12:12:39 -0400
+X-MC-Unique: tlMbGE7uPqCSBOMwI8yoVg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A35DB464;
+ Tue, 23 Jun 2020 16:12:37 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B0DF5C298;
+ Tue, 23 Jun 2020 16:12:29 +0000 (UTC)
+Subject: Re: [PATCH v4 1/5] qdev: Introduce DEFINE_PROP_RESERVED_REGION
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200623093244.24931-1-eric.auger@redhat.com>
+ <20200623093244.24931-2-eric.auger@redhat.com>
+ <87mu4thl2a.fsf@dusky.pond.sub.org>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <8f5bf2be-96bd-5cd0-d60c-7123e83cb264@redhat.com>
+Date: Tue, 23 Jun 2020 18:12:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <CAEUhbmXh_tYqubC4nF6PymQW795ExfPUN9Ap1u7PNPN2hws=CA@mail.gmail.com>
- <mhng-fd27972e-5f98-4fdb-b4dc-bd020f4fe8e2@palmer-si-x1e>
- <CAEUhbmUgE7v0-E4q128Tw-94938w4ibsxcPHQgHAk=5qhTViPA@mail.gmail.com>
-In-Reply-To: <CAEUhbmUgE7v0-E4q128Tw-94938w4ibsxcPHQgHAk=5qhTViPA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 23 Jun 2020 09:07:53 -0700
-Message-ID: <CAKmqyKPyDwv8sOsue5=w+fZowm_Kso3ceHgvRPUXLi7mE-GPow@mail.gmail.com>
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH] riscv: sifive_e: Correct
- various SoC IP block sizes
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87mu4thl2a.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:54:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,182 +84,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Chih-Min Chao <chihmin.chao@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, jean-philippe@linaro.org, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 22, 2020 at 11:36 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi,
->
-> On Thu, Sep 5, 2019 at 2:34 AM Palmer Dabbelt <palmer@sifive.com> wrote:
-> >
-> > On Tue, 03 Sep 2019 20:41:52 PDT (-0700), bmeng.cn@gmail.com wrote:
-> > > Palmer,
-> > >
-> > > On Wed, Aug 14, 2019 at 5:34 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >>
-> > >> Hi Palmer,
-> > >>
-> > >> On Wed, Aug 7, 2019 at 10:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >> >
-> > >> > On Wed, Aug 7, 2019 at 5:06 AM Philippe Mathieu-Daud=C3=A9 <philmd=
-@redhat.com> wrote:
-> > >> > >
-> > >> > > On 8/5/19 8:43 AM, Bin Meng wrote:
-> > >> > > > On Mon, Aug 5, 2019 at 2:14 PM Chih-Min Chao <chihmin.chao@sif=
-ive.com> wrote:
-> > >> > > >> On Sat, Aug 3, 2019 at 8:27 AM Bin Meng <bmeng.cn@gmail.com> =
-wrote:
-> > >> > > >>>
-> > >> > > >>> Some of the SoC IP block sizes are wrong. Correct them accor=
-ding
-> > >> > > >>> to the FE310 manual.
-> > >> > > >>>
-> > >> > > >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > >> > > >>> ---
-> > >> > > >>>
-> > >> > > >>>  hw/riscv/sifive_e.c | 6 +++---
-> > >> > > >>>  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >> > > >>>
-> > >> > > >>> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> > >> > > >>> index 2a499d8..9655847 100644
-> > >> > > >>> --- a/hw/riscv/sifive_e.c
-> > >> > > >>> +++ b/hw/riscv/sifive_e.c
-> > >> > > >>> @@ -53,13 +53,13 @@ static const struct MemmapEntry {
-> > >> > > >>>      hwaddr base;
-> > >> > > >>>      hwaddr size;
-> > >> > > >>>  } sifive_e_memmap[] =3D {
-> > >> > > >>> -    [SIFIVE_E_DEBUG] =3D    {        0x0,      0x100 },
-> > >> > > >>> +    [SIFIVE_E_DEBUG] =3D    {        0x0,     0x1000 },
-> > >> > > >>>      [SIFIVE_E_MROM] =3D     {     0x1000,     0x2000 },
-> > >> > > >>>      [SIFIVE_E_OTP] =3D      {    0x20000,     0x2000 },
-> > >> > > >>>      [SIFIVE_E_CLINT] =3D    {  0x2000000,    0x10000 },
-> > >> > > >>>      [SIFIVE_E_PLIC] =3D     {  0xc000000,  0x4000000 },
-> > >> > > >>> -    [SIFIVE_E_AON] =3D      { 0x10000000,     0x8000 },
-> > >> > > >>> -    [SIFIVE_E_PRCI] =3D     { 0x10008000,     0x8000 },
-> > >> > > >>> +    [SIFIVE_E_AON] =3D      { 0x10000000,     0x1000 },
-> > >> > > >>> +    [SIFIVE_E_PRCI] =3D     { 0x10008000,     0x1000 },
-> > >> > > >>>      [SIFIVE_E_OTP_CTRL] =3D { 0x10010000,     0x1000 },
-> > >> > > >>>      [SIFIVE_E_GPIO0] =3D    { 0x10012000,     0x1000 },
-> > >> > > >>>      [SIFIVE_E_UART0] =3D    { 0x10013000,     0x1000 },
-> > >> > > >>> --
-> > >> > > >>> 2.7.4
-> > >> > > >>>
-> > >> > > >>
-> > >> > > >> It seems the modification follows  E310-G002(Hifive1 Rev B) s=
-pec and the origin is for E310-G000(Hifive1) spec.
-> > >> > > >> There should be some way to specify different board version w=
-ith different memory map or we have policy, always support the latest spec.
-> > >> > >
-> > >> > > I agree with Chao, it would be cleaner to have two different boa=
-rds
-> > >> > > (machines).
-> > >> > > Since the SoCs are very similar, you could add a 'revision' prop=
-erty and
-> > >> > > use it to select the correct map.
-> > >> > >
-> > >> >
-> > >> > I am not sure if adding two different machines will bring us a lot=
- of
-> > >> > benefits, since the only difference is the SoC revision with diffe=
-rent
-> > >> > block sizes.
-> > >> >
-> > >> > > >>
-> > >> > > >
-> > >> > > > Yes, I checked both specs. The older spec says these bigger si=
-zes,
-> > >> > > > however their register sizes fit well in the smaller range as =
-well. So
-> > >> > > > I think the modification works well for both.
-> > >> > >
-> > >> > > This is OK for the PRCI, since sifive_prci_create() does not use
-> > >> > > memmap[SIFIVE_E_PRCI].size.
-> > >> > >
-> > >> > > However the AON case is borderline, since you shrink it from 32K=
-iB to 4KiB.
-> > >> > >
-> > >> >
-> > >> > AON is not implemented anyway currently. And I checked the FE310 o=
-ld
-> > >> > spec, its register block size is still within the 4KiB range, so
-> > >> > shrinking the size should be fine for both old and new SoC.
-> > >> >
-> > >> > > BTW (not related to this patch) it is odd a function named
-> > >> > > sifive_mmio_emulate() creates a RAM region with memory_region_in=
-it_ram()
-> > >> > > and does not use the UnimplementedDevice (see make_unimp_dev() i=
-n
-> > >> > > hw/arm/musca.c).
-> > >> > >
-> > >>
-> > >> What's your suggestion regarding this patch?
-> > >
-> > > Ping?
-> >
-> > Sorry, I missed this the first time around.  In retrospect, it looks li=
-ke we
-> > ended up with the wrong naming scheme for boards: sifive_e is very ambi=
-guous,
-> > as there are many boards that look like this.  We'd originally chosen a=
- more
-> > explicit scheme (something like "sifive-fe310-g000"), but that was NAK'=
-d as
-> > resulting in too many machine types.
-> >
-> > Peter: would you be OK deprecating "sifive_e" and adding "sifive-fe310-=
-g000"
-> > and "sifive-fe310-g002" targets?  We'll end up with a lot of machines t=
-his way,
-> > but I don't see another way to closely match what's out there.  In embe=
-dded
-> > land there isn't really any runtime portability, so if the memory maps =
-don't
-> > match exactly then it's not a useful target for users.
->
-> Just want to restart the discussion for this patch. Now that we have
-> "revB" support for sifive_e machine, I guess we can do something?
->
-> But renaming the sifive_e machine to something like sifive-fe31-g000
-> is another topic .. Thoughts?
+Hi Markus,
 
-I would prefer not to have "sifive-fe310-g000" and "sifive-fe310-g002"
-boards as that seems like it might lead to way too many boards in the
-future.
+On 6/23/20 5:13 PM, Markus Armbruster wrote:
+> Eric Auger <eric.auger@redhat.com> writes:
+> 
+>> Introduce a new property defining a reserved region:
+>> <low address>:<high address>:<type>.
+>>
+>> This will be used to encode reserved IOVA regions.
+>>
+>> For instance, in virtio-iommu use case, reserved IOVA regions
+>> will be passed by the machine code to the virtio-iommu-pci
+>> device (an array of those). The type of the reserved region
+>> will match the virtio_iommu_probe_resv_mem subtype value:
+>> - VIRTIO_IOMMU_RESV_MEM_T_RESERVED (0)
+>> - VIRTIO_IOMMU_RESV_MEM_T_MSI (1)
+>>
+>> on PC/Q35 machine, this will be used to inform the
+>> virtio-iommu-pci device it should bypass the MSI region.
+>> The reserved region will be: 0xfee00000:0xfeefffff:1.
+>>
+>> On ARM, we can declare the ITS MSI doorbell as an MSI
+>> region to prevent MSIs from being mapped on guest side.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>
+>> ---
+>>
+>> v3 -> v4:
+>> - use ':' instead of commas as separators.
+>> - rearrange error messages
+>> - check snprintf returned value
+>> - dared to keep Markus' R-b despite those changes
+>> ---
+>>  include/exec/memory.h        |  6 +++
+>>  include/hw/qdev-properties.h |  3 ++
+>>  include/qemu/typedefs.h      |  1 +
+>>  hw/core/qdev-properties.c    | 89 ++++++++++++++++++++++++++++++++++++
+>>  4 files changed, 99 insertions(+)
+>>
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index 7207025bd4..d7a53b96cc 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -51,6 +51,12 @@ extern bool global_dirty_log;
+>>  
+>>  typedef struct MemoryRegionOps MemoryRegionOps;
+>>  
+>> +struct ReservedRegion {
+>> +    hwaddr low;
+>> +    hwaddr high;
+>> +    unsigned int type;
+> 
+> Suggest to s/unsigned int/unsigned/.
+> 
+>> +};
+>> +
+>>  typedef struct IOMMUTLBEntry IOMMUTLBEntry;
+>>  
+>>  /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+>> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+>> index 5252bb6b1a..95d0e7201d 100644
+>> --- a/include/hw/qdev-properties.h
+>> +++ b/include/hw/qdev-properties.h
+>> @@ -19,6 +19,7 @@ extern const PropertyInfo qdev_prop_string;
+>>  extern const PropertyInfo qdev_prop_chr;
+>>  extern const PropertyInfo qdev_prop_tpm;
+>>  extern const PropertyInfo qdev_prop_macaddr;
+>> +extern const PropertyInfo qdev_prop_reserved_region;
+>>  extern const PropertyInfo qdev_prop_on_off_auto;
+>>  extern const PropertyInfo qdev_prop_multifd_compression;
+>>  extern const PropertyInfo qdev_prop_losttickpolicy;
+>> @@ -184,6 +185,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+>>      DEFINE_PROP(_n, _s, _f, qdev_prop_drive_iothread, BlockBackend *)
+>>  #define DEFINE_PROP_MACADDR(_n, _s, _f)         \
+>>      DEFINE_PROP(_n, _s, _f, qdev_prop_macaddr, MACAddr)
+>> +#define DEFINE_PROP_RESERVED_REGION(_n, _s, _f)         \
+>> +    DEFINE_PROP(_n, _s, _f, qdev_prop_reserved_region, ReservedRegion)
+>>  #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+>>      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
+>>  #define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
+>> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+>> index ce4a78b687..15f5047bf1 100644
+>> --- a/include/qemu/typedefs.h
+>> +++ b/include/qemu/typedefs.h
+>> @@ -58,6 +58,7 @@ typedef struct ISABus ISABus;
+>>  typedef struct ISADevice ISADevice;
+>>  typedef struct IsaDma IsaDma;
+>>  typedef struct MACAddr MACAddr;
+>> +typedef struct ReservedRegion ReservedRegion;
+>>  typedef struct MachineClass MachineClass;
+>>  typedef struct MachineState MachineState;
+>>  typedef struct MemoryListener MemoryListener;
+>> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+>> index ead35d7ffd..193d0d95f9 100644
+>> --- a/hw/core/qdev-properties.c
+>> +++ b/hw/core/qdev-properties.c
+>> @@ -15,6 +15,7 @@
+>>  #include "chardev/char.h"
+>>  #include "qemu/uuid.h"
+>>  #include "qemu/units.h"
+>> +#include "qemu/cutils.h"
+>>  
+>>  void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
+>>                                    Error **errp)
+>> @@ -578,6 +579,94 @@ const PropertyInfo qdev_prop_macaddr = {
+>>      .set   = set_mac,
+>>  };
+>>  
+>> +/* --- Reserved Region --- */
+>> +
+>> +/*
+>> + * accepted syntax version:
+> 
+> "version" feels redundant.  Suggest to capitalize "Accepted".
+> 
+>> + *   <low address>:<high address>:<type>
+>> + *   where low/high addresses are uint64_t in hexadecimal
+>> + *   and type is an unsigned integer in decimal
+>> + */
+>> +static void get_reserved_region(Object *obj, Visitor *v, const char *name,
+>> +                                void *opaque, Error **errp)
+>> +{
+>> +    DeviceState *dev = DEVICE(obj);
+>> +    Property *prop = opaque;
+>> +    ReservedRegion *rr = qdev_get_prop_ptr(dev, prop);
+>> +    char buffer[64];
+>> +    char *p = buffer;
+>> +    int rc;
+>> +
+>> +    rc = snprintf(buffer, sizeof(buffer), "0x%"PRIx64":0x%"PRIx64":%u",
+>> +                  rr->low, rr->high, rr->type);
+>> +    assert(rc < sizeof(buffer));
+>> +
+>> +    visit_type_str(v, name, &p, errp);
+>> +}
+>> +
+>> +static void set_reserved_region(Object *obj, Visitor *v, const char *name,
+>> +                                void *opaque, Error **errp)
+>> +{
+>> +    DeviceState *dev = DEVICE(obj);
+>> +    Property *prop = opaque;
+>> +    ReservedRegion *rr = qdev_get_prop_ptr(dev, prop);
+>> +    Error *local_err = NULL;
+>> +    const char *endptr;
+>> +    char *str;
+>> +    int ret;
+>> +
+>> +    if (dev->realized) {
+>> +        qdev_prop_set_after_realize(dev, name, errp);
+>> +        return;
+>> +    }
+>> +
+>> +    visit_type_str(v, name, &str, &local_err);
+>> +    if (local_err) {
+>> +        error_propagate(errp, local_err);
+>> +        return;
+>> +    }
+>> +
+>> +    ret = qemu_strtou64(str, &endptr, 16, &rr->low);
+>> +    if (ret) {
+>> +        error_setg(errp, "start address of '%s'"
+>> +                   " must be a hexadecimal integer", name);
+>> +        goto out;
+>> +    }
+>> +    if (*endptr != ':') {
+>> +        goto separator_error;
+>> +    }
+>> +
+>> +    ret = qemu_strtou64(endptr + 1, &endptr, 16, &rr->high);
+>> +    if (ret) {
+>> +        error_setg(errp, "end address of '%s'"
+>> +                   " must be a hexadecimal integer", name);
+>> +        goto out;
+>> +    }
+>> +    if (*endptr != ':') {
+>> +        goto separator_error;
+>> +    }
+>> +
+>> +    ret = qemu_strtoui(endptr + 1, &endptr, 10, &rr->type);
+>> +    if (ret) {
+>> +        error_setg(errp, "type of '%s'"
+>> +                   " must be an unsigned integer in decimal", name);
+> 
+> Suggest "must be a non-negative decimal integer".
+> 
+> Whatever uses the property needs a range check.  I can't see that the
+> patches that follow.  What am I missing?
+Do you mean, you would expect the virtio-iommu-pci device to abort in
+case a wrong VIRTIO reserved region type has been registered?
+Effectively I could do that.
 
-In saying that board properties aren't that much better if there are
-lots of boards as well.
+For the time being, unexpected types are considered as RESERVED type.
+Also reserved regions are set by the machinesa nd we don't expect users
+to set them directly so I thought it was sufficient.
 
-One option would be something like what the ARM virt board does. Where
-"sifive_e" is always the latest and you can specify different
-versions. We would then have some deprecation scheme to remove older
-boards.
+Thanks
 
-I think for now properties seem to work, we can have revB=3Dtrue to
-change anything required to match revB and the default is revA (or
-whatever they call it).
+Eric
+> 
+>> +    }
+>> +    goto out;
+>> +
+>> +separator_error:
+>> +    error_setg(errp, "reserved region fields must be separated with ':'");
+>> +out:
+>> +    g_free(str);
+>> +    return;
+>> +}
+>> +
+>> +const PropertyInfo qdev_prop_reserved_region = {
+>> +    .name  = "reserved_region",
+>> +    .description = "Reserved Region, example: 0xFEE00000:0xFEEFFFFF:0",
+>> +    .get   = get_reserved_region,
+>> +    .set   = set_reserved_region,
+>> +};
+>> +
+>>  /* --- on/off/auto --- */
+>>  
+>>  const PropertyInfo qdev_prop_on_off_auto = {
+> 
+> R-by for this patch stands.
+> 
 
-If a revC comes out it should be easy to handle that via a property.
-In the future we can re-evaluate what to do if that gets too hard to
-maintain. Eventually we probably want the default to be the revB, but
-that will break users so let's try to avoid that for now.
-
-It's also possible that a revC won't break compatibility. For example
-if revC just adds a new device, we can just expose that for all revs.
-
-Alistair
-
->
-> Regards,
-> Bin
->
 
