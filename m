@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3ECB205BE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:38:44 +0200 (CEST)
-Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F75205BFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 21:40:59 +0200 (CEST)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnokl-0005oW-5p
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41434)
+	id 1jnomw-0001YB-CI
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 15:40:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnojB-00039r-VY
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:05 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:47058)
+ id 1jnojD-0003BF-I5
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:07 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnoj8-0005U4-UQ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:05 -0400
-Received: by mail-pl1-x634.google.com with SMTP id n2so9523962pld.13
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:02 -0700 (PDT)
+ id 1jnojA-0005Uf-01
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:37:07 -0400
+Received: by mail-pf1-x433.google.com with SMTP id f9so1731452pfn.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5g+LfVWBF+3Lekw1EiZ6vk0vC87Y80r54VLd03wJ0CQ=;
- b=O4vb/QF6Z8AKNIq16OGaYOQW9y4vJSge6ZjNtaJNWKh1eSQAadWK2iLG8VEkU0OFeA
- owkTcCPey56/TnbUWZ3+1Gv9CHEcsbULMEdCXAJ2FIOPN4FZs+pP9ntSGoXqlaIYcde3
- jfJuQ8kBsDideJBmGhRJxdTh++aDgXyypRN8y1yhDvy8xjUBF3RQQGctmg/PqUm2LzS6
- KDxbGxFg6mY23RELGwMRstBSpWRBlRdEu+w1nw4knPkB4krbAcnkfQVLx/htp+ZhjeAl
- 4/bcT1KD4qxvglcd0oim7lyiGTdjK8BjcoMQGy6WqFerJME2GKaUuB6KdPveYEQZqgJD
- L5zg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=udQrbI6Tw9/vGRMuSJ3l4nv9mjeaNNPNMMavnVln8O8=;
+ b=T5RXR/aVcos3lQjNNAEVCLAyslHCr55JEJnwUyAkeoGbWo1k9Ww8KHGc/z2NTLQCCS
+ P4rM4H1uQkyW80vkEUDC58/ksQuNbGVIkaYMZ0fqtOSzyEAk0IYYsUxAMpkMzNTxv+4W
+ BamdiJxUO9bNAo22YJkfQDjT+eK1wfb6gOFQZD+pDl3ly8ZhxEG7vBARBoo5kx8UjjmK
+ 8sU+I0+2V51YiodztY5iIng98/tHMeav+EBo9tcfkDw6oMEbMvmZlRebem286tMAVz61
+ GnBWsN5o+knHpnmRjFJ9C/6HmPZCr3s+rxLLV4K7bSArlC0HqIx31HeYBZ99Xnk6P9Bt
+ p4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5g+LfVWBF+3Lekw1EiZ6vk0vC87Y80r54VLd03wJ0CQ=;
- b=TPkxG4mr4JzkKGYac/ORON4Dst+BUrrJHoxWdxCbB62MyLirWIE7XXdP+JEnKAW47j
- ZVzlyRz3o4oPaVt3907DcfNAj+GqdMWD8s7jcc2xppe7q51jub5bHvrh9cgcEi4oSgOG
- 1/6Q/HjAdb0+ki3EtQPL7jxdfSl0SEhAw0sKint91h0qM6AYV5jrtHnasTcmJ/Vp8nxG
- pnE7xxldc8g1vlsdoMBeXdvP2IJBYqR8LAFX6Om54RZPz41epzctLZJ2ARKmLPAYUCWp
- R1zschsW4dgwklVrRefFNHtAfLYbtq0+KjDgXqkMHOhRuJ3FBDZfGh2ahkbNavsh+/lj
- 5UEA==
-X-Gm-Message-State: AOAM530R6GvNHTWDwAT4Ujn712hwwYCeS6zM1iAC7c8LWhbjMuObDm0V
- ANUCFtGIzIaqp3/diVkrGuFfwam1/DA=
-X-Google-Smtp-Source: ABdhPJxMoYMYFn8YcDJ7xqeyBqN9bg9ZmH5H32d/1T8KlvTaQNNOktAZCynNDifvQPnNyIXt0/Xp2g==
-X-Received: by 2002:a17:90a:f282:: with SMTP id
- fs2mr2356994pjb.132.1592941020803; 
- Tue, 23 Jun 2020 12:37:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=udQrbI6Tw9/vGRMuSJ3l4nv9mjeaNNPNMMavnVln8O8=;
+ b=emOu+3KQbWn2xekA4hnDMyXuDUnXpEXXmfaz+8EnDzttYbQQbbwTaeIMaBpbI19pHH
+ Sv8Xm8v3LhxJXb5MskeEyhci/17vW+w4HLPOWBbNFDrZncrw+0Tg+MJ1A8AEYJhH59T+
+ t2iR+pvyCrkvXDWSZUmDdkMwL1803jDcWI/wgTbwMnUannLnuYNiWwF+x/YGlFO/B8p+
+ 0/CjbVUJkOVGBaqotXWUgdo5vf0WOzRItww9GA5MaaXVLTpEQMLIb1Ae2oXWaMl+02j8
+ +NQR1PG3xdiOIAwBoXMHgyIB3QstQUndNacqtikCwuk+ttA19XRYB+zhh/U/gKDq1O8I
+ d7oA==
+X-Gm-Message-State: AOAM530wr+4xnfkWKW72yqiphRenU/aj1hF2AC2oRnoa+w7N0mooSwHx
+ p/n4hPovf8Y1yedLtXuFHqCqoBk5Yl4=
+X-Google-Smtp-Source: ABdhPJyhTBd1/oSLRo7hWiEwoJ4+o2rCTrB/Es63EM7nypg976eK+QpzRBQAZHh3uk3+qEKt6OSwVQ==
+X-Received: by 2002:a63:e707:: with SMTP id b7mr19120038pgi.35.1592941022227; 
+ Tue, 23 Jun 2020 12:37:02 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.36.59
+ by smtp.gmail.com with ESMTPSA id p12sm17927642pfq.69.2020.06.23.12.37.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 12:36:59 -0700 (PDT)
+ Tue, 23 Jun 2020 12:37:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 00/45] target/arm: Implement ARMv8.5-MemTag, system mode
-Date: Tue, 23 Jun 2020 12:36:13 -0700
-Message-Id: <20200623193658.623279-1-richard.henderson@linaro.org>
+Subject: [PATCH v8 01/45] target/arm: Add isar tests for mte
+Date: Tue, 23 Jun 2020 12:36:14 -0700
+Message-Id: <20200623193658.623279-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,8 +71,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,121 +90,33 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 8 incorporates quite a bit of review (thanks, PMM):
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- * Include HCR_DCT in the HCR_EL2 update.
- * Use a separate decode function for ADDG/SUBG.
- * Use the system arm_cpu_do_unaligned_access for user-only as well.
- * Fix alignment for LDG.
- * Fix no-fault for mte_probe1.
- * Rearrage how tagged pages are recorded.
-
-and perhaps most visibly, for those tracking the kernel patches:
-
- * Add arm,armv8.5-memtag to the dtb.
-
-
-r~
-
-
-In need of review:
-0010-target-arm-Revise-decoding-for-disas_add_sub_imm.patch
-0011-target-arm-Implement-the-ADDG-SUBG-instructions.patch
-0014-target-arm-Define-arm_cpu_do_unaligned_access-for.patch
-0015-target-arm-Implement-LDG-STG-ST2G-instructions.patch
-0025-target-arm-Implement-helper_mte_check1.patch
-0028-target-arm-Use-mte_checkN-for-sve-unpredicated-lo.patch
-0029-target-arm-Use-mte_checkN-for-sve-unpredicated-st.patch
-0030-target-arm-Use-mte_check1-for-sve-LD1R.patch
-0031-target-arm-Tidy-trans_LD1R_zpri.patch
-0032-target-arm-Add-arm_tlb_bti_gp.patch
-0033-target-arm-Add-mte-helpers-for-sve-scalar-int-loa.patch
-0034-target-arm-Add-mte-helpers-for-sve-scalar-int-sto.patch
-0035-target-arm-Add-mte-helpers-for-sve-scalar-int-ff-.patch
-0036-target-arm-Handle-TBI-for-sve-scalar-int-memory-o.patch
-0037-target-arm-Add-mte-helpers-for-sve-scatter-gather.patch
-0038-target-arm-Complete-TBI-clearing-for-user-only-fo.patch
-0041-target-arm-Always-pass-cacheattr-to-get_phys_addr.patch
-0042-target-arm-Cache-the-Tagged-bit-for-a-page-in-Mem.patch
-0043-target-arm-Create-tagged-ram-when-MTE-is-enabled.patch
-0044-target-arm-Add-allocation-tag-storage-for-system-.patch
-0045-target-arm-Enable-MTE.patch
-
-
-Richard Henderson (45):
-  target/arm: Add isar tests for mte
-  target/arm: Improve masking of SCR RES0 bits
-  target/arm: Add support for MTE to SCTLR_ELx
-  target/arm: Add support for MTE to HCR_EL2 and SCR_EL3
-  target/arm: Rename DISAS_UPDATE to DISAS_UPDATE_EXIT
-  target/arm: Add DISAS_UPDATE_NOCHAIN
-  target/arm: Add MTE system registers
-  target/arm: Add MTE bits to tb_flags
-  target/arm: Implement the IRG instruction
-  target/arm: Revise decoding for disas_add_sub_imm
-  target/arm: Implement the ADDG, SUBG instructions
-  target/arm: Implement the GMI instruction
-  target/arm: Implement the SUBP instruction
-  target/arm: Define arm_cpu_do_unaligned_access for user-only
-  target/arm: Implement LDG, STG, ST2G instructions
-  target/arm: Implement the STGP instruction
-  target/arm: Restrict the values of DCZID.BS under TCG
-  target/arm: Simplify DC_ZVA
-  target/arm: Implement the LDGM, STGM, STZGM instructions
-  target/arm: Implement the access tag cache flushes
-  target/arm: Move regime_el to internals.h
-  target/arm: Move regime_tcr to internals.h
-  target/arm: Add gen_mte_check1
-  target/arm: Add gen_mte_checkN
-  target/arm: Implement helper_mte_check1
-  target/arm: Implement helper_mte_checkN
-  target/arm: Add helper_mte_check_zva
-  target/arm: Use mte_checkN for sve unpredicated loads
-  target/arm: Use mte_checkN for sve unpredicated stores
-  target/arm: Use mte_check1 for sve LD1R
-  target/arm: Tidy trans_LD1R_zpri
-  target/arm: Add arm_tlb_bti_gp
-  target/arm: Add mte helpers for sve scalar + int loads
-  target/arm: Add mte helpers for sve scalar + int stores
-  target/arm: Add mte helpers for sve scalar + int ff/nf loads
-  target/arm: Handle TBI for sve scalar + int memory ops
-  target/arm: Add mte helpers for sve scatter/gather memory ops
-  target/arm: Complete TBI clearing for user-only for SVE
-  target/arm: Implement data cache set allocation tags
-  target/arm: Set PSTATE.TCO on exception entry
-  target/arm: Always pass cacheattr to get_phys_addr
-  target/arm: Cache the Tagged bit for a page in MemTxAttrs
-  target/arm: Create tagged ram when MTE is enabled
-  target/arm: Add allocation tag storage for system mode
-  target/arm: Enable MTE
-
- include/hw/arm/boot.h          |    3 +
- target/arm/cpu.h               |   50 +-
- target/arm/helper-a64.h        |   16 +
- target/arm/helper-sve.h        |  488 ++++++++++++
- target/arm/helper.h            |    2 +
- target/arm/internals.h         |  153 +++-
- target/arm/translate-a64.h     |    5 +
- target/arm/translate.h         |   23 +-
- hw/arm/boot.c                  |   12 +-
- hw/arm/virt.c                  |   57 +-
- target/arm/cpu.c               |   77 +-
- target/arm/cpu64.c             |    1 +
- target/arm/helper-a64.c        |   94 +--
- target/arm/helper.c            |  423 +++++++---
- target/arm/m_helper.c          |   11 +-
- target/arm/mte_helper.c        |  901 +++++++++++++++++++++
- target/arm/op_helper.c         |   16 +
- target/arm/sve_helper.c        |  616 +++++++++++---
- target/arm/tlb_helper.c        |   13 +-
- target/arm/translate-a64.c     |  652 +++++++++++++--
- target/arm/translate-sve.c     | 1366 +++++++++++++++++++++-----------
- target/arm/translate-vfp.inc.c |    2 +-
- target/arm/translate.c         |   16 +-
- target/arm/Makefile.objs       |    1 +
- 24 files changed, 4164 insertions(+), 834 deletions(-)
- create mode 100644 target/arm/mte_helper.c
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 677584e5da..f8ac11e73b 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3814,6 +3814,16 @@ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_mte_insn_reg(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) != 0;
++}
++
++static inline bool isar_feature_aa64_mte(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) >= 2;
++}
++
+ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 4 &&
 -- 
 2.25.1
 
