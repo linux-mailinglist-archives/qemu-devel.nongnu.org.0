@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC2520522A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:14:57 +0200 (CEST)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEF720521E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:13:12 +0200 (CEST)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhpI-0002NU-SB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
+	id 1jnhnb-0007mG-JR
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHP-0003cn-NX
+ id 1jnhHO-0003cB-0L
  for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:55 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44535)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHL-0003Ry-KL
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:55 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b6so20156126wrs.11
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:50 -0700 (PDT)
+ id 1jnhHL-0003SZ-KX
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:53 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s10so211156wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=swhhCaK6kxauy4YGZJwdC+yBpgGMM2M8opxL74decBA=;
- b=l7x1X+3uGkmgX2K8X8/wowcoZQvLw6kPgmNMncTL6L0yFisptKqfpoXFLqNKMRVdPV
- NAUTbD9lgmDzdMp5Jqiceny4p0td90ntmO8mBUr411V5S4R+gGWzLFAtF+/CcOpEY6wC
- qr3+bOVtFdwER0Xm8A6uhnhwh8MREwuALP6+gmRHlCBKY4QJgvcrc4RSwOjRmfSiq4zg
- 35xp8Hz0z9Szx+EnValLVk7rEMTJ4tGh5J/f+FNvyu/JHumyTxfX1174mdaFE/tjpiIH
- NTF50QVpObOtKPC5NBSbcrJ/RG72sZFg8Z5c7ndx9OmGZhjbO+5s3ifyXSUFSmdD0MnH
- HElg==
+ bh=FB/XSNfEglwQujNh4/r/UnyGLSTn6jc+2Sa/lfWdHtY=;
+ b=U5f+RYOaSDCEnt9B3Xm7U7V0X0hPql0Pup6RxMCMSKg3NMPVYdo4sEK2QD2bOxebdv
+ NQIJTHYmT2oGGh120V1WgmpaMjPOp3u9nw3c2p+52gTDNbFsbdAGWh31pEZ1lrxd9CX/
+ NWImlwsWAOmTFxHXzcLQccwLQ9CnPvCLwwP7aAehlIfDgJxScSD71GaJ63bF8gnRXol+
+ ucK/+uHDzQPycYZ/iM3vp1/VV1vUNdSYFuwa+faxMXaFHgYhRHJ5UQrEzf0mguhzJDZT
+ IP8D6rKSFsmBDYsAgswG1V5EARMKLYShyDw5oVLJWKyxrft5nFDUPxIzCQdZ0lt4bSQ/
+ jIOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=swhhCaK6kxauy4YGZJwdC+yBpgGMM2M8opxL74decBA=;
- b=VjMuXNNchIf/uOaE5/VWLrWlQlo2Aq9HjAk86ux+jj4rQpYa2A0qsCnhj6AOFrF5TM
- oTczv7l64UqAKqp0B5Wa4+dkbU4PeC+HF9obKCg3u+pEWIXx6KOce1MKw30cZOKUTZeu
- zJcVQEfxouLRo0JXEZa8z5P14fo+8d7CdxGSi3bOXxAjZFJtcyI8pGd78LrwKlNqa/06
- 0vSgtosMqVMXoJrpHxDQTpjA52KnONRoLiAnH0A/LWEtekDHgIkgYVoS7QgDfAigTtNW
- Y80fmnsNdfLraP2kH4qeHXm+Ev14R1Rtc+BTQsxt6SnFXt3lb44OH/N2yel2gVTlZACb
- I0Kg==
-X-Gm-Message-State: AOAM530L37NhjjMaw3UXBhqgxxkajnoazDEpJai2HQH63F4LXCw/8g2e
- ciNlld5PpNvEm2mKRZS+W+sGnwORC2exhw==
-X-Google-Smtp-Source: ABdhPJy5SJZooIZhlw0sRND4Sf1pwmy8dPT/dTvw3xehuAoGdLGgheOAfCC+ZW+tg5wGtzurPGVNXg==
-X-Received: by 2002:a5d:4c8a:: with SMTP id z10mr8616783wrs.384.1592912389127; 
- Tue, 23 Jun 2020 04:39:49 -0700 (PDT)
+ bh=FB/XSNfEglwQujNh4/r/UnyGLSTn6jc+2Sa/lfWdHtY=;
+ b=lHL0NBsY3ImQG7gkUG2eByhDe7BDBBm3U4066Yfj0cbkfDuLMicJrjz9CAGhWdQ6cC
+ 07KmFQxhZe1Qx60kZ8bWlj4rJv3P3bLh0zpFMpfAsGFjFgT11GhfXnhvPgAIbzzzBfOl
+ fq4FpFcefHr1vnEKBYSoBAvey+7jgTeauRQkjNbGUFXYu3H3wHmeono3zx0bachwsCvt
+ b6UJU8MobL8mNlLijMZHbi3eRaTEY4Twtv2QPVnfeanxo7vD54F9TlGk8rFWCVsKQBLM
+ hiNBhtcDfvkNTwSFMV0GmlOFqyYnkMJX0ZEcCoonVBU1LavkpBoiz4N1QktTS63qGNdP
+ /PVQ==
+X-Gm-Message-State: AOAM530pHrnKA2QCY1HnWGvmEdbG/u9L/AS1UXWqvPXKmlA78KKeeSdQ
+ F+vK95bM79OJN/XXMeHRGqF3l5Wd0SnhJQ==
+X-Google-Smtp-Source: ABdhPJzjthd4o19XqpTtpFJTdd4sw4G1srCCEtcuBzo9gCbXU79itUYaNJq/SdB9ZPCPVSqiNpZVPA==
+X-Received: by 2002:adf:db4d:: with SMTP id f13mr20906719wrj.336.1592912390110; 
+ Tue, 23 Jun 2020 04:39:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.48
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:48 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/42] hw/arm/mps2: Add I2C devices
-Date: Tue, 23 Jun 2020 12:38:59 +0100
-Message-Id: <20200623113904.28805-38-peter.maydell@linaro.org>
+Subject: [PULL 38/42] hw/arm/mps2: Add audio I2S interface as unimplemented
+ device
+Date: Tue, 23 Jun 2020 12:39:00 +0100
+Message-Id: <20200623113904.28805-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,59 +92,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-From 'Application Note AN385', chapter 3.14:
-
-  The SMM implements a simple SBCon interface based on I2C.
-
-There are 4 SBCon interfaces on the FPGA APB subsystem.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200617072539.32686-13-f4bug@amsat.org
+Message-id: 20200617072539.32686-14-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2.c  | 8 ++++++++
- hw/arm/Kconfig | 1 +
- 2 files changed, 9 insertions(+)
+ hw/arm/mps2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index daa26f68d79..2f6acbf2c21 100644
+index 2f6acbf2c21..d1653a7e6e7 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -40,6 +40,7 @@
- #include "hw/misc/mps2-scc.h"
- #include "hw/misc/mps2-fpgaio.h"
- #include "hw/ssi/pl022.h"
-+#include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/net/lan9118.h"
- #include "net/net.h"
- #include "hw/watchdog/cmsdk-apb-watchdog.h"
-@@ -365,6 +366,13 @@ static void mps2_common_init(MachineState *machine)
-                                  qdev_get_gpio_in(orgate_dev, j));
-         }
+@@ -373,6 +373,7 @@ static void mps2_common_init(MachineState *machine)
+                                          0x4002a000};   /* Shield1 */
+         sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
      }
-+    for (i = 0; i < 4; i++) {
-+        static const hwaddr i2cbase[] = {0x40022000,    /* Touch */
-+                                         0x40023000,    /* Audio */
-+                                         0x40029000,    /* Shield0 */
-+                                         0x4002a000};   /* Shield1 */
-+        sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
-+    }
++    create_unimplemented_device("i2s", 0x40024000, 0x400);
  
      /* In hardware this is a LAN9220; the LAN9118 is software compatible
       * except that it doesn't support the checksum-offload feature.
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 90ed584e7ac..4a224a6351a 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -406,6 +406,7 @@ config MPS2
-     select SPLIT_IRQ
-     select UNIMP
-     select CMSDK_APB_WATCHDOG
-+    select VERSATILE_I2C
- 
- config FSL_IMX7
-     bool
 -- 
 2.20.1
 
