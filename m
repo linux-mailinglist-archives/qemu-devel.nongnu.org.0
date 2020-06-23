@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80439205164
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:55:15 +0200 (CEST)
-Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7445F205157
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 13:53:21 +0200 (CEST)
+Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhWE-0003sD-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44220)
+	id 1jnhUO-0000Gv-F4
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 07:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhH8-0003BV-58
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:38 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34836)
+ id 1jnhHB-0003IX-7H
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:41 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhH6-0003Ie-28
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:37 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id g21so2877004wmg.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:35 -0700 (PDT)
+ id 1jnhH7-0003JP-97
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:40 -0400
+Received: by mail-wr1-x431.google.com with SMTP id v3so12682975wrc.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TIdOwUcKS8Gkz5ItNSYHwPJjx8yUuXeef+8VZHen8tM=;
- b=imy4i4Co6UtuJzDk0F1E4i7QeE36rYb+vtDSf+yrjRXTXfX7DHXgRtccBP4X3kZNmJ
- u55HjgLJ24gZNThHiPesfWAbEURzl3JZLcFkikMeqrfA3mQxPSOoq5m5aMlBoZeDeASY
- h3C+OV+Mo8ZBAfkQY30V5YsBUjmnkbmY8vIFB9BfLItbxDOpkkIpqAga94aHVelGfzaP
- zx+kTFN/MT+H1WLZsv0yAFLkzyVKTNO4scYEFplY+EF5bxYaUwkjGfAT/Z53bxRn7YaD
- WkBsIHStssp7IzMurUv72IQhleIwvIUtx1aqa0nvfNiCzn9PekWdgEIQBWJvuJFriy07
- SmCw==
+ bh=vCRlIZ7cqAXG2v+VfE7BrmBrtfArLobRZmrL/chqA/A=;
+ b=gS96TwDWMAs8e1l1VaynySl7FRjOlMFCHHP1HcP4ugKcY3GHtxzFFJU25RCeE4z5Ts
+ v+rnKMiP9kzMad9sqgN2dEHFwoN7egAxl8K3gcVzfpu+y/vBm4LNk+xQ0Kc14Txc2cAe
+ 3lG7WpiH2OksaF0CNFbnQabJtGDpyke60TSv+2PIEW69LucqxEDTea3FzDHnzREW92uM
+ rLOnWCmwlo32EyH6S4NHcO1Tnhc5GNwCv3oBRrtgt41rrR/GJFuHTei+nys1Y6/Wc09D
+ LhS8ViCaBIQWA4wFKzc9sDO+ucyb5lRM1vujl3I0IF09p6JXi4kDoX9u4gs4RME8DlGJ
+ ROvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TIdOwUcKS8Gkz5ItNSYHwPJjx8yUuXeef+8VZHen8tM=;
- b=qtBYXQ8ERt0IwTT/b1Jeo5DRoiQ1evLJX0s2O/a7pp/O1h1XJVvo6gXRZdGbq2eagR
- QesoKTyoKmWdP+b5GVyyPmREhDgyK2CIqRv2sHl/eprOlE7Ix/mgxSdV9nvzHlSe1Ave
- xludtMA73sVnBoEsCBTFQ4MjKuBLztqEg24zKEx3I72vHRKDhHaHwvmjrwKr9SN4ZiBr
- 8I0qHE5SRO3L7CC3d6MOmP6Iwyr7sHzxw6ynDa3qi938Xvl0aNskVXrtuQdX4mhLDdnd
- GNwROV+AHpk1TQNzIXkowqjCSnZ/nJSkCNhioBycpmIolcgjtCouyZokq/6Aoj+syVTe
- 5QeA==
-X-Gm-Message-State: AOAM532lMkTUS2KJLgumzpgdEqGgJZV1nRTOy4dq10Jg650PmT/txyze
- VtR81C/ObMDha8D4lpJdVIgSHuPIuYE+KQ==
-X-Google-Smtp-Source: ABdhPJzpkT4+445FBBC0kusfDrJseOsuVV2JdKdBNiUqdZ58dvfBhYnR97yGU8wa1EaNv0m7nLuw2Q==
-X-Received: by 2002:a1c:e910:: with SMTP id q16mr10371833wmc.188.1592912374300; 
- Tue, 23 Jun 2020 04:39:34 -0700 (PDT)
+ bh=vCRlIZ7cqAXG2v+VfE7BrmBrtfArLobRZmrL/chqA/A=;
+ b=tJ7bfdJUGOqZmbNJodnQCJlF/fN8fIffApPp1upRw65m8d7jNB59MYJnKbbPMACjaf
+ s5Lp/m7GuoXdaKdVqE9YxXAScXIJcqvFnVh0R3cRibFeZ+AhMVPgEq6Y1Gwtia2sG6ym
+ wr7sbGNfKknFvdoBq2rcEOLu9D8iw/KsZU7CKoIgymqIdUqTxM30qxWw57DNnqpdVgAD
+ bGlG1k3k9gcdUgtL3C8sAal7C0BUx7/Uqp50s0t2VrkTlZlyoH2SU/Ir1T3/e85LX2B+
+ /JR5dB/S4UQn6oTV2S/dJ9cWhqGaTVJfO5+dzso9qiHQ+1urk+0E7WjCccTsnUnfu57v
+ t+aw==
+X-Gm-Message-State: AOAM530ZyJewlRlqDXEZ2gire3KFyWJaMlVg2HFp3kRiMW6IpL+znBv9
+ QkXAL04Hs9nz8VhcUoIj5FWGUzLaDGqepg==
+X-Google-Smtp-Source: ABdhPJxjB3+ZE4tz/B9jtbVnpFwGFbtH1qXmO/VZgP5ebGn1KhyvgT6LukfQmYdXzZql9gIHwIGepQ==
+X-Received: by 2002:adf:ff83:: with SMTP id j3mr24873176wrr.264.1592912375626; 
+ Tue, 23 Jun 2020 04:39:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.33
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:33 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/42] target/arm: Remove unnecessary gen_io_end() calls
-Date: Tue, 23 Jun 2020 12:38:46 +0100
-Message-Id: <20200623113904.28805-25-peter.maydell@linaro.org>
+Subject: [PULL 25/42] target/arm: Remove dead code relating to SABA and UABA
+Date: Tue, 23 Jun 2020 12:38:47 +0100
+Message-Id: <20200623113904.28805-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,84 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit ba3e7926691ed3 it has been unnecessary for target code
-to call gen_io_end() after an IO instruction in icount mode; it is
-sufficient to call gen_io_start() before it and to force the end of
-the TB.
+In commit cfdb2c0c95ae9205b0 ("target/arm: Vectorize SABA/UABA") we
+replaced the old handling of SABA/UABA with a vectorized implementation
+which returns early rather than falling into the loop-ever-elements
+code. We forgot to delete the part of the old looping code that
+did the accumulate step, and Coverity correctly warns (CID 1428955)
+that this code is now dead. Delete it.
 
-Many now-unnecessary calls to gen_io_end() were removed in commit
-9e9b10c6491153b, but some were missed or accidentally added later.
-Remove unneeded calls from the arm target:
-
- * the call in the handling of exception-return-via-LDM is
-   unnecessary, and the code is already forcing end-of-TB
- * the call in the VFP access check code is more complicated:
-   we weren't ending the TB, so we need to add the code to
-   force that by setting DISAS_UPDATE
- * the doc comment for ARM_CP_IO doesn't need to mention
-   gen_io_end() any more
-
+Fixes: cfdb2c0c95ae9205b0
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Message-id: 20200619170324.12093-1-peter.maydell@linaro.org
+Message-id: 20200619171547.29780-1-peter.maydell@linaro.org
 ---
- target/arm/cpu.h               | 2 +-
- target/arm/translate-vfp.inc.c | 7 +++----
- target/arm/translate.c         | 3 ---
- 3 files changed, 4 insertions(+), 8 deletions(-)
+ target/arm/translate-a64.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 677584e5da0..cf66b8c7fb0 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2334,7 +2334,7 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
-  * migration or KVM state synchronization. (Typically this is for "registers"
-  * which are actually used as instructions for cache maintenance and so on.)
-  * IO indicates that this register does I/O and therefore its accesses
-- * need to be surrounded by gen_io_start()/gen_io_end(). In particular,
-+ * need to be marked with gen_io_start() and also end the TB. In particular,
-  * registers which implement clocks or timers require this.
-  * RAISES_EXC is for when the read or write hook might raise an exception;
-  * the generated code will synchronize the CPU state before calling the hook
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index e1a90175983..bf31b186578 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -119,15 +119,14 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
-         if (s->v7m_lspact) {
-             /*
-              * Lazy state saving affects external memory and also the NVIC,
--             * so we must mark it as an IO operation for icount.
-+             * so we must mark it as an IO operation for icount (and cause
-+             * this to be the last insn in the TB).
-              */
-             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                s->base.is_jmp = DISAS_UPDATE;
-                 gen_io_start();
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 12040984981..4cef862c415 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -11370,18 +11370,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
+                 genfn(tcg_res, tcg_op1, tcg_op2);
              }
-             gen_helper_v7m_preserve_fp_state(cpu_env);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_io_end();
+ 
+-            if (opcode == 0xf) {
+-                /* SABA, UABA: accumulating ops */
+-                static NeonGenTwoOpFn * const fns[3] = {
+-                    gen_helper_neon_add_u8,
+-                    gen_helper_neon_add_u16,
+-                    tcg_gen_add_i32,
+-                };
+-
+-                read_vec_element_i32(s, tcg_op1, rd, pass, MO_32);
+-                fns[size](tcg_res, tcg_op1, tcg_res);
 -            }
-             /*
-              * If the preserve_fp_state helper doesn't throw an exception
-              * then it will clear LSPACT; we don't need to repeat this for
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 408fb7a492f..795964da1f1 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7785,9 +7785,6 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
-             gen_io_start();
-         }
-         gen_helper_cpsr_write_eret(cpu_env, tmp);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_io_end();
--        }
-         tcg_temp_free_i32(tmp);
-         /* Must exit loop to check un-masked IRQs */
-         s->base.is_jmp = DISAS_EXIT;
+-
+             write_vec_element_i32(s, tcg_res, rd, pass, MO_32);
+ 
+             tcg_temp_free_i32(tcg_res);
 -- 
 2.20.1
 
