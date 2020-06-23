@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BE020554D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 16:59:00 +0200 (CEST)
-Received: from localhost ([::1]:52268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C680D20555C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 17:01:24 +0200 (CEST)
+Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnkO4-0000rt-1F
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 10:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35590)
+	id 1jnkQN-00017p-HC
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 11:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkN2-0008Fb-AT
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:57:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29121
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jnkMz-00041s-Jl
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 10:57:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592924271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ln6zJ88iUGTIU6r6jTf+TWHLI5pi2HzvneyDOhOkc1k=;
- b=TESDFVt977CkpjyyS3OdrPZSRNBZ169nL965cvnnyYfIdAfmXqPqz5LYzrtzuowzBDl8rq
- 5ryzLPBKDcojCoTVFxNzSCuM3Qg7xG10WFnc8FUxxBtx99VLXj1O6+d1JZeIr//H5e8T7a
- wNQlxIVxTh5XTFSHnkDzp5WgXEHBEwM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-tb_hr60hNOKE6RYhnu65vw-1; Tue, 23 Jun 2020 10:57:47 -0400
-X-MC-Unique: tb_hr60hNOKE6RYhnu65vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 942B11005513;
- Tue, 23 Jun 2020 14:57:46 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7E0B60CD3;
- Tue, 23 Jun 2020 14:57:42 +0000 (UTC)
-Date: Tue, 23 Jun 2020 16:57:41 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 0/3] hyperv: vmbus: ACPI various corrections
-Message-ID: <20200623165741.5acc1dc6@redhat.com>
-In-Reply-To: <e467716d-19cb-ffec-b464-494e975463e3@redhat.com>
-References: <20200617160904.681845-1-arilou@gmail.com>
- <e467716d-19cb-ffec-b464-494e975463e3@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jnk8i-00047O-SV; Tue, 23 Jun 2020 10:43:08 -0400
+Received: from mout.web.de ([212.227.17.11]:42367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jnk8g-0002Ys-Ss; Tue, 23 Jun 2020 10:43:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1592923380;
+ bh=3cHbGcz3lZmcKJXuzmvXzd3SToaDH2ofaQrw3xL/jKU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=PmXbJZl9h+nIAZN0Y5bfufaoTYV/qWlRlR9gGsSiBEyRQgIOPDHKBPaxKVdxfXolQ
+ 7MN7E+tc3iwwXUCMvXONWD6XCwODScs0jlnTe9TIpM5Fg+Km8gHQvZOeQEhjKq/l6A
+ WGIQ1z0/RoPy1iy7FI+xccu7nB+toQ4PDrPeg2Rc=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.8]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MINAx-1jqm8x2ONj-0048Fa; Tue, 23
+ Jun 2020 16:43:00 +0200
+Date: Tue, 23 Jun 2020 16:42:59 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v5 6/7] io: Document thread-safety of qio_channel_shutdown
+Message-ID: <8d567c499f0d778501d57007b90ec3450aba9947.1592923201.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1592923201.git.lukasstraub2@web.de>
+References: <cover.1592923201.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:55:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/ZFzCLsMCkWFZbmz/W1rYMZI";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:UYMpYLGEX++84fzRIrzOsAtFaWAxdWVv5LLvfKJOhQ0OpegHXTq
+ k37T+6cWZMmSMrz7V1HGWaU4b7rX4NF0msUKrMOElHadbyUWI29Lk0yQeUbEr3qvpKzu8D7
+ uSXQe6XuV8W+yxxWfRwDVFbhI+kSWWxT9crSYOlOTBNfuByg5/lP7o4rLTr2Rde/MM2DoJk
+ ZV0iczqJpAOk4Z0XnpJLQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+ou0dN+nVwQ=:wuW8Q8N65P+uZ1K9aqscRw
+ 4ywdEfK3IKhVWoONkia1qcE+KhkdTzTke+q3Rh0465tv9HI/lELug/BsT5fRlIGbecpCW20ES
+ EIuKdtkAk9UWHqUs6wHRFKMS5k91kYi629dn5FudjLt8HqOhu8n6YVSDDR5glQfGtVPJg/gwo
+ gxjmWH7FIiPcCekMCjP8xz7E9CszVNnx6cXZiEibqJT7wDR5U+xiwe8cGRJLO9JkO+sJbAoIC
+ HTjGRYTvblXXxj0OBZzxyMZsE8RZy0tJBjDz8vzGhQwGNxkRoSU3q3k2W414oTzZAHFFNeGn/
+ RJYd6OrOsYCXkHgH8tzirGW4e8Expx7ixo3wUi3L9MFUYUV895/vAeP6gbgy05f/YEw536POP
+ E/iTl1qZPxOj/qc0ObeHMxOI1KAhCfCtjeexNbSahRQ387phFWebrJE7jyaOwqQqGxrFFddNw
+ QMUNwX7e3R6c3vgCf8THCumRUDpeIi2KMN54ahRgbyagwPZ2b22Nl0ecYN/ApGCWt9fbAw5cu
+ h974ZyT3exxTf7uvujpExFsYlDpd0L3yXOzwbgpin3nysLcbkOja+Zov+yCuCn81KKGe/KYj5
+ xQgXh7ljIcWI55ODCakpI+SGH31eQxWkb9glCcYZgeJZh0tsFR2fUbft+mhgk4W61qbzEPWaz
+ 2IwRGcIpm3xctVQxWGHDReKINPvMoCiI4lSkrKuYEb58k7v5rOXg7XszrSRXQtF3p0EtxhLe6
+ Hox7h/DalZRC5Kd9MGKghYoklbw1TU/YmF6YTnN6wb0HutNSkB27J8tUVwFQlQUVldpdHAXjM
+ cjNtOr34qdsyCjwcZL0g5k9MbNUd9Jj6vPNz6excVPv5C8FX+XUlmCOXkjNnp0Gd+4KNHcIOZ
+ FkF/oA42sy2vYRtIH939YkR5u4z9wy0UdVVRFfhnOnKJTH1WdEeFMtemKCZ9OFv5vb2SJtWzU
+ /aNLXiYznmMUd346TiUUBZbq+bVMYMEUXP8pvtpVl/GIrn0/n9a47BTqoV3MKtZqdQXtIGSxb
+ CY+lGgAvkKhKrgd8oWvFo/tOC0E88zl6ZGFhWnbWX+7kEJ8nHLWqVBPvqrknm6RKHHkx7Rx7U
+ ajz5bwRxWg0d190hJ2eOfV1bmfk/oPrM8ZccvYY3XqBXjt5Yc5sc79yhYfZcehH/Emu8H8I3w
+ K5gHWtVEY/mqX94lhdtv+1ahywVhpvHWm2+XA7uyCbCQUzcCQxtq+/6Rv1i2t6BpJKdoVhXEx
+ YIWxwnoRsFOxLsc7v
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 10:42:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,40 +85,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rvkagan@yandex-team.ru, vkuznets@redhat.com, mail@maciej.szmigiero.name,
- Jon Doron <arilou@gmail.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Jun 2020 12:02:40 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+--Sig_/ZFzCLsMCkWFZbmz/W1rYMZI
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> On 17/06/20 18:09, Jon Doron wrote:
-> > After doing further tests and looking at the latest HyperV ACPI DSDT.
-> > Do minor fix to our VMBus ACPI entry.
-> > 
-> > v2:
-> > Renamed irq0 to irq now that there is a single IRQ required
-> > 
-> > Jon Doron (3):
-> >   hyperv: vmbus: Remove the 2nd IRQ
-> >   i386: acpi: vmbus: Add _ADR definition
-> >   acpi: i386: Move VMBus DSDT entry to SB
-> > 
-> >  dtc                              |  2 +-
-> >  hw/hyperv/vmbus.c                |  3 +--
-> >  hw/i386/acpi-build.c             | 17 +++++++++--------
-> >  include/hw/hyperv/vmbus-bridge.h |  3 +--
-> >  4 files changed, 12 insertions(+), 13 deletions(-)
-> >   
-> 
-> Queued, thanks.
-> 
-> Paolo
-> 
-> 
+Migration and yank code assume that qio_channel_shutdown is thread
+-safe. Document this after checking the code.
 
-Paolo, there is a newer vesion on list
-and I don't think _ADR patch should be applied at all
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+---
+ include/io/channel.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/include/io/channel.h b/include/io/channel.h
+index d4557f0930..6b8a2b87b8 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -516,6 +516,8 @@ int qio_channel_close(QIOChannel *ioc,
+  * QIO_CHANNEL_FEATURE_SHUTDOWN prior to calling
+  * this method.
+  *
++ * This function is thread-safe.
++ *
+  * Returns: 0 on success, -1 on error
+  */
+ int qio_channel_shutdown(QIOChannel *ioc,
+--
+2.20.1
+
+
+--Sig_/ZFzCLsMCkWFZbmz/W1rYMZI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7yFPMACgkQNasLKJxd
+sljkyhAApEe2ylR31ukEb+tqEi4w5OjJFVbq+vyaoX+z0BFX2s+J9vWmWrhAOKz5
+8io16Z4P8oxMklGomRZQKixM8ypK1fdplonKQd3qGlv/C7VCZKLy+lImlZI4V+cj
+5kMve88IaNNcUljAUmRbTsYiW5zP6ULRAQPwVUSL0FHGeNgmQdFGjxx9IkghKVok
+d7qjcoB5tYWqfzbSbsKonyFXRFBAXXClX/578v4vpT7jj6wXw+LnDzRThlU0RQBK
+I5vyGnQgwWdKmjV1pCkyR/vHN7zSjxqmCy2o5QBvRzwWz7Dj5LkNf5ruzSHHXxe/
+LS1Luh6O+GfHtr7pMM4TcbOW0XdPc4XnAXPQCSBDXBvC5ukuw3/5ps43eEMrhtsm
+DZKGcjzeRHKHTks8caevChMEkd1k/bYd0nw9FmqC2cJdID0DXsLdZyqnGLpoCDnP
+XrxXk9AQngISbG7tH9yWXroH4zcGdyshsiDoY2vzpn2vTqvzxEaXvha2EYDyfmUg
+tv96NAmxYUl31MaU2qcAbdTmIfrEBMzBg94JQq92w/i+rlU4gHHVdwo7RQLqK7hn
+9ayPPHVLTNdYiRoOiQMnmwv/gEULSwzy12Eq07x2dIDr2xLE1UMbSTXDJoDaV+iK
+ZvwDUue/rvgHpRRwNkN4hD0CBEkxbdmoArBTrAgnKLqJObf60kw=
+=u/f+
+-----END PGP SIGNATURE-----
+
+--Sig_/ZFzCLsMCkWFZbmz/W1rYMZI--
 
