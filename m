@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575B5205CFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:08:10 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091B2205D9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:17:08 +0200 (CEST)
+Received: from localhost ([::1]:44350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnpDF-0007Eb-CP
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51446)
+	id 1jnpLu-0001iQ-PU
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnp0l-000544-MQ
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:55:15 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44434)
+ id 1jnpBh-0005YP-Sm
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:06:33 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jnp0j-0008Rz-QW
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 15:55:15 -0400
-Received: by mail-pg1-x544.google.com with SMTP id r18so32762pgk.11
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 12:55:13 -0700 (PDT)
+ id 1jnpBf-0007Sm-Cv
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 16:06:33 -0400
+Received: by mail-pl1-x644.google.com with SMTP id bh7so9568337plb.11
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 13:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MJWqeoUbiMsWn8YWhEsrx3vSel5g8s8d58neBNcu5Pc=;
- b=ZUuDkTuP7KMnUTZ/wIh8gVu+mNAg2igA7/2YFKxrZotR4oOD4BI5y5o1J2SWKmmFri
- 5kzxZywJJ00EL1L2J5hrtpx02YHJtwQd/yCySIIp0ODbIXbJmAq+LB14juAqxvd58UnQ
- MC1sIRzgKoxJlsTl2PwGm/JVKX6f1+iIEuZwyTuUZis94b+/U9SbqvpZqaW66IskJBa+
- vxIVT0cWC2yW6VaxTuxDe/W/18MxTrRpvJa1a2Ry4+P4Ku2FYacQ20evABdbXZyFVOeR
- QizWS5DMVTZ4Z/yg3FpOAYtNB7uiQIOWoEpxPJ6LIAm/ui9gXIQD7J4xpBg8M6WdoO08
- TLsQ==
+ bh=MgiVyPKQiE159i/baoZD/+r9z0mORJeLztQ05s8WYIU=;
+ b=wJDs9j1/RP8++qikZxGbFYK6J8KsbngoIKfEXn9wCsh/U1eeQZzRBLHOHsHjDTKB5d
+ Ne6H7bcnthLAvtJyVxnDxbRzhHNOkbVOAuI4jQpPwA6JKYJwHnyqZmvypI7Wugr0dNVF
+ QLC4iz5fxpBzWcUR8t8Y6tXo95N9WV+afZnPuKJpKPcEGgyWg8HeFfMw8g7Pg5M9s+oJ
+ YuGmXi8C5PH7kj4tnVuReUsssmx5LGKD1/OGAQLJOHKrfFX/snigHYbbxWdsDfE/5wkw
+ BxW2Sq2sixYmaI0UbxrEUjIdM0w5MuhaD9FFvEL8fIYq3ggu1qjs20kmnwOIXzp6BAMd
+ nSHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MJWqeoUbiMsWn8YWhEsrx3vSel5g8s8d58neBNcu5Pc=;
- b=G2c+qgBFDI7P9ald0B9SDYNVy/7ZKjWjyhhbwBKHdOJ6bpiLh0jYZHEI2F3RVUQbQ9
- 6I1wOTwfW74baG0R1X2Isw9dr49uG7oXCUwdvfY+SO9ZxHE/wG0rbjbqtY62E3dxx4Rn
- GWLsW7t1OtXl2AU78sZJoG1IXMiV4AURzmeXTov2AUzkxrnUM4wycP3jwojAuJX45dbh
- fC1mVk0Em+tOrGJC0D/ow6RxTs1Yu8ctShVvMJa+hX37U8Pkf/2CQ2d+iklfFeoGHOD7
- PZmbaVOqIdC4d/o32NHAARMHu/YybEWyhLol/lBJfykYtWJ139T8MGVQE5OmcXHnM7GW
- WXfw==
-X-Gm-Message-State: AOAM531ST4QBKviFlzwePDzWhnzHjrClG2xOdRcq1Ccfa/Ol3JRwJy6v
- 3zpFMS4+6t9P0TJct1Uj2WF/TOSSVaA=
-X-Google-Smtp-Source: ABdhPJzExCSrc3ogtr32BsMWwmTJIFczkuaq8Umz57EZfFfbRScbDdFMk7D+XYXIk0/DMzqIQNFUMA==
-X-Received: by 2002:aa7:9a9c:: with SMTP id w28mr24610594pfi.295.1592942111899; 
- Tue, 23 Jun 2020 12:55:11 -0700 (PDT)
+ bh=MgiVyPKQiE159i/baoZD/+r9z0mORJeLztQ05s8WYIU=;
+ b=KTCFOeZONP7fESKXj3hUW+5GdIa+Fa3zzs0pYUp4YQQyQW5pLn2rZf+kDKDFu8EYP0
+ VLapwHm3OinpSQZ4kCvNML6BXZxQ4sM1iPm2uV4KHzJRAP+R/D772q5I8Bbd++wijF+/
+ 4xh2Bm+aiQYNbDn8B1KCdfTYU9SmCicpLMNV5VpnDcJY0T2AzihBwxN0FH7uRmE1xnX+
+ bdNh2s3BEA7OoYzMAfRxGVmhGzxBVVfwsb/HlN7l5fKKF6g2B1C9RKIjCAEAUkD/0qwP
+ m68OIUlMqXWVhfm0MD9RxBnqbZrJ221LI64OZ/gPNSMuBBKOM3VfGqs8fHFNdnNEHg6I
+ yJ4g==
+X-Gm-Message-State: AOAM531XOybi6D9OCkbm0+zx1THgJu0ocH3ZJNwEugHke2CwkCpmixEr
+ 3GCChtb+NdRf8uhDL0hSEWrgSA==
+X-Google-Smtp-Source: ABdhPJwZxLL/9FZzJkoA9kYcFw0WYa0vQ7LwXIDF8TOjS5fNPj0yItxUceEt1fqgxXGa82AFsSh0vw==
+X-Received: by 2002:a17:902:db83:: with SMTP id
+ m3mr1666694pld.176.1592942789685; 
+ Tue, 23 Jun 2020 13:06:29 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id j19sm17571513pfn.109.2020.06.23.12.55.10
+ by smtp.gmail.com with ESMTPSA id q13sm18418489pfk.8.2020.06.23.13.06.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Jun 2020 12:55:11 -0700 (PDT)
-Subject: Re: [PATCH] risu: don't do a full register compare for OP_SIGILL
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200522023440.26261-1-richard.henderson@linaro.org>
- <20200623144446.4243-1-alex.bennee@linaro.org>
- <CAFEAcA8LvhhWihVHc_09ZRzZKv8tiWFfd2MfT7ZawJpU3UktyQ@mail.gmail.com>
- <87eeq592pk.fsf@linaro.org>
+ Tue, 23 Jun 2020 13:06:29 -0700 (PDT)
+Subject: Re: [PATCH v8 00/45] target/arm: Implement ARMv8.5-MemTag, system mode
+To: Derrick McKee <derrick.mckee@gmail.com>
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
+ <CAJoBWHy9HfD_hBbJNgG5vsM5Wt_kiYYJyYAnxfTNzq2nuohk+w@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1fc28bd0-1bee-1329-2d8e-ae9362d2c219@linaro.org>
-Date: Tue, 23 Jun 2020 12:55:09 -0700
+Message-ID: <4e54ff84-8355-00c3-bdfb-f05577432a93@linaro.org>
+Date: Tue, 23 Jun 2020 13:06:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <87eeq592pk.fsf@linaro.org>
+In-Reply-To: <CAJoBWHy9HfD_hBbJNgG5vsM5Wt_kiYYJyYAnxfTNzq2nuohk+w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,31 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, steplong@quicinc.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, david.spickett@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/20 9:17 AM, Alex Bennée wrote:
+On 6/23/20 12:55 PM, Derrick McKee wrote:
+> Hi Richard,
 > 
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Tue, 23 Jun 2020 at 16:07, Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> OP_SIGILL means we have an unexpected invalid operation. If this is a
->>> load or store the register state may be un-rectified pointing at the
->>> memblock so would be invalid. In this case just compare the PC and
->>> make sure the other end also faulted at the same place.
->>
->> In case of mismatch of the PC do we still print the full register
->> dump?
+> I am currently doing research with MTE, and Arm's FVP leaves a lot to
+> be desired.  Is there some way I can get access to your QEMU changes
+> that enable MTE for system emulation?  Thanks.
 
-No.  If we want that, we should do something else, like remember that the
-memory pointer is in use and zap it out before reporting the register set.
+You can apply this patch set to qemu master.  ;-)
 
-But, generally, if we see SIGILL, then we have not actually executed anything,
-so the register state doesn't matter too much.  What probably does want
-reporting in this case is the insn opcode.
+But more seriously, this patch set is in the tree at
+https://github.com/rth7680/qemu/tree/tgt-arm-mte
 
 
 r~
+
+> 
+> On Tue, Jun 23, 2020 at 3:37 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Version 8 incorporates quite a bit of review (thanks, PMM):
+>>
+>>  * Include HCR_DCT in the HCR_EL2 update.
+>>  * Use a separate decode function for ADDG/SUBG.
+>>  * Use the system arm_cpu_do_unaligned_access for user-only as well.
+>>  * Fix alignment for LDG.
+>>  * Fix no-fault for mte_probe1.
+>>  * Rearrage how tagged pages are recorded.
+>>
+>> and perhaps most visibly, for those tracking the kernel patches:
+>>
+>>  * Add arm,armv8.5-memtag to the dtb.
 
