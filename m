@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3C2205247
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:19:53 +0200 (CEST)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F03D20524D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:21:30 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhu4-0007s8-TQ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
+	id 1jnhvd-0001Ir-2u
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:21:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jnhna-0000SU-4O
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:10 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55268)
+ id 1jnhoD-0001SG-HB
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:49 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:36036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jnhnY-00043E-Be
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:09 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id u8so1396344pje.4
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 05:13:07 -0700 (PDT)
+ id 1jnho9-0004Re-Ox
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 08:13:49 -0400
+Received: by mail-pl1-x642.google.com with SMTP id j4so9050329plk.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 05:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6zv4LKrUNZWMbaVi6BSvUFBtq8jf6g3exSrZ11NT8kw=;
- b=spLQRCt0Y4/TyOw3VLkZP9SKZhuN5SYJ13ICSq54UdiDmYlnYod1b3PpIPkxcsipMT
- Sv79N7i7/n5rrJjfRwNAPJyGpmmAmK5SMWrElsH1ak3EvrlNpvCsGH5rB3eym+ULLQKK
- x1orVh6nFzK/QOmqgYuAMFyvYCxAIXk/Iisz3q+nJtKPj39GZ9OIlRuMKAK3UFTCRxtl
- XBk5X8BB9QfTsWXPYRR/3RjuYx+VBVeb/l7Chm2wsY/EXxffoSPii18Bciv1pO6YBe1J
- kGQIP/Y3c6NPMLuyiYb1yi4iN4eegkh+GT3s6fSXvGEDC/t8V5MkBypYp+pd1vcDIQkU
- QVlA==
+ bh=vDU3X+taTS/YwEP9AAI4BFFyXzhZAMScdjTJslNEy7U=;
+ b=mC8vsTm60qb7VcaWc2MHfd4u+IufvevLmuwILBieQbi2OJ3BxNn/GJiOEgbQ4EJX/t
+ MD3UBGB5+qT/35bDFv29saDHDira9meKRM0q19L0wo15I7/NTryFJT7GgcXaoz4XMBG8
+ lo3Es0MOlKjx6QXCaHpoBJ+bvQIpRjfvQIEk9AfksXcHO+oMxCLF8hFmtE3uk5CJuFWR
+ j9/Npquz3YQagl6iVbztv+GWETrCErg4ORJmQ/98hc5tDW5G8kB/PsfUKj4OFP3K7hl7
+ IFCMZppPjo3a6Dq+HmVA0ic9j+Mw2V7JH+s4BqsGO8cziDSnCWsrXJglVVDKW8ity4Zj
+ xsuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=6zv4LKrUNZWMbaVi6BSvUFBtq8jf6g3exSrZ11NT8kw=;
- b=JgwuDUk/RsUveUat4nNVObAdOZWaGMnFd3/qgE3OOhfQZlnKSamiQDNJ4e34y3XzET
- p9TFoF2mYL+R+FEkfNtt+vdsqSAu7n21MkWv8PH6RR5mKDnwcsn2lTtrN03U9BOCuAHp
- ivyu6qarBZEHlMJ4A2014Dy7/j270AU9zyWPTSDYqedQWtsOQiOqcUf1Kr41N1DpCig1
- XI37dsPbKMPJRTrfnaCyadsSyhztgRArI/8N3qufh8x14GYii+srJmkmHOTjA05zZwAr
- W1EOOrxzCk7rcWXMbokmfWt1CMz5TiCSUSdTRVDgKszfwAkNHGhAGD3/2KULFGof2/En
- UvvQ==
-X-Gm-Message-State: AOAM5327nZ7omeHonmVE29ZOskLgBcIgSFQ9VyGn4Vej4b09K+uQDE3H
- rn0E2cziOebvRdvHPhlmp5M=
-X-Google-Smtp-Source: ABdhPJxbM4TQhJZKtJ+VeCOaq0doWDkvpt8fHmUNzivtfQQr6J4qZ754QjKjzGfI8O1Fbjm9Q/dxzQ==
-X-Received: by 2002:a17:90a:2843:: with SMTP id
- p3mr21629341pjf.187.1592914386911; 
- Tue, 23 Jun 2020 05:13:06 -0700 (PDT)
+ bh=vDU3X+taTS/YwEP9AAI4BFFyXzhZAMScdjTJslNEy7U=;
+ b=AWpCn8wmZE4Dg9XGHR+vG5xz7oTN9ONkD/kir4ffNLd7o/kijOuURc49ngWT5aUcIV
+ ThxfZbBlscV2UQEJrYv3mt8AWVK1iPkOqb2zv2rIyf+Nnt4HWwjKFy0Q2XI4xTiB96ue
+ DnGHV+Yg3+8r1LgtJP3yqYo4K6EIfbVrbknTlCS2M0VzOP/9UKiQ7UjTNM2ioLPA04oQ
+ p04UIwvhjVaQTg7bduz8xoVnhD0JqfXF4El8toACrMb2V9M3qfVRDOaUPDP1ZlK4eJ/Q
+ 72rZRiwSjsQo8n30OnBmcaeMqG00XSl4IA5fmE2ojGB6vFb4awtB+tfa7gA8e/xg3BWK
+ +P5w==
+X-Gm-Message-State: AOAM533p2A6RoDDiIpZ+2Rmn8tynQoZEjbYDBX3hLvq+uw9BxxHmgbjb
+ V0ntkYc2uZnoSfebf0gQ7cc=
+X-Google-Smtp-Source: ABdhPJx2ysMvL2uGA8XGEXBi70DhkqCp/C/W8oCU4EzAMqrt07iBN04p9WYTeJ0kYWCLTNKe3I75aA==
+X-Received: by 2002:a17:90b:252:: with SMTP id
+ fz18mr21381148pjb.96.1592914424333; 
+ Tue, 23 Jun 2020 05:13:44 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id m18sm17022782pfo.173.2020.06.23.05.13.04
+ by smtp.gmail.com with ESMTPSA id m18sm17022782pfo.173.2020.06.23.05.13.41
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jun 2020 05:13:06 -0700 (PDT)
+ Tue, 23 Jun 2020 05:13:43 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH for-5.1 V5 1/4] hw/mips: Implement the kvm_type() hook in
- MachineClass
-Date: Tue, 23 Jun 2020 20:13:55 +0800
-Message-Id: <1592914438-30317-2-git-send-email-chenhc@lemote.com>
+Subject: [PATCH for-5.1 V5 2/4] hw/intc: Add Loongson liointc support
+Date: Tue, 23 Jun 2020 20:13:56 +0800
+Message-Id: <1592914438-30317-3-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
 References: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,91 +85,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
-can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
-MachineClass. This patch add the the kvm_type() hook to support both of
-the two types.
+Loongson-3 has an integrated liointc (Local I/O interrupt controller).
+It is similar to goldfish interrupt controller, but more powerful (e.g.,
+it can route external interrupt to multi-cores).
 
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/kvm.c      | 20 ++++++++++++++++++++
- target/mips/kvm_mips.h | 11 +++++++++++
- 2 files changed, 31 insertions(+)
+ hw/intc/Kconfig            |   3 +
+ hw/intc/Makefile.objs      |   1 +
+ hw/intc/loongson_liointc.c | 246 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 250 insertions(+)
+ create mode 100644 hw/intc/loongson_liointc.c
 
-diff --git a/target/mips/kvm.c b/target/mips/kvm.c
-index 96cfa10..373f582 100644
---- a/target/mips/kvm.c
-+++ b/target/mips/kvm.c
-@@ -21,10 +21,12 @@
- #include "qemu/main-loop.h"
- #include "qemu/timer.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/kvm_int.h"
- #include "sysemu/runstate.h"
- #include "sysemu/cpus.h"
- #include "kvm_mips.h"
- #include "exec/memattrs.h"
-+#include "hw/boards.h"
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index a189d6f..264d82d 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -61,3 +61,6 @@ config S390_FLIC_KVM
  
- #define DEBUG_KVM 0
- 
-@@ -1270,3 +1272,21 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
- {
-     abort();
- }
+ config OMPIC
+     bool
 +
-+int mips_kvm_type(MachineState *machine, const char *vm_type)
++config LOONGSON_LIOINTC
++    bool
+diff --git a/hw/intc/Makefile.objs b/hw/intc/Makefile.objs
+index a61e672..9a26fbe 100644
+--- a/hw/intc/Makefile.objs
++++ b/hw/intc/Makefile.objs
+@@ -50,3 +50,4 @@ obj-$(CONFIG_MIPS_CPS) += mips_gic.o
+ obj-$(CONFIG_NIOS2) += nios2_iic.o
+ obj-$(CONFIG_OMPIC) += ompic.o
+ obj-$(CONFIG_IBEX) += ibex_plic.o
++obj-$(CONFIG_LOONGSON_LIOINTC) += loongson_liointc.o
+diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
+new file mode 100644
+index 0000000..d4c1b48
+--- /dev/null
++++ b/hw/intc/loongson_liointc.c
+@@ -0,0 +1,246 @@
++/*
++ * QEMU Loongson Local I/O interrupt controler.
++ *
++ * Copyright (c) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "qemu/module.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++
++#define D(x)
++
++#define NUM_IRQS    32
++
++#define NUM_CORES   4
++#define NUM_IPS     4
++#define NUM_PARENTS (NUM_CORES * NUM_IPS)
++#define PARENT_COREx_IPy(x, y)    (NUM_IPS * x + y)
++
++#define R_MAPPER_START    0x0
++#define R_MAPPER_END      0x20
++#define R_ISR           R_MAPPER_END
++#define R_IEN           0x24
++#define R_IEN_SET       0x28
++#define R_IEN_CLR       0x2c
++#define R_PERCORE_ISR(x) (0x40 + 0x8 * x)
++#define R_END           0x64
++
++#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
++#define LOONGSON_LIOINTC(obj) OBJECT_CHECK(struct loongson_liointc, (obj), TYPE_LOONGSON_LIOINTC)
++
++struct loongson_liointc
 +{
-+    int r;
-+    KVMState *s = KVM_STATE(machine->accelerator);
++    SysBusDevice parent_obj;
 +
-+    r = kvm_check_extension(s, KVM_CAP_MIPS_VZ);
-+    if (r > 0) {
-+        return KVM_VM_MIPS_VZ;
++    MemoryRegion mmio;
++    qemu_irq parent_irq[NUM_PARENTS];
++
++    uint8_t mapper[NUM_IRQS]; /* 0:3 for core, 4:7 for IP */
++    uint32_t isr;
++    uint32_t ien;
++    uint32_t per_core_isr[NUM_CORES];
++
++    /* state of the interrupt input pins */
++    uint32_t pin_state;
++    bool parent_state[NUM_PARENTS];
++};
++
++static void update_irq(struct loongson_liointc *p)
++{
++    uint32_t irq, core, ip;
++    uint32_t per_ip_isr[NUM_IPS] = {0};
++
++    /* level triggered interrupt */
++    p->isr = p->pin_state;
++
++    /* Clear disabled IRQs */
++    p->isr &= p->ien;
++
++    /* Clear per_core_isr */
++    for (core = 0; core < NUM_CORES; core++) {
++        p->per_core_isr[core] = 0;
 +    }
 +
-+    r = kvm_check_extension(s, KVM_CAP_MIPS_TE);
-+    if (r > 0) {
-+        return KVM_VM_MIPS_TE;
++    /* Update per_core_isr and per_ip_isr */
++    for (irq = 0; irq < NUM_IRQS; irq++) {
++        if (!(p->isr & (1 << irq))) {
++            continue;
++        }
++
++        for (core = 0; core < NUM_CORES; core++) {
++            if ((p->mapper[irq] & (1 << core))) {
++                p->per_core_isr[core] |= (1 << irq);
++            }
++        }
++
++        for (ip = 0; ip < NUM_IPS; ip++) {
++            if ((p->mapper[irq] & (1 << (ip + 4)))) {
++                per_ip_isr[ip] |= (1 << irq);
++            }
++        }
 +    }
 +
-+    return -1;
++    /* Emit IRQ to parent! */
++    for (core = 0; core < NUM_CORES; core++) {
++        for (ip = 0; ip < NUM_IPS; ip++) {
++            int parent = PARENT_COREx_IPy(core, ip);
++	    if (p->parent_state[parent] !=
++                (!!p->per_core_isr[core] && !!per_ip_isr[ip])) {
++                p->parent_state[parent] = !p->parent_state[parent];
++                qemu_set_irq(p->parent_irq[parent], p->parent_state[parent]);
++            }
++        }
++    }
 +}
-diff --git a/target/mips/kvm_mips.h b/target/mips/kvm_mips.h
-index 1e40147..171d53d 100644
---- a/target/mips/kvm_mips.h
-+++ b/target/mips/kvm_mips.h
-@@ -12,6 +12,8 @@
- #ifndef KVM_MIPS_H
- #define KVM_MIPS_H
- 
-+#include "cpu.h"
 +
- /**
-  * kvm_mips_reset_vcpu:
-  * @cpu: MIPSCPU
-@@ -23,4 +25,13 @@ void kvm_mips_reset_vcpu(MIPSCPU *cpu);
- int kvm_mips_set_interrupt(MIPSCPU *cpu, int irq, int level);
- int kvm_mips_set_ipi_interrupt(MIPSCPU *cpu, int irq, int level);
- 
-+#ifdef CONFIG_KVM
-+int mips_kvm_type(MachineState *machine, const char *vm_type);
-+#else
-+static inline int mips_kvm_type(MachineState *machine, const char *vm_type)
++static uint64_t
++liointc_read(void *opaque, hwaddr addr, unsigned int size)
 +{
-+    return 0;
-+}
-+#endif
++    struct loongson_liointc *p = opaque;
++    uint32_t r = 0;
 +
- #endif /* KVM_MIPS_H */
++    /* Mapper is 1 byte */
++    if (size == 1 && addr < R_MAPPER_END) {
++        r = p->mapper[addr];
++        goto out;
++    }
++
++    /* Rest is 4 byte */
++    if (size != 4 || (addr % 4)) {
++        goto out;
++    }
++
++    if (addr >= R_PERCORE_ISR(0) &&
++        addr < R_PERCORE_ISR(NUM_CORES)) {
++        int core = (addr - R_PERCORE_ISR(0)) / 4;
++        r = p->per_core_isr[core];
++        goto out;
++    }
++
++    switch (addr) {
++    case R_ISR:
++        r = p->isr;
++        break;
++    case R_IEN:
++        r = p->ien;
++        break;
++    default:
++        break;
++    }
++
++out:
++    D(qemu_log("%s: size=%d addr=%lx val=%x\n", __func__, size, addr, r));
++    return r;
++}
++
++static void
++liointc_write(void *opaque, hwaddr addr,
++          uint64_t val64, unsigned int size)
++{
++    struct loongson_liointc *p = opaque;
++    uint32_t value = val64;
++
++    D(qemu_log("%s: size=%d, addr=%lx val=%x\n", __func__, size, addr, value));
++
++    /* Mapper is 1 byte */
++    if (size == 1 && addr < R_MAPPER_END) {
++        p->mapper[addr] = value;
++        goto out;
++    }
++
++    /* Rest is 4 byte */
++    if (size != 4 || (addr % 4)) {
++        goto out;
++    }
++
++    if (addr >= R_PERCORE_ISR(0) &&
++        addr < R_PERCORE_ISR(NUM_CORES)) {
++        int core = (addr - R_PERCORE_ISR(0)) / 4;
++        p->per_core_isr[core] = value;
++        goto out;
++    }
++
++    switch (addr) {
++    case R_IEN_SET:
++        p->ien |= value;
++        break;
++    case R_IEN_CLR:
++        p->ien &= ~value;
++        break;
++    default:
++        break;
++    }
++
++out:
++    update_irq(p);
++}
++
++static const MemoryRegionOps pic_ops = {
++    .read = liointc_read,
++    .write = liointc_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4
++    }
++};
++
++static void irq_handler(void *opaque, int irq, int level)
++{
++    struct loongson_liointc *p = opaque;
++
++    p->pin_state &= ~(1 << irq);
++    p->pin_state |= level << irq;
++    update_irq(p);
++}
++
++static void loongson_liointc_init(Object *obj)
++{
++    struct loongson_liointc *p = LOONGSON_LIOINTC(obj);
++    int i;
++
++    qdev_init_gpio_in(DEVICE(obj), irq_handler, 32);
++
++    for (i = 0; i < NUM_PARENTS; i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(obj), &p->parent_irq[i]);
++    }
++
++    memory_region_init_io(&p->mmio, obj, &pic_ops, p,
++                         "loongson.liointc", R_END);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
++}
++
++static const TypeInfo loongson_liointc_info = {
++    .name          = TYPE_LOONGSON_LIOINTC,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(struct loongson_liointc),
++    .instance_init = loongson_liointc_init,
++};
++
++static void loongson_liointc_register_types(void)
++{
++    type_register_static(&loongson_liointc_info);
++}
++
++type_init(loongson_liointc_register_types)
 -- 
 2.7.0
 
