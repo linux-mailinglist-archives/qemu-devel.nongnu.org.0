@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AB0204B51
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:37:42 +0200 (CEST)
-Received: from localhost ([::1]:40908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119A3204B43
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:32:58 +0200 (CEST)
+Received: from localhost ([::1]:57184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jndUz-0004Gr-JB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
+	id 1jndQP-0006z3-47
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:32:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndLr-0000P7-Ss
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57536
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndMO-0001Gb-Ga
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58981
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndLq-0005DD-2r
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:15 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndMN-0005LA-0Q
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592897293;
+ s=mimecast20190719; t=1592897326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ihzvmGKj2FtF1uT24perq1wQOg2x05VnpWS6Mf9i4U4=;
- b=XmXjuADLLAcE5CSdfXDILvW3cdXKJ3wn0BAfs3ON5sTS3rppMDlHzc4vLQQjEyMY2tQ6zP
- dx285lFvlRKJmNYKUlWOKatmpi15ca5QHi0aTlOjMkGjKrpDI7BXKxSl9EQVdkCt5K8HrH
- JT7PEgVaXGLwCaeq3DdwEXLbaf9znic=
+ bh=LXnFs2qcEI40S++U8w1MW9HNBQv+Yl603ProFmaqeFY=;
+ b=aMsx5QrSHZf8A9iZWooO3SOUFL6A+EFV8II/x5jKFO7Zaaxdrck3iGE49INmWVQfAdu9Pr
+ ghnwA0j+TQw6DZXbZEZ1wf4iD0864UcB7M4gsDyOYWb5s8KfLdw7LIo44FUeATZMOJYfC3
+ L32R46+7kFUxF1zBxbDZZhD/Q5wsAT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-unu7_tz1MEyPgOsI0oV4lA-1; Tue, 23 Jun 2020 03:28:11 -0400
-X-MC-Unique: unu7_tz1MEyPgOsI0oV4lA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-46-OCxe3G45ONqNAas38wsHkA-1; Tue, 23 Jun 2020 03:28:44 -0400
+X-MC-Unique: OCxe3G45ONqNAas38wsHkA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB1A18A8220;
- Tue, 23 Jun 2020 07:28:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19A7218A8220;
+ Tue, 23 Jun 2020 07:28:43 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-138.ams2.redhat.com
  [10.36.113.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E36DD60F80;
- Tue, 23 Jun 2020 07:28:08 +0000 (UTC)
-Subject: Re: [PATCH 0/2] qcow2: Force preallocation with data-file-raw
-To: Alberto Garcia <berto@igalia.com>, Nir Soffer <nsoffer@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 20D6E5C541;
+ Tue, 23 Jun 2020 07:28:41 +0000 (UTC)
+Subject: Re: [PATCH 1/2] qcow2: Force preallocation with data-file-raw
+To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
 References: <20200619104012.235977-1-mreitz@redhat.com>
- <CAMRbyyu1ZC2qMKSHJXNy7-98-nXHh00dL-v_D0BKcEL6Rmmj+g@mail.gmail.com>
- <72eb5700-faf6-22ee-69be-1e7653cf06c6@redhat.com>
- <w51lfkf807y.fsf@maestria.local.igalia.com>
+ <20200619104012.235977-2-mreitz@redhat.com>
+ <w51eeqb9f43.fsf@maestria.local.igalia.com>
+ <9c14c622-eb30-4619-d33a-b59395a397be@redhat.com>
+ <w51r1u788gg.fsf@maestria.local.igalia.com>
+ <2d35fdff-6230-18b9-cf99-ca72be53267f@redhat.com>
+ <w51o8pb80k8.fsf@maestria.local.igalia.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -72,18 +75,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <66581529-dc44-5fd0-54a3-1117b073077a@redhat.com>
-Date: Tue, 23 Jun 2020 09:28:07 +0200
+Message-ID: <79352940-67a5-deb8-13df-ec1547efe77e@redhat.com>
+Date: Tue, 23 Jun 2020 09:28:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <w51lfkf807y.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <w51o8pb80k8.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna"
+ boundary="EgjXaRZ1s0gXIHSWyGglqxk11syZmnRpL"
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
@@ -107,93 +112,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna
-Content-Type: multipart/mixed; boundary="iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE"
+--EgjXaRZ1s0gXIHSWyGglqxk11syZmnRpL
+Content-Type: multipart/mixed; boundary="9x57pzu0Wj9SOJpxSRCWXUcYpqrYJkrYP"
 
---iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE
+--9x57pzu0Wj9SOJpxSRCWXUcYpqrYJkrYP
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 22.06.20 19:44, Alberto Garcia wrote:
-> On Mon 22 Jun 2020 11:47:32 AM CEST, Max Reitz wrote:
->>> I don't know the internals of qcow2 data_file, but are we really using
->>> qcow2 metadata when accessing the data file?
->>
->> Yes.
->>
->>> This may have unwanted performance consequences.
->>
->> I don=E2=80=99t think so, because in practice normal lookups of L1/L2 ma=
-ppings
->> generally don=E2=80=99t cost that much performance.
->=20
-> ...if the L2 cache size is large enough. Otherwise you need one extra
-> read operation to retrieve the L2 metadata.
->=20
-> Possible performance problems when you have preallocation:
->=20
->    - If a block hasn't been written yet (it's all zeroes) then you still
->      need to read the L2 entry and read the data block. If there is not
->      L2 table then you can simply return zeroes without going to disk at
->      all. This of course assumes that the contents of the unwritten data
->      block are zeroes.
->=20
->    - QEMU still needs to read from disk (and cache in memory) the L2
->      metadata, when it already knows in advance the contents of the L2
->      entry (guest_offset =3D=3D host_offset).
+On 22.06.20 19:36, Alberto Garcia wrote:
 
-We could well optimize this regardless of preallocation.  With
-data-file-raw, qemu doesn=E2=80=99t have to look at the L2 metadata at all.
+[...]
 
-So the problem isn=E2=80=99t preallocation at all, it=E2=80=99s the fact th=
-at we don=E2=80=99t
-have such an optimization.  But note that to implement such an
-optimization, we really do need preallocation: Because it would mean
-that we wouldn=E2=80=99t touch the L1/L2 tables for data-file-raw images du=
-ring
-runtime, which would effectively make those images empty to today=E2=80=99s=
- qemu
-versions.
+> You would still have problems with images created with raw data files
+> but without preallocation.
 
-(OTOH, preallocation would then be pretty much superfluous for all newer
-versions of qemu.  To address that, we could then add an incompatible
-version of data-file-raw.  But I think we should only think about that
-once we get to that point.)
-
-You make a good point that data-file-raw was introduced alongside
-data-file.  But, well.  I personally can=E2=80=99t get myself to treating a=
-n
-autoclear flag like an incompatible one...
+Yeah, sure, but, well.  Bug in qemu. :/
 
 Max
 
 
---iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE--
+--9x57pzu0Wj9SOJpxSRCWXUcYpqrYJkrYP--
 
---seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna
+--EgjXaRZ1s0gXIHSWyGglqxk11syZmnRpL
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7xrwcACgkQ9AfbAGHV
-z0Aokwf/Wya+AwABVfK+TbjFXpvXBW0pN44MZoq99nDHRxX8QRB90XCEzd77+2LZ
-HB2TFan9WwtSuJ+3lHy0SbKUVn6sJrTC5wGREHdOCElMsFMVHCZOQ9canLhrv+PK
-sLNhB+mICZSFhVzaLZ4nwgkm6qpdXNAfgC0kZjtf/lkjArxdXvlr6T17jBlrFZEH
-ULCyHjd1F7fYKQOK+Qs8XxDxzM9BZclwGNQEmPSv42VMaXWTfOw8ZQFooD53hxgn
-NRvt85d/YBQSS+GY3Ug9oY93e1me+LI5LdP4jTIt+rQSP+qAQdsgTc9Xye/x2Jyh
-PGeXu30hNnY3woG6zhfcTESQrF5qvw==
-=Y2E7
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7xrygACgkQ9AfbAGHV
+z0BARQgAwkYnP0ByT6lkqTKkTtbTytU7XCaX1hlC9F4eBwSJ5eyepHS+EN3y8dc6
+3cq2tfZgP/o3Vu/PBq333Y2CB91H8sdT1pdnNqEPX0nKvYrsPfPB9vpzIQYPXM2q
+hQbz3aLeA8rjKid+02IGlTDyGxJiCLeZiqFnp/UzZe6zXqasITC+E/W5HwgO46YX
+Ps8oqY3XNDpw+w6bLOx/hvidx+TqZsw82xVEB1SFcM9GZu1l4mKW3+EpLMncF87D
+LtoDKPbbULr3qn7JA/SQNL6DTcM27K4OTipbevL1goTcxqu9ct+qptroQbQN1Xhe
+rzLKJFe4OrdlSXC2YtWdMgUYJrthnQ==
+=BEOl
 -----END PGP SIGNATURE-----
 
---seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna--
+--EgjXaRZ1s0gXIHSWyGglqxk11syZmnRpL--
 
 
