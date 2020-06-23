@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F1C2051DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:09:07 +0200 (CEST)
-Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F10205209
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 14:11:12 +0200 (CEST)
+Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnhje-0007tr-8n
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
+	id 1jnhlf-0003Vd-M8
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 08:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHK-0003Zk-1U
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:51 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35446)
+ id 1jnhHL-0003bG-Uo
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:53 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jnhHI-0003QK-6W
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:49 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g18so11115320wrm.2
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:47 -0700 (PDT)
+ id 1jnhHJ-0003Ri-QL
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 07:39:51 -0400
+Received: by mail-wm1-x329.google.com with SMTP id y20so2860316wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 04:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=93DPZhJ1c1kkfDUxuVzeumq5Pucl+HwBkMTUco5Vv4s=;
- b=sEOZ/GDyjhvVCbIlCJvzcF5VFWIEdBoz72F2afWiErqUcTUpLc1jOZiLTuP1/klN1j
- RVAtgBU3Bdu47Jn/1u1oSui6D9gNkolO/c81o4wyJRzennyLaeYpGx/xLarrUbE5E8QK
- SFrCGEjonIA3i3AJpvgrRHryoAep+bvV2jfIUEdqcI7Eie2gmrM+VCnJ/RzxFquJmVKq
- CCdbcW7+y3H2qrtXF+rg4wlXm6EPaipExOblzTNX+FNnnvGiUJN2bNl6wV0w+bUWaXwK
- U7CLCALM3/3/xsHN5T6Db3pmDOjx6tuicoABlqbbh2UtvPNidYGKQ4UPsccZoySgBfr1
- QMnA==
+ bh=tymhxqXyDEbTmZSCGO7IT18a7NBET9izMcg9/EiMo9E=;
+ b=t2hG5wLJmwiFTv1+8/9HxuTVTuSw4TFMViTVZsuP3FQ06IV/GQMnfku0xpeQFhKcv3
+ KePEoPpMx8BXp9LkOnGeGP5tI85KBAFgxTq2uoxg8XHNIOtbFjnzC1/XoIxozuDNb42/
+ LEWE+DjFh7AlJycaG3rGxG3FRijbCgDck9JInmyfsh+fGs43DhLqwtZZhMFzgJviZgcw
+ 1DuTgaXbnm+LWPI2rEPieTqkbaNIUEi85wVrkvuFvOzGO3bUe9SMnuz+gBjVLree6jHX
+ Sq1SOplAwJl54KBZxkNrZOmeZG5+ahxs+D898RAJWS+lB/JqCfDFebm1hzcH17lmEq1Q
+ uqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=93DPZhJ1c1kkfDUxuVzeumq5Pucl+HwBkMTUco5Vv4s=;
- b=h22Id99MM+/GrHfixAZvNXoBnKrIKg4iyY+DCSSTLwqWP3pvsd/9y0fwBVQWDWrnf9
- y1xeaGA975uwsDf1PKvgZlY51i7I91icYwxfFF9dJLRnEyrg43P4FA1Jas00HQytZhh2
- sS9TTDu2BbLWr6aXU+r6K+UZWKNkubLpJqZL1c6z9IOeNM2gwDeT0CvuIa+BrJcPuJGX
- vykjUwKgtpn78djXcDBKZqSUvpsEqpdaorpTvFVLlRkYPF/mwNK0FdoCgjPW+cXH+q9U
- nsxigeO1o7PEnXVM/fMEIpEPBpPHYrrMqx5Mcxtsrg5XKoaQgKlcLuJc+broOdrPS4mv
- 6wsQ==
-X-Gm-Message-State: AOAM530/lYCrNgkJSqtx+g7xHm2APXJ7iDmMZfG1JCEfjMEc2VIClj/K
- qRXQw4R/mWxCCwJ5HKAEp5y9SCCJC7uNYg==
-X-Google-Smtp-Source: ABdhPJxPycm0Ikd8zT3zc99AWXQxkI8AN51v/lDK9OociMTo4wmZC2Pz5emckJjutVidFplvWIAU5A==
-X-Received: by 2002:adf:c382:: with SMTP id p2mr24322388wrf.283.1592912386516; 
- Tue, 23 Jun 2020 04:39:46 -0700 (PDT)
+ bh=tymhxqXyDEbTmZSCGO7IT18a7NBET9izMcg9/EiMo9E=;
+ b=YjqJgFc6hbwQfB9IDrVAJY7CoacotVmHNUz7VrQIbaAANiS/qqcXtKG2WxzvVPovqQ
+ QZ8sHR3Apa3LTCBc+Hbc+Ij3oT++nYNcIfcJs7NSGlXI/6PeLWrwdM4vlVn+mTT9DZe3
+ stiLybN613My9tHAePFA8hAhNGkNx8XjxQdV5fv3O9vDZMwq7YmW/muaLaTe7BqxYj3A
+ lRgKg5/dEuO7ndqWA34U0tsDuqV2rjKov52xoKh7DhJKWWPviaAIt/HGD0iNSwo9wkMI
+ mA+eGC/bfK0TsPczW37NBGyVzc9QI6scBR+9xOGfzwOSzPauZgVHgRUvT3UbG4GiQJtw
+ SdjQ==
+X-Gm-Message-State: AOAM531RqNp2EKtJkRpkDfHVJA/JgT2rg/080ZVcQCJawLhrVK3wraOg
+ EPl160YeaRd3WlSzoUmUB7EvaUUudBDPgw==
+X-Google-Smtp-Source: ABdhPJxzlJjKAbo6zi/DzFBbfcdCVbcBltvlY//tPm/iANFqS/zlz2/9hqhs8LOTRTueeJLpPAzUOw==
+X-Received: by 2002:a05:600c:410f:: with SMTP id
+ j15mr535731wmi.128.1592912387885; 
+ Tue, 23 Jun 2020 04:39:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.45
+ by smtp.gmail.com with ESMTPSA id m10sm4022177wru.4.2020.06.23.04.39.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 04:39:45 -0700 (PDT)
+ Tue, 23 Jun 2020 04:39:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/42] hw/arm/mps2: Map the FPGA I/O block
-Date: Tue, 23 Jun 2020 12:38:57 +0100
-Message-Id: <20200623113904.28805-36-peter.maydell@linaro.org>
+Subject: [PULL 36/42] hw/arm/mps2: Add SPI devices
+Date: Tue, 23 Jun 2020 12:38:58 +0100
+Message-Id: <20200623113904.28805-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623113904.28805-1-peter.maydell@linaro.org>
 References: <20200623113904.28805-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,52 +92,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+From 'Application Note AN385', chapter 3.9, SPI:
+
+  The SMM implements five PL022 SPI modules.
+
+Two pairs of modules share the same OR-gated IRQ.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200617072539.32686-11-f4bug@amsat.org
+Message-id: 20200617072539.32686-12-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/arm/mps2.c  | 24 ++++++++++++++++++++++++
+ hw/arm/Kconfig |  6 +++---
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index c66c595d4a0..e1061232254 100644
+index e1061232254..daa26f68d79 100644
 --- a/hw/arm/mps2.c
 +++ b/hw/arm/mps2.c
-@@ -38,8 +38,10 @@
- #include "hw/timer/cmsdk-apb-timer.h"
+@@ -39,6 +39,7 @@
  #include "hw/timer/cmsdk-apb-dualtimer.h"
  #include "hw/misc/mps2-scc.h"
-+#include "hw/misc/mps2-fpgaio.h"
+ #include "hw/misc/mps2-fpgaio.h"
++#include "hw/ssi/pl022.h"
  #include "hw/net/lan9118.h"
  #include "net/net.h"
-+#include "hw/watchdog/cmsdk-apb-watchdog.h"
- 
- typedef enum MPS2FPGAType {
-     FPGA_AN385,
-@@ -67,8 +69,10 @@ typedef struct {
-     MemoryRegion sram;
-     /* FPGA APB subsystem */
-     MPS2SCC scc;
-+    MPS2FPGAIO fpgaio;
-     /* CMSDK APB subsystem */
-     CMSDKAPBDualTimer dualtimer;
-+    CMSDKAPBWatchdog watchdog;
- } MPS2MachineState;
- 
- #define TYPE_MPS2_MACHINE "mps2"
-@@ -332,6 +336,11 @@ static void mps2_common_init(MachineState *machine)
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
-     sysbus_realize(SYS_BUS_DEVICE(&mms->scc), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
-+    object_initialize_child(OBJECT(mms), "fpgaio",
-+                            &mms->fpgaio, TYPE_MPS2_FPGAIO);
-+    qdev_prop_set_uint32(DEVICE(&mms->fpgaio), "prescale-clk", 25000000);
-+    sysbus_realize(SYS_BUS_DEVICE(&mms->fpgaio), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&mms->fpgaio), 0, 0x40028000);
+ #include "hw/watchdog/cmsdk-apb-watchdog.h"
+@@ -341,6 +342,29 @@ static void mps2_common_init(MachineState *machine)
+     qdev_prop_set_uint32(DEVICE(&mms->fpgaio), "prescale-clk", 25000000);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->fpgaio), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&mms->fpgaio), 0, 0x40028000);
++    sysbus_create_simple(TYPE_PL022, 0x40025000,        /* External ADC */
++                         qdev_get_gpio_in(armv7m, 22));
++    for (i = 0; i < 2; i++) {
++        static const int spi_irqno[] = {11, 24};
++        static const hwaddr spibase[] = {0x40020000,    /* APB */
++                                         0x40021000,    /* LCD */
++                                         0x40026000,    /* Shield0 */
++                                         0x40027000};   /* Shield1 */
++        DeviceState *orgate_dev;
++        Object *orgate;
++        int j;
++
++        orgate = object_new(TYPE_OR_IRQ);
++        object_property_set_int(orgate, 2, "num-lines", &error_fatal);
++        orgate_dev = DEVICE(orgate);
++        qdev_realize(orgate_dev, NULL, &error_fatal);
++        qdev_connect_gpio_out(orgate_dev, 0,
++                              qdev_get_gpio_in(armv7m, spi_irqno[i]));
++        for (j = 0; j < 2; j++) {
++            sysbus_create_simple(TYPE_PL022, spibase[2 * i + j],
++                                 qdev_get_gpio_in(orgate_dev, j));
++        }
++    }
  
      /* In hardware this is a LAN9220; the LAN9118 is software compatible
       * except that it doesn't support the checksum-offload feature.
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 5c8f689b3dd..90ed584e7ac 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -59,7 +59,7 @@ config HIGHBANK
+     select ARM_TIMER # sp804
+     select ARM_V7M
+     select PL011 # UART
+-    select PL022 # Serial port
++    select PL022 # SPI
+     select PL031 # RTC
+     select PL061 # GPIO
+     select PL310 # cache controller
+@@ -222,7 +222,7 @@ config STELLARIS
+     select CMSDK_APB_WATCHDOG
+     select I2C
+     select PL011 # UART
+-    select PL022 # Serial port
++    select PL022 # SPI
+     select PL061 # GPIO
+     select SSD0303 # OLED display
+     select SSD0323 # OLED display
+@@ -401,7 +401,7 @@ config MPS2
+     select MPS2_FPGAIO
+     select MPS2_SCC
+     select OR_IRQ
+-    select PL022    # Serial port
++    select PL022    # SPI
+     select PL080    # DMA controller
+     select SPLIT_IRQ
+     select UNIMP
 -- 
 2.20.1
 
