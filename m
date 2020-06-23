@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D7D2046D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 03:42:24 +0200 (CEST)
-Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8018F2046C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 03:36:58 +0200 (CEST)
+Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnXx9-0006J8-MW
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 21:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1jnXrt-0003ME-Do
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jun 2020 21:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnXvl-00056O-U4
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 21:40:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jnXvj-0001w6-JS
- for qemu-devel@nongnu.org; Mon, 22 Jun 2020 21:40:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jnXvh-00012n-IT
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 01:40:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4E2022E8112
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 01:40:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnXqv-0002x5-S2
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 21:35:57 -0400
+Resent-Date: Mon, 22 Jun 2020 21:35:57 -0400
+Resent-Message-Id: <E1jnXqv-0002x5-S2@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jnXqr-0005rt-V7
+ for qemu-devel@nongnu.org; Mon, 22 Jun 2020 21:35:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1592876142; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=TcPknnmJYzLNsOGhRxa4OeKPPYQyoGbS1ZuxnuCF76iK9PqQKBYjDS4XNjfxcyMx9OyvGgVzqFKTbDWjv31YxGxvLKbtR6uQbVBqwK9pJVTbiIpt1GnYNl6PPywef7XFX7mq9wsXH2/q6SAk5DlrMOw+QYXOEZhqmP8DnKcuP2I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1592876142;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=33Gm885SjkWj7QmgFzwFQ3bj0mjxi8dF0RsXVfxngl4=; 
+ b=T/gWxC8J3dBGGS2yMgI+FsrdqxCp4CEDGZrYj8ehLbmYiZTcYJvc2L/fHt9ThsUBOM651171v3xA7KS4XP3/4xpDLKjFK/4fk9nXm+/VxLyiuo2qifMnMiaOFQFn9mcc5Wmfwqi26FyPqupm93CbtScWUf7RkzdpPZG/AHevd/Y=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1592876140772951.2336439743551;
+ Mon, 22 Jun 2020 18:35:40 -0700 (PDT)
+Message-ID: <159287613956.1362.1894613646907486946@d1fd068a5071>
+Subject: Re: [PATCH v2] target/i386: reimplement fpatan using floatx80
+ operations
+In-Reply-To: <alpine.DEB.2.21.2006230000340.24721@digraph.polyomino.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jun 2020 01:33:42 -0000
-From: Alexander Bulekov <1884693@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <159287602229.13953.9997472132144071395.malonedeb@wampee.canonical.com>
-Subject: [Bug 1884693] [NEW] Assertion failure in address_space_unmap through
- ahci_map_clb_address
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: dd7b9ceb93b90e1642cc9cc3d080e44c0c35b589
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 20:45:41
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: joseph@codesourcery.com
+Date: Mon, 22 Jun 2020 18:35:40 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/22 21:32:29
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,170 +70,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884693 <1884693@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Hello,
-Reproducer:
-cat << EOF | ./i386-softmmu/qemu-system-i386 -qtest stdio -monitor none -se=
-rial none -M pc-q35-5.0 -nographic
-outl 0xcf8 0x8000fa24
-outl 0xcfc 0xe1068000
-outl 0xcf8 0x8000fa04
-outw 0xcfc 0x7
-outl 0xcf8 0x8000fb20
-write 0xe1068304 0x1 0x21
-write 0xe1068318 0x1 0x21
-write 0xe1068384 0x1 0x21
-write 0xe1068398 0x2 0x21
-EOF
-
-Stack trace:
-#0 0x55bfabfe9ea0 in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/csu/.=
-./csu/libc-start.c:308:16
-#1 0x55bfabfc8ef9 in __sanitizer_print_stack_trace (build/i386-softmmu/qemu=
--fuzz-i386+0x7b7ef9)
-#2 0x55bfabfaf933 in fuzzer::PrintStackTrace() FuzzerUtil.cpp:210:5
-#3 0x7f88df76110f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1410f)
-#4 0x7f88df5a4760 in __libc_signal_restore_set /build/glibc-GwnBeO/glibc-2.=
-30/signal/../sysdeps/unix/sysv/linux/internal-signals.h:84:10
-#5 0x7f88df5a4760 in raise /build/glibc-GwnBeO/glibc-2.30/signal/../sysdeps=
-/unix/sysv/linux/raise.c:48:3
-#6 0x7f88df58e55a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.c:79=
-:7
-#7 0x7f88df58e42e in __assert_fail_base /build/glibc-GwnBeO/glibc-2.30/asse=
-rt/assert.c:92:3
-#8 0x7f88df59d091 in __assert_fail /build/glibc-GwnBeO/glibc-2.30/assert/as=
-sert.c:101:3
-#9 0x55bfabff7182 in address_space_unmap exec.c:3602:9
-#10 0x55bfac4a452f in dma_memory_unmap include/sysemu/dma.h:148:5
-#11 0x55bfac4a452f in map_page hw/ide/ahci.c:254:9
-#12 0x55bfac4a1f98 in ahci_map_clb_address hw/ide/ahci.c:748:5
-#13 0x55bfac4a1f98 in ahci_cond_start_engines hw/ide/ahci.c:276:14
-#14 0x55bfac4a074e in ahci_port_write hw/ide/ahci.c:339:9
-#15 0x55bfac4a074e in ahci_mem_write hw/ide/ahci.c:513:9
-#16 0x55bfac0e0dc2 in memory_region_write_accessor memory.c:483:5
-#17 0x55bfac0e0bde in access_with_adjusted_size memory.c:544:18
-#18 0x55bfac0e0917 in memory_region_dispatch_write memory.c
-#19 0x55bfabffa4fd in flatview_write_continue exec.c:3146:23
-#20 0x55bfabff569b in flatview_write exec.c:3186:14
-#21 0x55bfabff569b in address_space_write exec.c:3280:18
-#22 0x55bfac8982a9 in op_write_pattern tests/qtest/fuzz/general_fuzz.c:407:5
-#23 0x55bfac897749 in general_fuzz tests/qtest/fuzz/general_fuzz.c:481:17
-#24 0x55bfac8930a2 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:136:5
-#25 0x55bfabfb0e68 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*,=
- unsigned long) FuzzerLoop.cpp:558:15
-#26 0x55bfabfb0485 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsigned=
- long, bool, fuzzer::InputInfo*, bool*) FuzzerLoop.cpp:470:3
-#27 0x55bfabfb18a1 in fuzzer::Fuzzer::MutateAndTestOne() FuzzerLoop.cpp:701=
-:19
-#28 0x55bfabfb2305 in fuzzer::Fuzzer::Loop(std::vector<fuzzer::SizedFile, f=
-uzzer::fuzzer_allocator<fuzzer::SizedFile> >&) FuzzerLoop.cpp:837:5
-#29 0x55bfabfa2018 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned =
-char const*, unsigned long)) FuzzerDriver.cpp:846:6
-#30 0x55bfabfb8722 in main FuzzerMain.cpp:19:10
-#31 0x7f88df58fe0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/csu/=
-../csu/libc-start.c:308:16
-#32 0x55bfabf97869 in _start (build/i386-softmmu/qemu-fuzz-i386+0x786869)
-
-The same error can be triggered through  ahci_map_fis_address @ hw/ide/ahci=
-.c:721:5
-Found with generic device fuzzer: https://patchew.org/QEMU/20200611055651.1=
-3784-1-alxndr@bu.edu/
-
-Please let me know if I can provide any further info.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884693
-
-Title:
-  Assertion failure in address_space_unmap through ahci_map_clb_address
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -qtest stdio -monitor none -=
-serial none -M pc-q35-5.0 -nographic
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe1068000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000fb20
-  write 0xe1068304 0x1 0x21
-  write 0xe1068318 0x1 0x21
-  write 0xe1068384 0x1 0x21
-  write 0xe1068398 0x2 0x21
-  EOF
-
-  Stack trace:
-  #0 0x55bfabfe9ea0 in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/csu=
-/../csu/libc-start.c:308:16
-  #1 0x55bfabfc8ef9 in __sanitizer_print_stack_trace (build/i386-softmmu/qe=
-mu-fuzz-i386+0x7b7ef9)
-  #2 0x55bfabfaf933 in fuzzer::PrintStackTrace() FuzzerUtil.cpp:210:5
-  #3 0x7f88df76110f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1410f)
-  #4 0x7f88df5a4760 in __libc_signal_restore_set /build/glibc-GwnBeO/glibc-=
-2.30/signal/../sysdeps/unix/sysv/linux/internal-signals.h:84:10
-  #5 0x7f88df5a4760 in raise /build/glibc-GwnBeO/glibc-2.30/signal/../sysde=
-ps/unix/sysv/linux/raise.c:48:3
-  #6 0x7f88df58e55a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.c:=
-79:7
-  #7 0x7f88df58e42e in __assert_fail_base /build/glibc-GwnBeO/glibc-2.30/as=
-sert/assert.c:92:3
-  #8 0x7f88df59d091 in __assert_fail /build/glibc-GwnBeO/glibc-2.30/assert/=
-assert.c:101:3
-  #9 0x55bfabff7182 in address_space_unmap exec.c:3602:9
-  #10 0x55bfac4a452f in dma_memory_unmap include/sysemu/dma.h:148:5
-  #11 0x55bfac4a452f in map_page hw/ide/ahci.c:254:9
-  #12 0x55bfac4a1f98 in ahci_map_clb_address hw/ide/ahci.c:748:5
-  #13 0x55bfac4a1f98 in ahci_cond_start_engines hw/ide/ahci.c:276:14
-  #14 0x55bfac4a074e in ahci_port_write hw/ide/ahci.c:339:9
-  #15 0x55bfac4a074e in ahci_mem_write hw/ide/ahci.c:513:9
-  #16 0x55bfac0e0dc2 in memory_region_write_accessor memory.c:483:5
-  #17 0x55bfac0e0bde in access_with_adjusted_size memory.c:544:18
-  #18 0x55bfac0e0917 in memory_region_dispatch_write memory.c
-  #19 0x55bfabffa4fd in flatview_write_continue exec.c:3146:23
-  #20 0x55bfabff569b in flatview_write exec.c:3186:14
-  #21 0x55bfabff569b in address_space_write exec.c:3280:18
-  #22 0x55bfac8982a9 in op_write_pattern tests/qtest/fuzz/general_fuzz.c:40=
-7:5
-  #23 0x55bfac897749 in general_fuzz tests/qtest/fuzz/general_fuzz.c:481:17
-  #24 0x55bfac8930a2 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:136:5
-  #25 0x55bfabfb0e68 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const=
-*, unsigned long) FuzzerLoop.cpp:558:15
-  #26 0x55bfabfb0485 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsign=
-ed long, bool, fuzzer::InputInfo*, bool*) FuzzerLoop.cpp:470:3
-  #27 0x55bfabfb18a1 in fuzzer::Fuzzer::MutateAndTestOne() FuzzerLoop.cpp:7=
-01:19
-  #28 0x55bfabfb2305 in fuzzer::Fuzzer::Loop(std::vector<fuzzer::SizedFile,=
- fuzzer::fuzzer_allocator<fuzzer::SizedFile> >&) FuzzerLoop.cpp:837:5
-  #29 0x55bfabfa2018 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigne=
-d char const*, unsigned long)) FuzzerDriver.cpp:846:6
-  #30 0x55bfabfb8722 in main FuzzerMain.cpp:19:10
-  #31 0x7f88df58fe0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/cs=
-u/../csu/libc-start.c:308:16
-  #32 0x55bfabf97869 in _start (build/i386-softmmu/qemu-fuzz-i386+0x786869)
-
-  The same error can be triggered through  ahci_map_fis_address @ hw/ide/ah=
-ci.c:721:5
-  Found with generic device fuzzer: https://patchew.org/QEMU/20200611055651=
-.13784-1-alxndr@bu.edu/
-
-  Please let me know if I can provide any further info.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884693/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9hbHBpbmUuREVCLjIuMjEuMjAw
+NjIzMDAwMDM0MC4yNDcyMUBkaWdyYXBoLnBvbHlvbWluby5vcmcudWsvCgoKCkhpLAoKVGhpcyBz
+ZXJpZXMgZmFpbGVkIHRoZSBkb2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2Ug
+ZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3Ug
+aGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2Nh
+bGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1p
+bWFnZS1jZW50b3M3IFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNl
+bnRvczcgU0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+ICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS90YXJnZXQvYXJtL3BhdXRoX2hlbHBlci5vCiAgR0VO
+ICAgICB0cmFjZS9nZW5lcmF0ZWQtaGVscGVycy5jCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQv
+aTM4Ni9mcHVfaGVscGVyLmM6IEluIGZ1bmN0aW9uICdoZWxwZXJfZnBhdGFuJzoKL3RtcC9xZW11
+LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2ZwdV9oZWxwZXIuYzoxMDk4OjE3OiBlcnJvcjogaW1wbGlj
+aXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24gJ3NoaWZ0MTI4UmlnaHQnIFstV2Vycm9yPWltcGxp
+Y2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgICAgICAgICAgICAgIHNoaWZ0MTI4UmlnaHQo
+cmVtc2lnMCwgcmVtc2lnMSwgMSwgJnJlbXNpZzAsICZyZW1zaWcxKTsKICAgICAgICAgICAgICAg
+ICBeCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTA5ODoxNzog
+ZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ3NoaWZ0MTI4UmlnaHQnIFstV2Vy
+cm9yPW5lc3RlZC1leHRlcm5zXQovdG1wL3FlbXUtdGVzdC9zcmMvdGFyZ2V0L2kzODYvZnB1X2hl
+bHBlci5jOjExMDE6MTM6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAn
+ZXN0aW1hdGVEaXYxMjhUbzY0JyBbLVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlv
+bl0KICAgICAgICAgICAgIHhzaWcwID0gZXN0aW1hdGVEaXYxMjhUbzY0KHJlbXNpZzAsIHJlbXNp
+ZzEsIGRlbl9zaWcpOwogICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvdGFyZ2V0L2kz
+ODYvZnB1X2hlbHBlci5jOjExMDE6MTM6IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRlY2xhcmF0aW9u
+IG9mICdlc3RpbWF0ZURpdjEyOFRvNjQnIFstV2Vycm9yPW5lc3RlZC1leHRlcm5zXQovdG1wL3Fl
+bXUtdGVzdC9zcmMvdGFyZ2V0L2kzODYvZnB1X2hlbHBlci5jOjExMDI6MTM6IGVycm9yOiBpbXBs
+aWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnbXVsNjRUbzEyOCcgWy1XZXJyb3I9aW1wbGlj
+aXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgICAgICAgICAgICBtdWw2NFRvMTI4KGRlbl9zaWcs
+IHhzaWcwLCAmbXNpZzAsICZtc2lnMSk7CiAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3Ny
+Yy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTEwMjoxMzogZXJyb3I6IG5lc3RlZCBleHRlcm4g
+ZGVjbGFyYXRpb24gb2YgJ211bDY0VG8xMjgnIFstV2Vycm9yPW5lc3RlZC1leHRlcm5zXQovdG1w
+L3FlbXUtdGVzdC9zcmMvdGFyZ2V0L2kzODYvZnB1X2hlbHBlci5jOjExMDM6MTM6IGVycm9yOiBp
+bXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnc3ViMTI4JyBbLVdlcnJvcj1pbXBsaWNp
+dC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KICAgICAgICAgICAgIHN1YjEyOChyZW1zaWcwLCByZW1z
+aWcxLCBtc2lnMCwgbXNpZzEsICZyZW1zaWcwLCAmcmVtc2lnMSk7CiAgICAgICAgICAgICBeCi90
+bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTEwMzoxMzogZXJyb3I6
+IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ3N1YjEyOCcgWy1XZXJyb3I9bmVzdGVkLWV4
+dGVybnNdCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTEwNjox
+NzogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdhZGQxMjgnIFstV2Vy
+cm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgICAgICAgICAgICAgIGFkZDEy
+OChyZW1zaWcwLCByZW1zaWcxLCAwLCBkZW5fc2lnLCAmcmVtc2lnMCwgJnJlbXNpZzEpOwogICAg
+ICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2ZwdV9oZWxwZXIu
+YzoxMTA2OjE3OiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAnYWRkMTI4JyBb
+LVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3RtcC9xZW11LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2Zw
+dV9oZWxwZXIuYzoxMTQzOjMzOiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
+b24gJ3NoaWZ0MTI4TGVmdCcgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25d
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNoaWZ0MTI4TGVmdCh5c2lnMCwgeXNp
+ZzEsIHNoaWZ0LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10
+ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTE0MzozMzogZXJyb3I6IG5lc3RlZCBl
+eHRlcm4gZGVjbGFyYXRpb24gb2YgJ3NoaWZ0MTI4TGVmdCcgWy1XZXJyb3I9bmVzdGVkLWV4dGVy
+bnNdCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTE3MToyMTog
+ZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdzaGlmdDEyOFJpZ2h0SmFt
+bWluZycgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgICAgICAgICAg
+ICAgICAgICAgIHNoaWZ0MTI4UmlnaHRKYW1taW5nKHhzaWcwLCB4c2lnMSwgdGV4cCAtIHhleHAs
+CiAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2Zw
+dV9oZWxwZXIuYzoxMTcxOjIxOiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAn
+c2hpZnQxMjhSaWdodEphbW1pbmcnIFstV2Vycm9yPW5lc3RlZC1leHRlcm5zXQovdG1wL3FlbXUt
+dGVzdC9zcmMvdGFyZ2V0L2kzODYvZnB1X2hlbHBlci5jOjEyMDA6MTc6IGVycm9yOiBpbXBsaWNp
+dCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnbXVsMTI4Qnk2NFRvMTkyJyBbLVdlcnJvcj1pbXBs
+aWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KICAgICAgICAgICAgICAgICBtdWwxMjhCeTY0VG8x
+OTIoeHNpZzAsIHhzaWcxLCB0c2lnLCAmZHNpZzAsICZkc2lnMSwgJmRzaWcyKTsKICAgICAgICAg
+ICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTIw
+MDoxNzogZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ211bDEyOEJ5NjRUbzE5
+MicgWy1XZXJyb3I9bmVzdGVkLWV4dGVybnNdCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4
+Ni9mcHVfaGVscGVyLmM6MTIxODoxNzogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1
+bmN0aW9uICdzdWIxOTInIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQog
+ICAgICAgICAgICAgICAgIHN1YjE5MihyZW1zaWcwLCByZW1zaWcxLCByZW1zaWcyLCBtc2lnMCwg
+bXNpZzEsIG1zaWcyLAogICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL3Rhcmdl
+dC9pMzg2L2ZwdV9oZWxwZXIuYzoxMjE4OjE3OiBlcnJvcjogbmVzdGVkIGV4dGVybiBkZWNsYXJh
+dGlvbiBvZiAnc3ViMTkyJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3RtcC9xZW11LXRlc3Qv
+c3JjL3RhcmdldC9pMzg2L2ZwdV9oZWxwZXIuYzoxMjIyOjIxOiBlcnJvcjogaW1wbGljaXQgZGVj
+bGFyYXRpb24gb2YgZnVuY3Rpb24gJ2FkZDE5MicgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24t
+ZGVjbGFyYXRpb25dCiAgICAgICAgICAgICAgICAgICAgIGFkZDE5MihyZW1zaWcwLCByZW1zaWcx
+LCByZW1zaWcyLCAwLCBkc2lnMCwgZHNpZzEsCiAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9x
+ZW11LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2ZwdV9oZWxwZXIuYzoxMjIyOjIxOiBlcnJvcjogbmVz
+dGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAnYWRkMTkyJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJu
+c10KL3RtcC9xZW11LXRlc3Qvc3JjL3RhcmdldC9pMzg2L2ZwdV9oZWxwZXIuYzoxMjM3OjE3OiBl
+cnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24gJ211bDEyOFRvMjU2JyBbLVdl
+cnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KICAgICAgICAgICAgICAgICBtdWwx
+MjhUbzI1Nih6c2lnMCwgenNpZzEsIHpzaWcwLCB6c2lnMSwKICAgICAgICAgICAgICAgICBeCi90
+bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9mcHVfaGVscGVyLmM6MTIzNzoxNzogZXJyb3I6
+IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ211bDEyOFRvMjU2JyBbLVdlcnJvcj1uZXN0
+ZWQtZXh0ZXJuc10KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKICBD
+QyAgICAgIGFhcmNoNjQtc29mdG1tdS90cmFjZS9jb250cm9sLXRhcmdldC5vCm1ha2VbMV06ICoq
+KiBbdGFyZ2V0L2kzODYvZnB1X2hlbHBlci5vXSBFcnJvciAxCm1ha2VbMV06ICoqKiBXYWl0aW5n
+IGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvc29mdG1t
+dS9tYWluLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS90YXJnZXQvYXJtL3RyYW5zbGF0ZS5v
+CiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvZ2Ric3R1Yi14bWwubwogIENDICAgICAgYWFyY2g2
+NC1zb2Z0bW11L3RyYWNlL2dlbmVyYXRlZC1oZWxwZXJzLm8KICBDQyAgICAgIGFhcmNoNjQtc29m
+dG1tdS90YXJnZXQvYXJtL3RyYW5zbGF0ZS1zdmUubwptYWtlOiAqKiogW3g4Nl82NC1zb2Z0bW11
+L2FsbF0gRXJyb3IgMgptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgog
+IExJTksgICAgYWFyY2g2NC1zb2Z0bW11L3FlbXUtc3lzdGVtLWFhcmNoNjQKVHJhY2ViYWNrICht
+b3N0IHJlY2VudCBjYWxsIGxhc3QpOgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihy
+ZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1
+ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNl
+LnV1aWQ9MGY1MmU1MDc0NjRiNDAxOGJlMDJlYWI3NGFiMTVlOTAnLCAnLXUnLCAnMTAwMycsICct
+LXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJH
+RVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1l
+JywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NB
+Q0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3Fl
+bXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRj
+aGV3LXRlc3Rlci10bXAtd3JrdG93bzYvc3JjL2RvY2tlci1zcmMuMjAyMC0wNi0yMi0yMS4zMy4z
+MS42MDM6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11
+L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
+bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTBmNTJlNTA3NDY0YjQw
+MThiZTAyZWFiNzRhYjE1ZTkwCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
+WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXdya3Rv
+d282L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3Ig
+MgoKcmVhbCAgICAybTguNzkzcwp1c2VyICAgIDBtOC4yODBzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy9hbHBpbmUuREVCLjIuMjEuMjAwNjIz
+MDAwMDM0MC4yNDcyMUBkaWdyYXBoLnBvbHlvbWluby5vcmcudWsvdGVzdGluZy5kb2NrZXItcXVp
+Y2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
+bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
+ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
