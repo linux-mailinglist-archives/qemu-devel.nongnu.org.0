@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337E0206121
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 23:00:17 +0200 (CEST)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EC5206113
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 22:53:20 +0200 (CEST)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnq1g-00040S-62
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 17:00:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
+	id 1jnpux-0007T6-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 16:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsc-0004mW-3w; Tue, 23 Jun 2020 16:50:54 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56426
+ id 1jnpso-0005Ez-EW; Tue, 23 Jun 2020 16:51:06 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56450
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsZ-0001sY-9V; Tue, 23 Jun 2020 16:50:53 -0400
+ id 1jnpsm-0001yv-PQ; Tue, 23 Jun 2020 16:51:06 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jnpsV-0007T1-UQ; Tue, 23 Jun 2020 21:50:53 +0100
+ id 1jnpsl-0007T1-GC; Tue, 23 Jun 2020 21:51:06 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, laurent@vivier.eu,
  fthain@telegraphics.com.au
-Date: Tue, 23 Jun 2020 21:49:26 +0100
-Message-Id: <20200623204936.24064-13-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 23 Jun 2020 21:49:29 +0100
+Message-Id: <20200623204936.24064-16-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
 References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 12/22] adb: keep track of devices with pending data
+Subject: [PATCH v2 15/22] adb: add autopoll_blocked variable to block autopoll
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,70 +64,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new pending variable to ADBBusState which is a bitmask indicating which
-ADB devices have data to send. Update the bitmask every time that an ADB
-request is executed.
+Whilst autopoll is enabled it is necessary to prevent the ADB buffer contents
+from being overwritten until the host has read back the response in its
+entirety.
+
+Add adb_autopoll_block() and adb_autopoll_unblock() functions in preparation
+for ensuring that the ADB buffer contents are protected for explicit ADB
+requests.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/input/adb.c         | 16 +++++++++++++++-
- include/hw/input/adb.h |  1 +
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ hw/input/adb.c         | 21 +++++++++++++++++++++
+ include/hw/input/adb.h |  4 ++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/hw/input/adb.c b/hw/input/adb.c
-index bb36ce6fad..c1adb21e6b 100644
+index b3ad7c5fca..70aa1f4570 100644
 --- a/hw/input/adb.c
 +++ b/hw/input/adb.c
-@@ -41,6 +41,7 @@ static void adb_device_reset(ADBDevice *d)
- int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
- {
-     ADBDevice *d;
-+    ADBDeviceClass *adc;
-     int devaddr, cmd, i;
- 
-     cmd = buf[0] & 0xf;
-@@ -51,14 +52,27 @@ int adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf, int len)
-         }
-         return 0;
+@@ -157,6 +157,26 @@ void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask)
      }
-+
-+    s->pending = 0;
-+    for (i = 0; i < s->nb_devices; i++) {
-+        d = s->devices[i];
-+        adc = ADB_DEVICE_GET_CLASS(d);
-+
-+        if (adc->devhasdata(d)) {
-+            s->pending |= (1 << d->devaddr);
-+        }
-+    }
-+
-     devaddr = buf[0] >> 4;
-     for (i = 0; i < s->nb_devices; i++) {
-         d = s->devices[i];
-+        adc = ADB_DEVICE_GET_CLASS(d);
-+
-         if (d->devaddr == devaddr) {
--            ADBDeviceClass *adc = ADB_DEVICE_GET_CLASS(d);
-             return adc->devreq(d, obuf, buf, len);
-         }
-     }
-+
-     return ADB_RET_NOTPRESENT;
  }
  
++void adb_autopoll_block(ADBBusState *s)
++{
++    s->autopoll_blocked = true;
++
++    if (s->autopoll_enabled) {
++        timer_del(s->autopoll_timer);
++    }
++}
++
++void adb_autopoll_unblock(ADBBusState *s)
++{
++    s->autopoll_blocked = false;
++
++    if (s->autopoll_enabled) {
++        timer_mod(s->autopoll_timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++                  s->autopoll_rate_ms);
++    }
++}
++
+ static void adb_autopoll(void *opaque)
+ {
+     ADBBusState *s = opaque;
+@@ -184,6 +204,7 @@ static const VMStateDescription vmstate_adb_bus = {
+         VMSTATE_BOOL(autopoll_enabled, ADBBusState),
+         VMSTATE_UINT8(autopoll_rate_ms, ADBBusState),
+         VMSTATE_UINT16(autopoll_mask, ADBBusState),
++        VMSTATE_BOOL(autopoll_blocked, ADBBusState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
-index 9b80204e43..f1bc358d8e 100644
+index cff264739c..bb75a7b1e3 100644
 --- a/include/hw/input/adb.h
 +++ b/include/hw/input/adb.h
-@@ -76,6 +76,7 @@ struct ADBBusState {
-     /*< public >*/
+@@ -86,6 +86,7 @@ struct ADBBusState {
  
-     ADBDevice *devices[MAX_ADB_DEVICES];
-+    uint16_t pending;
-     int nb_devices;
-     int poll_index;
+     QEMUTimer *autopoll_timer;
+     bool autopoll_enabled;
++    bool autopoll_blocked;
+     uint8_t autopoll_rate_ms;
+     uint16_t autopoll_mask;
+     void (*autopoll_cb)(void *opaque);
+@@ -96,6 +97,9 @@ int adb_request(ADBBusState *s, uint8_t *buf_out,
+                 const uint8_t *buf, int len);
+ int adb_poll(ADBBusState *s, uint8_t *buf_out, uint16_t poll_mask);
  
++void adb_autopoll_block(ADBBusState *s);
++void adb_autopoll_unblock(ADBBusState *s);
++
+ void adb_set_autopoll_enabled(ADBBusState *s, bool enabled);
+ void adb_set_autopoll_rate_ms(ADBBusState *s, int rate_ms);
+ void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask);
 -- 
 2.20.1
 
