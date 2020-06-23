@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D84204D6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:07:55 +0200 (CEST)
-Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084FA204D8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 11:09:07 +0200 (CEST)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jneuH-0007Nj-J4
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46030)
+	id 1jnevS-0000uq-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 05:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnesy-0006KZ-J9
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:06:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33024
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnet3-0006Qd-6e
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:06:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53414
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnesx-00032B-3n
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:06:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jnet0-00033S-Ii
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 05:06:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592903189;
+ s=mimecast20190719; t=1592903193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2m2t021fPmocAk1w7rK7jsWgzV0rCiGfOdB2/ye3op0=;
- b=dbWhakwHD8H5oV049Nm+m2ldEXE7NSVAF2idN+WMAyTsxvJ4cCiTBvAkg7NO+PUxB+Y+nC
- NMn6fD9q8iKuQg0lSkbeEkp1VHImEECRghDDP565wtvntpFsBw9y+Cef+WJUuoN+bxbR3L
- RWcQaCp9ZpsWNrL824US93HByBDN1GE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-7NYUiXCoNfyG_wSJMzs19w-1; Tue, 23 Jun 2020 05:06:26 -0400
-X-MC-Unique: 7NYUiXCoNfyG_wSJMzs19w-1
-Received: by mail-wr1-f70.google.com with SMTP id g14so7769816wrp.8
- for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:06:26 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NFodWqskMtC/5PQ2GwuPpH+2hReee1VihIY8eKIqRQU=;
+ b=IF2nMmUCY/0Aj9Q4bBsRtp+nd/TNmZ1DsgCXMqNvRFLRoguIAUhwGe8Nmc1u6GfpWV2lPO
+ Kp6hZpqh49omBNSrhyaJGwPP7oNEoAHnP3Ai8i5bMDzm3x0tlDl7KwJeSSE+PyMDHuC8D3
+ Zz0HZcnhHs6JY78CPB0nFr7689DnH3g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-C7o0gJhNNuSd_pLb8VZ4jg-1; Tue, 23 Jun 2020 05:06:32 -0400
+X-MC-Unique: C7o0gJhNNuSd_pLb8VZ4jg-1
+Received: by mail-wm1-f69.google.com with SMTP id a7so3215945wmf.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jun 2020 02:06:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2m2t021fPmocAk1w7rK7jsWgzV0rCiGfOdB2/ye3op0=;
- b=OHKIIv3uDe1wF5vFqTqGI7xBwAB6FiGix2F7Lvy3A33JcFDeK/DG/HzgDYRSZxKKgj
- v7WfK9A8KEkA4e2IheVYTeW1j7/JtVCZv+cCLHlvv25iANe6xH+vedPIQ4izV0oqooTo
- eKWcp3Re60Z4prI/9vBMAb8npexx2xtk0ZwYAjHaalVXGbsQf2HNF/nzGabPp9w2iXw4
- 1PbE0DYr/uZsHbulDzTzn3KYgE/hz1I32oIImwgBDx7CFTY6mSTqVDoneiyQw8aq5XAi
- l8wQS6l1lx7tty4fcBEBOhCETANXeON3uJ8E07GGLAbLegdGAkpHHZ8p8dVPTsd3Yr1a
- XRBQ==
-X-Gm-Message-State: AOAM533/vxbJJLrwhcWzPMHgJCP+bu1WIDbEehWe84Oj2xFK0/6sfSta
- l11kJQ43H565cYodPB62658ZBkV3Rh4WlNVCVnG7CJ5yss6VnAn5Y9/ORJFNGe3rfGvEXpgxJh6
- lG3PWWtSj2Sw4BgQ=
-X-Received: by 2002:a05:6000:100c:: with SMTP id
- a12mr11437365wrx.81.1592903185314; 
- Tue, 23 Jun 2020 02:06:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZP10WQPOHMp4i3NHPCCa9B8KmGvXoITH2SZ5LSo0WtmaCkCiIGpy/qn/H3k+WRHf/tocWQg==
-X-Received: by 2002:a05:6000:100c:: with SMTP id
- a12mr11437320wrx.81.1592903184970; 
- Tue, 23 Jun 2020 02:06:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NFodWqskMtC/5PQ2GwuPpH+2hReee1VihIY8eKIqRQU=;
+ b=UbNMtTpyGG4YRotfn711PzKJkjCAM5hc58HKveBlNWU4URE7uYVVIQU+Y2b3KP0jF2
+ a94POOJDw7K3O3HPEMo9DToIDn564QCeuJJLtpH+912V9h0JUVOhpQcujI2P7DtD7sbx
+ bx8+x+4FVzKhddgGvO8ScXDuV0LgyRvDiAoph594lei1JUAiHjQ7yN8lBd9i3v2gdTEX
+ 9deJG83bU5GmWej0GMuO0itwUkjtCrMQme++LK3kdyKj5r45xt8A0Kjgmq3349PrWSYd
+ aIDNbF8RM2nv2IKkq9aQwrgGLwZewY9/tZXNxOAP3LOCz9jq4eAyX2AaFW5GWy92iV02
+ 1Tpw==
+X-Gm-Message-State: AOAM532lLmh7SbslM1XA7Rl5ZBtWjxDlx+h9njADXqNnhp5yDk+xIC7d
+ Wp8dpkqseUxTpcIwMF0fUd6Jum1KDJITnKjx3YE64IhEbvD90tAVQBdmIXdQiNN8uIwwJ43b9df
+ 4TlzmFHVoIkW4Nlk=
+X-Received: by 2002:adf:fa81:: with SMTP id h1mr13967366wrr.266.1592903190739; 
+ Tue, 23 Jun 2020 02:06:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxYp7EOW24aIihuYBSTeyCt0a8qu7PFtl2vjpx6/D5IDweqkFR4nJCyT8X1HMCfow4T+lhWtA==
+X-Received: by 2002:adf:fa81:: with SMTP id h1mr13967350wrr.266.1592903190490; 
+ Tue, 23 Jun 2020 02:06:30 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id b19sm2951554wmj.0.2020.06.23.02.06.23
+ by smtp.gmail.com with ESMTPSA id g195sm2896048wme.38.2020.06.23.02.06.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 02:06:24 -0700 (PDT)
+ Tue, 23 Jun 2020 02:06:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] target/arm: Fix using pmu=on on KVM
-Date: Tue, 23 Jun 2020 11:06:20 +0200
-Message-Id: <20200623090622.30365-1-philmd@redhat.com>
+Subject: [PATCH v3 1/2] tests/qtest/arm-cpu-features: Add feature setting tests
+Date: Tue, 23 Jun 2020 11:06:21 +0200
+Message-Id: <20200623090622.30365-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200623090622.30365-1-philmd@redhat.com>
+References: <20200623090622.30365-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 02:55:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -102,25 +103,104 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v2:
-- include Drew test fix (addressed Peter review comments)
-- addressed Drew review comments
-- collected R-b/A-b
+From: Andrew Jones <drjones@redhat.com>
 
-Andrew Jones (1):
-  tests/qtest/arm-cpu-features: Add feature setting tests
+Some cpu features may be enabled and disabled for all configurations
+that support the feature. Let's test that.
 
-Philippe Mathieu-Daudé (1):
-  target/arm: Check supported KVM features globally (not per vCPU)
+A recent regression[*] inspired adding these tests.
 
- target/arm/kvm_arm.h           | 21 ++++++++-----------
- target/arm/cpu.c               |  2 +-
- target/arm/cpu64.c             | 10 ++++-----
- target/arm/kvm.c               |  4 ++--
- target/arm/kvm64.c             | 14 +++++--------
+[*] '-cpu host,pmu=on' caused a segfault
+
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Message-Id: <20200623082310.17577-1-drjones@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
  tests/qtest/arm-cpu-features.c | 38 ++++++++++++++++++++++++++++++----
- 6 files changed, 56 insertions(+), 33 deletions(-)
+ 1 file changed, 34 insertions(+), 4 deletions(-)
 
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 4692173676..f7e062c189 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -159,16 +159,35 @@ static bool resp_get_feature(QDict *resp, const char *feature)
+     qobject_unref(_resp);                                              \
+ })
+ 
+-#define assert_feature(qts, cpu_type, feature, expected_value)         \
++#define resp_assert_feature(resp, feature, expected_value)             \
+ ({                                                                     \
+-    QDict *_resp, *_props;                                             \
++    QDict *_props;                                                     \
+                                                                        \
+-    _resp = do_query_no_props(qts, cpu_type);                          \
+     g_assert(_resp);                                                   \
+     g_assert(resp_has_props(_resp));                                   \
+     _props = resp_get_props(_resp);                                    \
+     g_assert(qdict_get(_props, feature));                              \
+     g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
++})
++
++#define assert_feature(qts, cpu_type, feature, expected_value)         \
++({                                                                     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query_no_props(qts, cpu_type);                          \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, expected_value);               \
++    qobject_unref(_resp);                                              \
++})
++
++#define assert_set_feature(qts, cpu_type, feature, value)              \
++({                                                                     \
++    const char *_fmt = (value) ? "{ %s: true }" : "{ %s: false }";     \
++    QDict *_resp;                                                      \
++                                                                       \
++    _resp = do_query(qts, cpu_type, _fmt, feature);                    \
++    g_assert(_resp);                                                   \
++    resp_assert_feature(_resp, feature, value);                        \
+     qobject_unref(_resp);                                              \
+ })
+ 
+@@ -424,10 +443,14 @@ static void test_query_cpu_model_expansion(const void *data)
+     assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
+ 
+     /* Test expected feature presence/absence for some cpu types */
+-    assert_has_feature_enabled(qts, "max", "pmu");
+     assert_has_feature_enabled(qts, "cortex-a15", "pmu");
+     assert_has_not_feature(qts, "cortex-a15", "aarch64");
+ 
++    /* Enabling and disabling pmu should always work. */
++    assert_has_feature_enabled(qts, "max", "pmu");
++    assert_set_feature(qts, "max", "pmu", false);
++    assert_set_feature(qts, "max", "pmu", true);
++
+     assert_has_not_feature(qts, "max", "kvm-no-adjvtime");
+ 
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+@@ -464,7 +487,10 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         return;
+     }
+ 
++    /* Enabling and disabling kvm-no-adjvtime should always work. */
+     assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
++    assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
++    assert_set_feature(qts, "host", "kvm-no-adjvtime", false);
+ 
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+         bool kvm_supports_sve;
+@@ -475,7 +501,11 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         char *error;
+ 
+         assert_has_feature_enabled(qts, "host", "aarch64");
++
++        /* Enabling and disabling pmu should always work. */
+         assert_has_feature_enabled(qts, "host", "pmu");
++        assert_set_feature(qts, "host", "pmu", false);
++        assert_set_feature(qts, "host", "pmu", true);
+ 
+         assert_error(qts, "cortex-a15",
+             "We cannot guarantee the CPU type 'cortex-a15' works "
 -- 
 2.21.3
 
