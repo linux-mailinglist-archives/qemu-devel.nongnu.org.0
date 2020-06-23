@@ -2,77 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491B0204B25
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:31:14 +0200 (CEST)
-Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AB0204B51
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jun 2020 09:37:42 +0200 (CEST)
+Received: from localhost ([::1]:40908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jndOj-0004dI-92
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
+	id 1jndUz-0004Gr-JB
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 03:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jndLH-0007Si-Lv; Tue, 23 Jun 2020 03:27:39 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jndLF-00053o-Vs; Tue, 23 Jun 2020 03:27:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u26so1570838wmn.1;
- Tue, 23 Jun 2020 00:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CVzkXfAY4mkwkwka5Pgv63dlkcaDUjHVepXMBsclz50=;
- b=afO3tPZ1NHwYIPkGFt6Yvl1K7Gv3RADvfCffF6T0sJYDvtnURvauCel2GshDPU+k0z
- 9mJjVjhBl4ihJoQKsaxd4pI8j/uCMg/UIiA+jS0jSfKkBOP1CoIMsPUst+bSsJmdAIrN
- Uf15Ua5iv3nVR+TYwXHg4fx9ht/QsGfXL1S3/yXgMvC7jyvjs4LrmJL+u14IegC07pxS
- hnR9CBraT8eWwM2jpOLou6sxYw8I+88xq9NSqnewfBi1B68o4J/pY/L6e6KbH9X0LcAj
- el/B0okGlGq6p9VXpxpol/OSq/n7rB76cwzwX3r/GsojcFKJgE1WchJplKWD0Prz+AnR
- zDaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CVzkXfAY4mkwkwka5Pgv63dlkcaDUjHVepXMBsclz50=;
- b=fyvg7eFwrI6a1dgfHa0SC/EZbL7JifzazkwInxDKZ1jLN29H4KuReTcVCKt2ujCl12
- z1Pwe4ON8calCKkSx5cOMPhSepMXdkp+/ssxSsDlL8Q0qwcAczeJ41Ab5kBNOZQCPw4c
- 0ieKfcxPHdBVavt0xOADr2vQEdP+DkpR/I+ZAfrhGPT+CuBaC19Ou97t9iLEkintW2/0
- VoK+/5qVZLjzt4NU4nFMq3/QSFwjFlkiLxSNW52BSlRrN20l/YHXR03d2f+fcFqMjApZ
- Tu8LhbfIouA7vajaE+dmI6DuIbGPPQiPM45eZ1eV4GFNIXFEQo4KznMSf6u+LJO1QQG7
- axYw==
-X-Gm-Message-State: AOAM531u4cJGL8iInS6Ure7BBLwqYUmifp5mB8B15HHbQz2U//sVq/QJ
- AFT4q/VfUNKsmqNI4XlFAQTZOUF6
-X-Google-Smtp-Source: ABdhPJw7RwZ/45+sH6N+akoM+obDBHjISnyo4kE4xpsmVcFt3AEea+4rE8kabQHpnKNtwF4gjDwf1Q==
-X-Received: by 2002:a05:600c:2045:: with SMTP id
- p5mr24160370wmg.91.1592897256035; 
- Tue, 23 Jun 2020 00:27:36 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id l14sm4200059wrn.18.2020.06.23.00.27.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Jun 2020 00:27:35 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 8/9] hw/misc/pca9552: Trace GPIO change events
-Date: Tue, 23 Jun 2020 09:27:22 +0200
-Message-Id: <20200623072723.6324-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200623072723.6324-1-f4bug@amsat.org>
-References: <20200623072723.6324-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndLr-0000P7-Ss
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57536
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jndLq-0005DD-2r
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 03:28:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592897293;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ihzvmGKj2FtF1uT24perq1wQOg2x05VnpWS6Mf9i4U4=;
+ b=XmXjuADLLAcE5CSdfXDILvW3cdXKJ3wn0BAfs3ON5sTS3rppMDlHzc4vLQQjEyMY2tQ6zP
+ dx285lFvlRKJmNYKUlWOKatmpi15ca5QHi0aTlOjMkGjKrpDI7BXKxSl9EQVdkCt5K8HrH
+ JT7PEgVaXGLwCaeq3DdwEXLbaf9znic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-unu7_tz1MEyPgOsI0oV4lA-1; Tue, 23 Jun 2020 03:28:11 -0400
+X-MC-Unique: unu7_tz1MEyPgOsI0oV4lA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB1A18A8220;
+ Tue, 23 Jun 2020 07:28:10 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-138.ams2.redhat.com
+ [10.36.113.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E36DD60F80;
+ Tue, 23 Jun 2020 07:28:08 +0000 (UTC)
+Subject: Re: [PATCH 0/2] qcow2: Force preallocation with data-file-raw
+To: Alberto Garcia <berto@igalia.com>, Nir Soffer <nsoffer@redhat.com>
+References: <20200619104012.235977-1-mreitz@redhat.com>
+ <CAMRbyyu1ZC2qMKSHJXNy7-98-nXHh00dL-v_D0BKcEL6Rmmj+g@mail.gmail.com>
+ <72eb5700-faf6-22ee-69be-1e7653cf06c6@redhat.com>
+ <w51lfkf807y.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <66581529-dc44-5fd0-54a3-1117b073077a@redhat.com>
+Date: Tue, 23 Jun 2020 09:28:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+In-Reply-To: <w51lfkf807y.fsf@maestria.local.igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/23 01:53:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,90 +107,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emit a trace event when a GPIO change its state.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna
+Content-Type: multipart/mixed; boundary="iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE"
 
-Example booting obmc-phosphor-image:
+--iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-  $ qemu-system-arm -M witherspoon-bmc -trace pca955x_gpio_change
-  1592690552.687372:pca955x_gpio_change pca1 GPIO id:0 status: 0 -> 1
-  1592690552.690169:pca955x_gpio_change pca1 GPIO id:1 status: 0 -> 1
-  1592690552.691673:pca955x_gpio_change pca1 GPIO id:2 status: 0 -> 1
-  1592690552.696886:pca955x_gpio_change pca1 GPIO id:3 status: 0 -> 1
-  1592690552.698614:pca955x_gpio_change pca1 GPIO id:13 status: 0 -> 1
-  1592690552.699833:pca955x_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690552.700842:pca955x_gpio_change pca1 GPIO id:15 status: 0 -> 1
-  1592690683.841921:pca955x_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690683.861660:pca955x_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690684.371460:pca955x_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690684.882115:pca955x_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690685.391411:pca955x_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690685.901391:pca955x_gpio_change pca1 GPIO id:14 status: 0 -> 1
-  1592690686.411678:pca955x_gpio_change pca1 GPIO id:14 status: 1 -> 0
-  1592690686.921279:pca955x_gpio_change pca1 GPIO id:14 status: 0 -> 1
+On 22.06.20 19:44, Alberto Garcia wrote:
+> On Mon 22 Jun 2020 11:47:32 AM CEST, Max Reitz wrote:
+>>> I don't know the internals of qcow2 data_file, but are we really using
+>>> qcow2 metadata when accessing the data file?
+>>
+>> Yes.
+>>
+>>> This may have unwanted performance consequences.
+>>
+>> I don=E2=80=99t think so, because in practice normal lookups of L1/L2 ma=
+ppings
+>> generally don=E2=80=99t cost that much performance.
+>=20
+> ...if the L2 cache size is large enough. Otherwise you need one extra
+> read operation to retrieve the L2 metadata.
+>=20
+> Possible performance problems when you have preallocation:
+>=20
+>    - If a block hasn't been written yet (it's all zeroes) then you still
+>      need to read the L2 entry and read the data block. If there is not
+>      L2 table then you can simply return zeroes without going to disk at
+>      all. This of course assumes that the contents of the unwritten data
+>      block are zeroes.
+>=20
+>    - QEMU still needs to read from disk (and cache in memory) the L2
+>      metadata, when it already knows in advance the contents of the L2
+>      entry (guest_offset =3D=3D host_offset).
 
-We notice the GPIO #14 (front-power LED) starts to blink.
+We could well optimize this regardless of preallocation.  With
+data-file-raw, qemu doesn=E2=80=99t have to look at the L2 metadata at all.
 
-This LED is described in the witherspoon device-tree [*]:
+So the problem isn=E2=80=99t preallocation at all, it=E2=80=99s the fact th=
+at we don=E2=80=99t
+have such an optimization.  But note that to implement such an
+optimization, we really do need preallocation: Because it would mean
+that we wouldn=E2=80=99t touch the L1/L2 tables for data-file-raw images du=
+ring
+runtime, which would effectively make those images empty to today=E2=80=99s=
+ qemu
+versions.
 
-  front-power {
-      retain-state-shutdown;
-      default-state = "keep";
-      gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
-  };
+(OTOH, preallocation would then be pretty much superfluous for all newer
+versions of qemu.  To address that, we could then add an incompatible
+version of data-file-raw.  But I think we should only think about that
+once we get to that point.)
 
-[*] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts?id=b1f9be9392f0#n140
+You make a good point that data-file-raw was introduced alongside
+data-file.  But, well.  I personally can=E2=80=99t get myself to treating a=
+n
+autoclear flag like an incompatible one...
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/misc/pca9552.c    | 15 +++++++++++++++
- hw/misc/trace-events |  1 +
- 2 files changed, 16 insertions(+)
+Max
 
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 41f8ad213d..1c3ad57432 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -82,6 +82,21 @@ static void pca955x_display_pins_status(PCA955xState *s,
-         buf[i] = '\0';
-         trace_pca955x_gpio_status(s->description, buf);
-     }
-+    if (trace_event_get_state_backends(TRACE_PCA955X_GPIO_CHANGE)) {
-+        for (i = 0; i < k->pin_count; i++) {
-+            if (extract32(pins_changed, i, 1)) {
-+                unsigned new_state = extract32(pins_status, i, 1);
-+
-+                /*
-+                 * We display the state using the PCA logic ("active-high").
-+                 * This is not the state of the LED, which signal might be
-+                 * wired "active-low" on the board.
-+                 */
-+                trace_pca955x_gpio_change(s->description, i,
-+                                          !new_state, new_state);
-+            }
-+        }
-+    }
- }
- 
- static void pca955x_update_pin_input(PCA955xState *s)
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 9282c60dd9..7ccf683dd1 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -209,3 +209,4 @@ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx6
- 
- # pca9552.c
- pca955x_gpio_status(const char *description, const char *buf) "%s GPIOs 0-15 [%s]"
-+pca955x_gpio_change(const char *description, unsigned id, unsigned prev_state, unsigned current_state) "%s GPIO id:%u status: %u -> %u"
--- 
-2.21.3
+
+--iIECAPImeEA1VTCPjlTKLtSXHceUQc3DE--
+
+--seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7xrwcACgkQ9AfbAGHV
+z0Aokwf/Wya+AwABVfK+TbjFXpvXBW0pN44MZoq99nDHRxX8QRB90XCEzd77+2LZ
+HB2TFan9WwtSuJ+3lHy0SbKUVn6sJrTC5wGREHdOCElMsFMVHCZOQ9canLhrv+PK
+sLNhB+mICZSFhVzaLZ4nwgkm6qpdXNAfgC0kZjtf/lkjArxdXvlr6T17jBlrFZEH
+ULCyHjd1F7fYKQOK+Qs8XxDxzM9BZclwGNQEmPSv42VMaXWTfOw8ZQFooD53hxgn
+NRvt85d/YBQSS+GY3Ug9oY93e1me+LI5LdP4jTIt+rQSP+qAQdsgTc9Xye/x2Jyh
+PGeXu30hNnY3woG6zhfcTESQrF5qvw==
+=Y2E7
+-----END PGP SIGNATURE-----
+
+--seCU8vtQ3X1sUkaVbz7EQs3Fr8YeQaCna--
 
 
