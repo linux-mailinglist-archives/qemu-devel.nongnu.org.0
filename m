@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28325207183
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:52:10 +0200 (CEST)
-Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A0320718A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:53:46 +0200 (CEST)
+Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo30j-0001c2-39
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55926)
+	id 1jo32H-00050v-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jo2yi-0007YR-0Z
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47300
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo2za-0000j6-4K
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:58 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60976
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jo2yg-0000oo-C6
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:03 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo2zY-000192-9T
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995801;
+ s=mimecast20190719; t=1592995855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PbJOg/nv+ZCE+TPgqIsQ1ilmNbbkdoUQ+wuzW+cmF4g=;
- b=TUlrlUM9Q7z7GvJKdoE3UB9ix1BvwuQ6O7/hxVN4Nx3HDGPAAHqK9d9XBuszmihsLqEy0K
- Tn3DniAllIiSqO5fTLivp1HzymoYPz6x0g+vp+8g+CZNMOMb40hujgTRjprFRE4DMSdxKW
- 6xUzTMSUJO0OXW5c37Lx2WiEq2PSzTk=
+ bh=J0abId/W90zeO0fS4yKO+eD2M9J2AtJsNlz22d9npeE=;
+ b=N+T+hXjN8F9zpnRGkfI6UVx02jUiASiWD2AefHJn4fK93I0R+rB/zRH9pabW6gKXX/joXL
+ Ju3ap+LQxYnARu8Dkc6WeUA2/PCcYQaHVLu/1hM06tEr1zklz8SS72YB8e+1ccSJYaykI7
+ yR+UwZvyB3SQFUMPYXg6kRUYCDnwMRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-BotcB8MVOpWNTEDaeWvXeA-1; Wed, 24 Jun 2020 06:49:59 -0400
-X-MC-Unique: BotcB8MVOpWNTEDaeWvXeA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-481-Fq64_ABMO0ainnVBV5Rh4w-1; Wed, 24 Jun 2020 06:50:53 -0400
+X-MC-Unique: Fq64_ABMO0ainnVBV5Rh4w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C0551005513;
- Wed, 24 Jun 2020 10:49:58 +0000 (UTC)
-Received: from localhost (ovpn-114-150.ams2.redhat.com [10.36.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 326FF61981;
- Wed, 24 Jun 2020 10:49:54 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6807E18A8229;
+ Wed, 24 Jun 2020 10:50:52 +0000 (UTC)
+Received: from virtlab511.virt.lab.eng.bos.redhat.com
+ (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 419CC1DC;
+ Wed, 24 Jun 2020 10:50:49 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] trace/simple: Fix unauthorized enable
-Date: Wed, 24 Jun 2020 11:49:35 +0100
-Message-Id: <20200624104935.61329-3-stefanha@redhat.com>
-In-Reply-To: <20200624104935.61329-1-stefanha@redhat.com>
-References: <20200624104935.61329-1-stefanha@redhat.com>
+Subject: [PULL 01/31] kvm: support to get/set dirty log initial-all-set
+ capability
+Date: Wed, 24 Jun 2020 06:50:18 -0400
+Message-Id: <20200624105048.375353-1-pbonzini@redhat.com>
+In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
+References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,64 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>, Jay Zhou <jianjay.zhou@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogTWFya3VzIEFybWJydXN0ZXIgPGFybWJydUByZWRoYXQuY29tPgoKc3Rfc2V0X3RyYWNl
-X2ZpbGUoKSBhY2NpZGVudGFsbHkgZW5hYmxlcyB0cmFjaW5nLiAgSXQncyBjYWxsZWQKdW5jb25k
-aXRpb25hbGx5IGR1cmluZyBzdGFydHVwLCB3aGljaCBpcyB3aHkgUUVNVSBidWlsdCB3aXRoIHRo
-ZQpzaW1wbGUgdHJhY2UgYmFja2VuZCBhbHdheXMgd3JpdGVzIGEgdHJhY2UgZmlsZSAidHJhY2Ut
-JFBJRCIuCgpUaGlzIGhhcyBiZWVuIGJyb2tlbiBmb3IgcXVpdGUgYSB3aGlsZS4gIEkgZGlkbid0
-IHRyYWNrIGRvd24gdGhlIGV4YWN0CmNvbW1pdC4KCkZpeCBzdF9zZXRfdHJhY2VfZmlsZSgpIHRv
-IHJlc3RvcmUgdGhlIHN0YXRlLgoKU2lnbmVkLW9mZi1ieTogTWFya3VzIEFybWJydXN0ZXIgPGFy
-bWJydUByZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBo
-aWxtZEByZWRoYXQuY29tPgpNZXNzYWdlLWlkOiAyMDIwMDUyNzA2NTYxMy4yNTMyMi0xLWFybWJy
-dUByZWRoYXQuY29tClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVk
-aGF0LmNvbT4KLS0tCiB0cmFjZS9zaW1wbGUuaCB8ICAyICstCiB0cmFjZS9zaW1wbGUuYyB8IDIw
-ICsrKysrKysrKysrKysrLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyks
-IDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdHJhY2Uvc2ltcGxlLmggYi90cmFjZS9zaW1w
-bGUuaAppbmRleCA1NzcxYTA2MzRmLi4yNmNjYmM4YjhhIDEwMDY0NAotLS0gYS90cmFjZS9zaW1w
-bGUuaAorKysgYi90cmFjZS9zaW1wbGUuaApAQCAtMTIsNyArMTIsNyBAQAogI2RlZmluZSBUUkFD
-RV9TSU1QTEVfSAogCiB2b2lkIHN0X3ByaW50X3RyYWNlX2ZpbGVfc3RhdHVzKHZvaWQpOwotdm9p
-ZCBzdF9zZXRfdHJhY2VfZmlsZV9lbmFibGVkKGJvb2wgZW5hYmxlKTsKK2Jvb2wgc3Rfc2V0X3Ry
-YWNlX2ZpbGVfZW5hYmxlZChib29sIGVuYWJsZSk7CiB2b2lkIHN0X3NldF90cmFjZV9maWxlKGNv
-bnN0IGNoYXIgKmZpbGUpOwogYm9vbCBzdF9pbml0KHZvaWQpOwogdm9pZCBzdF9mbHVzaF90cmFj
-ZV9idWZmZXIodm9pZCk7CmRpZmYgLS1naXQgYS90cmFjZS9zaW1wbGUuYyBiL3RyYWNlL3NpbXBs
-ZS5jCmluZGV4IGZjNzEwNmVjNDkuLjljZDJlZDFmYjMgMTAwNjQ0Ci0tLSBhL3RyYWNlL3NpbXBs
-ZS5jCisrKyBiL3RyYWNlL3NpbXBsZS5jCkBAIC0zMDIsMTAgKzMwMiwxNyBAQCBzdGF0aWMgaW50
-IHN0X3dyaXRlX2V2ZW50X21hcHBpbmcodm9pZCkKICAgICByZXR1cm4gMDsKIH0KIAotdm9pZCBz
-dF9zZXRfdHJhY2VfZmlsZV9lbmFibGVkKGJvb2wgZW5hYmxlKQorLyoqCisgKiBFbmFibGUgLyBk
-aXNhYmxlIHRyYWNpbmcsIHJldHVybiB3aGV0aGVyIGl0IHdhcyBlbmFibGVkLgorICoKKyAqIEBl
-bmFibGU6IGVuYWJsZSBpZiAldHJ1ZSwgZWxzZSBkaXNhYmxlLgorICovCitib29sIHN0X3NldF90
-cmFjZV9maWxlX2VuYWJsZWQoYm9vbCBlbmFibGUpCiB7CisgICAgYm9vbCB3YXNfZW5hYmxlZCA9
-IHRyYWNlX2ZwOworCiAgICAgaWYgKGVuYWJsZSA9PSAhIXRyYWNlX2ZwKSB7Ci0gICAgICAgIHJl
-dHVybjsgLyogbm8gY2hhbmdlICovCisgICAgICAgIHJldHVybiB3YXNfZW5hYmxlZDsgICAgIC8q
-IG5vIGNoYW5nZSAqLwogICAgIH0KIAogICAgIC8qIEhhbHQgdHJhY2Ugd3JpdGVvdXQgKi8KQEAg
-LTMyMywxNCArMzMwLDE0IEBAIHZvaWQgc3Rfc2V0X3RyYWNlX2ZpbGVfZW5hYmxlZChib29sIGVu
-YWJsZSkKIAogICAgICAgICB0cmFjZV9mcCA9IGZvcGVuKHRyYWNlX2ZpbGVfbmFtZSwgIndiIik7
-CiAgICAgICAgIGlmICghdHJhY2VfZnApIHsKLSAgICAgICAgICAgIHJldHVybjsKKyAgICAgICAg
-ICAgIHJldHVybiB3YXNfZW5hYmxlZDsKICAgICAgICAgfQogCiAgICAgICAgIGlmIChmd3JpdGUo
-JmhlYWRlciwgc2l6ZW9mIGhlYWRlciwgMSwgdHJhY2VfZnApICE9IDEgfHwKICAgICAgICAgICAg
-IHN0X3dyaXRlX2V2ZW50X21hcHBpbmcoKSA8IDApIHsKICAgICAgICAgICAgIGZjbG9zZSh0cmFj
-ZV9mcCk7CiAgICAgICAgICAgICB0cmFjZV9mcCA9IE5VTEw7Ci0gICAgICAgICAgICByZXR1cm47
-CisgICAgICAgICAgICByZXR1cm4gd2FzX2VuYWJsZWQ7CiAgICAgICAgIH0KIAogICAgICAgICAv
-KiBSZXN1bWUgdHJhY2Ugd3JpdGVvdXQgKi8KQEAgLTM0MCw2ICszNDcsNyBAQCB2b2lkIHN0X3Nl
-dF90cmFjZV9maWxlX2VuYWJsZWQoYm9vbCBlbmFibGUpCiAgICAgICAgIGZjbG9zZSh0cmFjZV9m
-cCk7CiAgICAgICAgIHRyYWNlX2ZwID0gTlVMTDsKICAgICB9CisgICAgcmV0dXJuIHdhc19lbmFi
-bGVkOwogfQogCiAvKioKQEAgLTM1MCw3ICszNTgsNyBAQCB2b2lkIHN0X3NldF90cmFjZV9maWxl
-X2VuYWJsZWQoYm9vbCBlbmFibGUpCiAgKi8KIHZvaWQgc3Rfc2V0X3RyYWNlX2ZpbGUoY29uc3Qg
-Y2hhciAqZmlsZSkKIHsKLSAgICBzdF9zZXRfdHJhY2VfZmlsZV9lbmFibGVkKGZhbHNlKTsKKyAg
-ICBib29sIHNhdmVkX2VuYWJsZSA9IHN0X3NldF90cmFjZV9maWxlX2VuYWJsZWQoZmFsc2UpOwog
-CiAgICAgZ19mcmVlKHRyYWNlX2ZpbGVfbmFtZSk7CiAKQEAgLTM2MSw3ICszNjksNyBAQCB2b2lk
-IHN0X3NldF90cmFjZV9maWxlKGNvbnN0IGNoYXIgKmZpbGUpCiAgICAgICAgIHRyYWNlX2ZpbGVf
-bmFtZSA9IGdfc3RyZHVwX3ByaW50ZigiJXMiLCBmaWxlKTsKICAgICB9CiAKLSAgICBzdF9zZXRf
-dHJhY2VfZmlsZV9lbmFibGVkKHRydWUpOworICAgIHN0X3NldF90cmFjZV9maWxlX2VuYWJsZWQo
-c2F2ZWRfZW5hYmxlKTsKIH0KIAogdm9pZCBzdF9wcmludF90cmFjZV9maWxlX3N0YXR1cyh2b2lk
-KQotLSAKMi4yNi4yCgo=
+From: Jay Zhou <jianjay.zhou@huawei.com>
+
+Since the new capability KVM_DIRTY_LOG_INITIALLY_SET of
+KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 has been introduced in the
+kernel, tweak the userspace side to detect and enable this
+capability.
+
+Signed-off-by: Jay Zhou <jianjay.zhou@huawei.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20200304025554.2159-1-jianjay.zhou@huawei.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ accel/kvm/kvm-all.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index f24d7da783..d54a8701d8 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -101,7 +101,7 @@ struct KVMState
+     bool kernel_irqchip_required;
+     OnOffAuto kernel_irqchip_split;
+     bool sync_mmu;
+-    bool manual_dirty_log_protect;
++    uint64_t manual_dirty_log_protect;
+     /* The man page (and posix) say ioctl numbers are signed int, but
+      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
+      * unsigned, and treating them as signed here can break things */
+@@ -1995,6 +1995,7 @@ static int kvm_init(MachineState *ms)
+     int ret;
+     int type = 0;
+     const char *kvm_type;
++    uint64_t dirty_log_manual_caps;
+ 
+     s = KVM_STATE(ms->accelerator);
+ 
+@@ -2120,14 +2121,20 @@ static int kvm_init(MachineState *ms)
+     s->coalesced_pio = s->coalesced_mmio &&
+                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
+ 
+-    s->manual_dirty_log_protect =
++    dirty_log_manual_caps =
+         kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
+-    if (s->manual_dirty_log_protect) {
+-        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0, 1);
++    dirty_log_manual_caps &= (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE |
++                              KVM_DIRTY_LOG_INITIALLY_SET);
++    s->manual_dirty_log_protect = dirty_log_manual_caps;
++    if (dirty_log_manual_caps) {
++        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0,
++                                   dirty_log_manual_caps);
+         if (ret) {
+-            warn_report("Trying to enable KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 "
+-                        "but failed.  Falling back to the legacy mode. ");
+-            s->manual_dirty_log_protect = false;
++            warn_report("Trying to enable capability %"PRIu64" of "
++                        "KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 but failed. "
++                        "Falling back to the legacy mode. ",
++                        dirty_log_manual_caps);
++            s->manual_dirty_log_protect = 0;
+         }
+     }
+ 
+-- 
+2.26.2
+
 
 
