@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23562206F35
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:47:37 +0200 (CEST)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBFE206F39
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:48:25 +0200 (CEST)
+Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo14B-0000cc-VF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1jo14y-0002KL-Ms
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:48:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0uu-0001AI-5X
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:38:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39223
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jo0vN-0002fk-LH
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:38:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26111
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0uj-00027a-12
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:37:59 -0400
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jo0vL-0002bx-Uo
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592987868;
+ s=mimecast20190719; t=1592987907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v8RoWBaFDHIWifW7sr94ccs74UGdVOjvHbolf2g5ag4=;
- b=ZZa9DVs8Gz2rajfvLCi6bLOSgq9qMfQMB0LN9GDz9V+OQJXlnayN0YjcjSCOguCASWBxUc
- E1k9vBKgKIQHm3PheGeP3xjAOwfb0CeA+xHpyEiPsIovxuYe6rO/PzoCf2DAw0bXI+1Tf9
- WX2QWVVeRo580iWyhJpTmSWyenZSrgw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-1Naq4esFP96X6j_14BefPQ-1; Wed, 24 Jun 2020 04:37:46 -0400
-X-MC-Unique: 1Naq4esFP96X6j_14BefPQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C979A1B18BC0;
- Wed, 24 Jun 2020 08:37:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 475C010013D9;
- Wed, 24 Jun 2020 08:37:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D571F1138487; Wed, 24 Jun 2020 10:37:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/25] arm/{bcm2835, fsl-imx25,
- fsl-imx6}: Fix realize error API violations
-Date: Wed, 24 Jun 2020 10:37:37 +0200
-Message-Id: <20200624083737.3086768-26-armbru@redhat.com>
-In-Reply-To: <20200624083737.3086768-1-armbru@redhat.com>
-References: <20200624083737.3086768-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ bh=vB0+TGMPvFpsPFAl/NhmlTbqS5r69JrqhbMCAxJyx7I=;
+ b=EKQRdFIQJt6STghHlV+83rDfq/bYPdVL0bx2+odV0+Duq9f7QBlA5EW/Wk6NYCCpbUC70b
+ lp4EsytI69xG+TUhchdmrTE9YfTHZU6cq0j6VK+0HlFb9pKn12oQ7iizaMApZZ9XgB7i+1
+ HeXXBcabWvoFxYiVKAcIprvWL1Okf0g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-CF6ou7qaPm6uObT894tmiQ-1; Wed, 24 Jun 2020 04:38:25 -0400
+X-MC-Unique: CF6ou7qaPm6uObT894tmiQ-1
+Received: by mail-wm1-f69.google.com with SMTP id c66so2050186wma.8
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 01:38:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=hIFhjT6uyZvlAAekKGA251eEdikZuCrpA9NtomezBN0=;
+ b=lGUf91lQr2CuL6jdF8p2nkQSE2B4fwXO8LYZ2mskqsJ8P4CGn2vHRpJwligSosDhMw
+ 2UpaBsKqXq3mbmQE/eWyyiC7iJ62Q9hTsdl5iwEHQQrZSlulh9dGOsxpV5pHwjSO5C8J
+ 7bZQZ1rZV9s7Nsqp8tf83K/66vonfpXhRIUzlfUwqR7LEno2tIq0KIGZWwTVdSmNb2kz
+ AP8b4wH55AtaaMteOLda5wWnW+ymOEXlJzubLLjXRAoK7CTaC9nxgSLVTor/2m0mBTdO
+ R62CLTw6bMY5i8IfWyBROZeiQIh/3ZxpKIcQJICE2EKCy3N6DKMwn3JF19Nav6hz551F
+ rK0g==
+X-Gm-Message-State: AOAM530tAunDgxFBxB9hlK291hUtmJH6ptCGQA8x5Dc8C1frGOhalb0B
+ QBBwv9UKu3u6a9OsHJ23f9X/HzTWkvH7wcImy5WSpI7h0fSCeS6TPDs97mSOq/RmwAI5mD19ILK
+ JmfbE4ArfOihrtbM=
+X-Received: by 2002:adf:e4d0:: with SMTP id v16mr17041841wrm.193.1592987904315; 
+ Wed, 24 Jun 2020 01:38:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqu5YLR4WmNogiz7GRuotM+N0WgB8Bn92lXTIRcdpURNx5VTGFwz+cjZ+UKL5TJCRuU5MfjA==
+X-Received: by 2002:adf:e4d0:: with SMTP id v16mr17041808wrm.193.1592987904042; 
+ Wed, 24 Jun 2020 01:38:24 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:466:71c0:918b:168e:d1a7:f3b9?
+ ([2a01:e0a:466:71c0:918b:168e:d1a7:f3b9])
+ by smtp.gmail.com with ESMTPSA id p17sm6897836wma.47.2020.06.24.01.38.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Jun 2020 01:38:23 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] trivial: Remove extra character in configure help
+From: Christophe de Dinechin <dinechin@redhat.com>
+In-Reply-To: <20200624083337.912846-1-dinechin@redhat.com>
+Date: Wed, 24 Jun 2020 10:38:21 +0200
+Message-Id: <CC0192CB-4A6A-467C-B8A6-E4C418C79A52@redhat.com>
+References: <20200624083337.912846-1-dinechin@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dinechin@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,115 +98,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: qemu-trivial@nongnu.org, GitLab via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
+Please ignore. The =3DB appears intentional, even if it offsets the whole h=
+elp text.
 
-bcm2835_peripherals_realize(), fsl_imx25_realize() and
-fsl_imx6_realize() are wrong that way: they pass &err to
-object_property_set_uint() and object_property_set_bool() without
-checking it, and then to sysbus_realize().  Harmless, because the
-former can't actually fail here.
+Maybe replace with =3DL to indicate a list is expected?
 
-Fix by passing &error_abort instead.
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
-Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
-Cc: qemu-arm@nongnu.org
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/arm/bcm2835_peripherals.c | 12 ++++--------
- hw/arm/fsl-imx25.c           | 12 +++++-------
- hw/arm/fsl-imx6.c            | 12 +++++-------
- 3 files changed, 14 insertions(+), 22 deletions(-)
-
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 1e975d7eec..7ffdf62067 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -283,16 +283,12 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-      * For the exact details please refer to the Arasan documentation:
-      *   SD3.0_Host_AHB_eMMC4.4_Usersguide_ver5.9_jan11_10.pdf
-      */
--    object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version", &err);
-+    object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version",
-+                             &error_abort);
-     object_property_set_uint(OBJECT(&s->sdhci), BCM2835_SDHC_CAPAREG, "capareg",
--                             &err);
-+                             &error_abort);
-     object_property_set_bool(OBJECT(&s->sdhci), true, "pending-insert-quirk",
--                             &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
--
-+                             &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), &err);
-     if (err) {
-         error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index f32f9bce0f..7ab5c98fbe 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -260,15 +260,13 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-         };
- 
-         object_property_set_uint(OBJECT(&s->esdhc[i]), 2, "sd-spec-version",
--                                 &err);
-+                                 &error_abort);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX25_ESDHC_CAPABILITIES,
--                                 "capareg", &err);
-+                                 "capareg",
-+                                 &error_abort);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
--                                 "vendor", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+                                 "vendor",
-+                                 &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->esdhc[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index d4bc4fae93..4ae3c3efc2 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -336,15 +336,13 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
- 
-         /* UHS-I SDIO3.0 SDR104 1.8V ADMA */
-         object_property_set_uint(OBJECT(&s->esdhc[i]), 3, "sd-spec-version",
--                                 &err);
-+                                 &error_abort);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX6_ESDHC_CAPABILITIES,
--                                 "capareg", &err);
-+                                 "capareg",
-+                                 &error_abort);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
--                                 "vendor", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+                                 "vendor",
-+                                 &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->esdhc[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
--- 
-2.26.2
+> On 24 Jun 2020, at 10:33, Christophe de Dinechin <dinechin@redhat.com> wr=
+ote:
+>=20
+> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+> ---
+> configure | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/configure b/configure
+> index ba88fd1824..c7a6a5adfe 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1787,7 +1787,7 @@ Advanced options (experts only):
+>   --block-drv-ro-whitelist=3DL
+>                            set block driver read-only whitelist
+>                            (affects only QEMU, not qemu-img)
+> -  --enable-trace-backends=3DB Set trace backend
+> +  --enable-trace-backends=3D Set trace backend
+>                            Available backends: $trace_backend_list
+>   --with-trace-file=3DNAME   Full PATH,NAME of file to store traces
+>                            Default:trace-<pid>
+> --=20
+> 2.26.2
+>=20
+>=20
 
 
