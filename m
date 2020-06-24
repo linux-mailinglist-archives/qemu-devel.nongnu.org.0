@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EB120743B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:16:44 +0200 (CEST)
-Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A378C207446
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:18:43 +0200 (CEST)
+Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo5Gd-0002Lj-7p
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41040)
+	id 1jo5IY-0004ul-4m
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5BC-0002Pk-98
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:06 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30239
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5BG-0002e0-VT
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55025
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5B9-0001UH-Ho
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:05 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5BE-0001WY-PS
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593004262;
+ s=mimecast20190719; t=1593004268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Xmdr85ijcUm6HTHcrkDo6CDEnYdyTDjjQWSQALnldGQ=;
- b=fivRbQhTnL4tVTHm8H0V2CdF8Ss4+t71do+k6/wAdV7BEQhaOThRa1oFynJAiQqBaxThYg
- Pvc6e5ly0fDyfl1WnsxH8v9PtcZDcv623mIR5zdKOBcJXu6uRvo9noAKukdZpHn8P2iKac
- 92nf9Zvd6p8qFfvdr3e9eAL7NwXpfas=
+ references:references; bh=jNvjDihMqIwe37qxbHQlIK02xyr/p93khFFBpDtVnfE=;
+ b=Lwm8oSwTvq/plf4B7bgFodfdUpMsMpkl+oigaxccRyIFKIhojLqoKB9bK0fEQyYE6vFzN3
+ pTXRHF0KjjRx2IdDFswHuPV+NTt06ftuAAv2CD04hjbmZ8m+wZQ5WRAum0CJ8VkSWjLllA
+ up3HSR7RTH/jO1jPg7yv2Ho0fdXvnik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-z8cMLYuIPi24PvMa-hhtDg-1; Wed, 24 Jun 2020 09:10:57 -0400
-X-MC-Unique: z8cMLYuIPi24PvMa-hhtDg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-285-c0xaF3xHME6cixWqPxpGDA-1; Wed, 24 Jun 2020 09:11:06 -0400
+X-MC-Unique: c0xaF3xHME6cixWqPxpGDA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AEB28015F6
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 13:10:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 206EC18A8223
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 13:11:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C83DB5C661;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC46760F8A;
  Wed, 24 Jun 2020 13:10:55 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F3FDE31E2A; Wed, 24 Jun 2020 15:10:45 +0200 (CEST)
+ id 0D48531E32; Wed, 24 Jun 2020 15:10:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/10] vga: build virtio-gpu as module
-Date: Wed, 24 Jun 2020 15:10:44 +0200
-Message-Id: <20200624131045.14512-10-kraxel@redhat.com>
+Subject: [PATCH v5 10/10] chardev: enable modules, use for braille
+Date: Wed, 24 Jun 2020 15:10:45 +0200
+Message-Id: <20200624131045.14512-11-kraxel@redhat.com>
 In-Reply-To: <20200624131045.14512-1-kraxel@redhat.com>
 References: <20200624131045.14512-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,65 +83,70 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drops libvirglrenderer.so dependency from core qemu.
+Removes brlapi library dependency from core qemu.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- util/module.c            |  6 ++++++
- hw/display/Makefile.objs | 23 +++++++++++++----------
- 2 files changed, 19 insertions(+), 10 deletions(-)
+ Makefile.objs         | 1 +
+ chardev/char.c        | 2 +-
+ util/module.c         | 1 +
+ chardev/Makefile.objs | 5 ++++-
+ 4 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/Makefile.objs b/Makefile.objs
+index ca555ede0710..2dfcd19713f8 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -71,6 +71,7 @@ common-obj-$(CONFIG_TPM) += tpm.o
+ 
+ common-obj-y += backends/
+ common-obj-y += chardev/
++common-obj-m += chardev/
+ 
+ common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
+ qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
+diff --git a/chardev/char.c b/chardev/char.c
+index e3051295ac37..df697f3ce9e0 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -527,7 +527,7 @@ static const ChardevClass *char_get_class(const char *driver, Error **errp)
+     const ChardevClass *cc;
+     char *typename = g_strdup_printf("chardev-%s", driver);
+ 
+-    oc = object_class_by_name(typename);
++    oc = module_object_class_by_name(typename);
+     g_free(typename);
+ 
+     if (!object_class_dynamic_cast(oc, TYPE_CHARDEV)) {
 diff --git a/util/module.c b/util/module.c
-index 7c76d2a84b94..a74214eac052 100644
+index a74214eac052..32b0547b8266 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -266,6 +266,12 @@ static struct {
-     { "usb-redir",             "hw-", "usb-redirect"          },
-     { "qxl-vga",               "hw-", "display-qxl"           },
-     { "qxl",                   "hw-", "display-qxl"           },
-+    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
-+    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu"    },
-+    { "virtio-vga",            "hw-", "display-virtio-gpu"    },
-+    { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
-+    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
-+    { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
+@@ -272,6 +272,7 @@ static struct {
+     { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
+     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
+     { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
++    { "chardev-braille",       "chardev-", "baum"             },
  };
  
  static bool module_loaded_qom_all;
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index d619594ad4d3..e907f3182b0c 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -49,16 +49,19 @@ common-obj-m += qxl.mo
- qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
- endif
+diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
+index d68e1347f9af..3a58c9d329d6 100644
+--- a/chardev/Makefile.objs
++++ b/chardev/Makefile.objs
+@@ -18,8 +18,11 @@ chardev-obj-$(CONFIG_WIN32) += char-win.o
+ chardev-obj-$(CONFIG_WIN32) += char-win-stdio.o
  
--common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
--virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
--virtio-gpu.o-libs += $(VIRGL_LIBS)
--virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
--virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
-+ifeq ($(CONFIG_VIRTIO_GPU),y)
-+common-obj-m += virtio-gpu.mo
-+virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
-+virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu.mo-libs := $(VIRGL_LIBS)
-+endif
+ common-obj-y += msmouse.o wctablet.o testdev.o
+-common-obj-$(CONFIG_BRLAPI) += baum.o
 +
- common-obj-$(CONFIG_DPCD) += dpcd.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
++ifeq ($(CONFIG_BRLAPI),y)
++common-obj-m += baum.o
+ baum.o-cflags := $(SDL_CFLAGS)
+ baum.o-libs := $(BRLAPI_LIBS)
++endif
  
+ common-obj-$(CONFIG_SPICE) += spice.o
 -- 
 2.18.4
 
