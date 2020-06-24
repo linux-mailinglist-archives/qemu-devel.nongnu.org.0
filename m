@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799B42073C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 14:53:53 +0200 (CEST)
-Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25CA12073CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 14:54:57 +0200 (CEST)
+Received: from localhost ([::1]:59630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo4uW-0003sR-9B
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 08:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
+	id 1jo4vY-0006K5-1U
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 08:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo4tg-00039H-0Y
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:53:00 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:33149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo4te-00060P-6V
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:52:59 -0400
-Received: by mail-lj1-x243.google.com with SMTP id s1so2440100ljo.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 05:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L2VfXr+wrRkLpcYiMpgSJbGnKK49VpSgllN39LKBgUE=;
- b=moJpyLkWwhBSb97Itz2uOmKHAMBB6Shej3HOy3IyJQvTM53KA9KJhMHnL8FYt+zjuA
- nIbGXg9dMF2oENgkDQ+3pX5Z1CScve4fPLZn9mlVnNuYz5BroRrDm2sGdQbqMx0aBzoG
- +WgXWUeGIFcnNAoyk+pqzBmM0GxGq84p2OKqR/PmnVjUQw7iahHZmPfrhyJ7nRnUr/vV
- 2TupTloIhqaJXHtUSvZTVGyCPCK5+X5mifUMSUJjZNQq5eOzPJqS8KJLhIFhbjfmmepB
- TJmbG2tRZh/rHWnArCMYPwUMHbjw5ZFKu8UjcK5UlWOHEy8PdKF3jQn+u33ukIwJ/zCz
- zU4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L2VfXr+wrRkLpcYiMpgSJbGnKK49VpSgllN39LKBgUE=;
- b=EpIhP+IjQyVoXh2rhDDqqV+REBAnrlzXFpCQhTR2hq3rvOLsLex6Q8CjBu3i6vUBP3
- YxKkNCm71mbJopxgPpyE9mkG0aTaLHPMuR5SgRGYwKU4/gn+y/XBJ3Wtkbh5GBTGV6Bt
- iqbKJgoeXpvtaeI5BaExJ8xqz/B9uPLx+bVST2BSKkBJZhlM2S4YAKfPNXPNTccyFGy+
- FcTP7EbQiRn0u5ivlpqWfKLtcczgm06R2Xnuo9HHlonGzoVAlIJimkiq3rsDSJDocR7p
- GIrwImFKXKfi8FzXaA+609bfbSqPMi2xcb+U8WRmj6ZP2GHq6gFOWdq7h6+PDT1HKpYp
- TRVQ==
-X-Gm-Message-State: AOAM532x1od5IetA/NgKurr/bddVVW1Oa58ogp+hrXdbrKHSDoSmqDil
- rwIOJ5GXR9XZUfHX5xsyPd5Xu07q37Pvqgx5/j4=
-X-Google-Smtp-Source: ABdhPJyIxbtadZc95+Z5PRSpPgsxAcE1qBgoXjjgpynlW/K8aJOqdQu1yqcI78stkMCEvVZ69GuBZqLEw98bdJ76kdI=
-X-Received: by 2002:a2e:b8c2:: with SMTP id s2mr14830277ljp.368.1593003176111; 
- Wed, 24 Jun 2020 05:52:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1jo4uZ-0004it-Oz; Wed, 24 Jun 2020 08:53:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1jo4uX-0006gE-Me; Wed, 24 Jun 2020 08:53:55 -0400
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+ [209.85.167.175])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0D6EE20663;
+ Wed, 24 Jun 2020 12:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593003231;
+ bh=koLxx148mbpqdiW2kEPWmz5wBKOteWXDRyclRZ9Cn7A=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=n2RHXJ5RH8EpmJl4uNmdvecGrK7uTgbqWu8OTD9jtzP7MEr58ufQP4HdpkCzi6w/A
+ g78XcWi3R/tBRWbKOqYY8XXCSxc0Y/zlTTxc8JtGnhlaHnDhrvPWQKd5cxbDw7KTXs
+ vz9dehsBsYENYTElsdJ8cLGsTYHisVF3jdd+55S8=
+Received: by mail-oi1-f175.google.com with SMTP id s10so1479180oih.10;
+ Wed, 24 Jun 2020 05:53:51 -0700 (PDT)
+X-Gm-Message-State: AOAM532QaMzon3jioRtwbECWgioyDPifiMaJk2EWk+OtvKO3VfaEzdzc
+ t19c9bLPJS6FgzGGOWp5LT3aBYlVOR0yNwTEoyY=
+X-Google-Smtp-Source: ABdhPJyPvK/7b5NELHV6Po4OwghBmwCf8ilfuEYXTgQXhNMfhbFKXsaC7ocppN1eO/65RzB4oGxx0mXzk1WZjVgXj/0=
+X-Received: by 2002:aca:b241:: with SMTP id b62mr19014806oif.47.1593003230431; 
+ Wed, 24 Jun 2020 05:53:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200624121939.10282-1-jandryuk@gmail.com>
- <000a01d64a23$4a595e90$df0c1bb0$@xen.org>
-In-Reply-To: <000a01d64a23$4a595e90$df0c1bb0$@xen.org>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Wed, 24 Jun 2020 08:52:44 -0400
-Message-ID: <CAKf6xpuiRj_b+M+E0wBzPhraLxdebL6xr_1dMGc-jnzhWb0mhg@mail.gmail.com>
-Subject: Re: [PATCH] xen: Fix xen-legacy-backend qdev types
-To: Paul Durrant <paul@xen.org>
+References: <20200622140620.17229-1-eric.auger@redhat.com>
+In-Reply-To: <20200622140620.17229-1-eric.auger@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 24 Jun 2020 14:53:39 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXFkms+fRm9=HM0zTtsG+77ajzHv95rVqMgXLsdougG0Kw@mail.gmail.com>
+Message-ID: <CAMj1kXFkms+fRm9=HM0zTtsG+77ajzHv95rVqMgXLsdougG0Kw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/3] vTPM/aarch64 ACPI support
+To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=jandryuk@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 08:53:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,46 +69,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- xen-devel <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>, QEMU <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ Andrew Jones <drjones@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ marcandre.lureau@redhat.com, imammedo@redhat.com, eric.auger.pro@gmail.com,
+ philmd@redhat.com, stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 24, 2020 at 8:30 AM Paul Durrant <xadimgnik@gmail.com> wrote:
+On Mon, 22 Jun 2020 at 16:06, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> > -----Original Message-----
-> > From: Jason Andryuk <jandryuk@gmail.com>
-> > Sent: 24 June 2020 13:20
-> > To: Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard@citrix.com>; Paul
-> > Durrant <paul@xen.org>; xen-devel@lists.xenproject.org
-> > Cc: Jason Andryuk <jandryuk@gmail.com>; qemu-devel@nongnu.org
-> > Subject: [PATCH] xen: Fix xen-legacy-backend qdev types
-> >
-> > xen-sysdev is a TYPE_SYS_BUS_DEVICE.  bus_type should not be changed so
-> > that it can plug into the System bus.  Otherwise this assert triggers:
-> > qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-> > `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-> > failed.
-> >
-> > TYPE_XENBACKEND attaches to TYPE_XENSYSBUS, so its class_init needs to
-> > be set accordingly to attach the qdev.  Otherwise the following assert
-> > triggers:
-> > qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-> > `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-> > failed.
-> >
-> > TYPE_XENBACKEND is not a subclass of XEN_XENSYSDEV, so it's parent
-> > is just TYPE_DEVICE.  Change that.
-> >
-> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> Those patches bring MMIO TPM TIS ACPI support in machvirt.
 >
-> Clearly we raced. This patch and my patch #1 are identical so I'm happy to give my ack to this.
+> On ARM, the TPM2 table is added when the TPM TIS sysbus
+> device is dynamically instantiated in machvirt.
+>
+> Also the TPM2 device object is described in the DSDT.
+>
+> Many thanks to Ard for his support.
+>
+> Tested with LUKS partition automatic decryption. Also
+> tested with new bios-tables-test dedicated tests,
+> sent separately.
+>
+> Best Regards
+>
+> Eric
+>
+> This series can be found at:
+> https://github.com/eauger/qemu/tree/v5.0-tpm-acpi-v7
+>
+> History:
+>
+> v6 -> v7:
+> - Collected Stefan and Igor's R-bs
+> - Eventually removed Acpi20TPM2 struct
+> - Updated the reference to the spec v1.2 rev8
+>
+> v5 -> v6:
+> - added reference to the spec
+> - add some comments about LAML and LASA fields which are
+>   strangely undocumented in the spec for TPM2.0. So I kept
+>   the decision to keep the Acpi20TPM2 struct for documentation
+>   purpose.
+>
+> v4 -> v5:
+> - Move of build_tpm2() in the generic acpi code was upstreamed
+>   but this does not correspond to latest proposed version.
+> - Rebase on top of edfcb1f21a
+>
+> v3 -> v4:
+> - some rework in build_tpm2() as suggested by Igor
+> - Restored tpm presence check in acpi_dsdt_add_tpm()
+> - add the doc related patch
+>
+> v2 -> v3:
+> - Rebase on top of Stefan's
+>   "acpi: tpm: Do not build TCPA table for TPM 2"
+> - brings conversion to build_append
+>
+> v1 -> v2:
+> - move build_tpm2() in the generic code (Michael)
+> - collect Stefan's R-b on 3/3
+>
+> Eric Auger (3):
+>   acpi: Some build_tpm2() code reshape
+>   arm/acpi: Add the TPM2.0 device under the DSDT
+>   docs/specs/tpm: ACPI boot now supported for TPM/ARM
+>
 
-Yeah, looks like you beat me by a hair :)
+For the series
 
-Either way it gets fixed is fine by me.
+Tested-by: Ard Biesheuvel <ardb@kernel.org>
 
-Thanks,
-Jason
+Thanks!
+
+>  docs/specs/tpm.rst          |  2 --
+>  include/hw/acpi/acpi-defs.h | 18 -------------
+>  hw/acpi/aml-build.c         | 51 +++++++++++++++++++++++--------------
+>  hw/arm/virt-acpi-build.c    | 34 +++++++++++++++++++++++++
+>  4 files changed, 66 insertions(+), 39 deletions(-)
+>
+> --
+> 2.20.1
+>
 
