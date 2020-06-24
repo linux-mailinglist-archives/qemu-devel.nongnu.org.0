@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF3D20720D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:29:31 +0200 (CEST)
-Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2869207207
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:28:05 +0200 (CEST)
+Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3at-0001fQ-2K
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
+	id 1jo3ZU-0007Ya-9E
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yi-0006jC-6t
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:16 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33864)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jo3YV-0006VD-Fy
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:03 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yg-000769-FC
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:15 -0400
-Received: by mail-lf1-x141.google.com with SMTP id u25so1092578lfm.1
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jo3YU-000723-2g
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:03 -0400
+Received: by mail-wr1-x431.google.com with SMTP id l10so1895273wrr.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BAeSGl1wtUV2bgf5JPD0BJDHcmlodz8SVwPxsOzMRHc=;
- b=jehXDHGHMq11GHr2PO+lTcoZv9Q56gkk82ZMxNx1YtrDQ8niyHFuFkBfF6zx9Mywra
- dTk0wvasfo3IH+VDl5nOJ4uiq8ip3oCKPDuwCBzvBSfCauxL1o5TusErG+LA6WUaPZSG
- MPaQUEnDYXW71f/BvhUrwIqF2VZ2k5gk7APcBs9yU3a3orF6hfg6pzXgmYGfJxzHPmWn
- 876MFClASv5gQgnVeenOZvn6m76/0pSESDCNW8hkgsaXUVtwziIVZg8E2RySAztjF7Fn
- NFTdV13u0Ri/f08fubdkmHlWRWeKEbs+TdbaXIEdpEg6WR6wKjq0TSfmVLZKE1QeXi1F
- UX1Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+hStw+jEhDLKTIZ2D6nzautxOHmyAupBUTrBEM2cdlk=;
+ b=GdrfkXT6HaTMdFb2hBKS5rxzDZRP/t63X6AT11g1RpgTVpbEtgCCgjMYPfp49MrHOs
+ 2TjKPyPnwvWN3sGcQ/ESlhDulVrex/A7QoSvEaE+Cx81ZHb0nX8O5PqJ4Eo/FFf11pTh
+ lMC42XM8wXjSSxa6wx3x6XA0VIGWlqmMF1f3vlV8IIT4XEetS5UnIVlAhqYBI1behiSZ
+ Idzf1R7Zfd881lXKaNvVhkniDRknn7vpnoLQuBLoOE3zIOuBQXDcwBZkqpQ2xHu6qGYv
+ O9oLHrYPGzXYKgdIp2MELx3dys1p1wb+RLy0xqVE8NOHnUzrsX2LsT3z+CkrsiWT6lOr
+ mS1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BAeSGl1wtUV2bgf5JPD0BJDHcmlodz8SVwPxsOzMRHc=;
- b=mxhKMp83VWiVyQ7+T+jaqi8WAyvb40Ch9mqlIdiK1UOTlmn86M/ovvitIIPMbmoZH3
- i7/73AQjUBY5LArNqAR5hJ90ebcu/byflQ8RrD08wwcdz7PNdYGaZh1Ex/YlqzafnVJj
- Woq46BrySjV9oZxbVeLzc66nYYZBtYVIJlUWtSL/fiwJ2SCNh0J/Y0XBLRF+pDh0F+31
- GCXsqmFLEA4WPnr50q/f3N2Q0RoGGGdq4AV0vkVkMRW6EJ2H8cuzQx+gWRrstYoIJvXR
- OCIDB+qbSCObpbNfKo3GV6WmPjahj1aYc7P7QuRRwdkE23tpBfOVMWi1GZT+OXfGbGaY
- Rr0g==
-X-Gm-Message-State: AOAM533ej00ShWMD52Aiph0mgnso9SL7I0gKGoRgZF2KJKm0g8UAg3xi
- ft/BXcSTK7OfswlOIcqWLhBvGBRcc3Q6Ug==
-X-Google-Smtp-Source: ABdhPJyEGOW1mTkWeQRXEHGuDLsa348Ai+v6YelZ67o7zBE1JBKscm/49RtMq8LP+wL/egMpNSqdjQ==
-X-Received: by 2002:ac2:5691:: with SMTP id 17mr6961101lfr.209.1592998032680; 
- Wed, 24 Jun 2020 04:27:12 -0700 (PDT)
-Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
- [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id d6sm1202635lja.77.2020.06.24.04.27.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 04:27:12 -0700 (PDT)
-From: Szymon Lukasz <noh4hss@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] char-stdio: add support for the terminal size
-Date: Wed, 24 Jun 2020 13:26:38 +0200
-Message-Id: <20200624112640.82673-5-noh4hss@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200624112640.82673-1-noh4hss@gmail.com>
-References: <20200624112640.82673-1-noh4hss@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+hStw+jEhDLKTIZ2D6nzautxOHmyAupBUTrBEM2cdlk=;
+ b=OAOTO6QxT+duMGE7WygEP76b/7v2LzbqL414pfziFh/UfyA2EHoidhrteMzXTUz9tD
+ 86BHAc4gEsE7xnzu0YZ64L5BQd7CeOYEUyYIgVlekLiiPqkH5juo6SH/omlB5bghssiR
+ M9FS/r1sNi4nSQzLue1ediWNJNkOTdP1MGTBAsdlradsmG5edyGaIH+k9O10kqSjyq1U
+ FPziqcyY6zwZeT/bMf+q+iFvBzXN9n4l1Vn+R7VEztLS7bNcJVGnbP2h7W21+Z/xM0Q9
+ 3+OiVDhzXUW02xoVWgIkVWuk04xsAHEDwxTSRKKZebJvrsLB8T4S/qrOBlVbq0hlvJem
+ drmA==
+X-Gm-Message-State: AOAM530aPW5o1bdI+T2WsuM4pz2cNEmLqFH4MVrXnudJeQ5HKne5tDxY
+ 3N+0OUM14GPDjJA/EewxQr8GCvlqj6SM3qdl0ao=
+X-Google-Smtp-Source: ABdhPJynQftHgCOqf0tldT1HpYmo3RHmU00MR147N98BlIC16v5zgQ5eRNqMJvokZouB+UbyzbyQeC7W16wr3dFYg7g=
+X-Received: by 2002:adf:f885:: with SMTP id u5mr30140252wrp.402.1592998020150; 
+ Wed, 24 Jun 2020 04:27:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=noh4hss@gmail.com; helo=mail-lf1-x141.google.com
+References: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
+ <1592914438-30317-4-git-send-email-chenhc@lemote.com>
+ <CAHiYmc7FVCu6WTyFfUdz84iBYaL9QtrQ+Mv_nFU6KzzCWbnz=Q@mail.gmail.com>
+In-Reply-To: <CAHiYmc7FVCu6WTyFfUdz84iBYaL9QtrQ+Mv_nFU6KzzCWbnz=Q@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Wed, 24 Jun 2020 13:26:47 +0200
+Message-ID: <CAHiYmc75wGPk=rQDTw9PfFGSsEzhgTXzTKTQC0GjiHWX-kH7aw@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 V5 3/4] hw/mips: Add Loongson-3 machine support
+ (with KVM)
+To: Huacai Chen <zltjiangshi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,108 +81,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
- Szymon Lukasz <noh4hss@gmail.com>, marcandre.lureau@redhat.com,
- pbonzini@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement chr_get_winsize for the stdio backend
-and trigger CHR_EVENT_RESIZE upon SIGWINCH delivery.
+>
+> What exactly is missing in tcg support? Would it work if Loongson EXT is supported in QEMU?
+>
 
-Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
----
- chardev/char-stdio.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+Huacai, hi.
 
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 82eaebc1db..1edc82fc6e 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -34,7 +34,9 @@
- #include "chardev/char-win-stdio.h"
- #else
- #include <termios.h>
-+#include <sys/ioctl.h>
- #include "chardev/char-fd.h"
-+#include "qemu/main-loop.h"
- #endif
- 
- #ifndef _WIN32
-@@ -45,6 +47,13 @@ static bool stdio_in_use;
- static bool stdio_allow_signal;
- static bool stdio_echo_state;
- 
-+typedef struct {
-+    FDChardev parent;
-+    Notifier resize_notifier;
-+} StdioChardev;
-+
-+#define STDIO_CHARDEV(obj) OBJECT_CHECK(StdioChardev, (obj), TYPE_CHARDEV_STDIO)
-+
- static void term_exit(void)
- {
-     if (stdio_in_use) {
-@@ -82,11 +91,32 @@ static void term_stdio_handler(int sig)
-     qemu_chr_set_echo_stdio(NULL, stdio_echo_state);
- }
- 
-+static int qemu_chr_get_winsize_stdio(Chardev *chr, uint16_t *cols,
-+                                      uint16_t *rows)
-+{
-+    struct winsize ws;
-+
-+    if (ioctl(1, TIOCGWINSZ, &ws) < 0) {
-+        return -1;
-+    }
-+
-+    *cols = ws.ws_col;
-+    *rows = ws.ws_row;
-+    return 0;
-+}
-+
-+static void term_resize_notify(Notifier *n, void *data)
-+{
-+    StdioChardev *s = container_of(n, StdioChardev, resize_notifier);
-+    qemu_chr_be_event(CHARDEV(s), CHR_EVENT_RESIZE);
-+}
-+
- static void qemu_chr_open_stdio(Chardev *chr,
-                                 ChardevBackend *backend,
-                                 bool *be_opened,
-                                 Error **errp)
- {
-+    StdioChardev *s = STDIO_CHARDEV(chr);
-     ChardevStdio *opts = backend->u.stdio.data;
-     struct sigaction act;
- 
-@@ -116,6 +146,9 @@ static void qemu_chr_open_stdio(Chardev *chr,
-         stdio_allow_signal = opts->signal;
-     }
-     qemu_chr_set_echo_stdio(chr, false);
-+
-+    s->resize_notifier.notify = term_resize_notify;
-+    sigwinch_add_notifier(&s->resize_notifier);
- }
- #endif
- 
-@@ -139,6 +172,7 @@ static void char_stdio_class_init(ObjectClass *oc, void *data)
- #ifndef _WIN32
-     cc->open = qemu_chr_open_stdio;
-     cc->chr_set_echo = qemu_chr_set_echo_stdio;
-+    cc->chr_get_winsize = qemu_chr_get_winsize_stdio;
- #endif
- }
- 
-@@ -155,6 +189,7 @@ static const TypeInfo char_stdio_type_info = {
-     .parent = TYPE_CHARDEV_WIN_STDIO,
- #else
-     .parent = TYPE_CHARDEV_FD,
-+    .instance_size = sizeof(StdioChardev),
- #endif
-     .instance_finalize = char_stdio_finalize,
-     .class_init = char_stdio_class_init,
--- 
-2.27.0
+I couldn't find the answer to this question in v6.
 
+Could you please clarify this aspect?
+
+Thank you,
+Aleksandar
 
