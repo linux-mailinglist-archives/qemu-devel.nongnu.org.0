@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181CE207195
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:55:19 +0200 (CEST)
-Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E972071A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:58:32 +0200 (CEST)
+Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo33m-0000HV-1q
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1jo36t-00070X-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zm-0001AB-Th
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40599
- helo=us-smtp-1.mimecast.com)
+ id 1jo2zn-0001Bj-Ll
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:11 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54064
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zl-0001Jl-0x
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:10 -0400
+ id 1jo2zl-0001Jt-EL
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592995868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ecq6ZUkpsnc040JueViIsqBMjrtp9srwbm9A9vdokPs=;
- b=bhGfB2IFQTFI5VjH2PN5Nl+uUtlZXYtyul6YjEVT71aSK0v5OjOM4idxp5BXT0c96uMwS2
- 8o5IjxOTuq0DVmsHe8q/q1StJLKiTN0Mg+24VZRi9cjLC5F/+MkEBPaFpJR8LYIbptkYes
- YdAxsBNx34fRyW5RuDvJnLNkela7YPc=
+ bh=khGN3yBeBscrbWry0yO/E7AO7oL3m8AMBQlv+dTs4fA=;
+ b=VOxQ0PPuSkQViCpBRv/XvhIDrBMtcHwsY2JVoY0LRX02tPzVfGALE+48NlVWirGuLAgONP
+ U+s/WbbSA818ReyP8Cf4OeeiBQjN2+3UHh0dZnanVjxNlVnrN7Wsqe8yEwaYDnGoKbX1ms
+ WC7eVgT4FHMZj3dFqlUbC26pUb3tH5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-9TZ4YbDgMi-QZGCg9v8bpg-1; Wed, 24 Jun 2020 06:51:03 -0400
-X-MC-Unique: 9TZ4YbDgMi-QZGCg9v8bpg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-140-2Zw9wRL_M2KMMBwW69VWwQ-1; Wed, 24 Jun 2020 06:51:04 -0400
+X-MC-Unique: 2Zw9wRL_M2KMMBwW69VWwQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EE5B879512;
- Wed, 24 Jun 2020 10:51:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16447107ACCA;
+ Wed, 24 Jun 2020 10:51:03 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C59271695;
- Wed, 24 Jun 2020 10:51:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B3155D9C5;
+ Wed, 24 Jun 2020 10:51:02 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/31] docs/nvdimm: add description of alignment requirement of
- device dax
-Date: Wed, 24 Jun 2020 06:50:27 -0400
-Message-Id: <20200624105048.375353-10-pbonzini@redhat.com>
+Subject: [PULL 11/31] hw/scsi/megasas: Fix possible out-of-bounds array access
+ in tracepoints
+Date: Wed, 24 Jun 2020 06:50:28 -0400
+Message-Id: <20200624105048.375353-11-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,45 +81,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, Joao Martins <joao.m.martins@oracle.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jingqi Liu <jingqi.liu@intel.com>
+From: Thomas Huth <thuth@redhat.com>
 
-For device dax (e.g., /dev/dax0.0), the NUM of 'align=NUM' option
-needs to match the alignment requirement of the device dax.
-It must be larger than or equal to the 'align' of device dax.
+Some tracepoints in megasas.c use a guest-controlled value as an index
+into the mfi_frame_desc[] array. Thus a malicious guest could cause an
+out-of-bounds error here. Fortunately, the impact is very low since this
+can only happen when the corresponding tracepoints have been enabled
+before, but the problem should be fixed anyway with a proper check.
 
-Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Message-Id: <20200429085011.63752-3-jingqi.liu@intel.com>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1882065
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200615072629.32321-1-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/nvdimm.txt | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/scsi/megasas.c | 36 +++++++++++++++++++++++-------------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index 362e99109e..c2c6e441b3 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -132,6 +132,16 @@ address to the page size (getpagesize(2)) by default. However, some
- types of backends may require an alignment different than the page
- size. In that case, QEMU v2.12.0 and later provide 'align' option to
- memory-backend-file to allow users to specify the proper alignment.
-+For device dax (e.g., /dev/dax0.0), this alignment needs to match the
-+alignment requirement of the device dax. The NUM of 'align=NUM' option
-+must be larger than or equal to the 'align' of device dax.
-+We can use one of the following commands to show the 'align' of device dax.
-+
-+    ndctl list -X
-+    daxctl list -R
-+
-+In order to get the proper 'align' of device dax, you need to install
-+the library 'libdaxctl'.
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 634af0bbb8..5cfd1bf22e 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -54,10 +54,6 @@
+ #define MEGASAS_FLAG_USE_QUEUE64   1
+ #define MEGASAS_MASK_USE_QUEUE64   (1 << MEGASAS_FLAG_USE_QUEUE64)
  
- For example, device dax require the 2 MB alignment, so we can use
- following QEMU command line options to use it (/dev/dax0.0) as the
+-static const char *mfi_frame_desc[] = {
+-    "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
+-    "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"};
+-
+ typedef struct MegasasCmd {
+     uint32_t index;
+     uint16_t flags;
+@@ -183,6 +179,20 @@ static void megasas_frame_set_scsi_status(MegasasState *s,
+     stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, scsi_status), v);
+ }
+ 
++static inline const char *mfi_frame_desc(unsigned int cmd)
++{
++    static const char *mfi_frame_descs[] = {
++        "MFI init", "LD Read", "LD Write", "LD SCSI", "PD SCSI",
++        "MFI Doorbell", "MFI Abort", "MFI SMP", "MFI Stop"
++    };
++
++    if (cmd < ARRAY_SIZE(mfi_frame_descs)) {
++        return mfi_frame_descs[cmd];
++    }
++
++    return "Unknown";
++}
++
+ /*
+  * Context is considered opaque, but the HBA firmware is running
+  * in little endian mode. So convert it to little endian, too.
+@@ -1670,25 +1680,25 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+     if (is_logical) {
+         if (target_id >= MFI_MAX_LD || lun_id != 0) {
+             trace_megasas_scsi_target_not_present(
+-                mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
++                mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
+             return MFI_STAT_DEVICE_NOT_FOUND;
+         }
+     }
+     sdev = scsi_device_find(&s->bus, 0, target_id, lun_id);
+ 
+     cmd->iov_size = le32_to_cpu(cmd->frame->header.data_len);
+-    trace_megasas_handle_scsi(mfi_frame_desc[frame_cmd], is_logical,
++    trace_megasas_handle_scsi(mfi_frame_desc(frame_cmd), is_logical,
+                               target_id, lun_id, sdev, cmd->iov_size);
+ 
+     if (!sdev || (megasas_is_jbod(s) && is_logical)) {
+         trace_megasas_scsi_target_not_present(
+-            mfi_frame_desc[frame_cmd], is_logical, target_id, lun_id);
++            mfi_frame_desc(frame_cmd), is_logical, target_id, lun_id);
+         return MFI_STAT_DEVICE_NOT_FOUND;
+     }
+ 
+     if (cdb_len > 16) {
+         trace_megasas_scsi_invalid_cdb_len(
+-                mfi_frame_desc[frame_cmd], is_logical,
++                mfi_frame_desc(frame_cmd), is_logical,
+                 target_id, lun_id, cdb_len);
+         megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+         cmd->frame->header.scsi_status = CHECK_CONDITION;
+@@ -1706,7 +1716,7 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+     cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cmd);
+     if (!cmd->req) {
+         trace_megasas_scsi_req_alloc_failed(
+-                mfi_frame_desc[frame_cmd], target_id, lun_id);
++                mfi_frame_desc(frame_cmd), target_id, lun_id);
+         megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
+         cmd->frame->header.scsi_status = BUSY;
+         s->event_count++;
+@@ -1751,17 +1761,17 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+     }
+ 
+     trace_megasas_handle_io(cmd->index,
+-                            mfi_frame_desc[frame_cmd], target_id, lun_id,
++                            mfi_frame_desc(frame_cmd), target_id, lun_id,
+                             (unsigned long)lba_start, (unsigned long)lba_count);
+     if (!sdev) {
+         trace_megasas_io_target_not_present(cmd->index,
+-            mfi_frame_desc[frame_cmd], target_id, lun_id);
++            mfi_frame_desc(frame_cmd), target_id, lun_id);
+         return MFI_STAT_DEVICE_NOT_FOUND;
+     }
+ 
+     if (cdb_len > 16) {
+         trace_megasas_scsi_invalid_cdb_len(
+-            mfi_frame_desc[frame_cmd], 1, target_id, lun_id, cdb_len);
++            mfi_frame_desc(frame_cmd), 1, target_id, lun_id, cdb_len);
+         megasas_write_sense(cmd, SENSE_CODE(INVALID_OPCODE));
+         cmd->frame->header.scsi_status = CHECK_CONDITION;
+         s->event_count++;
+@@ -1781,7 +1791,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+                             lun_id, cdb, cmd);
+     if (!cmd->req) {
+         trace_megasas_scsi_req_alloc_failed(
+-            mfi_frame_desc[frame_cmd], target_id, lun_id);
++            mfi_frame_desc(frame_cmd), target_id, lun_id);
+         megasas_write_sense(cmd, SENSE_CODE(NO_SENSE));
+         cmd->frame->header.scsi_status = BUSY;
+         s->event_count++;
 -- 
 2.26.2
 
