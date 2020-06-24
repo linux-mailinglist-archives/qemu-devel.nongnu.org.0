@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FDD2071A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:58:53 +0200 (CEST)
-Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC52C2071A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:57:33 +0200 (CEST)
+Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo37E-0007Tm-6o
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
+	id 1jo35w-0005Aa-MX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zl-00017z-Rm
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35632
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jo2zs-0001Ki-1j
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57765
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zk-0001Jb-1q
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:09 -0400
+ id 1jo2zp-0001Mv-5i
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995867;
+ s=mimecast20190719; t=1592995872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nWTOU/chInvT4dBuf1xIXwgcaB+Gu35xsmP58gm5y0Y=;
- b=MZZZfP2Oeh2PWaok00duigm4Q6Qzj6lAvcVm6Y4PgXpInpjwdLCtn/S88epOL8Mgto6lAc
- ooE//7YJ92pqVBrBwKsqK6krFVJnUqHXL3r2Vp2FMmu2hHrkkWBphsieM1c9lvxm0GrXyi
- OMvqoRudNR7xLQY310C3AgCqG4OooK4=
+ bh=jfWmKVtlzJzmVnGlIOqAhf5WncSgnYrib8hvRbYqs8c=;
+ b=VlNQIRIQ/00p8RkIeg1A74XqzmJ6irR4hKyZp10mxhN8rO/VDgF/DVpO6mqgZdPOaSMBwR
+ CbF90AHPRQOh1txKlhy/Yub8Exyeh2gUUTRNgcS83t+kw8BOuwetaQFP1AZJznoZQWqA/y
+ GsaNlgmG0OXqgQ/m73Epp3GogAgzjVw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-hjLZVuWFOwaaxxhv4pfGfA-1; Wed, 24 Jun 2020 06:51:05 -0400
-X-MC-Unique: hjLZVuWFOwaaxxhv4pfGfA-1
+ us-mta-302-zlVWYBeWMImNMkGWZ_7LJQ-1; Wed, 24 Jun 2020 06:51:08 -0400
+X-MC-Unique: zlVWYBeWMImNMkGWZ_7LJQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36CF4A0BD8;
- Wed, 24 Jun 2020 10:51:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477CF8015F6;
+ Wed, 24 Jun 2020 10:51:07 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1D425D9C5;
- Wed, 24 Jun 2020 10:51:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE84B5D9C5;
+ Wed, 24 Jun 2020 10:51:06 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/31] xen: Actually fix build without passthrough
-Date: Wed, 24 Jun 2020 06:50:30 -0400
-Message-Id: <20200624105048.375353-13-pbonzini@redhat.com>
+Subject: [PULL 17/31] softfloat: do not return pseudo-denormal from floatx80
+ remainder
+Date: Wed, 24 Jun 2020 06:50:34 -0400
+Message-Id: <20200624105048.375353-17-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,32 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joseph Myers <joseph@codesourcery.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+From: Joseph Myers <joseph@codesourcery.com>
 
-Fix typo.
+The floatx80 remainder implementation sometimes returns the numerator
+unchanged when the denominator is sufficiently larger than the
+numerator.  But if the value to be returned unchanged is a
+pseudo-denormal, that is incorrect.  Fix it to normalize the numerator
+in that case.
 
-Fixes: acd0c9416d48 ("xen: fix build without pci passthrough")
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200619103115.254127-1-anthony.perard@citrix.com>
+Signed-off-by: Joseph Myers <joseph@codesourcery.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <alpine.DEB.2.21.2006081655520.23637@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/xen/Makefile.objs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fpu/softfloat.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
-index 3fc715e595..502b32d877 100644
---- a/hw/xen/Makefile.objs
-+++ b/hw/xen/Makefile.objs
-@@ -4,4 +4,4 @@ common-obj-y += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-bus.o xen-b
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
- obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
--obj-$(call $(lnot, $(CONFIG_XEN_PCI_PASSTHROUGH))) += xen_pt_stub.o
-+obj-$(call lnot,$(CONFIG_XEN_PCI_PASSTHROUGH)) += xen_pt_stub.o
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index f164b5c0ad..ab50088c35 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -5706,7 +5706,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+                          float_status *status)
+ {
+     bool aSign, zSign;
+-    int32_t aExp, bExp, expDiff;
++    int32_t aExp, bExp, expDiff, aExpOrig;
+     uint64_t aSig0, aSig1, bSig;
+     uint64_t q, term0, term1, alternateASig0, alternateASig1;
+ 
+@@ -5715,7 +5715,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         return floatx80_default_nan(status);
+     }
+     aSig0 = extractFloatx80Frac( a );
+-    aExp = extractFloatx80Exp( a );
++    aExpOrig = aExp = extractFloatx80Exp( a );
+     aSign = extractFloatx80Sign( a );
+     bSig = extractFloatx80Frac( b );
+     bExp = extractFloatx80Exp( b );
+@@ -5730,6 +5730,13 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         if ((uint64_t)(bSig << 1)) {
+             return propagateFloatx80NaN(a, b, status);
+         }
++        if (aExp == 0 && aSig0 >> 63) {
++            /*
++             * Pseudo-denormal argument must be returned in normalized
++             * form.
++             */
++            return packFloatx80(aSign, 1, aSig0);
++        }
+         return a;
+     }
+     if ( bExp == 0 ) {
+@@ -5749,7 +5756,16 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+     expDiff = aExp - bExp;
+     aSig1 = 0;
+     if ( expDiff < 0 ) {
+-        if ( mod || expDiff < -1 ) return a;
++        if ( mod || expDiff < -1 ) {
++            if (aExp == 1 && aExpOrig == 0) {
++                /*
++                 * Pseudo-denormal argument must be returned in
++                 * normalized form.
++                 */
++                return packFloatx80(aSign, aExp, aSig0);
++            }
++            return a;
++        }
+         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
+         expDiff = 0;
+     }
 -- 
 2.26.2
 
