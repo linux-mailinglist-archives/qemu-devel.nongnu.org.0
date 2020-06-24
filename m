@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8472079CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:01:19 +0200 (CEST)
-Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A6B2079EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:09:57 +0200 (CEST)
+Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo8ly-00076B-2E
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1jo8uK-00056V-0G
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VU-0003rN-5E
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46909
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VX-00042w-SX
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43810
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VB-00056x-Qt
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VC-00057n-Uf
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593017035;
+ s=mimecast20190719; t=1593017036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iv5jsw8Qu10tKDuXJWYnW772497s6X8/d3y77EvOOD4=;
- b=cWJuTV+EKLbvlDjrOtpOASjhAN7JxdSBxuUsCvvv9NZDyPu/ltA4i6tzmYgsM4v9D/kGHp
- tujvUyEunN+zRiiUrXUWmX8nV2/wFxZB3XQNLyZTlJ7TwmZ/7PmJZ21M2OWub4MN0vMzUv
- q68vKU4qzlDWRr1yV+cBXRL7pm78RNs=
+ bh=+c3msc5o9787aKuvhiP4zAz9Y1AGG6GhOgQz3vKW4P8=;
+ b=Mtz2xaqwjy6pIpKgxPXyVvZN763crgi/r4ox9PbV9c1q2MQkhH7GGYseDg52zcZEtCQ2WQ
+ n+tsIlLWa04KW09OxYx6nrpwXmnpwYN/niK5NxWM92Us1x1SwYp8g6yiH/0Sf/HziakbeE
+ UbBPLmXNkR8PFKOOIimo2E66XBuXzs8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-rR_Zk2FwPjmwnb6OpwONYw-1; Wed, 24 Jun 2020 12:43:53 -0400
-X-MC-Unique: rR_Zk2FwPjmwnb6OpwONYw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-289-KG01Tc23MJmcyNZFLeOqxQ-1; Wed, 24 Jun 2020 12:43:53 -0400
+X-MC-Unique: KG01Tc23MJmcyNZFLeOqxQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671428015FA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4162418585AB;
  Wed, 24 Jun 2020 16:43:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D05D60F8A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E0545C578;
  Wed, 24 Jun 2020 16:43:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 76A8B1138494; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
+ id 7A22E1138495; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 39/46] qom: Smooth error checking manually
-Date: Wed, 24 Jun 2020 18:43:37 +0200
-Message-Id: <20200624164344.3778251-40-armbru@redhat.com>
+Subject: [PATCH 40/46] qom: Make functions taking Error ** return bool,
+ not 0/-1
+Date: Wed, 24 Jun 2020 18:43:38 +0200
+Message-Id: <20200624164344.3778251-41-armbru@redhat.com>
 In-Reply-To: <20200624164344.3778251-1-armbru@redhat.com>
 References: <20200624164344.3778251-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,202 +86,131 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When foo(..., &err) is followed by error_propagate(errp, err), we can
-often just as well do foo(..., errp).  The previous commit did that
-for simple cases with Coccinelle.  Do it for a few more manually.
+Just for consistency.  Also fix the example in object_set_props()'s
+documentation.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/core/bus.c              |  6 +-----
- hw/s390x/s390-virtio-ccw.c | 15 +++++++--------
- qom/object.c               |  9 ++-------
- qom/qom-qobject.c          |  5 +----
- target/i386/cpu.c          | 19 +++++--------------
- 5 files changed, 16 insertions(+), 38 deletions(-)
+ include/qom/object.h | 28 +++++++++++-----------------
+ qom/object.c         | 14 +++++++-------
+ 2 files changed, 18 insertions(+), 24 deletions(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 00d1d31762..6b987b6946 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -166,11 +166,7 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
+diff --git a/include/qom/object.h b/include/qom/object.h
+index b2d2558245..d74ede4eac 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -729,15 +729,13 @@ void object_apply_compat_props(Object *obj);
+  *   Error *err = NULL;
+  *   Object *obj = ...get / create object...;
+  *
+- *   obj = object_set_props(obj,
+- *                          &err,
+- *                          "share", "yes",
+- *                          "mem-path", "/dev/shm/somefile",
+- *                          "prealloc", "yes",
+- *                          "size", "1048576",
+- *                          NULL);
+- *
+- *   if (!obj) {
++ *   if (!object_set_props(obj,
++ *                         &err,
++ *                         "share", "yes",
++ *                         "mem-path", "/dev/shm/somefile",
++ *                         "prealloc", "yes",
++ *                         "size", "1048576",
++ *                         NULL)) {
+  *     error_reportf_err(err, "Cannot set properties: ");
+  *   }
+  *   </programlisting>
+@@ -746,11 +744,9 @@ void object_apply_compat_props(Object *obj);
+  * The returned object will have one stable reference maintained
+  * for as long as it is present in the object hierarchy.
+  *
+- * Returns: -1 on error, 0 on success
++ * Returns: %true on success, %false on error.
+  */
+-int object_set_props(Object *obj,
+-                     Error **errp,
+-                     ...) QEMU_SENTINEL;
++bool object_set_props(Object *obj, Error **errp, ...) QEMU_SENTINEL;
  
- bool qbus_realize(BusState *bus, Error **errp)
- {
--    Error *err = NULL;
--
--    object_property_set_bool(OBJECT(bus), "realized", true, &err);
--    error_propagate(errp, err);
--    return !err;
-+    return object_property_set_bool(OBJECT(bus), "realized", true, errp);
- }
+ /**
+  * object_set_propv:
+@@ -760,11 +756,9 @@ int object_set_props(Object *obj,
+  *
+  * See object_set_props() for documentation.
+  *
+- * Returns: -1 on error, 0 on success
++ * Returns: %true on success, %false on error.
+  */
+-int object_set_propv(Object *obj,
+-                     Error **errp,
+-                     va_list vargs);
++bool object_set_propv(Object *obj, Error **errp, va_list vargs);
  
- void qbus_unrealize(BusState *bus)
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 62af349c31..877ea2af9d 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -69,20 +69,19 @@ static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
-                               Error **errp)
- {
-     S390CPU *cpu = S390_CPU(object_new(typename));
--    Error *err = NULL;
-+    S390CPU *ret = NULL;
- 
--    if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, &err)) {
-+    if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, errp)) {
-         goto out;
-     }
--    qdev_realize(DEVICE(cpu), NULL, &err);
-+    if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
-+        goto out;
-+    }
-+    ret = cpu;
- 
- out:
-     object_unref(OBJECT(cpu));
--    if (err) {
--        error_propagate(errp, err);
--        cpu = NULL;
--    }
--    return cpu;
-+    return ret;
- }
- 
- static void s390_init_cpus(MachineState *machine)
+ /**
+  * object_initialize:
 diff --git a/qom/object.c b/qom/object.c
-index eb814e41be..684540a09f 100644
+index 684540a09f..9b479621e4 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -547,7 +547,6 @@ bool object_initialize_child_with_propsv(Object *parentobj,
-                               void *childobj, size_t size, const char *type,
-                               Error **errp, va_list vargs)
+@@ -554,7 +554,7 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+     object_initialize(childobj, size, type);
+     obj = OBJECT(childobj);
+ 
+-    if (object_set_propv(obj, errp, vargs) < 0) {
++    if (!object_set_propv(obj, errp, vargs)) {
+         goto out;
+     }
+ 
+@@ -746,7 +746,7 @@ Object *object_new_with_propv(const char *typename,
+     }
+     obj = object_new_with_type(klass->type);
+ 
+-    if (object_set_propv(obj, errp, vargs) < 0) {
++    if (!object_set_propv(obj, errp, vargs)) {
+         goto error;
+     }
+ 
+@@ -773,12 +773,12 @@ Object *object_new_with_propv(const char *typename,
+ }
+ 
+ 
+-int object_set_props(Object *obj,
++bool object_set_props(Object *obj,
+                      Error **errp,
+                      ...)
  {
--    Error *local_err = NULL;
-     bool ok = false;
-     Object *obj;
-     UserCreatable *uc;
-@@ -563,7 +562,7 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+     va_list vargs;
+-    int ret;
++    bool ret;
  
-     uc = (UserCreatable *)object_dynamic_cast(obj, TYPE_USER_CREATABLE);
-     if (uc) {
--        if (!user_creatable_complete(uc, &local_err)) {
-+        if (!user_creatable_complete(uc, errp)) {
-             object_unparent(obj);
-             goto out;
-         }
-@@ -581,8 +580,6 @@ out:
-      * the reference taken by object_property_add_child().
-      */
-     object_unref(obj);
--
--    error_propagate(errp, local_err);
-     return ok;
+     va_start(vargs, errp);
+     ret = object_set_propv(obj, errp, vargs);
+@@ -788,7 +788,7 @@ int object_set_props(Object *obj,
  }
  
-@@ -735,7 +732,6 @@ Object *object_new_with_propv(const char *typename,
+ 
+-int object_set_propv(Object *obj,
++bool object_set_propv(Object *obj,
+                      Error **errp,
+                      va_list vargs)
  {
-     Object *obj;
-     ObjectClass *klass;
--    Error *local_err = NULL;
-     UserCreatable *uc;
+@@ -800,12 +800,12 @@ int object_set_propv(Object *obj,
  
-     klass = object_class_by_name(typename);
-@@ -760,7 +756,7 @@ Object *object_new_with_propv(const char *typename,
- 
-     uc = (UserCreatable *)object_dynamic_cast(obj, TYPE_USER_CREATABLE);
-     if (uc) {
--        if (!user_creatable_complete(uc, &local_err)) {
-+        if (!user_creatable_complete(uc, errp)) {
-             if (id != NULL) {
-                 object_unparent(obj);
-             }
-@@ -772,7 +768,6 @@ Object *object_new_with_propv(const char *typename,
-     return obj;
- 
-  error:
--    error_propagate(errp, local_err);
-     object_unref(obj);
-     return NULL;
- }
-diff --git a/qom/qom-qobject.c b/qom/qom-qobject.c
-index 62ac5e07ac..21ce22de94 100644
---- a/qom/qom-qobject.c
-+++ b/qom/qom-qobject.c
-@@ -34,15 +34,12 @@ QObject *object_property_get_qobject(Object *obj, const char *name,
-                                      Error **errp)
- {
-     QObject *ret = NULL;
--    Error *local_err = NULL;
-     Visitor *v;
- 
-     v = qobject_output_visitor_new(&ret);
--    object_property_get(obj, name, v, &local_err);
--    if (!local_err) {
-+    if (object_property_get(obj, name, v, errp)) {
-         visit_complete(v, &ret);
-     }
--    error_propagate(errp, local_err);
-     visit_free(v);
-     return ret;
- }
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 26ba40656d..b7c9f0fa72 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5251,16 +5251,13 @@ static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
- static void object_apply_props(Object *obj, QDict *props, Error **errp)
- {
-     const QDictEntry *prop;
--    Error *err = NULL;
- 
-     for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
-         if (!object_property_set_qobject(obj, qdict_entry_key(prop),
--                                         qdict_entry_value(prop), &err)) {
-+                                         qdict_entry_value(prop), errp)) {
-             break;
+         g_assert(value != NULL);
+         if (!object_property_parse(obj, propname, value, errp)) {
+-            return -1;
++            return false;
          }
+         propname = va_arg(vargs, char *);
      }
--
--    error_propagate(errp, err);
+ 
+-    return 0;
++    return true;
  }
  
- /* Create X86CPU object according to model+props specification */
-@@ -6318,19 +6315,18 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     FeatureWord w;
-     int i;
-     GList *l;
--    Error *local_err = NULL;
  
-     for (l = plus_features; l; l = l->next) {
-         const char *prop = l->data;
--        if (!object_property_set_bool(OBJECT(cpu), prop, true, &local_err)) {
--            goto out;
-+        if (!object_property_set_bool(OBJECT(cpu), prop, true, errp)) {
-+            return;
-         }
-     }
- 
-     for (l = minus_features; l; l = l->next) {
-         const char *prop = l->data;
--        if (!object_property_set_bool(OBJECT(cpu), prop, false, &local_err)) {
--            goto out;
-+        if (!object_property_set_bool(OBJECT(cpu), prop, false, errp)) {
-+            return;
-         }
-     }
- 
-@@ -6428,11 +6424,6 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     if (env->cpuid_xlevel2 == UINT32_MAX) {
-         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
-     }
--
--out:
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--    }
- }
- 
- /*
 -- 
 2.26.2
 
