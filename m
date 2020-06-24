@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E02207BF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:03:19 +0200 (CEST)
-Received: from localhost ([::1]:48532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAFA207BFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:06:12 +0200 (CEST)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAg2-0006HK-7L
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1joAip-0001TY-Jd
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joAc2-0000Gi-6v
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30822
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1joAdF-0003J9-Sf
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:25 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58179
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joAc0-0004CX-5l
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:09 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1joAdD-0004ZE-VJ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025146;
+ s=mimecast20190719; t=1593025223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ILE94C96oLYOR3112z4jfnVh8BqtvVRNz98Gv2HkJwY=;
- b=dbacS8o/+f8umw76BHZfMbOYN7/NE3JUnnZQj66yhEALKbCQsoW9+5AfZoomrh3/foTDet
- 9ixCveKaAQpVrv5g8wZ8W46DR7VSN3h/YZMnMrC/IHBVNxz2yZPcnzrSQEu0Z554E7yE7G
- HHqfAWyf5hb5eSwIxE971eh/gv5elLA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Tm30AEwLdKYGLob3DCjAdsb72MA2fIjTgel+JMFPCVQ=;
+ b=Ov7fo+VR6vsNSoaej7d/9zFcmrKWXVvJR7O935voh8dq0Ubo2rL5imujH/cHJMqLePph8c
+ Zc/BnNggJjdZs1dQv+MdG8NMCVjVsTwCQd0X9Ahzbnk0tZgnhyST9IoDl5BV9omJb+AQOH
+ +Ai0llvuT+zzqxN9fF/FZjCP9oA9qbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-nqc3VoH3NFKcYu7wOQKEbg-1; Wed, 24 Jun 2020 14:59:03 -0400
-X-MC-Unique: nqc3VoH3NFKcYu7wOQKEbg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-248-QlnZrBVtNbysQvRPkqEuHw-1; Wed, 24 Jun 2020 15:00:19 -0400
+X-MC-Unique: QlnZrBVtNbysQvRPkqEuHw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08EFA108BD0C;
- Wed, 24 Jun 2020 18:59:01 +0000 (UTC)
-Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7769C60F8A;
- Wed, 24 Jun 2020 18:58:59 +0000 (UTC)
-Date: Wed, 24 Jun 2020 12:56:14 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v25 15/17] vfio: Add ioctl to get dirty pages
- bitmap during dma unmap.
-Message-ID: <20200624125614.5e742574@x1.home>
-In-Reply-To: <1592684486-18511-16-git-send-email-kwankhede@nvidia.com>
-References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
- <1592684486-18511-16-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83644EC1A2;
+ Wed, 24 Jun 2020 19:00:17 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-112-159.ams2.redhat.com
+ [10.36.112.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 308E571660;
+ Wed, 24 Jun 2020 19:00:10 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] net: tap: check if the file descriptor is valid before using
+ it
+Date: Wed, 24 Jun 2020 21:00:09 +0200
+Message-Id: <20200624190009.300069-1-lvivier@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -82,175 +78,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 21 Jun 2020 01:51:24 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+qemu_set_nonblock() checks that the file descriptor can be used and, if
+not, crashes QEMU. An assert() is used for that. The use of assert() is
+used to detect programming error and the coredump will allow to debug
+the problem.
 
-> With vIOMMU, IO virtual address range can get unmapped while in pre-copy
-> phase of migration. In that case, unmap ioctl should return pages pinned
-> in that range and QEMU should find its correcponding guest physical
-> addresses and report those dirty.
-> 
-> Suggested-by: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/common.c | 85 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 81 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 0518cf228ed5..a06b8f2f66e2 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -311,11 +311,83 @@ static bool vfio_devices_are_stopped_and_saving(void)
->      return true;
->  }
->  
-> +static bool vfio_devices_are_running_and_saving(void)
-> +{
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +
-> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+But in the case of the tap device, this assert() can be triggered by
+a misconfiguration by the user. At startup, it's not a real problem, but it
+can also happen during the hot-plug of a new device, and here it's a
+problem because we can crash a perfectly healthy system.
 
-Same as previous, I'm curious if we should instead be looking at
-container granularity.  It especially seems to make sense here where
-we're unmapping from a container, so iterating every device in every
-group seems excessive.
+For instance:
+ # ip link add link virbr0 name macvtap0 type macvtap mode bridge
+ # ip link set macvtap0 up
+ # TAP=/dev/tap$(ip -o link show macvtap0 | cut -d: -f1)
+ # qemu-system-x86_64 -machine q35 -device pcie-root-port,id=pcie-root-port-0 -monitor stdio 9<> $TAP
+ (qemu) netdev_add type=tap,id=hostnet0,vhost=on,fd=9
+ (qemu) device_add driver=virtio-net-pci,netdev=hostnet0,id=net0,bus=pcie-root-port-0
+ (qemu) device_del net0
+ (qemu) netdev_del hostnet0
+ (qemu) netdev_add type=tap,id=hostnet1,vhost=on,fd=9
+ qemu-system-x86_64: .../util/oslib-posix.c:247: qemu_set_nonblock: Assertion `f != -1' failed.
+ Aborted (core dumped)
 
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
-> +                (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> +                continue;
-> +            } else {
-> +                return false;
-> +            }
+To avoid that, check the file descriptor is valid before passing it to qemu_set_non_block() for
+"fd=" and "fds=" parameters.
 
-I'm also not sure about the polarity of this function, should it be if
-any device is _SAVING we should report the dirty bitmap?  For example,
-what if we have a set of paried failover NICs where we intend to unplug
-one just prior to stopping the devices, aren't we going to lose dirtied
-pages with this logic that they all must be running and saving?  Thanks,
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ include/qemu/sockets.h |  1 +
+ net/tap.c              | 13 +++++++++++++
+ util/oslib-posix.c     |  5 +++++
+ util/oslib-win32.c     |  6 ++++++
+ 4 files changed, 25 insertions(+)
 
-Alex
-
-> +        }
-> +    }
-> +    return true;
-> +}
-> +
-> +static int vfio_dma_unmap_bitmap(VFIOContainer *container,
-> +                                 hwaddr iova, ram_addr_t size,
-> +                                 IOMMUTLBEntry *iotlb)
-> +{
-> +    struct vfio_iommu_type1_dma_unmap *unmap;
-> +    struct vfio_bitmap *bitmap;
-> +    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
-> +    int ret;
-> +
-> +    unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
-> +
-> +    unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
-> +    unmap->iova = iova;
-> +    unmap->size = size;
-> +    unmap->flags |= VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
-> +    bitmap = (struct vfio_bitmap *)&unmap->data;
-> +
-> +    /*
-> +     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-> +     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
-> +     * TARGET_PAGE_SIZE.
-> +     */
-> +
-> +    bitmap->pgsize = TARGET_PAGE_SIZE;
-> +    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> +                   BITS_PER_BYTE;
-> +
-> +    if (bitmap->size > container->max_dirty_bitmap_size) {
-> +        error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size);
-> +        ret = -E2BIG;
-> +        goto unmap_exit;
-> +    }
-> +
-> +    bitmap->data = g_try_malloc0(bitmap->size);
-> +    if (!bitmap->data) {
-> +        ret = -ENOMEM;
-> +        goto unmap_exit;
-> +    }
-> +
-> +    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
-> +    if (!ret) {
-> +        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)bitmap->data,
-> +                iotlb->translated_addr, pages);
-> +    } else {
-> +        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
-> +    }
-> +
-> +    g_free(bitmap->data);
-> +unmap_exit:
-> +    g_free(unmap);
-> +    return ret;
-> +}
-> +
->  /*
->   * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
->   */
->  static int vfio_dma_unmap(VFIOContainer *container,
-> -                          hwaddr iova, ram_addr_t size)
-> +                          hwaddr iova, ram_addr_t size,
-> +                          IOMMUTLBEntry *iotlb)
->  {
->      struct vfio_iommu_type1_dma_unmap unmap = {
->          .argsz = sizeof(unmap),
-> @@ -324,6 +396,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
->          .size = size,
->      };
->  
-> +    if (iotlb && container->dirty_pages_supported &&
-> +        vfio_devices_are_running_and_saving()) {
-> +        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-> +    }
-> +
->      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
->          /*
->           * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
-> @@ -371,7 +448,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
->       * the VGA ROM space.
->       */
->      if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
-> -        (errno == EBUSY && vfio_dma_unmap(container, iova, size) == 0 &&
-> +        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
->           ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
->          return 0;
->      }
-> @@ -542,7 +619,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
->              }
->          }
->  
-> -        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1);
-> +        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
->          if (ret) {
->              error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
->                           "0x%"HWADDR_PRIx") = %d (%m)",
-> @@ -853,7 +930,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
->      }
->  
->      if (try_unmap) {
-> -        ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
-> +        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
->          if (ret) {
->              error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
->                           "0x%"HWADDR_PRIx") = %d (%m)",
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 57cd049d6edd..5b0c2d77ddad 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -17,6 +17,7 @@ int qemu_socket(int domain, int type, int protocol);
+ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+ int socket_set_cork(int fd, int v);
+ int socket_set_nodelay(int fd);
++bool qemu_fd_is_valid(int fd);
+ void qemu_set_block(int fd);
+ void qemu_set_nonblock(int fd);
+ int socket_set_fast_reuse(int fd);
+diff --git a/net/tap.c b/net/tap.c
+index 6207f61f84ab..f65966aaccd8 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -795,6 +795,12 @@ int net_init_tap(const Netdev *netdev, const char *name,
+             return -1;
+         }
+ 
++        /* Check if fd is valid */
++        if (!qemu_fd_is_valid(fd)) {
++            error_setg(errp, "Invalid file descriptor %d", fd);
++            return -1;
++        }
++
+         qemu_set_nonblock(fd);
+ 
+         vnet_hdr = tap_probe_vnet_hdr(fd);
+@@ -843,6 +849,13 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                 goto free_fail;
+             }
+ 
++            /* Check if fd is valid */
++            if (!qemu_fd_is_valid(fd)) {
++                error_setg(errp, "Invalid file descriptor %d", fd);
++                ret = -1;
++                goto free_fail;
++            }
++
+             qemu_set_nonblock(fd);
+ 
+             if (i == 0) {
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 916f1be2243a..8d5705f598d3 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -244,6 +244,11 @@ void qemu_anon_ram_free(void *ptr, size_t size)
+     qemu_ram_munmap(-1, ptr, size);
+ }
+ 
++bool qemu_fd_is_valid(int fd)
++{
++    return fcntl(fd, F_GETFL) != -1;
++}
++
+ void qemu_set_block(int fd)
+ {
+     int f;
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e9b14ab17847..a6be9445cfdb 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -132,6 +132,12 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
+ }
+ #endif /* CONFIG_LOCALTIME_R */
+ 
++bool qemu_fd_is_valid(int fd)
++{
++    /* FIXME: how to check if fd is valid? */
++    return true;
++}
++
+ void qemu_set_block(int fd)
+ {
+     unsigned long opt = 0;
+-- 
+2.26.2
 
 
