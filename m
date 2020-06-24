@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AFD206F1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:41:34 +0200 (CEST)
-Received: from localhost ([::1]:48618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBBD206F32
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:46:19 +0200 (CEST)
+Received: from localhost ([::1]:39904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0yL-0006or-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48356)
+	id 1jo12w-0006UV-3r
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:46:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0ul-0000jW-Ij
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0ul-0000k7-M4
  for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:37:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44102
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24245
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0ug-00025G-Az
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0uh-00025a-20
  for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:37:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592987865;
+ s=mimecast20190719; t=1592987866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uMK46KJ2cnpUchCFeSEj8pYKe2vweYwRfkLAmNI0C5s=;
- b=POqLdYL5RMsJb1oNX9tlhnVGxnAP6Zso2gPxyTunBu8vAzhMvllTJNAtPOpGldzEyIaxR6
- LYfaMrPyKG+q+U4Q32XS8qTmNWHaryKxKSG/AthxNrACPDngqiasjqRpUReHdSsbi4jIVW
- 16zm2ag56hagRq4RMo6o7XjIbnTqk8I=
+ bh=4tL3HIKS4vITLC3fFlbuCWS7ycaHKLToIkhZt8tjHeA=;
+ b=FyVTPdNumbUPX4d0GWhKNkNeU1fZkdtYEItLjoPDo5VBIy5yjtbw8xWGMnPuI1pb3E4ez0
+ /5WIirPUKPWlfjhT1Aq+hiEhJgLF3tkCseq/5/zqUIW8hm1OcpRvns1FuoXNQiXtLeL9kj
+ s3B8kQaOg+Rh0qxQkDhTfNSy5ioDhl0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-l9-qdw7qPZut6H3ZKWQHIA-1; Wed, 24 Jun 2020 04:37:43 -0400
-X-MC-Unique: l9-qdw7qPZut6H3ZKWQHIA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-240-ImpZ9-ubOh-Xly4gblsaFA-1; Wed, 24 Jun 2020 04:37:43 -0400
+X-MC-Unique: ImpZ9-ubOh-Xly4gblsaFA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CC82107ACCA;
- Wed, 24 Jun 2020 08:37:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 822EA800C64
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 08:37:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F0445BACC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 515AA5D9C5;
  Wed, 24 Jun 2020 08:37:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A530A113847A; Wed, 24 Jun 2020 10:37:37 +0200 (CEST)
+ id A8C55113847B; Wed, 24 Jun 2020 10:37:37 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/25] aspeed: Clean up roundabout error propagation
-Date: Wed, 24 Jun 2020 10:37:24 +0200
-Message-Id: <20200624083737.3086768-13-armbru@redhat.com>
+Subject: [PATCH v2 13/25] qdev: Drop qbus_set_bus_hotplug_handler() parameter
+ @errp
+Date: Wed, 24 Jun 2020 10:37:25 +0200
+Message-Id: <20200624083737.3086768-14-armbru@redhat.com>
 In-Reply-To: <20200624083737.3086768-1-armbru@redhat.com>
 References: <20200624083737.3086768-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,109 +81,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace
+All callers pass &error_abort.  Drop the parameter.
 
-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
-        error_propagate(&err, local_err);
-        if (err) {
-            error_propagate(errp, err);
-            return;
-	}
-
-by
-
-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-        if (err) {
-            error_propagate(errp, err);
-            return;
-	}
-
-Cc: Cédric Le Goater <clg@kaod.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed_ast2600.c | 10 ++++------
- hw/arm/aspeed_soc.c     | 10 ++++------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+ include/hw/qdev-core.h      | 2 +-
+ hw/core/bus.c               | 4 ++--
+ hw/scsi/scsi-bus.c          | 2 +-
+ hw/usb/bus.c                | 2 +-
+ hw/xen/xen-bus.c            | 2 +-
+ hw/xen/xen-legacy-backend.c | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 6da687299f..08b3592e36 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -228,7 +228,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     int i;
-     AspeedSoCState *s = ASPEED_SOC(dev);
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
--    Error *err = NULL, *local_err = NULL;
-+    Error *err = NULL;
-     qemu_irq irq;
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 7dc10be46f..78acdeaed6 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -537,7 +537,7 @@ char *qdev_get_dev_path(DeviceState *dev);
  
-     /* IO space */
-@@ -394,8 +394,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
--        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
--        error_propagate(&err, local_err);
-+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-@@ -446,11 +445,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
-                                  &err);
--        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
--        error_propagate(&err, local_err);
-+        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
--           return;
-+            return;
-         }
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                         sc->memmap[ASPEED_ETH1 + i]);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 810cf9b6cc..ec21de50ce 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -218,7 +218,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     int i;
-     AspeedSoCState *s = ASPEED_SOC(dev);
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
--    Error *err = NULL, *local_err = NULL;
-+    Error *err = NULL;
+ void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp);
  
-     /* IO space */
-     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM],
-@@ -340,8 +340,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     /* SPI */
-     for (i = 0; i < sc->spis_num; i++) {
-         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
--        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
--        error_propagate(&err, local_err);
-+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
-@@ -392,11 +391,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
-                                  &err);
--        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
--        error_propagate(&err, local_err);
-+        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
--           return;
-+            return;
-         }
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                         sc->memmap[ASPEED_ETH1 + i]);
+-void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp);
++void qbus_set_bus_hotplug_handler(BusState *bus);
+ 
+ static inline bool qbus_is_hotpluggable(BusState *bus)
+ {
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index 6cc28b334e..8d4e810d7f 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -29,9 +29,9 @@ void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp)
+                              QDEV_HOTPLUG_HANDLER_PROPERTY, errp);
+ }
+ 
+-void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp)
++void qbus_set_bus_hotplug_handler(BusState *bus)
+ {
+-    qbus_set_hotplug_handler(bus, OBJECT(bus), errp);
++    qbus_set_hotplug_handler(bus, OBJECT(bus), &error_abort);
+ }
+ 
+ int qbus_walk_children(BusState *bus,
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 27843bb04b..b878a08080 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -107,7 +107,7 @@ void scsi_bus_new(SCSIBus *bus, size_t bus_size, DeviceState *host,
+     qbus_create_inplace(bus, bus_size, TYPE_SCSI_BUS, host, bus_name);
+     bus->busnr = next_scsi_bus++;
+     bus->info = info;
+-    qbus_set_bus_hotplug_handler(BUS(bus), &error_abort);
++    qbus_set_bus_hotplug_handler(BUS(bus));
+ }
+ 
+ static void scsi_dma_restart_bh(void *opaque)
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index a81aee2051..957559b18d 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -84,7 +84,7 @@ void usb_bus_new(USBBus *bus, size_t bus_size,
+                  USBBusOps *ops, DeviceState *host)
+ {
+     qbus_create_inplace(bus, bus_size, TYPE_USB_BUS, host, NULL);
+-    qbus_set_bus_hotplug_handler(BUS(bus), &error_abort);
++    qbus_set_bus_hotplug_handler(BUS(bus));
+     bus->ops = ops;
+     bus->busnr = next_usb_bus++;
+     QTAILQ_INIT(&bus->free);
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index 4b00320f1c..c4e2162ae9 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -1391,5 +1391,5 @@ void xen_bus_init(void)
+     BusState *bus = qbus_create(TYPE_XEN_BUS, dev, NULL);
+ 
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    qbus_set_bus_hotplug_handler(bus, &error_abort);
++    qbus_set_bus_hotplug_handler(bus);
+ }
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index 2335ee2e65..7d4b13351e 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -705,7 +705,7 @@ int xen_be_init(void)
+     xen_sysdev = qdev_new(TYPE_XENSYSDEV);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
+     xen_sysbus = qbus_create(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+-    qbus_set_bus_hotplug_handler(xen_sysbus, &error_abort);
++    qbus_set_bus_hotplug_handler(xen_sysbus);
+ 
+     return 0;
+ 
 -- 
 2.26.2
 
