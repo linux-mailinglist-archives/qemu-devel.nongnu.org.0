@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A73207CED
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 22:29:42 +0200 (CEST)
-Received: from localhost ([::1]:33216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E1D207CE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 22:27:03 +0200 (CEST)
+Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joC1d-00069S-HK
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 16:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
+	id 1joBz4-0003FV-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 16:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1joBvx-0006Kr-BF; Wed, 24 Jun 2020 16:23:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26136)
+ id 1joBvw-0006Kb-Jz; Wed, 24 Jun 2020 16:23:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1joBvs-00031a-Vq; Wed, 24 Jun 2020 16:23:49 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1joBvt-00031b-5R; Wed, 24 Jun 2020 16:23:48 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05OK3FD8005946; Wed, 24 Jun 2020 16:23:43 -0400
+ 05OK1l9b031987; Wed, 24 Jun 2020 16:23:43 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31uwyxeay9-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux0766gh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 16:23:43 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05OK2xeb041716;
+ Wed, 24 Jun 2020 16:23:42 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux0766g9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 24 Jun 2020 16:23:42 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05OK4rf9011032;
- Wed, 24 Jun 2020 16:23:42 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31uwyxeaxq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 16:23:42 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05OKKRWm017861;
- Wed, 24 Jun 2020 20:23:41 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02wdc.us.ibm.com with ESMTP id 31uus3phaf-1
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05OKJuKX008624;
+ Wed, 24 Jun 2020 20:23:42 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 31uurvr5wc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 24 Jun 2020 20:23:41 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05OKNetD54329828
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05OKNfRt37486848
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Jun 2020 20:23:40 GMT
+ Wed, 24 Jun 2020 20:23:41 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEF1FAE05C;
- Wed, 24 Jun 2020 20:23:40 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0B49CAE064;
+ Wed, 24 Jun 2020 20:23:41 +0000 (GMT)
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A591AE063;
+ by IMSVA (Postfix) with ESMTP id C4807AE05F;
  Wed, 24 Jun 2020 20:23:40 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.198.108])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
  Wed, 24 Jun 2020 20:23:40 +0000 (GMT)
 From: Collin Walling <walling@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
-Date: Wed, 24 Jun 2020 16:23:04 -0400
-Message-Id: <20200624202312.28349-1-walling@linux.ibm.com>
+Subject: [PATCH v4 1/8] s390/sclp: get machine once during read scp/cpu info
+Date: Wed, 24 Jun 2020 16:23:05 -0400
+Message-Id: <20200624202312.28349-2-walling@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200624202312.28349-1-walling@linux.ibm.com>
+References: <20200624202312.28349-1-walling@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-24_15:2020-06-24,
  2020-06-24 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0
- cotscore=-2147483648 lowpriorityscore=0 spamscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 suspectscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006240129
+ suspectscore=0 mlxscore=0
+ impostorscore=0 cotscore=-2147483648 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006240128
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 15:31:11
@@ -103,105 +103,56 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changelog:
+Functions within read scp/cpu info will need access to the machine
+state. Let's make a call to retrieve the machine state once and
+pass the appropriate data to the respective functions.
 
-    v4
-    
-    • added r-b's and ack's (thanks, everyone!)
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/s390x/sclp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-    • renamed boundary and length function
-
-    • updated header sync to reflect a change discussed in the respective
-        KVM patches
-
-    • s/data_len/offset_cpu
-
-    • added /* fallthrough */ comment in boundary check
-
-    v3
-
-    • Device IOCTLs removed
-        - diag 318 info is now communicated via sync_regs
-
-    • Reset code removed
-        - this is now handled in KVM
-        - diag318_info is stored within the CPU reset portion of the
-            S390CPUState
-
-    • Various cleanups for ELS preliminary patches
-
-    v2
-
-    • QEMU now handles the instruction call
-        - as such, the "enable diag 318" IOCTL has been removed
-
-    • patch #1 now changes the read scp/cpu info functions to
-      retrieve the machine state once
-        - as such, I have not added any ack's or r-bs since this
-          patch differs from the previous version
-
-    • patch #3 introduces a new "get_read_scp_info_data_len"
-      function in order clean-up the variable data length assignment
-      in patch #7
-        - a comment above this function should help clarify what's
-          going on to make things a bit easier to read
-
-    • other misc clean ups and fixes
-        - s/diag318/diag_318 in order to keep the naming scheme
-          consistent with Linux and other diag-related code
-        - s/byte_134/fac134 to align naming scheme with Linux
-
------------------------------------------------------------------------
-
-This patch series introduces two features for an s390 KVM quest:
-    - Extended-Length SCCB (els) for the Read SCP/CPU Info SCLP 
-        commands
-    - DIAGNOSE 0x318 (diag_318) enabling / migration handling
-
-The diag 318 feature depends on els and KVM support.
-
-The els feature is handled entirely with QEMU, and does not require 
-KVM support.
-
-Both features are made available starting with the zEC12-full model.
-
-These patches are introduced together for two main reasons:
-    - els allows diag 318 to exist while retaining the original 248 
-        VCPU max
-    - diag 318 is presented to show how els is useful
-
-Full els support is dependant on the Linux kernel, which must react
-to the SCLP response code and set an appropriate-length SCCB. 
-
-A user should take care when tuning the CPU model for a VM.
-If a user defines a VM with els support and specifies 248 CPUs, but
-the guest Linux kernel cannot react to the SCLP response code, then
-the guest will crash immediately upon kernel startup.
-
-
-Collin L. Walling (8):
-  s390/sclp: get machine once during read scp/cpu info
-  s390/sclp: check sccb len before filling in data
-  s390/sclp: rework sclp boundary and length checks
-  s390/sclp: read sccb from mem based on sccb length
-  s390/sclp: use cpu offset to locate cpu entries
-  s390/sclp: add extended-length sccb support for kvm guest
-  s390/kvm: header sync for diag318
-  s390: guest support for diagnose 0x318
-
- hw/s390x/sclp.c                     | 115 ++++++++++++++++++++++------
- include/hw/s390x/sclp.h             |   4 +
- linux-headers/asm-s390/kvm.h        |   7 +-
- linux-headers/linux/kvm.h           |   1 +
- target/s390x/cpu.h                  |   2 +
- target/s390x/cpu_features.h         |   1 +
- target/s390x/cpu_features_def.inc.h |   4 +
- target/s390x/cpu_models.c           |   1 +
- target/s390x/gen-features.c         |   2 +
- target/s390x/kvm.c                  |  39 ++++++++++
- target/s390x/machine.c              |  17 ++++
- 11 files changed, 166 insertions(+), 27 deletions(-)
-
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 20aca30ac4..7875334037 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -49,9 +49,8 @@ static inline bool sclp_command_code_valid(uint32_t code)
+     return false;
+ }
+ 
+-static void prepare_cpu_entries(SCLPDevice *sclp, CPUEntry *entry, int *count)
++static void prepare_cpu_entries(MachineState *ms, CPUEntry *entry, int *count)
+ {
+-    MachineState *ms = MACHINE(qdev_get_machine());
+     uint8_t features[SCCB_CPU_FEATURE_LEN] = { 0 };
+     int i;
+ 
+@@ -77,7 +76,7 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+     IplParameterBlock *ipib = s390_ipl_get_iplb();
+ 
+     /* CPU information */
+-    prepare_cpu_entries(sclp, read_info->entries, &cpu_count);
++    prepare_cpu_entries(machine, read_info->entries, &cpu_count);
+     read_info->entries_cpu = cpu_to_be16(cpu_count);
+     read_info->offset_cpu = cpu_to_be16(offsetof(ReadInfo, entries));
+     read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
+@@ -132,10 +131,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+ /* Provide information about the CPU */
+ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
+ {
++    MachineState *machine = MACHINE(qdev_get_machine());
+     ReadCpuInfo *cpu_info = (ReadCpuInfo *) sccb;
+     int cpu_count;
+ 
+-    prepare_cpu_entries(sclp, cpu_info->entries, &cpu_count);
++    prepare_cpu_entries(machine, cpu_info->entries, &cpu_count);
+     cpu_info->nr_configured = cpu_to_be16(cpu_count);
+     cpu_info->offset_configured = cpu_to_be16(offsetof(ReadCpuInfo, entries));
+     cpu_info->nr_standby = cpu_to_be16(0);
 -- 
 2.26.2
 
