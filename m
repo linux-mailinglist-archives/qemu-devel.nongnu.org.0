@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEDC207C06
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:10:38 +0200 (CEST)
-Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C46207C00
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:06:55 +0200 (CEST)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAn7-00008f-HO
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35160)
+	id 1joAjW-0003Su-2w
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAeV-0005IY-M0
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:01:45 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29211
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1joAcr-0002RJ-J6
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46782
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAeT-0004oy-S4
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:01:43 -0400
+ id 1joAcp-0004Kx-J8
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025301;
+ s=mimecast20190719; t=1593025198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jsOCKVDAnlVo7nwwW1cVlcGlJH5VAzWBJos0J7YBlL8=;
- b=Z5zWuvBWjEjD1e+eBDVaVT1akoArXP0Sj+SBzzGgpeep/cQAnZBqN2HZa6LPnMSuf96XFC
- KMuKQ3aFqa0riJPgxf+z5SXc2uTBAqgaQVfcOXvIyJALngCMrGje1acsTJPOLVJduaL2KG
- QG6X7M0057ZHU7Xj3Ivb/FX6CYGiY5c=
+ bh=ar9EPNnW2UkZsgMWjVnCcQt7kxez+sGtf7BypjVxH9s=;
+ b=WlrtY/h7KRBgqD1/lqeUIx/1G6pAK1ORIRPVcxyqpiVK1Q7R7EmkrqF1vEPmGLlxBRQMBI
+ I+1cGDxIcF3rezYnSL/P2Qt4vurCHP5zQrTWHI7EDgonfmp5YGEhp0uGOKCqmOe0Xj7b/m
+ PHdI2zRRzPc091BtgnuJ5ye4jvuYmXA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-AVTgGQvmM7e4UQMR1eNXCA-1; Wed, 24 Jun 2020 14:58:39 -0400
-X-MC-Unique: AVTgGQvmM7e4UQMR1eNXCA-1
+ us-mta-293-Xg_17yIGNF-pbuJlylgdmQ-1; Wed, 24 Jun 2020 14:58:43 -0400
+X-MC-Unique: Xg_17yIGNF-pbuJlylgdmQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB005EC1A1;
- Wed, 24 Jun 2020 18:58:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C2DB107ACF8;
+ Wed, 24 Jun 2020 18:58:42 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.74.8.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF44679325;
- Wed, 24 Jun 2020 18:58:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77CC871660;
+ Wed, 24 Jun 2020 18:58:38 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 8/9] imx7-ccm: add digprog mmio write method
-Date: Thu, 25 Jun 2020 00:25:22 +0530
-Message-Id: <20200624185523.762240-9-ppandit@redhat.com>
+Subject: [PATCH v2 9/9] memory: assert MemoryRegionOps callbacks are defined
+Date: Thu, 25 Jun 2020 00:25:23 +0530
+Message-Id: <20200624185523.762240-10-ppandit@redhat.com>
 In-Reply-To: <20200624185523.762240-1-ppandit@redhat.com>
 References: <20200624185523.762240-1-ppandit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,34 +91,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add digprog mmio write method to avoid assert failure during
-initialisation.
+When registering a MemoryRegionOps object, assert that its
+read/write callback methods are defined. This avoids potential
+guest crash via a NULL pointer dereference.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/misc/imx7_ccm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ memory.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
-index 02fc1ae8d0..5ac5ecf74c 100644
---- a/hw/misc/imx7_ccm.c
-+++ b/hw/misc/imx7_ccm.c
-@@ -131,8 +131,15 @@ static const struct MemoryRegionOps imx7_set_clr_tog_ops = {
-     },
- };
- 
-+static void imx7_digprog_write(void *opaque, hwaddr addr,
-+                                        uint64_t data, unsigned size)
-+{
-+    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-+}
-+
- static const struct MemoryRegionOps imx7_digprog_ops = {
-     .read = imx7_set_clr_tog_read,
-+    .write = imx7_digprog_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .impl = {
-         .min_access_size = 4,
+Update v2: assert read/write_with_attrs methods
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg05717.html
+
+diff --git a/memory.c b/memory.c
+index 2f15a4b250..3d635a1bca 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1496,7 +1496,13 @@ void memory_region_init_io(MemoryRegion *mr,
+                            uint64_t size)
+ {
+     memory_region_init(mr, owner, name, size);
+-    mr->ops = ops ? ops : &unassigned_mem_ops;
++    if (ops) {
++        assert(ops->read || ops->read_with_attrs);
++        assert(ops->write || ops->write_with_attrs);
++        mr->ops = ops;
++    } else {
++        mr->ops = &unassigned_mem_ops;
++    }
+     mr->opaque = opaque;
+     mr->terminates = true;
+ }
+@@ -1674,6 +1680,8 @@ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+ {
+     Error *err = NULL;
+     assert(ops);
++    assert(ops->read || ops->read_with_attrs);
++    assert(ops->write || ops->write_with_attrs);
+     memory_region_init(mr, owner, name, size);
+     mr->ops = ops;
+     mr->opaque = opaque;
 -- 
 2.26.2
 
