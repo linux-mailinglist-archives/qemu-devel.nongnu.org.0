@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5712071AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:00:59 +0200 (CEST)
-Received: from localhost ([::1]:60854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B052071CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:07:22 +0200 (CEST)
+Received: from localhost ([::1]:59072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo39G-0002sS-CA
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56626)
+	id 1jo3FR-0006cA-TX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zo-0001Dd-K1
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31582
+ id 1jo2zr-0001Js-ME
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46527
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zm-0001Kf-J6
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:12 -0400
+ id 1jo2zo-0001M7-II
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995869;
+ s=mimecast20190719; t=1592995871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b/f+g1sL79bkK2ZcWOndgrRFIJ4GVzXBxsrToUJIrww=;
- b=g8Hmfn43bLAarDbAHKT+kk48fj7Up9VeL8rrcnCRWNdFfjH9xPvTqli+hamdknmJKVcuw3
- 76VuqvFkNdCTY029Jy6kaqZ4ocquz8x8oU9UgjOGk1N2/1Ny4DxLT78u9W4m5+MGWUMGF8
- dHh4qk7OXb9Y1IA7/+j3qxMwrwe+UtQ=
+ bh=p+e44PK7Fg88toihiGf2bKkm4Ptn4UtPgBDIsEqYnl0=;
+ b=gI4KIqXDxqM6EhPdKeGCGuTpFfupg9HP64n2KXYWO984vnj+j0Mu7bS3mmkD7itajnvbky
+ G53c/bohF0VIazp/t0NVvdYEnv+FcyRQRoHapUIYSlhzUnMR2Shb9IvNFHBCFCGyrwlBWH
+ SKX8GtMpTfR6IENgBz2ANW3qe9g6Y+Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-xbfjNjHyNnm3LLxNatbclw-1; Wed, 24 Jun 2020 06:51:07 -0400
-X-MC-Unique: xbfjNjHyNnm3LLxNatbclw-1
+ us-mta-181-WhIw6673MHytzpkXEGEeLg-1; Wed, 24 Jun 2020 06:51:09 -0400
+X-MC-Unique: WhIw6673MHytzpkXEGEeLg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A789A18A8222;
- Wed, 24 Jun 2020 10:51:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C142107ACCA;
+ Wed, 24 Jun 2020 10:51:08 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A4CD5D9C5;
- Wed, 24 Jun 2020 10:51:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E7DD5D9C5;
+ Wed, 24 Jun 2020 10:51:07 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/31] softfloat: fix floatx80 remainder pseudo-denormal check
- for zero
-Date: Wed, 24 Jun 2020 06:50:33 -0400
-Message-Id: <20200624105048.375353-16-pbonzini@redhat.com>
+Subject: [PULL 19/31] softfloat: return low bits of quotient from
+ floatx80_modrem
+Date: Wed, 24 Jun 2020 06:50:36 -0400
+Message-Id: <20200624105048.375353-19-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,33 +88,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The floatx80 remainder implementation ignores the high bit of the
-significand when checking whether an operand (numerator) with zero
-exponent is zero.  This means it mishandles a pseudo-denormal
-representation of 0x1p-16382L by treating it as zero.  Fix this by
-checking the whole significand instead.
+Both x87 and m68k need the low parts of the quotient for their
+remainder operations.  Arrange for floatx80_modrem to track those bits
+and return them via a pointer.
+
+The architectures using float32_rem and float64_rem do not appear to
+need this information, so the *_rem interface is left unchanged and
+the information returned only from floatx80_modrem.  The logic used to
+determine the low 7 bits of the quotient for m68k
+(target/m68k/fpu_helper.c:make_quotient) appears completely bogus (it
+looks at the result of converting the remainder to integer, the
+quotient having been discarded by that point); this patch does not
+change that, but the m68k maintainers may wish to do so.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <alpine.DEB.2.21.2006081655180.23637@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2006081656500.23637@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- fpu/softfloat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fpu/softfloat.c         | 23 ++++++++++++++++++-----
+ include/fpu/softfloat.h |  3 ++-
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index b7dcf4d6c3..f164b5c0ad 100644
+index 1ee3342715..79be4f5840 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -5741,7 +5741,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-         normalizeFloatx80Subnormal( bSig, &bExp, &bSig );
+@@ -5699,10 +5699,11 @@ floatx80 floatx80_div(floatx80 a, floatx80 b, float_status *status)
+ | `a' with respect to the corresponding value `b'.  The operation is performed
+ | according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic,
+ | if 'mod' is false; if 'mod' is true, return the remainder based on truncating
+-| the quotient toward zero instead.
++| the quotient toward zero instead.  '*quotient' is set to the low 64 bits of
++| the absolute value of the integer quotient.
+ *----------------------------------------------------------------------------*/
+ 
+-floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
++floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod, uint64_t *quotient,
+                          float_status *status)
+ {
+     bool aSign, zSign;
+@@ -5710,6 +5711,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+     uint64_t aSig0, aSig1, bSig;
+     uint64_t q, term0, term1, alternateASig0, alternateASig1;
+ 
++    *quotient = 0;
+     if (floatx80_invalid_encoding(a) || floatx80_invalid_encoding(b)) {
+         float_raise(float_flag_invalid, status);
+         return floatx80_default_nan(status);
+@@ -5768,7 +5770,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
+         expDiff = 0;
      }
-     if ( aExp == 0 ) {
--        if ( (uint64_t) ( aSig0<<1 ) == 0 ) return a;
-+        if ( aSig0 == 0 ) return a;
-         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
+-    q = ( bSig <= aSig0 );
++    *quotient = q = ( bSig <= aSig0 );
+     if ( q ) aSig0 -= bSig;
+     expDiff -= 64;
+     while ( 0 < expDiff ) {
+@@ -5778,6 +5780,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
+         shortShift128Left( aSig0, aSig1, 62, &aSig0, &aSig1 );
+         expDiff -= 62;
++        *quotient <<= 62;
++        *quotient += q;
      }
-     bSig |= UINT64_C(0x8000000000000000);
+     expDiff += 64;
+     if ( 0 < expDiff ) {
+@@ -5791,6 +5795,12 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+             ++q;
+             sub128( aSig0, aSig1, term0, term1, &aSig0, &aSig1 );
+         }
++        if (expDiff < 64) {
++            *quotient <<= expDiff;
++        } else {
++            *quotient = 0;
++        }
++        *quotient += q;
+     }
+     else {
+         term1 = 0;
+@@ -5805,6 +5815,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+             aSig0 = alternateASig0;
+             aSig1 = alternateASig1;
+             zSign = ! zSign;
++            ++*quotient;
+         }
+     }
+     return
+@@ -5821,7 +5832,8 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+ 
+ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+ {
+-    return floatx80_modrem(a, b, false, status);
++    uint64_t quotient;
++    return floatx80_modrem(a, b, false, &quotient, status);
+ }
+ 
+ /*----------------------------------------------------------------------------
+@@ -5832,7 +5844,8 @@ floatx80 floatx80_rem(floatx80 a, floatx80 b, float_status *status)
+ 
+ floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
+ {
+-    return floatx80_modrem(a, b, true, status);
++    uint64_t quotient;
++    return floatx80_modrem(a, b, true, &quotient, status);
+ }
+ 
+ /*----------------------------------------------------------------------------
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index bff6934d09..ff4e2605b1 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -687,7 +687,8 @@ floatx80 floatx80_add(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sub(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_mul(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_div(floatx80, floatx80, float_status *status);
+-floatx80 floatx80_modrem(floatx80, floatx80, bool, float_status *status);
++floatx80 floatx80_modrem(floatx80, floatx80, bool, uint64_t *,
++                         float_status *status);
+ floatx80 floatx80_mod(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_rem(floatx80, floatx80, float_status *status);
+ floatx80 floatx80_sqrt(floatx80, float_status *status);
 -- 
 2.26.2
 
