@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F854207BE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:00:53 +0200 (CEST)
-Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9CE207BFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:06:10 +0200 (CEST)
+Received: from localhost ([::1]:57172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAdg-0002Rd-6i
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:00:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
+	id 1joAin-0001QC-8N
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joAbx-00008M-Sl
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25655
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1joAcg-0001tC-4A
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:50 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22181
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joAbv-0004Am-Nj
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:05 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1joAce-0004JV-Dq
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025143;
+ s=mimecast20190719; t=1593025187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vXT5sND2HccLPLE+jmbpQAxTfr8+GQIqlisDUH0QGC0=;
- b=i3AlCAXWOCwocIKRdNC6svqtXP05qrG8Am94F/4/+nRasIN7gdYmHu2GFalaXMRPOru2J3
- nWecz1u6LXw//FY+/2vT0zhucOAPDWzxmzZ3Sw1LsT2lSCSakhHvbINp3W8VcwuOrwW6sP
- k24/jJJK9iI5wMXp+5EzDI4HtpIgC4Y=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aOr+KsfQLpLNaAsxr9ByNdgCOAJFOi6nmYS6M/ViSSQ=;
+ b=fUrhu2/7Y3dURhVBR9H8htXvGfyp26kLuM9s/cOOSf9yq67Ty88/hXZ78n7DZVk7pAkj1o
+ eyVlGj/y2SIu3jly0H3lxYkgp89Eqy0tgXswBCAoHxzyddta+HODqhxWZ6zVfc0khhFFJ9
+ +5aZ8ferEvb2aI4ntNmrci4VeJDPSAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-z6J9b4DSPZ2bmk3rwC3qjQ-1; Wed, 24 Jun 2020 14:58:59 -0400
-X-MC-Unique: z6J9b4DSPZ2bmk3rwC3qjQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-434-5-XjtsI1NVe4hRign-IlvQ-1; Wed, 24 Jun 2020 14:57:40 -0400
+X-MC-Unique: 5-XjtsI1NVe4hRign-IlvQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73732464;
- Wed, 24 Jun 2020 18:58:56 +0000 (UTC)
-Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 804B2610F3;
- Wed, 24 Jun 2020 18:58:48 +0000 (UTC)
-Date: Wed, 24 Jun 2020 12:55:08 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v25 11/17] vfio: Get migration capability flags for
- container
-Message-ID: <20200624125508.5222135e@x1.home>
-In-Reply-To: <1592684486-18511-12-git-send-email-kwankhede@nvidia.com>
-References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
- <1592684486-18511-12-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34EBC800D5C;
+ Wed, 24 Jun 2020 18:57:39 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.8.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2D5D79303;
+ Wed, 24 Jun 2020 18:57:26 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 0/9] memory: assert and define MemoryRegionOps callbacks
+Date: Thu, 25 Jun 2020 00:25:14 +0530
+Message-Id: <20200624185523.762240-1-ppandit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,184 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, Eric Auger <eric.auger@redhat.com>,
- changpeng.liu@intel.com, eskultet@redhat.com, Shameer
- Kolothum <shameerali.kolothum.thodi@huawei.com>, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 21 Jun 2020 01:51:20 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-> Added helper functions to get IOMMU info capability chain.
-> Added function to get migration capability information from that
-> capability chain for IOMMU container.
-> 
-> Similar change was proposed earlier:
-> https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg03759.html
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/vfio/common.c              | 91 +++++++++++++++++++++++++++++++++++++++----
->  include/hw/vfio/vfio-common.h |  3 ++
->  2 files changed, 86 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 90e9a854d82c..e0d3d4585a65 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1229,6 +1229,75 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
->      return 0;
->  }
->  
-> +static int vfio_get_iommu_info(VFIOContainer *container,
-> +                               struct vfio_iommu_type1_info **info)
-> +{
-> +
-> +    size_t argsz = sizeof(struct vfio_iommu_type1_info);
-> +
-> +    *info = g_new0(struct vfio_iommu_type1_info, 1);
-> +again:
-> +    (*info)->argsz = argsz;
-> +
-> +    if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
-> +        g_free(*info);
-> +        *info = NULL;
-> +        return -errno;
-> +    }
-> +
-> +    if (((*info)->argsz > argsz)) {
-> +        argsz = (*info)->argsz;
-> +        *info = g_realloc(*info, argsz);
-> +        goto again;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static struct vfio_info_cap_header *
-> +vfio_get_iommu_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
-> +{
-> +    struct vfio_info_cap_header *hdr;
-> +    void *ptr = info;
-> +
-> +    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
-> +        return NULL;
-> +    }
-> +
-> +    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-> +        if (hdr->id == id) {
-> +            return hdr;
-> +        }
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +static void vfio_get_iommu_info_migration(VFIOContainer *container,
-> +                                         struct vfio_iommu_type1_info *info)
-> +{
-> +    struct vfio_info_cap_header *hdr;
-> +    struct vfio_iommu_type1_info_cap_migration *cap_mig;
-> +
-> +    hdr = vfio_get_iommu_info_cap(info, VFIO_IOMMU_TYPE1_INFO_CAP_MIGRATION);
-> +    if (!hdr) {
-> +        return;
-> +    }
-> +
-> +    cap_mig = container_of(hdr, struct vfio_iommu_type1_info_cap_migration,
-> +                            header);
-> +
-> +    container->dirty_pages_supported = true;
-> +    container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
-> +    container->dirty_pgsizes = cap_mig->pgsize_bitmap;
-> +
-> +    /*
-> +     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-> +     * TARGET_PAGE_SIZE to mark those dirty.
-> +     */
-> +    assert(container->dirty_pgsizes & TARGET_PAGE_SIZE);
+Hello,
 
-Why assert versus simply not support dirty page tracking and therefore
-migration of contained devices?
+* This series asserts that MemoryRegionOps objects define read/write
+  callback methods. Thus avoids potential NULL pointer dereference.
+  ex. -> https://git.qemu.org/?p=qemu.git;a=commit;h=bb15013ef34617eb1344f5276292cadd326c21b2
 
-> +}
-> +
->  static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->                                    Error **errp)
->  {
-> @@ -1293,6 +1362,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->      container->space = space;
->      container->fd = fd;
->      container->error = NULL;
-> +    container->dirty_pages_supported = false;
->      QLIST_INIT(&container->giommu_list);
->      QLIST_INIT(&container->hostwin_list);
->  
-> @@ -1305,7 +1375,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->      case VFIO_TYPE1v2_IOMMU:
->      case VFIO_TYPE1_IOMMU:
->      {
-> -        struct vfio_iommu_type1_info info;
-> +        struct vfio_iommu_type1_info *info;
->  
->          /*
->           * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
-> @@ -1314,15 +1384,20 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->           * existing Type1 IOMMUs generally support any IOVA we're
->           * going to actually try in practice.
->           */
-> -        info.argsz = sizeof(info);
-> -        ret = ioctl(fd, VFIO_IOMMU_GET_INFO, &info);
-> -        /* Ignore errors */
-> -        if (ret || !(info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
-> +        ret = vfio_get_iommu_info(container, &info);
-> +        if (ret) {
-> +                goto free_container_exit;
+* Also adds various undefined MemoryRegionOps read/write functions
+  to avoid potential assert failure.
 
-This was previously not fatal, why is it now?  Thanks,
+Thank you.
+--
+Prasad J Pandit (9):
+  hw/pci-host: add pci-intack write method
+  pci-host: add pcie-msi read method
+  vfio: add quirk device write method
+  prep: add ppc-parity write method
+  nvram: add nrf51_soc flash read method
+  spapr_pci: add spapr msi read method
+  tz-ppc: add dummy read/write methods
+  imx7-ccm: add digprog mmio write method
+  memory: assert MemoryRegionOps callbacks are defined
 
-Alex
+ hw/misc/imx7_ccm.c       |  7 +++++++
+ hw/misc/tz-ppc.c         | 15 +++++++++++++++
+ hw/nvram/nrf51_nvm.c     |  8 ++++++++
+ hw/pci-host/designware.c |  9 +++++++++
+ hw/pci-host/prep.c       |  8 ++++++++
+ hw/ppc/prep_systemio.c   |  8 ++++++++
+ hw/ppc/spapr_pci.c       | 13 +++++++++++--
+ hw/vfio/pci-quirks.c     |  8 ++++++++
+ memory.c                 | 10 +++++++++-
+ 9 files changed, 83 insertions(+), 3 deletions(-)
 
-> +        }
-> +
-> +        if (!(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
->              /* Assume 4k IOVA page size */
-> -            info.iova_pgsizes = 4096;
-> +            info->iova_pgsizes = 4096;
->          }
-> -        vfio_host_win_add(container, 0, (hwaddr)-1, info.iova_pgsizes);
-> -        container->pgsizes = info.iova_pgsizes;
-> +        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
-> +        container->pgsizes = info->iova_pgsizes;
-> +
-> +        vfio_get_iommu_info_migration(container, info);
-> +        g_free(info);
->          break;
->      }
->      case VFIO_SPAPR_TCE_v2_IOMMU:
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index c78033e4149d..5a57a78ec517 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -79,6 +79,9 @@ typedef struct VFIOContainer {
->      unsigned iommu_type;
->      Error *error;
->      bool initialized;
-> +    bool dirty_pages_supported;
-> +    uint64_t dirty_pgsizes;
-> +    uint64_t max_dirty_bitmap_size;
->      unsigned long pgsizes;
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+-- 
+2.26.2
 
 
