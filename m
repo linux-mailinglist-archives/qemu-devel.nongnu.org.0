@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A0320718A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:53:46 +0200 (CEST)
-Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A7D207185
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:53:24 +0200 (CEST)
+Received: from localhost ([::1]:54534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo32H-00050v-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
+	id 1jo31v-000461-HT
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2za-0000j6-4K
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:58 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60976
+ id 1jo2zb-0000ky-7f
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33841
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zY-000192-9T
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:57 -0400
+ id 1jo2zY-00019r-TA
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:50:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995855;
+ s=mimecast20190719; t=1592995856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J0abId/W90zeO0fS4yKO+eD2M9J2AtJsNlz22d9npeE=;
- b=N+T+hXjN8F9zpnRGkfI6UVx02jUiASiWD2AefHJn4fK93I0R+rB/zRH9pabW6gKXX/joXL
- Ju3ap+LQxYnARu8Dkc6WeUA2/PCcYQaHVLu/1hM06tEr1zklz8SS72YB8e+1ccSJYaykI7
- yR+UwZvyB3SQFUMPYXg6kRUYCDnwMRU=
+ bh=/POFAYYLNsnH4TRhS2nYFgSY4Zw3kK2ip22psNYwRa4=;
+ b=XEJMdoV45bdO2f50K8vh0y2gAw8cHAJlY9R9JmVbBghFW+jxSp7Jjwk4osgdrZ/KATqh1q
+ qb5ZGuETR5XFUqd9QrbwGYaUmwkeiWa0BCRRLzUKEcP9jUdZ/xnBSDyyPI5XaVO7FBRa4x
+ jdNxnpIlVXW/L2HCDXHhHYKcYKisiQc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-Fq64_ABMO0ainnVBV5Rh4w-1; Wed, 24 Jun 2020 06:50:53 -0400
-X-MC-Unique: Fq64_ABMO0ainnVBV5Rh4w-1
+ us-mta-259-M7-MZmvBNqa5MKl9ZRDGqQ-1; Wed, 24 Jun 2020 06:50:54 -0400
+X-MC-Unique: M7-MZmvBNqa5MKl9ZRDGqQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6807E18A8229;
- Wed, 24 Jun 2020 10:50:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 107EE10059AA;
+ Wed, 24 Jun 2020 10:50:53 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 419CC1DC;
- Wed, 24 Jun 2020 10:50:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 988D671695;
+ Wed, 24 Jun 2020 10:50:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/31] kvm: support to get/set dirty log initial-all-set
- capability
-Date: Wed, 24 Jun 2020 06:50:18 -0400
-Message-Id: <20200624105048.375353-1-pbonzini@redhat.com>
+Subject: [PULL 02/31] util/getauxval: Porting to FreeBSD getauxval feature
+Date: Wed, 24 Jun 2020 06:50:19 -0400
+Message-Id: <20200624105048.375353-2-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,73 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>, Jay Zhou <jianjay.zhou@huawei.com>
+Cc: David CARLIER <devnexen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jay Zhou <jianjay.zhou@huawei.com>
+From: David CARLIER <devnexen@gmail.com>
 
-Since the new capability KVM_DIRTY_LOG_INITIALLY_SET of
-KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 has been introduced in the
-kernel, tweak the userspace side to detect and enable this
-capability.
+FreeBSD has a similar API for auxiliary vector.
 
-Signed-off-by: Jay Zhou <jianjay.zhou@huawei.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20200304025554.2159-1-jianjay.zhou@huawei.com>
+Signed-off-by: David Carlier <devnexen@gmail.com>
+Message-Id: <CA+XhMqxTU6PUSQBpbA9VrS1QZfqgrCAKUCtUF-x2aF=fCMTDOw@mail.gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ util/getauxval.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index f24d7da783..d54a8701d8 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -101,7 +101,7 @@ struct KVMState
-     bool kernel_irqchip_required;
-     OnOffAuto kernel_irqchip_split;
-     bool sync_mmu;
--    bool manual_dirty_log_protect;
-+    uint64_t manual_dirty_log_protect;
-     /* The man page (and posix) say ioctl numbers are signed int, but
-      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
-      * unsigned, and treating them as signed here can break things */
-@@ -1995,6 +1995,7 @@ static int kvm_init(MachineState *ms)
-     int ret;
-     int type = 0;
-     const char *kvm_type;
-+    uint64_t dirty_log_manual_caps;
+diff --git a/util/getauxval.c b/util/getauxval.c
+index 36afdfb9e6..b124107d61 100644
+--- a/util/getauxval.c
++++ b/util/getauxval.c
+@@ -98,6 +98,16 @@ unsigned long qemu_getauxval(unsigned long type)
+     return 0;
+ }
  
-     s = KVM_STATE(ms->accelerator);
++#elif defined(__FreeBSD__)
++#include <sys/auxv.h>
++
++unsigned long qemu_getauxval(unsigned long type)
++{
++    unsigned long aux = 0;
++    elf_aux_info(type, &aux, sizeof(aux));
++    return aux;
++}
++
+ #else
  
-@@ -2120,14 +2121,20 @@ static int kvm_init(MachineState *ms)
-     s->coalesced_pio = s->coalesced_mmio &&
-                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
- 
--    s->manual_dirty_log_protect =
-+    dirty_log_manual_caps =
-         kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
--    if (s->manual_dirty_log_protect) {
--        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0, 1);
-+    dirty_log_manual_caps &= (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE |
-+                              KVM_DIRTY_LOG_INITIALLY_SET);
-+    s->manual_dirty_log_protect = dirty_log_manual_caps;
-+    if (dirty_log_manual_caps) {
-+        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0,
-+                                   dirty_log_manual_caps);
-         if (ret) {
--            warn_report("Trying to enable KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 "
--                        "but failed.  Falling back to the legacy mode. ");
--            s->manual_dirty_log_protect = false;
-+            warn_report("Trying to enable capability %"PRIu64" of "
-+                        "KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 but failed. "
-+                        "Falling back to the legacy mode. ",
-+                        dirty_log_manual_caps);
-+            s->manual_dirty_log_protect = 0;
-         }
-     }
- 
+ unsigned long qemu_getauxval(unsigned long type)
 -- 
 2.26.2
 
