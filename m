@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB8B20759B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:23:00 +0200 (CEST)
-Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B554207597
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:21:48 +0200 (CEST)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo6Il-0006FW-7h
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
+	id 1jo6Hb-0003D1-FS
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jo6EC-0006e9-3q
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:18:16 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:44812 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jo6EA-000855-Cb
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:18:15 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id E11B04C87D;
- Wed, 24 Jun 2020 14:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1593008289;
- x=1594822690; bh=6QB49fEcdVYjMJyFzjzxrY6cuGEWQ8BAwBLUNLflGWE=; b=
- uekNdOKGpEk4W9QcRO2sujaQL6khv4iN+HgtTCqBP1gTzJr2+T6FYkQKm+1nOSTy
- J7YQe0PR6wuih4IxMXD3jY/zHGMIRtqvMzOef3tmRA5ZZJxKdTd+RPGligY3UbTT
- ENQ84Th5r3ELycVDqPRZseSaSMPxjf/jME2/7hlSIQM=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u_JrxUopq9FY; Wed, 24 Jun 2020 17:18:09 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 7861B47D4C;
- Wed, 24 Jun 2020 17:18:08 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 24
- Jun 2020 17:18:08 +0300
-Date: Wed, 24 Jun 2020 17:18:07 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC RESEND v7 0/4] QEMU cpus.c refactoring
-Message-ID: <20200624141807.GD25104@SPB-NB-133.local>
-References: <20200622134534.4418-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo6GG-0001i2-Vu
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:20:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35031
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo6GF-0000O9-8c
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:20:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593008422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zWfpE4izy5B8C2VW8Atkz9nxPS5S/vhIhg0sPC/K/KY=;
+ b=YvtJrw4wjXhLTUlqvJuIubxjmtv8QGJxAm0uXqnWxifnL1oxxh+voIbRZL3DY5ENcP+b2K
+ gdqVZxP65/Y8ziCNStBEJZXAPhCgwSQVTcQs4/R1ppJJsHpiR6zJRd/iYknF2Z5Nv/+uZc
+ MwHwjHF3EiQ4Hb/UL5zHMjpeozPiGy4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-tljO2aOONRWfCQgS0O7yyw-1; Wed, 24 Jun 2020 10:20:19 -0400
+X-MC-Unique: tljO2aOONRWfCQgS0O7yyw-1
+Received: by mail-wm1-f69.google.com with SMTP id g124so2843075wmg.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:20:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zWfpE4izy5B8C2VW8Atkz9nxPS5S/vhIhg0sPC/K/KY=;
+ b=hCtX+eGIHLIg9yALokpcFMm1IIGnoeKL8tkJSfsnKs/x+QewsZZXD2Imc7G0CsqSjQ
+ TVRa7RpagZRmVGvjhQp3gSYkEc+U2Si2zVpexSlBlmxVy+5qTQGzuxu8RQtI3P2ql7Gx
+ hALnPRxfnAac5D710vycJMPZEbT9HDygAeJYykZcjSrsVLMIgbPWnLnMCSMnGRdJZw0K
+ skJqjrVr+QXfAMH+wQx4oeGVKGBCGBq34UIu/MvN+m7pGSvHfM1gJeSWFj0mO4uQXZ+5
+ YHIi7wpwc6XRfSBaEoGsIv7Ev/qFJ67Z72n2efTBghzE6TCF78e/dWmn9mjifZv+AB54
+ OxhA==
+X-Gm-Message-State: AOAM532M2ZGqRIwFSoiogUaN+ytz/Jle3iPbSO7AGmkNwdaiAcU6HVgJ
+ FP+liyPPsUah4q+f7tJvJvDiKm5Lew/tGcra7IUacjKwT7lIswgnU03d38bhhj4x0YApqBSo0WV
+ khID3SCSVpTNml+s=
+X-Received: by 2002:a7b:c08e:: with SMTP id r14mr31461281wmh.78.1593008418719; 
+ Wed, 24 Jun 2020 07:20:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvZPzZl4jph78KBczwViytDJTwMkjpAMj074Vlvz0C5TZQ+sgaz/KmNj52tGWIhoLYdk/5SA==
+X-Received: by 2002:a7b:c08e:: with SMTP id r14mr31461263wmh.78.1593008418493; 
+ Wed, 24 Jun 2020 07:20:18 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.253.55])
+ by smtp.gmail.com with ESMTPSA id l10sm8140981wme.1.2020.06.24.07.20.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Jun 2020 07:20:17 -0700 (PDT)
+Subject: Re: [PATCH v2 20/25] x86: Fix x86_cpu_new() error API violations
+To: Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20200624083737.3086768-1-armbru@redhat.com>
+ <20200624083737.3086768-21-armbru@redhat.com>
+ <20200624161703.153c7905@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1d6e83fa-04c2-2d3e-3695-bf85f6647bfc@redhat.com>
+Date: Wed, 24 Jun 2020 16:20:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200622134534.4418-1-cfontana@suse.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 10:18:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200624161703.153c7905@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +100,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, haxm-team@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Colin Xu <colin.xu@intel.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 22, 2020 at 03:45:30PM +0200, Claudio Fontana wrote:
-> Motivation and higher level steps:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
-> 
-> MAIN OPEN POINTS:
-> 
-> * confirmation on hvf state (Roman).
-> 
+On 24/06/20 16:17, Igor Mammedov wrote:
+>> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
+>> -
+>> -    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+>> -    qdev_realize(DEVICE(cpu), NULL, &local_err);
+>> -
+>> -    object_unref(cpu);
+>> -    error_propagate(errp, local_err);
+>> +    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);
+> it may fail here if user specified wrong cpu flags, but there is nothing we can do to fix it.
+> perhaps error_fatal would suit this case better?
 
-Hi Claudio,
+No, we need to add the error_propagate dance instead.
 
-I'm sorry for delay. I'm wrapping up another round of HVF cleanup that
-should make it easier to do hvf-specific changes in patch 4. I expect to
-send the cleanup series today.
+Paolo
 
-> * missing reviewed-by for patch 4 in the series
-> 
-
-I wonder if it would help to split patch 4 out of the series if nobody
-objects patches 1-3. At least it will be easier to rebase the last one
-alone. Then patch 4 might become a series on its own.
-
-Regards,
-Roman
 
