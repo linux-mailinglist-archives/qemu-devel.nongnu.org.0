@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D0F206EC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:15:21 +0200 (CEST)
-Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEED2206EED
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:23:25 +0200 (CEST)
+Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0Yy-0004pM-3z
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
+	id 1jo0gm-0001DI-BM
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:23:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jo0Xh-0003Tm-ME
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:14:01 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42696
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0fs-0000nC-66
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:22:28 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jo0Xf-0004q8-V0
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:14:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0fp-0002zS-Ll
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:22:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592986439;
+ s=mimecast20190719; t=1592986943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=alcfv40yDu5l+TeiP/ficXJ4JagMjki+6RyJy7EZT5o=;
- b=QuDCsB+JF9X7dxL2twBHNqb9LaLkNHMOwC6cAgRZTG3S1JMbFWi5hmRKe+Rxoy1DNLnXZU
- +Qq+1F29Gh8D31bHF2Zbd9m0GVDBvxaniFEqgPnSjRj/cQ6e3dEKrs4uIbgMZojBkyak9/
- dBsVdliCNFipwIel47FdneNrC7VUdLU=
+ bh=br1GPiaFaAnYFVR7xm/sUIBxRJ2R2ci8XpWCvV+YlfI=;
+ b=MSg5pq7mD+S8GBVfIg8iGpJyPzOh72z/RIVNO8wPfjStdtjVIguzF1odpRxUQuzD40ux6z
+ QbHCTbvpRYEZiRXJBcQMXQzeZ3FJBKnQfHkuMmQtBnOqH3dLnD0PaFCCMXWtewQCwu5YHP
+ 9pn77fZx/mnKd8AnyL0ryaRNHVzkHfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-D9CGQRMKMWKCB3lBXnKc_Q-1; Wed, 24 Jun 2020 04:13:57 -0400
-X-MC-Unique: D9CGQRMKMWKCB3lBXnKc_Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-7-6Vke0o8JOfSxVoJSwH874g-1; Wed, 24 Jun 2020 04:22:21 -0400
+X-MC-Unique: 6Vke0o8JOfSxVoJSwH874g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A796107BF0E;
- Wed, 24 Jun 2020 08:13:56 +0000 (UTC)
-Received: from localhost (ovpn-113-239.ams2.redhat.com [10.36.113.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DC191DC;
- Wed, 24 Jun 2020 08:13:55 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v2 2/2] iotests: don't test qcow2.py inside 291
-Date: Wed, 24 Jun 2020 10:13:49 +0200
-Message-Id: <20200624081349.121791-3-mreitz@redhat.com>
-In-Reply-To: <20200624081349.121791-1-mreitz@redhat.com>
-References: <20200624081349.121791-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3289F80400C;
+ Wed, 24 Jun 2020 08:22:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B23E60F89;
+ Wed, 24 Jun 2020 08:22:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A55A1113846D; Wed, 24 Jun 2020 10:22:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH] qom: Allow object_property_add_child() to fail
+References: <20200623155452.30954-1-eric.auger@redhat.com>
+Date: Wed, 24 Jun 2020 10:22:14 +0200
+In-Reply-To: <20200623155452.30954-1-eric.auger@redhat.com> (Eric Auger's
+ message of "Tue, 23 Jun 2020 17:54:52 +0200")
+Message-ID: <87eeq4dgax.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,104 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Eric Auger <eric.auger@redhat.com> writes:
 
-820c6bee534ec3b added testing of qcow2.py into 291, and it breaks 291
-with external data file. Actually, 291 is bad place for qcow2.py
-testing, better add a separate test.
+> object_property_add() does not allow object_property_try_add()
+> to gracefully fail as &error_abort is passed as an error handle.
+>
+> However such failure can easily be triggered from the QMP shell when,
+> for instance, one attempts to create an object with an id that already
+> exists:
+>
+> For instance, call twice:
+> object-add qom-type=memory-backend-ram id=mem1 props.size=1073741824
+> and QEMU aborts.
+>
+> This behavior is undesired as a user/management application mistake
+> in reusing a property ID shouldn't result in loss of the VM and live
+> data within.
+>
+> This patch introduces two new functions, object_property_add_err() and
+> object_property_add_child_err() whose prototype features an error handle.
+> object_property_add_child_err() now gets called from user_creatable_add_type.
+> This solution was chosen instead of changing the prototype of existing
+> functions because the number of existing callers is huge.
+>
+> The error now is returned gracefully to the QMP client.
+>
+> (QEMU) object-add qom-type=memory-backend-ram id=mem2  props.size=4294967296
+> {"return": {}}
+> (QEMU) object-add qom-type=memory-backend-ram id=mem2  props.size=4294967296
+> {"error": {"class": "GenericError", "desc": "attempt to add duplicate property
+> 'mem2' to object (type 'container')"}}
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-For now, drop qcow2.py testing from 291 to fix the regression.
+Recent regression, my fault.  Please point that out, and add
 
-Fixes: 820c6bee534ec3b
-Reported-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200618154052.8629-1-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/291     |  4 ----
- tests/qemu-iotests/291.out | 33 ---------------------------------
- 2 files changed, 37 deletions(-)
-
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 28e4fb9b4d..1e0bb76959 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -64,8 +64,6 @@ $QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
- $QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
- $QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
- $QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
--echo "Check resulting qcow2 header extensions:"
--$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
- 
- echo
- echo "=== Bitmap preservation not possible to non-qcow2 ==="
-@@ -92,8 +90,6 @@ $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
- $QEMU_IMG bitmap --remove --image-opts \
-     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
- _img_info --format-specific
--echo "Check resulting qcow2 header extensions:"
--$PYTHON qcow2.py "$TEST_IMG" dump-header-exts
- 
- echo
- echo "=== Check bitmap contents ==="
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index 08bfaaaa6b..9f661515b4 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -14,25 +14,6 @@ wrote 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 1048576/1048576 bytes at offset 2097152
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--Check resulting qcow2 header extensions:
--Header extension:
--magic                     0xe2792aca (Backing format)
--length                    5
--data                      'qcow2'
--
--Header extension:
--magic                     0x6803f857 (Feature table)
--length                    336
--data                      <binary>
--
--Header extension:
--magic                     0x23852875 (Bitmaps)
--length                    24
--nb_bitmaps                2
--reserved32                0
--bitmap_directory_size     0x40
--bitmap_directory_offset   0x510000
--
- 
- === Bitmap preservation not possible to non-qcow2 ===
- 
-@@ -84,20 +65,6 @@ Format specific information:
-             granularity: 65536
-     refcount bits: 16
-     corrupt: false
--Check resulting qcow2 header extensions:
--Header extension:
--magic                     0x6803f857 (Feature table)
--length                    336
--data                      <binary>
--
--Header extension:
--magic                     0x23852875 (Bitmaps)
--length                    24
--nb_bitmaps                3
--reserved32                0
--bitmap_directory_size     0x60
--bitmap_directory_offset   0x520000
--
- 
- === Check bitmap contents ===
- 
--- 
-2.26.2
+  Fixes: d2623129a7dec1d3041ad1221dda1ca49c667532
 
 
