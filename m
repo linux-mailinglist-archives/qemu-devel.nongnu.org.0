@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE22206E45
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:54:15 +0200 (CEST)
-Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965E9206E6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:57:55 +0200 (CEST)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0EY-0006A7-JR
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:54:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36864)
+	id 1jo0I6-0005WW-Mm
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jo0D8-0004UD-Fa
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29564)
+ id 1jo0DD-0004ak-ML
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jo0D4-0006f7-Ci
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:46 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1jo0D6-0006fT-7R
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:51 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05O7Wrj9018449
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:41 -0400
+ 05O7WeFs177212
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:42 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ux06fk6c-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux026ykc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:42 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05O7XJrU178934
  for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:41 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05O7eQNr044005
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:40 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ux06fk5n-1
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux026yjk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 03:52:40 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05O7qcgf011525;
- Wed, 24 Jun 2020 07:52:38 GMT
+ Wed, 24 Jun 2020 03:52:41 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05O7o5kL013845;
+ Wed, 24 Jun 2020 07:52:39 GMT
 Received: from b06cxnps4075.portsmouth.uk.ibm.com
  (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03fra.de.ibm.com with ESMTP id 31uusgg5u3-1
+ by ppma01fra.de.ibm.com with ESMTP id 31uurur6mr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 07:52:38 +0000
+ Wed, 24 Jun 2020 07:52:39 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
  by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05O7qacJ3735928
+ 05O7qaLk3735938
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 24 Jun 2020 07:52:36 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 135C0A4053;
+ by IMSVA (Postfix) with ESMTP id CC260A4055;
  Wed, 24 Jun 2020 07:52:36 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 778F9A404D;
- Wed, 24 Jun 2020 07:52:35 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 38F30A404D;
+ Wed, 24 Jun 2020 07:52:36 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 24 Jun 2020 07:52:35 +0000 (GMT)
+ Wed, 24 Jun 2020 07:52:36 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 03/12] pc-bios: s390x: Move sleep and yield to helper.h
-Date: Wed, 24 Jun 2020 03:52:17 -0400
-Message-Id: <20200624075226.92728-4-frankja@linux.ibm.com>
+Subject: [PATCH v5 04/12] pc-bios: s390x: Get rid of magic offsets into the
+ lowcore
+Date: Wed, 24 Jun 2020 03:52:18 -0400
+Message-Id: <20200624075226.92728-5-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200624075226.92728-1-frankja@linux.ibm.com>
 References: <20200624075226.92728-1-frankja@linux.ibm.com>
@@ -73,15 +74,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-24_04:2020-06-24,
  2020-06-24 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 mlxscore=0
- impostorscore=0 cotscore=-2147483648 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006240051
+ malwarescore=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 impostorscore=0 cotscore=-2147483648
+ bulkscore=0 adultscore=0 mlxlogscore=730 mlxscore=0 priorityscore=1501
+ spamscore=0 suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006240055
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:52:40
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -105,107 +106,63 @@ Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They are definitely helper functions.
+If we have a lowcore struct that has members for offsets that we want
+to touch, why not use it?
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- pc-bios/s390-ccw/helper.h      | 17 +++++++++++++++++
- pc-bios/s390-ccw/s390-ccw.h    | 18 ------------------
- pc-bios/s390-ccw/virtio-net.c  |  1 +
- pc-bios/s390-ccw/virtio-scsi.c |  1 +
- 4 files changed, 19 insertions(+), 18 deletions(-)
+ pc-bios/s390-ccw/cio.h  | 17 +++++++++++------
+ pc-bios/s390-ccw/main.c |  8 +++-----
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 78d5bc7442..32a453b634 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -14,6 +14,7 @@
- #define S390_CCW_HELPER_H
+diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
+index aaa432dedd..1e5d4e92e1 100644
+--- a/pc-bios/s390-ccw/cio.h
++++ b/pc-bios/s390-ccw/cio.h
+@@ -122,12 +122,17 @@ typedef struct schib {
+ } __attribute__ ((packed, aligned(4))) Schib;
  
- #include "s390-ccw.h"
-+#include "s390-time.h"
+ typedef struct subchannel_id {
+-        __u32 cssid:8;
+-        __u32:4;
+-        __u32 m:1;
+-        __u32 ssid:2;
+-        __u32 one:1;
+-        __u32 sch_no:16;
++    union {
++        struct {
++            __u16 cssid:8;
++            __u16 reserved:4;
++            __u16 m:1;
++            __u16 ssid:2;
++            __u16 one:1;
++        };
++        __u16 sch_id;
++    };
++    __u16 sch_no;
+ } __attribute__ ((packed, aligned(4))) SubChannelId;
  
- /* Avoids compiler warnings when casting a pointer to a u32 */
- static inline uint32_t ptr2u32(void *ptr)
-@@ -28,4 +29,20 @@ static inline void *u32toptr(uint32_t n)
-     return (void *)(uint64_t)n;
+ struct chsc_header {
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 4e65b411e1..8b912454c9 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -36,11 +36,9 @@ LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
+  */
+ void write_subsystem_identification(void)
+ {
+-    SubChannelId *schid = (SubChannelId *) 184;
+-    uint32_t *zeroes = (uint32_t *) 188;
+-
+-    *schid = blk_schid;
+-    *zeroes = 0;
++    lowcore->subchannel_id = blk_schid.sch_id;
++    lowcore->subchannel_nr = blk_schid.sch_no;
++    lowcore->io_int_parm = 0;
  }
  
-+static inline void yield(void)
-+{
-+    asm volatile ("diag 0,0,0x44"
-+                  : :
-+                  : "memory", "cc");
-+}
-+
-+static inline void sleep(unsigned int seconds)
-+{
-+    ulong target = get_time_seconds() + seconds;
-+
-+    while (get_time_seconds() < target) {
-+        yield();
-+    }
-+}
-+
- #endif
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index fae1de363f..c5820e43ae 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -142,26 +142,8 @@ static inline void debug_print_addr(const char *desc, void *p)
- #define KVM_S390_VIRTIO_SET_STATUS      2
- #define KVM_S390_VIRTIO_CCW_NOTIFY      3
- 
--static inline void yield(void)
--{
--    asm volatile ("diag 0,0,0x44"
--                  : :
--                  : "memory", "cc");
--}
--
- #define MAX_SECTOR_SIZE 4096
- 
--#include "s390-time.h"
--
--static inline void sleep(unsigned int seconds)
--{
--    ulong target = get_time_seconds() + seconds;
--
--    while (get_time_seconds() < target) {
--        yield();
--    }
--}
--
- static inline void IPL_assert(bool term, const char *message)
- {
-     if (!term) {
-diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
-index a13f3b6fb9..2fcb0a58c5 100644
---- a/pc-bios/s390-ccw/virtio-net.c
-+++ b/pc-bios/s390-ccw/virtio-net.c
-@@ -20,6 +20,7 @@
- #include "s390-ccw.h"
- #include "virtio.h"
- #include "s390-time.h"
-+#include "helper.h"
- 
- #ifndef DEBUG_VIRTIO_NET
- #define DEBUG_VIRTIO_NET 0
-diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-scsi.c
-index 7bf0be4ffa..eddfb8a7ad 100644
---- a/pc-bios/s390-ccw/virtio-scsi.c
-+++ b/pc-bios/s390-ccw/virtio-scsi.c
-@@ -15,6 +15,7 @@
- #include "scsi.h"
- #include "virtio-scsi.h"
- #include "s390-time.h"
-+#include "helper.h"
- 
- static ScsiDevice default_scsi_device;
- static VirtioScsiCmdReq req;
+ void write_iplb_location(void)
 -- 
 2.25.1
 
