@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1344B2071DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:11:10 +0200 (CEST)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE25207208
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:28:29 +0200 (CEST)
+Received: from localhost ([::1]:59836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3J7-0004nB-4v
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33782)
+	id 1jo3Zs-0008C4-7D
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo3H9-0002c9-0e
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:09:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57555
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo3H6-0006we-I2
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:09:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592996943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ABL/BIURP4y/brQ/9/eVNJkydyJNcTP4uP8+mjwDkA8=;
- b=jQTkU7tv+bivv4QffG8ceUO0X6C88+peJRIKquD3tcXdArJ2dV02Y1zEEwnoqh4xp+u/Sl
- A2RKXRwKxi1SMQ25xTk8TNQNi2P5b4bQG9OGuDcPipJA25/yWi54ZdcQ+Nye98Nh/Yo6Ja
- BR7/IcyOfTlesVJ9Z1+5bgvTKLK7sxg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-5WdVirAjM1GVgIeiith8vw-1; Wed, 24 Jun 2020 07:08:59 -0400
-X-MC-Unique: 5WdVirAjM1GVgIeiith8vw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40E4E10059A2;
- Wed, 24 Jun 2020 11:08:58 +0000 (UTC)
-Received: from gondolin (ovpn-112-38.ams2.redhat.com [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 726275C3E7;
- Wed, 24 Jun 2020 11:08:49 +0000 (UTC)
-Date: Wed, 24 Jun 2020 13:08:46 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
-Message-ID: <20200624130846.5ba705a6.cohuck@redhat.com>
-In-Reply-To: <3c30f41c-1875-d288-9f6c-0e7c63b7b4a9@redhat.com>
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
- <20200624124406.2baac59f.cohuck@redhat.com>
- <3c30f41c-1875-d288-9f6c-0e7c63b7b4a9@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yf-0006ec-12
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:13 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yd-00075C-G1
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:12 -0400
+Received: by mail-lf1-x141.google.com with SMTP id d21so1075124lfb.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9/cGYk8trZnOQeKgj1xBJl7f5Cw2cPfzBLUfudUzD3c=;
+ b=sIPZIAuNZiXEDyN1TxOn4tPZAYCim2vo9BuEXeEJk5+7LkIkPf2C3JIoIbbAFV3r1g
+ fXW4cc0lLfNqNMa//dJmNbiv7lHgu1XuA8/d2YsixQEEIQM6f3oVASsimeXWUVZWL7vl
+ VPcLMhPqfckUzkDh3yM3A8c9g15ofclQ+35Y8ra6f5M3Ai1Qk5mteIPQQ0VT2tqoS3g8
+ AJFMVcgwbA+ljmMC++dgfv0BEil/BFnTntDdA7LfYMz/PcI8CAXMA8kYlKGSBXgLzNke
+ zM+asQWUic5vv6Tu11PaozdITgYu1mnDmP3wgI/VaFLaG+mNmW/oijPwCdKYy1CO/Y6n
+ 5xjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9/cGYk8trZnOQeKgj1xBJl7f5Cw2cPfzBLUfudUzD3c=;
+ b=FnyBPhGnQq2voX83yRJNuIyN66hkU3FpmbqNiULw1FwLQJDfsulKXvsHtLaTbRFYUe
+ MoS8GhWhm0NKhuO3/mBnG6BckDSRGO3UGS5vMgTRqxfzaLiHcYjEJdS52sHnUsMTvCqi
+ 048+TK2lpd4IS2VlxhGTD6pXy3F8gYd3fv/VXPy7s+IrD+a/G7ZSF1l1Dhkzm8RfLGUN
+ /F2ISnQf2fOqRMiowRL54esvFi6F4my97NqTxUf+I4nF81ico0E+c/ZFCeOprBc1+6eC
+ dkPZprj/YXGhz5uCrQwXmy9cJK1m+iPsHsrNlAlb/8yQjmKMxrkYs35VOcnfh1Hkxus7
+ 6eMA==
+X-Gm-Message-State: AOAM5329RIa/cRmAy+BfREhHrEoNXBfE3pFHK2Rlb0Pv2C1KVXnXx5PQ
+ AQ14Rhdi7TJ4oiBX2On+e/dktu/TbSNcUA==
+X-Google-Smtp-Source: ABdhPJx7yqPZyhnEK4n7zlIAeK3I9EbHlBBRZY0Y9L7iUr2mDkygi6dHWfxUGEMPMy7/ITUrGJ3jZg==
+X-Received: by 2002:a19:c8c2:: with SMTP id y185mr15276087lff.52.1592998028913; 
+ Wed, 24 Jun 2020 04:27:08 -0700 (PDT)
+Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
+ [193.239.39.51])
+ by smtp.gmail.com with ESMTPSA id d6sm1202635lja.77.2020.06.24.04.27.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 04:27:08 -0700 (PDT)
+From: Szymon Lukasz <noh4hss@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] virtio-console: notify about the terminal size
+Date: Wed, 24 Jun 2020 13:26:34 +0200
+Message-Id: <20200624112640.82673-1-noh4hss@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=noh4hss@gmail.com; helo=mail-lf1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,96 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, david@redhat.com,
- Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
+ Szymon Lukasz <noh4hss@gmail.com>, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Jun 2020 12:46:49 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+The goal of this series is to have a resizable terminal into a guest
+without having to set up networking and using, e.g. ssh.
 
-> On 24/06/2020 12.44, Cornelia Huck wrote:
-> > On Wed, 24 Jun 2020 03:52:14 -0400
-> > Janosch Frank <frankja@linux.ibm.com> wrote:
-> >   
-> >> The bios is in dire need for a cleanup as there are still a lot of
-> >> magic constants being used throughout as well as duplicated code.
-> >>
-> >> In the first part of this series we consolidate constants and
-> >> functions, as well as doing some minor cleanups and fixes.
-> >>
-> >> The patches are available here:
-> >> https://github.com/frankjaa/qemu/pull/new/cleanup_bios
-> >>
-> >> v5:
-> >> 	* Fixed whitespace damage
-> >> 	* Removed reset PSW mask changes in dasd-ipl.c
-> >> 	* Added jump2ipl.c cleanup patches
-> >>
-> >> v4:
-> >> 	* Renamed time.h to s390-time.h
-> >> 	* Fixed function names in sleep()
-> >> 	* Changed order of sense_id_ccw initialization
-> >> 	* Added missing include before sleep()
-> >>
-> >> v3:
-> >> 	* Dropped 0x00 to 0x0/0 patch
-> >> 	* Moved some timing functions into helper.h instead of time.h
-> >> 	* Fixed IPL psw manipulation in dasd-ipl.c
-> >>   	* Minor cosmetic fixes found by review
-> >>
-> >> v2:
-> >> 	* Included cio fixup to get rid of compile errors...
-> >> 	* Minor cosmetic fixes found by review
-> >>
-> >>
-> >> Janosch Frank (12):
-> >>    pc-bios: s390x: cio.c cleanup and compile fix
-> >>    pc-bios: s390x: Consolidate timing functions into time.h
-> >>    pc-bios: s390x: Move sleep and yield to helper.h
-> >>    pc-bios: s390x: Get rid of magic offsets into the lowcore
-> >>    pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
-> >>    pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
-> >>    pc-bios: s390x: Use PSW masks where possible and introduce
-> >>      PSW_MASK_SHORT_ADDR
-> >>    pc-bios: s390x: Move panic() into header and add infinite loop
-> >>    pc-bios: s390x: Use ebcdic2ascii table
-> >>    pc-bios: s390x: Make u32 ptr check explicit
-> >>    pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
-> >>    pc-bios: s390x: Cleanup jump to ipl code
-> >>
-> >>   pc-bios/s390-ccw/bootmap.c     |  9 ++++----
-> >>   pc-bios/s390-ccw/bootmap.h     |  2 +-
-> >>   pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
-> >>   pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
-> >>   pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
-> >>   pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
-> >>   pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
-> >>   pc-bios/s390-ccw/main.c        | 15 +++----------
-> >>   pc-bios/s390-ccw/menu.c        |  1 +
-> >>   pc-bios/s390-ccw/netmain.c     | 23 +++----------------
-> >>   pc-bios/s390-ccw/s390-arch.h   |  4 +++-
-> >>   pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
-> >>   pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
-> >>   pc-bios/s390-ccw/start.S       |  5 +++--
-> >>   pc-bios/s390-ccw/virtio-net.c  |  2 ++
-> >>   pc-bios/s390-ccw/virtio-scsi.c |  2 ++
-> >>   pc-bios/s390-ccw/virtio.c      | 18 +++------------
-> >>   17 files changed, 120 insertions(+), 125 deletions(-)
-> >>   create mode 100644 pc-bios/s390-ccw/s390-time.h
-> >>  
-> > 
-> > Hm... what's the general status of this? Most of the patches have at
-> > least one R-b/A-b already, I see.
-> > 
-> > Do the s390-ccw boot maintainers want to pick this (once the rest has
-> > been looked at) and then send me a pull req, or should I pick it when
-> > it is good to go? Softfreeze is less than two weeks away :)  
-> 
-> I'd like to review the missing parts and run my tests with the patches 
-> applied ... I'm just a little bit swamped right now, so please give me 
-> some more time...
+The virtio spec allows a virtio-console device to notify the guest about
+terminal resizes in the host. Linux Kernel implements the driver part of
+the spec. This series implement the device part in QEMU.
 
-Sure, please don't feel hurried :)
+In this series resize notifications are only supported for the stdio
+backend but I think it should be easy to add support for the vc backend.
+Support for tty/serial backends is complicated by the fact that there is
+no clean way to detect resizes of the underlying terminal.
+
+Also there is a problem with the virtio spec and Linux Kernel
+implementation, the order of fields in virtio_console_resize struct
+differs between the kernel and the spec. I do not know if there is any
+implementation of the virtio-console driver that handles resize messages
+and uses a different order than Linux.
+
+
+v2:
+fix adding a new virtio feature bit to the virtio console device
+
+
+Szymon Lukasz (6):
+  main-loop: change the handling of SIGWINCH
+  chardev: add support for retrieving the terminal size
+  chardev: add support for notifying about terminal resizes
+  char-stdio: add support for the terminal size
+  virtio-serial-bus: add terminal resize messages
+  virtio-console: notify the guest about terminal resizes
+
+ backends/cryptodev-vhost-user.c   |  1 +
+ chardev/char-fe.c                 | 11 ++++++
+ chardev/char-mux.c                |  7 ++++
+ chardev/char-stdio.c              | 35 +++++++++++++++++
+ chardev/char.c                    |  1 +
+ hw/block/vhost-user-blk.c         |  1 +
+ hw/char/terminal3270.c            |  1 +
+ hw/char/trace-events              |  1 +
+ hw/char/virtio-console.c          | 65 +++++++++++++++++++++++++++++--
+ hw/char/virtio-serial-bus.c       | 42 +++++++++++++++++++-
+ hw/core/machine.c                 |  1 +
+ hw/ipmi/ipmi_bmc_extern.c         |  1 +
+ hw/usb/ccid-card-passthru.c       |  1 +
+ hw/usb/dev-serial.c               |  1 +
+ hw/usb/redirect.c                 |  1 +
+ include/chardev/char-fe.h         | 11 ++++++
+ include/chardev/char.h            |  2 +
+ include/hw/virtio/virtio-serial.h |  5 +++
+ include/qemu/main-loop.h          |  4 ++
+ monitor/hmp.c                     |  1 +
+ monitor/qmp.c                     |  1 +
+ net/vhost-user.c                  |  1 +
+ ui/curses.c                       | 11 +++---
+ util/main-loop.c                  | 21 ++++++++++
+ 24 files changed, 216 insertions(+), 11 deletions(-)
+
+-- 
+2.27.0
 
 
