@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5E22071AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:00:51 +0200 (CEST)
-Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0233F2071B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:03:12 +0200 (CEST)
+Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo398-0002X9-OR
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:00:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
+	id 1jo3BO-0006vQ-VO
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zz-0001Z1-MX
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51762
+ id 1jo302-0001fB-Qo
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44164
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zx-0001QC-2V
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:23 -0400
+ id 1jo2zy-0001Qy-KS
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995880;
+ s=mimecast20190719; t=1592995882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G0fxQjUvS31mvtxaUp0D7yZJbxAdTCXA9Iw4PMRAuPo=;
- b=EDnl2vMVCKyfVf/U++8kVfilQRlao1fGTiP001k+fC7umQxqfDOSwZxM6aP8OtvGB1TBzL
- hvxc3j54ez1jFGU67vfwe5qfKyVgRI7FFzsgzUq67IplUVfa4VC1yB0meRXch7q0eBhgSK
- 0azxGTqoyJT5iIhOReaVhYsEjLs4CK8=
+ bh=ztT1ROJ9Mn72D34BB7x1wjz5GrWckA0CtcgsbOkBtJU=;
+ b=Kh42vzTv/6nNsIuyo8MZ7LZ1/b1M7Aa+YnFvV0qfm2EAlpkwq5HKhxSymM1u4DeO1JEfnx
+ VnlZy6Or7SPrhQzTQAwxBPNb55y2eTBwcEu+hJSeYr6xVEw1TVunOejfV80uw+vOCqTmXQ
+ ycSgmLJmJyn57SZLG2+/PzjGsXi2a5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-2g3qXzjPNLOJkyqw0rn3lQ-1; Wed, 24 Jun 2020 06:51:18 -0400
-X-MC-Unique: 2g3qXzjPNLOJkyqw0rn3lQ-1
+ us-mta-45-XiMvtjgKPCeOTUkuR6qKig-1; Wed, 24 Jun 2020 06:51:19 -0400
+X-MC-Unique: XiMvtjgKPCeOTUkuR6qKig-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8434107ACCA
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 10:51:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 825621005512;
+ Wed, 24 Jun 2020 10:51:18 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B28961981;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 152D7BA45;
  Wed, 24 Jun 2020 10:51:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/31] kvm: i386: allow TSC to differ by NTP correction bounds
- without TSC scaling
-Date: Wed, 24 Jun 2020 06:50:44 -0400
-Message-Id: <20200624105048.375353-27-pbonzini@redhat.com>
+Subject: [PULL 28/31] hyperv: vmbus: Remove the 2nd IRQ
+Date: Wed, 24 Jun 2020 06:50:45 -0400
+Message-Id: <20200624105048.375353-28-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,108 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>
+Cc: Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcelo Tosatti <mtosatti@redhat.com>
+From: Jon Doron <arilou@gmail.com>
 
-The Linux TSC calibration procedure is subject to small variations
-(its common to see +-1 kHz difference between reboots on a given CPU, for example).
+It seems like Windows does not really require 2 IRQs to have a
+functioning VMBus.
 
-So migrating a guest between two hosts with identical processor can fail, in case
-of a small variation in calibrated TSC between them.
-
-Allow a conservative 250ppm error between host TSC and VM TSC frequencies,
-rather than requiring an exact match. NTP daemon in the guest can
-correct this difference.
-
-Also change migration to accept this bound.
-
-KVM_SET_TSC_KHZ depends on a kernel interface change. Without this change,
-the behaviour remains the same: in case of a different frequency
-between host and VM, KVM_SET_TSC_KHZ will fail and QEMU will exit.
-
-Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
-
-Message-Id: <20200616165805.GA324612@fuller.cnet>
+Signed-off-by: Jon Doron <arilou@gmail.com>
+Message-Id: <20200617160904.681845-2-arilou@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 46 +++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 41 insertions(+), 5 deletions(-)
+ hw/hyperv/vmbus.c                | 3 +--
+ hw/i386/acpi-build.c             | 4 +---
+ include/hw/hyperv/vmbus-bridge.h | 3 +--
+ 3 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index b3c13cb898..6adbff3d74 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -740,26 +740,62 @@ static bool hyperv_enabled(X86CPU *cpu)
-          cpu->hyperv_features || cpu->hyperv_passthrough);
- }
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index f371240176..a8bcb41026 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -2741,8 +2741,7 @@ static const VMStateDescription vmstate_vmbus_bridge = {
+ };
  
-+/*
-+ * Check whether target_freq is within conservative
-+ * ntp correctable bounds (250ppm) of freq
-+ */
-+static inline bool freq_within_bounds(int freq, int target_freq)
-+{
-+        int max_freq = freq + (freq * 250 / 1000000);
-+        int min_freq = freq - (freq * 250 / 1000000);
-+
-+        if (target_freq >= min_freq && target_freq <= max_freq) {
-+                return true;
-+        }
-+
-+        return false;
-+}
-+
- static int kvm_arch_set_tsc_khz(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    int r;
-+    int r, cur_freq;
-+    bool set_ioctl = false;
+ static Property vmbus_bridge_props[] = {
+-    DEFINE_PROP_UINT8("irq0", VMBusBridge, irq0, 7),
+-    DEFINE_PROP_UINT8("irq1", VMBusBridge, irq1, 13),
++    DEFINE_PROP_UINT8("irq", VMBusBridge, irq, 7),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-     if (!env->tsc_khz) {
-         return 0;
-     }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 900f786d08..91af0d2d0d 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1082,9 +1082,7 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
+     aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
  
--    r = kvm_check_extension(cs->kvm_state, KVM_CAP_TSC_CONTROL) ?
-+    cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
-+               kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) : -ENOTSUP;
-+
-+    /*
-+     * If TSC scaling is supported, attempt to set TSC frequency.
-+     */
-+    if (kvm_check_extension(cs->kvm_state, KVM_CAP_TSC_CONTROL)) {
-+        set_ioctl = true;
-+    }
-+
-+    /*
-+     * If desired TSC frequency is within bounds of NTP correction,
-+     * attempt to set TSC frequency.
-+     */
-+    if (cur_freq != -ENOTSUP && freq_within_bounds(cur_freq, env->tsc_khz)) {
-+        set_ioctl = true;
-+    }
-+
-+    r = set_ioctl ?
-         kvm_vcpu_ioctl(cs, KVM_SET_TSC_KHZ, env->tsc_khz) :
-         -ENOTSUP;
-+
-     if (r < 0) {
-         /* When KVM_SET_TSC_KHZ fails, it's an error only if the current
-          * TSC frequency doesn't match the one we want.
-          */
--        int cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
--                       kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) :
--                       -ENOTSUP;
-+        cur_freq = kvm_check_extension(cs->kvm_state, KVM_CAP_GET_TSC_KHZ) ?
-+                   kvm_vcpu_ioctl(cs, KVM_GET_TSC_KHZ) :
-+                   -ENOTSUP;
-         if (cur_freq <= 0 || cur_freq != env->tsc_khz) {
-             warn_report("TSC frequency mismatch between "
-                         "VM (%" PRId64 " kHz) and host (%d kHz), "
+     crs = aml_resource_template();
+-    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq0));
+-    /* FIXME: newer HyperV gets by with only one IRQ */
+-    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq1));
++    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq));
+     aml_append(dev, aml_name_decl("_CRS", crs));
+ 
+     return dev;
+diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
+index c0a06d832c..33f93de64d 100644
+--- a/include/hw/hyperv/vmbus-bridge.h
++++ b/include/hw/hyperv/vmbus-bridge.h
+@@ -19,8 +19,7 @@ typedef struct VMBus VMBus;
+ typedef struct VMBusBridge {
+     SysBusDevice parent_obj;
+ 
+-    uint8_t irq0;
+-    uint8_t irq1;
++    uint8_t irq;
+ 
+     VMBus *bus;
+ } VMBusBridge;
 -- 
 2.26.2
 
