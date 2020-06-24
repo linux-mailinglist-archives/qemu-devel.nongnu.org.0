@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A234220724A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:15 +0200 (CEST)
-Received: from localhost ([::1]:54472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E406020724C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:18 +0200 (CEST)
+Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3mE-0006ii-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
+	id 1jo3mI-0006oZ-0T
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:41:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c9-0004CH-NN
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56910
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cC-0004H1-HL
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:52 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44504
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c2-0007xk-1K
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c2-0007yO-Mh
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592998241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TblcahrtK9GAL2ZcADuEIqlUQPhrGCfzXjv5e1jl7J4=;
- b=XKXpl8it/Xz5J7JKF97GqrSnu5NfFVDq7DJ0J+ny23l5YZx8xkWMeV6D1VT9fyO/x+v0pT
- zeWlfNoauxsHebvERDXLWbOkvRtgCSnyvif6+48aOLcNaWIhTbQw7UqFhIvnbvRLXS4PUb
- w7P7gjfg+WIHdIQJTp4Zvr7ucyHNFhg=
+ bh=Fxo3dbFBxieNlMytfnHAQZ3LI1U1CwPdO9VU35QwSe8=;
+ b=OnkSivIIWe2hHmn1+Z09m12jtCG6Il2/dLYjDmhs3fp3CabaTiJFqR4cEvvQglkflHR5Nq
+ Ezg8V+Fi348+RuFiBO+wGlhOsYfhJhEs2W7BbxiWsiouLDtBOwKI7UYPo74OAoLkATWU6b
+ t9TeVHpzWgGvcdP+Yva0ZPrvT9bWxM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-VOSqbSpkOoGavhgbuCfKHg-1; Wed, 24 Jun 2020 07:30:37 -0400
-X-MC-Unique: VOSqbSpkOoGavhgbuCfKHg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-223-j3SZwzFhNm26N3k5datTPg-1; Wed, 24 Jun 2020 07:30:38 -0400
+X-MC-Unique: j3SZwzFhNm26N3k5datTPg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463FFA0BD9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD7A518A8220;
  Wed, 24 Jun 2020 11:30:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76C2A512FE;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BA695C240;
  Wed, 24 Jun 2020 11:30:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A208645DB; Wed, 24 Jun 2020 13:30:26 +0200 (CEST)
+ id AB7CF97DC; Wed, 24 Jun 2020 13:30:26 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/20] stubs: add isa_create_simple
-Date: Wed, 24 Jun 2020 13:30:07 +0200
-Message-Id: <20200624113026.13343-2-kraxel@redhat.com>
+Subject: [PATCH v4 02/20] stubs: add pci_create_simple
+Date: Wed, 24 Jun 2020 13:30:08 +0200
+Message-Id: <20200624113026.13343-3-kraxel@redhat.com>
 In-Reply-To: <20200624113026.13343-1-kraxel@redhat.com>
 References: <20200624113026.13343-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -96,36 +96,36 @@ Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- stubs/isa-bus.c     | 7 +++++++
+ stubs/pci-bus.c     | 7 +++++++
  stubs/Makefile.objs | 1 +
  2 files changed, 8 insertions(+)
- create mode 100644 stubs/isa-bus.c
+ create mode 100644 stubs/pci-bus.c
 
-diff --git a/stubs/isa-bus.c b/stubs/isa-bus.c
+diff --git a/stubs/pci-bus.c b/stubs/pci-bus.c
 new file mode 100644
-index 000000000000..522f448997d4
+index 000000000000..a8932fa93250
 --- /dev/null
-+++ b/stubs/isa-bus.c
++++ b/stubs/pci-bus.c
 @@ -0,0 +1,7 @@
 +#include "qemu/osdep.h"
-+#include "hw/isa/isa.h"
++#include "hw/pci/pci.h"
 +
-+ISADevice *isa_create_simple(ISABus *bus, const char *name)
++PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
 +{
 +    g_assert_not_reached();
 +}
 diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 28e48171d1f3..869204668231 100644
+index 869204668231..5d61e0d0da5b 100644
 --- a/stubs/Makefile.objs
 +++ b/stubs/Makefile.objs
-@@ -7,6 +7,7 @@ stub-obj-y += fdset.o
- stub-obj-y += gdbstub.o
- stub-obj-y += iothread-lock.o
- stub-obj-y += is-daemonized.o
-+stub-obj-y += isa-bus.o
- stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
+@@ -12,6 +12,7 @@ stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
  stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
  stub-obj-y += monitor-core.o
+ stub-obj-y += notify-event.o
++stub-obj-y += pci-bus.o
+ stub-obj-y += qmp_memory_device.o
+ stub-obj-y += qtest.o
+ stub-obj-y += ramfb.o
 -- 
 2.18.4
 
