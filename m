@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BA207EF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:53:02 +0200 (CEST)
-Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087EA207EFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:54:18 +0200 (CEST)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joDKH-0005ZO-FX
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1joDLV-0007gH-3T
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joDJD-0004GS-9C
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:51:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48824
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joDJY-0004xA-Pb
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:52:16 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22833
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joDJB-0008HG-LK
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:51:54 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joDJX-0008Kl-4q
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:52:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593035512;
+ s=mimecast20190719; t=1593035534;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRR6isrAz+QaxiNAUtal1dxL1vTc3TOGO4jDgx7a6ro=;
- b=TIyAwOnXYojXmohE0Ymgx+TAZBFGyMo2okTUGZhojHtmLk9fiPxFe1z0seEYejW7MR/5oY
- NTlEAYwPI82+uwIh/yqAoJHOHfQe2MsZxFW5vok1wlXHs19D9oQ5ET40z9tXW8uyV4ZWNu
- 9HD8tfJtx4yuSAd4+Gc4PJuxh9Jfews=
+ bh=EPQOJGHGe50GNg2QP5+I+zfhhMHGd7aauHeLjkVihvY=;
+ b=W4bkOKqj3tA1NkD9nCzZ+qqkhpxE8FkEEBu3Mzahwt6CTe/DZw1qgS1JE1TN1PsqJ/ooqO
+ dV9/uHWCv3TALSWeD8PT6rj+k6ndysQaB9DlDu6MAwFcNBgX2pwcnmttc/WyGfE3eq3zq+
+ sY8NlPx6SeOF1EWqT3XBBtzc5hp8Z64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-PuP_XCOONU2AsCL69sI_3Q-1; Wed, 24 Jun 2020 17:51:50 -0400
-X-MC-Unique: PuP_XCOONU2AsCL69sI_3Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-212-mKc7HLCUPQCjUm4ykH1AkA-1; Wed, 24 Jun 2020 17:52:12 -0400
+X-MC-Unique: mKc7HLCUPQCjUm4ykH1AkA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE687804011;
- Wed, 24 Jun 2020 21:51:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AEB2800FF2;
+ Wed, 24 Jun 2020 21:52:11 +0000 (UTC)
 Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09F365C663;
- Wed, 24 Jun 2020 21:51:48 +0000 (UTC)
-Subject: Re: [PATCH 46/46] hmp: Ignore Error objects where the return value
- suffices
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED0025BADF;
+ Wed, 24 Jun 2020 21:52:09 +0000 (UTC)
+Subject: Re: [PATCH 04/46] macio: Tidy up error handling in
+ macio_newworld_realize()
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-47-armbru@redhat.com>
+ <20200624164344.3778251-5-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <71999ff5-02f3-94e0-57ea-4120640866eb@redhat.com>
-Date: Wed, 24 Jun 2020 16:51:48 -0500
+Message-ID: <1dd8f3bf-64ed-c47c-cfa7-a2e2a1a20cb6@redhat.com>
+Date: Wed, 24 Jun 2020 16:52:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-47-armbru@redhat.com>
+In-Reply-To: <20200624164344.3778251-5-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,23 +84,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
+ ehabkost@redhat.com, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/24/20 11:43 AM, Markus Armbruster wrote:
-> qdev_print_props() receives and throws away Error objects just to
-> check for object_property_get_str() and object_property_print()
-> failure.  Unnecessary, both return suitable values, so use those
-> instead.
+> macio_newworld_realize() effectively ignores ns->gpio realization
+> errors, leaking the Error object.  Fortunately, macio_gpio_realize()
+> can't actually fail.  Tidy up.
 > 
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   qdev-monitor.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   hw/misc/macio/macio.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 7cfe357cc4..bedf10e77b 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -329,7 +329,9 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+>                                    &error_abort);
+>           memory_region_add_subregion(&s->bar, 0x50,
+>                                       sysbus_mmio_get_region(sysbus_dev, 0));
+> -        qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), &err);
+> +        if (!qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), errp)) {
+> +            return;
+> +        }
+>   
+>           /* PMU */
+>           object_initialize_child(OBJECT(s), "pmu", &s->pmu, TYPE_VIA_PMU);
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
