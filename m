@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAFA207BFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:06:12 +0200 (CEST)
-Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C51207C29
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:28:42 +0200 (CEST)
+Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAip-0001TY-Jd
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
+	id 1joB4b-0001aa-Ay
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1joAdF-0003J9-Sf
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:25 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58179
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1joAdD-0004ZE-VJ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Tm30AEwLdKYGLob3DCjAdsb72MA2fIjTgel+JMFPCVQ=;
- b=Ov7fo+VR6vsNSoaej7d/9zFcmrKWXVvJR7O935voh8dq0Ubo2rL5imujH/cHJMqLePph8c
- Zc/BnNggJjdZs1dQv+MdG8NMCVjVsTwCQd0X9Ahzbnk0tZgnhyST9IoDl5BV9omJb+AQOH
- +Ai0llvuT+zzqxN9fF/FZjCP9oA9qbE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-QlnZrBVtNbysQvRPkqEuHw-1; Wed, 24 Jun 2020 15:00:19 -0400
-X-MC-Unique: QlnZrBVtNbysQvRPkqEuHw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83644EC1A2;
- Wed, 24 Jun 2020 19:00:17 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-112-159.ams2.redhat.com
- [10.36.112.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 308E571660;
- Wed, 24 Jun 2020 19:00:10 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] net: tap: check if the file descriptor is valid before using
- it
-Date: Wed, 24 Jun 2020 21:00:09 +0200
-Message-Id: <20200624190009.300069-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1joB3N-0000NK-Oy; Wed, 24 Jun 2020 15:27:25 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:35003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1joB3M-0008EU-6X; Wed, 24 Jun 2020 15:27:25 -0400
+Received: by mail-il1-x141.google.com with SMTP id k1so2001686ils.2;
+ Wed, 24 Jun 2020 12:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ohkushfWbAuiWBiaAz2fJBB4ZNpndH0Xh8mSGqUQD/o=;
+ b=Xislj71XtENi8gXBf8LocTywmQUbhmBXsc9sfM1wtzdlrABb0aTl0JZpaOC5yYSLeQ
+ G/e0s3UZKlCWQ3TF5EJobgEGe11Jd1afKrW7iJMyU3Bl6K5hhO6ep3GoZfneY+uCkUGC
+ nmF9ckOok+tFp1coEsZ4NyINDaHckcK5uQaym+fEiTO+GTwrcRgYq0f9Z0Uyn+Qzh+E0
+ GPiWmzI4MoybV51GPwjkoFkpMnGk8qfObfUTX1y3ry+eJspPeLw5ObEaU14+SCwVOgaw
+ 5vmDcEJ+AuX1RBcyWYrx2L2M9Gs7/ZR5HLknhNsfVoxt15sBVT6KMgicoPdxMg45OeCS
+ 0I4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ohkushfWbAuiWBiaAz2fJBB4ZNpndH0Xh8mSGqUQD/o=;
+ b=k6GlzoKc+LlO25R5iYTZ1b2cgC8t5DFISD+rcvFd5F17ijUb51gjMOfuSxKm1JtK4u
+ gnedtVTOsHx1Fdz+JmE0p2LPcC60cuH64a+JfIuUHy3az4r6gejdedJY91FlF9s3uIoa
+ OT8NEPWznAdwYOfbmGWJrL+x9uzCNBLSGdDThwcRIgVNhp4yFx2KiLWcPwbOyYr2ZVVU
+ QoCjIXQGD+brZiN0tEqFVBxNtfGbQVFRl1xHXI+ttR28e/wQLEDa1bAuOgMmfYZrxdFP
+ LjLs69z59WxA7sR3n9m49al9U23i1dLmMQ8sY9wIV21EtlM7TMglp3Iwr0qlDwM47y7k
+ ZMgQ==
+X-Gm-Message-State: AOAM533zEbuzNmGGJLshTiij/vgedaqP1eZ5LnYWYxdtYXOQ4JQY8sqb
+ CnmwVknQbV7cayX/avfdHozaBd7LabeWCZ+XDX8=
+X-Google-Smtp-Source: ABdhPJxAJRQpshg7EO7XhIcYqdWhUbeXwttAnTCT+2ccF9/k7mDw4vnQzs+Eza3yFfv7yzgnOrrNHTUg27JKy51nqao=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr23471978ilo.40.1593026842827; 
+ Wed, 24 Jun 2020 12:27:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200624083737.3086768-1-armbru@redhat.com>
+ <20200624083737.3086768-23-armbru@redhat.com>
+In-Reply-To: <20200624083737.3086768-23-armbru@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 24 Jun 2020 12:17:48 -0700
+Message-ID: <CAKmqyKMrWj9BJ_ANP-wjoO4qB_dLJkPV7q9bw8565THB+yRsdw@mail.gmail.com>
+Subject: Re: [PATCH v2 22/25] arm/stm32f205 arm/stm32f405: Fix realize error
+ API violation
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,125 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_set_nonblock() checks that the file descriptor can be used and, if
-not, crashes QEMU. An assert() is used for that. The use of assert() is
-used to detect programming error and the coredump will allow to debug
-the problem.
+On Wed, Jun 24, 2020 at 1:44 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
+> call.
+>
+> stm32f205_soc_realize() and stm32f405_soc_realize() are wrong that
+> way: they pass &err to object_property_set_int() without checking it,
+> and then to qdev_realize().  Harmless, because the former can't
+> actually fail here.
+>
+> Fix by passing &error_abort instead.
+>
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-But in the case of the tap device, this assert() can be triggered by
-a misconfiguration by the user. At startup, it's not a real problem, but it
-can also happen during the hot-plug of a new device, and here it's a
-problem because we can crash a perfectly healthy system.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-For instance:
- # ip link add link virbr0 name macvtap0 type macvtap mode bridge
- # ip link set macvtap0 up
- # TAP=/dev/tap$(ip -o link show macvtap0 | cut -d: -f1)
- # qemu-system-x86_64 -machine q35 -device pcie-root-port,id=pcie-root-port-0 -monitor stdio 9<> $TAP
- (qemu) netdev_add type=tap,id=hostnet0,vhost=on,fd=9
- (qemu) device_add driver=virtio-net-pci,netdev=hostnet0,id=net0,bus=pcie-root-port-0
- (qemu) device_del net0
- (qemu) netdev_del hostnet0
- (qemu) netdev_add type=tap,id=hostnet1,vhost=on,fd=9
- qemu-system-x86_64: .../util/oslib-posix.c:247: qemu_set_nonblock: Assertion `f != -1' failed.
- Aborted (core dumped)
+Alistair
 
-To avoid that, check the file descriptor is valid before passing it to qemu_set_non_block() for
-"fd=" and "fds=" parameters.
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- include/qemu/sockets.h |  1 +
- net/tap.c              | 13 +++++++++++++
- util/oslib-posix.c     |  5 +++++
- util/oslib-win32.c     |  6 ++++++
- 4 files changed, 25 insertions(+)
-
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 57cd049d6edd..5b0c2d77ddad 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -17,6 +17,7 @@ int qemu_socket(int domain, int type, int protocol);
- int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
- int socket_set_cork(int fd, int v);
- int socket_set_nodelay(int fd);
-+bool qemu_fd_is_valid(int fd);
- void qemu_set_block(int fd);
- void qemu_set_nonblock(int fd);
- int socket_set_fast_reuse(int fd);
-diff --git a/net/tap.c b/net/tap.c
-index 6207f61f84ab..f65966aaccd8 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -795,6 +795,12 @@ int net_init_tap(const Netdev *netdev, const char *name,
-             return -1;
-         }
- 
-+        /* Check if fd is valid */
-+        if (!qemu_fd_is_valid(fd)) {
-+            error_setg(errp, "Invalid file descriptor %d", fd);
-+            return -1;
-+        }
-+
-         qemu_set_nonblock(fd);
- 
-         vnet_hdr = tap_probe_vnet_hdr(fd);
-@@ -843,6 +849,13 @@ int net_init_tap(const Netdev *netdev, const char *name,
-                 goto free_fail;
-             }
- 
-+            /* Check if fd is valid */
-+            if (!qemu_fd_is_valid(fd)) {
-+                error_setg(errp, "Invalid file descriptor %d", fd);
-+                ret = -1;
-+                goto free_fail;
-+            }
-+
-             qemu_set_nonblock(fd);
- 
-             if (i == 0) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 916f1be2243a..8d5705f598d3 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -244,6 +244,11 @@ void qemu_anon_ram_free(void *ptr, size_t size)
-     qemu_ram_munmap(-1, ptr, size);
- }
- 
-+bool qemu_fd_is_valid(int fd)
-+{
-+    return fcntl(fd, F_GETFL) != -1;
-+}
-+
- void qemu_set_block(int fd)
- {
-     int f;
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index e9b14ab17847..a6be9445cfdb 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -132,6 +132,12 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
- }
- #endif /* CONFIG_LOCALTIME_R */
- 
-+bool qemu_fd_is_valid(int fd)
-+{
-+    /* FIXME: how to check if fd is valid? */
-+    return true;
-+}
-+
- void qemu_set_block(int fd)
- {
-     unsigned long opt = 0;
--- 
-2.26.2
-
+> ---
+>  hw/arm/stm32f205_soc.c | 2 +-
+>  hw/arm/stm32f405_soc.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+> index 19487544f0..56aef686c9 100644
+> --- a/hw/arm/stm32f205_soc.c
+> +++ b/hw/arm/stm32f205_soc.c
+> @@ -154,7 +154,7 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+>
+>      /* ADC 1 to 3 */
+>      object_property_set_int(OBJECT(s->adc_irqs), STM_NUM_ADCS,
+> -                            "num-lines", &err);
+> +                            "num-lines", &error_abort);
+>      qdev_realize(DEVICE(s->adc_irqs), NULL, &err);
+>      if (err != NULL) {
+>          error_propagate(errp, err);
+> diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+> index c12d9f999d..cf9228d8e7 100644
+> --- a/hw/arm/stm32f405_soc.c
+> +++ b/hw/arm/stm32f405_soc.c
+> @@ -172,7 +172,7 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+>          return;
+>      }
+>      object_property_set_int(OBJECT(&s->adc_irqs), STM_NUM_ADCS,
+> -                            "num-lines", &err);
+> +                            "num-lines", &error_abort);
+>      qdev_realize(DEVICE(&s->adc_irqs), NULL, &err);
+>      if (err != NULL) {
+>          error_propagate(errp, err);
+> --
+> 2.26.2
+>
+>
 
