@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F14A206FC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 11:10:55 +0200 (CEST)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7221206FF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 11:26:48 +0200 (CEST)
+Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo1Qk-0003ZS-LN
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 05:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
+	id 1jo1g7-0003Mj-9e
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 05:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jo1Pn-0002Ek-Gl
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:09:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49302
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jo1Pl-0000oC-Bn
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592989792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V4G79XXaPbMP6iIqWMaILK9YCnZFxIVlrSd7WBud8l4=;
- b=jTBVYjYwp8pTLSg3kbKFYfaQrh7ONdEyhjaMiZB4M/KVRdC5efHO2jb0fBbpwyi5e2+Dn/
- +40WR7CmvlKhRDX1UAgZRA5mzrfajB7CShqJpjWEl2aW3L24ZylCwyhW+/SU759jpypsZ1
- hdsVzaFdR7D4Z6P1GmFm3/FWWXW9RBI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-dub9nynYPsugXnyGXq0HzA-1; Wed, 24 Jun 2020 05:09:50 -0400
-X-MC-Unique: dub9nynYPsugXnyGXq0HzA-1
-Received: by mail-wm1-f72.google.com with SMTP id a21so1893300wmd.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 02:09:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo1fJ-0002QQ-T1
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:25:57 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo1fI-0005NN-7i
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:25:57 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t194so1821173wmt.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 02:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Oo3NMf7YK9TEG2D/rJAxpKuy2vCrq7uNo0yHsjEUIOs=;
+ b=ZL8stDfkpS+mH43RXiiL+mzk0SeRJrmV94v51yFQT9xIOI+fMIeHt2oe0wIoDrnNFZ
+ 2QKo31YtIKkoXLk8NsEMDTedDa9V4aADXlsoXv+oTczrIM+PecOxGM28V24c5l1pp64A
+ fGbQtyGekIy9kPNNGfFGdsLBAq64PAVmeqMpkTvqfI0eUfDEd4u+AOEfi7KNzYj7J5Kp
+ T5z/k8kr/SD3FvFHJz2FboFpvjBCakt8+DBsDZd+1vmK9nIC7QmCUQO3aTMGstvQyBSi
+ x4wqliqfJKrm1r4hcAvFtkKfRA8nAGUz+U/S45cE0eOSloJJPGptY3/A25kAFvEd0d/q
+ ycQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ h=x-gm-message-state:sender:subject:to:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=V4G79XXaPbMP6iIqWMaILK9YCnZFxIVlrSd7WBud8l4=;
- b=SUz2GKb+ifAr6Z8F47LyjMx6MiGfBS+q6AhGaMt1Bk8Xrme1KQMJhel3fXTDMwIT5F
- 15nF+ifz7Yh6PkzCAYOZAi4GIoYVLeAThEV77fDHAB/R1eLohQdJGnsY7Ncaf1yKVczn
- s9d2pwppPCymVz5UoAl2egLy5CAt7miM0otlTM01fe65sUP2gIdetXDxMGyk0KSn8jJG
- dehdlgACD4vFwimZqshGV5n7G0MYqeOFRjbmCvN995Q4BZ2DUGh5ia5GolfS2MSzBXCS
- 34jH/NhgbnAs6F9tLbLAvQMIUldWYMmyHuADA+cN1PAXPYxgEH4R0popAWp4wPDBNHM0
- WBFw==
-X-Gm-Message-State: AOAM531Jaw347mWOzgawmaN9zjzG77+a3kpDYcbaxVK1cRLcoffOWlZf
- 2gY4gZaBrXG0g1O4IMz9VxvQHL1RkMsfhDyUF2d2XxlXPYpGuS0JdehffjjG1c8AtFLoIExQwU6
- pGQsWlZQYz6cHLU4=
-X-Received: by 2002:adf:ed47:: with SMTP id u7mr26852710wro.201.1592989789634; 
- Wed, 24 Jun 2020 02:09:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0mxeLzhyF0fsbjxxhGnC8Ou9lTw8GTQqjlwbLqDLaT9FPmsRkmSpCGb075A4eWmDUJUvWpw==
-X-Received: by 2002:adf:ed47:: with SMTP id u7mr26852678wro.201.1592989789219; 
- Wed, 24 Jun 2020 02:09:49 -0700 (PDT)
+ bh=Oo3NMf7YK9TEG2D/rJAxpKuy2vCrq7uNo0yHsjEUIOs=;
+ b=rujc343PC4GSSkebHa6aSnovvjGeoY1JGIkTOndwgQHvD7YT8ocdhvuAiS3cQ1Ga5y
+ SsLi70UT6Z9b5YHY4+xF+Gmf8fp8tF0S/4qF5n33+QB9IB5LK/NOgEBj4U4IChoMZtuv
+ Ef2Dh4/kQv6WZTr3CFuyrowokYNa6jMHKRyNyBCGaJT2evJbx/QEIVGS3vX/KME7o/KR
+ u0y3t25ExV/amk1N7Ghetlh6AwQrXVrY7yPni+2i2TzRx/noGAwKT+3dezieDIRdhnA9
+ fDRaymg5RH+Rh6xa0BIYbjhVeaJbDKQ6B/GrUB+hqJPL2t4OaHBVqX+P2wdKTTSXq7k4
+ VQVQ==
+X-Gm-Message-State: AOAM530/CJBFzTiYRY6zbn/8gQsNZ41bcRvB1ESrjtJ7RkswOhDfti49
+ SS180LXgW4VwMF6A+zRup0M=
+X-Google-Smtp-Source: ABdhPJwRHOiynY4hIl7pm3RkaONc4R90nLpUmSw7jLREkSTgBOgLkWvz6FSREG90fdLR3EsI2W2zcQ==
+X-Received: by 2002:a1c:7fd7:: with SMTP id
+ a206mr21508570wmd.104.1592990754330; 
+ Wed, 24 Jun 2020 02:25:54 -0700 (PDT)
 Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id v7sm26486136wrp.45.2020.06.24.02.09.48
+ by smtp.gmail.com with ESMTPSA id v7sm26550067wrp.45.2020.06.24.02.25.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jun 2020 02:09:48 -0700 (PDT)
-Subject: Re: [PATCH] trivial: Remove extra character in configure help
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>
-References: <20200624083337.912846-1-dinechin@redhat.com>
- <20200624085956.GE774096@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Wed, 24 Jun 2020 02:25:53 -0700 (PDT)
+Subject: Re: [PATCH] ibex_uart: fix XOR-as-pow
+To: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+References: <20200623195441.14646-1-pbonzini@redhat.com>
+ <e47cdd98-ee3f-a222-5bc9-6f8f7085584f@redhat.com>
+ <8635411c-d3c0-6d26-c068-4fa02de98df9@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
  bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
@@ -88,28 +85,26 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <fc86d142-a63a-d976-c924-49ff96cb72a5@redhat.com>
-Date: Wed, 24 Jun 2020 11:09:47 +0200
+Message-ID: <5c9a8ccb-29d5-cf06-f8c5-2dce5ff3a2f2@amsat.org>
+Date: Wed, 24 Jun 2020 11:25:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200624085956.GE774096@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <8635411c-d3c0-6d26-c068-4fa02de98df9@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,44 +117,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/20 10:59 AM, Daniel P. Berrangé wrote:
-> On Wed, Jun 24, 2020 at 10:33:37AM +0200, Christophe de Dinechin wrote:
->> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
->> ---
->>  configure | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+On 6/24/20 8:33 AM, Paolo Bonzini wrote:
+> On 23/06/20 22:07, Eric Blake wrote:
+>>>
+>>>              uint64_t baud = ((value & UART_CTRL_NCO) >> 16);
+>>>               baud *= 1000;
+>>> -            baud /= 2 ^ 20;
+>>> +            baud >>= 20;
 >>
->> diff --git a/configure b/configure
->> index ba88fd1824..c7a6a5adfe 100755
->> --- a/configure
->> +++ b/configure
->> @@ -1787,7 +1787,7 @@ Advanced options (experts only):
->>    --block-drv-ro-whitelist=L
->>                             set block driver read-only whitelist
->>                             (affects only QEMU, not qemu-img)
->> -  --enable-trace-backends=B Set trace backend
->> +  --enable-trace-backends= Set trace backend
+>> Dividing by 1M instead of 22 seems much more logical, indeed :)
 > 
-> This is just following the style of the option above. "B" is a
-> placeholder for the desired backend(s).
+> Based on the spec, the "* 1000" is the clock, in other words this is a
+> fixed point value relative to the clock:
+> 
+> f_baud = NCO * f_clock / 2^20
+> 
+> The example in the spec (https://docs.opentitan.org/hw/ip/uart/doc/) has
+> f_clock = 50 MHz, while here it's only 1 kHz.  And the register is only
+> 16 bit, so the above would only allow a baud rate up to 62 (65535 * 1000
+> / 2^20).
+> 
+> Should the clock be a property of the device instead?
 
-I agree this is confusing, since then the filename is NAME, not N.
+Ideally the device should use qdev_get_clock_in(),
+(see docs/devel/clocks.rst):
 
-Maybe clearer to replace B -> BACKEND, L -> LIST, ...?
+  static void ibex_uart_init(Object *obj)
+  {
+     ...
+     s->f_clk = qdev_get_clock_in(DEVICE(obj), "f_clock");
+     ...
+
+Then in ibex_uart_write():
+
+     uint64_t baud = ((value & UART_CTRL_NCO) >> 16);
+     baud *= clock_get_hz(dev->f_clk));
+     baud >>= 20;
+
+Devices not using the QDEV_CLOCK API use QDEV properties.
 
 > 
->>                             Available backends: $trace_backend_list
->>    --with-trace-file=NAME   Full PATH,NAME of file to store traces
->>                             Default:trace-<pid>
+> Thanks,
 > 
+> Paolo
 > 
-> Regards,
-> Daniel
+>> It's odd that we are scaling up by 1000, down by 1024*1024, then
+>>
+>>>                 s->char_tx_time = (NANOSECONDS_PER_SECOND / baud) * 10; 
+> 
 > 
 
 
