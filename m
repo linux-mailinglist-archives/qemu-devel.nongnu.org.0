@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCC42071C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:06:00 +0200 (CEST)
-Received: from localhost ([::1]:51480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051352071B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:01:09 +0200 (CEST)
+Received: from localhost ([::1]:33460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3E7-0003E8-ET
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
+	id 1jo39P-0003I9-W7
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo30C-00020l-3f
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41383
+ id 1jo2zm-00018y-BF
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:10 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51368
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo30A-0001VN-4p
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:35 -0400
+ id 1jo2zh-0001I8-Bd
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995893;
+ s=mimecast20190719; t=1592995864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NMCRg1JOSToToM0qV8mrZvUYcfN0PGV9WdI3UL15Th4=;
- b=XAZU+2PkwbhYVPp5AE+7/cmVQwR6mFq+1UhTpK/QuGPKCzwc2brQzNvQFjwo/aKXPgvaH8
- K6mabTZ7FaXqkNzKMcMcobXq+pLWfnS+kFGFB78L+WSxHoycRDq+DnlViuddq+BKUTa0jQ
- CBSKCQ7pxsoUcVYA9ug/CaRY8JTNPII=
+ bh=tUafodrZTh6XTGE3AIrW/S+LSHYlA5hmP9UIvv9Y6EA=;
+ b=GGuSqoCxVTsFW+jlVL0JMOzwkSNEmrl32UCepRpsdWDUbjrkR1U4w+3DNCP4J5lh4YFWmX
+ MEeoZ37imQyygl33MUAVOmY0dzd88kNMo0RE0JvgngfCtiPJ/W0PPICKMZF+yHnLIZBk25
+ rNGfFJqO7lw51mvNdp3vC3UHAo18QdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-c0r1a9EvPTyX5apHd52dog-1; Wed, 24 Jun 2020 06:51:00 -0400
-X-MC-Unique: c0r1a9EvPTyX5apHd52dog-1
+ us-mta-450-iWUIKhqqN4i-0fph_RysWg-1; Wed, 24 Jun 2020 06:51:01 -0400
+X-MC-Unique: iWUIKhqqN4i-0fph_RysWg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DE6F18A8220;
- Wed, 24 Jun 2020 10:50:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BCBD87950B;
+ Wed, 24 Jun 2020 10:51:00 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C21C71DC;
- Wed, 24 Jun 2020 10:50:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EDB71DC;
+ Wed, 24 Jun 2020 10:50:59 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/31] replay: synchronize on every virtual timer callback
-Date: Wed, 24 Jun 2020 06:50:24 -0400
-Message-Id: <20200624105048.375353-7-pbonzini@redhat.com>
+Subject: [PULL 08/31] configure: add libdaxctl support
+Date: Wed, 24 Jun 2020 06:50:25 -0400
+Message-Id: <20200624105048.375353-8-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,108 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Cc: Jingqi Liu <jingqi.liu@intel.com>, Joao Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+From: Jingqi Liu <jingqi.liu@intel.com>
 
-Sometimes virtual timer callbacks depend on order
-of virtual timer processing and warping of virtual clock.
-Therefore every callback should be logged to make replay deterministic.
-This patch creates a checkpoint before every virtual timer callback.
-With these checkpoints virtual timers processing and clock warping
-events order is completely deterministic.
+Add a pair of configure options --{enable,disable}-libdaxctl to control
+whether QEMU is compiled with libdaxctl [1]. Libdaxctl is a utility
+library for managing the device dax subsystem.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
+QEMU uses mmap(2) to maps vNVDIMM backends and aligns the mapping
+address to the page size (getpagesize(2)) by default. However, some
+types of backends may require an alignment different than the page
+size. The 'align' option is provided to memory-backend-file to allow
+users to specify the proper alignment.
 
---
+For device dax (e.g., /dev/dax0.0), the 'align' option needs to match
+the alignment requirement of the device dax, which can be fetched
+through the APIs of libdaxctl version 57 or up.
 
-v2:
-  - remove mutex lock/unlock for virtual clock checkpoint since it is
-    not process any asynchronous events (commit ca9759c2a92f528f256fef0e3922416f7bb47bf9)
-  - bump record/replay log file version
-Message-Id: <159012932716.27256.8854065545365559921.stgit@pasha-ThinkPad-X280>
+[1] Libdaxctl is a part of ndctl project.
+The project's repository is: https://github.com/pmem/ndctl
+
+For more information about libdaxctl APIs, you can refer to the
+comments in source code of: pmem/ndctl/daxctl/lib/libdaxctl.c.
+
+Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+Message-Id: <20200429085011.63752-4-jingqi.liu@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- replay/replay.c   |  2 +-
- util/qemu-timer.c | 32 +++++++++-----------------------
- 2 files changed, 10 insertions(+), 24 deletions(-)
+ configure | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/replay/replay.c b/replay/replay.c
-index 7d93746c73..83ed9e0e24 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -22,7 +22,7 @@
+diff --git a/configure b/configure
+index ba88fd1824..8d9435a0e0 100755
+--- a/configure
++++ b/configure
+@@ -517,6 +517,7 @@ plugins="no"
+ fuzzing="no"
+ rng_none="no"
+ secret_keyring=""
++libdaxctl=""
  
- /* Current version of the replay mechanism.
-    Increase it when file format changes. */
--#define REPLAY_VERSION              0xe02009
-+#define REPLAY_VERSION              0xe0200a
- /* Size of replay log header */
- #define HEADER_SIZE                 (sizeof(uint32_t) + sizeof(uint64_t))
+ supported_cpu="no"
+ supported_os="no"
+@@ -1621,6 +1622,10 @@ for opt do
+   ;;
+   --disable-keyring) secret_keyring="no"
+   ;;
++  --enable-libdaxctl) libdaxctl=yes
++  ;;
++  --disable-libdaxctl) libdaxctl=no
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1920,6 +1925,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   libpmem         libpmem support
+   xkbcommon       xkbcommon support
+   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
++  libdaxctl       libdaxctl support
  
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index b6575a2cd5..f62b4feecd 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -501,7 +501,6 @@ bool timerlist_run_timers(QEMUTimerList *timer_list)
-     bool progress = false;
-     QEMUTimerCB *cb;
-     void *opaque;
--    bool need_replay_checkpoint = false;
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -6292,6 +6298,24 @@ if test "$libpmem" != "no"; then
+ 	fi
+ fi
  
-     if (!atomic_read(&timer_list->active_timers)) {
-         return false;
-@@ -517,16 +516,6 @@ bool timerlist_run_timers(QEMUTimerList *timer_list)
-         break;
-     default:
-     case QEMU_CLOCK_VIRTUAL:
--        if (replay_mode != REPLAY_MODE_NONE) {
--            /* Checkpoint for virtual clock is redundant in cases where
--             * it's being triggered with only non-EXTERNAL timers, because
--             * these timers don't change guest state directly.
--             * Since it has conditional dependence on specific timers, it is
--             * subject to race conditions and requires special handling.
--             * See below.
--             */
--            need_replay_checkpoint = true;
--        }
-         break;
-     case QEMU_CLOCK_HOST:
-         if (!replay_checkpoint(CHECKPOINT_CLOCK_HOST)) {
-@@ -559,19 +548,16 @@ bool timerlist_run_timers(QEMUTimerList *timer_list)
-              */
-             break;
-         }
--        if (need_replay_checkpoint
--                && !(ts->attributes & QEMU_TIMER_ATTR_EXTERNAL)) {
--            /* once we got here, checkpoint clock only once */
--            need_replay_checkpoint = false;
-+        /* Checkpoint for virtual clock is redundant in cases where
-+         * it's being triggered with only non-EXTERNAL timers, because
-+         * these timers don't change guest state directly.
-+         */
-+        if (replay_mode != REPLAY_MODE_NONE
-+            && timer_list->clock->type == QEMU_CLOCK_VIRTUAL
-+            && !(ts->attributes & QEMU_TIMER_ATTR_EXTERNAL)
-+            && !replay_checkpoint(CHECKPOINT_CLOCK_VIRTUAL)) {
-             qemu_mutex_unlock(&timer_list->active_timers_lock);
--            if (!replay_checkpoint(CHECKPOINT_CLOCK_VIRTUAL)) {
--                goto out;
--            }
--            qemu_mutex_lock(&timer_list->active_timers_lock);
--            /* The lock was released; start over again in case the list was
--             * modified.
--             */
--            continue;
-+            goto out;
-         }
++##########################################
++# check for libdaxctl
++
++if test "$libdaxctl" != "no"; then
++	if $pkg_config --atleast-version=57 "libdaxctl"; then
++		libdaxctl="yes"
++		libdaxctl_libs=$($pkg_config --libs libdaxctl)
++		libdaxctl_cflags=$($pkg_config --cflags libdaxctl)
++		libs_softmmu="$libs_softmmu $libdaxctl_libs"
++		QEMU_CFLAGS="$QEMU_CFLAGS $libdaxctl_cflags"
++	else
++		if test "$libdaxctl" = "yes" ; then
++			feature_not_found "libdaxctl" "Install libdaxctl"
++		fi
++		libdaxctl="no"
++	fi
++fi
++
+ ##########################################
+ # check for slirp
  
-         /* remove timer from the list before calling the callback */
+@@ -6898,6 +6922,7 @@ echo "parallels support $parallels"
+ echo "sheepdog support  $sheepdog"
+ echo "capstone          $capstone"
+ echo "libpmem support   $libpmem"
++echo "libdaxctl support $libdaxctl"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
+ echo "plugin support    $plugins"
+@@ -7731,6 +7756,10 @@ if test "$libpmem" = "yes" ; then
+   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
+ fi
+ 
++if test "$libdaxctl" = "yes" ; then
++  echo "CONFIG_LIBDAXCTL=y" >> $config_host_mak
++fi
++
+ if test "$bochs" = "yes" ; then
+   echo "CONFIG_BOCHS=y" >> $config_host_mak
+ fi
 -- 
 2.26.2
 
