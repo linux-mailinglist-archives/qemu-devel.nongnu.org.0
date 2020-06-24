@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AD8207B9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 20:34:27 +0200 (CEST)
-Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E53207BF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:03:31 +0200 (CEST)
+Received: from localhost ([::1]:49616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAE6-0006NN-2c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 14:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56614)
+	id 1joAgE-0006jO-IX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joACd-0005ZA-2K
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:32:55 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59699
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1joAc8-0000WA-S3
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56666
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joACa-0002Ch-6T
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:32:54 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1joAc6-0004F3-QA
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593023571;
+ s=mimecast20190719; t=1593025154;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pjCZ4OlVYiwO+9V1faaAdjoudryf7+cBMrwrmKdSZd0=;
- b=bLmMZw4L4M+ciaNwxrOOiSv9EKIzRiyU51RhdcOrtGbf2JOgl46h0ztxGI3yt1fZut4j7o
- Pr1ERrxbf4wa9IGss1PyiSUhVIjTBDczmdIW8RknYabCMp0Ds93GbMFqyGUNE3HySqdjvm
- LtOULsmXJvcWCKEt7VW7q7kfkn1iW9Y=
+ bh=cGSJn7xLfgbAPmxylpqu35ue26irq8u+DNThBF0BAm4=;
+ b=C8ZyZH/lJQ9ew6aYmlsBvMaxKt1vQzEaH174vIBrTUglTQ7DJJsGk8NJDulBsUP8K3o95H
+ 4umK02fvl6vUNx9hmbauqZ9N5VzR5OgbcE7Y4CDD5PiPeohJGclDU9WCd9tHqlCJqv/ur2
+ mAX+jq5V7mvy1fqItSXNw0rwqXG/hs4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-Hc-7qI70MgWFG-mRXY6NTw-1; Wed, 24 Jun 2020 14:32:49 -0400
-X-MC-Unique: Hc-7qI70MgWFG-mRXY6NTw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-469-1ZGyoQXVNrKkh4pjq0_R6w-1; Wed, 24 Jun 2020 14:59:05 -0400
+X-MC-Unique: 1ZGyoQXVNrKkh4pjq0_R6w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B05187950B;
- Wed, 24 Jun 2020 18:32:48 +0000 (UTC)
-Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B8C2B47C;
- Wed, 24 Jun 2020 18:32:44 +0000 (UTC)
-Subject: Re: [PATCH 08/46] error: Avoid unnecessary error_propagate() after
- error_setg()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-9-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f8a0cce6-11ba-6182-6f90-b94594cd8b39@redhat.com>
-Date: Wed, 24 Jun 2020 13:32:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BCC7107ACCA;
+ Wed, 24 Jun 2020 18:59:03 +0000 (UTC)
+Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EDD460F8A;
+ Wed, 24 Jun 2020 18:59:01 +0000 (UTC)
+Date: Wed, 24 Jun 2020 12:54:37 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v25 09/17] vfio: Add load state functions to
+ SaveVMHandlers
+Message-ID: <20200624125437.664869ce@x1.home>
+In-Reply-To: <1592684486-18511-10-git-send-email-kwankhede@nvidia.com>
+References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
+ <1592684486-18511-10-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-9-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,110 +82,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/20 11:43 AM, Markus Armbruster wrote:
-> Replace
-> 
->      error_setg(&err, ...);
->      error_propagate(errp, err);
-> 
-> by
-> 
->      error_setg(errp, ...);
-> 
-> Related pattern:
+On Sun, 21 Jun 2020 01:51:18 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Nice explanation.
-
-> Bonus: the elimination of gotos will make later patches in this series
-> easier to review.
+> Sequence  during _RESUMING device state:
+> While data for this device is available, repeat below steps:
+> a. read data_offset from where user application should write data.
+> b. write data of data_size to migration region from data_offset.
+> c. write data_size which indicates vendor driver that data is written in
+>    staging buffer.
 > 
-> Candidates for conversion tracked down with this Coccinelle script:
+> For user, data is opaque. User should write data in the same order as
+> received.
 > 
->      @@
->      identifier err, errp;
->      expression list args;
->      @@
->      -    error_setg(&err, args);
->      +    error_setg(errp, args);
-> 	 ... when != err
-> 	 error_propagate(errp, err);
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->   backends/cryptodev.c        | 11 +++---
->   backends/hostmem-file.c     | 19 +++-------
->   backends/hostmem-memfd.c    | 15 ++++----
->   backends/hostmem.c          | 27 ++++++--------
->   block/throttle-groups.c     | 22 +++++------
->   hw/hyperv/vmbus.c           |  5 +--
->   hw/i386/pc.c                | 35 ++++++------------
->   hw/mem/nvdimm.c             | 17 ++++-----
->   hw/mem/pc-dimm.c            | 14 +++----
->   hw/misc/aspeed_sdmc.c       |  3 +-
->   hw/ppc/rs6000_mc.c          |  9 ++---
->   hw/ppc/spapr.c              | 73 ++++++++++++++++---------------------
->   hw/ppc/spapr_pci.c          | 14 +++----
->   hw/s390x/ipl.c              | 23 +++++-------
->   hw/s390x/sclp.c             | 12 ++----
->   hw/xen/xen_pt_config_init.c |  3 +-
->   iothread.c                  | 12 +++---
->   net/colo-compare.c          | 20 ++++------
->   net/dump.c                  | 10 ++---
->   net/filter-buffer.c         | 10 ++---
->   qga/commands-win32.c        | 16 +++-----
->   21 files changed, 151 insertions(+), 219 deletions(-)
+>  hw/vfio/migration.c  | 177 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events |   3 +
+>  2 files changed, 180 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index ef1150c1ff02..faacea5327cb 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -302,6 +302,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>  
+> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    uint64_t data;
+> +
+> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
+> +        int ret;
+> +
+> +        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
+> +        if (ret) {
+> +            error_report("%s: Failed to load device config space",
+> +                         vbasedev->name);
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    data = qemu_get_be64(f);
+> +    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
+> +        error_report("%s: Failed loading device config space, "
+> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
+> +        return -EINVAL;
+> +    }
+> +
+> +    trace_vfio_load_device_config_state(vbasedev->name);
+> +    return qemu_file_get_error(f);
+> +}
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -472,12 +499,162 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>      return ret;
+>  }
+>  
+> +static int vfio_load_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret = 0;
+> +
+> +    if (migration->region.mmaps) {
+> +        ret = vfio_region_mmap(&migration->region);
+> +        if (ret) {
+> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
+> +                         vbasedev->name, migration->region.nr,
+> +                         strerror(-ret));
+> +            return ret;
 
-A bit bigger, and starts to be too complex to ask Coccinelle to directly 
-fix it (but at least using it for identification is nice).  But the 
-patch is still manageable, and hopefully not too many instances creep 
-back in during the meantime while waiting for this series to land.
 
-> @@ -140,7 +138,6 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
->       HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
->   
->       if (host_memory_backend_mr_inited(backend)) {
-> -
->           error_setg(errp, "cannot change property 'pmem' of %s.",
->                      object_get_typename(o));
->           return;
+Not fatal.
 
-Unrelated cleanup.  Does it belong in a different patch?
 
-> @@ -148,13 +145,9 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
->   
->   #ifndef CONFIG_LIBPMEM
->       if (value) {
-> -        Error *local_err = NULL;
-> -
-> -        error_setg(&local_err,
-> -                   "Lack of libpmem support while setting the 'pmem=on'"
-> +        error_setg(errp, "Lack of libpmem support while setting the 'pmem=on'"
->                      " of %s. We can't ensure data persistence.",
+> +        }
+> +    }
+> +
+> +    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
+> +                                   VFIO_DEVICE_STATE_RESUMING);
+> +    if (ret) {
+> +        error_report("%s: Failed to set state RESUMING", vbasedev->name);
+> +    }
+> +    return ret;
+> +}
+> +
+> +static int vfio_load_cleanup(void *opaque)
+> +{
+> +    vfio_save_cleanup(opaque);
+> +    return 0;
+> +}
+> +
+> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret = 0;
+> +    uint64_t data, data_size;
+> +
+> +    data = qemu_get_be64(f);
+> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
+> +
+> +        trace_vfio_load_state(vbasedev->name, data);
+> +
+> +        switch (data) {
+> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+> +        {
+> +            ret = vfio_load_device_config_state(f, opaque);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+> +        {
+> +            data = qemu_get_be64(f);
+> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
+> +                return ret;
+> +            } else {
+> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
+> +                             vbasedev->name, data);
+> +                return -EINVAL;
 
-Pre-existing - doesn't follow our usual error message content 
-conventions regarding trailing '.'.
+This is essentially just a compatibility failure, right?  For instance
+some future version of QEMU might include additional data between these
+markers that we don't understand and therefore we fail the migration.
+Thanks,
 
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1517,15 +1517,16 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
->        */
->       if (plugged_dev->hotplugged && bus->devices[PCI_DEVFN(slotnr, 0)] &&
->           PCI_FUNC(pdev->devfn) != 0) {
-> -        error_setg(&local_err, "PCI: slot %d function 0 already ocuppied by %s,"
-> +        error_setg(errp, "PCI: slot %d function 0 already ocuppied by %s,"
->                      " additional functions can no longer be exposed to guest.",
+Alex
 
-Another one.  Also, s/ocuppied/occupied/ while touching it.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
+> +        {
+> +            VFIORegion *region = &migration->region;
+> +            uint64_t data_offset = 0, size;
+> +
+> +            data_size = size = qemu_get_be64(f);
+> +            if (data_size == 0) {
+> +                break;
+> +            }
+> +
+> +            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> +                        region->fd_offset +
+> +                        offsetof(struct vfio_device_migration_info,
+> +                        data_offset));
+> +            if (ret != sizeof(data_offset)) {
+> +                error_report("%s:Failed to get migration buffer data offset %d",
+> +                             vbasedev->name, ret);
+> +                return -EINVAL;
+> +            }
+> +
+> +            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
+> +                                              data_size);
+> +
+> +            while (size) {
+> +                void *buf = NULL;
+> +                uint64_t sec_size;
+> +                bool buffer_mmaped;
+> +
+> +                buf = get_data_section_size(region, data_offset, size,
+> +                                            &sec_size);
+> +
+> +                buffer_mmaped = (buf != NULL);
+> +
+> +                if (!buffer_mmaped) {
+> +                    buf = g_try_malloc(sec_size);
+> +                    if (!buf) {
+> +                        error_report("%s: Error allocating buffer ", __func__);
+> +                        return -ENOMEM;
+> +                    }
+> +                }
+> +
+> +                qemu_get_buffer(f, buf, sec_size);
+> +
+> +                if (!buffer_mmaped) {
+> +                    ret = pwrite(vbasedev->fd, buf, sec_size,
+> +                                 region->fd_offset + data_offset);
+> +                    g_free(buf);
+> +
+> +                    if (ret != sec_size) {
+> +                        error_report("%s: Failed to set migration buffer %d",
+> +                                vbasedev->name, ret);
+> +                        return -EINVAL;
+> +                    }
+> +                }
+> +                size -= sec_size;
+> +                data_offset += sec_size;
+> +            }
+> +
+> +            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
+> +                         region->fd_offset +
+> +                       offsetof(struct vfio_device_migration_info, data_size));
+> +            if (ret != sizeof(data_size)) {
+> +                error_report("%s: Failed to set migration buffer data size %d",
+> +                             vbasedev->name, ret);
+> +                return -EINVAL;
+> +            }
+> +            break;
+> +        }
+> +
+> +        default:
+> +            error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
+> +            return -EINVAL;
+> +        }
+> +
+> +        data = qemu_get_be64(f);
+> +        ret = qemu_file_get_error(f);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static SaveVMHandlers savevm_vfio_handlers = {
+>      .save_setup = vfio_save_setup,
+>      .save_cleanup = vfio_save_cleanup,
+>      .save_live_pending = vfio_save_pending,
+>      .save_live_iterate = vfio_save_iterate,
+>      .save_live_complete_precopy = vfio_save_complete_precopy,
+> +    .load_setup = vfio_load_setup,
+> +    .load_cleanup = vfio_load_cleanup,
+> +    .load_state = vfio_load_state,
+>  };
+>  
+>  /* ---------------------------------------------------------------------- */
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 9a1c5e17d97f..4a4bd3ba9a2a 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -157,3 +157,6 @@ vfio_save_device_config_state(const char *name) " (%s)"
+>  vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
+>  vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
+>  vfio_save_complete_precopy(const char *name) " (%s)"
+> +vfio_load_device_config_state(const char *name) " (%s)"
+> +vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
+> +vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
 
 
