@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD682079E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:07:42 +0200 (CEST)
-Received: from localhost ([::1]:44630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD292079DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:04:48 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo8s9-0001M7-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52048)
+	id 1jo8pL-0004Rl-Hj
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8Vf-0004IL-JU
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23275
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8Vj-0004P0-6E
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26277
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VD-00058H-9u
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VD-00058e-KN
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593017036;
+ s=mimecast20190719; t=1593017037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O+ptEAkpNUOkRf8tvAkjLnW2zglOQ056ea63xd5HRvg=;
- b=cj4viWfWQbI2BMue3+QqkAedh7q0Q1H0n5Oir04bhVcUU4HLP6LbmHCXTKecRL5G2pVFyz
- 6WRelnracD7yxRLoL6TAr3ZV0wIX0Q2VEG1tFEZJuvVRkAUUn+B8W7qL+2kwlrLLQA6BWz
- rbx4KuxFqY+d3L0lSN4jONplRe9t2Ow=
+ bh=swXcdoc9eRaX4Yp+R8VG5EV9jVN+Os9mXktWkr3z+Rk=;
+ b=ULUnykvsqu3L7mU+sDP/xesEIw6HzT2AxGBa/BQYS71cK69HDcwiJtcBKHda52eEpuuilL
+ P+Yc4Qsor8XsmIrbtBmkmsAiZOrmhoSRU1HxkF/xDMSQynnQlLS6gj2A/EBQO4ahgrOZEY
+ 300q82LnbSuv0pvDSGbJDNWGIdmcvsU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40--7g_EpuhPTykAZJUnkWvAA-1; Wed, 24 Jun 2020 12:43:51 -0400
-X-MC-Unique: -7g_EpuhPTykAZJUnkWvAA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-445-6u4Os1XwPlSU7zFIQRE70Q-1; Wed, 24 Jun 2020 12:43:52 -0400
+X-MC-Unique: 6u4Os1XwPlSU7zFIQRE70Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F78B108BD10;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD32B10059A3;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DE28891E8;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB8407931F;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4A36B1138489; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
+ id 4DC1A113848A; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/46] block/parallels: Simplify parallels_open() after
- previous commit
-Date: Wed, 24 Jun 2020 18:43:26 +0200
-Message-Id: <20200624164344.3778251-29-armbru@redhat.com>
+Subject: [PATCH 29/46] acpi: Avoid unnecessary error_propagate() after
+ error_setg()
+Date: Wed, 24 Jun 2020 18:43:27 +0200
+Message-Id: <20200624164344.3778251-30-armbru@redhat.com>
 In-Reply-To: <20200624164344.3778251-1-armbru@redhat.com>
 References: <20200624164344.3778251-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,40 +86,79 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The commit before previous enables another round of the transformation
+from recent commit "error: Avoid unnecessary error_propagate() after
+error_setg()".
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- block/parallels.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/acpi/core.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 9e85ab995e..3c22dfdc9d 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -839,6 +839,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-                                        &local_err);
-     g_free(buf);
-     if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-         goto fail_options;
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 91ae66b806..f6d9ec4f13 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -239,7 +239,6 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+ void acpi_table_add(const QemuOpts *opts, Error **errp)
+ {
+     AcpiTableOptions *hdrs = NULL;
+-    Error *err = NULL;
+     char **pathnames = NULL;
+     char **cur;
+     size_t bloblen = 0;
+@@ -257,13 +256,13 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+         goto out;
+     }
+     if (hdrs->has_file == hdrs->has_data) {
+-        error_setg(&err, "'-acpitable' requires one of 'data' or 'file'");
++        error_setg(errp, "'-acpitable' requires one of 'data' or 'file'");
+         goto out;
      }
  
-@@ -868,15 +869,11 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+     pathnames = g_strsplit(hdrs->has_file ? hdrs->file : hdrs->data, ":", 0);
+     if (pathnames == NULL || pathnames[0] == NULL) {
+-        error_setg(&err, "'-acpitable' requires at least one pathname");
++        error_setg(errp, "'-acpitable' requires at least one pathname");
+         goto out;
+     }
  
- fail_format:
-     error_setg(errp, "Image not in Parallels format");
-+fail_options:
-     ret = -EINVAL;
- fail:
-     qemu_vfree(s->header);
-     return ret;
+@@ -272,7 +271,7 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+         int fd = open(*cur, O_RDONLY | O_BINARY);
+ 
+         if (fd < 0) {
+-            error_setg(&err, "can't open file %s: %s", *cur, strerror(errno));
++            error_setg(errp, "can't open file %s: %s", *cur, strerror(errno));
+             goto out;
+         }
+ 
+@@ -288,8 +287,8 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+                 memcpy(blob + bloblen, data, r);
+                 bloblen += r;
+             } else if (errno != EINTR) {
+-                error_setg(&err, "can't read file %s: %s",
+-                           *cur, strerror(errno));
++                error_setg(errp, "can't read file %s: %s", *cur,
++                           strerror(errno));
+                 close(fd);
+                 goto out;
+             }
+@@ -298,14 +297,12 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+         close(fd);
+     }
+ 
+-    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, &err);
++    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, errp);
+ 
+ out:
+     g_free(blob);
+     g_strfreev(pathnames);
+     qapi_free_AcpiTableOptions(hdrs);
 -
--fail_options:
--    error_propagate(errp, local_err);
--    ret = -EINVAL;
--    goto fail;
+-    error_propagate(errp, err);
  }
  
- 
+ unsigned acpi_table_len(void *current)
 -- 
 2.26.2
 
