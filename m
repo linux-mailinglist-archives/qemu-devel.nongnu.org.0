@@ -2,89 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A532096F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:14:39 +0200 (CEST)
-Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D943D20974A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:58:56 +0200 (CEST)
+Received: from localhost ([::1]:34350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEbG-0004mF-0O
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
+	id 1joFI7-00071j-H0
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUH-000154-Vy
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37558
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUG-0001jn-7q
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593040043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hGOMsAz9jdPgrKOCTlRHBfJs9awMvv/tzRGS1Q+Bj0g=;
- b=breEcmMozFn9a8FATfx+0BLDBRjsEhJDzIBT4OEbIs/uC4OVKt8cl0XIoI0GGqfIXdr4aL
- CyoVJn/W2QEdS03YwNw1BkkRPLoea0Z6QouVvAXWfkFAzwLeXjcvhGSNzQTqdN+DWDZu6/
- R53o7kDScKJ+PzvFJUkgoqpyd+lM/70=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-tQQugGMjPtqcGeW6nmlCOg-1; Wed, 24 Jun 2020 19:07:21 -0400
-X-MC-Unique: tQQugGMjPtqcGeW6nmlCOg-1
-Received: by mail-wm1-f71.google.com with SMTP id g124so4625921wmg.6
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:07:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hGOMsAz9jdPgrKOCTlRHBfJs9awMvv/tzRGS1Q+Bj0g=;
- b=e0B7nyiUrzfFjG6xsTW3PXH0YhsHsrYBe74I1EKFCECcebKooGQ9432hZWEUsLznxm
- nT9AJO1QEcZtV+T6kMlwZm+OBShitpjeBkQiq9BMjM9WoeYqMk+I6WYzV73HGv7AjpnB
- DvssZcQN1233dT/a5oXeEgZMofquVdTSH0cl5TQs6zz1cHUncU9PapLsDOFFxHEzFJ3M
- U9vSBGrQCPgnc3efZxg4owHJqj5nrE1AZIDoWLZb2rBLxNrmCEv93bF94/sErCSJb6PS
- wVl5gg4tK2esVeOn5usDNWM5R2jOTMZlNo3Mr/++ik+e2RdKLqJrKwjIeCp9J/3EBEGQ
- yaCQ==
-X-Gm-Message-State: AOAM532TUs4SUo2XnZb8N+W5Prl//8wh4jXadMkxyxEqJf+PBfXBhlz2
- kBlZNZEH9FK3MYqxygo5nWlw5ZNvcpZuUjD10XjD9YI86YQg2nGPfRBfiag4pl89DMccxPgUtHR
- neWCVBOw8xKtetso=
-X-Received: by 2002:a1c:3286:: with SMTP id y128mr104740wmy.29.1593040040306; 
- Wed, 24 Jun 2020 16:07:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvTsWAdEV23Qi4p4iyVTBg+1P1PR552XP5IZOvvNde2i4Mf0xk9dTqVIxw67NbJOKXU5h9aw==
-X-Received: by 2002:a1c:3286:: with SMTP id y128mr104728wmy.29.1593040040120; 
- Wed, 24 Jun 2020 16:07:20 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
- by smtp.gmail.com with ESMTPSA id
- b201sm10008014wmb.36.2020.06.24.16.07.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 16:07:19 -0700 (PDT)
-Date: Wed, 24 Jun 2020 19:07:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/19] tests: disassemble-asm.sh: generate AML in readable
- format
-Message-ID: <20200624230609.703104-20-mst@redhat.com>
-References: <20200624230609.703104-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1joFHB-0006YA-4P; Wed, 24 Jun 2020 19:57:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:34073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1joFH6-0005om-Pe; Wed, 24 Jun 2020 19:57:56 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49sg7Z2q8Dz9sSJ; Thu, 25 Jun 2020 09:57:46 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1593043066;
+ bh=12SKb6jH9jIYr/S4C6HT0G6nynuue0FDaWRhRv+cjdM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WmNHOnpoZ/QsKHhzpZ9LL59O9sagB3zZqM4xIQ9+p35H3RCQujIoxQ5I1t1ecMrHY
+ ShAC8P1lN5mj5CPqiJEE3EV+0M2+utHNw3EqsRvpQn8nGLco7Dh5LLUISExaK7n1Mq
+ esd3Bl6mRO6qDdihXxT7zPaIg6KKn9Iapo2TBRjY=
+Date: Thu, 25 Jun 2020 09:54:04 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 04/46] macio: Tidy up error handling in
+ macio_newworld_realize()
+Message-ID: <20200624235404.GA69292@umbus.fritz.box>
+References: <20200624164344.3778251-1-armbru@redhat.com>
+ <20200624164344.3778251-5-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200624164344.3778251-5-armbru@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,81 +62,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On systems where the IASL tool exists, we can convert
-extected ACPI tables to ASL format, which is useful
-for debugging and documentation purposes.
-This script does this for all ACPI tables under tests/data/acpi/.
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/data/acpi/disassemle-aml.sh | 52 +++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100755 tests/data/acpi/disassemle-aml.sh
+--4Ckj6UjgE2iN1+kY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/data/acpi/disassemle-aml.sh b/tests/data/acpi/disassemle-aml.sh
-new file mode 100755
-index 0000000000..1d8a4d0301
---- /dev/null
-+++ b/tests/data/acpi/disassemle-aml.sh
-@@ -0,0 +1,52 @@
-+#!/usr/bin/bash
-+
-+outdir=
-+while getopts "o:" arg; do
-+  case ${arg} in
-+    o )
-+        outdir=$OPTARG
-+        ;;
-+    \? )
-+        echo "Usage: ./tests/data/acpi/disassemle-aml.sh [-o <output-directory>]"
-+        exit 1
-+        ;;
-+
-+  esac
-+done
-+
-+for machine in tests/data/acpi/*
-+do
-+    if [[ ! -d "$machine" ]];
-+    then
-+        continue
-+    fi
-+
-+    if [[ "${outdir}" ]];
-+    then
-+        mkdir -p "${outdir}"/${machine} || exit $?
-+    fi
-+    for aml in $machine/*
-+    do
-+        if [[ "$aml" == $machine/*.dsl ]];
-+        then
-+            continue
-+        fi
-+        if [[ "$aml" == $machine/SSDT*.* ]];
-+        then
-+            dsdt=${aml/SSDT*./DSDT.}
-+            extra="-e ${dsdt}"
-+        elif [[ "$aml" == $machine/SSDT* ]];
-+        then
-+            dsdt=${aml/SSDT*/DSDT};
-+            extra="-e ${dsdt}"
-+        else
-+            extra=""
-+        fi
-+        asl=${aml}.dsl
-+        if [[ "${outdir}" ]];
-+        then
-+            asl="${outdir}"/${machine}/${asl}
-+        fi
-+        iasl -d -p ${asl} ${extra} ${aml}
-+    done
-+done
--- 
-MST
+On Wed, Jun 24, 2020 at 06:43:02PM +0200, Markus Armbruster wrote:
+> macio_newworld_realize() effectively ignores ns->gpio realization
+> errors, leaking the Error object.  Fortunately, macio_gpio_realize()
+> can't actually fail.  Tidy up.
+>=20
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/misc/macio/macio.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 7cfe357cc4..bedf10e77b 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -329,7 +329,9 @@ static void macio_newworld_realize(PCIDevice *d, Erro=
+r **errp)
+>                                   &error_abort);
+>          memory_region_add_subregion(&s->bar, 0x50,
+>                                      sysbus_mmio_get_region(sysbus_dev, 0=
+));
+> -        qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), &err);
+> +        if (!qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), errp)) {
+> +            return;
+> +        }
+> =20
+>          /* PMU */
+>          object_initialize_child(OBJECT(s), "pmu", &s->pmu, TYPE_VIA_PMU);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4Ckj6UjgE2iN1+kY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7z55kACgkQbDjKyiDZ
+s5IoJQ//Vew1DK+VFsP5JXc6B8+P+xqU/SCn7tc+Qiz42gtH+4CK8NNCJgHG7Ras
+J/uBNB2TxXYf5c30M5gfmeztcNzMrGPj/abf8Ly3dUvmkFbRJRvhrvxjo2erND7F
+XOx8kSdJE8jizqKoJVoUm7Bdg1BI0V7SiWUVxfOxIo/RQHM8maUggaXMLxBxAN86
+gM5orQoTFnjIKGcjnePL4ue9RAPYZ2+wIarWe3BqDmbC2P+M3rgXaY6m0XjrkaSY
+GHu57W/nz2udYhu446rSjqhxVNwg2OtqNrZHkyOcOkvHViU40mE7PIrJ+5VPZnEb
+DNn3x6+g77K8Gphc/443VwODDYmJhJ7agHinpW3h8cc4iU3EILBaRfQyf8y1cNYg
+BG2yAjmZwhULYLNot9Kp7VfwuMIoqU0A1setHBiAZpuSYZG5kRfj0GPRLBRl75oN
+lnZaUK3IKKDWvlq55jA5dZO4s855pe/pz/XBF78wBVZVf7ScFGm1U8r3acSqs+aP
+YJ9i0cK7fi9DhJpSS/l9xJBht5+kAt/MGuPVJWdF9Az+3+r+pRe02Hih84YjEO+C
+Zdq3iFRgsmUSFk8KzXMFILsAOqScXmKU2YJxuEkSzae3/S5BCWxwvSCX3MZribNR
+qiVGxEmjSBfTyY/zIZuVKRfvGdc2npoW/x9lH4njnXKWwMZb0FQ=
+=O1ui
+-----END PGP SIGNATURE-----
+
+--4Ckj6UjgE2iN1+kY--
 
