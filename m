@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E482096EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:09:47 +0200 (CEST)
-Received: from localhost ([::1]:49248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599352096E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:08:38 +0200 (CEST)
+Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEWY-00042y-Tr
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:09:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
+	id 1joEVR-0001mS-9o
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETY-0008FP-SO
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:41 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59127
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETa-0008Fz-AQ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52292
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETV-0001FL-OA
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:40 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETY-0001Gx-4d
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593039996;
+ s=mimecast20190719; t=1593039998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yEBYz/1rOCc1PXQNYXHobgljmWeZgraW/Nx26o3Lqgc=;
- b=SiPchCM3pKMfdHqr/vozTJga0lhPkaANCSsSccPYee2DY+6YLLD18WaDVuzgSfVye1J7Kv
- Ujfy05ByiAtOv2vcS3MuBpRX9Bbim+pJOaJ6IlgEDSSnxIuc01YtDkxxZ8aPOmdJUQKrJ4
- xgJjitSx1dnpODOx19dmfsU9U61XoME=
+ bh=unmpPZT+vnpLsu4lIIaVV67y5xez7uhexAq7iIY4vXw=;
+ b=HPyfhcGybRlHNBhyZIiHiIfSltFGmNezUlfQAwqZYY6wJutmXe0UARZMohIX9UXCz6/05r
+ fvbTByQ1atJNvHdwbkE1kJA5ciSdYr+TJzrJ7yKulLaYsycyzbYElRE4SunBKef9/u+8bA
+ N+KUaxxNAq9FmSmhNiI5JAwlMTW8G+Y=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-sSiZUijPP6C3qDywOTEpvQ-1; Wed, 24 Jun 2020 19:06:33 -0400
-X-MC-Unique: sSiZUijPP6C3qDywOTEpvQ-1
-Received: by mail-wm1-f70.google.com with SMTP id g187so4665061wme.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:06:33 -0700 (PDT)
+ us-mta-330-7CInZu-9OlScFJTzELXy9w-1; Wed, 24 Jun 2020 19:06:36 -0400
+X-MC-Unique: 7CInZu-9OlScFJTzELXy9w-1
+Received: by mail-wm1-f70.google.com with SMTP id a7so4655299wmf.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:06:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yEBYz/1rOCc1PXQNYXHobgljmWeZgraW/Nx26o3Lqgc=;
- b=a6OBDVAR9ZG5HPpGGLMpL7lBBDwVIST0AygteiL+LMIWpf2R0ffX2JRyNs+CHsOrkm
- 3qabw0bFu5I6JZaDUe+3Tsqe9ZqtdOYS2uXQt4rJK0erUj7vI8laBlT5DDBDadKZUSvl
- /RFmUHLCgGN9/ntY1wKo2p3/XBZSWmbHltGAnh500yDDitepXoqBNpe4PWeqbxHkJf0P
- dQJj5knUhy1w0TggWvL1dRa0qKBwVhhwK4cmCvE1eVyeZ76vau+7dBBoSb65ktLsAIgx
- hcAE/wO1ziGegu8qdKCg34D83ja+BSIdh9v+rzZQM+cVTRcFf+/nVoHHYoXmybFRuYds
- Z1rQ==
-X-Gm-Message-State: AOAM533lLwFNVpEa1oznRjUbzBAne8Ya1GC7Y44RPIk1Ko8FHspY8XYr
- c8EdzzCfleakfueia5thGTWiErqKokaLyKwzn+NU3VeNzspWdRetOmoTLqKwyxzgAivUwEg12f0
- Mgv6D2qFecRr2Aek=
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr32849297wrt.174.1593039992425; 
- Wed, 24 Jun 2020 16:06:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkpBhYqoNFCWvxqzVFvefHVuz9Owc83laJA9ZQUI/co/ll1ZIUNGqyLO5yLI7014U4c4Ok6w==
-X-Received: by 2002:a5d:6107:: with SMTP id v7mr32849281wrt.174.1593039992233; 
- Wed, 24 Jun 2020 16:06:32 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=unmpPZT+vnpLsu4lIIaVV67y5xez7uhexAq7iIY4vXw=;
+ b=FD2NJwh/PSug/16H8U4aX1t2ySOy2Lptn5ZnAhsyEyxcjz0cixHJTQGI8lCRFl0k2+
+ A7Zi0Y9Bz/3BV1FQ6XynrF3SQj37hgl1AYq/4DmTvyN31S2vljX6YmAu9uxEfn0SQuwb
+ ybebHZTXHDqRcwHV+OJsF1ASLz2Cjeain1x3qsBKNl8b7DpjAFpkcX+EgsqcyYNR5SXM
+ G5fIbMrTUY77buG4TP3Y7J61xNHIWcQDFE/SN/2E7JKux4YJTJ1AlK3KFkxGK6CzjLQU
+ qMXV7gbiwC/z5DNSeB8/BShT2tsQtmd72ZzSrmI2apX6ByUWZyfSRssUrX7rkcAHZYkk
+ vLCA==
+X-Gm-Message-State: AOAM530U2FpJabFC7Al6MmBqvhDrUizSjWgkdSDBpVG5tEFoIlXfxx9E
+ jHwlIhH64tkNHeufvzAz7DYBp4fAgG//4nhSQpvs3XWaMWdZWuBvvL/NCe9Fj6BX10Un2sPxt8K
+ IrCgPBjmshfum2Ng=
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr36125726wrs.229.1593039995232; 
+ Wed, 24 Jun 2020 16:06:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKCZlW+0JXE9TiCemf/+lstqFrAJ86Pr8zhKuKa52H9sHan2LZflf1+KahV2APOTnzIkhwTw==
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr36125708wrs.229.1593039995044; 
+ Wed, 24 Jun 2020 16:06:35 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- t16sm7036094wru.9.2020.06.24.16.06.31
+ u23sm15316490wru.94.2020.06.24.16.06.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 16:06:31 -0700 (PDT)
-Date: Wed, 24 Jun 2020 19:06:30 -0400
+ Wed, 24 Jun 2020 16:06:34 -0700 (PDT)
+Date: Wed, 24 Jun 2020 19:06:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] qtest: allow DSDT acpi table changes
-Message-ID: <20200624230609.703104-2-mst@redhat.com>
+Subject: [PULL 02/19] acpi: bios-tables-test: show more context on asl diffs
+Message-ID: <20200624230609.703104-3-mst@redhat.com>
 References: <20200624230609.703104-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -96,45 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
+Makes it easier to create good commit messages from the logs.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20200619091905.21676-2-kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200619091905.21676-3-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ tests/qtest/bios-tables-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..8992f1f12b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,19 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index b482f76c03..c315156858 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -469,7 +469,7 @@ static void test_acpi_asl(test_data *data)
+                 fflush(stderr);
+                 if (getenv("V")) {
+                     const char *diff_env = getenv("DIFF");
+-                    const char *diff_cmd = diff_env ? diff_env : "diff -u";
++                    const char *diff_cmd = diff_env ? diff_env : "diff -U 16";
+                     char *diff = g_strdup_printf("%s %s %s", diff_cmd,
+                                                  exp_sdt->asl_file, sdt->asl_file);
+                     int out = dup(STDOUT_FILENO);
 -- 
 MST
 
