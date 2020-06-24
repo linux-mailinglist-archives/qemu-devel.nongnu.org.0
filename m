@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC52C2071A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:57:33 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BA120719A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:55:49 +0200 (CEST)
+Received: from localhost ([::1]:39466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo35w-0005Aa-MX
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
+	id 1jo34G-0001KB-I6
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zs-0001Ki-1j
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57765
- helo=us-smtp-1.mimecast.com)
+ id 1jo2zp-0001Fn-MB
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:13 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48884
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zp-0001Mv-5i
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:15 -0400
+ id 1jo2zo-0001LN-0J
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995872;
+ s=mimecast20190719; t=1592995871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jfWmKVtlzJzmVnGlIOqAhf5WncSgnYrib8hvRbYqs8c=;
- b=VlNQIRIQ/00p8RkIeg1A74XqzmJ6irR4hKyZp10mxhN8rO/VDgF/DVpO6mqgZdPOaSMBwR
- CbF90AHPRQOh1txKlhy/Yub8Exyeh2gUUTRNgcS83t+kw8BOuwetaQFP1AZJznoZQWqA/y
- GsaNlgmG0OXqgQ/m73Epp3GogAgzjVw=
+ bh=H+cbiqYq0hNFS8+FwJ9cxkuuBaGT82Zfy+RO0yEZGfA=;
+ b=GU4lpgBg7ZfEJi73oUVSzkVIFTfRiZNRLUg8phjGZYM2i/q5jqfJMCHPQ3FsthBEnVAJ6t
+ Qv9wLsdXnUu2wiXL3NI7CI6Bk1ooEypNpIwVdVvnraRgtQIFQ2FEOj6NLnE/ATCNq6ck23
+ x1OmMoxTJ46d/pCsGF+B0M/Yr05uMWA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-zlVWYBeWMImNMkGWZ_7LJQ-1; Wed, 24 Jun 2020 06:51:08 -0400
-X-MC-Unique: zlVWYBeWMImNMkGWZ_7LJQ-1
+ us-mta-287-nR_LEMVLPuqIMn-pN1MAZg-1; Wed, 24 Jun 2020 06:51:08 -0400
+X-MC-Unique: nR_LEMVLPuqIMn-pN1MAZg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477CF8015F6;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBD31107ACF8;
  Wed, 24 Jun 2020 10:51:07 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE84B5D9C5;
- Wed, 24 Jun 2020 10:51:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E6414F6A8;
+ Wed, 24 Jun 2020 10:51:07 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/31] softfloat: do not return pseudo-denormal from floatx80
+Subject: [PULL 18/31] softfloat: do not set denominator high bit for floatx80
  remainder
-Date: Wed, 24 Jun 2020 06:50:34 -0400
-Message-Id: <20200624105048.375353-17-pbonzini@redhat.com>
+Date: Wed, 24 Jun 2020 06:50:35 -0400
+Message-Id: <20200624105048.375353-18-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,74 +88,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The floatx80 remainder implementation sometimes returns the numerator
-unchanged when the denominator is sufficiently larger than the
-numerator.  But if the value to be returned unchanged is a
-pseudo-denormal, that is incorrect.  Fix it to normalize the numerator
-in that case.
+The floatx80 remainder implementation unnecessarily sets the high bit
+of bSig explicitly.  By that point in the function, arguments that are
+invalid, zero, infinity or NaN have already been handled and
+subnormals have been through normalizeFloatx80Subnormal, so the high
+bit will already be set.  Remove the unnecessary code.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <alpine.DEB.2.21.2006081655520.23637@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2006081656220.23637@digraph.polyomino.org.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- fpu/softfloat.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ fpu/softfloat.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index f164b5c0ad..ab50088c35 100644
+index ab50088c35..1ee3342715 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -5706,7 +5706,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-                          float_status *status)
- {
-     bool aSign, zSign;
--    int32_t aExp, bExp, expDiff;
-+    int32_t aExp, bExp, expDiff, aExpOrig;
-     uint64_t aSig0, aSig1, bSig;
-     uint64_t q, term0, term1, alternateASig0, alternateASig1;
- 
-@@ -5715,7 +5715,7 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-         return floatx80_default_nan(status);
+@@ -5751,7 +5751,6 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+         if ( aSig0 == 0 ) return a;
+         normalizeFloatx80Subnormal( aSig0, &aExp, &aSig0 );
      }
-     aSig0 = extractFloatx80Frac( a );
--    aExp = extractFloatx80Exp( a );
-+    aExpOrig = aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
-     bSig = extractFloatx80Frac( b );
-     bExp = extractFloatx80Exp( b );
-@@ -5730,6 +5730,13 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
-         if ((uint64_t)(bSig << 1)) {
-             return propagateFloatx80NaN(a, b, status);
-         }
-+        if (aExp == 0 && aSig0 >> 63) {
-+            /*
-+             * Pseudo-denormal argument must be returned in normalized
-+             * form.
-+             */
-+            return packFloatx80(aSign, 1, aSig0);
-+        }
-         return a;
-     }
-     if ( bExp == 0 ) {
-@@ -5749,7 +5756,16 @@ floatx80 floatx80_modrem(floatx80 a, floatx80 b, bool mod,
+-    bSig |= UINT64_C(0x8000000000000000);
+     zSign = aSign;
      expDiff = aExp - bExp;
      aSig1 = 0;
-     if ( expDiff < 0 ) {
--        if ( mod || expDiff < -1 ) return a;
-+        if ( mod || expDiff < -1 ) {
-+            if (aExp == 1 && aExpOrig == 0) {
-+                /*
-+                 * Pseudo-denormal argument must be returned in
-+                 * normalized form.
-+                 */
-+                return packFloatx80(aSign, aExp, aSig0);
-+            }
-+            return a;
-+        }
-         shift128Right( aSig0, 0, 1, &aSig0, &aSig1 );
-         expDiff = 0;
-     }
 -- 
 2.26.2
 
