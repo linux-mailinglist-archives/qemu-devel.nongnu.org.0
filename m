@@ -2,65 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8862079E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:07:57 +0200 (CEST)
-Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A6D2079F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:10:07 +0200 (CEST)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo8sO-000223-RM
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1jo8uU-0005Tc-1M
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jo8fc-0005N7-60; Wed, 24 Jun 2020 12:54:44 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:39782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jo8fa-0001aW-F9; Wed, 24 Jun 2020 12:54:43 -0400
-Received: by mail-ed1-f68.google.com with SMTP id g1so2015486edv.6;
- Wed, 24 Jun 2020 09:54:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo8iz-0003Ti-0V
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:58:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55429
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo8iw-0003KI-Pi
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:58:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593017889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z+LP2F32fk/QU8Knd2vnQ9qxRC0G4rjxcCGR/GDMa2I=;
+ b=HkyzO4xHi35vDoEMp+sZbVWFHYqU5LXo+tKEiVE9xDciKnWK2UfxZFNJKh76nmWE3Okggo
+ 7FKkH3WEyKImZtSsdRY4xxPtjIHQfsQgI4JrqEk3HsQrst6wanBsRSgWUzyWELPdu6E+fB
+ pLEeROZclhiH6RhMizS2FKebt2aJ9/4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-SKywMzeXNT-iqnkDpCFRig-1; Wed, 24 Jun 2020 12:58:07 -0400
+X-MC-Unique: SKywMzeXNT-iqnkDpCFRig-1
+Received: by mail-wm1-f70.google.com with SMTP id h25so5070972wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 09:58:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a6S4bFuq2ksSYnhHtpwRXYgyoZWUl1SmVKgAtXplKrg=;
- b=fItONiZaafpOPdAlp3tJzUto5PiC1AIn0jW8KE+Wc2DIkxRiARWFWTGmSmP754fWKn
- /buvRB6lNHaikKwn4FPEHXnli/wHVuVGphSw9XzxsbaUx0Xh1/iJBisvWsfKMamFYcfb
- lrHCJnmSnMIy1WxChWv+yDPUaxF3JxY9J3JXpbf/u9rSOKL1fREdtWNaRZAAwGmXYEWd
- gChsO4DAXjUSILrpfCKLMiJtrbEgTQWPC2ajCdDfkJiorbFRN/7+ApBSaS4LmtbkKmWL
- lII4/kfaVixsdur/gYI/kZDYEmxfx4/UhAx64gLr7K8CUhNytDCWEbIuSEZNAYDhjCOQ
- TG1w==
-X-Gm-Message-State: AOAM532ZSvYZY8bVm5d8LVo5GMPq3chj2q4GJMde7U70rHA1/b3NkjQw
- xLBmTjmg6qv3qzAwuqruVNbmSnga0WjzVAvUjnw=
-X-Google-Smtp-Source: ABdhPJyIbeH/uMHKa3eVyADG8s9vwe3k01Kdmkx7V4urSTcWwfKcoluL/vtzOuzQy5W3e1s/vTPQiQP981EAvAIyeTs=
-X-Received: by 2002:a50:fa8d:: with SMTP id w13mr28138716edr.324.1593017680589; 
- Wed, 24 Jun 2020 09:54:40 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z+LP2F32fk/QU8Knd2vnQ9qxRC0G4rjxcCGR/GDMa2I=;
+ b=tQ9EOq6zRyt3kpn0ngc7iWaT4QLSbIx2HYMQqVHFgPRZ50iaDf/gMargZr4eHmrDln
+ j1JTTxbIDtclEldZ5q5o+k6hNma/5RElHiBHScCpqVk7PfxBKoNcLt5bv8ffMDyAun8E
+ WPy76J0FEdiWEjavZoTZh03bgRUVcXig0Y3/nkMiZxexFXgNNhtgd1ouqNYa3vxXGD9I
+ PSO3oa9Lz1pGyU7femQLMBIp2tjehiq1/qdQPL6M/VNddcwClcHkt75H/QoZYAEbxT+P
+ KPLIKh8Smx9syXO7XO2zMgt6a0Wwgr7sKEet42YsQb7x/ieMipsbRQt2fajdiFAqVCT+
+ intA==
+X-Gm-Message-State: AOAM533He2lKTDLncV6fDioYbH+W1/vQrvhJXaeWphdXhnsJA/hwNf4h
+ 0D7YkHZIQAy7w/5bGuxHJj0BQdeKGRt3VGaQmaJp++tEz6Vf8UNLrYMBNs4jguiVpU3zJ6OGzVa
+ Zf6aukUTXsj25s7Y=
+X-Received: by 2002:adf:fe46:: with SMTP id m6mr19686769wrs.192.1593017886567; 
+ Wed, 24 Jun 2020 09:58:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx90PW8SRWVsX5lvPn0sfau+jJxcVJtJI9QTQDhNf+Fo5UiBsyOpKJG4TV8jBdAa2N3edsAgQ==
+X-Received: by 2002:adf:fe46:: with SMTP id m6mr19686752wrs.192.1593017886343; 
+ Wed, 24 Jun 2020 09:58:06 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.253.55])
+ by smtp.gmail.com with ESMTPSA id p4sm17720374wrx.63.2020.06.24.09.58.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Jun 2020 09:58:05 -0700 (PDT)
+Subject: Re: [PATCH 00/46] Less clumsy error checking
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200624164344.3778251-1-armbru@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9cf09e59-9617-f27b-6011-e735f01eba9a@redhat.com>
+Date: Wed, 24 Jun 2020 18:58:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200620225854.31160-1-f4bug@amsat.org>
- <20200620225854.31160-7-f4bug@amsat.org>
- <38918d0a-272f-c05c-6a03-c6ddd8cc592e@kaod.org>
- <a046bcd2-1937-d971-8a1c-23fae0dfc9b1@amsat.org>
-In-Reply-To: <a046bcd2-1937-d971-8a1c-23fae0dfc9b1@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Wed, 24 Jun 2020 18:54:29 +0200
-Message-ID: <CAAdtpL4vFQaD_7uUvVAOy34ySXrZCQWnALM9=FOfVZo3750ufg@mail.gmail.com>
-Subject: Re: [PATCH v4 6/8] hw/arm/aspeed: Describe each PCA9552 device
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.208.68;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-f68.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 12:54:40
+In-Reply-To: <20200624164344.3778251-1-armbru@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,30 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Corey Minyard <cminyard@mvista.com>,
- qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi C=C3=A9dric,
+On 24/06/20 18:42, Markus Armbruster wrote:
+> When the Error API was created, we adopted the (unwritten) rule to
+> return void when the function returns no useful value on success,
+> unlike GError, which recommends to return true on success and false on
+> error then.
 
-On Mon, Jun 22, 2020 at 10:35 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
-> On 6/22/20 8:49 AM, C=C3=A9dric Le Goater wrote:
-> > On 6/21/20 12:58 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> We have 2 distinct PCA9552 devices. Set their description
-> >> to distinguish them when looking at the trace events.
-> >
-> > It's nice and usefull but couldn't we do the same with a QOM object nam=
-e ?
->
-> qdev inherits QOM and overloads it with the qdev_ API.
-> Since we have a qdev object, isn't it better to use the qdev_ API?
->
-> I'd keep the QOM API for bare QOM objects.(I find confusing to use
-> different APIs).
+I was actually never aware of the GError rule, but I, for one, welcome
+our new bool overlords.
 
-FYI you can get an idea of the QOM -> qdev -> sysbus -> ... tree here:
-https://observablehq.com/@philmd/qemu-aarch64-softmmu-qom-tree
+Paolo
+
 
