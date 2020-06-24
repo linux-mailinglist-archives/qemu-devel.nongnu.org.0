@@ -2,122 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA5A207466
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:26:08 +0200 (CEST)
-Received: from localhost ([::1]:35404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F98207484
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:30:11 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo5Pj-0006BJ-Dd
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45964)
+	id 1jo5Te-0003GB-HK
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:30:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jo5Ot-0005hE-5k
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:25:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46785
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jo5Qs-0007k0-TQ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:27:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38045
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jo5Oq-0000v0-ON
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:25:14 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jo5QK-0001cV-AN
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:27:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593005111;
+ s=mimecast20190719; t=1593005201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Rd6FbrLNcjT+8fBhd5ysRRBjX9NzfZ/4et6Yapu02mQ=;
- b=ii+7254+yqdTrhwTufVhJd9hECYSiQwUfviL1cZc8kSO17nxSuGcoSJiSfyjVAfZgQ/dC6
- Erp/NJ6ggL973YjkAScxDbiRQL9a/b7yspY1FKFhiCeeulKsmqmZGu+m2HvcOjunJ/DpRF
- JWstd5+LZbikA4Zyz9Cu2wl0vdcrjpo=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gF9CwaZhuNz4IeFQ2iNOrO1saBngybkxqVrsttmO9Oo=;
+ b=Bzryc86cer1mqLD7inb4di9lSzlMEpccNe3Tjbu6mh8ywar9boORqUkNWHDAGE5g1tQi2B
+ 8Ep5WU0GOaVQmCQVO9a6XGqLxgIR6Vu+7RyaJu4Q3btngVk1HK/dXu3BKiZCfapykFEkXk
+ yANeVPkywMOjdZSTNcRatwu13LGUkRk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-ZIbBzWjxO9y7DRU9AreblA-1; Wed, 24 Jun 2020 09:25:09 -0400
-X-MC-Unique: ZIbBzWjxO9y7DRU9AreblA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-137-I_UBtH1APby7vV67wrzsPQ-1; Wed, 24 Jun 2020 09:26:40 -0400
+X-MC-Unique: I_UBtH1APby7vV67wrzsPQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17622800D5C;
- Wed, 24 Jun 2020 13:25:07 +0000 (UTC)
-Received: from [10.36.112.159] (ovpn-112-159.ams2.redhat.com [10.36.112.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04EB61C8;
- Wed, 24 Jun 2020 13:24:51 +0000 (UTC)
-Subject: Re: [PATCH v1 04/10] virtio-pci: implement queue_enabled method
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
- eblake@redhat.com, cohuck@redhat.com, jasowang@redhat.com
-References: <20200622153756.19189-1-lulu@redhat.com>
- <20200622153756.19189-5-lulu@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <2a5cf3dd-4dcd-e807-c28a-aaf2a901e8f8@redhat.com>
-Date: Wed, 24 Jun 2020 15:24:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7712EC1A4;
+ Wed, 24 Jun 2020 13:26:38 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61D7710016DA;
+ Wed, 24 Jun 2020 13:26:27 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
+ armbru@redhat.com, pbonzini@redhat.com, jean-philippe@linaro.org,
+ bbhushan2@marvell.com, peterx@redhat.com
+Subject: [PATCH v5 0/5] VIRTIO-IOMMU probe request support and MSI bypass on
+ ARM
+Date: Wed, 24 Jun 2020 15:26:20 +0200
+Message-Id: <20200624132625.27453-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200622153756.19189-5-lulu@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lvivier@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -138,54 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, maxime.coquelin@redhat.com, hch@infradead.org,
- eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
- aadam@redhat.com, rdunlap@infradead.org, hanand@xilinx.com,
- lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/2020 17:37, Cindy Lu wrote:
-> From: Jason Wang <jasowang@redhat.com>
-> 
-> With version 1, we can detect whether a queue is enabled via
-> queue_enabled.
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-> ---
->  hw/virtio/virtio-pci.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 4cb784389c..3918aa9f6c 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1107,6 +1107,23 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
->      return pci_get_address_space(dev);
->  }
->  
-> +static bool  virtio_queue_check_enabled(VirtIODevice *vdev, int n)
-> +{
-> +    return  virtio_queue_get_desc_addr(vdev, n) != 0;
-> +}
+By default the virtio-iommu translates MSI transactions. This
+behavior is inherited from ARM SMMU. However the virt machine
+code knows where the MSI doorbells are, so we can easily
+declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+setting the guest iommu subsystem will not need to map MSIs.
+This setup will simplify the VFIO integration.
 
-This function is already defined under a different name in
-hw/virtio/virtio.c:
+In this series, the ITS or GICV2M doorbells are declared as
+HW MSI regions to be bypassed by the VIRTIO-IOMMU.
+
+This also paves the way to the x86 integration where the MSI
+region, [0xFEE00000,0xFEEFFFFF], will be exposed by the q35
+machine.  However this will be handled in a separate series
+when not-DT support gets resolved.
+
+Best Regards
+
+Eric
+
+This series can be found at:
+https://github.com/eauger/qemu/tree/v5.0.0-virtio-iommu-msi-bypass-v5
+
+History:
+
+v4 -> v5:
+- Take into account some additional comments from Markus:
+  - reserved region type becomes an unsigned + some comment/desc
+    rewording
+  - assert if the type is not RESERVED or MSI
+
+v3 -> v4:
+- collected Jean and markus's R-bs
+- tool into account all Markus' comments in [1/5] (except removal of
+  goto)
+- use ':' as delimitor instead of commas
+- add example in 4/5 commit message as suggested by Markus
+
+v2 -> v3:
+- Introduce VIRT_MSI_CTRL_NONE in VirtMSIControllerType
+- do not fill the remainder of the probe buffer
+
+v1 -> v2:
+- check which MSI controller is in use and advertise the
+  corresponding MSI doorbell
+- managed for both ITS and GICv2M
+- various fixes spotted by Peter and Jean-Philippe, see
+  individual logs
+
+v1: Most of those patches were respinned from
+  [PATCH for-5.0 v11 00/20] VIRTIO-IOMMU device
+  except the last one which is new
 
 
-   3287 bool virtio_queue_enabled(VirtIODevice *vdev, int n)
-   3288 {
-   3289     return virtio_queue_get_desc_addr(vdev, n) != 0;
-   3290 }
+Eric Auger (5):
+  qdev: Introduce DEFINE_PROP_RESERVED_REGION
+  virtio-iommu: Implement RESV_MEM probe request
+  virtio-iommu: Handle reserved regions in the translation process
+  virtio-iommu-pci: Add array of Interval properties
+  hw/arm/virt: Let the virtio-iommu bypass MSIs
 
-As this file includes "hw/virtio/virtio.h" you can use it directly.
+ include/exec/memory.h            |   6 ++
+ include/hw/arm/virt.h            |   7 ++
+ include/hw/qdev-properties.h     |   3 +
+ include/hw/virtio/virtio-iommu.h |   2 +
+ include/qemu/typedefs.h          |   1 +
+ hw/arm/virt.c                    |  18 +++++
+ hw/core/qdev-properties.c        |  89 ++++++++++++++++++++++++
+ hw/virtio/virtio-iommu-pci.c     |   3 +
+ hw/virtio/virtio-iommu.c         | 112 +++++++++++++++++++++++++++++--
+ hw/virtio/trace-events           |   1 +
+ 10 files changed, 238 insertions(+), 4 deletions(-)
 
-Thanks,
-Laurent
+-- 
+2.20.1
 
 
