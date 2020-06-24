@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3373020970A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:20:16 +0200 (CEST)
-Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A532096F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:14:39 +0200 (CEST)
+Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEgh-00045y-9X
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
+	id 1joEbG-0004mF-0O
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUG-00010w-NT
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:24 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50652
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUH-000154-Vy
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:26 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37558
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUD-0001iW-UD
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUG-0001jn-7q
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593040041;
+ s=mimecast20190719; t=1593040043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O1Pk0uuKND2QavcxSvQGg35kYy9TBUCkwDwrM5cX6Tw=;
- b=C3JT2nP8cXRzRRIdxPn6Qhi40ayUiXBlF+js6U+2AkcUUdv+6lvZiXUGTzOT2hhX7i01mD
- xeQkj+nLJBG6P2slnQAWdS4TT37+T72S6nmLKXYozdx5nFfOAZwAJrIaR+0RK1VHDNsiU0
- sewW6mqvOqZxn9rI4wS4oy6iIHz5+jM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-l9ig1ZxqNXm2V0eMMTKsHQ-1; Wed, 24 Jun 2020 19:07:19 -0400
-X-MC-Unique: l9ig1ZxqNXm2V0eMMTKsHQ-1
-Received: by mail-wm1-f69.google.com with SMTP id o13so4787495wmh.9
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:07:19 -0700 (PDT)
+ bh=hGOMsAz9jdPgrKOCTlRHBfJs9awMvv/tzRGS1Q+Bj0g=;
+ b=breEcmMozFn9a8FATfx+0BLDBRjsEhJDzIBT4OEbIs/uC4OVKt8cl0XIoI0GGqfIXdr4aL
+ CyoVJn/W2QEdS03YwNw1BkkRPLoea0Z6QouVvAXWfkFAzwLeXjcvhGSNzQTqdN+DWDZu6/
+ R53o7kDScKJ+PzvFJUkgoqpyd+lM/70=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-57-tQQugGMjPtqcGeW6nmlCOg-1; Wed, 24 Jun 2020 19:07:21 -0400
+X-MC-Unique: tQQugGMjPtqcGeW6nmlCOg-1
+Received: by mail-wm1-f71.google.com with SMTP id g124so4625921wmg.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:07:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=O1Pk0uuKND2QavcxSvQGg35kYy9TBUCkwDwrM5cX6Tw=;
- b=LSWTe2UfcvoUi5ttR4hRk9WkQ/b3UgBeM4nQnosuIrxfsqVP8k0yPKmZLfW4L5ud5O
- fnLtn7k4lH4F8y9UB+3Bln+53xiAaglid78lpXRt+XDLsvIZNPDP5oYYD2aNOzlG2Pul
- L9I0MQED+YASunT2uZ4odCkzsPN+FsOx2Wtva8ekdaFgmWzo3wO81+4sxxRY+RNyCgVk
- wIQfPHYnWP8dFBn6Eipod7PG8cJ9c4rcnGxbO6klrTAMko3R3OOZr/KmkQQwCzDWgKO1
- 8EskdIqLLtrhpL2O+CZc4+SnAD61X6Ka+4WV7PYzgv0OYZxrGw/3IhHoICIVt5zM8oRx
- oWRQ==
-X-Gm-Message-State: AOAM5325kudeVl4GJd8S8ISvdH6ygQ2zzr46C8UezqXgDRg5TJFPvT/m
- QM9rJyVRmS19CyKEnQWq4ylIJ8kq3a2zbzZnI05W3sfVXVnGh4meLfTrSGHN4gatznpLTacpMDj
- 8yP8z3592Ndue2Xk=
-X-Received: by 2002:a1c:9ad8:: with SMTP id c207mr100879wme.45.1593040038028; 
- Wed, 24 Jun 2020 16:07:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5k3ZVx6jwJ4pTZntrtJ2ymfH21rA0QK7PB/58sNX0lJBZnypz7rwZtBxI6hxb/y30pTX+PA==
-X-Received: by 2002:a1c:9ad8:: with SMTP id c207mr100852wme.45.1593040037802; 
- Wed, 24 Jun 2020 16:07:17 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=hGOMsAz9jdPgrKOCTlRHBfJs9awMvv/tzRGS1Q+Bj0g=;
+ b=e0B7nyiUrzfFjG6xsTW3PXH0YhsHsrYBe74I1EKFCECcebKooGQ9432hZWEUsLznxm
+ nT9AJO1QEcZtV+T6kMlwZm+OBShitpjeBkQiq9BMjM9WoeYqMk+I6WYzV73HGv7AjpnB
+ DvssZcQN1233dT/a5oXeEgZMofquVdTSH0cl5TQs6zz1cHUncU9PapLsDOFFxHEzFJ3M
+ U9vSBGrQCPgnc3efZxg4owHJqj5nrE1AZIDoWLZb2rBLxNrmCEv93bF94/sErCSJb6PS
+ wVl5gg4tK2esVeOn5usDNWM5R2jOTMZlNo3Mr/++ik+e2RdKLqJrKwjIeCp9J/3EBEGQ
+ yaCQ==
+X-Gm-Message-State: AOAM532TUs4SUo2XnZb8N+W5Prl//8wh4jXadMkxyxEqJf+PBfXBhlz2
+ kBlZNZEH9FK3MYqxygo5nWlw5ZNvcpZuUjD10XjD9YI86YQg2nGPfRBfiag4pl89DMccxPgUtHR
+ neWCVBOw8xKtetso=
+X-Received: by 2002:a1c:3286:: with SMTP id y128mr104740wmy.29.1593040040306; 
+ Wed, 24 Jun 2020 16:07:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvTsWAdEV23Qi4p4iyVTBg+1P1PR552XP5IZOvvNde2i4Mf0xk9dTqVIxw67NbJOKXU5h9aw==
+X-Received: by 2002:a1c:3286:: with SMTP id y128mr104728wmy.29.1593040040120; 
+ Wed, 24 Jun 2020 16:07:20 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- l17sm10210326wmh.14.2020.06.24.16.07.16
+ b201sm10008014wmb.36.2020.06.24.16.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 16:07:17 -0700 (PDT)
-Date: Wed, 24 Jun 2020 19:07:15 -0400
+ Wed, 24 Jun 2020 16:07:19 -0700 (PDT)
+Date: Wed, 24 Jun 2020 19:07:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/19] tests/qtest/bios-tables: Only run the TPM test with
- CONFIG_TPM enabled
-Message-ID: <20200624230609.703104-19-mst@redhat.com>
+Subject: [PULL 19/19] tests: disassemble-asm.sh: generate AML in readable
+ format
+Message-ID: <20200624230609.703104-20-mst@redhat.com>
 References: <20200624230609.703104-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,65 +97,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- eric.auger@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On systems where the IASL tool exists, we can convert
+extected ACPI tables to ASL format, which is useful
+for debugging and documentation purposes.
+This script does this for all ACPI tables under tests/data/acpi/.
 
-"make check-qtest" currently fails if configure has been run with
-"--disable-tpm" - the TPM-related tests can only work if the TPM is
-enabled in the build. So let's use the CONFIG_TPM switch to disable
-the test if TPM is not available.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200615125402.12898-1-thuth@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Fixes: 5da7c35e25 ("bios-tables-test: Add Q35/TPM-TIS test")
-Cc: eric.auger@redhat.com
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/data/acpi/disassemle-aml.sh | 52 +++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100755 tests/data/acpi/disassemle-aml.sh
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index c315156858..3bd57b830d 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -877,6 +877,8 @@ static void test_acpi_piix4_tcg_numamem(void)
-     free_test_data(&data);
- }
- 
-+#ifdef CONFIG_TPM
+diff --git a/tests/data/acpi/disassemle-aml.sh b/tests/data/acpi/disassemle-aml.sh
+new file mode 100755
+index 0000000000..1d8a4d0301
+--- /dev/null
++++ b/tests/data/acpi/disassemle-aml.sh
+@@ -0,0 +1,52 @@
++#!/usr/bin/bash
 +
- uint64_t tpm_tis_base_addr;
- 
- static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
-@@ -935,6 +937,8 @@ static void test_acpi_q35_tcg_tpm_tis(void)
-     test_acpi_tcg_tpm("q35", "tis", 0xFED40000);
- }
- 
-+#endif /* CONFIG_TPM */
++outdir=
++while getopts "o:" arg; do
++  case ${arg} in
++    o )
++        outdir=$OPTARG
++        ;;
++    \? )
++        echo "Usage: ./tests/data/acpi/disassemle-aml.sh [-o <output-directory>]"
++        exit 1
++        ;;
 +
- static void test_acpi_tcg_dimm_pxm(const char *machine)
- {
-     test_data data;
-@@ -1098,7 +1102,9 @@ int main(int argc, char *argv[])
-             return ret;
-         }
- 
-+#ifdef CONFIG_TPM
-         qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
-+#endif
-         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
++  esac
++done
++
++for machine in tests/data/acpi/*
++do
++    if [[ ! -d "$machine" ]];
++    then
++        continue
++    fi
++
++    if [[ "${outdir}" ]];
++    then
++        mkdir -p "${outdir}"/${machine} || exit $?
++    fi
++    for aml in $machine/*
++    do
++        if [[ "$aml" == $machine/*.dsl ]];
++        then
++            continue
++        fi
++        if [[ "$aml" == $machine/SSDT*.* ]];
++        then
++            dsdt=${aml/SSDT*./DSDT.}
++            extra="-e ${dsdt}"
++        elif [[ "$aml" == $machine/SSDT* ]];
++        then
++            dsdt=${aml/SSDT*/DSDT};
++            extra="-e ${dsdt}"
++        else
++            extra=""
++        fi
++        asl=${aml}.dsl
++        if [[ "${outdir}" ]];
++        then
++            asl="${outdir}"/${machine}/${asl}
++        fi
++        iasl -d -p ${asl} ${extra} ${aml}
++    done
++done
 -- 
 MST
 
