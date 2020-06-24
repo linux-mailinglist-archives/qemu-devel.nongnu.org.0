@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40F0206989
+	by mail.lfdr.de (Postfix) with ESMTPS id BB43F206988
 	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 03:34:13 +0200 (CEST)
-Received: from localhost ([::1]:45150 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jnuIm-0001VG-TG
+	id 1jnuIm-0001Va-On
 	for lists+qemu-devel@lfdr.de; Tue, 23 Jun 2020 21:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jnuGz-0000EQ-Qj
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 21:32:21 -0400
-Received: from mga03.intel.com ([134.134.136.65]:58217)
+ id 1jnuH1-0000Ep-L3
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 21:32:23 -0400
+Received: from mga03.intel.com ([134.134.136.65]:58215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jnuGx-0002af-AD
- for qemu-devel@nongnu.org; Tue, 23 Jun 2020 21:32:21 -0400
-IronPort-SDR: LuR3P0MInfLU/J8JRRzRzfYJsD0yGjEwnLgS15mw/r4GKtJeRQ2nwn12vw+GQnxCWqF9dfue8H
- 2kAY6rkWJJ0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="144319727"
-X-IronPort-AV: E=Sophos;i="5.75,273,1589266800"; d="scan'208";a="144319727"
+ id 1jnuGz-0002a3-Uo
+ for qemu-devel@nongnu.org; Tue, 23 Jun 2020 21:32:23 -0400
+IronPort-SDR: nKoUSOM9ofhw6yPCKt39dV8rZX9mbHrDeLVyxZT/z3piRvXkwA4LldgwfH5wouSjK/2QA9WvwF
+ K9L5C3hv04BQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="144319744"
+X-IronPort-AV: E=Sophos;i="5.75,273,1589266800"; d="scan'208";a="144319744"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2020 18:32:14 -0700
-IronPort-SDR: VoDCI8H/nIAzDa+L1ilJIv3Jh9WOK+9LOqnTDOrbiA5SJoIi/Q6m2Bi9INrZ7OyBMNa3fmCsD6
- 3Pngvc01kDlQ==
+ 23 Jun 2020 18:32:15 -0700
+IronPort-SDR: rLJ+ITA6vmTLSKuaxhDYCLDvWvbmE3Kv9BG7xsl6nDH8Bv3xN5qP/tBn4Swy9m5Uz3ThMQ7ZPc
+ M6PTN1rEIwfA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,273,1589266800"; d="scan'208";a="301458055"
+X-IronPort-AV: E=Sophos;i="5.75,273,1589266800"; d="scan'208";a="301458060"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga004.fm.intel.com with ESMTP; 23 Jun 2020 18:32:12 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 23 Jun 2020 18:32:14 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V2 1/2] net/colo-compare.c: Expose compare "max_queue_size" to
- users
-Date: Wed, 24 Jun 2020 09:20:41 +0800
-Message-Id: <20200624012042.29355-2-chen.zhang@intel.com>
+Subject: [PATCH V2 2/2] qemu-options.hx: Clean up and fix typo for colo-compare
+Date: Wed, 24 Jun 2020 09:20:42 +0800
+Message-Id: <20200624012042.29355-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200624012042.29355-1-chen.zhang@intel.com>
 References: <20200624012042.29355-1-chen.zhang@intel.com>
@@ -72,119 +71,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-This patch allow users to set the "max_queue_size" according
-to their environment.
+Fix some typo and optimized some descriptions.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
- qemu-options.hx    |  5 +++--
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ qemu-options.hx | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index f15779dedc..ed9cf5d3c4 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -59,6 +59,7 @@ static bool colo_compare_active;
- static QemuMutex event_mtx;
- static QemuCond event_complete_cond;
- static int event_unhandled_count;
-+static uint32_t max_queue_size;
- 
- /*
-  *  + CompareState ++
-@@ -222,7 +223,7 @@ static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
-  */
- static int colo_insert_packet(GQueue *queue, Packet *pkt, uint32_t *max_ack)
- {
--    if (g_queue_get_length(queue) <= MAX_QUEUE_SIZE) {
-+    if (g_queue_get_length(queue) <= max_queue_size) {
-         if (pkt->ip->ip_p == IPPROTO_TCP) {
-             fill_pkt_tcp_info(pkt, max_ack);
-             g_queue_insert_sorted(queue,
-@@ -1144,6 +1145,37 @@ out:
-     error_propagate(errp, local_err);
- }
- 
-+static void get_max_queue_size(Object *obj, Visitor *v,
-+                               const char *name, void *opaque,
-+                               Error **errp)
-+{
-+    uint32_t value = max_queue_size;
-+
-+    visit_type_uint32(v, name, &value, errp);
-+}
-+
-+static void set_max_queue_size(Object *obj, Visitor *v,
-+                               const char *name, void *opaque,
-+                               Error **errp)
-+{
-+    Error *local_err = NULL;
-+    uint32_t value;
-+
-+    visit_type_uint32(v, name, &value, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-+    if (!value) {
-+        error_setg(&local_err, "Property '%s.%s' requires a positive value",
-+                   object_get_typename(obj), name);
-+        goto out;
-+    }
-+    max_queue_size = value;
-+
-+out:
-+    error_propagate(errp, local_err);
-+}
-+
- static void compare_pri_rs_finalize(SocketReadState *pri_rs)
- {
-     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
-@@ -1261,6 +1293,11 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-         s->expired_scan_cycle = REGULAR_PACKET_CHECK_MS;
-     }
- 
-+    if (!max_queue_size) {
-+        /* Set default queue size to 1024 */
-+        max_queue_size = MAX_QUEUE_SIZE;
-+    }
-+
-     if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
-         !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
-         return;
-@@ -1380,6 +1417,10 @@ static void colo_compare_init(Object *obj)
-                         compare_get_expired_scan_cycle,
-                         compare_set_expired_scan_cycle, NULL, NULL);
- 
-+    object_property_add(obj, "max_queue_size", "uint32",
-+                        get_max_queue_size,
-+                        set_max_queue_size, NULL, NULL);
-+
-     s->vnet_hdr = false;
-     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
-                              compare_set_vnet_hdr);
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 93bde2bbc8..3ee19a4b0d 100644
+index 3ee19a4b0d..aa7ffb34db 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4639,7 +4639,7 @@ SRST
-         stored. The file format is libpcap, so it can be analyzed with
+@@ -4640,24 +4640,24 @@ SRST
          tools such as tcpdump or Wireshark.
  
--    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}``
-+    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
-         Colo-compare gets packet from primary\_inchardevid and
-         secondary\_inchardevid, than compare primary packet with
-         secondary packet. If the packets are same, we will output
-@@ -4651,7 +4651,8 @@ SRST
-         vnet\_hdr\_len. Then compare\_timeout=@var{ms} determines the
-         maximum delay colo-compare wait for the packet.
-         The expired\_scan\_cycle=@var{ms} to set the period of scanning
--        expired primary node network packets.
-+        expired primary node network packets. The max\_queue\_size=@var{size}
-+        is to set the max compare queue size depend on user environment.
-         If you want to use Xen COLO, will need the notify\_dev to
+     ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+-        Colo-compare gets packet from primary\_inchardevid and
+-        secondary\_inchardevid, than compare primary packet with
+-        secondary packet. If the packets are same, we will output
+-        primary packet to outdevchardevid, else we will notify
+-        colo-frame do checkpoint and send primary packet to
+-        outdevchardevid. In order to improve efficiency, we need to put
+-        the task of comparison in another thread. If it has the
+-        vnet\_hdr\_support flag, colo compare will send/recv packet with
+-        vnet\_hdr\_len. Then compare\_timeout=@var{ms} determines the
+-        maximum delay colo-compare wait for the packet.
+-        The expired\_scan\_cycle=@var{ms} to set the period of scanning
+-        expired primary node network packets. The max\_queue\_size=@var{size}
+-        is to set the max compare queue size depend on user environment.
+-        If you want to use Xen COLO, will need the notify\_dev to
++        Colo-compare gets packet from primary\_in chardevid and
++        secondary\_in, then compare whether the payload of primary packet
++        and secondary packet are the same. If same, it will output
++        primary packet to out\_dev, else it will notify COLO-framework to do
++        checkpoint and send primary packet to out\_dev. In order to
++        improve efficiency, we need to put the task of comparison in
++        another iothread. If it has the vnet\_hdr\_support flag,
++        colo compare will send/recv packet with vnet\_hdr\_len.
++        The compare\_timeout=@var{ms} determines the maximum time of the
++        colo-compare hold the packet. The expired\_scan\_cycle=@var{ms}
++        is to set the period of scanning expired primary node network packets.
++        The max\_queue\_size=@var{size} is to set the max compare queue
++        size depend on user environment.
++        If user want to use Xen COLO, need to add the notify\_dev to
          notify Xen colo-frame to do checkpoint.
+ 
+-        we must use it with the help of filter-mirror and
+-        filter-redirector.
++        COLO-compare must be used with the help of filter-mirror,
++        filter-redirector and filter-rewriter.
+ 
+         ::
  
 -- 
 2.17.1
