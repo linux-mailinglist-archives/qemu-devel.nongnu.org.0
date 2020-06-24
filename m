@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B02A207BF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:03:22 +0200 (CEST)
-Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF51207C03
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:08:28 +0200 (CEST)
+Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAg5-0006Oy-HA
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
+	id 1joAl2-000654-1S
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAcF-0000qp-Uf
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27527
- helo=us-smtp-1.mimecast.com)
+ id 1joAd9-000367-AG
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25442
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAcE-0004Fz-Br
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:23 -0400
+ id 1joAd7-0004Tu-9C
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:00:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025161;
+ s=mimecast20190719; t=1593025216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CgriznhCwBvOMRtD3ME0+7TKcTKrwTT32cTqkPHSJ5w=;
- b=WbqQjejMmpTHGuU8RNq7Ylu9JotPnrHLGatk9SweKqAbCbA2bGiPx43AbY7idcbvBTFSxG
- LBrQdlzk4CiN+D7QrQ550GwGb0HZn0fnFgCHK1/a2DzPK3FwDi7RWclNFNV9rkAtWciXH5
- 7OG3wtwyfUrJNZnmfSO8oNydt8NL9z8=
+ bh=8UDbZPa3zDEE1UUML1O45YWn6QN5yhBRLIdhQszmnhc=;
+ b=ZfAsh+mXoMkAcSPUxFO2dKoo+G9J1jhW6d9tbqEsV1TWQszmzlR/MnqZtht6PJk6nrSTJ8
+ 0GgD47igCBx0qiGT7P27ZuAixM9e2bST/7bh+AL6m+yYce5d2UUW08q9KzAbxTi8wiWYtM
+ N45gY+qllwRJV6J62RZuErd/EuTe+P8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-h8ko6v1-MzGQWjn6wd2BVg-1; Wed, 24 Jun 2020 14:58:06 -0400
-X-MC-Unique: h8ko6v1-MzGQWjn6wd2BVg-1
+ us-mta-47-uoT3h1jvPJyFg3Z9Fd8K9A-1; Wed, 24 Jun 2020 14:58:11 -0400
+X-MC-Unique: uoT3h1jvPJyFg3Z9Fd8K9A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 067AEC7451;
- Wed, 24 Jun 2020 18:58:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BE03800C60;
+ Wed, 24 Jun 2020 18:58:10 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.74.8.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 233017931E;
- Wed, 24 Jun 2020 18:57:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A12441DC;
+ Wed, 24 Jun 2020 18:58:05 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 3/9] vfio: add quirk device write method
-Date: Thu, 25 Jun 2020 00:25:17 +0530
-Message-Id: <20200624185523.762240-4-ppandit@redhat.com>
+Subject: [PATCH v2 4/9] prep: add ppc-parity write method
+Date: Thu, 25 Jun 2020 00:25:18 +0530
+Message-Id: <20200624185523.762240-5-ppandit@redhat.com>
 In-Reply-To: <20200624185523.762240-1-ppandit@redhat.com>
 References: <20200624185523.762240-1-ppandit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=ppandit@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,46 +93,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add vfio quirk device mmio write method to avoid NULL pointer
-dereference issue.
+Add ppc-parity mmio write method to avoid NULL pointer dereference
+issue.
 
 Reported-by: Lei Sun <slei.casper@gmail.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/vfio/pci-quirks.c | 8 ++++++++
+ hw/ppc/prep_systemio.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 Update v2: use LOG_GUEST_ERROR
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg04962.html
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg04975.html
 
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index d304c81148..cc6d5dbc23 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -14,6 +14,7 @@
- #include "config-devices.h"
- #include "exec/memop.h"
- #include "qemu/units.h"
+diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
+index bbc51b6e9a..03a2f8af6e 100644
+--- a/hw/ppc/prep_systemio.c
++++ b/hw/ppc/prep_systemio.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
 +#include "qemu/log.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -264,8 +265,15 @@ static uint64_t vfio_ati_3c3_quirk_read(void *opaque,
-     return data;
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+@@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
+     return val;
  }
  
-+static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
-+                                        uint64_t data, unsigned size)
++static void ppc_parity_error_writel(void *opaque, hwaddr addr,
++                                    uint64_t data, unsigned size)
 +{
 +    qemu_log_mask(LOG_GUEST_ERROR, "%s not implemented\n", __func__);
 +}
 +
- static const MemoryRegionOps vfio_ati_3c3_quirk = {
-     .read = vfio_ati_3c3_quirk_read,
-+    .write = vfio_ati_3c3_quirk_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
+ static const MemoryRegionOps ppc_parity_error_ops = {
+     .read = ppc_parity_error_readl,
++    .write = ppc_parity_error_writel,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4,
 -- 
 2.26.2
 
