@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0804A20799D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 18:53:52 +0200 (CEST)
-Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62D72079A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 18:56:07 +0200 (CEST)
+Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo8ek-0002q9-Ot
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 12:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1jo8gw-00077N-KV
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 12:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VM-0003Re-Am
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41537
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VP-0003c7-DL
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34036
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VA-00055s-RP
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VB-00056M-Fk
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593017034;
+ s=mimecast20190719; t=1593017035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eGOq8fnUQZlei51A7RHg6OWdweGXDeqrTWKxfQptO+A=;
- b=Zzwdh7XXTlMkI1cxra8nVGREBbAHzWuZ0leApSfWr/Uv0C5+JFK2ciD9vai0CL88r6Iqcz
- BZb0FIKmuprjzkQ/KNIn0DgTBzYxzddCsJtcFlXKFGpwPhGC8n67jYryav60imE4JmDQEC
- +SkgJLFjj2Kq6NCncSGoJ/HkP5+7bQY=
+ bh=FPq2iv74dsQvgHFb01XzjeadwCrO+anYdxmLICI4q2c=;
+ b=i/kuv/EO+7RKgKHgUtFHifV4Mt2R2MFlcvJKQ86SDQBhVE+ZjmVOm5g8ZgFLjiNIvUm/qN
+ PZ8zq4Ors4lPB6IqosD/Piz9BMoo0QLrCYlZufxPDztIt/p3oRb7DET6jPtyn5WeyDzXry
+ DtyF7E68H2aS3TgDmjbw8IbztqfIfKk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-Os9XWQabMEiyT_G-XxCINA-1; Wed, 24 Jun 2020 12:43:51 -0400
-X-MC-Unique: Os9XWQabMEiyT_G-XxCINA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-295-UbMIj7PNPTaFFiR9Ed4m7A-1; Wed, 24 Jun 2020 12:43:52 -0400
+X-MC-Unique: UbMIj7PNPTaFFiR9Ed4m7A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DD662DA1;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E39F4804006;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 677BE79317;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0FD55D9C5;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 46C4B1138488; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
+ id 5136D113848B; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/46] qapi: Purge error_propagate() from QAPI core
-Date: Wed, 24 Jun 2020 18:43:25 +0200
-Message-Id: <20200624164344.3778251-28-armbru@redhat.com>
+Subject: [PATCH 30/46] s390x/pci: Fix harmless mistake in zpci's property
+ fid's setter
+Date: Wed, 24 Jun 2020 18:43:28 +0200
+Message-Id: <20200624164344.3778251-31-armbru@redhat.com>
 In-Reply-To: <20200624164344.3778251-1-armbru@redhat.com>
 References: <20200624164344.3778251-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,116 +82,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
+ ehabkost@redhat.com, qemu-block@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ pbonzini@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+s390_pci_set_fid() sets zpci->fid_defined to true even when
+visit_type_uint32() failed.  Reproducer: "-device zpci,fid=junk".
+Harmless in practice, because qdev_device_add() then fails, throwing
+away @zpci.  Fix it anyway.
+
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/qapi-visit-core.c | 40 +++++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
+ hw/s390x/s390-pci-bus.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 5a9c47aabf..7e5f40e7f0 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -39,19 +39,18 @@ void visit_free(Visitor *v)
- bool visit_start_struct(Visitor *v, const char *name, void **obj,
-                         size_t size, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index be8535304e..2e0eab1c69 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -1265,7 +1265,9 @@ static void s390_pci_set_fid(Object *obj, Visitor *v, const char *name,
+         return;
+     }
  
-     trace_visit_start_struct(v, name, obj, size);
-     if (obj) {
-         assert(size);
-         assert(!(v->type & VISITOR_OUTPUT) || *obj);
-     }
--    v->start_struct(v, name, obj, size, &err);
-+    ok = v->start_struct(v, name, obj, size, errp);
-     if (obj && (v->type & VISITOR_INPUT)) {
--        assert(!err != !*obj);
-+        assert(ok != !*obj);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
+-    visit_type_uint32(v, name, ptr, errp);
++    if (!visit_type_uint32(v, name, ptr, errp)) {
++        return;
++    }
+     zpci->fid_defined = true;
  }
  
- bool visit_check_struct(Visitor *v, Error **errp)
-@@ -69,16 +68,15 @@ void visit_end_struct(Visitor *v, void **obj)
- bool visit_start_list(Visitor *v, const char *name, GenericList **list,
-                       size_t size, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(!list || size >= sizeof(GenericList));
-     trace_visit_start_list(v, name, list, size);
--    v->start_list(v, name, list, size, &err);
-+    ok = v->start_list(v, name, list, size, errp);
-     if (list && (v->type & VISITOR_INPUT)) {
--        assert(!(err && *list));
-+        assert(ok || !*list);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t size)
-@@ -104,19 +102,20 @@ bool visit_start_alternate(Visitor *v, const char *name,
-                            GenericAlternate **obj, size_t size,
-                            Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(obj && size >= sizeof(GenericAlternate));
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-     trace_visit_start_alternate(v, name, obj, size);
--    if (v->start_alternate) {
--        v->start_alternate(v, name, obj, size, &err);
-+    if (!v->start_alternate) {
-+        assert(!(v->type & VISITOR_INPUT));
-+        return true;
-     }
-+    ok = v->start_alternate(v, name, obj, size, errp);
-     if (v->type & VISITOR_INPUT) {
--        assert(v->start_alternate && !err != !*obj);
-+        assert(ok != !*obj);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- void visit_end_alternate(Visitor *v, void **obj)
-@@ -309,7 +308,7 @@ bool visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
- 
- bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
- {
--    Error *err = NULL;
-+    bool ok;
- 
-     assert(obj);
-     /* TODO: Fix callers to not pass NULL when they mean "", so that we
-@@ -317,12 +316,11 @@ bool visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-      */
-     trace_visit_type_str(v, name, obj);
--    v->type_str(v, name, obj, &err);
-+    ok = v->type_str(v, name, obj, errp);
-     if (v->type & VISITOR_INPUT) {
--        assert(!err != !*obj);
-+        assert(ok != !*obj);
-     }
--    error_propagate(errp, err);
--    return !err;
-+    return ok;
- }
- 
- bool visit_type_number(Visitor *v, const char *name, double *obj,
 -- 
 2.26.2
 
