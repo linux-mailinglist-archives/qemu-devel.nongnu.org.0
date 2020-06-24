@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE25207208
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:28:29 +0200 (CEST)
-Received: from localhost ([::1]:59836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5D120720E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:29:45 +0200 (CEST)
+Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3Zs-0008C4-7D
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39374)
+	id 1jo3b6-00026E-Hi
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yf-0006ec-12
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:13 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39589)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yh-0006iR-Q5
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:15 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:36075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yd-00075C-G1
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:12 -0400
-Received: by mail-lf1-x141.google.com with SMTP id d21so1075124lfb.6
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yd-00075G-QN
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:15 -0400
+Received: by mail-lj1-x244.google.com with SMTP id i3so2153207ljg.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9/cGYk8trZnOQeKgj1xBJl7f5Cw2cPfzBLUfudUzD3c=;
- b=sIPZIAuNZiXEDyN1TxOn4tPZAYCim2vo9BuEXeEJk5+7LkIkPf2C3JIoIbbAFV3r1g
- fXW4cc0lLfNqNMa//dJmNbiv7lHgu1XuA8/d2YsixQEEIQM6f3oVASsimeXWUVZWL7vl
- VPcLMhPqfckUzkDh3yM3A8c9g15ofclQ+35Y8ra6f5M3Ai1Qk5mteIPQQ0VT2tqoS3g8
- AJFMVcgwbA+ljmMC++dgfv0BEil/BFnTntDdA7LfYMz/PcI8CAXMA8kYlKGSBXgLzNke
- zM+asQWUic5vv6Tu11PaozdITgYu1mnDmP3wgI/VaFLaG+mNmW/oijPwCdKYy1CO/Y6n
- 5xjw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=v/NS9YgRb0NXpU+G0HRMzylRBMOp+QQCcs98Z10vCR8=;
+ b=LFN4WrbTHl5vTrshZmaHadc0Qnsu1rytPPNixo8yLuTJ0WR1ijl63DEZgCnk/QNNdw
+ PNshVgPMrZWHF8ifp2ujUEf8SAquKwpZaivE1wZG5cYOCaazc6zzB8dYllCXgZcXh1+P
+ P0aJK6U6RkOCRgb7PFxiPgRd/Saa5QAzCMVKZkO78wSKlILRza8Zz/mlXrM1cleZFa7Z
+ SmPKUtLNFREi/1/FtvRo5niRFRgQATsREoGR12/GXPMjvxOoS4Fo0UdOr4QstkyieCUT
+ NZe+WPaEO2Cl3T0YwzhnLcm0TpokHeX9prQ87EfJGiP2uPKEPw96p9RKWGva0QQvi67p
+ eyyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9/cGYk8trZnOQeKgj1xBJl7f5Cw2cPfzBLUfudUzD3c=;
- b=FnyBPhGnQq2voX83yRJNuIyN66hkU3FpmbqNiULw1FwLQJDfsulKXvsHtLaTbRFYUe
- MoS8GhWhm0NKhuO3/mBnG6BckDSRGO3UGS5vMgTRqxfzaLiHcYjEJdS52sHnUsMTvCqi
- 048+TK2lpd4IS2VlxhGTD6pXy3F8gYd3fv/VXPy7s+IrD+a/G7ZSF1l1Dhkzm8RfLGUN
- /F2ISnQf2fOqRMiowRL54esvFi6F4my97NqTxUf+I4nF81ico0E+c/ZFCeOprBc1+6eC
- dkPZprj/YXGhz5uCrQwXmy9cJK1m+iPsHsrNlAlb/8yQjmKMxrkYs35VOcnfh1Hkxus7
- 6eMA==
-X-Gm-Message-State: AOAM5329RIa/cRmAy+BfREhHrEoNXBfE3pFHK2Rlb0Pv2C1KVXnXx5PQ
- AQ14Rhdi7TJ4oiBX2On+e/dktu/TbSNcUA==
-X-Google-Smtp-Source: ABdhPJx7yqPZyhnEK4n7zlIAeK3I9EbHlBBRZY0Y9L7iUr2mDkygi6dHWfxUGEMPMy7/ITUrGJ3jZg==
-X-Received: by 2002:a19:c8c2:: with SMTP id y185mr15276087lff.52.1592998028913; 
- Wed, 24 Jun 2020 04:27:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=v/NS9YgRb0NXpU+G0HRMzylRBMOp+QQCcs98Z10vCR8=;
+ b=fEnpsfSKTS84b9j72RdL1TlIgIz0pIsD6J5YMC9v7Y4wY6SJMcCJhdJwkZdPQdPm12
+ oiPai0vvkYCND3UFin8D3E3v7SG02Uq7rNCn/xKc+64e4coZS9YbnvHROkYmHAcD0Zft
+ aT6XEeBjrAhA6zX68lRXaRY4NVbidsRHEgz+Cl5j8F38bite+v9OsoD5H/jDYUsyqNzN
+ AmsRpzWzVo5eQj0uq/KzQurMJNQLCOIJU/fX2/VF0Og7HgUy8GtcgH1iViCv1EHtG574
+ UPtfj1Em/evJGkZo947jVEr+zdiF78Id3m8RoxWZS6PYXBYBr7eSVOjps3b3/5nduVVc
+ gu9g==
+X-Gm-Message-State: AOAM531teGV6pYCa/XYmXajpDyPiqn0eYuElcB7J8EyPQK2ea2a+J44+
+ llTgKtBd1fOdegGtoX6ksQn+fhGCmAg3VQ==
+X-Google-Smtp-Source: ABdhPJzqr/1zZummamrFZO2v2riepgtsy9VSAyfbkr8HQKRT0QJRwTd6aw1WRXQYI5IM9+/6iow9tg==
+X-Received: by 2002:a2e:3a17:: with SMTP id h23mr13128295lja.7.1592998029809; 
+ Wed, 24 Jun 2020 04:27:09 -0700 (PDT)
 Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
  [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id d6sm1202635lja.77.2020.06.24.04.27.07
+ by smtp.gmail.com with ESMTPSA id d6sm1202635lja.77.2020.06.24.04.27.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 04:27:08 -0700 (PDT)
+ Wed, 24 Jun 2020 04:27:09 -0700 (PDT)
 From: Szymon Lukasz <noh4hss@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] virtio-console: notify about the terminal size
-Date: Wed, 24 Jun 2020 13:26:34 +0200
-Message-Id: <20200624112640.82673-1-noh4hss@gmail.com>
+Subject: [PATCH v2 1/6] main-loop: change the handling of SIGWINCH
+Date: Wed, 24 Jun 2020 13:26:35 +0200
+Message-Id: <20200624112640.82673-2-noh4hss@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200624112640.82673-1-noh4hss@gmail.com>
+References: <20200624112640.82673-1-noh4hss@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=noh4hss@gmail.com; helo=mail-lf1-x141.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=noh4hss@gmail.com; helo=mail-lj1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,63 +89,112 @@ Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The goal of this series is to have a resizable terminal into a guest
-without having to set up networking and using, e.g. ssh.
+Block SIGWINCH, so it is delivered only via signalfd.
+Install a handler that uses NotifierList to tell
+interested parties about SIGWINCH delivery.
 
-The virtio spec allows a virtio-console device to notify the guest about
-terminal resizes in the host. Linux Kernel implements the driver part of
-the spec. This series implement the device part in QEMU.
+Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
+---
+ include/qemu/main-loop.h |  4 ++++
+ ui/curses.c              | 11 ++++++-----
+ util/main-loop.c         | 21 +++++++++++++++++++++
+ 3 files changed, 31 insertions(+), 5 deletions(-)
 
-In this series resize notifications are only supported for the stdio
-backend but I think it should be easy to add support for the vc backend.
-Support for tty/serial backends is complicated by the fact that there is
-no clean way to detect resizes of the underlying terminal.
-
-Also there is a problem with the virtio spec and Linux Kernel
-implementation, the order of fields in virtio_console_resize struct
-differs between the kernel and the spec. I do not know if there is any
-implementation of the virtio-console driver that handles resize messages
-and uses a different order than Linux.
-
-
-v2:
-fix adding a new virtio feature bit to the virtio console device
-
-
-Szymon Lukasz (6):
-  main-loop: change the handling of SIGWINCH
-  chardev: add support for retrieving the terminal size
-  chardev: add support for notifying about terminal resizes
-  char-stdio: add support for the terminal size
-  virtio-serial-bus: add terminal resize messages
-  virtio-console: notify the guest about terminal resizes
-
- backends/cryptodev-vhost-user.c   |  1 +
- chardev/char-fe.c                 | 11 ++++++
- chardev/char-mux.c                |  7 ++++
- chardev/char-stdio.c              | 35 +++++++++++++++++
- chardev/char.c                    |  1 +
- hw/block/vhost-user-blk.c         |  1 +
- hw/char/terminal3270.c            |  1 +
- hw/char/trace-events              |  1 +
- hw/char/virtio-console.c          | 65 +++++++++++++++++++++++++++++--
- hw/char/virtio-serial-bus.c       | 42 +++++++++++++++++++-
- hw/core/machine.c                 |  1 +
- hw/ipmi/ipmi_bmc_extern.c         |  1 +
- hw/usb/ccid-card-passthru.c       |  1 +
- hw/usb/dev-serial.c               |  1 +
- hw/usb/redirect.c                 |  1 +
- include/chardev/char-fe.h         | 11 ++++++
- include/chardev/char.h            |  2 +
- include/hw/virtio/virtio-serial.h |  5 +++
- include/qemu/main-loop.h          |  4 ++
- monitor/hmp.c                     |  1 +
- monitor/qmp.c                     |  1 +
- net/vhost-user.c                  |  1 +
- ui/curses.c                       | 11 +++---
- util/main-loop.c                  | 21 ++++++++++
- 24 files changed, 216 insertions(+), 11 deletions(-)
-
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index a6d20b0719..f27dba1fd8 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -325,4 +325,8 @@ typedef struct MainLoopPoll {
+ void main_loop_poll_add_notifier(Notifier *notify);
+ void main_loop_poll_remove_notifier(Notifier *notify);
+ 
++#ifndef _WIN32
++void sigwinch_add_notifier(Notifier *n);
++#endif
++
+ #endif
+diff --git a/ui/curses.c b/ui/curses.c
+index a59b23a9cf..e5895d506f 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -34,6 +34,7 @@
+ #include <iconv.h>
+ 
+ #include "qapi/error.h"
++#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+@@ -146,7 +147,7 @@ static void curses_resize(DisplayChangeListener *dcl,
+ }
+ 
+ #if !defined(_WIN32) && defined(SIGWINCH) && defined(KEY_RESIZE)
+-static volatile sig_atomic_t got_sigwinch;
++static bool got_sigwinch;
+ static void curses_winch_check(void)
+ {
+     struct winsize {
+@@ -169,17 +170,17 @@ static void curses_winch_check(void)
+     invalidate = 1;
+ }
+ 
+-static void curses_winch_handler(int signum)
++static void curses_winch_handler(Notifier *n, void *data)
+ {
+     got_sigwinch = true;
+ }
+ 
+ static void curses_winch_init(void)
+ {
+-    struct sigaction old, winch = {
+-        .sa_handler  = curses_winch_handler,
++    static Notifier n = {
++        .notify = curses_winch_handler
+     };
+-    sigaction(SIGWINCH, &winch, &old);
++    sigwinch_add_notifier(&n);
+ }
+ #else
+ static void curses_winch_check(void) {}
+diff --git a/util/main-loop.c b/util/main-loop.c
+index eda63fe4e0..0f5c8f3af1 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -90,6 +90,7 @@ static int qemu_signal_init(Error **errp)
+     sigaddset(&set, SIGIO);
+     sigaddset(&set, SIGALRM);
+     sigaddset(&set, SIGBUS);
++    sigaddset(&set, SIGWINCH);
+     /* SIGINT cannot be handled via signalfd, so that ^C can be used
+      * to interrupt QEMU when it is being run under gdb.  SIGHUP and
+      * SIGTERM are also handled asynchronously, even though it is not
+@@ -111,6 +112,26 @@ static int qemu_signal_init(Error **errp)
+     return 0;
+ }
+ 
++static NotifierList sigwinch_notifiers =
++    NOTIFIER_LIST_INITIALIZER(sigwinch_notifiers);
++
++static void sigwinch_handler(int signum)
++{
++    notifier_list_notify(&sigwinch_notifiers, NULL);
++}
++
++void sigwinch_add_notifier(Notifier *n)
++{
++    if (notifier_list_empty(&sigwinch_notifiers)) {
++        struct sigaction action = {
++            .sa_handler = sigwinch_handler,
++        };
++        sigaction(SIGWINCH, &action, NULL);
++    }
++
++    notifier_list_add(&sigwinch_notifiers, n);
++}
++
+ #else /* _WIN32 */
+ 
+ static int qemu_signal_init(Error **errp)
 -- 
 2.27.0
 
