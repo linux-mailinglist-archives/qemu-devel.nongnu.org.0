@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBBF207596
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:21:47 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB8B20759B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:23:00 +0200 (CEST)
+Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo6Ha-0003Bl-Bg
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
+	id 1jo6Il-0006FW-7h
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jo6DX-0004xE-8r
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:17:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38437
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jo6DT-0007s2-HW
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:17:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593008250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SUeNPmjIjuEXiKXFTxyuFJ1oBBZ0LYUOBP3n1hqvpOA=;
- b=HfAAocpXHBMgkdo1mLTIHSmjBKzpF/QnEvFoLGpPsmyv43/EHwCfvB+HRFqSd4apzX8uFV
- oRMUPr+qLs/2PSvdpvP1V7x4fqmLGraKNzf6kP3nwaatd0pybbxqp2+Vb0SQrrFmw8094f
- X9FjkuyXKpOYw/OLD38nfpn/qV+ztkI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-ZemPtcDWNsKe9h03Nl4sjg-1; Wed, 24 Jun 2020 10:17:25 -0400
-X-MC-Unique: ZemPtcDWNsKe9h03Nl4sjg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jo6EC-0006e9-3q
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:18:16 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:44812 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jo6EA-000855-Cb
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:18:15 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id E11B04C87D;
+ Wed, 24 Jun 2020 14:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1593008289;
+ x=1594822690; bh=6QB49fEcdVYjMJyFzjzxrY6cuGEWQ8BAwBLUNLflGWE=; b=
+ uekNdOKGpEk4W9QcRO2sujaQL6khv4iN+HgtTCqBP1gTzJr2+T6FYkQKm+1nOSTy
+ J7YQe0PR6wuih4IxMXD3jY/zHGMIRtqvMzOef3tmRA5ZZJxKdTd+RPGligY3UbTT
+ ENQ84Th5r3ELycVDqPRZseSaSMPxjf/jME2/7hlSIQM=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id u_JrxUopq9FY; Wed, 24 Jun 2020 17:18:09 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3A4819057A9;
- Wed, 24 Jun 2020 14:17:24 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 720D510023A6;
- Wed, 24 Jun 2020 14:17:23 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] qom: Introduce object_property_try_add_child()
-To: Paolo Bonzini <pbonzini@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, berrange@redhat.com, ehabkost@redhat.com,
- armbru@redhat.com
-References: <20200624124301.7112-1-eric.auger@redhat.com>
- <20200624124301.7112-2-eric.auger@redhat.com>
- <1a144355-27bd-a26f-752e-00c2751d3a1f@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <2bf606dd-4ed3-ec65-3dc2-72089bc7cef5@redhat.com>
-Date: Wed, 24 Jun 2020 16:17:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mta-01.yadro.com (Postfix) with ESMTPS id 7861B47D4C;
+ Wed, 24 Jun 2020 17:18:08 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 24
+ Jun 2020 17:18:08 +0300
+Date: Wed, 24 Jun 2020 17:18:07 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC RESEND v7 0/4] QEMU cpus.c refactoring
+Message-ID: <20200624141807.GD25104@SPB-NB-133.local>
+References: <20200622134534.4418-1-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <1a144355-27bd-a26f-752e-00c2751d3a1f@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200622134534.4418-1-cfontana@suse.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 10:18:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, haxm-team@intel.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Colin Xu <colin.xu@intel.com>,
+ Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
-
-On 6/24/20 4:12 PM, Paolo Bonzini wrote:
-> On 24/06/20 14:43, Eric Auger wrote:
->> +    op = object_property_try_add(obj, name, type, object_get_child_property,
->> +                                 NULL, object_finalize_child_property,
->> +                                 child, errp);
->> +    if (!op) {
->> +        goto out;
->> +    }
->>      op->resolve = object_resolve_child_property;
->> +out:
->>      object_ref(child);
->>      child->parent = obj;
->>      return op;
+On Mon, Jun 22, 2020 at 03:45:30PM +0200, Claudio Fontana wrote:
+> Motivation and higher level steps:
 > 
-> I think if there's an error you need to return NULL without ref-ing
-> child, shouldn't you?
-hum yes you're fully right, the out label is badly placed.
+> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
 > 
-> You can then add another test that object_property_add_child succeeds
-> after object_property_try_add_child fails.
-OK
-
-Thanks
-
-Eric
+> MAIN OPEN POINTS:
 > 
-> Paolo
+> * confirmation on hvf state (Roman).
 > 
 
+Hi Claudio,
+
+I'm sorry for delay. I'm wrapping up another round of HVF cleanup that
+should make it easier to do hvf-specific changes in patch 4. I expect to
+send the cleanup series today.
+
+> * missing reviewed-by for patch 4 in the series
+> 
+
+I wonder if it would help to split patch 4 out of the series if nobody
+objects patches 1-3. At least it will be easier to rebase the last one
+alone. Then patch 4 might become a series on its own.
+
+Regards,
+Roman
 
