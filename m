@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBFE206F39
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:48:25 +0200 (CEST)
-Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 768CE206F7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:54:17 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo14y-0002KL-Ms
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:48:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
+	id 1jo1Ae-0004lC-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jo0vN-0002fk-LH
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:38:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26111
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jo0w8-0004Y8-9h
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:39:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37437
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jo0vL-0002bx-Uo
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:38:29 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jo0w5-0003FV-Us
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:39:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592987907;
+ s=mimecast20190719; t=1592987953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vB0+TGMPvFpsPFAl/NhmlTbqS5r69JrqhbMCAxJyx7I=;
- b=EKQRdFIQJt6STghHlV+83rDfq/bYPdVL0bx2+odV0+Duq9f7QBlA5EW/Wk6NYCCpbUC70b
- lp4EsytI69xG+TUhchdmrTE9YfTHZU6cq0j6VK+0HlFb9pKn12oQ7iizaMApZZ9XgB7i+1
- HeXXBcabWvoFxYiVKAcIprvWL1Okf0g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-CF6ou7qaPm6uObT894tmiQ-1; Wed, 24 Jun 2020 04:38:25 -0400
-X-MC-Unique: CF6ou7qaPm6uObT894tmiQ-1
-Received: by mail-wm1-f69.google.com with SMTP id c66so2050186wma.8
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 01:38:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=hIFhjT6uyZvlAAekKGA251eEdikZuCrpA9NtomezBN0=;
- b=lGUf91lQr2CuL6jdF8p2nkQSE2B4fwXO8LYZ2mskqsJ8P4CGn2vHRpJwligSosDhMw
- 2UpaBsKqXq3mbmQE/eWyyiC7iJ62Q9hTsdl5iwEHQQrZSlulh9dGOsxpV5pHwjSO5C8J
- 7bZQZ1rZV9s7Nsqp8tf83K/66vonfpXhRIUzlfUwqR7LEno2tIq0KIGZWwTVdSmNb2kz
- AP8b4wH55AtaaMteOLda5wWnW+ymOEXlJzubLLjXRAoK7CTaC9nxgSLVTor/2m0mBTdO
- R62CLTw6bMY5i8IfWyBROZeiQIh/3ZxpKIcQJICE2EKCy3N6DKMwn3JF19Nav6hz551F
- rK0g==
-X-Gm-Message-State: AOAM530tAunDgxFBxB9hlK291hUtmJH6ptCGQA8x5Dc8C1frGOhalb0B
- QBBwv9UKu3u6a9OsHJ23f9X/HzTWkvH7wcImy5WSpI7h0fSCeS6TPDs97mSOq/RmwAI5mD19ILK
- JmfbE4ArfOihrtbM=
-X-Received: by 2002:adf:e4d0:: with SMTP id v16mr17041841wrm.193.1592987904315; 
- Wed, 24 Jun 2020 01:38:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqu5YLR4WmNogiz7GRuotM+N0WgB8Bn92lXTIRcdpURNx5VTGFwz+cjZ+UKL5TJCRuU5MfjA==
-X-Received: by 2002:adf:e4d0:: with SMTP id v16mr17041808wrm.193.1592987904042; 
- Wed, 24 Jun 2020 01:38:24 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:466:71c0:918b:168e:d1a7:f3b9?
- ([2a01:e0a:466:71c0:918b:168e:d1a7:f3b9])
- by smtp.gmail.com with ESMTPSA id p17sm6897836wma.47.2020.06.24.01.38.22
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Jun 2020 01:38:23 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH] trivial: Remove extra character in configure help
-From: Christophe de Dinechin <dinechin@redhat.com>
-In-Reply-To: <20200624083337.912846-1-dinechin@redhat.com>
-Date: Wed, 24 Jun 2020 10:38:21 +0200
-Message-Id: <CC0192CB-4A6A-467C-B8A6-E4C418C79A52@redhat.com>
-References: <20200624083337.912846-1-dinechin@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+ bh=HQ2wiLk3tzOP0QdrTu3mfTU7V47hcrES0lKpotIlI1Y=;
+ b=Q2Or3Eu7c9gB5PIg/VCgWxsM/kGpniU0UKCzb5WNR9lpsf2kGLixyH7iZao3M3gQCnuEDT
+ vrMJUigogNZT3ee929suNbTq6W/k1lIIlMUg/tC2yqw6p2hODrtD+eDSVSze1YpsNzmuXO
+ kFiriRSYrtBqLMwLUJC+poc2EDwC7K4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-IvBR9P_wMqy0RMJMyWcicQ-1; Wed, 24 Jun 2020 04:39:11 -0400
+X-MC-Unique: IvBR9P_wMqy0RMJMyWcicQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27E64805EEF;
+ Wed, 24 Jun 2020 08:39:10 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27D6360F80;
+ Wed, 24 Jun 2020 08:38:58 +0000 (UTC)
+Subject: Re: [PATCH v4 1/5] qdev: Introduce DEFINE_PROP_RESERVED_REGION
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200623093244.24931-1-eric.auger@redhat.com>
+ <20200623093244.24931-2-eric.auger@redhat.com>
+ <87mu4thl2a.fsf@dusky.pond.sub.org>
+ <8f5bf2be-96bd-5cd0-d60c-7123e83cb264@redhat.com>
+ <878sgcevew.fsf@dusky.pond.sub.org>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <f9d52484-0e28-74ed-45ce-c1196cadbaec@redhat.com>
+Date: Wed, 24 Jun 2020 10:38:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <878sgcevew.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dinechin@redhat.com;
- helo=us-smtp-1.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -98,39 +86,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, GitLab via <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, mst@redhat.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please ignore. The =3DB appears intentional, even if it offsets the whole h=
-elp text.
+Hi Markus,
 
-Maybe replace with =3DL to indicate a list is expected?
+On 6/24/20 10:10 AM, Markus Armbruster wrote:
+> Auger Eric <eric.auger@redhat.com> writes:
+> 
+>> Hi Markus,
+>>
+>> On 6/23/20 5:13 PM, Markus Armbruster wrote:
+>>> Eric Auger <eric.auger@redhat.com> writes:
+>>>
+>>>> Introduce a new property defining a reserved region:
+>>>> <low address>:<high address>:<type>.
+>>>>
+>>>> This will be used to encode reserved IOVA regions.
+>>>>
+>>>> For instance, in virtio-iommu use case, reserved IOVA regions
+>>>> will be passed by the machine code to the virtio-iommu-pci
+>>>> device (an array of those). The type of the reserved region
+>>>> will match the virtio_iommu_probe_resv_mem subtype value:
+>>>> - VIRTIO_IOMMU_RESV_MEM_T_RESERVED (0)
+>>>> - VIRTIO_IOMMU_RESV_MEM_T_MSI (1)
+>>>>
+>>>> on PC/Q35 machine, this will be used to inform the
+>>>> virtio-iommu-pci device it should bypass the MSI region.
+>>>> The reserved region will be: 0xfee00000:0xfeefffff:1.
+>>>>
+>>>> On ARM, we can declare the ITS MSI doorbell as an MSI
+>>>> region to prevent MSIs from being mapped on guest side.
+>>>>
+>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>>>
+>>>> ---
+>>>>
+>>>> v3 -> v4:
+>>>> - use ':' instead of commas as separators.
+>>>> - rearrange error messages
+>>>> - check snprintf returned value
+>>>> - dared to keep Markus' R-b despite those changes
+>>>> ---
+>>>>  include/exec/memory.h        |  6 +++
+>>>>  include/hw/qdev-properties.h |  3 ++
+>>>>  include/qemu/typedefs.h      |  1 +
+>>>>  hw/core/qdev-properties.c    | 89 ++++++++++++++++++++++++++++++++++++
+>>>>  4 files changed, 99 insertions(+)
+>>>>
+>>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>>>> index 7207025bd4..d7a53b96cc 100644
+>>>> --- a/include/exec/memory.h
+>>>> +++ b/include/exec/memory.h
+>>>> @@ -51,6 +51,12 @@ extern bool global_dirty_log;
+>>>>  
+>>>>  typedef struct MemoryRegionOps MemoryRegionOps;
+>>>>  
+>>>> +struct ReservedRegion {
+>>>> +    hwaddr low;
+>>>> +    hwaddr high;
+>>>> +    unsigned int type;
+>>>
+>>> Suggest to s/unsigned int/unsigned/.
+>>>
+>>>> +};
+>>>> +
+>>>>  typedef struct IOMMUTLBEntry IOMMUTLBEntry;
+>>>>  
+>>>>  /* See address_space_translate: bit 0 is read, bit 1 is write.  */
+>>>> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+>>>> index 5252bb6b1a..95d0e7201d 100644
+>>>> --- a/include/hw/qdev-properties.h
+>>>> +++ b/include/hw/qdev-properties.h
+>>>> @@ -19,6 +19,7 @@ extern const PropertyInfo qdev_prop_string;
+>>>>  extern const PropertyInfo qdev_prop_chr;
+>>>>  extern const PropertyInfo qdev_prop_tpm;
+>>>>  extern const PropertyInfo qdev_prop_macaddr;
+>>>> +extern const PropertyInfo qdev_prop_reserved_region;
+>>>>  extern const PropertyInfo qdev_prop_on_off_auto;
+>>>>  extern const PropertyInfo qdev_prop_multifd_compression;
+>>>>  extern const PropertyInfo qdev_prop_losttickpolicy;
+>>>> @@ -184,6 +185,8 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+>>>>      DEFINE_PROP(_n, _s, _f, qdev_prop_drive_iothread, BlockBackend *)
+>>>>  #define DEFINE_PROP_MACADDR(_n, _s, _f)         \
+>>>>      DEFINE_PROP(_n, _s, _f, qdev_prop_macaddr, MACAddr)
+>>>> +#define DEFINE_PROP_RESERVED_REGION(_n, _s, _f)         \
+>>>> +    DEFINE_PROP(_n, _s, _f, qdev_prop_reserved_region, ReservedRegion)
+>>>>  #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+>>>>      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
+>>>>  #define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
+>>>> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+>>>> index ce4a78b687..15f5047bf1 100644
+>>>> --- a/include/qemu/typedefs.h
+>>>> +++ b/include/qemu/typedefs.h
+>>>> @@ -58,6 +58,7 @@ typedef struct ISABus ISABus;
+>>>>  typedef struct ISADevice ISADevice;
+>>>>  typedef struct IsaDma IsaDma;
+>>>>  typedef struct MACAddr MACAddr;
+>>>> +typedef struct ReservedRegion ReservedRegion;
+>>>>  typedef struct MachineClass MachineClass;
+>>>>  typedef struct MachineState MachineState;
+>>>>  typedef struct MemoryListener MemoryListener;
+>>>> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+>>>> index ead35d7ffd..193d0d95f9 100644
+>>>> --- a/hw/core/qdev-properties.c
+>>>> +++ b/hw/core/qdev-properties.c
+>>>> @@ -15,6 +15,7 @@
+>>>>  #include "chardev/char.h"
+>>>>  #include "qemu/uuid.h"
+>>>>  #include "qemu/units.h"
+>>>> +#include "qemu/cutils.h"
+>>>>  
+>>>>  void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
+>>>>                                    Error **errp)
+>>>> @@ -578,6 +579,94 @@ const PropertyInfo qdev_prop_macaddr = {
+>>>>      .set   = set_mac,
+>>>>  };
+>>>>  
+>>>> +/* --- Reserved Region --- */
+>>>> +
+>>>> +/*
+>>>> + * accepted syntax version:
+>>>
+>>> "version" feels redundant.  Suggest to capitalize "Accepted".
+>>>
+>>>> + *   <low address>:<high address>:<type>
+>>>> + *   where low/high addresses are uint64_t in hexadecimal
+>>>> + *   and type is an unsigned integer in decimal
+>>>> + */
+>>>> +static void get_reserved_region(Object *obj, Visitor *v, const char *name,
+>>>> +                                void *opaque, Error **errp)
+>>>> +{
+>>>> +    DeviceState *dev = DEVICE(obj);
+>>>> +    Property *prop = opaque;
+>>>> +    ReservedRegion *rr = qdev_get_prop_ptr(dev, prop);
+>>>> +    char buffer[64];
+>>>> +    char *p = buffer;
+>>>> +    int rc;
+>>>> +
+>>>> +    rc = snprintf(buffer, sizeof(buffer), "0x%"PRIx64":0x%"PRIx64":%u",
+>>>> +                  rr->low, rr->high, rr->type);
+>>>> +    assert(rc < sizeof(buffer));
+>>>> +
+>>>> +    visit_type_str(v, name, &p, errp);
+>>>> +}
+>>>> +
+>>>> +static void set_reserved_region(Object *obj, Visitor *v, const char *name,
+>>>> +                                void *opaque, Error **errp)
+>>>> +{
+>>>> +    DeviceState *dev = DEVICE(obj);
+>>>> +    Property *prop = opaque;
+>>>> +    ReservedRegion *rr = qdev_get_prop_ptr(dev, prop);
+>>>> +    Error *local_err = NULL;
+>>>> +    const char *endptr;
+>>>> +    char *str;
+>>>> +    int ret;
+>>>> +
+>>>> +    if (dev->realized) {
+>>>> +        qdev_prop_set_after_realize(dev, name, errp);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    visit_type_str(v, name, &str, &local_err);
+>>>> +    if (local_err) {
+>>>> +        error_propagate(errp, local_err);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    ret = qemu_strtou64(str, &endptr, 16, &rr->low);
+>>>> +    if (ret) {
+>>>> +        error_setg(errp, "start address of '%s'"
+>>>> +                   " must be a hexadecimal integer", name);
+>>>> +        goto out;
+>>>> +    }
+>>>> +    if (*endptr != ':') {
+>>>> +        goto separator_error;
+>>>> +    }
+>>>> +
+>>>> +    ret = qemu_strtou64(endptr + 1, &endptr, 16, &rr->high);
+>>>> +    if (ret) {
+>>>> +        error_setg(errp, "end address of '%s'"
+>>>> +                   " must be a hexadecimal integer", name);
+>>>> +        goto out;
+>>>> +    }
+>>>> +    if (*endptr != ':') {
+>>>> +        goto separator_error;
+>>>> +    }
+>>>> +
+>>>> +    ret = qemu_strtoui(endptr + 1, &endptr, 10, &rr->type);
+>>>> +    if (ret) {
+>>>> +        error_setg(errp, "type of '%s'"
+>>>> +                   " must be an unsigned integer in decimal", name);
+>>>
+>>> Suggest "must be a non-negative decimal integer".
+>>>
+>>> Whatever uses the property needs a range check.  I can't see that the
+>>> patches that follow.  What am I missing?
+>> Do you mean, you would expect the virtio-iommu-pci device to abort in
+>> case a wrong VIRTIO reserved region type has been registered?
+> 
+> Knowing nothing about reserved region types, I (naively?) assume that a
+> finite set of types are encoded as small integers.  Any other integers
+> are then meaningless, and should be rejected.
+you're right.
+> 
+>> Effectively I could do that.
+>>
+>> For the time being, unexpected types are considered as RESERVED type.
+>> Also reserved regions are set by the machinesa nd we don't expect users
+>> to set them directly so I thought it was sufficient.
+> 
+> One, rejecting invalid values is useful even when they're set
+> programmatically, because it can catch programming errors.
+> 
+> Two, expecting users to only do what you expect is walking on rather
+> thin ice ;)
+Agreed, I will add an assert()
 
-> On 24 Jun 2020, at 10:33, Christophe de Dinechin <dinechin@redhat.com> wr=
-ote:
->=20
-> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
-> ---
-> configure | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/configure b/configure
-> index ba88fd1824..c7a6a5adfe 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1787,7 +1787,7 @@ Advanced options (experts only):
->   --block-drv-ro-whitelist=3DL
->                            set block driver read-only whitelist
->                            (affects only QEMU, not qemu-img)
-> -  --enable-trace-backends=3DB Set trace backend
-> +  --enable-trace-backends=3D Set trace backend
->                            Available backends: $trace_backend_list
->   --with-trace-file=3DNAME   Full PATH,NAME of file to store traces
->                            Default:trace-<pid>
-> --=20
-> 2.26.2
->=20
->=20
+Thanks!
+
+Eric
+> 
 
 
