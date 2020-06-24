@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC2920717A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:48:50 +0200 (CEST)
-Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F843207180
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:51:32 +0200 (CEST)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo2xV-0005Qn-W7
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54790)
+	id 1jo307-0000WH-Kw
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jo2vl-0004IU-9e
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:47:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20549
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo2y8-0006in-5T
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:49:29 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48444
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jo2vj-0008Ov-7g
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:47:00 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jo2y1-0000eM-Op
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:49:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995618;
+ s=mimecast20190719; t=1592995760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qOVAv8YYtcD7qZ+L9lJigE155ZVDMxB3IVrJ3GX1itg=;
- b=d2XG/G+EznflvgNbp+6PPudzOdMy0NJztwsHc8GegBO7rfYQq1q9MTnysLPpDQAsc7NnHs
- NzKTGnKAgYRuL0VYtJ2YfTOq+MZlfF6uR1l1pi7klvpSDwiEIPbALYr0heiIGHPMA7IdBG
- O73zALsbKIjIY4xI8g407ZVNj9OouIM=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HVbnfpN7J8rwVYEM7vYpng/fziEjFHpSje4rIAuB7XY=;
+ b=L0bpJWkFCJ6AOR89fEmcnMzBehg2LBNK5XusyoMDsLoW44PbIZcVymdDw6dW/CVctIlvlm
+ 9O9cw5fm2zMZ0sR/Bei1Y2/TGBofs98owBuut/loSsHsjXeKf5oj04cCn8RavrTfrLf6YV
+ 5j9WQPH1XxzEFBwlCPXgbHibRlsPUbE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-Ow8SSfMYPV-BB2Bk6ZreNg-1; Wed, 24 Jun 2020 06:46:56 -0400
-X-MC-Unique: Ow8SSfMYPV-BB2Bk6ZreNg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-380-2qli9S2rMwqy7JfRPgV2aw-1; Wed, 24 Jun 2020 06:49:19 -0400
+X-MC-Unique: 2qli9S2rMwqy7JfRPgV2aw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D00A1005512;
- Wed, 24 Jun 2020 10:46:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-114-35.ams2.redhat.com [10.36.114.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FFCE7CADE;
- Wed, 24 Jun 2020 10:46:50 +0000 (UTC)
-Subject: Re: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
-To: Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
- <20200624124406.2baac59f.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3c30f41c-1875-d288-9f6c-0e7c63b7b4a9@redhat.com>
-Date: Wed, 24 Jun 2020 12:46:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 202B787950B
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 10:49:18 +0000 (UTC)
+Received: from virtlab511.virt.lab.eng.bos.redhat.com
+ (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D160C7FE82
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 10:49:17 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/31] Misc patches for 2020-06-24
+Date: Wed, 24 Jun 2020 06:48:45 -0400
+Message-Id: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200624124406.2baac59f.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,92 +77,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/2020 12.44, Cornelia Huck wrote:
-> On Wed, 24 Jun 2020 03:52:14 -0400
-> Janosch Frank <frankja@linux.ibm.com> wrote:
-> 
->> The bios is in dire need for a cleanup as there are still a lot of
->> magic constants being used throughout as well as duplicated code.
->>
->> In the first part of this series we consolidate constants and
->> functions, as well as doing some minor cleanups and fixes.
->>
->> The patches are available here:
->> https://github.com/frankjaa/qemu/pull/new/cleanup_bios
->>
->> v5:
->> 	* Fixed whitespace damage
->> 	* Removed reset PSW mask changes in dasd-ipl.c
->> 	* Added jump2ipl.c cleanup patches
->>
->> v4:
->> 	* Renamed time.h to s390-time.h
->> 	* Fixed function names in sleep()
->> 	* Changed order of sense_id_ccw initialization
->> 	* Added missing include before sleep()
->>
->> v3:
->> 	* Dropped 0x00 to 0x0/0 patch
->> 	* Moved some timing functions into helper.h instead of time.h
->> 	* Fixed IPL psw manipulation in dasd-ipl.c
->>   	* Minor cosmetic fixes found by review
->>
->> v2:
->> 	* Included cio fixup to get rid of compile errors...
->> 	* Minor cosmetic fixes found by review
->>
->>
->> Janosch Frank (12):
->>    pc-bios: s390x: cio.c cleanup and compile fix
->>    pc-bios: s390x: Consolidate timing functions into time.h
->>    pc-bios: s390x: Move sleep and yield to helper.h
->>    pc-bios: s390x: Get rid of magic offsets into the lowcore
->>    pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
->>    pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
->>    pc-bios: s390x: Use PSW masks where possible and introduce
->>      PSW_MASK_SHORT_ADDR
->>    pc-bios: s390x: Move panic() into header and add infinite loop
->>    pc-bios: s390x: Use ebcdic2ascii table
->>    pc-bios: s390x: Make u32 ptr check explicit
->>    pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
->>    pc-bios: s390x: Cleanup jump to ipl code
->>
->>   pc-bios/s390-ccw/bootmap.c     |  9 ++++----
->>   pc-bios/s390-ccw/bootmap.h     |  2 +-
->>   pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
->>   pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
->>   pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
->>   pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
->>   pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
->>   pc-bios/s390-ccw/main.c        | 15 +++----------
->>   pc-bios/s390-ccw/menu.c        |  1 +
->>   pc-bios/s390-ccw/netmain.c     | 23 +++----------------
->>   pc-bios/s390-ccw/s390-arch.h   |  4 +++-
->>   pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
->>   pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
->>   pc-bios/s390-ccw/start.S       |  5 +++--
->>   pc-bios/s390-ccw/virtio-net.c  |  2 ++
->>   pc-bios/s390-ccw/virtio-scsi.c |  2 ++
->>   pc-bios/s390-ccw/virtio.c      | 18 +++------------
->>   17 files changed, 120 insertions(+), 125 deletions(-)
->>   create mode 100644 pc-bios/s390-ccw/s390-time.h
->>
-> 
-> Hm... what's the general status of this? Most of the patches have at
-> least one R-b/A-b already, I see.
-> 
-> Do the s390-ccw boot maintainers want to pick this (once the rest has
-> been looked at) and then send me a pull req, or should I pick it when
-> it is good to go? Softfreeze is less than two weeks away :)
+The following changes since commit 171199f56f5f9bdf1e5d670d09ef1351d8f01bae:
 
-I'd like to review the missing parts and run my tests with the patches 
-applied ... I'm just a little bit swamped right now, so please give me 
-some more time...
+  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200619-3' into staging (2020-06-22 14:45:25 +0100)
 
-  Thomas
+are available in the Git repository at:
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 7fc58934d34e939489e20af4c97aeb095c1f2b20:
+
+  i386: Mask SVM features if nested SVM is disabled (2020-06-24 04:37:59 -0400)
+
+----------------------------------------------------------------
+* Various fixes
+* libdaxctl support to correctly align devdax character devices (Jingqi)
+* initial-all-set support for live migration (Jay)
+* forbid '-numa node, mem' for 5.1 and newer machine types (Igor)
+* x87 fixes (Joseph)
+* Tighten memory_region_access_valid (Michael) and fix fallout (myself)
+* Replay fixes (Pavel)
+
+----------------------------------------------------------------
+Anthony PERARD (1):
+      xen: Actually fix build without passthrough
+
+David CARLIER (1):
+      util/getauxval: Porting to FreeBSD getauxval feature
+
+Eduardo Habkost (1):
+      i386: Mask SVM features if nested SVM is disabled
+
+Eric Blake (1):
+      osdep: Make MIN/MAX evaluate arguments only once
+
+Igor Mammedov (1):
+      numa: forbid '-numa node, mem' for 5.1 and newer machine types
+
+Jay Zhou (1):
+      kvm: support to get/set dirty log initial-all-set capability
+
+Jingqi Liu (3):
+      configure: add libdaxctl support
+      exec: fetch the alignment of Linux devdax pmem character device nodes
+      docs/nvdimm: add description of alignment requirement of device dax
+
+Jon Doron (1):
+      hyperv: vmbus: Remove the 2nd IRQ
+
+Joseph Myers (10):
+      target/i386: reimplement f2xm1 using floatx80 operations
+      softfloat: merge floatx80_mod and floatx80_rem
+      softfloat: fix floatx80 remainder pseudo-denormal check for zero
+      softfloat: do not return pseudo-denormal from floatx80 remainder
+      softfloat: do not set denominator high bit for floatx80 remainder
+      softfloat: return low bits of quotient from floatx80_modrem
+      target/i386: reimplement fprem, fprem1 using floatx80 operations
+      target/i386: reimplement fyl2xp1 using floatx80 operations
+      target/i386: reimplement fyl2x using floatx80 operations
+      target/i386: reimplement fpatan using floatx80 operations
+
+Liao Pingfang (1):
+      Makefile: Install qemu-[qmp/ga]-ref.* into the directory "interop"
+
+Marcelo Tosatti (1):
+      kvm: i386: allow TSC to differ by NTP correction bounds without TSC scaling
+
+Michael S. Tsirkin (1):
+      memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"
+
+Paolo Bonzini (4):
+      libqos: usb-hcd-ehci: use 32-bit write for config register
+      libqos: pci-pc: use 32-bit write for EJ register
+      vmport: move compat properties to hw_compat_5_0
+      ibex_uart: fix XOR-as-pow
+
+Pavel Dovgaluk (2):
+      replay: notify the main loop when there are no instructions
+      replay: synchronize on every virtual timer callback
+
+Tao Xu (1):
+      target/i386: Add notes for versioned CPU models
+
+Thomas Huth (1):
+      hw/scsi/megasas: Fix possible out-of-bounds array access in tracepoints
+
+ Makefile                            |   10 +-
+ accel/kvm/kvm-all.c                 |   21 +-
+ accel/tcg/translate-all.c           |    6 +-
+ configure                           |   29 +
+ cpus.c                              |   15 +-
+ docs/index.html.in                  |    4 +-
+ docs/nvdimm.txt                     |   10 +
+ docs/system/deprecated.rst          |   37 +-
+ exec.c                              |   54 +-
+ fpu/softfloat.c                     |   87 ++-
+ hw/arm/virt.c                       |    2 +-
+ hw/char/ibex_uart.c                 |    2 +-
+ hw/core/machine.c                   |    8 +-
+ hw/core/numa.c                      |    7 +
+ hw/hyperv/vmbus.c                   |    3 +-
+ hw/i386/acpi-build.c                |    4 +-
+ hw/i386/pc.c                        |    1 -
+ hw/i386/pc_piix.c                   |    1 +
+ hw/i386/pc_q35.c                    |    1 +
+ hw/ppc/spapr.c                      |    2 +-
+ hw/scsi/megasas.c                   |   36 +-
+ hw/usb/hcd-xhci.h                   |    2 +-
+ hw/xen/Makefile.objs                |    2 +-
+ include/block/block.h               |    4 +-
+ include/exec/cpu-all.h              |    8 +-
+ include/exec/cpu-defs.h             |    7 +-
+ include/fpu/softfloat.h             |    3 +
+ include/hw/hyperv/vmbus-bridge.h    |    3 +-
+ include/qemu/osdep.h                |   55 +-
+ memory.c                            |   29 +-
+ migration/qemu-file.c               |    2 +-
+ qemu-options.hx                     |    9 +-
+ replay/replay.c                     |    2 +-
+ target/i386/cpu.c                   |    9 +
+ target/i386/fpu_helper.c            | 1396 +++++++++++++++++++++++++++++++----
+ target/i386/kvm.c                   |   46 +-
+ target/m68k/softfloat.c             |   83 ---
+ target/m68k/softfloat.h             |    1 -
+ tests/qtest/libqos/pci-pc.c         |    2 +-
+ tests/qtest/test-x86-cpuid-compat.c |    4 +-
+ tests/qtest/usb-hcd-ehci-test.c     |    2 +-
+ tests/tcg/i386/test-i386-f2xm1.c    | 1140 ++++++++++++++++++++++++++++
+ tests/tcg/i386/test-i386-fpatan.c   | 1071 +++++++++++++++++++++++++++
+ tests/tcg/i386/test-i386-fyl2x.c    | 1161 +++++++++++++++++++++++++++++
+ tests/tcg/i386/test-i386-fyl2xp1.c  | 1156 +++++++++++++++++++++++++++++
+ util/getauxval.c                    |   10 +
+ util/qemu-timer.c                   |   32 +-
+ 47 files changed, 6209 insertions(+), 370 deletions(-)
+ create mode 100644 tests/tcg/i386/test-i386-f2xm1.c
+ create mode 100644 tests/tcg/i386/test-i386-fpatan.c
+ create mode 100644 tests/tcg/i386/test-i386-fyl2x.c
+ create mode 100644 tests/tcg/i386/test-i386-fyl2xp1.c
+-- 
+2.26.2
 
 
