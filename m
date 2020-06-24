@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF6B207C05
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:09:23 +0200 (CEST)
-Received: from localhost ([::1]:40088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF87207BFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:06:07 +0200 (CEST)
+Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joAlu-0007ZY-6B
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
+	id 1joAik-0001JT-QI
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAdw-0004W4-0C
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:01:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23165
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1joAc3-0000Kk-Sx
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21002
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1joAdt-0004jO-ML
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:01:07 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1joAc2-0004Cq-1H
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:59:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593025265;
+ s=mimecast20190719; t=1593025149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4loFTY4oY+modSCblVskwyCO4SWjwGRGpQh2kNPT3Dw=;
- b=cItlFbG2hAFBVVNqGk4H+qMa8Ji+dfFY/9l9dAHDoCR3NAWIYBtrOVulNGu64iOTYrIyQa
- NwZuCXz+SGKVvWdW1UTeNDIlvTAv2gbwv0oyFdGj9GTdblGywVl8dASFlUM3QPcm8+xduu
- dUjgnwhGReWOUhY3KRFcHXUaqM/+QLo=
+ bh=TOztEBp/HM+Gf/njqciRF5+gXi48uZG2h3vo0+CdzZ4=;
+ b=hgPKWGF6V2bpwpO/FJLK+/JEwitmTnuO3NzWuB9vqZOmWckJ00ZSIN6sBCWmjNNqAD8s5g
+ ILNWOBczBSTrnE8nIPH78K4Cx0KADHDD05QqDFM52Na7AMgfEQ6leR6hd94o7Ev5Tb5izu
+ GKLX8XG1o/Gq5wWXCEekJNXdsvYYIuE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-CFpL2iGaPEu3_IE4cdb0LQ-1; Wed, 24 Jun 2020 14:58:19 -0400
-X-MC-Unique: CFpL2iGaPEu3_IE4cdb0LQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-329-WBkRWW6hMZCw7PTpr3dDrQ-1; Wed, 24 Jun 2020 14:59:07 -0400
+X-MC-Unique: WBkRWW6hMZCw7PTpr3dDrQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C485F10059B9;
- Wed, 24 Jun 2020 18:58:17 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.74.8.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BAA61DC;
- Wed, 24 Jun 2020 18:58:10 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 5/9] nvram: add nrf51_soc flash read method
-Date: Thu, 25 Jun 2020 00:25:19 +0530
-Message-Id: <20200624185523.762240-6-ppandit@redhat.com>
-In-Reply-To: <20200624185523.762240-1-ppandit@redhat.com>
-References: <20200624185523.762240-1-ppandit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32A9C804002;
+ Wed, 24 Jun 2020 18:59:05 +0000 (UTC)
+Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DA1761981;
+ Wed, 24 Jun 2020 18:59:03 +0000 (UTC)
+Date: Wed, 24 Jun 2020 12:55:19 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v25 12/17] vfio: Add function to start and stop
+ dirty pages tracking
+Message-ID: <20200624125519.1e60c8a3@x1.home>
+In-Reply-To: <1592684486-18511-13-git-send-email-kwankhede@nvidia.com>
+References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
+ <1592684486-18511-13-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,57 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+On Sun, 21 Jun 2020 01:51:21 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Add nrf51_soc mmio read method to avoid NULL pointer dereference
-issue.
+> Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
+> for VFIO devices.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index faacea5327cb..e0fbb3a01855 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -11,6 +11,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "qemu/cutils.h"
+>  #include <linux/vfio.h>
+> +#include <sys/ioctl.h>
+>  
+>  #include "sysemu/runstate.h"
+>  #include "hw/vfio/vfio-common.h"
+> @@ -329,6 +330,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>  
+> +static int vfio_start_dirty_page_tracking(VFIODevice *vbasedev, bool start)
+> +{
+> +    int ret;
+> +    VFIOContainer *container = vbasedev->group->container;
+> +    struct vfio_iommu_type1_dirty_bitmap dirty = {
+> +        .argsz = sizeof(dirty),
+> +    };
+> +
+> +    if (start) {
+> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
+> +        } else {
+> +            return -EINVAL;
+> +        }
+> +    } else {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+> +    }
+> +
+> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+> +    if (ret) {
+> +        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+> +                     dirty.flags, errno);
+> +    }
+> +    return ret;
+> +}
 
-Reported-by: Lei Sun <slei.casper@gmail.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/nvram/nrf51_nvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+What happens when we have a device that supports a migration region
+paired with an IOMMU that doesn't report dirty page tracking, shouldn't
+we have tested container->dirty_pages_supported somewhere in the
+process of determining if the device is migratable?  Thanks,
 
-Update v2: return ldl_le_p()
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg04972.html
+Alex
 
-diff --git a/hw/nvram/nrf51_nvm.c b/hw/nvram/nrf51_nvm.c
-index f2283c1a8d..8000ed530a 100644
---- a/hw/nvram/nrf51_nvm.c
-+++ b/hw/nvram/nrf51_nvm.c
-@@ -273,6 +273,13 @@ static const MemoryRegionOps io_ops = {
-         .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
-+static uint64_t flash_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    NRF51NVMState *s = NRF51_NVM(opaque);
-+
-+    assert(offset + size <= s->flash_size);
-+    return ldl_le_p(s->storage + offset);
-+}
- 
- static void flash_write(void *opaque, hwaddr offset, uint64_t value,
-         unsigned int size)
-@@ -300,6 +307,7 @@ static void flash_write(void *opaque, hwaddr offset, uint64_t value,
- 
- 
- static const MemoryRegionOps flash_ops = {
-+    .read = flash_read,
-     .write = flash_write,
-     .valid.min_access_size = 4,
-     .valid.max_access_size = 4,
--- 
-2.26.2
+
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -360,6 +387,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> +    ret = vfio_start_dirty_page_tracking(vbasedev, true);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+>      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>  
+>      ret = qemu_file_get_error(f);
+> @@ -375,6 +407,8 @@ static void vfio_save_cleanup(void *opaque)
+>      VFIODevice *vbasedev = opaque;
+>      VFIOMigration *migration = vbasedev->migration;
+>  
+> +    vfio_start_dirty_page_tracking(vbasedev, false);
+> +
+>      if (migration->region.mmaps) {
+>          vfio_region_unmap(&migration->region);
+>      }
+> @@ -706,6 +740,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+>          if (ret) {
+>              error_report("%s: Failed to set state RUNNING", vbasedev->name);
+>          }
+> +
+> +        vfio_start_dirty_page_tracking(vbasedev, false);
+>      }
+>  }
+>  
 
 
