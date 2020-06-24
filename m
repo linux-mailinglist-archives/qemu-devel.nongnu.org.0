@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8E2207336
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 14:21:55 +0200 (CEST)
-Received: from localhost ([::1]:47062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A68320733F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 14:23:04 +0200 (CEST)
+Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo4Pa-0004pg-Ke
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 08:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54022)
+	id 1jo4Qh-000682-DG
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 08:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo4Ng-0002xt-UL
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:19:57 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:44659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo4Ne-0005Ae-QY
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:19:56 -0400
-Received: by mail-qk1-x742.google.com with SMTP id b4so1527240qkn.11
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 05:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JeHrzBkl0W7YnFDNGzpK6Omqdh1SbNjh/JeqkFtYTYM=;
- b=bHiigOlfRJSOsDQUtI5OujwKxFy5ZwqLJpXGvaYBK5AXFjeFbyHjglZbPkR19/LD7K
- h8CxXew/iIM3amWTrmT8GzthWz80A4LojXAoLSAoYRfa/o4CTcMsaQ2MqCrcMmFyhmh3
- d65C6+bnnMFHZZUPCaKXHD8xuou/AYrpxpUHIZa4MUJAlOttRnvcUjqEMH2Azqysu6bY
- TrHvRBr4AOZ6qj8jPD4cTiibdikz02cW95d1+1iV6+6F0gl4CxgTZ/isKtni95qDKvs8
- hvmgb3+i7qzDkgRzLqAXFCJLilOQw7Y8u8kX0+9KDGdInvcMVCtQ7P0FjE9jy1kZkcpR
- aIkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JeHrzBkl0W7YnFDNGzpK6Omqdh1SbNjh/JeqkFtYTYM=;
- b=Mza+dI6PeRzYVPSTkX0CFCYj7wfnhFZ4M0Wq9CvNOg8TythuGatxbRtvNjPZ8mz9wr
- WVASIpwN+jMnmomCS8W4sD8XXV9tPpO9AZ3omWBSKTlcdtq8hFVvJCV7Zuj05T72HC9a
- v0I2EEBzh3HyEb+81fiBQDylvaPQsTpbKUEVEXpmA0Eiu6+rHdzR4Mv7NbfnRD4/dToX
- eIcZ2tqWvKjy4HSXySAna0tqMJX5/WfMJNbf73EHrIjGLzLD1gjTsVrxxQ5LGZ48pHab
- R6sAwpMZjx2plugKJESUTrNSVd/bXOI8imptjI0BMr1sMRdUtNASl3pzEEsvwjI3R4Wp
- Pk0Q==
-X-Gm-Message-State: AOAM533bhH/v5vf2kaha8TBgeAmNDxqE9PJOsEiPMm2EzqtXk8L0vdVv
- YqK4vU4CcoM/mmSpffmk/Yo=
-X-Google-Smtp-Source: ABdhPJx3ZT4gYwkDD4T3fNbH4/7YMHFKibhaBWBHBCSo0bX+lInlvhxyUp1HwIUySWDeId8zj6gV/Q==
-X-Received: by 2002:a37:451:: with SMTP id 78mr16239725qke.117.1593001193342; 
- Wed, 24 Jun 2020 05:19:53 -0700 (PDT)
-Received: from shine.lan ([2001:470:8:67e:ad7b:336a:2d40:4130])
- by smtp.gmail.com with ESMTPSA id x4sm3685635qtj.50.2020.06.24.05.19.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 05:19:52 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- xen-devel@lists.xenproject.org
-Subject: [PATCH] xen: Fix xen-legacy-backend qdev types
-Date: Wed, 24 Jun 2020 08:19:39 -0400
-Message-Id: <20200624121939.10282-1-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jo4Pq-0005NJ-5a
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:22:10 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23723
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jo4Pn-0006Hv-Li
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 08:22:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593001326;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rMx/hU2BeXoXrVX+nkp1I28WB4HBQMc0mSFOFs/5stg=;
+ b=JZJc+TVqNoBxQWPOBsWhvCUxQMB5f9eQc9PyWQu2/a493HEL/6DsfkgX0Ej59Ligy5nVJ6
+ xy0PiuuJkAWUCZXlMUVcjJZho0QpiABbE/EA3Fb3QGNpwmvPkFUwXMCWkUr3qjuNbeG3JD
+ 5ABn1FIkGsVG2xfrDJO/TQOh1FRTmvg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-19Ii16bWOAauDWR-H6TP9w-1; Wed, 24 Jun 2020 08:21:57 -0400
+X-MC-Unique: 19Ii16bWOAauDWR-H6TP9w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7438B1005513
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 12:21:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 535467168D;
+ Wed, 24 Jun 2020 12:21:55 +0000 (UTC)
+Date: Wed, 24 Jun 2020 13:21:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PULL 25/31] osdep: Make MIN/MAX evaluate arguments only once
+Message-ID: <20200624122152.GJ774096@redhat.com>
+References: <20200624104917.375143-1-pbonzini@redhat.com>
+ <20200624105048.375353-25-pbonzini@redhat.com>
+ <1101afa3-7523-4408-8918-265b1f2dbc3b@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <1101afa3-7523-4408-8918-265b1f2dbc3b@redhat.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=jandryuk@gmail.com; helo=mail-qk1-x742.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,58 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Jason Andryuk <jandryuk@gmail.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xen-sysdev is a TYPE_SYS_BUS_DEVICE.  bus_type should not be changed so
-that it can plug into the System bus.  Otherwise this assert triggers:
-qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-`dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-failed.
+On Wed, Jun 24, 2020 at 07:13:17AM -0500, Eric Blake wrote:
+> On 6/24/20 5:50 AM, Paolo Bonzini wrote:
+> > From: Eric Blake <eblake@redhat.com>
+> > 
+> > I'm not aware of any immediate bugs in qemu where a second runtime
+> > evalution of the arguments to MIN() or MAX() causes a problem, but
+> 
+> evaluation
+> 
+> > Update the MIN/MAX macros to only evaluate their argument once at
+> > runtime;
+> 
+> > Use of MIN when MIN_CONST is needed:
+> > 
+> > In file included from /home/eblake/qemu/qemu-img.c:25:
+> > /home/eblake/qemu/include/qemu/osdep.h:249:5: error: braced-group within expression allowed only inside a function
+> >    249 |     ({                                                  \
+> >        |     ^
+> > /home/eblake/qemu/qemu-img.c:92:12: note: in expansion of macro â€˜MINâ€™
+> 
+> UTF-8 mojibake in the commit message ;(
+> 
+> 
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > 
+> > Message-Id: <20200604215236.2798244-1-eblake@redhat.com>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> 
+> > +#define MIN_CONST(a, b)                                         \
+> > +    __builtin_choose_expr(                                      \
+> > +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
+> > +        (a) < (b) ? (a) : (b),                                  \
+> > +        ((void)0))
+> 
+> This one is correct...
+> 
+> > +#undef MAX
+> > +#define MAX(a, b)                                       \
+> > +    ({                                                  \
+> > +        typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
+> > +        _a > _b ? _a : _b;                              \
+> > +    })
+> > +#define MAX_CONST(a, b)                                         \
+> > +    __builtin_choose_expr(                                      \
+> > +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
+> > +        (a) > (b) ? (a) : (b),                                  \
+> > +        __builtin_unreachable())
+> 
+> ...but this one should also use ((void)0), to match the commit message.
+> 
+> > +
+> > +/* Minimum function that returns zero only if both values are zero.
+> >    * Intended for use with unsigned values only. */
+> 
+> And checkpatch complains about the formatting here.
+> 
+> Ah well.  I had all these things fixed in my tree, but failed to post a v5.
+> Not worth holding up this pull request in isolation, but if there are any
+> other build issues, I'll post a v5 of this patch, otherwise a followup.
 
-TYPE_XENBACKEND attaches to TYPE_XENSYSBUS, so its class_init needs to
-be set accordingly to attach the qdev.  Otherwise the following assert
-triggers:
-qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-`dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-failed.
+FWIW, the current QEMU code defining MIN/MAX was a no-op, since they
+were already defined by GLib in /usr/include/glib-2.0/glib/gmacros.h
+which we get via glib.h
 
-TYPE_XENBACKEND is not a subclass of XEN_XENSYSDEV, so it's parent
-is just TYPE_DEVICE.  Change that.
+Now, the GLib impl shared the same theoretical flaw as the old QEMU
+impl, but you said it wasn't a real problem right now.
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
----
- hw/xen/xen-legacy-backend.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So I'm wondering if the better option would be to remove the MIN/MAX
+def from QEMU, and then submit a pull request to GLib to improve
+their definition ?
 
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 2335ee2e65..c5c75c0064 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -789,11 +789,12 @@ static void xendev_class_init(ObjectClass *klass, void *data)
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     /* xen-backend devices can be plugged/unplugged dynamically */
-     dc->user_creatable = true;
-+    dc->bus_type = TYPE_XENSYSBUS;
- }
- 
- static const TypeInfo xendev_type_info = {
-     .name          = TYPE_XENBACKEND,
--    .parent        = TYPE_XENSYSDEV,
-+    .parent        = TYPE_DEVICE,
-     .class_init    = xendev_class_init,
-     .instance_size = sizeof(struct XenLegacyDevice),
- };
-@@ -824,7 +825,6 @@ static void xen_sysdev_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     device_class_set_props(dc, xen_sysdev_properties);
--    dc->bus_type = TYPE_XENSYSBUS;
- }
- 
- static const TypeInfo xensysdev_info = {
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
