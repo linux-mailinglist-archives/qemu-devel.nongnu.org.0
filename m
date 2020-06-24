@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54393207542
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:06:19 +0200 (CEST)
-Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BFA207549
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:07:56 +0200 (CEST)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo62c-0006Wv-D2
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59056)
+	id 1jo64B-0002Dy-3M
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:07:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61H-0004mk-SF
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:04:55 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52330)
+ id 1jo61J-0004oh-Gq
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:04:57 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61D-0003U8-JL
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:04:55 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id q15so2441994wmj.2
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:04:51 -0700 (PDT)
+ id 1jo61H-0003UG-JY
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:04:57 -0400
+Received: by mail-wm1-x333.google.com with SMTP id f139so2643732wmf.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pp31LDbBMynakzVJX+RF0ypg4zh/bBa29zUb++Htq94=;
- b=D9gmfRWUKxwHohfHoYJsgG+1X0WI91GTOdJ1S8ZlUNDyhayRgm0+kCdETfntKMjro3
- 4GrakiJ9zoOwBVudoThcL3hGhWWdKP4yS/PpaiIc2fWn9+HWTRD4I5Z01dsMKeUW/knq
- dyHf1OODjwyNpoCYM6cYobUdIpKR5ARMLo6U6000U+wfbsUqVHaVNvyhSmdbBQUOnnqa
- caitrgDsHV0+jTl0C4N1mWPggRsKZRfNxg5/NJ5d/Rjf0LFPI1QjsgZcPFAgdlso9tQd
- RxAihyAghIPfq+72oygX1VmhbRx1nr1Wmz261lzZYs1QFMRkNVVQhwfes5bLyQNqY8zO
- L28g==
+ bh=m1Iumf3YfxuO4NhxteboEtLnibs/CAVIrPHuCmkmoi4=;
+ b=kwaweC2bZkw1W/fNIuATNlTX6TQouli102mvlVEYK7WwCuHm7tMnRNz3dxHew5Fi4y
+ 5/hg4d7ZmkbEljEPaXS18F0/1q4R7VLoQLGdmnvJiQ6sDyjZJFSRXfk8FR2PcPoR37p1
+ JamsUyt/3W2nUCtfx1Kv4Srs3393dtkEJBRecsq1yzzMWEGepFxiOdUsl/V4whKBKzgV
+ wG8+9BQ19JJtcb6aGSztQwb6mp6IEOMQ4AWuF7Hkdz8rkiJBbEaAgqrF+exxxmFqx9tV
+ b8FTPDIQ1FF0z/hDJGd9vHBUUhtLCwvFO0KeBibyHTMb+BBfR5ouaCGKjC61YDTe/rFR
+ ZSqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pp31LDbBMynakzVJX+RF0ypg4zh/bBa29zUb++Htq94=;
- b=R5Xjp2HY2VX10wkEnYW0t9tThwhWtIvcBbzigmwUzvT8Mavp+zPMzjytyt5GzQuPO9
- lTWJVAdF83jwj8gjBPbP4uorMMVjFEH54K0iqShJzDTTZvlancWJ2WpH484kdYlhhRWi
- WtCbfPwJ23Iret4jdfUVbFcwcsCLz7fXW3W1lx6BNawImUsqIWi49e9LAzcbd2tewrnX
- Qp+fiMfHQ0TI2+/1OsZOrzMleblmKXW+eBdLZ7bYyGqAsTXdTPSsuSRz1eHIyzJUBMnD
- ODAaVnwUp2vC3Sva64xCCGI97xfDAwx+EjpfnnRo4jkCeY6sgXoXOWImlmwkutnokHCz
- bN5w==
-X-Gm-Message-State: AOAM531/W9gINAOyevjwV+URmQRZCIY+PXnpWhefzqHUWmirEUGl/pbI
- OaQTMJmqXVq6j49S6mhMXMgomvU/bmk=
-X-Google-Smtp-Source: ABdhPJxst9JPfoAEuEt+13DSWD7rj+UJY/SRqwv0cNqBJh8a+lH+KlOUHyzcut07JVTh4VrPz5OTRw==
-X-Received: by 2002:a1c:de07:: with SMTP id v7mr6471931wmg.56.1593007490169;
- Wed, 24 Jun 2020 07:04:50 -0700 (PDT)
+ bh=m1Iumf3YfxuO4NhxteboEtLnibs/CAVIrPHuCmkmoi4=;
+ b=VHl4ObqiK3gwtLG2rEmwk8FuAwfo4q/7GgrC6M4dNGu+lPXkslvzrHHN1X1oVn3Omc
+ vJkDZW4P2VGeReFvhM6+APpC7aa4kpy2NwRGkESYmCNhDPvhYHa+pl2U1pQhaTh6uXRR
+ CfLWDnm4vpFlgpm3W18e+ba2gLDJGb5lMilKJ3O07IMJGIsfSBTvwONKdysFhfCwUu4D
+ PXv8Z4VgvFCybq5zVFCXFOvF6VjdDEW0vNJ/4q9UUoqufH2SonDsGZHRNf3zDAZUZ9rg
+ FM4kneWKzvOqbHG+n0O9PZiDkGe3m7O5hQvSHakX+MCWGXTGmR7PxXWNhQruvaNdchVy
+ Uhvg==
+X-Gm-Message-State: AOAM530EMRZb3/PTykxN0golaCAiUkf2cG1zsZ7tJUP5hypL7IvDLKz1
+ 0g5ZkuP5vAF3Wo0cxcN9DNBZOHEKuyU=
+X-Google-Smtp-Source: ABdhPJx3jy1MLaow5X/qWZ9TUytxavu7ZHU5CdYDdGVoTeIu/Y6bNJXwUJJDuWzGUOx7/GKNPWhrEw==
+X-Received: by 2002:a1c:1d46:: with SMTP id d67mr31968222wmd.152.1593007491419; 
+ Wed, 24 Jun 2020 07:04:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v5sm7368959wre.87.2020.06.24.07.04.46
+ by smtp.gmail.com with ESMTPSA id q128sm8069049wma.38.2020.06.24.07.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 24 Jun 2020 07:04:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 610051FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 77F151FF8F;
  Wed, 24 Jun 2020 15:04:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/25] crypto/linux_keyring: fix 'secret_keyring' configure
- test
-Date: Wed, 24 Jun 2020 15:04:23 +0100
-Message-Id: <20200624140446.15380-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 03/25] tests/vm: pass args through to BaseVM's __init__
+Date: Wed, 24 Jun 2020 15:04:24 +0100
+Message-Id: <20200624140446.15380-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200624140446.15380-1-alex.bennee@linaro.org>
 References: <20200624140446.15380-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -75,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,40 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- David Edmondson <david.edmondson@oracle.com>, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Edmondson <david.edmondson@oracle.com>
+From: Robert Foley <robert.foley@linaro.org>
 
-The configure test for 'secret_keyring' incorrectly checked the
-'have_keyring' variable.
+Adding the args parameter to BaseVM's __init__.
+We will shortly need to pass more parameters to the class
+so let's just pass args rather than growing the parameter list.
 
-Fixes: 54e7aac0562452e4fcab65ca5001d030eef2de15
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200618092636.71832-1-david.edmondson@oracle.com>
+Message-Id: <20200601211421.1277-2-robert.foley@linaro.org>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vm/basevm.py | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/configure b/configure
-index ba88fd18244..69ffd750dbc 100755
---- a/configure
-+++ b/configure
-@@ -6369,7 +6369,7 @@ EOF
- fi
- if test "$secret_keyring" != "no"
- then
--    if test "$have_keyring" == "yes"
-+    if test "$have_keyring" = "yes"
-     then
- 	secret_keyring=yes
-     else
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index a80b616a08d..5a58e6c3930 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -61,11 +61,10 @@ class BaseVM(object):
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, debug=False, vcpus=None, genisoimage=None,
+-                 build_path=None):
++    def __init__(self, args):
+         self._guest = None
+-        self._genisoimage = genisoimage
+-        self._build_path = build_path
++        self._genisoimage = args.genisoimage
++        self._build_path = args.build_path
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -78,7 +77,7 @@ class BaseVM(object):
+         self._ssh_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
+         open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
+ 
+-        self.debug = debug
++        self.debug = args.debug
+         self._stderr = sys.stderr
+         self._devnull = open(os.devnull, "w")
+         if self.debug:
+@@ -92,8 +91,8 @@ class BaseVM(object):
+                        (",ipv6=no" if not self.ipv6 else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+-        if vcpus and vcpus > 1:
+-            self._args += ["-smp", "%d" % vcpus]
++        if args.jobs and args.jobs > 1:
++            self._args += ["-smp", "%d" % args.jobs]
+         if kvm_available(self.arch):
+             self._args += ["-enable-kvm"]
+         else:
+@@ -456,8 +455,7 @@ def main(vmcls):
+             return 1
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+-        vm = vmcls(debug=args.debug, vcpus=args.jobs,
+-                   genisoimage=args.genisoimage, build_path=args.build_path)
++        vm = vmcls(args)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.20.1
 
