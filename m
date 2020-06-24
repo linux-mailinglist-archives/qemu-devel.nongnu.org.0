@@ -2,118 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C9D20757B
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:18:23 +0200 (CEST)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D942075AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:27:40 +0200 (CEST)
+Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo6EI-0005W7-Qi
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33712)
+	id 1jo6NG-0004CO-KX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jo69N-0004uK-9G
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:13:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34305
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jo69L-00069E-39
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:13:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593007992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=a5XZZ3qN9prO3zudRPfge4IHtHeAVyoyR3GSX4VDijY=;
- b=M8gNC+xpJD0jGBRaDZtXHat67yzix9MPwLWNfSwiW1fN5LxcP07fYuoDiAEUlfiEurPJNh
- lj+M7Od6BzIkK4psIhSkS7kuW04aEzIZABp4y1eKfNc5vmeZI9j6qeQmp4I9iYRU02tuZl
- P1pMJbjW23uKMp8WAM9pvJC49zBm4pg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-lumezF9JPQyHHjeBzy4kRg-1; Wed, 24 Jun 2020 10:13:08 -0400
-X-MC-Unique: lumezF9JPQyHHjeBzy4kRg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BE452D0;
- Wed, 24 Jun 2020 14:13:07 +0000 (UTC)
-Received: from [10.36.113.65] (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 473B279303;
- Wed, 24 Jun 2020 14:13:06 +0000 (UTC)
-Subject: Re: [PATCH v5 02/12] pc-bios: s390x: Consolidate timing functions
- into time.h
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
- <20200624075226.92728-3-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <148712d3-b18b-4215-ffef-339e3bc5bf4e@redhat.com>
-Date: Wed, 24 Jun 2020 16:13:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jo6MC-0002t5-Fb
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:26:32 -0400
+Received: from mail-eopbgr690047.outbound.protection.outlook.com
+ ([40.107.69.47]:44541 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jo6M9-0003TP-DA
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:26:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P5H1y56TzUhs2wmcTcMfeELAI7P61G+RRoPHuRK2S7GWuwFmMQvUq3Abp8xOHn0bv22vScpWyBzBqyQ70KUYhu+0JiKfqM4NbnFbx+Wviwml/iNulFv6mxBfo2JWfwKw/k7swzVVVgZCZQC4MVyFW9B6Bk4EdS3/YM6uaGxvUIeNOmKG0IittHsLIOY0+q/OH+OhDCxqjLaM1gIfq3xu5xImMv4RGtGaUpEGmKPrUzE7Nvcl4Rc43EbfnSYHQ0OAVKg5o+Pzf60LN64BXLVnLWRjAW29aIOyu2HZmKRYVOLtvZtFv2fBXYCjhZ2OAVkj/gUWwzcOwJHV+SbkrYUQOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iw2cpqgPXTafzX/Nk5jFNgvUekUUu0pc8d+MmlJL7bY=;
+ b=cfca6kco4503ttdG04w1nytnjjHaQh7J0K5T0XY2lSewRXQNfs/C1LTUY3LicZYbwP3FzVyLsofJbYQO61p8jXjIVrZBuOBEpztZghOJpGYrXJtLBgPGYKW8VtkYpmCv6N5JtENwvIuycjWq6zQNJpKKT+fAf36zZtqP6aUPRNK+4dHNw7bOR009a64YVbaMcv/VVMA7lxET2H3/j1MmN2FPYhNhB7J6ngeZI+1lFaum6vA4EM9U15q0JZ/sN6sIe6G+j/exLBxcosuVIEX9JWaWDBHBLguHAL/ikwrEikXpkIhtOsHvAVAJD2s303WWmPsTBaV9EXAT5rEd+3RPaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iw2cpqgPXTafzX/Nk5jFNgvUekUUu0pc8d+MmlJL7bY=;
+ b=PlvNbetkOmYVGVxGOPJbYatfvjYX8TCQAFE8fIm7pEPOoVQcT4olKGAOCf+Cmj1l1bdTYLjM2zeB2I20tTo3nm133aaO56jRm021aSUoWhZB/oGuGQzixy5ddojIY1TiCAcDBtrxAUvB4y2Uho7rZNrqMUlvRdyLSj4+RUjIbcw=
+Received: from CY4PR22CA0026.namprd22.prod.outlook.com (2603:10b6:903:ed::12)
+ by MW2PR02MB3689.namprd02.prod.outlook.com (2603:10b6:907:7::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 24 Jun
+ 2020 14:26:25 +0000
+Received: from CY1NAM02FT003.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:ed:cafe::39) by CY4PR22CA0026.outlook.office365.com
+ (2603:10b6:903:ed::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21 via Frontend
+ Transport; Wed, 24 Jun 2020 14:26:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT003.mail.protection.outlook.com (10.152.74.151) with Microsoft SMTP
+ Server id 15.20.3131.20 via Frontend Transport; Wed, 24 Jun 2020 14:26:25
+ +0000
+Received: from [149.199.38.66] (port=43408 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jo6Kt-0001Yr-2f; Wed, 24 Jun 2020 07:25:11 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jo6M5-0000KK-0v; Wed, 24 Jun 2020 07:26:25 -0700
+Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 05OEQOsh017900; 
+ Wed, 24 Jun 2020 07:26:24 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jo6M3-0000K9-Lg; Wed, 24 Jun 2020 07:26:24 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 7AE3913C6068; Wed, 24 Jun 2020 19:46:21 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2 1/3] usb/hcd-xhci: Make dma read/writes hooks pci free
+Date: Wed, 24 Jun 2020 19:46:14 +0530
+Message-Id: <1593008176-9629-2-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(39860400002)(396003)(376002)(346002)(46966005)(426003)(478600001)(26005)(8676002)(2906002)(8936002)(336012)(4326008)(186003)(2616005)(6266002)(7416002)(42186006)(5660300002)(47076004)(36756003)(316002)(110136005)(70206006)(54906003)(70586007)(82740400003)(356005)(82310400002)(81166007)(6666004)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <20200624075226.92728-3-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 94c4e36f-73e1-499a-3902-08d8184a9370
+X-MS-TrafficTypeDiagnostic: MW2PR02MB3689:
+X-Microsoft-Antispam-PRVS: <MW2PR02MB3689438C58C60DF09E8DAA77CA950@MW2PR02MB3689.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-Forefront-PRVS: 0444EB1997
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pM939L8v59hWt0YagjOk9aC1DmhPfhoaHH2q/ddviM8+CuxktkpP2xJdYqoh17yCyWSM1YMeW+2KIjTNWkK1yydWbnc4XnBsNJtwd22i8d/TtTpKiyn+jGj1Fs16Jc29JYwY02KGNs+sfCxFvpphQ13C13uKWJIlDyGivw2W1vegD/a3znjECD8ABXfV+cTQK/iOdaKZB+zcrB2D85Pk16GXSDQrA41WFyJNjzMbkFQVPuqPkYPKYb5Ur1Pf1X+9Og2Fo4IMLLq7p3l+079l4KcVZ6D/uQPWKIFiGXxC2yaNPFuUZ56Y6Go5Aw2yt1EChGDnizAcUAwpTyXbbyNb+mZoMdqjOUkoR+94plZZJ7gzBGX+fs5wSgLQ/o0fd8koPexHNosVJZPQh87NJnohmw==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2020 14:26:25.3007 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94c4e36f-73e1-499a-3902-08d8184a9370
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR02MB3689
+Received-SPF: pass client-ip=40.107.69.47; envelope-from=saipava@xilinx.com;
+ helo=NAM04-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 10:26:27
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,31 +134,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.06.20 09:52, Janosch Frank wrote:
-> Let's consolidate timing related functions into one header.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> ---
->  pc-bios/s390-ccw/menu.c        |  1 +
->  pc-bios/s390-ccw/netmain.c     | 15 +++------------
->  pc-bios/s390-ccw/s390-ccw.h    |  8 ++++----
->  pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++++++
->  pc-bios/s390-ccw/virtio-net.c  |  1 +
->  pc-bios/s390-ccw/virtio-scsi.c |  1 +
->  pc-bios/s390-ccw/virtio.c      | 18 +++---------------
->  7 files changed, 36 insertions(+), 31 deletions(-)
->  create mode 100644 pc-bios/s390-ccw/s390-time.h
+This patch starts making the hcd-xhci.c pci free, as part of this
+restructuring dma read/writes are handled without passing pci object.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+---
+ hw/usb/hcd-xhci.c | 24 +++++++++++-------------
+ hw/usb/hcd-xhci.h |  3 +++
+ 2 files changed, 14 insertions(+), 13 deletions(-)
 
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index b330e36..fa6ce98 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -495,7 +495,7 @@ static inline void xhci_dma_read_u32s(XHCIState *xhci, dma_addr_t addr,
+ 
+     assert((len % sizeof(uint32_t)) == 0);
+ 
+-    pci_dma_read(PCI_DEVICE(xhci), addr, buf, len);
++    dma_memory_read(xhci->as, addr, buf, len);
+ 
+     for (i = 0; i < (len / sizeof(uint32_t)); i++) {
+         buf[i] = le32_to_cpu(buf[i]);
+@@ -515,7 +515,7 @@ static inline void xhci_dma_write_u32s(XHCIState *xhci, dma_addr_t addr,
+     for (i = 0; i < n; i++) {
+         tmp[i] = cpu_to_le32(buf[i]);
+     }
+-    pci_dma_write(PCI_DEVICE(xhci), addr, tmp, len);
++    dma_memory_write(xhci->as, addr, tmp, len);
+ }
+ 
+ static XHCIPort *xhci_lookup_port(XHCIState *xhci, struct USBPort *uport)
+@@ -644,7 +644,6 @@ static void xhci_die(XHCIState *xhci)
+ 
+ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCIInterrupter *intr = &xhci->intr[v];
+     XHCITRB ev_trb;
+     dma_addr_t addr;
+@@ -663,7 +662,7 @@ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+                                ev_trb.status, ev_trb.control);
+ 
+     addr = intr->er_start + TRB_SIZE*intr->er_ep_idx;
+-    pci_dma_write(pci_dev, addr, &ev_trb, TRB_SIZE);
++    dma_memory_write(xhci->as, addr, &ev_trb, TRB_SIZE);
+ 
+     intr->er_ep_idx++;
+     if (intr->er_ep_idx >= intr->er_size) {
+@@ -720,12 +719,11 @@ static void xhci_ring_init(XHCIState *xhci, XHCIRing *ring,
+ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+                                dma_addr_t *addr)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     uint32_t link_cnt = 0;
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, ring->dequeue, trb, TRB_SIZE);
++        dma_memory_read(xhci->as, ring->dequeue, trb, TRB_SIZE);
+         trb->addr = ring->dequeue;
+         trb->ccs = ring->ccs;
+         le64_to_cpus(&trb->parameter);
+@@ -762,7 +760,6 @@ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+ 
+ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCITRB trb;
+     int length = 0;
+     dma_addr_t dequeue = ring->dequeue;
+@@ -773,7 +770,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, dequeue, &trb, TRB_SIZE);
++        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE);
+         le64_to_cpus(&trb.parameter);
+         le32_to_cpus(&trb.status);
+         le32_to_cpus(&trb.control);
+@@ -828,7 +825,7 @@ static void xhci_er_reset(XHCIState *xhci, int v)
+         xhci_die(xhci);
+         return;
+     }
+-    pci_dma_read(PCI_DEVICE(xhci), erstba, &seg, sizeof(seg));
++    dma_memory_read(xhci->as, erstba, &seg, sizeof(seg));
+     le32_to_cpus(&seg.addr_low);
+     le32_to_cpus(&seg.addr_high);
+     le32_to_cpus(&seg.size);
+@@ -1440,7 +1437,7 @@ static int xhci_xfer_create_sgl(XHCITransfer *xfer, int in_xfer)
+     int i;
+ 
+     xfer->int_req = false;
+-    pci_dma_sglist_init(&xfer->sgl, PCI_DEVICE(xhci), xfer->trb_count);
++    qemu_sglist_init(&xfer->sgl, DEVICE(xhci), xfer->trb_count, xhci->as);
+     for (i = 0; i < xfer->trb_count; i++) {
+         XHCITRB *trb = &xfer->trbs[i];
+         dma_addr_t addr;
+@@ -2101,7 +2098,7 @@ static TRBCCode xhci_address_slot(XHCIState *xhci, unsigned int slotid,
+     assert(slotid >= 1 && slotid <= xhci->numslots);
+ 
+     dcbaap = xhci_addr64(xhci->dcbaap_low, xhci->dcbaap_high);
+-    poctx = ldq_le_pci_dma(PCI_DEVICE(xhci), dcbaap + 8 * slotid);
++    poctx = ldq_le_dma(xhci->as, dcbaap + 8 * slotid);
+     ictx = xhci_mask64(pictx);
+     octx = xhci_mask64(poctx);
+ 
+@@ -2439,7 +2436,7 @@ static TRBCCode xhci_get_port_bandwidth(XHCIState *xhci, uint64_t pctx)
+     /* TODO: actually implement real values here */
+     bw_ctx[0] = 0;
+     memset(&bw_ctx[1], 80, xhci->numports); /* 80% */
+-    pci_dma_write(PCI_DEVICE(xhci), ctx, bw_ctx, sizeof(bw_ctx));
++    dma_memory_write(xhci->as, ctx, bw_ctx, sizeof(bw_ctx));
+ 
+     return CC_SUCCESS;
+ }
+@@ -3431,6 +3428,7 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+     }
+ 
+     usb_xhci_init(xhci);
++    xhci->as = pci_get_address_space(dev);
+     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
+ 
+     memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
+@@ -3531,7 +3529,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+             continue;
+         }
+         slot->ctx =
+-            xhci_mask64(ldq_le_pci_dma(pci_dev, dcbaap + 8 * slotid));
++            xhci_mask64(ldq_le_dma(xhci->as, dcbaap + 8 * slotid));
+         xhci_dma_read_u32s(xhci, slot->ctx, slot_ctx, sizeof(slot_ctx));
+         slot->uport = xhci_lookup_uport(xhci, slot_ctx);
+         if (!slot->uport) {
+diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
+index 2fad4df..18bed7e 100644
+--- a/hw/usb/hcd-xhci.h
++++ b/hw/usb/hcd-xhci.h
+@@ -22,6 +22,8 @@
+ #ifndef HW_USB_HCD_XHCI_H
+ #define HW_USB_HCD_XHCI_H
+ 
++#include "sysemu/dma.h"
++
+ #define TYPE_XHCI "base-xhci"
+ #define TYPE_NEC_XHCI "nec-usb-xhci"
+ #define TYPE_QEMU_XHCI "qemu-xhci"
+@@ -189,6 +191,7 @@ struct XHCIState {
+ 
+     USBBus bus;
+     MemoryRegion mem;
++    AddressSpace *as;
+     MemoryRegion mem_cap;
+     MemoryRegion mem_oper;
+     MemoryRegion mem_runtime;
 -- 
-Thanks,
-
-David / dhildenb
+2.7.4
 
 
