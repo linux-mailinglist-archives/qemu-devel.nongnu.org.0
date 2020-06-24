@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21982096D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:04:19 +0200 (CEST)
-Received: from localhost ([::1]:59052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12502096AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:02:57 +0200 (CEST)
+Received: from localhost ([::1]:52678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joERG-00043D-Mr
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:04:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
+	id 1joEPw-0001D3-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEO8-0007zF-By
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:04 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:32880 helo=mta-01.yadro.com)
+ id 1joEO7-0007yb-Os
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:03 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:32894 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEO4-0006lK-PZ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:04 -0400
+ id 1joEO5-0006lz-83
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:03 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 677224C8B2;
+ by mta-01.yadro.com (Postfix) with ESMTP id D94C84C8B3;
  Wed, 24 Jun 2020 23:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1593039657; x=1594854058; bh=O+oD/8e5D+BiPYJW8vexoxBygMLUSq69Ksz
- h5Vme0KY=; b=Ve33mCRdTnKZCz/qGoRt5QiDgyRPFFjfU7xvt5UGtGlvS+s8J6B
- Pza4tttxYuHM67TrZnvZtqoqOHh51tXRfJ4r9+JEgN7+5aGCBFU98CbQ2xdRl9Bm
- VVTludNQ7kJJ/LSOiNL5sNf+hPGjPgHA2nSiYqu0emH6lZYmKqFZ5PIY=
+ 1593039658; x=1594854059; bh=mc5EETSvNJkKYQCiUzu9RpiV7bYmTNQc+eO
+ rchr6x10=; b=Kh6hiTuqmk4Q8su/9+c5dkj9m0D3ljeVuaM1HxYmNGRtHFkUiP4
+ SHKj60y4YLlWZTKeE51UZDtL/zhIQ8fgxEpeFxBkMBK2IDhxAgA0uYxekgzWJc9F
+ L67WuZAgBzqGZvHE8Hod7Bz7BuNiYCvb5NlcA5lQE4iuRY918bWkMX+c=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hvh5Qxh-11fM; Thu, 25 Jun 2020 02:00:57 +0300 (MSK)
+ with ESMTP id 63d2OYZHT7Nv; Thu, 25 Jun 2020 02:00:58 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id E7EF34C8AB;
- Thu, 25 Jun 2020 02:00:56 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 4410F4C8AE;
+ Thu, 25 Jun 2020 02:00:57 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 25
- Jun 2020 02:00:56 +0300
+ Jun 2020 02:00:57 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 2/8] i386: hvf: Move synchronize functions to sysemu
-Date: Thu, 25 Jun 2020 01:58:45 +0300
-Message-ID: <20200624225850.16982-3-r.bolshakov@yadro.com>
+Subject: [PATCH 3/8] i386: hvf: Add hvf_cpu_synchronize_pre_loadvm()
+Date: Thu, 25 Jun 2020 01:58:46 +0300
+Message-ID: <20200624225850.16982-4-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200624225850.16982-1-r.bolshakov@yadro.com>
 References: <20200624225850.16982-1-r.bolshakov@yadro.com>
@@ -80,98 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+hvf lacks an implementation of cpu_synchronize_pre_loadvm().
 
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- cpus.c                    | 12 ------------
- include/sysemu/hw_accel.h | 10 ++++++++++
- 2 files changed, 10 insertions(+), 12 deletions(-)
+ include/sysemu/hvf.h      |  1 +
+ include/sysemu/hw_accel.h |  3 +++
+ target/i386/hvf/hvf.c     | 11 +++++++++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/cpus.c b/cpus.c
-index 7317ae06b9..26709677d3 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1017,10 +1017,6 @@ void cpu_synchronize_all_states(void)
- 
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_state(cpu);
--        /* TODO: move to cpu_synchronize_state() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_state(cpu);
--        }
-     }
- }
- 
-@@ -1030,10 +1026,6 @@ void cpu_synchronize_all_post_reset(void)
- 
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_post_reset(cpu);
--        /* TODO: move to cpu_synchronize_post_reset() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_post_reset(cpu);
--        }
-     }
- }
- 
-@@ -1043,10 +1035,6 @@ void cpu_synchronize_all_post_init(void)
- 
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_post_init(cpu);
--        /* TODO: move to cpu_synchronize_post_init() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_post_init(cpu);
--        }
-     }
- }
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index 5214ed5202..1d40a8ec01 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -28,6 +28,7 @@ int hvf_vcpu_exec(CPUState *);
+ void hvf_cpu_synchronize_state(CPUState *);
+ void hvf_cpu_synchronize_post_reset(CPUState *);
+ void hvf_cpu_synchronize_post_init(CPUState *);
++void hvf_cpu_synchronize_pre_loadvm(CPUState *);
+ void hvf_vcpu_destroy(CPUState *);
+ void hvf_reset_vcpu(CPUState *);
  
 diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 0ec2372477..80bce75921 100644
+index 80bce75921..e128f8b06b 100644
 --- a/include/sysemu/hw_accel.h
 +++ b/include/sysemu/hw_accel.h
-@@ -14,6 +14,7 @@
- #include "hw/core/cpu.h"
- #include "sysemu/hax.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
+@@ -73,6 +73,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
+     if (hax_enabled()) {
+         hax_cpu_synchronize_pre_loadvm(cpu);
+     }
++    if (hvf_enabled()) {
++        hvf_cpu_synchronize_pre_loadvm(cpu);
++    }
+     if (whpx_enabled()) {
+         whpx_cpu_synchronize_pre_loadvm(cpu);
+     }
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index be016b951a..efe9802962 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -325,6 +325,17 @@ void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
+     run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
+ }
  
- static inline void cpu_synchronize_state(CPUState *cpu)
-@@ -24,6 +25,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_state(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_state(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-@@ -37,6 +41,9 @@ static inline void cpu_synchronize_post_reset(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_post_reset(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_post_reset(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-@@ -50,6 +57,9 @@ static inline void cpu_synchronize_post_init(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_post_init(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_post_init(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
++static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
++                                              run_on_cpu_data arg)
++{
++    cpu->vcpu_dirty = true;
++}
++
++void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
++{
++    run_on_cpu(cpu, do_hvf_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
++}
++
+ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
+ {
+     int read, write;
 -- 
 2.26.1
 
