@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C0F2071E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:14:13 +0200 (CEST)
-Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C4C2071BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:05:38 +0200 (CEST)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3M4-0000Sw-Sx
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
+	id 1jo3Dl-0001zr-Mc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jo34i-0003sK-KW
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jo34g-0003Cn-Vq
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:16 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l2so585440wmf.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I/6veH21fEB0VGgAC9gELMf7IWLDADLluDbGBdkQYUU=;
- b=CbzpDs+XmvguvXmtEGbskuxRL3uH0hLI3yJGb8j0SYFBiR3iDUkTzfoHqzqwIZq7cY
- l2cij9shkxKx+17FH5Te0FANTm/5G75wARuzdwbp6vc+VMSyLoXPbg2WrCFgZpFoS3+4
- CRr346gLERNH9tDBG+gvs2qDecOuZGLFfSdLmMa9HKEKarYdYG3bnfiottOvUDC5rH8G
- TX9xtbMnAfG/Z94Bdu946G7XQLMr2tWidK6SeN6t8FQyj003b9Ndbdkb/oGVEh9vzaeT
- hFLqOodMw7gZRS5Qriln467UxJCTz5oYRU4CJDP5NK3wMkiY3VEN8NjnTS7gITocyG3X
- AKZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=I/6veH21fEB0VGgAC9gELMf7IWLDADLluDbGBdkQYUU=;
- b=J6msnSTgFZV0/tZngGrufqp2S+FXTCKQ1G8eoaHPQTsq8AHcpTXchIXfCWwvGm05T6
- DKO5ofwidhXpN0AykW7FmGCEDEO3Zc4CrkgUG/TxoZOMSiFvMa0R30OKLd4d2d3sbKyS
- W+46ro9Pl6DeZ51T9iYayVGPYkrYn0Q1izcvtjAd45Hn2dMJ3T+HV+dC+zEyQ1zPbmYE
- zHnwl6zDvQ1fNRbBC8jbtsO5OSfQnQuw67vo4H9UxmHVW+mmQ02w9JcipDgRMgwN/XYh
- bsKON+DEZrqcXVCGfoH20VggEKXlyq880B9J8dCn+sK8JGsFa5Qeoyuz9ROzbYcNakCv
- WBLg==
-X-Gm-Message-State: AOAM533y9dTHN48ae2x+QsZqsF2cAlcjz0NJPZlH9nVn3rFj564UbW3n
- ggmpHST1vGoKrRj84mi4NMzsKUDK
-X-Google-Smtp-Source: ABdhPJyslnDH+5NGs8IKHmQ8nBnKoB8jcYyW2ia59ZoNL/yFWwItkl4vEMDKvxLKEDNJtTttwDnhhA==
-X-Received: by 2002:a1c:4343:: with SMTP id q64mr17640772wma.20.1592996173068; 
- Wed, 24 Jun 2020 03:56:13 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id z9sm7353934wmi.41.2020.06.24.03.56.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 03:56:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/core/null-machine: Do not initialize unused chardev
- backends
-Date: Wed, 24 Jun 2020 12:56:11 +0200
-Message-Id: <20200624105611.1049-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jo35O-0005P7-QK
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46047
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jo35M-0003cE-Fu
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592996215;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T37ak+iDPz5gKf6w3ZG3Hd68LNFp/kjpM3L+xYpV2Ik=;
+ b=JaWpFOajPTObadw9OtHkAODu8kSIZ/AnLZhNBBXUjmgNMKaHCOW4kJXQ3GGhl3PWm+EoKR
+ OrbWSXLih4Zf3KaGUah74+Z+s/QmouPkMorGDI8ED0G82UlUdE2NNg7Wmh9Pa/bLv3rV7+
+ AzzDZ8NRmWEKT9U1Qyhh3yuH01CQSoU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-J9LzBJLPOMyhAVSEFjtkgw-1; Wed, 24 Jun 2020 06:56:53 -0400
+X-MC-Unique: J9LzBJLPOMyhAVSEFjtkgw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10A32804001;
+ Wed, 24 Jun 2020 10:56:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95B567FD03;
+ Wed, 24 Jun 2020 10:56:47 +0000 (UTC)
+Date: Wed, 24 Jun 2020 11:56:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH] tests: fix a memory in test_socket_unix_abstract_good
+Message-ID: <20200624105644.GG774096@redhat.com>
+References: <20200603161409.54682-1-liq3ea@163.com>
+ <CAKXe6SJ-HNK-ZKYcGCGsiUmYi_MVGrVmSvric2OjK5m2q=TBjg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAKXe6SJ-HNK-ZKYcGCGsiUmYi_MVGrVmSvric2OjK5m2q=TBjg@mail.gmail.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,46 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: zxq_yx_007@163.com, marcandre lureau <marcandre.lureau@redhat.com>,
+ Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MachineClass uses an inverted logic (inherited from the
-PC machines [*]) to create the chardev backends for the default
-devices (see commits 998bbd74b9d..aa40fc9c964 and ac33f8fad14).
+On Thu, Jun 18, 2020 at 02:12:58PM +0800, Li Qiang wrote:
+> Ping..
+> Anyone queued this?
 
-As the none-machine doesn't have any hardware device, it is
-pointless to initialize chardev backends. Fix by setting the
-'no_defaults' bits in its MachineClass.
+Thanks, I've queud this now.
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/core/null-machine.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> 
+> Thanks,
+> Li Qiang
+> 
+> Li Qiang <liq3ea@163.com> 于2020年6月4日周四 上午12:31写道：
+> 
+> > After build qemu with '-fsanitize=address' extra-cflags,
+> > 'make check' show following leak:
+> >
+> > =================================================================
+> > ==44580==ERROR: LeakSanitizer: detected memory leaks
+> >
+> > Direct leak of 2500 byte(s) in 1 object(s) allocated from:
+> >     #0 0x7f1b5a8b8d28 in __interceptor_calloc
+> > (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+> >     #1 0x7f1b5a514b10 in g_malloc0
+> > (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
+> >     #2 0xd79ea4e4c0ad31c3  (<unknown module>)
+> >
+> > SUMMARY: AddressSanitizer: 2500 byte(s) leaked in 1 allocation(s).
+> >
+> > Call 'g_rand_free' in the end of function to avoid this.
+> >
+> > Fixes: 4d3a329af59("tests/util-sockets: add abstract unix socket cases")
+> > Signed-off-by: Li Qiang <liq3ea@163.com>
+> > ---
+> >  tests/test-util-sockets.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+> > index 2ca1e99f17..ca6671f9bf 100644
+> > --- a/tests/test-util-sockets.c
+> > +++ b/tests/test-util-sockets.c
+> > @@ -312,6 +312,7 @@ static void test_socket_unix_abstract_good(void)
+> >      g_thread_join(serv);
+> >
+> >      g_free(abstract_sock_name);
+> > +    g_rand_free(r);
+> >  }
+> >  #endif
+> >
+> > --
+> > 2.17.1
+> >
+> >
+> >
 
-diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-index cb47d9d4f8..7e693523d7 100644
---- a/hw/core/null-machine.c
-+++ b/hw/core/null-machine.c
-@@ -50,6 +50,11 @@ static void machine_none_machine_init(MachineClass *mc)
-     mc->max_cpus = 1;
-     mc->default_ram_size = 0;
-     mc->default_ram_id = "ram";
-+    mc->no_serial = 1;
-+    mc->no_parallel = 1;
-+    mc->no_floppy = 1;
-+    mc->no_cdrom = 1;
-+    mc->no_sdcard = 1;
- }
- 
- DEFINE_MACHINE("none", machine_none_machine_init)
+Regards,
+Daniel
 -- 
-2.21.3
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
