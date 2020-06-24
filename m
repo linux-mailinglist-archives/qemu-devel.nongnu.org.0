@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD292079DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:04:48 +0200 (CEST)
-Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC252079F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:10:09 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo8pL-0004Rl-Hj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52164)
+	id 1jo8uW-0005Wp-0F
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8Vj-0004P0-6E
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26277
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8Vk-0004Sv-OB
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33645
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VD-00058e-KN
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8VD-000592-Ns
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:44:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593017037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=swXcdoc9eRaX4Yp+R8VG5EV9jVN+Os9mXktWkr3z+Rk=;
- b=ULUnykvsqu3L7mU+sDP/xesEIw6HzT2AxGBa/BQYS71cK69HDcwiJtcBKHda52eEpuuilL
- P+Yc4Qsor8XsmIrbtBmkmsAiZOrmhoSRU1HxkF/xDMSQynnQlLS6gj2A/EBQO4ahgrOZEY
- 300q82LnbSuv0pvDSGbJDNWGIdmcvsU=
+ bh=fyOrQXF65hyfyQ8tp79aXLLHb3DkZ3DgTCZOrqgfpI4=;
+ b=hk1emvPE1Rl5Q2b0RSFdsE6pdIFP+QQsilhVgjzDUBG9ybaKsjeWBnRibvNxE8ST/kz4K/
+ 65P9DWblExKLzoLo6fCdAAo/bNWWxC6Ve9Qysc5xJRhZy0gOFwyX4W8L5oSkiQojzK/kgw
+ KFYcgOCIpbvQoXlw2GWElW7vXgEdWSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-6u4Os1XwPlSU7zFIQRE70Q-1; Wed, 24 Jun 2020 12:43:52 -0400
-X-MC-Unique: 6u4Os1XwPlSU7zFIQRE70Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-432-dV0d0y0gOgKyQ2Os3GyI9g-1; Wed, 24 Jun 2020 12:43:52 -0400
+X-MC-Unique: dV0d0y0gOgKyQ2Os3GyI9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD32B10059A3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F036F18585A8;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB8407931F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BED22891E8;
  Wed, 24 Jun 2020 16:43:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4DC1A113848A; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
+ id 580EE113848D; Wed, 24 Jun 2020 18:43:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/46] acpi: Avoid unnecessary error_propagate() after
- error_setg()
-Date: Wed, 24 Jun 2020 18:43:27 +0200
-Message-Id: <20200624164344.3778251-30-armbru@redhat.com>
+Subject: [PATCH 32/46] qom: Rename qdev_get_type() to object_get_type()
+Date: Wed, 24 Jun 2020 18:43:30 +0200
+Message-Id: <20200624164344.3778251-33-armbru@redhat.com>
 In-Reply-To: <20200624164344.3778251-1-armbru@redhat.com>
 References: <20200624164344.3778251-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,79 +85,36 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit before previous enables another round of the transformation
-from recent commit "error: Avoid unnecessary error_propagate() after
-error_setg()".
+Commit 2f262e06f0 lifted qdev_get_type() from qdev to object without
+renaming it accordingly.  Do that now.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/acpi/core.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ qom/object.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 91ae66b806..f6d9ec4f13 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -239,7 +239,6 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
- void acpi_table_add(const QemuOpts *opts, Error **errp)
- {
-     AcpiTableOptions *hdrs = NULL;
--    Error *err = NULL;
-     char **pathnames = NULL;
-     char **cur;
-     size_t bloblen = 0;
-@@ -257,13 +256,13 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-         goto out;
-     }
-     if (hdrs->has_file == hdrs->has_data) {
--        error_setg(&err, "'-acpitable' requires one of 'data' or 'file'");
-+        error_setg(errp, "'-acpitable' requires one of 'data' or 'file'");
-         goto out;
-     }
- 
-     pathnames = g_strsplit(hdrs->has_file ? hdrs->file : hdrs->data, ":", 0);
-     if (pathnames == NULL || pathnames[0] == NULL) {
--        error_setg(&err, "'-acpitable' requires at least one pathname");
-+        error_setg(errp, "'-acpitable' requires at least one pathname");
-         goto out;
-     }
- 
-@@ -272,7 +271,7 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-         int fd = open(*cur, O_RDONLY | O_BINARY);
- 
-         if (fd < 0) {
--            error_setg(&err, "can't open file %s: %s", *cur, strerror(errno));
-+            error_setg(errp, "can't open file %s: %s", *cur, strerror(errno));
-             goto out;
-         }
- 
-@@ -288,8 +287,8 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-                 memcpy(blob + bloblen, data, r);
-                 bloblen += r;
-             } else if (errno != EINTR) {
--                error_setg(&err, "can't read file %s: %s",
--                           *cur, strerror(errno));
-+                error_setg(errp, "can't read file %s: %s", *cur,
-+                           strerror(errno));
-                 close(fd);
-                 goto out;
-             }
-@@ -298,14 +297,12 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-         close(fd);
-     }
- 
--    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, &err);
-+    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, errp);
- 
- out:
-     g_free(blob);
-     g_strfreev(pathnames);
-     qapi_free_AcpiTableOptions(hdrs);
--
--    error_propagate(errp, err);
+diff --git a/qom/object.c b/qom/object.c
+index b8aac074c2..f6e9f0e413 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -2359,7 +2359,7 @@ object_class_property_add_tm(ObjectClass *klass, const char *name,
+                                      NULL, NULL, prop);
  }
  
- unsigned acpi_table_len(void *current)
+-static char *qdev_get_type(Object *obj, Error **errp)
++static char *object_get_type(Object *obj, Error **errp)
+ {
+     return g_strdup(object_get_typename(obj));
+ }
+@@ -2702,7 +2702,7 @@ void object_class_property_set_description(ObjectClass *klass,
+ 
+ static void object_class_init(ObjectClass *klass, void *data)
+ {
+-    object_class_property_add_str(klass, "type", qdev_get_type,
++    object_class_property_add_str(klass, "type", object_get_type,
+                                   NULL);
+ }
+ 
 -- 
 2.26.2
 
