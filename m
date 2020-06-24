@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3338B2071DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:11:58 +0200 (CEST)
-Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C0F2071E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:14:13 +0200 (CEST)
+Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3Jt-0006bt-8Z
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56850)
+	id 1jo3M4-0000Sw-Sx
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo303-0001hJ-L6
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20339
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo300-0001RT-Cp
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kJ1X9tL+8X9iETr0946BQomjGJC2BtyDNZqQzsORQj8=;
- b=b/1yIBNatKaNKZwoq9fBHtzO7gXpCQ0QDgVSGU5U1muGcDePY0huEss/NTj6gMpXJo4a6f
- TV0s+pgLRhbvkZ1YXg/Slf6mU9HGfQvH3WylruHn00yfYidNpKXLU48L3fBwzgnoA2P3w4
- pnB1Yy5TrMdyC1UBXNTcvLPP1VoERPE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-aqkOrfpiPwSBR2J7yf5ULA-1; Wed, 24 Jun 2020 06:51:21 -0400
-X-MC-Unique: aqkOrfpiPwSBR2J7yf5ULA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 110B718A8220
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 10:51:21 +0000 (UTC)
-Received: from virtlab511.virt.lab.eng.bos.redhat.com
- (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9527E61169;
- Wed, 24 Jun 2020 10:51:20 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo34i-0003sK-KW
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:16 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo34g-0003Cn-Vq
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:56:16 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so585440wmf.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I/6veH21fEB0VGgAC9gELMf7IWLDADLluDbGBdkQYUU=;
+ b=CbzpDs+XmvguvXmtEGbskuxRL3uH0hLI3yJGb8j0SYFBiR3iDUkTzfoHqzqwIZq7cY
+ l2cij9shkxKx+17FH5Te0FANTm/5G75wARuzdwbp6vc+VMSyLoXPbg2WrCFgZpFoS3+4
+ CRr346gLERNH9tDBG+gvs2qDecOuZGLFfSdLmMa9HKEKarYdYG3bnfiottOvUDC5rH8G
+ TX9xtbMnAfG/Z94Bdu946G7XQLMr2tWidK6SeN6t8FQyj003b9Ndbdkb/oGVEh9vzaeT
+ hFLqOodMw7gZRS5Qriln467UxJCTz5oYRU4CJDP5NK3wMkiY3VEN8NjnTS7gITocyG3X
+ AKZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=I/6veH21fEB0VGgAC9gELMf7IWLDADLluDbGBdkQYUU=;
+ b=J6msnSTgFZV0/tZngGrufqp2S+FXTCKQ1G8eoaHPQTsq8AHcpTXchIXfCWwvGm05T6
+ DKO5ofwidhXpN0AykW7FmGCEDEO3Zc4CrkgUG/TxoZOMSiFvMa0R30OKLd4d2d3sbKyS
+ W+46ro9Pl6DeZ51T9iYayVGPYkrYn0Q1izcvtjAd45Hn2dMJ3T+HV+dC+zEyQ1zPbmYE
+ zHnwl6zDvQ1fNRbBC8jbtsO5OSfQnQuw67vo4H9UxmHVW+mmQ02w9JcipDgRMgwN/XYh
+ bsKON+DEZrqcXVCGfoH20VggEKXlyq880B9J8dCn+sK8JGsFa5Qeoyuz9ROzbYcNakCv
+ WBLg==
+X-Gm-Message-State: AOAM533y9dTHN48ae2x+QsZqsF2cAlcjz0NJPZlH9nVn3rFj564UbW3n
+ ggmpHST1vGoKrRj84mi4NMzsKUDK
+X-Google-Smtp-Source: ABdhPJyslnDH+5NGs8IKHmQ8nBnKoB8jcYyW2ia59ZoNL/yFWwItkl4vEMDKvxLKEDNJtTttwDnhhA==
+X-Received: by 2002:a1c:4343:: with SMTP id q64mr17640772wma.20.1592996173068; 
+ Wed, 24 Jun 2020 03:56:13 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id z9sm7353934wmi.41.2020.06.24.03.56.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 03:56:12 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/31] i386: Mask SVM features if nested SVM is disabled
-Date: Wed, 24 Jun 2020 06:50:48 -0400
-Message-Id: <20200624105048.375353-31-pbonzini@redhat.com>
-In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
-References: <20200624104917.375143-1-pbonzini@redhat.com>
+Subject: [PATCH] hw/core/null-machine: Do not initialize unused chardev
+ backends
+Date: Wed, 24 Jun 2020 12:56:11 +0200
+Message-Id: <20200624105611.1049-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,75 +86,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Fu <yfu@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+The MachineClass uses an inverted logic (inherited from the
+PC machines [*]) to create the chardev backends for the default
+devices (see commits 998bbd74b9d..aa40fc9c964 and ac33f8fad14).
 
-QEMU incorrectly validates FEAT_SVM feature flags against
-GET_SUPPORTED_CPUID even if SVM features are being masked out by
-cpu_x86_cpuid().  This can make QEMU print warnings on most AMD
-CPU models, even when SVM nesting is disabled (which is the
-default).
+As the none-machine doesn't have any hardware device, it is
+pointless to initialize chardev backends. Fix by setting the
+'no_defaults' bits in its MachineClass.
 
-This bug was never detected before because of a Linux KVM bug:
-until Linux v5.6, KVM was not filtering out SVM features in
-GET_SUPPORTED_CPUID when nested was disabled.  This KVM bug was
-fixed in Linux v5.7-rc1, on Linux commit a50718cc3f43 ("KVM:
-nSVM: Expose SVM features to L1 iff nested is enabled").
-
-Fix the problem by adding a CPUID_EXT3_SVM dependency to all
-FEAT_SVM feature flags in the feature_dependencies table.
-
-Reported-by: Yanan Fu <yfu@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200623230116.277409-1-ehabkost@redhat.com>
-[Fix testcase. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/cpu.c                   | 4 ++++
- tests/qtest/test-x86-cpuid-compat.c | 4 ++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ hw/core/null-machine.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 06dc013d88..36cbd3d027 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1404,6 +1404,10 @@ static FeatureDep feature_dependencies[] = {
-         .from = { FEAT_VMX_SECONDARY_CTLS,  VMX_SECONDARY_EXEC_ENABLE_VMFUNC },
-         .to = { FEAT_VMX_VMFUNC,            ~0ull },
-     },
-+    {
-+        .from = { FEAT_8000_0001_ECX,       CPUID_EXT3_SVM },
-+        .to = { FEAT_SVM,                   ~0ull },
-+    },
- };
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+index cb47d9d4f8..7e693523d7 100644
+--- a/hw/core/null-machine.c
++++ b/hw/core/null-machine.c
+@@ -50,6 +50,11 @@ static void machine_none_machine_init(MachineClass *mc)
+     mc->max_cpus = 1;
+     mc->default_ram_size = 0;
+     mc->default_ram_id = "ram";
++    mc->no_serial = 1;
++    mc->no_parallel = 1;
++    mc->no_floppy = 1;
++    mc->no_cdrom = 1;
++    mc->no_sdcard = 1;
+ }
  
- typedef struct X86RegisterInfo32 {
-diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
-index 772287bdb4..7ca1883a29 100644
---- a/tests/qtest/test-x86-cpuid-compat.c
-+++ b/tests/qtest/test-x86-cpuid-compat.c
-@@ -256,7 +256,7 @@ int main(int argc, char **argv)
-                    "-cpu 486,+invtsc", "xlevel", 0x80000007);
-     /* CPUID[8000_000A].EDX: */
-     add_cpuid_test("x86/cpuid/auto-xlevel/486/npt",
--                   "-cpu 486,+npt", "xlevel", 0x8000000A);
-+                   "-cpu 486,+svm,+npt", "xlevel", 0x8000000A);
-     /* CPUID[C000_0001].EDX: */
-     add_cpuid_test("x86/cpuid/auto-xlevel2/phenom/xstore",
-                    "-cpu phenom,+xstore", "xlevel2", 0xC0000001);
-@@ -348,7 +348,7 @@ int main(int argc, char **argv)
-                    "-machine pc-i440fx-2.4 -cpu SandyBridge,",
-                    "xlevel", 0x80000008);
-     add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.4/npt-on",
--                   "-machine pc-i440fx-2.4 -cpu SandyBridge,+npt",
-+                   "-machine pc-i440fx-2.4 -cpu SandyBridge,+svm,+npt",
-                    "xlevel", 0x80000008);
- 
-     /* Test feature parsing */
+ DEFINE_MACHINE("none", machine_none_machine_init)
 -- 
-2.26.2
+2.21.3
 
 
