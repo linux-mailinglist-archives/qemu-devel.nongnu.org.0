@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E65E207194
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:54:54 +0200 (CEST)
-Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D06220719B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:56:32 +0200 (CEST)
+Received: from localhost ([::1]:43284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo33N-0007qb-FU
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
+	id 1jo34x-000382-9o
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:56:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zf-0000ul-PL
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39306
- helo=us-smtp-1.mimecast.com)
+ id 1jo2zg-0000wc-H0
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30609
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo2zd-0001Eq-Ow
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:03 -0400
+ id 1jo2ze-0001FJ-Ml
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:51:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995861;
+ s=mimecast20190719; t=1592995862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9Je4/GAg4SH4ewN1aBvGsdOoDw32X/9E7go6c+n/Uk=;
- b=P4kEQ2GVdxnpqEc7t4t7oFQEvCTa624bS6vQu0NJHsHMG/xjg/6Sz739SRd+RT+fvzrXFh
- j6/+wBGIkh9y6Hro4RrSaqvmrQDwfYsdxeHfPLd94TrjolNNt8CNTdcsJZumhES7Jm8Ygg
- +hShBOZgW31fkqyjmEiveEmZsAC3Y44=
+ bh=nBWaIJo4bFpLkQ8TajhjWPCF9H4gQ3+pqbE7kQrqxq8=;
+ b=IXN5WdXWmH7Orlzcx5y6dofBNId0+WBGN+NFJhF2O5kNHHR2orXfG6W6coCJwhKBkFw7bM
+ Ty/skI/Lv0/FqNw2Vic1qlxkK4h57VlVbuvSD1bqVhkgJjl8ZpC8BHIPb8M/IdshgcXRj4
+ cqKcN7i1uHSiW2/KOBg04mgwAWkrFd4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-lDTrkSTPPcC5AwSzj00fzA-1; Wed, 24 Jun 2020 06:50:58 -0400
-X-MC-Unique: lDTrkSTPPcC5AwSzj00fzA-1
+ us-mta-191-6D_vO6aZNeK1dBF5bZa3Ow-1; Wed, 24 Jun 2020 06:50:59 -0400
+X-MC-Unique: 6D_vO6aZNeK1dBF5bZa3Ow-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D325A87950F;
- Wed, 24 Jun 2020 10:50:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9182918A8231;
+ Wed, 24 Jun 2020 10:50:58 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 883681DC;
- Wed, 24 Jun 2020 10:50:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B1C371695;
+ Wed, 24 Jun 2020 10:50:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/31] memory: Revert "memory: accept mismatching sizes in
- memory_region_access_valid"
-Date: Wed, 24 Jun 2020 06:50:22 -0400
-Message-Id: <20200624105048.375353-5-pbonzini@redhat.com>
+Subject: [PULL 06/31] replay: notify the main loop when there are no
+ instructions
+Date: Wed, 24 Jun 2020 06:50:23 -0400
+Message-Id: <20200624105048.375353-6-pbonzini@redhat.com>
 In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 References: <20200624104917.375143-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,88 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-Memory API documentation documents valid .min_access_size and .max_access_size
-fields and explains that any access outside these boundaries is blocked.
+When QEMU is executed in console mode without any external event sources,
+main loop may sleep for a very long time. But in case of replay
+there is another event source - event log.
+This patch adds main loop notification when the vCPU loop has nothing
+to do and main loop should process the inputs from the event log.
 
-This is what devices seem to assume.
-
-However this is not what the implementation does: it simply
-ignores the boundaries unless there's an "accepts" callback.
-
-Naturally, this breaks a bunch of devices.
-
-Revert to the documented behaviour.
-
-Devices that want to allow any access can just drop the valid field,
-or add the impl field to have accesses converted to appropriate
-length.
-
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Richard Henderson <rth@twiddle.net>
-Fixes: CVE-2020-13754
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842363
-Fixes: a014ed07bd5a ("memory: accept mismatching sizes in memory_region_access_valid")
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200610134731.1514409-1-mst@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Message-Id: <159013007895.28110.2020104406699709721.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- memory.c | 29 +++++++++--------------------
- 1 file changed, 9 insertions(+), 20 deletions(-)
+ cpus.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 2f15a4b250..9200b20130 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1352,35 +1352,24 @@ bool memory_region_access_valid(MemoryRegion *mr,
-                                 bool is_write,
-                                 MemTxAttrs attrs)
+diff --git a/cpus.c b/cpus.c
+index 7317ae06b9..41d1c5099f 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1374,6 +1374,13 @@ static int64_t tcg_get_icount_limit(void)
+     }
+ }
+ 
++static void notify_aio_contexts(void)
++{
++    /* Wake up other AioContexts.  */
++    qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
++    qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
++}
++
+ static void handle_icount_deadline(void)
  {
--    int access_size_min, access_size_max;
--    int access_size, i;
--
--    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+    if (mr->ops->valid.accepts
-+        && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-         return false;
-     }
+     assert(qemu_in_vcpu_thread());
+@@ -1382,9 +1389,7 @@ static void handle_icount_deadline(void)
+                                                       QEMU_TIMER_ATTR_ALL);
  
--    if (!mr->ops->valid.accepts) {
--        return true;
--    }
--
--    access_size_min = mr->ops->valid.min_access_size;
--    if (!mr->ops->valid.min_access_size) {
--        access_size_min = 1;
-+    if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+        return false;
+         if (deadline == 0) {
+-            /* Wake up other AioContexts.  */
+-            qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+-            qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
++            notify_aio_contexts();
+         }
      }
+ }
+@@ -1407,6 +1412,10 @@ static void prepare_icount_for_run(CPUState *cpu)
+         cpu->icount_extra = cpu->icount_budget - insns_left;
  
--    access_size_max = mr->ops->valid.max_access_size;
-+    /* Treat zero as compatibility all valid */
-     if (!mr->ops->valid.max_access_size) {
--        access_size_max = 4;
-+        return true;
+         replay_mutex_lock();
++
++        if (cpu->icount_budget == 0 && replay_has_checkpoint()) {
++            notify_aio_contexts();
++        }
      }
- 
--    access_size = MAX(MIN(size, access_size_max), access_size_min);
--    for (i = 0; i < size; i += access_size) {
--        if (!mr->ops->valid.accepts(mr->opaque, addr + i, access_size,
--                                    is_write, attrs)) {
--            return false;
--        }
-+    if (size > mr->ops->valid.max_access_size
-+        || size < mr->ops->valid.min_access_size) {
-+        return false;
-     }
--
-     return true;
  }
  
 -- 
