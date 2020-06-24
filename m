@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F594207E19
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:07:41 +0200 (CEST)
-Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703E5207E20
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:09:10 +0200 (CEST)
+Received: from localhost ([::1]:49628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joCcO-0007bT-Ai
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38334)
+	id 1joCdp-0001iC-HD
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:09:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCaY-0005u6-3b
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:05:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20365
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCb1-0006df-5b
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:06:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53893
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCaV-0006KY-SU
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:05:45 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCay-0006U0-Vd
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:06:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593032742;
+ s=mimecast20190719; t=1593032772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GoeW8gajJmWLqtYbv0tXC1bxUOPBvwa6snKUFs3QNoY=;
- b=aDyHe001Y4GNU2qA/2R0LWzzbpIopdA701pY9XQ3xReM4lpfo7av1sEhuJFYOWbN8yj2zX
- 7Vld4VrcGusIu06JtsE0y1dVuz+tRL0wllOKY2vDh/Yyq2gpLefC/5wpF9jRHONjakNAHt
- xBbVi63SobYaF2PIXwx+k6DNlzi4uzY=
+ bh=1jAwlRWfXY+qq3+eNT2MOlPttHxRE7zf5fDJTPYXz/g=;
+ b=Ko9pAtv1MMy3ezVgnUpyXYFpbIyKKnD8fTz+TQLi8lybjTH7Rn2XrJl3rcIs7oN5gZAAHY
+ qwm+24+AepVmyCICryprDfEfbsV6mdcmvYyX7NYjA4N8icWXgQvxNj9PpnymoRmuO16TId
+ wFi6gQZKePYxxKmLAYPL1NFWpE6L5gs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-2NDb5uGYMdm0t6pfr_Gw1Q-1; Wed, 24 Jun 2020 17:05:40 -0400
-X-MC-Unique: 2NDb5uGYMdm0t6pfr_Gw1Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-360-ExTSMnrUN2emIoKOZ-zMRw-1; Wed, 24 Jun 2020 17:06:10 -0400
+X-MC-Unique: ExTSMnrUN2emIoKOZ-zMRw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5BCC8015F5;
- Wed, 24 Jun 2020 21:05:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744D610059A3;
+ Wed, 24 Jun 2020 21:06:09 +0000 (UTC)
 Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15C602B4AD;
- Wed, 24 Jun 2020 21:05:39 +0000 (UTC)
-Subject: Re: [PATCH 31/46] qom: Use error_reportf_err() instead of
- g_printerr() in examples
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9266CBA45;
+ Wed, 24 Jun 2020 21:06:08 +0000 (UTC)
+Subject: Re: [PATCH 32/46] qom: Rename qdev_get_type() to object_get_type()
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-32-armbru@redhat.com>
+ <20200624164344.3778251-33-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <ce694e63-1138-03d8-dda2-5b536a12db11@redhat.com>
-Date: Wed, 24 Jun 2020 16:05:38 -0500
+Message-ID: <21a18c43-5a26-5ecf-4a3c-38b2dc857598@redhat.com>
+Date: Wed, 24 Jun 2020 16:06:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-32-armbru@redhat.com>
+In-Reply-To: <20200624164344.3778251-33-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,11 +88,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/24/20 11:43 AM, Markus Armbruster wrote:
+> Commit 2f262e06f0 lifted qdev_get_type() from qdev to object without
+> renaming it accordingly.  Do that now.
+> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   include/qom/object.h | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
-> 
+>   qom/object.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
