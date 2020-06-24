@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3604C20725E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:43:14 +0200 (CEST)
-Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D648B20726C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:46:11 +0200 (CEST)
+Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3o9-0001Yg-8x
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40576)
+	id 1jo3r0-0004su-V1
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:46:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cB-0004EE-1o
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30517
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cI-0004Kh-EE
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34405
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c2-0007y4-HW
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:50 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cB-000839-4p
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592998241;
+ s=mimecast20190719; t=1592998250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=y8oK1IS+EFYwCrcadvYwCaYeNhaoALj922vvoKka4WM=;
- b=TtI2/rqP9opNtzvuuEvQz2LBdYxqY+Oc4lEG4n66fLGRbnP1t05O+cSiY5aToSP1NeQLI4
- eSWRvn0aN4OUZz+AB5YAPA6EGOBqiFEU8v3B+Hn/Zx2XfhKb/iCcuZmGsDypiID/zCk5GK
- ReurZFShFo+t86BMfL7QBncoL++7QJw=
+ references:references; bh=0EXJ8NYt40ZdOwU8P9DCLv07anDNn+TKTHDnSwUu9wQ=;
+ b=KmHpHrsJp6/YuGocyHoa4bMZJf4m2yFuEDmDVrnzwnWg50nf3dB5EeuH3ZyWXyX6i6DzYz
+ CcgfHQrIAZ2GEbl3c1tPyJSLkQWA/BxdW+o88Fm4qPZZ0k8bRuZC/IE2e26A6UL7v5Pdbs
+ T3qXwfvweF6By0QXYls2ZN3XkJXSkUo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-x-DEcjazOWabiNPBG0V1uA-1; Wed, 24 Jun 2020 07:30:39 -0400
-X-MC-Unique: x-DEcjazOWabiNPBG0V1uA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-111-8YGSv19TM_C4-I8_7Td0_Q-1; Wed, 24 Jun 2020 07:30:46 -0400
+X-MC-Unique: 8YGSv19TM_C4-I8_7Td0_Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF7BD107ACF2;
- Wed, 24 Jun 2020 11:30:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80B8A107ACF5;
+ Wed, 24 Jun 2020 11:30:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63D825C660;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA8D31A8F7;
  Wed, 24 Jun 2020 11:30:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2C75631E47; Wed, 24 Jun 2020 13:30:27 +0200 (CEST)
+ id 356BF31E4A; Wed, 24 Jun 2020 13:30:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/20] pc_basic_device_init: drop no_vmport arg
-Date: Wed, 24 Jun 2020 13:30:19 +0200
-Message-Id: <20200624113026.13343-14-kraxel@redhat.com>
+Subject: [PATCH v4 14/20] softmmu: initialize spice and audio earlier
+Date: Wed, 24 Jun 2020 13:30:20 +0200
+Message-Id: <20200624113026.13343-15-kraxel@redhat.com>
 In-Reply-To: <20200624113026.13343-1-kraxel@redhat.com>
 References: <20200624113026.13343-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,74 +88,59 @@ Cc: qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we pass pcms anyway, we don't need the no_vmport arg any more.
-No functional change.
+audiodev must be initialized before machine_set_property
+so the machine can have audiodev property aliases.
+
+spice must initialize before audiodev because the default
+audiodev is spice only in case spice is actually enabled.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/i386/pc.h | 1 -
- hw/i386/pc.c         | 3 +--
- hw/i386/pc_piix.c    | 1 -
- hw/i386/pc_q35.c     | 1 -
- 4 files changed, 1 insertion(+), 5 deletions(-)
+ softmmu/vl.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 3512dcfd3d27..283754f42bd5 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -164,7 +164,6 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
-                           ISADevice **rtc_state,
-                           bool create_fdctrl,
--                          bool no_vmport,
-                           uint32_t hpet_irqs);
- void pc_init_ne2k_isa(ISABus *bus, NICInfo *nd);
- void pc_cmos_init(PCMachineState *pcms,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index dfe8ba07e982..ba88e1dfb80f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1180,7 +1180,6 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
-                           ISADevice **rtc_state,
-                           bool create_fdctrl,
--                          bool no_vmport,
-                           uint32_t hpet_irqs)
- {
-     int i;
-@@ -1247,7 +1246,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     i8257_dma_init(isa_bus, 0);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f669c06ede4a..3bfb9d29fd60 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4131,12 +4131,17 @@ void qemu_init(int argc, char **argv, char **envp)
+                       fsdev_init_func, NULL, &error_fatal);
+ #endif
  
-     /* Super I/O */
--    pc_superio_init(isa_bus, create_fdctrl, no_vmport);
-+    pc_superio_init(isa_bus, create_fdctrl, pcms->vmport != ON_OFF_AUTO_ON);
- }
++    /* spice needs the timers to be initialized by this point */
++    /* spice must initialize before audio as it changes the default auiodev */
++    qemu_spice_init();
++
+     /*
+-     * Note: we need to create block backends before
++     * Note: we need to create audio and block backends before
+      * machine_set_property(), so machine properties can refer to
+      * them.
+      */
+     configure_blockdev(&bdo_queue, machine_class, snapshot);
++    audio_init_audiodevs();
  
- void pc_nic_init(PCMachineClass *pcmc, ISABus *isa_bus, PCIBus *pci_bus)
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1242ed811804..2752b108001c 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -236,7 +236,6 @@ static void pc_init1(MachineState *machine,
+     machine_opts = qemu_get_machine_opts();
+     qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+@@ -4230,9 +4235,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+     }
  
-     /* init basic PC hardware */
-     pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
--                         (pcms->vmport != ON_OFF_AUTO_ON),
-                          0x4);
+-    /* spice needs the timers to be initialized by this point */
+-    qemu_spice_init();
+-
+     cpu_ticks_init();
  
-     pc_nic_init(pcmc, isa_bus, pci_bus);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 25dc40896673..b8c8eaa691f6 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -276,7 +276,6 @@ static void pc_q35_init(MachineState *machine)
+     if (default_net) {
+@@ -4342,8 +4344,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         create_default_memdev(current_machine, mem_path);
+     }
  
-     /* init basic PC hardware */
-     pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
--                         (pcms->vmport != ON_OFF_AUTO_ON),
-                          0xff0104);
+-    audio_init_audiodevs();
+-
+     /* from here on runstate is RUN_STATE_PRELAUNCH */
+     machine_run_board_init(current_machine);
  
-     /* connect pm stuff to lpc */
 -- 
 2.18.4
 
