@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C9220758A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:19:52 +0200 (CEST)
-Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871C5207577
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:17:16 +0200 (CEST)
+Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo6Fj-0007yt-9w
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
+	id 1jo6DD-00038f-HQ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61c-0005NH-3M
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:16 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54120)
+ id 1jo68y-0004I3-E7
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:12:52 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61Z-0003Yc-Pu
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:15 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j18so2441419wmi.3
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:05:13 -0700 (PDT)
+ id 1jo68w-0005xn-C4
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:12:52 -0400
+Received: by mail-wm1-x332.google.com with SMTP id 22so2474749wmg.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2kkJsCsmjZ6u2MwSGAsWWjkvARamWfB9kpoiOtV7oLc=;
- b=hyyFrqkwGkLUP6+PLih+TsKY3F1hRXCmQnL3uNwg+PEUaF6E3v9AjGMEkY9lZPtp2a
- 8Gdw9waGFQfkVBvOMxd9ruWCt88vlCIMcUnSkcheK0weGnBzp8ZVQJvwphKInmH1eGTa
- 19vXG7TrgTbRcsuuETPhHYqXad+A1N+eIRnTH8h6UzD+ZYDK9TyDjuj8TjLIt2HEUHup
- 1l/QWIoD86xLuP9WF7cj02bXwiVzPNClhwDFFUDY3ETJ5xiwVq2G8f2XgxI0bwTsUxDk
- l1oiPnoEmt5t7QnhS9VijNQSdNe0RJ0DGm7pOfM4cJzmwc1Nygch87UGKZI0Z01pm9Ya
- vgcA==
+ bh=4JsqTbe4nx5Y4ze+RsCvycmftPXZdnpOMBPVnwlH7Pw=;
+ b=Zy5uGhZbVrUE8s9R5MwQljmeTArI2h6EuIR7XdyOUQB2h42SYTpt+fTHzwLIAxx9gA
+ RazQPygD9QjKE8ReAH+2lo/+RcbihCXmbhIIzeNMP8KgzB9AcY3SHqGY+rASAmlDf8So
+ 3trIBocAW6fjoDQIq3FlYX3YGCu+aHrJYMaK1h3RlIT2CNiEfDt9FRKwVRDlZrhODdai
+ w6THDSkse2iaMdF9IyIpDI0YTA0GwZMpUlTk8tQvFzv+UPh/TYmFGyEjISETJ4hiwgtL
+ vZ2OkrYWvURyseBtKoAOFjdCMRfuu1QuZFiR27/hW8uhYvzPqdilDyXCOB0gATO5dInG
+ +8lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2kkJsCsmjZ6u2MwSGAsWWjkvARamWfB9kpoiOtV7oLc=;
- b=DjGQn6wZtB2zcP9LDkiyHTJB+vsQGz2D0HcAv18a+n05iTdJkcm+h6zyip0FxSIwsV
- r6M+SLITKUjwnGtfzoD3Tq+kSvxQtK6ZMbP3Mplb0daRfFeyWyMykPVzfptUmjTo93r+
- RU9wCbATrWlSHfWjOPjpEvUOaf0UxzDskhEgZ3J8NgtbVjR/ygICV8vkges73UHa2qT2
- YmpEdX4ajIwKDLNPHxFLrNcsdELpa/3BJehjIQLFtjzKx6b7xwaCl9LUIy48cKA8FY3G
- R+IHlTkGoiv3SnfLJ3LCh9CAUbnzkjCVOLUIzqEkC8kTfNFANdOkm6rvvqiygBRpExIQ
- ryDw==
-X-Gm-Message-State: AOAM533ASOKrWcaiZT7sayQLylrgZO9Om/t/414/A2yDNCnjDCkcCtOs
- Nxa1PjSwA5yxb3CNpKpmszRqDg==
-X-Google-Smtp-Source: ABdhPJwRBBTtjZgt0tLwhGppgBW+fPaGwhlUnFB9SHuqwSWt0XJB9tnKM5KWlSvQOZg+QkHHb8s/2Q==
-X-Received: by 2002:a7b:c926:: with SMTP id h6mr27226435wml.184.1593007511369; 
- Wed, 24 Jun 2020 07:05:11 -0700 (PDT)
+ bh=4JsqTbe4nx5Y4ze+RsCvycmftPXZdnpOMBPVnwlH7Pw=;
+ b=YJBFVT6ZrGeTQ11uadxWw+q0N9PY25TB7Rxwi7w/1xXzg8+UX2T42fOQaJZT49LZpy
+ VKB/NFUBra4gg/1haHsv31qjg3WWeLHwyCc8NVLOjTiLqZinUy+9fLZpLDUMMLO+adNN
+ BaMEEDMoqIn/K1JTnJd8c0u74sQOBy82Q0N2D34rn5XmBvgK1oziDy72/M9WosEOTuJp
+ vX3mOkNvvFiQELTepo5icp9NYsBp1l6GOQvfoD9JfIiKikq1bLqiIM1KgYgbThMup0vw
+ RcaEc/w+skA5pzdXXHEAyJbPN5cjdqgEbh5ind1vwex4Yvk+c2jKiXk0sA69HaVandhi
+ dMKA==
+X-Gm-Message-State: AOAM532Lho1lF3XFm9CxquzU/i4OiAfqSqQbtB1m7ZPWCQGZs8bmcyOI
+ pvOYATF2j2666tm7JTRPJ5GIIQ==
+X-Google-Smtp-Source: ABdhPJwpIwx4oujo6JpFWsB6StuWkOhS1lIrCOl4Yre6INAU6VAQJK7bnBTIAGoaoaQq9+x9U0y1TA==
+X-Received: by 2002:a1c:1d04:: with SMTP id d4mr31544499wmd.156.1593007968819; 
+ Wed, 24 Jun 2020 07:12:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm18997755wrt.73.2020.06.24.07.04.57
+ by smtp.gmail.com with ESMTPSA id z16sm17596847wrr.35.2020.06.24.07.12.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 07:05:04 -0700 (PDT)
+ Wed, 24 Jun 2020 07:12:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 707F51FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id 8804C1FFAB;
  Wed, 24 Jun 2020 15:04:48 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 21/25] tests/docker: add --registry support to tooling
-Date: Wed, 24 Jun 2020 15:04:42 +0100
-Message-Id: <20200624140446.15380-22-alex.bennee@linaro.org>
+Subject: [PATCH  v2 22/25] gitlab: add acceptance testing to system builds
+Date: Wed, 24 Jun 2020 15:04:43 +0100
+Message-Id: <20200624140446.15380-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200624140446.15380-1-alex.bennee@linaro.org>
 References: <20200624140446.15380-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,123 +88,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to point the tools towards a registry from which they
-can grab pre-built layers instead of doing everything from scratch
-each time. To enable this we need to be using the DOCKER_BUILDKIT
-engine.
+As part of migrating things from Travis to GitLab add the acceptance
+tests. To do this:
 
-[AJB: note registry.gitlab.com/stsquad/qemu is for my testing, the
-final version will see DOCKER_REGISTRY default to registry.gitlab.com/qemu-project/qemu]
+  - rename system1 to system-ubuntu-main
+  - rename system2 to system-fedora-misc
+  - split into build/check/acceptance
+  - remove -j from check stages
+  - use artifacts to save build stage
+  - add post acceptance template and use
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/docker/Makefile.include |  3 +++
- tests/docker/docker.py        | 25 +++++++++++++++++++++----
- 2 files changed, 24 insertions(+), 4 deletions(-)
+Message-Id: <20200622143204.12921-16-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 7bac1a67e3e..4c5ebc6197f 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -13,6 +13,7 @@ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.doc
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
- # Use a global constant ccache directory to speed up repetitive builds
- DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
-+DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),registry.gitlab.com/stsquad/qemu)
+---
+v2
+  - updated with danp's docker changes
+  - use needs instead of dependancies
+---
+ .gitlab-ci.yml | 65 +++++++++++++++++++++++++++++++++++++++++++++++---
+ .travis.yml    | 23 ------------------
+ 2 files changed, 62 insertions(+), 26 deletions(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a7abc55a5c6..7fcbdacd9e9 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,8 +1,12 @@
++# Currently we have two build stages after our containers are built:
++#  - build (for traditional build and test or first stage build)
++#  - test (for test stages, using build artefacts from a build stage)
+ stages:
+   - containers
+   - containers-layer2
+   - containers-layer3
+   - build
++  - test
  
- DOCKER_TESTS := $(notdir $(shell \
- 	find $(SRC_PATH)/tests/docker/ -name 'test-*' -type f))
-@@ -57,6 +58,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 	$(call quiet-command,\
- 		$(DOCKER_SCRIPT) build -t qemu/$* -f $< \
- 		$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) \
-+		$(if $(DOCKER_REGISTRY),--registry $(DOCKER_REGISTRY)) \
- 		$(if $(NOUSER),,--add-current-user) \
- 		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
- 		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
-@@ -213,6 +215,7 @@ endif
- 	@echo '                         Include extra files in image.'
- 	@echo '    ENGINE=auto/docker/podman'
- 	@echo '                         Specify which container engine to run.'
-+	@echo '    REGISTRY=url         Cache builds from registry (default:$(DOCKER_REGISTRY))'
- 
- # This rule if for directly running against an arbitrary docker target.
- # It is called by the expanded docker targets (e.g. make
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index cc6f76caa60..09dedbf83f9 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -221,6 +221,8 @@ class Docker(object):
-     """ Running Docker commands """
-     def __init__(self):
-         self._command = _guess_engine_command()
-+        if "docker" in self._command:
-+            os.environ["DOCKER_BUILDKIT"] = "1"
-         self._instance = None
-         atexit.register(self._kill_instances)
-         signal.signal(signal.SIGTERM, self._kill_instances)
-@@ -289,10 +291,16 @@ class Docker(object):
-         return labels.get("com.qemu.dockerfile-checksum", "")
- 
-     def build_image(self, tag, docker_dir, dockerfile,
--                    quiet=True, user=False, argv=None, extra_files_cksum=[]):
-+                    quiet=True, user=False, argv=None, registry=None,
-+                    extra_files_cksum=[]):
-         if argv is None:
-             argv = []
- 
-+        if registry is not None:
-+            dockerfile = dockerfile.replace("FROM qemu/",
-+                                            "FROM %s/qemu/" %
-+                                            (registry))
+ include:
+   - local: '/.gitlab-ci.d/edk2.yml'
+@@ -24,26 +28,81 @@ include:
+         ../configure --enable-werror $CONFIGURE_ARGS ;
+       fi
+     - make -j"$JOBS"
+-    - make -j"$JOBS" $MAKE_CHECK_ARGS
++    - if test -n "$MAKE_CHECK_ARGS";
++      then
++        make $MAKE_CHECK_ARGS ;
++      fi
 +
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
-                                              dir=docker_dir, suffix=".docker")
-@@ -313,8 +321,14 @@ class Docker(object):
++.native_test_job_template: &native_test_job_definition
++  stage: test
++  image: $CI_REGISTRY_IMAGE/$IMAGE:latest
++  script:
++    - cd build
++    - make $MAKE_CHECK_ARGS
  
-         tmp_df.flush()
- 
--        self._do_check(["build", "-t", tag, "-f", tmp_df.name] + argv +
--                       [docker_dir],
-+        build_args = ["build", "-t", tag, "-f", tmp_df.name]
-+        if registry is not None:
-+            cache = "%s/%s" % (registry, tag)
-+            build_args += ["--cache-from", cache]
-+        build_args += argv
-+        build_args += [docker_dir]
+-build-system1:
++.post_acceptance_template: &post_acceptance
++  after_script:
++    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
++    - du -chs $HOME/avocado/data/cache
 +
-+        self._do_check(build_args,
-                        quiet=quiet)
++build:system-ubuntu-main:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: ubuntu2004
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
+       riscv64-softmmu sparc-softmmu
++  artifacts:
++    paths:
++      - build
++
++check:system-ubuntu-main:
++  <<: *native_test_job_definition
++  needs:
++    - job: build:system-ubuntu-main
++      artifacts: true
++  variables:
++    IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
  
-     def update_image(self, tag, tarball, quiet=True):
-@@ -403,6 +417,8 @@ class BuildCommand(SubCommand):
-         parser.add_argument("--add-current-user", "-u", dest="user",
-                             action="store_true",
-                             help="Add the current user to image's passwd")
-+        parser.add_argument("--registry", "-r",
-+                            help="cache from docker registry")
-         parser.add_argument("-t", dest="tag",
-                             help="Image Tag")
-         parser.add_argument("-f", dest="dockerfile",
-@@ -458,7 +474,8 @@ class BuildCommand(SubCommand):
-                      for k, v in os.environ.items()
-                      if k.lower() in FILTERED_ENV_NAMES]
-             dkr.build_image(tag, docker_dir, dockerfile,
--                            quiet=args.quiet, user=args.user, argv=argv,
-+                            quiet=args.quiet, user=args.user,
-+                            argv=argv, registry=args.registry,
-                             extra_files_cksum=cksum)
+-build-system2:
++acceptance:system-ubuntu-main:
++  <<: *native_test_job_definition
++  needs:
++    - job: build:system-ubuntu-main
++      artifacts: true
++  variables:
++    IMAGE: ubuntu2004
++    MAKE_CHECK_ARGS: check-acceptance
++
++build:system-fedora-alt:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: fedora
+     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
+       xtensa-softmmu nios2-softmmu or1k-softmmu
++  artifacts:
++    paths:
++      - build
++
++check:system-fedora-alt:
++  <<: *native_test_job_definition
++  needs:
++    - job: build:system-fedora-alt
++      artifacts: true
++  variables:
++    IMAGE: fedora
+     MAKE_CHECK_ARGS: check
  
-             rmtree(docker_dir)
++check:system-fedora-alt:
++  <<: *native_test_job_definition
++  needs:
++    - job: build:system-fedora-alt
++      artifacts: true
++  variables:
++    IMAGE: fedora
++    MAKE_CHECK_ARGS: check-acceptance
++
+ build-disabled:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index 74158f741b1..c24dfbe377f 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -289,29 +289,6 @@ jobs:
+       python: 3.6
+ 
+ 
+-    # Acceptance (Functional) tests
+-    - name: "GCC check-acceptance"
+-      dist: bionic
+-      env:
+-        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+-        - TEST_CMD="make check-acceptance"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
+-      after_script:
+-        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
+-        - du -chs $HOME/avocado/data/cache
+-      addons:
+-        apt:
+-          packages:
+-            - python3-pil
+-            - python3-pip
+-            - python3-numpy
+-            - python3-opencv
+-            - python3-venv
+-            - rpm2cpio
+-            - tesseract-ocr
+-            - tesseract-ocr-eng
+-
+-
+     # Using newer GCC with sanitizers
+     - name: "GCC9 with sanitizers (softmmu)"
+       addons:
 -- 
 2.20.1
 
