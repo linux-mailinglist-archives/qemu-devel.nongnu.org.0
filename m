@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5AB207548
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:07:55 +0200 (CEST)
-Received: from localhost ([::1]:42892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DEE207590
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:21:19 +0200 (CEST)
+Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo64A-0002DJ-Ds
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1jo6H8-0002Ir-3l
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61U-000582-2o
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:08 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46114)
+ id 1jo61d-0005Pq-FO
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jo61R-0003Wo-RO
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:07 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r12so2377264wrj.13
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:05:05 -0700 (PDT)
+ id 1jo61X-0003Xl-Dv
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:05:17 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g18so2434093wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MIJDY0wCVkf83j0A2folG6JUn+sBiPxS+WIpYPexzXA=;
- b=amljOvBKYb19XKL33ec5BrEZxXJlWJo9bRCzIKec77yGf0buKkslUQThM9fO91t4iF
- 43aL3IhhX9QgVp+Y4RBLFKpfTGeTD04zBiKemPeRlD4YFBMkHx7wVEjDuLG35La+Lip1
- 74DKs6TNAbU61X2AffvS2oDQHuFw7Va3u5533t1s9osOJa+lCHopeKbenxba0swJAOjj
- piv6LSGE4O8UrMucTkr8X98WljFugesqdV0q5YoNAShRdO9QH3H2qk4ytoFLTX3e4mNE
- alZoz6+Rc36sOCllsLQCh1e01vLkJ1U3wLn5/ygxL/oV3gjLSQh4rH0niuiVaa0P+WSJ
- qB9Q==
+ bh=xcC1dEPRPSwS0guxyTrS7h54huqSdjkxAZKSe+0TYJU=;
+ b=H6iBPqZtj/NDjb+zP/vFXoXSJkBu4Ypbg9W0WZqrHWAZjn7mE8c56oQmkQTwU6zRw8
+ uK21bRZtmUv4ncvsHCBz7n2kc3ZzrhUQDgT/E58G6kEjQ/BBZqdrlewn8Ay+HAw6Ta3S
+ 4HMyOH4PTJ7jfGm2MaJIweyAFbiNWOHb+IQEDmFpoGvvmlq4BgFSk64wOQZi2hfxdyns
+ A7p9+8CklWqF63sne/90FO+KL4GDAZKjCrjaebYkEUuKnswOB9pdW8E3SZNdJBUlfosS
+ UZruaHU7FrSj5k1ygj9Dc1VBEZSde8l7D7Z8rppaUOBmy0by9YEhtyRLO/5CjL2FblS2
+ c+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MIJDY0wCVkf83j0A2folG6JUn+sBiPxS+WIpYPexzXA=;
- b=uR4AwNJDauVS9sMd6Vd9XkTrJENi3j+Amu/aEIgNiiP6Vuvpnbp9icyN9rG+aXyFgj
- RZH74if1COyJEXQmYAWvX/3UN6LuHU2qmL3fYA7JSnpGysakPOt75oHiM8yGEjnjR8Fr
- p1si31o/jEps9rH93XYOu+g9qGnpkHgsysJmRGq7ZetLuDdLpX0ltyvTzPD+bJ1Pi6xT
- pQ/qq6ybVpLDZI/0vjf17XKqKs70Ls5ShKuN75GbQ3SfUOrjqvCeHthcrnEQI0BBT7c6
- EpZeVZb4ZQiDI//IJHdu+4ejarukrru6rcu/+leK/ey56GYAoER7y4ZKqnopT932PYaR
- 897g==
-X-Gm-Message-State: AOAM5335SdUC7Lhyc8eImoD8lG1SFrQlHkf+ER2QzrVQIEMjcOAy9+Vd
- aGE5IZOgcaRFKOwtW7c3AAn4bw==
-X-Google-Smtp-Source: ABdhPJwyKPX/7cdfW3jjDhePiHIxMw4yOMpTtCwt1bs4QdfHyqxZkGm2DmTzSfoOmdU2m+1CZcsyMg==
-X-Received: by 2002:adf:9404:: with SMTP id 4mr30595963wrq.367.1593007504234; 
- Wed, 24 Jun 2020 07:05:04 -0700 (PDT)
+ bh=xcC1dEPRPSwS0guxyTrS7h54huqSdjkxAZKSe+0TYJU=;
+ b=IRKjF6ginI794f8/DVQt/Y/GSF47VTt9E1+h7Gu0I2vXwRzSB9Lcp23kvmlPnV6+Mu
+ HejsA3bXyKukdilAXZqmV6EuF4Vy9NeW0mjq/6UanLUkOmiLeTsJ5SGisP6GTOmKTzb+
+ f0n2evAMid3UUZ7bV1NWTrGksLRWsTDUqGdGx8iK0wIjb6cK9gaIFDJd1ky9Ax/34/86
+ 3v0o9Tu7gm7mLD8wetccMOTmR6tcsHYs2YqaaE/fJHA6IPgreY32T94HPSEs2z4zdYyB
+ JS7TYwfCDs+RrCK3HsbCm9EUBKPqFt62H98uYcAhBM5xBvyRfrUPsGRzfvglMsYhL5Ct
+ LVIw==
+X-Gm-Message-State: AOAM532m+erVib93DP6U7WCeNIZhGWYiDvdpYtlUuS5WeumDsFGLc0My
+ R6cpUiRcsvuC16y0/WmzMPLmkA==
+X-Google-Smtp-Source: ABdhPJxgZVe55tlw9OjASmiSFYQohPDerTNt4hdeyUYML/UX1zevlHzBntIvcfCgHgYpAbGiprSYpA==
+X-Received: by 2002:adf:f608:: with SMTP id t8mr16419707wrp.308.1593007509905; 
+ Wed, 24 Jun 2020 07:05:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n5sm3827123wmi.34.2020.06.24.07.04.52
+ by smtp.gmail.com with ESMTPSA id o29sm19603059wra.5.2020.06.24.07.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 07:04:56 -0700 (PDT)
+ Wed, 24 Jun 2020 07:05:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D3061FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 82D111FF9C;
  Wed, 24 Jun 2020 15:04:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 12/25] tests/vm: switch from optsparse to argparse
-Date: Wed, 24 Jun 2020 15:04:33 +0100
-Message-Id: <20200624140446.15380-13-alex.bennee@linaro.org>
+Subject: [PATCH  v2 13/25] tests/vm: allow us to take advantage of MTTCG
+Date: Wed, 24 Jun 2020 15:04:34 +0100
+Message-Id: <20200624140446.15380-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200624140446.15380-1-alex.bennee@linaro.org>
 References: <20200624140446.15380-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,119 +96,33 @@ Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-optparse has been deprecated since version 3.2 and argparse is the
-blessed replacement. Take the opportunity to enhance our help output
-showing defaults when called.
+We currently limit TCG guests to -smp 1 but now we have added some
+aarch64 guests we can do better when running on x86_64 hardware.
+Raise the limit for TCG guests when it is safe to do so.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Robert Foley <robert.foley@linaro.org>
 ---
- tests/vm/basevm.py | 84 +++++++++++++++++++++++-----------------------
- 1 file changed, 42 insertions(+), 42 deletions(-)
+ tests/vm/basevm.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 04d083409a5..93859362606 100644
+index 93859362606..dd96a6d4af6 100644
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -23,7 +23,7 @@ from qemu.accel import kvm_available
- from qemu.machine import QEMUMachine
- import subprocess
- import hashlib
--import optparse
-+import argparse
- import atexit
- import tempfile
- import shutil
-@@ -556,47 +556,47 @@ def parse_args(vmcls):
+@@ -553,6 +553,12 @@ def parse_args(vmcls):
+     def get_default_jobs():
+         if kvm_available(vmcls.arch):
+             return multiprocessing.cpu_count() // 2
++        elif os.uname().machine == "x86_64" and \
++             vmcls.arch in ["aarch64", "x86_64", "i386"]:
++            # MTTCG is available on these arches and we can allow more cores.
++            # But only up to a reasonable limit. User can always override
++            # these limits with --jobs.
++            return min(multiprocessing.cpu_count() // 2, 8)
          else:
              return 1
  
--    parser = optparse.OptionParser(
--        description="VM test utility.  Exit codes: "
--                    "0 = success, "
--                    "1 = command line error, "
--                    "2 = environment initialization failed, "
--                    "3 = test command failed")
--    parser.add_option("--debug", "-D", action="store_true",
--                      help="enable debug output")
--    parser.add_option("--image", "-i", default="%s.img" % vmcls.name,
--                      help="image file name")
--    parser.add_option("--force", "-f", action="store_true",
--                      help="force build image even if image exists")
--    parser.add_option("--jobs", type=int, default=get_default_jobs(),
--                      help="number of virtual CPUs")
--    parser.add_option("--verbose", "-V", action="store_true",
--                      help="Pass V=1 to builds within the guest")
--    parser.add_option("--build-image", "-b", action="store_true",
--                      help="build image")
--    parser.add_option("--build-qemu",
--                      help="build QEMU from source in guest")
--    parser.add_option("--build-target",
--                      help="QEMU build target", default="check")
--    parser.add_option("--build-path", default=None,
--                      help="Path of build directory, "\
--                           "for using build tree QEMU binary. ")
--    parser.add_option("--interactive", "-I", action="store_true",
--                      help="Interactively run command")
--    parser.add_option("--snapshot", "-s", action="store_true",
--                      help="run tests with a snapshot")
--    parser.add_option("--genisoimage", default="genisoimage",
--                      help="iso imaging tool")
--    parser.add_option("--config", "-c", default=None,
--                      help="Provide config yaml for configuration. "\
--                           "See config_example.yaml for example.")
--    parser.add_option("--efi-aarch64",
--                      default="/usr/share/qemu-efi-aarch64/QEMU_EFI.fd",
--                      help="Path to efi image for aarch64 VMs.")
--    parser.add_option("--log-console", action="store_true",
--                      help="Log console to file.")
--    parser.disable_interspersed_args()
--    return parser.parse_args()
-+    parser = argparse.ArgumentParser(
-+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-+        description="Utility for provisioning VMs and running builds",
-+        epilog="""Remaining arguments are passed to the command.
-+        Exit codes: 0 = success, 1 = command line error,
-+        2 = environment initialization failed,
-+        3 = test command failed""")
-+    parser.add_argument("--debug", "-D", action="store_true",
-+                        help="enable debug output")
-+    parser.add_argument("--image", "-i", default="%s.img" % vmcls.name,
-+                        help="image file name")
-+    parser.add_argument("--force", "-f", action="store_true",
-+                        help="force build image even if image exists")
-+    parser.add_argument("--jobs", type=int, default=get_default_jobs(),
-+                        help="number of virtual CPUs")
-+    parser.add_argument("--verbose", "-V", action="store_true",
-+                        help="Pass V=1 to builds within the guest")
-+    parser.add_argument("--build-image", "-b", action="store_true",
-+                        help="build image")
-+    parser.add_argument("--build-qemu",
-+                        help="build QEMU from source in guest")
-+    parser.add_argument("--build-target",
-+                        help="QEMU build target", default="check")
-+    parser.add_argument("--build-path", default=None,
-+                        help="Path of build directory, "\
-+                        "for using build tree QEMU binary. ")
-+    parser.add_argument("--interactive", "-I", action="store_true",
-+                        help="Interactively run command")
-+    parser.add_argument("--snapshot", "-s", action="store_true",
-+                        help="run tests with a snapshot")
-+    parser.add_argument("--genisoimage", default="genisoimage",
-+                        help="iso imaging tool")
-+    parser.add_argument("--config", "-c", default=None,
-+                        help="Provide config yaml for configuration. "\
-+                        "See config_example.yaml for example.")
-+    parser.add_argument("--efi-aarch64",
-+                        default="/usr/share/qemu-efi-aarch64/QEMU_EFI.fd",
-+                        help="Path to efi image for aarch64 VMs.")
-+    parser.add_argument("--log-console", action="store_true",
-+                        help="Log console to file.")
-+    return parser.parse_known_args()
- 
- def main(vmcls, config=None):
-     try:
 -- 
 2.20.1
 
