@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24D3207A19
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:19:20 +0200 (CEST)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8862079E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 19:07:57 +0200 (CEST)
+Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo93P-0003Mx-No
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:19:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55106)
+	id 1jo8sO-000223-RM
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 13:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8eJ-000318-34
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:53:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46590
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo8eF-0000ww-Q4
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 12:53:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593017598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WvZEfGLkbje2PmwPmlxywRP8vofYtAWH0NIC79T30BQ=;
- b=HF8y6vIRNcy4skUbBbMZzfuSjofru3EQlX6VEgcErk8w0YsIq8qhxAxYQrXsKx0kUoo1++
- NNFYRQ5D+Rg8bIbBOjFh4ChSO9yVMmZ6UYRDdGuBMV3KFMlZ5enKWYwOULZi0JPSf+XWck
- VaKUXFG++DGXObcBLLpa9sp2O4lWP3Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-fhQgBarZM0CRByrgSGD7Rg-1; Wed, 24 Jun 2020 12:53:17 -0400
-X-MC-Unique: fhQgBarZM0CRByrgSGD7Rg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E474107ACCD;
- Wed, 24 Jun 2020 16:53:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 375B65C66E;
- Wed, 24 Jun 2020 16:53:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B781A11384D4; Wed, 24 Jun 2020 18:53:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v10 1/9] error: auto propagated local_err
-References: <20200317151625.20797-1-vsementsov@virtuozzo.com>
- <20200317151625.20797-2-vsementsov@virtuozzo.com>
- <20200610163921.28d824aa@bahia.lan>
- <877dw8dhvk.fsf@dusky.pond.sub.org>
- <20200615083835.54e3fcb1@bahia.lan>
-Date: Wed, 24 Jun 2020 18:53:05 +0200
-In-Reply-To: <20200615083835.54e3fcb1@bahia.lan> (Greg Kurz's message of "Mon, 
- 15 Jun 2020 08:38:35 +0200")
-Message-ID: <87k0zw8ky6.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo8fc-0005N7-60; Wed, 24 Jun 2020 12:54:44 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:39782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jo8fa-0001aW-F9; Wed, 24 Jun 2020 12:54:43 -0400
+Received: by mail-ed1-f68.google.com with SMTP id g1so2015486edv.6;
+ Wed, 24 Jun 2020 09:54:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=a6S4bFuq2ksSYnhHtpwRXYgyoZWUl1SmVKgAtXplKrg=;
+ b=fItONiZaafpOPdAlp3tJzUto5PiC1AIn0jW8KE+Wc2DIkxRiARWFWTGmSmP754fWKn
+ /buvRB6lNHaikKwn4FPEHXnli/wHVuVGphSw9XzxsbaUx0Xh1/iJBisvWsfKMamFYcfb
+ lrHCJnmSnMIy1WxChWv+yDPUaxF3JxY9J3JXpbf/u9rSOKL1fREdtWNaRZAAwGmXYEWd
+ gChsO4DAXjUSILrpfCKLMiJtrbEgTQWPC2ajCdDfkJiorbFRN/7+ApBSaS4LmtbkKmWL
+ lII4/kfaVixsdur/gYI/kZDYEmxfx4/UhAx64gLr7K8CUhNytDCWEbIuSEZNAYDhjCOQ
+ TG1w==
+X-Gm-Message-State: AOAM532ZSvYZY8bVm5d8LVo5GMPq3chj2q4GJMde7U70rHA1/b3NkjQw
+ xLBmTjmg6qv3qzAwuqruVNbmSnga0WjzVAvUjnw=
+X-Google-Smtp-Source: ABdhPJyIbeH/uMHKa3eVyADG8s9vwe3k01Kdmkx7V4urSTcWwfKcoluL/vtzOuzQy5W3e1s/vTPQiQP981EAvAIyeTs=
+X-Received: by 2002:a50:fa8d:: with SMTP id w13mr28138716edr.324.1593017680589; 
+ Wed, 24 Jun 2020 09:54:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+References: <20200620225854.31160-1-f4bug@amsat.org>
+ <20200620225854.31160-7-f4bug@amsat.org>
+ <38918d0a-272f-c05c-6a03-c6ddd8cc592e@kaod.org>
+ <a046bcd2-1937-d971-8a1c-23fae0dfc9b1@amsat.org>
+In-Reply-To: <a046bcd2-1937-d971-8a1c-23fae0dfc9b1@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 24 Jun 2020 18:54:29 +0200
+Message-ID: <CAAdtpL4vFQaD_7uUvVAOy34ySXrZCQWnALM9=FOfVZo3750ufg@mail.gmail.com>
+Subject: Re: [PATCH v4 6/8] hw/arm/aspeed: Describe each PCA9552 device
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.208.68;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-f68.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 12:54:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +73,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Stefano Stabellini <sstabellini@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Corey Minyard <cminyard@mvista.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+Hi C=C3=A9dric,
 
-> On Mon, 15 Jun 2020 07:21:03 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
+On Mon, Jun 22, 2020 at 10:35 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+> On 6/22/20 8:49 AM, C=C3=A9dric Le Goater wrote:
+> > On 6/21/20 12:58 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> We have 2 distinct PCA9552 devices. Set their description
+> >> to distinguish them when looking at the trace events.
+> >
+> > It's nice and usefull but couldn't we do the same with a QOM object nam=
+e ?
 >
->> Greg Kurz <groug@kaod.org> writes:
->> 
->> > On Tue, 17 Mar 2020 18:16:17 +0300
->> > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
->> >
->> >> Introduce a new ERRP_AUTO_PROPAGATE macro, to be used at start of
->> >> functions with an errp OUT parameter.
->> >> 
->> >> It has three goals:
->> >> 
->> >> 1. Fix issue with error_fatal and error_prepend/error_append_hint: user
->> >> can't see this additional information, because exit() happens in
->> >> error_setg earlier than information is added. [Reported by Greg Kurz]
->> >> 
->> >
->> > I have more of these coming and I'd really like to use ERRP_AUTO_PROPAGATE.
->> >
->> > It seems we have a consensus on the macro itself but this series is gated
->> > by the conversion of the existing code base.
->> >
->> > What about merging this patch separately so that people can start using
->> > it at least ?
->> 
->> Please give me a few more days to finish the work I feel should go in
->> before the conversion.  With any luck, Vladimir can then rebase /
->> recreate the conversion easily, and you can finally use the macro for
->> your own work.
->> 
+> qdev inherits QOM and overloads it with the qdev_ API.
+> Since we have a qdev object, isn't it better to use the qdev_ API?
 >
-> Sure. Thanks.
+> I'd keep the QOM API for bare QOM objects.(I find confusing to use
+> different APIs).
 
-Just posted "[PATCH 00/46] Less clumsy error checking".  The sheer size
-of the thing and the length of its dependency chain explains why it took
-me so long.  I feel bad about delaying you all the same.  Apologies!
-
-I hope we can converge quickly enough to get Vladimir's work on top
-ready in time for the soft freeze.
-
+FYI you can get an idea of the QOM -> qdev -> sysbus -> ... tree here:
+https://observablehq.com/@philmd/qemu-aarch64-softmmu-qom-tree
 
