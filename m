@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE47207E80
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:28:47 +0200 (CEST)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E991E207EB8
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 23:37:36 +0200 (CEST)
+Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joCwo-00016g-Gh
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
+	id 1joD5L-0005sL-Qf
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 17:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCvo-0008Uz-EZ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:27:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34302
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joCvl-0003Zl-Qj
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:27:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593034060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AWFZtMVCUTOa6GiN/L00lB7unztQMzqXaFruU5h2OG0=;
- b=QWRYewZARjsnhG1125NaNAupu4yCHywgGEmLNoxhoI/7KuqazcWOIX2PTtyfRx4+uadEMu
- gisUOkCA1yI89Kp4YfN4S1gpV/dVX+t+xlEpEQ4rzWOptZbAOgM0D/TgZBzls2yp8dv2mW
- SinENnYJsCSCSnaFAGIoiHjHc6sSii4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-D9L7U6S_NpOfYcxhr8VFVg-1; Wed, 24 Jun 2020 17:27:38 -0400
-X-MC-Unique: D9L7U6S_NpOfYcxhr8VFVg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D2CF464;
- Wed, 24 Jun 2020 21:27:37 +0000 (UTC)
-Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFE44579A3;
- Wed, 24 Jun 2020 21:27:36 +0000 (UTC)
-Subject: Re: [PATCH 36/46] qom: Put name parameter before value / visitor
- parameter
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-37-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c0d8ea3d-440a-4e4e-f77a-c31448aecb3b@redhat.com>
-Date: Wed, 24 Jun 2020 16:27:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <mdenber@gmx.com>) id 1joCzv-0002o2-Vr
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:32:00 -0400
+Received: from mout.gmx.net ([212.227.17.22]:40777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mdenber@gmx.com>) id 1joCzt-0006u8-NZ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 17:31:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1593034314;
+ bh=sddJ3Ijtnh1be6x+wStvTDUCEAFMLW5CFc6Qm7cXlQI=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=CiV+/HC3lkdsgeBZYqakn/yCn2bgDNPefR4Zt8STWDtIXmPEgkcrtH9BRVLaarOXq
+ NFrpMrQikG2UZxDTIzVJvrzb8dNHivhCMqHAwTtXvj02YcsF3n13ttXG8BQYTSjbH1
+ Xrb5i0g1lDy/FhqXNzYMJAboScFlUx5BLK0jDGCU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.78] ([8.9.81.230]) by mail.gmx.com (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MTiPl-1jQo203fvJ-00U4Xv for
+ <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 23:31:54 +0200
+Message-ID: <5EF3C648.4060506@gmx.com>
+Date: Wed, 24 Jun 2020 17:31:52 -0400
+From: Michele Denber <mdenber@gmx.com>
+User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
+ rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-37-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+To: qemu-devel@nongnu.org
+Subject: Building in Solaris 11.4
+Content-Type: multipart/alternative;
+ boundary="------------010704070801030301010603"
+X-Provags-ID: V03:K1:i7wnlxrGw1BEy79uP1k+6k4omqn5ccHbf9Bdx9VuxBSQGjOwbfH
+ m3jfyv9vu0dYqmN4Ot8iwJkiDIQvkQEhCJp8tUiI3Iszc7jxYiqrLDUR4XzYkwZA7IhiqZk
+ UVjw7/P0wfGDE30qZAKw/7wi/EFePtWFf0z0taGlsM/h7OPMMQbOKZiAdaBrkeBWBHskOyf
+ Xh0154XfDvFwoMlKn/5TA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9LtDQjz3+Ow=:1bdk1nygR8YFx0xFFeJKGj
+ jWJpEawnGuV6G0eupcIqFfj6pAfp9fDEkntYVFoYktRmnXPbI/xTyvaGMc29KLq6RKVZwbTAe
+ S/p6sp7PL8dlfL5vlAgkLD9IuJNQcmhioUcUL9fCG1rC5XyR9HSGRCzQWvYCu5AR2do2E2yAT
+ hMnVzeiyCK6eLpHnSwQNQy+3Zm9+tiYSIEMPq2hVpeGC7KSrtsIckA+e1+zH9Hvh4kDVqj+iw
+ ZjS9taqKH+ukPCwspd2CEHxo7Uh+BSV7u0CsuXTS0nrCEVkrrLi5k9HLtjcgBQ6x6IiWpyGQi
+ xV4VxZbtxxRlqPPYE/DnJrKEbbWoaeWOEbY7FTHXiP0YxsGk3lADuoLjSzTp9T4tCX/+gShlC
+ lyMJh1e/vvJrwY/rGolRqTaD3avcjbmevYeSh32FTmzCVyJgWXjvYyWOs36yT8+xTWI37gMys
+ mJMMjwsI3cAhLjCo5YaTBDwOFefhe5jdOJL3atdJLphGI1RmRvzbUy/o/NveRO7dA2EG1R9A7
+ /553DwX7TwFUuBa90QBm5i/4hx7pqQZRQCgo9Ld3uZcB+/PP8L9LtFXxcQBWZBqophv8Uuq9q
+ FlZ7ZZ64qk00vhw0yWWscOnWEGirgvrYJW3morpOh6kmQJIemLfVIY5iE3mGaXXWwsumcjV/o
+ R1z/DdJWhvnaLJ8deAV44zF0WAoe4RHX6AweqACW7WB5RFe0AvGsiaElTq9STjfmmRF8U6AzG
+ +Y48J+qgEyYX6JdGCUKbFANxIk78tVDEk6TplhocUs3cRXXToRWzTmljfsxKanNBDrQg3uDFE
+ WV5RiTqPkw5QQunKpujdYEeiKQlFIkMX7UuwPJ4x56Z1b0L/KBivp0yrRgdJHS65vfy1PuQlE
+ YM5uZdVfJ0gVdd9qBiOH1Ye+FoB8DQdU6WX249Tggr9Ik+H7LozIqGw+M2Hmx0cYzLv/Ny/Z7
+ wcjLWgK7pO0/2WRTaxpjRcyI81Gg2ybNLBeIEdnSwC/N0qpdmaZYdA5eoWilDRdGXV5bxR8b6
+ BvtE2byJtx23esoDBjt9DH8PmR6TNHcy0jWGeh7kNqj9aoclfmg2XcJsU9BVNeafevPZtc2j0
+ OGo/3Z+aKRasERHzoQdhqhA8fzwg8EomJsnjz7dO5dKHAYJ5eEErwuuDoDH4EMlqlcJdSna3J
+ nr47K+CwGCTXBiTz4iF3+7pcrHGtSkCRH27ymnCWBQW9KR4cbd8dmNZDFKaHL1i+v0MeQ=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=mdenber@gmx.com;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 17:31:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,60 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/20 11:43 AM, Markus Armbruster wrote:
-> The object_property_set_FOO() setters take property name and value in
-> an unusual order:
-> 
->      void object_property_set_FOO(Object *obj, FOO_TYPE value,
->                                   const char *name, Error **errp)
-> 
-> Having to pass value before name feels grating.  Swap them.
-> 
-> Same for object_property_set(), object_property_get(), and
-> object_property_parse().
-> 
-> Convert callers with this Coccinelle script:
-> 
->      @@
->      identifier fun = {object_property_get, object_property_parse, object_property_set_str, object_property_set_link, object_property_set_bool, object_property_set_int, object_property_set_uint, object_property_set, object_property_set_qobject};
->      expression obj, v, name, errp;
->      @@
->      -    fun(obj, v, name, errp)
->      +    fun(obj, name, v, errp)
-> 
-> Chokes on hw/arm/musicpal.c's lcd_refresh() with the unhelpful error
-> message "no position information".  Convert that one manually.
-> 
-> Fails to convert hw/arm/armsse.c, because Coccinelle gets confused by
-> ARMSSE being used both as typedef and function-like macro there.
-> Convert manually.
-> 
-> Fails to convert hw/rx/rx-gdbsim.c, because Coccinelle gets confused
-> by RXCPU being used both as typedef and function-like macro there.
-> Convert manually.  Convert that one manually.  The other files using
-> RXCPU that way don't need conversion.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+This is a multi-part message in MIME format.
+--------------010704070801030301010603
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
->   136 files changed, 702 insertions(+), 729 deletions(-)
+While trying to run configure in Solaris 11.4, I quickly run into:
 
-Big but mechanical.
+root@hemlock:~/qemu-5.0.0# ./configure
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+./configure[62]: local: not found [No such file or directory]
+grep: illegal option -- e
+Usage: grep [-c|-l|-q] -bhinsvw pattern file . . .
+./configure[62]: local: not found [No such file or directory]
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+ERROR: "cc" either does not exist or does not work
 
-This one might be a semantic conflict magnet with patches written in the 
-meantime; I guess the trick is to check that 'git grep' finds as many 
-calls to any of the functions listed as conversions.
+root@hemlock:~/qemu-5.0.0# gcc --version
+gcc (GCC) 7.3.0
+Copyright (C) 2017 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
+.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+root@hemlock:~/qemu-5.0.0#
 
+Line 62 is
+
+     local compiler=3D"$1"
+
+I'm not familiar with this construct.  What does "local" do?  It wasn't
+in the configure file for QEMU 2.12.  (And I already said "cc=3Dgcc")
+
+             - Michele
+
+
+--------------010704070801030301010603
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    While trying to run configure in Solaris 11.4, I quickly run into:<br>
+    <br>
+    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
+        ./configure<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        grep: illegal option -- e<br>
+        Usage: grep [-c|-l|-q] -bhinsvw pattern file . . .<br>
+        ./configure[62]: local: not found [No such file or directory]<br>
+        <br>
+        ERROR: "cc" either does not exist or does not work<br>
+        <br>
+        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> gcc --version<br>
+        gcc (GCC) 7.3.0<br>
+        Copyright (C) 2017 Free Software Foundation, Inc.<br>
+        This is free software; see the source for copying conditions.&nbsp;
+        There is NO<br>
+        warranty; not even for MERCHANTABILITY or FITNESS FOR A
+        PARTICULAR PURPOSE.<br>
+        <br>
+        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> </font></small><br>
+    <br>
+    Line 62 is<br>
+    <br>
+    <small><font face="Courier New, Courier, monospace">&nbsp;&nbsp;&nbsp; local
+        compiler="$1"</font></small><br>
+    <br>
+    I'm not familiar with this construct.&nbsp; What does "local" do?&nbsp; It
+    wasn't in the configure file for QEMU 2.12.&nbsp; (And I already said
+    "cc=gcc")<br>
+    <br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - Michele<br>
+    <br>
+  </body>
+</html>
+
+--------------010704070801030301010603--
 
