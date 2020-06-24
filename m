@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24F82096EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:10:27 +0200 (CEST)
-Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D642096F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:12:31 +0200 (CEST)
+Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEXC-0005OU-TG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42184)
+	id 1joEZC-000126-RD
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETn-0008TO-6a
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31968
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETq-000095-4W
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50527
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETl-0001QF-9a
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joETo-0001RI-9A
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:06:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593040012;
+ s=mimecast20190719; t=1593040015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OtvGed/OFKwo/KPonF6wNPBQThzBS/0Dl1GdOBvffZw=;
- b=Gi3rOBgRw1wGMYnUR1hUHwmjhrjtApCsInm4yRzDNSBDWnTqvnnPoXWk9wU5HCJc+/xTQM
- C6b5gyvXvLFEf0duu9g3kQ2MEhv0jdpS56OjH4a2ieGjqMpKgyQpY6HKKRvcSc11rly0Va
- vwINJfY+b+TWoErJCLLr0eoSdSzkWg4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-EZigzOzBNpGNtzOIav3qvA-1; Wed, 24 Jun 2020 19:06:51 -0400
-X-MC-Unique: EZigzOzBNpGNtzOIav3qvA-1
-Received: by mail-wm1-f71.google.com with SMTP id v6so2542709wmg.1
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:06:50 -0700 (PDT)
+ bh=ToFNM9aVXQBet1ZT+w3NmxhXnSHtmFVtuTLjusFLtHM=;
+ b=VO5x8kUhMOYIcXhVu0EtDxy/GMdl/ftwOaZfpr63tz+UbAFPT+Xg29BgGJS2Fk/RiBQA6g
+ ce3lEahsHiAgC5NiW3mZC3g7xVKNn9lBFme6cYjXUXBT+GHBNbtM5CHmHkfGKnz0qWzcsN
+ Zge04UH6iQA+tcADChFUk2BV3340rGM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-fOE397vhPpW74SRctjRSNQ-1; Wed, 24 Jun 2020 19:06:53 -0400
+X-MC-Unique: fOE397vhPpW74SRctjRSNQ-1
+Received: by mail-wm1-f69.google.com with SMTP id a18so4645988wmm.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:06:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=OtvGed/OFKwo/KPonF6wNPBQThzBS/0Dl1GdOBvffZw=;
- b=aQ8XN52jQ3WNNcBNz5M954UdkI5re9U1Qlu81f45S+HhVoJQwT4oPl38T3cz4jbcSW
- n2p2fwf2lKFZTGS6/Q7ViVJ8jNT897wqi6wjE+V3RKP4UF+md9wn6l2rSQgBWAkTSMyl
- bG2Eo6cJXmZtEmnqwrFYA6IkVtByv3ekkH/j0FPZ78lq4o2odZSwxSt2qRYhCASZ0lEU
- 6x8FuoT2qvGOBqk/vfrNZFhc68U47n/Lhw/ujtn25l6MCskTsObgHEGuU9NHeCyFYssH
- 8LrtCpLWF78oI23x6kqdoC+Df7Lha+2LtP9JCwQlu5UrvZGf8m6Y/TO3QTF165Xhid6o
- 7OIw==
-X-Gm-Message-State: AOAM530iKMK5mYiV37D6S6G9s4PQqmJZMDL00iebXXtbq/2Lq6AXMhcM
- KMwiwHW2mgfK0sJm+nmOqbTkHaoPwm+19dR5kTQLCJZLcrXWhOkRBxbn6QkPw64nUrfjRnOwWor
- f5o/y+ZIIuFyLR58=
-X-Received: by 2002:adf:e68d:: with SMTP id r13mr28428359wrm.141.1593040009613; 
- Wed, 24 Jun 2020 16:06:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztrMV1Bsnja9uCJaWHYmsKJLkfIStaHHf7JmnrceFOVmlkAoLSTJWM9U4xr8z2dgTUyyCNgw==
-X-Received: by 2002:adf:e68d:: with SMTP id r13mr28428338wrm.141.1593040009426; 
- Wed, 24 Jun 2020 16:06:49 -0700 (PDT)
+ bh=ToFNM9aVXQBet1ZT+w3NmxhXnSHtmFVtuTLjusFLtHM=;
+ b=EkBrh9M009b4HvELBMX4EPNTC7TgdW813qwEGOIwj+HEkKz2ypFFNtrrBc6fHuM4AL
+ GkWa7c+lUkjIxh04loXMsILpwuKScSt6ixmN+6aCRA4esdKBTd8ZEz8x4/CA13+HmA7X
+ gznVjcW6UgaVRZfeZdC+Vxw4p2UH8zG2psjdLv8440Y7ZueN8obxb+DyI3nZQ0moLYE/
+ LNBU93DR8UVpLuMCyeo7X6JqrxjUXxNZIbC4HmAQuS7GGYBptQXG1x25bJ6qcOZFt8yO
+ jUPSrQVG9wlSE7dQstZfEmELwPzB1hzX8qJjsGZBmef/qwYmJsfCRFsmJF/11FslfDnK
+ XBeg==
+X-Gm-Message-State: AOAM530YZbWA5XVGy4XHq4eNtbKF9PpgkbGWUaye0//CMbTa1LL4ho+q
+ k2G0RddvyMJWJKmQkbD0KNQUbyJhzWqqCdAzLzcast3ty5qhOxIatfbXM/DgSDqbleMNPOiQbwl
+ AwrhjC5IU/5XaSD4=
+X-Received: by 2002:adf:e40e:: with SMTP id g14mr15027162wrm.271.1593040012245; 
+ Wed, 24 Jun 2020 16:06:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvcr5MZAJbcbla0TfBIwcJt5/2SRI/fxVP+qKYbiBzekuqGu1ip0hs7lt45IpzuPJpVASBMA==
+X-Received: by 2002:adf:e40e:: with SMTP id g14mr15027146wrm.271.1593040012089; 
+ Wed, 24 Jun 2020 16:06:52 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- h29sm30691207wrc.78.2020.06.24.16.06.47
+ y6sm10454373wmy.0.2020.06.24.16.06.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 16:06:48 -0700 (PDT)
-Date: Wed, 24 Jun 2020 19:06:46 -0400
+ Wed, 24 Jun 2020 16:06:51 -0700 (PDT)
+Date: Wed, 24 Jun 2020 19:06:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/19] acpi: factor out fw_cfg_add_acpi_dsdt()
-Message-ID: <20200624230609.703104-8-mst@redhat.com>
+Subject: [PULL 08/19] acpi: simplify build_isa_devices_aml()
+Message-ID: <20200624230609.703104-9-mst@redhat.com>
 References: <20200624230609.703104-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
@@ -74,9 +74,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -107,111 +107,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add helper function to add fw_cfg device,
-also move code to hw/i386/fw_cfg.c.
+x86 machines can have a single ISA bus only.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200619091905.21676-8-kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200619091905.21676-9-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/fw_cfg.h     |  1 +
- hw/i386/acpi-build.c | 24 +-----------------------
- hw/i386/fw_cfg.c     | 28 ++++++++++++++++++++++++++++
- 3 files changed, 30 insertions(+), 23 deletions(-)
+ hw/i386/acpi-build.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-index 9e74278779..275f15c1c5 100644
---- a/hw/i386/fw_cfg.h
-+++ b/hw/i386/fw_cfg.h
-@@ -25,5 +25,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-                                uint16_t apic_id_limit);
- void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
- void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
-+void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
- 
- #endif
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 13113e83df..19e9c298dc 100644
+index 19e9c298dc..d27cecc877 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1802,30 +1802,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+@@ -979,18 +979,14 @@ static void build_isa_devices_aml(Aml *table)
+ {
+     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+     bool ambiguous;
+-
+-    Aml *scope = aml_scope("_SB.PCI0.ISA");
+     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
++    Aml *scope;
  
-     /* create fw_cfg node, unconditionally */
-     {
--        /* when using port i/o, the 8-bit data register *always* overlaps
--         * with half of the 16-bit control register. Hence, the total size
--         * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, the
--         * DMA control register is located at FW_CFG_DMA_IO_BASE + 4 */
--        uint8_t io_size = object_property_get_bool(OBJECT(x86ms->fw_cfg),
--                                                   "dma_enabled", NULL) ?
--                          ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr_t) :
--                          FW_CFG_CTL_SIZE;
--
-         scope = aml_scope("\\_SB.PCI0");
--        dev = aml_device("FWCF");
--
--        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
--
--        /* device present, functioning, decoding, not shown in UI */
--        aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
--
--        crs = aml_resource_template();
--        aml_append(crs,
--            aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, io_size)
--        );
--        aml_append(dev, aml_name_decl("_CRS", crs));
--
--        aml_append(scope, dev);
-+        fw_cfg_add_acpi_dsdt(scope, x86ms->fw_cfg);
-         aml_append(dsdt, scope);
-     }
+-    if (ambiguous) {
+-        error_report("Multiple ISA busses, unable to define IPMI ACPI data");
+-    } else if (!obj) {
+-        error_report("No ISA bus, unable to define IPMI ACPI data");
+-    } else {
+-        build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
+-        isa_build_aml(ISA_BUS(obj), scope);
+-    }
++    assert(obj && !ambiguous);
++
++    scope = aml_scope("_SB.PCI0.ISA");
++    build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
++    isa_build_aml(ISA_BUS(obj), scope);
  
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index da60ada594..c55abfb01a 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "sysemu/numa.h"
- #include "hw/acpi/acpi.h"
-+#include "hw/acpi/aml-build.h"
- #include "hw/firmware/smbios.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/timer/hpet.h"
-@@ -179,3 +180,30 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-     *val = cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
-     fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val));
- }
-+
-+void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
-+{
-+    /*
-+     * when using port i/o, the 8-bit data register *always* overlaps
-+     * with half of the 16-bit control register. Hence, the total size
-+     * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, the
-+     * DMA control register is located at FW_CFG_DMA_IO_BASE + 4
-+     */
-+    Object *obj = OBJECT(fw_cfg);
-+    uint8_t io_size = object_property_get_bool(obj, "dma_enabled", NULL) ?
-+        ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr_t) :
-+        FW_CFG_CTL_SIZE;
-+    Aml *dev = aml_device("FWCF");
-+    Aml *crs = aml_resource_template();
-+
-+    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
-+
-+    /* device present, functioning, decoding, not shown in UI */
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
-+
-+    aml_append(crs,
-+        aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, io_size));
-+
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
+     if (vmbus_bridge) {
+         aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
 -- 
 MST
 
