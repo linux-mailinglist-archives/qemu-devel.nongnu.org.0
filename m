@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EA2207492
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:30:48 +0200 (CEST)
-Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064D62074B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:36:28 +0200 (CEST)
+Received: from localhost ([::1]:55920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo5UF-00041m-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47212)
+	id 1jo5Zi-00014t-LZ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo5SL-00021c-D8
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:28:49 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:42797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1jo5SJ-0002lr-PJ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:28:49 -0400
-Received: by mail-lj1-x231.google.com with SMTP id y11so2524544ljm.9
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 06:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=nUrO1UmohK9ah4PTXz60cWnuU3BQE5TYlbAsoayD3rs=;
- b=j1qdfIIZ/q1NnGEj8rl1xpFjrLO16wTKUdJwWNBQqs/KEhL2zgL4G9Wuctl4moJ8L8
- p4QD4qRv+Jxfb3+f3s7wl4Zd3HVNUHUfLz5v/chtPrx2T9XWvEXr6GmUGONf8WQLq4BW
- 6m+SjU0Ndjxhap5GK2lRLh4Uq574Av38crJK56x1R/5NmS/M3wZfhD0jPcgUB5YDesge
- 1PUPooOkLnVqkckEFq6tB7UrB+I4SGRviggewzrNWeK1onAWEH1IUxSRhwJIqMhRGmLK
- HmIn7mwpJ6+6YvbNXqsbNTDDBBKInK+XtlISN/Tt0BzD4Z4K5VNdaI5FTtQ6H4aTej4k
- 4f0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=nUrO1UmohK9ah4PTXz60cWnuU3BQE5TYlbAsoayD3rs=;
- b=gjkN2lwbsCYaeIp80qlr5rOJqUAx77zTDwzKEfUDk7T3j3AJd/X0C2bHY126LTI98Y
- /PARa/1i8HDINI1NrwCCCXTNK+bEVr2Quxfmnqt8WdItbpctZuCy+YeL0Kc0ezkwAPfS
- GR/tz2XOcMFjsiV3BcmRyxmET8UQnVNLsNDts18LyAnj+px3uL/Bq4Uip6kc/Ko3/L5K
- YgmyQyO5d+jZ9fgQDEb8MmGqus/FtHhEEDGXAlzJQ8M/2D2JNAYPRPoERNwjDx/lXvxx
- Ud7iJOAufEKXBrFntqc8VzqFRAKrGuf6DBW9U/rv6GoWY4PUmHNpUdipIWHmxt9olLY3
- NZAQ==
-X-Gm-Message-State: AOAM532jVEoaGKIGwYfGgCz2XWl9es3LT9pYqHXEcDJ+qBYIooGwSA5d
- 1tRN3YlRXu5CHjb16SHV/zjizD4043v4Rqhzs/eeVlVx
-X-Google-Smtp-Source: ABdhPJx7vdw407d2wlLmqmq7qPN+YgmYyWzZLeZti3qgdfxdqAyoP7/KyEKrMYgsteU0k3JGc7eosC0VKWXGiyAxTcE=
-X-Received: by 2002:a2e:9a59:: with SMTP id k25mr14877859ljj.114.1593005325745; 
- Wed, 24 Jun 2020 06:28:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jo5Ys-0000LQ-Jo
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:35:34 -0400
+Resent-Date: Wed, 24 Jun 2020 09:35:34 -0400
+Resent-Message-Id: <E1jo5Ys-0000LQ-Jo@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jo5Yp-00061e-9d
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:35:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593005717; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LkU2luzE3XtnkFT5ouN8AUIDHb3sSeDoRcuK0gMjIaTru84/m9toA6ezUsxvWon7W4L5zf4nziQYyWFxmc74/osgrHQLsKMvYCc7r0cZPGHvoZ3GHeztSYwsmMKF1Cny2kiDTrG3Ztms15u61Rv+NjddlwWDDShuNvCO4bswq98=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593005717;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=qnlUsuKSUx96Z+1uy0gbvRnASBWE/s8ELgibsqv8ZVc=; 
+ b=XKPICJxndTGZpUFlBKHC+8H6xzqlg8IBSbvmBCfVEPKMUK5yKXdPkT/O/nUzuALDRc4MgsXR0/u6AAVNLY5SEJjoDksYDz+DFuI0R+WKuvKYDEHBqtnwepv1v+CavqrrYyvzhriTvgsPtbHpA22MHioDOX0hooZfuQdonOvmfrg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593005714435588.6064612443033;
+ Wed, 24 Jun 2020 06:35:14 -0700 (PDT)
+Message-ID: <159300571296.6613.13304084890286151375@d1fd068a5071>
+Subject: Re: [PATCH v2 0/2] Avoid abort on QMP attempt to add an object with
+ duplicate id
+In-Reply-To: <20200624124301.7112-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Wed, 24 Jun 2020 09:28:34 -0400
-Message-ID: <CAKf6xptNySqXOHAZJiiBq=h99GBQcS8Cbzmpyqzy-ucxX8Od2Q@mail.gmail.com>
-Subject: Migration vmdesc and xen-save-devices-state
-To: QEMU <qemu-devel@nongnu.org>, xen-devel <xen-devel@lists.xenproject.org>, 
- zhang.zhanghailiang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=jandryuk@gmail.com; helo=mail-lj1-x231.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eric.auger@redhat.com
+Date: Wed, 24 Jun 2020 06:35:14 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 09:35:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,49 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, eric.auger@redhat.com, pbonzini@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-At some point, QEMU changed to add a json VM description (vmdesc)
-after the migration data.  The vmdesc is not needed to restore the
-migration data, but qemu_loadvm_state() will read and discard the
-vmdesc to clear the stream when should_send_vmdesc() is true.
-
-xen-save-devices-state generates its migration data without a vmdesc.
-xen-load-devices-state in turn calls qemu_loadvm_state() which tries
-to load vmdesc since should_send_vmdesc is true for xen.  When
-restoring from a file, this is fine since it'll return EOF, print
-"Expected vmdescription section, but got 0" and end the restore
-successfully.
-
-Linux stubdoms load their migration data over a console, so they don't
-hit the EOF and end up waiting.  There does seem to be a timeout
-though and restore continues after a delay, but we'd like to eliminate
-the delay.
-
-Two options to address this are to either:
-1) set suppress_vmdesc for the Xen machines to bypass the
-should_send_vmdesc() check.
-or
-2) just send the vmdesc data.
-
-Since vmdesc is just discarded, maybe #1 should be followed.
-
-If going with #2, qemu_save_device_state() needs to generate the
-vmdesc data.  Looking at qemu_save_device_state() and
-qemu_savevm_state_complete_precopy_non_iterable(), they are both very
-similar and could seemingly be merged.  qmp_xen_save_devices_state()
-could even leverage the bdrv_inactivate_all() call in
-qemu_savevm_state_complete_precopy_non_iterable().
-
-The would make qemu_save_device_state a little more heavywight, which
-could impact COLO.  I'm not sure how performance sensitive the COLO
-code is, and I haven't measured anything.
-
-Does anyone have thoughts or opinions on the subject?
-
-Thanks,
-Jason
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNDEyNDMwMS43MTEy
+LTEtZXJpYy5hdWdlckByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
+Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
+bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBpb3Rlc3Qt
+cWNvdzI6IDExNAogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxMTcKKioKRVJST1I6L3RtcC9xZW11
+LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L3FtcC1jbWQtdGVzdC5jOjIyNTp0ZXN0X29iamVjdF9hZGRf
+d2l0aF9kdXBsaWNhdGVfaWQ6IGFzc2VydGlvbiBmYWlsZWQ6IChxZGljdF9oYXNrZXkocmVzcCwg
+InJldHVybiIpKQpFUlJPUiAtIEJhaWwgb3V0ISBFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVz
+dHMvcXRlc3QvcW1wLWNtZC10ZXN0LmM6MjI1OnRlc3Rfb2JqZWN0X2FkZF93aXRoX2R1cGxpY2F0
+ZV9pZDogYXNzZXJ0aW9uIGZhaWxlZDogKHFkaWN0X2hhc2tleShyZXNwLCAicmV0dXJuIikpCm1h
+a2U6ICoqKiBbY2hlY2stcXRlc3QtYWFyY2g2NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
+b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxMjAKICBURVNU
+ICAgIGlvdGVzdC1xY293MjogMTI2Ci0tLQogIFRFU1QgICAgY2hlY2stcXRlc3QteDg2XzY0OiB0
+ZXN0cy9xdGVzdC9xbXAtdGVzdAogIFRFU1QgICAgY2hlY2stcXRlc3QteDg2XzY0OiB0ZXN0cy9x
+dGVzdC9xbXAtY21kLXRlc3QKKioKRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0
+L3FtcC1jbWQtdGVzdC5jOjIyNTp0ZXN0X29iamVjdF9hZGRfd2l0aF9kdXBsaWNhdGVfaWQ6IGFz
+c2VydGlvbiBmYWlsZWQ6IChxZGljdF9oYXNrZXkocmVzcCwgInJldHVybiIpKQpFUlJPUiAtIEJh
+aWwgb3V0ISBFUlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvcXRlc3QvcW1wLWNtZC10ZXN0
+LmM6MjI1OnRlc3Rfb2JqZWN0X2FkZF93aXRoX2R1cGxpY2F0ZV9pZDogYXNzZXJ0aW9uIGZhaWxl
+ZDogKHFkaWN0X2hhc2tleShyZXNwLCAicmV0dXJuIikpCm1ha2U6ICoqKiBbY2hlY2stcXRlc3Qt
+eDg2XzY0XSBFcnJvciAxCiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6IDIyMAogIFRFU1QgICAgaW90
+ZXN0LXFjb3cyOiAyMjYKICBURVNUICAgIGlvdGVzdC1xY293MjogMjI5Ci0tLQogICAgcmFpc2Ug
+Q2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNz
+RXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwn
+LCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1kNmNiM2QwNjljN2E0NGVjYmY1YjAyYzE3YTM5ZTg4
+NCcsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcs
+ICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BU
+Uz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hP
+V19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9t
+ZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6Jywg
+Jy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1saXRhaWltdC9zcmMvZG9ja2VyLXNy
+Yy4yMDIwLTA2LTI0LTA5LjE4LjQ3LjkxNDk6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2Vu
+dG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16
+ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5j
+ZS51dWlkPWQ2Y2IzZDA2OWM3YTQ0ZWNiZjViMDJjMTdhMzllODg0Cm1ha2VbMV06ICoqKiBbZG9j
+a2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0
+Y2hldy10ZXN0ZXItdG1wLWxpdGFpaW10L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3Qt
+cXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxNm0yNS4yMDBzCnVzZXIgICAgMG01LjUx
+OXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjAwNjI0MTI0MzAxLjcxMTItMS1lcmljLmF1Z2VyQHJlZGhhdC5jb20vdGVzdGluZy5kb2Nr
+ZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
+YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
+b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
