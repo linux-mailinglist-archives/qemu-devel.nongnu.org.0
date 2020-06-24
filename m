@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A23206E4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:55:19 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CCF206E5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:56:27 +0200 (CEST)
+Received: from localhost ([::1]:44204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0Fa-0000Ps-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
+	id 1jo0Gg-0002j6-KJ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jo0D6-0004T3-FZ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10974
- helo=mx0a-001b2d01.pphosted.com)
+ id 1jo0D9-0004VE-Sr
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jo0D3-0006eA-KL
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:44 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05O7WBBs036597
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
+ id 1jo0D4-0006ep-8y
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:46 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05O7YUaM159625
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:39 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyxqcn4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux0a6y9j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05O7WGdE036879
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyxqcm7-1
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:39 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05O7aIKV174297
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:39 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux0a6y90-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 03:52:37 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05O7nmj6013664;
+ Wed, 24 Jun 2020 03:52:39 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05O7qEfB014052;
  Wed, 24 Jun 2020 07:52:36 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 31uurur6mp-1
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 31uusg05sr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 07:52:35 +0000
+ Wed, 24 Jun 2020 07:52:36 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05O7qX0Z4718990
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05O7qY9948365670
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Jun 2020 07:52:33 GMT
+ Wed, 24 Jun 2020 07:52:34 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D00B6A404D;
- Wed, 24 Jun 2020 07:52:33 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 910C3A4053;
+ Wed, 24 Jun 2020 07:52:34 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11360A405D;
- Wed, 24 Jun 2020 07:52:33 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 015A1A404D;
+ Wed, 24 Jun 2020 07:52:34 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 24 Jun 2020 07:52:32 +0000 (GMT)
+ Wed, 24 Jun 2020 07:52:33 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
-Date: Wed, 24 Jun 2020 03:52:14 -0400
-Message-Id: <20200624075226.92728-1-frankja@linux.ibm.com>
+Subject: [PATCH v5 01/12] pc-bios: s390x: cio.c cleanup and compile fix
+Date: Wed, 24 Jun 2020 03:52:15 -0400
+Message-Id: <20200624075226.92728-2-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200624075226.92728-1-frankja@linux.ibm.com>
+References: <20200624075226.92728-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -72,15 +73,16 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-24_04:2020-06-24,
  2020-06-24 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 cotscore=-2147483648 mlxlogscore=602
- phishscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006240051
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ adultscore=0
+ cotscore=-2147483648 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ mlxscore=0 suspectscore=1 priorityscore=1501 phishscore=0 mlxlogscore=712
+ impostorscore=0 spamscore=0 malwarescore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006240055
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:52:38
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:52:40
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -104,72 +106,95 @@ Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bios is in dire need for a cleanup as there are still a lot of
-magic constants being used throughout as well as duplicated code.
+Let's initialize the structs at the beginning to ease reading and also
+zeroing all other fields. This also makes the compiler stop
+complaining about sense_id_ccw.flags being ored into when it's not
+initialized.
 
-In the first part of this series we consolidate constants and
-functions, as well as doing some minor cleanups and fixes.
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ pc-bios/s390-ccw/cio.c | 40 ++++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-The patches are available here:
-https://github.com/frankjaa/qemu/pull/new/cleanup_bios
-
-v5:
-	* Fixed whitespace damage
-	* Removed reset PSW mask changes in dasd-ipl.c
-	* Added jump2ipl.c cleanup patches
-
-v4:
-	* Renamed time.h to s390-time.h
-	* Fixed function names in sleep()
-	* Changed order of sense_id_ccw initialization
-	* Added missing include before sleep()
-
-v3:
-	* Dropped 0x00 to 0x0/0 patch
-	* Moved some timing functions into helper.h instead of time.h
-	* Fixed IPL psw manipulation in dasd-ipl.c
- 	* Minor cosmetic fixes found by review
-
-v2:
-	* Included cio fixup to get rid of compile errors...
-	* Minor cosmetic fixes found by review
-
-
-Janosch Frank (12):
-  pc-bios: s390x: cio.c cleanup and compile fix
-  pc-bios: s390x: Consolidate timing functions into time.h
-  pc-bios: s390x: Move sleep and yield to helper.h
-  pc-bios: s390x: Get rid of magic offsets into the lowcore
-  pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
-  pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
-  pc-bios: s390x: Use PSW masks where possible and introduce
-    PSW_MASK_SHORT_ADDR
-  pc-bios: s390x: Move panic() into header and add infinite loop
-  pc-bios: s390x: Use ebcdic2ascii table
-  pc-bios: s390x: Make u32 ptr check explicit
-  pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
-  pc-bios: s390x: Cleanup jump to ipl code
-
- pc-bios/s390-ccw/bootmap.c     |  9 ++++----
- pc-bios/s390-ccw/bootmap.h     |  2 +-
- pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
- pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
- pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
- pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
- pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
- pc-bios/s390-ccw/main.c        | 15 +++----------
- pc-bios/s390-ccw/menu.c        |  1 +
- pc-bios/s390-ccw/netmain.c     | 23 +++----------------
- pc-bios/s390-ccw/s390-arch.h   |  4 +++-
- pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
- pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
- pc-bios/s390-ccw/start.S       |  5 +++--
- pc-bios/s390-ccw/virtio-net.c  |  2 ++
- pc-bios/s390-ccw/virtio-scsi.c |  2 ++
- pc-bios/s390-ccw/virtio.c      | 18 +++------------
- 17 files changed, 120 insertions(+), 125 deletions(-)
- create mode 100644 pc-bios/s390-ccw/s390-time.h
-
+diff --git a/pc-bios/s390-ccw/cio.c b/pc-bios/s390-ccw/cio.c
+index 339ec5fbe7..83ca27ab41 100644
+--- a/pc-bios/s390-ccw/cio.c
++++ b/pc-bios/s390-ccw/cio.c
+@@ -49,13 +49,13 @@ void enable_subchannel(SubChannelId schid)
+ 
+ uint16_t cu_type(SubChannelId schid)
+ {
+-    Ccw1 sense_id_ccw;
+     SenseId sense_data;
+-
+-    sense_id_ccw.cmd_code = CCW_CMD_SENSE_ID;
+-    sense_id_ccw.cda = ptr2u32(&sense_data);
+-    sense_id_ccw.count = sizeof(sense_data);
+-    sense_id_ccw.flags |= CCW_FLAG_SLI;
++    Ccw1 sense_id_ccw = {
++        .cmd_code = CCW_CMD_SENSE_ID,
++        .flags = CCW_FLAG_SLI,
++        .count = sizeof(sense_data),
++        .cda = ptr2u32(&sense_data),
++    };
+ 
+     if (do_cio(schid, CU_TYPE_UNKNOWN, ptr2u32(&sense_id_ccw), CCW_FMT1)) {
+         panic("Failed to run SenseID CCw\n");
+@@ -67,13 +67,13 @@ uint16_t cu_type(SubChannelId schid)
+ int basic_sense(SubChannelId schid, uint16_t cutype, void *sense_data,
+                  uint16_t data_size)
+ {
+-    Ccw1 senseCcw;
++    Ccw1 senseCcw = {
++        .cmd_code = CCW_CMD_BASIC_SENSE,
++        .count = data_size,
++        .cda = ptr2u32(sense_data),
++    };
+     Irb irb;
+ 
+-    senseCcw.cmd_code = CCW_CMD_BASIC_SENSE;
+-    senseCcw.cda = ptr2u32(sense_data);
+-    senseCcw.count = data_size;
+-
+     return __do_cio(schid, ptr2u32(&senseCcw), CCW_FMT1, &irb);
+ }
+ 
+@@ -314,7 +314,17 @@ static void print_irb_err(Irb *irb)
+  */
+ static int __do_cio(SubChannelId schid, uint32_t ccw_addr, int fmt, Irb *irb)
+ {
+-    CmdOrb orb = {};
++    /*
++     * QEMU's CIO implementation requires prefetch and 64-bit idaws. We
++     * allow all paths.
++     */
++    CmdOrb orb = {
++        .fmt = fmt,
++        .pfch = 1,
++        .c64 = 1,
++        .lpm = 0xFF,
++        .cpa = ccw_addr,
++    };
+     int rc;
+ 
+     IPL_assert(fmt == 0 || fmt == 1, "Invalid ccw format");
+@@ -324,12 +334,6 @@ static int __do_cio(SubChannelId schid, uint32_t ccw_addr, int fmt, Irb *irb)
+         IPL_assert(ccw_addr <= 0xFFFFFF - 8, "Invalid ccw address");
+     }
+ 
+-    orb.fmt = fmt;
+-    orb.pfch = 1;  /* QEMU's cio implementation requires prefetch */
+-    orb.c64 = 1;   /* QEMU's cio implementation requires 64-bit idaws */
+-    orb.lpm = 0xFF; /* All paths allowed */
+-    orb.cpa = ccw_addr;
+-
+     rc = ssch(schid, &orb);
+     if (rc == 1 || rc == 2) {
+         /* Subchannel status pending or busy. Eat status and ask for retry. */
 -- 
 2.25.1
 
