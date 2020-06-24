@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243C5207756
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 17:24:47 +0200 (CEST)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB462076F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 17:15:00 +0200 (CEST)
+Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo7GY-0007gF-8K
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 11:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54180)
+	id 1jo775-0004Lv-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 11:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jo7Cf-0003Dv-6m
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:20:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jo7Cc-0004jj-IY
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:20:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jo7Ca-0004mM-9r
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 15:20:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4834B2E80E7
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 15:20:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jo75Q-0002Pr-9U
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:13:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51727
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jo75O-0002s1-PA
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:13:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593011593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F02eg/lPoU/UZDLI5IrWuLli6NFDVQKwSm7yRup67Ts=;
+ b=cifhl5YcA2q8mCUnemkklnLt82aOidDSNL4/2xNzjnqeI4eRm3Gxb94TmYMOGxQ2LfloAJ
+ 1yGWtcerkzua3yNLio6cWuIMVGv6Pctsjse/ZxG3X3qFN9IfmKdC23dJWfxdyv+7U9P+mu
+ zFnX0T6ZTkt5V5sDWdBZ2H2Zw5TsMrw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-ZK_qeNM8N76hZAm2Ar8Y2A-1; Wed, 24 Jun 2020 11:13:11 -0400
+X-MC-Unique: ZK_qeNM8N76hZAm2Ar8Y2A-1
+Received: by mail-wm1-f69.google.com with SMTP id h25so4977231wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 08:13:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=F02eg/lPoU/UZDLI5IrWuLli6NFDVQKwSm7yRup67Ts=;
+ b=tVRISHgsk/3vgH0GzSc0yC8kC9zguy0+qLrCU0nLDdaYK5wRcG7iWuzeTtKyEKEPeP
+ mLFqvLsJ+8FOQ4RV5e2nRf785h6VVSDLzqUNwzfnJMrVDHa06SSdyK/0etenebGd15A0
+ oVz0Kl190yeJAcsE/vkTYt2kMTFrU5Mo4Wic9sAZ/NopKoeaADzx4S91GCVBbbeltcXx
+ s+QysWvSos0HAyVlIEYAuFN32x/KTDNCfEAhxJJuS18Umxn9rblNFMN/m/4pOgs0NCJz
+ tHGLEudM+Td38UzZbe1A8aGLdDxouXUPwF8zsc9YCb3FfY79JsZip5HZZbm2o65SNSg+
+ d1ag==
+X-Gm-Message-State: AOAM531Hne0uyVS+ptx5cXEakjrTv5KsUHobRgyiDFRButAjaUjAnJe+
+ 0MbgqY/iqXmTZ8nj+Try8jmIH2DZ2JKJSQM+R4lKjGVWTGMt7GZS/ashhKSkEYi7VaGIKEInkn0
+ vRvsTjfy5lpL8Wq4=
+X-Received: by 2002:a05:6000:10c4:: with SMTP id
+ b4mr18570498wrx.50.1593011590515; 
+ Wed, 24 Jun 2020 08:13:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKkrJCSX1JKOQhejhJde06raps2uYfjplKhtom52vdezwjW/v5ZrFoHI783uabKaQ/bRNBfQ==
+X-Received: by 2002:a05:6000:10c4:: with SMTP id
+ b4mr18570475wrx.50.1593011590258; 
+ Wed, 24 Jun 2020 08:13:10 -0700 (PDT)
+Received: from redhat.com ([82.166.20.53])
+ by smtp.gmail.com with ESMTPSA id j14sm27468738wrs.75.2020.06.24.08.13.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 08:13:09 -0700 (PDT)
+Date: Wed, 24 Jun 2020 11:13:07 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH 02/22] pci: Delete useless error_propagate()
+Message-ID: <20200624111248-mutt-send-email-mst@kernel.org>
+References: <20200622104250.1404835-1-armbru@redhat.com>
+ <20200622104250.1404835-3-armbru@redhat.com>
+ <20200622212622.GE18041@jenstp.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Jun 2020 15:12:39 -0000
-From: Mingye Wang <1884982@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: documentation
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: artoria2e5
-X-Launchpad-Bug-Reporter: Mingye Wang (artoria2e5)
-X-Launchpad-Bug-Modifier: Mingye Wang (artoria2e5)
-Message-Id: <159301155950.13634.250500637103712065.malonedeb@wampee.canonical.com>
-Subject: [Bug 1884982] [NEW] User-emu documentation mentions inexistent
- "runtime" downloads
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 28244f4eea0fa8b846b1d9e8952921512e075007
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 11:20:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200622212622.GE18041@jenstp.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,121 +95,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884982 <1884982@bugs.launchpad.net>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Mon, Jun 22, 2020 at 11:26:22PM +0200, Jens Freimann wrote:
+> On Mon, Jun 22, 2020 at 12:42:30PM +0200, Markus Armbruster wrote:
+> > Cc: Jens Freimann <jfreimann@redhat.com>
+> > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > ---
+> > hw/pci/pci.c | 3 ---
+> > 1 file changed, 3 deletions(-)
+> > 
+> 
+> Reviewed-by: Jens Freimann <jfreimann@redhat.com>
+> 
+> Thanks!
+> 
+> regards,
+> Jens
 
-The official documentation for the user-space emulator[1] contains many
-references to binary blobs no longer provided by  QEMU.org for download.
-The parts mentioning them should be rephrased to avoid confusion and
-instructions for building these components should be provided (maybe as
-a reference to the LFS book with some scripts, or... cut a deal with
-some super slim Linux distros). The specific parts are:
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-* qemu-XXX-i386-wine.tar.gz, a wine build under the prefix /wine.
-* qemu-runtime-i386-XXX-.tar.gz, a glibc build.
+Are you merging this? Or want me to?
 
-=C2=A0=C2=A0[1]: https://www.qemu.org/docs/master/user/main.html
-
-In addition, the documentation contains many other instances of
-inexistent "tar.gz" files, such as in "Network emulation". Most of these
-are inherited from the days of texi documentation more than 10 years
-ago, and they are so old that GitHub's blame have become unreliable.
-Someone really should run `fgrep -r 'tar.gz' doc' on the QEMU source
-tree.
-
-The issue was previously reported as [2], but nobody bother enough to
-google the filename to find out where the confused user got the idea
-from.
-
-=C2=A0=C2=A0[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg5691=
-74.html
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: documentation
-
-** Description changed:
-
-  The official documentation for the user-space emulator[1] contains many
-  references to binary blobs no longer provided by  QEMU.org for download.
-  The parts mentioning them should be rephrased to avoid confusion and
-  instructions for building these components should be provided (maybe as
-- a reference to the LFS book with some scripts). The specific parts are:
-+ a reference to the LFS book with some scripts, or... cut a deal with
-+ some super slim Linux distros). The specific parts are:
-  =
-
-  * qemu-XXX-i386-wine.tar.gz, a wine build under the prefix /wine.
-  * qemu-runtime-i386-XXX-.tar.gz, a glibc build.
-  =
-
--   [1]: https://www.qemu.org/docs/master/user/main.html
-+ =C2=A0=C2=A0[1]: https://www.qemu.org/docs/master/user/main.html
-  =
-
-  In addition, the documentation contains many other instances of
-  inexistent "tar.gz" files, such as in "Network emulation". Most of these
-  are inherited from the days of texi documentation more than 10 years
-  ago, and they are so old that GitHub's blame have become unreliable.
-  Someone really should run `fgrep -r 'tar.gz' doc' on the QEMU source
-  tree.
-  =
-
-  The issue was previously reported as [2], but nobody bother enough to
-  google the filename to find out where the confused user got the idea
-  from.
-  =
-
--   [2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg569174.html
-+ =C2=A0=C2=A0[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg56=
-9174.html
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884982
-
-Title:
-  User-emu documentation mentions inexistent "runtime" downloads
-
-Status in QEMU:
-  New
-
-Bug description:
-  The official documentation for the user-space emulator[1] contains
-  many references to binary blobs no longer provided by  QEMU.org for
-  download. The parts mentioning them should be rephrased to avoid
-  confusion and instructions for building these components should be
-  provided (maybe as a reference to the LFS book with some scripts,
-  or... cut a deal with some super slim Linux distros). The specific
-  parts are:
-
-  * qemu-XXX-i386-wine.tar.gz, a wine build under the prefix /wine.
-  * qemu-runtime-i386-XXX-.tar.gz, a glibc build.
-
-  =C2=A0=C2=A0[1]: https://www.qemu.org/docs/master/user/main.html
-
-  In addition, the documentation contains many other instances of
-  inexistent "tar.gz" files, such as in "Network emulation". Most of
-  these are inherited from the days of texi documentation more than 10
-  years ago, and they are so old that GitHub's blame have become
-  unreliable. Someone really should run `fgrep -r 'tar.gz' doc' on the
-  QEMU source tree.
-
-  The issue was previously reported as [2], but nobody bother enough to
-  google the filename to find out where the confused user got the idea
-  from.
-
-  =C2=A0=C2=A0[2]: https://www.mail-archive.com/qemu-
-  devel@nongnu.org/msg569174.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884982/+subscriptions
 
