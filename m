@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A378C207446
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:18:43 +0200 (CEST)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C55207458
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:21:03 +0200 (CEST)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo5IY-0004ul-4m
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
+	id 1jo5Kn-0008HR-Js
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5BG-0002e0-VT
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:10 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55025
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5BE-0001WY-PS
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593004268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=jNvjDihMqIwe37qxbHQlIK02xyr/p93khFFBpDtVnfE=;
- b=Lwm8oSwTvq/plf4B7bgFodfdUpMsMpkl+oigaxccRyIFKIhojLqoKB9bK0fEQyYE6vFzN3
- pTXRHF0KjjRx2IdDFswHuPV+NTt06ftuAAv2CD04hjbmZ8m+wZQ5WRAum0CJ8VkSWjLllA
- up3HSR7RTH/jO1jPg7yv2Ho0fdXvnik=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-c0xaF3xHME6cixWqPxpGDA-1; Wed, 24 Jun 2020 09:11:06 -0400
-X-MC-Unique: c0xaF3xHME6cixWqPxpGDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 206EC18A8223
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 13:11:04 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC46760F8A;
- Wed, 24 Jun 2020 13:10:55 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0D48531E32; Wed, 24 Jun 2020 15:10:46 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/10] chardev: enable modules, use for braille
-Date: Wed, 24 Jun 2020 15:10:45 +0200
-Message-Id: <20200624131045.14512-11-kraxel@redhat.com>
-In-Reply-To: <20200624131045.14512-1-kraxel@redhat.com>
-References: <20200624131045.14512-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1jo5D3-0005RG-MT
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:13:02 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:39260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1jo5D1-0002i2-Hi
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:13:01 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id w17so1066432oie.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 06:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=FC86DfyMXM/Mif3M1HKO5ViyQ8w+5Bb/MaAQaddai0M=;
+ b=MioF8cYvAhL1dwH3hDjXBIy/eXr9m6+9BgG5SAyMInh9/MfHd8LPWre3jqezZvlE73
+ /bwxZP1xZ4WlJYQrwnRecZpn2zMj9ndlWg93C6mqix9j7TWXLp+VF175vmoMfR+jqqBb
+ KbUiIa84rPvq6h9q+IwSddlU8IuWViXqaOsCcLvhhy7AOscBq1eMQjksxIuL6jxKhvwa
+ L3TlsGma1HeSlymzhc6hFBPFWE+3DDNa5uN8yx/Cj6IqbhP3BNlE0pO5kMUZpz+vAiiJ
+ ydrUC/Ex3MDiKJU6V3FKNKVGYeUbnF7vxlx0tqNtKknwb/YL8Db5bP76aDR4eLqGLICW
+ aUQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=FC86DfyMXM/Mif3M1HKO5ViyQ8w+5Bb/MaAQaddai0M=;
+ b=KDf7xQ0/3eLkX/AM1AkMwxa1++0s/b02JHNGWhgZRKH3m3YdJSbOLPni339CF8VAlB
+ M1FbICd2cpln5g7kcWoFuVvsnrtizk3JNCzCjt1H+YXfylABzRWhn59cPyvT+fyoQQkx
+ d8iSqTx9uLadgoAaWIPNhNOnvMa1+Ig9+WwiHSp+MGITjwZH5AHYAUR3n4ytc0v2pNmr
+ plT0jVA2zOAe+ZsnWxkaBIs5ivv7OaKpcDckHPYhGpn/s+xDlGl/xtWU/J06SF0y5qjg
+ ENToYktbbE/2OeqXtxp5IfyHUZOdQUfWZat/DSdzm5mYXP+vQUb5oZ3zJs0HrBU/gGLe
+ sY8Q==
+X-Gm-Message-State: AOAM531itDwZhJQ+I0c8MOWIhkhvq/ZLb/EN34MbtswkeUSnZr7f5viH
+ POJpFWiPkYrT639XQQjiLuSjgmBXi/DfaAhHqKMZ6Nk8yzg=
+X-Google-Smtp-Source: ABdhPJwpltI/TrUPqmhS84uGA2ki25p7AWlQHIV0eHLMDKpyZbMqzBtOqSLozaz690Ji4CspWwliX8IyiEtdOspYlhU=
+X-Received: by 2002:aca:574b:: with SMTP id l72mr20074080oib.59.1593004377565; 
+ Wed, 24 Jun 2020 06:12:57 -0700 (PDT)
+MIME-Version: 1.0
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Wed, 24 Jun 2020 15:12:46 +0200
+Message-ID: <CABLmASGaZDBz_9dGeVi3kaePyRxv6YdwxUd2bBLhyQtsVaYi2Q@mail.gmail.com>
+Subject: lib-usb related linking error with msys2 build
+To: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000000cf0c805a8d43c30"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x22e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,78 +76,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removes brlapi library dependency from core qemu.
+--0000000000000cf0c805a8d43c30
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- Makefile.objs         | 1 +
- chardev/char.c        | 2 +-
- util/module.c         | 1 +
- chardev/Makefile.objs | 5 ++++-
- 4 files changed, 7 insertions(+), 2 deletions(-)
+Hi all,
 
-diff --git a/Makefile.objs b/Makefile.objs
-index ca555ede0710..2dfcd19713f8 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -71,6 +71,7 @@ common-obj-$(CONFIG_TPM) += tpm.o
- 
- common-obj-y += backends/
- common-obj-y += chardev/
-+common-obj-m += chardev/
- 
- common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
- qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
-diff --git a/chardev/char.c b/chardev/char.c
-index e3051295ac37..df697f3ce9e0 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -527,7 +527,7 @@ static const ChardevClass *char_get_class(const char *driver, Error **errp)
-     const ChardevClass *cc;
-     char *typename = g_strdup_printf("chardev-%s", driver);
- 
--    oc = object_class_by_name(typename);
-+    oc = module_object_class_by_name(typename);
-     g_free(typename);
- 
-     if (!object_class_dynamic_cast(oc, TYPE_CHARDEV)) {
-diff --git a/util/module.c b/util/module.c
-index a74214eac052..32b0547b8266 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -272,6 +272,7 @@ static struct {
-     { "vhost-user-gpu-device", "hw-", "display-virtio-gpu"    },
-     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu"    },
-     { "vhost-user-vga",        "hw-", "display-virtio-gpu"    },
-+    { "chardev-braille",       "chardev-", "baum"             },
- };
- 
- static bool module_loaded_qom_all;
-diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
-index d68e1347f9af..3a58c9d329d6 100644
---- a/chardev/Makefile.objs
-+++ b/chardev/Makefile.objs
-@@ -18,8 +18,11 @@ chardev-obj-$(CONFIG_WIN32) += char-win.o
- chardev-obj-$(CONFIG_WIN32) += char-win-stdio.o
- 
- common-obj-y += msmouse.o wctablet.o testdev.o
--common-obj-$(CONFIG_BRLAPI) += baum.o
-+
-+ifeq ($(CONFIG_BRLAPI),y)
-+common-obj-m += baum.o
- baum.o-cflags := $(SDL_CFLAGS)
- baum.o-libs := $(BRLAPI_LIBS)
-+endif
- 
- common-obj-$(CONFIG_SPICE) += spice.o
--- 
-2.18.4
+I get the following error compiling qemu-system-ppc from current master
+with msys2 (fully updated)
 
+./configure --cross-prefix=x86_64-w64-mingw32- --target-list=ppc-softmmu
+--enable-gtk --enable-sdl
+
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe:
+../hw/usb/host-libusb.o: in function `usb_host_open':
+C:\msys64\home\hsp\src\qemu-master/hw/usb/host-libusb.c:913: undefined
+reference to `libusb_wrap_sys_device'
+collect2.exe: error: ld returned 1 exit status
+make[1]: *** [Makefile:208: qemu-system-ppcw.exe] Error 1
+make: *** [Makefile:527: ppc-softmmu/all] Error 2
+
+I tracked it down to commit:
+
+$ git bisect bad
+9f815e83e983d247a3cd67579d2d9c1765adc644 is the first bad commit
+commit 9f815e83e983d247a3cd67579d2d9c1765adc644
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Fri Jun 5 14:59:52 2020 +0200
+
+    usb: add hostdevice property to usb-host
+
+    The new property allows to specify usb host device name.  Uses standard
+    qemu_open(), so both file system path (/dev/bus/usb/$bus/$dev on linux)
+    and file descriptor passing can be used.
+
+    Requires libusb 1.0.23 or newer.  The hostdevice property is only
+    present in case qemu is compiled against a new enough library version,
+    so the presence of the property can be used for feature detection.
+
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+    Message-Id: <20200605125952.13113-1-kraxel@redhat.com>
+
+ hw/usb/host-libusb.c | 75
+++++++++++++++++++++++++++++++++++++++++++----------
+ hw/usb/trace-events  |  1 +
+ 2 files changed, 62 insertions(+), 14 deletions(-)
+
+According to msys2, the following libusb is provided:
+Group(s):Repo(s)mingw32, mingw64 Version: 1.0.23-1Upstream URL:
+https://libusb.info/Arch Linux:1.0.23 GIT Version:1.0.23-1 License(s)LGPLBinary
+Packages:mingw-w64-i686-libusbmingw-w64-x86_64-libusb
+Thanks for looking into this.
+
+Best,
+Howard
+
+--0000000000000cf0c805a8d43c30
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div><div>Hi all,<br></div><div><br></div><div>I=
+ get the following error compiling qemu-system-ppc from current master with=
+ msys2 (fully updated)</div><div><br></div><div>./configure --cross-prefix=
+=3Dx86_64-w64-mingw32- --target-list=3Dppc-softmmu --enable-gtk --enable-sd=
+l<br></div><div><br></div><div>C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-=
+mingw32/10.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: ../hw/usb/host-li=
+busb.o: in function `usb_host_open&#39;:</div>C:\msys64\home\hsp\src\qemu-m=
+aster/hw/usb/host-libusb.c:913: undefined reference to `libusb_wrap_sys_dev=
+ice&#39;<br>collect2.exe: error: ld returned 1 exit status<br>make[1]: *** =
+[Makefile:208: qemu-system-ppcw.exe] Error 1<br><div>make: *** [Makefile:52=
+7: ppc-softmmu/all] Error 2</div><div><br></div><div>I tracked it down to c=
+ommit:</div><div> <br></div><div>$ git bisect bad<br>9f815e83e983d247a3cd67=
+579d2d9c1765adc644 is the first bad commit<br>commit 9f815e83e983d247a3cd67=
+579d2d9c1765adc644<br>Author: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@re=
+dhat.com">kraxel@redhat.com</a>&gt;<br>Date: =C2=A0 Fri Jun 5 14:59:52 2020=
+ +0200<br><br>=C2=A0 =C2=A0 usb: add hostdevice property to usb-host<br><br=
+>=C2=A0 =C2=A0 The new property allows to specify usb host device name.=C2=
+=A0 Uses standard<br>=C2=A0 =C2=A0 qemu_open(), so both file system path (/=
+dev/bus/usb/$bus/$dev on linux)<br>=C2=A0 =C2=A0 and file descriptor passin=
+g can be used.<br><br>=C2=A0 =C2=A0 Requires libusb 1.0.23 or newer.=C2=A0 =
+The hostdevice property is only<br>=C2=A0 =C2=A0 present in case qemu is co=
+mpiled against a new enough library version,<br>=C2=A0 =C2=A0 so the presen=
+ce of the property can be used for feature detection.<br><br>=C2=A0 =C2=A0 =
+Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxe=
+l@redhat.com</a>&gt;<br>=C2=A0 =C2=A0 Message-Id: &lt;<a href=3D"mailto:202=
+00605125952.13113-1-kraxel@redhat.com">20200605125952.13113-1-kraxel@redhat=
+.com</a>&gt;<br><br>=C2=A0hw/usb/host-libusb.c | 75 +++++++++++++++++++++++=
++++++++++++++++++++----------<br>=C2=A0hw/usb/trace-events =C2=A0| =C2=A01 =
++<br>=C2=A02 files changed, 62 insertions(+), 14 deletions(-)<br></div><div=
+><br></div><div>According to msys2, the following libusb is provided:</div>=
+<div>
+<div class=3D"gmail-card-body gmail-overflow-auto">
+
+   =20
+
+    <dl class=3D"gmail-row"><dt class=3D"gmail-col-sm-3 gmail-text-sm-right=
+">Group(s):</dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-right">Repo(s)min=
+gw32,=20
+       =20
+        mingw64
+       =20
+      </dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-right">Version: 1.0.23=
+-1</dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-right">Upstream URL: <a hr=
+ef=3D"https://libusb.info/">https://libusb.info/</a></dt><dt class=3D"gmail=
+-col-sm-3 gmail-text-sm-right">Arch Linux:1.0.23
+           =20
+        </dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-right">GIT Version:1=
+.0.23-1
+       =20
+      </dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-right">License(s)</dt>=
+<dd class=3D"gmail-col-sm-9">LGPL</dd><dt class=3D"gmail-col-sm-3 gmail-tex=
+t-sm-right">Binary Packages:</dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-=
+right">mingw-w64-i686-libusb</dt><dt class=3D"gmail-col-sm-3 gmail-text-sm-=
+right">mingw-w64-x86_64-libusb<br></dt></dl></div><div class=3D"gmail-card-=
+body gmail-overflow-auto">
+      Thanks for looking into this.</div><div class=3D"gmail-card-body gmai=
+l-overflow-auto"><br></div><div class=3D"gmail-card-body gmail-overflow-aut=
+o">Best,</div><div class=3D"gmail-card-body gmail-overflow-auto">Howard<br>
+  </div>
+
+</div></div>
+
+--0000000000000cf0c805a8d43c30--
 
