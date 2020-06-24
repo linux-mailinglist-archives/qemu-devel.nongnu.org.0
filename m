@@ -2,92 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B554207597
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:21:48 +0200 (CEST)
-Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307CD2075E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 16:42:29 +0200 (CEST)
+Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo6Hb-0003D1-FS
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
+	id 1jo6bb-00078z-QN
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 10:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo6GG-0001i2-Vu
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:20:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35031
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jo6GF-0000O9-8c
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:20:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593008422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zWfpE4izy5B8C2VW8Atkz9nxPS5S/vhIhg0sPC/K/KY=;
- b=YvtJrw4wjXhLTUlqvJuIubxjmtv8QGJxAm0uXqnWxifnL1oxxh+voIbRZL3DY5ENcP+b2K
- gdqVZxP65/Y8ziCNStBEJZXAPhCgwSQVTcQs4/R1ppJJsHpiR6zJRd/iYknF2Z5Nv/+uZc
- MwHwjHF3EiQ4Hb/UL5zHMjpeozPiGy4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-tljO2aOONRWfCQgS0O7yyw-1; Wed, 24 Jun 2020 10:20:19 -0400
-X-MC-Unique: tljO2aOONRWfCQgS0O7yyw-1
-Received: by mail-wm1-f69.google.com with SMTP id g124so2843075wmg.6
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 07:20:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zWfpE4izy5B8C2VW8Atkz9nxPS5S/vhIhg0sPC/K/KY=;
- b=hCtX+eGIHLIg9yALokpcFMm1IIGnoeKL8tkJSfsnKs/x+QewsZZXD2Imc7G0CsqSjQ
- TVRa7RpagZRmVGvjhQp3gSYkEc+U2Si2zVpexSlBlmxVy+5qTQGzuxu8RQtI3P2ql7Gx
- hALnPRxfnAac5D710vycJMPZEbT9HDygAeJYykZcjSrsVLMIgbPWnLnMCSMnGRdJZw0K
- skJqjrVr+QXfAMH+wQx4oeGVKGBCGBq34UIu/MvN+m7pGSvHfM1gJeSWFj0mO4uQXZ+5
- YHIi7wpwc6XRfSBaEoGsIv7Ev/qFJ67Z72n2efTBghzE6TCF78e/dWmn9mjifZv+AB54
- OxhA==
-X-Gm-Message-State: AOAM532M2ZGqRIwFSoiogUaN+ytz/Jle3iPbSO7AGmkNwdaiAcU6HVgJ
- FP+liyPPsUah4q+f7tJvJvDiKm5Lew/tGcra7IUacjKwT7lIswgnU03d38bhhj4x0YApqBSo0WV
- khID3SCSVpTNml+s=
-X-Received: by 2002:a7b:c08e:: with SMTP id r14mr31461281wmh.78.1593008418719; 
- Wed, 24 Jun 2020 07:20:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvZPzZl4jph78KBczwViytDJTwMkjpAMj074Vlvz0C5TZQ+sgaz/KmNj52tGWIhoLYdk/5SA==
-X-Received: by 2002:a7b:c08e:: with SMTP id r14mr31461263wmh.78.1593008418493; 
- Wed, 24 Jun 2020 07:20:18 -0700 (PDT)
-Received: from [192.168.178.58] ([151.20.253.55])
- by smtp.gmail.com with ESMTPSA id l10sm8140981wme.1.2020.06.24.07.20.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jun 2020 07:20:17 -0700 (PDT)
-Subject: Re: [PATCH v2 20/25] x86: Fix x86_cpu_new() error API violations
-To: Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20200624083737.3086768-1-armbru@redhat.com>
- <20200624083737.3086768-21-armbru@redhat.com>
- <20200624161703.153c7905@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1d6e83fa-04c2-2d3e-3695-bf85f6647bfc@redhat.com>
-Date: Wed, 24 Jun 2020 16:20:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jo6ai-0006Hw-1N
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:41:32 -0400
+Received: from mail-bn8nam12on2048.outbound.protection.outlook.com
+ ([40.107.237.48]:19808 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jo6af-0000se-GQ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 10:41:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bn/0buRPgb3OnNS4luNIzhqGPgMCdUYB+F2tmw/XHxFsSEhw6teW/1eQz2nVX7SNA79X9m6HdZbLtDP0RKT3cZfbvU5CoN4lvWFwtDHpa3moXalePHsQ3iEE78esvtGUhexW8sKt1PqwSz8gCyga1YTEv6Dz12M1BGKcTNejtXHlLfzFY1qlIqITzAFQ+DHs+S2daQzZ0QwqRgsGqxgoU8q9JoEDkBYC4882PCMQOIMr9eZDZizhI+l56o4dAHVW1iH18Sn+7LGujiKCSZNgj4JIsALU6Dnr2nCTtonj9b5SGNgw+e0qyP5ktYSL9Jvn4nI1wEfyJWql91v97yZaZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r/4zPVtPX7SosYl5zfUSOucHWRsUXeJkTwGCi7QfqhM=;
+ b=dTCNjRvMga07ognRsLC1Xv3dNHPaXhTNGk0i40Tmz9vDcpE5cbPV3kMrwBLxoyLa2fUxxIvSAxCts6a3nhSSsSDb63EuhXruaZ/f8tq1Jgnjqb8nHtHR4vqZ/OjdyYb8WUdT5kiyTHgZUS2v814JI1BIDS3EzSQHoPuul/bZJ5Jc6TD255GI1pv/T5nwvQHA/nPIf+dnbbnYGn9O2mxnOeVXWcz0tcdJ2kaYhjZ0a4QupUhq/FtSKPYnLWHlVsyIvAHcWCCvkZFpvLv1c8Kpj9B/Df/GOWaJJ6HWqLUopVzN9/psok5aGale8yPwgVsPvOakvf2eWtDETFHETp0oqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r/4zPVtPX7SosYl5zfUSOucHWRsUXeJkTwGCi7QfqhM=;
+ b=S+Jio00ZtwGVxbXly4ZWRaMs25+fwpQJWkkYnESap3kb+OVmmJyhvBtZtVDMBCDMXFeuKYavy8PTqmhveiNocsxMz0C3zv87d8srHgj06pZgedpfXVtTgm2cuGnpPTtDhxwLYnyPYltIyyU5/5UT9QlF2s6zpwkJrIp6+QZ98i0=
+Received: from MN2PR20CA0044.namprd20.prod.outlook.com (2603:10b6:208:235::13)
+ by DM6PR02MB5259.namprd02.prod.outlook.com (2603:10b6:5:43::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.25; Wed, 24 Jun
+ 2020 14:26:24 +0000
+Received: from BL2NAM02FT052.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:235:cafe::8a) by MN2PR20CA0044.outlook.office365.com
+ (2603:10b6:208:235::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
+ Transport; Wed, 24 Jun 2020 14:26:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT052.mail.protection.outlook.com (10.152.77.0) with Microsoft SMTP
+ Server id 15.20.3131.20 via Frontend Transport; Wed, 24 Jun 2020 14:26:23
+ +0000
+Received: from [149.199.38.66] (port=43395 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jo6Kr-0001Yn-LF; Wed, 24 Jun 2020 07:25:09 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jo6M3-0000K8-JA; Wed, 24 Jun 2020 07:26:23 -0700
+Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 05OEQMNa017892; 
+ Wed, 24 Jun 2020 07:26:22 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jo6M2-0000Ja-5M; Wed, 24 Jun 2020 07:26:22 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id F0BD513C6068; Wed, 24 Jun 2020 19:46:19 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2 0/3] Make hcd-xhci independent of pci hooks
+Date: Wed, 24 Jun 2020 19:46:13 +0530
+Message-Id: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(396003)(136003)(376002)(346002)(46966005)(5660300002)(4744005)(2906002)(83380400001)(47076004)(82740400003)(70206006)(70586007)(36756003)(2616005)(478600001)(82310400002)(7416002)(110136005)(6266002)(186003)(26005)(8936002)(81166007)(356005)(316002)(42186006)(336012)(54906003)(6666004)(4326008)(426003)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <20200624161703.153c7905@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 7dfba88a-5698-4a2b-fffa-08d8184a92a6
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5259:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB5259880FB118E0F62D1DC5BDCA950@DM6PR02MB5259.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0444EB1997
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1JhXvyy5YWYhAgr0K5US1VZ+hqbjEiZbwmHM3FsqMai9PAgoBdUUaetOohhZETsvb4vMqXp/KQWoQxN2oo/4yKz1NsO+JtTjnbKVc5f7dEkn15HMSXRlePKwzlV7uWSEx0pHFNhI8hEZPchtTSX3vGFABv+0oKucRQiVkFXy+WfRhf5jVLCSHPumqA+D0nUlAfp7wZv8hlKAu0jc01mXj4RSDufb1MxBaoetPbOLrd7UfGyEClkH9OGZJtEZS/XeYToQ9qkT0x3+D9NUFgm8VGy5iwQAPU8PD8fLQeKEQTHdltNrixpbFCwyUG35s+FqmwpPfJgAk2MclS0m0eH5CgEpiS/NbFM8CxdYUyw2sGvETRC7p1aKL3Ac+ZIXdvAFjOSq9yMc3+8Ltr3bM8orMA==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2020 14:26:23.9835 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7dfba88a-5698-4a2b-fffa-08d8184a92a6
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5259
+Received-SPF: pass client-ip=40.107.237.48; envelope-from=saipava@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 10:41:27
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) AC_FROM_MANY_DOTS=1, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +133,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/20 16:17, Igor Mammedov wrote:
->> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
->> -
->> -    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
->> -    qdev_realize(DEVICE(cpu), NULL, &local_err);
->> -
->> -    object_unref(cpu);
->> -    error_propagate(errp, local_err);
->> +    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);
-> it may fail here if user specified wrong cpu flags, but there is nothing we can do to fix it.
-> perhaps error_fatal would suit this case better?
+Hi
 
-No, we need to add the error_propagate dance instead.
+This patch series attempts to make 'hcd-xhci' an independent model so
+it can be used by both pci and system-bus interface.
 
-Paolo
+Sorry for the late followup, below are the changes for V2
+
+V2:
+    Make XHCIState non-qom
+    Use container_of functions for retriving pci device instance
+    Initialize the AddressSpace pointer in PATCH 1/3 itself
+
+Sai Pavan Boddu (3):
+  usb/hcd-xhci: Make dma read/writes hooks pci free
+  usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c
+  usb/hcd-xhci: Split pci wrapper for xhci base model
+
+ hw/usb/Kconfig        |   6 ++
+ hw/usb/Makefile.objs  |   1 +
+ hw/usb/hcd-xhci-nec.c |  14 +--
+ hw/usb/hcd-xhci-pci.c | 246 +++++++++++++++++++++++++++++++++++++++++++
+ hw/usb/hcd-xhci-pci.h |  47 +++++++++
+ hw/usb/hcd-xhci.c     | 287 ++++++++------------------------------------------
+ hw/usb/hcd-xhci.h     |  30 +++---
+ 7 files changed, 369 insertions(+), 262 deletions(-)
+ create mode 100644 hw/usb/hcd-xhci-pci.c
+ create mode 100644 hw/usb/hcd-xhci-pci.h
+
+-- 
+2.7.4
 
 
