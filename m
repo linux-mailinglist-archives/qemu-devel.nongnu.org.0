@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130162096DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:05:52 +0200 (CEST)
-Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132B52096AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:03:01 +0200 (CEST)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joESl-00061l-3Q
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
+	id 1joEPz-0001K0-Tr
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEOA-00083V-Mt
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:06 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:32936 helo=mta-01.yadro.com)
+ id 1joEO9-00081d-Ox
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:05 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:32950 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEO7-0006nW-8N
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:06 -0400
+ id 1joEO7-0006nj-Ib
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:05 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id E64674C8A8;
- Wed, 24 Jun 2020 23:01:01 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 3000D4C8AF;
+ Wed, 24 Jun 2020 23:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1593039660; x=1594854061; bh=DOa3xdIj/2ZyMZbRe6WLqoWwFvtCcErZNfp
- 47YEjZE0=; b=pAR1kexHvXIOuE+pA3mN5Wfp6c6r3cHS/SBnsGcpwl4e9ZSyZ5O
- vDMZDfa5J9zZS8UXmjmi9rDVG/GF9y80grNa7mq3c1GRhrwrd/bzStQIzSEsvhMk
- InthMqA0qAbYvirARZ8tVy68hZmfOW//KkZ8XL0jy1wZvMRf/hcjC55c=
+ 1593039661; x=1594854062; bh=22wHRyTsBRe+6CKxRp3j1EgsD5Q4dokkEn8
+ iGFdtGvA=; b=NrWuDIZG/1wEd7PirLoyCUY1w+7j5VfXgVIDsp1Zya/xT/rq46L
+ MYyYNAruNosMCEoPg8meWSrbVIASKLiKpTzYr7p62GWhhQRqAwjFsuEe/e9K3W5f
+ wb3qYtRgSRNbWjhXp1OSqFhoq+40H4TEzkEDQSO5eOf+wJtLFm9gSa7Q=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rI7ock36h5b3; Thu, 25 Jun 2020 02:01:00 +0300 (MSK)
+ with ESMTP id it99qvdGabhf; Thu, 25 Jun 2020 02:01:01 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 019424C8AC;
+ by mta-01.yadro.com (Postfix) with ESMTPS id 87AEE4C8AB;
  Thu, 25 Jun 2020 02:00:59 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 25
- Jun 2020 02:00:58 +0300
+ Jun 2020 02:00:59 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 6/8] i386: hvf: Drop hvf_reset_vcpu()
-Date: Thu, 25 Jun 2020 01:58:49 +0300
-Message-ID: <20200624225850.16982-7-r.bolshakov@yadro.com>
+Subject: [PATCH 7/8] i386: hvf: Clean up synchronize functions
+Date: Thu, 25 Jun 2020 01:58:50 +0300
+Message-ID: <20200624225850.16982-8-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200624225850.16982-1-r.bolshakov@yadro.com>
 References: <20200624225850.16982-1-r.bolshakov@yadro.com>
@@ -86,85 +86,90 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's worth to have a custom accel-specific reset in x86_cpu_reset() only
-if something related to CPUState has to be reset and that can't be done
-in post-init or post-reset.
+Make them more concise and consitent with the rest of the code in the
+file and drop non-relevant TODO.
 
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- include/sysemu/hvf.h  |  1 -
- target/i386/cpu.c     |  3 ---
- target/i386/hvf/hvf.c | 23 +++++++++++------------
- 3 files changed, 11 insertions(+), 16 deletions(-)
+ target/i386/hvf/hvf.c | 36 ++++++++++++++++--------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index aaa00cbf05..a1ab61403f 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -31,7 +31,6 @@ void hvf_cpu_synchronize_post_reset(CPUState *);
- void hvf_cpu_synchronize_post_init(CPUState *);
- void hvf_cpu_synchronize_pre_loadvm(CPUState *);
- void hvf_vcpu_destroy(CPUState *);
--void hvf_reset_vcpu(CPUState *);
- 
- #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b1b311baa2..bfa3eed9b6 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6089,9 +6089,6 @@ static void x86_cpu_reset(DeviceState *dev)
-     if (kvm_enabled()) {
-         kvm_arch_reset_vcpu(cpu);
-     }
--    else if (hvf_enabled()) {
--        hvf_reset_vcpu(s);
--    }
- #endif
- }
- 
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 2c4028d08c..0b2be8de47 100644
+index 0b2be8de47..18fe843834 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -303,6 +303,17 @@ void hvf_cpu_synchronize_state(CPUState *cpu_state)
- static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu, run_on_cpu_data arg)
- {
-     CPUState *cpu_state = cpu;
-+    uint64_t pdpte[4] = {0, 0, 0, 0};
-+    int i;
-+
-+    /* Reset IA-32e mode guest (LMA) */
-+    wvmcs(cpu->hvf_fd, VMCS_ENTRY_CTLS, 0);
-+
-+    /* Initialize PDPTE */
-+    for (i = 0; i < 4; i++) {
-+        wvmcs(cpu->hvf_fd, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
-+    }
-+
-     hvf_put_registers(cpu_state);
-     cpu_state->vcpu_dirty = false;
+@@ -282,27 +282,24 @@ void hvf_handle_io(CPUArchState *env, uint16_t port, void *buffer,
+     }
  }
-@@ -452,18 +463,6 @@ static MemoryListener hvf_memory_listener = {
-     .log_sync = hvf_log_sync,
- };
  
--void hvf_reset_vcpu(CPUState *cpu) {
--    uint64_t pdpte[4] = {0, 0, 0, 0};
--    int i;
--
--    wvmcs(cpu->hvf_fd, VMCS_ENTRY_CTLS, 0);
--
--    /* Initialize PDPTE */
--    for (i = 0; i < 4; i++) {
--        wvmcs(cpu->hvf_fd, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
--    }
--}
--
- void hvf_vcpu_destroy(CPUState *cpu)
+-/* TODO: synchronize vcpu state */
+ static void do_hvf_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
  {
-     X86CPU *x86_cpu = X86_CPU(cpu);
+-    CPUState *cpu_state = cpu;
+-    if (cpu_state->vcpu_dirty == 0) {
+-        hvf_get_registers(cpu_state);
++    if (!cpu->vcpu_dirty) {
++        hvf_get_registers(cpu);
++        cpu->vcpu_dirty = true;
+     }
+-
+-    cpu_state->vcpu_dirty = 1;
+ }
+ 
+-void hvf_cpu_synchronize_state(CPUState *cpu_state)
++void hvf_cpu_synchronize_state(CPUState *cpu)
+ {
+-    if (cpu_state->vcpu_dirty == 0) {
+-        run_on_cpu(cpu_state, do_hvf_cpu_synchronize_state, RUN_ON_CPU_NULL);
++    if (!cpu->vcpu_dirty) {
++        run_on_cpu(cpu, do_hvf_cpu_synchronize_state, RUN_ON_CPU_NULL);
+     }
+ }
+ 
+-static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu, run_on_cpu_data arg)
++static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
++                                              run_on_cpu_data arg)
+ {
+-    CPUState *cpu_state = cpu;
+     uint64_t pdpte[4] = {0, 0, 0, 0};
+     int i;
+ 
+@@ -314,26 +311,25 @@ static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu, run_on_cpu_data arg
+         wvmcs(cpu->hvf_fd, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
+     }
+ 
+-    hvf_put_registers(cpu_state);
+-    cpu_state->vcpu_dirty = false;
++    hvf_put_registers(cpu);
++    cpu->vcpu_dirty = false;
+ }
+ 
+-void hvf_cpu_synchronize_post_reset(CPUState *cpu_state)
++void hvf_cpu_synchronize_post_reset(CPUState *cpu)
+ {
+-    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
++    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
+ }
+ 
+ static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
+                                              run_on_cpu_data arg)
+ {
+-    CPUState *cpu_state = cpu;
+-    hvf_put_registers(cpu_state);
+-    cpu_state->vcpu_dirty = false;
++    hvf_put_registers(cpu);
++    cpu->vcpu_dirty = false;
+ }
+ 
+-void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
++void hvf_cpu_synchronize_post_init(CPUState *cpu)
+ {
+-    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
++    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
+ }
+ 
+ static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
 -- 
 2.26.1
 
