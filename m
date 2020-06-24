@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B16206FAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 11:06:41 +0200 (CEST)
-Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EB6206FC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 11:11:49 +0200 (CEST)
+Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo1Me-0007GJ-5j
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 05:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
+	id 1jo1Rd-0004if-0V
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 05:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jo1Lq-0006jy-O5
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:05:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51008
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jo1Lo-0008Ar-RP
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:05:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592989547;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LvZFqnF0CBJgWHdp/9a36x96b7U4p9xJKxthLbquip8=;
- b=a4gdlR6Z1HAIEeyhrBE46mQBOy4s02tIXgXmM9fb0PHlGemuzrYvGnhBuGzSsFGOjsjDeu
- D/Vy9zro88ktvig37BK6YgpHDGYDJCnIA3Ce4SjUD/Lwlhny6WZlIH8lG/Tva5ORjdLzwL
- nE/mYSK8Nzl/3Z1Eb+4pI8RK/i02nKc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-t6qzifhjNZuffi56tpu49g-1; Wed, 24 Jun 2020 05:05:45 -0400
-X-MC-Unique: t6qzifhjNZuffi56tpu49g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C267C107ACF2
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 09:05:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E352282FE;
- Wed, 24 Jun 2020 09:05:40 +0000 (UTC)
-Date: Wed, 24 Jun 2020 10:05:37 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: -enablefips
-Message-ID: <20200624090537.GF774096@redhat.com>
-References: <7816f22f-2872-06ef-f7ef-40add5a34040@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jo1Qm-0003wy-Jk
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:10:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jo1Qk-0001Ey-CQ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 05:10:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jo1Qh-0007y9-Ql
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 09:10:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B98FC2E8106
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 09:10:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <7816f22f-2872-06ef-f7ef-40add5a34040@redhat.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Jun 2020 09:05:39 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1884507@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159281693063.26203.17684483283242220275.malonedeb@gac.canonical.com>
+Message-Id: <159298953931.25445.17855012934206599910.malone@gac.canonical.com>
+Subject: [Bug 1884507] Re: 'none' machine should use 'none' display option
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 19a0c30776bf990dbac28c484c931b9f50573f14
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 05:10:52
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,61 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1884507 <1884507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 23, 2020 at 11:51:09PM -0400, John Snow wrote:
-> I never knew what this option did, but the answer is ... strange!
-> 
-> It's only defined for linux, in os-posix.c. When called, it calls
-> fips_set_state(true), located in osdep.c.
-> 
-> This will read /proc/sys/crypto/fips_enabled and set the static global
-> 'fips_enabled' to true if this setting is on.
-> 
-> (Tangent: what does *this* setting actually control? Should QEMU
-> meaningfully change its behavior when it's set?)
-> 
-> This static global is exposed via the getter fips_get_state(). This
-> function is called only by vnc.c, and appears to disable the use of the
-> password option for -vnc.
-> 
-> This seems very high-level and abstract for something that ultimately
-> only disables VNC password authentication. Is this misleadingly abstract?
-> 
-> The docs state:
-> "enable FIPS 140-2 compliance"
-> 
-> Like hell it does.
+> I think you made a wrong assumption here. "-display" is
+> about the GUI backend that should be used. "-M" is about
+> the emulated hardware. The emulated hardware options
+> should never influence the host backend options.
 
-It prevents the use of non-FIPS crypto in QEMU, so it isn't that
-inaccurate.
+Aright. What confuses me is having serial0/parallel0 chardevs
+initialized when using the none-machine. I realized when
+looking at your suggestion in comment #1 that the chardevs
+(among other hardware related things) are initialized in
+qemu_init().
 
-> Can we deprecate this? It was added in 2012 and never seemed to pursue
-> the mission laid out in the help file. If we do still want it, the
-> documentation should be changed dramatically to reflect what it actually
-> does.
-> 
-> This is so at risk of bit-rot, and a misleading crypto flag is certainly
-> worse than no crypto flag. I think it should just go.
+I started testing using:
 
-I think it can go.
+  bool is_none_machine =3D !strcmp(machine_class->name,
+                                 MACHINE_TYPE_NAME("none"));
 
-FIPS support in QEMU is only needed if using our own crypto code which
-lacks FIPS compliance, which essentially means our Single DES impl.
+and disabling blocks of code with:
 
-Anyone who cares about FIPS should be building QEMU with crypto provided
-by libgcrypt. This will take care of FIPS compliance automatically,
-so there's nothing QEMU needs do itself.
+  if (!is_none_machine) {
+      ...
+  }
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+then planned to update this ticket description but you beat
+me. I'll open a different issue.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884507
+
+Title:
+  'none' machine should use 'none' display option
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  As the 'none' machine doesn't have any peripheral (except CPU cores)
+  it is pointless to start a display. =
+
+
+  '-M none' should imply '-display none'.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884507/+subscriptions
 
