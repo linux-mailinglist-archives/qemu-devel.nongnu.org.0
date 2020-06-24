@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12502096AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:02:57 +0200 (CEST)
-Received: from localhost ([::1]:52678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6817F2096DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:05:57 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEPw-0001D3-Sr
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
+	id 1joESq-0006BF-EA
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEO7-0007yb-Os
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:03 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:32894 helo=mta-01.yadro.com)
+ id 1joEO9-00081z-UK
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:05 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:32906 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joEO5-0006lz-83
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:03 -0400
+ id 1joEO6-0006mU-6l
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:01:05 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id D94C84C8B3;
- Wed, 24 Jun 2020 23:00:59 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id D0DAA4C8B1;
+ Wed, 24 Jun 2020 23:01:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1593039658; x=1594854059; bh=mc5EETSvNJkKYQCiUzu9RpiV7bYmTNQc+eO
- rchr6x10=; b=Kh6hiTuqmk4Q8su/9+c5dkj9m0D3ljeVuaM1HxYmNGRtHFkUiP4
- SHKj60y4YLlWZTKeE51UZDtL/zhIQ8fgxEpeFxBkMBK2IDhxAgA0uYxekgzWJc9F
- L67WuZAgBzqGZvHE8Hod7Bz7BuNiYCvb5NlcA5lQE4iuRY918bWkMX+c=
+ 1593039659; x=1594854060; bh=5eLzJTuOmT/x7yLO7cQ7PGZ56UuXWSdJnvj
+ 6AQTqRfo=; b=Xxlc8UHtHofSP3SdkU26CTt1TdrFyo1B5zsDTqbTBEh3KU96fC6
+ CUkFVHxMmNYoVyuQcdrf+PLAM8brlyHM8cgrpfVdlgQWodmMWKzIAB0d4a93J8c8
+ dDYCbCGniZVYc/gWYJOdVX6h8tTDPf5jq4ZKIHpfAAE7CyHqc7zfWW84=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 63d2OYZHT7Nv; Thu, 25 Jun 2020 02:00:58 +0300 (MSK)
+ with ESMTP id JLYubegpmftb; Thu, 25 Jun 2020 02:00:59 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 4410F4C8AE;
+ by mta-01.yadro.com (Postfix) with ESMTPS id DF0334C8AD;
  Thu, 25 Jun 2020 02:00:57 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
@@ -46,9 +46,9 @@ Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  Jun 2020 02:00:57 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 3/8] i386: hvf: Add hvf_cpu_synchronize_pre_loadvm()
-Date: Thu, 25 Jun 2020 01:58:46 +0300
-Message-ID: <20200624225850.16982-4-r.bolshakov@yadro.com>
+Subject: [PATCH 4/8] i386: hvf: Implement CPU kick
+Date: Thu, 25 Jun 2020 01:58:47 +0300
+Message-ID: <20200624225850.16982-5-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200624225850.16982-1-r.bolshakov@yadro.com>
 References: <20200624225850.16982-1-r.bolshakov@yadro.com>
@@ -86,64 +86,99 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hvf lacks an implementation of cpu_synchronize_pre_loadvm().
+HVF doesn't have a CPU kick and without it it's not possible to perform
+an action on CPU thread until a VMEXIT happens. The kick is also needed
+for timely interrupt delivery.
+
+Existing implementation of CPU kick sends SIG_IPI (aka SIGUSR1) to vCPU
+thread, but it's different from what hv_vcpu_interrupt does. The latter
+one results in invocation of mp_cpus_kick() in XNU kernel [1].
+
+While at it, correct type of hvf_fd to the type of hv_vcpuid_t to avoid
+compilation warnings.
+
+1. https://opensource.apple.com/source/xnu/xnu-6153.81.5/osfmk/i386/mp.c
 
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- include/sysemu/hvf.h      |  1 +
- include/sysemu/hw_accel.h |  3 +++
- target/i386/hvf/hvf.c     | 11 +++++++++++
- 3 files changed, 15 insertions(+)
+ cpus.c                | 13 +++++++++----
+ include/hw/core/cpu.h |  2 +-
+ include/sysemu/hvf.h  |  1 +
+ target/i386/hvf/hvf.c | 11 +++++++++++
+ 4 files changed, 22 insertions(+), 5 deletions(-)
 
+diff --git a/cpus.c b/cpus.c
+index 26709677d3..36f38ce5c8 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1783,10 +1783,15 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
+         return;
+     }
+     cpu->thread_kicked = true;
+-    err = pthread_kill(cpu->thread->thread, SIG_IPI);
+-    if (err && err != ESRCH) {
+-        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
+-        exit(1);
++
++    if (hvf_enabled()) {
++        hvf_vcpu_kick(cpu);
++    } else {
++        err = pthread_kill(cpu->thread->thread, SIG_IPI);
++        if (err && err != ESRCH) {
++            fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
++            exit(1);
++        }
+     }
+ #else /* _WIN32 */
+     if (!qemu_cpu_is_self(cpu)) {
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index b3f4b79318..288a2bd57e 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -438,7 +438,7 @@ struct CPUState {
+ 
+     struct hax_vcpu_state *hax_vcpu;
+ 
+-    int hvf_fd;
++    unsigned hvf_fd;
+ 
+     /* track IOMMUs whose translations we've cached in the TCG TLB */
+     GArray *iommu_notifiers;
 diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index 5214ed5202..1d40a8ec01 100644
+index 1d40a8ec01..aaa00cbf05 100644
 --- a/include/sysemu/hvf.h
 +++ b/include/sysemu/hvf.h
-@@ -28,6 +28,7 @@ int hvf_vcpu_exec(CPUState *);
+@@ -25,6 +25,7 @@ extern bool hvf_allowed;
+ 
+ int hvf_init_vcpu(CPUState *);
+ int hvf_vcpu_exec(CPUState *);
++void hvf_vcpu_kick(CPUState *);
  void hvf_cpu_synchronize_state(CPUState *);
  void hvf_cpu_synchronize_post_reset(CPUState *);
  void hvf_cpu_synchronize_post_init(CPUState *);
-+void hvf_cpu_synchronize_pre_loadvm(CPUState *);
- void hvf_vcpu_destroy(CPUState *);
- void hvf_reset_vcpu(CPUState *);
- 
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 80bce75921..e128f8b06b 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -73,6 +73,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_pre_loadvm(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_pre_loadvm(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_pre_loadvm(cpu);
-     }
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index be016b951a..efe9802962 100644
+index efe9802962..4d254a477a 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -325,6 +325,17 @@ void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
-     run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
+@@ -966,6 +966,17 @@ int hvf_vcpu_exec(CPUState *cpu)
+     return ret;
  }
  
-+static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
-+                                              run_on_cpu_data arg)
++void hvf_vcpu_kick(CPUState *cpu)
 +{
-+    cpu->vcpu_dirty = true;
++    hv_return_t err;
++
++    err = hv_vcpu_interrupt(&cpu->hvf_fd, 1);
++    if (err) {
++        fprintf(stderr, "qemu:%s error %#x\n", __func__, err);
++        exit(1);
++    }
 +}
 +
-+void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
-+{
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
-+}
-+
- static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
- {
-     int read, write;
+ bool hvf_allowed;
+ 
+ static int hvf_accel_init(MachineState *ms)
 -- 
 2.26.1
 
