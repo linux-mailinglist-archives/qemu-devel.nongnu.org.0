@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B099207174
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:47:05 +0200 (CEST)
-Received: from localhost ([::1]:36120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5011A207166
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:45:14 +0200 (CEST)
+Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo2vo-0003TK-GO
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
+	id 1jo2u0-0000hE-QP
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo2tB-0000Fj-J2
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49268
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo2t8-0007Hk-Pg
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592995456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tum7sPWxceGYikL602YBYIsjONxZUeJwF1Ja9jLV6wo=;
- b=SGj2tmvoC3Lqx0zxFHZavo4MMzF4X7+i4lOFs3gU7B3pI96ifTpeMXlqDtoIlzpb1jcBtu
- 6yEzvl8ODpaRwErgeOuzUfwgpWchFaWjNqCnuSt8002vh54JKD/cHj1r5g/5Siw4qXbxlK
- Mkz7+G4ExlqOO+7ANmW945PM1R0hRp8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-PeWS8_1yOOaS1TRQM6Biag-1; Wed, 24 Jun 2020 06:44:14 -0400
-X-MC-Unique: PeWS8_1yOOaS1TRQM6Biag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7C7687950B;
- Wed, 24 Jun 2020 10:44:12 +0000 (UTC)
-Received: from gondolin (ovpn-113-3.ams2.redhat.com [10.36.113.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D75E7403F;
- Wed, 24 Jun 2020 10:44:08 +0000 (UTC)
-Date: Wed, 24 Jun 2020 12:44:06 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
-Message-ID: <20200624124406.2baac59f.cohuck@redhat.com>
-In-Reply-To: <20200624075226.92728-1-frankja@linux.ibm.com>
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1jo2sw-0008R1-3d
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:06 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33191)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1jo2su-00077Y-7o
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:05 -0400
+Received: by mail-pl1-x644.google.com with SMTP id 35so924405ple.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=crJOGTJIhgzNMNcqLm3cWyp+Nn5GJBKZ9M1TJO+NThw=;
+ b=iDvnjP8eQo3Z/sD44yErgBuEPFGrsJcvdioveH8K4Q9xx09siJFN/NSS4ShnNweRtB
+ uz77JCC2Y1NfGg7K7ly9amOyTQrklmkbIHRhpRK0jAV2NVkaE8nzbtXanwskVPOXYztU
+ LiqWLwf+aJ0WvN31l1O7Yt7Aulnj2heo9Ld0P+0aylW3XMeQfo1e5o5JTtsswCBAZa8c
+ jCTKrVuVXPGcf3i+j0YBK20UPoRq5tEqHmhPhaIxytI2riM0EtT1n25XptmiYoowsfIW
+ qJ3Iwt6zQEMjU6TzW02KwbaJcP4vM323P8i3vPMIx5trhSG6SHvC/gcJnbn5CNIcXrG5
+ Ozdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=crJOGTJIhgzNMNcqLm3cWyp+Nn5GJBKZ9M1TJO+NThw=;
+ b=i/NMIdWp+5bJx5AmJrb552uUrTtqvqr7vgKS7C7fkDXqycEWbt6AJtbLLZRTJ0Xw1y
+ OKbiF3czkyNTS/sN8QoCu4vXlCGOLY89agsad5FJBO9nx+z/xymzy1Uq1y3bvg6oh6k/
+ sffz+vBdXhFOKxha5N+PDgJskK7A3HNsb2lMMAUxrf7M5rNStkFCkGzmCU7+t4DR3Zd+
+ t2JFRqr6DFEgmolfw5HewsrhU56Fyn4AjWHTBEs6gQSuinH9SvcofzXoMTmcqmpBld2E
+ zEedUIU45mtFvtBQCF5ST0selsamJJD8d8JuwtmQvpqHRS0a59/sVo/7Ci29K/HhgCFI
+ oEGg==
+X-Gm-Message-State: AOAM530rCnwI3zX1Ia5mElh4FiR9LWZ684g4pC5L4qlyZVctp1gLmsU7
+ GPFR+CzfN3QuelIptPnsxD0=
+X-Google-Smtp-Source: ABdhPJw3nDrv+OGyQgFCPX7g8EmJ00NDSp31bio5AsfAZ+Ai50a1uUt9M5VBlbILcxNrY3J8HKZsDQ==
+X-Received: by 2002:a17:90a:260b:: with SMTP id
+ l11mr29252429pje.210.1592995442435; 
+ Wed, 24 Jun 2020 03:44:02 -0700 (PDT)
+Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
+ [34.92.144.28])
+ by smtp.gmail.com with ESMTPSA id q6sm19772395pff.163.2020.06.24.03.43.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Jun 2020 03:44:01 -0700 (PDT)
+From: Huacai Chen <zltjiangshi@gmail.com>
+X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH V6 0/4] mips: Add Loongson-3 machine support (with KVM)
+Date: Wed, 24 Jun 2020 18:45:27 +0800
+Message-Id: <1592995531-32600-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,86 +82,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Jun 2020 03:52:14 -0400
-Janosch Frank <frankja@linux.ibm.com> wrote:
+Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
+R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
+Loongson-3A R4 is the newest and its ISA is almost the superset of all
+others. To reduce complexity, in QEMU we just define two CPU types:
 
-> The bios is in dire need for a cleanup as there are still a lot of
-> magic constants being used throughout as well as duplicated code.
-> 
-> In the first part of this series we consolidate constants and
-> functions, as well as doing some minor cleanups and fixes.
-> 
-> The patches are available here:
-> https://github.com/frankjaa/qemu/pull/new/cleanup_bios
-> 
-> v5:
-> 	* Fixed whitespace damage
-> 	* Removed reset PSW mask changes in dasd-ipl.c
-> 	* Added jump2ipl.c cleanup patches
-> 
-> v4:
-> 	* Renamed time.h to s390-time.h
-> 	* Fixed function names in sleep()
-> 	* Changed order of sense_id_ccw initialization
-> 	* Added missing include before sleep()
-> 
-> v3:
-> 	* Dropped 0x00 to 0x0/0 patch
-> 	* Moved some timing functions into helper.h instead of time.h
-> 	* Fixed IPL psw manipulation in dasd-ipl.c
->  	* Minor cosmetic fixes found by review
-> 
-> v2:
-> 	* Included cio fixup to get rid of compile errors...
-> 	* Minor cosmetic fixes found by review
-> 
-> 
-> Janosch Frank (12):
->   pc-bios: s390x: cio.c cleanup and compile fix
->   pc-bios: s390x: Consolidate timing functions into time.h
->   pc-bios: s390x: Move sleep and yield to helper.h
->   pc-bios: s390x: Get rid of magic offsets into the lowcore
->   pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
->   pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
->   pc-bios: s390x: Use PSW masks where possible and introduce
->     PSW_MASK_SHORT_ADDR
->   pc-bios: s390x: Move panic() into header and add infinite loop
->   pc-bios: s390x: Use ebcdic2ascii table
->   pc-bios: s390x: Make u32 ptr check explicit
->   pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
->   pc-bios: s390x: Cleanup jump to ipl code
-> 
->  pc-bios/s390-ccw/bootmap.c     |  9 ++++----
->  pc-bios/s390-ccw/bootmap.h     |  2 +-
->  pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
->  pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
->  pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
->  pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
->  pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
->  pc-bios/s390-ccw/main.c        | 15 +++----------
->  pc-bios/s390-ccw/menu.c        |  1 +
->  pc-bios/s390-ccw/netmain.c     | 23 +++----------------
->  pc-bios/s390-ccw/s390-arch.h   |  4 +++-
->  pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
->  pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
->  pc-bios/s390-ccw/start.S       |  5 +++--
->  pc-bios/s390-ccw/virtio-net.c  |  2 ++
->  pc-bios/s390-ccw/virtio-scsi.c |  2 ++
->  pc-bios/s390-ccw/virtio.c      | 18 +++------------
->  17 files changed, 120 insertions(+), 125 deletions(-)
->  create mode 100644 pc-bios/s390-ccw/s390-time.h
-> 
+1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
+   suitable for TCG because Loongson-3A R1 has fewest ASE.
+2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
+   suitable for KVM because Loongson-3A R4 has the VZ ASE.
 
-Hm... what's the general status of this? Most of the patches have at
-least one R-b/A-b already, I see.
+Loongson-3 lacks English documents. I've tried to translated them with
+translate.google.com, and the machine translated documents (together
+with their original Chinese versions) are available here.
 
-Do the s390-ccw boot maintainers want to pick this (once the rest has
-been looked at) and then send me a pull req, or should I pick it when
-it is good to go? Softfreeze is less than two weeks away :)
+Loongson-3A R1 (Loongson-3A1000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.pdf (Chinese Version)
 
+Loongson-3A R2 (Loongson-3A2000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Version)
+
+Loongson-3A R3 (Loongson-3A3000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Chinese Version)
+
+Loongson-3A R4 (Loongson-3A4000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
+http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
+User Manual Part 2:
+I'm sorry that it is unavailable now.
+
+We are preparing to add QEMU's Loongson-3 support. MIPS VZ extension is
+fully supported in Loongson-3A R4+, so we at first add QEMU/KVM support
+in this series. And the next series will add QEMU/TCG support (it will
+emulate Loongson-3A R1).
+
+We already have a full functional Linux kernel (based on Linux-5.4.x LTS
+but not upstream yet) here:
+
+https://github.com/chenhuacai/linux
+
+How to use QEMU/Loongson-3?
+1, Download kernel source from the above URL;
+2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
+3, Boot a Loongson-3A4000 host with this kernel;
+4, Build QEMU-5.0.0 with this patchset;
+5, modprobe kvm;
+6, Use QEMU with TCG (available in future):
+       qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
+   Use QEMU with KVM (available at present):
+       qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
+
+   The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
+
+V1 -> V2:
+1, Add a cover letter;
+2, Improve CPU definitions;
+3, Remove LS7A-related things (Use GPEX instead);
+4, Add a description of how to run QEMU/Loongson-3.
+
+V2 -> V3:
+1, Fix all possible checkpatch.pl errors and warnings.
+
+V3 -> V4:
+1, Sync code with upstream;
+2, Remove merged patches;
+3, Fix build failure without CONFIG_KVM;
+4, Add Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>.
+
+V4 -> V5:
+1, Improve coding style;
+2, Remove merged patches;
+3, Rename machine name from "loongson3" to "loongson3-virt";
+4, Rework the "loongson3-virt" machine to drop any ISA things;
+5, Rework "hw/mips: Implement the kvm_type() hook in MachineClass";
+6, Add Jiaxun Yang as a reviewer of Loongson-3.
+
+V5 -> V6:
+1, Fix license preamble;
+2, Improve commit messages;
+3, Add hw/intc/loongson_liointc.c to MAINTAINERS;
+4, Fix all possible checkpatch.pl errors and warnings.
+
+Huacai Chen(4):
+ hw/mips: Implement the kvm_type() hook in MachineClass
+ hw/intc: Add Loongson liointc support
+ hw/mips: Add Loongson-3 machine support (with KVM)
+ MAINTAINERS: Add Loongson-3 maintainer and reviewer
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ MAINTAINERS                          |   7 +
+ default-configs/mips64el-softmmu.mak |   1 +
+ hw/intc/Kconfig                      |   3 +
+ hw/intc/Makefile.objs                |   1 +
+ hw/intc/loongson_liointc.c           | 241 +++++++++
+ hw/mips/Kconfig                      |  11 +
+ hw/mips/Makefile.objs                |   1 +
+ hw/mips/loongson3_virt.c             | 978 +++++++++++++++++++++++++++++++++++
+ target/mips/kvm.c                    |  20 +
+ target/mips/kvm_mips.h               |  11 +
+ 10 files changed, 1274 insertions(+)
+ create mode 100644 hw/intc/loongson_liointc.c
+ create mode 100644 hw/mips/loongson3_virt.c
+--
+2.7.0
 
