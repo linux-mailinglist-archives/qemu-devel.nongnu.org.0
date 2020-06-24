@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F94207C68
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:50:45 +0200 (CEST)
-Received: from localhost ([::1]:54478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70904207C70
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 21:55:04 +0200 (CEST)
+Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joBPw-0002lK-R4
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
+	id 1joBU7-0007NW-18
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 15:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joBNB-0008TV-I0
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:47:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36753
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joBNA-0002Dv-1l
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 15:47:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593028071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PxrjNRO5Zoz0EYNkyqDfEWZwer6rrrh8vF2ARJhDJWg=;
- b=YD7XSaOE4RhIDqM7s9v2Lph7gdesu62HbvS2doS2kDx09MPBGicCjFdVF064BFyW+AWSTt
- Nkmf7Fhe4uHHYikhFwA1ZcrERvNdUmHgp1MzeE/4jEUUDLBKV1ob+6XkxkOZf91RJ49g5v
- qU3xdYSZcW4liHnFos6waHILGMgVgq4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-dyu-xIhONNusrp2ZvCfqnQ-1; Wed, 24 Jun 2020 15:47:47 -0400
-X-MC-Unique: dyu-xIhONNusrp2ZvCfqnQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96DA1804001;
- Wed, 24 Jun 2020 19:47:46 +0000 (UTC)
-Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09C691DC;
- Wed, 24 Jun 2020 19:47:45 +0000 (UTC)
-Subject: Re: [PATCH 14/46] qemu-option: Factor out helper opt_create()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-15-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ce474d91-bff9-ff33-0d1a-14c68d3207aa@redhat.com>
-Date: Wed, 24 Jun 2020 14:47:45 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1joBNR-0000ED-C0; Wed, 24 Jun 2020 15:48:09 -0400
+Received: from mout.web.de ([212.227.15.4]:39667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1joBNP-0002Ks-9s; Wed, 24 Jun 2020 15:48:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1593028079;
+ bh=RfGY9TdhO6Zu8c1ZMpPR3twqNWDryW9zd4JjrjpC4tQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=PqtKcjhSiVC35eHndbDOScA45iGW1Zuh6EDNAeypUW9Hc+IgKXFJqluJK166ix3SQ
+ TQm+hvz3IjrC5ewvoac+CK88xjLl5s1/P1qHMOGWqi1O5hgXVHO4pI1LZNqamWyFO2
+ C47iWBEU3hvTyGNkgBpIlVu9q6AOqHgzJ46XWFiw=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.64]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LrpKY-1irDmr0kc2-013dMI; Wed, 24
+ Jun 2020 21:47:59 +0200
+Date: Wed, 24 Jun 2020 21:47:46 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v5 0/7] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <20200624214746.4d8057ad@luklap>
+In-Reply-To: <cover.1592923201.git.lukasstraub2@web.de>
+References: <cover.1592923201.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-15-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/xSrtkSeZI8ELhxQRI50uCKd";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:Dt+Z8+BhaKm6kD29OolNADUV8D+Seiwge51rcgrGbi80jYTfrXI
+ SKfk0XO5quewhJJqkJkLTnwiQw6BKA7QFZ4fM2Km3l9KgHjX32Qt76tzg2/uzA/B34gkbTt
+ AHtwEQv+JJ1fgLDbu37wC1Msy4BjayJonXHObWHL0kv77Pvf6TpBIq1GjrtPJvUrnCmQDp+
+ AwY+1fg6bFelBElTI2N3A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J+C/Q2tLXm4=:tZ1hHBKTadskmg2WsB9rwD
+ ZYikIdmtQwrJku5CY66pQ5BM1shMATEYaxB4jpAqeLImJLawlwjQxzi+6ysKbtJslF9VIovti
+ 4Vwf7O+J5puVyq12GKepuW9SPVRkhUzkQ8lgqudoeYXBEDpw67KspI1TOB8P6EiAGfnhANev6
+ 3Bykg0ZuRTm/Pgx2pT6x5L5LuycLCp/PTSbSS8qGZAivMY20GWrL6XRM8BXmkOEtbHDWUpiIv
+ svUryz1cJcreAfRWEwygrDQxNBiZT6umgCPvk1k0EM9ex63OCum4A+B6wH8dLz6L39e1Z8htj
+ DSocuzZ2wjbPkUHqLEdpT/rF7SnGBBOmdRACjpeiwDWpXpeu8Ul/JyOCZkSR1rvI7Zjswiipp
+ kIYynNUGrxwsXcyeIO236gyKivLjcqV1w5i+15z3jCsvsUv4AFb7NIdCGp5JAUKvInIiXGLKB
+ JId2HHIc6P3n3vK/2v93YC9cAdNmK0OKUGqG0tR9c5lu3EFW6HQOq98qfs5b6bGtOSmbulgla
+ qOe/q32W5+zqLJ/AVgv6Am9eQH1FY73eUp9/lz/5pKnIuQdKeUxJhXSUdSyo9HG109dKXvJTB
+ LKFG0be5ZgpyAYDVwvyGs7H503rhtztyBqdzpNWt5ieV5FHR5XTX2mtwoMI7uXDzIuRPRLQYl
+ bhdtoZZGITaL+GAIEdMoPNABUfZNbJOhsDbUXst82rG/1BjTCZ6pzziXIFoSLrlbijXLKwHo5
+ Za/6VQbBT1vKlFjQDo4jVTTZPLqKbg9dYd28+P4vJA4p/Uw4Zwwr7cABbKSciXf5qDuQQlX7y
+ OqPVI8/hM9cRNSdaoWuW4+ZoX2BXeLzkpoYQjKHA4j8vsj33e9jkF8q3c5sH798A55SXQHOSM
+ 4CInEz9DYFKTarJLBK026IR9alDImIm4DjCgTIMn4uoD6KfgBRu2VM3sqIgjbOzOOmHC4gOl7
+ qdA26lukOsHVYs5PLGr2WueBeKoxSqmEkBFUFTK3TvH0rIKZ4TvNKo71iSe3s6m+ldR9s/mx0
+ IKh/U8aD+oupzEpFwkCxvGBwXFRamP+3gnln3tTiDdJFDr60Sx9wWTuFLL7+jM/NfbsomG/Sb
+ SmExhT5plBBgsA/4UbfPkCkczFjQFKscrGeXjgTVG3U10atuvlPPFFTLSllj2YZFYW8FHOwR7
+ SVzfG5gs4aA+TVnyXQviuFWh+3x7TjFCAq1HvHwPdeocbL35UsInnExS3NeaXUHyiuH2iX/qh
+ Gh5Yhit9J+qbvxJFP
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 15:48:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,25 +86,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/20 11:43 AM, Markus Armbruster wrote:
-> There is just one use so far.  The next commit will add more.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   util/qemu-option.c | 27 ++++++++++++++++++---------
->   1 file changed, 18 insertions(+), 9 deletions(-)
-> 
+--Sig_/xSrtkSeZI8ELhxQRI50uCKd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+On Tue, 23 Jun 2020 16:42:30 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> Hello Everyone,
+> In many cases, if qemu has a network connection (qmp, migration, chardev,=
+ etc.)
+> to some other server and that server dies or hangs, qemu hangs too.
+> These patches introduce the new 'yank' out-of-band qmp command to recover=
+ from
+> these kinds of hangs. The different subsystems register callbacks which g=
+et
+> executed with the yank command. For example the callback can shutdown() a
+> socket. This is intended for the colo use-case, but it can be used for ot=
+her
+> things too of course.
+>=20
+> Regards,
+> Lukas Straub
+>=20
+> v5:
+>  -move yank.c to util/
+>  -move yank.h to include/qemu/
+>  -add license to yank.h
+>  -use const char*
+>  -nbd: use atomic_store_release and atomic_load_aqcuire
+>  -io-channel: ensure thread-safety and document it
+>  -add myself as maintainer for yank
+>=20
+> v4:
+>  -fix build errors...
+>=20
+> v3:
+>  -don't touch softmmu/vl.c, use __contructor__ attribute instead (Paolo B=
+onzini)
+>  -fix build errors
+>  -rewrite migration patch so it actually passes all tests
+>=20
+> v2:
+>  -don't touch io/ code anymore
+>  -always register yank functions
+>  -'yank' now takes a list of instances to yank
+>  -'query-yank' returns a list of yankable instances
+>=20
+> Lukas Straub (7):
+>   Introduce yank feature
+>   block/nbd.c: Add yank feature
+>   chardev/char-socket.c: Add yank feature
+>   migration: Add yank feature
+>   io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
+>   io: Document thread-safety of qio_channel_shutdown
+>   MAINTAINERS: Add myself as maintainer for yank feature
+>=20
+>  MAINTAINERS                   |  13 +++
+>  block/nbd.c                   | 101 ++++++++++++-------
+>  chardev/char-socket.c         |  24 +++++
+>  include/io/channel.h          |   2 +
+>  include/qemu/yank.h           |  79 +++++++++++++++
+>  io/channel-tls.c              |   6 +-
+>  migration/channel.c           |  12 +++
+>  migration/migration.c         |  18 +++-
+>  migration/multifd.c           |  10 ++
+>  migration/qemu-file-channel.c |   6 ++
+>  migration/savevm.c            |   2 +
+>  qapi/misc.json                |  45 +++++++++
+>  tests/Makefile.include        |   2 +-
+>  util/Makefile.objs            |   1 +
+>  util/yank.c                   | 179 ++++++++++++++++++++++++++++++++++
+>  15 files changed, 459 insertions(+), 41 deletions(-)
+>  create mode 100644 include/qemu/yank.h
+>  create mode 100644 util/yank.c
+>=20
+> --
+> 2.20.1
 
+Forgot to cc Stefan Hajnoczi...
+
+--Sig_/xSrtkSeZI8ELhxQRI50uCKd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7zreIACgkQNasLKJxd
+slgZrRAAp3jojzJvcOpvsoeMNDj/vM2NcuaCYoE4uN+4tPhlJcmQeGQLW+hAN1Qa
+B7Wspbi/FoMr2NEcp2bS25PEpqH55ENAoAsFFmyJU6V/J1uroHW3MVrNHtiTrWmq
+jzrH8y+QBtXtCh6upfoMDtiCow//khn140BW1C+kBsSFO5dJmRB2k7CmAfK6I50L
+njlXYUJwBk01/cRlWfI9OWP4lxruyYpc/911oacMHPSFoNbmA8voo+qtYzwTAs2Z
+F+lAksoG4NbBvP3hMAe4x0IcJECCTfz9rSwav1iGdWL7YN/behmKC5NgYG/ndcUA
+pIf86uR0zDz8pwdGYSxaYkxAeZvp0tODcEZr+3CofUVuRwApSWxtt02iq+YqlS9U
+cVflE9k+WfBLnMxCCGw+bYWPjnpt970kaOpx4jgH0zFjXufVlLX+ImaQbbRDv9yW
+m9T4qOMgep/UkeIUvjsH58bJRjDfYwa6VhSsvWoQkJf4cHr2goYaBwpMVmNNZ/Ep
+wvJUm/pAhNyThlZvk4WM4fl4yLTZWotgnB92/RwZ1qFxyVnAHnldstUIsGvjI79q
+PTSWbUYV/TSpEFCmXitg2EkVS/qtcvMkcBzIiVWF6MD9x1ygktaFiR48D/fvpUg8
+FY1XSGW9vm+vc28XAcIu8Q0xOzfXpThQTfy8wLkHeQfGz6iFV+E=
+=7vwh
+-----END PGP SIGNATURE-----
+
+--Sig_/xSrtkSeZI8ELhxQRI50uCKd--
 
