@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6354206E44
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:53:43 +0200 (CEST)
-Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A23206E4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 09:55:19 +0200 (CEST)
+Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0E2-0004yF-PN
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36616)
+	id 1jo0Fa-0000Ps-Cd
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 03:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jo0CN-0003ST-0h
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:51:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44188
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jo0CK-00063o-KP
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:51:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592985115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9G6Wr6ak5bufFPy/48NWXJ4L5Z9qQXEeosqUl7h0Uak=;
- b=PVzSi2rpsPi1cbH0Gl+VvURB2SvgijHSv4JMdv9C2GkdH0fBl5mlw1/WrjB2cIj8t9ZOSz
- heOgW6s3XROtf0XTcfjZta5Btrx1KGlGBvGKfMvK88+5HHvlbQdTpY+sBSltm7uBFgdXN8
- 2j47MXX8bdMo5B2jomdfUPnn6e1/D/E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-hgySkhwUO9K3sgPBWgU6Pw-1; Wed, 24 Jun 2020 03:51:51 -0400
-X-MC-Unique: hgySkhwUO9K3sgPBWgU6Pw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68480805EE1;
- Wed, 24 Jun 2020 07:51:50 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CB9E512FE;
- Wed, 24 Jun 2020 07:51:43 +0000 (UTC)
-Subject: Re: [PATCH] fuzz: do not use POSIX shm for coverage bitmap
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20200622165040.15121-1-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <192d94b9-b1f6-e744-8135-26aa26b88015@redhat.com>
-Date: Wed, 24 Jun 2020 09:51:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jo0D6-0004T3-FZ
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10974
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jo0D3-0006eA-KL
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 03:52:44 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05O7WBBs036597
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyxqcn4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05O7WGdE036879
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:52:38 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyxqcm7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 03:52:37 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05O7nmj6013664;
+ Wed, 24 Jun 2020 07:52:36 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 31uurur6mp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Jun 2020 07:52:35 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05O7qX0Z4718990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Jun 2020 07:52:33 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D00B6A404D;
+ Wed, 24 Jun 2020 07:52:33 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 11360A405D;
+ Wed, 24 Jun 2020 07:52:33 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 24 Jun 2020 07:52:32 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
+Date: Wed, 24 Jun 2020 03:52:14 -0400
+Message-Id: <20200624075226.92728-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200622165040.15121-1-alxndr@bu.edu>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-24_04:2020-06-24,
+ 2020-06-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 cotscore=-2147483648 mlxlogscore=602
+ phishscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006240051
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:52:38
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,24 +99,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, f4bug@amsat.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/2020 18.50, Alexander Bulekov wrote:
-> We used shm_open with mmap to share libfuzzer's coverage bitmap with
-> child (runner) processes. The same functionality can be achieved with
-> MAP_SHARED | MAP_ANONYMOUS, since we do not care about naming or
-> permissioning the shared memory object.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+The bios is in dire need for a cleanup as there are still a lot of
+magic constants being used throughout as well as duplicated code.
 
-Thanks, queued to qtest-next now:
+In the first part of this series we consolidate constants and
+functions, as well as doing some minor cleanups and fixes.
 
-  https://gitlab.com/huth/qemu/-/commits/qtest-next/
+The patches are available here:
+https://github.com/frankjaa/qemu/pull/new/cleanup_bios
 
-  Thomas
+v5:
+	* Fixed whitespace damage
+	* Removed reset PSW mask changes in dasd-ipl.c
+	* Added jump2ipl.c cleanup patches
+
+v4:
+	* Renamed time.h to s390-time.h
+	* Fixed function names in sleep()
+	* Changed order of sense_id_ccw initialization
+	* Added missing include before sleep()
+
+v3:
+	* Dropped 0x00 to 0x0/0 patch
+	* Moved some timing functions into helper.h instead of time.h
+	* Fixed IPL psw manipulation in dasd-ipl.c
+ 	* Minor cosmetic fixes found by review
+
+v2:
+	* Included cio fixup to get rid of compile errors...
+	* Minor cosmetic fixes found by review
+
+
+Janosch Frank (12):
+  pc-bios: s390x: cio.c cleanup and compile fix
+  pc-bios: s390x: Consolidate timing functions into time.h
+  pc-bios: s390x: Move sleep and yield to helper.h
+  pc-bios: s390x: Get rid of magic offsets into the lowcore
+  pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
+  pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
+  pc-bios: s390x: Use PSW masks where possible and introduce
+    PSW_MASK_SHORT_ADDR
+  pc-bios: s390x: Move panic() into header and add infinite loop
+  pc-bios: s390x: Use ebcdic2ascii table
+  pc-bios: s390x: Make u32 ptr check explicit
+  pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
+  pc-bios: s390x: Cleanup jump to ipl code
+
+ pc-bios/s390-ccw/bootmap.c     |  9 ++++----
+ pc-bios/s390-ccw/bootmap.h     |  2 +-
+ pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
+ pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
+ pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
+ pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
+ pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
+ pc-bios/s390-ccw/main.c        | 15 +++----------
+ pc-bios/s390-ccw/menu.c        |  1 +
+ pc-bios/s390-ccw/netmain.c     | 23 +++----------------
+ pc-bios/s390-ccw/s390-arch.h   |  4 +++-
+ pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
+ pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
+ pc-bios/s390-ccw/start.S       |  5 +++--
+ pc-bios/s390-ccw/virtio-net.c  |  2 ++
+ pc-bios/s390-ccw/virtio-scsi.c |  2 ++
+ pc-bios/s390-ccw/virtio.c      | 18 +++------------
+ 17 files changed, 120 insertions(+), 125 deletions(-)
+ create mode 100644 pc-bios/s390-ccw/s390-time.h
+
+-- 
+2.25.1
 
 
