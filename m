@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5C1207407
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:12:58 +0200 (CEST)
-Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2243207406
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 15:12:53 +0200 (CEST)
+Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo5Cz-00041t-Jy
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
+	id 1jo5Cu-0003yu-4T
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 09:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5B8-0002Du-Au
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35702
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5B7-0002CH-5o
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54526
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5B6-0001TA-Lc
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:01 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo5B4-0001Qx-RL
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 09:11:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593004259;
+ s=mimecast20190719; t=1593004257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sr0lGjX37bfFElAIYeIf6/YwbJzx83Nd0T8AXvQ6TXY=;
- b=dNdrogpkbI0wLB/JOnE5OHxSFOJeB9at/Vi2QiYai220Vtq6mUer25mdvO4nwYj3sJtD2O
- YksJ2kMtr8IFUJlo8oMxOLgnD+0ZX20C4kmFNczq7tLye7I2qoZ9XR3pjM/ue21SogXyLp
- JRDsHFXs6Z0nwWMnytepuWP6KS9xe6Y=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=8BfVD+OM03DL0qt0nib4hII2g9y5qCUmWKTWek7P/5g=;
+ b=K8rwzL4SbraliT2kN0DLd01lU0KE5WS7f2Q1H8gUSEpmMHjJe9hEN7jQdbTd54JXWQ9x+4
+ 01Upexe1bzNwgmSuAmXyNMcKQnJ8XRHvyjEfdH9asgOIlBfcvHcUFyefjDVnBmfTqj1tXG
+ e8enzdRmX9T1CzE5MmWRJxkg0+E4nBg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-Pkvy_bPWO2e8KovSLCiX6Q-1; Wed, 24 Jun 2020 09:10:56 -0400
-X-MC-Unique: Pkvy_bPWO2e8KovSLCiX6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-418-1u_3mIegP4O6gYxKnMFh-Q-1; Wed, 24 Jun 2020 09:10:55 -0400
+X-MC-Unique: 1u_3mIegP4O6gYxKnMFh-Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DE0618A8223
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 13:10:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDC98805EE3
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 13:10:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 816755DAA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8170317514;
  Wed, 24 Jun 2020 13:10:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 93B8C16E18; Wed, 24 Jun 2020 15:10:45 +0200 (CEST)
+ id 9D1C845DB; Wed, 24 Jun 2020 15:10:45 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/10] build some devices as modules.
-Date: Wed, 24 Jun 2020 15:10:35 +0200
-Message-Id: <20200624131045.14512-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Subject: [PATCH v5 01/10] module: qom module support
+Date: Wed, 24 Jun 2020 15:10:36 +0200
+Message-Id: <20200624131045.14512-2-kraxel@redhat.com>
+In-Reply-To: <20200624131045.14512-1-kraxel@redhat.com>
+References: <20200624131045.14512-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,56 +83,94 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Specifically devices which depend on shared libraries,
-to reduce the runtime dependencies of core qemu.
+Add support for qom types provided by modules.  For starters use a
+manually maintained list which maps qom type to module and prefix.
 
-v2:
- - better commit messages.
- - add some more devices.
- - general tidy up.
+Two load functions are added:  One to load the module for a specific
+type, and one to load all modules (needed for object/device lists as
+printed by -- for example -- qemu -device help).
 
-v3:
- - rebase, solve stubs conflict.
- - fix -vga $name
- - fix -device $name,help
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/qemu/module.h |  2 ++
+ util/module.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
 
-v4:
- - rebase to latest master
- - adapt to armbru's device init changes
-
-v5:
- - move from qdev (aka device) to qom (aka object) level.
- - add braille chardev.
-
-Gerd Hoffmann (10):
-  module: qom module support
-  object: qom module support
-  qdev: device module support
-  build: fix device module builds
-  ccid: build smartcard as module
-  usb: build usb-redir as module
-  vga: build qxl as module
-  vga: build virtio-gpu only once
-  vga: build virtio-gpu as module
-  chardev: enable modules, use for braille
-
- Makefile.objs            |  2 ++
- Makefile.target          |  7 +++++
- include/qemu/module.h    |  2 ++
- include/qom/object.h     | 12 +++++++
- chardev/char.c           |  2 +-
- hw/core/qdev.c           |  6 ++--
- qdev-monitor.c           |  5 +--
- qom/object.c             | 14 +++++++++
- qom/qom-qmp-cmds.c       |  3 +-
- softmmu/vl.c             |  4 +--
- util/module.c            | 67 ++++++++++++++++++++++++++++++++++++++++
- chardev/Makefile.objs    |  5 ++-
- hw/Makefile.objs         |  2 ++
- hw/display/Makefile.objs | 28 ++++++++++-------
- hw/usb/Makefile.objs     | 13 +++++---
- 15 files changed, 148 insertions(+), 24 deletions(-)
-
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 011ae1ae7605..9121a475c1b6 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -70,5 +70,7 @@ void register_dso_module_init(void (*fn)(void), module_init_type type);
+ 
+ void module_call_init(module_init_type type);
+ bool module_load_one(const char *prefix, const char *lib_name);
++void module_load_qom_one(const char *type);
++void module_load_qom_all(void);
+ 
+ #endif
+diff --git a/util/module.c b/util/module.c
+index e48d9aacc05a..ee560a4b4269 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -245,3 +245,58 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ #endif
+     return success;
+ }
++
++/*
++ * Building devices and other qom objects modular is mostly useful in
++ * case they have dependencies to external shared libraries, so we can
++ * cut down the core qemu library dependencies.  Which is the case for
++ * only a very few devices & objects.
++ *
++ * So with the expectation that this will be rather the exception than
++ * to rule and the list will not gain that many entries go with a
++ * simple manually maintained list for now.
++ */
++static struct {
++    const char *type;
++    const char *prefix;
++    const char *module;
++} const qom_modules[] = {
++};
++
++static bool module_loaded_qom_all;
++
++void module_load_qom_one(const char *type)
++{
++    int i;
++
++    if (module_loaded_qom_all) {
++        return;
++    }
++    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
++        if (strcmp(qom_modules[i].type, type) == 0) {
++            module_load_one(qom_modules[i].prefix,
++                            qom_modules[i].module);
++            return;
++        }
++    }
++}
++
++void module_load_qom_all(void)
++{
++    int i;
++
++    if (module_loaded_qom_all) {
++        return;
++    }
++    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
++        if (i > 0 && (strcmp(qom_modules[i - 1].module,
++                             qom_modules[i].module) == 0 &&
++                      strcmp(qom_modules[i - 1].prefix,
++                             qom_modules[i].prefix) == 0)) {
++            /* one module implementing multiple types -> load only once */
++            continue;
++        }
++        module_load_one(qom_modules[i].prefix, qom_modules[i].module);
++    }
++    module_loaded_qom_all = true;
++}
 -- 
 2.18.4
 
