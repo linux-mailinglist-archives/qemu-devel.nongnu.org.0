@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB2A207243
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:39:18 +0200 (CEST)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E8F20723B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:36:49 +0200 (CEST)
+Received: from localhost ([::1]:35340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3kL-0003B9-56
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1jo3hw-0005vH-HL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cB-0004Fh-Qh
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47874
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cA-0004Dy-Ug
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30993
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c2-0007y3-Ir
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:51 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c2-0007yD-Aq
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1592998241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=eM5iqr2FFJ/KmKCoaf2j9QYBByiH0+UI7k7ir+RfAMc=;
- b=HtvX0/46nGaG+MZR3e6oOeK/cpNOdx5m35Uj8CWQpZVIHrRmmqLSYr5F4O4y0fQqQ3r27z
- Xk6V4txz1nwkRFDKlaxamEkJtS2AFfo0EM6W8BY+psxgR0lnQoV6Cpr4X1VEqMA4NwA+dN
- pZl5vnuLvTCHKXqphwS/uuNKeSxGpMI=
+ references:references; bh=e90sVaiY0y2bJO1wUVMH2JGLJEwOGOs++Ldelaxq98E=;
+ b=fdNWJlLzJ6qZQc1QxE3KxxkU8us5OZv9YHy3mX4CnBeX2kgmUhdYaKrsLSXXVIyDppwufn
+ vcbgTQTP8n5Vzc0kRMImXLX/e5FUCVl6ndvfQBbbQeBhFNiOJUM3qjhfKqFC6RglW0Xx72
+ 1XkbGM9dJ/vryrimlDsnArjjF8/60bA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-dqLEo0l0PsSmVeatgoFsUw-1; Wed, 24 Jun 2020 07:30:39 -0400
-X-MC-Unique: dqLEo0l0PsSmVeatgoFsUw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-18-XQabyk_ANq-W1PDWjKz6jA-1; Wed, 24 Jun 2020 07:30:39 -0400
+X-MC-Unique: XQabyk_ANq-W1PDWjKz6jA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 906A418A822B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BB31107ACF7;
  Wed, 24 Jun 2020 11:30:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40F581C8;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35ED55C660;
  Wed, 24 Jun 2020 11:30:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5FEC631E60; Wed, 24 Jun 2020 13:30:27 +0200 (CEST)
+ id 68C7A31E61; Wed, 24 Jun 2020 13:30:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/20] audio: add soundhw deprecation notice
-Date: Wed, 24 Jun 2020 13:30:24 +0200
-Message-Id: <20200624113026.13343-19-kraxel@redhat.com>
+Subject: [PATCH v4 19/20] pcspk: update docs/system/target-i386-desc.rst.inc
+Date: Wed, 24 Jun 2020 13:30:25 +0200
+Message-Id: <20200624113026.13343-20-kraxel@redhat.com>
 In-Reply-To: <20200624113026.13343-1-kraxel@redhat.com>
 References: <20200624113026.13343-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -63,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,31 +88,48 @@ Cc: qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add PC speaker with config hints.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/deprecated.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ docs/system/target-i386-desc.rst.inc | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 3a255591c341..4cbf3bba3944 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -82,6 +82,15 @@ should specify an ``audiodev=`` property.  Additionally, when using
- vnc, you should specify an ``audiodev=`` propery if you plan to
- transmit audio through the VNC protocol.
+diff --git a/docs/system/target-i386-desc.rst.inc b/docs/system/target-i386-desc.rst.inc
+index 47a169e0ae2a..7d1fffacbea3 100644
+--- a/docs/system/target-i386-desc.rst.inc
++++ b/docs/system/target-i386-desc.rst.inc
+@@ -31,6 +31,8 @@ The QEMU PC System emulator simulates the following peripherals:
  
-+Creating sound card devices using ``-soundhw`` (since 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Sound card devices should be created using ``-device`` instead.  The
-+names are the same for most devices.  The exceptions are ``hda`` which
-+needs two devices (``-device intel-hda --device hda-duplex``) and
-+``pcspk`` which can be activated using ``-machine
-+pcspk-audiodev=<name>``.
-+
- ``-mon ...,control=readline,pretty=on|off`` (since 4.1)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ -  CS4231A compatible sound card
  
++-  PC speaker
++
+ -  PCI UHCI, OHCI, EHCI or XHCI USB controller and a virtual USB-1.1
+    hub.
+ 
+@@ -49,7 +51,7 @@ must be told to not have parallel ports to have working GUS.
+ 
+ .. parsed-literal::
+ 
+-   |qemu_system_x86| dos.img -soundhw gus -parallel none
++   |qemu_system_x86| dos.img -device gus -parallel none
+ 
+ Alternatively:
+ 
+@@ -60,3 +62,12 @@ Alternatively:
+ Or some other unclaimed IRQ.
+ 
+ CS4231A is the chip used in Windows Sound System and GUSMAX products
++
++The PC speaker audio device can be configured using the pcspk-audiodev
++machine property, i.e.
++
++.. parsed-literal::
++
++   |qemu_system_x86| some.img \
++   -audiodev <backend>,id=<name> \
++   -machine pcspk-audiodev=<name>
 -- 
 2.18.4
 
