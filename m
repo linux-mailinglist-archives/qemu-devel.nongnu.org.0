@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C8A206F09
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:36:15 +0200 (CEST)
-Received: from localhost ([::1]:60900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD707206F07
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 10:35:48 +0200 (CEST)
+Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo0tC-0007ee-Ls
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47044)
+	id 1jo0sl-00073m-9s
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 04:35:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jo0rO-00066m-KN
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:34:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48759
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0rH-00061e-QU
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:34:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23209
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jo0rN-00086Z-04
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:34:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jo0rF-000805-3D
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 04:34:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592987659;
+ s=mimecast20190719; t=1592987651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LzNuYAfPq4hETAZ2n6TDmArzhP5CG1xLHaZKSwZLe+I=;
- b=SOdTDff3504Tc5wgyHgPWBSIYM+vBOVae4V+VLAGvfGyewICoydRtJDzVVkF3ZJpRvNC1p
- L0FnZZHaS+r+c4agvoLfx+fOR3vePxZCC98w+dCAbFBht30jmVahsHGqeDVFckkwKwIuim
- ITrCSIQhvK5Yf9L3L65ghZ5tsEyEgUE=
+ in-reply-to:in-reply-to:references:references;
+ bh=onD2F+VlFmLsM+j8BU+AiV1q5udFfVtc993ViDW7dGQ=;
+ b=OsuxcAdVCgIAS/Y3Ag57V6PJVhUb6j0zJ+Hc7rW61WHWODcdIU3qiYB9UsWKevtnUsY+1G
+ DFuBeQC+2cYnoQQS5+hDAyHI7XAm/NDJvMORNCLl3z+lMaztBNjgBbNeYVw9BtVJz0ngSe
+ kL31Q8dIqXrkPx3Bo30O9Y18pbIzfPc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-U_C4V7IWMHmYwRCO8Hm0GQ-1; Wed, 24 Jun 2020 04:34:18 -0400
-X-MC-Unique: U_C4V7IWMHmYwRCO8Hm0GQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-46-8-0xNiEROVSbnyBA_ST1cQ-1; Wed, 24 Jun 2020 04:34:09 -0400
+X-MC-Unique: 8-0xNiEROVSbnyBA_ST1cQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF16410059A0;
- Wed, 24 Jun 2020 08:34:16 +0000 (UTC)
-Received: from turbo.com (ovpn-112-91.ams2.redhat.com [10.36.112.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED2125C3E7;
- Wed, 24 Jun 2020 08:34:10 +0000 (UTC)
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] trivial: Remove extra character in configure help
-Date: Wed, 24 Jun 2020 10:33:37 +0200
-Message-Id: <20200624083337.912846-1-dinechin@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEA201883604
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 08:34:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC98B10013D9;
+ Wed, 24 Jun 2020 08:34:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2BCE7113846D; Wed, 24 Jun 2020 10:34:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: -enablefips
+References: <7816f22f-2872-06ef-f7ef-40add5a34040@redhat.com>
+ <20200624064954.jmkqonjbqfhso5dr@sirius.home.kraxel.org>
+Date: Wed, 24 Jun 2020 10:34:03 +0200
+In-Reply-To: <20200624064954.jmkqonjbqfhso5dr@sirius.home.kraxel.org> (Gerd
+ Hoffmann's message of "Wed, 24 Jun 2020 08:49:54 +0200")
+Message-ID: <878sgcdfr8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -76,30 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-diff --git a/configure b/configure
-index ba88fd1824..c7a6a5adfe 100755
---- a/configure
-+++ b/configure
-@@ -1787,7 +1787,7 @@ Advanced options (experts only):
-   --block-drv-ro-whitelist=L
-                            set block driver read-only whitelist
-                            (affects only QEMU, not qemu-img)
--  --enable-trace-backends=B Set trace backend
-+  --enable-trace-backends= Set trace backend
-                            Available backends: $trace_backend_list
-   --with-trace-file=NAME   Full PATH,NAME of file to store traces
-                            Default:trace-<pid>
--- 
-2.26.2
+> On Tue, Jun 23, 2020 at 11:51:09PM -0400, John Snow wrote:
+>> I never knew what this option did, but the answer is ... strange!
+>> 
+>> It's only defined for linux, in os-posix.c. When called, it calls
+>> fips_set_state(true), located in osdep.c.
+>> 
+>> This will read /proc/sys/crypto/fips_enabled and set the static global
+>> 'fips_enabled' to true if this setting is on.
+>
+> IIRC the idea is to have a global switch to enable fips compilance for
+> the whole distro.  RH specific.  rhel-7 kernel has it.  rhel-8 kernel
+> too, so it probably isn't obsolete.  Not present in mainline kernels.
+>
+> I'm wondering what the point of the -enablefips switch is.  Shouldn't
+> qemu check /proc/sys/crypto/fips_enabled unconditionally instead?
+
+The switch feels rather silly to me.  If you take the trouble to put
+your host in FIPS mode, requiring -enable-fips to make QEMU to actually
+honor it makes no sense.  If you don't, QEMU's -enable-fips has no
+effect.
+
+I may well misremember things (it's been years), but I vaguely recall
+-enable-fips being a lame compromise between "this ought to be upstream"
+and "FIPS is stupid, and I want nothing of it".
+
+>> (Tangent: what does *this* setting actually control? Should QEMU
+>> meaningfully change its behavior when it's set?)
+>
+> fips is a security policy ...
+>
+>> This static global is exposed via the getter fips_get_state(). This
+>> function is called only by vnc.c, and appears to disable the use of the
+>> password option for -vnc.
+>
+> ... yes, "no passwords" is one of the rules.  There are probably more.
+>
+>> (If we really do want to keep it, it should probably go under -global
+>> somewhere instead to help reduce flag clutter, but we'd need to have a
+>> chat about what fips compliance means for literally every other spot in
+>> QEMU that is capable of using or receiving a cleartext password.)
+>
+> Yep.  IIRC for spice this is handled in libspice-server.  We need to
+> look at blockdev encryption I guess.  Any other places where qemu uses
+> passwords directly?  I think we don't have to worry about indirect usage
+> (sasl).
+
+I'd expect the SASL libraries to honor FIPS mode by themselves.  But
+best ask someone who actually knows how FIPS mode is supposed to work.
 
 
