@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C613920712A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:31:00 +0200 (CEST)
-Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B099207174
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 12:47:05 +0200 (CEST)
+Received: from localhost ([::1]:36120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo2gB-0002Og-Mu
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50830)
+	id 1jo2vo-0003TK-GO
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 06:47:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jo2f0-0001aG-AQ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:29:42 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33017)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jo2ex-000857-NW
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:29:42 -0400
-Received: by mail-wr1-x436.google.com with SMTP id j94so1766482wrj.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 03:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:content-language
- :thread-index; bh=L/M44pw6Sj0jQWJNPY8bz6QSJKszKrTbkOfiJgdRQek=;
- b=hyMZa9g2LwQq2bNyRHjHVcBMtvyxaNClreQTHyu0tZWF91VEgE6oZmacss4GjgSkY+
- u39aWTKO7HGT8igc6iob4PPqflkB54QBBF9iS9fWfM4UJsUFIXzGARc/wQOfR+UEFLTP
- ljNLB0/A+sRqJQui5OcDuXf1tRGz5vg0r6lK01qiZAzfbBB2YivPRYCTsbyx/79sE4/+
- PKOa9KfLumpomoYN7ciSDWHpasR8L/AA+3eX0I9dt48zAyyiKGn+/v0IDINHy0blMIhg
- bPE6UMiNocQBNzwsZpVfqq6GwIxFBYGGI2tTgC6KlxQ1nxyE1e/d1emwEVWhqBiuTDEr
- BGcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :content-language:thread-index;
- bh=L/M44pw6Sj0jQWJNPY8bz6QSJKszKrTbkOfiJgdRQek=;
- b=Ev4wvKasJadA3G31vXVfeb6eHcfjU6rQMbZHNzJ12Fu5NiY7k1auSsbcxKf1ZA7dke
- h9b45lX1F4vXu7bd7paXZSUubsxbWd23EcOOcZW+CPvobqIYlNSPbDN2j9I7m2N78Oda
- UeWKQ54JW3Qh7wYlUqpi9YuGbh0r74zI/6cUuBOLCRCRLtLIvnIRp3P/y6AYgjymBJcR
- /Eyd+0NFB2wg7pdY3dZFLCjimSVcxLfnw1AuAlOBkAU9Y/lszPX99crLI15Jl6tuKYs2
- P1HnRqX4qCY5gJurYTYmE50Jib+bXNad6NR0SqqlGWSLySLSF0evvKGuixRI28wscDU9
- dtJQ==
-X-Gm-Message-State: AOAM5308dRBHZNFm2w3P9v0ezyJonzY0+aD32AbxJQIjMH2rC4ieIgkj
- 9XozJuB9+RT6Z+mAFLr7tcg=
-X-Google-Smtp-Source: ABdhPJxE9feSwol6Kklwvh3VZkAguHITTU8sBNe2WESkl417qGR/iAhk29Jn3pdBYy/8JQSBkI1htg==
-X-Received: by 2002:adf:f350:: with SMTP id e16mr27815906wrp.43.1592994578119; 
- Wed, 24 Jun 2020 03:29:38 -0700 (PDT)
-Received: from CBGR90WXYV0 (54-240-197-236.amazon.com. [54.240.197.236])
- by smtp.gmail.com with ESMTPSA id e5sm24855173wrs.33.2020.06.24.03.29.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Jun 2020 03:29:37 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: "'Jason Andryuk'" <jandryuk@gmail.com>
-References: <CAKf6xpuSD3NC2bLPQN75e2pR8asu9Ey1xTGxTNeCR_1MGsnPOg@mail.gmail.com>
- <ac4dfe3b-7981-49bb-25a2-08578da150d5@ilande.co.uk>
- <CAKf6xpvs6mNowsiAzbfQGLGp0aY0zKgUD=DVpSorWHycm--J8g@mail.gmail.com>
- <87k0zykwdl.fsf@dusky.pond.sub.org> <000001d64953$f67a1f00$e36e5d00$@xen.org>
- <CAKf6xpt02SndxVkhqy52z7ZPCHtOhX1R5d7JQbeC8tVauBRm4Q@mail.gmail.com>
-In-Reply-To: <CAKf6xpt02SndxVkhqy52z7ZPCHtOhX1R5d7JQbeC8tVauBRm4Q@mail.gmail.com>
-Subject: RE: sysbus failed assert for xen_sysdev
-Date: Wed, 24 Jun 2020 11:29:36 +0100
-Message-ID: <000801d64a12$5c7c11f0$157435d0$@xen.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo2tB-0000Fj-J2
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49268
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jo2t8-0007Hk-Pg
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 06:44:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592995456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tum7sPWxceGYikL602YBYIsjONxZUeJwF1Ja9jLV6wo=;
+ b=SGj2tmvoC3Lqx0zxFHZavo4MMzF4X7+i4lOFs3gU7B3pI96ifTpeMXlqDtoIlzpb1jcBtu
+ 6yEzvl8ODpaRwErgeOuzUfwgpWchFaWjNqCnuSt8002vh54JKD/cHj1r5g/5Siw4qXbxlK
+ Mkz7+G4ExlqOO+7ANmW945PM1R0hRp8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-510-PeWS8_1yOOaS1TRQM6Biag-1; Wed, 24 Jun 2020 06:44:14 -0400
+X-MC-Unique: PeWS8_1yOOaS1TRQM6Biag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7C7687950B;
+ Wed, 24 Jun 2020 10:44:12 +0000 (UTC)
+Received: from gondolin (ovpn-113-3.ams2.redhat.com [10.36.113.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D75E7403F;
+ Wed, 24 Jun 2020 10:44:08 +0000 (UTC)
+Date: Wed, 24 Jun 2020 12:44:06 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v5 00/12] pc-bios: s390x: Cleanup part 1
+Message-ID: <20200624124406.2baac59f.cohuck@redhat.com>
+In-Reply-To: <20200624075226.92728-1-frankja@linux.ibm.com>
+References: <20200624075226.92728-1-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQIJfv1jP4fCJU6d0eNUL65zTb1lhAKJjZPCAZLY/IEByWeHdwFU8pWtAkUeRcOoNSQ3UA==
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 03:27:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,108 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Anthony PERARD' <anthony.perard@citrix.com>,
- 'xen-devel' <xen-devel@lists.xenproject.org>,
- 'Mark Cave-Ayland' <mark.cave-ayland@ilande.co.uk>,
- 'Markus Armbruster' <armbru@redhat.com>, 'QEMU' <qemu-devel@nongnu.org>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Jason Andryuk <jandryuk@gmail.com>
-> Sent: 24 June 2020 04:24
-> To: Paul Durrant <paul@xen.org>
-> Cc: Markus Armbruster <armbru@redhat.com>; Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>; Anthony
-> PERARD <anthony.perard@citrix.com>; xen-devel <xen-devel@lists.xenproject.org>; QEMU <qemu-
-> devel@nongnu.org>
-> Subject: Re: sysbus failed assert for xen_sysdev
+On Wed, 24 Jun 2020 03:52:14 -0400
+Janosch Frank <frankja@linux.ibm.com> wrote:
+
+> The bios is in dire need for a cleanup as there are still a lot of
+> magic constants being used throughout as well as duplicated code.
 > 
-> On Tue, Jun 23, 2020 at 7:46 AM Paul Durrant <xadimgnik@gmail.com> wrote:
-> >
-> > > -----Original Message-----
-> > > From: Markus Armbruster <armbru@redhat.com>
-> > > Sent: 23 June 2020 09:41
-> > > To: Jason Andryuk <jandryuk@gmail.com>
-> > > Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>; Anthony PERARD <anthony.perard@citrix.com>;
-> xen-
-> > > devel <xen-devel@lists.xenproject.org>; Paul Durrant <paul@xen.org>; QEMU <qemu-devel@nongnu.org>
-> > > Subject: Re: sysbus failed assert for xen_sysdev
-> > >
-> > > Jason Andryuk <jandryuk@gmail.com> writes:
-> > > > Then it gets farther... until
-> > > > qemu-system-i386: hw/core/qdev.c:439: qdev_assert_realized_properly:
-> > > > Assertion `dev->realized' failed.
-> > > >
-> > > > dev->id is NULL. The failing device is:
-> > > > (gdb) p *dev.parent_obj.class.type
-> > > > $12 = {name = 0x555556207770 "cfi.pflash01",
-> > > >
-> >
-> > Having commented out the call to xen_be_init() entirely (and xen_bus_init() for good measure) I also
-> get this assertion failure, so
-> > I don't think is related.
+> In the first part of this series we consolidate constants and
+> functions, as well as doing some minor cleanups and fixes.
 > 
-> Yes, this is something different.  pc_pflash_create() calls
-> qdev_new(TYPE_PFLASH_CFI01), but it is only realized in
-> pc_system_flash_map()...  and pc_system_flash_map() isn't called for
-> Xen.
+> The patches are available here:
+> https://github.com/frankjaa/qemu/pull/new/cleanup_bios
 > 
-> Removing the call to pc_system_flash_create() from pc_machine_initfn()
-> lets QEMU startup and run a Xen HVM again.  xen_enabled() doesn't work
-> there since accelerators have not been initialized yes, I guess?
-
-Looks like it can be worked round by the following:
-
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1497d0e4ae..977d40afb8 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -186,9 +186,12 @@ static void pc_init1(MachineState *machine,
-     if (!xen_enabled()) {
-         pc_memory_init(pcms, system_memory,
-                        rom_memory, &ram_memory);
--    } else if (machine->kernel_filename != NULL) {
--        /* For xen HVM direct kernel boot, load linux here */
--        xen_load_linux(pcms);
-+    } else {
-+        pc_system_flash_cleanup_unused(pcms);
-+        if (machine->kernel_filename != NULL) {
-+            /* For xen HVM direct kernel boot, load linux here */
-+            xen_load_linux(pcms);
-+        }
-     }
-
-     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index ec2a3b3e7e..0ff47a4b59 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -108,7 +108,7 @@ void pc_system_flash_create(PCMachineState *pcms)
-     }
- }
-
--static void pc_system_flash_cleanup_unused(PCMachineState *pcms)
-+void pc_system_flash_cleanup_unused(PCMachineState *pcms)
- {
-     char *prop_name;
-     int i;
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index e6135c34d6..497f2b7ab7 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -187,6 +187,7 @@ int cmos_get_fd_drive_type(FloppyDriveType fd0);
-
- /* pc_sysfw.c */
- void pc_system_flash_create(PCMachineState *pcms);
-+void pc_system_flash_cleanup_unused(PCMachineState *pcms);
- void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
-
- /* acpi-build.c */
-
-
+> v5:
+> 	* Fixed whitespace damage
+> 	* Removed reset PSW mask changes in dasd-ipl.c
+> 	* Added jump2ipl.c cleanup patches
 > 
-> Regards,
-> Jason
+> v4:
+> 	* Renamed time.h to s390-time.h
+> 	* Fixed function names in sleep()
+> 	* Changed order of sense_id_ccw initialization
+> 	* Added missing include before sleep()
+> 
+> v3:
+> 	* Dropped 0x00 to 0x0/0 patch
+> 	* Moved some timing functions into helper.h instead of time.h
+> 	* Fixed IPL psw manipulation in dasd-ipl.c
+>  	* Minor cosmetic fixes found by review
+> 
+> v2:
+> 	* Included cio fixup to get rid of compile errors...
+> 	* Minor cosmetic fixes found by review
+> 
+> 
+> Janosch Frank (12):
+>   pc-bios: s390x: cio.c cleanup and compile fix
+>   pc-bios: s390x: Consolidate timing functions into time.h
+>   pc-bios: s390x: Move sleep and yield to helper.h
+>   pc-bios: s390x: Get rid of magic offsets into the lowcore
+>   pc-bios: s390x: Remove unneeded dasd-ipl.c reset psw mask changes
+>   pc-bios: s390x: Rename PSW_MASK_ZMODE to PSW_MASK_64
+>   pc-bios: s390x: Use PSW masks where possible and introduce
+>     PSW_MASK_SHORT_ADDR
+>   pc-bios: s390x: Move panic() into header and add infinite loop
+>   pc-bios: s390x: Use ebcdic2ascii table
+>   pc-bios: s390x: Make u32 ptr check explicit
+>   pc-bios: s390x: Fix bootmap.c passing PSWs as addresses
+>   pc-bios: s390x: Cleanup jump to ipl code
+> 
+>  pc-bios/s390-ccw/bootmap.c     |  9 ++++----
+>  pc-bios/s390-ccw/bootmap.h     |  2 +-
+>  pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
+>  pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
+>  pc-bios/s390-ccw/dasd-ipl.c    |  3 ---
+>  pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
+>  pc-bios/s390-ccw/jump2ipl.c    | 35 ++++++++++++-----------------
+>  pc-bios/s390-ccw/main.c        | 15 +++----------
+>  pc-bios/s390-ccw/menu.c        |  1 +
+>  pc-bios/s390-ccw/netmain.c     | 23 +++----------------
+>  pc-bios/s390-ccw/s390-arch.h   |  4 +++-
+>  pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
+>  pc-bios/s390-ccw/s390-time.h   | 23 +++++++++++++++++++
+>  pc-bios/s390-ccw/start.S       |  5 +++--
+>  pc-bios/s390-ccw/virtio-net.c  |  2 ++
+>  pc-bios/s390-ccw/virtio-scsi.c |  2 ++
+>  pc-bios/s390-ccw/virtio.c      | 18 +++------------
+>  17 files changed, 120 insertions(+), 125 deletions(-)
+>  create mode 100644 pc-bios/s390-ccw/s390-time.h
+> 
+
+Hm... what's the general status of this? Most of the patches have at
+least one R-b/A-b already, I see.
+
+Do the s390-ccw boot maintainers want to pick this (once the rest has
+been looked at) and then send me a pull req, or should I pick it when
+it is good to go? Softfreeze is less than two weeks away :)
 
 
