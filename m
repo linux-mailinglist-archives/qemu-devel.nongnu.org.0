@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA43520723D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:37:12 +0200 (CEST)
-Received: from localhost ([::1]:37654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F355A20724B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:15 +0200 (CEST)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3iJ-00074l-Re
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
+	id 1jo3mF-0006i5-0v
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cI-0004Ki-Do
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cI-0004Kg-C2
  for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31427
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28247
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3c9-00081w-9z
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jo3cB-00083B-4d
  for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:30:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592998248;
+ s=mimecast20190719; t=1592998250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=xNpDDsbbHHbzoy9YLA4tgd22/EHd97ILJm3ZhW/keJM=;
- b=NvmSgSl14gFuXBt0KTy6nKZmV9HYiqFHG7abOdzKt7isZe0oTJXz9J70oShNB2CwDhfiWR
- xnNjQeLGsqDnNnTbWrPg9UlXYiA6z+DR+e/JWP7LspsgDRtzTXUmup2HhtlQxtrMvlYssC
- Q9mSQhuPCDsr+4/508Gq4Yl+PVa3o5Y=
+ references:references; bh=gVUjyxcdLlcziLhdHf0nYU2aUMoIqN9LBjMS0HaSfgs=;
+ b=WNZ8MIm+pep4q5rRP8sDxBDiLhmuDbfJ9sxkr/N6XyGsd7LcJV+ZkEQsJho89+GgG13Ph9
+ KVPX5gIVbtXComjlOCbFt4qLw3x/DohDVdA3+R/D/LOk0M0dLDaXK4HYCFTeBRey6Urgln
+ qJFGNAyuKe9d4xODajA07bUxMiKWLyM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-ZfQL6_YiPhemciGmiGd9sA-1; Wed, 24 Jun 2020 07:30:46 -0400
-X-MC-Unique: ZfQL6_YiPhemciGmiGd9sA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-371-yv1UHhFhMCuc9LN8ROSymw-1; Wed, 24 Jun 2020 07:30:46 -0400
+X-MC-Unique: yv1UHhFhMCuc9LN8ROSymw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6352464;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 737DB100CCC2;
  Wed, 24 Jun 2020 11:30:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
  [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 010DE100EBDB;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 057001A836;
  Wed, 24 Jun 2020 11:30:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DC8DC31E22; Wed, 24 Jun 2020 13:30:26 +0200 (CEST)
+ id E563931E28; Wed, 24 Jun 2020 13:30:26 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/20] audio: deprecate -soundhw cs4231a
-Date: Wed, 24 Jun 2020 13:30:13 +0200
-Message-Id: <20200624113026.13343-8-kraxel@redhat.com>
+Subject: [PATCH v4 08/20] audio: deprecate -soundhw gus
+Date: Wed, 24 Jun 2020 13:30:14 +0200
+Message-Id: <20200624113026.13343-9-kraxel@redhat.com>
 In-Reply-To: <20200624113026.13343-1-kraxel@redhat.com>
 References: <20200624113026.13343-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 00:34:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,35 +91,35 @@ Remove the now obsolete init function.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/cs4231a.c | 8 +-------
+ hw/audio/gus.c | 8 +-------
  1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
-index ffdbb58d6a11..59705a8d4701 100644
---- a/hw/audio/cs4231a.c
-+++ b/hw/audio/cs4231a.c
-@@ -683,12 +683,6 @@ static void cs4231a_realizefn (DeviceState *dev, Error **errp)
-     AUD_register_card ("cs4231a", &s->card);
+diff --git a/hw/audio/gus.c b/hw/audio/gus.c
+index c8df2bde6b32..7e4a8cadad6f 100644
+--- a/hw/audio/gus.c
++++ b/hw/audio/gus.c
+@@ -286,12 +286,6 @@ static void gus_realizefn (DeviceState *dev, Error **errp)
+     AUD_set_active_out (s->voice, 1);
  }
  
--static int cs4231a_init (ISABus *bus)
+-static int GUS_init (ISABus *bus)
 -{
--    isa_create_simple (bus, TYPE_CS4231A);
+-    isa_create_simple (bus, TYPE_GUS);
 -    return 0;
 -}
 -
- static Property cs4231a_properties[] = {
-     DEFINE_AUDIO_PROPERTIES(CSState, card),
-     DEFINE_PROP_UINT32 ("iobase",  CSState, port, 0x534),
-@@ -720,7 +714,7 @@ static const TypeInfo cs4231a_info = {
- static void cs4231a_register_types (void)
+ static Property gus_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(GUSState, card),
+     DEFINE_PROP_UINT32 ("freq",    GUSState, freq,        44100),
+@@ -322,7 +316,7 @@ static const TypeInfo gus_info = {
+ static void gus_register_types (void)
  {
-     type_register_static (&cs4231a_info);
--    isa_register_soundhw("cs4231a", "CS4231A", cs4231a_init);
-+    deprecated_register_soundhw("cs4231a", "CS4231A", 1, TYPE_CS4231A);
+     type_register_static (&gus_info);
+-    isa_register_soundhw("gus", "Gravis Ultrasound GF1", GUS_init);
++    deprecated_register_soundhw("gus", "Gravis Ultrasound GF1", 1, TYPE_GUS);
  }
  
- type_init (cs4231a_register_types)
+ type_init (gus_register_types)
 -- 
 2.18.4
 
