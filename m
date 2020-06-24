@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBE3207776
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 17:34:11 +0200 (CEST)
-Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79D2207797
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 17:36:21 +0200 (CEST)
+Received: from localhost ([::1]:55908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo7Pe-00060S-4q
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 11:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58122)
+	id 1jo7Rk-0001Hm-MA
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 11:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jo7Nd-0004op-Ml
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:32:05 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43886)
+ id 1jo7Ng-0004tD-AR
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:32:08 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jo7Nb-0000H7-Le
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:32:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j4so239403wrp.10
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 08:32:03 -0700 (PDT)
+ id 1jo7Ne-0000Iq-74
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 11:32:07 -0400
+Received: by mail-wr1-x441.google.com with SMTP id k6so2741915wrn.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 08:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=TArnMat3Ju35uYmx6r3OwOxR+VLxrI0NAkcmv5YaMzE=;
- b=SLUDmarGXnbBCS5mX/u5Pac8ZP0idNHHapGfx9wZ8CcvYYqqPLaV743ZR2G5tHgGnW
- jCj6IulBfrLgO7ZLu/fadR+LE6bQUI+/kwRI+mZ7T5Bo8Av67/mkhct6NfFsqCtgvoEf
- 33uU0Gl8bL7h9bvOpyhOdIvyCVN0sFzjVHPnH3YoDL+t88svrBAnXd0BRweIau1H/ydq
- 39m2adjuWZXLBjHDZXyfbb/ElE1lO379jhDPqNUfjdNHHOen0fqJk5+uYH6GT+k1xPoa
- 8nDm+5mEzvQuCPRkwBB8D8S5YTA5u3AiRxRc1K3ArzpTOA6eq7NJQ1bC5BMh61vcfMHm
- DVYg==
+ bh=mPG18irFu/hv7Gy+qAN1EmbPjrPP5QFZJpMHb7Uj9tU=;
+ b=Ri7z1hdRHdUBfV6m2aFBDojmj9VUMA2BlUPxMvrNXdS4asWRN4RJQ3xxUreIblvKTw
+ 5nLeDD1w67ZYYGCFNBYtpSfOxj1zY2YBf9LfHE9r0oVI/Jtz5OSxI8C4x9A08jmj/Bur
+ F+jZbR4Vu3vSEfl8gF3CSY/j7cBXQa/vH6HN0ph76QhFJJN09tbu9yWEZKzV6c7QaIcj
+ zynILNmFAnaNhS0V6xGKYwlQS2eCpcdDyszUZsVK1N35K/yoxWTa8KCzG1BmFKBM9TXk
+ 50UKchR8ZScrPjtX9zZFT1JZX/rhketkwENN/CRg3NRYbwKVyEWYCXEu5fAFUzc3VyE5
+ SPwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=TArnMat3Ju35uYmx6r3OwOxR+VLxrI0NAkcmv5YaMzE=;
- b=ZDqpToJPrZqMXf6BjSWRBMiFC+8oNtbm0z+k5O31DppGwzqzVHHCYm+xT+PT0BYlJC
- fcibktGHPmGFFgO3sGfvd15tl2aU2Gp0vMk6qMkc1LVnzcJr9L9zM4A8qf6a9Wx5G/Ew
- MvOac/VGJMcja4ikzdE6F4X6g7/A07wIJLkCFZmFsYpWEcT+8RQE3XqPK1VQw3VGtZCE
- AJtUQlwn9AtlfSOIyF+GMFjWUmpq8s512VqtOoeGi5nzvzNSRnG0wmp4rfgN0+6+b2v/
- 9PKqkXJ34NKnS8S2NI7ruvGPrgng70UsDMGjLAsLdx4u4eqxHQUb1UE3EvlYKEtibVju
- McdA==
-X-Gm-Message-State: AOAM531Kg8ij3G7vUGA2kISz9mSz69fItlMd0oReuxt9kdWwB0V5P2pE
- OnnReQJcAnQdrN3SEYe0AoJqGAsV
-X-Google-Smtp-Source: ABdhPJxwk81LN1LOetlGly/C/bZr5jEBCxCzuvXBfdjLJc4UAuSfaT3ESPX/qx28wu4bGx/B0w/Rbw==
-X-Received: by 2002:a5d:6150:: with SMTP id y16mr33949474wrt.219.1593012722020; 
- Wed, 24 Jun 2020 08:32:02 -0700 (PDT)
+ bh=mPG18irFu/hv7Gy+qAN1EmbPjrPP5QFZJpMHb7Uj9tU=;
+ b=EEtLf4S2FMRgKqikuypBIZvjEHtgQTGVjyV2lRC5aANFudZOR/irodJF5wRcUhSZJd
+ AuWTfkZP04YgtYs9krHrKDPn+KpWswjvsoVdIUHOiJo1MiigOCcON8HYbiqYTBTTwKvq
+ XiN0L3Z28dLQCThtZVGNK6mlZ3xjVGJKw5zgwvzx8fUjn2ue/iIAJz6HXA5ZE7wKgBSs
+ ScViPhPFzIVMDZNxWTwPhJU6EH2zv0pv54pVFqD8wi2vdMNrKXBXO+rrQleqixhLcUHL
+ oDHJ2Wj65URll1WfoYSPbYq8nB49j358Sk6BpkadZnMu/6MqMpumL4L6wg8SMhXfRSZB
+ chog==
+X-Gm-Message-State: AOAM531mu5VBVVESqnzvaLtARoUlSmamFz51Wcaxf7MswSAitI08tc+k
+ o7apP9jGyo6KyzPHKB2xmaxMv0af
+X-Google-Smtp-Source: ABdhPJyiXbR6pyebvUpNhgkeu5rdgadJRsLAcs5vnaRgikHBarNjIMQO/KwxVNh7n7WGeP5dmTg6zg==
+X-Received: by 2002:adf:efc6:: with SMTP id i6mr29662683wrp.303.1593012724494; 
+ Wed, 24 Jun 2020 08:32:04 -0700 (PDT)
 Received: from AK-L.domain.name ([197.58.65.131])
- by smtp.gmail.com with ESMTPSA id b184sm2011299wmc.20.2020.06.24.08.32.00
+ by smtp.gmail.com with ESMTPSA id b184sm2011299wmc.20.2020.06.24.08.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 08:32:01 -0700 (PDT)
+ Wed, 24 Jun 2020 08:32:04 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com,
  alex.bennee@linaro.org, eblake@redhat.com, rth@twiddle.net,
  ldoktor@redhat.com, ehabkost@redhat.com, crosa@redhat.com
-Subject: [PATCH v3 1/3] scripts/performance: Add topN_perf.py script
-Date: Wed, 24 Jun 2020 17:31:40 +0200
-Message-Id: <20200624153142.13247-2-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH v3 2/3] scripts/performance: Add topN_callgrind.py script
+Date: Wed, 24 Jun 2020 17:31:41 +0200
+Message-Id: <20200624153142.13247-3-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200624153142.13247-1-ahmedkhaledkaraman@gmail.com>
 References: <20200624153142.13247-1-ahmedkhaledkaraman@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -10
@@ -87,59 +87,62 @@ Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Python script that prints the top N most executed functions in QEMU
+using callgrind.
+
 Syntax:
-topN_perf.py [-h] [-n] <number of displayed top functions>  -- \
-                 <qemu executable> [<qemu executable options>] \
-                 <target executable> [<target execurable options>]
+topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- \
+                      <qemu executable> [<qemu executable options>] \
+                      <target executable> [<target execurable options>]
 
 [-h] - Print the script arguments help message.
 [-n] - Specify the number of top functions to print.
      - If this flag is not specified, the tool defaults to 25.
 
 Example of usage:
-topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
+topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
 
 Example Output:
- No.  Percentage  Name                       Caller
-----  ----------  -------------------------  -------------------------
-   1      16.25%  float64_mul                qemu-x86_64
-   2      12.01%  float64_sub                qemu-x86_64
-   3      11.99%  float64_add                qemu-x86_64
-   4       5.69%  helper_mulsd               qemu-x86_64
-   5       4.68%  helper_addsd               qemu-x86_64
-   6       4.43%  helper_lookup_tb_ptr       qemu-x86_64
-   7       4.28%  helper_subsd               qemu-x86_64
-   8       2.71%  f64_compare                qemu-x86_64
-   9       2.71%  helper_ucomisd             qemu-x86_64
-  10       1.04%  helper_pand_xmm            qemu-x86_64
-  11       0.71%  float64_div                qemu-x86_64
-  12       0.63%  helper_pxor_xmm            qemu-x86_64
-  13       0.50%  0x00007f7b7004ef95         [JIT] tid 491
-  14       0.50%  0x00007f7b70044e83         [JIT] tid 491
-  15       0.36%  helper_por_xmm             qemu-x86_64
-  16       0.32%  helper_cc_compute_all      qemu-x86_64
-  17       0.30%  0x00007f7b700433f0         [JIT] tid 491
-  18       0.30%  float64_compare_quiet      qemu-x86_64
-  19       0.27%  soft_f64_addsub            qemu-x86_64
-  20       0.26%  round_to_int               qemu-x86_64
+No.  Percentage Name                  Source File
+----  --------- ------------------    ------------------------------
+   1    24.577% 0x00000000082db000    ???
+   2    20.467% float64_mul           <qemu>/fpu/softfloat.c
+   3    14.720% float64_sub           <qemu>/fpu/softfloat.c
+   4    13.864% float64_add           <qemu>/fpu/softfloat.c
+   5     4.876% helper_mulsd          <qemu>/target/i386/ops_sse.h
+   6     3.767% helper_subsd          <qemu>/target/i386/ops_sse.h
+   7     3.549% helper_addsd          <qemu>/target/i386/ops_sse.h
+   8     2.185% helper_ucomisd        <qemu>/target/i386/ops_sse.h
+   9     1.667% helper_lookup_tb_ptr  <qemu>/include/exec/tb-lookup.h
+  10     1.662% f64_compare           <qemu>/fpu/softfloat.c
+  11     1.509% helper_lookup_tb_ptr  <qemu>/accel/tcg/tcg-runtime.c
+  12     0.635% helper_lookup_tb_ptr  <qemu>/include/exec/exec-all.h
+  13     0.616% float64_div           <qemu>/fpu/softfloat.c
+  14     0.502% helper_pand_xmm       <qemu>/target/i386/ops_sse.h
+  15     0.502% float64_mul           <qemu>/include/fpu/softfloat.h
+  16     0.476% helper_lookup_tb_ptr  <qemu>/target/i386/cpu.h
+  17     0.437% float64_compare_quiet <qemu>/fpu/softfloat.c
+  18     0.414% helper_pxor_xmm       <qemu>/target/i386/ops_sse.h
+  19     0.353% round_to_int          <qemu>/fpu/softfloat.c
+  20     0.347% helper_cc_compute_all <qemu>/target/i386/cc_helper.c
 
 Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- scripts/performance/topN_perf.py | 142 +++++++++++++++++++++++++++++++
- 1 file changed, 142 insertions(+)
- create mode 100755 scripts/performance/topN_perf.py
+ scripts/performance/topN_callgrind.py | 139 ++++++++++++++++++++++++++
+ 1 file changed, 139 insertions(+)
+ create mode 100755 scripts/performance/topN_callgrind.py
 
-diff --git a/scripts/performance/topN_perf.py b/scripts/performance/topN_perf.py
+diff --git a/scripts/performance/topN_callgrind.py b/scripts/performance/topN_callgrind.py
 new file mode 100755
-index 0000000000..d2b939c375
+index 0000000000..6136f72a74
 --- /dev/null
-+++ b/scripts/performance/topN_perf.py
-@@ -0,0 +1,142 @@
++++ b/scripts/performance/topN_callgrind.py
+@@ -0,0 +1,139 @@
 +#!/usr/bin/env python3
 +
-+#  Print the top N most executed functions in QEMU using perf.
++#  Print the top N most executed functions in QEMU using callgrind.
 +#  Syntax:
-+#  topN_perf.py [-h] [-n] <number of displayed top functions>  -- \
++#  topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- \
 +#           <qemu executable> [<qemu executable options>] \
 +#           <target executable> [<target execurable options>]
 +#
@@ -148,7 +151,7 @@ index 0000000000..d2b939c375
 +#       - If this flag is not specified, the tool defaults to 25.
 +#
 +#  Example of usage:
-+#  topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
++#  topN_callgrind.py -n 20 -- qemu-arm coulomb_double-arm
 +#
 +#  This file is a part of the project "TCG Continuous Benchmarking".
 +#
@@ -176,7 +179,7 @@ index 0000000000..d2b939c375
 +
 +# Parse the command line arguments
 +parser = argparse.ArgumentParser(
-+    usage='topN_perf.py [-h] [-n] <number of displayed top functions >  -- '
++    usage='topN_callgrind.py [-h] [-n] <number of displayed top functions>  -- '
 +          '<qemu executable> [<qemu executable options>] '
 +          '<target executable> [<target executable options>]')
 +
@@ -191,92 +194,89 @@ index 0000000000..d2b939c375
 +command = args.command
 +top = args.top
 +
-+# Insure that perf is installed
-+check_perf = subprocess.run(["which", "perf"], stdout=subprocess.DEVNULL)
-+if check_perf.returncode:
-+    sys.exit("Please install perf before running the script!")
++# Insure that valgrind is installed
++check_valgrind = subprocess.run(
++    ["which", "valgrind"], stdout=subprocess.DEVNULL)
++if check_valgrind.returncode:
++    sys.exit("Please install valgrind before running the script!")
 +
-+# Insure user has previllage to run perf
-+check_perf_executability = subprocess.run(["perf", "stat", "ls", "/"],
-+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-+if check_perf_executability.returncode:
-+    sys.exit(
-+"""
-+Error:
-+You may not have permission to collect stats.
++# Run callgrind
++callgrind = subprocess.run((["valgrind", "--tool=callgrind",
++                             "--callgrind-out-file=callgrind.data"] + command),
++                           stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
++if callgrind.returncode:
++    sys.exit(callgrind.stderr.decode("utf-8"))
 +
-+Consider tweaking /proc/sys/kernel/perf_event_paranoid,
-+which controls use of the performance events system by
-+unprivileged users (without CAP_SYS_ADMIN).
-+
-+  -1: Allow use of (almost) all events by all users
-+      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOCK
-+   0: Disallow ftrace function tracepoint by users without CAP_SYS_ADMIN
-+      Disallow raw tracepoint access by users without CAP_SYS_ADMIN
-+   1: Disallow CPU event access by users without CAP_SYS_ADMIN
-+   2: Disallow kernel profiling by users without CAP_SYS_ADMIN
-+
-+To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
-+   kernel.perf_event_paranoid = -1
-+"""
-+)
-+
-+# Run perf record
-+perf_record = subprocess.run((["perf", "record"] + command),
-+                             stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-+if perf_record.returncode:
-+    os.unlink('perf.data')
-+    sys.exit(perf_record.stderr.decode("utf-8"))
-+
-+# Save perf report output to perf_report.out
-+with open("perf_report.out", "w") as output:
-+    perf_report = subprocess.run(
-+        ["perf", "report", "--stdio"], stdout=output, stderr=subprocess.PIPE)
-+    if perf_report.returncode:
-+        os.unlink('perf.data')
++# Save callgrind_annotate output to callgrind_annotate.out
++with open("callgrind_annotate.out", "w") as output:
++    callgrind_annotate = subprocess.run(
++        ["callgrind_annotate", "callgrind.data"],
++        stdout=output,
++        stderr=subprocess.PIPE)
++    if callgrind_annotate.returncode:
++        os.unlink('callgrind.data')
 +        output.close()
-+        os.unlink('perf_report.out')
-+        sys.exit(perf_report.stderr.decode("utf-8"))
++        os.unlink('callgrind_annotate.out')
++        sys.exit(callgrind_annotate.stderr.decode("utf-8"))
 +
-+# Read the reported data to functions[]
-+functions = []
-+with open("perf_report.out", "r") as data:
-+    # Only read lines that are not comments (comments start with #)
-+    # Only read lines that are not empty
-+    functions = [line for line in data.readlines() if line and line[0]
-+                 != '#' and line[0] != "\n"]
++
++# Read the callgrind_annotate output to callgrind_data[]
++callgrind_data = []
++with open('callgrind_annotate.out', 'r') as data:
++    callgrind_data = data.readlines()
++
++# Line number with the total number of instructions
++total_instructions_line_number = 20
++
++# Get the total number of instructions
++total_instructions_line_data = callgrind_data[total_instructions_line_number]
++total_number_of_instructions = total_instructions_line_data.split(' ')[0]
++total_number_of_instructions = int(
++    total_number_of_instructions.replace(',', ''))
++
++# Line number with the top function
++first_func_line = 25
++
++# Number of functions recorded by callgrind, last two lines are always empty
++number_of_functions = len(callgrind_data) - first_func_line - 2
 +
 +# Limit the number of top functions to "top"
-+number_of_top_functions = top if len(functions) > top else len(functions)
++number_of_top_functions = (top if number_of_functions >
++                           top else number_of_functions)
 +
 +# Store the data of the top functions in top_functions[]
-+top_functions = functions[:number_of_top_functions]
++top_functions = callgrind_data[first_func_line:
++                               first_func_line + number_of_top_functions]
 +
 +# Print table header
 +print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
 +                                                         'Percentage',
 +                                                         'Name',
-+                                                         'Caller',
++                                                         'Source File',
 +                                                         '-' * 4,
 +                                                         '-' * 10,
 +                                                         '-' * 30,
-+                                                         '-' * 25))
-+
++                                                         '-' * 30,
++                                                         ))
 +
 +# Print top N functions
 +for (index, function) in enumerate(top_functions, start=1):
 +    function_data = function.split()
-+    function_percentage = function_data[0]
-+    function_name = function_data[-1]
-+    function_caller = ' '.join(function_data[2:-2])
-+    print('{:>4}  {:>10}  {:<30}  {}'.format(index,
-+                                             function_percentage,
-+                                             function_name,
-+                                             function_caller))
++    # Calculate function percentage
++    function_instructions = float(function_data[0].replace(',', ''))
++    function_percentage = (function_instructions /
++                           total_number_of_instructions)*100
++    # Get function name and source files path
++    function_source_path, function_name = function_data[1].split(':')
++    # Print extracted data
++    print('{:>4}  {:>9.3f}%  {:<30}  {}'.format(index,
++                                                round(function_percentage, 3),
++                                                function_name,
++                                                function_source_path))
 +
 +# Remove intermediate files
-+os.unlink('perf.data')
-+os.unlink('perf_report.out')
++os.unlink('callgrind.data')
++os.unlink('callgrind_annotate.out')
 -- 
 2.17.1
 
