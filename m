@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4986D209702
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:15:41 +0200 (CEST)
-Received: from localhost ([::1]:46268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EE7209707
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 01:17:15 +0200 (CEST)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joEcG-0007JE-7v
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
+	id 1joEdn-0001wZ-15
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 19:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUF-0000wz-A4
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46810
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUD-0000sv-TO
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20260
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUB-0001ga-RZ
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1joEUB-0001gX-Qb
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 19:07:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593040037;
+ s=mimecast20190719; t=1593040036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=P2QwBFExPnrm+QSOonZAHZYTv+JWyU5E11O8o1MzXlk=;
- b=fN7/5qv5DRGaJhmlymLI3YEoTYr6CG2sKyjOr7rXuAy09+xFZ3l01K8GNkjDdepu4vjrwe
- H7PH/XakQQAYBxGAqFCiH+IWzhbpe1W20oHf0vmGsDXQG0eS1LC7QiLTZIJ6SoRkxAPkCK
- ZOx6opddj1bk5/fBaPwnxKGinkP3XKU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-jRsTOEvsMGSh30DSeKQmEA-1; Wed, 24 Jun 2020 19:07:12 -0400
-X-MC-Unique: jRsTOEvsMGSh30DSeKQmEA-1
-Received: by mail-wm1-f70.google.com with SMTP id o13so4786912wmh.9
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:07:11 -0700 (PDT)
+ bh=MdpySV97K79Gyh8zeUujKQRFRgwzwS9j5RkITL/a4rs=;
+ b=IhHMdQRyfg0yKudBZbrIjxA/OKFgD156iHX2KLOBwWxKxrYWYstGoMQzzbZWD7edQiXq75
+ 9nzzVyscmiyRv6yRODJcIGugUxbhJlw/YbXqVUzR8qBj/zPz11pyEOryo1jVut5cAQwlcN
+ ACf9iivoRZzrBZxXcVkZSCx4wIuu9Nc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-FWuq9w9sN5yCtCdNgf7K5g-1; Wed, 24 Jun 2020 19:07:14 -0400
+X-MC-Unique: FWuq9w9sN5yCtCdNgf7K5g-1
+Received: by mail-wr1-f69.google.com with SMTP id a18so4704504wrm.14
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 16:07:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=P2QwBFExPnrm+QSOonZAHZYTv+JWyU5E11O8o1MzXlk=;
- b=rXHAN28huY4/2I+6pStNGyQM3NWG8qB6jwiKs/XaeIzkEdp5haBl9P1klieh1KKiS0
- YinAJ/rw6qYcm1nTUOn8jByVwtepQaVYuPs8A2FGn6BWbf/MJo8YJa4WeQh+CBpdnWDB
- gYskn7l2n9M7mGuOR1MANiS1vLADnpBHolbM3lmsE3TFubeW9ihyIgQj50cpc+NdwrUA
- TFs4d46UWFYuE7zgdYFEnLOndX1h61pj5Ba0X6wfYC6VX9Bn2aiW7M/67A6Mloyi1khH
- nbGTVn1jJ7D7W12YCpjY8EkWBBIbmoKXR8feMHtQcs1P2NPOx2/V4u3xLB+ErJHz2beZ
- 0EEA==
-X-Gm-Message-State: AOAM532vtsAA16QaLbQ2tfx7cEmZ1kjZ5b8tjwnzwVEiyUR3tqNfLzkM
- G3UfBabQ/QCDcZpQWCZ5a7h2Qa7qSrBwVoGnfAqh16yLvvQ6OIoOykuPTu1PSchvqpWzJYUYViX
- snOMZw+xkA37IDkk=
-X-Received: by 2002:a5d:40c9:: with SMTP id b9mr2379698wrq.425.1593040030362; 
- Wed, 24 Jun 2020 16:07:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJze2iV2qsngQG7j3SZlkR/9CJ+L5U0si23SP92JJig0dRqd2ib5WamexHA5Mnd7nndhDrokFQ==
-X-Received: by 2002:a5d:40c9:: with SMTP id b9mr2379685wrq.425.1593040030192; 
- Wed, 24 Jun 2020 16:07:10 -0700 (PDT)
+ bh=MdpySV97K79Gyh8zeUujKQRFRgwzwS9j5RkITL/a4rs=;
+ b=RWxLs1Hbsd/5kdikz++wfKntjd5aRddU+l5FYzD8Gx0kKaZKTr969ae2S+NfyW31lc
+ VoInTemXXkZNukQgizvJj+XbLVfwQWwhYJ7MMoiqGTZ9yvcKuaWf5QjZEhGEQFa8ddNV
+ uKbAut5R/GKoSRa1M+k7uh2zuFYEtH3e4Evrd0jTMm99SbLhZsGFgX5D00tjlDPKqZoK
+ poy2/pk6yLulOUkGJDKoF06Z9kmzdyHTIIJCJTW1jjx7VGtVbRDNqvgP1RJU9BnOgISG
+ Qz/7QW8V62Ja5MLmcyq3ujo2ckHWqBw/dE7tP0+inq+/AbMpZskIarlKN7jMpMeTwYFS
+ +0bA==
+X-Gm-Message-State: AOAM530rWoS8QC655HxioaROCq4/LP98KBCYKtXuOKWvw5Mgi/uZtrcz
+ yznMR405R2rCyk5g/BJEqz9sAnwGUqjqB5oSaqRqleBuoRNwWK0c4RqjuY9FcdNaHgzunfTiZpX
+ Z2h/8ik8iC+stKQI=
+X-Received: by 2002:a1c:a3c5:: with SMTP id m188mr115014wme.152.1593040032685; 
+ Wed, 24 Jun 2020 16:07:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTRFDDBThaWTuJAY59AlbPE0ZSyPfdvKebKQSOi4xN/awIUuLly0594cjWVF9MndH6JPfNZg==
+X-Received: by 2002:a1c:a3c5:: with SMTP id m188mr115002wme.152.1593040032495; 
+ Wed, 24 Jun 2020 16:07:12 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- j41sm30234145wre.12.2020.06.24.16.07.08
+ y19sm9316412wmi.6.2020.06.24.16.07.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 16:07:09 -0700 (PDT)
-Date: Wed, 24 Jun 2020 19:07:07 -0400
+ Wed, 24 Jun 2020 16:07:11 -0700 (PDT)
+Date: Wed, 24 Jun 2020 19:07:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/19] docs/specs/tpm: ACPI boot now supported for TPM/ARM
-Message-ID: <20200624230609.703104-16-mst@redhat.com>
+Subject: [PULL 16/19] Stop vhost-user sending uninitialized mmap_offsets
+Message-ID: <20200624230609.703104-17-mst@redhat.com>
 References: <20200624230609.703104-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 02:33:25
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 01:59:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,43 +95,90 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Ard Biesheuvel <ardb@kernel.org>,
- Stefan Berger <stefanb@linux.ibm.com>
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-ACPI boot now is supported. Let's remove the comment
-saying it is not.
+Prior to this change, the vhost_user_fill_msg_region function filled out
+all elements of the VhostUserMemoryRegion struct except the mmap_offset.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200622140620.17229-4-eric.auger@redhat.com>
-Tested-by: Ard Biesheuvel <ardb@kernel.org>
+This function is often called on uninitialized structs, which are then
+copied into VHOST_USER_SET_MEM_TABLE and VHOST_USER_ADD/REM_MEM_REG
+messages. In some cases, where the mmap_offset was not needed, it was
+left uninitialized, causing QEMU to send the backend uninitialized data,
+which Coverity flagged as a series of issues.
+
+This change augments the vhost_user_fill_msg_region API, adding a
+mmap_offset paramenter, forcing the caller to initialize mmap_offset.
+
+Fixes: ece99091c2d0aeb23734289a50ef2ff4e0a08929
+Fixes: f1aeb14b0809e313c74244d838645ed25e85ea63
+Reported-by: Coverity (CIDs 1429802, 1429803 and 1429804)
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <1592650156-25845-1-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/specs/tpm.rst | 2 --
- 1 file changed, 2 deletions(-)
+ hw/virtio/vhost-user.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 5e61238bc5..eeeb93730a 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -346,8 +346,6 @@ In case an Arm virt machine is emulated, use the following command line:
-     -drive if=pflash,format=raw,file=flash0.img,readonly \
-     -drive if=pflash,format=raw,file=flash1.img
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 4d6cd4e58a..31231218dc 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -460,12 +460,14 @@ static MemoryRegion *vhost_user_get_mr_data(uint64_t addr, ram_addr_t *offset,
+ }
  
--  On Arm, ACPI boot with TPM is not yet supported.
--
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
+ static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
+-                                       struct vhost_memory_region *src)
++                                       struct vhost_memory_region *src,
++                                       uint64_t mmap_offset)
+ {
+     assert(src != NULL && dst != NULL);
+     dst->userspace_addr = src->userspace_addr;
+     dst->memory_size = src->memory_size;
+     dst->guest_phys_addr = src->guest_phys_addr;
++    dst->mmap_offset = mmap_offset;
+ }
  
+ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+@@ -500,9 +502,8 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+-            vhost_user_fill_msg_region(&region_buffer, reg);
++            vhost_user_fill_msg_region(&region_buffer, reg, offset);
+             msg->payload.memory.regions[*fd_num] = region_buffer;
+-            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
+             fds[(*fd_num)++] = fd;
+         } else if (track_ramblocks) {
+             u->region_rb_offset[i] = 0;
+@@ -649,7 +650,7 @@ static int send_remove_regions(struct vhost_dev *dev,
+ 
+         if (fd > 0) {
+             msg->hdr.request = VHOST_USER_REM_MEM_REG;
+-            vhost_user_fill_msg_region(&region_buffer, shadow_reg);
++            vhost_user_fill_msg_region(&region_buffer, shadow_reg, 0);
+             msg->payload.mem_reg.region = region_buffer;
+ 
+             if (vhost_user_write(dev, msg, &fd, 1) < 0) {
+@@ -709,9 +710,8 @@ static int send_add_regions(struct vhost_dev *dev,
+                 u->region_rb[reg_idx] = mr->ram_block;
+             }
+             msg->hdr.request = VHOST_USER_ADD_MEM_REG;
+-            vhost_user_fill_msg_region(&region_buffer, reg);
++            vhost_user_fill_msg_region(&region_buffer, reg, offset);
+             msg->payload.mem_reg.region = region_buffer;
+-            msg->payload.mem_reg.region.mmap_offset = offset;
+ 
+             if (vhost_user_write(dev, msg, &fd, 1) < 0) {
+                 return -1;
 -- 
 MST
 
