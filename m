@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5621207B33
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 20:04:44 +0200 (CEST)
-Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1E5207B61
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 20:19:15 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo9lL-0007F6-Bc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 14:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
+	id 1jo9zO-0006g9-3H
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 14:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jo9k3-0005XP-Uy
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:03:23 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45721
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jo9xZ-00069T-Uq
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:17:22 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51674
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jo9k1-00012r-Nq
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:03:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jo9xX-0005Pl-Ev
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 14:17:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593021800;
+ s=mimecast20190719; t=1593022638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lXBOR0EA1Bxzz1drkW7Sd4QXmuZ+UhZnFzoclc9SfdQ=;
- b=aLY+Yh6OgJ8R3Kof6JO2BWVWL9GLQtEIrcRZi4o0wmuhXQ4R3If8/epF7LqH2xcoa2npLm
- VT1hBepEyNin2Bs65HFNPw2oPlLjW6SW89ZDHB4k7Ez+OwxNWABbIEdFNxeX/L3y10XaOe
- hKE6Noo7XAEhjks4o3tlpp8ZqoZjzjk=
+ bh=fRQZG76l4ej+e7zV09HrF5T65nrXNzV26qDcziM7aCo=;
+ b=SMDQ9iCtX+2AoH8I02igkkLPdr+lRTMAql7a6h7AJb24MsUjog591lKwwzMjaV7t+0n4qz
+ dK3rTE+yW3+vQctb/7kHMKe3u7aoubE0zvyudtssf3D6eNAXy2Tupb7Qyq/JD2OEBFXbZf
+ rEMYKfuBjZpeNuDpI7HpQBdxP0ztpA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-LVRT6PKdONmqnAeIJjsotg-1; Wed, 24 Jun 2020 14:03:18 -0400
-X-MC-Unique: LVRT6PKdONmqnAeIJjsotg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-174-cIhso6ZyPsq9cdAgRRgBLQ-1; Wed, 24 Jun 2020 14:17:11 -0400
+X-MC-Unique: cIhso6ZyPsq9cdAgRRgBLQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91A7D107ACCD;
- Wed, 24 Jun 2020 18:03:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88630107ACF7;
+ Wed, 24 Jun 2020 18:17:09 +0000 (UTC)
 Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDED55BACC;
- Wed, 24 Jun 2020 18:03:16 +0000 (UTC)
-Subject: Re: [PATCH 03/46] qdev: Smooth error checking of qdev_realize() &
- friends
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBBBF60C80;
+ Wed, 24 Jun 2020 18:17:08 +0000 (UTC)
+Subject: Re: [PATCH 06/46] error: Avoid error_propagate() when error is not
+ used here
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-4-armbru@redhat.com>
+ <20200624164344.3778251-7-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <c503f65b-9d1e-6a1b-502a-fdcc4bfa4bcf@redhat.com>
-Date: Wed, 24 Jun 2020 13:03:12 -0500
+Message-ID: <415efae8-9624-7d7d-b4af-f6a019e345f9@redhat.com>
+Date: Wed, 24 Jun 2020 13:17:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200624164344.3778251-4-armbru@redhat.com>
+In-Reply-To: <20200624164344.3778251-7-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -89,43 +89,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/24/20 11:43 AM, Markus Armbruster wrote:
-> Convert
-> 
->      foo(..., &err);
->      if (err) {
->          ...
->      }
-> 
-> to
-> 
->      if (!foo(..., &err)) {
->          ...
->      }
-> 
-> for qdev_realize(), qdev_realize_and_unref(), qbus_realize() and their
-> wrappers isa_realize_and_unref(), pci_realize_and_unref(),
-> sysbus_realize(), sysbus_realize_and_unref(), usb_realize_and_unref().
-> Coccinelle script:
+> When all we do with an Error we receive into a local variable is
+> propagating to somewhere else, we can just as well receive it there
+> right away.  Coccinelle script:
 
-Automated patching is so much easier than manual :)
+This seems to be a recurring cleanup (witness commit 06592d7e, c0e90679, 
+6b62d961).  In fact, shouldn't you just update that script with your 
+enhancements here, and then run it directly, instead of embedding your 
+tweaks in the commit message?
 
-> Fails to convert hw/arm/armsse.c, because Coccinelle gets confused by
-> ARMSSE being used both as typedef and function-like macro there.
-> Convert manually.
 > 
-> Eliminate error_propagate() that are now unnecessary.  Delete @err
-> that are now unused.  Clean up whitespace.
+>      @@
+>      identifier fun, err, errp;
+>      expression list args;
+>      @@
+>      -    fun(args, &err);
+>      +    fun(args, errp);
+>           ... when != err
+>               when strict
+>      -    error_propagate(errp, err);
 
-Well, so there's still some manual stuff.  But that's okay; hopefully we 
-don't have too many stragglers reintroduced via pending patches.
+What does the 'when strict' accomplish?  The existing coccinelle script 
+uses 'when != errp', which may be enough to address...
 
+> 
+> The first two rules are prone to fail with "error_propagate(...)
+> ... reachable by inconsistent control-flow paths".  Script without
+> them re-run where that happens.
+
+...the control-flow failures you hit?
+
+> 
+> Manually double-check @err is not used afterwards.  Dereferencing it
+> would be use after free, but checking whether it's null would be
+> legitimate.  One such change to qbus_realize() backed out.
+> 
+> Suboptimal line breaks tweaked manually.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
 
->   65 files changed, 248 insertions(+), 768 deletions(-)
+>   22 files changed, 31 insertions(+), 73 deletions(-)
 
-Quite a big trim.  But I didn't spot any obvious problems.
+At any rate, it's small enough to ensure all the changes remaining are 
+still valid.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
