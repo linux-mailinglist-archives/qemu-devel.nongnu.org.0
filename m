@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2869207207
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:28:05 +0200 (CEST)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB92207219
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jun 2020 13:30:43 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jo3ZU-0007Ya-9E
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39342)
+	id 1jo3c2-0003cV-S5
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jun 2020 07:30:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jo3YV-0006VD-Fy
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:03 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43039)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yi-0006jf-Hn
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:16 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:42222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jo3YU-000723-2g
- for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:03 -0400
-Received: by mail-wr1-x431.google.com with SMTP id l10so1895273wrr.10
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jo3Yg-00076C-L1
+ for qemu-devel@nongnu.org; Wed, 24 Jun 2020 07:27:16 -0400
+Received: by mail-lj1-x241.google.com with SMTP id y11so2112841ljm.9
+ for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 04:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+hStw+jEhDLKTIZ2D6nzautxOHmyAupBUTrBEM2cdlk=;
- b=GdrfkXT6HaTMdFb2hBKS5rxzDZRP/t63X6AT11g1RpgTVpbEtgCCgjMYPfp49MrHOs
- 2TjKPyPnwvWN3sGcQ/ESlhDulVrex/A7QoSvEaE+Cx81ZHb0nX8O5PqJ4Eo/FFf11pTh
- lMC42XM8wXjSSxa6wx3x6XA0VIGWlqmMF1f3vlV8IIT4XEetS5UnIVlAhqYBI1behiSZ
- Idzf1R7Zfd881lXKaNvVhkniDRknn7vpnoLQuBLoOE3zIOuBQXDcwBZkqpQ2xHu6qGYv
- O9oLHrYPGzXYKgdIp2MELx3dys1p1wb+RLy0xqVE8NOHnUzrsX2LsT3z+CkrsiWT6lOr
- mS1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=okjFI9L7TqZfHlM0DvNcdByQI8MQ8azG7lBbIRoFOgk=;
+ b=VIPXbgSYEJrB2lXCSqfZ8oTtGUMkpSbjTr2AWappvRyD0pu5uG4aAT+UsIjxWQK9dw
+ Ak3As0ibyTbp22SBJfMhTjPUmil94MknLVqZ/Bxj8zNjtpa5ooeoK7Rnvn9SRDJvnW9+
+ 9jzsl2xvfUtpGH/CFB4eWDJCMdoqcWP+e1/2Dw1Pv5DNLovYtGlQhVsV2EfzEk+vB7lC
+ aoWRfKnqAvK2Cidi5i0xjgq5GJKYIXUXxMr9Ns9FrBJRMvLY1gxpE5DeRe67DIWmYEhZ
+ dr0QGNjFSgIkHTM7zU1bL3xdgmMUSAFdPKmcDtqrYbCpn7x/gH1E2kSQl3Hv5jN+2WZP
+ n6yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+hStw+jEhDLKTIZ2D6nzautxOHmyAupBUTrBEM2cdlk=;
- b=OAOTO6QxT+duMGE7WygEP76b/7v2LzbqL414pfziFh/UfyA2EHoidhrteMzXTUz9tD
- 86BHAc4gEsE7xnzu0YZ64L5BQd7CeOYEUyYIgVlekLiiPqkH5juo6SH/omlB5bghssiR
- M9FS/r1sNi4nSQzLue1ediWNJNkOTdP1MGTBAsdlradsmG5edyGaIH+k9O10kqSjyq1U
- FPziqcyY6zwZeT/bMf+q+iFvBzXN9n4l1Vn+R7VEztLS7bNcJVGnbP2h7W21+Z/xM0Q9
- 3+OiVDhzXUW02xoVWgIkVWuk04xsAHEDwxTSRKKZebJvrsLB8T4S/qrOBlVbq0hlvJem
- drmA==
-X-Gm-Message-State: AOAM530aPW5o1bdI+T2WsuM4pz2cNEmLqFH4MVrXnudJeQ5HKne5tDxY
- 3N+0OUM14GPDjJA/EewxQr8GCvlqj6SM3qdl0ao=
-X-Google-Smtp-Source: ABdhPJynQftHgCOqf0tldT1HpYmo3RHmU00MR147N98BlIC16v5zgQ5eRNqMJvokZouB+UbyzbyQeC7W16wr3dFYg7g=
-X-Received: by 2002:adf:f885:: with SMTP id u5mr30140252wrp.402.1592998020150; 
- Wed, 24 Jun 2020 04:27:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=okjFI9L7TqZfHlM0DvNcdByQI8MQ8azG7lBbIRoFOgk=;
+ b=qy7aRWvN54dERBorsX45BSSPvZ7xcn7qwRHxE11MjI77lTtKzLQB4Y5fS3y7uyPYxm
+ F0okOStl/Gp2F1kxzfuQUNmTUyGGURC92Rc+ne0VCad1CuiwW2m22BJxJGgyFXojiOnm
+ N8jOr+/ix1ZD4tNSnssLHAjPZW7glKiqY2jbmABCBJ1PwhVTuDLw1BqYU0DjeIQYez66
+ 6VInsh3cftXW0Nq8SOuSPZmGQqo20noYVPZO8b5F50m+eRRrNMqxQPxeOLBo+3vhglph
+ mDx1j/cazKBfSuWBMIdGlocMD3/WRB2Nrbl2hVVqx/6+SOrlAA4itG6HVoX+vRsUSjCj
+ 5eTQ==
+X-Gm-Message-State: AOAM532TMMQiDCnZtE9QB8Coa3ewO67suXeCYu9Le0V/go8+k4woRI1i
+ dA0eRM6HRYmjdb+XN2qmx0ekB2odeOHQiQ==
+X-Google-Smtp-Source: ABdhPJxGaclMFq6AX2eTaBRoehM6jF9IYp1BIzErBEKItQeXT9TnnP8Y4Zmn67ye0Mz//g89AdW/yA==
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr14333059ljj.340.1592998031756; 
+ Wed, 24 Jun 2020 04:27:11 -0700 (PDT)
+Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
+ [193.239.39.51])
+ by smtp.gmail.com with ESMTPSA id d6sm1202635lja.77.2020.06.24.04.27.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 04:27:11 -0700 (PDT)
+From: Szymon Lukasz <noh4hss@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 3/6] chardev: add support for notifying about terminal
+ resizes
+Date: Wed, 24 Jun 2020 13:26:37 +0200
+Message-Id: <20200624112640.82673-4-noh4hss@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200624112640.82673-1-noh4hss@gmail.com>
+References: <20200624112640.82673-1-noh4hss@gmail.com>
 MIME-Version: 1.0
-References: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
- <1592914438-30317-4-git-send-email-chenhc@lemote.com>
- <CAHiYmc7FVCu6WTyFfUdz84iBYaL9QtrQ+Mv_nFU6KzzCWbnz=Q@mail.gmail.com>
-In-Reply-To: <CAHiYmc7FVCu6WTyFfUdz84iBYaL9QtrQ+Mv_nFU6KzzCWbnz=Q@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Wed, 24 Jun 2020 13:26:47 +0200
-Message-ID: <CAHiYmc75wGPk=rQDTw9PfFGSsEzhgTXzTKTQC0GjiHWX-kH7aw@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V5 3/4] hw/mips: Add Loongson-3 machine support
- (with KVM)
-To: Huacai Chen <zltjiangshi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x431.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=noh4hss@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,24 +84,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: lvivier@redhat.com, amit@kernel.org, mst@redhat.com,
+ Szymon Lukasz <noh4hss@gmail.com>, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->
-> What exactly is missing in tcg support? Would it work if Loongson EXT is supported in QEMU?
->
+Add a new chardev event, CHR_EVENT_RESIZE, which a backend should
+trigger if detects the size of the connected terminal changed.
 
-Huacai, hi.
+Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
+---
+ backends/cryptodev-vhost-user.c | 1 +
+ chardev/char.c                  | 1 +
+ hw/block/vhost-user-blk.c       | 1 +
+ hw/char/terminal3270.c          | 1 +
+ hw/char/virtio-console.c        | 1 +
+ hw/ipmi/ipmi_bmc_extern.c       | 1 +
+ hw/usb/ccid-card-passthru.c     | 1 +
+ hw/usb/dev-serial.c             | 1 +
+ hw/usb/redirect.c               | 1 +
+ include/chardev/char.h          | 1 +
+ monitor/hmp.c                   | 1 +
+ monitor/qmp.c                   | 1 +
+ net/vhost-user.c                | 1 +
+ 13 files changed, 13 insertions(+)
 
-I couldn't find the answer to this question in v6.
+diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
+index 8b8cbc4223..bbf8ad426a 100644
+--- a/backends/cryptodev-vhost-user.c
++++ b/backends/cryptodev-vhost-user.c
+@@ -174,6 +174,7 @@ static void cryptodev_vhost_user_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/chardev/char.c b/chardev/char.c
+index e3051295ac..904f8bf6e3 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -74,6 +74,7 @@ void qemu_chr_be_event(Chardev *s, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index a00b854736..1a656a27c3 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -403,6 +403,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
+index 2c47ebf007..eadccbb617 100644
+--- a/hw/char/terminal3270.c
++++ b/hw/char/terminal3270.c
+@@ -169,6 +169,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
+index 4f46753ea3..97b9240ef5 100644
+--- a/hw/char/virtio-console.c
++++ b/hw/char/virtio-console.c
+@@ -165,6 +165,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+index f9a13e0a44..9562584309 100644
+--- a/hw/ipmi/ipmi_bmc_extern.c
++++ b/hw/ipmi/ipmi_bmc_extern.c
+@@ -439,6 +439,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index bb325dbc4a..3c26b16ed0 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -321,6 +321,7 @@ static void ccid_card_vscard_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
+     case CHR_EVENT_CLOSED:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index 7e50e3ba47..e8e960d0e6 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -507,6 +507,7 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
+             break;
+         case CHR_EVENT_MUX_IN:
+         case CHR_EVENT_MUX_OUT:
++        case CHR_EVENT_RESIZE:
+             /* Ignore */
+             break;
+     }
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 417a60a2e6..b716c4fdd7 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1383,6 +1383,7 @@ static void usbredir_chardev_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index fb20707917..c3d108ce82 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -22,6 +22,7 @@ typedef enum {
+     CHR_EVENT_OPENED, /* new connection established */
+     CHR_EVENT_MUX_IN, /* mux-focus was set to this terminal */
+     CHR_EVENT_MUX_OUT, /* mux-focus will move on */
++    CHR_EVENT_RESIZE, /* the terminal size of the chardev changed */
+     CHR_EVENT_CLOSED /* connection closed.  NOTE: currently this event
+                       * is only bound to the read port of the chardev.
+                       * Normally the read port and write port of a
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d598dd02bb..020be03d61 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1373,6 +1373,7 @@ static void monitor_event(void *opaque, QEMUChrEvent event)
+         break;
+ 
+     case CHR_EVENT_BREAK:
++    case CHR_EVENT_RESIZE:
+         /* Ignored */
+         break;
+     }
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index d433ceae5b..58aecb475b 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -371,6 +371,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/net/vhost-user.c b/net/vhost-user.c
+index 17532daaf3..e30cbe74bd 100644
+--- a/net/vhost-user.c
++++ b/net/vhost-user.c
+@@ -297,6 +297,7 @@ static void net_vhost_user_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+-- 
+2.27.0
 
-Could you please clarify this aspect?
-
-Thank you,
-Aleksandar
 
