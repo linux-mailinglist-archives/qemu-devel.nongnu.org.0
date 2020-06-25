@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D7A20A287
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:01:35 +0200 (CEST)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1775E20A28F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:03:33 +0200 (CEST)
+Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUJi-0004ql-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:01:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
+	id 1joULa-0008Ai-Cm
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joU26-0001x1-4c
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:43:22 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36817)
+ id 1joU9a-000578-Lb
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:51:06 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:46578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joU23-0000BU-HB
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:43:21 -0400
-Received: by mail-ot1-x341.google.com with SMTP id 72so5684038otc.3
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:43:19 -0700 (PDT)
+ id 1joU9Y-0003j9-Ma
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:51:06 -0400
+Received: by mail-oi1-x236.google.com with SMTP id l63so5340055oih.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OPobJVv/bg8YqK/ZN142RvDlQ5+alsiGLy9Ctc2eeRc=;
- b=hKcHQjujCHHX8tQZTQiwOO1gd2zW+2NWgpsZbDU/5JUEP3JiYjmqqzRHn9FS4IfyYL
- VxRCV3DalUKOku5zQ8a3ys3xUTYE8MmTwwzGxhXZV5biI7azN9IO/bZOqzPHp4D6+iH5
- FLMiPjks85EgFchdoiK3kwVVBtiDw4/R8P8QT+gSSnJhJsfGS/dS6rqmoQ2o7FEaak4z
- btA3bP0mI88LTe5Xhw0DyFRc4e0DjY+QnSxH4ihGikfk2OEL4WRm+dQG8LE8hVVRcUAs
- oKEIRMI5gubDg6efZ4U1JycQ+nU9ha/lSBJkiJYwqfp1iEdTbB0ayYtPHOsGOpNJbnZ0
- cc9g==
+ :cc; bh=K+p06Jf57EbEv8jUo9zuAl0cwALSt9/uJraMe9mgTqs=;
+ b=T+1JwcZI7viWWou3g5aDUqpvTAqrvltA8g9nFFbmGZJaIepgmf565PRsIWuts1rxhy
+ iyikFfO/TR+32rn5qrKIE2pJsu23wTNxQy4n9hnSZgzQlY1BbBzfVrw3VSvgSrGCoQ9k
+ GW5iLkPSKl1uJbgSoORRjzdIHL1oQg+9VGlvUx5QDOwglmWQcBQ6JWnNX0yd+4/o8pc9
+ akr0HcxciOB6KrTPOHUMGBLmbFw0ZX41vcN7LramJ0Dbi5i/pnNlhD0wdPp5oZjA/5q9
+ gaVaCWW0guqQhhuALX0HbeNVQ9l6/yGm/Y0YO02cLlCSQU5if9CIqwWhFmYHJBSzlbJQ
+ eV/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OPobJVv/bg8YqK/ZN142RvDlQ5+alsiGLy9Ctc2eeRc=;
- b=IkbAehh/ffoDi1PQ0txOKLRhPOZ5ua7Q+8M9GPw4rNL3u9SdytDKYzWqXRMrIpmtQY
- chzwMzmOLPOCEAkzIpOv7mUaoVyJMn5ZuVSySzAJfB7ab65VM/91r0G6wMQSpNTKYUWF
- HKipk41nikB/PBktYeZXHMHEr+PXEpGcMG0PAs6yUC5iYj8M0jNBggn4II99bFdJAsbI
- VnGrh8vbg9u3Ipl7LIsWmrc5ypibsY0PSP5cSi6kJVXPtQT8U3vuw8P5EsVmKQjzABCi
- RfOLrdGKRXafWosPXcRoPpK6uf3zUJEGaRWn+IlVRc7IwTMkSXnd7o9jCBC6rP+WhA7N
- 7M7A==
-X-Gm-Message-State: AOAM5309mNrNXOvpbQUZlazcVyfCaClkecfS4RVIkRtNDtJ3QFEHmIWo
- zeHOWLwUrsRDzTM2ZvH4erPblgTD4grkGB32i9NCKQ==
-X-Google-Smtp-Source: ABdhPJy8w7MQLQiVBP9VtrV7LYjRkcZLtJb9wxIHc2sFvxWoy8ji84ak6c55/GDjH5Gwcv3K0leK36ybWDfY1J0pRIc=
-X-Received: by 2002:a9d:67d6:: with SMTP id c22mr26096902otn.221.1593099798111; 
- Thu, 25 Jun 2020 08:43:18 -0700 (PDT)
+ bh=K+p06Jf57EbEv8jUo9zuAl0cwALSt9/uJraMe9mgTqs=;
+ b=blccrta4Pp8DIgeOwfsRCByhvHqJorlfekOMMEaj93LyhNLVfrgNwYp0JOka/JWIpU
+ 9IIYneJfJA3S7soqxDx/3vCI5a5IVjDLuUmS5c2W28z3gcvlXp20rEmi6nsKZM1liPMW
+ T4bvy5Mx0P4t8GTaEn/4U5ueuPMtiE30KFKh7IhPB5EutoAbeHrkVG8KUcytNQbciw4S
+ wmfdy1+xhxtoiIjZ9K6AzdVZyofUXVSVgwDRd9AzW8NdxH0N2h1mgHozW2q7I1MZAe7y
+ DtAc5NHle35U/9V9/fTVES6OgT1lGMdk0hp+0JMPZUQO8F/Gj8WQjFHqjEBQAO+Xm1Gb
+ Pn3g==
+X-Gm-Message-State: AOAM532iYyiF6naXbGBROkn48TCSsJ/a42nPQH7j18oXN0ZDcjDIV/P1
+ 4ytIEXGwOstqz7TvROPQK/xJPb71SGTs2tVi2fAAKw==
+X-Google-Smtp-Source: ABdhPJx9cN4O+YS5kO9A6JznpZginqKkNDbLC/oTwvPL8DmYbpNwXJQQ2VjsnTPtr3u+kuiqPrNMn/pBWm8IOOA07bc=
+X-Received: by 2002:aca:568c:: with SMTP id k134mr2604156oib.48.1593100263233; 
+ Thu, 25 Jun 2020 08:51:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200611161500.23580-1-eric.auger@redhat.com>
- <20200611161500.23580-9-eric.auger@redhat.com>
-In-Reply-To: <20200611161500.23580-9-eric.auger@redhat.com>
+References: <20200624104917.375143-1-pbonzini@redhat.com>
+In-Reply-To: <20200624104917.375143-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 16:43:07 +0100
-Message-ID: <CAFEAcA8_ESO6ofRTgh2z2fvmaASSrOKg7_bRqsuR=DEv346p=w@mail.gmail.com>
-Subject: Re: [PATCH RESEND 8/9] hw/arm/smmuv3: Get prepared for range
- invalidation
-To: Eric Auger <eric.auger@redhat.com>
+Date: Thu, 25 Jun 2020 16:50:52 +0100
+Message-ID: <CAFEAcA_qGeAaKbfRn4TsP4sAA-Q2XYjh+0o5s4p2dp5SN6Mirg@mail.gmail.com>
+Subject: Re: [PULL 00/31] Misc patches for 2020-06-24
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x236.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,29 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 17:18, Eric Auger <eric.auger@redhat.com> wrote:
+On Wed, 24 Jun 2020 at 11:51, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Enhance the smmu_iotlb_inv_iova() helper with range invalidation.
-> This uses the new fields passed in the NH_VA and NH_VAA commands:
-> the size of the range, the level and the granule.
+> The following changes since commit 171199f56f5f9bdf1e5d670d09ef1351d8f01bae:
 >
-> As NH_VA and NH_VAA both use those fields, their decoding and
-> handling is factorized in a new smmuv3_s1_range_inval() helper.
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200619-3' into staging (2020-06-22 14:45:25 +0100)
 >
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> are available in the Git repository at:
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 7fc58934d34e939489e20af4c97aeb095c1f2b20:
+>
+>   i386: Mask SVM features if nested SVM is disabled (2020-06-24 04:37:59 -0400)
+>
 
-Haven't looked too closely at this patch, but see my remarks
-on patch 6 about keys and lookups.
+Hi; this has a 32-bit/64-bit format string issue, I'm afraid:
+
+/Users/pm215/src/qemu-for-merges/exec.c:2383:32: error: format
+specifies type 'unsigned long' but the argument has type 'uint64_t'
+(aka 'unsigned long long') [-Werror,-Wformat]
+                   file_align, mr->align);
+                   ~~~~~~~~~~~~^~~~~~~~~~
+/Users/pm215/src/qemu-for-merges/include/qapi/error.h:166:35: note:
+expanded from macro 'error_setg'
+                        (fmt), ## __VA_ARGS__)
+                         ~~~      ^~~~~~~~~~~
+
+(It also had a trivial rebase conflict with master in hw/arm/virt.c.)
 
 thanks
 -- PMM
