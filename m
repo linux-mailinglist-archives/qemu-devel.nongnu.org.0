@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B41209C7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:07:50 +0200 (CEST)
-Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E670209C82
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:09:22 +0200 (CEST)
+Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joOnN-0003LY-VP
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
+	id 1joOor-0005NY-IK
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joOmL-0002UB-1E
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:06:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25467
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1joOmp-0003F4-IX
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:07:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51375
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joOmI-0002FT-LM
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:06:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1joOmn-0002KA-9D
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:07:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593079601;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1593079632;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cPM8hmQFimJ3RIWgoZeGaQYHU2Bgjbg+ZoiuxRT969A=;
- b=MMZ6I5lIGMmJUZbOdzJI12LJe4v1loEdZLgNuDSWO/hbMg76f7i2R2EXzrn+vzgXTW946F
- WY3sLvRzKl4L1+bdutASUqV1tY8J7QLgjA1Bq8sGcy2Kwg/FFNXY8LvlmECoIwVb87yn1y
- v1Ls4wdNjF1hREqxCL8uBdBwxzhT3Hk=
+ bh=94NTy+WJjz/PzbnAJg63mZ5vF2J89DxMjCp1e+acriQ=;
+ b=OBrp2v/Wk7v3DGhrA8TlYsNYPONLAa+vmSPttB/rhEA2a3J8B0T9+XibV6RN7Lmy16AQg7
+ CscB5uQiGBJAP12iAzXbkxGCn3b2ut3Qtk/HHR1JOfElMu5B4awlrhakHmCWF5jq+c05V/
+ SqXHY4/Zzv492AN8smvXAFOKB73J6NQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-5SuLjG8aNzihclL0Obnuxg-1; Thu, 25 Jun 2020 06:06:38 -0400
-X-MC-Unique: 5SuLjG8aNzihclL0Obnuxg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-242-AqvxZ_0NM7WiQ2YL_qu2uw-1; Thu, 25 Jun 2020 06:07:10 -0400
+X-MC-Unique: AqvxZ_0NM7WiQ2YL_qu2uw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ECEF1800D4A;
- Thu, 25 Jun 2020 10:06:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C10D5BACC;
- Thu, 25 Jun 2020 10:06:31 +0000 (UTC)
-Subject: Re: [PULL 07/15] hw/timer: RX62N 8-Bit timer (TMR)
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200621124807.17226-1-f4bug@amsat.org>
- <20200621124807.17226-8-f4bug@amsat.org>
- <CAFEAcA8c2dywr=Zxz1ExAV-48JwFU5vbBDDfA=_KE98XamnXiA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b0ed03f2-55b9-43a9-32fb-acd6637114cd@redhat.com>
-Date: Thu, 25 Jun 2020 12:06:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB681800D4A;
+ Thu, 25 Jun 2020 10:07:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED4ACA3944;
+ Thu, 25 Jun 2020 10:07:04 +0000 (UTC)
+Date: Thu, 25 Jun 2020 11:07:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC 2/3] gitlab: build all container images during CI
+Message-ID: <20200625100701.GE1009994@redhat.com>
+References: <20200622153318.751107-1-berrange@redhat.com>
+ <20200622153318.751107-3-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8c2dywr=Zxz1ExAV-48JwFU5vbBDDfA=_KE98XamnXiA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200622153318.751107-3-berrange@redhat.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -70,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,37 +83,336 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2020 11.25, Peter Maydell wrote:
-[...]
->> +static uint64_t tmr_read(void *opaque, hwaddr addr, unsigned size)
->> +{
+On Mon, Jun 22, 2020 at 04:33:17PM +0100, Daniel P. Berrangé wrote:
+> We have a number of container images in tests/docker/dockerfiles
+> that are intended to provide well defined environments for doing
+> test builds. We want our CI system to use these containers too.
 > 
-> In this function Coverity reports a missing "break" (CID 1429977):
+> This introduces builds of all of them as the first stage in the
+> CI, so that the built containers are available for later build
+> jobs. The containers are setup to use the GitLab container
+> registry as the cache, so we only pay the penalty of the full
+> build when the dockerfiles change. The main qemu-project/qemu
+> repo is used as a second cache, so that users forking QEMU will
+> see a fast turnaround time on their CI jobs.
 > 
->> +    case A_TCORA:
->> +        if (size == 1) {
->> +            return tmr->tcora[ch];
->> +        } else if (ch == 0) {
->> +            return concat_reg(tmr->tcora);
->> +        }
-> 
-> Here execution can fall through but there is no 'break' or '/* fallthrough */'.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
+>  .gitlab-ci.yml              |   3 +
+>  2 files changed, 251 insertions(+)
+>  create mode 100644 .gitlab-ci.d/containers.yml
 
-Should we maybe start compiling with -Wimplicit-fallthrough if the 
-compiler supports it, so that we do not always catch these problems 
-after they have been merged?
+Thinking about this at 3am with insomnia, I started considering possible
+ways this could result in CI failures. I came up with
 
-  Thomas
+ - Distro repos are unavialable due to transient network/mirror problems
+ 
+ - Distro pushes bad packages or changes something that invalidates QEMU
+   assumptions
+
+The first one can hit at any time, but I think that we're reasonably well
+insulated from it due to our usage of caching. Only a small number of CI
+jobs are going to actually trigger a full rebuild of an image, most will
+just hit the cache.
+
+The second one is probably not likely, *provided* we only use stable branches
+of distros. It looks like we're ok in that regard as we're not using Debian
+Sid, or Fedora rawhide for any images currently.
+
+If we did want to reduce the risk though, we could mark some of the
+container jobs as non-fatal. We could mark the subset of images that are
+not actually required by later build jobs that we currently have.
+
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> new file mode 100644
+> index 0000000000..ea1edbb196
+> --- /dev/null
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -0,0 +1,248 @@
+> +
+> +
+> +.container_job_template: &container_job_definition
+> +  image: docker:stable
+> +  stage: containers
+> +  services:
+> +    - docker:dind
+> +  before_script:
+> +    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
+> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/ci-$NAME:latest"
+> +    - docker info
+> +    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+> +  script:
+> +    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
+> +    - sed -i -e "s,FROM qemu:,FROM $CI_REGISTRY_IMAGE/ci-," tests/docker/dockerfiles/$NAME.docker
+> +    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
+> +    - docker push "$TAG"
+> +  after_script:
+> +    - docker logout
+> +
+> +amd64-centos7-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: centos7
+> +
+> +amd64-centos8-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: centos8
+> +
+> +amd64-debian10-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: debian10
+> +
+> +amd64-debian11-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: debian11
+> +
+> +amd64-debian9-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: debian9
+> +
+> +amd64-debian9-mxe-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian9-container']
+> +  variables:
+> +    NAME: debian9-mxe
+> +
+> +alpha-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-alpha-cross
+> +
+> +amd64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-amd64-cross
+> +
+> +amd64-debian-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-amd64
+> +
+> +arm64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-arm64-cross
+> +
+> +arm64-test-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian11-container']
+> +  variables:
+> +    NAME: debian-arm64-test-cross
+> +
+> +armel-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-armel-cross
+> +
+> +armhf-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-armhf-cross
+> +
+> +hppa-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-hppa-cross
+> +
+> +m68k-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-m68k-cross
+> +
+> +mips64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-mips64-cross
+> +
+> +mips64el-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-mips64el-cross
+> +
+> +mips-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-mips-cross
+> +
+> +mipsel-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-mipsel-cross
+> +
+> +powerpc-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-powerpc-cross
+> +
+> +ppc64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-ppc64-cross
+> +
+> +ppc64el-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-ppc64el-cross
+> +
+> +riscv64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-riscv64-cross
+> +
+> +s390x-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-s390x-cross
+> +
+> +sh4-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-sh4-cross
+> +
+> +sparc64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian10-container']
+> +  variables:
+> +    NAME: debian-sparc64-cross
+> +
+> +tricore-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer2
+> +  needs: ['amd64-debian9-container']
+> +  variables:
+> +    NAME: debian-tricore-cross
+> +
+> +win32-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer3
+> +  needs: ['amd64-debian9-mxe-container']
+> +  variables:
+> +    NAME: debian-win32-cross
+> +
+> +win64-debian-cross-container:
+> +  <<: *container_job_definition
+> +  stage: containers-layer3
+> +  needs: ['amd64-debian9-mxe-container']
+> +  variables:
+> +    NAME: debian-win64-cross
+> +
+> +xtensa-debian-cross-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: debian-xtensa-cross
+> +
+> +cris-fedora-cross-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: fedora-cris-cross
+> +
+> +amd64-fedora-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: fedora
+> +
+> +i386-fedora-cross-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: fedora-i386-cross
+> +
+> +amd64-ubuntu1804-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: ubuntu1804
+> +
+> +amd64-ubuntu2004-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: ubuntu2004
+> +
+> +amd64-ubuntu-container:
+> +  <<: *container_job_definition
+> +  variables:
+> +    NAME: ubuntu
+> +
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 9fdc752ea6..72d688875f 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -1,10 +1,13 @@
+>  stages:
+>    - containers
+> +  - containers-layer2
+> +  - containers-layer3
+>    - build
+>  
+>  include:
+>    - local: '/.gitlab-ci.d/edk2.yml'
+>    - local: '/.gitlab-ci.d/opensbi.yml'
+> +  - local: '/.gitlab-ci.d/containers.yml'
+>  
+>  .update_apt_template: &before_script_apt
+>   before_script:
+> -- 
+> 2.24.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
