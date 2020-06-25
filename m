@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE78209E9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:41:55 +0200 (CEST)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09247209EAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:42:55 +0200 (CEST)
+Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRCU-0002HX-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
+	id 1joRDR-0003zI-If
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRAS-0000RS-H8
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:39:48 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:41031)
+ id 1joRBS-0001lL-Ta
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:40:50 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:44963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRAQ-0004zJ-Lg
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:39:48 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id a21so4792226oic.8
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 05:39:46 -0700 (PDT)
+ id 1joRBQ-0005bn-6d
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:40:50 -0400
+Received: by mail-oi1-x242.google.com with SMTP id k6so934981oij.11
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 05:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0FciK1+sCRDz5881gAehpvhUcwMVOSku1r8KjtXPsTs=;
- b=FT70HuM4D8JyuA9nQxFIgoUpLZu9xyAN0P9tP51SFslQ2P5o9thGmAioZ6MYQfAr1O
- cgvZM6U1GLvP4ml7VGhnixiI8i08Q9E48ogFYU4zB5A1aF2GaEV0Z+JQSSiswmK4mAtF
- Ni5O54qLnlSbfYIVcMYNb8Ee7sCB5waQMjHpr72A7FwnYjItcVCj2I69G2reGJJyLWME
- M9Q2P1G6wkxDBNaBeD6xRTlkGZoFfyn0yMCHWqNaeODEGrh01YVlsJwp+/pdu+OpPj4H
- KLf5FrgLoYMbidUueUef8nbR+RdnWEc/WbtJt0g18ZYEiV3tqw09rixG3R+tYtVx+Mr5
- HtnQ==
+ :cc; bh=I5yiG2YU4YSGOf5U80G+4i+r3hM5kcmgLvlozrOrOSs=;
+ b=SSVkk4FjfOSKFm1bwoLIOLUTWBDn1e4g5l4WF+DCAmissDuizscqckC3QHsp2WqZwz
+ 3753vgt1DG/tOx4nkbszygEV8ycL0bO4FREwBmX0TI9OUrXOiMiY2xu0EYYAl9ZmIM9U
+ sR60SdSYD4llJIrNq72XT/1q/ZNy7gjEasbwsA5D3ys+twQm7Aref3z0ZjPx5tQAOyFg
+ uFVqjM6q04TIEhyc+Q+76EIq32/NQspXrq+M0HT8Q+v80x6fqmS/WyVJlEAQQCFDcLTE
+ RS/SXvSleefQXJEE2oq2hUmHHWeyd8VxNwmZx7f1XXfYXwsN9qkm7Yo+nWd6t8jWXwMT
+ MZQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0FciK1+sCRDz5881gAehpvhUcwMVOSku1r8KjtXPsTs=;
- b=W75s2gcbXBumfffaXEL9MEc33pcLzsGpQpEczWrfkDGR/ixdj8n+WSzIpGYQ1Y5h5T
- YRdlntTsNsE1mFJTQvRd4g6Jm/8IAmpzKQ/GK/Wn3+O9Mv+sH20xx+GhVZvE8bzQJMFL
- Ck4bbJnvOGJMshen381NABMcN1JlGU7KKYClM63+IzlRpymafdDDYaotlCx5/YvKodSp
- 7RijGqcBOMNLmCdvF90OU01il7AmMUkF3w3/RmUdG/0w4vnRy2kbZ2iKOiznwR0mpmD+
- W6CZ+hwQ45ADxu/SOs+l0SobyNXSmKU93DQZ/sYaf5jVVS2M4voVuj1kxkup6XuwM6Zk
- /l5A==
-X-Gm-Message-State: AOAM530KIdNDou0TNmXagWLG+gn2Lfc4LW9vbjgQmaCSV7CSJkHxjv5h
- eHDukv1z9SwKV+DqfzoD0eCjM9a5HTEaF19J847gr0Z73mk=
-X-Google-Smtp-Source: ABdhPJyAhMhoEfFgI8yFaDs4M+W/ZcUv/5XmwENJHA6acoLGq7k7SzzDBChq9N6IPdX1qL2QIgOHNoyU+BJEATtekW8=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr1977776oia.163.1593088785588; 
- Thu, 25 Jun 2020 05:39:45 -0700 (PDT)
+ bh=I5yiG2YU4YSGOf5U80G+4i+r3hM5kcmgLvlozrOrOSs=;
+ b=hzP/yiL8LBUxQmJGf74mMJ8RRNVZ6kL56a3vaUz0vDo+JWpAMJ178tNO1bEdbPt3sM
+ IQBgYI4HDzl7c8HIs8o+DqEBl8jnJNGT1isFo2yHNUfGPpyOdBoGXFqKU022Z368bR00
+ 5wXJl0H2GQxWbGE8rGqpJ0cv1KoX+T3zG86Y2+RfQ4O9/uRF/4v82UmhWyGWzked4YLW
+ IWy3kzCX8UY7DObBwpyHTqXCvgGsnW3vtHXmjQAw88I2RSOj02z6s9IT+lUvjTJYGMZ8
+ IKb3zhYC2lk/CDzypJl8hIcb4bbH5vmVqb4+6WpHIdxAb+RKjROTFi9Dx4QanHzaH7f2
+ dxvA==
+X-Gm-Message-State: AOAM531jHvcmoQuFTfVArEajFes4zESwcZAndIL1jhRMG6VfCZnoW/LS
+ 5jOp04qDC3pdjzSPZVTEWbLBrMkk4gNHtUGpuALKGA==
+X-Google-Smtp-Source: ABdhPJwaYXkY9s5iri9TnG44OuSZc2j3vj4stcxcYbdpeynsr/yJp2P9Tu2B/sBzyYGJplxcwG084T3q0h94w1+D2LI=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr1980296oia.163.1593088847282; 
+ Thu, 25 Jun 2020 05:40:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200623142326.2349416-1-armbru@redhat.com>
-In-Reply-To: <20200623142326.2349416-1-armbru@redhat.com>
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
+ <20200623193658.623279-37-richard.henderson@linaro.org>
+In-Reply-To: <20200623193658.623279-37-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 13:39:34 +0100
-Message-ID: <CAFEAcA9wN+LCcVUwYNxXvbH0ZRpCqCh8Gtb0pKYBB7NDEdNKpg@mail.gmail.com>
-Subject: Re: [PULL 00/16] Qdev patches for 2020-06-23
-To: Markus Armbruster <armbru@redhat.com>
+Date: Thu, 25 Jun 2020 13:40:36 +0100
+Message-ID: <CAFEAcA-t=SPUWG2oPrmRz-yK+g7rpTwtJt2cATUgp0AT2VwZrQ@mail.gmail.com>
+Subject: Re: [PATCH v8 36/45] target/arm: Handle TBI for sve scalar + int
+ memory ops
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -64,8 +66,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,41 +80,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: david.spickett@linaro.org, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Jun 2020 at 15:24, Markus Armbruster <armbru@redhat.com> wrote:
+On Tue, 23 Jun 2020 at 20:37, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The following changes since commit 61fee7f45955cd0bf9b79be9fa9c7ebabb5e6a85:
+> We still need to handle tbi for user-only when mte is inactive.
 >
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/acceptance-testing-20200622' into staging (2020-06-22 20:50:10 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qdev-2020-06-23
->
-> for you to fetch changes up to 953cd66139b6e28fdc7cdbf28065a0a98ce7877c:
->
->   sd/milkymist-memcard: Fix error API violation (2020-06-23 16:07:21 +0200)
->
-> ----------------------------------------------------------------
-> Qdev patches for 2020-06-23
->
-> * Reject clash between -drive if=floppy and -global isa-fdc
-> * Deprecate configuring floppies with -global isa-fdc
-> * Deprecate -drive with bogus interface type
-> * Reject drive property override instead of screwing up
-> * Reject chardev property override instead of screwing up
-> * Various error handling improvements
-> * Extend iotests/172
->
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
