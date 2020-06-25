@@ -2,86 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AC9209B22
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 10:13:41 +0200 (CEST)
-Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7AE209B34
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 10:18:45 +0200 (CEST)
+Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joN0u-0006HT-7P
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 04:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
+	id 1joN5n-00082D-Ot
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 04:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1joMzv-0005LL-N9; Thu, 25 Jun 2020 04:12:39 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1joMzu-00050S-7d; Thu, 25 Jun 2020 04:12:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id k6so4860268wrn.3;
- Thu, 25 Jun 2020 01:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2nrmsGqfm7tqQzXIna5sGzQu8wm/8SJKvn06MtkbL1s=;
- b=VUV3eBaxNv0ZFjl654/ZxTDFbQt/gDmm1BLA1US7al64ZXFiT1B61I/CjM3EmZ9MxM
- jSvf7ikUG9B+BhjaZkIjgh/TED4rhWCpYF4Pm/i5jpvnnXpcPXWNw6G1jiUmfvO40oag
- qCpsZAZQbQgu2sRTcYZqxE1BGQ77VwPgY3T7FOAgiCs63WbvHp3VeQQxHaMXtouRVsbd
- xK4H3ApF2KdMQ6tyWUodw3SvbUkzDeqtLcKwGpyM0Ay+rT+AmqWbS9jEuwdTPaOvApxN
- kuwIYAzqP0AqO3YjAsI7mgv0bx4x2AMKydPu5nu92wDNyUYQ0e/rAlc6hx+XQxSScyK/
- k7OA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joN4w-0007cc-Pn
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 04:17:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37589
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joN4u-0007CI-3t
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 04:17:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593073066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/BJpgUR5uOHl6YWW2BIcgerbWzm2SHupWy0xshE4oj4=;
+ b=gctQRN14+BIc6djoNT8GWBYv6UeBrLSPMQ81BAsAC6PXNvHGYez+Zjbac4lbtTQ05NdYR0
+ jMvOnRDS8HTZCWYdpumTxsCrTA4BIAJD5Mh8RAke3STehW+wcuU+wGLjaY1OQ8uMAyN4No
+ UVJ0qfdUxEhGwwsGQzYjX1WB7GgGy8w=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-7j8Nmg_7NTK38rW8i9WFrg-1; Thu, 25 Jun 2020 04:17:42 -0400
+X-MC-Unique: 7j8Nmg_7NTK38rW8i9WFrg-1
+Received: by mail-wm1-f71.google.com with SMTP id g187so6343204wme.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 01:17:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2nrmsGqfm7tqQzXIna5sGzQu8wm/8SJKvn06MtkbL1s=;
- b=GyPj9DIPo7lGvqNd9WvPlFqN/3D+3yOOJs50i8FrXy7AyaLd+WcL1PdgMvedMVSdMF
- EuM/f9PSUqKFjEAbtJLlP5NApj9z9Tb5O/9coj1l6Fc2feiqKM4+B8X4fux2efEthq0N
- NDTXaFRdwJeMSlyMKJBVN7QHTqcnyVBYv7ibgxuy+ZiZJTQu5hz2MG/3j2cbnl/6DgT+
- k7CDD7pQVqMEKalq29c4qEO+HQeFg1KPfaPLYIzCVD/ATQHkbSl/aA+1YXspjtIdSFTR
- VbxHg8Rv7dnoAXQ0yFiPOMPHSey5lPsZPqxXaAeYGzdrrMZs8YaHTrMis3t/2EWspGQT
- vNXg==
-X-Gm-Message-State: AOAM530Kotsg/KLIWtbMBYXcdyR4Z1V+z3I3+2b3gDIv/JDjSZReswen
- 5wITSUkgGEP7/nzNZ1nGNoQ=
-X-Google-Smtp-Source: ABdhPJyhQIWU/SENaAbxirpuT16EQrWaDNJ988mzPdnGLTaOd3eMxfRK8E7LLMBZSVQWWOHH+fNILA==
-X-Received: by 2002:adf:f14c:: with SMTP id y12mr34969431wro.30.1593072756071; 
- Thu, 25 Jun 2020 01:12:36 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=/BJpgUR5uOHl6YWW2BIcgerbWzm2SHupWy0xshE4oj4=;
+ b=qaAnKGrX2CI+cFcsyQ5K/9JD6eGR4jghF0a/f4LCTsmcD04ZlnDt1kRZL9Z1wfiatm
+ zlS6ceJO7+v24dcG2wvgvMOkTI27J2wPAONrsl0T7KcO24s4GJMzGMsKUlgUDqLa4KNw
+ 3M2L8wRgCs0WPC+jET0FhdK4vPfVwtxvVaWZppICCKvHaDJSnhxtawbZmV9XEJPimlj2
+ efHb6JVHj3wa+CEaWF2zbNsw9L70AfmP+y3IeLknQ2CraLCpNrFYgAY0AC+MAFjEXN5M
+ vWf+j+1XDR/uTr0L5tI8NVsgExbFhIGax/F6DWvNYMg2NSE6PW65yQSa05ulaCnM8cw1
+ 5Mgg==
+X-Gm-Message-State: AOAM533dWNAIH877J35bEZSxkaMUzAqIcJuCJVh2FQajbXEWk5Q+A+C/
+ 7C8xw5bG5PBA5awjHNTq2dkOTvPoM5VE0q4xZSiK57LN7EgGInFadFaQJjs7dQW80MwJK0QcyJm
+ evcEvUpcawgoki/4=
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr2080617wmy.79.1593073060989; 
+ Thu, 25 Jun 2020 01:17:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzm34dFlcbPP123zHNp2bNBZjmqm2ptUl9C0QzFOF+J224j944alM0iDLlCBToc4nbd3VumNA==
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr2080585wmy.79.1593073060700; 
+ Thu, 25 Jun 2020 01:17:40 -0700 (PDT)
 Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h14sm14607344wrt.36.2020.06.25.01.12.34
+ by smtp.gmail.com with ESMTPSA id t188sm11556250wmt.27.2020.06.25.01.17.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 01:12:35 -0700 (PDT)
-Subject: Re: [PATCH v4 4/8] hw/misc/pca9552: Add a 'description' property for
- debugging purpose
-To: Markus Armbruster <armbru@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-References: <20200620225854.31160-1-f4bug@amsat.org>
- <20200620225854.31160-5-f4bug@amsat.org>
- <4d335933-9669-43e1-0966-5f0255142012@kaod.org>
- <34fe3d2b-6b41-0509-f172-5b45486fdf0c@amsat.org>
- <deccf836-48ef-7112-d66e-a8d3cc4a9681@kaod.org>
- <877dvv4pmg.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2d1b8b24-3b2c-d84e-8026-e369f6531247@amsat.org>
-Date: Thu, 25 Jun 2020 10:12:34 +0200
+ Thu, 25 Jun 2020 01:17:39 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] usb/hcd-xhci: Move qemu-xhci device to
+ hcd-xhci-pci.c
+To: Markus Armbruster <armbru@redhat.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Thomas Huth <thuth@redhat.com>
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1593008176-9629-3-git-send-email-sai.pavan.boddu@xilinx.com>
+ <87zh8rzi0e.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <d8e247a3-5b50-0889-2522-37f2d486fdf9@redhat.com>
+Date: Thu, 25 Jun 2020 10:17:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <877dvv4pmg.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87zh8rzi0e.fsf@dusky.pond.sub.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,77 +124,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?Q?=27Marc-Andr=c3=a9_Lureau=27?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 8:37 AM, Markus Armbruster wrote:
-> Cédric Le Goater <clg@kaod.org> writes:
+On 6/25/20 10:06 AM, Markus Armbruster wrote:
+> Sai Pavan Boddu <sai.pavan.boddu@xilinx.com> writes:
 > 
->> On 6/22/20 10:31 AM, Philippe Mathieu-Daudé wrote:
->>> On 6/22/20 8:27 AM, Cédric Le Goater wrote:
->>>> On 6/21/20 12:58 AM, Philippe Mathieu-Daudé wrote:
->>>>> Add a description field to distinguish between multiple devices.
-> 
-> Pardon my lack of imagination: how does this help you with debugging?
-
-Ah, the patch subject is indeed incorrect, this should be:
-"... for *tracing* purpose" (I use tracing when debugging).
-
-In the next patch, we use the 'description' property:
-
-+# pca9552.c
-+pca9552_gpio_status(const char *description, const char *buf) "%s GPIOs
-0-15 [%s]"
-
-So when the machine has multiple PCA9552 and guest accesses both,
-we can distinct which one is used. For me having "pca1" / "pca0"
-is easier to follow than the address of the QOM object.
-
-> 
->>>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>>>
->>>> Could it be a QOM attribute ? 
->>>
->>> What do you call a 'QOM attribute'?
->>> Is it what qdev properties implement?
->>> (in this case via DEFINE_PROP_STRING).
+>> Move pci specific devices to new file. This set the environment to move all
+>> pci specific hooks in hcd-xhci.c to hcd-xhci-pci.c.
 >>
->> I meant a default Object property, which would apply to all Objects. 
-> 
-> Good point.  Many devices have multiple component objects of the same
-> type.
-> 
->> What you did is fine, so :
+>> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>> ---
+>>  hw/usb/hcd-xhci-pci.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  hw/usb/hcd-xhci.c     | 32 ++------------------------
+>>  hw/usb/hcd-xhci.h     |  2 ++
+>>  3 files changed, 68 insertions(+), 30 deletions(-)
+>>  create mode 100644 hw/usb/hcd-xhci-pci.c
 >>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>
->> but, may be, a well defined child name is enough for the purpose.
+>> diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
+>> new file mode 100644
+>> index 0000000..26af683
+>> --- /dev/null
+>> +++ b/hw/usb/hcd-xhci-pci.c
+>> @@ -0,0 +1,64 @@
+>> +/*
+>> + * USB xHCI controller with PCI system bus emulation
 > 
-> object_get_canonical_path() returns a distinct path for each (component)
-> object.  The path components are the child property names.
+> Scratch "system".
 > 
-> Properties can have descriptions: object_property_set_description().
+>> + *
+>> + * Copyright (c) 2011 Securiforest
+>> + * Date: 2011-05-11 ;  Author: Hector Martin <hector@marcansoft.com>
+> 
+> Let's use the opportunity to drop the "Date: " part, because we don't
+> have it anywhere else.
 
-TIL object_property_set_description :>
+Good opportunity to suggest the SPDX tags again :P
 
-Ah, there is no equivalent object_property_get_description(),
-we have to use object_get_canonical_path(). Hmm, not obvious.
+/*
+ * SPDX-FileCopyrightText: 2011 Securiforest
+ * SPDX-FileContributor: Hector Martin <hector@marcansoft.com>
+ * SPDX-FileCopyrightText: 2020 Xilinx Inc.
+ * SPDX-FileContributor: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+https://spdx.org/rdf/ontology/spdx-2-0-rc/dataproperties/fileContributor___-1635717172.html
 
 > 
-> Sufficient?
+>> + * Based on usb-ohci.c, emulates Renesas NEC USB 3.0
+>> + * Date: 2020-03-01; Author: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> 
+> And no new "Date: " parts, please.
+> 
+>> + * Moved the pci specific content for hcd-xhci.c to hcd-xhci-pci.c
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>> + */
+> [...]
+> 
 
-I don't know... This seems a complex way to do something simple...
-This is already a QDEV. Having to use QOM API seems going
-backward, since we have the DEFINE_PROP_STRING() macros available
-in "hw/qdev-properties.h".
-
-Maybe I'm not seeing the advantages clearly. I'll try later.
-
-Thanks for your review,
-
-Phil.
 
