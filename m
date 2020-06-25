@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580DC209C6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:04:02 +0200 (CEST)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD2B209C78
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:06:05 +0200 (CEST)
+Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joOjh-0007Fd-Da
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
+	id 1joOlg-0000iW-PT
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joOiV-0006Bq-Aw
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:02:48 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joOiT-0001Hq-0b
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:02:46 -0400
-Received: by mail-ot1-x344.google.com with SMTP id u23so4691038otq.10
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 03:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Exz6aPsYoru1iE9XY77uXTMscZc4FZwRIdoc1GW/alU=;
- b=QM9dVuZ2WlLxyWkLjfsLs5BrME11RLrbShJufXwY/jvM6ThICJOqFkeB5ZzeUR1coZ
- LCeIi3Oa1pyjTPCC5/9kJNKILB21q1eHh+9IoqnnvYA1K9YlH955rGOv+nXN1qdMq8B0
- oZzbpaS6k4WKGqNHYmfF9OzErHZHO28T1Niv4shpevZYKtbvHPXYEj8vUA6LT0HHTt0H
- /ZeEqva467qNW60AlwdL90g3yky5a9Fzn1OeZqnQHUgDwo57AHTv9or5rF9L+crS3cl2
- hfuy3jG9X38NViYKY2rZ6rEDd3y5+ejC7Ni/TcelfU1w0pIHdfOJlX0gqaXCf2gBFTrR
- 9t6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Exz6aPsYoru1iE9XY77uXTMscZc4FZwRIdoc1GW/alU=;
- b=IF5bJLW5DdGu73o5iLBJYSmIOY6dyiSvMKMb9zOO0ZNMzmOZfHcKR3q782SPvDz404
- xg7ux/6flokteiWQcG9084IDLRvqweM4mhqRFoS7t8bt594eY7LbC4khcSNzzLOCvfL5
- fvv89ivoQaLVGiqHihKAErjgTjbXsX4njXdWw1Xbi4fGFkG8t6Qj7FGrpuy7jKxtlVBr
- WV9vNz1iD+0No+fE+tr/ObVlzCahVbJYs2N9GVeFx9EvmOK6s3/76IjQCGaihJp7pPtH
- MA1mgQWJVPsbrz4aVjycCNuDvNwPUkn0rfAmnr+ZtjedKjONWAotr0pXvkU14mjRPGxC
- 83JA==
-X-Gm-Message-State: AOAM530YEXqvq0Kt/XJ8xhfBXtoqgwSrVxyquBlt2gckca6WAJcIPbyy
- Ww7tZrvBG/gJ+j7G5/Ty3TZoDm/CFP8TyGDjid2gYg==
-X-Google-Smtp-Source: ABdhPJyO36ZMJbCux2T/cLiK41h25Zyzb9LAF8BDrUVTpHhTl2Fjy6rmAACDbKvDYaDrDyI7Vvvu3jFZ0dOcrjjes7o=
-X-Received: by 2002:a4a:9528:: with SMTP id m37mr26828970ooi.85.1593079359797; 
- Thu, 25 Jun 2020 03:02:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1joOkS-0007lT-6r
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1joOkQ-0001YW-Am
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:47 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05PA3gE1144519
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:43 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31vbmtxkkf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:43 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05PA4gHG150187
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:42 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31vbmtxkj5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jun 2020 06:04:42 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PA1VFx025021;
+ Thu, 25 Jun 2020 10:04:40 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 31uusjhkd9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jun 2020 10:04:40 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 05PA4bgA64946646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 25 Jun 2020 10:04:37 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C1D8B4203F;
+ Thu, 25 Jun 2020 10:04:37 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F1AF42041;
+ Thu, 25 Jun 2020 10:04:37 +0000 (GMT)
+Received: from marcibm.ibmuc.com (unknown [9.145.42.231])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 25 Jun 2020 10:04:37 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: <qemu-devel@nongnu.org>
+Subject: [RFC 0/4] Enable virtio-fs on s390x
+Date: Thu, 25 Jun 2020 12:04:26 +0200
+Message-Id: <20200625100430.22407-1-mhartmay@linux.ibm.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20200624132625.27453-1-eric.auger@redhat.com>
- <20200624111624-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200624111624-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 11:02:28 +0100
-Message-ID: <CAFEAcA-io6LX4uUvHat2oBE-C_0JLRew_L8r8ej28UNPvhQFRA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/5] VIRTIO-IOMMU probe request support and MSI bypass
- on ARM
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-25_04:2020-06-25,
+ 2020-06-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
+ phishscore=0 clxscore=1015 cotscore=-2147483648 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006250062
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 06:04:43
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,23 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- bbhushan2@marvell.com, Eric Auger <eric.auger.pro@gmail.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Jun 2020 at 16:16, Michael S. Tsirkin <mst@redhat.com> wrote:
-> Virtio bits look OK:
->
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+This RFC is about enabling virtio-fs on s390x. For that we need
+ + some shim code (first patch), and we need
+ + libvhost-user to deal with virtio endiannes as mandated by the spec.
+ 
+The second part is trickier, because unlike QEMU we are not certain
+about the guest's native endianness, which is needed to handle the
+legacy-interface appropriately. In fact, this is the reason why just
+RFC.
 
-I can take it via the arm tree once it's ready. I had a
-comment on patch 5 and it looks like Markus had a question
-about patch 2, though.
+One of the open questions is whether to build separate versions, one
+for guest little endian and one for guest big endian, or do we want
+something like a command line option? (Digression on the libvirt
+modeling)
 
-thanks
--- PMM
+A third option would be to refuse legacy altogether.
+
+libvhost-access.h is based on hw/virtio/virtio-access.h.
+
+
+How to use?
+
+For general instructions how to use virtio-fs (on x86) please have a
+look at https://virtio-fs.gitlab.io/howto-qemu.html. Most of the
+instructions can also be applied on s390x.
+
+In short:
+
+1. Install self-compiled QEMU with this patch series applied
+2. Prepare host and guest kernel so they support virtio-fs
+
+Start virtiofsd on the host
+
+ $ virtiofsd -f --socket-path=/tmp/vhostqemu -o source=/tmp/shared
+
+Now you can start QEMU in a separate shell on the host:
+
+ $ qemu-system-s390x -machine type=s390-ccw-virtio,accel=kvm,memory-backend=mem \
+   -object memory-backend-file,id=mem,size=2G,mem-path=/dev/shm/virtiofs,share=on,prealloc=on,prealloc-threads=1 \
+   -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-ccw,queue-size=1024,chardev=char0,tag=myfs \
+   -drive if=virtio,file=disk.qcow2 \
+   -m 2G -smp 2 -nographic
+
+Log into the guest and mount it
+
+ $ mount -t virtiofs myfs /mnt
+
+
+Halil Pasic (1):
+  virtio: add vhost-user-fs-ccw device
+
+Marc Hartmayer (3):
+  libvhost-user: print invalid address on vu_panic
+  libvhost-user: handle endianness as mandated by the spec
+  HACK: Hard-code the libvhost-user.o-cflags for s390x
+
+ Makefile.objs                           |   1 +
+ contrib/libvhost-user/libvhost-access.h |  87 +++++++++++++++++
+ contrib/libvhost-user/libvhost-user.c   | 124 ++++++++++++------------
+ hw/s390x/Makefile.objs                  |   1 +
+ hw/s390x/vhost-user-fs-ccw.c            |  74 ++++++++++++++
+ 5 files changed, 227 insertions(+), 60 deletions(-)
+ create mode 100644 contrib/libvhost-user/libvhost-access.h
+ create mode 100644 hw/s390x/vhost-user-fs-ccw.c
+
+-- 
+2.25.4
+
 
