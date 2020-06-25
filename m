@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E291B209CFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:41:11 +0200 (CEST)
-Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017D2209CFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:41:36 +0200 (CEST)
+Received: from localhost ([::1]:48774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPJd-00049b-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
+	id 1joPK3-0004lq-0m
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1joPID-00037L-AU
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29291
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1joPIA-0003tv-F9
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593081576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kWctq30849pJVR+fH0XbgScPbbyrYYxvYxp/vNe8o4M=;
- b=c4BiaJRfn6wOWY/SjSFb5i0h6Kg0RMV1On0OogipHppNABR2Hhfo2L2litJ5q19EM8FjKS
- Hh1zBuClSedVB4OEncwxWuzpRY4UEiiuF1pYVpraN3XxPtHZ0s0bPvDJOZqcwqJTGJbyCc
- TMGQ0kSJmX3HkqcsGx3XJpsyRKmbQx4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-kjw2mTJuO2OkZcVJrO_sjg-1; Thu, 25 Jun 2020 06:39:31 -0400
-X-MC-Unique: kjw2mTJuO2OkZcVJrO_sjg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 496AA1800D4A;
- Thu, 25 Jun 2020 10:39:30 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-129.ams2.redhat.com [10.36.113.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52EFE7C1EE;
- Thu, 25 Jun 2020 10:39:29 +0000 (UTC)
-Date: Thu, 25 Jun 2020 12:39:27 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PULL 00/43] Block layer patches
-Message-ID: <20200625103927.GB6878@linux.fritz.box>
-References: <20200617144909.192176-1-kwolf@redhat.com>
- <CAFEAcA869qxSMaZiw2Hz-ESFbRL+Mq9Yoq=pGRBbL8oUV7Gj=Q@mail.gmail.com>
- <20200625083911.pb3637si62cztza7@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joPIP-0003OR-7O
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:53 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joPIM-0003xj-M5
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:52 -0400
+Received: by mail-ot1-x341.google.com with SMTP id t6so4778901otk.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 03:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y0tl/LRYmxKEARCyKj8ORv9XyuR7fStN6OqdSH4iSXE=;
+ b=QU7eNz2nPOTt/qp2wSppObKa90nGSzNeafrQrlhlunwEe67du3H4831Fss8a8G1uCn
+ XRnaRCZmAtFcREyY+9lqbtwakX+Yc6lVmkCR1u6ptmNenCeiY6tfvr5bvA8xVxmuF87Z
+ F7Hq3s5J2ezFLGJ7M2UiN+7xXRHQ5GdZPvfPdYMiF6qxZVw7998rcKRC0CN56Hn2R4uj
+ YoOTEEFIGY6INHLuG45kZL1iYpal/A3H4/dPJa3+BvLAUgkE/H6GK+Nm7cVicZqATPt8
+ 6dyLDQ34PAK3Nbu+SfgQxstsApI5LFOXEMD5vNUT5rsIXObQ3Mll+Pz3UmBxkmpdxXGy
+ NcWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y0tl/LRYmxKEARCyKj8ORv9XyuR7fStN6OqdSH4iSXE=;
+ b=WRyGBQ1tpnqdb0cpd/pre1uc2ckgEDvsSCnzLOUuUKmb+8gFhd8T0ySk5vaHlneP+a
+ tBHTEtUz66dQ9o0Fw54CliZKTj1TIWBE4bO4XkR+rOKs6DlWj3knPJhsphoMf1YH+bZt
+ stom/YWi+DfSzMfQAE7QGyBGSfx0Tukvi7e68/LBa55vDt/Da+IpnQYqSyhmUw/WSHM+
+ TmSIEb5uBCO+biqDJ/MBMBCtzh/iG4X5bcwg9YDN4QjlubDACcpzpINcAevf4JL1OL5A
+ WCL8HZ8JeO4Paukx5zlEKIQa2Vx2YVGmO5NRRLlOOWpxbF9VSHHhAtkqYrzn1xQdrfm5
+ lkEQ==
+X-Gm-Message-State: AOAM5300fUUcgfAK2Z6D3NXpCKsCYFDSNS0RumP/3mZ9qla6j8A6NKXv
+ uXMZIMakX2/XcrcWBh4dQbSYs8Oy184b1+8swiEtVQ==
+X-Google-Smtp-Source: ABdhPJxiUi3EiWToydRRGXtu6M12FfIRzh1DT0Yvj4YdcufUNvmnVdTDiIBavIBywPGcByJ2Zvp696sLXqKt+JNWmL8=
+X-Received: by 2002:a4a:2f15:: with SMTP id p21mr15838587oop.20.1593081588979; 
+ Thu, 25 Jun 2020 03:39:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200625083911.pb3637si62cztza7@apples.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
+ <20200623193658.623279-12-richard.henderson@linaro.org>
+In-Reply-To: <20200623193658.623279-12-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 25 Jun 2020 11:39:37 +0100
+Message-ID: <CAFEAcA88cAAd0o9MON6ioyxy471GVzv4Y4y57=1-2NnENb=EaQ@mail.gmail.com>
+Subject: Re: [PATCH v8 11/45] target/arm: Implement the ADDG, SUBG instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,71 +79,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: david.spickett@linaro.org, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.06.2020 um 10:39 hat Klaus Jensen geschrieben:
-> On Jun 18 15:30, Peter Maydell wrote:
-> > On Wed, 17 Jun 2020 at 15:49, Kevin Wolf <kwolf@redhat.com> wrote:
-> > >
-> > > The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
-> > >
-> > >   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> > >
-> > > for you to fetch changes up to 3419ec713f04c323b030e0763459435335b25476:
-> > >
-> > >   iotests: Add copyright line in qcow2.py (2020-06-17 16:21:21 +0200)
-> > >
-> > > ----------------------------------------------------------------
-> > > Block layer patches:
-> > >
-> > > - enhance handling of size-related BlockConf properties
-> > > - nvme: small fixes, refactoring and cleanups
-> > > - virtio-blk: On restart, process queued requests in the proper context
-> > > - icount: make dma reads deterministic
-> > > - iotests: Some fixes for rarely run cases
-> > > - .gitignore: Ignore storage-daemon files
-> > > - Minor code cleanups
-> > >
-> > > ----------------------------------------------------------------
-> > 
-> > 
-> > Applied, thanks.
-> > 
-> > Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-> > for any user-visible changes.
-> > 
-> 
-> Kevin, can you add soemthing like the following to the changelog under
-> "Block devices"?
-> 
-> Emulated NVMe device (hw/block/nvme):
-> 
->   * Add the max_ioqpairs device parameter. The parameter specifies the
->     maximum number of supported I/O queue pairs and should be used
->     instead of the num_queues parameter. num_queues is not formally
->     deprecated, but the device will issue a warning if used. If neither
->     num_queues or max_ioqpairs are specified, device behavior is
->     unchanged from the previous default.
-> 
->   * Add the msix_qsize parameter. The parameter specifies the maximum
->     number of msix interrupt vectors supported by the device. If not
->     specified, device behavior is unchanged from the previous default.
+On Tue, 23 Jun 2020 at 20:37, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> +/*
+> + * Add/subtract (immediate, with tags)
+> + *
+> + *  31 30 29 28         23 22 21     16 14      10 9   5 4   0
+> + * +--+--+--+-------------+--+---------+--+-------+-----+-----+
+> + * |sf|op| S| 1 0 0 0 1 0 |o2|  uimm6  |o3| uimm4 |  Rn | Rd  |
+> + * +--+--+--+-------------+--+---------+--+-------+-----+-----+
 
-Sure, I've added this.
+Bit 23 should be '1'.
 
-If you want to have a wiki account so that you can edit the page
-yourself in the future, let me (or anyone else with a wiki account) know
-your preferred user name and we can create an account for you. Access is
-not supposed to be a privileged thing, we just require manual
-registration through an existing account to avoid spam.
+> + *
+> + *    op: 0 -> add, 1 -> sub
+> + */
+> +static void disas_add_sub_imm_with_tags(DisasContext *s, uint32_t insn)
+> +{
+> +    int rd = extract32(insn, 0, 5);
+> +    int rn = extract32(insn, 5, 5);
+> +    int uimm4 = extract32(insn, 10, 4);
+> +    int uimm6 = extract32(insn, 16, 6);
+> +    bool sub_op = extract32(insn, 30, 1);
+> +    TCGv_i64 tcg_rn, tcg_rd;
+> +    int imm;
+> +
+> +    /* Test all of sf=1, S=0, o2=0, o3=0.  */
+> +    if ((insn & 0xc040e000u) != 0x80000000u ||
 
-Kevin
+This bit pattern doesn't seem to match the comment:
+0xc is 0b1100 so that's sf and op, not sf and S;
+0xe is 0b1110 so that's testing the top bit of uimm4
+as well as op3. I think it should be 0xa040c000.
+Though the existence of this bug suggests that it would
+be clearer to test the individual fields :-)
 
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+
+Interestingly clang (6.0.0) gets pretty close to optimizing
+the field test version:
+
+bool foo(uint32_t insn) {
+   return (insn & 0xa040c000) != 0x80000000u;
+}
+
+bool bar(uint32_t insn) {
+   bool sf = extract32(insn, 31, 1);
+   bool s = extract32(insn, 29, 1);
+   bool o2 = extract32(insn, 22, 1);
+   int op2 = extract32(insn, 14, 2);
+
+   return sf != 1 || s != 0 || o2 != 0 || op2 != 0;
+}
+
+gives
+0000000000000000 <foo>:
+   0:   81 e7 00 c0 40 a0       and    $0xa040c000,%edi
+   6:   81 ff 00 00 00 80       cmp    $0x80000000,%edi
+   c:   0f 95 c0                setne  %al
+   f:   c3                      retq
+
+0000000000000010 <bar>:
+  10:   89 f8                   mov    %edi,%eax
+  12:   25 00 00 00 a0          and    $0xa0000000,%eax
+  17:   3d 00 00 00 80          cmp    $0x80000000,%eax
+  1c:   75 0a                   jne    28 <bar+0x18>
+  1e:   f7 c7 00 c0 40 00       test   $0x40c000,%edi
+  24:   0f 95 c0                setne  %al
+  27:   c3                      retq
+  28:   b0 01                   mov    $0x1,%al
+  2a:   c3                      retq
+
+(I don't know why it's split it into two tests: it's
+not that it's testing "must be 1" in one part and "must
+be 0" in the other because it has checked both sf and s
+in the first comparison.)
+
+gcc (7.4.0) makes more of a hash of it though:
+
+  10:   89 f8                   mov    %edi,%eax
+  12:   89 fa                   mov    %edi,%edx
+  14:   c1 e8 1f                shr    $0x1f,%eax
+  17:   c1 ea 1d                shr    $0x1d,%edx
+  1a:   83 f0 01                xor    $0x1,%eax
+  1d:   09 d0                   or     %edx,%eax
+  1f:   83 e0 01                and    $0x1,%eax
+  22:   75 13                   jne    37 <bar+0x27>
+  24:   89 f8                   mov    %edi,%eax
+  26:   c1 ef 16                shr    $0x16,%edi
+  29:   c1 e8 0e                shr    $0xe,%eax
+  2c:   83 e7 01                and    $0x1,%edi
+  2f:   83 e0 03                and    $0x3,%eax
+  32:   09 f8                   or     %edi,%eax
+  34:   0f 95 c0                setne  %al
+  37:   f3 c3                   repz retq
+
+thanks
+-- PMM
 
