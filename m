@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D27209EFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:57:54 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D553209F0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:59:38 +0200 (CEST)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRRw-0005EX-LG
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
+	id 1joRTd-0000jp-81
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQP-00030m-Qr
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54203
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQX-0003M9-Il
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39269
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQO-0003HU-1D
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:17 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQU-0003If-Le
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593089775;
+ s=mimecast20190719; t=1593089782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZsdfrZa9AABbOcAVi25FTFLZq4GcjtpS1hXB4cDpkc=;
- b=IxlxAzQF6Uf1msjH7br566wpIuQEBQrO/vSJDyW/Hnwl1tP26wo0xw7+ZCm4kGWiySFS+U
- GGZ+mTHoafF7M3bkaLTEimi6M632kCAcKqlVD9ZhM7gVhvVusdAmEg2tpEdZkzOc11FnXP
- 4I2asDuU2fVEXctDELtHOV0gccobZd4=
+ bh=j0s7PIFpwKJzAeMYCEDW5l1CJcqt2ghjNiVNPqlVX5c=;
+ b=euvNxXImDn37xun9fgMJHZZrWBemyOg3WGzKn7/wcj8JjL7jAZJwtZH1TjOQzJsUT15g34
+ 0mZ/5F5LhioYo2dM0/bdVIW1GvBsb3RNwYfUVo8LX+1d04ARah0LG+vPv23cPEkQZ+a2x+
+ U9mtC2c6xbWTV8KdH4MShSmLWouQEOM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-GBKJYLTzNs2MGj8VkdeaFQ-1; Thu, 25 Jun 2020 08:56:13 -0400
-X-MC-Unique: GBKJYLTzNs2MGj8VkdeaFQ-1
+ us-mta-154-mS6BTh83NT68-WVmmCtMhg-1; Thu, 25 Jun 2020 08:56:18 -0400
+X-MC-Unique: mS6BTh83NT68-WVmmCtMhg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 039EA800C64;
- Thu, 25 Jun 2020 12:56:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B464A804002;
+ Thu, 25 Jun 2020 12:56:16 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9902379304;
- Thu, 25 Jun 2020 12:56:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 530BF71660;
+ Thu, 25 Jun 2020 12:56:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 07/19] qcrypto/core: add generic infrastructure for crypto
- options amendment
-Date: Thu, 25 Jun 2020 14:55:36 +0200
-Message-Id: <20200625125548.870061-8-mreitz@redhat.com>
+Subject: [PATCH 09/19] block/amend: add 'force' option
+Date: Thu, 25 Jun 2020 14:55:38 +0200
+Message-Id: <20200625125548.870061-10-mreitz@redhat.com>
 In-Reply-To: <20200625125548.870061-1-mreitz@redhat.com>
 References: <20200625125548.870061-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,182 +84,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-This will be used first to implement luks keyslot management.
+'force' option will be used for some unsafe amend operations.
 
-block_crypto_amend_opts_init will be used to convert
-qemu-img cmdline to QCryptoBlockAmendOptions
+This includes things like erasing last keyslot in luks based formats
+(which destroys the data, unless the master key is backed up
+by external means), but that _might_ be desired result.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200608094030.670121-2-mlevitsk@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200608094030.670121-4-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/crypto.json       | 16 ++++++++++++++++
- block/crypto.h         |  3 +++
- crypto/blockpriv.h     |  8 ++++++++
- include/crypto/block.h | 22 ++++++++++++++++++++++
- block/crypto.c         | 17 +++++++++++++++++
- crypto/block.c         | 29 +++++++++++++++++++++++++++++
- 6 files changed, 95 insertions(+)
+ docs/tools/qemu-img.rst   | 5 ++++-
+ include/block/block.h     | 1 +
+ include/block/block_int.h | 1 +
+ block.c                   | 4 +++-
+ block/qcow2.c             | 1 +
+ qemu-img.c                | 8 +++++++-
+ qemu-img-cmds.hx          | 4 ++--
+ 7 files changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index b2a4cff683..aeb6c7ef7b 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -309,3 +309,19 @@
-   'base': 'QCryptoBlockInfoBase',
-   'discriminator': 'format',
-   'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
-+
-+
-+
-+##
-+# @QCryptoBlockAmendOptions:
-+#
-+# The options that are available for all encryption formats
-+# when amending encryption settings
-+#
-+# Since: 5.1
-+##
-+{ 'union': 'QCryptoBlockAmendOptions',
-+  'base': 'QCryptoBlockOptionsBase',
-+  'discriminator': 'format',
-+  'data': {
-+            } }
-diff --git a/block/crypto.h b/block/crypto.h
-index b935695e79..06e044c9be 100644
---- a/block/crypto.h
-+++ b/block/crypto.h
-@@ -91,6 +91,9 @@
- QCryptoBlockCreateOptions *
- block_crypto_create_opts_init(QDict *opts, Error **errp);
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 7f0737488a..e33f5575e3 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -253,11 +253,14 @@ Command description:
  
-+QCryptoBlockAmendOptions *
-+block_crypto_amend_opts_init(QDict *opts, Error **errp);
+ .. program:: qemu-img-commands
+ 
+-.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] -o OPTIONS FILENAME
++.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] [--force] -o OPTIONS FILENAME
+ 
+   Amends the image format specific *OPTIONS* for the image file
+   *FILENAME*. Not all file formats support this operation.
+ 
++  --force allows some unsafe operations. Currently for -f luks, it allows to
++  erase the last encryption key, and to overwrite an active encryption key.
 +
- QCryptoBlockOpenOptions *
- block_crypto_open_opts_init(QDict *opts, Error **errp);
+ .. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
  
-diff --git a/crypto/blockpriv.h b/crypto/blockpriv.h
-index 71c59cb542..3c7ccea504 100644
---- a/crypto/blockpriv.h
-+++ b/crypto/blockpriv.h
-@@ -62,6 +62,14 @@ struct QCryptoBlockDriver {
-                   void *opaque,
-                   Error **errp);
+   Run a simple sequential I/O benchmark on the specified image. If ``-w`` is
+diff --git a/include/block/block.h b/include/block/block.h
+index 25e299605e..86f9728f00 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -450,6 +450,7 @@ typedef void BlockDriverAmendStatusCB(BlockDriverState *bs, int64_t offset,
+                                       int64_t total_work_size, void *opaque);
+ int bdrv_amend_options(BlockDriverState *bs_new, QemuOpts *opts,
+                        BlockDriverAmendStatusCB *status_cb, void *cb_opaque,
++                       bool force,
+                        Error **errp);
  
-+    int (*amend)(QCryptoBlock *block,
-+                 QCryptoBlockReadFunc readfunc,
-+                 QCryptoBlockWriteFunc writefunc,
-+                 void *opaque,
-+                 QCryptoBlockAmendOptions *options,
-+                 bool force,
-+                 Error **errp);
-+
-     int (*get_info)(QCryptoBlock *block,
-                     QCryptoBlockInfo *info,
-                     Error **errp);
-diff --git a/include/crypto/block.h b/include/crypto/block.h
-index c77ccaf9c0..d274819791 100644
---- a/include/crypto/block.h
-+++ b/include/crypto/block.h
-@@ -144,6 +144,28 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateOptions *options,
-                                    void *opaque,
-                                    Error **errp);
+ /* check if a named node can be replaced when doing drive-mirror */
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 791de6a59c..066b9eaa40 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -440,6 +440,7 @@ struct BlockDriver {
+     int (*bdrv_amend_options)(BlockDriverState *bs, QemuOpts *opts,
+                               BlockDriverAmendStatusCB *status_cb,
+                               void *cb_opaque,
++                              bool force,
+                               Error **errp);
  
-+/**
-+ * qcrypto_block_amend_options:
-+ * @block: the block encryption object
-+ *
-+ * @readfunc: callback for reading data from the volume header
-+ * @writefunc: callback for writing data to the volume header
-+ * @opaque: data to pass to @readfunc and @writefunc
-+ * @options: the new/amended encryption options
-+ * @force: hint for the driver to allow unsafe operation
-+ * @errp: error pointer
-+ *
-+ * Changes the crypto options of the encryption format
-+ *
-+ */
-+int qcrypto_block_amend_options(QCryptoBlock *block,
-+                                QCryptoBlockReadFunc readfunc,
-+                                QCryptoBlockWriteFunc writefunc,
-+                                void *opaque,
-+                                QCryptoBlockAmendOptions *options,
-+                                bool force,
-+                                Error **errp);
-+
+     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
+diff --git a/block.c b/block.c
+index 6dbcb7e083..144f52e413 100644
+--- a/block.c
++++ b/block.c
+@@ -6482,6 +6482,7 @@ void bdrv_remove_aio_context_notifier(BlockDriverState *bs,
  
- /**
-  * qcrypto_block_calculate_payload_offset:
-diff --git a/block/crypto.c b/block/crypto.c
-index 973b57b3eb..dcf8b42bb2 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -202,6 +202,23 @@ block_crypto_create_opts_init(QDict *opts, Error **errp)
-     return ret;
+ int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                        BlockDriverAmendStatusCB *status_cb, void *cb_opaque,
++                       bool force,
+                        Error **errp)
+ {
+     if (!bs->drv) {
+@@ -6493,7 +6494,8 @@ int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                    bs->drv->format_name);
+         return -ENOTSUP;
+     }
+-    return bs->drv->bdrv_amend_options(bs, opts, status_cb, cb_opaque, errp);
++    return bs->drv->bdrv_amend_options(bs, opts, status_cb,
++                                       cb_opaque, force, errp);
  }
  
-+QCryptoBlockAmendOptions *
-+block_crypto_amend_opts_init(QDict *opts, Error **errp)
-+{
-+    Visitor *v;
-+    QCryptoBlockAmendOptions *ret;
-+
-+    v = qobject_input_visitor_new_flat_confused(opts, errp);
-+    if (!v) {
-+        return NULL;
-+    }
-+
-+    visit_type_QCryptoBlockAmendOptions(v, NULL, &ret, errp);
-+
-+    visit_free(v);
-+    return ret;
-+}
-+
+ /*
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0cd2e6757e..2ab0c382f7 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5340,6 +5340,7 @@ static void qcow2_amend_helper_cb(BlockDriverState *bs,
+ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+                                BlockDriverAmendStatusCB *status_cb,
+                                void *cb_opaque,
++                               bool force,
+                                Error **errp)
+ {
+     BDRVQcow2State *s = bs->opaque;
+diff --git a/qemu-img.c b/qemu-img.c
+index d7e846e607..10d81f09db 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -79,6 +79,7 @@ enum {
+     OPTION_DISABLE = 273,
+     OPTION_MERGE = 274,
+     OPTION_BITMAPS = 275,
++    OPTION_FORCE = 276,
+ };
  
- static int block_crypto_open_generic(QCryptoBlockFormat format,
-                                      QemuOptsList *opts_spec,
-diff --git a/crypto/block.c b/crypto/block.c
-index 6f42b32f1e..eb057948b5 100644
---- a/crypto/block.c
-+++ b/crypto/block.c
-@@ -150,6 +150,35 @@ qcrypto_block_calculate_payload_offset(QCryptoBlockCreateOptions *create_opts,
-     return crypto != NULL;
- }
+ typedef enum OutputFormat {
+@@ -4099,6 +4100,7 @@ static int img_amend(int argc, char **argv)
+     BlockBackend *blk = NULL;
+     BlockDriverState *bs = NULL;
+     bool image_opts = false;
++    bool force = false;
  
-+int qcrypto_block_amend_options(QCryptoBlock *block,
-+                                QCryptoBlockReadFunc readfunc,
-+                                QCryptoBlockWriteFunc writefunc,
-+                                void *opaque,
-+                                QCryptoBlockAmendOptions *options,
-+                                bool force,
-+                                Error **errp)
-+{
-+    if (options->format != block->format) {
-+        error_setg(errp,
-+                   "Cannot amend encryption format");
-+        return -1;
-+    }
-+
-+    if (!block->driver->amend) {
-+        error_setg(errp,
-+                   "Crypto format %s doesn't support format options amendment",
-+                   QCryptoBlockFormat_str(block->format));
-+        return -1;
-+    }
-+
-+    return block->driver->amend(block,
-+                                readfunc,
-+                                writefunc,
-+                                opaque,
-+                                options,
-+                                force,
-+                                errp);
-+}
+     cache = BDRV_DEFAULT_CACHE;
+     for (;;) {
+@@ -4106,6 +4108,7 @@ static int img_amend(int argc, char **argv)
+             {"help", no_argument, 0, 'h'},
+             {"object", required_argument, 0, OPTION_OBJECT},
+             {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
++            {"force", no_argument, 0, OPTION_FORCE},
+             {0, 0, 0, 0}
+         };
+         c = getopt_long(argc, argv, ":ho:f:t:pq",
+@@ -4153,6 +4156,9 @@ static int img_amend(int argc, char **argv)
+         case OPTION_IMAGE_OPTS:
+             image_opts = true;
+             break;
++        case OPTION_FORCE:
++            force = true;
++            break;
+         }
+     }
  
- QCryptoBlockInfo *qcrypto_block_get_info(QCryptoBlock *block,
-                                          Error **errp)
+@@ -4230,7 +4236,7 @@ static int img_amend(int argc, char **argv)
+ 
+     /* In case the driver does not call amend_status_cb() */
+     qemu_progress_print(0.f, 0);
+-    ret = bdrv_amend_options(bs, opts, &amend_status_cb, NULL, &err);
++    ret = bdrv_amend_options(bs, opts, &amend_status_cb, NULL, force, &err);
+     qemu_progress_print(100.f, 0);
+     if (ret < 0) {
+         error_report_err(err);
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 10b910b67c..b89c019b76 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -10,9 +10,9 @@ HXCOMM When amending the rST sections, please remember to copy the usage
+ HXCOMM over to the per-command sections in docs/tools/qemu-img.rst.
+ 
+ DEF("amend", img_amend,
+-    "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] -o options filename")
++    "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] [--force] -o options filename")
+ SRST
+-.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] -o OPTIONS FILENAME
++.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] [--force] -o OPTIONS FILENAME
+ ERST
+ 
+ DEF("bench", img_bench,
 -- 
 2.26.2
 
