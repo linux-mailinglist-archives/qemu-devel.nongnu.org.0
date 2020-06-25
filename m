@@ -2,67 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0248820A577
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:12:07 +0200 (CEST)
-Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741B120A56D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:05:16 +0200 (CEST)
+Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXI5-0003Sx-UY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45770)
+	id 1joXBS-00071O-NT
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1joXH3-00034A-IM
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1joXH0-0008Me-C4
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:11:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1joXGy-0002kq-4X
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 19:10:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2059B2E8105
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 19:10:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1joX7A-0002IB-2z; Thu, 25 Jun 2020 15:00:48 -0400
+Received: from mail-eopbgr80108.outbound.protection.outlook.com
+ ([40.107.8.108]:43330 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1joX75-0004TP-R2; Thu, 25 Jun 2020 15:00:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EqzdUkSRYXZpCcMJOwyCQ3+ipikm5VGLlIH6TRg8d4pJYLp2jAVXTYKbOH/pqpXfhzVkiQmdMGQ0maBYJ8zkaBa3QlUW7NPezz32AQgSfiFJjp/QB19ncuhSIHycePCsGHWDvoY1jkW3YntC9aFwYa/B14Ygyx1IeSNpAoUnnIFlO9OTs1a6+hTuo/sHw6LgE5+PeL8rMKG9apPmkWvJMnBwzp8S/L2yISz03t3Ua3Y3PWNXToQt3bm4u3m9o0QGD+GX0jhLKAnvBmK0vnfLUH8SSu5P2paTaWIWFKoCqmpAPzPTPJ1kj2VCqfyEFZtnPcpgg3jMbrdZ+odER4HBjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Lyt1MnTW3b2iMe/Fs7NvufdPyZmecUcFeq15B7Jpw0=;
+ b=mM2rByyP65XnGUwY3Rtx1h6QOBm34nUSfhKEbjpOYdGhfMZ6nOdUdefuphmL564nRnzcC62IitGDWctf4TfQlb8g4wderLT29BE06b5NGbk/LyylrqZwYvT066YryaZi6qEjgSVJ/TweZGuv/v8Stj6Y41wNbDG8eKHfI2AksfQkO9SDROvvApUY+vrJsmjqSOzZVoSFKadubv2/QQrDPaZUJrDw36BuVLdywpFHSzu8s3ge3pstisT5N+lsNZgixFYP0yMbIimVY8LFhLrDYuMzTs5r0JrEWfD0QIQmvMSb+pagvSOB1OZ/WebKr+sC8kpb/18G5Y0cTTBTvxVLGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Lyt1MnTW3b2iMe/Fs7NvufdPyZmecUcFeq15B7Jpw0=;
+ b=bdfpsIPWz/jzHwbQBxvqW/EJen/fNpnzOmrc5Nj1x5IAooUtQStGKR/prJPxH4dV+01PzL4E+nVKeJmj8ljQwRgYmJO4nmFzwoSEAfvPR/7V4wwF1A4qmT4BRs9QLW+XUbYzIRdjs9DRQreH21QzcAoGSM+o9v0CFdKASKyGJDs=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Thu, 25 Jun
+ 2020 19:00:39 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.020; Thu, 25 Jun 2020
+ 19:00:39 +0000
+Subject: Re: [PATCH 03/46] qdev: Smooth error checking of qdev_realize() &
+ friends
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200624164344.3778251-1-armbru@redhat.com>
+ <20200624164344.3778251-4-armbru@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f75c7f3b-477f-f662-5239-87a14c996aa8@virtuozzo.com>
+Date: Thu, 25 Jun 2020 22:00:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+In-Reply-To: <20200624164344.3778251-4-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0302CA0029.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Jun 2020 18:59:50 -0000
-From: =?utf-8?q?Eugenio_P=C3=A9rez?= <1885175@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: iommu
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eperezma
-X-Launchpad-Bug-Reporter: =?utf-8?q?Eugenio_P=C3=A9rez_=28eperezma=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Eugenio_P=C3=A9rez_=28eperezma=29?=
-Message-Id: <159311159018.14164.3191713731245794696.malonedeb@wampee.canonical.com>
-Subject: [Bug 1885175] [NEW] memory.c range assertion hit at full invalidating
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7dd2aa421e877d90e2fcfacb2220d108580ffe2b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:10:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.69) by
+ AM4PR0302CA0029.eurprd03.prod.outlook.com (2603:10a6:205:2::42) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21 via Frontend
+ Transport; Thu, 25 Jun 2020 19:00:38 +0000
+X-Originating-IP: [185.215.60.69]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1d8334af-a6ab-4e38-c6a3-08d8193a0d40
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54967D6EAA4DB7F37F96DD9BC1920@AM7PR08MB5496.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Forefront-PRVS: 0445A82F82
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j8hFD9EM8itGlLBbk5qjDMOLYw2KYSdswy9+e2l+qEAMNJV6FxIgl6oTOk6bx1UjYNQUik7l4aCSyAavdhdAs3kjCImLfO/rwBPk5ZJlFVGH/NxaYN6S1wkZvKOxSJJLSbSkILpGszCA+yzi2eTzOUAfqjBjzvULu6CpTXg/pN5apdTFkt3VBFozPlCNY383uJNtGoTCBB7JyjVMTJy/3zX7Sd5ExdLAZcVUyOfJnK5Rk787zZ/w1aMx6EELxDoLNWX3SsIRv98jIkpNJy0vo3hIZ3rnZ4ImIPjc0mgKGuNOMCfN41PlOZoildEFlI5iBCNiaJNC7w2QZZAYzAn825gn+j1E8p57XZrcYIrGDVp5sYGbljOBbyyeB6QoYsWK
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39840400004)(396003)(346002)(376002)(366004)(16526019)(6486002)(8936002)(478600001)(316002)(83380400001)(8676002)(16576012)(36756003)(4326008)(2906002)(26005)(186003)(5660300002)(956004)(66946007)(66556008)(86362001)(31696002)(2616005)(31686004)(66476007)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 46bVyb81ufGp+nB0mh/01ZPcmSdthljt2bKm+eEwhUFpVQLj14HnBdE5/BrewNth9hEfwIX4crtfpY2FQ3QNafLpQadRM61Owwd04n0Q85gIyGXUIjkHjeRh1UdKC8eWhYFEpDoWayTsjHN491CwcGYcCuoDqmTVF2XJr/Rqs6es9eNh7yPtdeMEqfX3v0tFZuL3tfZj5Z0fhsXWg4RrJoGy7ZZlgqBOUOmnSZTEhrOgW6cXe2kLGWo6cj877RWtMswVbeAUQvGACpdHOaMVGEWkvvoByjANZjAC5JgER4vE4YwLTjqrkmHa5B5/1npyeFeG5vd+1Ie7jeUigEAgKzIcU6rl5tS+Sfn0Qgg5HwhkN7Gnht7EE2PE3I45L7BjIMiC7RUEtr7JLyZa7fllq/6zI6THR/0UnIfiREI26Il/IKUs8Q1QqShmaBu3+fx4QZkk6MS+Fl/2vpwSoML2w9gfDyP0TXXSyLh5939ge0M=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d8334af-a6ab-4e38-c6a3-08d8193a0d40
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 19:00:39.5714 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CILD6CsOK+OBE24cx8PtiEJ1C+IJ4/dOkI60Dy9FCqYECOnsA5dYHVAQX1ZW9MiinxduXQQxnyUC2QcEHMdFEpFnFfYYK1djW1z6haRAo9U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
+Received-SPF: pass client-ip=40.107.8.108;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:00:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,434 +119,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885175 <1885175@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+24.06.2020 19:43, Markus Armbruster wrote:
+> Convert
+> 
+>      foo(..., &err);
+>      if (err) {
+>          ...
+>      }
+> 
+> to
+> 
+>      if (!foo(..., &err)) {
+>          ...
+>      }
+> 
+> for qdev_realize(), qdev_realize_and_unref(), qbus_realize() and their
+> wrappers isa_realize_and_unref(), pci_realize_and_unref(),
+> sysbus_realize(), sysbus_realize_and_unref(), usb_realize_and_unref().
+> Coccinelle script:
 
-I am able to hit this assertion when a Red Hat 7 guest virtio_net device
-raises an "Invalidation" of all the TLB entries. This happens in the
-guest's startup if 'intel_iommu=3Don' argument is passed to the guest
-kernel and right IOMMU/ATS devices are declared in qemu's command line.
+Please, also mention a command to run the script
 
-Command line: /home/qemu/x86_64-softmmu/qemu-system-x86_64 -name
-guest=3Drhel7-test,debug-threads=3Don -machine pc-q35-5.1,accel=3Dkvm,usb=
-=3Doff
-,dump-guest-core=3Doff,kernel_irqchip=3Dsplit -cpu
-Broadwell,vme=3Don,ss=3Don,vmx=3Don,f16c=3Don,rdrand=3Don,hypervisor=3Don,a=
-rat=3Don
-,tsc-adjust=3Don,umip=3Don,arch-
-capabilities=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don,skip-l1dfl-
-vmentry=3Don,rtm=3Don,hle=3Don -m 8096 -realtime mlock=3Doff -smp
-2,sockets=3D2,cores=3D1,threads=3D1 -uuid d022ecbf-679e-4755-87ce-eb87fc5bb=
-c5d
--display none -no-user-config -nodefaults -rtc base=3Dutc,driftfix=3Dslew
--global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -global
-ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don
--device intel-iommu,intremap=3Don,device-iotlb=3Don -device pcie-root-
-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,addr=
-=3D0x1
--device pcie-root-
-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x1.0x1 -device =
-pcie-
-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x1.0x2 -de=
-vice
-pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x1.0x3
--device pcie-root-
-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x1.0x4 -device =
-pcie-
-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x1.0x5 -de=
-vice
-pcie-root-port,port=3D0xe,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x1.0x6
--device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device v=
-irtio-
-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 -drive file=3D/home
-/virtio-test2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0 -device
-virtio-blk-pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddrive-virtio-disk0=
-,id
-=3Dvirtio-disk0,bootindex=3D1 -netdev tap,id=3Dhostnet0,vhost=3Don,vhostfor=
-ce=3Don
--device virtio-net-
-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:0d:1d:f2,bus=3Dpci.1,addr=3D=
-0x0,iommu_platform=3Don,ats=3Don
--device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.5,addr=3D0x0 -object rng-
-random,id=3Dobjrng0,filename=3D/dev/urandom -device virtio-rng-
-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.6,addr=3D0x0 -s -msg timestamp=3Don
+> 
+>      @@
+>      identifier fun = {isa_realize_and_unref, pci_realize_and_unref, qbus_realize, qdev_realize, qdev_realize_and_unref, sysbus_realize, sysbus_realize_and_unref, usb_realize_and_unref};
+>      expression list args, args2;
+>      typedef Error;
+>      Error *err;
+>      identifier errp;
+>      @@
+>      -      fun(args, &err, args2);
+>      -      if (err) {
+>      +      if (!fun(args, errp, args2)) {
+> 	       ... when != err
+>      -	   error_propagate(errp, err);
+> 	       ...
+> 	   }
+> 
+>      @@
+>      identifier fun = {isa_realize_and_unref, pci_realize_and_unref, qbus_realize, qdev_realize, qdev_realize_and_unref, sysbus_realize, sysbus_realize_and_unref, usb_realize_and_unref};
+>      expression list args, args2;
+>      typedef Error;
+>      Error *err;
+>      @@
+>      -      fun(args, &err, args2);
+>      -      if (err) {
+>      +      if (!fun(args, &err, args2)) {
+> 	       ...
+> 	   }
+> 
+> Fails to convert hw/arm/armsse.c, because Coccinelle gets confused by
+> ARMSSE being used both as typedef and function-like macro there.
+> Convert manually.
+> 
+> Eliminate error_propagate() that are now unnecessary.  Delete @err
+> that are now unused.  Clean up whitespace.
+> 
+> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+> ---
+>   hw/arm/allwinner-a10.c          |  21 ++-----
+>   hw/arm/armsse.c                 | 104 ++++++++------------------------
+>   hw/arm/armv7m.c                 |  12 +---
+>   hw/arm/aspeed_ast2600.c         |  68 ++++++---------------
+>   hw/arm/aspeed_soc.c             |  60 +++++-------------
+>   hw/arm/bcm2835_peripherals.c    |  60 +++++-------------
+>   hw/arm/bcm2836.c                |  12 +---
+>   hw/arm/cubieboard.c             |   3 +-
+>   hw/arm/digic.c                  |  12 +---
+>   hw/arm/digic_boards.c           |   3 +-
+>   hw/arm/fsl-imx25.c              |  44 ++++----------
+>   hw/arm/fsl-imx31.c              |  32 +++-------
+>   hw/arm/fsl-imx6.c               |  48 ++++-----------
+>   hw/arm/msf2-soc.c               |  21 ++-----
+>   hw/arm/nrf51_soc.c              |  24 ++------
+>   hw/arm/stm32f205_soc.c          |  29 +++------
+>   hw/arm/stm32f405_soc.c          |  32 +++-------
+>   hw/arm/xlnx-zynqmp.c            |  61 +++++--------------
+>   hw/block/fdc.c                  |   4 +-
+>   hw/block/xen-block.c            |   3 +-
+>   hw/char/serial-pci-multi.c      |   5 +-
+>   hw/char/serial-pci.c            |   5 +-
+>   hw/char/serial.c                |  10 +--
+>   hw/core/cpu.c                   |   3 +-
+>   hw/cpu/a15mpcore.c              |   5 +-
+>   hw/cpu/a9mpcore.c               |  21 ++-----
+>   hw/cpu/arm11mpcore.c            |  17 ++----
+>   hw/cpu/realview_mpcore.c        |   9 +--
+>   hw/display/virtio-gpu-pci.c     |   6 +-
+>   hw/display/virtio-vga.c         |   5 +-
+>   hw/intc/armv7m_nvic.c           |   9 +--
+>   hw/intc/pnv_xive.c              |   8 +--
+>   hw/intc/realview_gic.c          |   5 +-
+>   hw/intc/spapr_xive.c            |   8 +--
+>   hw/intc/xics.c                  |   5 +-
+>   hw/intc/xive.c                  |   3 +-
+>   hw/isa/piix4.c                  |   5 +-
+>   hw/microblaze/xlnx-zynqmp-pmu.c |   9 +--
+>   hw/mips/cps.c                   |  17 ++----
+>   hw/misc/macio/cuda.c            |   5 +-
+>   hw/misc/macio/macio.c           |  25 ++------
+>   hw/misc/macio/pmu.c             |   5 +-
+>   hw/pci-host/pnv_phb3.c          |  13 +---
+>   hw/pci-host/pnv_phb4.c          |   5 +-
+>   hw/pci-host/pnv_phb4_pec.c      |   5 +-
+>   hw/ppc/e500.c                   |   5 +-
+>   hw/ppc/pnv.c                    |  53 ++++------------
+>   hw/ppc/pnv_core.c               |   4 +-
+>   hw/ppc/pnv_psi.c                |   9 +--
+>   hw/ppc/spapr_cpu_core.c         |   3 +-
+>   hw/ppc/spapr_irq.c              |   5 +-
+>   hw/riscv/opentitan.c            |   9 +--
+>   hw/riscv/sifive_e.c             |   6 +-
+>   hw/riscv/sifive_u.c             |   5 +-
+>   hw/s390x/event-facility.c       |  13 ++--
+>   hw/s390x/s390-pci-bus.c         |   3 +-
+>   hw/s390x/sclp.c                 |   3 +-
+>   hw/s390x/virtio-ccw-crypto.c    |   5 +-
+>   hw/s390x/virtio-ccw-rng.c       |   5 +-
+>   hw/scsi/scsi-bus.c              |   4 +-
+>   hw/sd/aspeed_sdhci.c            |   4 +-
+>   hw/sd/ssi-sd.c                  |   3 +-
+>   hw/usb/bus.c                    |   3 +-
+>   hw/virtio/virtio-rng-pci.c      |   5 +-
+>   qdev-monitor.c                  |   3 +-
+>  65 files changed, 248 insertions(+), 768 deletions(-)
 
-Full backtrace:
+Almost all of this diff-stat may be generated by more obvious script:
 
-#0  0x00007ffff521370f in raise () at /lib64/libc.so.6
-#1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
-#2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-#3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
-#4  0x0000555555888171 in memory_region_notify_one (notifier=3D0x7ffde05dfd=
-e8, entry=3D0x7ffde5dfe200) at /home/qemu/memory.c:1918
-#5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=3D0x555556f6=
-c0b0, iommu_idx=3D0, entry=3D...) at /home/qemu/memory.c:1941
-#6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=3D0x555557609000=
-, inv_desc=3D0x7ffde5dfe2d0)
-=C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/hw/i386/intel_iommu.c:2468
-#7  0x0000555555951e6a in vtd_process_inv_desc (s=3D0x555557609000) at /hom=
-e/qemu/hw/i386/intel_iommu.c:2531
-#8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=3D0x555557609000) at /home/=
-qemu/hw/i386/intel_iommu.c:2563
-#9  0x00005555559520e5 in vtd_handle_iqt_write (s=3D0x555557609000) at /hom=
-e/qemu/hw/i386/intel_iommu.c:2590
-#10 0x0000555555952b45 in vtd_mem_write (opaque=3D0x555557609000, addr=3D13=
-6, val=3D2688, size=3D4) at /home/qemu/hw/i386/intel_iommu.c:2837
-#11 0x0000555555883e17 in memory_region_write_accessor
-=C2=A0=C2=A0=C2=A0=C2=A0(mr=3D0x555557609330, addr=3D136, value=3D0x7ffde5d=
-fe478, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /home/qemu/m=
-emory.c:483
-#12 0x000055555588401d in access_with_adjusted_size
-=C2=A0=C2=A0=C2=A0=C2=A0(addr=3D136, value=3D0x7ffde5dfe478, size=3D4, acce=
-ss_size_min=3D4, access_size_max=3D8, access_fn=3D
-=C2=A0=C2=A0=C2=A0=C2=A00x555555883d38 <memory_region_write_accessor>, mr=
-=3D0x555557609330, attrs=3D...) at /home/qemu/memory.c:544
-#13 0x0000555555886f37 in memory_region_dispatch_write (mr=3D0x555557609330=
-, addr=3D136, data=3D2688, op=3DMO_32, attrs=3D...)
-=C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/memory.c:1476
-#14 0x0000555555827a03 in flatview_write_continue
-=C2=A0=C2=A0=C2=A0=C2=A0(fv=3D0x7ffde00935d0, addr=3D4275634312, attrs=3D..=
-., ptr=3D0x7ffff7ff0028, len=3D4, addr1=3D136, l=3D4, mr=3D0x555557609330) =
-at /home/qemu/exec.c:3146
-#15 0x0000555555827b48 in flatview_write (fv=3D0x7ffde00935d0, addr=3D42756=
-34312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4)
-=C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3186
-#16 0x0000555555827e9d in address_space_write
-=C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4) at /home/qemu/ex=
-ec.c:3277
-#17 0x0000555555827f0a in address_space_rw
-=C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4, is_write=3Dtrue)
-=C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3287
-#18 0x000055555589b633 in kvm_cpu_exec (cpu=3D0x555556b65640) at /home/qemu=
-/accel/kvm/kvm-all.c:2511
-#19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=3D0x555556b65640) at =
-/home/qemu/cpus.c:1284
-#20 0x0000555555dafff1 in qemu_thread_start (args=3D0x555556b8c3b0) at util=
-/qemu-thread-posix.c:521
-#21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
-#22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
+@rule1@
+identifier fun = {qdev_realize, qdev_realize_and_unref, sysbus_realize};
+expression list args;
+typedef Error;
+Error *err;
+identifier errp;
+@@
 
---
+-      fun(args, &err);
+-      if (err)
++      if (!fun(args, errp))
+        {
+-              error_propagate(errp, err);
+            return;
+        }
 
-If we examinate *entry in frame 4 of backtrace:
-*entry =3D {target_as =3D 0x555556f6c050, iova =3D 0x0, translated_addr =3D=
- 0x0, addr_mask =3D 0xffffffffffffffff, perm =3D 0x0}
+@depends on rule1@
+identifier err;
+@@
 
-Which (I think) tries to invalidate all the TLB registers of the device.
-
-Just deleting that assert is enough for the VM to start and communicate
-using IOMMU, but maybe a better alternative is possible. We could move
-it to the caller functions in other cases than IOMMU invalidation, or
-make it conditional only if not invalidating.
-
-Guest kernel version: kernel-3.10.0-1151.el7.x86_64
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+-    Error *err = NULL;
+      ... when != err
 
 
-** Tags: iommu
+===
+Script started by command
+spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff --max-width 80 --use-gitgrep hw
 
-** Description changed:
+You see, I consider only obvious case, where we have only error_propagate + return in the if. I suggest to make a separate generated patch, based on my cocci script (it's mostly yours, actually), and as a second patch - the remaining of your patch. I do think that this will simplify the review.
 
-  I am able to hit this assertion when a Red Hat 7 guest virtio_net device
-  raises an "Invalidation" of all the TLB entries. This happens in the
-  guest's startup if 'intel_iommu=3Don' argument is passed to the guest
-  kernel and right IOMMU/ATS devices are declared in qemu's command line.
-  =
+diffstat generated by my cocci script:
+  50 files changed, 230 insertions(+), 725 deletions(-)
 
-  Command line: /home/qemu/x86_64-softmmu/qemu-system-x86_64 -name
-  guest=3Drhel7-test,debug-threads=3Don -machine pc-q35-5.1,accel=3Dkvm,usb=
-=3Doff
-  ,dump-guest-core=3Doff,kernel_irqchip=3Dsplit -cpu
-  Broadwell,vme=3Don,ss=3Don,vmx=3Don,f16c=3Don,rdrand=3Don,hypervisor=3Don=
-,arat=3Don
-  ,tsc-adjust=3Don,umip=3Don,arch-
-  capabilities=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don,skip-l1dfl-
-  vmentry=3Don,rtm=3Don,hle=3Don -m 8096 -realtime mlock=3Doff -smp
-  2,sockets=3D2,cores=3D1,threads=3D1 -uuid d022ecbf-679e-4755-87ce-eb87fc5=
-bbc5d
-  -display none -no-user-config -nodefaults -rtc base=3Dutc,driftfix=3Dslew
-  -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -global
-  ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don
-  -device intel-iommu,intremap=3Don,device-iotlb=3Don -device pcie-root-
-  port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,ad=
-dr=3D0x1
-  -device pcie-root-
-  port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x1.0x1 -devic=
-e pcie-
-  root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x1.0x2 -=
-device
-  pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x1.=
-0x3
-  -device pcie-root-
-  port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x1.0x4 -devic=
-e pcie-
-  root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x1.0x5 -=
-device
-  pcie-root-port,port=3D0xe,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x1.=
-0x6
-  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device=
- virtio-
-  serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 -drive file=3D/home
-  /virtio-test2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0 -dev=
-ice
-  virtio-blk-pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddrive-virtio-dis=
-k0,id
-  =3Dvirtio-disk0,bootindex=3D1 -netdev tap,id=3Dhostnet0,vhost=3Don,vhostf=
-orce=3Don
-  -device virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:0d:1d:f2,bus=3Dpci.1,addr=
-=3D0x0,iommu_platform=3Don,ats=3Don
-  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.5,addr=3D0x0 -object r=
-ng-
-  random,id=3Dobjrng0,filename=3D/dev/urandom -device virtio-rng-
-  pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.6,addr=3D0x0 -s -msg timestamp=3Don
-  =
+Difference with your patch, considering only files, touched by new script is very small:
 
-  Full backtrace:
-  =
+[root@kvm error-smooth-my-try]# git diff --name-only | xargs git diff bbdd4596d3e3290 --
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 416adfcce0..cacfcbac54 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -185,6 +185,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+  {
+      MachineState *ms = MACHINE(qdev_get_machine());
+      const struct MemmapEntry *memmap = sifive_e_memmap;
++
+      SiFiveESoCState *s = RISCV_E_SOC(dev);
+      MemoryRegion *sys_mem = get_system_memory();
+  
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 645b4080c5..32ff015c2c 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -442,13 +442,15 @@ static void init_event_facility(Object *obj)
+  static void realize_event_facility(DeviceState *dev, Error **errp)
+  {
+      SCLPEventFacility *event_facility = EVENT_FACILITY(dev);
++    Error *local_err = NULL;
+  
+-    if (!qdev_realize(DEVICE(&event_facility->quiesce),
+-                      BUS(&event_facility->sbus), errp)) {
++    if (!qdev_realize(DEVICE(&event_facility->quiesce), BUS(&event_facility->sbus), errp)) {
+          return;
+      }
+-    if (!qdev_realize(DEVICE(&event_facility->cpu_hotplug),
+-                      BUS(&event_facility->sbus), errp)) {
++    qdev_realize(DEVICE(&event_facility->cpu_hotplug),
++                 BUS(&event_facility->sbus), &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
+          qdev_unrealize(DEVICE(&event_facility->quiesce));
+          return;
+      }
 
-  #0  0x00007ffff521370f in raise () at /lib64/libc.so.6
-  #1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-  #3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x0000555555888171 in memory_region_notify_one (notifier=3D0x7ffde05d=
-fde8, entry=3D0x7ffde5dfe200) at /home/qemu/memory.c:1918
-  #5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=3D0x555556=
-f6c0b0, iommu_idx=3D0, entry=3D...) at /home/qemu/memory.c:1941
-  #6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=3D0x5555576090=
-00, inv_desc=3D0x7ffde5dfe2d0)
--     at /home/qemu/hw/i386/intel_iommu.c:2468
-+ =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/hw/i386/intel_iommu.c:2468
-  #7  0x0000555555951e6a in vtd_process_inv_desc (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2531
-  #8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=3D0x555557609000) at /hom=
-e/qemu/hw/i386/intel_iommu.c:2563
-  #9  0x00005555559520e5 in vtd_handle_iqt_write (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2590
-  #10 0x0000555555952b45 in vtd_mem_write (opaque=3D0x555557609000, addr=3D=
-136, val=3D2688, size=3D4) at /home/qemu/hw/i386/intel_iommu.c:2837
-  #11 0x0000555555883e17 in memory_region_write_accessor
--     (mr=3D0x555557609330, addr=3D136, value=3D0x7ffde5dfe478, size=3D4, s=
-hift=3D0, mask=3D4294967295, attrs=3D...) at /home/qemu/memory.c:483
-+ =C2=A0=C2=A0=C2=A0=C2=A0(mr=3D0x555557609330, addr=3D136, value=3D0x7ffde=
-5dfe478, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /home/qemu=
-/memory.c:483
-  #12 0x000055555588401d in access_with_adjusted_size
--     (addr=3D136, value=3D0x7ffde5dfe478, size=3D4, access_size_min=3D4, a=
-ccess_size_max=3D8, access_fn=3D
--     0x555555883d38 <memory_region_write_accessor>, mr=3D0x555557609330, a=
-ttrs=3D...) at /home/qemu/memory.c:544
-+ =C2=A0=C2=A0=C2=A0=C2=A0(addr=3D136, value=3D0x7ffde5dfe478, size=3D4, ac=
-cess_size_min=3D4, access_size_max=3D8, access_fn=3D
-+ =C2=A0=C2=A0=C2=A0=C2=A00x555555883d38 <memory_region_write_accessor>, mr=
-=3D0x555557609330, attrs=3D...) at /home/qemu/memory.c:544
-  #13 0x0000555555886f37 in memory_region_dispatch_write (mr=3D0x5555576093=
-30, addr=3D136, data=3D2688, op=3DMO_32, attrs=3D...)
--     at /home/qemu/memory.c:1476
-+ =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/memory.c:1476
-  #14 0x0000555555827a03 in flatview_write_continue
--     (fv=3D0x7ffde00935d0, addr=3D4275634312, attrs=3D..., ptr=3D0x7ffff7f=
-f0028, len=3D4, addr1=3D136, l=3D4, mr=3D0x555557609330) at /home/qemu/exec=
-.c:3146
-+ =C2=A0=C2=A0=C2=A0=C2=A0(fv=3D0x7ffde00935d0, addr=3D4275634312, attrs=3D=
-..., ptr=3D0x7ffff7ff0028, len=3D4, addr1=3D136, l=3D4, mr=3D0x555557609330=
-) at /home/qemu/exec.c:3146
-  #15 0x0000555555827b48 in flatview_write (fv=3D0x7ffde00935d0, addr=3D427=
-5634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4)
--     at /home/qemu/exec.c:3186
-+ =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3186
-  #16 0x0000555555827e9d in address_space_write
--     (as=3D0x5555567ca640 <address_space_memory>, addr=3D4275634312, attrs=
-=3D..., buf=3D0x7ffff7ff0028, len=3D4) at /home/qemu/exec.c:3277
-+ =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4) at /home/qemu/ex=
-ec.c:3277
-  #17 0x0000555555827f0a in address_space_rw
--     (as=3D0x5555567ca640 <address_space_memory>, addr=3D4275634312, attrs=
-=3D..., buf=3D0x7ffff7ff0028, len=3D4, is_write=3Dtrue)
--     at /home/qemu/exec.c:3287
-+ =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4, is_write=3Dtrue)
-+ =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3287
-  #18 0x000055555589b633 in kvm_cpu_exec (cpu=3D0x555556b65640) at /home/qe=
-mu/accel/kvm/kvm-all.c:2511
-  #19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=3D0x555556b65640) a=
-t /home/qemu/cpus.c:1284
-  #20 0x0000555555dafff1 in qemu_thread_start (args=3D0x555556b8c3b0) at ut=
-il/qemu-thread-posix.c:521
-  #21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
-  #22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
-  =
 
-  --
-  =
 
-  If we examinate *entry in frame 4 of backtrace:
-  *entry =3D {target_as =3D 0x555556f6c050, iova =3D 0x0, translated_addr =
-=3D 0x0, addr_mask =3D 0xffffffffffffffff, perm =3D 0x0}
-  =
+- Hmm, strange, "--max-width 80" doesn't help. So, we may keep the patch fully-generated with only one over-80 line, or write in commit message that the only manual fix is one over-80 line wrapping in hw/s390x/event-facility.c
 
-  Which (I think) tries to invalidate all the TLB registers of the device.
-  =
 
-  Just deleting that assert is enough for the VM to start and communicate
-  using IOMMU, but maybe a better alternative is possible. We could move
-  it to the caller functions in other cases than IOMMU invalidation, or
-  make it conditional only if not invalidating.
-  =
-
-- Guest kernel version: kernel-3.10.0-1136.el7
-+ Guest kernel version: kernel-3.10.0-1151.el7.x86_64
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885175
-
-Title:
-  memory.c range assertion hit at full invalidating
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am able to hit this assertion when a Red Hat 7 guest virtio_net
-  device raises an "Invalidation" of all the TLB entries. This happens
-  in the guest's startup if 'intel_iommu=3Don' argument is passed to the
-  guest kernel and right IOMMU/ATS devices are declared in qemu's
-  command line.
-
-  Command line: /home/qemu/x86_64-softmmu/qemu-system-x86_64 -name
-  guest=3Drhel7-test,debug-threads=3Don -machine
-  pc-q35-5.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,kernel_irqchip=3Ds=
-plit
-  -cpu
-  Broadwell,vme=3Don,ss=3Don,vmx=3Don,f16c=3Don,rdrand=3Don,hypervisor=3Don=
-,arat=3Don
-  ,tsc-adjust=3Don,umip=3Don,arch-
-  capabilities=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don,skip-l1dfl-
-  vmentry=3Don,rtm=3Don,hle=3Don -m 8096 -realtime mlock=3Doff -smp
-  2,sockets=3D2,cores=3D1,threads=3D1 -uuid d022ecbf-679e-4755-87ce-
-  eb87fc5bbc5d -display none -no-user-config -nodefaults -rtc
-  base=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-h=
-pet
-  -no-shutdown -global ICH9-LPC.disable_s3=3D1 -global
-  ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device intel-iommu,intremap=3D=
-on
-  ,device-iotlb=3Don -device pcie-root-
-  port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,ad=
-dr=3D0x1
-  -device pcie-root-
-  port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x1.0x1 -devic=
-e pcie-
-  root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x1.0x2 -=
-device
-  pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x1.=
-0x3
-  -device pcie-root-
-  port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x1.0x4 -devic=
-e pcie-
-  root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x1.0x5 -=
-device
-  pcie-root-port,port=3D0xe,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x1.=
-0x6
-  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device
-  virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 -drive
-  file=3D/home/virtio-test2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-virti=
-o-
-  disk0 -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddr=
-ive-
-  virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1 -netdev
-  tap,id=3Dhostnet0,vhost=3Don,vhostforce=3Don -device virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:0d:1d:f2,bus=3Dpci.1,addr=
-=3D0x0,iommu_platform=3Don,ats=3Don
-  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.5,addr=3D0x0 -object r=
-ng-
-  random,id=3Dobjrng0,filename=3D/dev/urandom -device virtio-rng-
-  pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.6,addr=3D0x0 -s -msg timestamp=3Don
-
-  Full backtrace:
-
-  #0  0x00007ffff521370f in raise () at /lib64/libc.so.6
-  #1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-  #3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x0000555555888171 in memory_region_notify_one (notifier=3D0x7ffde05d=
-fde8, entry=3D0x7ffde5dfe200) at /home/qemu/memory.c:1918
-  #5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=3D0x555556=
-f6c0b0, iommu_idx=3D0, entry=3D...) at /home/qemu/memory.c:1941
-  #6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=3D0x5555576090=
-00, inv_desc=3D0x7ffde5dfe2d0)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/hw/i386/intel_iommu.c:2468
-  #7  0x0000555555951e6a in vtd_process_inv_desc (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2531
-  #8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=3D0x555557609000) at /hom=
-e/qemu/hw/i386/intel_iommu.c:2563
-  #9  0x00005555559520e5 in vtd_handle_iqt_write (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2590
-  #10 0x0000555555952b45 in vtd_mem_write (opaque=3D0x555557609000, addr=3D=
-136, val=3D2688, size=3D4) at /home/qemu/hw/i386/intel_iommu.c:2837
-  #11 0x0000555555883e17 in memory_region_write_accessor
-  =C2=A0=C2=A0=C2=A0=C2=A0(mr=3D0x555557609330, addr=3D136, value=3D0x7ffde=
-5dfe478, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /home/qemu=
-/memory.c:483
-  #12 0x000055555588401d in access_with_adjusted_size
-  =C2=A0=C2=A0=C2=A0=C2=A0(addr=3D136, value=3D0x7ffde5dfe478, size=3D4, ac=
-cess_size_min=3D4, access_size_max=3D8, access_fn=3D
-  =C2=A0=C2=A0=C2=A0=C2=A00x555555883d38 <memory_region_write_accessor>, mr=
-=3D0x555557609330, attrs=3D...) at /home/qemu/memory.c:544
-  #13 0x0000555555886f37 in memory_region_dispatch_write (mr=3D0x5555576093=
-30, addr=3D136, data=3D2688, op=3DMO_32, attrs=3D...)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/memory.c:1476
-  #14 0x0000555555827a03 in flatview_write_continue
-  =C2=A0=C2=A0=C2=A0=C2=A0(fv=3D0x7ffde00935d0, addr=3D4275634312, attrs=3D=
-..., ptr=3D0x7ffff7ff0028, len=3D4, addr1=3D136, l=3D4, mr=3D0x555557609330=
-) at /home/qemu/exec.c:3146
-  #15 0x0000555555827b48 in flatview_write (fv=3D0x7ffde00935d0, addr=3D427=
-5634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3186
-  #16 0x0000555555827e9d in address_space_write
-  =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4) at /home/qemu/ex=
-ec.c:3277
-  #17 0x0000555555827f0a in address_space_rw
-  =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4, is_write=3Dtrue)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3287
-  #18 0x000055555589b633 in kvm_cpu_exec (cpu=3D0x555556b65640) at /home/qe=
-mu/accel/kvm/kvm-all.c:2511
-  #19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=3D0x555556b65640) a=
-t /home/qemu/cpus.c:1284
-  #20 0x0000555555dafff1 in qemu_thread_start (args=3D0x555556b8c3b0) at ut=
-il/qemu-thread-posix.c:521
-  #21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
-  #22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
-
-  --
-
-  If we examinate *entry in frame 4 of backtrace:
-  *entry =3D {target_as =3D 0x555556f6c050, iova =3D 0x0, translated_addr =
-=3D 0x0, addr_mask =3D 0xffffffffffffffff, perm =3D 0x0}
-
-  Which (I think) tries to invalidate all the TLB registers of the
-  device.
-
-  Just deleting that assert is enough for the VM to start and
-  communicate using IOMMU, but maybe a better alternative is possible.
-  We could move it to the caller functions in other cases than IOMMU
-  invalidation, or make it conditional only if not invalidating.
-
-  Guest kernel version: kernel-3.10.0-1151.el7.x86_64
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885175/+subscriptions
+-- 
+Best regards,
+Vladimir
 
