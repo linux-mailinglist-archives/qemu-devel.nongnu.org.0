@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC1420A2A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:08:47 +0200 (CEST)
-Received: from localhost ([::1]:37808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D7A20A287
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:01:35 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUQg-0006P3-6w
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
+	id 1joUJi-0004ql-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joTto-0004ip-Pf
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:34:48 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46705)
+ id 1joU26-0001x1-4c
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:43:22 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joTtl-0004ed-Sm
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:34:48 -0400
-Received: by mail-oi1-x244.google.com with SMTP id l63so5291428oih.13
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:34:45 -0700 (PDT)
+ id 1joU23-0000BU-HB
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:43:21 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 72so5684038otc.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eIx4b9nqclWsVVEQtsc7PEI14eNY0OylDfgl0jr6N+o=;
- b=CbdgHb555xsXFY5UWwnXn6lKmeKjA1ZuREZdNIduU6dv9W74Or0kOnVxcK5AWdf5Y8
- POOkAfQrCr/HaMSo1EdOtnN2NIU5wiYghWHUVGcVBilfEfVVJ3MNsafXMj46NnwjyAkC
- 53m1amDRyClkRiecb0stFaIx4MiBdV1uhH+EIYQgDrLnzJyBoYW2G9SmR7lPR25WHmov
- q3Wjg+Aen9OWwvMdCQewqeSLbriEyY2KS0B3+ULhVzLpjvCIbK4dIti84CWwTK9sbZDq
- cydQTAkZXscaOckJW+1whY0xRGYF/FTqpTp7iLx8FlO7yERM1/PJY6AsNSAmKxpCU0BT
- XDYg==
+ :cc; bh=OPobJVv/bg8YqK/ZN142RvDlQ5+alsiGLy9Ctc2eeRc=;
+ b=hKcHQjujCHHX8tQZTQiwOO1gd2zW+2NWgpsZbDU/5JUEP3JiYjmqqzRHn9FS4IfyYL
+ VxRCV3DalUKOku5zQ8a3ys3xUTYE8MmTwwzGxhXZV5biI7azN9IO/bZOqzPHp4D6+iH5
+ FLMiPjks85EgFchdoiK3kwVVBtiDw4/R8P8QT+gSSnJhJsfGS/dS6rqmoQ2o7FEaak4z
+ btA3bP0mI88LTe5Xhw0DyFRc4e0DjY+QnSxH4ihGikfk2OEL4WRm+dQG8LE8hVVRcUAs
+ oKEIRMI5gubDg6efZ4U1JycQ+nU9ha/lSBJkiJYwqfp1iEdTbB0ayYtPHOsGOpNJbnZ0
+ cc9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eIx4b9nqclWsVVEQtsc7PEI14eNY0OylDfgl0jr6N+o=;
- b=I/0SEsBGhvvZQYCe8L549w8mi/bFoApFu4Rbh8vLH4wz9mD5GNG1MdWHY+OAeBp3oZ
- oivZ+LqoefCRor8TbC0UBNCuoBKINmZwFwY7YkBWjRvD6MuUheZ/1uINpFQDL9AXOF1a
- u41kaBxpZWSNzmco7xnSNH+j2U9irc+eLsF6hX/2n8EAV8tL0gZAeq1oKz5tfczuvmMc
- B/gasYj3327o5iMud5jK8hSDSh+1H/igkwW7biFKFnIKeG7Ae9CP2imutYQi+UeY0LxZ
- 4ZrQQJkAH210WfNGCOl1df9yqcmzmF5KhqXQweSSq24F8l5N+3MKBs+WLb0nnvkff8Ob
- yPmQ==
-X-Gm-Message-State: AOAM531A5j1pyF2GN/63jF4R/BBtqqAcU3oUQz1tiJ2vpjYwZGZgn6Re
- Qq/dVJhNHsh6Bcled6kFqjnHSvd5MsrP6PcVjuLDYA==
-X-Google-Smtp-Source: ABdhPJxSlEFHkwj/qGX24FqBRHIexIpzb38mixeneEuipSeigHBSgdja/AWLAtyTmvNkLPhOlclYpX6G/7uS/7PfmcU=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr2722313oia.163.1593099284476; 
- Thu, 25 Jun 2020 08:34:44 -0700 (PDT)
+ bh=OPobJVv/bg8YqK/ZN142RvDlQ5+alsiGLy9Ctc2eeRc=;
+ b=IkbAehh/ffoDi1PQ0txOKLRhPOZ5ua7Q+8M9GPw4rNL3u9SdytDKYzWqXRMrIpmtQY
+ chzwMzmOLPOCEAkzIpOv7mUaoVyJMn5ZuVSySzAJfB7ab65VM/91r0G6wMQSpNTKYUWF
+ HKipk41nikB/PBktYeZXHMHEr+PXEpGcMG0PAs6yUC5iYj8M0jNBggn4II99bFdJAsbI
+ VnGrh8vbg9u3Ipl7LIsWmrc5ypibsY0PSP5cSi6kJVXPtQT8U3vuw8P5EsVmKQjzABCi
+ RfOLrdGKRXafWosPXcRoPpK6uf3zUJEGaRWn+IlVRc7IwTMkSXnd7o9jCBC6rP+WhA7N
+ 7M7A==
+X-Gm-Message-State: AOAM5309mNrNXOvpbQUZlazcVyfCaClkecfS4RVIkRtNDtJ3QFEHmIWo
+ zeHOWLwUrsRDzTM2ZvH4erPblgTD4grkGB32i9NCKQ==
+X-Google-Smtp-Source: ABdhPJy8w7MQLQiVBP9VtrV7LYjRkcZLtJb9wxIHc2sFvxWoy8ji84ak6c55/GDjH5Gwcv3K0leK36ybWDfY1J0pRIc=
+X-Received: by 2002:a9d:67d6:: with SMTP id c22mr26096902otn.221.1593099798111; 
+ Thu, 25 Jun 2020 08:43:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200611161500.23580-1-eric.auger@redhat.com>
- <20200611161500.23580-8-eric.auger@redhat.com>
-In-Reply-To: <20200611161500.23580-8-eric.auger@redhat.com>
+ <20200611161500.23580-9-eric.auger@redhat.com>
+In-Reply-To: <20200611161500.23580-9-eric.auger@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 16:34:33 +0100
-Message-ID: <CAFEAcA9W9XA6SA1XGnMxC4A91S65K1DRxPeV_VZ_N73iE31wKg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 7/9] hw/arm/smmuv3: Introduce
- smmuv3_s1_range_inval() helper
+Date: Thu, 25 Jun 2020 16:43:07 +0100
+Message-ID: <CAFEAcA8_ESO6ofRTgh2z2fvmaASSrOKg7_bRqsuR=DEv346p=w@mail.gmail.com>
+Subject: Re: [PATCH RESEND 8/9] hw/arm/smmuv3: Get prepared for range
+ invalidation
 To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,48 +90,19 @@ Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 17:16, Eric Auger <eric.auger@redhat.com> wrote:
+On Thu, 11 Jun 2020 at 17:18, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Let's introduce an helper for S1 IOVA range invalidation.
-> This will be used for NH_VA and NH_VAA commands. It decodes
-> the same fields, trace, calls the UNMAP notifiers and
-> invalidate the corresponding IOTLB entries.
+> Enhance the smmu_iotlb_inv_iova() helper with range invalidation.
+> This uses the new fields passed in the NH_VA and NH_VAA commands:
+> the size of the range, the level and the granule.
 >
-> At the moment, we do not support 3.2 range invalidation yet.
-> So it reduces to a single IOVA invalidation.
+> As NH_VA and NH_VAA both use those fields, their decoding and
+> handling is factorized in a new smmuv3_s1_range_inval() helper.
 >
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/arm/smmuv3.c     | 36 +++++++++++++++++-------------------
->  hw/arm/trace-events |  3 +--
->  2 files changed, 18 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index 931a2b6872..4eda16be7b 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -840,6 +840,22 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova)
->      }
->  }
->
-> +static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
-> +{
-> +    dma_addr_t addr = CMD_ADDR(cmd);
-> +    uint8_t type = CMD_TYPE(cmd);
-> +    uint16_t vmid = CMD_VMID(cmd);
-> +    bool leaf = CMD_LEAF(cmd);
 
-We used to only read the leaf bit for
-CMD_TLBI_NH_VA, but now we read it also for
-CMD_TLBI_NH_VAA. That's OK because:
- * the leaf bit really does exist on  both commands
- * the only thing we do with it is print it in the trace
-   message, so this isn't fixing a bug
-
-But you could mention it in the commit message.
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Haven't looked too closely at this patch, but see my remarks
+on patch 6 about keys and lookups.
 
 thanks
 -- PMM
