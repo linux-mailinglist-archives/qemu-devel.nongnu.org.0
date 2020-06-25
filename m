@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6865620A1FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:33:57 +0200 (CEST)
-Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA15D20A208
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:35:40 +0200 (CEST)
+Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTsy-0001mP-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
+	id 1joTud-0005I3-JO
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi6-0005US-F1
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34546
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi9-0005W8-Mo
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38743
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi4-0000hC-SZ
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:42 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi6-0000jC-PD
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098560;
+ s=mimecast20190719; t=1593098562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Srr0ng/3UPLUq5FntmQzOQlZqCsCkFYTEO9BVUzzTW8=;
- b=Tu9zr+OG4Vu1Yc1VI39jTAX4drxsbzrXjdcbQIIu8IInoozSVXzLd4Zv8fWvRtqONRr/0z
- qRXdNUu+4+va30uR45cYAnK4a6M2R3S+4sG1E3ExD7y1odZC/2pAmkWLXj/FtwLFa6YjoB
- vnCxd+VkYLX9YBG66uCEssicR8YILZU=
+ bh=nch8r+sggXc7QgAhHaEZqPwOSLb16dIURCBoBCMI83k=;
+ b=b1fz9iVBJGkcN3C9+tqJBquDc4X6cYsINsf6D5fChLOJghRBEYyIomcP8OGs0dXok2gWp/
+ RzgoHWWb4SPL7Fw8iodoqewOUWIVhA0+q7n8IGZqqzrOxoZG2GL72FQ62Sb6i//O9P7JOa
+ MLAi5eZ4AOP8wKaSPMpP+6O9GKuTC2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-ppkSEOHANju3fH7UEPih1w-1; Thu, 25 Jun 2020 11:22:38 -0400
-X-MC-Unique: ppkSEOHANju3fH7UEPih1w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-153-mWG3ApppNz2twuIjQZzevg-1; Thu, 25 Jun 2020 11:22:40 -0400
+X-MC-Unique: mWG3ApppNz2twuIjQZzevg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1221D18A0731;
- Thu, 25 Jun 2020 15:22:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29B0764AE9;
+ Thu, 25 Jun 2020 15:22:39 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7D7F2DE60;
- Thu, 25 Jun 2020 15:22:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C24925DD61;
+ Thu, 25 Jun 2020 15:22:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 08/47] throttle: Support compressed writes
-Date: Thu, 25 Jun 2020 17:21:36 +0200
-Message-Id: <20200625152215.941773-9-mreitz@redhat.com>
+Subject: [PATCH v7 09/47] copy-on-read: Support compressed writes
+Date: Thu, 25 Jun 2020 17:21:37 +0200
+Message-Id: <20200625152215.941773-10-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -84,39 +84,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/throttle.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ block/copy-on-read.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/block/throttle.c b/block/throttle.c
-index 0ebbad0743..f6e619aca2 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -154,6 +154,15 @@ static int coroutine_fn throttle_co_pdiscard(BlockDriverState *bs,
-     return bdrv_co_pdiscard(bs->file, offset, bytes);
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index a6e3c74a68..a6a864f147 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -107,6 +107,16 @@ static int coroutine_fn cor_co_pdiscard(BlockDriverState *bs,
  }
  
-+static int coroutine_fn throttle_co_pwritev_compressed(BlockDriverState *bs,
-+                                                       uint64_t offset,
-+                                                       uint64_t bytes,
-+                                                       QEMUIOVector *qiov)
+ 
++static int coroutine_fn cor_co_pwritev_compressed(BlockDriverState *bs,
++                                                  uint64_t offset,
++                                                  uint64_t bytes,
++                                                  QEMUIOVector *qiov)
 +{
-+    return throttle_co_pwritev(bs, offset, bytes, qiov,
-+                               BDRV_REQ_WRITE_COMPRESSED);
++    return bdrv_co_pwritev(bs->file, offset, bytes, qiov,
++                           BDRV_REQ_WRITE_COMPRESSED);
 +}
 +
- static int throttle_co_flush(BlockDriverState *bs)
++
+ static void cor_eject(BlockDriverState *bs, bool eject_flag)
  {
-     return bdrv_co_flush(bs->file->bs);
-@@ -246,6 +255,7 @@ static BlockDriver bdrv_throttle = {
+     bdrv_eject(bs->file->bs, eject_flag);
+@@ -131,6 +141,7 @@ static BlockDriver bdrv_copy_on_read = {
+     .bdrv_co_pwritev                    = cor_co_pwritev,
+     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
+     .bdrv_co_pdiscard                   = cor_co_pdiscard,
++    .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
  
-     .bdrv_co_pwrite_zeroes              =   throttle_co_pwrite_zeroes,
-     .bdrv_co_pdiscard                   =   throttle_co_pdiscard,
-+    .bdrv_co_pwritev_compressed         =   throttle_co_pwritev_compressed,
- 
-     .bdrv_attach_aio_context            =   throttle_attach_aio_context,
-     .bdrv_detach_aio_context            =   throttle_detach_aio_context,
+     .bdrv_eject                         = cor_eject,
+     .bdrv_lock_medium                   = cor_lock_medium,
 -- 
 2.26.2
 
