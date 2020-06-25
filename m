@@ -2,72 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840F320A579
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:13:48 +0200 (CEST)
-Received: from localhost ([::1]:53176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD8120A574
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:10:53 +0200 (CEST)
+Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXJj-0005LJ-IT
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46030)
+	id 1joXGs-0002bl-8b
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:10:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1joXIT-0004RH-Nc; Thu, 25 Jun 2020 15:12:29 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:39213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1joXIS-0000ZW-3d; Thu, 25 Jun 2020 15:12:29 -0400
-Received: by mail-il1-x143.google.com with SMTP id k6so6334417ili.6;
- Thu, 25 Jun 2020 12:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zO3MmrpcjuV25Jzf8+6bs2iEgnVSEVoU/K9kpd78Mss=;
- b=nx4DP8tLK+ng9V8qjpbkPVn75cFsfYXH7dtVjJH32G4UjVcp8c2RhnrI7mAiAq0zHx
- lkbAQRP7RSeG4/nkC4cuFx/HG+O1bpQoMrJUqWAdljj7gYSw2FwQRb+xeHQdvEGHTxC8
- DqdGTgqShL8oHCCgQ4dJTlZPLpmQr0YpOdIH5NyA+JiYezcnLAdDsQjG/kKOpf+HuUI8
- RHFi981FdWnKttBYrT7lk4461D7V+CX1+xOS+mSWW/9VXrkRZTrQUsdePKd4RIgfHbbN
- /0f5FVyRuCBF49B0nGxR9jeNGGL2yAFOPPA78yWpdVg7TD9kEwpd8V6Q99R8Sg0cVBcC
- BJFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zO3MmrpcjuV25Jzf8+6bs2iEgnVSEVoU/K9kpd78Mss=;
- b=ZdquKFp93FQQmA4Lq0IaTZ/0qZh52UvppI7SE/uW++n+/MLTNkVQfJn3rbSlHU7uhK
- 6UODQa9mmwYHFMq0c6tEl98JaAEHvUY9u8XFeoiMSqgkvzg/hZFKjUkPBPgCrMSayQ0W
- 3f2DaFkUQ+st1B/+zQ3oPxhlnor3vMdkaUQe4+hhPnfmzfrtfVbFjj7TJYqCpcntw1LF
- MMl5O92zirF87XPlRqAFI8wUd5YOLxBuNhYIRmm+XXDJ0BOqSp++KAHosF4nuHm5Exwf
- kTybO2hpWnwaNmSrs24K2Aib6nhf3BVwip7ZrtInAQGyil4m4SSBu/oNi7e6ZpNhWGXV
- PsyA==
-X-Gm-Message-State: AOAM532vt/r61WUM9dmoYyDYL6SvG/lpWxEQkuQ51OLbtOp0iiFRldKT
- 3jkQ7OSfHrQWKCQEUI1YvCTuZ4lpKi1aDTq/Zwo=
-X-Google-Smtp-Source: ABdhPJyE6cBRk/ZrWiKIptVXTUwYb4H/Jqs2qA+qAM7ADDpnkZ9ooth+sIbKZhyTwpnmaGROqlfVqNMao65UqZojzzQ=
-X-Received: by 2002:a92:c213:: with SMTP id j19mr29061908ilo.40.1593112346675; 
- Thu, 25 Jun 2020 12:12:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1joXFt-0001kX-6a; Thu, 25 Jun 2020 15:09:49 -0400
+Received: from mail-eopbgr130114.outbound.protection.outlook.com
+ ([40.107.13.114]:39585 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1joXFq-0007cb-0k; Thu, 25 Jun 2020 15:09:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c1g9/xPQEQjeOXFQOa3aWo731f6AuOfXmV5FgLGFQqdyLqDNrDm9DkizBrQ67x1v9Gv7sTQHbJlDK6CA7zjp6aaQKYUxg9fSiJe3bnSUmMVovRF7yGXuetQs24WfdJNF/E5ywi9TFNBee9fa/7BME/UOOXUrQ2PrGKVIqqv7/7aw12GNCKivYTs7mHYPQreeWuexsJ1z/n06iHaD4hzdCkh8GSg2M6RaobPF1iZGy2cYIfQEqp+/wQxF5q3tpYV6ououIH83+BhxwxZYVHDarTWjn6sawQCD77ngnmgC1BENYaoWEXohDNRZJl5zm3h/Tz4/n3bh0v6DAf0dA9EGCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5B0a8bcIft951YEnj7MUx8eb832h1jnHLIENUim58Os=;
+ b=DeTIeSJ2vt2ux7TxBfpkdRyPYElm7hbZ8EJJZjO81/oNKd7DA42okgtcD0N2Tn6ffVX6oRnPhWyDiNowLSuSvB8LFWz0sKs9c5kydnpPLpWLim0KnAcjC+b597z8Z/OR4Adikt1a07VT0r8Dntsr71pKh5p3jSPbVW3H3bv0ZGW7pPB2UuUsXyQm1UI74QkRzeimciMnOo9ltnYvwTFjwz9tRXLTvkI+sBA58NjIxtXkz9eODdnf3NkQNGJAY6GmYXey9TIetpRJIKovh0kfUT3j9mWCbzpYAfScNAmk5s4YyOex/85+kmaGVkFNnslJXIu8gv4LgZCRUB6pi/JK+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5B0a8bcIft951YEnj7MUx8eb832h1jnHLIENUim58Os=;
+ b=uslqljHwgBHBxLgCDU0di+FBzy/2ijM74EGWeHNjOIy1Qlim0kit9WaKSKmW32b6V6hNFes7dFqtPa7OI6CyaXhMuAYwTovG3un4IaJl7jRa1f3/bC+nLa5DQOLli+9ofSVsZC1gN8JsRBS1brBoijtn13GoQ8Ajm0wqwAK9rbA=
+Authentication-Results: gibson.dropbear.id.au; dkim=none (message not signed)
+ header.d=none; gibson.dropbear.id.au;
+ dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1780.eurprd08.prod.outlook.com (2603:10a6:203:39::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23; Thu, 25 Jun
+ 2020 19:09:40 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.020; Thu, 25 Jun 2020
+ 19:09:40 +0000
+Subject: Re: [PATCH 04/46] macio: Tidy up error handling in
+ macio_newworld_realize()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200624164344.3778251-1-armbru@redhat.com>
+ <20200624164344.3778251-5-armbru@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <ff979e91-3144-24fd-7f70-7c1137b4962d@virtuozzo.com>
+Date: Thu, 25 Jun 2020 22:09:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+In-Reply-To: <20200624164344.3778251-5-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR04CA0039.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <cover.1585262586.git.alistair.francis@wdc.com>
- <931db85d6890ed4bc2b527fd1011197cd28299aa.1585262586.git.alistair.francis@wdc.com>
- <a7f32084-2060-1de5-8308-987bcddf1e6d@linaro.org>
-In-Reply-To: <a7f32084-2060-1de5-8308-987bcddf1e6d@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 25 Jun 2020 12:02:50 -0700
-Message-ID: <CAKmqyKPdGp+5n_fRuzi74JK8z8rcXMU+KiJw5v2nTMApHqXauA@mail.gmail.com>
-Subject: Re: [PATCH for 5.0 v1 1/2] riscv: Don't use stage-2 PTE lookup
- protection flags
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.69) by
+ AM0PR04CA0039.eurprd04.prod.outlook.com (2603:10a6:208:1::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.20 via Frontend Transport; Thu, 25 Jun 2020 19:09:39 +0000
+X-Originating-IP: [185.215.60.69]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bf13ab67-5a98-45ee-1880-08d8193b4f88
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1780:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB17809FA7CF63E3B027218A45C1920@AM5PR0801MB1780.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-Forefront-PRVS: 0445A82F82
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WDie5H2UAcOwOpE5yfEB7eJ+H2Vmbib6MCi53K5ngdQ/PwpZS/vPJ9BKqOd1LVYwGd1cPuS56PGmCCmSur5v9+DYQcmtMZCe+vGq+rBPU99/xyq12318l+kFwFlO1XNt8Umcy4W//AayuBKthbSjMZFGksQ2ipk3MNvoenDDFlWdkCjqMz2Hlge6yoyDeSPBjxPDJSjX3P9/1oohmbgQZrvig+0PZ0CMgdAn+I8ITlz6kz/VNP4dBj51zA5xSAtAIAu1g5Bp+I0PrmLyPJ292ryIH+LMXm26ZneTBp5GAAAzuFrRRJxTgxqMZIYfpeXwDH60Q46dpclLhekKBt/6h7saav1OTY5v8lB0HFh8EFCX83eNohb0GDL9wKWZePJh
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(136003)(396003)(346002)(376002)(366004)(66946007)(86362001)(52116002)(66476007)(66556008)(316002)(478600001)(16576012)(54906003)(4326008)(8936002)(8676002)(36756003)(6486002)(2616005)(956004)(31686004)(5660300002)(2906002)(16526019)(186003)(31696002)(4744005)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: eG5IMUan87X81hqw7X6vxemVaRAotbVtKzCnWQOYjMX271Wl2GQ/lh+9X70WP8IUMakeykMfe7Ora1hCivU1pTNjJbJFgigH3Ms3GEhvZV10vBGKkAISxUG2d9TTYdmNo4Wdv5GpaH65b3RrKum0sDCSuWRkpsqvP0KgpL6JWnj1RxKYmnuDOOjq1xzH5Hvl63Su846KQ4xFkydqZgF+lPNJYFZnB/+YQQS/T2VNcVkoKhPRr7w1v5KEd44IbXiUyDyn0sqGorK7dz1WGwkDp21mxMqAsTWTEAnyFoDgLeb5SMy3o/AXtB3j/PqBnzHiOZI9jEAZF71pcWSGmSTu7ZL5rTDTKmLb9GbeRcPbBtOG7MavZ5OkNtCWYq9aS0VojyLXBrftWHyvWB0jHFK/k3eh5BCTUvDAS+oV+6R3G643OwyQ+UuKnOxoDcGnPaUR2UVwX3a6gmhVwmtOGoDCk+nP6FGeLKI/+9sW3zR3hS0=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf13ab67-5a98-45ee-1880-08d8193b4f88
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 19:09:40.2393 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /0NWX2yzITjteSr0FNlgDaZCSXE6rn+L5SDVcauD4g1lhVuIaohwI/EIk5sKe7ECD7RrSD4UIKnskl8De2FF1K2eANh39GNQTBC2hjc1ztI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1780
+Received-SPF: pass client-ip=40.107.13.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:09:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,97 +119,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 26, 2020 at 4:50 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/26/20 3:44 PM, Alistair Francis wrote:
-> > When doing the fist of a two stage lookup (Hypervisor extensions) don't
-> > set the current protection flags from the second stage lookup of the
-> > base address PTE.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu_helper.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index d3ba9efb02..f36d184b7b 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -452,10 +452,11 @@ restart:
-> >          hwaddr pte_addr;
-> >
-> >          if (two_stage && first_stage) {
-> > +            int vbase_prot;
-> >              hwaddr vbase;
-> >
-> >              /* Do the second stage translation on the base PTE address. */
-> > -            get_physical_address(env, &vbase, prot, base, access_type,
-> > +            get_physical_address(env, &vbase, &vbase_prot, base, access_type,
-> >                                   mmu_idx, false, true);
-> >
-> >              pte_addr = vbase + idx * ptesize;
-> >
->
-> Certainly stage2 pte lookup has nothing to do with the original lookup, so
-> using a new variable for prot is correct.
->
-> So as far as this minimal patch,
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> However, this bit of code doesn't look right:
+24.06.2020 19:43, Markus Armbruster wrote:
+> macio_newworld_realize() effectively ignores ns->gpio realization
+> errors, leaking the Error object.  Fortunately, macio_gpio_realize()
+> can't actually fail.  Tidy up.
+> 
+> Cc: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
+> Cc: David Gibson<david@gibson.dropbear.id.au>
+> Signed-off-by: Markus Armbruster<armbru@redhat.com>
 
-Thanks for the comments here. Coming back to this after a while.
 
->
-> (1) Similarly, what has the original access_type got to do with the PTE lookup?
->  Seems like this should be MMU_DATA_LOAD always.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Fixed in master now
-
->
-> (2) Why is the get_physical_address return value ignored?  On failure, surely
-> this should be some sort of PTE lookup failure.
-
-Also fixed in master now
-
->
-> (3) Do we need to validate vbase_prot for write before updating the PTE for
-> Access or Dirty?  That seems like a loop-hole to allow silent modification of
-> hypervisor read-only memory.
-
-That's a good point.
-
-Updating the accessed bit seems correct to me as we did access it and
-that doesn't then provide write permissions.
-
-Updating the dirty bit would provide write permissions, but we would
-only change the dirty bit on a store and vbase_prot is now always a
-load.
-
-If the PTE was already dirty then we might incorrectly provide write
-access though.
-
->
-> I do wonder if it might be easier to manage all of this by using additional
-> TLBs to handle the stage2 and physical address spaces.  That's probably too
-> invasive for this stage of development though.
-
-Do you mean change riscv_cpu_mmu_index() to take into account
-virtulisation and have more then the current 3 (M, S and U) MMU
-indexes?
-
-Alistair
-
->
->
-> r~
+-- 
+Best regards,
+Vladimir
 
