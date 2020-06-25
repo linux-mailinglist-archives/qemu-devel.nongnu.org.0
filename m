@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7AD20A26D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:53:14 +0200 (CEST)
-Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670B220A231
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:42:31 +0200 (CEST)
+Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUBY-0007e4-S4
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
+	id 1joU1G-0007Z2-AN
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTit-0006Iy-0s
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39144
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiz-0006L9-G6
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54821
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTio-0001Gk-4x
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:30 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTip-0001Hw-Uu
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098603;
+ s=mimecast20190719; t=1593098605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lQUia8OoMgalBsALIOPf4VeyZUKjuCFth09x2HxRiII=;
- b=XoUds5HgMKdV99GlGMkdtT/XZyKUCagjdKwXWE+xX0Y8M34mr1u5/aR2urt/TCHh1nD4Bl
- xLpg3K1/COH2fthFphxtLUFDfYDuIdP31JA9AsOn17CR6ruwmUy5Av+PFr3fpwcV6579mY
- UWOPqdkN5tB4PhYVvX5chd9p518VxGQ=
+ bh=RoOduJqwAcCCbtswbUqZ/O4h3JjrgT0wbvxEWac1X0U=;
+ b=DqV/pA/VqtP1OKmhek2HNzgQDwRlHQAe2RtDAMZPlz78fWE9CKbilIt28bV/WpMfoDwXpB
+ afYtX9em70WdLnwrh54ijgi3Xo9qJBj8mcB3cqyOqvCAZ87KLkDdtH0lIUERTcjDhjFbGs
+ z5lKz7ThOdyNM/huoLcnTZWG7+TT5BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-qWKZUqPcONCRpvIXjNfdeA-1; Thu, 25 Jun 2020 11:23:21 -0400
-X-MC-Unique: qWKZUqPcONCRpvIXjNfdeA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-474-eAV4fmnfNiGvwElwWwlIPQ-1; Thu, 25 Jun 2020 11:23:23 -0400
+X-MC-Unique: eAV4fmnfNiGvwElwWwlIPQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC9B6A0BD7;
- Thu, 25 Jun 2020 15:23:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA68F107ACCD;
+ Thu, 25 Jun 2020 15:23:22 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52F7F5C296;
- Thu, 25 Jun 2020 15:23:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A7C51A913;
+ Thu, 25 Jun 2020 15:23:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 28/47] block/null: Implement bdrv_get_allocated_file_size
-Date: Thu, 25 Jun 2020 17:21:56 +0200
-Message-Id: <20200625152215.941773-29-mreitz@redhat.com>
+Subject: [PATCH v7 29/47] blockdev: Use CAF in external_snapshot_prepare()
+Date: Thu, 25 Jun 2020 17:21:57 +0200
+Message-Id: <20200625152215.941773-30-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -83,84 +83,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is trivial, so we might as well do it.
+This allows us to differentiate between filters and nodes with COW
+backing files: Filters cannot be used as overlays at all (for this
+function).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/null.c               | 7 +++++++
- tests/qemu-iotests/153.out | 2 +-
- tests/qemu-iotests/184.out | 6 ++++--
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ blockdev.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/block/null.c b/block/null.c
-index 15e1d56746..cc9b1d4ea7 100644
---- a/block/null.c
-+++ b/block/null.c
-@@ -262,6 +262,11 @@ static void null_refresh_filename(BlockDriverState *bs)
-              bs->drv->format_name);
- }
+diff --git a/blockdev.c b/blockdev.c
+index 1eb0fcdea2..aabe51036d 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1549,7 +1549,12 @@ static void external_snapshot_prepare(BlkActionState *common,
+         goto out;
+     }
  
-+static int64_t null_allocated_file_size(BlockDriverState *bs)
-+{
-+    return 0;
-+}
+-    if (state->new_bs->backing != NULL) {
++    if (state->new_bs->drv->is_filter) {
++        error_setg(errp, "Filters cannot be used as overlays");
++        goto out;
++    }
 +
- static const char *const null_strong_runtime_opts[] = {
-     BLOCK_OPT_SIZE,
-     NULL_OPT_ZEROES,
-@@ -277,6 +282,7 @@ static BlockDriver bdrv_null_co = {
-     .bdrv_file_open         = null_file_open,
-     .bdrv_parse_filename    = null_co_parse_filename,
-     .bdrv_getlength         = null_getlength,
-+    .bdrv_get_allocated_file_size = null_allocated_file_size,
- 
-     .bdrv_co_preadv         = null_co_preadv,
-     .bdrv_co_pwritev        = null_co_pwritev,
-@@ -297,6 +303,7 @@ static BlockDriver bdrv_null_aio = {
-     .bdrv_file_open         = null_file_open,
-     .bdrv_parse_filename    = null_aio_parse_filename,
-     .bdrv_getlength         = null_getlength,
-+    .bdrv_get_allocated_file_size = null_allocated_file_size,
- 
-     .bdrv_aio_preadv        = null_aio_preadv,
-     .bdrv_aio_pwritev       = null_aio_pwritev,
-diff --git a/tests/qemu-iotests/153.out b/tests/qemu-iotests/153.out
-index b2a90caa6b..8659e6463b 100644
---- a/tests/qemu-iotests/153.out
-+++ b/tests/qemu-iotests/153.out
-@@ -461,7 +461,7 @@ No conflict:
- image: null-co://
- file format: null-co
- virtual size: 1 GiB (1073741824 bytes)
--disk size: unavailable
-+disk size: 0 B
- 
- Conflict:
- qemu-img: --force-share/-U conflicts with image options
-diff --git a/tests/qemu-iotests/184.out b/tests/qemu-iotests/184.out
-index 3deb3cfb94..28b104da89 100644
---- a/tests/qemu-iotests/184.out
-+++ b/tests/qemu-iotests/184.out
-@@ -29,7 +29,8 @@ Testing:
-             "image": {
-                 "virtual-size": 1073741824,
-                 "filename": "json:{\"throttle-group\": \"group0\", \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}",
--                "format": "throttle"
-+                "format": "throttle",
-+                "actual-size": SIZE
-             },
-             "iops_wr": 0,
-             "ro": false,
-@@ -56,7 +57,8 @@ Testing:
-             "image": {
-                 "virtual-size": 1073741824,
-                 "filename": "null-co://",
--                "format": "null-co"
-+                "format": "null-co",
-+                "actual-size": SIZE
-             },
-             "iops_wr": 0,
-             "ro": false,
++    if (bdrv_cow_child(state->new_bs)) {
+         error_setg(errp, "The overlay already has a backing image");
+         goto out;
+     }
 -- 
 2.26.2
 
