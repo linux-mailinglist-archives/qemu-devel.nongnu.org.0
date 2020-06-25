@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7D3209D49
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:12:26 +0200 (CEST)
-Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB05C209D55
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:15:18 +0200 (CEST)
+Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPnt-0007w0-VX
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
+	id 1joPqf-0004cd-UB
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPkp-0004Ow-CC
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:09:15 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31208
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1joPna-00084I-Oq
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40272
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPkm-0000A4-Ch
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:09:15 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1joPnY-0004Hg-5S
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593083351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1593083522;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SwybSxuOQi38oeMXnoOetN8x3DAu1vynd6mD58XrzTY=;
- b=C/R1QDCckoZ5kkGztgC53n5J/9inuUh2AcxTBQsqPTgFzY/l3ork+GlA2PKdr/xd6GTF7h
- nmilqL/cphmPyYWJbjIk1GVj5OUsYXvLyRkd4iZBvpJq7uqv/SlI6BZjoDwyke9qwPYnOp
- MSO7HAGbWKl9Gg4gCqrfg7MzpMz6yFQ=
+ bh=tf2XE74HvfuaulI0Ydf2ZIVu/qXaJQLtSqnjGq/NR8Q=;
+ b=iWh3XpPjwzPSwW7batyLcsJ2upoxkcVoONv6jb2CbQYtodf1ULmxtaz245Aad30jKNRkYc
+ b+48cJPeR83rmXeT/BVC05JmzwKH3enLs03a2BDvEasCW08gyUuNFu5frsq1npYhEMnz5M
+ jKUIfGyaStXDf/hpeYnerrrjaeFuUGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-Wy3DKbPdNBikss7xNNtw9Q-1; Thu, 25 Jun 2020 07:09:09 -0400
-X-MC-Unique: Wy3DKbPdNBikss7xNNtw9Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-100-MbKirwIEPAKsKAvngl8uWQ-1; Thu, 25 Jun 2020 07:11:59 -0400
+X-MC-Unique: MbKirwIEPAKsKAvngl8uWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A95A310059A4;
- Thu, 25 Jun 2020 11:09:08 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 338CE5C6BD;
- Thu, 25 Jun 2020 11:09:04 +0000 (UTC)
-Subject: Re: [PATCH v5 05/12] pc-bios: s390x: Remove unneeded dasd-ipl.c reset
- psw mask changes
-From: Thomas Huth <thuth@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
- <20200624075226.92728-6-frankja@linux.ibm.com>
- <95c7fe36-02fe-d430-5ae7-04e3ce38e3fb@redhat.com>
-Message-ID: <ea1ed9df-66d4-550e-1a86-58519aba7dec@redhat.com>
-Date: Thu, 25 Jun 2020 13:09:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1660018585A0
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:11:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94809101E662;
+ Thu, 25 Jun 2020 11:11:57 +0000 (UTC)
+Date: Thu, 25 Jun 2020 12:11:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v10 1/5] crypto: Add tls-cipher-suites object
+Message-ID: <20200625111154.GI1009994@redhat.com>
+References: <20200623172726.21040-1-philmd@redhat.com>
+ <20200623172726.21040-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <95c7fe36-02fe-d430-5ae7-04e3ce38e3fb@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200623172726.21040-2-philmd@redhat.com>
+User-Agent: Mutt/1.14.0 (2020-05-02)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -70,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, borntraeger@de.ibm.com,
- cohuck@redhat.com, david@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2020 12.57, Thomas Huth wrote:
-> On 24/06/2020 09.52, Janosch Frank wrote:
->> jump_to_low_kernel() and the functions that it calls will already or
->> 64 bit addressing into the reset psw mask when executing
->> jump_to_IPL_2() after the diag308 subcode 1.
+On Tue, Jun 23, 2020 at 07:27:22PM +0200, Philippe Mathieu-Daudé wrote:
+> On the host OS, various aspects of TLS operation are configurable.
+> In particular it is possible for the sysadmin to control the TLS
+> cipher/protocol algorithms that applications are permitted to use.
 > 
-> Hmm, the jump_to_IPL_code() also sets the 64-bit addressing bits ... but 
-> jump_to_low_kernel() has some logic that tests for the bits before that 
-> function is called:
+> * Any given crypto library has a built-in default priority list
+>   defined by the distro maintainer of the library package (or by
+>   upstream).
 > 
->      /* Trying to get PSW at zero address */
->      if (*((uint64_t *)0) & RESET_PSW_MASK) {
->          jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
->      }
+> * The "crypto-policies" RPM (or equivalent host OS package)
+>   provides a config file such as "/etc/crypto-policies/config",
+>   where the sysadmin can set a high level (library-independent)
+>   policy.
 > 
-> Could it be that the code in dasd-ipl.c has been written with that 
-> if-statement in mind?
+>   The "update-crypto-policies --set" command (or equivalent) is
+>   used to translate the global policy to individual library
+>   representations, producing files such as
+>   "/etc/crypto-policies/back-ends/*.config". The generated files,
+>   if present, are loaded by the various crypto libraries to
+>   override their own built-in defaults.
+> 
+>   For example, the GNUTLS library may read
+>   "/etc/crypto-policies/back-ends/gnutls.config".
+> 
+> * A management application (or the QEMU user) may overide the
+>   system-wide crypto-policies config via their own config, if
+>   they need to diverge from the former.
+> 
+> Thus the priority order is "QEMU user config" > "crypto-policies
+> system config" > "library built-in config".
+> 
+> Introduce the "tls-cipher-suites" object for exposing the ordered
+> list of permitted TLS cipher suites from the host side to the
+> guest firmware, via fw_cfg. The list is represented as an array
+> of bytes.
+> 
+> The priority at which the host-side policy is retrieved is given
+> by the "priority" property of the new object type. For example,
+> "priority=@SYSTEM" may be used to refer to
+> "/etc/crypto-policies/back-ends/gnutls.config" (given that QEMU
+> uses GNUTLS).
+> 
+> The firmware uses the IANA_TLS_CIPHER array for configuring
+> guest-side TLS, for example in UEFI HTTPS Boot.
+> 
+> [Description from Daniel P. Berrangé, edited by Laszlo Ersek.]
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v10: rewrote logic (danpb)
+> ---
+>  include/crypto/tls-cipher-suites.h |  39 ++++++++++
+>  crypto/tls-cipher-suites.c         | 115 +++++++++++++++++++++++++++++
+>  crypto/Makefile.objs               |   1 +
+>  crypto/trace-events                |   5 ++
+>  qemu-options.hx                    |  19 +++++
+>  5 files changed, 179 insertions(+)
+>  create mode 100644 include/crypto/tls-cipher-suites.h
+>  create mode 100644 crypto/tls-cipher-suites.c
 
-... in that case, the code in dasd-ipl.c should maybe rather call 
-jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff) directly instead of 
-going through jump_to_low_kernel(), I guess.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Jason, do you remember the intention here?
+> 
+> diff --git a/include/crypto/tls-cipher-suites.h b/include/crypto/tls-cipher-suites.h
+> new file mode 100644
+> index 0000000000..1be7917233
+> --- /dev/null
+> +++ b/include/crypto/tls-cipher-suites.h
+> @@ -0,0 +1,39 @@
+> +/*
+> + * QEMU TLS Cipher Suites Registry (RFC8447)
+> + *
+> + * Copyright (c) 2019 Red Hat, Inc.
 
-  Thomas
+nit-pick, we could make that 2019-2020, likewise other files.
+
+No need to respin just for that though.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
