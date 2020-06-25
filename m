@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E41820A292
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:03:48 +0200 (CEST)
-Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FFC20A289
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:01:51 +0200 (CEST)
+Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joULr-0000Bo-8w
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38124)
+	id 1joUJx-0005Yb-W1
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjL-0006wW-Jr
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjL-0006vL-6A
  for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45805
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39630
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjJ-0001Wc-NX
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjJ-0001WI-9C
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098637;
+ s=mimecast20190719; t=1593098636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h/3P/pJh6MgN6QjYFEd5x6ZBKYhy9ocY18yRFiiMzpg=;
- b=DoElT5gJMNO7p9nc8cwZ4MaRfpmoYqW4+lGUIKpDg9v6Y7y4BJquOmrmwjWRQrXgjCzxTU
- CX9B6/wwUiStJsdl8D4BHyMtuQIL7QtLhvoR0SbzLs44VL7QSIkNb8DZkpo6424i5PmxhH
- +Qq+nkNSnTJ03mhuKiuPv5dOKsy7SDE=
+ bh=5tNmvsX0enHZpWlhX9xUzW41+hKt4XBVUHLN3u9eAeI=;
+ b=eCQ5YHtnFbCTPme8EUluOsOPiOrfxkCtwyMwwf3AcIOf4ZPQ+kDMa/n0tw61lrpxQZMCEQ
+ WZJ5lrK5WBXBL5Sv0sEIMyfQQThiH0fO6Qy6glSHCD9cHfvNJ7wLYvNQJ93sK/vX2Y7SJo
+ WuZHEICsolXUYDFcjRgJnM8w7ocunpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411--YiuQWcONr-fWckjp39ILg-1; Thu, 25 Jun 2020 11:23:52 -0400
-X-MC-Unique: -YiuQWcONr-fWckjp39ILg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-84-Thtf0bSMNxugvEjrlyqX9w-1; Thu, 25 Jun 2020 11:23:54 -0400
+X-MC-Unique: Thtf0bSMNxugvEjrlyqX9w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C65C618A8220;
- Thu, 25 Jun 2020 15:23:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2BB0800C64;
+ Thu, 25 Jun 2020 15:23:53 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 695801DC;
- Thu, 25 Jun 2020 15:23:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82759D01E7;
+ Thu, 25 Jun 2020 15:23:53 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 42/47] iotests: Test that qcow2's data-file is flushed
-Date: Thu, 25 Jun 2020 17:22:10 +0200
-Message-Id: <20200625152215.941773-43-mreitz@redhat.com>
+Subject: [PATCH v7 43/47] iotests: Let complete_and_wait() work with commit
+Date: Thu, 25 Jun 2020 17:22:11 +0200
+Message-Id: <20200625152215.941773-44-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,91 +85,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Flushing a qcow2 node must lead to the data-file node being flushed as
-well.
+complete_and_wait() and wait_ready() currently only work for mirror
+jobs.  Let them work for active commit jobs, too.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/244     | 49 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/244.out |  7 ++++++
- 2 files changed, 56 insertions(+)
+ tests/qemu-iotests/iotests.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index efe3c0428b..f2b2dddf1c 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -217,6 +217,55 @@ $QEMU_IMG amend -f $IMGFMT -o "data_file=blkdebug::$TEST_IMG.data" "$TEST_IMG"
- $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
- $QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5ea4c4df8b..57b32d8ad3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -932,8 +932,12 @@ class QMPTestCase(unittest.TestCase):
  
-+echo
-+echo "=== Flushing should flush the data file ==="
-+echo
-+
-+# We are going to flush a qcow2 file with a blkdebug node inserted
-+# between the qcow2 node and its data file node.  The blkdebug node
-+# will return an error for all flushes and so we if the data file is
-+# flushed, we will see qemu-io return an error.
-+
-+# We need to write something or the flush will not do anything; we
-+# also need -t writeback so the write is not done as a FUA write
-+# (which would then fail thanks to the implicit flush)
-+$QEMU_IO -c 'write 0 512' -c flush \
-+    -t writeback \
-+    "json:{
-+         'driver': 'qcow2',
-+         'file': {
-+             'driver': 'file',
-+             'filename': '$TEST_IMG'
-+         },
-+         'data-file': {
-+             'driver': 'blkdebug',
-+             'inject-error': [{
-+                 'event': 'none',
-+                 'iotype': 'flush'
-+             }],
-+             'image': {
-+                 'driver': 'file',
-+                 'filename': '$TEST_IMG.data'
-+             }
-+         }
-+     }" \
-+    | _filter_qemu_io
-+
-+result=${PIPESTATUS[0]}
-+echo
-+
-+case $result in
-+    0)
-+        echo "ERROR: qemu-io succeeded, so the data file was not flushed"
-+        ;;
-+    1)
-+        echo "Success: qemu-io failed, so the data file was flushed"
-+        ;;
-+    *)
-+        echo "ERROR: qemu-io returned unknown exit code $result"
-+        ;;
-+esac
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index dbab7359a9..7269b4295a 100644
---- a/tests/qemu-iotests/244.out
-+++ b/tests/qemu-iotests/244.out
-@@ -131,4 +131,11 @@ Offset          Length          Mapped to       File
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
- Images are identical.
- Images are identical.
-+
-+=== Flushing should flush the data file ===
-+
-+wrote 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+Success: qemu-io failed, so the data file was flushed
- *** done
+     def wait_ready(self, drive='drive0'):
+         """Wait until a BLOCK_JOB_READY event, and return the event."""
+-        f = {'data': {'type': 'mirror', 'device': drive}}
+-        return self.vm.event_wait(name='BLOCK_JOB_READY', match=f)
++        return self.vm.events_wait([
++            ('BLOCK_JOB_READY',
++             {'data': {'type': 'mirror', 'device': drive}}),
++            ('BLOCK_JOB_READY',
++             {'data': {'type': 'commit', 'device': drive}})
++        ])
+ 
+     def wait_ready_and_cancel(self, drive='drive0'):
+         self.wait_ready(drive=drive)
+@@ -952,7 +956,7 @@ class QMPTestCase(unittest.TestCase):
+         self.assert_qmp(result, 'return', {})
+ 
+         event = self.wait_until_completed(drive=drive, error=completion_error)
+-        self.assert_qmp(event, 'data/type', 'mirror')
++        self.assertTrue(event['data']['type'] in ['mirror', 'commit'])
+ 
+     def pause_wait(self, job_id='job0'):
+         with Timeout(3, "Timeout waiting for job to pause"):
 -- 
 2.26.2
 
