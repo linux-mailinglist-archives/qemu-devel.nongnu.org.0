@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B2420A200
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:34:11 +0200 (CEST)
-Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2F420A20A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:36:04 +0200 (CEST)
+Received: from localhost ([::1]:38736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTtC-00029T-4y
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37334)
+	id 1joTv1-0005xz-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiR-0005jM-LN
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43644
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiV-0005pX-SA
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45277
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiP-0000uW-Bd
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:03 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiU-00010O-5s
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098580;
+ s=mimecast20190719; t=1593098585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Na6LFAxvfpAY3dT78yZFmDnKhomLwTA8w3U/O1UEuR4=;
- b=ES9ST0bia5A/JwgIz9Z9506JVWiM5R/Sjt+rL6NBNu/IgrSLJew0L55JI6W3Thv1D2ouZv
- VewcpolPaSCqbX+kCI+3Sqf85VeZftc/B8tNv9aY2k1E6URlU2qcc6yonFbdKr3s28k2W6
- UeVjNARbFWSP172e++ZUMto5Myi2Yss=
+ bh=Lsugp79RAMNcHG74w7ZGLRAAjt0YELvG0KbMAv1dqUk=;
+ b=Zid1OHS+8I/f8UBdlYAhdcllNfzMgn7l+rRVhGJSl8XwMQABK8ELBgv7JCPYzuy/PU7DEa
+ HDxtw1IXPEhgIX2bpa/fyaB9zH77ZrZuJYN0TFjn76Nnaa3hKnNWEW5GKxmXd4jIwFQePj
+ GA2JOtkG0Jv9X25Ee98qap6KqiD5q/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-nLdUukXOOaC-dWG1HBoezg-1; Thu, 25 Jun 2020 11:22:57 -0400
-X-MC-Unique: nLdUukXOOaC-dWG1HBoezg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-150-uKKlE8xoNJe1IIbDriV24A-1; Thu, 25 Jun 2020 11:23:00 -0400
+X-MC-Unique: uKKlE8xoNJe1IIbDriV24A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C47D31005512;
- Thu, 25 Jun 2020 15:22:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8638107ACCD;
+ Thu, 25 Jun 2020 15:22:58 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 653D8579A3;
- Thu, 25 Jun 2020 15:22:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C91F2B4A8;
+ Thu, 25 Jun 2020 15:22:58 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 17/47] block: Re-evaluate backing file handling in reopen
-Date: Thu, 25 Jun 2020 17:21:45 +0200
-Message-Id: <20200625152215.941773-18-mreitz@redhat.com>
+Subject: [PATCH v7 18/47] block: Flush all children in generic code
+Date: Thu, 25 Jun 2020 17:21:46 +0200
+Message-Id: <20200625152215.941773-19-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,103 +83,84 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reopening a node's backing child needs a bit of special handling because
-the "backing" child has different defaults than all other children
-(among other things).  Adding filter support here is a bit more
-difficult than just using the child access functions.  In fact, we often
-have to directly use bs->backing because these functions are about the
-"backing" child (which may or may not be the COW backing file).
+If the driver does not support .bdrv_co_flush() so bdrv_co_flush()
+itself has to flush the children of the given node, it should not flush
+just bs->file->bs, but in fact all children that might have been written
+to (judging from the permissions taken on them).
 
+This is a bug fix for qcow2 images with an external data file, as they
+so far did not flush that data_file node.
+
+In any case, the BLKDBG_EVENT() should be emitted on the primary child,
+because that is where a blkdebug node would be if there is any.
+
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 46 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+ block/io.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/block.c b/block.c
-index 712230ef5c..8131d0b5eb 100644
---- a/block.c
-+++ b/block.c
-@@ -4026,26 +4026,56 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
-         }
+diff --git a/block/io.c b/block/io.c
+index 097a3861d8..c2af7711d6 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2769,6 +2769,8 @@ static int coroutine_fn bdrv_flush_co_entry(void *opaque)
+ 
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+ {
++    BdrvChild *primary_child = bdrv_primary_child(bs);
++    BdrvChild *child;
+     int current_gen;
+     int ret = 0;
+ 
+@@ -2798,7 +2800,7 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
      }
  
-+    /*
-+     * Ensure that @bs can really handle backing files, because we are
-+     * about to give it one (or swap the existing one)
-+     */
-+    if (bs->drv->is_filter) {
-+        /* Filters always have a file or a backing child */
-+        if (!bs->backing) {
-+            error_setg(errp, "'%s' is a %s filter node that does not support a "
-+                       "backing child", bs->node_name, bs->drv->format_name);
-+            return -EINVAL;
+     /* Write back cached data to the OS even with cache=unsafe */
+-    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_OS);
++    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_OS);
+     if (bs->drv->bdrv_co_flush_to_os) {
+         ret = bs->drv->bdrv_co_flush_to_os(bs);
+         if (ret < 0) {
+@@ -2808,15 +2810,15 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+ 
+     /* But don't actually force it to the disk with cache=unsafe */
+     if (bs->open_flags & BDRV_O_NO_FLUSH) {
+-        goto flush_parent;
++        goto flush_children;
+     }
+ 
+     /* Check if we really need to flush anything */
+     if (bs->flushed_gen == current_gen) {
+-        goto flush_parent;
++        goto flush_children;
+     }
+ 
+-    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_DISK);
++    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_DISK);
+     if (!bs->drv) {
+         /* bs->drv->bdrv_co_flush() might have ejected the BDS
+          * (even in case of apparent success) */
+@@ -2860,8 +2862,17 @@ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+     /* Now flush the underlying protocol.  It will also have BDRV_O_NO_FLUSH
+      * in the case of cache=unsafe, so there are no useless flushes.
+      */
+-flush_parent:
+-    ret = bs->file ? bdrv_co_flush(bs->file->bs) : 0;
++flush_children:
++    ret = 0;
++    QLIST_FOREACH(child, &bs->children, next) {
++        if (child->perm & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED)) {
++            int this_child_ret = bdrv_co_flush(child->bs);
++            if (!ret) {
++                ret = this_child_ret;
++            }
 +        }
-+    } else if (!bs->drv->supports_backing) {
-+        error_setg(errp, "Driver '%s' of node '%s' does not support backing "
-+                   "files", bs->drv->format_name, bs->node_name);
-+        return -EINVAL;
 +    }
 +
-     /*
-      * Find the "actual" backing file by skipping all links that point
-      * to an implicit node, if any (e.g. a commit filter node).
-+     * We cannot use any of the bdrv_skip_*() functions here because
-+     * those return the first explicit node, while we are looking for
-+     * its overlay here.
-      */
-     overlay_bs = bs;
--    while (backing_bs(overlay_bs) && backing_bs(overlay_bs)->implicit) {
--        overlay_bs = backing_bs(overlay_bs);
-+    while (bdrv_filter_or_cow_bs(overlay_bs) &&
-+           bdrv_filter_or_cow_bs(overlay_bs)->implicit)
-+    {
-+        overlay_bs = bdrv_filter_or_cow_bs(overlay_bs);
-     }
- 
-     /* If we want to replace the backing file we need some extra checks */
--    if (new_backing_bs != backing_bs(overlay_bs)) {
-+    if (new_backing_bs != bdrv_filter_or_cow_bs(overlay_bs)) {
-         /* Check for implicit nodes between bs and its backing file */
-         if (bs != overlay_bs) {
-             error_setg(errp, "Cannot change backing link if '%s' has "
-                        "an implicit backing file", bs->node_name);
-             return -EPERM;
-         }
--        /* Check if the backing link that we want to replace is frozen */
--        if (bdrv_is_backing_chain_frozen(overlay_bs, backing_bs(overlay_bs),
--                                         errp)) {
-+        /*
-+         * Check if the backing link that we want to replace is frozen.
-+         * Note that
-+         * bdrv_filter_or_cow_child(overlay_bs) == overlay_bs->backing,
-+         * because we know that overlay_bs == bs, and that @bs
-+         * either is a filter that uses ->backing or a COW format BDS
-+         * with bs->drv->supports_backing == true.
-+         */
-+        if (bdrv_is_backing_chain_frozen(overlay_bs,
-+                                         child_bs(overlay_bs->backing), errp))
-+        {
-             return -EPERM;
-         }
-         reopen_state->replace_backing_bs = true;
-@@ -4196,7 +4226,7 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue *queue,
-      * its metadata. Otherwise the 'backing' option can be omitted.
-      */
-     if (drv->supports_backing && reopen_state->backing_missing &&
--        (backing_bs(reopen_state->bs) || reopen_state->bs->backing_file[0])) {
-+        (reopen_state->bs->backing || reopen_state->bs->backing_file[0])) {
-         error_setg(errp, "backing is missing for '%s'",
-                    reopen_state->bs->node_name);
-         ret = -EINVAL;
-@@ -4337,7 +4367,7 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-      * from bdrv_set_backing_hd()) has the new values.
-      */
-     if (reopen_state->replace_backing_bs) {
--        BlockDriverState *old_backing_bs = backing_bs(bs);
-+        BlockDriverState *old_backing_bs = child_bs(bs->backing);
-         assert(!old_backing_bs || !old_backing_bs->implicit);
-         /* Abort the permission update on the backing bs we're detaching */
-         if (old_backing_bs) {
+ out:
+     /* Notify any pending flushes that we have completed */
+     if (ret == 0) {
 -- 
 2.26.2
 
