@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2339120A266
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:51:47 +0200 (CEST)
-Received: from localhost ([::1]:60102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9A220A263
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:50:52 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUAE-00055m-0a
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
+	id 1joU9L-0002zR-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjO-00073r-Tg
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20230
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjV-0007AS-GX
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45016
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjL-0001Yi-Ul
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:02 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjT-0001dB-3C
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098639;
+ s=mimecast20190719; t=1593098643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8B92WjrExLEMrCAW5AW2cnw2+Wtezd3CD14wIf7oGo=;
- b=FeQTAgR2cl9Javnz5iLYkxz57H1NGTwp5IoohTpMuP3X4+IHXtxf74VZAq95m3TugmBG8R
- FdigDYoY6xHj1s/7W2eXrnmsmnNcIAjzhi5LiZury5vUfsxFDWFemBC0Z3PBfKkn82EziP
- fQsLBgGECUxJ0+01wumarRX+75JVgeE=
+ bh=fZqU6OKIKVuM7S4OBfB9tkserSvEzSWHObc2msGEIOk=;
+ b=hLdef352H/o8uco1Y1xDjfN3+PhLQF1G/948fL+szGLJ1HtQTSKILiC08ubVUdnlWd4Fkc
+ xw39irwNs1vurMH9Q5FdeOJPXcEYYORBlGEKXgxztEkWd6PLkiJmYmv2b1ScIduVOBnH3J
+ 3DMevNEeam+c+r3tmUyfCYKvWwpHPP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-HksOnrBYPwG08QDxt1vEpQ-1; Thu, 25 Jun 2020 11:23:57 -0400
-X-MC-Unique: HksOnrBYPwG08QDxt1vEpQ-1
+ us-mta-156-7BuHWV-yPXW6j2DiMuUV5g-1; Thu, 25 Jun 2020 11:23:59 -0400
+X-MC-Unique: 7BuHWV-yPXW6j2DiMuUV5g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CB7C8015FD;
- Thu, 25 Jun 2020 15:23:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F236464;
+ Thu, 25 Jun 2020 15:23:58 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C121917D9C;
- Thu, 25 Jun 2020 15:23:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E02B612BA;
+ Thu, 25 Jun 2020 15:23:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 44/47] iotests: Add filter commit test cases
-Date: Thu, 25 Jun 2020 17:22:12 +0200
-Message-Id: <20200625152215.941773-45-mreitz@redhat.com>
+Subject: [PATCH v7 45/47] iotests: Add filter mirror test cases
+Date: Thu, 25 Jun 2020 17:22:13 +0200
+Message-Id: <20200625152215.941773-46-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -83,212 +83,192 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds some tests on how commit copes with filter nodes.
+This patch adds some test cases how mirroring relates to filters.  One
+of them tests what happens when you mirror off a filtered COW node, two
+others use the mirror filter node as basically our only example of an
+implicitly created filter node so far (besides the commit filter).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/040     | 177 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/040.out |   4 +-
- 2 files changed, 179 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/041     | 146 ++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/041.out |   4 +-
+ 2 files changed, 147 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index 32c82b4ec6..e7fa244738 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -713,6 +713,183 @@ class TestErrorHandling(iotests.QMPTestCase):
-         self.assertTrue(iotests.compare_images(mid_img, backing_img, fmt2='raw'),
-                         'target image does not match source after commit')
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index b843f88a66..588bb76626 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -21,8 +21,9 @@
+ import time
+ import os
+ import re
++import json
+ import iotests
+-from iotests import qemu_img, qemu_io
++from iotests import qemu_img, qemu_img_pipe, qemu_io
  
-+class TestCommitWithFilters(iotests.QMPTestCase):
-+    img0 = os.path.join(iotests.test_dir, '0.img')
-+    img1 = os.path.join(iotests.test_dir, '1.img')
-+    img2 = os.path.join(iotests.test_dir, '2.img')
-+    img3 = os.path.join(iotests.test_dir, '3.img')
-+
-+    def do_test_io(self, read_or_write):
-+        for index, pattern_file in enumerate(self.pattern_files):
-+            result = qemu_io('-f', iotests.imgfmt,
-+                             '-c', '{} -P {} {}M 1M'.format(read_or_write,
-+                                                            index + 1, index),
-+                             pattern_file)
-+            self.assertFalse('Pattern verification failed' in result)
-+
+ backing_img = os.path.join(iotests.test_dir, 'backing.img')
+ target_backing_img = os.path.join(iotests.test_dir, 'target-backing.img')
+@@ -1275,6 +1276,149 @@ class TestReplaces(iotests.QMPTestCase):
+ 
+         self.vm.assert_block_path('filter0', '/file', 'target')
+ 
++# Tests for mirror with filters (and how the mirror filter behaves, as
++# an example for an implicit filter)
++class TestFilters(iotests.QMPTestCase):
 +    def setUp(self):
-+        qemu_img('create', '-f', iotests.imgfmt, self.img0, '64M')
-+        qemu_img('create', '-f', iotests.imgfmt, self.img1, '64M')
-+        qemu_img('create', '-f', iotests.imgfmt, self.img2, '64M')
-+        qemu_img('create', '-f', iotests.imgfmt, self.img3, '64M')
++        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, '-b', backing_img, test_img)
++        qemu_img('create', '-f', iotests.imgfmt, '-b', backing_img, target_img)
 +
-+        # Distributions of the patterns in the files; this is checked
-+        # by tearDown() and should be changed by the test cases as is
-+        # necessary
-+        self.pattern_files = [self.img0, self.img1, self.img2, self.img3]
-+
-+        self.do_test_io('write')
++        qemu_io('-c', 'write -P 1 0 512k', backing_img)
++        qemu_io('-c', 'write -P 2 512k 512k', test_img)
 +
 +        self.vm = iotests.VM()
 +        self.vm.launch()
 +
-+        result = self.vm.qmp('object-add', qom_type='throttle-group', id='tg')
++        result = self.vm.qmp('blockdev-add', **{
++                                'node-name': 'target',
++                                'driver': iotests.imgfmt,
++                                'file': {
++                                    'driver': 'file',
++                                    'filename': target_img
++                                },
++                                'backing': None
++                            })
 +        self.assert_qmp(result, 'return', {})
 +
-+        result = self.vm.qmp('blockdev-add', **{
-+                'node-name': 'top-filter',
-+                'driver': 'throttle',
-+                'throttle-group': 'tg',
++        self.filterless_chain = {
++                'node-name': 'source',
++                'driver': iotests.imgfmt,
 +                'file': {
-+                    'node-name': 'cow-3',
++                    'driver': 'file',
++                    'filename': test_img
++                },
++                'backing': {
++                    'node-name': 'backing',
 +                    'driver': iotests.imgfmt,
 +                    'file': {
 +                        'driver': 'file',
-+                        'filename': self.img3
-+                    },
-+                    'backing': {
-+                        'node-name': 'cow-2',
-+                        'driver': iotests.imgfmt,
-+                        'file': {
-+                            'driver': 'file',
-+                            'filename': self.img2
-+                        },
-+                        'backing': {
-+                            'node-name': 'cow-1',
-+                            'driver': iotests.imgfmt,
-+                            'file': {
-+                                'driver': 'file',
-+                                'filename': self.img1
-+                            },
-+                            'backing': {
-+                                'node-name': 'bottom-filter',
-+                                'driver': 'throttle',
-+                                'throttle-group': 'tg',
-+                                'file': {
-+                                    'node-name': 'cow-0',
-+                                    'driver': iotests.imgfmt,
-+                                    'file': {
-+                                        'driver': 'file',
-+                                        'filename': self.img0
-+                                    }
-+                                }
-+                            }
-+                        }
++                        'filename': backing_img
 +                    }
 +                }
-+            })
-+        self.assert_qmp(result, 'return', {})
++            }
 +
 +    def tearDown(self):
 +        self.vm.shutdown()
-+        self.do_test_io('read')
 +
-+        os.remove(self.img3)
-+        os.remove(self.img2)
-+        os.remove(self.img1)
-+        os.remove(self.img0)
++        os.remove(test_img)
++        os.remove(target_img)
++        os.remove(backing_img)
 +
-+    # Filters make for funny filenames, so we cannot just use
-+    # self.imgX to get them
-+    def get_filename(self, node):
-+        return self.vm.node_info(node)['image']['filename']
-+
-+    def test_filterless_commit(self):
-+        result = self.vm.qmp('block-commit',
-+                             job_id='commit',
-+                             device='top-filter',
-+                             top_node='cow-2',
-+                             base_node='cow-1')
-+        self.assert_qmp(result, 'return', {})
-+        self.wait_until_completed(drive='commit')
-+
-+        self.assertIsNotNone(self.vm.node_info('cow-3'))
-+        self.assertIsNone(self.vm.node_info('cow-2'))
-+        self.assertIsNotNone(self.vm.node_info('cow-1'))
-+
-+        # 2 has been comitted into 1
-+        self.pattern_files[2] = self.img1
-+
-+    def test_commit_through_filter(self):
-+        result = self.vm.qmp('block-commit',
-+                             job_id='commit',
-+                             device='top-filter',
-+                             top_node='cow-1',
-+                             base_node='cow-0')
-+        self.assert_qmp(result, 'return', {})
-+        self.wait_until_completed(drive='commit')
-+
-+        self.assertIsNotNone(self.vm.node_info('cow-2'))
-+        self.assertIsNone(self.vm.node_info('cow-1'))
-+        self.assertIsNone(self.vm.node_info('bottom-filter'))
-+        self.assertIsNotNone(self.vm.node_info('cow-0'))
-+
-+        # 1 has been comitted into 0
-+        self.pattern_files[1] = self.img0
-+
-+    def test_filtered_active_commit_with_filter(self):
-+        # Add a device, so the commit job finds a parent it can change
-+        # to point to the base node (so we can test that top-filter is
-+        # dropped from the graph)
-+        result = self.vm.qmp('device_add', id='drv0', driver='virtio-blk',
-+                             drive='top-filter')
++    def test_cor(self):
++        result = self.vm.qmp('blockdev-add', **{
++                                'node-name': 'filter',
++                                'driver': 'copy-on-read',
++                                'file': self.filterless_chain
++                            })
 +        self.assert_qmp(result, 'return', {})
 +
-+        # Try to release our reference to top-filter; that should not
-+        # work because drv0 uses it
-+        result = self.vm.qmp('blockdev-del', node_name='top-filter')
-+        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc', 'Node top-filter is in use')
-+
-+        result = self.vm.qmp('block-commit',
-+                             job_id='commit',
-+                             device='top-filter',
-+                             base_node='cow-2')
-+        self.assert_qmp(result, 'return', {})
-+        self.complete_and_wait(drive='commit')
-+
-+        # Try to release our reference to top-filter again
-+        result = self.vm.qmp('blockdev-del', node_name='top-filter')
++        result = self.vm.qmp('blockdev-mirror',
++                             job_id='mirror',
++                             device='filter',
++                             target='target',
++                             sync='top')
 +        self.assert_qmp(result, 'return', {})
 +
-+        self.assertIsNone(self.vm.node_info('top-filter'))
-+        self.assertIsNone(self.vm.node_info('cow-3'))
-+        self.assertIsNotNone(self.vm.node_info('cow-2'))
++        self.complete_and_wait('mirror')
 +
-+        # Check that drv0 is now connected to cow-2
-+        blockdevs = self.vm.qmp('query-block')['return']
-+        drv0 = next(dev for dev in blockdevs if '/drv0' in dev['qdev'])
-+        self.assertEqual(drv0['inserted']['node-name'], 'cow-2')
++        self.vm.qmp('blockdev-del', node_name='target')
 +
-+        # 3 has been comitted into 2
-+        self.pattern_files[3] = self.img2
++        target_map = qemu_img_pipe('map', '--output=json', target_img)
++        target_map = json.loads(target_map)
 +
-+    def test_filtered_active_commit_without_filter(self):
-+        result = self.vm.qmp('block-commit',
-+                             job_id='commit',
-+                             device='top-filter',
-+                             top_node='cow-3',
-+                             base_node='cow-2')
++        assert target_map[0]['start'] == 0
++        assert target_map[0]['length'] == 512 * 1024
++        assert target_map[0]['depth'] == 1
++
++        assert target_map[1]['start'] == 512 * 1024
++        assert target_map[1]['length'] == 512 * 1024
++        assert target_map[1]['depth'] == 0
++
++    def test_implicit_mirror_filter(self):
++        result = self.vm.qmp('blockdev-add', **self.filterless_chain)
 +        self.assert_qmp(result, 'return', {})
-+        self.complete_and_wait(drive='commit')
 +
-+        self.assertIsNotNone(self.vm.node_info('top-filter'))
-+        self.assertIsNone(self.vm.node_info('cow-3'))
-+        self.assertIsNotNone(self.vm.node_info('cow-2'))
++        # We need this so we can query from above the mirror node
++        result = self.vm.qmp('device_add',
++                             driver='virtio-blk',
++                             id='virtio',
++                             bus='pci.0',
++                             drive='source')
++        self.assert_qmp(result, 'return', {})
 +
-+        # 3 has been comitted into 2
-+        self.pattern_files[3] = self.img2
++        result = self.vm.qmp('blockdev-mirror',
++                             job_id='mirror',
++                             device='source',
++                             target='target',
++                             sync='top')
++        self.assert_qmp(result, 'return', {})
++
++        # The mirror filter is now an implicit node, so it should be
++        # invisible when querying the backing chain
++        device_info = self.vm.qmp('query-block')['return'][0]
++        assert device_info['qdev'] == '/machine/peripheral/virtio/virtio-backend'
++
++        assert device_info['inserted']['node-name'] == 'source'
++
++        image_info = device_info['inserted']['image']
++        assert image_info['filename'] == test_img
++        assert image_info['backing-image']['filename'] == backing_img
++
++        self.complete_and_wait('mirror')
++
++    def test_explicit_mirror_filter(self):
++        # Same test as above, but this time we give the mirror filter
++        # a node-name so it will not be invisible
++        result = self.vm.qmp('blockdev-add', **self.filterless_chain)
++        self.assert_qmp(result, 'return', {})
++
++        # We need this so we can query from above the mirror node
++        result = self.vm.qmp('device_add',
++                             driver='virtio-blk',
++                             id='virtio',
++                             bus='pci.0',
++                             drive='source')
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('blockdev-mirror',
++                             job_id='mirror',
++                             device='source',
++                             target='target',
++                             sync='top',
++                             filter_node_name='mirror-filter')
++        self.assert_qmp(result, 'return', {})
++
++        # With a node-name given to it, the mirror filter should now
++        # be visible
++        device_info = self.vm.qmp('query-block')['return'][0]
++        assert device_info['qdev'] == '/machine/peripheral/virtio/virtio-backend'
++
++        assert device_info['inserted']['node-name'] == 'mirror-filter'
++
++        self.complete_and_wait('mirror')
++
 +
  if __name__ == '__main__':
      iotests.main(supported_fmts=['qcow2', 'qed'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
-index 6a917130b6..4823c113d5 100644
---- a/tests/qemu-iotests/040.out
-+++ b/tests/qemu-iotests/040.out
+                  supported_protocols=['file'],
+diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
+index 53abe11d73..46651953e8 100644
+--- a/tests/qemu-iotests/041.out
++++ b/tests/qemu-iotests/041.out
 @@ -1,5 +1,5 @@
--...........................................................
-+...............................................................
+-........................................................................................................
++...........................................................................................................
  ----------------------------------------------------------------------
--Ran 59 tests
-+Ran 63 tests
+-Ran 104 tests
++Ran 107 tests
  
  OK
 -- 
