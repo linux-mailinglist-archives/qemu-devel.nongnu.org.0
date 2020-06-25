@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC8E2099A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 07:54:05 +0200 (CEST)
-Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C4D20999D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 07:49:38 +0200 (CEST)
+Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joKpo-0001aC-F2
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 01:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33434)
+	id 1joKlV-00038m-VL
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 01:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joKjf-0000kn-Lb; Thu, 25 Jun 2020 01:47:43 -0400
-Received: from ozlabs.org ([203.11.71.1]:41177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joKjd-0004VB-HF; Thu, 25 Jun 2020 01:47:43 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49spv50fKWz9sTC; Thu, 25 Jun 2020 15:47:28 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1593064049;
- bh=EEmTbZZVcmzkrdOgtIVLfWGut2RQOlCho8VlMoYE5zc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g6i56VscgZX7GjhhX4rwun/gt9BfGwz8rULD0Of1Yem9eSAGCD3JRxQRsSr5sVy/g
- X9Ep7Sk9lIPTiKxUZL+a6lanNLJh4cSOHUNYI7ik7dCI2AkjbPRa7XZvj+MwgsOSWU
- XyIoT5MaDytwjMhjY9W3lO6E4vtXtMHY8Glrh7T0=
-Date: Thu, 25 Jun 2020 15:47:23 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v3 0/9] Generalize memory encryption models
-Message-ID: <20200625054723.GG172395@umbus.fritz.box>
-References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
- <2fa7c84a-6929-ef04-1d61-f76a4cac35f5@de.ibm.com>
- <20200624090648.6bdf82bd.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joKjt-0001HB-BW
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 01:47:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39292
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joKjq-0004d6-Ne
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 01:47:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593064073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yltWr9m7PQsc55IuLqoYh3lku7RKrI2HuyQ7nFk1wmM=;
+ b=Tn7Q8yeFxXwe2MXKJAgu+WStD6ligg1ZtK/Q4rH7Bi1LWGwkgqsjT5yRbP1OE12FjCFmrA
+ JqNSLAW21klTDFCdgytGABwMQJOgQGRPNwB4U6Ot6Agop3y+qTy94TVKDPPZfxzjH2z4we
+ 2+kONHKtW29tB76K8fJdgnm1tjRAALk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-mEYcsFWVMQuqEDlAvqgWNA-1; Thu, 25 Jun 2020 01:47:47 -0400
+X-MC-Unique: mEYcsFWVMQuqEDlAvqgWNA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0A97805EE3;
+ Thu, 25 Jun 2020 05:47:46 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C8A35D9C5;
+ Thu, 25 Jun 2020 05:47:43 +0000 (UTC)
+Subject: Re: [PULL 00/19] virtio,acpi,pci: fixes, cleanups, tools.
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200624230609.703104-1-mst@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <041fe41e-e9b5-77dd-d69c-0afdcbfd638c@redhat.com>
+Date: Thu, 25 Jun 2020 07:47:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Fnm8lRGFTVS/3GuM"
-Content-Disposition: inline
-In-Reply-To: <20200624090648.6bdf82bd.cohuck@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 22:09:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200624230609.703104-1-mst@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,120 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, mst@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 25/06/2020 01.06, Michael S. Tsirkin wrote:
+> The following changes since commit d4b78317b7cf8c0c635b70086503813f79ff21ec:
+> 
+>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200623' into staging (2020-06-23 18:57:05 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> for you to fetch changes up to f6f746db6bae1ba74967fd7bea2bb5e169502948:
+> 
+>    tests: disassemble-asm.sh: generate AML in readable format (2020-06-24 19:03:57 -0400)
+> 
+> ----------------------------------------------------------------
+> virtio,acpi,pci: fixes, cleanups, tools.
+> 
+> Fixes, cleanups in ACPI, PCI, virtio.
+> A handy script for testing ACPI.
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Ani Sinha (1):
+>        Rename use_acpi_pci_hotplug to more appropriate use_acpi_hotplug_bridge
+> 
+> Eric Auger (3):
+>        acpi: Some build_tpm2() code reshape
+>        arm/acpi: Add the TPM2.0 device under the DSDT
+>        docs/specs/tpm: ACPI boot now supported for TPM/ARM
+> 
+> Gerd Hoffmann (12):
+>        qtest: allow DSDT acpi table changes
+>        acpi: bios-tables-test: show more context on asl diffs
+>        acpi: move aml builder code for floppy device
+>        floppy: make isa_fdc_get_drive_max_chs static
+>        floppy: move cmos_get_fd_drive_type() from pc
+>        acpi: move aml builder code for i8042 (kbd+mouse) device
+>        acpi: factor out fw_cfg_add_acpi_dsdt()
+>        acpi: simplify build_isa_devices_aml()
+>        acpi: drop serial/parallel enable bits from dsdt
+>        acpi: drop build_piix4_pm()
+>        acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
+>        tests/acpi: update expected data files
+> 
+> Michael S. Tsirkin (1):
+>        tests: disassemble-asm.sh: generate AML in readable format
+> 
+> Raphael Norwitz (1):
+>        Stop vhost-user sending uninitialized mmap_offsets
+> 
+> Thomas Huth (1):
+>        tests/qtest/bios-tables: Only run the TPM test with CONFIG_TPM enabled
 
---Fnm8lRGFTVS/3GuM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Hi Michael!
 
-On Wed, Jun 24, 2020 at 09:06:48AM +0200, Cornelia Huck wrote:
-> On Mon, 22 Jun 2020 16:27:28 +0200
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->=20
-> > On 19.06.20 04:05, David Gibson wrote:
-> > > A number of hardware platforms are implementing mechanisms whereby the
-> > > hypervisor does not have unfettered access to guest memory, in order
-> > > to mitigate the security impact of a compromised hypervisor.
-> > >=20
-> > > AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> > > its own memory encryption mechanism.  POWER has an upcoming mechanism
-> > > to accomplish this in a different way, using a new memory protection
-> > > level plus a small trusted ultravisor.  s390 also has a protected
-> > > execution environment.
-> > >=20
-> > > The current code (committed or draft) for these features has each
-> > > platform's version configured entirely differently.  That doesn't seem
-> > > ideal for users, or particularly for management layers.
-> > >=20
-> > > AMD SEV introduces a notionally generic machine option
-> > > "machine-encryption", but it doesn't actually cover any cases other
-> > > than SEV.
-> > >=20
-> > > This series is a proposal to at least partially unify configuration
-> > > for these mechanisms, by renaming and generalizing AMD's
-> > > "memory-encryption" property.  It is replaced by a
-> > > "host-trust-limitation" property pointing to a platform specific
-> > > object which configures and manages the specific details.
-> > >=20
-> > > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
-> > > can be extended to cover the Intel and s390 mechanisms as well,
-> > > though. =20
-> >=20
-> > Let me try to summarize what I understand what you try to achieve:
-> > one command line parameter for all platforms that=20
-> >=20
-> > common across all platforms:
-> > - disable KSM
-> > - by default enables iommu_platform
-> >=20
-> >=20
-> > per platform:
-> > - setup the necessary encryption scheme when appropriate
-> > - block migration
-> > -....
-> >=20
-> >=20
-> > The tricky part is certainly the per platform thing. For example on
-> > s390 we just have a cpumodel flag that provides interfaces to the guest
-> > to switch into protected mode via the ultravisor. This works perfectly
-> > fine with the host model, so no need to configure anything.  The platfo=
-rm
-> > code then disables KSM _on_switchover_ and not in general. Because the=
-=20
-> > guest CAN switch into protected, but it does not have to.
-> >=20
-> > So this feels really hard to do right. Would a virtual BoF on KVM forum
-> > be too late? We had a BoF on protected guests last year and that was
-> > valuable.
->=20
-> Maybe we can do some kind of call to discuss this earlier? (Maybe in
-> the KVM call slot on Tuesdays?) I think it would be really helpful if
-> everybody would have at least a general understanding about how
-> encryption/protection works on the different architectures.
+Please drop my patch from your pull request - the issue has already been 
+solved by Eric's patch that already got merged:
 
-Yes, I think this would be a good idea.  KVM Forum is probably later
-than we want, plus since it is virtual, I probably won't be shifting
-into the right timezone to attend much of it.
+https://git.qemu.org/?p=qemu.git;a=commitdiff;h=55b9757c7e58092
 
-I don't know when that Tuesday KVM call is.  Generally the best
-available time for Australia/Europe meetings this time of year is 9am
-CET / 5pm AEST.  As a once off I could go somewhat later into my
-evening, though.
+  Thanks,
+   Thomas
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Fnm8lRGFTVS/3GuM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl70OmsACgkQbDjKyiDZ
-s5LT1A/+IwaLiZZ3b7YhAaur+c0t0DHFTO6Kc2RYpqJrHL1qEhm794BeLB7FyFzb
-mi1sQs3TzS3fXAzO3Smjd3hJLDXTdz6Ffi8efAI/ftRxzi2Llhd9qaO8u8y+d1Kg
-dziTxoe9doUU4Y2WNz+cNKxcNYC/+N3Zv7WurDuQ0lutKs1YE3NN7wcebiZf4RRv
-aL1XIyHpBRe827Om1gsNBICkFxzvkXk0vg8IO5KttISNEUMMJly5JC9szcCOTX6h
-x1DUKdWS/JK3YNc2M7PN5rwupy1ws9iW9LEIyWwAQXHU7PL3MVrHTUjOJNlhGxUl
-tPsPL+SteLhhgmwQVxB3D2WskmJsJ2i37e7TzlbCaZXiO3eiBvz+6pQQ1LVz2/++
-bdlHNKlLl7iaHjnIaUtqgamCCy4AXnPJI83IuQGY9spdJHd4PMrqDBiPo3m2xSe3
-U4C3KD+Bz5LsfqACaN8HGr91QrIAXIE3ajUf6zqHuTdP9BUeps9rArV64cJ/vhYE
-I86ixvvO0Bfyy9eu0AXtG+rupjLvFdF9mWhQ8kIK98+QXYCh8FuN8OEZ6A+eAT04
-pRlRFqyx5AJy2CHW1ik0XEw68jY/A404+N5b4GABMjDxdQ0C52j5xDQiuycTUkGJ
-vAjWg8x2UrQP3v7qmunRTQnDY6X2pfXbPetCJftbv9ZDQ86UevA=
-=CtJc
------END PGP SIGNATURE-----
-
---Fnm8lRGFTVS/3GuM--
 
