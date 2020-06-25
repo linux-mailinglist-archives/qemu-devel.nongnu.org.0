@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0503620A201
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:34:12 +0200 (CEST)
-Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB4C20A1F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:31:37 +0200 (CEST)
+Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTtC-0002AH-UD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
+	id 1joTqi-0006qU-B8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiG-0005cn-Hk
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57807
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiM-0005f8-1b
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34988
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiD-0000kj-0r
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:52 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiI-0000ny-Mc
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098568;
+ s=mimecast20190719; t=1593098574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MqHimW4Fh8To193wjifBj5GjECNEmUokN+yiC3fNTyE=;
- b=EkZlaPE9c/q8q/ucSJ+eX/kYfjdBF7u5mBecSMrpFlSK3fdnUSL9Gw/OuhdtpxR94bUeph
- 4+JjuG4XkHQcGWQflPmRz5tuOBjrZXTfDkPctbwVRNkzIOw9eJ0PwMO2RXkdm+5ybXXaX4
- EjORkKhvpsFU05dSzbltBzaXN6GJNgY=
+ bh=rIrPbyY3/n1D6dbiL+f9UqPH10R3oWNqYHhFDDh5Xn4=;
+ b=MfSY4gR1gvjG++xTiyi8rhW85DGFcWz1GHio5zuZ2NwlEKivUAtrGoTLHLrA7hfT2ODFDV
+ CRnU9V3LxgbfsuJ4+dKs3V01bWuF6E3SldPj/C2OVO8gxQ0IrWyPw4U4MxO0Mhn9i2ovqJ
+ WOz4lm2TIYkHZxjEH1GF2t6JqGDrUxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-R0OP0uE4OzyvVJrHVAm1fg-1; Thu, 25 Jun 2020 11:22:42 -0400
-X-MC-Unique: R0OP0uE4OzyvVJrHVAm1fg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-407-UispQZMJMDu3AsywrljdXA-1; Thu, 25 Jun 2020 11:22:48 -0400
+X-MC-Unique: UispQZMJMDu3AsywrljdXA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43F6B64AD9;
- Thu, 25 Jun 2020 15:22:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86711800D4A;
+ Thu, 25 Jun 2020 15:22:47 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE8EB1DC;
- Thu, 25 Jun 2020 15:22:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D0B71944D;
+ Thu, 25 Jun 2020 15:22:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 10/47] mirror-top: Support compressed writes
-Date: Thu, 25 Jun 2020 17:21:38 +0200
-Message-Id: <20200625152215.941773-11-mreitz@redhat.com>
+Subject: [PATCH v7 13/47] block: Use CAFs in block status functions
+Date: Thu, 25 Jun 2020 17:21:41 +0200
+Message-Id: <20200625152215.941773-14-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,39 +83,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use the child access functions in the block status inquiry functions as
+appropriate.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/mirror.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ block/io.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index e8e8844afc..469acf4600 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1480,6 +1480,15 @@ static int coroutine_fn bdrv_mirror_top_pdiscard(BlockDriverState *bs,
-                                     NULL, 0);
+diff --git a/block/io.c b/block/io.c
+index 385176b331..dc9891d6ce 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2407,11 +2407,12 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+         ret |= BDRV_BLOCK_ALLOCATED;
+     } else if (want_zero) {
++        BlockDriverState *cow_bs = bdrv_cow_bs(bs);
++
+         if (bdrv_unallocated_blocks_are_zero(bs)) {
+             ret |= BDRV_BLOCK_ZERO;
+-        } else if (bs->backing) {
+-            BlockDriverState *bs2 = bs->backing->bs;
+-            int64_t size2 = bdrv_getlength(bs2);
++        } else if (cow_bs) {
++            int64_t size2 = bdrv_getlength(cow_bs);
+ 
+             if (size2 >= 0 && offset >= size2) {
+                 ret |= BDRV_BLOCK_ZERO;
+@@ -2477,7 +2478,7 @@ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
+     bool first = true;
+ 
+     assert(bs != base);
+-    for (p = bs; p != base; p = backing_bs(p)) {
++    for (p = bs; p != base; p = bdrv_filter_or_cow_bs(p)) {
+         ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
+                                    file);
+         if (ret < 0) {
+@@ -2551,7 +2552,7 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                       int64_t *pnum, int64_t *map, BlockDriverState **file)
+ {
+-    return bdrv_block_status_above(bs, backing_bs(bs),
++    return bdrv_block_status_above(bs, bdrv_filter_or_cow_bs(bs),
+                                    offset, bytes, pnum, map, file);
  }
  
-+static int coroutine_fn bdrv_mirror_top_pwritev_compressed(BlockDriverState *bs,
-+                                                           uint64_t offset,
-+                                                           uint64_t bytes,
-+                                                           QEMUIOVector *qiov)
-+{
-+    return bdrv_mirror_top_pwritev(bs, offset, bytes, qiov,
-+                                   BDRV_REQ_WRITE_COMPRESSED);
-+}
-+
- static void bdrv_mirror_top_refresh_filename(BlockDriverState *bs)
- {
-     if (bs->backing == NULL) {
-@@ -1526,6 +1535,7 @@ static BlockDriver bdrv_mirror_top = {
-     .bdrv_co_pwritev            = bdrv_mirror_top_pwritev,
-     .bdrv_co_pwrite_zeroes      = bdrv_mirror_top_pwrite_zeroes,
-     .bdrv_co_pdiscard           = bdrv_mirror_top_pdiscard,
-+    .bdrv_co_pwritev_compressed = bdrv_mirror_top_pwritev_compressed,
-     .bdrv_co_flush              = bdrv_mirror_top_flush,
-     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
-     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
+@@ -2561,9 +2562,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+     int ret;
+     int64_t dummy;
+ 
+-    ret = bdrv_common_block_status_above(bs, backing_bs(bs), false, offset,
+-                                         bytes, pnum ? pnum : &dummy, NULL,
+-                                         NULL);
++    ret = bdrv_common_block_status_above(bs, bdrv_filter_or_cow_bs(bs), false,
++                                         offset, bytes, pnum ? pnum : &dummy,
++                                         NULL, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2626,7 +2627,7 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+             break;
+         }
+ 
+-        intermediate = backing_bs(intermediate);
++        intermediate = bdrv_filter_or_cow_bs(intermediate);
+     }
+ 
+     *pnum = n;
 -- 
 2.26.2
 
