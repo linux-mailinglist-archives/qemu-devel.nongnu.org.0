@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D219209F1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:06:59 +0200 (CEST)
-Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207B2209F61
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:12:47 +0200 (CEST)
+Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRak-0002oU-8q
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
+	id 1joRgM-0002gC-3Y
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQt-00041r-Hr
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47252
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQw-00043e-LJ
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:52 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30511
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQr-0003Pw-UP
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQs-0003Q1-4V
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593089805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gj98eBMjQ8Y9gSHoOf1w2VXvi0IRo7VNE0AcsD+Z034=;
- b=AI1MHhLKZzTua1kQ9hZzNLbOu/Lr+myyW4u0GEfeYXbrLs7c5E+Hsa+RSR6uf5mQEUi92g
- XSRZnUJUp7P58fUm8bxBrvJsRr+pvpHrtthzbUPmGX+jsIOUSAqg/i1aWr4fgOJM4P0DPf
- Vs+RPPRE9hYM2W/ws/ngbLyy2xUPhx0=
+ bh=jFPDXmgbYSuMNSPmz3MGqWSs7F5g1xKW8/+M7CudBSk=;
+ b=Pkx2KGhQ9y1OHfNX5Vv4CwpbnbZA6RHRgclC21uGhWYrsYIJ0OTCyOXjw0vai7JLLGCxFV
+ 1jFXRoETdBCJsCjpo+X0bGp9DdqVzYjF7TjTCRPpHYh/QdwJI/q+BnysubD3HhlHSBZjYw
+ kR/Zd3QF4Oo8aNT6iOZZX04zdG+MuAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-tqppaN38N-G0bPvKRFR5TQ-1; Thu, 25 Jun 2020 08:56:41 -0400
-X-MC-Unique: tqppaN38N-G0bPvKRFR5TQ-1
+ us-mta-49-1UH83armPFC8llHVbZ6Krg-1; Thu, 25 Jun 2020 08:56:43 -0400
+X-MC-Unique: 1UH83armPFC8llHVbZ6Krg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1765B100A8F7;
- Thu, 25 Jun 2020 12:56:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C079107ACF2;
+ Thu, 25 Jun 2020 12:56:42 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AEAFD7C1EE;
- Thu, 25 Jun 2020 12:56:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAD75C14BD;
+ Thu, 25 Jun 2020 12:56:41 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 17/19] block/crypto: implement blockdev-amend
-Date: Thu, 25 Jun 2020 14:55:46 +0200
-Message-Id: <20200625125548.870061-18-mreitz@redhat.com>
+Subject: [PATCH 18/19] block/qcow2: implement blockdev-amend
+Date: Thu, 25 Jun 2020 14:55:47 +0200
+Message-Id: <20200625125548.870061-19-mreitz@redhat.com>
 In-Reply-To: <20200625125548.870061-1-mreitz@redhat.com>
 References: <20200625125548.870061-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,159 +86,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
+Currently the implementation only supports amending the encryption
+options, unlike the qemu-img version
+
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200608094030.670121-13-mlevitsk@redhat.com>
+Message-Id: <20200608094030.670121-14-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 14 ++++++++-
- block/crypto.c       | 72 ++++++++++++++++++++++++++++++++------------
- 2 files changed, 66 insertions(+), 20 deletions(-)
+ qapi/block-core.json | 16 +++++++++++++++-
+ block/qcow2.c        | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 1 deletion(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index c22996282f..cd679ad435 100644
+index cd679ad435..b20332e592 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -4674,6 +4674,18 @@
-   'data': { 'job-id': 'str',
-             'options': 'BlockdevCreateOptions' } }
+@@ -4686,6 +4686,19 @@
+   'data': { }
+ }
  
 +##
-+# @BlockdevAmendOptionsLUKS:
++# @BlockdevAmendOptionsQcow2:
 +#
-+# Driver specific image amend options for LUKS.
++# Driver specific image amend options for qcow2.
++# For now, only encryption options can be amended
++#
++# @encrypt          Encryption options to be amended
 +#
 +# Since: 5.1
 +##
-+{ 'struct': 'BlockdevAmendOptionsLUKS',
-+  'base': 'QCryptoBlockAmendOptionsLUKS',
-+  'data': { }
-+}
++{ 'struct': 'BlockdevAmendOptionsQcow2',
++  'data': { '*encrypt':         'QCryptoBlockAmendOptions' } }
 +
  ##
  # @BlockdevAmendOptions:
  #
-@@ -4688,7 +4700,7 @@
+@@ -4700,7 +4713,8 @@
        'driver':         'BlockdevDriver' },
    'discriminator': 'driver',
    'data': {
--  } }
-+      'luks':           'BlockdevAmendOptionsLUKS' } }
+-      'luks':           'BlockdevAmendOptionsLUKS' } }
++      'luks':           'BlockdevAmendOptionsLUKS',
++      'qcow2':          'BlockdevAmendOptionsQcow2' } }
  
  ##
  # @x-blockdev-amend:
-diff --git a/block/crypto.c b/block/crypto.c
-index b9c40e6922..3fbd68832b 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -791,32 +791,21 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0e72e8fc39..0d2d05d1f7 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5585,6 +5585,44 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+     return 0;
  }
  
- static int
--block_crypto_amend_options_luks(BlockDriverState *bs,
--                                QemuOpts *opts,
--                                BlockDriverAmendStatusCB *status_cb,
--                                void *cb_opaque,
--                                bool force,
--                                Error **errp)
-+block_crypto_amend_options_generic_luks(BlockDriverState *bs,
-+                                        QCryptoBlockAmendOptions *amend_options,
-+                                        bool force,
-+                                        Error **errp)
- {
-     BlockCrypto *crypto = bs->opaque;
--    QDict *cryptoopts = NULL;
--    QCryptoBlockAmendOptions *amend_options = NULL;
-     int ret;
- 
-     assert(crypto);
-     assert(crypto->block);
--    crypto->updating_keys = true;
- 
-+    /* apply for exclusive read/write permissions to the underlying file*/
-+    crypto->updating_keys = true;
-     ret = bdrv_child_refresh_perms(bs, bs->file, errp);
--    if (ret < 0) {
--        goto cleanup;
--    }
--
--    cryptoopts = qemu_opts_to_qdict(opts, NULL);
--    qdict_put_str(cryptoopts, "format", "luks");
--    amend_options = block_crypto_amend_opts_init(cryptoopts, errp);
--    if (!amend_options) {
--        ret = -EINVAL;
-+    if (ret) {
-         goto cleanup;
-     }
- 
-@@ -828,13 +817,57 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
-                                       force,
-                                       errp);
- cleanup:
-+    /* release exclusive read/write permissions to the underlying file*/
-     crypto->updating_keys = false;
-     bdrv_child_refresh_perms(bs, bs->file, errp);
--    qapi_free_QCryptoBlockAmendOptions(amend_options);
++static int coroutine_fn qcow2_co_amend(BlockDriverState *bs,
++                                       BlockdevAmendOptions *opts,
++                                       bool force,
++                                       Error **errp)
++{
++    BlockdevAmendOptionsQcow2 *qopts = &opts->u.qcow2;
++    BDRVQcow2State *s = bs->opaque;
++    int ret = 0;
++
++    if (qopts->has_encrypt) {
++        if (!s->crypto) {
++            error_setg(errp, "image is not encrypted, can't amend");
++            return -EOPNOTSUPP;
++        }
++
++        if (qopts->encrypt->format != Q_CRYPTO_BLOCK_FORMAT_LUKS) {
++            error_setg(errp,
++                       "Amend can't be used to change the qcow2 encryption format");
++            return -EOPNOTSUPP;
++        }
++
++        if (s->crypt_method_header != QCOW_CRYPT_LUKS) {
++            error_setg(errp,
++                       "Only LUKS encryption options can be amended for qcow2 with blockdev-amend");
++            return -EOPNOTSUPP;
++        }
++
++        ret = qcrypto_block_amend_options(s->crypto,
++                                          qcow2_crypto_hdr_read_func,
++                                          qcow2_crypto_hdr_write_func,
++                                          bs,
++                                          qopts->encrypt,
++                                          force,
++                                          errp);
++    }
 +    return ret;
 +}
 +
-+static int
-+block_crypto_amend_options_luks(BlockDriverState *bs,
-+                                QemuOpts *opts,
-+                                BlockDriverAmendStatusCB *status_cb,
-+                                void *cb_opaque,
-+                                bool force,
-+                                Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+    QDict *cryptoopts = NULL;
-+    QCryptoBlockAmendOptions *amend_options = NULL;
-+    int ret = -EINVAL;
-+
-+    assert(crypto);
-+    assert(crypto->block);
-+
-+    cryptoopts = qemu_opts_to_qdict(opts, NULL);
-+    qdict_put_str(cryptoopts, "format", "luks");
-+    amend_options = block_crypto_amend_opts_init(cryptoopts, errp);
-     qobject_unref(cryptoopts);
-+    if (!amend_options) {
-+        goto cleanup;
-+    }
-+    ret = block_crypto_amend_options_generic_luks(bs, amend_options,
-+                                                  force, errp);
-+cleanup:
-+    qapi_free_QCryptoBlockAmendOptions(amend_options);
-     return ret;
- }
+ /*
+  * If offset or size are negative, respectively, they will not be included in
+  * the BLOCK_IMAGE_CORRUPTED event emitted.
+@@ -5802,6 +5840,7 @@ BlockDriver bdrv_qcow2 = {
+     .mutable_opts        = mutable_opts,
+     .bdrv_co_check       = qcow2_co_check,
+     .bdrv_amend_options  = qcow2_amend_options,
++    .bdrv_co_amend       = qcow2_co_amend,
  
-+static int
-+coroutine_fn block_crypto_co_amend_luks(BlockDriverState *bs,
-+                                        BlockdevAmendOptions *opts,
-+                                        bool force,
-+                                        Error **errp)
-+{
-+    QCryptoBlockAmendOptions amend_opts;
-+
-+    amend_opts = (QCryptoBlockAmendOptions) {
-+        .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
-+        .u.luks = *qapi_BlockdevAmendOptionsLUKS_base(&opts->u.luks),
-+    };
-+    return block_crypto_amend_options_generic_luks(bs, &amend_opts,
-+                                                   force, errp);
-+}
- 
- static void
- block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
-@@ -910,6 +943,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_get_info      = block_crypto_get_info_luks,
-     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
-     .bdrv_amend_options = block_crypto_amend_options_luks,
-+    .bdrv_co_amend      = block_crypto_co_amend_luks,
- 
-     .is_format          = true,
- 
+     .bdrv_detach_aio_context  = qcow2_detach_aio_context,
+     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
 -- 
 2.26.2
 
