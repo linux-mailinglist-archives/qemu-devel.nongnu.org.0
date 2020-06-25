@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1832F20A2F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:30:57 +0200 (CEST)
-Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9F420A309
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:34:09 +0200 (CEST)
+Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUm8-0003fj-3q
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
+	id 1joUpE-0007qo-1S
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1joUky-0002dT-2t
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:44 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35230
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1joUl2-0002kF-8B
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38085
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1joUkw-0002TK-Hv
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:43 -0400
+ id 1joUl0-0002UA-Mq
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593102581;
+ s=mimecast20190719; t=1593102586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T6DlQfx4ERDr8imxa0nlFWolD5gVXxlxA3CSYrP+pEw=;
- b=SPshYVGD0lK3P1OPwIPo2ijZZr+GVUnde+YZutw9zW8SZnKlrOUmmiJpIAQNoW3J+nbPyZ
- 3jvhGs88IvjjElQy8ic0g8rES2SgQKxosFLnpCO/nKKmROb0H/Z8Pk1XkiBsdD/N5idxYP
- gzEf44UP91XBWc7N9jI9z2aWUjw773E=
+ bh=9ayP1mCWFsPpODHDVmnJ8Vsl+6aR2uTSK1foOO3oEjo=;
+ b=EtsMCa1/3qi0ZV4TRuqA53JIU6H6OqEphkAKCObB8es5HpRpSfJYKFYMO9Z8PWCN51JX2P
+ UfIOjPD08IlpXWCts1mru14Zgt12uDnvD09IShefYaaaaTinNY9YsrtqS/fi7i5M5qguxF
+ aSV3+5ZLQ1Jkq4MMczBzOcNOmBRTcEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-dedZBiT3OQa9MUuDXW83PQ-1; Thu, 25 Jun 2020 12:29:40 -0400
-X-MC-Unique: dedZBiT3OQa9MUuDXW83PQ-1
+ us-mta-375-2Us3fmHPOVanKMugvYThCw-1; Thu, 25 Jun 2020 12:29:41 -0400
+X-MC-Unique: 2Us3fmHPOVanKMugvYThCw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E189464
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 16:29:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0674107ACCD
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 16:29:40 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-254.ams2.redhat.com
  [10.36.114.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6003DA09BF;
- Thu, 25 Jun 2020 16:29:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A542BD01E7;
+ Thu, 25 Jun 2020 16:29:39 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
  vgoyal@redhat.com
-Subject: [PATCH 1/3] virtiofsd: Terminate capability list
-Date: Thu, 25 Jun 2020 17:29:27 +0100
-Message-Id: <20200625162929.46672-2-dgilbert@redhat.com>
+Subject: [PATCH 2/3] virtiofsd: Check capability calls
+Date: Thu, 25 Jun 2020 17:29:28 +0100
+Message-Id: <20200625162929.46672-3-dgilbert@redhat.com>
 In-Reply-To: <20200625162929.46672-1-dgilbert@redhat.com>
 References: <20200625162929.46672-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,35 +86,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-capng_updatev is a varargs function that needs a -1 to terminate it,
-but it was missing.
+Check the capability calls worked.
 
-In practice what seems to have been happening is that it's added the
-capabilities we asked for, then runs into junk on the stack, so if
-we're unlucky it might be adding some more, but in reality it's
-failing - but after adding the capabilities we asked for.
-
-Fixes: a59feb483b8 ("virtiofsd: only retain file system capabilities")
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 2ce7c96085..e373e3b36e 100644
+index e373e3b36e..99d562046a 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2598,7 +2598,9 @@ static void setup_capabilities(void)
-             CAP_SETGID,
+@@ -2589,7 +2589,7 @@ static void setup_capabilities(void)
+      */
+     capng_setpid(syscall(SYS_gettid));
+     capng_clear(CAPNG_SELECT_BOTH);
+-    capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE,
++    if (capng_updatev(CAPNG_ADD, CAPNG_PERMITTED | CAPNG_EFFECTIVE,
+             CAP_CHOWN,
+             CAP_DAC_OVERRIDE,
+             CAP_DAC_READ_SEARCH,
+@@ -2599,11 +2599,21 @@ static void setup_capabilities(void)
              CAP_SETUID,
              CAP_MKNOD,
--            CAP_SETFCAP);
-+            CAP_SETFCAP,
-+            -1);
-+
-     capng_apply(CAPNG_SELECT_BOTH);
+             CAP_SETFCAP,
+-            -1);
++            -1)) {
++        fuse_log(FUSE_LOG_ERR, "%s: capng_updatev failed\n", __func__);
++        exit(1);
++    }
+ 
+-    capng_apply(CAPNG_SELECT_BOTH);
++    if (capng_apply(CAPNG_SELECT_BOTH)) {
++        fuse_log(FUSE_LOG_ERR, "%s: capng_apply failed\n", __func__);
++        exit(1);
++    }
  
      cap.saved = capng_save_state();
++    if (!cap.saved) {
++        fuse_log(FUSE_LOG_ERR, "%s: capng_save_state failed\n", __func__);
++        exit(1);
++    }
+     pthread_mutex_unlock(&cap.mutex);
+ }
+ 
 -- 
 2.26.2
 
