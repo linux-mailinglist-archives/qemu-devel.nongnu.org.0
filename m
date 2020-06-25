@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AE820A1BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:19:34 +0200 (CEST)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1C920A1C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:21:28 +0200 (CEST)
+Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTf3-0001fD-H8
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35282)
+	id 1joTgt-00045B-5t
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:21:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joTcG-00074k-L1
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:16:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21998
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joTcC-0006Oh-Pl
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:16:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=syqm2M4y5q2+wosijyi1Cm1fm3WR6dOUGfKSTnd+a6E=;
- b=RfIGlkLfxoVEwfsYcJYwQHR5GiVFEyCzLI7nLdU2bjV5tFq/FiYsWWZ/KbK8OaQ0PAodh/
- m4Lz2RvUd1dTuC5H5+iIaxlvrRXMiZpRS9kuzS82UqAQBdiGzHWoRcs/7SqlS+5LW13oCE
- mPnyCIoFQcaAOo0oI+U3P+ZULP5COgA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-CqfY1pFuN5uQRFbPstuVPw-1; Thu, 25 Jun 2020 11:16:32 -0400
-X-MC-Unique: CqfY1pFuN5uQRFbPstuVPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 175B0107ACCA;
- Thu, 25 Jun 2020 15:16:31 +0000 (UTC)
-Received: from thuth.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CED8A7FEA0;
- Thu, 25 Jun 2020 15:16:29 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Fix the change rules after moving the YML files
-Date: Thu, 25 Jun 2020 17:16:27 +0200
-Message-Id: <20200625151627.24986-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1joTd7-0008VZ-Mg
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:17:33 -0400
+Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:38758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1joTd5-0006aa-D6
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:17:33 -0400
+Received: from player789.ha.ovh.net (unknown [10.110.115.5])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 80B97137724
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 17:17:28 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id D030713C8999A;
+ Thu, 25 Jun 2020 15:17:20 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004ed36285c-b12b-4d8b-abfc-7881e5cb4dde,A235D761C50461097149B413D00F49C422530979)
+ smtp.auth=groug@kaod.org
+Date: Thu, 25 Jun 2020 17:17:18 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 02/46] error: Document Error API usage rules
+Message-ID: <20200625171718.528f8584@bahia.lan>
+In-Reply-To: <20200624164344.3778251-3-armbru@redhat.com>
+References: <20200624164344.3778251-1-armbru@redhat.com>
+ <20200624164344.3778251-3-armbru@redhat.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 13837309857001871758
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudekledgkeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.61.149; envelope-from=groug@kaod.org;
+ helo=7.mo177.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 11:17:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,50 +65,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The edk2.yml and opensbi.yml files have recently been moved/renamed,
-but the change has not been reflected in the rules in the YML files
-yet.
+On Wed, 24 Jun 2020 18:43:00 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/edk2.yml    | 2 +-
- .gitlab-ci.d/opensbi.yml | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> This merely codifies existing practice, with one exception: the rule
+> advising against returning void, where existing practice is mixed.
+>=20
+> When the Error API was created, we adopted the (unwritten) rule to
+> return void when the function returns no useful value on success,
+> unlike GError, which recommends to return true on success and false on
+> error then.
+>=20
+> When a function returns a distinct error value, say false, a checked
+> call that passes the error up looks like
+>=20
+>     if (!frobnicate(..., errp)) {
+>         handle the error...
+>     }
+>=20
+> When it returns void, we need
+>=20
+>     Error *err =3D NULL;
+>=20
+>     frobnicate(..., &err);
+>     if (err) {
+>         handle the error...
+>         error_propagate(errp, err);
+>     }
+>=20
+> Not only is this more verbose, it also creates an Error object even
+> when @errp is null, &error_abort or &error_fatal.
+>=20
+> People got tired of the additional boilerplate, and started to ignore
+> the unwritten rule.  The result is confusion among developers about
+> the preferred usage.
+>=20
 
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index 088ba4b43a..a9990b7147 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -2,7 +2,7 @@ docker-edk2:
-  stage: build
-  rules: # Only run this job when the Dockerfile is modified
-  - changes:
--   - .gitlab-ci-edk2.yml
-+   - .gitlab-ci.d/edk2.yml
-    - .gitlab-ci.d/edk2/Dockerfile
-    when: always
-  image: docker:19.03.1
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index dd051c0124..6a1750784a 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -2,7 +2,7 @@ docker-opensbi:
-  stage: build
-  rules: # Only run this job when the Dockerfile is modified
-  - changes:
--   - .gitlab-ci-opensbi.yml
-+   - .gitlab-ci.d/opensbi.yml
-    - .gitlab-ci.d/opensbi/Dockerfile
-    when: always
-  image: docker:19.03.1
--- 
-2.18.1
+This confusion is reinforced by the fact that the standard pattern:
+
+    error_setg(errp, ...);
+    error_append_hint(errp, ...);
+
+doesn't work when errp is &error_fatal, which is a typical case of
+an invalid command line argument, where it is valuable to suggest
+something sensible to the user but error_setg() exits before we
+could do so.
+
+Fortunately, Vladimir's work will address that and eliminate the
+temptation to workaround the issue with more boilerplate :)
+
+> The written rule will hopefully reduce the confusion.
+>=20
+> The remainder of this series will update a substantial amount of code
+> to honor the rule.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  include/qapi/error.h | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/include/qapi/error.h b/include/qapi/error.h
+> index 1a5ea25e12..c3d84d610a 100644
+> --- a/include/qapi/error.h
+> +++ b/include/qapi/error.h
+> @@ -15,6 +15,32 @@
+>  /*
+>   * Error reporting system loosely patterned after Glib's GError.
+>   *
+> + * Rules:
+> + *
+> + * - Functions that use Error to report errors have an Error **errp
+> + *   parameter.  It should be the last parameter, except for functions
+> + *   taking variable arguments.
+> + *
+> + * - You may pass NULL to not receive the error, &error_abort to abort
+> + *   on error, &error_fatal to exit(1) on error, or a pointer to a
+> + *   variable containing NULL to receive the error.
+> + *
+> + * - The value of @errp should not affect control flow.
+> + *
+> + * - On success, the function should not use @errp.  On failure, it
+> + *   should set a new error, e.g. with error_setg(errp, ...), or
+> + *   propagate an existing one, e.g. with error_propagate(errp, ...).
+> + *
+> + * - Whenever practical, also return a value that indicates success /
+> + *   failure.  This can make the error checking more concise, and can
+> + *   avoid useless error object creation and destruction.  Note that
+> + *   we still have many functions returning void.  We recommend
+> + *   =E2=80=A2 bool-valued functions return true on success / false on f=
+ailure,
+> + *   =E2=80=A2 pointer-valued functions return non-null / null pointer, =
+and
+> + *   =E2=80=A2 integer-valued functions return non-negative / negative.
+> + *
+> + * How to:
+> + *
+>   * Create an error:
+>   *     error_setg(errp, "situation normal, all fouled up");
+>   *
 
 
