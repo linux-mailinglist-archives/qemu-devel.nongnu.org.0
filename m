@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D32C20A2CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:24:32 +0200 (CEST)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F373E20A2DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:27:16 +0200 (CEST)
+Received: from localhost ([::1]:34186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUfv-0007K7-9B
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55434)
+	id 1joUia-0001Fi-1H
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joUei-0006Mc-97
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:23:16 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39210)
+ id 1joUhK-0000Cw-TT
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:25:58 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joUef-00017C-MF
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:23:15 -0400
-Received: by mail-ot1-x341.google.com with SMTP id 18so5803605otv.6
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 09:23:13 -0700 (PDT)
+ id 1joUhJ-0001nV-3P
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:25:58 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w17so4771141oie.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 09:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DN3lh1Nr5zE2u96hqaFCeUHGFa9MMJvRTP2Dbvmd3MI=;
- b=cavXmDQc1A8O/67PSIcZcG9pz2tskwPMxHhWknV95OFRMoU7xgbtza+behLZlLje3X
- E85SVtPKEjwvzplZiX6hiLyj+upZrxnjoKD1y34Vi4EW/PGg8LKyEnotgkEBTukBwL/8
- EYdZ7uC2uqBGxquOnWGVxRHNLnZOmnFiAQK/76z1P5m8156orOEHnA/I3ZJRvJ7/Qp2+
- YOJbDvKRl/f8HAtwBD+d/xpUmpzvlEyEMkfi6sKB8BqCkF9z0EpZtpbyefX55qcF23jk
- XSWOeGTFhgW5sVzyh5R4Wcy5/h14CB3NambROOgDjmb4rFDiiTduYegaewvTsSAkL4OP
- 0+tA==
+ :cc; bh=Q4NICn2rH9wRXLsNbSacQr+mTFRLOs/zOXykNRuPmDw=;
+ b=E7nOy4WhTn4Y6T562b2h68Z/JAsJ6nEe28zCJPmT7gKdp21Bp2S3o8beGrvjYTxhyb
+ KvKFZKqVLnSpKGC+ErUYm/k1NA2+WewSuAaJ8e6VL2tU1b/bQ1pWGMpqo5aCW342cXTE
+ YQoMuYllnmnaWhoBOth4gItxVksIRm0Gqu9ejSKKzEpcGewFrFodZc3eAszmyNVkmgG9
+ HXaqRLRGtPj8m/BVdEkWTuWoqnMtMajhlrr+DDi/v68QS8U9V1vkP6uZNvLTV8jGKbpo
+ 26Iv8WPuetz4JoRZ419xzYrAG99333xTxIYbDjlaBsAEqss7oIYt6mlKKHShmfQsda0n
+ oVfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DN3lh1Nr5zE2u96hqaFCeUHGFa9MMJvRTP2Dbvmd3MI=;
- b=t0ntHQ1sWkbBypv3nnUxJC7rpSg+NiYNRFZbd/Y7zGOukH0KBDoZsGBnWdqOTDHf5Q
- L24fKQcJHzC7/+rSfj6Zeh/Y6vdeV1X1wf5+M6oHVKR8VZPSS0FrjmgWI72FsMXCzyQk
- BQKIyffk0PlKszzSE2OzbEmRZZ9fL8KG/K8E9pTaVaCF/mjou9T1cLxBg5Kdl/PdoTNQ
- dI78B3NDaH5tixXIQUwZ9GQBU/3vV3AVvYYKJH75H3lx7kvCR1jRHDh8NZYXht8+7TcT
- avbFnAR/60KMkxNQrSiZxTKxWHk0334pxsMnfglGlCQiJyuVcgpceHDVqagg7rg07oA4
- JMGQ==
-X-Gm-Message-State: AOAM530K2pvmOjDJcO89VI5dAu6kSss0uTF747/N9nsOFPsc+kFxitpk
- fkz+FLRJubBFBByRkJZXXFjQAmBN0EaLs7r+9663QQ==
-X-Google-Smtp-Source: ABdhPJyUezd2AxQWh/6FCvMQwMO5mNe1MjRomz65y80+0wDALnYyOfag8/ikh5HlzfdjThMGGRDbBatxoWPJF17KdiQ=
-X-Received: by 2002:a9d:67d6:: with SMTP id c22mr26272838otn.221.1593102192270; 
- Thu, 25 Jun 2020 09:23:12 -0700 (PDT)
+ bh=Q4NICn2rH9wRXLsNbSacQr+mTFRLOs/zOXykNRuPmDw=;
+ b=KtM3moEGxmzkZEqgKHskmrINE1lW2FUEP6zYWK20PAmD4n8xRRc5o7Tp4rBufBW2SS
+ TreAiNpjp+mu2jE89juZcmEH5EiQkZxZphGqnOonOIkTcBDfPmvYmcSUiIBiAb/ab7HR
+ zFKfD3BhbW3czXd5WSvSMQf6ct9T3r/YwiRWKqAfBvIoTGVrjZeS91/uZPca14q3wsg7
+ mMqoYZ0n0R9iZ8d27Ca18i+xMkXuzbP5cl/N2aNOvrAhZ5opd1VCUjoOq+lTUenvCt/i
+ N1THlh40P0nKPSRmo/3JBT5LlORe9pM4KDqU8Do7ldsthuST9wND00u2Q7qp5AFR8grS
+ P9Kw==
+X-Gm-Message-State: AOAM532+jUav12C5m9JKzhpTrrWDZa5hfAeEQFfDOO+jtDouq9cqigmQ
+ G157Gf0TxsW+YaDixrOkbsaJ3PWPjres44stlmQ8qw==
+X-Google-Smtp-Source: ABdhPJyJnzTcalDV4hjCXEDde7X78gtsEsrvkgvdv4Vm2dZKqNItl4ZbN/dh9JruMPIYqzMciuJr9nYjoI9uQHp3OWc=
+X-Received: by 2002:aca:1a07:: with SMTP id a7mr2946481oia.163.1593102355864; 
+ Thu, 25 Jun 2020 09:25:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200605041733.415188-1-richard.henderson@linaro.org>
- <20200605041733.415188-3-richard.henderson@linaro.org>
-In-Reply-To: <20200605041733.415188-3-richard.henderson@linaro.org>
+ <20200605041733.415188-4-richard.henderson@linaro.org>
+In-Reply-To: <20200605041733.415188-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 17:23:01 +0100
-Message-ID: <CAFEAcA-Pd0EAQJOUQgB1nO1G1V5W-8yynffVVuO0vdSgNxhuag@mail.gmail.com>
-Subject: Re: [PATCH v2 02/17] linux-user: Introduce PAGE_ANON
+Date: Thu, 25 Jun 2020 17:25:45 +0100
+Message-ID: <CAFEAcA-y4zVO059kyULgqJmY0_sRUUDREryQ3Zp54zkw9ykGTg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/17] linux-user: Check for overflow in access_ok
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,19 +87,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 5 Jun 2020 at 05:17, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Record whether the backing page is anonymous, or if it has file
-> backing.  This will allow us to get close to the Linux AArch64
-> ABI for MTE, which allows tag memory only on ram-backed VMAs.
->
-> The real ABI allows tag memory on files, when those files are
-> on ram-backed filesystems, such as tmpfs.  We will not be able
-> to implement that in QEMU linux-user.
->
-> Thankfully, anonymous memory for malloc arenas is the primary
-> consumer of this feature, so this restricted version should
-> still be of use.
+> Verify that addr + size - 1 does not wrap around.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/qemu.h | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
