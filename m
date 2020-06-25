@@ -2,66 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AC820A26B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:52:41 +0200 (CEST)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C1F20A26F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:54:09 +0200 (CEST)
+Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUB6-0006rr-QY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
+	id 1joUCW-0001LY-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joTnd-00044v-AC
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:28:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43792
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joToF-0004rA-Hn
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:29:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31745
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joTnZ-0007Ds-TN
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:28:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joToD-0007c6-LE
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:29:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098900;
+ s=mimecast20190719; t=1593098937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0NJdPxpW2f+Ko8kRsxEnTVAj7SKVEYRdbw+1TWTfJww=;
- b=YKFTDV0M8afeInxQgsCvoUwVv1i5H+usLKXRRwAHRv6J5s1apowoI7nRZL1n8bZyPKYvHt
- f+D0o/o6WnYrJTqNHbhjidX6cwQy72/yLDA91KKdQ8cPd/EzM86wZakzJ8iQtlh6Q+Vy0E
- MTD1yBdrnTofVTz3S7vtQIvg79rVFAY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-v1FWzhAYM16QegKSlhNjVQ-1; Thu, 25 Jun 2020 11:28:18 -0400
-X-MC-Unique: v1FWzhAYM16QegKSlhNjVQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A8980401F;
- Thu, 25 Jun 2020 15:28:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56AAE78120;
- Thu, 25 Jun 2020 15:28:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BD09D11384D4; Thu, 25 Jun 2020 17:28:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 01/46] error: Improve examples in error.h's big comment
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-2-armbru@redhat.com>
- <20200625164400.5f63e74d@bahia.lan>
-Date: Thu, 25 Jun 2020 17:28:15 +0200
-In-Reply-To: <20200625164400.5f63e74d@bahia.lan> (Greg Kurz's message of "Thu, 
- 25 Jun 2020 16:44:00 +0200")
-Message-ID: <87o8p7upv4.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=S6G9mUMcLJzBUEYK6gSu4DZiZGVGd/0VkKvrjqg8dmc=;
+ b=dLDP/91N6e6O2YEuC3eMM/XVdd1V39CiY48MmbnwACpLmxf/pNVekdooGIAfV/+dCQ/UeS
+ NcKhDrWMH4+IlCuaeQIZQtqAUEoqW77IEyvNRzEbKJS3ptGdTG8wTpCTzLnHQxaMYaYiUc
+ s/XSzshicwubuS1zQNpVk0hRcQbk6X8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-DDzfADixNPSl-sNJeKkJDw-1; Thu, 25 Jun 2020 11:28:52 -0400
+X-MC-Unique: DDzfADixNPSl-sNJeKkJDw-1
+Received: by mail-wr1-f70.google.com with SMTP id n4so5025444wrj.15
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:28:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=S6G9mUMcLJzBUEYK6gSu4DZiZGVGd/0VkKvrjqg8dmc=;
+ b=uS9STgpgOxJQCgRfOols1BfDICHhahHZAEwNkH4/ip3qkkT6ckUvFW5Y1/nzcL+stk
+ 9eoWG81eTXZOqtlFyIOsccO/n4+DqgaLOBSPnhsni7mgePCFRJ4DAaRgmhzQAWmnBRUV
+ LDcyuvg7pJf4C9gLf2loFgX9tvieTRwzrD7s5+gxVc5eB0Ar28c7nhxOBKPkshpLM1AB
+ CVOqqI3pRKV+cS1Ts/G+Gtp8CBCKu4M5vl6/e4IXume4tBeA9L8ccyZxbLKzQVnSlFMN
+ 2JmhLEqJ9AtKDH/7Vvp3ClvGtpcImxeisCkvNOgausvPEIhHeVnJmB1td/SfD3MocfjY
+ PB7w==
+X-Gm-Message-State: AOAM532i40kRnhc8cx90vDDgmBqmub0JhWE9KWiKUaZfZCDbFDxfM4pr
+ ca9z9tONnil2eW6bgQnhRk6oUF7DfTRMHpZMX+o7zHvrVDt3qHPpyCeH5expS6Bjkb9VfIOpnPt
+ Br+eUFliJT77WlCE=
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr4145682wml.13.1593098930707; 
+ Thu, 25 Jun 2020 08:28:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRCexnE6TPCwhAvL+Rk5l9BHdzWAumxJYULnAKcRIxDS/4jJ0z6e5OkM96Zx425XAZAVcKTQ==
+X-Received: by 2002:a05:600c:2202:: with SMTP id
+ z2mr4145660wml.13.1593098930485; 
+ Thu, 25 Jun 2020 08:28:50 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id z6sm8638217wmf.33.2020.06.25.08.28.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Jun 2020 08:28:50 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci: Fix the change rules after moving the YML files
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200625151627.24986-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <6145edbf-6e30-e26e-d51b-cdf3f3f1259f@redhat.com>
+Date: Thu, 25 Jun 2020 17:28:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200625151627.24986-1-thuth@redhat.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -69,7 +111,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +124,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
-
-> On Wed, 24 Jun 2020 18:42:59 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->
->> Show errp instead of &err where &err is actually unusual.  Add a
->> missing declaration.  Add a second error pileup example.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  include/qapi/error.h | 19 +++++++++++++++----
->>  1 file changed, 15 insertions(+), 4 deletions(-)
->> 
->> diff --git a/include/qapi/error.h b/include/qapi/error.h
->> index ad5b6e896d..1a5ea25e12 100644
->> --- a/include/qapi/error.h
->> +++ b/include/qapi/error.h
->> @@ -16,15 +16,15 @@
->>   * Error reporting system loosely patterned after Glib's GError.
->>   *
->>   * Create an error:
->> - *     error_setg(&err, "situation normal, all fouled up");
->> + *     error_setg(errp, "situation normal, all fouled up");
->>   *
->>   * Create an error and add additional explanation:
->> - *     error_setg(&err, "invalid quark");
->> - *     error_append_hint(&err, "Valid quarks are up, down, strange, "
->> + *     error_setg(errp, "invalid quark");
->> + *     error_append_hint(errp, "Valid quarks are up, down, strange, "
->>   *                       "charm, top, bottom.\n");
->>   *
->>   * Do *not* contract this to
->> - *     error_setg(&err, "invalid quark\n"
->> + *     error_setg(errp, "invalid quark\n" // WRONG!
->>   *                "Valid quarks are up, down, strange, charm, top, bottom.");
->>   *
->>   * Report an error to the current monitor if we have one, else stderr:
->> @@ -108,12 +108,23 @@
->>   *     }
->>   *
->>   * Do *not* "optimize" this to
->> + *     Error *err = NULL;
->>   *     foo(arg, &err);
->>   *     bar(arg, &err); // WRONG!
->>   *     if (err) {
->>   *         handle the error...
->>   *     }
->>   * because this may pass a non-null err to bar().
->> + *
->> + * Likewise, do *not*
->> + *     Error *err = NULL;
->> + *     if (cond1) {
->> + *         error_setg(err, ...);
->
-> s/err/&err
->
->> + *     }
->> + *     if (cond2) {
->> + *         error_setg(err, ...); // WRONG!
->
-> ditto
-
-Good catch!
-
-> With that fixed:
->
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+On 6/25/20 5:16 PM, Thomas Huth wrote:
+> The edk2.yml and opensbi.yml files have recently been moved/renamed,
+> but the change has not been reflected in the rules in the YML files
+> yet.
+> 
+> Fixes: 922febe2af ("Move edk2 and opensbi YAML files to .gitlab-ci.d folder")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.d/edk2.yml    | 2 +-
+>  .gitlab-ci.d/opensbi.yml | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+> index 088ba4b43a..a9990b7147 100644
+> --- a/.gitlab-ci.d/edk2.yml
+> +++ b/.gitlab-ci.d/edk2.yml
+> @@ -2,7 +2,7 @@ docker-edk2:
+>   stage: build
+>   rules: # Only run this job when the Dockerfile is modified
+>   - changes:
+> -   - .gitlab-ci-edk2.yml
+> +   - .gitlab-ci.d/edk2.yml
 
 Thanks!
 
->
->> + *     }
->> + * because this may pass a non-null err to error_setg().
->>   */
->>  
->>  #ifndef ERROR_H
+>     - .gitlab-ci.d/edk2/Dockerfile
+>     when: always
+>   image: docker:19.03.1
+> diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+> index dd051c0124..6a1750784a 100644
+> --- a/.gitlab-ci.d/opensbi.yml
+> +++ b/.gitlab-ci.d/opensbi.yml
+> @@ -2,7 +2,7 @@ docker-opensbi:
+>   stage: build
+>   rules: # Only run this job when the Dockerfile is modified
+>   - changes:
+> -   - .gitlab-ci-opensbi.yml
+> +   - .gitlab-ci.d/opensbi.yml
+
+FWIW:
+
+./scripts/get_maintainer.pl -f .gitlab-ci.d/opensbi.yml
+get_maintainer.pl: No maintainers found, printing recent contributors.
+get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
+
+Missed in c6fc0fc1a71a (apparently patchew bot was down when Bin
+sent the patch).
+
+Cc'ing Alistair who Acked the patch (also missed in the same commit,
+see https://www.mail-archive.com/qemu-devel@nongnu.org/msg682407.html)
+
+>     - .gitlab-ci.d/opensbi/Dockerfile
+>     when: always
+>   image: docker:19.03.1
+> 
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
