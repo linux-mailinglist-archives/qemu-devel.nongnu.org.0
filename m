@@ -2,76 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F6A20A45B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 19:58:18 +0200 (CEST)
-Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954FF20A4DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:25:06 +0200 (CEST)
+Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joW8e-0001yp-V6
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 13:58:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54930)
+	id 1joWYb-0007WW-KT
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joW7s-0001Yg-9R
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 13:57:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59309
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1joW7p-0006C3-5M
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 13:57:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593107843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yn37wFe4sKlcqp6lW6OTGfPoZpss+Ok+L+NEc5ZsVxU=;
- b=Sb58HKBMzjsHP2msJw8Gu/bKDhHkWxU/oScNEl7aGcUa+IPrP/YB+J6wNonY42IwAd1XhY
- nHRGcDrqTrYx32D9Ct1EfIPJpwagSdjgXWFGTRAbuhD/uKHKRaiKqEgSk9R3Wy4vroq1k2
- xIfIF8GBJCedEIPT1KGIufxMqsmVwaA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-t5n6xU1HO2Ofnr5FaEOSWw-1; Thu, 25 Jun 2020 13:57:19 -0400
-X-MC-Unique: t5n6xU1HO2Ofnr5FaEOSWw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446E518585A3;
- Thu, 25 Jun 2020 17:57:17 +0000 (UTC)
-Received: from x1.home (ovpn-112-156.phx2.redhat.com [10.3.112.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF2AC5DA27;
- Thu, 25 Jun 2020 17:57:12 +0000 (UTC)
-Date: Thu, 25 Jun 2020 11:57:12 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v25 14/17] vfio: Add vfio_listener_log_sync to mark
- dirty pages
-Message-ID: <20200625115712.630a592f@x1.home>
-In-Reply-To: <33d35c69-437a-b7b8-821f-6356d559e2ef@nvidia.com>
-References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
- <1592684486-18511-15-git-send-email-kwankhede@nvidia.com>
- <20200624125537.649527b3@x1.home>
- <33d35c69-437a-b7b8-821f-6356d559e2ef@nvidia.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1joWXJ-0006Ua-H2
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:23:45 -0400
+Received: from mail-bn8nam11on2046.outbound.protection.outlook.com
+ ([40.107.236.46]:19681 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1joWXH-0000gc-10
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:23:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AWVtJOrVd3P0FawNDe4bow2RvStFzqwn8EVeGjZAqvoyfsXI9SVNM89I3P84QKQCNMkL2HLxlQppMwOx1dhVGDh7r47xyg9ogYoany2fn610lUcp5xXnBoxfdL0S9Dsvf0H15DqGeRkUzXCunXNZdsEIEPeD5lVLgQq341SmY0Fp3PlpXYd33BdArmFxTsA4yabpu8sMG4A4yoNNMjcEN667KoSp9Y71ArdHBpWR8VPjpvC8bcNr3u9gKekr38STRFQj8jzID8qU3AMBHNKZ6oEGQHzwzG78d3cQjlvaSpoPfycGs+wfRG/b+z/4AyXBy6vJ+tHleZsYfLRIvQu8GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oKLcnjQH1jgOt/7RTkD9RdNK6ERgQUPoVW3DRt13KTM=;
+ b=AvEBMt7sef7blLUUj2smNSZdVJixz4xTtFO1c6ffFg4EWmRrrb0M2SY9r+af6GDIb3Qval+Hv0w+z2FkQl/yJhSMqCcKQYJOg+wfuqioFDMNAGZeLHK9gozBrq95BVq0ngBg+kAmGAFyXntNonczgSPzjOLRe8NZFva/07fnHr6mOAG1MumaToXpifBD6jtNFB9Ppla8un0n1wsCBFa4hq+R+1K/9FTaQSkVUz6hi/UqkrWb+QHrz03he/eEK2My54Cme+JesOaBWgxzY+cdEwNdzuGKGv+k14UlkjzVANctAyII06MOqBArmsMGlUpPt2NtmonDvt+5GmY+9FlI9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oKLcnjQH1jgOt/7RTkD9RdNK6ERgQUPoVW3DRt13KTM=;
+ b=DCbK/uYWhoU59K7BY0UWJnPrXNlg+URw5zN8PZkDg2iQG9x/zO2OO1+2x5bPpti6mdnCvhxn2D9IhdgT3IfKkqA3mytSt/TKxxMtkNgwP0x9s0LKZGAjTyihSB08n5rw4F9ONHvQRSgblpG0U4JqegF6juu3GWqxbVRS9cr237Q=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB4136.namprd02.prod.outlook.com (2603:10b6:a02:fb::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Thu, 25 Jun
+ 2020 18:08:38 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::4477:7134:37a6:c828%3]) with mapi id 15.20.3131.024; Thu, 25 Jun 2020
+ 18:08:38 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: RE: [PATCH v2 3/3] usb/hcd-xhci: Split pci wrapper for xhci base model
+Thread-Topic: [PATCH v2 3/3] usb/hcd-xhci: Split pci wrapper for xhci base
+ model
+Thread-Index: AQHWSshDrYoefVt0mk6gEfaCZTEJaajpoDjA
+Date: Thu, 25 Jun 2020 18:08:38 +0000
+Message-ID: <BY5PR02MB67723A0D247E4D2BC60A0710CA920@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1593008176-9629-4-git-send-email-sai.pavan.boddu@xilinx.com>
+ <87y2obzhsc.fsf@dusky.pond.sub.org>
+In-Reply-To: <87y2obzhsc.fsf@dusky.pond.sub.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e76996e2-ae67-4ae8-8113-08d81932c90b
+x-ms-traffictypediagnostic: BYAPR02MB4136:
+x-microsoft-antispam-prvs: <BYAPR02MB41361A2711C58231577F7A18CA920@BYAPR02MB4136.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0445A82F82
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DLcLKgRNzq0IMQk3kYSfV3/lKy+lcS6d/9E0MbWUcAkec3rh8kIFLGlkxBXz1rYV2EkBYq7NFt17ifs7bscByB2QM0iFgwW+/N39bJ5S5srMvPK9AcOqcH5HIITo9j62II9sCBlKF52AWzzJDPJ3sDfsH9wUOXM3KMedQKmCD8o9S5QleVFgbBAwEnICWYw3b17P79AAOt/XQmVebOf/WYC2nIv5Tvd4u1Ug5Uy6b/XSE/puf/KSwrAyA6WQveUDr910jPDrq/7mo0tFmL5rX8jyYreb+C1T+KaYmuydaTcWNQ/GBYJeqkHAIBmYGXsA/OXFVGum97rtr6TtDgCtew==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(346002)(39860400002)(396003)(366004)(376002)(4326008)(316002)(478600001)(55016002)(9686003)(5660300002)(7416002)(83380400001)(86362001)(2906002)(26005)(52536014)(186003)(7696005)(71200400001)(6506007)(54906003)(53546011)(66446008)(66946007)(76116006)(6916009)(66556008)(33656002)(64756008)(8676002)(8936002)(66476007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: XEeffeyCvxUcwXnuVW9BcllSTcWVR23ajHlI4pByVEqT93TtRtas2vqzCiQtpXjs7BEwRAmV47G9sbQrGiZTr5JrUn1VjOwzK5WmHdfvR84xTRwuBCBKhgIT/K7mNOqBzwUPpecGFQZwTveUa9StbNBCrtjyjOPQRXtcu8uiQwVGj/ndfpUESCl8gsDBMpVcOOr2ullzxof3QnTtGytUBn/fX6CgJ31QS/S8HxbWVd5b6odaYpLe+7/R/RDN1TvGiY9ZkP9eabGo7KTWlyjM9ma2LjN7nXD9ulCeybMpYr7r7qw67Qu4t4BPJprdZ/+NX0pyHVR1NYib9btDzaVAVro06J7IIGoeXLEgU6FOOTQwB5J2Iku+Hfg0PaywnEi0qVP3RATI427I2zi8UQscQ32l1BtlusGvfsudmQJO3G3928CK01Q/tIiMaK2Xcm4FHM2Q9gG180lTxggeW9JsJ7zrRBhJRrk9E9gxJGzzO33Hg8UJ/m03Shab25/YNZO2
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e76996e2-ae67-4ae8-8113-08d81932c90b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2020 18:08:38.3724 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Tyi1k6glgs3wE8s0q9Wxm0drNsIhw02zvhXjILubyVWVrO7DXwuu+of2MRqpzPjvBoKv9OUrrlBSe7OAueqChg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4136
+Received-SPF: pass client-ip=40.107.236.46; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 14:23:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,218 +116,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
+ =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Jun 2020 20:13:39 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+Hi Markus,
 
-> On 6/25/2020 12:25 AM, Alex Williamson wrote:
-> > On Sun, 21 Jun 2020 01:51:23 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> >> vfio_listener_log_sync gets list of dirty pages from container using
-> >> VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
-> >> devices are stopped and saving state.
-> >> Return early for the RAM block section of mapped MMIO region.
-> >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> ---
-> >>   hw/vfio/common.c     | 130 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>   hw/vfio/trace-events |   1 +
-> >>   2 files changed, 131 insertions(+)
-> >>
-> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> >> index 6921a78e9ba5..0518cf228ed5 100644
-> >> --- a/hw/vfio/common.c
-> >> +++ b/hw/vfio/common.c
-> >> @@ -29,6 +29,7 @@
-> >>   #include "hw/vfio/vfio.h"
-> >>   #include "exec/address-spaces.h"
-> >>   #include "exec/memory.h"
-> >> +#include "exec/ram_addr.h"
-> >>   #include "hw/hw.h"
-> >>   #include "qemu/error-report.h"
-> >>   #include "qemu/main-loop.h"
-> >> @@ -38,6 +39,7 @@
-> >>   #include "sysemu/reset.h"
-> >>   #include "trace.h"
-> >>   #include "qapi/error.h"
-> >> +#include "migration/migration.h"
-> >>   
-> >>   VFIOGroupList vfio_group_list =
-> >>       QLIST_HEAD_INITIALIZER(vfio_group_list);
-> >> @@ -288,6 +290,28 @@ const MemoryRegionOps vfio_region_ops = {
-> >>   };
-> >>   
-> >>   /*
-> >> + * Device state interfaces
-> >> + */
-> >> +
-> >> +static bool vfio_devices_are_stopped_and_saving(void)
-> >> +{
-> >> +    VFIOGroup *group;
-> >> +    VFIODevice *vbasedev;
-> >> +
-> >> +    QLIST_FOREACH(group, &vfio_group_list, next) {  
-> > 
-> > Should this be passed the container in order to iterate
-> > container->group_list?
-> >   
-> >> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> >> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
-> >> +                !(vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-> >> +                continue;
-> >> +            } else {
-> >> +                return false;
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +    return true;
-> >> +}
-> >> +
-> >> +/*
-> >>    * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
-> >>    */
-> >>   static int vfio_dma_unmap(VFIOContainer *container,
-> >> @@ -852,9 +876,115 @@ static void vfio_listener_region_del(MemoryListener *listener,
-> >>       }
-> >>   }
-> >>   
-> >> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-> >> +                                 uint64_t size, ram_addr_t ram_addr)
-> >> +{
-> >> +    struct vfio_iommu_type1_dirty_bitmap *dbitmap;
-> >> +    struct vfio_iommu_type1_dirty_bitmap_get *range;
-> >> +    uint64_t pages;
-> >> +    int ret;
-> >> +
-> >> +    dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
-> >> +
-> >> +    dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
-> >> +    dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
-> >> +    range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
-> >> +    range->iova = iova;
-> >> +    range->size = size;
-> >> +
-> >> +    /*
-> >> +     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-> >> +     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
-> >> +     * TARGET_PAGE_SIZE.
-> >> +     */
-> >> +    range->bitmap.pgsize = TARGET_PAGE_SIZE;
-> >> +
-> >> +    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
-> >> +    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> >> +                                         BITS_PER_BYTE;
-> >> +    range->bitmap.data = g_try_malloc0(range->bitmap.size);
-> >> +    if (!range->bitmap.data) {
-> >> +        ret = -ENOMEM;
-> >> +        goto err_out;
-> >> +    }
-> >> +
-> >> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
-> >> +    if (ret) {
-> >> +        error_report("Failed to get dirty bitmap for iova: 0x%llx "
-> >> +                "size: 0x%llx err: %d",
-> >> +                range->iova, range->size, errno);
-> >> +        goto err_out;
-> >> +    }
-> >> +
-> >> +    cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
-> >> +                                            ram_addr, pages);
-> >> +
-> >> +    trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
-> >> +                                range->bitmap.size, ram_addr);
-> >> +err_out:
-> >> +    g_free(range->bitmap.data);
-> >> +    g_free(dbitmap);
-> >> +
-> >> +    return ret;
-> >> +}
-> >> +
-> >> +static int vfio_sync_dirty_bitmap(MemoryListener *listener,
-> >> +                                 MemoryRegionSection *section)
-> >> +{
-> >> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> >> +    VFIOGuestIOMMU *giommu = NULL;
-> >> +    ram_addr_t ram_addr;
-> >> +    uint64_t iova, size;
-> >> +    int ret = 0;
-> >> +
-> >> +    if (memory_region_is_iommu(section->mr)) {
-> >> +
-> >> +        QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
-> >> +            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-> >> +                giommu->n.start == section->offset_within_region) {
-> >> +                VFIOIovaRange *iova_range;
-> >> +
-> >> +                QLIST_FOREACH(iova_range, &giommu->iova_list, next) {
-> >> +                    ret = vfio_get_dirty_bitmap(container, iova_range->iova,
-> >> +                                        iova_range->size, iova_range->ram_addr);
-> >> +                    if (ret) {
-> >> +                        break;
-> >> +                    }
-> >> +                }
-> >> +                break;
-> >> +            }
-> >> +        }
-> >> +
-> >> +    } else {
-> >> +        iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> >> +        size = int128_get64(section->size);
-> >> +
-> >> +        ram_addr = memory_region_get_ram_addr(section->mr) +
-> >> +                   section->offset_within_region + iova -
-> >> +                   TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> >> +
-> >> +        ret = vfio_get_dirty_bitmap(container, iova, size, ram_addr);
-> >> +    }
-> >> +
-> >> +    return ret;
-> >> +}
-> >> +
-> >> +static void vfio_listerner_log_sync(MemoryListener *listener,
-> >> +        MemoryRegionSection *section)
-> >> +{
-> >> +    if (vfio_listener_skipped_section(section)) {
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    if (vfio_devices_are_stopped_and_saving()) {
-> >> +        vfio_sync_dirty_bitmap(listener, section);
-> >> +    }  
-> > 
-> > 
-> > How do we decide that this is the best policy for all devices?  For
-> > example if a device does not support page pinning or some future means
-> > of marking dirtied pages, this is clearly the right choice, but when
-> > these are supported, aren't we deferring all dirty logging info until
-> > the final stage?  Thanks,
-> >   
-> 
-> Yes, for now we are deferring all dirty logging to stop-and-copy phase. 
-> In future, whenever hardware support for dirty page tracking get added, 
-> we will have flag added in migration capability in VFIO_IOMMU_GET_INFO 
-> capability list. Based on that we can decide to get dirty pages in 
-> earlier phase of migration.
+> -----Original Message-----
+> From: Markus Armbruster <armbru@redhat.com>
+> Sent: Thursday, June 25, 2020 1:42 PM
+> To: Sai Pavan Boddu <saipava@xilinx.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>; Peter Maydell
+> <peter.maydell@linaro.org>; Thomas Huth <thuth@redhat.com>; Eduardo
+> Habkost <ehabkost@redhat.com>; qemu-devel@nongnu.org; Alistair Francis
+> <alistair.francis@wdc.com>; 'Marc-Andr=E9 Lureau'
+> <marcandre.lureau@redhat.com>; Ying Fang <fangying1@huawei.com>;
+> Paolo Bonzini <pbonzini@redhat.com>; 'Philippe Mathieu-Daud=E9'
+> <philmd@redhat.com>
+> Subject: Re: [PATCH v2 3/3] usb/hcd-xhci: Split pci wrapper for xhci base
+> model
+>=20
+> Sai Pavan Boddu <sai.pavan.boddu@xilinx.com> writes:
+>=20
+> > This patch sets the base to use xhci as sysbus model, for which pci
+> > specific hooks are moved to hcd-xhci-pci.c. As a part of this
+> > requirment msi/msix interrupts handling is moved under XHCIPCIState,
+> > and XHCIState is  non qom object, make use of 'container_of' calls to
+> > retrive XHCIPciState. Made required changes for qemu-xhci-nec.
+> >
+> > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>=20
+> I can't see a "sysbus model".  What I can see is
+>=20
+>          TYPE_DEVICE
+>               |
+>        TYPE_PCI_DEVICE
+>               |
+>         TYPE_XHCI_PCI (renamed from TYPE_XHCI)
+>           /       \
+> TYPE_QEMU_XHCI TYPE_NEC_XHCI
+>=20
+> All but the two leaves are abstract.
+>=20
+> Do you intend to add a "sysbus model" in a future patch?
+[Sai Pavan Boddu]  Yes. I would be sending it along with that a device whic=
+h would be using it. (i.e for zynqmp soc )
+Let me know, if its good to include hcd-xhci-sysbus.c here ?
 
-So the flag that you're expecting to add would indicate that the IOMMU
-is reporting actual page dirtying, not just assuming pinned pages are
-dirty, as we have now.  It's too bad we can't collect the
-previously-but-not-currently-pinned pages during the iterative phase.
-Thanks,
-
-Alex
+Regards,
+Sai Pavan
 
 
