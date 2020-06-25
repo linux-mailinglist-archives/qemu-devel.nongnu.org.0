@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24459209CFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:41:17 +0200 (CEST)
-Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E291B209CFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:41:11 +0200 (CEST)
+Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPJk-0004L0-69
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40334)
+	id 1joPJd-00049b-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1joPIF-00038e-Ri
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41058
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1joPID-00037L-AU
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29291
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1joPIE-0003wQ-4g
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:43 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1joPIA-0003tv-F9
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:39:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593081581;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1593081576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NteMtL0MD3KIE074ggwyRQ3cXgmwcH4ws/J0fRIOSu8=;
- b=AHU94Y1SAeP24Hu9/Vm80KXfW/cR6ZZlSuZXfG7wVS4wLRjU9vg1pGcEf0NEELdLLDqa1/
- f+cjxbzZk0Ps5ciIbh4+5Ii6AsTtPLUl0KrpQv5LnlRwQQVWNtnXKUgJEnsPfhoMQ94dX/
- Drvk3Sh7cvxQFhjeWjATx5wzdFyca48=
+ bh=kWctq30849pJVR+fH0XbgScPbbyrYYxvYxp/vNe8o4M=;
+ b=c4BiaJRfn6wOWY/SjSFb5i0h6Kg0RMV1On0OogipHppNABR2Hhfo2L2litJ5q19EM8FjKS
+ Hh1zBuClSedVB4OEncwxWuzpRY4UEiiuF1pYVpraN3XxPtHZ0s0bPvDJOZqcwqJTGJbyCc
+ TMGQ0kSJmX3HkqcsGx3XJpsyRKmbQx4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-HetRBGTjOqy8h0Dvmh9ryA-1; Thu, 25 Jun 2020 06:39:39 -0400
-X-MC-Unique: HetRBGTjOqy8h0Dvmh9ryA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-512-kjw2mTJuO2OkZcVJrO_sjg-1; Thu, 25 Jun 2020 06:39:31 -0400
+X-MC-Unique: kjw2mTJuO2OkZcVJrO_sjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FBF7107ACCA;
- Thu, 25 Jun 2020 10:39:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 138A11010428;
- Thu, 25 Jun 2020 10:39:27 +0000 (UTC)
-Date: Thu, 25 Jun 2020 11:39:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC 0/4] Enable virtio-fs on s390x
-Message-ID: <20200625103924.GH1009994@redhat.com>
-References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
- <20200625101935.GF1009994@redhat.com>
- <20200625123136.2c3c0ebe.cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 496AA1800D4A;
+ Thu, 25 Jun 2020 10:39:30 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-129.ams2.redhat.com [10.36.113.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52EFE7C1EE;
+ Thu, 25 Jun 2020 10:39:29 +0000 (UTC)
+Date: Thu, 25 Jun 2020 12:39:27 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PULL 00/43] Block layer patches
+Message-ID: <20200625103927.GB6878@linux.fritz.box>
+References: <20200617144909.192176-1-kwolf@redhat.com>
+ <CAFEAcA869qxSMaZiw2Hz-ESFbRL+Mq9Yoq=pGRBbL8oUV7Gj=Q@mail.gmail.com>
+ <20200625083911.pb3637si62cztza7@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200625123136.2c3c0ebe.cohuck@redhat.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200625083911.pb3637si62cztza7@apples.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -84,64 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, Marc Hartmayer <mhartmay@linux.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 25, 2020 at 12:31:36PM +0200, Cornelia Huck wrote:
-> On Thu, 25 Jun 2020 11:19:35 +0100
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
-> > On Thu, Jun 25, 2020 at 12:04:26PM +0200, Marc Hartmayer wrote:
-> > > This RFC is about enabling virtio-fs on s390x. For that we need
-> > >  + some shim code (first patch), and we need
-> > >  + libvhost-user to deal with virtio endiannes as mandated by the spec.
-> > >  
-> > > The second part is trickier, because unlike QEMU we are not certain
-> > > about the guest's native endianness, which is needed to handle the
-> > > legacy-interface appropriately. In fact, this is the reason why just
-> > > RFC.
-> > > 
-> > > One of the open questions is whether to build separate versions, one
-> > > for guest little endian and one for guest big endian, or do we want
-> > > something like a command line option? (Digression on the libvirt
-> > > modeling)  
+Am 25.06.2020 um 10:39 hat Klaus Jensen geschrieben:
+> On Jun 18 15:30, Peter Maydell wrote:
+> > On Wed, 17 Jun 2020 at 15:49, Kevin Wolf <kwolf@redhat.com> wrote:
+> > >
+> > > The following changes since commit 5c24bce3056ff209a1ecc50ff4b7e65b85ad8e74:
+> > >
+> > >   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-plugin-160620-2' into staging (2020-06-16 14:57:15 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+> > >
+> > > for you to fetch changes up to 3419ec713f04c323b030e0763459435335b25476:
+> > >
+> > >   iotests: Add copyright line in qcow2.py (2020-06-17 16:21:21 +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > Block layer patches:
+> > >
+> > > - enhance handling of size-related BlockConf properties
+> > > - nvme: small fixes, refactoring and cleanups
+> > > - virtio-blk: On restart, process queued requests in the proper context
+> > > - icount: make dma reads deterministic
+> > > - iotests: Some fixes for rarely run cases
+> > > - .gitignore: Ignore storage-daemon files
+> > > - Minor code cleanups
+> > >
+> > > ----------------------------------------------------------------
 > > 
-> > When you talk about  big vs little endian, are you referring to TCG
-> > scenarios with mixed host/guest arch, or arches which can support
-> > either endianess, or both ? i guess it doesn't matter actually, as
-> > I think the latter forces a specific answer.
 > > 
-> > Considering that some architectures allow the guest OS to flip between
-> > big & little endian as they boot, libvirt cannot know what endianess
-> > the guest is using when it launches virtiofsd. It thus cannot pick
-> > between two different endianness builds of virtiofsd automatically.
-> > This would force the user to tell libvirt what arch the guest is using
-> > at the time they define the guest. This is an undesirable restriction
-> > for use cases where the admin of the guest OS has no direct control
-> > over the host config.
+> > Applied, thanks.
+> > 
+> > Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+> > for any user-visible changes.
+> > 
 > 
-> Right, but that is in practice only a problem for legacy devices, isn't
-> it? The standard says that non-legacy devices use little-endian
-> everywhere; it's the legacy 'device endian' that is causing us
-> headaches.
+> Kevin, can you add soemthing like the following to the changelog under
+> "Block devices"?
 > 
-> Which leads to the question: Do we really need to support legacy
-> virtio-fs devices, or can we just force virtio-1, as many (most?) newer
-> virtio devices do?
+> Emulated NVMe device (hw/block/nvme):
+> 
+>   * Add the max_ioqpairs device parameter. The parameter specifies the
+>     maximum number of supported I/O queue pairs and should be used
+>     instead of the num_queues parameter. num_queues is not formally
+>     deprecated, but the device will issue a warning if used. If neither
+>     num_queues or max_ioqpairs are specified, device behavior is
+>     unchanged from the previous default.
+> 
+>   * Add the msix_qsize parameter. The parameter specifies the maximum
+>     number of msix interrupt vectors supported by the device. If not
+>     specified, device behavior is unchanged from the previous default.
 
-I'd hope virtio-fs is already forced to modern only, as there's no legacy
-PCI ID assigned to it in the spec.
+Sure, I've added this.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+If you want to have a wiki account so that you can edit the page
+yourself in the future, let me (or anyone else with a wiki account) know
+your preferred user name and we can create an account for you. Access is
+not supposed to be a privileged thing, we just require manual
+registration through an existing account to avoid spam.
+
+Kevin
 
 
