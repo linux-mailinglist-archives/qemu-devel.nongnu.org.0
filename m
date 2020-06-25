@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EB120A27B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:57:04 +0200 (CEST)
-Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6698D20A23A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:44:24 +0200 (CEST)
+Received: from localhost ([::1]:36764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUFL-0006x7-Ad
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37846)
+	id 1joU35-0002VU-Bm
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj3-0006UB-FA
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59835
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj9-0006hW-41
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27852
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj1-0001MA-Hp
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:41 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj7-0001Pc-AZ
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098618;
+ s=mimecast20190719; t=1593098624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qU6f31lDyHMBZh0c3uwIiBtG/8pYMX9RJW67yj7Fn20=;
- b=WLw9HlQgkMIWAdYqWxMJ6Jz3+ldTX7fuxP2Bd3CRRCGsfsBvF3LgtrJUrAEsHCM98cmxhi
- Jrb3r+HMCfSToqcmZy7HbUanCC0MECGwLsy77lYrxR0hUl2pJgQ6kgtdB0uFWPnXbzcq2z
- 2BKX1KrYRNe2hdQWbLmpDztMbFdwZUU=
+ bh=pfZPe2A0gMy19xNoNvyJo6Hg83Fvr4rLDGbzuj1bsDg=;
+ b=DF6OJmWg0PD1Q/3HaD1T/dMMiIKgId/NczHkuKT+wEO1p6aFqBBZAUXWmW33Pf/KcUMZ81
+ OzWGW8OB/KmvZ+O81zENhbk/WbGu1ZjkI7V0di7cB9+o+pddHQkFUWqQ1BGDaxdB1si+3s
+ /X8pm5oGeDfuET8nmPhgSSMR54sblKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-nurc67ZTPu6wAtYgyI-7bQ-1; Thu, 25 Jun 2020 11:23:34 -0400
-X-MC-Unique: nurc67ZTPu6wAtYgyI-7bQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-349--APkIY4yOJi1zkscek-RaA-1; Thu, 25 Jun 2020 11:23:39 -0400
+X-MC-Unique: -APkIY4yOJi1zkscek-RaA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E70107ACF2;
- Thu, 25 Jun 2020 15:23:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C40464;
+ Thu, 25 Jun 2020 15:23:36 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D1FD7CCC0;
- Thu, 25 Jun 2020 15:23:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3A961DC;
+ Thu, 25 Jun 2020 15:23:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 34/47] backup: Deal with filters
-Date: Thu, 25 Jun 2020 17:22:02 +0200
-Message-Id: <20200625152215.941773-35-mreitz@redhat.com>
+Subject: [PATCH v7 35/47] commit: Deal with filters
+Date: Thu, 25 Jun 2020 17:22:03 +0200
+Message-Id: <20200625152215.941773-36-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,110 +83,251 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This includes some permission limiting (for example, we only need to
+take the RESIZE permission if the base is smaller than the top).
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup-top.c |  2 +-
- block/backup.c     |  9 +++++----
- blockdev.c         | 19 +++++++++++++++----
- 3 files changed, 21 insertions(+), 9 deletions(-)
+ block/block-backend.c          |  9 +++-
+ block/commit.c                 | 96 +++++++++++++++++++++++++---------
+ block/monitor/block-hmp-cmds.c |  2 +-
+ blockdev.c                     |  4 +-
+ 4 files changed, 81 insertions(+), 30 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index f304df8f26..89bd3937d0 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -291,7 +291,7 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6936b25c83..7f2c7dbccc 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2271,8 +2271,13 @@ int blk_commit_all(void)
+         AioContext *aio_context = blk_get_aio_context(blk);
  
-     s->active = false;
-     bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
--    bdrv_replace_node(bs, backing_bs(bs), &error_abort);
-+    bdrv_replace_node(bs, bs->backing->bs, &error_abort);
-     bdrv_set_backing_hd(bs, NULL, &error_abort);
+         aio_context_acquire(aio_context);
+-        if (blk_is_inserted(blk) && blk->root->bs->backing) {
+-            int ret = bdrv_commit(blk->root->bs);
++        if (blk_is_inserted(blk)) {
++            BlockDriverState *non_filter;
++            int ret;
++
++            /* Legacy function, so skip implicit filters */
++            non_filter = bdrv_skip_implicit_filters(blk->root->bs);
++            ret = bdrv_commit(non_filter);
+             if (ret < 0) {
+                 aio_context_release(aio_context);
+                 return ret;
+diff --git a/block/commit.c b/block/commit.c
+index 7732d02dfe..4122b6736d 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -37,6 +37,7 @@ typedef struct CommitBlockJob {
+     BlockBackend *top;
+     BlockBackend *base;
+     BlockDriverState *base_bs;
++    BlockDriverState *base_overlay;
+     BlockdevOnError on_error;
+     bool base_read_only;
+     bool chain_frozen;
+@@ -89,7 +90,7 @@ static void commit_abort(Job *job)
+      * XXX Can (or should) we somehow keep 'consistent read' blocked even
+      * after the failed/cancelled commit job is gone? If we already wrote
+      * something to base, the intermediate images aren't valid any more. */
+-    bdrv_replace_node(s->commit_top_bs, backing_bs(s->commit_top_bs),
++    bdrv_replace_node(s->commit_top_bs, s->commit_top_bs->backing->bs,
+                       &error_abort);
  
-     bdrv_drained_end(bs);
-diff --git a/block/backup.c b/block/backup.c
-index 4f13bb20a5..9afa0bf3b4 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -297,6 +297,7 @@ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
- {
+     bdrv_unref(s->commit_top_bs);
+@@ -153,7 +154,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
+             break;
+         }
+         /* Copy if allocated above the base */
+-        ret = bdrv_is_allocated_above(blk_bs(s->top), blk_bs(s->base), false,
++        ret = bdrv_is_allocated_above(blk_bs(s->top), s->base_overlay, true,
+                                       offset, COMMIT_BUFFER_SIZE, &n);
+         copy = (ret == 1);
+         trace_commit_one_iteration(s, offset, n, ret);
+@@ -253,15 +254,35 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+     CommitBlockJob *s;
+     BlockDriverState *iter;
+     BlockDriverState *commit_top_bs = NULL;
++    BlockDriverState *filtered_base;
+     Error *local_err = NULL;
++    int64_t base_size, top_size;
++    uint64_t perms, iter_shared_perms;
      int ret;
-     BlockDriverInfo bdi;
-+    bool target_does_cow = bdrv_backing_chain_next(target);
  
-     /*
-      * If there is no backing file on the target, we cannot rely on COW if our
-@@ -304,7 +305,7 @@ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-      * targets with a backing file, try to avoid COW if possible.
-      */
-     ret = bdrv_get_info(target, &bdi);
--    if (ret == -ENOTSUP && !target->backing) {
-+    if (ret == -ENOTSUP && !target_does_cow) {
-         /* Cluster size is not defined */
-         warn_report("The target block device doesn't provide "
-                     "information about the block size and it doesn't have a "
-@@ -313,14 +314,14 @@ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-                     "this default, the backup may be unusable",
-                     BACKUP_CLUSTER_SIZE_DEFAULT);
-         return BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else if (ret < 0 && !target->backing) {
-+    } else if (ret < 0 && !target_does_cow) {
-         error_setg_errno(errp, -ret,
-             "Couldn't determine the cluster size of the target image, "
-             "which has no backing file");
-         error_append_hint(errp,
-             "Aborting, since this may create an unusable destination image\n");
-         return ret;
--    } else if (ret < 0 && target->backing) {
-+    } else if (ret < 0 && target_does_cow) {
-         /* Not fatal; just trudge on ahead. */
-         return BACKUP_CLUSTER_SIZE_DEFAULT;
-     }
-@@ -371,7 +372,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         return NULL;
+     assert(top != bs);
+-    if (top == base) {
++    if (bdrv_skip_filters(top) == bdrv_skip_filters(base)) {
+         error_setg(errp, "Invalid files for merge: top and base are the same");
+         return;
      }
  
--    if (compress && !block_driver_can_compress(target->drv)) {
-+    if (compress && !bdrv_supports_compressed_writes(target)) {
-         error_setg(errp, "Compression is not supported for this drive %s",
-                    bdrv_get_device_name(target));
-         return NULL;
++    base_size = bdrv_getlength(base);
++    if (base_size < 0) {
++        error_setg_errno(errp, -base_size, "Could not inquire base image size");
++        return;
++    }
++
++    top_size = bdrv_getlength(top);
++    if (top_size < 0) {
++        error_setg_errno(errp, -top_size, "Could not inquire top image size");
++        return;
++    }
++
++    perms = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
++    if (base_size < top_size) {
++        perms |= BLK_PERM_RESIZE;
++    }
++
+     s = block_job_create(job_id, &commit_job_driver, NULL, bs, 0, BLK_PERM_ALL,
+                          speed, creation_flags, NULL, NULL, errp);
+     if (!s) {
+@@ -301,17 +322,43 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+ 
+     s->commit_top_bs = commit_top_bs;
+ 
+-    /* Block all nodes between top and base, because they will
+-     * disappear from the chain after this operation. */
+-    assert(bdrv_chain_contains(top, base));
+-    for (iter = top; iter != base; iter = backing_bs(iter)) {
+-        /* XXX BLK_PERM_WRITE needs to be allowed so we don't block ourselves
+-         * at s->base (if writes are blocked for a node, they are also blocked
+-         * for its backing file). The other options would be a second filter
+-         * driver above s->base. */
++    /*
++     * Block all nodes between top and base, because they will
++     * disappear from the chain after this operation.
++     * Note that this assumes that the user is fine with removing all
++     * nodes (including R/W filters) between top and base.  Assuring
++     * this is the responsibility of the interface (i.e. whoever calls
++     * commit_start()).
++     */
++    s->base_overlay = bdrv_find_overlay(top, base);
++    assert(s->base_overlay);
++
++    /*
++     * The topmost node with
++     * bdrv_skip_filters(filtered_base) == bdrv_skip_filters(base)
++     */
++    filtered_base = bdrv_cow_bs(s->base_overlay);
++    assert(bdrv_skip_filters(filtered_base) == bdrv_skip_filters(base));
++
++    /*
++     * XXX BLK_PERM_WRITE needs to be allowed so we don't block ourselves
++     * at s->base (if writes are blocked for a node, they are also blocked
++     * for its backing file). The other options would be a second filter
++     * driver above s->base.
++     */
++    iter_shared_perms = BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRITE;
++
++    for (iter = top; iter != base; iter = bdrv_filter_or_cow_bs(iter)) {
++        if (iter == filtered_base) {
++            /*
++             * From here on, all nodes are filters on the base.  This
++             * allows us to share BLK_PERM_CONSISTENT_READ.
++             */
++            iter_shared_perms |= BLK_PERM_CONSISTENT_READ;
++        }
++
+         ret = block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+-                                 BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRITE,
+-                                 errp);
++                                 iter_shared_perms, errp);
+         if (ret < 0) {
+             goto fail;
+         }
+@@ -328,9 +375,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+     }
+ 
+     s->base = blk_new(s->common.job.aio_context,
+-                      BLK_PERM_CONSISTENT_READ
+-                      | BLK_PERM_WRITE
+-                      | BLK_PERM_RESIZE,
++                      perms,
+                       BLK_PERM_CONSISTENT_READ
+                       | BLK_PERM_GRAPH_MOD
+                       | BLK_PERM_WRITE_UNCHANGED);
+@@ -398,19 +443,22 @@ int bdrv_commit(BlockDriverState *bs)
+     if (!drv)
+         return -ENOMEDIUM;
+ 
+-    if (!bs->backing) {
++    backing_file_bs = bdrv_cow_bs(bs);
++
++    if (!backing_file_bs) {
+         return -ENOTSUP;
+     }
+ 
+     if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_COMMIT_SOURCE, NULL) ||
+-        bdrv_op_is_blocked(bs->backing->bs, BLOCK_OP_TYPE_COMMIT_TARGET, NULL)) {
++        bdrv_op_is_blocked(backing_file_bs, BLOCK_OP_TYPE_COMMIT_TARGET, NULL))
++    {
+         return -EBUSY;
+     }
+ 
+-    ro = bs->backing->bs->read_only;
++    ro = backing_file_bs->read_only;
+ 
+     if (ro) {
+-        if (bdrv_reopen_set_read_only(bs->backing->bs, false, NULL)) {
++        if (bdrv_reopen_set_read_only(backing_file_bs, false, NULL)) {
+             return -EACCES;
+         }
+     }
+@@ -428,8 +476,6 @@ int bdrv_commit(BlockDriverState *bs)
+     }
+ 
+     /* Insert commit_top block node above backing, so we can write to it */
+-    backing_file_bs = backing_bs(bs);
+-
+     commit_top_bs = bdrv_new_open_driver(&bdrv_commit_top, NULL, BDRV_O_RDWR,
+                                          &local_err);
+     if (commit_top_bs == NULL) {
+@@ -515,15 +561,13 @@ ro_cleanup:
+     qemu_vfree(buf);
+ 
+     blk_unref(backing);
+-    if (backing_file_bs) {
+-        bdrv_set_backing_hd(bs, backing_file_bs, &error_abort);
+-    }
++    bdrv_set_backing_hd(bs, backing_file_bs, &error_abort);
+     bdrv_unref(commit_top_bs);
+     blk_unref(src);
+ 
+     if (ro) {
+         /* ignoring error return here */
+-        bdrv_reopen_set_read_only(bs->backing->bs, true, NULL);
++        bdrv_reopen_set_read_only(backing_file_bs, true, NULL);
+     }
+ 
+     return ret;
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index 4c8c375172..4d3db5ed3c 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -217,7 +217,7 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+             return;
+         }
+ 
+-        bs = blk_bs(blk);
++        bs = bdrv_skip_implicit_filters(blk_bs(blk));
+         aio_context = bdrv_get_aio_context(bs);
+         aio_context_acquire(aio_context);
+ 
 diff --git a/blockdev.c b/blockdev.c
-index 6ca9b19779..9ce99b9cbc 100644
+index 9ce99b9cbc..402f1d1df1 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -1728,7 +1728,13 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-      * on top of.
-      */
-     if (backup->sync == MIRROR_SYNC_MODE_TOP) {
--        source = backing_bs(bs);
-+        /*
-+         * Backup will not replace the source by the target, so none
-+         * of the filters skipped here will be removed (in contrast to
-+         * mirror).  Therefore, we can skip all of them when looking
-+         * for the first COW relationship.
-+         */
-+        source = bdrv_cow_bs(bdrv_skip_filters(bs));
-         if (!source) {
-             backup->sync = MIRROR_SYNC_MODE_FULL;
+@@ -2690,7 +2690,9 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+ 
+     assert(bdrv_get_aio_context(base_bs) == aio_context);
+ 
+-    for (iter = top_bs; iter != backing_bs(base_bs); iter = backing_bs(iter)) {
++    for (iter = top_bs; iter != bdrv_filter_or_cow_bs(base_bs);
++         iter = bdrv_filter_or_cow_bs(iter))
++    {
+         if (bdrv_op_is_blocked(iter, BLOCK_OP_TYPE_COMMIT_TARGET, errp)) {
+             goto out;
          }
-@@ -1748,9 +1754,14 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-     if (backup->mode != NEW_IMAGE_MODE_EXISTING) {
-         assert(backup->format);
-         if (source) {
--            bdrv_refresh_filename(source);
--            bdrv_img_create(backup->target, backup->format, source->filename,
--                            source->drv->format_name, NULL,
-+            /* Implicit filters should not appear in the filename */
-+            BlockDriverState *explicit_backing =
-+                bdrv_skip_implicit_filters(source);
-+
-+            bdrv_refresh_filename(explicit_backing);
-+            bdrv_img_create(backup->target, backup->format,
-+                            explicit_backing->filename,
-+                            explicit_backing->drv->format_name, NULL,
-                             size, flags, false, &local_err);
-         } else {
-             bdrv_img_create(backup->target, backup->format, NULL, NULL, NULL,
 -- 
 2.26.2
 
