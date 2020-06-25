@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC79209C77
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:06:05 +0200 (CEST)
-Received: from localhost ([::1]:37744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491BC209C7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:08:42 +0200 (CEST)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joOlg-0000g3-7M
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58774)
+	id 1joOoD-0004TN-Ao
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1joOkR-0007lL-KA
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49514
- helo=mx0a-001b2d01.pphosted.com)
+ id 1joOkW-0007ss-Tk
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1joOkP-0001YK-Ff
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:47 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05PA1qBm115187
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:42 -0400
+ id 1joOkT-0001aE-Uq
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:52 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05PA3IwH126656
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:48 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyvamn3-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux00hj3n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:42 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05PA20h7116097
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:42 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 31uwyvamma-1
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:48 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05PA3osh128603
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:48 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux00hhxx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jun 2020 06:04:42 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PA0qQJ009462;
- Thu, 25 Jun 2020 10:04:40 GMT
+ Thu, 25 Jun 2020 06:04:47 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PA1o4w025126;
+ Thu, 25 Jun 2020 10:04:41 GMT
 Received: from b06avi18626390.portsmouth.uk.ibm.com
  (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 31uus71nph-1
+ by ppma06ams.nl.ibm.com with ESMTP id 31uusjhkda-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 25 Jun 2020 10:04:40 +0000
 Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
  by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 05PA3JQ460621196
+ id 05PA3JD460555574
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 25 Jun 2020 10:03:19 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 350634203F;
+ by IMSVA (Postfix) with ESMTP id AA5144203F;
  Thu, 25 Jun 2020 10:04:38 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC60D42052;
- Thu, 25 Jun 2020 10:04:37 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4F84F42042;
+ Thu, 25 Jun 2020 10:04:38 +0000 (GMT)
 Received: from marcibm.ibmuc.com (unknown [9.145.42.231])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 25 Jun 2020 10:04:37 +0000 (GMT)
+ Thu, 25 Jun 2020 10:04:38 +0000 (GMT)
 From: Marc Hartmayer <mhartmay@linux.ibm.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC 1/4] virtio: add vhost-user-fs-ccw device
-Date: Thu, 25 Jun 2020 12:04:27 +0200
-Message-Id: <20200625100430.22407-2-mhartmay@linux.ibm.com>
+Subject: [RFC 2/4] libvhost-user: print invalid address on vu_panic
+Date: Thu, 25 Jun 2020 12:04:28 +0200
+Message-Id: <20200625100430.22407-3-mhartmay@linux.ibm.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200625100430.22407-1-mhartmay@linux.ibm.com>
 References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
@@ -73,16 +72,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-25_04:2020-06-25,
  2020-06-25 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- cotscore=-2147483648 suspectscore=1 mlxlogscore=999 lowpriorityscore=0
- adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 malwarescore=0 clxscore=1011 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006250059
-Received-SPF: pass client-ip=148.163.158.5;
+ impostorscore=0 spamscore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 cotscore=-2147483648
+ mlxscore=0 lowpriorityscore=0 suspectscore=1 adultscore=0 mlxlogscore=582
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006250062
+Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 06:04:42
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 06:04:43
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -108,109 +106,26 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Halil Pasic <pasic@linux.ibm.com>
+This can be helpful for debugging.
 
-Wire up the CCW device for vhost-user-fs.
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
 ---
- hw/s390x/Makefile.objs       |  1 +
- hw/s390x/vhost-user-fs-ccw.c | 74 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 hw/s390x/vhost-user-fs-ccw.c
+ contrib/libvhost-user/libvhost-user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index a46a1c7894e0..c4086ec3171e 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -20,6 +20,7 @@ obj-$(CONFIG_VIRTIO_NET) += virtio-ccw-net.o
- obj-$(CONFIG_VIRTIO_BLK) += virtio-ccw-blk.o
- obj-$(call land,$(CONFIG_VIRTIO_9P),$(CONFIG_VIRTFS)) += virtio-ccw-9p.o
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-ccw.o
-+obj-$(CONFIG_VHOST_USER_FS) += vhost-user-fs-ccw.o
- endif
- obj-y += css-bridge.o
- obj-y += ccw-device.o
-diff --git a/hw/s390x/vhost-user-fs-ccw.c b/hw/s390x/vhost-user-fs-ccw.c
-new file mode 100644
-index 000000000000..0f11a77239a5
---- /dev/null
-+++ b/hw/s390x/vhost-user-fs-ccw.c
-@@ -0,0 +1,74 @@
-+/*
-+ * Ccw transport wiring for vhost-user-fs
-+ *
-+ * Copyright 2020 IBM Corp.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "hw/virtio/vhost-user-fs.h"
-+#include "virtio-ccw.h"
-+
-+typedef struct VHostUserFSCcw {
-+    VirtioCcwDevice parent_obj;
-+    VHostUserFS vdev;
-+} VHostUserFSCcw;
-+
-+#define TYPE_VHOST_USER_FS_CCW "vhost-user-fs-ccw"
-+#define VHOST_USER_FS_CCW(obj) \
-+        OBJECT_CHECK(VHostUserFSCcw, (obj), TYPE_VHOST_USER_FS_CCW)
-+
-+
-+static Property vhost_user_fs_ccw_properties[] = {
-+    DEFINE_PROP_BIT("ioeventfd", VirtioCcwDevice, flags,
-+                    VIRTIO_CCW_FLAG_USE_IOEVENTFD_BIT, true),
-+    DEFINE_PROP_UINT32("max_revision", VirtioCcwDevice, max_rev,
-+                       VIRTIO_CCW_MAX_REV),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void vhost_user_fs_ccw_realize(VirtioCcwDevice *ccw_dev, Error **errp)
-+{
-+    VHostUserFSCcw *dev = VHOST_USER_FS_CCW(ccw_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+    qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+}
-+
-+static void vhost_user_fs_ccw_instance_init(Object *obj)
-+{
-+    VHostUserFSCcw *dev = VHOST_USER_FS_CCW(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_USER_FS);
-+}
-+
-+static void vhost_user_fs_ccw_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtIOCCWDeviceClass *k = VIRTIO_CCW_DEVICE_CLASS(klass);
-+
-+    k->realize = vhost_user_fs_ccw_realize;
-+    device_class_set_props(dc,vhost_user_fs_ccw_properties);
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+}
-+
-+static const TypeInfo vhost_user_fs_ccw = {
-+    .name          = TYPE_VHOST_USER_FS_CCW,
-+    .parent        = TYPE_VIRTIO_CCW_DEVICE,
-+    .instance_size = sizeof(VHostUserFSCcw),
-+    .instance_init = vhost_user_fs_ccw_instance_init,
-+    .class_init    = vhost_user_fs_ccw_class_init,
-+};
-+
-+static void vhost_user_fs_ccw_register(void)
-+{
-+    type_register_static(&vhost_user_fs_ccw);
-+}
-+
-+type_init(vhost_user_fs_ccw_register)
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index d315db139606..9e8750a9dabc 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -2432,7 +2432,7 @@ virtqueue_map_desc(VuDev *dev,
+ 
+         iov[num_sg].iov_base = vu_gpa_to_va(dev, &len, pa);
+         if (iov[num_sg].iov_base == NULL) {
+-            vu_panic(dev, "virtio: invalid address for buffers");
++            vu_panic(dev, "virtio: invalid address 0x%lx for buffers", pa);
+             return;
+         }
+         iov[num_sg].iov_len = len;
 -- 
 2.25.4
 
