@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DD5209FD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:27:27 +0200 (CEST)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF436209FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:30:05 +0200 (CEST)
+Received: from localhost ([::1]:34612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRuY-0000uK-2k
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
+	id 1joRx6-00062q-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRt7-0007dl-4n
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:25:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46191
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRt5-0003wa-8j
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:25:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593091554;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cJpXSiesTW9zTVHXNgyA52eO8xwUgZy+MH4RQUpIT5k=;
- b=XT6kwN4YrPGuiDKbRKboJ8Q/DQ0/HfW1Zrij7XQ/rP4dyQULU+nNs1drfKHDYxQi24QG7p
- eSExkNoqtRh3qmz6E10Nq+wKaqLWtWjxwLlL9tnQ2qKdJjf6TwEqd38RKVl55i8Ygg/+8h
- rOZTuEn2p/v455+5qgllTVfhyp3MCDE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-hcGb9vWoN8GhIPClYubiUg-1; Thu, 25 Jun 2020 09:25:50 -0400
-X-MC-Unique: hcGb9vWoN8GhIPClYubiUg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 550B01009458;
- Thu, 25 Jun 2020 13:25:33 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF41FC14C5;
- Thu, 25 Jun 2020 13:25:21 +0000 (UTC)
-Subject: Re: [PATCH RFC 2/3] gitlab: build all container images during CI
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200622153318.751107-1-berrange@redhat.com>
- <20200622153318.751107-3-berrange@redhat.com>
- <745e1e86-3042-7b7c-89c7-81eb9a8f7905@redhat.com>
- <20200625102457.GG1009994@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <acfb1a3a-e18d-dc4e-e28a-35201bafad86@redhat.com>
-Date: Thu, 25 Jun 2020 15:25:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1joRtX-0008Nc-Lk
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:26:23 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1joRtV-00043h-SP
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:26:23 -0400
+Received: by mail-wr1-x442.google.com with SMTP id a6so5844758wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3PVUrT7AAMHSp1vHR0x+g2NXZ59AfA192lAQwIjVj7Q=;
+ b=rI9ynXyaudQAVBSju2Zf1FbR9ta4BSwK+i8Z2I/5vr98jfn5s2vHvRWaJQBwSQODb4
+ SEpb88TJXsSk2ySD34bqc3tcDXuSSSSYS6ivgHipUmyFgPrvlkwFY0PpseOOQ7dwYOuM
+ YhSQSosd4ltdJ6O170bsbsZekingeqbBb60jS58nHhm40ibs668IH1MGMs5OLbI20/3D
+ DGdpzITOYue3i35NnKrf8pjvcp1nVrEq0dr6RVdnNWjd2XvFIxROs95A36/uhQWTXop3
+ MtBs9eatocv/gwp/tjS01IkhC+tOep0PYLbNNuGQ47YyIILa+DhbDVFSP2agR15m8HgV
+ GIdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3PVUrT7AAMHSp1vHR0x+g2NXZ59AfA192lAQwIjVj7Q=;
+ b=X0/I/BRJ4efIU51LzHvuHX0K70ugsAOMjvI6M2I1xD4GML9pYquXYw7/Q0klcNsPpI
+ JTgPxj2yrbPis2jMT0vH0y8atiAYVeNC4IE8Z2SSLIVS/TF4T/2qTblT+SAng2sbTjlY
+ Fr7TvTnNtDIEsF0CNfB5P1Y+/gd6dZgA5dFrJ26kLSfR2vS4VHR4xXM0ggsUnQyBg3ai
+ 7TXvwJDRbXbpEXfC9mGIz0xF9HoQWgIDs9TiAL4wo8+s9HoTzDproD47Coid+R6AcRJu
+ 7gxWjKy7orF4oemBk48q7+pqBavSXXmWjkmk+EWWng/YKtlgRuFAKmwh5lhz65iNNG2v
+ mnrA==
+X-Gm-Message-State: AOAM533IAxds8DSAXp9+O6EHNwbiWANt5XFRmZOy1xzBPmYXMhY12+eX
+ aMAA5rlhxT5rElz8ztfRcgRmQupoxU8eybfpQbI=
+X-Google-Smtp-Source: ABdhPJwG8srjPM/jIm0I2tqKsJMwAvWvLKZeHIaAmsDaylMUDyXvkKmFmrU3YwazwEV37MXfUGvZhq7qL0+VSq+3yro=
+X-Received: by 2002:a5d:62d1:: with SMTP id o17mr36003392wrv.162.1593091580201; 
+ Thu, 25 Jun 2020 06:26:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200625102457.GG1009994@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <1592995531-32600-1-git-send-email-chenhc@lemote.com>
+ <1592995531-32600-2-git-send-email-chenhc@lemote.com>
+ <CAHiYmc5ZbZSyMxevp-Ta1fWsY67yt6S_bhoHr5CGYPWN=KTLbQ@mail.gmail.com>
+In-Reply-To: <CAHiYmc5ZbZSyMxevp-Ta1fWsY67yt6S_bhoHr5CGYPWN=KTLbQ@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 25 Jun 2020 15:25:53 +0200
+Message-ID: <CAHiYmc5My0AZZBV2EDqYOYmoonW-gmwkXaxXh0N6di8GHTvzxQ@mail.gmail.com>
+Subject: Re: [PATCH V6 1/4] hw/mips: Implement the kvm_type() hook in
+ MachineClass
+To: Huacai Chen <zltjiangshi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,93 +83,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2020 12.24, Daniel P. Berrangé wrote:
-> On Thu, Jun 25, 2020 at 12:14:33PM +0200, Thomas Huth wrote:
->> On 22/06/2020 17.33, Daniel P. Berrangé wrote:
->>> We have a number of container images in tests/docker/dockerfiles
->>> that are intended to provide well defined environments for doing
->>> test builds. We want our CI system to use these containers too.
->>>
->>> This introduces builds of all of them as the first stage in the
->>> CI, so that the built containers are available for later build
->>> jobs. The containers are setup to use the GitLab container
->>> registry as the cache, so we only pay the penalty of the full
->>> build when the dockerfiles change. The main qemu-project/qemu
->>> repo is used as a second cache, so that users forking QEMU will
->>> see a fast turnaround time on their CI jobs.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> ---
->>>    .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
->>>    .gitlab-ci.yml              |   3 +
->>>    2 files changed, 251 insertions(+)
->>>    create mode 100644 .gitlab-ci.d/containers.yml
->>>
->>> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
->>> new file mode 100644
->>> index 0000000000..ea1edbb196
->>> --- /dev/null
->>> +++ b/.gitlab-ci.d/containers.yml
->>> @@ -0,0 +1,248 @@
->>> +
->>> +
->>> +.container_job_template: &container_job_definition
->>> +  image: docker:stable
->>> +  stage: containers
->>> +  services:
->>> +    - docker:dind
->>> +  before_script:
->>> +    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
->>> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/ci-$NAME:latest"
->>> +    - docker info
->>> +    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
->>> +  script:
->>> +    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
->>> +    - sed -i -e "s,FROM qemu:,FROM $CI_REGISTRY_IMAGE/ci-," tests/docker/dockerfiles/$NAME.docker
->>> +    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
->>> +    - docker push "$TAG"
->>> +  after_script:
->>> +    - docker logout
->>
->> .gitlab-ci.d/edk2.yml uses a "changes" rule to only run the pipeline if
->> something really has been changed. Could you use something similar here?
->> E.g.:
->>
->> rules:
->>   - changes:
->>     - .gitlab-ci.d/containers.yml
->>     - tests/docker/*
->>     - tests/docker/dockerfiles/*
->>
->> ?
-> 
-> If the OS distro base image changes, we'll never pick it up with that
-> kind of filtering.  For the main gitlab.com/qemu-project/qemu  you
-> could configure a nightly/weekly/whatever job to force rebuild on a
-> periodic basis to pick up base image changes.  The downside of this
-> is that any users who fork qemu won't have that periodic job and so
-> will be testing their work against potentially outdated content.
-> 
-> Having said all that, I'm not 100% convinced I'm actually picking
-> up changed base images right now anyway, given our use of caching.
-> 
-> It is possible that I would need todo an explict "docker pull" of
-> the base image to force it to trigger a refresh othrewise I have
-> a feeling we're always cached.
+=D1=87=D0=B5=D1=82, 25. =D1=98=D1=83=D0=BD 2020. =D1=83 14:31 Aleksandar Ma=
+rkovic
+<aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> =D1=81=D1=80=D0=B5, 24. =D1=98=D1=83=D0=BD 2020. =D1=83 12:44 Huacai Chen=
+ <zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
+=D0=BE/=D0=BB=D0=B0:
+> >
+> > MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
+> > can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
+> > MachineClass. This patch add the the kvm_type() hook to support both of
+> > the two types.
+> >
+> > Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+> >  target/mips/kvm.c      | 20 ++++++++++++++++++++
+> >  target/mips/kvm_mips.h | 11 +++++++++++
+> >  2 files changed, 31 insertions(+)
+> >
+> > diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+> > index 96cfa10..373f582 100644
+> > --- a/target/mips/kvm.c
+> > +++ b/target/mips/kvm.c
+> > @@ -21,10 +21,12 @@
+> >  #include "qemu/main-loop.h"
+> >  #include "qemu/timer.h"
+> >  #include "sysemu/kvm.h"
+> > +#include "sysemu/kvm_int.h"
+> >  #include "sysemu/runstate.h"
+> >  #include "sysemu/cpus.h"
+> >  #include "kvm_mips.h"
+> >  #include "exec/memattrs.h"
+> > +#include "hw/boards.h"
+> >
+> >  #define DEBUG_KVM 0
+> >
+> > @@ -1270,3 +1272,21 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+> >  {
+> >      abort();
+> >  }
+> > +
+> > +int mips_kvm_type(MachineState *machine, const char *vm_type)
+> > +{
+> > +    int r;
+> > +    KVMState *s =3D KVM_STATE(machine->accelerator);
+> > +
+> > +    r =3D kvm_check_extension(s, KVM_CAP_MIPS_VZ);
+>
+> This will not work for build systems with kernel < 4.12. You need to
+> provide fallback solution for that case.
+>
 
-But currently, each of the container stages currently takes > 2 minutes, 
-even with the cached containers. I had a quick look, and it takes 7 
-minutes 'till the "build" stage begins. So all the advantages of not 
-having to do "yum/apt-get install" in the build containers anymore seem 
-to be crushed by the time that the three container stages take now?
+I am perhaps wrong here. If we pull the preprocessor constants from
+imported Linux headers, than we don;t need host kernel headers
+supporting KVM_CAP_MIPS_VZ. I will doublecheck.
 
-  Thomas
+Thanks, Aleksandar
 
+> > +    if (r > 0) {
+> > +        return KVM_VM_MIPS_VZ;
+> > +    }
+> > +
+> > +    r =3D kvm_check_extension(s, KVM_CAP_MIPS_TE);
+> > +    if (r > 0) {
+> > +        return KVM_VM_MIPS_TE;
+> > +    }
+> > +
+> > +    return -1;
+> > +}
+> > diff --git a/target/mips/kvm_mips.h b/target/mips/kvm_mips.h
+> > index 1e40147..171d53d 100644
+> > --- a/target/mips/kvm_mips.h
+> > +++ b/target/mips/kvm_mips.h
+> > @@ -12,6 +12,8 @@
+> >  #ifndef KVM_MIPS_H
+> >  #define KVM_MIPS_H
+> >
+> > +#include "cpu.h"
+> > +
+> >  /**
+> >   * kvm_mips_reset_vcpu:
+> >   * @cpu: MIPSCPU
+> > @@ -23,4 +25,13 @@ void kvm_mips_reset_vcpu(MIPSCPU *cpu);
+> >  int kvm_mips_set_interrupt(MIPSCPU *cpu, int irq, int level);
+> >  int kvm_mips_set_ipi_interrupt(MIPSCPU *cpu, int irq, int level);
+> >
+> > +#ifdef CONFIG_KVM
+> > +int mips_kvm_type(MachineState *machine, const char *vm_type);
+> > +#else
+> > +static inline int mips_kvm_type(MachineState *machine, const char *vm_=
+type)
+> > +{
+> > +    return 0;
+> > +}
+> > +#endif
+> > +
+> >  #endif /* KVM_MIPS_H */
+> > --
+> > 2.7.0
+> >
 
