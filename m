@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5651920A5D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:31:26 +0200 (CEST)
-Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EFE20A5E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:33:20 +0200 (CEST)
+Received: from localhost ([::1]:50652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXam-0007il-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:31:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
+	id 1joXcd-0000vn-2g
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1joXZA-0006Rx-Ul
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:29:46 -0400
-Resent-Date: Thu, 25 Jun 2020 15:29:44 -0400
-Resent-Message-Id: <E1joXZA-0006Rx-Ul@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21766)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joXbg-0000Pl-9t
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:32:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51355
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1joXZ5-0007MT-ML
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:29:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593113368; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hOag4oVd4RkEfXCDF1TLpgMEhaojnOvsjJjX1i2A35n+XbsHSo7OMcUfSi9F3uxRNgYmeNKC1gcRMm1EyfIzFysoacvop3H4MbD3XJ4O6QuVyttfhoLwZcm/fEByFY1CLLae5dEF5lEiyxd8rTQQ/BG0R60PBO0vkoUhg9Otlag=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593113368;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=eKEAGeM8d8/luivS5wDqi6OkTix5rXHiBQl2Fawhxns=; 
- b=kNtYroUd5C3G/O106jGHTTFtaZaXWEcbgdzfpWLT/VM/MvUhmKaXnX4plEqr3l0HHXLGoi7t5CyZNaJV+O8UuVY2/wufBvtUVFQ+xg2pC0l3JFG+KKfECmqw7lMDLxUMPqQQOr598W51gKmOsrDBybTUX1J1wGV/KQ9++l6IVkQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593113366137817.8291891869176;
- Thu, 25 Jun 2020 12:29:26 -0700 (PDT)
-Message-ID: <159311336469.25974.763596705743975012@d1fd068a5071>
-Subject: Re: [RFC 0/1] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-In-Reply-To: <20200625191651.5817-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joXbZ-0008Uz-ET
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:32:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593113531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JUef9MpqF+fO9MoZZljTqn+KLJv0PJ4766fMdtaDI90=;
+ b=CBTxjL2pHG6pavpW3PFJ43uQYto0clcYUq0B+zZB+wT67BjmdaKQ/9z4CAUHTPy4Rw9N3Q
+ WDPVh8tb4jpyaZRsnFQ6EybvIZED+TMjZYuX/A8D7rcYxktYDFBwXBA8ORoAMb4tkwjTKX
+ MgoXERL2pq3K5zw8Cb+/0E/xJctAWHY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-74TyfRMzN16DiHLc8LKSFA-1; Thu, 25 Jun 2020 15:32:06 -0400
+X-MC-Unique: 74TyfRMzN16DiHLc8LKSFA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBD7E107ACCA;
+ Thu, 25 Jun 2020 19:32:04 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA3C15C240;
+ Thu, 25 Jun 2020 19:32:01 +0000 (UTC)
+Subject: Re: [PATCH 1/4] iotests: QemuIoInteractive: use qemu_io_args_no_fmt
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200625142540.24589-1-vsementsov@virtuozzo.com>
+ <20200625142540.24589-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <2f01d8df-ed77-aab5-2f9a-120bbfa4b823@redhat.com>
+Date: Thu, 25 Jun 2020 14:32:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: eperezma@redhat.com
-Date: Thu, 25 Jun 2020 12:29:26 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:27:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200625142540.24589-2-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,39 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, quintela@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com, avi@redhat.com, pbonzini@redhat.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNTE5MTY1MS41ODE3
-LTEtZXBlcmV6bWFAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKU3ViamVjdDogW1JGQyAwLzFdIG1lbW9yeTogRGVsZXRlIGFzc2VydGlvbiBp
-biBtZW1vcnlfcmVnaW9uX3VucmVnaXN0ZXJfaW9tbXVfbm90aWZpZXIKVHlwZTogc2VyaWVzCk1l
-c3NhZ2UtaWQ6IDIwMjAwNjI1MTkxNjUxLjU4MTctMS1lcGVyZXptYUByZWRoYXQuY29tCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
-ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
-IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20v
-cGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMDYy
-NTE5MTY1MS41ODE3LTEtZXBlcmV6bWFAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwNjI1MTkx
-NjUxLjU4MTctMS1lcGVyZXptYUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
-dGVzdCcKM2RjYjEyMCBtZW1vcnk6IERlbGV0ZSBhc3NlcnRpb24gaW4gbWVtb3J5X3JlZ2lvbl91
-bnJlZ2lzdGVyX2lvbW11X25vdGlmaWVyCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogZG8g
-bm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzI0OiBGSUxFOiBtZW1vcnkuYzoxOTE4OgorICAgIC8v
-IGFzc2VydChlbnRyeS0+aW92YSA+PSBub3RpZmllci0+c3RhcnQgJiYgZW50cnlfZW5kIDw9IG5v
-dGlmaWVyLT5lbmQpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA4IGxpbmVzIGNoZWNr
-ZWQKCkNvbW1pdCAzZGNiMTIwNDIyM2EgKG1lbW9yeTogRGVsZXRlIGFzc2VydGlvbiBpbiBtZW1v
-cnlfcmVnaW9uX3VucmVnaXN0ZXJfaW9tbXVfbm90aWZpZXIpIGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
-IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
-LzIwMjAwNjI1MTkxNjUxLjU4MTctMS1lcGVyZXptYUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2tw
-YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 6/25/20 9:25 AM, Vladimir Sementsov-Ogievskiy wrote:
+> All users of QemuIoInteractive provides -f argument, so it's incorrect
+
+So far, all users is just test 205; although your series adds test 209 
+that does likewise.  "incorrect" is a bit harsh since you can specify -f 
+more than once (last one wins); maybe "inefficient" is better wording.
+
+> to use qemu_io_args, which contains -f too. Let's use
+> qemu_io_args_no_fmt, which also makes possible to use --image-opts with
+> QemuIoInteractive in the following patch.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 5ea4c4df8b..efe9958f5e 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -211,7 +211,7 @@ def get_virtio_scsi_device():
+>   
+>   class QemuIoInteractive:
+>       def __init__(self, *args):
+> -        self.args = qemu_io_args + list(args)
+> +        self.args = qemu_io_args_no_fmt + list(args)
+>           self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
+>                                      stdout=subprocess.PIPE,
+>                                      stderr=subprocess.STDOUT,
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
