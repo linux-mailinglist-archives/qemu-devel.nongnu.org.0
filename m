@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAC0209FF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:32:21 +0200 (CEST)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A2420A005
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:34:17 +0200 (CEST)
+Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRzI-0008Qf-MH
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
+	id 1joS1A-00032f-2D
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1joRxt-0007Yg-Ad
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:30:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47641
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1joRxn-0005UT-SK
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:30:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593091846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UWktvWNnP3KEVex2NV2wpzebZPheOzBVRlCRWcxkWY8=;
- b=FIGCaV8e1c0Waj/K7e1xAeawoc35RW6OnMiBPFGemUvhhwmEnCVeiRuZ1EHvT5VG478sHe
- W59GAVJuzQlx+SlYGJnSG0QK+eqzzoBFQUrbQPQgKTrXrYxRu46NeozxbMwKBPOLnpm8T5
- PB3tiZWTooxRni7Xk1VMBi97KPIJtls=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-LvBdVrCsMUSLKDDeTp7Kgg-1; Thu, 25 Jun 2020 09:30:42 -0400
-X-MC-Unique: LvBdVrCsMUSLKDDeTp7Kgg-1
-Received: by mail-wm1-f72.google.com with SMTP id g187so6829906wme.0
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:30:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joRyV-0008Er-35
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:31:32 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:35403)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joRyR-0005jF-Mn
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:31:30 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id k4so4959662oik.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:31:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=T83L/jp7T1UPrpVDDi8J3X93DTN0mhpJd5lvMULeVNk=;
+ b=cmjGwircUiBde2KHaqRzsLtXCSMrBk8+kMSq/bZJwb7LyvzmKZAtEJcr5ab+CY5BYP
+ KEF0gTYDCSxx1gTCLfZHvj3+hkafvcupzgNuE2a6RXas3Gf9dqHjJOkkGaDbrdDZ9heB
+ mkc+7uvON5DAqvkVdhPdCq7q75c5mdCulqwmEV3qO2k9DPPm+vyKC4TRuNlnhYEZq/0f
+ MENch9VTW4zmUPHrf0anhQ36fPwNtZ0NJTi8XySaj6oYMsdLYFknulqk59L8lAyFOg3V
+ 9OorFSp/Gni5AnD32ZI92wbZp6IyLefLTP5ma+7yYgRsnoFzHXLQpcEi+d9y0BnU/AbM
+ VTNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UWktvWNnP3KEVex2NV2wpzebZPheOzBVRlCRWcxkWY8=;
- b=mbO6a4GLQywPvOLLaLkG2olx7Z3IsReVXSzCdq4ZcVX8PgaLdqnH/Ddzwrhj5Gua9B
- 9sa/eG5C2TnN8UkKBoPSzA8NT9p3NJrghqUzM0BuPYHGE3Ahlg1fpuJPhqgFNfyVmcUq
- 8MWmnrp6BTfQ53e7YkPTDP8cYhSQ2gYwYh9fLjGeQQyEs7rNhOnJXFcWtcZdkderMClj
- xRkREpd6f0MFvVPmyc3scOREidUppz2P2VUHyI8zAuczHrop0lYXEgKxT3gM1FTNBLDt
- 82BEvG2aqGd37v0pwNdexxs8ee2R64d6TazIaIHXOEBw7+iHIDCiNC+pQbNVP5vUDtB9
- OTQw==
-X-Gm-Message-State: AOAM533RKipjt7GwOLY/DFA02UHRir79B6RXR+peT3KuWyRqn5WMzjwT
- olw48LleOOZMxwirKQRyPv2+V9XZnSfvIwhAv7q6ZMG7v726O+vCywX21eYw3oss6h4A+zgHhFZ
- FOhVfDwDWCCSwST4=
-X-Received: by 2002:adf:c707:: with SMTP id k7mr35405526wrg.382.1593091841275; 
- Thu, 25 Jun 2020 06:30:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSTVkVz+TvP7vJeMUV/eHG27VjVXUO4RKYDS1oWJghPkE05uNy+VS/TnAuf6/seK5VOKSIRA==
-X-Received: by 2002:adf:c707:: with SMTP id k7mr35405514wrg.382.1593091841076; 
- Thu, 25 Jun 2020 06:30:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:91d0:a5f0:9f34:4d80?
- ([2001:b07:6468:f312:91d0:a5f0:9f34:4d80])
- by smtp.gmail.com with ESMTPSA id b18sm2293269wmb.18.2020.06.25.06.30.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 06:30:40 -0700 (PDT)
-Subject: Re: [PATCH 6/8] i386: hvf: Drop hvf_reset_vcpu()
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200624225850.16982-1-r.bolshakov@yadro.com>
- <20200624225850.16982-7-r.bolshakov@yadro.com>
- <ac800efc-c51d-e44c-de5c-cdef81d24dec@redhat.com>
- <20200625123637.GG25104@SPB-NB-133.local>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <34821aae-e8f5-adc6-eab5-0a6f6b2835e8@redhat.com>
-Date: Thu, 25 Jun 2020 15:30:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=T83L/jp7T1UPrpVDDi8J3X93DTN0mhpJd5lvMULeVNk=;
+ b=lCusHqHk+9B6kGoN0TJAs20kXslzrPGI1kqQoImwfubLKynbWEuaJFVwyvHscZfchl
+ j0VJWhL3eL2Mjm1O7lEjvT3r3jEg/1NN1RrEnQYSHQtBFHqvNc3mVTcMwgZ/K3fEbv/e
+ DQlWqYBI4z1QOd3UrOUWkz8CczxREJ2s1YwDeRzx21+5NBe7NW1DgQ372LA789N+vc5x
+ DrMLEvPfoMoPAMdh7nmtNvQBs3WKZjaw0ufmxAhtD+CGl0ejEJmjwK+8Fasz8ZITt1L2
+ x81E0ctN6SeAZM4TxUwdYCyNTzuHbsYagWkqrdHoXGHJgFZqfa1/eznvTwXNg81n135J
+ PeOA==
+X-Gm-Message-State: AOAM53215yQZszGIGFFN2LBBDg3h4zEKqmxMeU0bGqQ5Sekl5WBZYI75
+ TEypvp8RmxR9CiXCsC+QceQCMBAYLTonG0eH4159UQ==
+X-Google-Smtp-Source: ABdhPJyxXKa3QcnGOR30K/q/fYKxXdWN9PA+M9nvcztuyQWjLyhCuQQrXNgbrfDYFBZlNwQZDRONHt+YqZSuZfUYQZE=
+X-Received: by 2002:aca:568c:: with SMTP id k134mr2014596oib.48.1593091886277; 
+ Thu, 25 Jun 2020 06:31:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200625123637.GG25104@SPB-NB-133.local>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200624100210.59975-1-stefanha@redhat.com>
+In-Reply-To: <20200624100210.59975-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 25 Jun 2020 14:31:14 +0100
+Message-ID: <CAFEAcA_K7MtnEjRMZCbmYrJCm6qD4N7ZMHvGuAzXL9gD2zQNuA@mail.gmail.com>
+Subject: Re: [PULL 00/12] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,39 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/20 14:36, Roman Bolshakov wrote:
-> 
-> Yes, there's such a place. post-init and post-reset invoke
-> hvf_put_registers() and the latter one calls hvf_put_segments().
-> hvf_put_segments() sets CR4 and CR0 via macvm_set_cr0/macvm_set_cr4
-> using the CR0/CR4 from env. So, the reset is relying on generic QEMU
-> CPUX86State now. LMA in EFER is reset there as well.
+On Wed, 24 Jun 2020 at 11:02, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 171199f56f5f9bdf1e5d670d09ef1351d8f01bae:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200619-3' into staging (2020-06-22 14:45:25 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 7838c67f22a81fcf669785cd6c0876438422071a:
+>
+>   block/nvme: support nested aio_poll() (2020-06-23 15:46:08 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> ----------------------------------------------------------------
 
-Ok, do you want to send a follow-up or a v2 of this?
+Failure on iotest 030, x86-64 Linux:
 
-> I don't know any alternative for PDPTE and VMCS Entry Controls in
-> CPUX86State, that's why I left explicit reset of the VMCS fields in
-> post-reset.
+  TEST    iotest-qcow2: 030 [fail]
+QEMU          --
+"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
+-nodefaults -display none -accel qtest
+QEMU_IMG      --
+"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-img"
+QEMU_IO       --
+"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-io"
+ --cache writeback --aio threads -f qcow2
+QEMU_NBD      --
+"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-nbd"
+IMGFMT        -- qcow2 (compat=1.1)
+IMGPROTO      -- file
+PLATFORM      -- Linux/x86_64 e104462 4.15.0-76-generic
+TEST_DIR      --
+/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/scratch
+SOCK_DIR      -- /tmp/tmp.8tgdDjoZcO
+SOCKET_SCM_HELPER --
+/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotest/socket_scm_helper
 
-VMCS entry controls should be handled by macvm_set_cr0 as well, because
-QEMU does not use any except for the LMA bit.  They are initialized zero
+--- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/030.out
+ 2019-07-15 17:18:35.251364738 +0100
++++ /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/030.out.bad
+  2020-06-25 14:04:28.500534007 +0100
+@@ -1,5 +1,17 @@
+-...........................
++.............F.............
++======================================================================
++FAIL: test_stream_parallel (__main__.TestParallelOps)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "030", line 246, in test_stream_parallel
++    self.assert_qmp(result, 'return', {})
++  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
+line 848, in assert_qmp
++    result = self.dictpath(d, path)
++  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
+line 822, in dictpath
++    self.fail(f'failed path traversal for "{path}" in "{d}"')
++AssertionError: failed path traversal for "return" in "{'error':
+{'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not
+found"}}"
++
+ ----------------------------------------------------------------------
+ Ran 27 tests
 
-    wvmcs(cpu->hvf_fd, VMCS_ENTRY_CTLS,
-	  cap2ctrl(hvf_state->hvf_caps->vmx_cap_entry, 0));
+-OK
++FAILED (failures=1)
 
-but in practice the last argument ends up being zero all the time.
 
-PDPTEs are not a problem, because they are not used after reset (only if
-CR4.PAE=CR4.PG=1 and EFER.LME=0).
-
-Thanks,
-
-Paolo
-
+thanks
+-- PMM
 
