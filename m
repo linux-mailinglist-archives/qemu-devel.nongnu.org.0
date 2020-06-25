@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B060209D4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:13:51 +0200 (CEST)
-Received: from localhost ([::1]:40166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2B5209D5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:17:07 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPpG-00013P-Df
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48710)
+	id 1joPsP-0006wj-Of
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joPni-0008GX-BV
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:14 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43272)
+ id 1joPo9-0000ms-HG
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:41 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joPng-0004US-L9
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:13 -0400
-Received: by mail-oi1-x241.google.com with SMTP id s10so4365132oih.10
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 04:12:12 -0700 (PDT)
+ id 1joPo7-00058c-Vx
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:12:41 -0400
+Received: by mail-oi1-x242.google.com with SMTP id w10so1114170oih.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 04:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5D7Cxn7b9MsMev/P/1/7mvIgigKqkFhH9vyQhINyiOc=;
- b=Yg+Fyd7TTwJJhThkhPGLZEODrmlVOMS0Gtde14LYyrHkrG/iYdYnI2wfFu2lP1D88S
- WoVVc2OFZGD8NZUTnGaDRgg4KHIdAQz7GCtWMHOBMxlBETiUDWGXJrpsiR7XxMhgICs+
- IALOI96/1KjkSHr3z2BOmndtcTSyEDz7/FaYKjE+kRSxxM2PiplVEQ1Y6oXcW/bqRrSf
- zT7OEUzOGTPgJ5/54LKMRM8/7BnnL8wOKowpWeNYwIdrntSjTIIFE08C8swv5QaYKwqe
- EZ+8ifQ+aGEQ3xMxSA/h0NWNlkSHs+p6+cs/JwrSOAogt7mgJ6AthBN8ksem8F0K2YDp
- fY7A==
+ :cc; bh=2mxHRW8MSjNqz5XJ/PBqKLrSV/78W5mMnJyFAPuyRLY=;
+ b=buIVmduXOAsjLSZPB3h21JGeV1TO3bmB3XnB7OnOUkYmic4rAWgTrZJpH0CB9IsXQQ
+ 2StHmTe+OCsqvUrUFdYyDVTQRRhlG+OdPfK3juwgrdY5AIcRZpP6wQQrb26fJhYG5G9/
+ k6t+mKLkE2prNRIAiRELbBMsy3GtKYGFom0gtaj+D91Uup6hOmha44IjiG7QOlwqKVO0
+ azbRTYzjL84Tv92XC13q10FZ+1omdhGW4iPRGV3MdldxAXHsXykDo0wl0IrxJVs3YZVm
+ YAwf9hbhuZvIPFvcmROfDBqPghDObMnNoxm/sTnxSObN+5zZ1md1WtiXR7C2tpCjE68g
+ 3bVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5D7Cxn7b9MsMev/P/1/7mvIgigKqkFhH9vyQhINyiOc=;
- b=BgKiEfe5pJKqXsdo89SNWDwMiW7/+rjmFz3sA2cXzXQp+Ru6U7TzxPgc+HKJ/af1Qx
- WmefsB+xmE662Qgdl9PFUVRO5D9S90/NTiBX1PIiTKoCqZ2Znh/TYgW9bP7oWAor2Sri
- lTR+mqB7JCfQ9Oirqp8Sq51pTfSHdJDN3nuNv8Up8KJU9PgYcPCPwSHWiV3Y8JBGQEcz
- WrBEraaE95o38vuvC1pZnmdPMlWed0UlQKE/I5G72rQ2oRDFGOfNf78JczKRhFxePxnl
- YCxTz0Ujc/N0G20BJJurT/89CI5oRmRwF6YU9WzFHgQF66iUg1gu2KbfkCS11QJX1++j
- 5opg==
-X-Gm-Message-State: AOAM530ZY+c/Lo2YThs3gK2rCnO7xoUfMdMP/WBekPrF2PXOEUB4j8rr
- uO71q4YVBRNMa2nbXQaxOKEAknqrbbr0vyQ96y6MgA==
-X-Google-Smtp-Source: ABdhPJybeBgaei3UnNdppGIyxCR9Y6uJ89Bvv2AHsY43C0lP2f8urGY9nbYFiYaFyZ7oZFz0X8tnPimdLeFCRXidCsg=
-X-Received: by 2002:a54:4694:: with SMTP id k20mr1651453oic.146.1593083531242; 
- Thu, 25 Jun 2020 04:12:11 -0700 (PDT)
+ bh=2mxHRW8MSjNqz5XJ/PBqKLrSV/78W5mMnJyFAPuyRLY=;
+ b=lSE4QYFUb4D2sDwFNF8rTPVY1adJh2q4kwuZPKRt1MLDKR+I0IJi8/E0wsJNb398xo
+ 2wUdWHRRe9S/JpHy8fG3hU3hmwKz6sB1MsRSYm090CjhfLV3abfIf56gTla2Uq9PEpCT
+ tW0ophhzS+yOe0hK7Ty9VEFdjnT/4lMKA0EEBDeGZQdxHbtChqObjBv/qsKyCT9kVoMX
+ xDS7z/9IHCbi3OalGSBk0Htn3Nk+uAw1KAzSSVJD5LfX9zN0/Np9FRklE9AFbUI4Z4+q
+ qpKPsfGHC7ZmbiFG5DF9X3TqAS+Dlu7f2fRUuyeGWGtsv2XwVFgVeYI5PM8DeSZGIpfU
+ BJBQ==
+X-Gm-Message-State: AOAM531tftZzLvi/0+4aB++y4c1iq+hhPuLxGaaeAhXX+JYWnS1rtB53
+ NEBLjpPxxRtYd6jHlykwOnQcqCUmsd8N6c84l23uPA==
+X-Google-Smtp-Source: ABdhPJz67FvBh243j+JsET8U1kJJPOEX8Awh32L7G3lbKtiwyOI9oXwytmutc3gwRCTyJMHULc8+3GPGE/AuglEdiig=
+X-Received: by 2002:a54:4694:: with SMTP id k20mr1652844oic.146.1593083558974; 
+ Thu, 25 Jun 2020 04:12:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200623193658.623279-1-richard.henderson@linaro.org>
- <20200623193658.623279-31-richard.henderson@linaro.org>
-In-Reply-To: <20200623193658.623279-31-richard.henderson@linaro.org>
+ <20200623193658.623279-32-richard.henderson@linaro.org>
+In-Reply-To: <20200623193658.623279-32-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 12:12:00 +0100
-Message-ID: <CAFEAcA8+zRSz+mvq5n7tLt4U3kwfFFpSfCnOupBOTWy8OHLgAA@mail.gmail.com>
-Subject: Re: [PATCH v8 30/45] target/arm: Use mte_check1 for sve LD1R
+Date: Thu, 25 Jun 2020 12:12:27 +0100
+Message-ID: <CAFEAcA8peNugU721+PO+kDEH52Dr6+oP_x=n3wYVzpEeGfur_w@mail.gmail.com>
+Subject: Re: [PATCH v8 31/45] target/arm: Tidy trans_LD1R_zpri
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,10 +87,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 23 Jun 2020 at 20:37, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
+> Move the variable declarations to the top of the function,
+> but do not create a new label before sve_access_check.
+>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate-sve.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> v8: Split out from previous patch (pmm).
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
