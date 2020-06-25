@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE4820A2A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:11:03 +0200 (CEST)
-Received: from localhost ([::1]:41708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF5220A293
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:05:17 +0200 (CEST)
+Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUSr-0008Au-U8
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
+	id 1joUNH-0002eV-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joUFc-0000Lz-OP
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:57:20 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:45194 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1joUFa-0005hl-3D
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:57:20 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 939064C8B6;
- Thu, 25 Jun 2020 15:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1593100633;
- x=1594915034; bh=AYrpaElaEIMFOFr3mVqJdqO2vfsTSgJYgAvxPag1VlM=; b=
- Rs0a6Bi/C8eav7zMj3BoT+BuOiaM4bZJiJXthSoCTtlnUc8lH8Eq14omTHrQeFUh
- j7dMpV453rNT5j5la3RRcF9j5Qn72IRV8wdsQkgmevOWqbEYDRcoqk7XYhKL3Ii9
- AcE0b1SfE2YKsnTW+EaknHgVBW07xAvhvlYbXKFTiCU=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yJjo36Id4861; Thu, 25 Jun 2020 18:57:13 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1joUGA-0001Bg-7o
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:57:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27383
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1joUG7-0005nf-IH
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:57:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593100669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7yHZYru1HRN3hSsXroTWy8Yr+dsJ9Xb5/fy92Lg0Uo4=;
+ b=DUbzUzmfjr6MKQq3NPIHIZzr2JuWaBJXFH//mx0TZBh447L74/0SBwu8I319GC+9CPdU6t
+ PqmlPkFgNqJC03W1wSRR5mgS7Ap8TdzplAVipe27JWr1/bJhWnmC4j9Ap3Ho36afVxayGA
+ LUy1v1ikgR+fDQ1EmGIjAr8ocbkDKKI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-3Uf8hHlOO2aTc8B9ST51ug-1; Thu, 25 Jun 2020 11:57:45 -0400
+X-MC-Unique: 3Uf8hHlOO2aTc8B9ST51ug-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 9D3164C8A5;
- Thu, 25 Jun 2020 18:57:13 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 25
- Jun 2020 18:57:13 +0300
-Date: Thu, 25 Jun 2020 18:57:12 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/8] i386: hvf: Implement CPU kick
-Message-ID: <20200625155712.GI25104@SPB-NB-133.local>
-References: <20200624225850.16982-1-r.bolshakov@yadro.com>
- <20200624225850.16982-5-r.bolshakov@yadro.com>
- <9d63db4e-25a7-9c77-6f05-e5f808b8b33c@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADD89800C60;
+ Thu, 25 Jun 2020 15:57:44 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-16.ams2.redhat.com
+ [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81F0A1001B07;
+ Thu, 25 Jun 2020 15:57:40 +0000 (UTC)
+Subject: Re: [PATCH RFC 2/3] gitlab: build all container images during CI
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20200622153318.751107-1-berrange@redhat.com>
+ <20200622153318.751107-3-berrange@redhat.com>
+ <b9da6d29-0615-d96d-5fb7-ba4dc2d5f3d8@redhat.com>
+ <20200625095041.GD1009994@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <ad2d15bc-81ed-c7e3-092b-77dfd2da62ef@redhat.com>
+Date: Thu, 25 Jun 2020 17:57:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <9d63db4e-25a7-9c77-6f05-e5f808b8b33c@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 11:02:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200625095041.GD1009994@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,172 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Claudio Fontana <cfontana@suse.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 25, 2020 at 12:28:26PM +0200, Paolo Bonzini wrote:
-> On 25/06/20 00:58, Roman Bolshakov wrote:
-> > HVF doesn't have a CPU kick and without it it's not possible to perform
-> > an action on CPU thread until a VMEXIT happens. The kick is also needed
-> > for timely interrupt delivery.
-> > 
-> > Existing implementation of CPU kick sends SIG_IPI (aka SIGUSR1) to vCPU
-> > thread, but it's different from what hv_vcpu_interrupt does. The latter
-> > one results in invocation of mp_cpus_kick() in XNU kernel [1].
-> > 
-> > While at it, correct type of hvf_fd to the type of hv_vcpuid_t to avoid
-> > compilation warnings.
-> > 
-> > 1. https://opensource.apple.com/source/xnu/xnu-6153.81.5/osfmk/i386/mp.c
-> > 
-> > Cc: Cameron Esfahani <dirty@apple.com>
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> >  cpus.c                | 13 +++++++++----
-> >  include/hw/core/cpu.h |  2 +-
-> >  include/sysemu/hvf.h  |  1 +
-> >  target/i386/hvf/hvf.c | 11 +++++++++++
-> >  4 files changed, 22 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/cpus.c b/cpus.c
-> > index 26709677d3..36f38ce5c8 100644
-> > --- a/cpus.c
-> > +++ b/cpus.c
-> > @@ -1783,10 +1783,15 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
-> >          return;
-> >      }
-> >      cpu->thread_kicked = true;
-> > -    err = pthread_kill(cpu->thread->thread, SIG_IPI);
-> > -    if (err && err != ESRCH) {
-> > -        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-> > -        exit(1);
-> > +
-> > +    if (hvf_enabled()) {
-> > +        hvf_vcpu_kick(cpu);
-> > +    } else {
-> > +        err = pthread_kill(cpu->thread->thread, SIG_IPI);
-> > +        if (err && err != ESRCH) {
-> > +            fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-> > +            exit(1);
-> > +        }
-> >      }
-> >  #else /* _WIN32 */
-> >      if (!qemu_cpu_is_self(cpu)) {
-> > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> > index b3f4b79318..288a2bd57e 100644
-> > --- a/include/hw/core/cpu.h
-> > +++ b/include/hw/core/cpu.h
-> > @@ -438,7 +438,7 @@ struct CPUState {
-> >  
-> >      struct hax_vcpu_state *hax_vcpu;
-> >  
-> > -    int hvf_fd;
-> > +    unsigned hvf_fd;
-> >  
-> >      /* track IOMMUs whose translations we've cached in the TCG TLB */
-> >      GArray *iommu_notifiers;
-> > diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-> > index 1d40a8ec01..aaa00cbf05 100644
-> > --- a/include/sysemu/hvf.h
-> > +++ b/include/sysemu/hvf.h
-> > @@ -25,6 +25,7 @@ extern bool hvf_allowed;
-> >  
-> >  int hvf_init_vcpu(CPUState *);
-> >  int hvf_vcpu_exec(CPUState *);
-> > +void hvf_vcpu_kick(CPUState *);
-> >  void hvf_cpu_synchronize_state(CPUState *);
-> >  void hvf_cpu_synchronize_post_reset(CPUState *);
-> >  void hvf_cpu_synchronize_post_init(CPUState *);
-> > diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> > index efe9802962..4d254a477a 100644
-> > --- a/target/i386/hvf/hvf.c
-> > +++ b/target/i386/hvf/hvf.c
-> > @@ -966,6 +966,17 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >      return ret;
-> >  }
-> >  
-> > +void hvf_vcpu_kick(CPUState *cpu)
-> > +{
-> > +    hv_return_t err;
-> > +
-> > +    err = hv_vcpu_interrupt(&cpu->hvf_fd, 1);
-> > +    if (err) {
-> > +        fprintf(stderr, "qemu:%s error %#x\n", __func__, err);
-> > +        exit(1);
-> > +    }
-> > +}
-> > +
-> >  bool hvf_allowed;
-> >  
-> >  static int hvf_accel_init(MachineState *ms)
-> > 
+On 06/25/20 11:50, Daniel P. Berrangé wrote:
+> On Thu, Jun 25, 2020 at 11:35:54AM +0200, Thomas Huth wrote:
+>> On 22/06/2020 17.33, Daniel P. Berrangé wrote:
+>>> We have a number of container images in tests/docker/dockerfiles
+>>> that are intended to provide well defined environments for doing
+>>> test builds. We want our CI system to use these containers too.
+>>>
+>>> This introduces builds of all of them as the first stage in the
+>>> CI, so that the built containers are available for later build
+>>> jobs. The containers are setup to use the GitLab container
+>>> registry as the cache, so we only pay the penalty of the full
+>>> build when the dockerfiles change. The main qemu-project/qemu
+>>> repo is used as a second cache, so that users forking QEMU will
+>>> see a fast turnaround time on their CI jobs.
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>   .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
+>>>   .gitlab-ci.yml              |   3 +
+>>>   2 files changed, 251 insertions(+)
+>>>   create mode 100644 .gitlab-ci.d/containers.yml
+>>>
+>>> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+>>> new file mode 100644
+>>> index 0000000000..ea1edbb196
+>>> --- /dev/null
+>>> +++ b/.gitlab-ci.d/containers.yml
+>>> @@ -0,0 +1,248 @@
+>>> +
+>>> +
+>>> +.container_job_template: &container_job_definition
+>>> +  image: docker:stable
+>>> +  stage: containers
+>>> +  services:
+>>> +    - docker:dind
+>>> +  before_script:
+>>> +    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
+>>> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/ci-$NAME:latest"
+>>> +    - docker info
+>>> +    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+>>
+>> I can see this in the output:
+>>
+>> WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+>>
+>> I have to admit that I have only little knowledge about docker ... but could
+>> there be an issue here? Should this be done in a different way?
 > 
-> The documentation isn't clear on whether hv_vcpu_interrupt is able to
-> interrupt a *subsequent* hv_vcpu_run, similar to WHPX
-> WHvCancelRunVirtualProcessor (is it possible to decompile
-> hv_vcpu_interrupt and see what it does?).
-
-hv_vcpu_interrupt sends a KICK IPI using mp_cpus_kick() only if the
-destination vCPU thread is running as far as I undrestand the
-mp_cpus_kick():
-
-void
-mp_cpus_kick(cpumask_t cpus)
-{
-	cpu_t           cpu;
-	boolean_t       intrs_enabled = FALSE;
-
-	intrs_enabled = ml_set_interrupts_enabled(FALSE);
-	mp_safe_spin_lock(&x86_topo_lock);
-
-	for (cpu = 0; cpu < (cpu_t) real_ncpus; cpu++) {
-		if ((cpu == (cpu_t) cpu_number())
-		    || ((cpu_to_cpumask(cpu) & cpus) == 0)
-		    || !cpu_is_running(cpu)) {
-			continue;
-		}
-
-		lapic_send_ipi(cpu, LAPIC_VECTOR(KICK));
-	}
-
-	simple_unlock(&x86_topo_lock);
-	ml_set_interrupts_enabled(intrs_enabled);
-}
-
-So, the kick is not delivered to self and in case if destination cpu is
-not running. I think it can't interrupt subsequent hv_vcpu_run.
-
-> If not, you can reduce a bit the race window by setting a variable in
-> cpu, like
+> In general the warning is correct, because other users on the same
+> host can see the process CLI args, and thus the password is susceptible
+> to snooping.
 > 
-> 	atomic_set(&cpu->deadline, 0);
-> 	hv_vcpu_interrupt(...)
+> In this case, however, it is a non-issue. This is running inside a docker
+> container already which has a PID namespace. Thus the only things that
+> can see our password on the CLI are things inside our own container
+> which already all have the env variable, and processes running in host
+> OS context which are only things GitLab admins control. So there's no
+> data leakage to anyone who doesn't already have access to the password
 > 
-> and in the vCPU thread
+> This particular docker login command is the documented solution:
 > 
-> 	hv_vcpu_run_until(..., atomic_read(&cpu->deadline));
-> 	atomic_set(&cpu->deadline, HV_DEADLINE_FOREVER);
-> 
+>   https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
 
-Sure, could you please explain who'll be racing? There's a race if a
-kick was sent after VMEXIT, right? So essentially we need a way to
-"requeue" a kick that was received outside of hv_vcpu_run to avoid loss
-of it?
+(
 
-hv_vcpu_run_until is only available on macOS 10.15+ and we can't use yet
-because of three release support rule.
-(https://developer.apple.com/documentation/hypervisor/3181548-hv_vcpu_run_until?language=objc)
+Purely theoretically, we could use a "here string":
 
-BTW, I'm totally okay to send v2 if kicks are lost and/or the patch
-needs improvements. (and I can address EFER to VMCS Entry Controls
-synchronization as well)
+docker [...] --password-stdin <<< "$CI_REGISTRY_PASSWORD"
 
-Paolo, do you know any particular test in kvm-unit-tests that can
-exhibit the issue?
+The password is then not exposed on any process's command line; it's a
+(bash) shell redirection. (It's not in POSIX.)
 
-Thanks,
-Roman
+)
+
+Thanks
+Laszlo
+
 
