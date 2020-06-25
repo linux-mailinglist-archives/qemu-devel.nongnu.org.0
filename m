@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE0E209F7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:15:15 +0200 (CEST)
-Received: from localhost ([::1]:53058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57159209F3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:09:13 +0200 (CEST)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRik-0006ex-9c
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:15:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50114)
+	id 1joRcu-0005sO-8n
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRR1-00046O-LU
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:55 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRQy-0003Qo-VE
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:55 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 64so5124205oti.5
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 05:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yrWXjVl/PZyY4oGQHClj812uTU/ZYTzk0wUcgSc8Ht8=;
- b=zElPG+VRjjY9hucyR7GHlcSDv5Chp9WiJhn//8BI4jvNuGOwzHaSAGeBhY6olK9ikP
- 43Ir7RwMn00lcvox4Qpxt52fmm/Cxms1X6crNrKqqSEIohckIid3W6T2vSAXc5eHGnUa
- xShRh/3nyMv+wwl7Bpu1Sh945JmvPUfmbs/5zpdr61crU++H2E0xyY8NN6uErAIchDFv
- TX3ci+/L2Q8PA8/cOTl1ijDxA+GD1URUpJIAwG+fHfmsQrOrRdjdvukQr7+ABmPAuXkm
- g5pHR6JI9VlbIs/WgOpegW6TiQygQbvPYv6oL7SyEZf/qBwFhCUoOpDFxFZCIMZg/uQ6
- 9r+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yrWXjVl/PZyY4oGQHClj812uTU/ZYTzk0wUcgSc8Ht8=;
- b=f6jqqgR7yZz91duk8blbFJF8oEz36X12cvnEOO9ZXPvWsSVSkvGDWrKdxZo35UAEw5
- iofG5rlFMIz16ggAv/wIzhGmbU3izBUdA38qvw0mZGVqscTtVSp/+aMWzjCaLUjTagPW
- nMZLTnMsw8zmo2uiyNK4EnUUm+0bvZYUxdXMA4LKPFKowGexhXVhtm3HI+Cf6tzHdEc/
- 5nIQDX4vtYN78Xm/lnOoT0uE0ENduG6YS5YGzAva8gihRf/ps6gpQcLVPwUaNSq1Y9wP
- WzXgZkMa+heIUZzlDTCsSiyerbxikpglby6Wz9h08SJxchJcmWGzvFBvpl5b6HWjEMeU
- QCDg==
-X-Gm-Message-State: AOAM5304z2QvSER30fUcUbjQzL0TOI8d70Mfv+/95eiGsiNnAHUknqdP
- t42SZ+79aK/loYs0T2jlWdpFIa1EiWaWCmEtdJBQrw==
-X-Google-Smtp-Source: ABdhPJwZewCZTz1O4iTMwG/WjOy0Su8KgM9ZhBKjoHYXGwxkRKKMW2QNqdhaMQoe7+PbMkat5pVLlsGGOvBjmWuRNYU=
-X-Received: by 2002:a9d:67d6:: with SMTP id c22mr25382789otn.221.1593089810954; 
- Thu, 25 Jun 2020 05:56:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRSG-0007Ds-Qq
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:58:12 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45828
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRSF-0003u8-2I
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:58:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593089890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ng52OiKCUk7i5VLGfsx9WBQjG5ym5SJ0Y0pvMd4jdo8=;
+ b=ZINeqwkwiPkNRYcyuJlvAplN5cJK4wvVC/nkEnqZ7eblid7tC0GUpeXtN9mZy6Nxtj98UV
+ q4spqShTEUVn58mO2sY3ZF16CcoWJ4O5CdSFGrFguGHAPKQq8kQhxPQW5x/MkzKtO+mBbc
+ VA6wPnDdrDgOq6VaWmq2wUrkcxDDTsA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-wGs0gamVPVeV27HXmG7i2g-1; Thu, 25 Jun 2020 08:58:08 -0400
+X-MC-Unique: wGs0gamVPVeV27HXmG7i2g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8438318FE860;
+ Thu, 25 Jun 2020 12:58:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1823100EBB8;
+ Thu, 25 Jun 2020 12:58:02 +0000 (UTC)
+Subject: Re: [RFC v5 12/12] pc-bios: s390x: Cleanup jump to ipl code
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200624075226.92728-1-frankja@linux.ibm.com>
+ <20200624075226.92728-13-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <48329294-4c31-a1fa-20fb-ef6bb13e8550@redhat.com>
+Date: Thu, 25 Jun 2020 14:58:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200623193658.623279-1-richard.henderson@linaro.org>
- <20200623193658.623279-42-richard.henderson@linaro.org>
-In-Reply-To: <20200623193658.623279-42-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 13:56:40 +0100
-Message-ID: <CAFEAcA9FH4MbkGuvDqu6qMjUTLcgF4TdB1=X9BqksrLcbfjkpQ@mail.gmail.com>
-Subject: Re: [PATCH v8 41/45] target/arm: Always pass cacheattr to
- get_phys_addr
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200624075226.92728-13-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,26 +81,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.spickett@linaro.org, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Jun 2020 at 20:37, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We need to check the memattr of a page in order to determine
-> whether it is Tagged for MTE.  Between Stage1 and Stage2,
-> this becomes simpler if we always collect this data, instead
-> of occasionally being presented with NULL.
->
-> Use the nonnull attribute to allow the compiler to check that
-> all pointer arguments are non-null.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 24/06/2020 09.52, Janosch Frank wrote:
+> jump_to_IPL_code takes a 64 bit address, masks it with the short psw
+> address mask and later branches to it using a full 64 bit register.
+> 
+> * As the masking is not necessary, let's remove it
+> * Without the mask we can save the ipl address to a static 64 bit
+>    function ptr as we later branch to it
+> * Let's also clean up the variable names and remove the now unneeded
+>    ResetInfo
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>   pc-bios/s390-ccw/jump2ipl.c | 27 +++++++++++----------------
+>   1 file changed, 11 insertions(+), 16 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index 767012bf0c..aef37cea76 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -13,20 +13,15 @@
+>   #define KERN_IMAGE_START 0x010000UL
+>   #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
+>   
+> -typedef struct ResetInfo {
+> -    uint64_t ipl_psw;
+> -    uint32_t ipl_continue;
+> -} ResetInfo;
+> -
+> -static ResetInfo save;
+> +static void (*ipl_continue)(void);
+> +static uint64_t psw_save;
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I wonder whether there was a reason for having ipl_continue in the 
+lowcore instead of using a simple static function pointer... Christian, 
+do you remember?
 
-thanks
--- PMM
+>   static void jump_to_IPL_2(void)
+>   {
+> -    ResetInfo *current = 0;
+> +    uint64_t *psw_current = 0;
+
+Mhh, what about using uint64_t *psw_current = (uint64_t *)lowcore 
+instead, to make it more more explicit?
+
+> -    void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
+> -    *current = save;
+> -    ipl(); /* should not return */
+> +    *psw_current = psw_save;
+> +    ipl_continue(); /* should not return */
+>   }
+>   
+>   void jump_to_IPL_code(uint64_t address)
+> @@ -46,15 +41,15 @@ void jump_to_IPL_code(uint64_t address)
+>        * content of non-BIOS memory after we loaded the guest, so we
+>        * save the original content and restore it in jump_to_IPL_2.
+>        */
+> -    ResetInfo *current = 0;
+> +    uint64_t *psw_current = 0;
+
+dito.
+
+> -    save = *current;
+> +    psw_save = *psw_current;
+>   
+> -    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
+> -    current->ipl_psw |= RESET_PSW_MASK;
+> -    current->ipl_continue = address & PSW_MASK_SHORT_ADDR;
+> +    *psw_current = (uint64_t) &jump_to_IPL_2;
+> +    *psw_current |= RESET_PSW_MASK;
+> +    ipl_continue = (void *)address;
+>   
+> -    debug_print_int("set IPL addr to", current->ipl_continue);
+> +    debug_print_int("set IPL addr to", (uint64_t)ipl_continue);
+>   
+>       /* Ensure the guest output starts fresh */
+>       sclp_print("\n");
+> 
+
+The patch sounds like a good idea to me ... but since this code proofed 
+to be very fragile in the past, let's wait for Christian to say whether 
+there was a good reason for ipl_continue in the lowcore or not.
+
+  Thomas
+
 
