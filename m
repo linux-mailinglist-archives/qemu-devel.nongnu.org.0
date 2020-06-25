@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AB520A22F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:41:45 +0200 (CEST)
-Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C618820A238
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:44:16 +0200 (CEST)
+Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joU0W-0006F8-CB
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
+	id 1joU2x-0001w8-Kt
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiz-0006LK-IU
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:37 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24708
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj0-0006Lh-4V
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38791
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTir-0001Ie-Nm
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTit-0001Ja-0i
  for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098608;
+ s=mimecast20190719; t=1593098610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WZMbkc5VZ61WfI8sHwP9l3v+/qyZcXZQkq67wAktK/U=;
- b=ah1FXdPBPKyhNGVwuqY9fLOrau9mmInVK44826DelHOHdHO3rCWJFNsPknsVUE1/CzS91R
- FuerZdWUdCOSZyawKItYWhj448uT3WGqtxj8sFoianvujemlupuqAnIBKNlhblxRsh5fHO
- ZMDfStuIEiS7CYL1cr4Jv4R6HIGrm9Q=
+ bh=FB19Qj2AUohd7rqYzKLrRfmZ5gpIPG6T/O/SJkRBUV8=;
+ b=e4JaEz57RjL+RhEJf8uA4oKCaWMZn2iQURKallNk64uFm66uMxfBxw6HnqVajlXEwa1qAU
+ rRDfeQU++Fzb8zQ2LhmYhtH4cyXQXvDdmhjICPI7PllF/6Kk7SwmWGl79Jx+qa/vDVXJFx
+ sl0Sr3gXtd6UBTiFNNRtlhTflwb/o20=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-D_3RBdSHObWINP7HvHxY-A-1; Thu, 25 Jun 2020 11:23:26 -0400
-X-MC-Unique: D_3RBdSHObWINP7HvHxY-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-162-St_404s-NKq9tqOmiTF3qQ-1; Thu, 25 Jun 2020 11:23:28 -0400
+X-MC-Unique: St_404s-NKq9tqOmiTF3qQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16FC3804003;
- Thu, 25 Jun 2020 15:23:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337B68064B6;
+ Thu, 25 Jun 2020 15:23:27 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD6CD5C662;
- Thu, 25 Jun 2020 15:23:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE531579A3;
+ Thu, 25 Jun 2020 15:23:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 30/47] block: Report data child for query-blockstats
-Date: Thu, 25 Jun 2020 17:21:58 +0200
-Message-Id: <20200625152215.941773-31-mreitz@redhat.com>
+Subject: [PATCH v7 31/47] block: Use child access functions for QAPI queries
+Date: Thu, 25 Jun 2020 17:21:59 +0200
+Message-Id: <20200625152215.941773-32-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -83,65 +83,125 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It makes no sense to report the block stats of a purely metadata-storing
-child in query-blockstats.  So if the primary child does not have any
-data, try to find a unique data-storing child.
+query-block, query-named-block-nodes, and query-blockstats now return
+any filtered child under "backing", not just bs->backing or COW
+children.  This is so that filters do not interrupt the reported backing
+chain.  This changes the output for iotest 184, as the throttled node
+now appears as a backing child.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qapi.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ block/qapi.c               | 33 ++++++++++++++++++++-------------
+ tests/qemu-iotests/184.out |  8 +++++++-
+ 2 files changed, 27 insertions(+), 14 deletions(-)
 
 diff --git a/block/qapi.c b/block/qapi.c
-index 4807a2b344..c57b42d86d 100644
+index c57b42d86d..2628323b63 100644
 --- a/block/qapi.c
 +++ b/block/qapi.c
-@@ -526,6 +526,7 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
- static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+@@ -163,9 +163,13 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+             break;
+         }
+ 
+-        if (bs0->drv && bs0->backing) {
++        if (bs0->drv && bdrv_filter_or_cow_child(bs0)) {
++            /*
++             * Put any filtered child here (for backwards compatibility to when
++             * we put bs0->backing here, which might be any filtered child).
++             */
+             info->backing_file_depth++;
+-            bs0 = bs0->backing->bs;
++            bs0 = bdrv_filter_or_cow_bs(bs0);
+             (*p_image_info)->has_backing_image = true;
+             p_image_info = &((*p_image_info)->backing_image);
+         } else {
+@@ -174,9 +178,8 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+ 
+         /* Skip automatically inserted nodes that the user isn't aware of for
+          * query-block (blk != NULL), but not for query-named-block-nodes */
+-        while (blk && bs0->drv && bs0->implicit) {
+-            bs0 = backing_bs(bs0);
+-            assert(bs0);
++        if (blk) {
++            bs0 = bdrv_skip_implicit_filters(bs0);
+         }
+     }
+ 
+@@ -362,9 +365,7 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
+     char *qdev;
+ 
+     /* Skip automatically inserted nodes that the user isn't aware of */
+-    while (bs && bs->drv && bs->implicit) {
+-        bs = backing_bs(bs);
+-    }
++    bs = bdrv_skip_implicit_filters(bs);
+ 
+     info->device = g_strdup(blk_name(blk));
+     info->type = g_strdup("unknown");
+@@ -527,6 +528,7 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
                                          bool blk_level)
  {
-+    BdrvChild *parent_child;
+     BdrvChild *parent_child;
++    BlockDriverState *filter_or_cow_bs;
      BlockStats *s = NULL;
  
      s = g_malloc0(sizeof(*s));
-@@ -555,9 +556,35 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
-         s->has_driver_specific = true;
+@@ -539,9 +541,8 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+     /* Skip automatically inserted nodes that the user isn't aware of in
+      * a BlockBackend-level command. Stay at the exact node for a node-level
+      * command. */
+-    while (blk_level && bs->drv && bs->implicit) {
+-        bs = backing_bs(bs);
+-        assert(bs);
++    if (blk_level) {
++        bs = bdrv_skip_implicit_filters(bs);
      }
  
--    if (bs->file) {
-+    parent_child = bdrv_primary_child(bs);
-+    if (!parent_child ||
-+        !(parent_child->role & (BDRV_CHILD_DATA | BDRV_CHILD_FILTERED)))
-+    {
-+        BdrvChild *c;
-+
+     if (bdrv_get_node_name(bs)[0]) {
+@@ -587,9 +588,15 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+         s->parent = bdrv_query_bds_stats(parent_child->bs, blk_level);
+     }
+ 
+-    if (blk_level && bs->backing) {
++    filter_or_cow_bs = bdrv_filter_or_cow_bs(bs);
++    if (blk_level && filter_or_cow_bs) {
 +        /*
-+         * Look for a unique data-storing child.  We do not need to look for
-+         * filtered children, as there would be only one and it would have been
-+         * the primary child.
++         * Put any filtered or COW child here (for backwards
++         * compatibility to when we put bs0->backing here, which might
++         * be either)
 +         */
-+        parent_child = NULL;
-+        QLIST_FOREACH(c, &bs->children, next) {
-+            if (c->role & BDRV_CHILD_DATA) {
-+                if (parent_child) {
-+                    /*
-+                     * There are multiple data-storing children and we cannot
-+                     * choose between them.
-+                     */
-+                    parent_child = NULL;
-+                    break;
-+                }
-+                parent_child = c;
-+            }
-+        }
-+    }
-+    if (parent_child) {
-         s->has_parent = true;
--        s->parent = bdrv_query_bds_stats(bs->file->bs, blk_level);
-+        s->parent = bdrv_query_bds_stats(parent_child->bs, blk_level);
+         s->has_backing = true;
+-        s->backing = bdrv_query_bds_stats(bs->backing->bs, blk_level);
++        s->backing = bdrv_query_bds_stats(filter_or_cow_bs, blk_level);
      }
  
-     if (blk_level && bs->backing) {
+     return s;
+diff --git a/tests/qemu-iotests/184.out b/tests/qemu-iotests/184.out
+index 28b104da89..4e92fcfb51 100644
+--- a/tests/qemu-iotests/184.out
++++ b/tests/qemu-iotests/184.out
+@@ -27,6 +27,12 @@ Testing:
+             "iops_rd": 0,
+             "detect_zeroes": "off",
+             "image": {
++                "backing-image": {
++                    "virtual-size": 1073741824,
++                    "filename": "null-co://",
++                    "format": "null-co",
++                    "actual-size": SIZE
++                },
+                 "virtual-size": 1073741824,
+                 "filename": "json:{\"throttle-group\": \"group0\", \"driver\": \"throttle\", \"file\": {\"driver\": \"null-co\"}}",
+                 "format": "throttle",
+@@ -35,7 +41,7 @@ Testing:
+             "iops_wr": 0,
+             "ro": false,
+             "node-name": "throttle0",
+-            "backing_file_depth": 0,
++            "backing_file_depth": 1,
+             "drv": "throttle",
+             "iops": 0,
+             "bps_wr": 0,
 -- 
 2.26.2
 
