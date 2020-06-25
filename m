@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D553209F0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:59:38 +0200 (CEST)
-Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0619209EFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 14:58:55 +0200 (CEST)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRTd-0000jp-81
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49776)
+	id 1joRSw-0007kW-Ks
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 08:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQX-0003M9-Il
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:25 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39269
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQo-0003wH-Fr
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56452
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQU-0003If-Le
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:25 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQm-0003Mk-62
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593089782;
+ s=mimecast20190719; t=1593089798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j0s7PIFpwKJzAeMYCEDW5l1CJcqt2ghjNiVNPqlVX5c=;
- b=euvNxXImDn37xun9fgMJHZZrWBemyOg3WGzKn7/wcj8JjL7jAZJwtZH1TjOQzJsUT15g34
- 0mZ/5F5LhioYo2dM0/bdVIW1GvBsb3RNwYfUVo8LX+1d04ARah0LG+vPv23cPEkQZ+a2x+
- U9mtC2c6xbWTV8KdH4MShSmLWouQEOM=
+ bh=xAEXRPqSVLnfGgce7xKxSYC+g3K5y0E98zEh2o4GYCM=;
+ b=D+Ub17qjSI/5525+4B4ShEohguUu8a+Gxl5zlTqEi7DrtQDfB5piHvGDK2BKBw2YfwVbQ4
+ 6HG7IvWVjn9hLsZGqvBmg+guaneO4rtMNACgCkOg8AiE5jrwDnEyV4HZ5C8W8STaqAkQGM
+ KJ8f1qhOs3Ba5JENiGlkB/g59Hm8IrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-mS6BTh83NT68-WVmmCtMhg-1; Thu, 25 Jun 2020 08:56:18 -0400
-X-MC-Unique: mS6BTh83NT68-WVmmCtMhg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-93-xJtkk4roMruADbNm1SIgBQ-1; Thu, 25 Jun 2020 08:56:34 -0400
+X-MC-Unique: xJtkk4roMruADbNm1SIgBQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B464A804002;
- Thu, 25 Jun 2020 12:56:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 105BC18B638A;
+ Thu, 25 Jun 2020 12:56:33 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 530BF71660;
- Thu, 25 Jun 2020 12:56:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75540579A3;
+ Thu, 25 Jun 2020 12:56:32 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 09/19] block/amend: add 'force' option
-Date: Thu, 25 Jun 2020 14:55:38 +0200
-Message-Id: <20200625125548.870061-10-mreitz@redhat.com>
+Subject: [PATCH 14/19] block/qcow2: extend qemu-img amend interface with
+ crypto options
+Date: Thu, 25 Jun 2020 14:55:43 +0200
+Message-Id: <20200625125548.870061-15-mreitz@redhat.com>
 In-Reply-To: <20200625125548.870061-1-mreitz@redhat.com>
 References: <20200625125548.870061-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,168 +87,264 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-'force' option will be used for some unsafe amend operations.
-
-This includes things like erasing last keyslot in luks based formats
-(which destroys the data, unless the master key is backed up
-by external means), but that _might_ be desired result.
+Now that we have all the infrastructure in place,
+wire it in the qcow2 driver and expose this to the user.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200608094030.670121-4-mlevitsk@redhat.com>
+Message-Id: <20200608094030.670121-9-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- docs/tools/qemu-img.rst   | 5 ++++-
- include/block/block.h     | 1 +
- include/block/block_int.h | 1 +
- block.c                   | 4 +++-
- block/qcow2.c             | 1 +
- qemu-img.c                | 8 +++++++-
- qemu-img-cmds.hx          | 4 ++--
- 7 files changed, 19 insertions(+), 5 deletions(-)
+ block/qcow2.c              | 71 +++++++++++++++++++++++++++++++++-----
+ tests/qemu-iotests/082.out | 45 ++++++++++++++++++++++++
+ 2 files changed, 107 insertions(+), 9 deletions(-)
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 7f0737488a..e33f5575e3 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -253,11 +253,14 @@ Command description:
- 
- .. program:: qemu-img-commands
- 
--.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] -o OPTIONS FILENAME
-+.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] [--force] -o OPTIONS FILENAME
- 
-   Amends the image format specific *OPTIONS* for the image file
-   *FILENAME*. Not all file formats support this operation.
- 
-+  --force allows some unsafe operations. Currently for -f luks, it allows to
-+  erase the last encryption key, and to overwrite an active encryption key.
-+
- .. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
- 
-   Run a simple sequential I/O benchmark on the specified image. If ``-w`` is
-diff --git a/include/block/block.h b/include/block/block.h
-index 25e299605e..86f9728f00 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -450,6 +450,7 @@ typedef void BlockDriverAmendStatusCB(BlockDriverState *bs, int64_t offset,
-                                       int64_t total_work_size, void *opaque);
- int bdrv_amend_options(BlockDriverState *bs_new, QemuOpts *opts,
-                        BlockDriverAmendStatusCB *status_cb, void *cb_opaque,
-+                       bool force,
-                        Error **errp);
- 
- /* check if a named node can be replaced when doing drive-mirror */
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 791de6a59c..066b9eaa40 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -440,6 +440,7 @@ struct BlockDriver {
-     int (*bdrv_amend_options)(BlockDriverState *bs, QemuOpts *opts,
-                               BlockDriverAmendStatusCB *status_cb,
-                               void *cb_opaque,
-+                              bool force,
-                               Error **errp);
- 
-     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
-diff --git a/block.c b/block.c
-index 6dbcb7e083..144f52e413 100644
---- a/block.c
-+++ b/block.c
-@@ -6482,6 +6482,7 @@ void bdrv_remove_aio_context_notifier(BlockDriverState *bs,
- 
- int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
-                        BlockDriverAmendStatusCB *status_cb, void *cb_opaque,
-+                       bool force,
-                        Error **errp)
- {
-     if (!bs->drv) {
-@@ -6493,7 +6494,8 @@ int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
-                    bs->drv->format_name);
-         return -ENOTSUP;
-     }
--    return bs->drv->bdrv_amend_options(bs, opts, status_cb, cb_opaque, errp);
-+    return bs->drv->bdrv_amend_options(bs, opts, status_cb,
-+                                       cb_opaque, force, errp);
- }
- 
- /*
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 0cd2e6757e..2ab0c382f7 100644
+index b3ed173a9b..0e72e8fc39 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -5340,6 +5340,7 @@ static void qcow2_amend_helper_cb(BlockDriverState *bs,
- static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
-                                BlockDriverAmendStatusCB *status_cb,
-                                void *cb_opaque,
-+                               bool force,
-                                Error **errp)
- {
-     BDRVQcow2State *s = bs->opaque;
-diff --git a/qemu-img.c b/qemu-img.c
-index d7e846e607..10d81f09db 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -79,6 +79,7 @@ enum {
-     OPTION_DISABLE = 273,
-     OPTION_MERGE = 274,
-     OPTION_BITMAPS = 275,
-+    OPTION_FORCE = 276,
- };
+@@ -176,6 +176,19 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock *block, size_t offset,
+     return ret;
+ }
  
- typedef enum OutputFormat {
-@@ -4099,6 +4100,7 @@ static int img_amend(int argc, char **argv)
-     BlockBackend *blk = NULL;
-     BlockDriverState *bs = NULL;
-     bool image_opts = false;
-+    bool force = false;
++static QDict*
++qcow2_extract_crypto_opts(QemuOpts *opts, const char *fmt, Error **errp)
++{
++    QDict *cryptoopts_qdict;
++    QDict *opts_qdict;
++
++    /* Extract "encrypt." options into a qdict */
++    opts_qdict = qemu_opts_to_qdict(opts, NULL);
++    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
++    qobject_unref(opts_qdict);
++    qdict_put_str(cryptoopts_qdict, "format", fmt);
++    return cryptoopts_qdict;
++}
  
-     cache = BDRV_DEFAULT_CACHE;
-     for (;;) {
-@@ -4106,6 +4108,7 @@ static int img_amend(int argc, char **argv)
-             {"help", no_argument, 0, 'h'},
-             {"object", required_argument, 0, OPTION_OBJECT},
-             {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-+            {"force", no_argument, 0, OPTION_FORCE},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":ho:f:t:pq",
-@@ -4153,6 +4156,9 @@ static int img_amend(int argc, char **argv)
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-+        case OPTION_FORCE:
-+            force = true;
-+            break;
+ /*
+  * read qcow2 extension and fill bs
+@@ -4849,16 +4862,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+ 
+     if (has_luks) {
+         g_autoptr(QCryptoBlockCreateOptions) create_opts = NULL;
+-        QDict *opts_qdict;
+-        QDict *cryptoopts;
++        QDict *cryptoopts = qcow2_extract_crypto_opts(opts, "luks", errp);
+         size_t headerlen;
+ 
+-        opts_qdict = qemu_opts_to_qdict(opts, NULL);
+-        qdict_extract_subqdict(opts_qdict, &cryptoopts, "encrypt.");
+-        qobject_unref(opts_qdict);
+-
+-        qdict_put_str(cryptoopts, "format", "luks");
+-
+         create_opts = block_crypto_create_opts_init(cryptoopts, errp);
+         qobject_unref(cryptoopts);
+         if (!create_opts) {
+@@ -5262,6 +5268,7 @@ typedef enum Qcow2AmendOperation {
+     QCOW2_NO_OPERATION = 0,
+ 
+     QCOW2_UPGRADING,
++    QCOW2_UPDATING_ENCRYPTION,
+     QCOW2_CHANGING_REFCOUNT_ORDER,
+     QCOW2_DOWNGRADING,
+ } Qcow2AmendOperation;
+@@ -5343,6 +5350,7 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+     int ret;
+     QemuOptDesc *desc = opts->list->desc;
+     Qcow2AmendHelperCBInfo helper_cb_info;
++    bool encryption_update = false;
+ 
+     while (desc && desc->name) {
+         if (!qemu_opt_find(opts, desc->name)) {
+@@ -5369,6 +5377,18 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+             backing_file = qemu_opt_get(opts, BLOCK_OPT_BACKING_FILE);
+         } else if (!strcmp(desc->name, BLOCK_OPT_BACKING_FMT)) {
+             backing_format = qemu_opt_get(opts, BLOCK_OPT_BACKING_FMT);
++        } else if (g_str_has_prefix(desc->name, "encrypt.")) {
++            if (!s->crypto) {
++                error_setg(errp,
++                           "Can't amend encryption options - encryption not present");
++                return -EINVAL;
++            }
++            if (s->crypt_method_header != QCOW_CRYPT_LUKS) {
++                error_setg(errp,
++                           "Only LUKS encryption options can be amended");
++                return -ENOTSUP;
++            }
++            encryption_update = true;
+         } else if (!strcmp(desc->name, BLOCK_OPT_LAZY_REFCOUNTS)) {
+             lazy_refcounts = qemu_opt_get_bool(opts, BLOCK_OPT_LAZY_REFCOUNTS,
+                                                lazy_refcounts);
+@@ -5411,7 +5431,8 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
+         .original_status_cb = status_cb,
+         .original_cb_opaque = cb_opaque,
+         .total_operations = (new_version != old_version)
+-                          + (s->refcount_bits != refcount_bits)
++                          + (s->refcount_bits != refcount_bits) +
++                            (encryption_update == true)
+     };
+ 
+     /* Upgrade first (some features may require compat=1.1) */
+@@ -5424,6 +5445,33 @@ static int qcow2_amend_options(BlockDriverState *bs, QemuOpts *opts,
          }
      }
  
-@@ -4230,7 +4236,7 @@ static int img_amend(int argc, char **argv)
++    if (encryption_update) {
++        QDict *amend_opts_dict;
++        QCryptoBlockAmendOptions *amend_opts;
++
++        helper_cb_info.current_operation = QCOW2_UPDATING_ENCRYPTION;
++        amend_opts_dict = qcow2_extract_crypto_opts(opts, "luks", errp);
++        if (!amend_opts_dict) {
++            return -EINVAL;
++        }
++        amend_opts = block_crypto_amend_opts_init(amend_opts_dict, errp);
++        qobject_unref(amend_opts_dict);
++        if (!amend_opts) {
++            return -EINVAL;
++        }
++        ret = qcrypto_block_amend_options(s->crypto,
++                                          qcow2_crypto_hdr_read_func,
++                                          qcow2_crypto_hdr_write_func,
++                                          bs,
++                                          amend_opts,
++                                          force,
++                                          errp);
++        qapi_free_QCryptoBlockAmendOptions(amend_opts);
++        if (ret < 0) {
++            return ret;
++        }
++    }
++
+     if (s->refcount_bits != refcount_bits) {
+         int refcount_order = ctz32(refcount_bits);
  
-     /* In case the driver does not call amend_status_cb() */
-     qemu_progress_print(0.f, 0);
--    ret = bdrv_amend_options(bs, opts, &amend_status_cb, NULL, &err);
-+    ret = bdrv_amend_options(bs, opts, &amend_status_cb, NULL, force, &err);
-     qemu_progress_print(100.f, 0);
-     if (ret < 0) {
-         error_report_err(err);
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 10b910b67c..b89c019b76 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -10,9 +10,9 @@ HXCOMM When amending the rST sections, please remember to copy the usage
- HXCOMM over to the per-command sections in docs/tools/qemu-img.rst.
- 
- DEF("amend", img_amend,
--    "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] -o options filename")
-+    "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] [--force] -o options filename")
- SRST
--.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] -o OPTIONS FILENAME
-+.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] [--force] -o OPTIONS FILENAME
- ERST
- 
- DEF("bench", img_bench,
+@@ -5683,6 +5731,11 @@ static QemuOptsList qcow2_amend_opts = {
+     .name = "qcow2-amend-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(qcow2_amend_opts.head),
+     .desc = {
++        BLOCK_CRYPTO_OPT_DEF_LUKS_STATE("encrypt."),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT("encrypt."),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_OLD_SECRET("encrypt."),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_NEW_SECRET("encrypt."),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_ITER_TIME("encrypt."),
+         QCOW_COMMON_OPTIONS,
+         { /* end of list */ }
+     }
+diff --git a/tests/qemu-iotests/082.out b/tests/qemu-iotests/082.out
+index b1cf5dfe43..a4a2b69030 100644
+--- a/tests/qemu-iotests/082.out
++++ b/tests/qemu-iotests/082.out
+@@ -645,6 +645,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -656,6 +661,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -667,6 +677,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -678,6 +693,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -689,6 +709,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -700,6 +725,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -711,6 +741,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -722,6 +757,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
+@@ -750,6 +790,11 @@ Amend options for 'qcow2':
+   compat=<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
+   data_file=<str>        - File name of an external data file
+   data_file_raw=<bool (on/off)> - The external data file must stay valid as a raw image
++  encrypt.iter-time=<num> - Time to spend in PBKDF in milliseconds
++  encrypt.keyslot=<num>  - Select a single keyslot to modify explicitly
++  encrypt.new-secret=<str> - New secret to set in the matching keyslots. Empty string to erase
++  encrypt.old-secret=<str> - Select all keyslots that match this password
++  encrypt.state=<str>    - Select new state of affected keyslots (active/inactive)
+   lazy_refcounts=<bool (on/off)> - Postpone refcount updates
+   refcount_bits=<num>    - Width of a reference count entry in bits
+   size=<size>            - Virtual disk size
 -- 
 2.26.2
 
