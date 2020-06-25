@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C63B20A5C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:28:18 +0200 (CEST)
-Received: from localhost ([::1]:40326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA83420A5D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:31:29 +0200 (CEST)
+Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXXl-0004iM-7d
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49468)
+	id 1joXaq-0007lF-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1joXWx-000495-Mb; Thu, 25 Jun 2020 15:27:27 -0400
-Resent-Date: Thu, 25 Jun 2020 15:27:27 -0400
-Resent-Message-Id: <E1joXWx-000495-Mb@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21745)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1joXZ5-0006QK-T9
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:29:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37678
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1joXWv-0006hP-1N; Thu, 25 Jun 2020 15:27:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593113230; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=JAJDibsMHKqw249qJgCjqMS6dKVzUKJSgER1UXu9s6UdVolTkvadBLuCb8tgrANicvR48NsQvo9pOb0dV/Zpy3M2uS0w8I6z5b+ppQ7vnJaAaiayiOKTA1rF2L29P24XvUXJ/BWXMBOe9/iCvy3H3KYNW6/9L756fRPYOQswyQM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593113230;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=PKlQIMn1HNsoooLu//TLxgR4c+DUicsUg5EhawXvCOc=; 
- b=fvxfW6ouwMPsQs+Lpyp4gMKT+VV6gu1LiY3RqybtjlNgE+08LewwRhqFl1O0NlbspjSmMf7zCoC2TQ2yH6RR8la5FQeI4tNmRHfGV5ssb9/zVcVi5Heg2h6M2uQsgxZBDTs/Eg89FK05UYpSK8RKejnlUPbUSlEOIOkTeo/weRc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593113227508728.4050489268816;
- Thu, 25 Jun 2020 12:27:07 -0700 (PDT)
-Message-ID: <159311322605.25974.4543808913481072992@d1fd068a5071>
-Subject: Re: [PATCH 00/17] block/nvme: Various cleanups required to use
- multiple queues
-In-Reply-To: <20200625184838.28172-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1joXYy-0007LH-CH
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:29:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593113370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+QSrB5CRaOgo3UajSlh+j0cHfOY/JURYq6xnockrJxw=;
+ b=A6w8TYlYN2Mv+9YuKBo19BtP9tEuKvUk74z6ZzhMZEwVl5j1Bz1LiJpE+nX6JNDuYH3/4N
+ UMzr2wDiyuRAqukRYyqLrREe0M3/hr9t2G5wR/ULjW/nyTiGeC8vuW98HjQmMkPUjCKs6z
+ I8rW9RpXuJTBfrlbsCbOCloZ2A0QVEI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-sKjnVftkM3-LkujrK2vbkw-1; Thu, 25 Jun 2020 15:29:28 -0400
+X-MC-Unique: sKjnVftkM3-LkujrK2vbkw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FB86EC1A0;
+ Thu, 25 Jun 2020 19:29:27 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F33710013C4;
+ Thu, 25 Jun 2020 19:29:24 +0000 (UTC)
+Date: Thu, 25 Jun 2020 21:29:20 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 20/25] x86: Fix x86_cpu_new() error API violations
+Message-ID: <20200625212920.620b25b8@redhat.com>
+In-Reply-To: <1d6e83fa-04c2-2d3e-3695-bf85f6647bfc@redhat.com>
+References: <20200624083737.3086768-1-armbru@redhat.com>
+ <20200624083737.3086768-21-armbru@redhat.com>
+ <20200624161703.153c7905@redhat.com>
+ <1d6e83fa-04c2-2d3e-3695-bf85f6647bfc@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Thu, 25 Jun 2020 12:27:07 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:27:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,51 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- mlevitsk@redhat.com, philmd@redhat.com
+Cc: Richard Henderson <rth@twiddle.net>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNTE4NDgzOC4yODE3
-Mi0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
-a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
-NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBibG9jay93cml0
-ZS10aHJlc2hvbGQubwogIENDICAgICAgYmxvY2svYmFja3VwLm8KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2Jsb2NrL252bWUuYzogSW4gZnVuY3Rpb24gJ252bWVfaWRlbnRpZnknOgovdG1wL3FlbXUtdGVz
-dC9zcmMvYmxvY2svbnZtZS5jOjQ1NTo1OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2Yg
-ZnVuY3Rpb24gJ01BWF9DT05TVCcgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRp
-b25dCiAgICAgaWRzel9tYXggPSBNQVhfQ09OU1Qoc2l6ZW9mKE52bWVJZEN0cmwpLCBzaXplb2Yo
-TnZtZUlkTnMpKTsKICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9udm1lLmM6NDU1OjU6
-IGVycm9yOiBuZXN0ZWQgZXh0ZXJuIGRlY2xhcmF0aW9uIG9mICdNQVhfQ09OU1QnIFstV2Vycm9y
-PW5lc3RlZC1leHRlcm5zXQpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9y
-cwptYWtlOiAqKiogW2Jsb2NrL252bWUub10gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3Ig
-dW5maW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAg
-RmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjksIGluIDxtb2R1bGU+Ci0t
-LQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5D
-YWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVu
-JywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0zMGM3MmY3ODI1MTM0ZjViYTY5
-ZDQ1YjBjZWM2ZjcyYScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9
-dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9D
-T05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0n
-LCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScs
-ICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAv
-Y2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWhubjgyeXdyL3Ny
-Yy9kb2NrZXItc3JjLjIwMjAtMDYtMjUtMTUuMjQuMTEuNjU4NjovdmFyL3RtcC9xZW11Onoscm8n
-LCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0
-dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5x
-ZW11Lmluc3RhbmNlLnV1aWQ9MzBjNzJmNzgyNTEzNGY1YmE2OWQ0NWIwY2VjNmY3MmEKbWFrZVsx
-XTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAv
-dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtaG5uODJ5d3Ivc3JjJwptYWtlOiAqKiogW2RvY2tl
-ci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDJtNTUuMjMwcwp1c2Vy
-ICAgIDBtOC41MTdzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
-dy5vcmcvbG9ncy8yMDIwMDYyNTE4NDgzOC4yODE3Mi0xLXBoaWxtZEByZWRoYXQuY29tL3Rlc3Rp
-bmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
-ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
-IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Wed, 24 Jun 2020 16:20:16 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> On 24/06/20 16:17, Igor Mammedov wrote:
+> >> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
+> >> -
+> >> -    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+> >> -    qdev_realize(DEVICE(cpu), NULL, &local_err);
+> >> -
+> >> -    object_unref(cpu);
+> >> -    error_propagate(errp, local_err);
+> >> +    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);  
+> > it may fail here if user specified wrong cpu flags, but there is nothing we can do to fix it.
+> > perhaps error_fatal would suit this case better?  
+> 
+> No, we need to add the error_propagate dance instead.
+
+yep, it cam be used by legacy cpu-add, so just dying isn't an option.
+
+we need deprecate cpu-add since device-add is supported buy all interested
+boards for quite a bit and once it's gone, we can use error_fatal here.
+
+
+> 
+> Paolo
+> 
+
 
