@@ -2,91 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F951209D45
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:10:55 +0200 (CEST)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEEE209D50
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:13:58 +0200 (CEST)
+Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPmP-0005vq-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
+	id 1joPpN-0001HN-PK
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1joPk5-0003WX-EC
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:08:29 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33128
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1joPk3-0006qZ-KJ
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:08:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593083306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JBiQGgXgwtK3Lsi5CnReM7TSJvLgOM6zkijEGmQLxR8=;
- b=PZRd/j0SMLEQLF6XRT3NCI5XWiuQMLzFzGGMsMihwhNYAwjH0XQ2uasAL8JUAXlmC1uabM
- jPfcMT/iaoP4n43O3v/68044tJUouYcU5ekX77V0CmL6z35Q7bCHfROvir+SoKigiI41OJ
- /fZetpQimKUQWk7OPQbyJJgGvGx7Oq0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-JOLFlnixPfaCPxHAbdSieA-1; Thu, 25 Jun 2020 07:08:24 -0400
-X-MC-Unique: JOLFlnixPfaCPxHAbdSieA-1
-Received: by mail-wr1-f69.google.com with SMTP id o25so6510508wro.16
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 04:08:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JBiQGgXgwtK3Lsi5CnReM7TSJvLgOM6zkijEGmQLxR8=;
- b=QL1cvAlQuO5cMI2xKmWbRLgM6Ajqw99vO/kOTjQMry3c/wGe54sGLbpuwLdwhHxDS1
- 0l5AUcry/oAP+cdFQ4M4/zLLWpD3k5avdDEs7MIAW7rfBJYFhfzUvG/K+otxBi1ViKHL
- CrgSwuTlSmomWhJ1owD3i99J+Y0J6Gm1pqUNIZ0Bpbvh6v5VsZqub08s2VFv6njVqMGI
- n7QFEbSXTKsxP7DkZkcwNOI6k7oTbjA6TgKZG4sByGx+0w1JQtW3++aw5N69LLikllZ2
- 6AOHDIZW52TYsGKzuDNS2cyGSdRkLxwjM+d4g86UzwxkWT7go4x9+tKh9LtxsihHzmBG
- YLEg==
-X-Gm-Message-State: AOAM5307Jr0P6/GWz7ItEQMWqbUjn+Y0tIIBTkoAg+zOSdnofAw5/QED
- dDBSG8ymX0kXM2EommZB4QiYdcmoPZ+w7kv+Z3HGDonQ5e7jAcSvwlkeAXpk2efCU2/jtpiJyqM
- dgwET0mTfHwU13c0=
-X-Received: by 2002:a5d:4845:: with SMTP id n5mr19790724wrs.353.1593083303602; 
- Thu, 25 Jun 2020 04:08:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFp2TD6wsRZXz5XKEzAkOLFHRaSpMdSDTEDDB9mOTMb9+PSk6uBAL5JXpRKMYlgJWB2DO2ow==
-X-Received: by 2002:a5d:4845:: with SMTP id n5mr19790705wrs.353.1593083303406; 
- Thu, 25 Jun 2020 04:08:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:91d0:a5f0:9f34:4d80?
- ([2001:b07:6468:f312:91d0:a5f0:9f34:4d80])
- by smtp.gmail.com with ESMTPSA id t205sm12101909wmt.8.2020.06.25.04.08.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 04:08:22 -0700 (PDT)
-Subject: Re: [PATCH 0/8] Improve synchronization between QEMU and HVF
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200624225850.16982-1-r.bolshakov@yadro.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <de87b7d0-a788-ef0d-9d9e-5d9fe3b2e119@redhat.com>
-Date: Thu, 25 Jun 2020 13:08:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1joPke-0004GE-Lm; Thu, 25 Jun 2020 07:09:05 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:38792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1joPkb-00085R-GA; Thu, 25 Jun 2020 07:09:03 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 32C77BF432;
+ Thu, 25 Jun 2020 11:08:58 +0000 (UTC)
+Date: Thu, 25 Jun 2020 13:08:54 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Subject: Re: [PATCH RESEND v2 2/2] nvme: allow cmb and pmr to be enabled on
+ same device
+Message-ID: <20200625110854.6y6di67g2wsixpou@apples.localdomain>
+References: <20200617051857.20508-1-andrzej.jakowski@linux.intel.com>
+ <20200617051857.20508-3-andrzej.jakowski@linux.intel.com>
+ <20200618092524.posxi5mysb3jjtpn@apples.localdomain>
+ <f766ffd1-04d4-9e41-5393-80e61ab37ec2@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200624225850.16982-1-r.bolshakov@yadro.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+In-Reply-To: <f766ffd1-04d4-9e41-5393-80e61ab37ec2@linux.intel.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 07:08:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,28 +56,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>, Cameron Esfahani <dirty@apple.com>
+Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/20 00:58, Roman Bolshakov wrote:
-> The series is a prerequisite to implement gdbstub support for HVF and mostly
-> concerns improvements of cpu_synchronize_* functions wrt to HVF and addresses
-> old TODO's in the related code.
+On Jun 19 10:30, Andrzej Jakowski wrote:
+> On 6/18/20 2:25 AM, Klaus Jensen wrote:
+> > On Jun 16 22:18, Andrzej Jakowski wrote:
+> >> So far it was not possible to have CMB and PMR emulated on the same
+> >> device, because BAR2 was used exclusively either of PMR or CMB. This
+> >> patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
+> >>
+> >> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+> >> ---
+> >>  hw/block/nvme.c      | 122 ++++++++++++++++++++++++++++---------------
+> >>  hw/block/nvme.h      |   5 +-
+> >>  include/block/nvme.h |   4 +-
+> >>  3 files changed, 86 insertions(+), 45 deletions(-)
+> >>
+> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> >> index 9f11f3e9da..62681966b9 100644
+> >> --- a/hw/block/nvme.c
+> >> +++ b/hw/block/nvme.c
+> >> @@ -22,12 +22,12 @@
+> >>   *              [pmrdev=<mem_backend_file_id>,] \
+> >>   *              max_ioqpairs=<N[optional]>
+> >>   *
+> >> - * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+> >> - * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+> >> + * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
+> >> + * to be resident in BAR4 at certain offset - this is because BAR4 is also
+> >> + * used for storing MSI-X table that is available at offset 0 in BAR4.
+> > 
+> > I would still really like a R-b by a more PCI-competent reviewer to
+> > ensure that it is sane to have the MSI-X table here in prefetchable
+> > 64-bit address space.
 > 
-> Unfortunately live snapshots don't seem to work yet but they don't work with
-> tcg (on macOS) either.
+> Having Reviewed-by for that make sense to me. And let me offer some
+> evidences of real devices having MSI-X in prefetchable region and 
+> non-prefetchable region. Based on those examples I don't think it matters
+> where you place your MSI-X vector.
+> 
+> Why do you think it may not be sane to place MSI-x table in prefetchable
+> region?
+> 
+> Device with MSI-X in non-prefetchable region:
+> Region 0: Memory at fb42c000 (64-bit, non-prefetchable) [size=16K]
+>         Capabilities: [80] MSI-X: Enable+ Count=1 Masked-
+>                 Vector table: BAR=0 offset=00002000
+>                 PBA: BAR=0 offset=00003000
+> 
+> Device with MSI-X in prefetchable region
+> Region 0: Memory at fbc00000 (64-bit, prefetchable) [size=2M]
+>         Region 2: I/O ports at e020 [size=32]
+>         Region 4: Memory at fbe04000 (64-bit, prefetchable) [size=16K]
+>         Capabilities: [40] Power Management version 3
+>                 Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+>                 Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=1 PME-
+>         Capabilities: [50] MSI: Enable- Count=1/1 Maskable+ 64bit+
+>                 Address: 0000000000000000  Data: 0000
+>                 Masking: 00000000  Pending: 00000000
+>         Capabilities: [70] MSI-X: Enable+ Count=64 Masked-
+>                 Vector table: BAR=4 offset=00000000
+>                 PBA: BAR=4 offset=00002000
+> 
+> 
 
-Queued, thanks!  Synchronization of special registers is the obvious
-next step (hint, hint!).
+That's good enough for me. I rest my case!
 
-Cameron perhaps can also guide us with respect to the CPU kick race that
-I mentioned in my review of patch 4.  A full fix is not possible without
-help from Hypervisor.framework, but using hv_vcpu_run_until will already
-tighten the window for the race.
+> 
+> > 
+> >>   *
+> >> - * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
+> >> - * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
+> >> - * both provided.
+> >> + * pmrdev is assumed to be resident in BAR2/BAR3. When configured it consumes
+> >> + * whole BAR2/BAR3 exclusively.
+> >>   * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
+> >>   * For example:
+> >>   * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
+> >> @@ -69,18 +69,19 @@
+> >>  
+> >>  static void nvme_process_sq(void *opaque);
+> >>  
+> >> -static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+> >> +static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr, int size)
+> >>  {
+> >> -    hwaddr low = n->ctrl_mem.addr;
+> >> -    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
+> >> +    hwaddr low = n->bar4.addr + n->cmb_offset;
+> >> +    hwaddr hi  = low + NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
+> > 
+> > Isn't it better to use n->bar4.size?
+> 
+> My understanding is that cmb doesn't necessarily need to occupy whole BAR,
+> which is required to be power-of-two in size.
+> 
 
-Thanks,
-
-Paolo
-
+You are completely right of course.
 
