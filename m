@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE2920A273
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:54:46 +0200 (CEST)
-Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2F020A279
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:55:35 +0200 (CEST)
+Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUD7-0002DW-HY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39742)
+	id 1joUDu-000478-Hn
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joTpS-0007GN-B0
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:30:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57134
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joTpP-00018x-Ps
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:30:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593099014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3u/eBHzw2HBMRyITnkxM3glrHpy+IKMkFeM1YG6FB4E=;
- b=FcONTyf47ho7Vwz24MrKfRTmCB7e7W37qefsicW3UmGfZLs4Ih7aQRTLxnsdf+l5CD+zV9
- OuKd0QSzu1CKGX+t7uepmOAUS+7OEQi+z5LzCZ5at7owW5LAjCLlRgMDtnIg03gdRNxRC0
- siarb5BRDan1yTddFE53o4VNDvNldiQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-Zbqf6s4xMmaaOfNClhODiw-1; Thu, 25 Jun 2020 11:30:12 -0400
-X-MC-Unique: Zbqf6s4xMmaaOfNClhODiw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4197C1940922;
- Thu, 25 Jun 2020 15:30:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E75307C1EC;
- Thu, 25 Jun 2020 15:30:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 738B311384D4; Thu, 25 Jun 2020 17:30:09 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 02/46] error: Document Error API usage rules
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-3-armbru@redhat.com>
- <20200625171718.528f8584@bahia.lan>
-Date: Thu, 25 Jun 2020 17:30:09 +0200
-In-Reply-To: <20200625171718.528f8584@bahia.lan> (Greg Kurz's message of "Thu, 
- 25 Jun 2020 17:17:18 +0200")
-Message-ID: <87k0zvupry.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dstepanov.src@gmail.com>)
+ id 1joTpn-0007fB-RJ
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:30:39 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:32797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dstepanov.src@gmail.com>)
+ id 1joTpm-0001d3-2g
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:30:39 -0400
+Received: by mail-lj1-x242.google.com with SMTP id s1so7019754ljo.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=z8dMPxmLcXy563vvmagKHVd2IuiKkYRe7Isf4iaDzX0=;
+ b=JPNcOjj0EAnsleCGkha9qEEHELLvjoVN1OWURyA9xTovG0tci8x33ESHJZ0tFbQ3CV
+ 9lZFrdopVc0XcpCqC7+v9BmZyavxcSnL22ST8i/ErxwFbHu1QYau02Nf/uQK32ezKS7T
+ I59wcr+EPwp9TgmeJ25C4QtIyGAKt9F7aoA0/GUPDKyxUOKcBWo889DbXDtdAn+etS2/
+ IxK6HmCJ43cSjbDwY1QSVLwMPmI7Xf1mKa6RmRbpfOENlE/j6HMptpW1uCSxvhrkhHBA
+ QcNV87s4hONmWW9OxPt8RsYywcne0JoQ6xdy3PwK8VQSvhI+yLWxl+fULwo25SPttyY6
+ 2nKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=z8dMPxmLcXy563vvmagKHVd2IuiKkYRe7Isf4iaDzX0=;
+ b=EBOi1s39FTSZ9lOvQVsKNkF/O6Ej9/lG/FYYZHOCvxl2Tv4oh7eFMrbE1545ey+eQH
+ 13/R4ZN6iXsHtD3szVeg6dwqgRzm90iRPYiLDePuJQ9QczuC9E0TYbNiDRnsS/uuP9Rj
+ IM6M/QTSRWIrNJ4+oeO/OZPf20BRrq4RMcLj5CdEhJM/ngC4uM6caDsNPC+BRRykiYR8
+ 2lZ/FHSl8OReqMl0ZPgXH24EL79ZOvdeah6eOjYsTl50P/DYyuid5FoJHIwG3X7KUlob
+ jI3OtK5/B8DUOQHFTJKCw2f92yRMwn+LZ2wVXEeYpnTNp2SzuxkK1M4GA3LZ0LLWP7fE
+ PVRA==
+X-Gm-Message-State: AOAM532QRZQOFLVqdAP697A1s7q1bKjYNp8xDruPwA5uU+TuSDknV5Jm
+ 7xKQ+NA9pH74iUh0XIFDW/g=
+X-Google-Smtp-Source: ABdhPJwI95JePr0jcG3HDgWKFewF4pCFlSIGHnhl7aSTmsIfcO82gh+g4OtwyAu2cAZpR9tf/W9OHg==
+X-Received: by 2002:a2e:890d:: with SMTP id d13mr17500160lji.75.1593099035486; 
+ Thu, 25 Jun 2020 08:30:35 -0700 (PDT)
+Received: from dimastep-nix ([2a02:6b8:b080:6405::1:10])
+ by smtp.gmail.com with ESMTPSA id k20sm664716ljc.111.2020.06.25.08.30.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Jun 2020 08:30:34 -0700 (PDT)
+Date: Thu, 25 Jun 2020 18:30:32 +0300
+From: Dima Stepanov <dstepanov.src@gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC PATCH 0/3] fuzz: add generic fuzzer
+Message-ID: <20200625153031.GA18435@dimastep-nix>
+References: <20200611055651.13784-1-alxndr@bu.edu>
+ <20200623141601.GL36568@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200623141601.GL36568@stefanha-x1.localdomain>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=dstepanov.src@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 25 Jun 2020 11:44:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,77 +87,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: darren.kenny@oracle.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+On Tue, Jun 23, 2020 at 03:16:01PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Jun 11, 2020 at 01:56:48AM -0400, Alexander Bulekov wrote:
+> > These patches add a generic fuzzer for virtual devices. This should
+> > allow us to fuzz devices that accept inputs over MMIO, PIO and DMA
+> > without any device-specific code.
+> > 
+> > Example:
+> > QEMU_FUZZ_ARGS="-device virtio-net" \
+> > FUZZ_REGION_WHITELIST="virtio pci-" \
+> > ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-pci-enum-fuzz
+> > 
+> > The above command will add a virtio-net device to the QEMU arguments and
+> > restrict the fuzzer to only interact with MMIO and PIO regions with
+> > names that contain "virtio" or "pci-". I find these names using the info
+> > mtree monitor command. 
+> > 
+> > Basically, the fuzzer splits the input into a series of commands, such
+> > as mmio_write, pio_write, etc. Additionally, these patches add "hooks"
+> > to functions that are typically used by virtual-devices to read from RAM
+> > (DMA). These hooks attempt to populate these DMA regions with fuzzed
+> > data, just in time.  There are some differences from my reference code
+> > that seem to result in performance issues that I am still trying to iron
+> > out. I also need to figure out how to add the DMA "hooks" in a neat way.
+> > Maybe I can use -Wl,--wrap for this. I appreciate any feedback.
+> > 
+> > Alexander Bulekov (3):
+> >   fuzz: add a general fuzzer for any qemu arguments
+> >   fuzz: add support for fuzzing DMA regions
+> >   fuzz: Add callbacks for dma-access functions
+> > 
+> >  exec.c                                |  17 +-
+> >  include/exec/memory.h                 |   8 +
+> >  include/exec/memory_ldst_cached.inc.h |   9 +
+> >  include/sysemu/dma.h                  |   5 +-
+> >  memory_ldst.inc.c                     |  12 +
+> >  tests/qtest/fuzz/Makefile.include     |   1 +
+> >  tests/qtest/fuzz/general_fuzz.c       | 556 ++++++++++++++++++++++++++
+> >  7 files changed, 606 insertions(+), 2 deletions(-)
+> >  create mode 100644 tests/qtest/fuzz/general_fuzz.c
+> 
+> CCing Dima in case he is interested in this generic fuzzing approach.
+> 
+> Stefan
+Thanks for adding me, going to look into it on this weekend.
 
-> On Wed, 24 Jun 2020 18:43:00 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->
->> This merely codifies existing practice, with one exception: the rule
->> advising against returning void, where existing practice is mixed.
->> 
->> When the Error API was created, we adopted the (unwritten) rule to
->> return void when the function returns no useful value on success,
->> unlike GError, which recommends to return true on success and false on
->> error then.
->> 
->> When a function returns a distinct error value, say false, a checked
->> call that passes the error up looks like
->> 
->>     if (!frobnicate(..., errp)) {
->>         handle the error...
->>     }
->> 
->> When it returns void, we need
->> 
->>     Error *err = NULL;
->> 
->>     frobnicate(..., &err);
->>     if (err) {
->>         handle the error...
->>         error_propagate(errp, err);
->>     }
->> 
->> Not only is this more verbose, it also creates an Error object even
->> when @errp is null, &error_abort or &error_fatal.
->> 
->> People got tired of the additional boilerplate, and started to ignore
->> the unwritten rule.  The result is confusion among developers about
->> the preferred usage.
->> 
->
-> This confusion is reinforced by the fact that the standard pattern:
->
->     error_setg(errp, ...);
->     error_append_hint(errp, ...);
->
-> doesn't work when errp is &error_fatal, which is a typical case of
-> an invalid command line argument, where it is valuable to suggest
-> something sensible to the user but error_setg() exits before we
-> could do so.
->
-> Fortunately, Vladimir's work will address that and eliminate the
-> temptation to workaround the issue with more boilerplate :)
+Dima.
 
-Yes, my work does not obviate Vladimir's at all.  It merely reduce the
-number of auto-propagations, hopefully making his patches slightly less
-scary.
-
->> The written rule will hopefully reduce the confusion.
->> 
->> The remainder of this series will update a substantial amount of code
->> to honor the rule.
->> 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Thanks!
 
 
