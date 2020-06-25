@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC8B209936
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 06:52:51 +0200 (CEST)
-Received: from localhost ([::1]:40780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8392099A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 07:52:59 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joJsY-0001M1-KM
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 00:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52440)
+	id 1joKok-00007j-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 01:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1joJqH-0007ZI-3k
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 00:50:29 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1joJqF-0006hU-LG
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 00:50:28 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a6so5828763wmm.0
- for <qemu-devel@nongnu.org>; Wed, 24 Jun 2020 21:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g8HMQblKKnZs8OYwRQvjxqP8f1bg48Qg99bUSl1PbJE=;
- b=V9KIFLkOjUcQ9NhRnB5pbTE30S0Hm7XZxPbXMSVZA3byK08aZcecfUmNi0mblucStD
- l7E6OAjrL1jWKm4hVqUsFMFoI+iemuDpsoufadccIj7gEsej47iOH5W9jAJV0b9URiYk
- GoO2xedyvuf/czc1fnL7H/9xG6et3Mq7lF7sDQKvMeWHdn6nmmibYuqDAqKcOUj0UqH1
- n0Sh72oJZ/5IAnR1ZuvplxLE5mjEyiLehzxNqZvlfj59IfhF5xDd47sb/TJ5koRuP7S3
- vYrcRasq1iwtJSL/yx/MHe22nJ9oexQura6u+R2QjCP/7HDBglLwUG//SKddT0JXacUD
- 6bJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g8HMQblKKnZs8OYwRQvjxqP8f1bg48Qg99bUSl1PbJE=;
- b=UcUd6fBcnxLLN8n71me+oiO6l8iokpczsvNqDxYJ9XEpL7N0fMSsAcpVmj5BehkLoy
- Qp5xAA9uEkZotlFR+EWJH8LHns21hLBZS1BTUoW4CA8es6+QzixZiHjLTSwoZpLA00La
- 5yk/riwg1eY7vtcMaIzuXR5eA0BMF5R+GkR1cQJU8so4axlrtOpSgUc0GZv4PmG1j3en
- qvUYwjv3l8uHrPZm1xI6YAVtU7SJjODoS67IjtqmqLyVPZtCva0gDd3Ajstvp47WT8y3
- iV8I6TQRKDTtg4TLWCFO9z3vS4197MW2UEz2TAyZ1zfn4bv2auIaDN6eR5yXnarvE0pY
- HFFA==
-X-Gm-Message-State: AOAM531jvlZegqlzYy6V9JponfTJCitBk+RpM7Y99/vgOpQDtTg2atgM
- A46E2TXLGN8SdCNFPPYRc4cblL17
-X-Google-Smtp-Source: ABdhPJyMzYl5i/cF9Wc9D6WZNdi3xfNd3cz1cBrCRXLmKcebKVvRseXw+resR/4XixzTqKQ0aoa/qQ==
-X-Received: by 2002:a7b:c381:: with SMTP id s1mr1285445wmj.25.1593060626169;
- Wed, 24 Jun 2020 21:50:26 -0700 (PDT)
-Received: from jondnuc.lan (IGLD-84-229-155-64.inter.net.il. [84.229.155.64])
- by smtp.gmail.com with ESMTPSA id
- x7sm30684787wrr.72.2020.06.24.21.50.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 21:50:25 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/2] acpi: i386: Move VMBus DSDT entry to SB
-Date: Thu, 25 Jun 2020 07:50:11 +0300
-Message-Id: <20200625045011.1075314-3-arilou@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200625045011.1075314-1-arilou@gmail.com>
-References: <20200625045011.1075314-1-arilou@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1joKjb-0000cM-Ug; Thu, 25 Jun 2020 01:47:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:46425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1joKjX-0004QS-FL; Thu, 25 Jun 2020 01:47:39 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49spv43hF1z9sSJ; Thu, 25 Jun 2020 15:47:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1593064048;
+ bh=zgpo/Uarv4ptzF6ccXY6E68/qcnS5o3Z06+YqXK19gg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DnvTWNzLu7P4Mwg5ZZEy70Pu4p3n+Q4kiHzoOuzuQwysrt2NCPy6VpMqjr30wsj1w
+ xUiWled4956Y10mafjuM/Vt0iTuKi8a/Yx94z99ZBKrkrWfFRk2yPEfovUo+/U/KyB
+ NhXg5BxPZAATvcMNftE5Qin/x9YcymQmqiWaWSnI=
+Date: Thu, 25 Jun 2020 14:57:38 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 9/9] host trust limitation: Alter virtio default
+ properties for protected guests
+Message-ID: <20200625045738.GA172395@umbus.fritz.box>
+References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
+ <20200619020602.118306-10-david@gibson.dropbear.id.au>
+ <20200619101245.GC700896@redhat.com>
+ <20200619074432-mutt-send-email-mst@kernel.org>
+ <20200619074630-mutt-send-email-mst@kernel.org>
+ <20200619121638.GK700896@redhat.com>
+ <20200624034932-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=arilou@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mYCpIKhGyMATD0i+"
+Content-Disposition: inline
+In-Reply-To: <20200624034932-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/24 22:09:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,62 +67,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mail@maciej.szmigiero.name, Jon Doron <arilou@gmail.com>,
- rvkagan@yandex-team.ru, imammedo@redhat.com, pbonzini@redhat.com,
- vkuznets@redhat.com
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, mdroth@linux.vnet.ibm.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- hw/i386/acpi-build.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 91af0d2d0d..1f938a53b2 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1091,7 +1091,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
- static void build_isa_devices_aml(Aml *table)
- {
-     ISADevice *fdc = pc_find_fdc0();
--    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
-     bool ambiguous;
- 
-     Aml *scope = aml_scope("_SB.PCI0.ISA");
-@@ -1112,10 +1111,6 @@ static void build_isa_devices_aml(Aml *table)
-         isa_build_aml(ISA_BUS(obj), scope);
-     }
- 
--    if (vmbus_bridge) {
--        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
--    }
--
-     aml_append(table, scope);
- }
- 
-@@ -1660,6 +1655,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     PCIBus *bus = NULL;
-     TPMIf *tpm = tpm_find();
-     int i;
-+    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
- 
-     dsdt = init_aml_allocator();
- 
-@@ -1702,6 +1698,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         }
-     }
- 
-+    if (vmbus_bridge) {
-+        sb_scope = aml_scope("_SB");
-+        aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
-+        aml_append(dsdt, sb_scope);
-+    }
-+
-     if (pcmc->legacy_cpu_hotplug) {
-         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
-     } else {
--- 
-2.24.1
+--mYCpIKhGyMATD0i+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jun 24, 2020 at 03:55:59AM -0400, Michael S. Tsirkin wrote:
+> On Fri, Jun 19, 2020 at 01:16:38PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > On Fri, Jun 19, 2020 at 07:47:20AM -0400, Michael S. Tsirkin wrote:
+> > > On Fri, Jun 19, 2020 at 07:46:14AM -0400, Michael S. Tsirkin wrote:
+> > > > On Fri, Jun 19, 2020 at 11:12:45AM +0100, Daniel P. Berrang=C3=83=
+=C6=92=C3=82=C2=A9 wrote:
+> > > > > On Fri, Jun 19, 2020 at 12:06:02PM +1000, David Gibson wrote:
+> > > > > > The default behaviour for virtio devices is not to use the plat=
+forms normal
+> > > > > > DMA paths, but instead to use the fact that it's running in a h=
+ypervisor
+> > > > > > to directly access guest memory.  That doesn't work if the gues=
+t's memory
+> > > > > > is protected from hypervisor access, such as with AMD's SEV or =
+POWER's PEF.
+> > > > > >=20
+> > > > > > So, if a host trust limitation mechanism is enabled, then apply=
+ the
+> > > > > > iommu_platform=3Don option so it will go through normal DMA mec=
+hanisms.
+> > > > > > Those will presumably have some way of marking memory as shared=
+ with the
+> > > > > > hypervisor or hardware so that DMA will work.
+> > > > > >=20
+> > > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > > > > ---
+> > > > > >  hw/core/machine.c | 11 +++++++++++
+> > > > > >  1 file changed, 11 insertions(+)
+> > > > > >=20
+> > > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > > index a71792bc16..8dfc1bb3f8 100644
+> > > > > > --- a/hw/core/machine.c
+> > > > > > +++ b/hw/core/machine.c
+> > > > > > @@ -28,6 +28,8 @@
+> > > > > >  #include "hw/mem/nvdimm.h"
+> > > > > >  #include "migration/vmstate.h"
+> > > > > >  #include "exec/host-trust-limitation.h"
+> > > > > > +#include "hw/virtio/virtio.h"
+> > > > > > +#include "hw/virtio/virtio-pci.h"
+> > > > > > =20
+> > > > > >  GlobalProperty hw_compat_5_0[] =3D {
+> > > > > >      { "virtio-balloon-device", "page-poison", "false" },
+> > > > > > @@ -1165,6 +1167,15 @@ void machine_run_board_init(MachineState=
+ *machine)
+> > > > > >           * areas.
+> > > > > >           */
+> > > > > >          machine_set_mem_merge(OBJECT(machine), false, &error_a=
+bort);
+> > > > > > +
+> > > > > > +        /*
+> > > > > > +         * Virtio devices can't count on directly accessing gu=
+est
+> > > > > > +         * memory, so they need iommu_platform=3Don to use nor=
+mal DMA
+> > > > > > +         * mechanisms.  That requires disabling legacy virtio =
+support
+> > > > > > +         * for virtio pci devices
+> > > > > > +         */
+> > > > > > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-l=
+egacy", "on");
+> > > > > > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_=
+platform", "on");
+> > > > > >      }
+> > > > >=20
+> > > > > Silently changing the user's request configuration like this is a=
+ bad idea.
+> > > > > The "disable-legacy" option in particular is undesirable as that =
+switches
+> > > > > the device to virtio-1.0 only mode, which exposes a different PCI=
+ ID to
+> > > > > the guest.
+> > > > >=20
+> > > > > If some options are incompatible with encryption, then we should =
+raise a
+> > > > > fatal error at startup, so applications/admins are aware that the=
+ir requested
+> > > > > config is broken.
+> > > >
+> > > > Agreed - my suggestion is an on/off/auto property, auto value
+> > > > changes automatically, on/off is validated.
+> > >=20
+> > > In fact should we extend all bit properties to allow an auto value?
+> >=20
+> > If "auto" was made the default that creates a similar headache, as to
+> > preserve existing configuration semantics we expose to apps, libvirt
+> > would need to find all the properties changed to use "auto" and manually
+> > set them back to on/off explicitly.
+> >=20
+> > Regards,
+> > Daniel
+>=20
+> It's QEMU's job to try and have more or less consistent semantics across
+> versions. QEMU does not guarantee not to change any option defaults
+> though.
+>=20
+> My point is to add ability to differentiate between property values
+> set by user and ones set by machine type for compatibility.
+
+At which point are you looking to differentiate these?  The use of
+sugar_prop() in my draft code accomplishes this already for the
+purposes of resolving a final property value within qemu (an explicit
+user set one takes precedence).
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--mYCpIKhGyMATD0i+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl70LsAACgkQbDjKyiDZ
+s5L3ExAAxnFj1Oy2Vrk0tvlc4e5RkcOJmfFGJx7VpnNMS45oSrpNromPMAvVS86m
+lQKtHv7x8qYxsusrq5IRCnaGdjC5QqPOP6AeQ2GqF+rh81ZZA+FAht92vIw+iDDT
+OsHgjvEEAeauu4VOymzjycOslQyFy6rLHvMcDTp2ladqF9yopsxKfAbT3X2o53tV
+bgKydBr9UyiKJKz/PkQV6rklhg5+ModFjSQnbVZxvN4rZsn8mA+LtybBTM0PuWdQ
+acx4xCknEb01bseb5l+k4pNFptngykUFj6j0VYHHTZlDcI07X/4W4NMRGLanFW/1
+tNp9HCkcFRA9FLAd0+qgBB0rO2bInu7tMqs2Dk244hcFbb0YqbkzO4BjhkSIoYvq
+JrJZKEecQ80NQO+kYxc7XqP/WQy68MVRzL0NazeNBNc2+UUHOH2+6Dzp5ytQowj7
+oqAml1I/4wXe/rXe8ODAUjNufJZhKCpkc9mg3h4KYLXP+inbPeRP9vvJ9k6///SZ
+nfg9VzvvjYaQxjMRR74wHyft82oOL/KKjLsgm9hib+gccbjn5tNhPDhYc5j+Xmwg
+95lywChej9zAbU48cIO9j7OY1feijnwzGf1HyNWI/0QrBZREPv+tQFJx2JJpt7Gy
+xX9Xe+uMsqcXkyI32bDJQfqO6x5pO+JIT03vqyMseg9ZvhNi4lc=
+=f4oi
+-----END PGP SIGNATURE-----
+
+--mYCpIKhGyMATD0i+--
 
