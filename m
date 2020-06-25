@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D8220A1DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:25:28 +0200 (CEST)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A3420A1EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:28:34 +0200 (CEST)
+Received: from localhost ([::1]:39834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTkl-0007aM-Bx
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1joTnl-0002yb-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThz-0005EI-OJ
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32017
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi0-0005FI-2U
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41442
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThx-0000YX-PG
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThy-0000Z5-Di
  for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593098553;
@@ -24,41 +24,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dl5gsxaX3h9ydAHzCIHB7Hsfs7PhzxLzH9abiKtx1CE=;
- b=CCQdKi6jYNQm6wUhX7/eQgJZ5caeN85/WByZUqHbQ153u47SUSeAfHwUg2brHYlsaWxTNu
- AulOdVCf9VeCbU/IrQqraZuHkqb5jVe7jb3j6R2J2HWOwURNuSBRfdmVbDvsiBRd6zKHmY
- DWqI0D4+nEqPv3XpcbYz+zI1q5a3yYo=
+ bh=mDZYcGkrIBwQAlRDjG/1NZpJAK8n1D5wtER9Jcis1fE=;
+ b=M60m5VkUlvJcEqgXo/2ofZ2b2nTOxLQqEJwulW6AvQ7ZzgJ8GEX7b2UBm0AHIQCZs1xg+m
+ +dvkNxI+xmRkO9aX+B/2D9El/vhlXhg4fFhh5ZYbPtdpp5MaxOxxghwuJfC6i5UYS26Mjp
+ yoFe0mJWalco4EfXfeHtSZRUj+bDBjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-EVTVE8qhNIq93gPD6shcrg-1; Thu, 25 Jun 2020 11:22:29 -0400
-X-MC-Unique: EVTVE8qhNIq93gPD6shcrg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-353-dICCJNrEPBmnCVunF66OFQ-1; Thu, 25 Jun 2020 11:22:31 -0400
+X-MC-Unique: dICCJNrEPBmnCVunF66OFQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BB09EC1A7;
- Thu, 25 Jun 2020 15:22:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A99828015F8;
+ Thu, 25 Jun 2020 15:22:30 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DB641DC;
- Thu, 25 Jun 2020 15:22:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CB1E17DCE;
+ Thu, 25 Jun 2020 15:22:30 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 05/47] block: Include filters when freezing backing chain
-Date: Thu, 25 Jun 2020 17:21:33 +0200
-Message-Id: <20200625152215.941773-6-mreitz@redhat.com>
+Subject: [PATCH v7 06/47] block: Drop bdrv_is_encrypted()
+Date: Thu, 25 Jun 2020 17:21:34 +0200
+Message-Id: <20200625152215.941773-7-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,183 +83,77 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to make filters work in backing chains, the associated
-functions must be able to deal with them and freeze both COW and filter
-child links.
+The original purpose of bdrv_is_encrypted() was to inquire whether a BDS
+can be used without the user entering a password or not.  It has not
+been used for that purpose for quite some time.
 
-While at it, add some comments that note which functions require their
-caller to ensure that a given child link is not frozen, and how the
-callers do so.
+Actually, it is not even fit for that purpose, because to answer that
+question, it would have recursively query all of the given node's
+children.
 
+So now we have to decide in which direction we want to fix
+bdrv_is_encrypted(): Recursively query all children, or drop it and just
+use bs->encrypted to get the current node's status?
+
+Nowadays, its only purpose is to report through bdrv_query_image_info()
+whether the given image is encrypted or not.  For this purpose, it is
+probably more interesting to see whether a given node itself is
+encrypted or not (otherwise, a management application cannot discern for
+certain which nodes are really encrypted and which just have encrypted
+children).
+
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 60 +++++++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 39 insertions(+), 21 deletions(-)
+ include/block/block.h | 1 -
+ block.c               | 8 --------
+ block/qapi.c          | 2 +-
+ 3 files changed, 1 insertion(+), 10 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index 86f9728f00..0080fe1311 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -538,7 +538,6 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it);
+ void bdrv_next_cleanup(BdrvNextIterator *it);
+ 
+ BlockDriverState *bdrv_next_monitor_owned(BlockDriverState *bs);
+-bool bdrv_is_encrypted(BlockDriverState *bs);
+ void bdrv_iterate_format(void (*it)(void *opaque, const char *name),
+                          void *opaque, bool read_only);
+ const char *bdrv_get_node_name(const BlockDriverState *bs);
 diff --git a/block.c b/block.c
-index d139ffb57d..b59bd776cd 100644
+index b59bd776cd..76277ea4e0 100644
 --- a/block.c
 +++ b/block.c
-@@ -2595,12 +2595,15 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-  * If @new_bs is not NULL, bdrv_check_perm() must be called beforehand, as this
-  * function uses bdrv_set_perm() to update the permissions according to the new
-  * reference that @new_bs gets.
-+ *
-+ * Callers must ensure that child->frozen is false.
-  */
- static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
- {
-     BlockDriverState *old_bs = child->bs;
-     uint64_t perm, shared_perm;
- 
-+    /* Asserts that child->frozen == false */
-     bdrv_replace_child_noperm(child, new_bs);
- 
-     /*
-@@ -2761,6 +2764,7 @@ static void bdrv_detach_child(BdrvChild *child)
-     g_free(child);
+@@ -5044,14 +5044,6 @@ bool bdrv_is_sg(BlockDriverState *bs)
+     return bs->sg;
  }
  
-+/* Callers must ensure that child->frozen is false. */
- void bdrv_root_unref_child(BdrvChild *child)
+-bool bdrv_is_encrypted(BlockDriverState *bs)
+-{
+-    if (bs->backing && bs->backing->bs->encrypted) {
+-        return true;
+-    }
+-    return bs->encrypted;
+-}
+-
+ const char *bdrv_get_format_name(BlockDriverState *bs)
  {
-     BlockDriverState *child_bs;
-@@ -2798,6 +2802,7 @@ static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child)
+     return bs->drv ? bs->drv->format_name : NULL;
+diff --git a/block/qapi.c b/block/qapi.c
+index afd9f3b4a7..4807a2b344 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -288,7 +288,7 @@ void bdrv_query_image_info(BlockDriverState *bs,
+     info->virtual_size    = size;
+     info->actual_size     = bdrv_get_allocated_file_size(bs);
+     info->has_actual_size = info->actual_size >= 0;
+-    if (bdrv_is_encrypted(bs)) {
++    if (bs->encrypted) {
+         info->encrypted = true;
+         info->has_encrypted = true;
      }
- }
- 
-+/* Callers must ensure that child->frozen is false. */
- void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
- {
-     if (child == NULL) {
-@@ -2864,6 +2869,7 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-     }
- 
-     if (bs->backing) {
-+        /* Cannot be frozen, we checked that above */
-         bdrv_unref_child(bs, bs->backing);
-         bs->backing = NULL;
-     }
-@@ -4372,6 +4378,7 @@ static void bdrv_close(BlockDriverState *bs)
- 
-     if (bs->drv) {
-         if (bs->drv->bdrv_close) {
-+            /* Must unfreeze all children, so bdrv_unref_child() works */
-             bs->drv->bdrv_close(bs);
-         }
-         bs->drv = NULL;
-@@ -4741,20 +4748,22 @@ BlockDriverState *bdrv_find_base(BlockDriverState *bs)
- }
- 
- /*
-- * Return true if at least one of the backing links between @bs and
-- * @base is frozen. @errp is set if that's the case.
-+ * Return true if at least one of the COW (backing) and filter links
-+ * between @bs and @base is frozen. @errp is set if that's the case.
-  * @base must be reachable from @bs, or NULL.
-  */
- bool bdrv_is_backing_chain_frozen(BlockDriverState *bs, BlockDriverState *base,
-                                   Error **errp)
- {
-     BlockDriverState *i;
-+    BdrvChild *child;
- 
--    for (i = bs; i != base; i = backing_bs(i)) {
--        if (i->backing && i->backing->frozen) {
-+    for (i = bs; i != base; i = child_bs(child)) {
-+        child = bdrv_filter_or_cow_child(i);
-+
-+        if (child && child->frozen) {
-             error_setg(errp, "Cannot change '%s' link from '%s' to '%s'",
--                       i->backing->name, i->node_name,
--                       backing_bs(i)->node_name);
-+                       child->name, i->node_name, child->bs->node_name);
-             return true;
-         }
-     }
-@@ -4763,7 +4772,7 @@ bool bdrv_is_backing_chain_frozen(BlockDriverState *bs, BlockDriverState *base,
- }
- 
- /*
-- * Freeze all backing links between @bs and @base.
-+ * Freeze all COW (backing) and filter links between @bs and @base.
-  * If any of the links is already frozen the operation is aborted and
-  * none of the links are modified.
-  * @base must be reachable from @bs, or NULL.
-@@ -4773,22 +4782,25 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
-                               Error **errp)
- {
-     BlockDriverState *i;
-+    BdrvChild *child;
- 
-     if (bdrv_is_backing_chain_frozen(bs, base, errp)) {
-         return -EPERM;
-     }
- 
--    for (i = bs; i != base; i = backing_bs(i)) {
--        if (i->backing && backing_bs(i)->never_freeze) {
-+    for (i = bs; i != base; i = child_bs(child)) {
-+        child = bdrv_filter_or_cow_child(i);
-+        if (child && child->bs->never_freeze) {
-             error_setg(errp, "Cannot freeze '%s' link to '%s'",
--                       i->backing->name, backing_bs(i)->node_name);
-+                       child->name, child->bs->node_name);
-             return -EPERM;
-         }
-     }
- 
--    for (i = bs; i != base; i = backing_bs(i)) {
--        if (i->backing) {
--            i->backing->frozen = true;
-+    for (i = bs; i != base; i = child_bs(child)) {
-+        child = bdrv_filter_or_cow_child(i);
-+        if (child) {
-+            child->frozen = true;
-         }
-     }
- 
-@@ -4796,18 +4808,21 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
- }
- 
- /*
-- * Unfreeze all backing links between @bs and @base. The caller must
-- * ensure that all links are frozen before using this function.
-+ * Unfreeze all COW (backing) and filter links between @bs and @base.
-+ * The caller must ensure that all links are frozen before using this
-+ * function.
-  * @base must be reachable from @bs, or NULL.
-  */
- void bdrv_unfreeze_backing_chain(BlockDriverState *bs, BlockDriverState *base)
- {
-     BlockDriverState *i;
-+    BdrvChild *child;
- 
--    for (i = bs; i != base; i = backing_bs(i)) {
--        if (i->backing) {
--            assert(i->backing->frozen);
--            i->backing->frozen = false;
-+    for (i = bs; i != base; i = child_bs(child)) {
-+        child = bdrv_filter_or_cow_child(i);
-+        if (child) {
-+            assert(child->frozen);
-+            child->frozen = false;
-         }
-     }
- }
-@@ -4910,8 +4925,11 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
-             }
-         }
- 
--        /* Do the actual switch in the in-memory graph.
--         * Completes bdrv_check_update_perm() transaction internally. */
-+        /*
-+         * Do the actual switch in the in-memory graph.
-+         * Completes bdrv_check_update_perm() transaction internally.
-+         * c->frozen is false, we have checked that above.
-+         */
-         bdrv_ref(base);
-         bdrv_replace_child(c, base);
-         bdrv_unref(top);
 -- 
 2.26.2
 
