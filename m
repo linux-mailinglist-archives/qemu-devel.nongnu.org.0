@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FEB20A281
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:59:24 +0200 (CEST)
-Received: from localhost ([::1]:38060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0941220A27C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:57:29 +0200 (CEST)
+Received: from localhost ([::1]:59404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUHb-0002Sx-Uq
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42472)
+	id 1joUFk-0007wR-1B
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joTzm-0006tW-Rn
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:40:58 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joTzi-0007hO-NR
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:40:57 -0400
-Received: by mail-oi1-x241.google.com with SMTP id j11so2670996oiw.12
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j1+9KBEaRzm4TeFuO1bVsSq74JUEaurxKIpcJCn6dw4=;
- b=WK4zy9hJQp35ndWDYM0/27V2csOrtLs4mYbpVLE+41beTptee2FF0fRkVKDnZ5F6ej
- KspTUp6Jh7qj8xvyJqNME4kPpRepJFjsApDIKFdLzW/RdXEf34nZeeScJLiXEed3b7Oe
- 9I4WB1ASDGdfjiO6+f83MCYWrRLzm0+J+vOMQJp+Wr/HRz4rfhFfE+ChmqaCAQK3hJym
- JlOTdMclem5PElZ4H//Xe9IXD6HgVAN6ICRICs7eyqw4BgglNikRwZ0n20khb0wDbBzV
- fVKHI4ojILyeT+OYGdZ5wOZ0m0cbfq+MtPlNiwIGD5Chez41zZDd8iNYSQUmIe+Yqdce
- hYmw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joU7I-0000oL-L5
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:48:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30603
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joU7G-0001pR-Ax
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:48:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593100121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FzbqnuPX20sDvDHUM+oOXdQ4t5AmvSu8Cf6mUxiLPD0=;
+ b=gpgAjOzHG+7Z0f3mrFMekt0+kbPBU3s4hf5zqdnBaHRiLLAoPea8B+wFPRnWmXtTpE3dAW
+ x3SJ96RsAn1Bxufl+oJV23ewd6+U1u1dWF5SWrRQwdkT8bvqsqtEmerqbOr0o0mCUxbSUi
+ CpGIPHbOKxO/9YiqDDNizTPl93kv2h8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-ldCpxu1TP8u0PzruxfYlLg-1; Thu, 25 Jun 2020 11:48:38 -0400
+X-MC-Unique: ldCpxu1TP8u0PzruxfYlLg-1
+Received: by mail-wr1-f70.google.com with SMTP id j5so7038997wro.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 08:48:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j1+9KBEaRzm4TeFuO1bVsSq74JUEaurxKIpcJCn6dw4=;
- b=ruMUTo3X9Za4OSOvyh//vR3msOynxmd3glicB1C3RTrcFz9Tn60Km/vq5ACMAkLo8a
- eq6k/bNHIzH3ygkG4FJwGFzTaM8OQKQF1OAZL7udcJDx3uAuMcAw/Ft17yyjzTKtw0kq
- 5ITzt7WRQM9hMvoZqqKz1/4u+nJXVkjZhGWkUW3ZbUu+cp6gS7TqZf1fT6xbwxvylYsa
- Se0QvHcrtvFQBICaJ5ZIlP4p/AVhhzcGu24Y6fHlEn4T3pYZaUzm6PUUIFhKBX7pBBY1
- LL1gV5h4FoV7alnt72z6rdaep2YRksNsjZhX6Wxueuy3VjiPNx+DhseNJJe28Gb55y3R
- HOvQ==
-X-Gm-Message-State: AOAM530RO+L/3EgXRIdyA9j22e6odNsM4e6KV0UTqJKGUDGdb1gn9EP5
- rJOp/i46zKVOgC5seknTmSs7AkcBeFegr2ZkEEfYmA==
-X-Google-Smtp-Source: ABdhPJzwCvexVpIKOqDhSwfH/vNPAG7MjbcLivagFCXd3udxaZBdZi/Xyd9ocUhT3Ibg5Azl2lM4Oxx6zQNi7zuoyL0=
-X-Received: by 2002:aca:568c:: with SMTP id k134mr2564833oib.48.1593099651936; 
- Thu, 25 Jun 2020 08:40:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FzbqnuPX20sDvDHUM+oOXdQ4t5AmvSu8Cf6mUxiLPD0=;
+ b=Wnnt8a3xISd+6FTHyQps3FoQyCDpqHdoE6f9CJ18I1YgIqQ7gAzdcLyeV3VOI6xFno
+ OTpPDX0SMzQnCYuz+5QqgeHiBhZbBuXhK2ZzvRm2yL46r9Yp+gROSFGFjDqfr73PTgpr
+ sXPZUJkJildjJVqYHNswf1sEtVAgxo2eG0h2hiCr5FeyDnEql73boubzLfof4E4tB+89
+ NPkTZb63m1oVbL1l1sO8Zj2ZbcUfhT8tmftx/NQ8Xi2KY5XbkJY+xTjDfj/2EvsMpJyZ
+ vvunqwCbib0SyH7SX1CN3chyJvFMFU8tHOBaOVpQrixp7LBdreup2PyZLAHdt7tOv3mA
+ ieAw==
+X-Gm-Message-State: AOAM531zZTx7JlM67J99nVzHATk10uP5VBiU7xkmGijlORjoqX3aaQEh
+ VoPdwwrQqQ+GgOIrKqmNxTiCBvWW10Xw3xs9WrYBO07J5d0FHI8O7Iy42MKVAmgWLYK0i6KINik
+ oGyH1rF3NRAbHsOI=
+X-Received: by 2002:adf:dfd1:: with SMTP id q17mr29368262wrn.94.1593100116459; 
+ Thu, 25 Jun 2020 08:48:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznb7jSIx5F46MjRYt0OiN5hKxL1Iu0Qgb4RdR4Vadyz06sX0Ns5Jvm7NVgd0J0+zedjHmslQ==
+X-Received: by 2002:adf:dfd1:: with SMTP id q17mr29368230wrn.94.1593100116126; 
+ Thu, 25 Jun 2020 08:48:36 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id n16sm25569374wrq.39.2020.06.25.08.48.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jun 2020 08:48:35 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: Align I/O BAR to 4 KiB
+Date: Thu, 25 Jun 2020 17:48:33 +0200
+Message-Id: <20200625154834.367-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20200611161500.23580-1-eric.auger@redhat.com>
- <20200611161500.23580-10-eric.auger@redhat.com>
-In-Reply-To: <20200611161500.23580-10-eric.auger@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 16:40:41 +0100
-Message-ID: <CAFEAcA9ji9Xa5WTOwio0hcgW1ZHoD3O-TaehCBvQEb+Tn-tnXA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 9/9] hw/arm/smmuv3: Advertise SMMUv3.2 range
- invalidation
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,29 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jun 2020 at 17:16, Eric Auger <eric.auger@redhat.com> wrote:
->
-> Expose the RIL bit so that the guest driver uses range
-> invalidation.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/arm/smmuv3-internal.h | 1 +
->  hw/arm/smmuv3.c          | 2 ++
->  2 files changed, 3 insertions(+)
+Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/block/nvme.h | 3 +++
+ hw/block/nvme.c      | 5 ++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-thanks
--- PMM
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 1720ee1d51..6d87c9c146 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -22,6 +22,8 @@ typedef struct NvmeBar {
+     uint32_t    pmrebs;
+     uint32_t    pmrswtp;
+     uint32_t    pmrmsc;
++    uint32_t    reserved[58];
++    uint8_t     cmd_set_specfic[0x100];
+ } NvmeBar;
+ 
+ enum NvmeCapShift {
+@@ -879,6 +881,7 @@ enum NvmeIdNsDps {
+ 
+ static inline void _nvme_check_size(void)
+ {
++    QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 1aee042d4c..1938891e50 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -55,7 +55,6 @@
+ #include "nvme.h"
+ 
+ #define NVME_MAX_IOQPAIRS 0xffff
+-#define NVME_REG_SIZE 0x1000
+ #define NVME_DB_SIZE  4
+ #define NVME_CMB_BIR 2
+ #define NVME_PMR_BIR 2
+@@ -1322,7 +1321,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
+     NvmeCtrl *n = (NvmeCtrl *)opaque;
+     if (addr < sizeof(n->bar)) {
+         nvme_write_bar(n, addr, data, size);
+-    } else if (addr >= 0x1000) {
++    } else {
+         nvme_process_db(n, addr, data);
+     }
+ }
+@@ -1416,7 +1415,7 @@ static void nvme_init_state(NvmeCtrl *n)
+ {
+     n->num_namespaces = 1;
+     /* add one to max_ioqpairs to account for the admin queue pair */
+-    n->reg_size = pow2ceil(NVME_REG_SIZE +
++    n->reg_size = pow2ceil(sizeof(NvmeBar) +
+                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
+-- 
+2.21.3
+
 
