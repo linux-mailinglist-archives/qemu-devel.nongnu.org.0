@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC23F20A2FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:32:40 +0200 (CEST)
-Received: from localhost ([::1]:43918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F06B20A30A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:34:18 +0200 (CEST)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUnn-0005Tu-PD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:32:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
+	id 1joUpN-0008A6-CP
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1joUl1-0002jL-LM
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55551
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1joUkz-0002Tz-Pg
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593102584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q9U7MZpedfnTjTu3sSF+WyTG3/6YQv3VnFsF74dLz3s=;
- b=aZApb+5R1fhSIfT+HnWIH7sokPj//Q36HzOHw8vQJAqOIyfXZlUrrZdtZN4THKollMd3QE
- 1a1BkliyveUX7HcnXFNvfXlydflFwoZvxp1M4K2N4slRXprhUQykmd8Sgg8ycXZYCn1xPZ
- lO4h114pa4yvzJy/SjkuRU96rLaJHP8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-O0udD3FNO3-Bc5L49pYJlw-1; Thu, 25 Jun 2020 12:29:42 -0400
-X-MC-Unique: O0udD3FNO3-Bc5L49pYJlw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47DF107ACCA
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 16:29:41 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-254.ams2.redhat.com
- [10.36.114.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9E0CA09BF;
- Thu, 25 Jun 2020 16:29:40 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
- vgoyal@redhat.com
-Subject: [PATCH 3/3] virtiofsd: Allow addition or removal of capabilities
-Date: Thu, 25 Jun 2020 17:29:29 +0100
-Message-Id: <20200625162929.46672-4-dgilbert@redhat.com>
-In-Reply-To: <20200625162929.46672-1-dgilbert@redhat.com>
-References: <20200625162929.46672-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joUln-0003tL-Rw
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:30:35 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joUlm-0002mz-A9
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:30:35 -0400
+Received: by mail-oi1-x241.google.com with SMTP id w17so4784344oie.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 09:30:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SH5uWQM18zzBJk03lB86wlRTLsFrMGNi4yUPo/BbQA0=;
+ b=BNnl7G5p3VN8GrbIktkbS8TYXolmXv+QuvsQVkoy0mjC7qT1t1NLgCJWBnE1J+3GMl
+ 5WSbBylbuF+i+pGYHQLigdU1zWSri2f4qXb2MHv2yHifFg2BuHm5gfjXkZnO0uXauy3W
+ Wxt3zFCNh3c32RZtTytpqqbnOeR7uq5nSYnvBf2ZOhAF92CiCy59i8Do6OxhS8nesvi0
+ j8EMZFeMnYUqrAlpJPWz1mWcaGhM4hBJ/ZSfyPDArgvmGCWKm3w2EVs20LM7rsT+ofKB
+ epqrTaJR9HqF4j64eVlbiDox5Ia5WHFtr5vcwhhvgihHvIcI3xqMz1I6XF42AjvJ6K+Q
+ puvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SH5uWQM18zzBJk03lB86wlRTLsFrMGNi4yUPo/BbQA0=;
+ b=gmraG+7R9EC152FZcdF2Y5mQjnKt6bTd1zD/flZlqSdz47q070Gj35ybas5BY7l1VC
+ c/NCBq24L/Ig+O7c/je3jz+XeFS6xuRIMRxqTvhxGK7Mih51l9HptERAhX/PrvcOedTK
+ RXGIfAn7ysicWt2VOjfrgW+888+pMd4ZJMlvASQthaA/uz8jxCohnKgWLEN5pII3Px4h
+ Ok7XiFJmQWmk2AECN+90WuxzgekINrtMwN5k4ojS7GGXKC3XYfUoLQRWAHIQu/GG5s9L
+ 7p76ehCvRHRhg/5o45GxVomsOvO5SJNV/vnM3kAZ7knPSWAC7XX0n4a2ec1x9hkZFreD
+ o3cw==
+X-Gm-Message-State: AOAM5302qnpoo6hBzcR4XH3BlA635CjkLR5kHBEkeiM1lx58IDOWcxxA
+ jV3MLbdEQP8Qlh3Xx0r8kuD8rdx+/rkBejma8TCr9yKwXQQ=
+X-Google-Smtp-Source: ABdhPJy9Y/DYVxxut5fz3bi/1+pNP3N5iOIV987D67n8MhhVTc+7pdmdToZebI72GM0Gd1oOjrDmAwJFeJvr9BO1wTc=
+X-Received: by 2002:a54:4694:: with SMTP id k20mr2865797oic.146.1593102633270; 
+ Thu, 25 Jun 2020 09:30:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200605041733.415188-1-richard.henderson@linaro.org>
+ <20200605041733.415188-6-richard.henderson@linaro.org>
+In-Reply-To: <20200605041733.415188-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 25 Jun 2020 17:30:22 +0100
+Message-ID: <CAFEAcA-T+Vg-3Ruz_8avQrL0KULavP+UoM+RrAF_Y6=t-sZKwg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/17] bsd-user: Tidy VERIFY_READ/VERIFY_WRITE
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,154 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Fri, 5 Jun 2020 at 05:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These constants are only ever used with access_ok, and friends.
+> Rather than translating them to PAGE_* bits, let them equal
+> the PAGE_* bits to begin.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  bsd-user/qemu.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
-Allow capabilities to be added or removed from the allowed set for the
-daemon; e.g.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-default:
-CapPrm: 00000000880000df
-CapEff: 00000000880000df
+(We really should either get bsd-user up to speed and
+maintained or just delete it...)
 
--o modcaps=+sys_admin
-
-CapPrm: 00000000882000df
-CapEff: 00000000882000df
-
--o modcaps=+sys_admin:-chown
-
-CapPrm: 00000000882000de
-CapEff: 00000000882000de
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- docs/tools/virtiofsd.rst         |  5 ++++
- tools/virtiofsd/helper.c         |  2 ++
- tools/virtiofsd/passthrough_ll.c | 50 ++++++++++++++++++++++++++++++--
- 3 files changed, 55 insertions(+), 2 deletions(-)
-
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 378594c422..824e713491 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -54,6 +54,11 @@ Options
-   * flock|no_flock -
-     Enable/disable flock.  The default is ``no_flock``.
- 
-+  * modcaps=CAPLIST
-+    Modify the list of capabilities allowed; CAPLIST is a colon separated
-+    list of capabilities, each preceded by either + or -, e.g.
-+    ''+sys_admin:-chown''.
-+
-   * log_level=LEVEL -
-     Print only log messages matching LEVEL or more severe.  LEVEL is one of
-     ``err``, ``warn``, ``info``, or ``debug``.  The default is ``info``.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 00a1ef666a..3105b6c23a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -174,6 +174,8 @@ void fuse_cmdline_help(void)
-            "                               default: no_writeback\n"
-            "    -o xattr|no_xattr          enable/disable xattr\n"
-            "                               default: no_xattr\n"
-+           "    -o modcaps=CAPLIST         Modify the list of capabilities\n"
-+           "                               e.g. -o modcaps=+sys_admin:-chown\n"
-            "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
-            "                               (0 leaves rlimit unchanged)\n"
-            "                               default: min(1000000, fs.file-max - 16384)\n"
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 99d562046a..9d2cbc70ca 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -145,6 +145,7 @@ struct lo_data {
-     int posix_lock;
-     int xattr;
-     char *source;
-+    char *modcaps;
-     double timeout;
-     int cache;
-     int timeout_set;
-@@ -170,6 +171,7 @@ static const struct fuse_opt lo_opts[] = {
-     { "no_posix_lock", offsetof(struct lo_data, posix_lock), 0 },
-     { "xattr", offsetof(struct lo_data, xattr), 1 },
-     { "no_xattr", offsetof(struct lo_data, xattr), 0 },
-+    { "modcaps=%s", offsetof(struct lo_data, modcaps), 0 },
-     { "timeout=%lf", offsetof(struct lo_data, timeout), 0 },
-     { "timeout=", offsetof(struct lo_data, timeout_set), 1 },
-     { "cache=none", offsetof(struct lo_data, cache), CACHE_NONE },
-@@ -2571,7 +2573,7 @@ static void setup_mounts(const char *source)
- /*
-  * Only keep whitelisted capabilities that are needed for file system operation
-  */
--static void setup_capabilities(void)
-+static void setup_capabilities(struct lo_data *lo)
- {
-     pthread_mutex_lock(&cap.mutex);
-     capng_restore_state(&cap.saved);
-@@ -2604,6 +2606,50 @@ static void setup_capabilities(void)
-         exit(1);
-     }
- 
-+    /*
-+     * The modcaps option is a colon separated list of caps,
-+     * each preceded by either + or -.
-+     */
-+    while (lo->modcaps) {
-+        capng_act_t action;
-+        int cap;
-+
-+        char *next = strchr(lo->modcaps, ':');
-+        if (next) {
-+            *next = '\0';
-+            next++;
-+        }
-+
-+        switch (lo->modcaps[0]) {
-+        case '+':
-+            action = CAPNG_ADD;
-+            break;
-+
-+        case '-':
-+            action = CAPNG_DROP;
-+            break;
-+
-+        default:
-+            fuse_log(FUSE_LOG_ERR,
-+                     "%s: Expecting '+'/'-' in modcaps but found '%c'\n",
-+                     __func__, lo->modcaps[0]);
-+            exit(1);
-+        }
-+        cap = capng_name_to_capability(lo->modcaps + 1);
-+        if (cap < 0) {
-+            fuse_log(FUSE_LOG_ERR, "%s: Unknown capability '%s'\n", __func__,
-+                     lo->modcaps);
-+            exit(1);
-+        }
-+        if (capng_update(action, CAPNG_PERMITTED | CAPNG_EFFECTIVE, cap)) {
-+            fuse_log(FUSE_LOG_ERR, "%s: capng_update failed for '%s'\n",
-+                     __func__, lo->modcaps);
-+            exit(1);
-+        }
-+
-+        lo->modcaps = next;
-+    }
-+
-     if (capng_apply(CAPNG_SELECT_BOTH)) {
-         fuse_log(FUSE_LOG_ERR, "%s: capng_apply failed\n", __func__);
-         exit(1);
-@@ -2627,7 +2673,7 @@ static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
-     setup_namespaces(lo, se);
-     setup_mounts(lo->source);
-     setup_seccomp(enable_syslog);
--    setup_capabilities();
-+    setup_capabilities(lo);
- }
- 
- /* Set the maximum number of open file descriptors */
--- 
-2.26.2
-
+thanks
+-- PMM
 
