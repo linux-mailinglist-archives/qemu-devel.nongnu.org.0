@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432A220A209
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:35:57 +0200 (CEST)
-Received: from localhost ([::1]:38158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB3A20A227
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:38:38 +0200 (CEST)
+Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTuu-0005iQ-76
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37366)
+	id 1joTxV-0002Js-B1
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiU-0005nV-Fd
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47476
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiW-0005sR-UR
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30685
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiS-0000zQ-MM
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:06 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiU-00010s-P9
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098584;
+ s=mimecast20190719; t=1593098586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rlozvh1JefoYwHhG98f7k+4WjYRuc6ZDe5vc/mVckIQ=;
- b=REEk348EZ65plUlW6n3ZXXCiFhEaoJ/c1Zk1z+aTtPCY/2BSlXRc93e966QKUNcW9W7ize
- mO9d3o43PsoxBWsP9ae3qRj9+7R4jcc+3eHwqLb/UL9fJxud6LlEEps+bWozqDFNo9WUvp
- uKurTclkfn4rQKedgeU0LF2iNv7PHHk=
+ bh=7GdG7y/uVIjtA/pzRCXGa+y8uc64e6boF3Zk7jcxT44=;
+ b=EJSnR19mzGY+jGUoY0cj7IrBlfMWc21Z6D3P4G/J1lIyvdtWJCfNjxVk+MTuXpuM3KOYi6
+ /LGm4oVpOaVoDZpz4YdIKcRNHxP5o8QcVsXpzxBTj38hHKdTb4un1S+o2WfExM/bXUmwvD
+ 0l7otA8938zoMrdqf7RZ1l08BcXi7bU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-ZQbqtHwVOsqeR4XIABQghg-1; Thu, 25 Jun 2020 11:23:02 -0400
-X-MC-Unique: ZQbqtHwVOsqeR4XIABQghg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-403-dX8h4n6SMQ-qJoeN3JS1Wg-1; Thu, 25 Jun 2020 11:23:04 -0400
+X-MC-Unique: dX8h4n6SMQ-qJoeN3JS1Wg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C3B7800C60;
- Thu, 25 Jun 2020 15:23:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44104804002;
+ Thu, 25 Jun 2020 15:23:03 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A78365DAA0;
- Thu, 25 Jun 2020 15:23:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DECC460BE1;
+ Thu, 25 Jun 2020 15:23:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 19/47] vmdk: Drop vmdk_co_flush()
-Date: Thu, 25 Jun 2020 17:21:47 +0200
-Message-Id: <20200625152215.941773-20-mreitz@redhat.com>
+Subject: [PATCH v7 20/47] block: Iterate over children in refresh_limits
+Date: Thu, 25 Jun 2020 17:21:48 +0200
+Message-Id: <20200625152215.941773-21-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,50 +83,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before HEAD^, we needed this because bdrv_co_flush() by itself would
-only flush bs->file.  With HEAD^, bdrv_co_flush() will flush all
-children on which a WRITE or WRITE_UNCHANGED permission has been taken.
-Thus, vmdk no longer needs to do it itself.
+Instead of looking at just bs->file and bs->backing, we should look at
+all children that could end up receiving forwarded requests.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/vmdk.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ block/io.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 62da465126..a23890e6ec 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2802,21 +2802,6 @@ static void vmdk_close(BlockDriverState *bs)
-     error_free(s->migration_blocker);
- }
- 
--static coroutine_fn int vmdk_co_flush(BlockDriverState *bs)
--{
--    BDRVVmdkState *s = bs->opaque;
--    int i, err;
--    int ret = 0;
--
--    for (i = 0; i < s->num_extents; i++) {
--        err = bdrv_co_flush(s->extents[i].file->bs);
--        if (err < 0) {
--            ret = err;
--        }
--    }
--    return ret;
--}
--
- static int64_t vmdk_get_allocated_file_size(BlockDriverState *bs)
+diff --git a/block/io.c b/block/io.c
+index c2af7711d6..37057f13e0 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -135,6 +135,8 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
+ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp)
  {
-     int i;
-@@ -3075,7 +3060,6 @@ static BlockDriver bdrv_vmdk = {
-     .bdrv_close                   = vmdk_close,
-     .bdrv_co_create_opts          = vmdk_co_create_opts,
-     .bdrv_co_create               = vmdk_co_create,
--    .bdrv_co_flush_to_disk        = vmdk_co_flush,
-     .bdrv_co_block_status         = vmdk_co_block_status,
-     .bdrv_get_allocated_file_size = vmdk_get_allocated_file_size,
-     .bdrv_has_zero_init           = vmdk_has_zero_init,
+     BlockDriver *drv = bs->drv;
++    BdrvChild *c;
++    bool have_limits;
+     Error *local_err = NULL;
+ 
+     memset(&bs->bl, 0, sizeof(bs->bl));
+@@ -149,14 +151,21 @@ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp)
+                                 drv->bdrv_co_preadv_part) ? 1 : 512;
+ 
+     /* Take some limits from the children as a default */
+-    if (bs->file) {
+-        bdrv_refresh_limits(bs->file->bs, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
++    have_limits = false;
++    QLIST_FOREACH(c, &bs->children, next) {
++        if (c->role & (BDRV_CHILD_DATA | BDRV_CHILD_FILTERED | BDRV_CHILD_COW))
++        {
++            bdrv_refresh_limits(c->bs, &local_err);
++            if (local_err) {
++                error_propagate(errp, local_err);
++                return;
++            }
++            bdrv_merge_limits(&bs->bl, &c->bs->bl);
++            have_limits = true;
+         }
+-        bdrv_merge_limits(&bs->bl, &bs->file->bs->bl);
+-    } else {
++    }
++
++    if (!have_limits) {
+         bs->bl.min_mem_alignment = 512;
+         bs->bl.opt_mem_alignment = qemu_real_host_page_size;
+ 
+@@ -164,15 +173,6 @@ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp)
+         bs->bl.max_iov = IOV_MAX;
+     }
+ 
+-    if (bs->backing) {
+-        bdrv_refresh_limits(bs->backing->bs, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-        bdrv_merge_limits(&bs->bl, &bs->backing->bs->bl);
+-    }
+-
+     /* Then let the driver override it */
+     if (drv->bdrv_refresh_limits) {
+         drv->bdrv_refresh_limits(bs, errp);
 -- 
 2.26.2
 
