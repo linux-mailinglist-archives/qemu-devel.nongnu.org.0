@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483FA20A26E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:53:35 +0200 (CEST)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA8F20A267
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:52:11 +0200 (CEST)
+Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUBy-00005i-6O
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38348)
+	id 1joUAc-000602-QD
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjX-0007F0-Bk
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42211
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjW-0007Cq-Gd
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40738
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjT-0001dh-41
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:11 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjU-0001fp-2A
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:24:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098645;
+ s=mimecast20190719; t=1593098647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gOsCU0ZB3WqmX998CoRcC04iyDuhkn2FLcrzX97G6yI=;
- b=CUaRXi+5EVNpOiII+pmSw9bSzxtkxpRbJZUhSHDFuw0gdrYUR23u2xnLNGGm85qmenE24e
- CP0QUVannLS5KRxu/IU1hqpp8ZLLHHXxvpYuL74jAOv1LZm7EziYtELEsr7/oxTThZpxFp
- jhOMfbExTId+K0Z+2IbEAAYhj9dqh3E=
+ bh=px690KZXEVCO252pekmpFFy39zpeKmqhd0SmMuE62dc=;
+ b=JUEW0OCMXoRqSRj4n/pBbpkFgJ0ZkuqTZ+17i4EKuU4FOEsWQv5ix5GY17kILfK662xWhT
+ AyrBa06tVKQqpvRZHVUr2NDWmH4S514l0sOWw8/9HOqlg0iZiQzuSCjm5FiU268uCMY8go
+ lGtndGsEB6gVojyQTY7hF+2yfaMhppk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-LxlPylEuOlyp3Qgif0HbtQ-1; Thu, 25 Jun 2020 11:24:01 -0400
-X-MC-Unique: LxlPylEuOlyp3Qgif0HbtQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-381-mcU7tWIsNjObie9vJ_9h8g-1; Thu, 25 Jun 2020 11:24:04 -0400
+X-MC-Unique: mcU7tWIsNjObie9vJ_9h8g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B198F804002;
- Thu, 25 Jun 2020 15:24:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED29B804002;
+ Thu, 25 Jun 2020 15:24:02 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 543C21A913;
- Thu, 25 Jun 2020 15:24:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E9FE79334;
+ Thu, 25 Jun 2020 15:24:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 46/47] iotests: Add test for commit in sub directory
-Date: Thu, 25 Jun 2020 17:22:14 +0200
-Message-Id: <20200625152215.941773-47-mreitz@redhat.com>
+Subject: [PATCH v7 47/47] iotests: Test committing to overridden backing
+Date: Thu, 25 Jun 2020 17:22:15 +0200
+Message-Id: <20200625152215.941773-48-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -83,96 +83,96 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test for committing an overlay in a sub directory to one of the
-images in its backing chain, using both relative and absolute filenames.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/020     | 44 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/020.out | 10 +++++++++
- 2 files changed, 54 insertions(+)
+ tests/qemu-iotests/040     | 61 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/040.out |  4 +--
+ 2 files changed, 63 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/020 b/tests/qemu-iotests/020
-index 20f8f185d0..d5b5d34058 100755
---- a/tests/qemu-iotests/020
-+++ b/tests/qemu-iotests/020
-@@ -31,6 +31,11 @@ _cleanup()
-     _cleanup_test_img
-     _rm_test_img "$TEST_IMG.base"
-     _rm_test_img "$TEST_IMG.orig"
-+
-+    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT.base"
-+    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT.mid"
-+    _rm_test_img "$TEST_DIR/subdir/t.$IMGFMT"
-+    rmdir "$TEST_DIR/subdir" &> /dev/null
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index e7fa244738..dfd46ddcbe 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -890,6 +890,67 @@ class TestCommitWithFilters(iotests.QMPTestCase):
+         # 3 has been comitted into 2
+         self.pattern_files[3] = self.img2
  
-@@ -134,6 +139,45 @@ $QEMU_IO -c 'writev 0 64k' "$TEST_IMG" | _filter_qemu_io
- $QEMU_IMG commit "$TEST_IMG"
- _cleanup
++class TestCommitWithOverriddenBacking(iotests.QMPTestCase):
++    img_base_a = os.path.join(iotests.test_dir, 'base_a.img')
++    img_base_b = os.path.join(iotests.test_dir, 'base_b.img')
++    img_top = os.path.join(iotests.test_dir, 'top.img')
++
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, self.img_base_a, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, self.img_base_b, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, '-b', self.img_base_a, \
++                 self.img_top)
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++        # Use base_b instead of base_a as the backing of top
++        result = self.vm.qmp('blockdev-add', **{
++                                'node-name': 'top',
++                                'driver': iotests.imgfmt,
++                                'file': {
++                                    'driver': 'file',
++                                    'filename': self.img_top
++                                },
++                                'backing': {
++                                    'node-name': 'base',
++                                    'driver': iotests.imgfmt,
++                                    'file': {
++                                        'driver': 'file',
++                                        'filename': self.img_base_b
++                                    }
++                                }
++                            })
++        self.assert_qmp(result, 'return', {})
++
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(self.img_top)
++        os.remove(self.img_base_a)
++        os.remove(self.img_base_b)
++
++    def test_commit_to_a(self):
++        # Try committing to base_a (which should fail, as top's
++        # backing image is base_b instead)
++        result = self.vm.qmp('block-commit',
++                             job_id='commit',
++                             device='top',
++                             base=self.img_base_a)
++        self.assert_qmp(result, 'error/class', 'GenericError')
++
++    def test_commit_to_b(self):
++        # Try committing to base_b (which should work, since that is
++        # actually top's backing image)
++        result = self.vm.qmp('block-commit',
++                             job_id='commit',
++                             device='top',
++                             base=self.img_base_b)
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.event_wait('BLOCK_JOB_READY')
++        self.vm.qmp('block-job-complete', device='commit')
++        self.vm.event_wait('BLOCK_JOB_COMPLETED')
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2', 'qed'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
+index 4823c113d5..1bb1dc5f0e 100644
+--- a/tests/qemu-iotests/040.out
++++ b/tests/qemu-iotests/040.out
+@@ -1,5 +1,5 @@
+-...............................................................
++.................................................................
+ ----------------------------------------------------------------------
+-Ran 63 tests
++Ran 65 tests
  
-+
-+echo
-+echo 'Testing commit in sub-directory with relative filenames'
-+echo
-+
-+pushd "$TEST_DIR" > /dev/null
-+
-+mkdir subdir
-+
-+TEST_IMG="subdir/t.$IMGFMT.base" _make_test_img 1M
-+TEST_IMG="subdir/t.$IMGFMT.mid" _make_test_img -b "t.$IMGFMT.base"
-+TEST_IMG="subdir/t.$IMGFMT" _make_test_img -b "t.$IMGFMT.mid"
-+
-+# Should work
-+$QEMU_IMG commit -b "t.$IMGFMT.mid" "subdir/t.$IMGFMT"
-+
-+# Might theoretically work, but does not in practice (we have to
-+# decide between this and the above; and since we always represent
-+# backing file names as relative to the overlay, we go for the above)
-+$QEMU_IMG commit -b "subdir/t.$IMGFMT.mid" "subdir/t.$IMGFMT" 2>&1 | \
-+    _filter_imgfmt
-+
-+# This should work as well
-+$QEMU_IMG commit -b "$TEST_DIR/subdir/t.$IMGFMT.mid" "subdir/t.$IMGFMT"
-+
-+popd > /dev/null
-+
-+# Now let's try with just absolute filenames
-+# (This will not work with external data files, though, because when
-+# using relative paths for those, qemu will always resolve them
-+# relative to its CWD.  Therefore, it cannot find those data files now
-+# that we left $TEST_DIR.)
-+if _get_data_file '' > /dev/null; then
-+    echo 'Image committed.' # Skip test
-+else
-+    $QEMU_IMG commit -b "$TEST_DIR/subdir/t.$IMGFMT.mid" \
-+        "$TEST_DIR/subdir/t.$IMGFMT"
-+fi
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/020.out b/tests/qemu-iotests/020.out
-index 4b722b2dd0..228c37dded 100644
---- a/tests/qemu-iotests/020.out
-+++ b/tests/qemu-iotests/020.out
-@@ -1094,4 +1094,14 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=json:{'driv
- wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- qemu-img: Block job failed: No space left on device
-+
-+Testing commit in sub-directory with relative filenames
-+
-+Formatting 'subdir/t.IMGFMT.base', fmt=IMGFMT size=1048576
-+Formatting 'subdir/t.IMGFMT.mid', fmt=IMGFMT size=1048576 backing_file=t.IMGFMT.base
-+Formatting 'subdir/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=t.IMGFMT.mid
-+Image committed.
-+qemu-img: Did not find 'subdir/t.IMGFMT.mid' in the backing chain of 'subdir/t.IMGFMT'
-+Image committed.
-+Image committed.
- *** done
+ OK
 -- 
 2.26.2
 
