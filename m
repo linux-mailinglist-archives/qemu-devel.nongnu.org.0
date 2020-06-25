@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A02420A2EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:30:48 +0200 (CEST)
-Received: from localhost ([::1]:39226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A39020A2FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:32:32 +0200 (CEST)
+Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joUlz-0003QS-Ih
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1joUnf-0005II-E2
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joUkt-0002Xx-3H
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:39 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joUkr-0002SN-Id
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:38 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 72so5837099otc.3
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 09:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ddiux/sYQjnweRf6rcjF7Ygr1+nd2QQjo9m7w/+qT68=;
- b=p/lyoEpPTaiI1U47P1P1QLjWIRtOJANV1Z2K76EeuedCRb2ZtfY24lxikMes2T0GSy
- 2ui2ThTsvhBGFeBt1F/rbKzCq7zDy741+trUG5OmMX4eE1FZTpbb6lXAY1WiuCfuxsHT
- zt2GFEZEfqulOYMLjw/R2F3xo1YIhkohXgevtw6xOueVSOvf+hbRI1dOKaqFfNzEEJRC
- Sv6dfMN4DWt6NgUl7I8suVx8O4OLcvJMc9b9O8hJBIuS2iAHDKSBuph6f2C7yZm4nASg
- ii8k28U3oCA8zDuvxfRYBtLJjTZ/iGso1l5WZyFrBPcAXGnoOyx2MsYhGlF4j/2eLLu9
- 181g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ddiux/sYQjnweRf6rcjF7Ygr1+nd2QQjo9m7w/+qT68=;
- b=hEuNRRPhEHJAqyE/q1UssjEqAdMMmPosi9r2FIsONOcPM0zyLksv48MQa0MaRueeqy
- 9MqgVgZtFsYIWJZLFJc1VK/G293sabMOhohMOxFMuN8rVVAOaQzGuPJigopZELFHLt9A
- qU9THcv5ssK/oZOMXhCO0ysNDnyR+AqB/54GBswZC/q8g26K6+T1YqBbYQ0ImHpbbf5D
- yWCZbg/D3p9eqyKwMPqvdgehhKWvJA6wCxamjZ/3P9X0YUf4VLt26y5UyneLk8IGktpy
- WfGwqEY7ptJZHoqcLjkIjedkZbk1QAKH1RbyI8mmc6jJ5jjNnIFQgx4xpF6D9KrIgvK7
- GTWQ==
-X-Gm-Message-State: AOAM532GEsHrDESjjrq+rGVvOWVfhptuNmPR49SHJqimM1AJ8EPwT6f/
- Vxc8kveyU16fy0z88oF83nCCQ/HFbbAX0SwzxbkV/Q==
-X-Google-Smtp-Source: ABdhPJwqUHXliLrl9n7ke3HRaiTVy8ug62p5/yOBQIDQN53ioN8Vjj7lofbfboKpuwYI0NUUH6JNRu6X+8TCemhmoGI=
-X-Received: by 2002:a9d:67d6:: with SMTP id c22mr26297591otn.221.1593102576241; 
- Thu, 25 Jun 2020 09:29:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1joUkx-0002by-6Q
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26702
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1joUkv-0002T4-Ok
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:29:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593102580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sOtQM5TJzb7VVqS1nI//99VGQmQoX1T8jzpfYyOfcjw=;
+ b=HqCmDqkidVgY0v5UFcQAzD7OEtavkHhfg5bgo5s0lPjnEqOiqZglN1FRVwPNQEKGLBSxLs
+ Hp7c/dB+CbKXawkt3FYbEQL47nleknk52d0rC9k9pCTBEVivWzFd4xrZ1i20RzQvKEBTSX
+ IuMQ6ef0rOfW1e1xjhuEljjLzP9M7Xg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-NxIRuMs2Or-lWkA9ANxVow-1; Thu, 25 Jun 2020 12:29:38 -0400
+X-MC-Unique: NxIRuMs2Or-lWkA9ANxVow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3DAEEC1A3
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 16:29:37 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-254.ams2.redhat.com
+ [10.36.114.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 979761C8;
+ Thu, 25 Jun 2020 16:29:31 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
+ vgoyal@redhat.com
+Subject: [PATCH 0/3] virtiofsd capability changes and addition
+Date: Thu, 25 Jun 2020 17:29:26 +0100
+Message-Id: <20200625162929.46672-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20200605041733.415188-1-richard.henderson@linaro.org>
- <20200605041733.415188-5-richard.henderson@linaro.org>
-In-Reply-To: <20200605041733.415188-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 17:29:25 +0100
-Message-ID: <CAFEAcA9pYuqY5xB+z=3RxQmGRf0C7-bubsJiec5OprJ4goa6ZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/17] linux-user: Tidy VERIFY_READ/VERIFY_WRITE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Jun 2020 at 05:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These constants are only ever used with access_ok, and friends.
-> Rather than translating them to PAGE_* bits, let them equal
-> the PAGE_* bits to begin.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi,
+  This is a set of changes relating to the capability restirctions
+introduced in virtiofsd back in a59feb483b8.
 
-Side note: at some point we would ideally want to support
-syscalls that checked for write-access-only (ie some of
-our VERIFY_WRITE uses should really be VERIFY_READ_WRITE
-and some should be a true VERIFY_WRITE):
-https://bugs.launchpad.net/qemu/+bug/1779955
+The first one is a potentially important fix; the missing terminator
+could mean extra capabilities are added based on junk on the stack;
+although that's not been seen in practice.
 
-thanks
--- PMM
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+
+
+Dr. David Alan Gilbert (3):
+  virtiofsd: Terminate capability list
+  virtiofsd: Check capability calls
+  virtiofsd: Allow addition or removal of capabilities
+
+ docs/tools/virtiofsd.rst         |  5 +++
+ tools/virtiofsd/helper.c         |  2 +
+ tools/virtiofsd/passthrough_ll.c | 68 +++++++++++++++++++++++++++++---
+ 3 files changed, 70 insertions(+), 5 deletions(-)
+
+-- 
+2.26.2
+
 
