@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5BC209C79
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:06:07 +0200 (CEST)
-Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B41209C7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 12:07:50 +0200 (CEST)
+Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joOli-0000mR-7b
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58796)
+	id 1joOnN-0003LY-VP
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 06:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1joOkT-0007lr-3S
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1joOkR-0001Z5-5c
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:04:48 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05PA2vdY038031
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:46 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ux03csyn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:45 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05PA3Jvu038903
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:04:44 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31ux03csxf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jun 2020 06:04:44 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PA0ZcW009919;
- Thu, 25 Jun 2020 10:04:42 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 31uus51nj5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jun 2020 10:04:41 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05PA4dSL29294764
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Jun 2020 10:04:39 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9E4414203F;
- Thu, 25 Jun 2020 10:04:39 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5098D42049;
- Thu, 25 Jun 2020 10:04:39 +0000 (GMT)
-Received: from marcibm.ibmuc.com (unknown [9.145.42.231])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 25 Jun 2020 10:04:39 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: <qemu-devel@nongnu.org>
-Subject: [RFC 4/4] HACK: Hard-code the libvhost-user.o-cflags for s390x
-Date: Thu, 25 Jun 2020 12:04:30 +0200
-Message-Id: <20200625100430.22407-5-mhartmay@linux.ibm.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200625100430.22407-1-mhartmay@linux.ibm.com>
-References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joOmL-0002UB-1E
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:06:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25467
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joOmI-0002FT-LM
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 06:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593079601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cPM8hmQFimJ3RIWgoZeGaQYHU2Bgjbg+ZoiuxRT969A=;
+ b=MMZ6I5lIGMmJUZbOdzJI12LJe4v1loEdZLgNuDSWO/hbMg76f7i2R2EXzrn+vzgXTW946F
+ WY3sLvRzKl4L1+bdutASUqV1tY8J7QLgjA1Bq8sGcy2Kwg/FFNXY8LvlmECoIwVb87yn1y
+ v1Ls4wdNjF1hREqxCL8uBdBwxzhT3Hk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-5SuLjG8aNzihclL0Obnuxg-1; Thu, 25 Jun 2020 06:06:38 -0400
+X-MC-Unique: 5SuLjG8aNzihclL0Obnuxg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ECEF1800D4A;
+ Thu, 25 Jun 2020 10:06:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C10D5BACC;
+ Thu, 25 Jun 2020 10:06:31 +0000 (UTC)
+Subject: Re: [PULL 07/15] hw/timer: RX62N 8-Bit timer (TMR)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200621124807.17226-1-f4bug@amsat.org>
+ <20200621124807.17226-8-f4bug@amsat.org>
+ <CAFEAcA8c2dywr=Zxz1ExAV-48JwFU5vbBDDfA=_KE98XamnXiA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b0ed03f2-55b9-43a9-32fb-acd6637114cd@redhat.com>
+Date: Thu, 25 Jun 2020 12:06:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-25_04:2020-06-25,
- 2020-06-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 impostorscore=0 cotscore=-2147483648
- bulkscore=0 adultscore=0 mlxlogscore=799 mlxscore=0 priorityscore=1501
- spamscore=0 suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006250062
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 06:04:43
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+In-Reply-To: <CAFEAcA8c2dywr=Zxz1ExAV-48JwFU5vbBDDfA=_KE98XamnXiA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,54 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch exists only to show the actual problem that libvhost-user
-and it's users are architecture dependent as soon as we're trying to
-support legacy virtio.
+On 25/06/2020 11.25, Peter Maydell wrote:
+[...]
+>> +static uint64_t tmr_read(void *opaque, hwaddr addr, unsigned size)
+>> +{
+> 
+> In this function Coverity reports a missing "break" (CID 1429977):
+> 
+>> +    case A_TCORA:
+>> +        if (size == 1) {
+>> +            return tmr->tcora[ch];
+>> +        } else if (ch == 0) {
+>> +            return concat_reg(tmr->tcora);
+>> +        }
+> 
+> Here execution can fall through but there is no 'break' or '/* fallthrough */'.
 
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
----
- Makefile.objs                           | 1 +
- contrib/libvhost-user/libvhost-access.h | 7 +++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Should we maybe start compiling with -Wimplicit-fallthrough if the 
+compiler supports it, so that we do not always catch these problems 
+after they have been merged?
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 7ce2588b89a3..abfb1912e456 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -111,6 +111,7 @@ elf2dmp-obj-y = contrib/elf2dmp/
- ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
- ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
- libvhost-user-obj-y = contrib/libvhost-user/
-+libvhost-user.o-cflags += -iquote $(SRC_PATH)/s390x-softmmu -DNEED_CPU_H
- vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
- vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
- vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
-diff --git a/contrib/libvhost-user/libvhost-access.h b/contrib/libvhost-user/libvhost-access.h
-index a4fc334fe134..e9451ae0fbc6 100644
---- a/contrib/libvhost-user/libvhost-access.h
-+++ b/contrib/libvhost-user/libvhost-access.h
-@@ -5,10 +5,9 @@
- 
- #include "libvhost-user.h"
- 
--/* TODO attempt to use poisoned TARGET_PPC64/ARM */
--/* #if defined(TARGET_PPC64) || defined(TARGET_ARM) */
--/* #define LEGACY_VIRTIO_IS_BIENDIAN 1 */
--/* #endif */
-+#if defined(TARGET_PPC64) || defined(TARGET_ARM)
-+#define LEGACY_VIRTIO_IS_BIENDIAN 1
-+#endif
- 
- static inline bool vu_is_big_endian(VuDev *dev)
- {
--- 
-2.25.4
+  Thomas
 
 
