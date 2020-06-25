@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904AD20A257
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:47:51 +0200 (CEST)
-Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B96A20A27F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:59:04 +0200 (CEST)
+Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joU6O-0006VM-R5
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
+	id 1joUHH-0001oT-61
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjA-0006kh-Hb
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:48 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37876
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjF-0006m4-Ut
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59030
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTj8-0001Px-BG
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:48 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTjA-0001Qx-Ia
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098625;
+ s=mimecast20190719; t=1593098627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+IEs/J5V97t+K7qXqSnYOoZJv1OiExIbkpNL2hKSuJU=;
- b=OqGKHS9PnZL2yjVnAbiAlxYntu9/5o3T/4sk2VDyrY3GQwV5zJQLKtQgNrXMx/+VDDp2gY
- nJORgeXCzMFG7NFmzbNTiO53GVO6ZdqrQ3Til5skvtCtmW5en3SO3N9HqBz/y58VAaXRAR
- oA64fl4Oljf3kh6UjG8MQc7qZoxUrBw=
+ bh=eXRCbxWHdhFdTk379StqcMbCRmexSIRMFz/qo0e8ItE=;
+ b=AZndKzlKHmsaRcDHBBAGrwo3ZGVrkf0WUjcAMB61v5IlOC24GVkx3ZcJKUlAtkeCF8Scvw
+ rl2URCAoLLOG1r/7FF3LNpaH2ic9YZFiRD5HejU+eicwV++vtTEl8ADFeYZBjxlskmcLwv
+ tuTme2Bz7VcZUSwjjkA2zjlYFB918ls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-mqWUYolmMuaqDH1nTFhnHw-1; Thu, 25 Jun 2020 11:23:43 -0400
-X-MC-Unique: mqWUYolmMuaqDH1nTFhnHw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-443-xFmB7LR-MeaySYcHJMWDHg-1; Thu, 25 Jun 2020 11:23:46 -0400
+X-MC-Unique: xFmB7LR-MeaySYcHJMWDHg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D64C0464;
- Thu, 25 Jun 2020 15:23:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2E1B800C60;
+ Thu, 25 Jun 2020 15:23:44 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BD4E579A3;
- Thu, 25 Jun 2020 15:23:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96A721A913;
+ Thu, 25 Jun 2020 15:23:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 38/47] block: Drop backing_bs()
-Date: Thu, 25 Jun 2020 17:22:06 +0200
-Message-Id: <20200625152215.941773-39-mreitz@redhat.com>
+Subject: [PATCH v7 39/47] blockdev: Fix active commit choice
+Date: Thu, 25 Jun 2020 17:22:07 +0200
+Message-Id: <20200625152215.941773-40-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,32 +83,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to make it explicit where bs->backing is used, and we have done
-so.  The old role of backing_bs() is now effectively taken by
-bdrv_cow_bs().
+We have to perform an active commit whenever the top node has a parent
+that has taken the WRITE permission on it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h | 5 -----
- 1 file changed, 5 deletions(-)
+ blockdev.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index c963ee9f28..6e09e15ed4 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -991,11 +991,6 @@ typedef enum BlockMirrorBackingMode {
-     MIRROR_LEAVE_BACKING_CHAIN,
- } BlockMirrorBackingMode;
+diff --git a/blockdev.c b/blockdev.c
+index 402f1d1df1..237fffbe53 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2589,6 +2589,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     AioContext *aio_context;
+     Error *local_err = NULL;
+     int job_flags = JOB_DEFAULT;
++    uint64_t top_perm, top_shared;
  
--static inline BlockDriverState *backing_bs(BlockDriverState *bs)
--{
--    return bs->backing ? bs->backing->bs : NULL;
--}
--
+     if (!has_speed) {
+         speed = 0;
+@@ -2704,14 +2705,31 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+         goto out;
+     }
  
- /* Essential block drivers which must always be statically linked into qemu, and
-  * which therefore can be accessed without using bdrv_find_format() */
+-    if (top_bs == bs) {
++    /*
++     * Active commit is required if and only if someone has taken a
++     * WRITE permission on the top node.  Historically, we have always
++     * used active commit for top nodes, so continue that practice.
++     * (Active commit is never really wrong.)
++     */
++    bdrv_get_cumulative_perm(top_bs, &top_perm, &top_shared);
++    if (top_perm & BLK_PERM_WRITE ||
++        bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs))
++    {
+         if (has_backing_file) {
+             error_setg(errp, "'backing-file' specified,"
+                              " but 'top' is the active layer");
+             goto out;
+         }
+-        commit_active_start(has_job_id ? job_id : NULL, bs, base_bs,
+-                            job_flags, speed, on_error,
++        if (!has_job_id) {
++            /*
++             * Emulate here what block_job_create() does, because it
++             * is possible that @bs != @top_bs (the block job should
++             * be named after @bs, even if @top_bs is the actual
++             * source)
++             */
++            job_id = bdrv_get_device_name(bs);
++        }
++        commit_active_start(job_id, top_bs, base_bs, job_flags, speed, on_error,
+                             filter_node_name, NULL, NULL, false, &local_err);
+     } else {
+         BlockDriverState *overlay_bs = bdrv_find_overlay(bs, top_bs);
 -- 
 2.26.2
 
