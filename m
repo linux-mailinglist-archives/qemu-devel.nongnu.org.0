@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB15E209D63
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:18:46 +0200 (CEST)
-Received: from localhost ([::1]:59186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69D9209D66
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:24:02 +0200 (CEST)
+Received: from localhost ([::1]:35398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPu1-0000w0-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49668)
+	id 1joPz7-0003AR-FK
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPrQ-0006Zd-4Z
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:16:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36517
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joPyJ-0002eB-MN
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:23:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26168
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPrO-0002JJ-2C
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:16:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1joPyH-0000xq-7x
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:23:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593083761;
+ s=mimecast20190719; t=1593084187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0DrzI1IMuF4AtNbng8tPYbbFAhWtelJAGROYHFRugfo=;
- b=IGPxn1HqwgjoMDv7HuZMN3u3Pxt8vSosPV/Jf8pZ7qn0Tu+ePVfB8zae7p0KRHslMPXUS9
- OAli9nQlLwOrnaVG4yRYJhrMUfZ2PJ0FTiMN9O34DCvHYfPPc7aEVPJ0pMfaCb/MR67H+B
- ifHDgVJbAqy86AqWHO1LE1u77WpsZM4=
+ bh=Ms9xMXyJ/p3SIvZBXwWCr9FOYTVVX0kI6djFCTSlxFs=;
+ b=BJxQWTdX1PkL768joDilZ392cB8xRbboqm8J4s2DOnVSHM94rxTBbraM6n7Z2UjKbg7sHn
+ ZNrqO1y2cdeLjHH9VnzAhgV2OFehg5kmGeiM2/5wFpdwSRx5rKrZqWRGW7Tool8tc/T2Nk
+ vm8wdrVCzlQPf6i78c3ct5Xdd13/8oU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-kTA9YAE7MeWDLIHwNEseUQ-1; Thu, 25 Jun 2020 07:15:59 -0400
-X-MC-Unique: kTA9YAE7MeWDLIHwNEseUQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-465-kNpc7pMOP7qMbPJJ3w8Z0w-1; Thu, 25 Jun 2020 07:23:05 -0400
+X-MC-Unique: kNpc7pMOP7qMbPJJ3w8Z0w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF50107ACF3;
- Thu, 25 Jun 2020 11:15:58 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB64F7F49D;
- Thu, 25 Jun 2020 11:15:53 +0000 (UTC)
-Subject: Re: [PATCH RFC 0/3] gitlab: build containers to use in build jobs
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200622153318.751107-1-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <a08ca3b1-ddde-693b-60e0-cca9b0094721@redhat.com>
-Date: Thu, 25 Jun 2020 13:15:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E68380400B;
+ Thu, 25 Jun 2020 11:23:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5593C5D9E7;
+ Thu, 25 Jun 2020 11:23:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D692211384D4; Thu, 25 Jun 2020 13:23:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 02/46] error: Document Error API usage rules
+References: <20200624164344.3778251-1-armbru@redhat.com>
+ <20200624164344.3778251-3-armbru@redhat.com>
+ <db1af786-075d-b656-b280-d25ad34bbbe6@virtuozzo.com>
+Date: Thu, 25 Jun 2020 13:23:00 +0200
+In-Reply-To: <db1af786-075d-b656-b280-d25ad34bbbe6@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 25 Jun 2020 10:16:06 +0300")
+Message-ID: <87v9jf2xuz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200622153318.751107-1-berrange@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,58 +84,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Laszlo Ersek <lersek@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/2020 17.33, Daniel P. Berrangé wrote:
-> The current gitlab CI jobs are quite inefficient because they
-> use the generic distro images and then apt-get/dnf install
-> extra packages every time.
-> 
-> The other downside is that the container environment used is
-> only defined in thte .gitlab-ci.yml file, so it tedious to
-> reproduce locally.
-> 
-> We already have containers defined in tests/docker for use by
-> developers building locally. We can use these for CI systems
-> too if we just had a way to build them....
-> 
-> ...GitLab CI offers such a way. We can use docker-in-docker
-> to build the images at the start of the CI cycle, and use
-> the built images in later jobs.
-> 
-> These later jobs are now faster because they're not having
-> to install any software.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Did you see any speed-up? I had a look at some pipelines, and it seems 
-to me that they rather got slower now? For example, this is the system1 
-pipeline before your change:
+> 24.06.2020 19:43, Markus Armbruster wrote:
+>> This merely codifies existing practice, with one exception: the rule
+>> advising against returning void, where existing practice is mixed.
+>>
+>> When the Error API was created, we adopted the (unwritten) rule to
+>> return void when the function returns no useful value on success,
+>> unlike GError, which recommends to return true on success and false on
+>> error then.
+>>
+>> When a function returns a distinct error value, say false, a checked
+>> call that passes the error up looks like
+>>
+>>      if (!frobnicate(..., errp)) {
+>>          handle the error...
+>>      }
+>>
+>> When it returns void, we need
+>>
+>>      Error *err =3D NULL;
+>>
+>>      frobnicate(..., &err);
+>>      if (err) {
+>>          handle the error...
+>>          error_propagate(errp, err);
+>>      }
+>>
+>> Not only is this more verbose, it also creates an Error object even
+>> when @errp is null, &error_abort or &error_fatal.
+>>
+>> People got tired of the additional boilerplate, and started to ignore
+>> the unwritten rule.  The result is confusion among developers about
+>> the preferred usage.
+>>
+>> The written rule will hopefully reduce the confusion.
+>>
+>> The remainder of this series will update a substantial amount of code
+>> to honor the rule.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>   include/qapi/error.h | 26 ++++++++++++++++++++++++++
+>>   1 file changed, 26 insertions(+)
+>>
+>> diff --git a/include/qapi/error.h b/include/qapi/error.h
+>> index 1a5ea25e12..c3d84d610a 100644
+>> --- a/include/qapi/error.h
+>> +++ b/include/qapi/error.h
+>> @@ -15,6 +15,32 @@
+>>   /*
+>>    * Error reporting system loosely patterned after Glib's GError.
+>>    *
+>> + * Rules:
+>> + *
+>> + * - Functions that use Error to report errors have an Error **errp
+>> + *   parameter.  It should be the last parameter, except for functions
+>> + *   taking variable arguments.
+>> + *
+>> + * - You may pass NULL to not receive the error, &error_abort to abort
+>> + *   on error, &error_fatal to exit(1) on error, or a pointer to a
+>> + *   variable containing NULL to receive the error.
+>> + *
+>> + * - The value of @errp should not affect control flow.
+>
+> What do you mean? Incoming state of errp, or *errp after some call of ano=
+ther
+> function? Should we then update this paragraph, when introduce
+> ERRP_AUTO_PROPAGATE?
 
-  https://gitlab.com/huth/qemu/-/jobs/610924897
+The argument value passed for parameter @errp.
 
-and after your change:
+What I'm trying to express is that the function should remain oblivious
+of how the caller handles errors.  Do not check whether the argument is
+NULL, &error_abort, &error_fatal, or any other value.  It's best to
+treat @errp as write-only.
 
-  https://gitlab.com/huth/qemu/-/jobs/611069374
+I'm trying to strike a balance between clarity and brevity, without
+overspecifying what the function may do.  I tend to err on the side of
+brevity in function contracts.  I always hope reviewers will flag my
+errors :)  In short, I'm open to better ideas.
 
-Duration went up from 35 minutes to 42 minutes.
+GLib documentation, for comparison:
 
-Seems also to happen in your builds, before the change:
+    If NULL is passed for the GError** argument, then errors should not
+    be returned to the caller, but your function should still abort and
+    return if an error occurs. That is, control flow should not be
+    affected by whether the caller wants to get a GError.
 
-  https://gitlab.com/berrange/qemu/-/jobs/582995084
-
-and after the change:
-
-  https://gitlab.com/berrange/qemu/-/jobs/606175927
-
-... went from 36 minutes up to 42 minutes.
-
-Could be a coincidence due to the load on the shared runners, but it 
-looks at least a little bit suspicious...
-
-  Thomas
+>
+>> + *
+>> + * - On success, the function should not use @errp.  On failure, it
+>> + *   should set a new error, e.g. with error_setg(errp, ...), or
+>> + *   propagate an existing one, e.g. with error_propagate(errp, ...).
+>> + *
+>> + * - Whenever practical, also return a value that indicates success /
+>> + *   failure.  This can make the error checking more concise, and can
+>> + *   avoid useless error object creation and destruction.  Note that
+>> + *   we still have many functions returning void.  We recommend
+>> + *   =E2=80=A2 bool-valued functions return true on success / false on =
+failure,
+>> + *   =E2=80=A2 pointer-valued functions return non-null / null pointer,=
+ and
+>> + *   =E2=80=A2 integer-valued functions return non-negative / negative.
+>> + *
+>> + * How to:
+>> + *
+>>    * Create an error:
+>>    *     error_setg(errp, "situation normal, all fouled up");
+>>    *
+>>
 
 
