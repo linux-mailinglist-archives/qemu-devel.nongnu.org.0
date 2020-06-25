@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A3320A0E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 16:31:24 +0200 (CEST)
-Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1525F20A0E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 16:35:25 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joSuR-0007ys-86
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 10:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51400)
+	id 1joSyJ-0002Fu-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 10:35:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1joSt7-00072p-Ny
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 10:30:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54189
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1joSt4-0007Nw-DT
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 10:30:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593095396;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X81vk2oCUMoJ6a0YTN+RsvApetcAA/vijrZBeZk31m8=;
- b=aBz0CnWNmofmv9GaR+z9hZ1GtDto9UnQe6Ov33ndTqNcoVYkfEn3RbmdG50YELUilqO/2p
- 1qN4iq4/ExzEwIEm0LIQV6GQL8jwj0pq9fO/fcK4xFvTHHqx/jm3i/fYAd2iM1EnzwUosm
- os0Kt9DX1tBdK+zrx3IM5gKVcG4N8OI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-K-YZvm-dNiqJ2-C3TPGelQ-1; Thu, 25 Jun 2020 10:29:54 -0400
-X-MC-Unique: K-YZvm-dNiqJ2-C3TPGelQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5E80107ACCD;
- Thu, 25 Jun 2020 14:29:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0FA65C1D0;
- Thu, 25 Jun 2020 14:29:48 +0000 (UTC)
-Date: Thu, 25 Jun 2020 15:29:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH RFC 2/3] gitlab: build all container images during CI
-Message-ID: <20200625142945.GK1014704@redhat.com>
-References: <20200622153318.751107-1-berrange@redhat.com>
- <20200622153318.751107-3-berrange@redhat.com>
- <745e1e86-3042-7b7c-89c7-81eb9a8f7905@redhat.com>
- <20200625102457.GG1009994@redhat.com>
- <acfb1a3a-e18d-dc4e-e28a-35201bafad86@redhat.com>
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1joSxW-0001ov-2p
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 10:34:34 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1joSxT-00010a-Sy
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 10:34:33 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ef4b5e90000>; Thu, 25 Jun 2020 07:34:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 25 Jun 2020 07:34:29 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 25 Jun 2020 07:34:29 -0700
+Received: from [10.40.100.228] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 25 Jun
+ 2020 14:34:12 +0000
+Subject: Re: [PATCH QEMU v25 13/17] vfio: create mapped iova list when vIOMMU
+ is enabled
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
+ <1592684486-18511-14-git-send-email-kwankhede@nvidia.com>
+ <20200624125526.5488954c@x1.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <b0ee702d-02e5-4cd6-6dcc-047cfcb907b2@nvidia.com>
+Date: Thu, 25 Jun 2020 20:04:08 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-In-Reply-To: <acfb1a3a-e18d-dc4e-e28a-35201bafad86@redhat.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+In-Reply-To: <20200624125526.5488954c@x1.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1593095657; bh=iP8Add0LqUhTl0yLrmZt9VcOf6WSQ5YIHCkzPpTMaXY=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=TlU7ZDnHwYWcqr9mROht6f/VwkCvSNjQRuVIhMr7BWZU1LoBPDUaZkK5soMzhLWQT
+ J9AIht9DbKYZtN+uHx+Xmd/8ChvtcsBIERzSZe2dzSGr7FNL4lQTtnQiSWdrFSCGje
+ Lo3gFwEaPal/RqUb1WsysI4DnLn1oh8q7g5Nb6BXlMskL1VrhYn0+BmUiveYnSCbl6
+ HAzAcg9gd3rWPjWshLwuebDhWtPYZ9rlTAV/TS2L3Z2DtOwldiIaWEjq2k+DMDGF+T
+ K/mBAJsawfO8M/khxA3np4xp5zSerwzT7aMSrfI+bVMYNSEzEUIPB82282vdTCA7bC
+ zH1fR3IIECcBQ==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 10:34:30
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,119 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 25, 2020 at 03:25:19PM +0200, Thomas Huth wrote:
-> On 25/06/2020 12.24, Daniel P. Berrangé wrote:
-> > On Thu, Jun 25, 2020 at 12:14:33PM +0200, Thomas Huth wrote:
-> > > On 22/06/2020 17.33, Daniel P. Berrangé wrote:
-> > > > We have a number of container images in tests/docker/dockerfiles
-> > > > that are intended to provide well defined environments for doing
-> > > > test builds. We want our CI system to use these containers too.
-> > > > 
-> > > > This introduces builds of all of them as the first stage in the
-> > > > CI, so that the built containers are available for later build
-> > > > jobs. The containers are setup to use the GitLab container
-> > > > registry as the cache, so we only pay the penalty of the full
-> > > > build when the dockerfiles change. The main qemu-project/qemu
-> > > > repo is used as a second cache, so that users forking QEMU will
-> > > > see a fast turnaround time on their CI jobs.
-> > > > 
-> > > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > > ---
-> > > >    .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
-> > > >    .gitlab-ci.yml              |   3 +
-> > > >    2 files changed, 251 insertions(+)
-> > > >    create mode 100644 .gitlab-ci.d/containers.yml
-> > > > 
-> > > > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-> > > > new file mode 100644
-> > > > index 0000000000..ea1edbb196
-> > > > --- /dev/null
-> > > > +++ b/.gitlab-ci.d/containers.yml
-> > > > @@ -0,0 +1,248 @@
-> > > > +
-> > > > +
-> > > > +.container_job_template: &container_job_definition
-> > > > +  image: docker:stable
-> > > > +  stage: containers
-> > > > +  services:
-> > > > +    - docker:dind
-> > > > +  before_script:
-> > > > +    - export TAG="$CI_REGISTRY_IMAGE/ci-$NAME:latest"
-> > > > +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/ci-$NAME:latest"
-> > > > +    - docker info
-> > > > +    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-> > > > +  script:
-> > > > +    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-> > > > +    - sed -i -e "s,FROM qemu:,FROM $CI_REGISTRY_IMAGE/ci-," tests/docker/dockerfiles/$NAME.docker
-> > > > +    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
-> > > > +    - docker push "$TAG"
-> > > > +  after_script:
-> > > > +    - docker logout
-> > > 
-> > > .gitlab-ci.d/edk2.yml uses a "changes" rule to only run the pipeline if
-> > > something really has been changed. Could you use something similar here?
-> > > E.g.:
-> > > 
-> > > rules:
-> > >   - changes:
-> > >     - .gitlab-ci.d/containers.yml
-> > >     - tests/docker/*
-> > >     - tests/docker/dockerfiles/*
-> > > 
-> > > ?
-> > 
-> > If the OS distro base image changes, we'll never pick it up with that
-> > kind of filtering.  For the main gitlab.com/qemu-project/qemu  you
-> > could configure a nightly/weekly/whatever job to force rebuild on a
-> > periodic basis to pick up base image changes.  The downside of this
-> > is that any users who fork qemu won't have that periodic job and so
-> > will be testing their work against potentially outdated content.
-> > 
-> > Having said all that, I'm not 100% convinced I'm actually picking
-> > up changed base images right now anyway, given our use of caching.
-> > 
-> > It is possible that I would need todo an explict "docker pull" of
-> > the base image to force it to trigger a refresh othrewise I have
-> > a feeling we're always cached.
+
+
+On 6/25/2020 12:25 AM, Alex Williamson wrote:
+> On Sun, 21 Jun 2020 01:51:22 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
 > 
-> But currently, each of the container stages currently takes > 2 minutes,
-> even with the cached containers. I had a quick look, and it takes 7 minutes
-> 'till the "build" stage begins. So all the advantages of not having to do
-> "yum/apt-get install" in the build containers anymore seem to be crushed by
-> the time that the three container stages take now?
+>> Create mapped iova list when vIOMMU is enabled. For each mapped iova
+>> save translated address. Add node to list on MAP and remove node from
+>> list on UNMAP.
+>> This list is used to track dirty pages during migration.
+> 
+> This seems like a lot of overhead to support that the VM might migrate.
+> Is there no way we can build this when we start migration, for example
+> replaying the mappings at that time?  Thanks,
+> 
 
-That's still not an apples/apples comparison though. The containers have
-many mre packages installed and so test more features. Add all those extra
-packages into the original apt-get/dnf commands and then compare times.
+In my previous version I tried to go through whole range and find valid 
+iotlb, as below:
 
-I do agree though that I don't much like the 3 containers stages. I set
-them up so they would parallelize. ie stage 2 can start without waiting
-for entire of stage 1 to finish - only the parent container needs to
-finish. The builds stage still waits for all the containers to complete.
++        if (memory_region_is_iommu(section->mr)) {
++            iotlb = address_space_get_iotlb_entry(container->space->as, 
+iova,
++                                                 true, 
+MEMTXATTRS_UNSPECIFIED);
 
-We could do similar optimize for the actual build jobs, so they don't have
-to wait for all containers to finish - they only need wait for their own
-required container to finish.
+When mapping doesn't exist, qemu throws error as below:
 
-Ultimately it might be a better tradeoff to not have inheritance between
-the containers, and instead just duplicate the common packages in each.
-This leads to bigger container images, but simpler builds. Libvirt went
-this way for its cross compiler images, just duplicating the shared parts
-in each.
+qemu-system-x86_64: vtd_iova_to_slpte: detected slpte permission error 
+(iova=0x0, level=0x3, slpte=0x0, write=1)
+qemu-system-x86_64: vtd_iommu_translate: detected translation failure 
+(dev=00:03:00, iova=0x0)
+qemu-system-x86_64: New fault is not recorded due to compression of faults
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Secondly, it iterates through whole range with IOMMU page size 
+granularity which is 4K, so it takes long time resulting in large 
+downtime. With this optimization, downtime with vIOMMU reduced 
+significantly.
 
+Other option I will try if I can check that if migration is supported 
+then only create this list.
+
+Thanks,
+Kirti
 
