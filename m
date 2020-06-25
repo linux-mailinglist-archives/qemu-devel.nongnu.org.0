@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E18920A1ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:28:43 +0200 (CEST)
-Received: from localhost ([::1]:40684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32A120A1F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:31:21 +0200 (CEST)
+Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTnu-0003Kt-B5
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37152)
+	id 1joTqS-0006cU-LD
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiF-0005bD-NY
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiE-0005as-60
  for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23557
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58123
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiD-0000kq-21
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:51 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiB-0000kF-HW
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098568;
+ s=mimecast20190719; t=1593098566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RLFNTP6hPrIGk+fLU8DhCedPvZOQsvKQ/8DHyYcy8dc=;
- b=fSdu1vHmpTFcJskS/jqNd/3V5ElwiO+VmlirotTBJVqz9kKAyoOOBuWKWbn/UU+baaGTwm
- KYY4TsI26PxD80doe5+lPPUM8kNJso2uBN4ji7L9wdiUxskGTz9G3bddyAR3eujmHG+KP6
- lKX+y2WueDHWbfMVubiCre/xMnvvL/I=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/WZmL2Joxor7HYuLRHzoNFWWzAN09lJG95MdJlcxD7k=;
+ b=U803/jW5e+ToEvhrn76GxcWA+r8zAcTSacbPqff5OQ3/CnglOUJwabFa69NjXoCyZ8uWmB
+ laGtXJQOoFrP718SrjUFt9q94gc6h+4UjoUuKMHvTrVwGzPBHvnajbaSjRd8Y9LGBL8GxX
+ rzIIoDasdXzrJQIWuQskSNEpvgFNjyQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-_zaTl9X3PGedNEoCucYrxA-1; Thu, 25 Jun 2020 11:22:46 -0400
-X-MC-Unique: _zaTl9X3PGedNEoCucYrxA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-8-IsdbFXTsOz6trisVRp4DCQ-1; Thu, 25 Jun 2020 11:22:18 -0400
+X-MC-Unique: IsdbFXTsOz6trisVRp4DCQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD3601005512;
- Thu, 25 Jun 2020 15:22:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFE6B800C64;
+ Thu, 25 Jun 2020 15:22:17 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BDA45C296;
- Thu, 25 Jun 2020 15:22:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2754011A9D8;
+ Thu, 25 Jun 2020 15:22:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 12/47] block: Use bdrv_filter_(bs|child) where obvious
-Date: Thu, 25 Jun 2020 17:21:40 +0200
-Message-Id: <20200625152215.941773-13-mreitz@redhat.com>
-In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
-References: <20200625152215.941773-1-mreitz@redhat.com>
+Subject: [PATCH v7 00/47] block: Deal with filters
+Date: Thu, 25 Jun 2020 17:21:28 +0200
+Message-Id: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,169 +82,336 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Places that use patterns like
+v6: https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg01715.html
 
-    if (bs->drv->is_filter && bs->file) {
-        ... something about bs->file->bs ...
-    }
+Branch: https://github.com/XanClic/qemu.git child-access-functions-v7
+Branch: https://git.xanclic.moe/XanClic/qemu.git child-access-functions-v7
 
-should be
 
-    BlockDriverState *filtered = bdrv_filter_bs(bs);
-    if (filtered) {
-        ... something about @filtered ...
-    }
+Hello!
 
-instead.
+This is v7.  Conceptually, not much has changed, so please follow the
+above link to v6’s cover letter if you’re looking for an introduction
+to this series.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block.c                        | 31 ++++++++++++++++++++-----------
- block/io.c                     |  7 +++++--
- migration/block-dirty-bitmap.c |  8 +-------
- 3 files changed, 26 insertions(+), 20 deletions(-)
+I did say that conceptually, not much has changed, but from a diff
+standpoint, a lot has changed all over this series.
 
-diff --git a/block.c b/block.c
-index 6449f3a11d..a44af9c3c1 100644
---- a/block.c
-+++ b/block.c
-@@ -710,11 +710,12 @@ int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
- int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *filtered = bdrv_filter_bs(bs);
- 
-     if (drv && drv->bdrv_probe_blocksizes) {
-         return drv->bdrv_probe_blocksizes(bs, bsz);
--    } else if (drv && drv->is_filter && bs->file) {
--        return bdrv_probe_blocksizes(bs->file->bs, bsz);
-+    } else if (filtered) {
-+        return bdrv_probe_blocksizes(filtered, bsz);
-     }
- 
-     return -ENOTSUP;
-@@ -729,11 +730,12 @@ int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
- int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *filtered = bdrv_filter_bs(bs);
- 
-     if (drv && drv->bdrv_probe_geometry) {
-         return drv->bdrv_probe_geometry(bs, geo);
--    } else if (drv && drv->is_filter && bs->file) {
--        return bdrv_probe_geometry(bs->file->bs, geo);
-+    } else if (filtered) {
-+        return bdrv_probe_geometry(filtered, geo);
-     }
- 
-     return -ENOTSUP;
-@@ -5421,6 +5423,8 @@ int bdrv_has_zero_init_1(BlockDriverState *bs)
- 
- int bdrv_has_zero_init(BlockDriverState *bs)
- {
-+    BlockDriverState *filtered;
-+
-     if (!bs->drv) {
-         return 0;
-     }
-@@ -5433,8 +5437,10 @@ int bdrv_has_zero_init(BlockDriverState *bs)
-     if (bs->drv->bdrv_has_zero_init) {
-         return bs->drv->bdrv_has_zero_init(bs);
-     }
--    if (bs->file && bs->drv->is_filter) {
--        return bdrv_has_zero_init(bs->file->bs);
-+
-+    filtered = bdrv_filter_bs(bs);
-+    if (filtered) {
-+        return bdrv_has_zero_init(filtered);
-     }
- 
-     /* safe default */
-@@ -5479,8 +5485,9 @@ int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-         return -ENOMEDIUM;
-     }
-     if (!drv->bdrv_get_info) {
--        if (bs->file && drv->is_filter) {
--            return bdrv_get_info(bs->file->bs, bdi);
-+        BlockDriverState *filtered = bdrv_filter_bs(bs);
-+        if (filtered) {
-+            return bdrv_get_info(filtered, bdi);
-         }
-         return -ENOTSUP;
-     }
-@@ -6546,6 +6553,8 @@ int bdrv_amend_options(BlockDriverState *bs, QemuOpts *opts,
- bool bdrv_recurse_can_replace(BlockDriverState *bs,
-                               BlockDriverState *to_replace)
- {
-+    BlockDriverState *filtered;
-+
-     if (!bs || !bs->drv) {
-         return false;
-     }
-@@ -6560,9 +6569,9 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs,
-     }
- 
-     /* For filters without an own implementation, we can recurse on our own */
--    if (bs->drv->is_filter) {
--        BdrvChild *child = bs->file ?: bs->backing;
--        return bdrv_recurse_can_replace(child->bs, to_replace);
-+    filtered = bdrv_filter_bs(bs);
-+    if (filtered) {
-+        return bdrv_recurse_can_replace(filtered, to_replace);
-     }
- 
-     /* Safe default */
-diff --git a/block/io.c b/block/io.c
-index df8f2a98d4..385176b331 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3307,6 +3307,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-                                   Error **errp)
- {
-     BlockDriverState *bs = child->bs;
-+    BdrvChild *filtered;
-     BlockDriver *drv = bs->drv;
-     BdrvTrackedRequest req;
-     int64_t old_size, new_bytes;
-@@ -3358,6 +3359,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-         goto out;
-     }
- 
-+    filtered = bdrv_filter_child(bs);
-+
-     /*
-      * If the image has a backing file that is large enough that it would
-      * provide data for the new area, we cannot leave it unallocated because
-@@ -3390,8 +3393,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-             goto out;
-         }
-         ret = drv->bdrv_co_truncate(bs, offset, exact, prealloc, flags, errp);
--    } else if (bs->file && drv->is_filter) {
--        ret = bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp);
-+    } else if (filtered) {
-+        ret = bdrv_co_truncate(filtered, offset, exact, prealloc, flags, errp);
-     } else {
-         error_setg(errp, "Image format driver does not support resize");
-         ret = -ENOTSUP;
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 47bc0f650c..dec656c074 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -356,13 +356,7 @@ static int init_dirty_bitmap_migration(void)
-         while (bs && bs->drv && bs->drv->is_filter &&
-                !bdrv_has_named_bitmaps(bs))
-         {
--            if (bs->backing) {
--                bs = bs->backing->bs;
--            } else if (bs->file) {
--                bs = bs->file->bs;
--            } else {
--                bs = NULL;
--            }
-+            bs = bdrv_filter_bs(bs);
-         }
- 
-         if (bs && bs->drv && !bs->drv->is_filter) {
+
+Changes from v6:
+- Patch 1:
+  - More elaborate explanation of .is_filter
+  - Changed function names
+  - Dropped bdrv_storage_child() and bdrv_metadata_child()
+  - Some checking of the BdrvChildRole
+
+- Patch 2:
+  - Mostly changes resulting from the different naming scheme
+
+- Patch 3: New
+
+- Patch 5:
+  - Don’t rename those functions
+  - Don’t drop a comment that shouldn’t be dropped
+
+- Patch 7:
+  - Use block_driver_can_compress()
+  - Move setting @filtered down where it’s needed
+
+- Patches 10 and 11: New (extension of 8 and 9)
+
+- Patch 12:
+  - Function name changes
+  - More cases:
+    - bdrv_recurse_can_replace()
+    - init_dirty_bitmap_migration()
+  - bdrv_co_truncate() has changed
+
+- Patch 13:
+  - Function name changes
+
+- Patch 14:
+  - Variables renamed to be more consistent with the rest of this series
+  - Function name changes
+  - The freeze backing chain functions haven’t been renamed
+  - STREAM_BUFFER_SIZE is STREAM_CHUNK as of some point last year
+  - Fix overlay finding (e.g. handle when @base is not in the device’s
+    backing chain)
+
+- Patch 15:
+  - Added note to the commit message that bdrv_find_overlay()’s behavior
+    changes a bit
+  - Function name changes
+  - Restructured bdrv_find_backing_image() loop a bit
+
+- Patch 16: New (became necessary because of truncate having to look at
+            the backing file as of 955c7d6687fefcd903900)
+
+- Patch 17:
+  - Function name changes
+  - The freeze backing chain functions haven’t been renamed
+
+- Patch 18:
+  - Only flush children for which the parent has taken the WRITE
+    permission
+  - Mention that this is a bug fix for qcow2
+
+- Patch 19: New
+
+- Patch 20: New, replaces “block: Use CAFs in bdrv_refresh_limits()”
+
+- Patch 23:
+  - We can only really fall back to bs->file or bs->backing, so stop
+    pretending otherwise
+
+- Patch 24:
+  - Rebase conflicts
+
+- Patches 25, 26, 27, and 28: New, they replace “block: Fix
+  bdrv_get_allocated_file_size's fallback”
+
+- Patch 29:
+  - Function name changes
+
+- Patch 30: New, split out from the next patch
+
+- Patch 31:
+  - Function name changes
+  - bdrv_skip_implicit_filters() can deal with NULL arguments, so don’t
+    wrap it in an “if (bs) {}” block
+  - For bdrv_query_bds_stats(), the bs->file part has been split into
+    the preceding patch (patch 30)
+  - Addional actual-size line in the iotest output thanks to patch 28
+
+- Patch 32: New
+
+- Patch 33:
+  - Additional note in the QAPI documentation concerning @replaces (that
+    by default, the first non-implicit node on @device is replaced)
+    - Move that skippage of implicit nodes to blockdev_mirror_common()
+      (from qmp_drive_mirror() and qmp_blockdev_mirror())
+  - Function name changes
+  - Rename s/source/target_backing_bs/ in qmp_drive_mirror(), because
+    that’s better
+  - Don’t disallow mirroring through filters with sync=top
+
+- Patch 34:
+  - Function name changes
+  - There is backup-top.c to care about, too, now
+
+- Patch 35:
+  - Function name changes
+  - Call bdrv_commit() even for nodes that do not have backing files so
+    we get an error
+  - s/above_base/base_overlay/
+
+- Patch 36:
+  - Function name changes
+
+- Patch 37:
+  - Function name changes
+  - In img_convert(), when inquiring target_backing_sectors, use
+    bdrv_backing_chain_next() instead of bdrv_cow_bs() (because @out_bs
+    may be a filter)
+  - Forgot to use the backing file of @unfiltered_bs for
+    bdrv_is_allocated_above() in img_rebase() (instead of @unfiltered_bs
+    itself), fixed
+
+- Patch 39:
+  - Function name changes
+
+- Patch 40:
+  - Function name changes
+  - There are backup-top and filter-compress now
+
+- Patch 41:
+  - Make bdrv_backing_overridden() globally available, so block/qapi.c
+    can use it to determine whether we can inquire bs->backing’s format
+    to get the backing_format
+  - Function name changes
+
+- Patch 42: New
+
+- Patch 43:
+  - Rebase conflicts
+
+- Patch 44:
+  - Create a dedicated do_test_io() function
+  - Don’t unnecessarily clear and pass has_quit
+  - Drop assert_no_active_block_jobs() that does very little
+  - Additional graph constraint check
+  - Rebase conflict in the reference output
+
+- Patch 45:
+  - Rebase conflict in the reference output
+
+- Patch 46:
+  - Use _rm_test_img rather than rm -f
+  - Skip one of the test cases when IMGOPTS asks for a data_file
+
+- Patch 47:
+  - Rebase conflict in the reference output
+
+
+Patches removed:
+- The whole check_to_replace_node() stuff for mirror (was its own
+  series)
+
+- Making bdrv_get_cumulative_perm() public, because it already was
+
+- bdrv_storage_child() (was replaced by child roles)
+
+
+git-backport-diff against v6:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/47:[0126] [FC] 'block: Add child access functions'
+002/47:[0032] [FC] 'block: Add chain helper functions'
+003/47:[down] 'block: bdrv_cow_child() for bdrv_has_zero_init()'
+004/47:[----] [-C] 'block: bdrv_set_backing_hd() is about bs->backing'
+005/47:[0067] [FC] 'block: Include filters when freezing backing chain'
+006/47:[----] [--] 'block: Drop bdrv_is_encrypted()'
+007/47:[0005] [FC] 'block: Add bdrv_supports_compressed_writes()'
+008/47:[----] [-C] 'throttle: Support compressed writes'
+009/47:[----] [--] 'copy-on-read: Support compressed writes'
+010/47:[down] 'mirror-top: Support compressed writes'
+011/47:[down] 'backup-top: Support compressed writes'
+012/47:[0036] [FC] 'block: Use bdrv_filtered_rw* where obvious'
+013/47:[0010] [FC] 'block: Use CAFs in block status functions'
+014/47:[0079] [FC] 'stream: Deal with filters'
+015/47:[0015] [FC] 'block: Use CAFs when working with backing chains'
+016/47:[down] 'block: Use bdrv_cow_child() in bdrv_co_truncate()'
+017/47:[0019] [FC] 'block: Re-evaluate backing file handling in reopen'
+018/47:[0010] [FC] 'block: Flush all children in generic code'
+019/47:[down] 'vmdk: Drop vmdk_co_flush()'
+020/47:[down] 'block: Iterate over children in refresh_limits'
+021/47:[----] [--] 'block: Use CAFs in bdrv_refresh_filename()'
+022/47:[----] [--] 'block: Use CAF in bdrv_co_rw_vmstate()'
+023/47:[0094] [FC] 'block/snapshot: Fix fallback'
+024/47:[0014] [FC] 'block: Use CAFs for debug breakpoints'
+025/47:[down] 'block: Def. impl.s for get_allocated_file_size'
+026/47:[down] 'block: Improve get_allocated_file_size's default'
+027/47:[down] 'blkverify: Use bdrv_sum_allocated_file_size()'
+028/47:[down] 'block/null: Implement bdrv_get_allocated_file_size'
+029/47:[0002] [FC] 'blockdev: Use CAF in external_snapshot_prepare()'
+030/47:[down] 'block: Report data child for query-blockstats'
+031/47:[0031] [FC] 'block: Use child access functions for QAPI queries'
+032/47:[down] 'block-copy: Use CAF to find sync=top base'
+033/47:[0086] [FC] 'mirror: Deal with filters'
+034/47:[0006] [FC] 'backup: Deal with filters'
+035/47:[0035] [FC] 'commit: Deal with filters'
+036/47:[0002] [FC] 'nbd: Use CAF when looking for dirty bitmap'
+037/47:[0017] [FC] 'qemu-img: Use child access functions'
+038/47:[----] [--] 'block: Drop backing_bs()'
+039/47:[0002] [FC] 'blockdev: Fix active commit choice'
+040/47:[0009] [FC] 'block: Inline bdrv_co_block_status_from_*()'
+041/47:[0019] [FC] 'block: Leave BDS.backing_file constant'
+042/47:[down] 'iotests: Test that qcow2's data-file is flushed'
+043/47:[0016] [FC] 'iotests: Let complete_and_wait() work with commit'
+044/47:[0042] [FC] 'iotests: Add filter commit test cases'
+045/47:[0008] [FC] 'iotests: Add filter mirror test cases'
+046/47:[0018] [FC] 'iotests: Add test for commit in sub directory'
+047/47:[0008] [FC] 'iotests: Test committing to overridden backing'
+
+
+Max Reitz (47):
+  block: Add child access functions
+  block: Add chain helper functions
+  block: bdrv_cow_child() for bdrv_has_zero_init()
+  block: bdrv_set_backing_hd() is about bs->backing
+  block: Include filters when freezing backing chain
+  block: Drop bdrv_is_encrypted()
+  block: Add bdrv_supports_compressed_writes()
+  throttle: Support compressed writes
+  copy-on-read: Support compressed writes
+  mirror-top: Support compressed writes
+  backup-top: Support compressed writes
+  block: Use bdrv_filter_(bs|child) where obvious
+  block: Use CAFs in block status functions
+  stream: Deal with filters
+  block: Use CAFs when working with backing chains
+  block: Use bdrv_cow_child() in bdrv_co_truncate()
+  block: Re-evaluate backing file handling in reopen
+  block: Flush all children in generic code
+  vmdk: Drop vmdk_co_flush()
+  block: Iterate over children in refresh_limits
+  block: Use CAFs in bdrv_refresh_filename()
+  block: Use CAF in bdrv_co_rw_vmstate()
+  block/snapshot: Fix fallback
+  block: Use CAFs for debug breakpoints
+  block: Def. impl.s for get_allocated_file_size
+  block: Improve get_allocated_file_size's default
+  blkverify: Use bdrv_sum_allocated_file_size()
+  block/null: Implement bdrv_get_allocated_file_size
+  blockdev: Use CAF in external_snapshot_prepare()
+  block: Report data child for query-blockstats
+  block: Use child access functions for QAPI queries
+  block-copy: Use CAF to find sync=top base
+  mirror: Deal with filters
+  backup: Deal with filters
+  commit: Deal with filters
+  nbd: Use CAF when looking for dirty bitmap
+  qemu-img: Use child access functions
+  block: Drop backing_bs()
+  blockdev: Fix active commit choice
+  block: Inline bdrv_co_block_status_from_*()
+  block: Leave BDS.backing_file constant
+  iotests: Test that qcow2's data-file is flushed
+  iotests: Let complete_and_wait() work with commit
+  iotests: Add filter commit test cases
+  iotests: Add filter mirror test cases
+  iotests: Add test for commit in sub directory
+  iotests: Test committing to overridden backing
+
+ qapi/block-core.json           |  10 +-
+ include/block/block.h          |   2 +-
+ include/block/block_int.h      |  99 ++++---
+ block.c                        | 500 +++++++++++++++++++++++++++------
+ block/backup-top.c             |  14 +-
+ block/backup.c                 |   9 +-
+ block/blkdebug.c               |   7 +-
+ block/blklogwrites.c           |   1 -
+ block/blkverify.c              |   1 +
+ block/block-backend.c          |   9 +-
+ block/block-copy.c             |   4 +-
+ block/commit.c                 |  97 +++++--
+ block/copy-on-read.c           |  13 +-
+ block/filter-compress.c        |   2 -
+ block/io.c                     | 142 +++++-----
+ block/mirror.c                 | 129 +++++++--
+ block/monitor/block-hmp-cmds.c |   2 +-
+ block/null.c                   |   7 +
+ block/qapi.c                   |  83 ++++--
+ block/snapshot.c               | 104 +++++--
+ block/stream.c                 |  63 +++--
+ block/throttle.c               |  11 +-
+ block/vmdk.c                   |  16 --
+ blockdev.c                     |  94 +++++--
+ migration/block-dirty-bitmap.c |   8 +-
+ nbd/server.c                   |   6 +-
+ qemu-img.c                     |  36 ++-
+ tests/qemu-iotests/020         |  44 +++
+ tests/qemu-iotests/020.out     |  10 +
+ tests/qemu-iotests/040         | 238 ++++++++++++++++
+ tests/qemu-iotests/040.out     |   4 +-
+ tests/qemu-iotests/041         | 146 +++++++++-
+ tests/qemu-iotests/041.out     |   4 +-
+ tests/qemu-iotests/153.out     |   2 +-
+ tests/qemu-iotests/184.out     |  14 +-
+ tests/qemu-iotests/204.out     |   1 +
+ tests/qemu-iotests/228         |   6 +-
+ tests/qemu-iotests/228.out     |   6 +-
+ tests/qemu-iotests/244         |  49 ++++
+ tests/qemu-iotests/244.out     |   7 +
+ tests/qemu-iotests/245         |   4 +-
+ tests/qemu-iotests/iotests.py  |  10 +-
+ 42 files changed, 1602 insertions(+), 412 deletions(-)
+
 -- 
 2.26.2
 
