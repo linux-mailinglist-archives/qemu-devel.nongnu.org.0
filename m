@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEEE209D50
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:13:58 +0200 (CEST)
-Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7D3209D49
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 13:12:26 +0200 (CEST)
+Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joPpN-0001HN-PK
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:13:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47894)
+	id 1joPnt-0007w0-VX
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 07:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1joPke-0004GE-Lm; Thu, 25 Jun 2020 07:09:05 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:38792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1joPkb-00085R-GA; Thu, 25 Jun 2020 07:09:03 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 32C77BF432;
- Thu, 25 Jun 2020 11:08:58 +0000 (UTC)
-Date: Thu, 25 Jun 2020 13:08:54 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Subject: Re: [PATCH RESEND v2 2/2] nvme: allow cmb and pmr to be enabled on
- same device
-Message-ID: <20200625110854.6y6di67g2wsixpou@apples.localdomain>
-References: <20200617051857.20508-1-andrzej.jakowski@linux.intel.com>
- <20200617051857.20508-3-andrzej.jakowski@linux.intel.com>
- <20200618092524.posxi5mysb3jjtpn@apples.localdomain>
- <f766ffd1-04d4-9e41-5393-80e61ab37ec2@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPkp-0004Ow-CC
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:09:15 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31208
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joPkm-0000A4-Ch
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 07:09:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593083351;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SwybSxuOQi38oeMXnoOetN8x3DAu1vynd6mD58XrzTY=;
+ b=C/R1QDCckoZ5kkGztgC53n5J/9inuUh2AcxTBQsqPTgFzY/l3ork+GlA2PKdr/xd6GTF7h
+ nmilqL/cphmPyYWJbjIk1GVj5OUsYXvLyRkd4iZBvpJq7uqv/SlI6BZjoDwyke9qwPYnOp
+ MSO7HAGbWKl9Gg4gCqrfg7MzpMz6yFQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-Wy3DKbPdNBikss7xNNtw9Q-1; Thu, 25 Jun 2020 07:09:09 -0400
+X-MC-Unique: Wy3DKbPdNBikss7xNNtw9Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A95A310059A4;
+ Thu, 25 Jun 2020 11:09:08 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 338CE5C6BD;
+ Thu, 25 Jun 2020 11:09:04 +0000 (UTC)
+Subject: Re: [PATCH v5 05/12] pc-bios: s390x: Remove unneeded dasd-ipl.c reset
+ psw mask changes
+From: Thomas Huth <thuth@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200624075226.92728-1-frankja@linux.ibm.com>
+ <20200624075226.92728-6-frankja@linux.ibm.com>
+ <95c7fe36-02fe-d430-5ae7-04e3ce38e3fb@redhat.com>
+Message-ID: <ea1ed9df-66d4-550e-1a86-58519aba7dec@redhat.com>
+Date: Thu, 25 Jun 2020 13:09:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f766ffd1-04d4-9e41-5393-80e61ab37ec2@linux.intel.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 07:08:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <95c7fe36-02fe-d430-5ae7-04e3ce38e3fb@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,103 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, borntraeger@de.ibm.com,
+ cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 19 10:30, Andrzej Jakowski wrote:
-> On 6/18/20 2:25 AM, Klaus Jensen wrote:
-> > On Jun 16 22:18, Andrzej Jakowski wrote:
-> >> So far it was not possible to have CMB and PMR emulated on the same
-> >> device, because BAR2 was used exclusively either of PMR or CMB. This
-> >> patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
-> >>
-> >> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-> >> ---
-> >>  hw/block/nvme.c      | 122 ++++++++++++++++++++++++++++---------------
-> >>  hw/block/nvme.h      |   5 +-
-> >>  include/block/nvme.h |   4 +-
-> >>  3 files changed, 86 insertions(+), 45 deletions(-)
-> >>
-> >> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> >> index 9f11f3e9da..62681966b9 100644
-> >> --- a/hw/block/nvme.c
-> >> +++ b/hw/block/nvme.c
-> >> @@ -22,12 +22,12 @@
-> >>   *              [pmrdev=<mem_backend_file_id>,] \
-> >>   *              max_ioqpairs=<N[optional]>
-> >>   *
-> >> - * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-> >> - * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-> >> + * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
-> >> + * to be resident in BAR4 at certain offset - this is because BAR4 is also
-> >> + * used for storing MSI-X table that is available at offset 0 in BAR4.
-> > 
-> > I would still really like a R-b by a more PCI-competent reviewer to
-> > ensure that it is sane to have the MSI-X table here in prefetchable
-> > 64-bit address space.
+On 25/06/2020 12.57, Thomas Huth wrote:
+> On 24/06/2020 09.52, Janosch Frank wrote:
+>> jump_to_low_kernel() and the functions that it calls will already or
+>> 64 bit addressing into the reset psw mask when executing
+>> jump_to_IPL_2() after the diag308 subcode 1.
 > 
-> Having Reviewed-by for that make sense to me. And let me offer some
-> evidences of real devices having MSI-X in prefetchable region and 
-> non-prefetchable region. Based on those examples I don't think it matters
-> where you place your MSI-X vector.
+> Hmm, the jump_to_IPL_code() also sets the 64-bit addressing bits ... but 
+> jump_to_low_kernel() has some logic that tests for the bits before that 
+> function is called:
 > 
-> Why do you think it may not be sane to place MSI-x table in prefetchable
-> region?
+>      /* Trying to get PSW at zero address */
+>      if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>          jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
+>      }
 > 
-> Device with MSI-X in non-prefetchable region:
-> Region 0: Memory at fb42c000 (64-bit, non-prefetchable) [size=16K]
->         Capabilities: [80] MSI-X: Enable+ Count=1 Masked-
->                 Vector table: BAR=0 offset=00002000
->                 PBA: BAR=0 offset=00003000
-> 
-> Device with MSI-X in prefetchable region
-> Region 0: Memory at fbc00000 (64-bit, prefetchable) [size=2M]
->         Region 2: I/O ports at e020 [size=32]
->         Region 4: Memory at fbe04000 (64-bit, prefetchable) [size=16K]
->         Capabilities: [40] Power Management version 3
->                 Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
->                 Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=1 PME-
->         Capabilities: [50] MSI: Enable- Count=1/1 Maskable+ 64bit+
->                 Address: 0000000000000000  Data: 0000
->                 Masking: 00000000  Pending: 00000000
->         Capabilities: [70] MSI-X: Enable+ Count=64 Masked-
->                 Vector table: BAR=4 offset=00000000
->                 PBA: BAR=4 offset=00002000
-> 
-> 
+> Could it be that the code in dasd-ipl.c has been written with that 
+> if-statement in mind?
 
-That's good enough for me. I rest my case!
+... in that case, the code in dasd-ipl.c should maybe rather call 
+jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff) directly instead of 
+going through jump_to_low_kernel(), I guess.
 
-> 
-> > 
-> >>   *
-> >> - * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
-> >> - * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
-> >> - * both provided.
-> >> + * pmrdev is assumed to be resident in BAR2/BAR3. When configured it consumes
-> >> + * whole BAR2/BAR3 exclusively.
-> >>   * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
-> >>   * For example:
-> >>   * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
-> >> @@ -69,18 +69,19 @@
-> >>  
-> >>  static void nvme_process_sq(void *opaque);
-> >>  
-> >> -static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
-> >> +static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr, int size)
-> >>  {
-> >> -    hwaddr low = n->ctrl_mem.addr;
-> >> -    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
-> >> +    hwaddr low = n->bar4.addr + n->cmb_offset;
-> >> +    hwaddr hi  = low + NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
-> > 
-> > Isn't it better to use n->bar4.size?
-> 
-> My understanding is that cmb doesn't necessarily need to occupy whole BAR,
-> which is required to be power-of-two in size.
-> 
+Jason, do you remember the intention here?
 
-You are completely right of course.
+  Thomas
+
 
