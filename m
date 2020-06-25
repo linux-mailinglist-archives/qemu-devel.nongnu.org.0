@@ -2,125 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E19820A5F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:38:17 +0200 (CEST)
-Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCC520A621
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:51:13 +0200 (CEST)
+Received: from localhost ([::1]:37208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXhQ-0005OF-8D
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
+	id 1joXtw-0000C3-QG
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1joXdy-0001mD-Nc
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:34:44 -0400
-Received: from mail-dm6nam10on2083.outbound.protection.outlook.com
- ([40.107.93.83]:27382 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1joXdu-0001ro-F6
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:34:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T7EH3NU4J4XY0DR1ZCZo5w/ns+RyFGgK2+wOG3dO74r0+gvykIrZHpumKbV1SP+1NH0HF1FE00FqPcbHggnIHDBvGQ+QlmySE5tjzUC5wPXJfik+aE16FVIZeUH/mNLggljNakcSau+asxLR+7gfpej0zo5SXKRbdBLYevx9TDm1k1+EWcO0VpZ4qammemikSPWq6XOORXThMQWNxHGydzRAodDNxhDv/bIl1U7aT8Kxm0/rQVWd6L/bMry8ITRlNjD2JlwE4klWN3XQp7nZWA7N+GcbMh/ulCihOilwfwQqLh2+/Ma5zFZfCs3vHxPv0VWxN5TiQjJdOXY3/t6iLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YTd7VQ1lkDciKQEWhPCjmzjd1i7+Sh4PFpUjwuLTIo=;
- b=gTsreSmm6AG7WGhVIDA1GXZJuGuuDAjSixf3RNFPo/WA9cJvhQ+PS7w/KsdNQckhoz9n1KQ0UzC0JWjurZ8pIfuNFoz5qbI7Abe1IG1MstN1lZbjPInjpu+TCAz3b8Veo0dlQsQn4WZc6aqKqV5/vkIaOVjQ39YmOOCuYE2lIvyyF9ycA57szm+jRvJmzbRPfjF02DzBIunBItckZ5ubOfyz9OTyEvkfDo6pZ8l7iB5vL8MTde4hTuRan5MYpO+53iYkbU9s7ugKN2NT0Hqut9YrZiOLyM7pA3XnyrnLLoU5XVOs6R4egSnIe7JLa8kW0UFxyRxNscRqEDI6mbVeCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5YTd7VQ1lkDciKQEWhPCjmzjd1i7+Sh4PFpUjwuLTIo=;
- b=TASX5l5JFyCmp45YJuBrVMfDU3VsX3gpWWkPr/5MIK2FXm1tqRGcHk759w0KYIi3UkaDU8hiQG/lnXb0Gc6np95SO2FXd0DKa2152wBQ6rlxw+Dhnlt64P0sr5Ap04FVMMCqdrEOFvOrjf3Q7KlPdAL6K10+ho5lHe7JhDdwS/0=
-Received: from CY1PR03CA0023.namprd03.prod.outlook.com (2603:10b6:600::33) by
- CH2PR02MB6539.namprd02.prod.outlook.com (2603:10b6:610:6d::23) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.21; Thu, 25 Jun 2020 19:34:35 +0000
-Received: from CY1NAM02FT049.eop-nam02.prod.protection.outlook.com
- (2603:10b6:600:0:cafe::18) by CY1PR03CA0023.outlook.office365.com
- (2603:10b6:600::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
- Transport; Thu, 25 Jun 2020 19:34:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT049.mail.protection.outlook.com (10.152.75.83) with Microsoft SMTP
- Server id 15.20.3131.20 via Frontend Transport; Thu, 25 Jun 2020 19:34:34
- +0000
-Received: from [149.199.38.66] (port=51335 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1joXcc-00081X-Ff
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:33:18 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1joXdq-000359-4A
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:34:34 -0700
-Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 05PJYR96012277; 
- Thu, 25 Jun 2020 12:34:27 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1joXdj-0002vc-1C; Thu, 25 Jun 2020 12:34:27 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 4/4] MAINTAINERS: Add maintainer entry for Xilinx ZynqMP
- CAN controller
-Date: Thu, 25 Jun 2020 12:33:27 -0700
-Message-Id: <1593113607-321118-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1593113607-321118-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1593113607-321118-1-git-send-email-fnu.vikram@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(396003)(376002)(136003)(39860400002)(346002)(46966005)(2616005)(316002)(82740400003)(426003)(47076004)(336012)(70206006)(6916009)(5660300002)(8676002)(8936002)(9786002)(4744005)(4326008)(26005)(82310400002)(107886003)(356005)(478600001)(70586007)(81166007)(36756003)(7696005)(2906002)(186003);
- DIR:OUT; SFP:1101; 
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1joXsn-00089y-LW; Thu, 25 Jun 2020 15:50:01 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1joXsl-0007bc-Oq; Thu, 25 Jun 2020 15:50:01 -0400
+Received: by mail-io1-xd41.google.com with SMTP id i25so7452224iog.0;
+ Thu, 25 Jun 2020 12:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/RyC1veO3ORa+RKSXar1Qiq6XfsSnjjnZulEjX38NLo=;
+ b=nKD8yEsNvpdjsVkfW/RBgwbwSSCSoB6ILzUB0dPDon0cbZw4uMQhgPN0kEsfC2DRex
+ dVxvac4r89rOXiegEH0InLt77+iDILNaPipkOgV0rLdMPin1dpUZmNnnePZwaMIySDaM
+ PlwkjYDjfa04k/PGyRNTjOyGULZMfv/jVnikHijbsJltmD1QEl5jb1NA9poSKWrANPpt
+ oIQ6QtlFRTTJ3DsJJSsv4cw3YWebEr4HNRhT7Phcvkp04jMjoz9JReebFIiE1IL6wck0
+ DISAUKO/d82tgImBLT3PyNQOUXnJ8Lf4HDSSjIwz5kCQwu5qPqnnX52IDx6l/vSx35yU
+ Sueg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/RyC1veO3ORa+RKSXar1Qiq6XfsSnjjnZulEjX38NLo=;
+ b=W3uhWDaCJQxJ3qyH5xthJ/5ostUm+/LSWgxRmRibQr3v+S5fekCGOKQW0Jxx3XqMPT
+ sHIA09J70DfOSKBohI54IRM2qsuoXJNacyY8fS41gwisnIpEascHMx2BPN++FSviQKIJ
+ o2BOe5Lhm8KqBL6fnZHhVkbAaDgGYBP6iWGXIng9PQhzCWka0bbyaZePLfBNCvjI0IUa
+ qdKckdGj65olKwttryEETV86flHg90ScmJ3IGmsQBDf6IMbEoPXTaG+FvsdR/M+hQyTF
+ 0PdStPp5vNq8KKDhf/WB4Udg9GukBKqmluBKutzUbCYEobpYBIK15KIBv1b8Y6qRKjmo
+ QgCQ==
+X-Gm-Message-State: AOAM531/BxP58Yy8gzMlBNoF2KlLzVU6NTulLQ34QlPADWOHB2Yc2HNG
+ JsUI32fgpfoIOPWeS3pbo0HjceuJKzkI3v3tXNE=
+X-Google-Smtp-Source: ABdhPJy8PGFVItPsD99FwYYKgoz+TmrIRZWEtJ027lz03odQxAjiqXzkbcu6u4a8YAciY/Km0u0zhlph9A33y+klmHc=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr38115118jaj.106.1593114597762; 
+ Thu, 25 Jun 2020 12:49:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: c6771a00-aaad-420e-578b-08d8193eca2e
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6539:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB6539328F70FC85EBBCFD1DEFBC920@CH2PR02MB6539.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-Forefront-PRVS: 0445A82F82
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Oq+roBzJogur7+VNlT6m+3YWKULKNYVakEVRFYod3YlgtBLn99YeJJcKEEniu+pSv+1EKs1BWfeNnDMqe1AMUZSMyGffPraZH0T5YYfQow7CWulGda1D4Q/AAN9l0Pa5Cef9Z3nj0Y0HVoKRbxYGpD6X2m3O/XGYz8nEGizFrRLdFB7ZCFj6iQR4l1B06tjm/irjqejrx7hUWYsH2ggBYnMfiMdAeiFZLSLd9O960rH2lPk48l9zulx+F01lcR7oHo05bCGmq8N814CUxvrESSFJdI1UVGADto1jeLpdH6odO6Vi4WR5x2YJgDYZtFi30+NtlZzTUaW4DO4fH5Juw5VsZQKXsTFpq7BFQP34mxmUkOuWWCfqPyY+DaUiCnyuCmAtz7tXmqoxO6SFihdzoQ==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 19:34:34.3606 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6771a00-aaad-420e-578b-08d8193eca2e
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT049.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6539
-Received-SPF: pass client-ip=40.107.93.83; envelope-from=fnuv@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:34:36
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200625183741.642407-1-atish.patra@wdc.com>
+ <20200625183741.642407-2-atish.patra@wdc.com>
+In-Reply-To: <20200625183741.642407-2-atish.patra@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 25 Jun 2020 12:40:21 -0700
+Message-ID: <CAKmqyKOVfVBYvRZNht9tCGCFX-USuWo72VR09=6d=h53zavzeA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] riscv: Unify Qemu's reset vector code path
+To: Atish Patra <atish.patra@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,37 +79,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Thu, Jun 25, 2020 at 11:38 AM Atish Patra <atish.patra@wdc.com> wrote:
+>
+> Currently, all riscv machines except sifive_u have identical reset vector
+> code implementations with memory addresses being different for all machines.
+> They can be easily combined into a single function in common code.
+>
+> Move it to common function and let all the machines use the common function.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  hw/riscv/boot.c         | 46 +++++++++++++++++++++++++++++++++++++++++
+>  hw/riscv/spike.c        | 38 +++-------------------------------
+>  hw/riscv/virt.c         | 37 +++------------------------------
+>  include/hw/riscv/boot.h |  2 ++
+>  4 files changed, 54 insertions(+), 69 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index adb421b91b68..8ed96da600c9 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -22,12 +22,16 @@
+>  #include "qemu/units.h"
+>  #include "qemu/error-report.h"
+>  #include "exec/cpu-defs.h"
+> +#include "exec/address-spaces.h"
+>  #include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "hw/riscv/boot.h"
+>  #include "elf.h"
+> +#include "sysemu/device_tree.h"
+>  #include "sysemu/qtest.h"
+>
+> +#include <libfdt.h>
+> +
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 63b3bb3..6f73a60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1466,6 +1466,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
--- 
-2.7.4
+Do you mind removing these header from the original files, we
+shouldn't need them now.
 
+Besides that:
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+>  #if defined(TARGET_RISCV32)
+>  # define KERNEL_BOOT_ADDRESS 0x80400000
+>  #else
+> @@ -155,3 +159,45 @@ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+>
+>      return *start + size;
+>  }
+> +
+> +void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
+> +                               hwaddr rom_size, void *fdt)
+> +{
+> +    int i;
+> +    /* reset vector */
+> +    uint32_t reset_vec[8] = {
+> +        0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(dtb) */
+> +        0x02028593,                  /*     addi   a1, t0, %pcrel_lo(1b) */
+> +        0xf1402573,                  /*     csrr   a0, mhartid  */
+> +#if defined(TARGET_RISCV32)
+> +        0x0182a283,                  /*     lw     t0, 24(t0) */
+> +#elif defined(TARGET_RISCV64)
+> +        0x0182b283,                  /*     ld     t0, 24(t0) */
+> +#endif
+> +        0x00028067,                  /*     jr     t0 */
+> +        0x00000000,
+> +        start_addr,                  /* start: .dword */
+> +        0x00000000,
+> +                                     /* dtb: */
+> +    };
+> +
+> +    /* copy in the reset vector in little_endian byte order */
+> +    for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> +        reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> +    }
+> +    rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+> +                          rom_base, &address_space_memory);
+> +
+> +    /* copy in the device tree */
+> +    if (fdt_pack(fdt) || fdt_totalsize(fdt) >
+> +        rom_size - sizeof(reset_vec)) {
+> +        error_report("not enough space to store device-tree");
+> +        exit(1);
+> +    }
+> +    qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
+> +    rom_add_blob_fixed_as("mrom.fdt", fdt, fdt_totalsize(fdt),
+> +                           rom_base + sizeof(reset_vec),
+> +                           &address_space_memory);
+> +
+> +    return;
+> +}
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 3c87e04fdceb..561642c1fb5d 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -165,7 +165,6 @@ static void spike_board_init(MachineState *machine)
+>      MemoryRegion *system_memory = get_system_memory();
+>      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+>      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+> -    int i;
+>      unsigned int smp_cpus = machine->smp.cpus;
+>
+>      /* Initialize SOC */
+> @@ -212,40 +211,9 @@ static void spike_board_init(MachineState *machine)
+>          }
+>      }
+>
+> -    /* reset vector */
+> -    uint32_t reset_vec[8] = {
+> -        0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(dtb) */
+> -        0x02028593,                  /*     addi   a1, t0, %pcrel_lo(1b) */
+> -        0xf1402573,                  /*     csrr   a0, mhartid  */
+> -#if defined(TARGET_RISCV32)
+> -        0x0182a283,                  /*     lw     t0, 24(t0) */
+> -#elif defined(TARGET_RISCV64)
+> -        0x0182b283,                  /*     ld     t0, 24(t0) */
+> -#endif
+> -        0x00028067,                  /*     jr     t0 */
+> -        0x00000000,
+> -        memmap[SPIKE_DRAM].base,     /* start: .dword DRAM_BASE */
+> -        0x00000000,
+> -                                     /* dtb: */
+> -    };
+> -
+> -    /* copy in the reset vector in little_endian byte order */
+> -    for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> -        reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> -    }
+> -    rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+> -                          memmap[SPIKE_MROM].base, &address_space_memory);
+> -
+> -    /* copy in the device tree */
+> -    if (fdt_pack(s->fdt) || fdt_totalsize(s->fdt) >
+> -            memmap[SPIKE_MROM].size - sizeof(reset_vec)) {
+> -        error_report("not enough space to store device-tree");
+> -        exit(1);
+> -    }
+> -    qemu_fdt_dumpdtb(s->fdt, fdt_totalsize(s->fdt));
+> -    rom_add_blob_fixed_as("mrom.fdt", s->fdt, fdt_totalsize(s->fdt),
+> -                          memmap[SPIKE_MROM].base + sizeof(reset_vec),
+> -                          &address_space_memory);
+> +    /* load the reset vector */
+> +    riscv_setup_rom_reset_vec(memmap[SPIKE_DRAM].base, memmap[SPIKE_MROM].base,
+> +                              memmap[SPIKE_MROM].size, s->fdt);
+>
+>      /* initialize HTIF using symbols found in load_kernel */
+>      htif_mm_init(system_memory, mask_rom, &s->soc.harts[0].env, serial_hd(0));
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 616db6f5aced..22a60259daab 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -535,40 +535,9 @@ static void virt_machine_init(MachineState *machine)
+>          start_addr = virt_memmap[VIRT_FLASH].base;
+>      }
+>
+> -    /* reset vector */
+> -    uint32_t reset_vec[8] = {
+> -        0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(dtb) */
+> -        0x02028593,                  /*     addi   a1, t0, %pcrel_lo(1b) */
+> -        0xf1402573,                  /*     csrr   a0, mhartid  */
+> -#if defined(TARGET_RISCV32)
+> -        0x0182a283,                  /*     lw     t0, 24(t0) */
+> -#elif defined(TARGET_RISCV64)
+> -        0x0182b283,                  /*     ld     t0, 24(t0) */
+> -#endif
+> -        0x00028067,                  /*     jr     t0 */
+> -        0x00000000,
+> -        start_addr,                  /* start: .dword */
+> -        0x00000000,
+> -                                     /* dtb: */
+> -    };
+> -
+> -    /* copy in the reset vector in little_endian byte order */
+> -    for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> -        reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> -    }
+> -    rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+> -                          memmap[VIRT_MROM].base, &address_space_memory);
+> -
+> -    /* copy in the device tree */
+> -    if (fdt_pack(s->fdt) || fdt_totalsize(s->fdt) >
+> -            memmap[VIRT_MROM].size - sizeof(reset_vec)) {
+> -        error_report("not enough space to store device-tree");
+> -        exit(1);
+> -    }
+> -    qemu_fdt_dumpdtb(s->fdt, fdt_totalsize(s->fdt));
+> -    rom_add_blob_fixed_as("mrom.fdt", s->fdt, fdt_totalsize(s->fdt),
+> -                          memmap[VIRT_MROM].base + sizeof(reset_vec),
+> -                          &address_space_memory);
+> +    /* load the reset vector */
+> +    riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
+> +                              virt_memmap[VIRT_MROM].size, s->fdt);
+>
+>      /* create PLIC hart topology configuration string */
+>      plic_hart_config_len = (strlen(VIRT_PLIC_HART_CONFIG) + 1) * smp_cpus;
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index 9daa98da08d7..3e9759c89aa2 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -35,5 +35,7 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
+>                                 symbol_fn_t sym_cb);
+>  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+>                           uint64_t kernel_entry, hwaddr *start);
+> +void riscv_setup_rom_reset_vec(hwaddr saddr, hwaddr rom_base,
+> +                               hwaddr rom_size, void *fdt);
+>
+>  #endif /* RISCV_BOOT_H */
+> --
+> 2.26.2
+>
+>
 
