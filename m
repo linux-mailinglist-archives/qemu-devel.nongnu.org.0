@@ -2,75 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EFE20A5E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:33:20 +0200 (CEST)
-Received: from localhost ([::1]:50652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D840B20A61D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 21:49:44 +0200 (CEST)
+Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joXcd-0000vn-2g
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
+	id 1joXsV-0007fj-D0
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 15:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joXbg-0000Pl-9t
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:32:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51355
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1joXbZ-0008Uz-ET
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:32:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593113531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JUef9MpqF+fO9MoZZljTqn+KLJv0PJ4766fMdtaDI90=;
- b=CBTxjL2pHG6pavpW3PFJ43uQYto0clcYUq0B+zZB+wT67BjmdaKQ/9z4CAUHTPy4Rw9N3Q
- WDPVh8tb4jpyaZRsnFQ6EybvIZED+TMjZYuX/A8D7rcYxktYDFBwXBA8ORoAMb4tkwjTKX
- MgoXERL2pq3K5zw8Cb+/0E/xJctAWHY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-74TyfRMzN16DiHLc8LKSFA-1; Thu, 25 Jun 2020 15:32:06 -0400
-X-MC-Unique: 74TyfRMzN16DiHLc8LKSFA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBD7E107ACCA;
- Thu, 25 Jun 2020 19:32:04 +0000 (UTC)
-Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA3C15C240;
- Thu, 25 Jun 2020 19:32:01 +0000 (UTC)
-Subject: Re: [PATCH 1/4] iotests: QemuIoInteractive: use qemu_io_args_no_fmt
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200625142540.24589-1-vsementsov@virtuozzo.com>
- <20200625142540.24589-2-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <2f01d8df-ed77-aab5-2f9a-120bbfa4b823@redhat.com>
-Date: Thu, 25 Jun 2020 14:32:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1joXrg-0007Ft-4I
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:48:52 -0400
+Received: from mail-mw2nam12on2044.outbound.protection.outlook.com
+ ([40.107.244.44]:37083 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1joXrd-0007Fd-NH
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 15:48:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RAhCWpe6X9IfRz8vFhcYpnAFgoYROXlQTal6wNMOZWWW9SsbwZ/1j20boGiTsAF6j2FcK1q/lPHv2T/R7n5X1WicQN3NjLJ0oofjAcwHLg5wknVCrtR+tTB/EbWqiB8TsLA5aW3U2SxxzRrGpVm4YxOhJBMCJOP0fL/mI6OlhLtjkEhyRHZh6t5L+GfRxumSwB+QOR+0jgbQozGJxm8wbkqJ0bUA7SJWdaDAwZSPgT4q4BGnoOvVZFwf+8fEymk1D86P5bStjOuJq25u/xEgRsUTWrEy0zaAlMKXauNX+CAdkjox0UNNxCc+RWaf/KVEKp/lS7aBJVozjF+yzJHB+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CChF7qKlFjdqgd6NLQhIQbkkE6USdf++3WbkaRB2aH8=;
+ b=JAPWL5iLc5iIRM8dVK+weKpIWAxbwt1TePez9WPw3fY5Kyp/a34w+PS7xt8qW8+kpOzW4q6eyc+xM9OG4cKJN7GqTP6ygax+B8OCRcz6bm0SqawMqR1g3LRq9W7PEfVNfoeTKySPP/Eek6Jg5SZLWrjwzhatvjbgy5U+s+NLAxAXOtroPD78VfZhes2V5Ybx9LJWBY+jh15UXBwBILg8USKGIOJh3sBTRnbEiW/Qo0So62dKA54mqEjUnOJCLkjZWTygqQAHqe3zsIlr9DPQOxg8TtPxLIi32BjBrIzUUHbg+G9uhnx4uQ9oQXnL3sv0CAixcOLt8nO5rESN6TIslg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CChF7qKlFjdqgd6NLQhIQbkkE6USdf++3WbkaRB2aH8=;
+ b=IjyCLlh6AmDLkp6q8e5gzCNbUIVLgQ5eu5ajMDRfQrU0ZVRDTwHhrjcaqV4MX3FWGbFO5EmK3zAo0c/C/u2qcBrhknHrZiGGvnYaaUjyV75eq9HDwK4Eh9cExppLZZrNyTbn50jr6uFhYFaLJ4w5Pd1M5XZRctVewOeUV3dsyyQ=
+Received: from SN6PR08CA0002.namprd08.prod.outlook.com (2603:10b6:805:66::15)
+ by MWHPR02MB2253.namprd02.prod.outlook.com (2603:10b6:300:5c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Thu, 25 Jun
+ 2020 19:33:44 +0000
+Received: from SN1NAM02FT017.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:805:66:cafe::5a) by SN6PR08CA0002.outlook.office365.com
+ (2603:10b6:805:66::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
+ Transport; Thu, 25 Jun 2020 19:33:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT017.mail.protection.outlook.com (10.152.72.115) with Microsoft SMTP
+ Server id 15.20.3131.20 via Frontend Transport; Thu, 25 Jun 2020 19:33:44
+ +0000
+Received: from [149.199.38.66] (port=50560 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1joXbo-00080h-1y
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:32:28 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1joXd1-0002wM-ME
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:33:43 -0700
+Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 05PJXb6U004890; 
+ Thu, 25 Jun 2020 12:33:38 -0700
+Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1joXcv-0002vc-RN; Thu, 25 Jun 2020 12:33:37 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/4] Introduce Xilinx ZynqMP CAN controller
+Date: Thu, 25 Jun 2020 12:33:23 -0700
+Message-Id: <1593113607-321118-1-git-send-email-fnu.vikram@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(396003)(376002)(39860400002)(136003)(346002)(46966005)(26005)(316002)(8936002)(186003)(478600001)(2616005)(7696005)(47076004)(81166007)(82310400002)(356005)(5660300002)(70586007)(6916009)(336012)(2906002)(9786002)(82740400003)(70206006)(36756003)(4326008)(6666004)(426003)(107886003)(83380400001)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <20200625142540.24589-2-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 9ea88239-7106-4f6a-4140-08d8193eac2f
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2253:
+X-Microsoft-Antispam-PRVS: <MWHPR02MB225332E99C3579CFBA888C74BC920@MWHPR02MB2253.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0445A82F82
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sghBRISfH4NjjsnXHilokNnIDUP/3UAQ3+9Bi/B+/jWFy3FA7SSWePoflP4VeXxck3UnaX0jYoNd4RqVqaN0GjIVOrEWSej0WAnTYlUO5el3T+s1Nxtgy7uejMZymV6OmPa87TEBg2luAXSY7GZfQXoHJ6RDV+t5pRn7BkkRvWLtXfWbqps/QnP2BaMWNAIn4iF0IAf7fTBeXJn+Jp8ySEr0YgmhSfA8ai2rjiurt6MYKsQtIK28XS62mnxdt3j+2qrvht9V+5uX/h0pC9dIr8hFi5Nzp5J7xYksxnRe/v037rFz4Bpaa1B7K7EYajpxBtEZ83y4KE3+O9MUAMeZZw4ejdwgoRuEvNtp0QCQ5sSBNNk6c+1eODjhi+eFaehy8k0GAbtZJoIL9NTtAjX7Ng==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 19:33:44.0220 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea88239-7106-4f6a-4140-08d8193eac2f
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2253
+Received-SPF: pass client-ip=40.107.244.44; envelope-from=fnuv@xilinx.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 15:48:47
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,47 +128,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 9:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> All users of QemuIoInteractive provides -f argument, so it's incorrect
+Changelog:
 
-So far, all users is just test 205; although your series adds test 209 
-that does likewise.  "incorrect" is a bit harsh since you can specify -f 
-more than once (last one wins); maybe "inefficient" is better wording.
+v6 -> v7:
+    Remove '-m 4G' option from xlnx-can-test. This option causes the fail of
+    docker-quick@centos7 build test.
 
-> to use qemu_io_args, which contains -f too. Let's use
-> qemu_io_args_no_fmt, which also makes possible to use --image-opts with
-> QemuIoInteractive in the following patch.
+v5 -> v6:
+    Add ptimer based counter for time stamping on RX messages.
+    Fix reset issues.
+    Rebase the patches with master latest changes.
+    Added reference clock property for CAN ptimer.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+v4 -> v5:
+    Add XlnxZynqMPCAN controller id to debug messages.
+    Drop parameter errp of object_property_add().
+    Add formatting related suggestions.
 
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/iotests.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 5ea4c4df8b..efe9958f5e 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -211,7 +211,7 @@ def get_virtio_scsi_device():
->   
->   class QemuIoInteractive:
->       def __init__(self, *args):
-> -        self.args = qemu_io_args + list(args)
-> +        self.args = qemu_io_args_no_fmt + list(args)
->           self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
->                                      stdout=subprocess.PIPE,
->                                      stderr=subprocess.STDOUT,
-> 
+v3 -> v4:
+    Correct formatting issues.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+v2 -> v3:
+    Rectify the build issue.
+    Rearrange the patch order.
+
+v1 -> v2:
+    Rename the CAN device state and address code style issues.
+    Connect the CAN device to Xlnx-ZCU102 board.
+    Add maintainer entry.
+    Add QTEST for the CAN device.
+
+Vikram Garhwal (4):
+  hw/net/can: Introduce Xilinx ZynqMP CAN controller
+  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+
+ MAINTAINERS                      |    8 +
+ hw/arm/xlnx-zynqmp.c             |   28 +
+ hw/net/can/Makefile.objs         |    1 +
+ hw/net/can/xlnx-zynqmp-can.c     | 1163 ++++++++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-zynqmp.h     |    4 +
+ include/hw/net/xlnx-zynqmp-can.h |   79 +++
+ tests/qtest/Makefile.include     |    2 +
+ tests/qtest/xlnx-can-test.c      |  367 ++++++++++++
+ 8 files changed, 1652 insertions(+)
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 tests/qtest/xlnx-can-test.c
+
+--
+2.7.4
 
 
