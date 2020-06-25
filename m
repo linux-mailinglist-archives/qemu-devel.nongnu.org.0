@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B155E20A1DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:25:26 +0200 (CEST)
-Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E1A20A1DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:25:21 +0200 (CEST)
+Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTkj-0007UP-L2
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
+	id 1joTkd-0007Hu-QK
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:25:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThu-00056p-Qs
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43148
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThv-00057L-Vt
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38715
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joThs-0000Sj-Vx
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:30 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTht-0000TA-61
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098544;
+ s=mimecast20190719; t=1593098545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/PfEqA0UCfJfYnevUk13q8CgID2wiYihyO7qiY72z1Q=;
- b=PTRk2JyQw+O9xGgmtiVIu8gpwLWE/caVcOomcgnVHgachcA7QMpNRY9A9HrEoNVa+aMeuK
- vYSsyRD/LUVsf/ATfUrtEsiX3ANoIT3iQtKWebzVODS9w6RnUtcf1LIPbGtgQWHQo9qODm
- ystSZnEZDoBFk3lv3mH5/0wJRe8uGWw=
+ bh=/6b5+AhmJqfcAVLzmBshbRXCmakDyehOcVwSaIyUfs8=;
+ b=gjz/T1Qe7VlOkwiqc/iZ3EibbjAlegHqt8u22SSsRjeLMUUZaFD7n1+D/APyeAB+dlXpqX
+ FQk9r642tCVzlt/3d2eH9ZxLa5ouqt+SPVr5p/cF55GNydOfmCbnm0PYFcef8oeOYC7+0W
+ hK21QMI96/H53597DAMXwTIpVcSsocM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-0OrKLpWtNJizozD8XGHENw-1; Thu, 25 Jun 2020 11:22:20 -0400
-X-MC-Unique: 0OrKLpWtNJizozD8XGHENw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-2-55exWMUNMyG9mehKiC9jwA-1; Thu, 25 Jun 2020 11:22:22 -0400
+X-MC-Unique: 55exWMUNMyG9mehKiC9jwA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D944C1800D4A;
- Thu, 25 Jun 2020 15:22:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF581EC1A2;
+ Thu, 25 Jun 2020 15:22:21 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BF22612BA;
- Thu, 25 Jun 2020 15:22:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9514F61169;
+ Thu, 25 Jun 2020 15:22:21 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 01/47] block: Add child access functions
-Date: Thu, 25 Jun 2020 17:21:29 +0200
-Message-Id: <20200625152215.941773-2-mreitz@redhat.com>
+Subject: [PATCH v7 02/47] block: Add chain helper functions
+Date: Thu, 25 Jun 2020 17:21:30 +0200
+Message-Id: <20200625152215.941773-3-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,181 +85,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are BDS children that the general block layer code can access,
-namely bs->file and bs->backing.  Since the introduction of filters and
-external data files, their meaning is not quite clear.  bs->backing can
-be a COW source, or it can be a filtered child; bs->file can be a
-filtered child, it can be data and metadata storage, or it can be just
-metadata storage.
-
-This overloading really is not helpful.  This patch adds functions that
-retrieve the correct child for each exact purpose.  Later patches in
-this series will make use of them.  Doing so will allow us to handle
-filter nodes in a meaningful way.
+Add some helper functions for skipping filters in a chain of block
+nodes.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h | 44 +++++++++++++++++--
- block.c                   | 90 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 131 insertions(+), 3 deletions(-)
+ include/block/block_int.h |  3 +++
+ block.c                   | 55 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 1b86b59af1..bb3457c5e8 100644
+index bb3457c5e8..5da793bfc3 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -90,9 +90,17 @@ struct BlockDriver {
-     int instance_size;
+@@ -1382,6 +1382,9 @@ BdrvChild *bdrv_cow_child(BlockDriverState *bs);
+ BdrvChild *bdrv_filter_child(BlockDriverState *bs);
+ BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
+ BdrvChild *bdrv_primary_child(BlockDriverState *bs);
++BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs);
++BlockDriverState *bdrv_skip_filters(BlockDriverState *bs);
++BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs);
  
-     /* set to true if the BlockDriver is a block filter. Block filters pass
--     * certain callbacks that refer to data (see block.c) to their bs->file if
--     * the driver doesn't implement them. Drivers that do not wish to forward
--     * must implement them and return -ENOTSUP.
-+     * certain callbacks that refer to data (see block.c) to their bs->file
-+     * or bs->backing (whichever one exists) if the driver doesn't implement
-+     * them. Drivers that do not wish to forward must implement them and return
-+     * -ENOTSUP.
-+     * Note that filters are not allowed to modify data.
-+     *
-+     * Filters generally cannot have more than a single filtered child,
-+     * because the data they present must at all times be the same as
-+     * that on their filtered child.  That would be impossible to
-+     * achieve for multiple filtered children.
-+     * (And this filtered child must then be bs->file or bs->backing.)
-      */
-     bool is_filter;
-     /*
-@@ -1370,4 +1378,34 @@ BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char *name,
-                                            BlockDriverState **bitmap_bs,
-                                            Error **errp);
- 
-+BdrvChild *bdrv_cow_child(BlockDriverState *bs);
-+BdrvChild *bdrv_filter_child(BlockDriverState *bs);
-+BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs);
-+BdrvChild *bdrv_primary_child(BlockDriverState *bs);
-+
-+static inline BlockDriverState *child_bs(BdrvChild *child)
-+{
-+    return child ? child->bs : NULL;
-+}
-+
-+static inline BlockDriverState *bdrv_cow_bs(BlockDriverState *bs)
-+{
-+    return child_bs(bdrv_cow_child(bs));
-+}
-+
-+static inline BlockDriverState *bdrv_filter_bs(BlockDriverState *bs)
-+{
-+    return child_bs(bdrv_filter_child(bs));
-+}
-+
-+static inline BlockDriverState *bdrv_filter_or_cow_bs(BlockDriverState *bs)
-+{
-+    return child_bs(bdrv_filter_or_cow_child(bs));
-+}
-+
-+static inline BlockDriverState *bdrv_primary_bs(BlockDriverState *bs)
-+{
-+    return child_bs(bdrv_primary_child(bs));
-+}
-+
- #endif /* BLOCK_INT_H */
+ static inline BlockDriverState *child_bs(BdrvChild *child)
+ {
 diff --git a/block.c b/block.c
-index 144f52e413..5a42ef49fd 100644
+index 5a42ef49fd..0a0b855261 100644
 --- a/block.c
 +++ b/block.c
-@@ -6918,3 +6918,93 @@ int bdrv_make_empty(BdrvChild *c, Error **errp)
+@@ -7008,3 +7008,58 @@ BdrvChild *bdrv_primary_child(BlockDriverState *bs)
  
-     return 0;
+     return NULL;
  }
 +
-+/*
-+ * Return the child that @bs acts as an overlay for, and from which data may be
-+ * copied in COW or COR operations.  Usually this is the backing file.
-+ */
-+BdrvChild *bdrv_cow_child(BlockDriverState *bs)
-+{
-+    if (!bs || !bs->drv) {
-+        return NULL;
-+    }
-+
-+    if (bs->drv->is_filter) {
-+        return NULL;
-+    }
-+
-+    if (!bs->backing) {
-+        return NULL;
-+    }
-+
-+    assert(bs->backing->role & BDRV_CHILD_COW);
-+    return bs->backing;
-+}
-+
-+/*
-+ * If @bs acts as a filter for exactly one of its children, return
-+ * that child.
-+ */
-+BdrvChild *bdrv_filter_child(BlockDriverState *bs)
++static BlockDriverState *bdrv_do_skip_filters(BlockDriverState *bs,
++                                              bool stop_on_explicit_filter)
 +{
 +    BdrvChild *c;
 +
-+    if (!bs || !bs->drv) {
++    if (!bs) {
 +        return NULL;
 +    }
 +
-+    if (!bs->drv->is_filter) {
-+        return NULL;
-+    }
-+
-+    /* Only one of @backing or @file may be used */
-+    assert(!(bs->backing && bs->file));
-+
-+    c = bs->backing ?: bs->file;
-+    if (!c) {
-+        return NULL;
-+    }
-+
-+    assert(c->role & BDRV_CHILD_FILTERED);
-+    return c;
-+}
-+
-+/*
-+ * Return either the result of bdrv_cow_child() or bdrv_filter_child(),
-+ * whichever is non-NULL.
-+ *
-+ * Return NULL if both are NULL.
-+ */
-+BdrvChild *bdrv_filter_or_cow_child(BlockDriverState *bs)
-+{
-+    BdrvChild *cow_child = bdrv_cow_child(bs);
-+    BdrvChild *filter_child = bdrv_filter_child(bs);
-+
-+    /* Filter nodes cannot have COW backing files */
-+    assert(!(cow_child && filter_child));
-+
-+    return cow_child ?: filter_child;
-+}
-+
-+/*
-+ * Return the primary child of this node: For filters, that is the
-+ * filtered child.  For other nodes, that is usually the child storing
-+ * metadata.
-+ * (A generally more helpful description is that this is (usually) the
-+ * child that has the same filename as @bs.)
-+ *
-+ * Drivers do not necessarily have a primary child; for example quorum
-+ * does not.
-+ */
-+BdrvChild *bdrv_primary_child(BlockDriverState *bs)
-+{
-+    BdrvChild *c;
-+
-+    QLIST_FOREACH(c, &bs->children, next) {
-+        if (c->role & BDRV_CHILD_PRIMARY) {
-+            return c;
++    while (!(stop_on_explicit_filter && !bs->implicit)) {
++        c = bdrv_filter_child(bs);
++        if (!c) {
++            break;
 +        }
++        bs = c->bs;
 +    }
++    /*
++     * Note that this treats nodes with bs->drv == NULL as not being
++     * filters (bs->drv == NULL should be replaced by something else
++     * anyway).
++     * The advantage of this behavior is that this function will thus
++     * always return a non-NULL value (given a non-NULL @bs).
++     */
 +
-+    return NULL;
++    return bs;
++}
++
++/*
++ * Return the first BDS that has not been added implicitly or that
++ * does not have a filtered child down the chain starting from @bs
++ * (including @bs itself).
++ */
++BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs)
++{
++    return bdrv_do_skip_filters(bs, true);
++}
++
++/*
++ * Return the first BDS that does not have a filtered child down the
++ * chain starting from @bs (including @bs itself).
++ */
++BlockDriverState *bdrv_skip_filters(BlockDriverState *bs)
++{
++    return bdrv_do_skip_filters(bs, false);
++}
++
++/*
++ * For a backing chain, return the first non-filter backing image of
++ * the first non-filter image.
++ */
++BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs)
++{
++    return bdrv_skip_filters(bdrv_cow_bs(bdrv_skip_filters(bs)));
 +}
 -- 
 2.26.2
