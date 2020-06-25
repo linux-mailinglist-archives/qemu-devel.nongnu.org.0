@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC46520A24A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:45:37 +0200 (CEST)
-Received: from localhost ([::1]:40858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E6220A25E
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:48:58 +0200 (CEST)
+Received: from localhost ([::1]:49146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joU4G-0004Ox-LI
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37468)
+	id 1joU7V-0008M5-KW
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTia-00061s-SI
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28353
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTic-00065V-DB
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60680
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiZ-00017M-7Y
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:12 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTia-00018v-Vm
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098590;
+ s=mimecast20190719; t=1593098592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f/8zhymTzIASkGBdt7o/w7A64dbu+ST4wSjovqOs2p0=;
- b=eTOCY0iLwueBPqGuXCHcXuwyD5z2PpHTChQ+xPrVvqqB0kgrjElOBbzJQoHh7mGFpuOsz5
- brcsd5DPfGZr44ulXBX7018hH82o9kJ29s2Qacv6krQoPtP0u6YHPfJPcSUo30vpectJ5g
- g+sWAZePkLxD4mKuaMQ58WlLwbjkKHM=
+ bh=COIIgdm+cG+aFY3vcWT6Kff8jAuy0uDhItEPKwtBJ9A=;
+ b=fEs0SqozpVzmNeuCDd2EuWdkCXPRZkpJa3bugqNyYKXmQnQRMpiYhb5tsePj5AXLkbt+Fu
+ t6hfU18SWbJZ+5iXwOZndWzXYLsamceaDBROGIdYIhFv+qWmQka6FOb0AMLwJaxfsKl0gE
+ eghzH0kbMDIrEc8a9oJzDUVygrXfpD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-iM2jqbcWMeykjgOw5lKfYQ-1; Thu, 25 Jun 2020 11:23:06 -0400
-X-MC-Unique: iM2jqbcWMeykjgOw5lKfYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-39-ifVUW_C6MzOzhPg9mLaHjg-1; Thu, 25 Jun 2020 11:23:08 -0400
+X-MC-Unique: ifVUW_C6MzOzhPg9mLaHjg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6121D800C60;
- Thu, 25 Jun 2020 15:23:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C9F3800C60;
+ Thu, 25 Jun 2020 15:23:07 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 044325C296;
- Thu, 25 Jun 2020 15:23:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E70E5DAA0;
+ Thu, 25 Jun 2020 15:23:06 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 21/47] block: Use CAFs in bdrv_refresh_filename()
-Date: Thu, 25 Jun 2020 17:21:49 +0200
-Message-Id: <20200625152215.941773-22-mreitz@redhat.com>
+Subject: [PATCH v7 22/47] block: Use CAF in bdrv_co_rw_vmstate()
+Date: Thu, 25 Jun 2020 17:21:50 +0200
+Message-Id: <20200625152215.941773-23-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -83,96 +85,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_refresh_filename() and the kind of related bdrv_dirname() should
-look to the primary child when they wish to copy the underlying file's
-filename.
+If a node whose driver does not provide VM state functions has a
+metadata child, the VM state should probably go there; if it is a
+filter, the VM state should probably go there.  It follows that we
+should generally go down to the primary child.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+ block/io.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block.c b/block.c
-index 8131d0b5eb..7c827fefa0 100644
---- a/block.c
-+++ b/block.c
-@@ -6797,6 +6797,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+diff --git a/block/io.c b/block/io.c
+index 37057f13e0..9e802804bb 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2646,6 +2646,7 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                    bool is_read)
  {
      BlockDriver *drv = bs->drv;
-     BdrvChild *child;
-+    BlockDriverState *primary_child_bs;
-     QDict *opts;
-     bool backing_overridden;
-     bool generate_json_filename; /* Whether our default implementation should
-@@ -6866,20 +6867,30 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-     qobject_unref(bs->full_open_options);
-     bs->full_open_options = opts;
++    BlockDriverState *child_bs = bdrv_primary_bs(bs);
+     int ret = -ENOTSUP;
  
-+    primary_child_bs = bdrv_primary_bs(bs);
-+
-     if (drv->bdrv_refresh_filename) {
-         /* Obsolete information is of no use here, so drop the old file name
-          * information before refreshing it */
-         bs->exact_filename[0] = '\0';
- 
-         drv->bdrv_refresh_filename(bs);
--    } else if (bs->file) {
--        /* Try to reconstruct valid information from the underlying file */
-+    } else if (primary_child_bs) {
-+        /*
-+         * Try to reconstruct valid information from the underlying
-+         * file -- this only works for format nodes (filter nodes
-+         * cannot be probed and as such must be selected by the user
-+         * either through an options dict, or through a special
-+         * filename which the filter driver must construct in its
-+         * .bdrv_refresh_filename() implementation).
-+         */
- 
-         bs->exact_filename[0] = '\0';
- 
-         /*
-          * We can use the underlying file's filename if:
-          * - it has a filename,
-+         * - the current BDS is not a filter,
-          * - the file is a protocol BDS, and
-          * - opening that file (as this BDS's format) will automatically create
-          *   the BDS tree we have right now, that is:
-@@ -6888,11 +6899,11 @@ void bdrv_refresh_filename(BlockDriverState *bs)
-          *   - no non-file child of this BDS has been overridden by the user
-          *   Both of these conditions are represented by generate_json_filename.
-          */
--        if (bs->file->bs->exact_filename[0] &&
--            bs->file->bs->drv->bdrv_file_open &&
--            !generate_json_filename)
-+        if (primary_child_bs->exact_filename[0] &&
-+            primary_child_bs->drv->bdrv_file_open &&
-+            !drv->is_filter && !generate_json_filename)
-         {
--            strcpy(bs->exact_filename, bs->file->bs->exact_filename);
-+            strcpy(bs->exact_filename, primary_child_bs->exact_filename);
+     bdrv_inc_in_flight(bs);
+@@ -2658,8 +2659,8 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+         } else {
+             ret = drv->bdrv_save_vmstate(bs, qiov, pos);
          }
+-    } else if (bs->file) {
+-        ret = bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
++    } else if (child_bs) {
++        ret = bdrv_co_rw_vmstate(child_bs, qiov, pos, is_read);
      }
  
-@@ -6912,6 +6923,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
- char *bdrv_dirname(BlockDriverState *bs, Error **errp)
- {
-     BlockDriver *drv = bs->drv;
-+    BlockDriverState *child_bs;
- 
-     if (!drv) {
-         error_setg(errp, "Node '%s' is ejected", bs->node_name);
-@@ -6922,8 +6934,9 @@ char *bdrv_dirname(BlockDriverState *bs, Error **errp)
-         return drv->bdrv_dirname(bs, errp);
-     }
- 
--    if (bs->file) {
--        return bdrv_dirname(bs->file->bs, errp);
-+    child_bs = bdrv_primary_bs(bs);
-+    if (child_bs) {
-+        return bdrv_dirname(child_bs, errp);
-     }
- 
-     bdrv_refresh_filename(bs);
+     bdrv_dec_in_flight(bs);
 -- 
 2.26.2
 
