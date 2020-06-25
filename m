@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62A320A382
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 19:02:27 +0200 (CEST)
-Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5651220A394
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 19:05:04 +0200 (CEST)
+Received: from localhost ([::1]:45182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joVGb-0002oo-Vz
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 13:02:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
+	id 1joVJ9-0006hP-7i
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 13:05:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1joVEl-000118-Pf; Thu, 25 Jun 2020 13:00:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54658)
+ id 1joVEm-00011y-G4; Thu, 25 Jun 2020 13:00:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
- id 1joVEj-0007Ny-UW; Thu, 25 Jun 2020 13:00:31 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1joVEk-0007Oj-D8; Thu, 25 Jun 2020 13:00:32 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05PGaSM3132281; Thu, 25 Jun 2020 13:00:23 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31vxqkabn4-1
+ 05PGVwoG081222; Thu, 25 Jun 2020 13:00:26 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31ux085337-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jun 2020 13:00:23 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PH01Te024684;
- Thu, 25 Jun 2020 17:00:22 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01dal.us.ibm.com with ESMTP id 31uurus0yy-1
+ Thu, 25 Jun 2020 13:00:24 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PH03Mj001279;
+ Thu, 25 Jun 2020 17:00:23 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma03dal.us.ibm.com with ESMTP id 31uurw0yyp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jun 2020 17:00:22 +0000
+ Thu, 25 Jun 2020 17:00:23 +0000
 Received: from b03ledav002.gho.boulder.ibm.com
  (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 05PH0IQJ22937962
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05PH0KBr8913406
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Jun 2020 17:00:18 GMT
+ Thu, 25 Jun 2020 17:00:20 GMT
 Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE2AD136055;
+ by IMSVA (Postfix) with ESMTP id C0F07136051;
+ Thu, 25 Jun 2020 17:00:21 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0818E13604F;
  Thu, 25 Jun 2020 17:00:20 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05493136051;
- Thu, 25 Jun 2020 17:00:19 +0000 (GMT)
 Received: from pompom.ibm.com (unknown [9.160.117.167])
  by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 25 Jun 2020 17:00:19 +0000 (GMT)
+ Thu, 25 Jun 2020 17:00:20 +0000 (GMT)
 From: Lijun Pan <ljp@linux.ibm.com>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 1/8] target/ppc: Introduce Power ISA 3.1 flag
-Date: Thu, 25 Jun 2020 12:00:11 -0500
-Message-Id: <20200625170018.64265-2-ljp@linux.ibm.com>
+Subject: [PATCH v3 2/8] target/ppc: add byte-reverse br[dwh] instructions
+Date: Thu, 25 Jun 2020 12:00:12 -0500
+Message-Id: <20200625170018.64265-3-ljp@linux.ibm.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200625170018.64265-1-ljp@linux.ibm.com>
 References: <20200625170018.64265-1-ljp@linux.ibm.com>
@@ -63,11 +63,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-06-25_11:2020-06-25,
  2020-06-25 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- bulkscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 mlxlogscore=997
- malwarescore=0 impostorscore=0 priorityscore=1501 cotscore=-2147483648
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006250103
+ suspectscore=2 mlxscore=0
+ impostorscore=0 cotscore=-2147483648 mlxlogscore=874 bulkscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006250102
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 13:00:27
@@ -95,49 +95,70 @@ Cc: Lijun Pan <ljp@linux.ibm.com>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This flag will be used for Power10 instructions.
+POWER ISA 3.1 introduces following byte-reverse instructions:
+brd: Byte-Reverse Doubleword X-form
+brw: Byte-Reverse Word X-form
+brh: Byte-Reverse Halfword X-form
 
 Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
 ---
- target/ppc/cpu.h                | 4 +++-
- target/ppc/translate_init.inc.c | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+v3: fix the store issue in br[dwh]
+    simplify brw implementation
+    add "if defined(TARGET_PPC64)"
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 1988b436cb..ebb5a0811a 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2191,6 +2191,8 @@ enum {
-     PPC2_PM_ISA206     = 0x0000000000040000ULL,
-     /* POWER ISA 3.0                                                         */
-     PPC2_ISA300        = 0x0000000000080000ULL,
-+    /* POWER ISA 3.1                                                         */
-+    PPC2_ISA310        = 0x0000000000100000ULL,
+ target/ppc/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 4ce3d664b5..6634b38f3a 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6971,7 +6971,45 @@ static void gen_dform3D(DisasContext *ctx)
+     return gen_invalid(ctx);
+ }
  
- #define PPC_TCG_INSNS2 (PPC2_BOOKE206 | PPC2_VSX | PPC2_PRCNTL | PPC2_DBRX | \
-                         PPC2_ISA205 | PPC2_VSX207 | PPC2_PERM_ISA206 | \
-@@ -2199,7 +2201,7 @@ enum {
-                         PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | \
-                         PPC2_ALTIVEC_207 | PPC2_ISA207S | PPC2_DFP | \
-                         PPC2_FP_CVT_S64 | PPC2_TM | PPC2_PM_ISA206 | \
--                        PPC2_ISA300)
-+                        PPC2_ISA300 | PPC2_ISA310)
- };
- 
- /*****************************************************************************/
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index 38cb773ab4..3f72310e60 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -9206,7 +9206,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
-                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
-                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
--                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
-+                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310;
-     pcc->msr_mask = (1ull << MSR_SF) |
-                     (1ull << MSR_HV) |
-                     (1ull << MSR_TM) |
++/* brd */
++static void gen_brd(DisasContext *ctx)
++{
++    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
++}
++
++/* brw */
++static void gen_brw(DisasContext *ctx)
++{
++    tcg_gen_bswap64_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rS(ctx->opcode)]);
++    tcg_gen_rotli_i64(cpu_gpr[rA(ctx->opcode)], cpu_gpr[rA(ctx->opcode)], 32);
++
++}
++
++/* brh */
++static void gen_brh(DisasContext *ctx)
++{
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 t2 = tcg_temp_new_i64();
++
++    tcg_gen_movi_i64(t0, 0x00ff00ff00ff00ffull);
++    tcg_gen_shri_i64(t1, cpu_gpr[rS(ctx->opcode)], 8);
++    tcg_gen_and_i64(t2, t1, t0);
++    tcg_gen_and_i64(t1, cpu_gpr[rS(ctx->opcode)], t0);
++    tcg_gen_shli_i64(t1, t1, 8);
++    tcg_gen_or_i64(cpu_gpr[rA(ctx->opcode)], t1, t2);
++
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++}
++
+ static opcode_t opcodes[] = {
++#if defined(TARGET_PPC64)
++GEN_HANDLER_E(brd, 0x1F, 0x1B, 0x05, 0x0000F801, PPC_NONE, PPC2_ISA310),
++GEN_HANDLER_E(brw, 0x1F, 0x1B, 0x04, 0x0000F801, PPC_NONE, PPC2_ISA310),
++GEN_HANDLER_E(brh, 0x1F, 0x1B, 0x06, 0x0000F801, PPC_NONE, PPC2_ISA310),
++#endif
+ GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
+ GEN_HANDLER(cmp, 0x1F, 0x00, 0x00, 0x00400000, PPC_INTEGER),
+ GEN_HANDLER(cmpi, 0x0B, 0xFF, 0xFF, 0x00400000, PPC_INTEGER),
 -- 
 2.23.0
 
