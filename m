@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5880420A548
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:54:56 +0200 (CEST)
-Received: from localhost ([::1]:58722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F3920A54D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:56:43 +0200 (CEST)
+Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joX1T-0008Kj-0F
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40218)
+	id 1joX3C-0003HA-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joWw2-0008Gm-VH
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:49:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58806
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joWw7-0008Ou-BL
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:49:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40445
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joWw1-00012I-AF
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:49:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joWw5-00014S-NC
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:49:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593110956;
+ s=mimecast20190719; t=1593110961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m0bzcP/UpAbQ5jPMODfTO9c6ylEsOtXCw+c/HFqzYb0=;
- b=SmcZLZKrQpaV6bdo4DlLNdTYyu1q+/iMzATK4H54UQ2e1eGa0bbiDKPFtmHpushmPI+/tw
- 0Im2q8ht5eKCyWNiK7FkpWBRKAaSgoliJIo17RoBUDS49rW8TsRFRj/gkM8JpFn+4JDiRx
- 23x/ncjV61niO/xwR3R6oIHvA6cFnDo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-4vIC9PyLP4C1G58ykPQlcQ-1; Thu, 25 Jun 2020 14:49:14 -0400
-X-MC-Unique: 4vIC9PyLP4C1G58ykPQlcQ-1
-Received: by mail-wr1-f71.google.com with SMTP id a18so7731056wrm.14
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:49:14 -0700 (PDT)
+ bh=IffnAEQwVLooyZqnwMH0USvgIfFSWE7k1J5V8wEsJMc=;
+ b=SoCD7dC+17iEHcRahCbWcYWVcia+C+/6++LYB1bLbVQ7Aj6K3i9DZCc9p6lZBsozxdQeXJ
+ FDO7+nxSyHovvuZo8CkiLo3Tcce7fO3PgkR4UKjNVZDRuvJWNwEOkYVF8h/RkIdF26jNq+
+ b77H2TTUeyqCZ3VhuFwbAgaZNGLkRz4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-y0XMY1N_O9KAC9e9lsEUXQ-1; Thu, 25 Jun 2020 14:49:19 -0400
+X-MC-Unique: y0XMY1N_O9KAC9e9lsEUXQ-1
+Received: by mail-wm1-f71.google.com with SMTP id a21so7772797wmd.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:49:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m0bzcP/UpAbQ5jPMODfTO9c6ylEsOtXCw+c/HFqzYb0=;
- b=bfj5dfrzAJwL2t65NGayF1nUt39qFivXye/GVLaT45ed5sPJgR3DTQP7TlWujcv0oX
- nUi7TJhb9CXQ/GAWZsXxf6g1ZJ1+wUW5V7C1HsYzn0O9bCqjgnkyPWhLUY2Xbz+WA8b+
- 1us3c9+aKFBTyZynRsdaIIt0xnFywKMjWteGEuo6Tm2HnWRGuXcG2JG93CeObdYEJXVo
- w8l+maTyw8pv+/Sxo6CM1z8QqUhicsZoEMBiQmR8zaNMWtzU4Cl5LxND7cyLuPVcJqi3
- s4URbwcHcinYKvYssd1BY40t2r9+VAm0GLM50JTaydmRFmLOl+TD2VfkozjtQB232JHh
- 9ekQ==
-X-Gm-Message-State: AOAM530b2HREUWq7+olG2hNCvrHQkZ5wI02WG41SyY01yD3TX9T+7BV0
- 5LvdLm5SkjWjNbh3E5aijMneT7g3sL6OQZK6yLiqv7JfL9nmVYWv5o4nP5OauglepoWTrav+x8x
- 0q+AbUwAjPQdY4fY=
-X-Received: by 2002:a1c:7c15:: with SMTP id x21mr4623892wmc.146.1593110953484; 
- Thu, 25 Jun 2020 11:49:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZ+v+Rr3Z3igwd657UXI2rM8WYawdUWGIyGhgmTRIQrvaFBNzmKuRWfzAtiZOfqee2AyWw8g==
-X-Received: by 2002:a1c:7c15:: with SMTP id x21mr4623880wmc.146.1593110953328; 
- Thu, 25 Jun 2020 11:49:13 -0700 (PDT)
+ bh=IffnAEQwVLooyZqnwMH0USvgIfFSWE7k1J5V8wEsJMc=;
+ b=hNNkSwX7HSCtHEB7eNjkCEPX7TycTg25A1xMHfFY580R/yHhmFNjwzzXlbUovX1MIj
+ uEpZMxhiDm8o7ngvqE/K5oryV3bBDSxOnzoVtG3JufFvvQlwho34HfS5w4IMZS0+UU4S
+ gLdvBeNpN4G0er2AUcmu7RnmLo/JzwAlnTLWceDN7ObsCnljhKmgtfnduTARPvGWi95K
+ bR2q6PYeC22LvCwXJF+w7bZlZgEWlqqtbxfT1p6r8gnevXMVbsEiGWd/vwvCCHX822jT
+ xhxmrIm26B8H02lU7hM07vrJUw9MXjddRlLXt8YRQxepJoj1kw9lAeBIgEOInMhMhyzN
+ WKWw==
+X-Gm-Message-State: AOAM532BBObs92HFK5pfuVOVXEd0YjfuUz8iNXof1TdLeIb607Al34ix
+ kZYck5IV09Tms3hko7hmuWkZcrWUKkr2C/Vy/GYEj37a/NQxmyRBhPpi8UcejIACNEwCzqAxmMi
+ X7cRUSZ186ogTFJE=
+X-Received: by 2002:adf:9c12:: with SMTP id f18mr41102128wrc.105.1593110958071; 
+ Thu, 25 Jun 2020 11:49:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyf2A4qmfaAmo1zDhHRG1mrmZJVLhlXeVGijQsIShuyxhNXkhhi8CLFt20HkwC4JskW3cQFMg==
+X-Received: by 2002:adf:9c12:: with SMTP id f18mr41102109wrc.105.1593110957928; 
+ Thu, 25 Jun 2020 11:49:17 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id v66sm14152417wme.13.2020.06.25.11.49.12
+ by smtp.gmail.com with ESMTPSA id o1sm34796824wrw.20.2020.06.25.11.49.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 11:49:12 -0700 (PDT)
+ Thu, 25 Jun 2020 11:49:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 07/17] block/nvme: Move code around
-Date: Thu, 25 Jun 2020 20:48:28 +0200
-Message-Id: <20200625184838.28172-8-philmd@redhat.com>
+Subject: [PATCH 08/17] block/nvme: Use correct type void*
+Date: Thu, 25 Jun 2020 20:48:29 +0200
+Message-Id: <20200625184838.28172-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200625184838.28172-1-philmd@redhat.com>
 References: <20200625184838.28172-1-philmd@redhat.com>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
@@ -103,49 +105,27 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move assignments previous to where the assigned variable is used,
-to make the nvme_identify() body easier to review. No logical change.
+qemu_try_memalign() returns a void*, qemu_vfio_dma_map() consumes
+a void*. Drop the confusing uint8_t* type.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index cec9ace3dd..1bba496294 100644
+index 1bba496294..095a8ec024 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -456,17 +456,15 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-         error_setg(errp, "Cannot allocate buffer for identify response");
-         goto out;
-     }
--    idctrl = (NvmeIdCtrl *)resp;
--    idns = (NvmeIdNs *)resp;
-     r = qemu_vfio_dma_map(s->vfio, resp, idsz_max, true, &iova);
-     if (r) {
-         error_setg(errp, "Cannot map buffer for DMA");
-         goto out;
-     }
- 
--    memset(resp, 0, sizeof(NvmeIdCtrl));
-+    idctrl = (NvmeIdCtrl *)resp;
-+    memset(idctrl, 0, sizeof(NvmeIdCtrl));
-     cmd.prp1 = cpu_to_le64(iova);
--
-     if (nvme_cmd_sync(bs, s->queues[QUEUE_INDEX_ADMIN], &cmd)) {
-         error_setg(errp, "Failed to identify controller");
-         goto out;
-@@ -487,8 +485,8 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-     s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROS);
-     s->supports_discard = !!(oncs & NVME_ONCS_DSM);
- 
--    memset(resp, 0, sizeof(NvmeIdNs));
--
-+    idns = (NvmeIdNs *)resp;
-+    memset(idns, 0, sizeof(NvmeIdNs));
-     cmd.cdw10 = 0;
-     cmd.nsid = cpu_to_le32(namespace);
-     if (nvme_cmd_sync(bs, s->queues[QUEUE_INDEX_ADMIN], &cmd)) {
+@@ -441,7 +441,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     NvmeIdNs *idns;
+     size_t idsz_max;
+     NvmeLBAF *lbaf;
+-    uint8_t *resp;
++    void *resp;
+     uint16_t oncs;
+     int r;
+     uint64_t iova;
 -- 
 2.21.3
 
