@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8D820A1F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:31:07 +0200 (CEST)
-Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6865620A1FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:33:57 +0200 (CEST)
+Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTqE-0006Z0-7w
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
+	id 1joTsy-0001mP-Bl
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi5-0005SP-59
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:41 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47042
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi6-0005US-F1
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34546
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi3-0000f1-Cc
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:40 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi4-0000hC-SZ
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098558;
+ s=mimecast20190719; t=1593098560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RQ1KDRkftLMp1tf7K4zPy2rG4hYbZcHYtRHVLRa3hLA=;
- b=iNx14grJ5qBaKp3MPo/g5nZEHjxOb86gzRD5RIms2dQqaknjuOkQhdgJnD4WqEYaXvnqA0
- RSkC1AAR+AZEI0VUiop1unqCfNNDGHLTLpTIAMc7i+mOKcKve5rCYVnzdcHXJYOAiqSiFM
- wBgenp7Uye6yYgMwdseFpP1OAWfTIUE=
+ bh=Srr0ng/3UPLUq5FntmQzOQlZqCsCkFYTEO9BVUzzTW8=;
+ b=Tu9zr+OG4Vu1Yc1VI39jTAX4drxsbzrXjdcbQIIu8IInoozSVXzLd4Zv8fWvRtqONRr/0z
+ qRXdNUu+4+va30uR45cYAnK4a6M2R3S+4sG1E3ExD7y1odZC/2pAmkWLXj/FtwLFa6YjoB
+ vnCxd+VkYLX9YBG66uCEssicR8YILZU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-6LIvz5PNMuqtItEi_F13lw-1; Thu, 25 Jun 2020 11:22:36 -0400
-X-MC-Unique: 6LIvz5PNMuqtItEi_F13lw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-473-ppkSEOHANju3fH7UEPih1w-1; Thu, 25 Jun 2020 11:22:38 -0400
+X-MC-Unique: ppkSEOHANju3fH7UEPih1w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C957910059A5;
- Thu, 25 Jun 2020 15:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1221D18A0731;
+ Thu, 25 Jun 2020 15:22:37 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70EC379303;
- Thu, 25 Jun 2020 15:22:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7D7F2DE60;
+ Thu, 25 Jun 2020 15:22:36 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 07/47] block: Add bdrv_supports_compressed_writes()
-Date: Thu, 25 Jun 2020 17:21:35 +0200
-Message-Id: <20200625152215.941773-8-mreitz@redhat.com>
+Subject: [PATCH v7 08/47] throttle: Support compressed writes
+Date: Thu, 25 Jun 2020 17:21:36 +0200
+Message-Id: <20200625152215.941773-9-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,67 +83,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Filters cannot compress data themselves but they have to implement
-.bdrv_co_pwritev_compressed() still (or they cannot forward compressed
-writes).  Therefore, checking whether
-bs->drv->bdrv_co_pwritev_compressed is non-NULL is not sufficient to
-know whether the node can actually handle compressed writes.  This
-function looks down the filter chain to see whether there is a
-non-filter that can actually convert the compressed writes into
-compressed data (and thus normal writes).
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block.h |  1 +
- block.c               | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ block/throttle.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 0080fe1311..a905a5ec05 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -538,6 +538,7 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it);
- void bdrv_next_cleanup(BdrvNextIterator *it);
- 
- BlockDriverState *bdrv_next_monitor_owned(BlockDriverState *bs);
-+bool bdrv_supports_compressed_writes(BlockDriverState *bs);
- void bdrv_iterate_format(void (*it)(void *opaque, const char *name),
-                          void *opaque, bool read_only);
- const char *bdrv_get_node_name(const BlockDriverState *bs);
-diff --git a/block.c b/block.c
-index 76277ea4e0..6449f3a11d 100644
---- a/block.c
-+++ b/block.c
-@@ -5044,6 +5044,29 @@ bool bdrv_is_sg(BlockDriverState *bs)
-     return bs->sg;
+diff --git a/block/throttle.c b/block/throttle.c
+index 0ebbad0743..f6e619aca2 100644
+--- a/block/throttle.c
++++ b/block/throttle.c
+@@ -154,6 +154,15 @@ static int coroutine_fn throttle_co_pdiscard(BlockDriverState *bs,
+     return bdrv_co_pdiscard(bs->file, offset, bytes);
  }
  
-+/**
-+ * Return whether the given node supports compressed writes.
-+ */
-+bool bdrv_supports_compressed_writes(BlockDriverState *bs)
++static int coroutine_fn throttle_co_pwritev_compressed(BlockDriverState *bs,
++                                                       uint64_t offset,
++                                                       uint64_t bytes,
++                                                       QEMUIOVector *qiov)
 +{
-+    BlockDriverState *filtered;
-+
-+    if (!bs->drv || !block_driver_can_compress(bs->drv)) {
-+        return false;
-+    }
-+
-+    filtered = bdrv_filter_bs(bs);
-+    if (filtered) {
-+        /*
-+         * Filters can only forward compressed writes, so we have to
-+         * check the child.
-+         */
-+        return bdrv_supports_compressed_writes(filtered);
-+    }
-+
-+    return true;
++    return throttle_co_pwritev(bs, offset, bytes, qiov,
++                               BDRV_REQ_WRITE_COMPRESSED);
 +}
 +
- const char *bdrv_get_format_name(BlockDriverState *bs)
+ static int throttle_co_flush(BlockDriverState *bs)
  {
-     return bs->drv ? bs->drv->format_name : NULL;
+     return bdrv_co_flush(bs->file->bs);
+@@ -246,6 +255,7 @@ static BlockDriver bdrv_throttle = {
+ 
+     .bdrv_co_pwrite_zeroes              =   throttle_co_pwrite_zeroes,
+     .bdrv_co_pdiscard                   =   throttle_co_pdiscard,
++    .bdrv_co_pwritev_compressed         =   throttle_co_pwritev_compressed,
+ 
+     .bdrv_attach_aio_context            =   throttle_attach_aio_context,
+     .bdrv_detach_aio_context            =   throttle_detach_aio_context,
 -- 
 2.26.2
 
