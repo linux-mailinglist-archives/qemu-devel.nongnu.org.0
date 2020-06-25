@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABA320A51F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:42:04 +0200 (CEST)
-Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E1420A526
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:43:39 +0200 (CEST)
+Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joWp1-0003lK-6p
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
+	id 1joWqY-00062s-7l
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joWl9-00084Y-Ma
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:38:03 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joWl8-0006LB-1M
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:38:03 -0400
-Received: by mail-pl1-x642.google.com with SMTP id x8so2269926plm.10
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eM5FPiajM7AFbx2N5dEjtLk/OaxIvjo+/KMdmbWBpgY=;
- b=UkDHB4rmk6oPsQ3M6hXr9XS7pF5xuwzgbJlKAr48atHyFd1nMH35w37mubIJy7aSKT
- XCLTku9ClZAiq1kLj4foeJujPA6JnCI3kbEOAufCk4uRiBeiutZOx2phBZIE0tnw0A2V
- /vbYs7zBkdlwraxLZ8288w4RlEAro9r56L20V/VstK+ScqjXUTkGppzTB64060qyfbDj
- /lkQVEEobOqkpHiA23w0bE83AXXhDQHoTGUPisKrOVxoY0jloApvRYil6AWQhVCt/Zhm
- E2H1AFft151bJT7tEazKAtY7eGBsrbzpcfDxA5ZcxJwg6+rc15iHxtPQV1ELRAC2B5tc
- 9PYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eM5FPiajM7AFbx2N5dEjtLk/OaxIvjo+/KMdmbWBpgY=;
- b=sIOcmbsnSgEgWR90A2NAIJMGfaXS/wephRsIC/iAuyR7bh1HrD9jchtPIoIYEM7/M5
- 8uUT+VETfd53imYJi+d1U9FLrEvqgzHBd5yGFJaNVklIqeUK/ttoXyT9/BNhuozRGYUD
- FCPNdA/rQBxb88eFGebhUxTdE3tQPEescpeHedx4zxBqUrt4zH69teGy4d7amUkVh6wo
- ViI+dNUGcV7W/CgNm3YZuT9JJ3WvLvKd7qQjKhjRD5yl48PAhcrREN+F/5FRDtlHJzTA
- 4+3Bbqzn9MOea5v2FXOv7m37sUtn9IOQ0a3MZPG6DvdJDsBokAQfn/hJS2Ovf8bAoF3V
- cAkg==
-X-Gm-Message-State: AOAM5329tyIRZ0Gg8nbJD/AzrLC5e4J6i/RoHA0IgDaql80wGgjK3TUM
- 250VKx78o0xr3I6IxyCZS55Pug==
-X-Google-Smtp-Source: ABdhPJyi2h7CnL9sjJbXxUAWWOs4JgYrkN25pkvGNkJ7CfqJD0soruyuT8fjSb92WGCBKsENKYZNbw==
-X-Received: by 2002:a17:902:6bc5:: with SMTP id
- m5mr34385895plt.101.1593110280259; 
- Thu, 25 Jun 2020 11:38:00 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q184sm2482598pfc.82.2020.06.25.11.37.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 11:37:59 -0700 (PDT)
-Subject: Re: [PATCH v3 8/8] target/ppc: add vdiv{su}{wd} vmod{su}{wd}
- instructions
-To: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20200625170018.64265-1-ljp@linux.ibm.com>
- <20200625170018.64265-9-ljp@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4561adf0-2be1-e9c3-49d8-9de8c414ec40@linaro.org>
-Date: Thu, 25 Jun 2020 11:37:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1joWmw-00024b-SX
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:39:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27780
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1joWmu-0006rF-PK
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:39:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593110391;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iHXZAcPLyGO6RwqDeW2mO0R9wZpTLXIsv0lSSnrTa+4=;
+ b=TqDxctZ6ktVHMPqhNu8xVW6fQ9zWTdOgVhsQ+lVyRIqCxa07qF4IRWHgHkysYHVybd9RpS
+ bmr5YDU6KNT80Iwt7wTVIguFUOjbzp0FtqvKbjXTb3FJCMqtO4Sh7Gdm4xb9RdlDZ04+ey
+ CANLT5jqSp9ZXWiKfQX9iXIjLFb38E4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-RMpWnEZsOcC1ZvfqwkvLVQ-1; Thu, 25 Jun 2020 14:39:47 -0400
+X-MC-Unique: RMpWnEZsOcC1ZvfqwkvLVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A12518585A2;
+ Thu, 25 Jun 2020 18:39:46 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9BBD7CADB;
+ Thu, 25 Jun 2020 18:39:43 +0000 (UTC)
+Date: Thu, 25 Jun 2020 20:39:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH v3 3/3] acpi: i386: Move VMBus DSDT entry to SB
+Message-ID: <20200625203940.1075ce5a@redhat.com>
+In-Reply-To: <20200625022526.GB5487@jondnuc>
+References: <20200618030027.759594-1-arilou@gmail.com>
+ <20200618030027.759594-4-arilou@gmail.com>
+ <20200623170955.0a4f3ae7@redhat.com>
+ <20200625022526.GB5487@jondnuc>
 MIME-Version: 1.0
-In-Reply-To: <20200625170018.64265-9-ljp@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,37 +82,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: rvkagan@yandex-team.ru, pbonzini@redhat.com, mail@maciej.szmigiero.name,
+ qemu-devel@nongnu.org, vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 10:00 AM, Lijun Pan wrote:
-> +#define VDIV_MOD_DO(name, op, element, sign, bit)                       \
-> +    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
-> +    {                                                                   \
-> +        int i;                                                          \
-> +                                                                        \
-> +                                                                        \
-> +        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
-> +            if (unlikely((b->element[i] == 0) ||                        \
-> +                (sign &&                                                \
-> +                (b->element[i] == UINT##bit##_MAX) &&                   \
-> +                (a->element[i] == INT##bit##_MIN))))                    \
-> +                continue;                                               \
-> +            r->element[i] = a->element[i] op b->element[i];             \
-> +        }                                                               \
-> +    }
+On Thu, 25 Jun 2020 05:25:26 +0300
+Jon Doron <arilou@gmail.com> wrote:
 
-Missing braces for the if.  Extra blank line before the for.
+> On 23/06/2020, Igor Mammedov wrote:
+> >On Thu, 18 Jun 2020 06:00:27 +0300
+> >Jon Doron <arilou@gmail.com> wrote:
+> >  
+> >> Signed-off-by: Jon Doron <arilou@gmail.com>
+> >> ---
+> >>  hw/i386/acpi-build.c | 12 +++++++-----
+> >>  1 file changed, 7 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> >> index 6d9df38e31..38be9e5a58 100644
+> >> --- a/hw/i386/acpi-build.c
+> >> +++ b/hw/i386/acpi-build.c
+> >> @@ -1092,7 +1092,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
+> >>  static void build_isa_devices_aml(Aml *table)
+> >>  {
+> >>      ISADevice *fdc = pc_find_fdc0();
+> >> -    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+> >>      bool ambiguous;
+> >>
+> >>      Aml *scope = aml_scope("_SB.PCI0.ISA");
+> >> @@ -1113,10 +1112,6 @@ static void build_isa_devices_aml(Aml *table)
+> >>          isa_build_aml(ISA_BUS(obj), scope);
+> >>      }
+> >>
+> >> -    if (vmbus_bridge) {
+> >> -        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
+> >> -    }
+> >> -
+> >>      aml_append(table, scope);
+> >>  }
+> >>
+> >> @@ -1661,6 +1656,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>      PCIBus *bus = NULL;
+> >>      TPMIf *tpm = tpm_find();
+> >>      int i;
+> >> +    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+> >>
+> >>      dsdt = init_aml_allocator();
+> >>
+> >> @@ -1675,6 +1671,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> >>          aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> >>          aml_append(sb_scope, dev);
+> >> +        if (vmbus_bridge) {
+> >> +            aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
+> >> +        }
+> >>          aml_append(dsdt, sb_scope);
+> >>
+> >>          build_hpet_aml(dsdt);
+> >> @@ -1692,6 +1691,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>          aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> >>          aml_append(dev, build_q35_osc_method());
+> >>          aml_append(sb_scope, dev);
+> >> +        if (vmbus_bridge) {
+> >> +            aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
+> >> +        }
+> >>          aml_append(dsdt, sb_scope);
+> >>
+> >>          build_hpet_aml(dsdt);  
+> >why are you duplicating instead of putting one if () block after
+> >
+> >if (misc->is_piix4) {
+> >} else {
+> >}
+> >
+> >?
+> >  
+> 
+> Well it seems like Windows is very "picky" about where you declare the 
+> VMBS not sure why if i had moved it to the suggested location as such
+> 
+> if (misc->is_piix4) {
+> } else {
+> }
+> 
+> if (vmbus_bridge) {
+>      aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
+>      aml_append(dsdt, sb_scope);
+> }
+> 
+> Windows would BSOD right away with ACPI error.
+> 
+> Same goes for declaring it before PCI0 device...
 
-I see that the ISA document says divide-by-zero produces an undefined result,
-so leaving the previous contents does seem to be within the letter of the law.
+just FYI, Windows has ACPI debugger, so if you attach wingdb at early boot
+you can set acpi breakpoint and after that enable all kind of debug info (see MSDN)
+that usually say why exactly it doesn't like something in AML.
 
-However... Are you able to test what real hardware produces?  It would be nice
-(but not required) to match if it is simple to do so.
+It used to require checked build and it is tricky to enable but once
+you figured how, it works like charm.
 
-Whichever way we go with the undefined result, this deserves a comment.
+> 
+> -- Jon.
+> 
 
-
-r~
 
