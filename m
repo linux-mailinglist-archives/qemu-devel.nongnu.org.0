@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA15D20A208
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:35:40 +0200 (CEST)
-Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0503620A201
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:34:12 +0200 (CEST)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joTud-0005I3-JO
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
+	id 1joTtC-0002AH-UD
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi9-0005W8-Mo
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38743
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiG-0005cn-Hk
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57807
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTi6-0000jC-PD
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:45 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiD-0000kj-0r
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:22:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098562;
+ s=mimecast20190719; t=1593098568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nch8r+sggXc7QgAhHaEZqPwOSLb16dIURCBoBCMI83k=;
- b=b1fz9iVBJGkcN3C9+tqJBquDc4X6cYsINsf6D5fChLOJghRBEYyIomcP8OGs0dXok2gWp/
- RzgoHWWb4SPL7Fw8iodoqewOUWIVhA0+q7n8IGZqqzrOxoZG2GL72FQ62Sb6i//O9P7JOa
- MLAi5eZ4AOP8wKaSPMpP+6O9GKuTC2U=
+ bh=MqHimW4Fh8To193wjifBj5GjECNEmUokN+yiC3fNTyE=;
+ b=EkZlaPE9c/q8q/ucSJ+eX/kYfjdBF7u5mBecSMrpFlSK3fdnUSL9Gw/OuhdtpxR94bUeph
+ 4+JjuG4XkHQcGWQflPmRz5tuOBjrZXTfDkPctbwVRNkzIOw9eJ0PwMO2RXkdm+5ybXXaX4
+ EjORkKhvpsFU05dSzbltBzaXN6GJNgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-mWG3ApppNz2twuIjQZzevg-1; Thu, 25 Jun 2020 11:22:40 -0400
-X-MC-Unique: mWG3ApppNz2twuIjQZzevg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-460-R0OP0uE4OzyvVJrHVAm1fg-1; Thu, 25 Jun 2020 11:22:42 -0400
+X-MC-Unique: R0OP0uE4OzyvVJrHVAm1fg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29B0764AE9;
- Thu, 25 Jun 2020 15:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43F6B64AD9;
+ Thu, 25 Jun 2020 15:22:41 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C24925DD61;
- Thu, 25 Jun 2020 15:22:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE8EB1DC;
+ Thu, 25 Jun 2020 15:22:40 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 09/47] copy-on-read: Support compressed writes
-Date: Thu, 25 Jun 2020 17:21:37 +0200
-Message-Id: <20200625152215.941773-10-mreitz@redhat.com>
+Subject: [PATCH v7 10/47] mirror-top: Support compressed writes
+Date: Thu, 25 Jun 2020 17:21:38 +0200
+Message-Id: <20200625152215.941773-11-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,38 +85,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/copy-on-read.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block/mirror.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index a6e3c74a68..a6a864f147 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -107,6 +107,16 @@ static int coroutine_fn cor_co_pdiscard(BlockDriverState *bs,
+diff --git a/block/mirror.c b/block/mirror.c
+index e8e8844afc..469acf4600 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1480,6 +1480,15 @@ static int coroutine_fn bdrv_mirror_top_pdiscard(BlockDriverState *bs,
+                                     NULL, 0);
  }
  
- 
-+static int coroutine_fn cor_co_pwritev_compressed(BlockDriverState *bs,
-+                                                  uint64_t offset,
-+                                                  uint64_t bytes,
-+                                                  QEMUIOVector *qiov)
++static int coroutine_fn bdrv_mirror_top_pwritev_compressed(BlockDriverState *bs,
++                                                           uint64_t offset,
++                                                           uint64_t bytes,
++                                                           QEMUIOVector *qiov)
 +{
-+    return bdrv_co_pwritev(bs->file, offset, bytes, qiov,
-+                           BDRV_REQ_WRITE_COMPRESSED);
++    return bdrv_mirror_top_pwritev(bs, offset, bytes, qiov,
++                                   BDRV_REQ_WRITE_COMPRESSED);
 +}
 +
-+
- static void cor_eject(BlockDriverState *bs, bool eject_flag)
+ static void bdrv_mirror_top_refresh_filename(BlockDriverState *bs)
  {
-     bdrv_eject(bs->file->bs, eject_flag);
-@@ -131,6 +141,7 @@ static BlockDriver bdrv_copy_on_read = {
-     .bdrv_co_pwritev                    = cor_co_pwritev,
-     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
-     .bdrv_co_pdiscard                   = cor_co_pdiscard,
-+    .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
- 
-     .bdrv_eject                         = cor_eject,
-     .bdrv_lock_medium                   = cor_lock_medium,
+     if (bs->backing == NULL) {
+@@ -1526,6 +1535,7 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_co_pwritev            = bdrv_mirror_top_pwritev,
+     .bdrv_co_pwrite_zeroes      = bdrv_mirror_top_pwrite_zeroes,
+     .bdrv_co_pdiscard           = bdrv_mirror_top_pdiscard,
++    .bdrv_co_pwritev_compressed = bdrv_mirror_top_pwritev_compressed,
+     .bdrv_co_flush              = bdrv_mirror_top_flush,
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
 -- 
 2.26.2
 
