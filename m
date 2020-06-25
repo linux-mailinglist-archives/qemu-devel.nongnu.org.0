@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF81209F18
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:05:10 +0200 (CEST)
-Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3AC209F5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:11:17 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRYz-00088L-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49934)
+	id 1joReu-0000x7-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:11:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQn-0003vM-Hb
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQr-0003zg-DO
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23419
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQk-0003M9-4H
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:41 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joRQn-0003OS-TM
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:56:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593089796;
+ s=mimecast20190719; t=1593089801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7REDxmh3fNeouy7lNhFw+K1ulOsaVH94F15egehUhgc=;
- b=cW/zr/HIc6TfNdoqVbqMK9QmzyAseQrCWWvCI/IhiCnz6r/+zXxRO2LhF60DbJI0HCg8Cb
- g3oPHOms8Oqh2eW/Oe+27ZpmwuJAEd+uQHiNGRvJ9av0VehNcLOnrJiW076pbJvr6A+xnM
- LMuuNSBK29rRDd/aNmobKv168TrvUoY=
+ bh=OogjomXY+5QVHWCWbH+muZEvL4dOB9dXXBnTx9QkAS8=;
+ b=fpfjBf4NTMLZJ6Mj5QeibPgz2SzBnkichJNHAw28ufvGscsvAhMwIdUmWgCf58gSQ46dxB
+ ruAuitGahA2BCcrJNPnEgsGuVaEaFyg9ggrQcvf/VPe3X3T/7pWFiTZHuEKUbDwi6XhVC7
+ WWkjPaGJx9FMC28EYIgmlZGoDHbLsUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-ZMiljqtyPyC4f8FGzQLAlQ-1; Thu, 25 Jun 2020 08:56:31 -0400
-X-MC-Unique: ZMiljqtyPyC4f8FGzQLAlQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-76-BKeSFI9oNomqAhFC38XLtw-1; Thu, 25 Jun 2020 08:56:36 -0400
+X-MC-Unique: BKeSFI9oNomqAhFC38XLtw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B180018B638D;
- Thu, 25 Jun 2020 12:56:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9578FBFC2;
+ Thu, 25 Jun 2020 12:56:35 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC6D89CA0;
- Thu, 25 Jun 2020 12:56:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D47B72B4B6;
+ Thu, 25 Jun 2020 12:56:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 13/19] block/crypto: implement the encryption key management
-Date: Thu, 25 Jun 2020 14:55:42 +0200
-Message-Id: <20200625125548.870061-14-mreitz@redhat.com>
+Subject: [PATCH 15/19] iotests: qemu-img tests for luks key management
+Date: Thu, 25 Jun 2020 14:55:44 +0200
+Message-Id: <20200625125548.870061-16-mreitz@redhat.com>
 In-Reply-To: <20200625125548.870061-1-mreitz@redhat.com>
 References: <20200625125548.870061-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,271 +86,488 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-This implements the encryption key management using the generic code in
-qcrypto layer and exposes it to the user via qemu-img
-
-This code adds another 'write_func' because the initialization
-write_func works directly on the underlying file, and amend
-works on instance of luks device.
-
-This commit also adds a 'hack/workaround' I and Kevin Wolf (thanks)
-made to make the driver both support write sharing (to avoid breaking the users),
-and be safe against concurrent  metadata update (the keyslots)
-
-Eventually the write sharing for luks driver will be deprecated
-and removed together with this hack.
-
-The hack is that we ask (as a format driver) for BLK_PERM_CONSISTENT_READ
-and then when we want to update the keys, we unshare that permission.
-So if someone else has the image open, even readonly, encryption
-key update will fail gracefully.
-
-Also thanks to Daniel Berrange for the idea of
-unsharing read, rather that write permission which allows
-to avoid cases when the other user had opened the image read-only.
+This commit adds two tests, which test the new amend interface
+of both luks raw images and qcow2 luks encrypted images.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200608094030.670121-8-mlevitsk@redhat.com>
+[mreitz: Let 293 verify that LUKS works; drop $(seq) usage from 293;
+         drop 293 and 294 from the auto group]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/crypto.h |  34 +++++++++++++
- block/crypto.c | 130 +++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 161 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/293     | 208 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/293.out |  99 ++++++++++++++++++
+ tests/qemu-iotests/294     |  90 ++++++++++++++++
+ tests/qemu-iotests/294.out |  30 ++++++
+ tests/qemu-iotests/group   |   2 +
+ 5 files changed, 429 insertions(+)
+ create mode 100755 tests/qemu-iotests/293
+ create mode 100644 tests/qemu-iotests/293.out
+ create mode 100755 tests/qemu-iotests/294
+ create mode 100644 tests/qemu-iotests/294.out
 
-diff --git a/block/crypto.h b/block/crypto.h
-index 06e044c9be..c72c3dec61 100644
---- a/block/crypto.h
-+++ b/block/crypto.h
-@@ -41,6 +41,11 @@
- #define BLOCK_CRYPTO_OPT_LUKS_IVGEN_HASH_ALG "ivgen-hash-alg"
- #define BLOCK_CRYPTO_OPT_LUKS_HASH_ALG "hash-alg"
- #define BLOCK_CRYPTO_OPT_LUKS_ITER_TIME "iter-time"
-+#define BLOCK_CRYPTO_OPT_LUKS_KEYSLOT "keyslot"
-+#define BLOCK_CRYPTO_OPT_LUKS_STATE "state"
-+#define BLOCK_CRYPTO_OPT_LUKS_OLD_SECRET "old-secret"
-+#define BLOCK_CRYPTO_OPT_LUKS_NEW_SECRET "new-secret"
+diff --git a/tests/qemu-iotests/293 b/tests/qemu-iotests/293
+new file mode 100755
+index 0000000000..f86fe3b413
+--- /dev/null
++++ b/tests/qemu-iotests/293
+@@ -0,0 +1,208 @@
++#!/usr/bin/env bash
++#
++# Test encryption key management with luks
++# Based on 134
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- 
- #define BLOCK_CRYPTO_OPT_DEF_LUKS_KEY_SECRET(prefix)                    \
-     BLOCK_CRYPTO_OPT_DEF_KEY_SECRET(prefix,                             \
-@@ -88,6 +93,35 @@
-         .help = "Time to spend in PBKDF in milliseconds",     \
-     }
- 
-+#define BLOCK_CRYPTO_OPT_DEF_LUKS_STATE(prefix)                           \
-+    {                                                                     \
-+        .name = prefix BLOCK_CRYPTO_OPT_LUKS_STATE,                       \
-+        .type = QEMU_OPT_STRING,                                          \
-+        .help = "Select new state of affected keyslots (active/inactive)",\
-+    }
++# creator
++owner=mlevitsk@redhat.com
 +
-+#define BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT(prefix)              \
-+    {                                                          \
-+        .name = prefix BLOCK_CRYPTO_OPT_LUKS_KEYSLOT,          \
-+        .type = QEMU_OPT_NUMBER,                               \
-+        .help = "Select a single keyslot to modify explicitly",\
-+    }
++seq=`basename $0`
++echo "QA output created by $seq"
 +
-+#define BLOCK_CRYPTO_OPT_DEF_LUKS_OLD_SECRET(prefix)            \
-+    {                                                           \
-+        .name = prefix BLOCK_CRYPTO_OPT_LUKS_OLD_SECRET,        \
-+        .type = QEMU_OPT_STRING,                                \
-+        .help = "Select all keyslots that match this password", \
-+    }
++status=1	# failure is the default!
 +
-+#define BLOCK_CRYPTO_OPT_DEF_LUKS_NEW_SECRET(prefix)            \
-+    {                                                           \
-+        .name = prefix BLOCK_CRYPTO_OPT_LUKS_NEW_SECRET,        \
-+        .type = QEMU_OPT_STRING,                                \
-+        .help = "New secret to set in the matching keyslots. "  \
-+                "Empty string to erase",                        \
-+    }
-+
- QCryptoBlockCreateOptions *
- block_crypto_create_opts_init(QDict *opts, Error **errp);
- 
-diff --git a/block/crypto.c b/block/crypto.c
-index 1960b47ceb..b9c40e6922 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -37,6 +37,7 @@ typedef struct BlockCrypto BlockCrypto;
- 
- struct BlockCrypto {
-     QCryptoBlock *block;
-+    bool updating_keys;
- };
- 
- 
-@@ -71,6 +72,24 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
-     return ret;
- }
- 
-+static ssize_t block_crypto_write_func(QCryptoBlock *block,
-+                                       size_t offset,
-+                                       const uint8_t *buf,
-+                                       size_t buflen,
-+                                       void *opaque,
-+                                       Error **errp)
++_cleanup()
 +{
-+    BlockDriverState *bs = opaque;
-+    ssize_t ret;
-+
-+    ret = bdrv_pwrite(bs->file, offset, buf, buflen);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "Could not write encryption header");
-+        return ret;
-+    }
-+    return ret;
++	_cleanup_test_img
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
- 
- struct BlockCryptoCreateData {
-     BlockBackend *blk;
-@@ -166,6 +185,19 @@ static QemuOptsList block_crypto_create_opts_luks = {
- };
- 
- 
-+static QemuOptsList block_crypto_amend_opts_luks = {
-+    .name = "crypto",
-+    .head = QTAILQ_HEAD_INITIALIZER(block_crypto_create_opts_luks.head),
-+    .desc = {
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_STATE(""),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT(""),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_OLD_SECRET(""),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_NEW_SECRET(""),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_ITER_TIME(""),
-+        { /* end of list */ }
-+    },
-+};
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
 +
- QCryptoBlockOpenOptions *
- block_crypto_open_opts_init(QDict *opts, Error **errp)
- {
-@@ -758,6 +790,98 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
-     return spec_info;
- }
- 
-+static int
-+block_crypto_amend_options_luks(BlockDriverState *bs,
-+                                QemuOpts *opts,
-+                                BlockDriverAmendStatusCB *status_cb,
-+                                void *cb_opaque,
-+                                bool force,
-+                                Error **errp)
++_supported_fmt qcow2 luks
++_supported_proto file #TODO
++_require_working_luks
++
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
++
++if [ "$IMGFMT" = "qcow2" ] ; then
++	PR="encrypt."
++	EXTRA_IMG_ARGS="-o encrypt.format=luks"
++fi
++
++
++# secrets: you are supposed to see the password as *******, see :-)
++S0="--object secret,id=sec0,data=hunter0"
++S1="--object secret,id=sec1,data=hunter1"
++S2="--object secret,id=sec2,data=hunter2"
++S3="--object secret,id=sec3,data=hunter3"
++S4="--object secret,id=sec4,data=hunter4"
++SECRETS="$S0 $S1 $S2 $S3 $S4"
++
++# image with given secret
++IMGS0="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec0"
++IMGS1="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec1"
++IMGS2="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec2"
++IMGS3="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec3"
++IMGS4="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec4"
++
++
++echo "== creating a test image =="
++_make_test_img $S0 $EXTRA_IMG_ARGS -o ${PR}key-secret=sec0,${PR}iter-time=10 32M
++
++echo
++echo "== test that key 0 opens the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== adding a password to slot 4 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec4,${PR}iter-time=10,${PR}keyslot=4
++echo "== adding a password to slot 1 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}iter-time=10
++echo "== adding a password to slot 3 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10,${PR}keyslot=3
++
++echo "== adding a password to slot 2 =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec2,${PR}iter-time=10
++
++
++echo "== erase slot 4 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=4 | _filter_img_create
++
++
++echo
++echo "== all secrets should work =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== erase slot 0 and try it =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec0 | _filter_img_create
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== erase slot 2 and try it =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=2 | _filter_img_create
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS2 | _filter_qemu_io | _filter_testdir
++
++
++# at this point slots 1 and 3 should be active
++
++echo
++echo "== filling  4 slots with secret 2 =="
++for ((i = 0; i < 4; i++)); do
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec2,${PR}iter-time=10
++done
++
++echo
++echo "== adding secret 0 =="
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec0,${PR}iter-time=10
++
++echo
++echo "== adding secret 3 (last slot) =="
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10
++
++echo
++echo "== trying to add another slot (should fail) =="
++$QEMU_IMG amend $SECRETS $IMGS2 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10
++
++echo
++echo "== all secrets should work again =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++
++echo
++
++echo "== erase all keys of secret 2=="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec2
++
++echo "== erase all keys of secret 1=="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec1
++
++echo "== erase all keys of secret 0=="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=inactive,${PR}old-secret=sec0
++
++echo "== erasing secret3 will fail now since it is the only secret (in 3 slots) =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=inactive,${PR}old-secret=sec3
++
++echo
++echo "== only secret3 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== add secret0  =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec0,${PR}iter-time=10
++
++echo "== erase secret3 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=inactive,${PR}old-secret=sec3
++
++echo
++echo "== only secret0 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== replace secret0 with secret1 (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}keyslot=0
++
++echo
++echo "== replace secret0 with secret1 with force (should work)  =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}iter-time=10,${PR}keyslot=0 --force
++
++echo
++echo "== only secret1 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++
++echo
++echo "== erase last secret (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=0
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec1
++
++
++echo "== erase non existing secrets (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec5 --force
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec0 --force
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=1 --force
++
++echo
++echo "== erase last secret with force by slot (should work)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=0 --force
++
++echo
++echo "== we have no secrets now, data is lost forever =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
++
+diff --git a/tests/qemu-iotests/293.out b/tests/qemu-iotests/293.out
+new file mode 100644
+index 0000000000..7260783126
+--- /dev/null
++++ b/tests/qemu-iotests/293.out
+@@ -0,0 +1,99 @@
++QA output created by 293
++== creating a test image ==
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432
++
++== test that key 0 opens the image ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== adding a password to slot 4 ==
++== adding a password to slot 1 ==
++== adding a password to slot 3 ==
++== adding a password to slot 2 ==
++== erase slot 4 ==
++
++== all secrets should work ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== erase slot 0 and try it ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== erase slot 2 and try it ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== filling  4 slots with secret 2 ==
++
++== adding secret 0 ==
++
++== adding secret 3 (last slot) ==
++
++== trying to add another slot (should fail) ==
++qemu-img: Can't add a keyslot - all keyslots are in use
++
++== all secrets should work again ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== erase all keys of secret 2==
++== erase all keys of secret 1==
++== erase all keys of secret 0==
++== erasing secret3 will fail now since it is the only secret (in 3 slots) ==
++qemu-img: All the active keyslots match the (old) password that was given and erasing them will erase all the data in the image irreversibly - refusing operation
++
++== only secret3 should work now  ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== add secret0  ==
++== erase secret3 ==
++
++== only secret0 should work now  ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== replace secret0 with secret1 (should fail)  ==
++qemu-img: Refusing to overwrite active keyslot 0 - please erase it first
++
++== replace secret0 with secret1 with force (should work)  ==
++
++== only secret1 should work now  ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== erase last secret (should fail)  ==
++qemu-img: Attempt to erase the only active keyslot 0 which will erase all the data in the image irreversibly - refusing operation
++qemu-img: All the active keyslots match the (old) password that was given and erasing them will erase all the data in the image irreversibly - refusing operation
++== erase non existing secrets (should fail)  ==
++qemu-img: No secret with id 'sec5'
++qemu-img: No keyslots match given (old) password for erase operation
++
++== erase last secret with force by slot (should work)  ==
++
++== we have no secrets now, data is lost forever ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++*** done
+diff --git a/tests/qemu-iotests/294 b/tests/qemu-iotests/294
+new file mode 100755
+index 0000000000..9c95ed8c9a
+--- /dev/null
++++ b/tests/qemu-iotests/294
+@@ -0,0 +1,90 @@
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=mlevitsk@redhat.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
 +{
-+    BlockCrypto *crypto = bs->opaque;
-+    QDict *cryptoopts = NULL;
-+    QCryptoBlockAmendOptions *amend_options = NULL;
-+    int ret;
-+
-+    assert(crypto);
-+    assert(crypto->block);
-+    crypto->updating_keys = true;
-+
-+    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-+    if (ret < 0) {
-+        goto cleanup;
-+    }
-+
-+    cryptoopts = qemu_opts_to_qdict(opts, NULL);
-+    qdict_put_str(cryptoopts, "format", "luks");
-+    amend_options = block_crypto_amend_opts_init(cryptoopts, errp);
-+    if (!amend_options) {
-+        ret = -EINVAL;
-+        goto cleanup;
-+    }
-+
-+    ret = qcrypto_block_amend_options(crypto->block,
-+                                      block_crypto_read_func,
-+                                      block_crypto_write_func,
-+                                      bs,
-+                                      amend_options,
-+                                      force,
-+                                      errp);
-+cleanup:
-+    crypto->updating_keys = false;
-+    bdrv_child_refresh_perms(bs, bs->file, errp);
-+    qapi_free_QCryptoBlockAmendOptions(amend_options);
-+    qobject_unref(cryptoopts);
-+    return ret;
++	_cleanup_test_img
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt luks
++_supported_proto file #TODO
++
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
++
++# you are supposed to see the password as *******, see :-)
++S0="--object secret,id=sec0,data=hunter0"
++S1="--object secret,id=sec1,data=hunter1"
++SECRETS="$S0 $S1"
 +
 +
-+static void
-+block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
-+                         const BdrvChildRole role,
-+                         BlockReopenQueue *reopen_queue,
-+                         uint64_t perm, uint64_t shared,
-+                         uint64_t *nperm, uint64_t *nshared)
-+{
++IMGS0="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,key-secret=sec0"
++IMGS1="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,key-secret=sec1"
 +
-+    BlockCrypto *crypto = bs->opaque;
++echo "== creating a test image =="
++_make_test_img $S0 -o "key-secret=sec0,iter-time=10" 32M
 +
-+    bdrv_default_perms(bs, c, role, reopen_queue, perm, shared, nperm, nshared);
++echo
++echo "== test that key 0 opens the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
 +
-+    /*
-+     * For backward compatibility, manually share the write
-+     * and resize permission
-+     */
-+    *nshared |= (BLK_PERM_WRITE | BLK_PERM_RESIZE);
-+    /*
-+     * Since we are not fully a format driver, don't always request
-+     * the read/resize permission but only when explicitly
-+     * requested
-+     */
-+    *nperm &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
-+    *nperm |= perm & (BLK_PERM_WRITE | BLK_PERM_RESIZE);
++echo
++echo "== adding a password to slot 1 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o state=active,new-secret=sec1,keyslot=1,iter-time=10
 +
-+    /*
-+     * This driver doesn't modify LUKS metadata except
-+     * when updating the encryption slots.
-+     * Thus unlike a proper format driver we don't ask for
-+     * shared write/read permission. However we need it
-+     * when we are updating the keys, to ensure that only we
-+     * have access to the device.
-+     *
-+     * Encryption update will set the crypto->updating_keys
-+     * during that period and refresh permissions
-+     *
-+     */
-+    if (crypto->updating_keys) {
-+        /* need exclusive write access for header update */
-+        *nperm |= BLK_PERM_WRITE;
-+        /* unshare read and write permission */
-+        *nshared &= ~(BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE);
-+    }
-+}
++echo
++echo "== 'backup' the image header =="
++dd if=$TEST_IMG_FILE of=${TEST_IMG_FILE}.bk bs=4K skip=0 count=1
++
++echo
++echo "== erase slot 0 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o state=inactive,keyslot=0 | _filter_img_create
++
++echo
++echo "== test that key 0 doesn't open the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== 'restore' the image header =="
++dd if=${TEST_IMG_FILE}.bk of=${TEST_IMG_FILE} bs=4K skip=0 count=1 conv=notrunc
++
++echo
++echo "== test that key 0 still doesn't open the image (key material is erased) =="
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== test that key 1 still works =="
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS1 | _filter_qemu_io | _filter_testdir
++
++echo "*** done"
++rm -f $seq.full
++status=0
 +
 +
- static const char *const block_crypto_strong_runtime_opts[] = {
-     BLOCK_CRYPTO_OPT_LUKS_KEY_SECRET,
- 
-@@ -770,13 +894,12 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_probe         = block_crypto_probe_luks,
-     .bdrv_open          = block_crypto_open_luks,
-     .bdrv_close         = block_crypto_close,
--    /* This driver doesn't modify LUKS metadata except when creating image.
--     * Allow share-rw=on as a special case. */
--    .bdrv_child_perm    = bdrv_default_perms,
-+    .bdrv_child_perm    = block_crypto_child_perms,
-     .bdrv_co_create     = block_crypto_co_create_luks,
-     .bdrv_co_create_opts = block_crypto_co_create_opts_luks,
-     .bdrv_co_truncate   = block_crypto_co_truncate,
-     .create_opts        = &block_crypto_create_opts_luks,
-+    .amend_opts         = &block_crypto_amend_opts_luks,
- 
-     .bdrv_reopen_prepare = block_crypto_reopen_prepare,
-     .bdrv_refresh_limits = block_crypto_refresh_limits,
-@@ -786,6 +909,7 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_measure       = block_crypto_measure,
-     .bdrv_get_info      = block_crypto_get_info_luks,
-     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
-+    .bdrv_amend_options = block_crypto_amend_options_luks,
- 
-     .is_format          = true,
- 
++exit 0
+diff --git a/tests/qemu-iotests/294.out b/tests/qemu-iotests/294.out
+new file mode 100644
+index 0000000000..994ae87308
+--- /dev/null
++++ b/tests/qemu-iotests/294.out
+@@ -0,0 +1,30 @@
++QA output created by 294
++== creating a test image ==
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432
++
++== test that key 0 opens the image ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== adding a password to slot 1 ==
++
++== 'backup' the image header ==
++1+0 records in
++1+0 records out
++
++== erase slot 0 ==
++
++== test that key 0 doesn't open the image ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== 'restore' the image header ==
++1+0 records in
++1+0 records out
++
++== test that key 0 still doesn't open the image (key material is erased) ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== test that key 1 still works ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index d886fa0cb3..b945dd4f20 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -301,4 +301,6 @@
+ 290 rw auto quick
+ 291 rw quick
+ 292 rw auto quick
++293 rw
++294 rw quick
+ 297 meta
 -- 
 2.26.2
 
