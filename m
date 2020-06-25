@@ -2,44 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8344020A4D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:24:41 +0200 (CEST)
-Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320A920A4E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:26:21 +0200 (CEST)
+Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joWYC-00078W-28
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
+	id 1joWZo-0000Oq-5L
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1joWX8-0006HY-5J; Thu, 25 Jun 2020 14:23:34 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:39344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1joWX6-0000YO-8P; Thu, 25 Jun 2020 14:23:33 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 21B22BF432;
- Thu, 25 Jun 2020 18:23:29 +0000 (UTC)
-Date: Thu, 25 Jun 2020 20:23:26 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/block/nvme: Align I/O BAR to 4 KiB
-Message-ID: <20200625182326.ookc3e6rpbcypuj3@apples.localdomain>
-References: <20200625154834.367-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1joWYl-0008Ce-Ux
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:25:15 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1joWYj-0001Ih-Oe
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:25:15 -0400
+Received: by mail-pl1-x643.google.com with SMTP id s14so3144462plq.6
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WVf/8xR/ldKoshJUEaqkj/m4hOkMWMl3nmRzohjNg70=;
+ b=S479QgiNHyWkjENZ9k88iV8HCY4hShla/XJXbMzPua3qQrxbti+7ey1eS7d7vMip9y
+ 5yW/bRBfFuYRhD+uCPCLq7B+zHrjVVTnC5ON0/yyP/Ajly9ypWxlS9JMUvwy+3IETSIX
+ PbE1zn1QQA2jTdkoMVHDXnX00dft97z7G50GyjR6FqCyjSV64lCDCXfBPbDUtolqun8k
+ xUaxDTa4mfvYFd4oqiuRQRbdzecrbhZGVR3A5D3qUb7zLbarj5dMR5IOALN+SZz34dfW
+ hjy2MJMyH6cjINh1PfMOWuQSCmwyO+h8fFlc5iG4n8/9IEWYBbhtMXuT0Jkv9VQNj5uV
+ BCoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WVf/8xR/ldKoshJUEaqkj/m4hOkMWMl3nmRzohjNg70=;
+ b=owAgmDfJEEbMTwErEuqlDE+Z3t/0xvCbdYVKd6eXS7y+3J6Tmag2jv75wtDq72vhCH
+ 2KVg8pLaUygNtdGwdNoDpp1Sac7cmj0a2oRUK37N1Aka08aFiDZSBMu/L7f35wF4eDsL
+ 57hQIfYlCNW52AG/OKboNNBg4/g4rEve8POfadwr4UhOWMCf2mfQYlUO4jcmQ0EVU2X/
+ dCbl5cdosgGK6cwosNwsW/r13s7nza8fRFDKpBv22L2kOUWfMSUDLf3XPBdQ8Lop2xNP
+ TXzDomC2q3Y+QLxhvQBnVqFG0Cf/UNqEsaNN1C8gsVFRZYzfq+89VDMW4G9Hygt2lB7m
+ IPFA==
+X-Gm-Message-State: AOAM531CTfiyWNiBxqdJj7HsF9m4oYAJsk0xwDMjAyHoQ05MF+yvrtHi
+ nOIzPmGFvykfa5CdBqI30nC9DA==
+X-Google-Smtp-Source: ABdhPJyYDHCAY/0wjL91L25YP19abunUJtB1ezlA944LBoeq55XkhcanfznVfEUE+pd6nHMaBluX/w==
+X-Received: by 2002:a17:902:d701:: with SMTP id
+ w1mr15038801ply.72.1593109512113; 
+ Thu, 25 Jun 2020 11:25:12 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id z11sm24434313pfk.141.2020.06.25.11.25.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Jun 2020 11:25:11 -0700 (PDT)
+Subject: Re: [PATCH v3 4/8] target/ppc: add vmulld instruction
+To: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20200625170018.64265-1-ljp@linux.ibm.com>
+ <20200625170018.64265-5-ljp@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b97971e5-43ea-26e4-bd75-7af8d5ae992b@linaro.org>
+Date: Thu, 25 Jun 2020 11:25:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200625170018.64265-5-ljp@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200625154834.367-1-philmd@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 14:23:29
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,38 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 25 17:48, Philippe Mathieu-Daudé wrote:
-> Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
+On 6/25/20 10:00 AM, Lijun Pan wrote:
+> vmulld: Vector Multiply Low Doubleword.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
 > ---
->  include/block/nvme.h | 3 +++
->  hw/block/nvme.c      | 5 ++---
->  2 files changed, 5 insertions(+), 3 deletions(-)
+> v3: use tcg_gen_gvec_mul()
 > 
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 1720ee1d51..6d87c9c146 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -22,6 +22,8 @@ typedef struct NvmeBar {
->      uint32_t    pmrebs;
->      uint32_t    pmrswtp;
->      uint32_t    pmrmsc;
-> +    uint32_t    reserved[58];
-> +    uint8_t     cmd_set_specfic[0x100];
->  } NvmeBar;
+>  target/ppc/translate/vmx-impl.inc.c | 1 +
+>  target/ppc/translate/vmx-ops.inc.c  | 4 ++++
 
-This ends up as a freak mix of v1.3 and v1.4 specs. Since we already
-have the PMR stuff in there, I think it makes more sense to align with
-v1.4 and remove the reserved bytes.
+This part looks fine.
 
-Otherwise, LGTM.
+>  tcg/ppc/tcg-target.h                | 2 ++
+>  tcg/ppc/tcg-target.inc.c            | 7 +++++--
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+This part must be a separate patch.
+
+
+> @@ -3149,6 +3150,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+>      static const uint32_t
+>          add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
+>          sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
+> +        mul_op[4] = { 0, 0, VMULUWM, VMULLD },
+>          neg_op[4] = { 0, 0, VNEGW, VNEGD },
+>          eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
+>          ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
+> @@ -3199,8 +3201,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+>          a1 = 0;
+>          break;
+>      case INDEX_op_mul_vec:
+> -        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
+> -        insn = VMULUWM;
+> +        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
+> +                         (vece == MO_64 && have_isa_3_10));
+> +        insn = mul_op[vece];
+
+I think it would be ok to just index mul_op here, since the real isa check is
+to be done elsewhere.
+
+Missing a change to tcg_can_emit_vec_op to do that isa check, and allow
+INDEX_op_mul_vec to be used for MO_64.
+
+Missing a change to tcg_target_init to test for PPC_FEATURE2_ARCH_3_1.
+
+
+r~
 
