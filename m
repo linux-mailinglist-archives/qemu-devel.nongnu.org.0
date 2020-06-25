@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C9B20A264
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:51:11 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9791120A20C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 17:36:19 +0200 (CEST)
+Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joU9d-0003rR-RW
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37550)
+	id 1joTvG-0006Ze-FA
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 11:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTih-0006Eu-8S
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59646
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTiq-0006Hg-92
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27173
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTif-0001Bg-Ih
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:18 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1joTio-0001EL-2r
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 11:23:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593098596;
+ s=mimecast20190719; t=1593098601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9QmBfs5FX6J9CjRRQI7njgqzGGsTngnzcY0UQi6M6EE=;
- b=jMfJ7Y5mE/s7dmTRGVO0LSZdJyJKMYp4JRKNW7OY5+CC7oFjWoKVJ+eZu6qkfP9Vl9s0pp
- FPykQ8gUABNXb5I7SZk6qNapn/viQw3jXCUpvGxp+oOXS0ue3gxbguwjmHpFptO6Q+9fR+
- LhlYaKthhgSZm0dcMRPMfJ5pBYt0ajQ=
+ bh=b5StjsjJhsZsnZZzQfDp+9DI9Lw+3xyP1G23UeZlOeE=;
+ b=I1yBLMjXiAyVIf1Ur8rigNots4Pn1y9w6HRwWZ9Yb5H61QH7VddAeu2NNofRkZwPMy8nps
+ /l28p0MLmybpX7R5z66bi7rkC3N9vG1LNW7DKrnd3ooKbiBar3q4PhBX8fcxDiq9gr4vZy
+ jE8XuLXDHMuJJc29A30L1Qq4qvH1af4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-9cIZ3t_zOLeItderSWTTNg-1; Thu, 25 Jun 2020 11:23:15 -0400
-X-MC-Unique: 9cIZ3t_zOLeItderSWTTNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-379-iJ_gJPFAPeWReI4mfxLjig-1; Thu, 25 Jun 2020 11:23:17 -0400
+X-MC-Unique: iJ_gJPFAPeWReI4mfxLjig-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2679B1009600;
- Thu, 25 Jun 2020 15:23:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B19A80400F;
+ Thu, 25 Jun 2020 15:23:16 +0000 (UTC)
 Received: from localhost (ovpn-113-182.ams2.redhat.com [10.36.113.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4882B4AC;
- Thu, 25 Jun 2020 15:23:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1002779310;
+ Thu, 25 Jun 2020 15:23:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 25/47] block: Def. impl.s for get_allocated_file_size
-Date: Thu, 25 Jun 2020 17:21:53 +0200
-Message-Id: <20200625152215.941773-26-mreitz@redhat.com>
+Subject: [PATCH v7 26/47] block: Improve get_allocated_file_size's default
+Date: Thu, 25 Jun 2020 17:21:54 +0200
+Message-Id: <20200625152215.941773-27-mreitz@redhat.com>
 In-Reply-To: <20200625152215.941773-1-mreitz@redhat.com>
 References: <20200625152215.941773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,106 +83,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If every BlockDriver were to implement bdrv_get_allocated_file_size(),
-there are basically three ways it would be handled:
-(1) For protocol drivers: Figure out the actual allocated file size in
-    some protocol-specific way
-(2) For protocol drivers: If that is not possible (or we just have not
-    bothered to implement it yet), return -ENOTSUP
-(3) For drivers with children: Return the sum of some or all their
-    children's sizes
+There are two practical problems with bdrv_get_allocated_file_size()'s
+default right now:
+(1) For drivers with children, we should generally sum all their sizes
+    instead of just passing the request through to bs->file.  The latter
+    is good for filters, but not so much for format drivers.
 
-For the drivers we have, case (3) boils down to either:
-(a) The sum of all children's sizes
-(b) The size of the primary child
+(2) Filters need not have bs->file, so we should actually go to the
+    filtered child instead of hard-coding bs->file.
 
-(2), (3a) and (3b) can be implemented generically, so this patch adds
-such generic implementations for drivers to use.
+And we can make the whole default implementation more idiomatic by using
+the three generic functions added by the previous patch.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h |  5 ++++
- block.c                   | 51 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ block.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5da793bfc3..c963ee9f28 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1318,6 +1318,11 @@ int coroutine_fn bdrv_co_block_status_from_backing(BlockDriverState *bs,
-                                                    int64_t *pnum,
-                                                    int64_t *map,
-                                                    BlockDriverState **file);
-+
-+int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs);
-+int64_t bdrv_primary_allocated_file_size(BlockDriverState *bs);
-+int64_t bdrv_notsup_allocated_file_size(BlockDriverState *bs);
-+
- const char *bdrv_get_parent_name(const BlockDriverState *bs);
- void blk_dev_change_media_cb(BlockBackend *blk, bool load, Error **errp);
- bool blk_dev_has_removable_media(BlockBackend *blk);
 diff --git a/block.c b/block.c
-index 1c71ecab7c..fc01ce90b3 100644
+index fc01ce90b3..a19f243997 100644
 --- a/block.c
 +++ b/block.c
-@@ -5003,6 +5003,57 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
-     return -ENOTSUP;
+@@ -4997,10 +4997,21 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
+     if (drv->bdrv_get_allocated_file_size) {
+         return drv->bdrv_get_allocated_file_size(bs);
+     }
+-    if (bs->file) {
+-        return bdrv_get_allocated_file_size(bs->file->bs);
++
++    if (drv->bdrv_file_open) {
++        /*
++         * Protocol drivers default to -ENOTSUP (most of their data is
++         * not stored in any of their children (if they even have any),
++         * so there is no generic way to figure it out).
++         */
++        return bdrv_notsup_allocated_file_size(bs);
++    } else if (drv->is_filter) {
++        /* Filter drivers default to the size of their primary child */
++        return bdrv_primary_allocated_file_size(bs);
++    } else {
++        /* Other drivers default to summing their children's sizes */
++        return bdrv_sum_allocated_file_size(bs);
+     }
+-    return -ENOTSUP;
  }
  
-+/**
-+ * Implementation of BlockDriver.bdrv_get_allocated_file_size() for
-+ * block drivers that want it to sum all children they store data on.
-+ * (This excludes backing children.)
-+ */
-+int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
-+{
-+    BdrvChild *child;
-+    int64_t child_size, sum = 0;
-+
-+    QLIST_FOREACH(child, &bs->children, next) {
-+        if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-+                           BDRV_CHILD_FILTERED))
-+        {
-+            child_size = bdrv_get_allocated_file_size(child->bs);
-+            if (child_size < 0) {
-+                return child_size;
-+            }
-+            sum += child_size;
-+        }
-+    }
-+
-+    return sum;
-+}
-+
-+/**
-+ * Implementation of BlockDriver.bdrv_get_allocated_file_size() for
-+ * block drivers that want it to return only the size of a node's
-+ * primary child.
-+ */
-+int64_t bdrv_primary_allocated_file_size(BlockDriverState *bs)
-+{
-+    BlockDriverState *primary_bs;
-+
-+    primary_bs = bdrv_primary_bs(bs);
-+    if (!primary_bs) {
-+        return -ENOTSUP;
-+    }
-+
-+    return bdrv_get_allocated_file_size(primary_bs);
-+}
-+
-+/**
-+ * Implementation of BlockDriver.bdrv_get_allocated_file_size() for
-+ * protocol block drivers that just do not support it.
-+ */
-+int64_t bdrv_notsup_allocated_file_size(BlockDriverState *bs)
-+{
-+    return -ENOTSUP;
-+}
-+
- /*
-  * bdrv_measure:
-  * @drv: Format driver
+ /**
 -- 
 2.26.2
 
