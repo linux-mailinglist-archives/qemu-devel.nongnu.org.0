@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B88820A36A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 18:56:07 +0200 (CEST)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A4020A384
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 19:02:37 +0200 (CEST)
+Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joVAT-0007KH-UF
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 12:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
+	id 1joVGm-00039L-53
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 13:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joV9R-0006Ht-JZ
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:55:01 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joV9P-0004gQ-If
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 12:55:01 -0400
-Received: by mail-pg1-x543.google.com with SMTP id p3so3560197pgh.3
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 09:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wYC5IYJjTNZDnMPFwIwmpQTVqAlfDoQB96PN41pXC3o=;
- b=ljSt4YTYFmDenRtOhyt1jOLd5Msq/g33Yh1MuYOe7IqGDnfjrZh6bNS3kVNFgTslXl
- oedZK6pQsPj2HjFYw9jsuqD8OPcf4FyMlsIXnNcgV7IStTHnEdJPR/wbmDtHZwZxYOGN
- ebHvflNtkV7vTpuH1mvTDvyGSdgKvLGVxAg1q5p+UFgwbqhmmw3LOnVL4bePvW/+cdsV
- vLttuB18a4W1jfXFc6FknngT9U9YM/1i43dtzWveGKSOF90rYDB3kWlCjClpj+wey0gj
- E7Q0z/1vUwrdGEcLKE6f4lkHJ3PNxS0iLWSJqDqQ4mikgPOkEGJASU0U/4FzKsuiSZ+k
- nArA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wYC5IYJjTNZDnMPFwIwmpQTVqAlfDoQB96PN41pXC3o=;
- b=iOrdbjti68Cr1XThOHR+MgyZzEUMLLk+7JfpNnvFrryJnHhXw6JzKzW88mPKSqdnvF
- uHob3ygppHBrThUbW14b7OZvdUGyx1nZprklWfFLZ0R41cnGN0jZzvrAR0tNRs2rYY0I
- edUvFHUNcwJlb85ZMZMDxBfV83In0uefsjjd205pvPV483Nzxcw2s21IaSZeukPDkkOf
- 753MLoHfrhsN8m+hxjiQDsZi9/+geE7gxqOYy6E0tK5d6v6mxxUxeAzXcr8sRLWbfsBY
- toA9MsdTv/Yw8gdgKvfSuD7WoSto3dHqdRyqaveAOrWewO4zfriEe/9zdRloagkfrTla
- OYIA==
-X-Gm-Message-State: AOAM531RR7UiQ9byOjGmYsbfgiJkIyk8xEV7qWlpTS5QiUqzqp9T8W30
- Itxqt54o7z00QvbJte2kqFzJwA==
-X-Google-Smtp-Source: ABdhPJzecfHborDcVleOvUCWanRVBOC/B0KyECD8Ij8q6yhndspCwHLvmGc2KtfsdRb0jOj6sWaz5g==
-X-Received: by 2002:a63:1e60:: with SMTP id p32mr26285770pgm.172.1593104097711; 
- Thu, 25 Jun 2020 09:54:57 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y7sm8697823pgk.93.2020.06.25.09.54.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 09:54:57 -0700 (PDT)
-Subject: Re: [PATCH v8 38/45] target/arm: Complete TBI clearing for user-only
- for SVE
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200623193658.623279-1-richard.henderson@linaro.org>
- <20200623193658.623279-39-richard.henderson@linaro.org>
- <CAFEAcA8xy_Q-6zXexBEHLR=WSYTXVvttL9V4HqiMPmtRm__TEw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9e80eb42-655f-9ffa-264a-f72627efdf42@linaro.org>
-Date: Thu, 25 Jun 2020 09:54:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1joVEl-0000zb-0W; Thu, 25 Jun 2020 13:00:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1joVEj-0007Nj-2b; Thu, 25 Jun 2020 13:00:30 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05PGX1mx010675; Thu, 25 Jun 2020 13:00:21 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 31vvkxg14v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jun 2020 13:00:21 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05PGxe2T005470;
+ Thu, 25 Jun 2020 17:00:21 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 31uurq90am-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jun 2020 17:00:20 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05PH0IEQ7733520
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 25 Jun 2020 17:00:18 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BB599136053;
+ Thu, 25 Jun 2020 17:00:19 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E875213604F;
+ Thu, 25 Jun 2020 17:00:18 +0000 (GMT)
+Received: from pompom.ibm.com (unknown [9.160.117.167])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 25 Jun 2020 17:00:18 +0000 (GMT)
+From: Lijun Pan <ljp@linux.ibm.com>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] Add several Power ISA 3.1 32/64-bit vector instructions
+Date: Thu, 25 Jun 2020 12:00:10 -0500
+Message-Id: <20200625170018.64265-1-ljp@linux.ibm.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8xy_Q-6zXexBEHLR=WSYTXVvttL9V4HqiMPmtRm__TEw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-25_11:2020-06-25,
+ 2020-06-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 cotscore=-2147483648
+ spamscore=0 mlxlogscore=930 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006250102
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=ljp@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 13:00:26
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,43 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.spickett@linaro.org, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
+Cc: Lijun Pan <ljp@linux.ibm.com>, richard.henderson@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 5:52 AM, Peter Maydell wrote:
-> On Tue, 23 Jun 2020 at 20:37, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> There are a number of paths by which the TBI is still intact
->> for user-only in the SVE helpers.
->>
->> Because we currently always set TBI for user-only, we do not
->> need to pass down the actual TBI setting from above, and we
->> can remove the top byte in the inner-most primitives, so that
->> none are forgotten.  Moreover, this keeps the "dirty" pointer
->> around at the higher levels, where we need it for any MTE checking.
->>
->> Since the normal case, especially for user-only, goes through
->> RAM, this clearing merely adds two insns per page lookup, which
->> will be completely in the noise.
-> 
-> Can we have an assert() somewhere suitable that TBI is set?
-> That way if we ever do have an SVE-capable linux-user which
-> doesn't set TBI for some reason we'll get a useful reminder
-> that we need to fix something.
+This patch series add several newly introduced 32/64-bit vector
+instructions in Power ISA 3.1. Power ISA 3.1 flag is introduced in
+this version. In v3 version, coding style issues are fixed, community
+reviews/suggestions are taken into consideration.
 
-At what level would you like such an assert?
-At present we have, in arm_cpu_reset,
+Lijun Pan (8):
+  target/ppc: Introduce Power ISA 3.1 flag
+  target/ppc: add byte-reverse br[dwh] instructions
+  target/ppc: convert vmuluwm to tcg_gen_gvec_mul
+  target/ppc: add vmulld instruction
+  target/ppc: add vmulh{su}w instructions
+  fix the prototype of muls64/mulu64
+  target/ppc: add vmulh{su}d instructions
+  target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
 
-      /*
-       * Enable TBI0 and TBI1.  While the real kernel only enables TBI0,
-       * turning on both here will produce smaller code and otherwise
-       * make no difference to the user-level emulation.
-       */
-      env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
+ include/qemu/host-utils.h           |  4 +-
+ target/ppc/cpu.h                    |  4 +-
+ target/ppc/helper.h                 | 13 ++++-
+ target/ppc/int_helper.c             | 74 ++++++++++++++++++++++++-----
+ target/ppc/translate.c              | 41 ++++++++++++++++
+ target/ppc/translate/vmx-impl.inc.c | 26 +++++++++-
+ target/ppc/translate/vmx-ops.inc.c  | 27 +++++++++--
+ target/ppc/translate_init.inc.c     |  2 +-
+ tcg/ppc/tcg-target.h                |  2 +
+ tcg/ppc/tcg-target.inc.c            |  7 ++-
+ 10 files changed, 175 insertions(+), 25 deletions(-)
 
+-- 
+2.23.0
 
-r~
 
