@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9613209BBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 11:13:28 +0200 (CEST)
-Received: from localhost ([::1]:60146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF08209BCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 11:19:46 +0200 (CEST)
+Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joNwl-0005a1-Nl
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 05:13:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
+	id 1joO2r-0000Uf-2L
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 05:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvn-0004k9-0J
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:27 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:57525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvk-0007GH-9V
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:26 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N18MG-1irYvu1hog-012av1; Thu, 25 Jun 2020 11:12:12 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] linux-user/sparc64: Fix the handling of window spill
- trap
-Date: Thu, 25 Jun 2020 11:12:04 +0200
-Message-Id: <20200625091204.3186186-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200625091204.3186186-1-laurent@vivier.eu>
-References: <20200625091204.3186186-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1joO1y-0008Ui-Ii
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:18:50 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27648
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1joO1w-0000oc-JO
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:18:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593076727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2aIncgJn1mHPs/W76R1xeTdToleS9l/4w984hW85V0I=;
+ b=KqNTK+F43woX6mBchgtGiRltXg3OVONNHEu7uHYO526G9LnDy5GGZeiLAm7E4VJCmiGWm4
+ fbp/yClcTNair7VxydwLYVgyoZhF0Lf3LLR+uAYZiAzFQMzVMzh7XauN+RKE5t0sDT9Vlb
+ FcTanxRQVO2+UyWWzLvvutgHyA/VE8g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-Lavkkz58MhWhN6rRl9bi5Q-1; Thu, 25 Jun 2020 05:18:44 -0400
+X-MC-Unique: Lavkkz58MhWhN6rRl9bi5Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E37C0EC1A0;
+ Thu, 25 Jun 2020 09:18:42 +0000 (UTC)
+Received: from kaapi (unknown [10.74.8.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBDD661981;
+ Thu, 25 Jun 2020 09:18:35 +0000 (UTC)
+Date: Thu, 25 Jun 2020 14:48:32 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 7/9] tz-ppc: add dummy read/write methods
+In-Reply-To: <7ffe6cd9-fc23-3fdf-6c57-7bb0af0dd030@redhat.com>
+Message-ID: <nycvar.YSQ.7.77.849.2006251427210.92950@xnncv>
+References: <20200624185523.762240-1-ppandit@redhat.com>
+ <20200624185523.762240-8-ppandit@redhat.com>
+ <7ffe6cd9-fc23-3fdf-6c57-7bb0af0dd030@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:haf5ZDw9BhvA7sVK9J7LHOxjRS2OcWVOhVraSDvOYty0T9DyXCk
- iHqJF137STJlLtUp45GZqu5BsgkematCpRvZRIwzgq0TSP4bUI9wdWXOYndikTTKpd5qgZy
- ydagMwUAgG47/meF37U9aXMCnQh33dndi932NTVuzb7PzDJ8iEZaV7vN4ub27T13WRPbH0R
- 6uRAo3AZ1BgUajkl+eoCA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UjNgFKmgUzU=:dbZVwy+5NGZvhx11cCG3C0
- crKUgYUOZRaXUS9/+/tgVB6NeQaGkJ4/Laj9kuqidQNX2QCoWMm4vxJ7UB17nmi7M0r1RUVvH
- HFlr0eEgsmtOvwYeBwLJThASChJeqjkctG85/qV1QE8HTz48p1EjvlSAakjiEqRHcvgYS/Fy2
- 2RBRehMPta5uV+3NVaMNObuPIIysyVwCThDejssHrqjOJn+8ce480UnmxJV3jju3t40Z3jBqN
- shCCFnBr+Y1acRWvLvXBcLUlmZtb4zlmDhnjb5IPlO5ZAyyGJqiCEOuPyCG9SUNr6H5K5SfJ/
- +mYp89LOZYJnDcgtTnFAj7lAFwpWJxdTgAHAlA5K/J++SinoVKEM0Vpj3oLW34DrDrThpjO2q
- M2GSb8ETbep3kn0bLF+HZT5a4ws5ALJbuH91NciokmZf12tKSim/QHDk7YcNOiVBmEhSz8TYv
- AoQNnUrdPY+//vnPXpZ54boJ41YqQxGDNnCMDn721rh8FKySWDFqEMqhoTAy4lzCBuwban4eJ
- XiPmUjTqeCSn1d8+2nmMLAxoRZin1q1WGltZeeD7wMQvq5SqQJwwsxmTw1TDztPdb/tYoqcHC
- yyqzkpqjE7VWMl6HxUMfp+Lpp7CxXabY6gXy477oo5YIBsY6QTYM1SIDEWXwxs52qacZt7w7o
- hqo1DK3a19zqu4rIrtwkelT7ArlI1cjCvlNBZy87e2Au7Ih63qBavCqljVaZTk9kg51n/WGJM
- xOAMNqhybjOGwcYsVrWpLVO3yTiEdGVFNoowQxSc/vlEBxrcLlDnHSoWajbEFutJVupcOrgXY
- IVm07cFsx96JxnV6GuFQkHlgTuqUWHLlaifyrVB/8c1JJB1HOQ=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 05:12:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ boundary="-1463810047-199314216-1593076722=:92950"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 00:45:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,62 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LemonBoy <thatlemon@gmail.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-199314216-1593076722=:92950
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-Fix the handling of window spill traps by keeping cansave into account
-when calculating the new CWP.
++-- On Thu, 25 Jun 2020, Philippe Mathieu-Daudé wrote --+
+| > @@ -196,7 +196,22 @@ static bool tz_ppc_dummy_accepts(void *opaque, hwaddr addr,
+| >      g_assert_not_reached();
+| 
+| This is a shame we now have to fill the read/write handlers for
+| unreachable code :( 
+|
+| > +static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
+| 
+| I'd instead use a clearer:
+|        g_assert_not_reached();
+| 
+| > +static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
+| 
+| Ditto:
+|        g_assert_not_reached();
 
-Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- bsd-user/main.c             | 6 +++++-
- linux-user/sparc/cpu_loop.c | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+This will likely be called in tz_ppc_dummy_accepts() above. Do we still want 
+to revise this patch? considering read/write callbacks are unreachable.
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 0bfe46cff93e..ac40d79bfaac 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -413,7 +413,11 @@ static void save_window(CPUSPARCState *env)
-     save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-     env->wim = new_wim;
- #else
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-+    /*
-+     * cansave is zero if the spill trap handler is triggered by `save` and
-+     * nonzero if triggered by a `flushw`
-+     */
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
-     env->cansave++;
-     env->canrestore--;
- #endif
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 7645cc04ca73..02532f198df8 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -69,7 +69,11 @@ static void save_window(CPUSPARCState *env)
-     save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-     env->wim = new_wim;
- #else
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
-+    /*
-+     * cansave is zero if the spill trap handler is triggered by `save` and
-+     * nonzero if triggered by a `flushw`
-+     */
-+    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
-     env->cansave++;
-     env->canrestore--;
- #endif
--- 
-2.26.2
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-199314216-1593076722=:92950--
 
 
