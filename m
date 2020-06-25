@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A473A209FE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:29:10 +0200 (CEST)
-Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2991A209FF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:31:56 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRwD-0004hc-MD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
+	id 1joRyt-0007nx-4v
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRuz-0002xF-E2
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:27:54 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42629)
+ id 1joRva-0004DR-2d
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:28:30 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joRuJ-0004Fm-4h
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:27:52 -0400
-Received: by mail-oi1-x242.google.com with SMTP id s21so4915573oic.9
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:27:09 -0700 (PDT)
+ id 1joRvY-0004Y3-EX
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 09:28:29 -0400
+Received: by mail-ot1-x343.google.com with SMTP id k4so2058129otr.7
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 06:28:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/dad2yicRXv+Wr/si9SLQwxM75lHeo3Y4nG5bPjtJWw=;
- b=YB+E5A4loXr9Qfjjr7mTPbFmCFMn5ozWJaDj7l6dGlF0UhOeXZDVBqDJkrkvRsx8Is
- m2XSgApxaQiwwvc0vJ63Oq/E0w3xaUVIiEJz+ONSZqma50nwX9kUZvgdYJ9qVzCXqoY1
- u30oUIyuDNBrkhJsNmstJVGE0FGPS2CqnqdxGiuTzGRyNfghRFgPzRlneRQ+Fad9kuGV
- Uqdmarl0RzOg886eBWm288851Zqvnr9fMozfwCQ//qIDmSYlDPhtahL6h1jLYVnlpOcw
- Oj9Xq/+wYcTL+Z+gsjGuMgQPLh3dG/RmJXkVwrRGj5+LD2OQ0o/w7AD4tBq6ESnOWeM0
- HSAQ==
+ :cc; bh=dBHI6XnyQBCVvqfjrKwDTVT77lOgCq640799Y784rVc=;
+ b=bZQQXuG6RMJvLi6W4yl6iCvmyC+sHMc10E5QKG+mhSDtg/chEf9FIag5ni77/CjD5R
+ Otj7rWotZFiu39tgsstMvC/iNaHbefawoV81BeTPhuliWK9yhd0cU6Zr/VIboVdymSnd
+ NAJcfxYaQgv8EIjsVb6gLbLLTmzROquPD/YTNlFpWPSp99jD5putitFPZV3g+tiyNhZN
+ PdeQ5yMxcN6Jeeje0F9dtHNpHb83H9VslM34Xy1pMUIilj30FthTiM2G/0VUK+OgGw4W
+ FDsDPjtSTgaTDeucNAzJZGZlwxfstDwvYkDeVzKYSpXW/D6DFWEtETFILBDbgTFIeY1v
+ yGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/dad2yicRXv+Wr/si9SLQwxM75lHeo3Y4nG5bPjtJWw=;
- b=YQpGkWXA6olWCPkeVgjqS8KJoYvRwS76pTd5xGSp65Ob83nXuvKXHNT6TA59zLB7S0
- i+dj0Pdlayuyh2J2lPsHTKdtF2tUlTb9TucXaupL0pZG3MAj6EtJ+M7sawRXKxHTRu7w
- 3EIAjtbxV+Hi8TKSm08NVp53LjtdISJeeT4yh4i8TTcxIPv04Csz/GQP9nI03e/I68g3
- 3EpbzR5S4DalhhXcMTO06mk8lLBAzYmwdTvGVzW+bIxe7zL7nzcbRxOOzCNBM6mf5gBr
- wNxmq8IwdLBDiJ0JU50LS9/l5z1vs6U7WEWfhW0pA8TLQHJh+uKGkLfikcuLW0zjkRKt
- nmUg==
-X-Gm-Message-State: AOAM532aVooXONMUlevWLXuPJFPB96dHOv+BVmAyFt9t4YHf6DhabAFl
- FLmnKsxJC80hCxVBVxzJOF3gvQXpbVTlDkPSswB2Bg==
-X-Google-Smtp-Source: ABdhPJwQ+qtAx4GA87BEykJ4z6xAOlTa5DUAXwCFcgijzw8ZzWhmBKrMbzSuvTWaiOs3jnInrpHVPFwPdRf8DrD0QOc=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr2147533oia.163.1593091628252; 
- Thu, 25 Jun 2020 06:27:08 -0700 (PDT)
+ bh=dBHI6XnyQBCVvqfjrKwDTVT77lOgCq640799Y784rVc=;
+ b=lSjXnEWc2CYBVu2He8nifDlPpPCkEewuUjTuOfK1MIw+UdsIo1lwNvf7YXeaW40bXl
+ H9+gc2RtSvNDGWH9VnOJ2ae0TAwVqgUdjoq0QPVr9SwSXimO3ybShsAXMA7/I/29c6YS
+ XTidbSWLYJ2t02ANuSCCgmNPYYpdEY58gD0njMeWJYjtPuthASe3Lfmlx++wQJlzCkqj
+ JXNZnuap6G67m5sntECjtZxr8Vu37Kl7B/Qug1QuLeXz+s6crrKIg6gKpAaALI1madvJ
+ RWvp33rll8RKXHH0aJQSVw4uJ3DxqdHES42oajRZ1VYplAZ9bcxQWaHfmdY/U/8b0YoJ
+ rvfg==
+X-Gm-Message-State: AOAM533UrmV5SOYyS6q4tcIHFa5bSIwfHId3294aW1TUTEB4YXqxums7
+ tsrAt2XuitoKNEAHhwtTt2NrbEweu0/LCwQR+a/B4Q==
+X-Google-Smtp-Source: ABdhPJxXT907mRNBgbLR9l2Y/QKccuYilfP+yF2pbqKYYHtg6iOeg4yaHPSwGnL+V8o17grGEFS0t494pWaJd2FE5SY=
+X-Received: by 2002:a4a:9528:: with SMTP id m37mr27497695ooi.85.1593091707225; 
+ Thu, 25 Jun 2020 06:28:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200623193658.623279-1-richard.henderson@linaro.org>
- <20200623193658.623279-44-richard.henderson@linaro.org>
-In-Reply-To: <20200623193658.623279-44-richard.henderson@linaro.org>
+In-Reply-To: <20200623193658.623279-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jun 2020 14:26:57 +0100
-Message-ID: <CAFEAcA9e_w=iB=fqWj7UgpseOXzTzFcCj6-YBGUHup83oCWOCg@mail.gmail.com>
-Subject: Re: [PATCH v8 43/45] target/arm: Create tagged ram when MTE is enabled
+Date: Thu, 25 Jun 2020 14:28:16 +0100
+Message-ID: <CAFEAcA-ePgr2OLEtf1nRr_5SduQ0R=ZW__7Zzw81LBHkqgN4wA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/45] target/arm: Implement ARMv8.5-MemTag, system mode
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,22 +86,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 23 Jun 2020 at 20:37, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v5: Assign cs->num_ases to the final value first.
->     Downgrade to ID_AA64PFR1.MTE=1 if tag memory is not available.
-> v6: Add secure tag memory for EL3.
-> v8: Add arm,armv8.5-memtag.
+> Version 8 incorporates quite a bit of review (thanks, PMM):
+>
+>  * Include HCR_DCT in the HCR_EL2 update.
+>  * Use a separate decode function for ADDG/SUBG.
+>  * Use the system arm_cpu_do_unaligned_access for user-only as well.
+>  * Fix alignment for LDG.
+>  * Fix no-fault for mte_probe1.
+>  * Rearrage how tagged pages are recorded.
 
-> +    if (tag_memory) {
-> +        qemu_fdt_setprop(fdt, nodename, "arm,armv8.5-memtag", "", 0);
-> +    }
-
-Catalin mentioned in a recent email that the plan is not to
-require the dt to specify whether memory nodes support tags.
-Could we keep the dtb-modification parts in a separate patch
-so it's easier to drop them (or to commit the actual
-emulation support first and the dtb changes later), please?
+I think I've reviewed everything that didn't already have review now.
 
 thanks
 -- PMM
