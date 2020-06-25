@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34BB209BBB
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 11:13:27 +0200 (CEST)
-Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D38209BBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 11:14:53 +0200 (CEST)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joNwk-0005Xb-AA
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 05:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47416)
+	id 1joNy9-0006w9-0v
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 05:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvl-0004k0-Q6
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:25 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:34261)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvn-0004kV-Nb
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:27 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:55431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvk-0007GD-4G
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:25 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1joNvk-0007GF-8U
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 05:12:27 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M3UIe-1jovtI3TqE-000Y91; Thu, 25 Jun 2020 11:12:11 +0200
+ id 1Mg6uW-1jCaP72d4Q-00hc7v; Thu, 25 Jun 2020 11:12:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] linux-user/sparc64: Translate flushw opcode
-Date: Thu, 25 Jun 2020 11:12:02 +0200
-Message-Id: <20200625091204.3186186-1-laurent@vivier.eu>
+Subject: [PATCH v2 1/2] target/sparc: Translate flushw opcode
+Date: Thu, 25 Jun 2020 11:12:03 +0200
+Message-Id: <20200625091204.3186186-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200625091204.3186186-1-laurent@vivier.eu>
+References: <20200625091204.3186186-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:S6KutTH0exICu+OIgjCdeHFp2+iKMabSwcPBwHems9hrZL6rZPY
- Y+ZB8/dCU6/o46Q7tZqSkC8rF31xZvg/llL67bDi4qv+WdcTwg6I9A5+K1lh1TLfaRb81pf
- TdYkxC4mAB4NT7FDz3ZLtUe06LnP8ixKMMcG7DfTnIuV12Ia/39FgduKAVt3FrULdVyFqhX
- pF97poGI3FnCu9XlmArYg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GqW97pGu5VQ=:1i+vyZUmv5qYYtwKIGNjyy
- iZIjmQQPJH/a20nszgxnCKPK5auNHdCeExoFeHg+NETwVZZdaPVIGHM4HfpIRWJmcK/WhJ+Gj
- CpVzZhNlGW0TyzOfQJfFyqyHidOez4yDDdOI9coY0LTM7mPSINfmvwVUT97rl9loVnr9251Sz
- shMQZyXqh8QbKG5G2I2US/m6wlm0T7qxKn7hTZanVB2jPGPeeEz+zPptHW5HSYrOR7lEpHUjm
- yKq5EQu6DWT9NsLCn5VI+a0+Iv4N+Z6X+BkN0YXYMmU8ZQpu/RObHX16Hz7tzhcIT2Uab79ar
- cWA4njevjixrUG2ZCU1iwx/xf6ghggvoLt88pd2+Qo8yACka+bctmTX8pMk9i8hLePlzeCf2w
- z3RzdkzZQw3tGEy+M6QSloQaMiRcbSj+sUMy1LCnRKjpNJIqWFrI9TVJYHttmGljNOtvV6ZHn
- 4Jo40fW7yLH87rpmK/IDUDJBTRvqsEjg3uCHXwIzPNWr9kwfwIQIrfwYOLIFgFtvl+m1nv1pA
- lrcepSm/x+MVCqHSXaB2zwNyCOFi+coDwv2GloET++o20CEQ/i/H/6GmskOOiK1ZzpzAUO0ST
- ILPNTYXWv1Bt58NhuKUoK7RJ8xG+2nBJsYpZFEI2wy9lNA7y/UVwu/Njg5Yly4hqA8l5ZpGoU
- bgCedXgQm6i7QQSbcJkq4AzRJkgY9pM7bnX/qVGojCiajFomjs/3+wUbxw3anzNLHVhREU9hy
- FPrrG+EL9NFNksfulXuDqa7jk3aNPSqFBZ/pHAvCFJOolwuQnZFLWtCrLzKUNBZwlQAsbbvex
- o7GvAxTUpaFETbUjMMhbPJBr0fVY8kbPqrQh1/y9Ak9uVk7tZo=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:17KG+Vp7XE9zRzq69xA9HR6Wqle3aOe3kF8xH18Wq8OGEnpgOaH
+ qkdoY1BfQcQxyj5gTvZzIOo+YRzXjqG0Z67My1QyUbMHSH8VLq1rpyxNnIjgb7zvwfns2CE
+ 0ck2rA1RrbnXIW6dgmtrjlYCExbHhqRwJzx9oWpQuukBbuXHh8Io8DzVEYxePT9AM2Nel2g
+ pS72Q7sWIy/IahcrO+PXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:x34blcC1KNg=:hUfQxqV4j0XUhk4i1670RZ
+ 0JNCxCUDiYtTPaTY8gIOWvnD6gxo9YkM7KCm4P2lUqew715hdNeBrpiojtgu3/0ucUh7UDNF2
+ pvapEJfbUhIVIBYu0Exmm6ooZOlebbVuVy1c2Y6rNDR5+QgtR+wCTPCI031fF6/9CEX850unF
+ b+bTtG5lZcWlc8Jp0EtNqNr0x/z61SlovMC4ZVS52qIKDsdILse+d4oDjYfYlQPlQnGlwhlrk
+ 4tywuKiCTwwJkdCYguG7Qn6R8eHdsb87Y8F4weoxx/4RW+fj3eP8xkqz664Rqf/ERR3GkYtUg
+ pEVuyAsoJdvv8+WMRxFiHd0m6JvvDlL+j3P1T2ep7N0DwopAfbaS6W5hvI5E7Yu2K2jEhaPbf
+ 9TmwjCBg/UgaSWxCKv3Mh+Kr1u3ZFXdoG6q3JfP69EOm3ba7RkOQ1773ZHbq5RZn+o8WMZcAV
+ cMTLpHDG2+ixIYzW+Le8emg8u6s687Op8P4O2yfhWqc0oIE85itHh7L8dv0a1e5LuALCKTSVG
+ JmOwqvy74Xf6LmInaQqR+xXnqtf1v9UozR3Gk24FGIFC1j3GGxwQMjE/hFhg+L744BvUSk+32
+ 4m8OwnUzeyoLK1siXBoB4bb9yQfdJP31n1i9Su7kLUV7Z7mTuc2X82WoGWk5PSeALgZd9+hBY
+ IHRMskM7eitZrnsejJ0EUTH629SPP9g/9bli9/t3oBUdA+QVHMzL6n8CdKEQsaXEpWY7dgW2r
+ HeNh1GZhIoIkQzMay0PNmKip79lM5NSjZ5krzWsGEhBgJ6oITB927Nv48+qMegshhsqemK4T3
+ 3da76a/dh1h2PnOpdTWFfHfuA2stKpw3b0vH8imYJbqD1dA3zQ=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 05:12:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -76,27 +77,31 @@ Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I send a modified version according to Richard's comments of the original=0D
-series sent by Giuseppe Musacchio <thatlemon@gmail.com> (aka LemonBoy).=0D
-=0D
-v2: split patch in two patches=0D
-    update comment style=0D
-=0D
-I didn't really test the new patches (except a build and "make check").=0D
-But there is no code modification so I don't think I can introduce bugs in=
-=0D
-this process. Any "Tested-by:" is welcome.=0D
-=0D
-LemonBoy (2):=0D
-  target/sparc: Translate flushw opcode=0D
-  linux-user/sparc64: Fix the handling of window spill trap=0D
-=0D
- bsd-user/main.c             | 6 +++++-=0D
- linux-user/sparc/cpu_loop.c | 6 +++++-=0D
- target/sparc/translate.c    | 2 ++=0D
- 3 files changed, 12 insertions(+), 2 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+From: LemonBoy <thatlemon@gmail.com>
+
+The ifdef logic should unconditionally compile in the `xop == 0x2b` case
+when targeting sparc64.
+
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ target/sparc/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 9416a551cf46..1a4efd4ed665 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -3663,6 +3663,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+ #endif
+                 gen_store_gpr(dc, rd, cpu_tmp0);
+                 break;
++#endif
++#if defined(TARGET_SPARC64) || !defined(CONFIG_USER_ONLY)
+             } else if (xop == 0x2b) { /* rdtbr / V9 flushw */
+ #ifdef TARGET_SPARC64
+                 gen_helper_flushw(cpu_env);
+-- 
+2.26.2
+
 
