@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57159209F3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:09:13 +0200 (CEST)
-Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEA0209F59
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 15:10:34 +0200 (CEST)
+Received: from localhost ([::1]:36902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joRcu-0005sO-8n
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50626)
+	id 1joReE-0008UK-0D
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 09:10:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRSG-0007Ds-Qq
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:58:12 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45828
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1joRSF-0003u8-2I
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:58:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593089890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ng52OiKCUk7i5VLGfsx9WBQjG5ym5SJ0Y0pvMd4jdo8=;
- b=ZINeqwkwiPkNRYcyuJlvAplN5cJK4wvVC/nkEnqZ7eblid7tC0GUpeXtN9mZy6Nxtj98UV
- q4spqShTEUVn58mO2sY3ZF16CcoWJ4O5CdSFGrFguGHAPKQq8kQhxPQW5x/MkzKtO+mBbc
- VA6wPnDdrDgOq6VaWmq2wUrkcxDDTsA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-wGs0gamVPVeV27HXmG7i2g-1; Thu, 25 Jun 2020 08:58:08 -0400
-X-MC-Unique: wGs0gamVPVeV27HXmG7i2g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8438318FE860;
- Thu, 25 Jun 2020 12:58:07 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1823100EBB8;
- Thu, 25 Jun 2020 12:58:02 +0000 (UTC)
-Subject: Re: [RFC v5 12/12] pc-bios: s390x: Cleanup jump to ipl code
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200624075226.92728-1-frankja@linux.ibm.com>
- <20200624075226.92728-13-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <48329294-4c31-a1fa-20fb-ef6bb13e8550@redhat.com>
-Date: Thu, 25 Jun 2020 14:58:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joRTX-0001nG-3j
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:59:31 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1joRTV-0004IW-F9
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 08:59:30 -0400
+Received: by mail-ot1-x343.google.com with SMTP id m2so5104722otr.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 05:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q6MosTpj0KYh6C5cIssDj8St0IhW66gRZAKbDZaqO7M=;
+ b=aANHhREWKc5pGrdwknAJhQIC4q5evhN/auv3seX4ZChGrODEOKXWgmxVS00GiHnVr5
+ 6gk1GLY5E0I5pvSlV4NAtLRyBocEVb5oh0HwpLjB3VhI2VK0UZ9Vg38z8mon6P7tnudh
+ 92FNQ8Fr6WxCURWUEyAYsePOSBq9a7aLwmimAYovmwMS1JwKbH77u6jhJMFegg5jZYpB
+ fZ4plpm19B/BM/5YG8Q57ehvtKX0HtWc/ZoYOuC+YTGEr0UGPaJj8Kz2zVL+191qgWVQ
+ A5bfzo3XEWJUdEEbmImLi4Y5YNUy0PS6LHQtjUXru1HnMCY/uOBepln9FO68gTzcQ/+M
+ XW+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q6MosTpj0KYh6C5cIssDj8St0IhW66gRZAKbDZaqO7M=;
+ b=YfrXPbnTFzth9WpxaDaFNMthNkC4zQ/tdowI4ddHGCJA6TlMtBNV4K7CpFdJZHGtWm
+ MHsSSNx4Mx6ukOY1fkWAewQT6r6Qt/lNATzHN0asClfeIM1e7wND6l3ycp9e+GBAu8nI
+ kNNdFcQXMclION/oWlFPuO1KRtrUiOYWVZLk2ChfHBh+in2rMxRsvzWz2cR7gwEvQq8n
+ EzdCnPf/QpImWGmhU0peih4QabV+zJQX0MtGbLh72L3tAxn4VjU5WFcA2wK93l3SDQeo
+ 9zVafHdgVg/oZvpOvAnnycRZWtOZWLQ5WqHwFj1f22BNhSdnS72bI1oiU4lvABu+UUWV
+ KK0g==
+X-Gm-Message-State: AOAM533wzNdTLLF/4U6jfXeZ2T27YOgmHZbvkVKxPjxPC51QPfa6yBOY
+ sxZrMjrSWYj4SWtaBwTXkXtYOl8pzl4x7EALYUhw2w==
+X-Google-Smtp-Source: ABdhPJziTDryHuTqh24ZyhJ+LmI5NGbUKxJlkUkmLmSNjTVVtFrWSxA5AsE+Nc9B+P2fCFP24OKK4xaCCcS26lIyI4U=
+X-Received: by 2002:a05:6830:8d:: with SMTP id
+ a13mr26466760oto.91.1593089968354; 
+ Thu, 25 Jun 2020 05:59:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200624075226.92728-13-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 02:30:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200623193658.623279-1-richard.henderson@linaro.org>
+ <20200623193658.623279-43-richard.henderson@linaro.org>
+In-Reply-To: <20200623193658.623279-43-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 25 Jun 2020 13:59:17 +0100
+Message-ID: <CAFEAcA838PPdJp6JROufjZ0bhtKQFBVQxym74Z6vqAVFdF+ZwQ@mail.gmail.com>
+Subject: Re: [PATCH v8 42/45] target/arm: Cache the Tagged bit for a page in
+ MemTxAttrs
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,92 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com
+Cc: david.spickett@linaro.org, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/2020 09.52, Janosch Frank wrote:
-> jump_to_IPL_code takes a 64 bit address, masks it with the short psw
-> address mask and later branches to it using a full 64 bit register.
-> 
-> * As the masking is not necessary, let's remove it
-> * Without the mask we can save the ipl address to a static 64 bit
->    function ptr as we later branch to it
-> * Let's also clean up the variable names and remove the now unneeded
->    ResetInfo
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+On Tue, 23 Jun 2020 at 20:37, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This "bit" is a particular value of the page's MemAttr.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   pc-bios/s390-ccw/jump2ipl.c | 27 +++++++++++----------------
->   1 file changed, 11 insertions(+), 16 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-> index 767012bf0c..aef37cea76 100644
-> --- a/pc-bios/s390-ccw/jump2ipl.c
-> +++ b/pc-bios/s390-ccw/jump2ipl.c
-> @@ -13,20 +13,15 @@
->   #define KERN_IMAGE_START 0x010000UL
->   #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
->   
-> -typedef struct ResetInfo {
-> -    uint64_t ipl_psw;
-> -    uint32_t ipl_continue;
-> -} ResetInfo;
-> -
-> -static ResetInfo save;
-> +static void (*ipl_continue)(void);
-> +static uint64_t psw_save;
+> v6: Test HCR_EL2.{DC,DCT}; test Stage2 attributes.
+> v8: Fill in cacheattrs for S1 disabled; retain tagging when
+>     combining attributes; set mte_tagging in arm_cpu_tlb_fill.
+> ---
+>  target/arm/helper.c     | 48 ++++++++++++++++++++++++++++++++++++++---
+>  target/arm/tlb_helper.c |  5 +++++
+>  2 files changed, 50 insertions(+), 3 deletions(-)
 
-I wonder whether there was a reason for having ipl_continue in the 
-lowcore instead of using a simple static function pointer... Christian, 
-do you remember?
+> +        } else if (access_type == MMU_INST_FETCH) {
+> +            if (regime_sctlr(env, mmu_idx) & SCTLR_I) {
+> +                memattr = 0xee;  /* Normal, WT, RA, NT */
+> +            } else {
+> +                memattr = 0x44;  /* Normal, NC, No */
+> +            }
+> +            cacheattrs->shareability = 2; /* outersharable */
 
->   static void jump_to_IPL_2(void)
->   {
-> -    ResetInfo *current = 0;
-> +    uint64_t *psw_current = 0;
+"outer shareable"
 
-Mhh, what about using uint64_t *psw_current = (uint64_t *)lowcore 
-instead, to make it more more explicit?
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> -    void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
-> -    *current = save;
-> -    ipl(); /* should not return */
-> +    *psw_current = psw_save;
-> +    ipl_continue(); /* should not return */
->   }
->   
->   void jump_to_IPL_code(uint64_t address)
-> @@ -46,15 +41,15 @@ void jump_to_IPL_code(uint64_t address)
->        * content of non-BIOS memory after we loaded the guest, so we
->        * save the original content and restore it in jump_to_IPL_2.
->        */
-> -    ResetInfo *current = 0;
-> +    uint64_t *psw_current = 0;
-
-dito.
-
-> -    save = *current;
-> +    psw_save = *psw_current;
->   
-> -    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
-> -    current->ipl_psw |= RESET_PSW_MASK;
-> -    current->ipl_continue = address & PSW_MASK_SHORT_ADDR;
-> +    *psw_current = (uint64_t) &jump_to_IPL_2;
-> +    *psw_current |= RESET_PSW_MASK;
-> +    ipl_continue = (void *)address;
->   
-> -    debug_print_int("set IPL addr to", current->ipl_continue);
-> +    debug_print_int("set IPL addr to", (uint64_t)ipl_continue);
->   
->       /* Ensure the guest output starts fresh */
->       sclp_print("\n");
-> 
-
-The patch sounds like a good idea to me ... but since this code proofed 
-to be very fragile in the past, let's wait for Christian to say whether 
-there was a good reason for ipl_continue in the lowcore or not.
-
-  Thomas
-
+thanks
+-- PMM
 
