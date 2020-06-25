@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320A920A4E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:26:21 +0200 (CEST)
-Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEA420A4FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jun 2020 20:29:13 +0200 (CEST)
+Received: from localhost ([::1]:35006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joWZo-0000Oq-5L
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1joWca-0002LW-4u
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 14:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joWYl-0008Ce-Ux
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:25:15 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:39934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1joWYj-0001Ih-Oe
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:25:15 -0400
-Received: by mail-pl1-x643.google.com with SMTP id s14so3144462plq.6
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WVf/8xR/ldKoshJUEaqkj/m4hOkMWMl3nmRzohjNg70=;
- b=S479QgiNHyWkjENZ9k88iV8HCY4hShla/XJXbMzPua3qQrxbti+7ey1eS7d7vMip9y
- 5yW/bRBfFuYRhD+uCPCLq7B+zHrjVVTnC5ON0/yyP/Ajly9ypWxlS9JMUvwy+3IETSIX
- PbE1zn1QQA2jTdkoMVHDXnX00dft97z7G50GyjR6FqCyjSV64lCDCXfBPbDUtolqun8k
- xUaxDTa4mfvYFd4oqiuRQRbdzecrbhZGVR3A5D3qUb7zLbarj5dMR5IOALN+SZz34dfW
- hjy2MJMyH6cjINh1PfMOWuQSCmwyO+h8fFlc5iG4n8/9IEWYBbhtMXuT0Jkv9VQNj5uV
- BCoQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1joWay-0001Ma-Lu
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:27:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27035
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1joWaw-00025G-2n
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 14:27:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593109648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tL7+apqhJ2cOboS/oviFvuZQbKPBT6XAoUaUC66TuLY=;
+ b=T5jJ47JNLxRbGRaWufIeYfvP6GxoPKSDQJNuRogLyhnc5dggfu3bpzMX3rQQzvDGH6L4o2
+ MmoMUZxnHyxlDjQm/VxGNcxfEhHpciADuFKQZDw4KyU7Jq3Eh1tNSW5tda1BtcwEiuIv3s
+ xtBthzTDgJuQ1ka1fM3taJVIpi+V+jg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-EGu7K4UXOgaWr6g2InhPGQ-1; Thu, 25 Jun 2020 14:26:15 -0400
+X-MC-Unique: EGu7K4UXOgaWr6g2InhPGQ-1
+Received: by mail-wr1-f70.google.com with SMTP id i12so7582565wrx.11
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 11:26:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WVf/8xR/ldKoshJUEaqkj/m4hOkMWMl3nmRzohjNg70=;
- b=owAgmDfJEEbMTwErEuqlDE+Z3t/0xvCbdYVKd6eXS7y+3J6Tmag2jv75wtDq72vhCH
- 2KVg8pLaUygNtdGwdNoDpp1Sac7cmj0a2oRUK37N1Aka08aFiDZSBMu/L7f35wF4eDsL
- 57hQIfYlCNW52AG/OKboNNBg4/g4rEve8POfadwr4UhOWMCf2mfQYlUO4jcmQ0EVU2X/
- dCbl5cdosgGK6cwosNwsW/r13s7nza8fRFDKpBv22L2kOUWfMSUDLf3XPBdQ8Lop2xNP
- TXzDomC2q3Y+QLxhvQBnVqFG0Cf/UNqEsaNN1C8gsVFRZYzfq+89VDMW4G9Hygt2lB7m
- IPFA==
-X-Gm-Message-State: AOAM531CTfiyWNiBxqdJj7HsF9m4oYAJsk0xwDMjAyHoQ05MF+yvrtHi
- nOIzPmGFvykfa5CdBqI30nC9DA==
-X-Google-Smtp-Source: ABdhPJyYDHCAY/0wjL91L25YP19abunUJtB1ezlA944LBoeq55XkhcanfznVfEUE+pd6nHMaBluX/w==
-X-Received: by 2002:a17:902:d701:: with SMTP id
- w1mr15038801ply.72.1593109512113; 
- Thu, 25 Jun 2020 11:25:12 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id z11sm24434313pfk.141.2020.06.25.11.25.10
+ bh=tL7+apqhJ2cOboS/oviFvuZQbKPBT6XAoUaUC66TuLY=;
+ b=Oxfb0YamLBvJud5Djuf88oEYhgn5hA13ZEimvIrdIFNxwmZHEDK3T1BO6sAnxs9dPY
+ UfXn/4Pq77gvEvQGcx3a40xqf6T9a2Ufrp9JPxNe5JEAhXp677r4NoV8eZqlTOZ/1kdF
+ DNndowUXeDgnYBVldap2POUMhGeqJEz7uKBp9iiFo3lopnmbXXJdyQVP5QFxqSj85sGe
+ qtbObWcOkWmgtkJzObqbUvTE92TdyUMVfYh6iOqCq/gi/j+/kpWgbTra6kScpyf1v1rS
+ EvGAuWrQJJBKTjrhPz4LwLu3qFZqs0ZkabHeDCIaoIUpWj6RjbJ74lTZM4hhJncGCLgv
+ DCgQ==
+X-Gm-Message-State: AOAM533uG+fQkXVnKN4mriPcsagyxPG7iSk7jq7Yfk/bPqwuV8R59v9v
+ RVqyqotOEs8rEziYsknPFWSSQya/kG/camMfpuJEx811yuJbMCh+amU2pGEiIMRGhcH+FjeYvWh
+ MzoDU7CkZlyEYyW0=
+X-Received: by 2002:a5d:62d1:: with SMTP id o17mr37489859wrv.162.1593109574438; 
+ Thu, 25 Jun 2020 11:26:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3Asjyv3ZJw7yBIuXJUhun8CSRqE4xcXUbg7vD8yDTE1sIzxSupkILxpyZHrdWBabarEeYaA==
+X-Received: by 2002:a5d:62d1:: with SMTP id o17mr37489835wrv.162.1593109574215; 
+ Thu, 25 Jun 2020 11:26:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:91d0:a5f0:9f34:4d80?
+ ([2001:b07:6468:f312:91d0:a5f0:9f34:4d80])
+ by smtp.gmail.com with ESMTPSA id w17sm33554532wra.42.2020.06.25.11.26.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 11:25:11 -0700 (PDT)
-Subject: Re: [PATCH v3 4/8] target/ppc: add vmulld instruction
-To: Lijun Pan <ljp@linux.ibm.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20200625170018.64265-1-ljp@linux.ibm.com>
- <20200625170018.64265-5-ljp@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b97971e5-43ea-26e4-bd75-7af8d5ae992b@linaro.org>
-Date: Thu, 25 Jun 2020 11:25:08 -0700
+ Thu, 25 Jun 2020 11:26:13 -0700 (PDT)
+Subject: Re: [PATCH 6/8] i386: hvf: Drop hvf_reset_vcpu()
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20200624225850.16982-1-r.bolshakov@yadro.com>
+ <20200624225850.16982-7-r.bolshakov@yadro.com>
+ <ac800efc-c51d-e44c-de5c-cdef81d24dec@redhat.com>
+ <20200625123637.GG25104@SPB-NB-133.local>
+ <34821aae-e8f5-adc6-eab5-0a6f6b2835e8@redhat.com>
+ <20200625150223.GH25104@SPB-NB-133.local>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0dd117e5-8b05-068e-bba6-e1888de246f8@redhat.com>
+Date: Thu, 25 Jun 2020 20:26:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200625170018.64265-5-ljp@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200625150223.GH25104@SPB-NB-133.local>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 01:47:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,54 +106,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 10:00 AM, Lijun Pan wrote:
-> vmulld: Vector Multiply Low Doubleword.
+On 25/06/20 17:02, Roman Bolshakov wrote:
+> macvm_set_cr0() sets/clears LMA in entry controls only in case of
+> transitions into/out of long mode in enter_long_mode() in
+> exit_long_mode(), respectively. But macvm_set_cr0() doesn't load
+> EFER.LMA from CPUX86State into VMCS entry controls during reset and
+> that's where hvf_put_registers() might not behave properly.
 > 
-> Signed-off-by: Lijun Pan <ljp@linux.ibm.com>
-> ---
-> v3: use tcg_gen_gvec_mul()
-> 
->  target/ppc/translate/vmx-impl.inc.c | 1 +
->  target/ppc/translate/vmx-ops.inc.c  | 4 ++++
+> As far as I understand you propose to drop explicit LMA reset in
+> post-reset and rather impove synchronization between efer and entry
+> controls in macvm_set_cr0(), right? In that case I don't see a
+> regression in the series, and if possible I'd prefer a follow up patch
+> for the issue.
 
-This part looks fine.
+Indeed it's not a regression.  Thanks!
 
->  tcg/ppc/tcg-target.h                | 2 ++
->  tcg/ppc/tcg-target.inc.c            | 7 +++++--
+Paolo
 
-This part must be a separate patch.
-
-
-> @@ -3149,6 +3150,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
->      static const uint32_t
->          add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
->          sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
-> +        mul_op[4] = { 0, 0, VMULUWM, VMULLD },
->          neg_op[4] = { 0, 0, VNEGW, VNEGD },
->          eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
->          ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
-> @@ -3199,8 +3201,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
->          a1 = 0;
->          break;
->      case INDEX_op_mul_vec:
-> -        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
-> -        insn = VMULUWM;
-> +        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
-> +                         (vece == MO_64 && have_isa_3_10));
-> +        insn = mul_op[vece];
-
-I think it would be ok to just index mul_op here, since the real isa check is
-to be done elsewhere.
-
-Missing a change to tcg_can_emit_vec_op to do that isa check, and allow
-INDEX_op_mul_vec to be used for MO_64.
-
-Missing a change to tcg_target_init to test for PPC_FEATURE2_ARCH_3_1.
-
-
-r~
 
