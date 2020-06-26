@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC66720BC82
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:31:37 +0200 (CEST)
-Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2140820BC99
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:35:33 +0200 (CEST)
+Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowsi-0004lZ-LR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:31:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55640)
+	id 1jowwW-00005N-4W
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jowPY-0006up-0n
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:01:28 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jowPW-0006Pq-6Z
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:01:27 -0400
-Received: by mail-wr1-x429.google.com with SMTP id g18so10890488wrm.2
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 15:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=gmail.jrtc27.user;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=EzAK0n4lFLbG8Hhr/FajhMXYeVPNN5eCNuDlmt0qm/k=;
- b=l6GchirpxG4REXFbmYKuotlA/CY55m9YFybeO/e1xQqUkA+KhuDALXrg3v9Q9YRu5p
- Vvq3x7VWpKrYNiBFi015AFed/UjiF7Vizg6eUpgUPnRHlr7f16JUJQAZ567LkiewIIEi
- qsmaGJc5ZDdEK5pZRh5TZYDgW8YhUTcH3fmovq7EbX+U5jEkuoZiuITn+S8I2+YDeEeu
- 1MtdutSGbdAVIMbf7WpiAHO9NofpCEjzpTJA7OiUQyep3sY4OX1ZoE4VDATdt96dTTig
- 73N+VEr7khqR9b/YoiND449qa8jniFacsj8VMgrd+y+khZBMKgbYcpHnqeVj203qZL+h
- epQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=EzAK0n4lFLbG8Hhr/FajhMXYeVPNN5eCNuDlmt0qm/k=;
- b=DIC05XBhuAffuKng197WodMqENGw6ttz4uCapzRWiQgDkIKGB1UQJSOGCsOwCYd9nv
- 9YH34xFuwIVCxzneIy+ghXRB/0d53o0I6PorGJtuVAGqvmla7wSkNvjZRm0EztfUXLaT
- JjhbwyTmQmUa5oiBh8R5AfApwTz9ygV2RlN5ZUr+GdKuNtRcp733aGBLX8a2xU31WtTH
- t8JH0BYQFWLMbIM9hRmS7D/daYfI0u1LcU/oCt5EdVlLL+fJqDz7W1f8FcxbgjuEWQeB
- 8V9ifMWXQ66JBxRJuKOU0eStPlT//JDRkWG9JSxYiHdc9NrCj/02pvWWnjG4TSW238Y/
- ymSg==
-X-Gm-Message-State: AOAM532NmDFq1F4Mk/ML7OrPCFLBlCWlzacxJey2nui/r+kBKz2pUE93
- MjUar3eK4GNf+m6L5S93p9Bq9w==
-X-Google-Smtp-Source: ABdhPJyb4uH/YeaipnEpAhvHbX2HWYPSuAkPLejzW70qQQOAQi3roOkzTp7NGLN2sENXEkKstJlpIQ==
-X-Received: by 2002:a5d:4910:: with SMTP id x16mr5670707wrq.401.1593208882067; 
- Fri, 26 Jun 2020 15:01:22 -0700 (PDT)
-Received: from [192.168.149.251] (trinity-students-nat.trin.cam.ac.uk.
- [131.111.193.104])
- by smtp.gmail.com with ESMTPSA id 125sm19956745wmc.23.2020.06.26.15.01.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 26 Jun 2020 15:01:21 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PULL 02/63] riscv: plic: Add a couple of mising
- sifive_plic_update calls
-From: Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <20200626214410.3613258-3-alistair.francis@wdc.com>
-Date: Fri, 26 Jun 2020 23:01:20 +0100
-Content-Transfer-Encoding: 7bit
-Message-Id: <76226AC1-ADD7-4A58-A44E-B69050DF4932@jrtc27.com>
-References: <20200626214410.3613258-1-alistair.francis@wdc.com>
- <20200626214410.3613258-3-alistair.francis@wdc.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x429.google.com
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jownD-00067a-OR; Fri, 26 Jun 2020 18:25:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jownB-0005G8-O3; Fri, 26 Jun 2020 18:25:55 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4633374632C;
+ Sat, 27 Jun 2020 00:25:50 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2553F745712; Sat, 27 Jun 2020 00:25:50 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 238E87456F8;
+ Sat, 27 Jun 2020 00:25:50 +0200 (CEST)
+Date: Sat, 27 Jun 2020 00:25:50 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v5 07/11] mac_oldworld: Map macio to expected address at
+ reset
+In-Reply-To: <d8db3e1f-6421-ea36-8598-60e9d98f54fa@ilande.co.uk>
+Message-ID: <alpine.BSF.2.22.395.2006270022470.64843@zero.eik.bme.hu>
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <a0b567bf6e5b266a19de4eb6f6551270ffe2ce7b.1592315226.git.balaton@eik.bme.hu>
+ <d8db3e1f-6421-ea36-8598-60e9d98f54fa@ilande.co.uk>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,36 +60,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- alistair23@gmail.com
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26 Jun 2020, at 22:43, Alistair Francis <alistair.francis@wdc.com> wrote:
-> 
-> From: Jessica Clarke <jrtc27@jrtc27.com>
-> 
-> Claiming an interrupt and changing the source priority both potentially
-> affect whether an interrupt is pending, thus we must re-compute xEIP.
-> Note that we don't put the sifive_plic_update inside sifive_plic_claim
-> so that the logging of a claim (and the resulting IRQ) happens before
-> the state update, making the causal effect clear, and that we drop the
-> explicit call to sifive_plic_print_state when claiming since
-> sifive_plic_update already does that automatically at the end for us.
-> 
-> This can result in both spurious interrupt storms if you fail to
-> complete an IRQ before enabling interrupts (and no other actions occur
-> that result in a call to sifive_plic_update), but also more importantly
-> lost interrupts if a disabled interrupt is pending and then becomes
-> enabled.
-> 
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Message-id: 20200618210649.22451-1-jrtc27@jrtc27.com
-> Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
+On Fri, 26 Jun 2020, Mark Cave-Ayland wrote:
+> On 16/06/2020 14:47, BALATON Zoltan wrote:
+>> Add a reset function that maps macio to the address expected by the
+>> firmware of the board at startup.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/ppc/mac.h          | 12 ++++++++++++
+>>  hw/ppc/mac_oldworld.c | 15 ++++++++++++++-
+>>  2 files changed, 26 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+>> index a0d9e47031..79ccf8775d 100644
+>> --- a/hw/ppc/mac.h
+>> +++ b/hw/ppc/mac.h
+>> @@ -55,6 +55,18 @@
+>>  #define OLDWORLD_IDE1_IRQ      0xe
+>>  #define OLDWORLD_IDE1_DMA_IRQ  0x3
+>>
+>> +/* g3beige machine */
+>> +#define TYPE_HEATHROW_MACHINE MACHINE_TYPE_NAME("g3beige")
+>> +#define HEATHROW_MACHINE(obj) OBJECT_CHECK(HeathrowMachineState, (obj), \
+>> +                                           TYPE_HEATHROW_MACHINE)
+>> +
+>> +typedef struct HeathrowMachineState {
+>> +    /*< private >*/
+>> +    MachineState parent;
+>> +
+>> +    PCIDevice *macio;
+>> +} HeathrowMachineState;
+>> +
+>>  /* New World IRQs */
+>>  #define NEWWORLD_CUDA_IRQ      0x19
+>>  #define NEWWORLD_PMU_IRQ       0x19
+>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>> index f97f241e0c..13562e26e6 100644
+>> --- a/hw/ppc/mac_oldworld.c
+>> +++ b/hw/ppc/mac_oldworld.c
+>> @@ -73,6 +73,15 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>>      return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+>>  }
+>>
+>> +static void ppc_heathrow_reset(MachineState *machine)
+>> +{
+>> +    HeathrowMachineState *m = HEATHROW_MACHINE(machine);
+>> +
+>> +    qemu_devices_reset();
+>> +    pci_default_write_config(m->macio, PCI_COMMAND, PCI_COMMAND_MEMORY, 2);
+>> +    pci_default_write_config(m->macio, PCI_BASE_ADDRESS_0, 0xf3000000, 4);
+>> +}
+>
+> As per my comment on a previous version, this doesn't feel right at all - it's either
+> mapped at a fixed address (in which case it should be done in the macio device,
+> probably via a property), or the BIOS should be programming the BAR accordingly.
 
-Something went a bit weird here.
+The ROM does not seem to do anything to map the BAR before it accesses it. 
+We also can't map it in macio's realize because on reset the pci-host will 
+clear bars of attached devices so the only way (I know) to do this is from 
+a board level reset func. But if you have a simpler way please send 
+alternative patch, for me this was the only way I could make it work.
 
-Jess
-
+Regards,
+BALATON Zoltan
 
