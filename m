@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA9A20B474
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:25:14 +0200 (CEST)
-Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D60720B442
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:16:17 +0200 (CEST)
+Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqE4-0002Uo-WB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:25:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
+	id 1joq5Q-0003qd-3l
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3j-0001nX-Hg
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:31 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45067)
+ id 1joq3l-0001pI-1W
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:33 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3h-0006Ar-Qu
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:31 -0400
-Received: by mail-wr1-x430.google.com with SMTP id s10so9821636wrw.12
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:29 -0700 (PDT)
+ id 1joq3j-0006BR-51
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:32 -0400
+Received: by mail-wr1-x430.google.com with SMTP id r12so9802804wrj.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=acP3Sx4OGOgiAbreBwnSKlVu9vGjvqCv6xOFJh6nkmA=;
- b=DyYW4V0N7Rs19CAsNBze9ru/0AxHimeYSIXEkvBK6WH8PJ/+L1x4b7EPs7NSVGhbNI
- e+YKG3uNKxLC7ay37ssKVSN62NNq+vyX7aViRjCvuDKCu4Gk5TBuJK9nc7uBBET4PS1E
- saTNuuKgp/UnVSdLKLQ7HfMYh7z3lxmtV/8cM4d2KxzXw3LHRTxXWtAwcKkcHcmQ9nU2
- jN/jPZqXc8VJwVuL5twYIady742o5e7ezQjcm5SRjZszDaaMBwvVu80GzftVXBa60HTj
- QhVUXbzJAHRLGRG066F4b+usmWUybYW/8QyVjCu9Jb5oNb8Q3nrsWpv5xUewhsSZjOlQ
- xIrA==
+ bh=wHkNxYOciTE2oOBZnE2EDvVEW4h7Fv9ILw3mBQCiruk=;
+ b=sdBPql90cqhGYGENmHlUwo5QO5juetB+MJX9MhPVMD+Bd+fMnFm765MOi2BT05pUQV
+ ywSjgexzturKX7COf3C/Qdk+T52GKzAYwqVnjNCe89ToPJfBXtaEn9NGqcu/Np5Nk48/
+ nPXRP5t4fuY5tiAoqGveMN2OxgKv0YPhGiACTApDc4KCHVK2QM0lkRt6QTwgppDcSZf8
+ HvHBZ/3e3Y83CapsW4ekzlKaAoQQE2tB14wy2wAUyfNhcE/8XU47qZB77UKjGTu7xxQo
+ CEsP+osCjpQASS28/8vCbOC9PPH4N7ZGxlbOatzRTSzB7lkuaHMkyWEIR/E2AcdA09bV
+ ojUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=acP3Sx4OGOgiAbreBwnSKlVu9vGjvqCv6xOFJh6nkmA=;
- b=KlJUsr2gM0eLpTDYDbRueUp0puAobuZOLnv4s4rmQFcEj2aowJew4C7MJCMJuvDOYS
- 6fe6ypdYEAWUkUAzFzIZTnypVM7uJOjVM+3R2bpKhD6zc1Z1aEt1cxDjSiFUieqwgcVj
- +eohKyArfwhZiBfPg6/VtmVvLy/qQbxQ+FVz+JGy3NggLiyZ0TxkJgrpMpe0ZWhUExoL
- SPv/vg8cNneI6RPAulxJXgUVIpnTJI6a/5UBwJHcd+40H0KGeROJyBt7P4PPYNcE6OvR
- b/Bl1XzjGl/pW5iT0sXG4l5ywmQvR1PujsEQFO+cDmTiH152Qu8Z0V/7DvRqYeUxSQhi
- J1Og==
-X-Gm-Message-State: AOAM530QQN309Vvs4hX0vUlJjML9GxN8B975ixXV6KZWGlrenxU2tjDL
- mF3hDr7xCNfF1Qp3FTFY8KIV3vwx2aLBag==
-X-Google-Smtp-Source: ABdhPJxGXe7yGCiyniGBRQadKbMYMNdWDp2UwCSn5foHC8Xdjj2cL9wklYtDh9DF9mbF2botcCJpcg==
-X-Received: by 2002:adf:c404:: with SMTP id v4mr4126758wrf.85.1593184468148;
- Fri, 26 Jun 2020 08:14:28 -0700 (PDT)
+ bh=wHkNxYOciTE2oOBZnE2EDvVEW4h7Fv9ILw3mBQCiruk=;
+ b=n6jLMHu62Nzw/WV0HXXKa+RBv6Y86pLlOCm4j3vObrwLsAqfyd83MrbMLUSwrweLpc
+ DzsxfiTRO2pDEoYhnY6Hjvy1eVyPDcq3I6w0ArzXfh1hHPe58q8u85pk+IhkotsRwU0p
+ 8HTpb9hLpZJxGGHuCmKLmDjIfdrDPlaltlzx0HkR0/surqiQVSDGEmjm3eCnMxTri5D6
+ gqiXSZtNhM/z8DT03TbUcmD18gt3hAGomRkVqO/AoE+e1fhWFGu5inYvfR2VboIHT1lI
+ I5ZNR8vbQJs/A7G3cybOPctZrcyshj0yHdW/l8hCNIZVYaEeW53rEAmdm5mxAq1lacZj
+ 4HIw==
+X-Gm-Message-State: AOAM530SMUNGNotlP0hqCvwZPeQ+DxrAM9Li7ZqVoqFjILv62rW3yB2j
+ aBoBLXSIgZ8hjDUJ9AAPFTvF2oQ/0GU2Ng==
+X-Google-Smtp-Source: ABdhPJyJ0vc48zedWYxR1Yu3dcPNurfI9wkJ4j5EMND/0MfIH08cQsaAGoukmQ+RwGDWcPZ4eaV7Uw==
+X-Received: by 2002:a5d:4a01:: with SMTP id m1mr4274396wrq.250.1593184469311; 
+ Fri, 26 Jun 2020 08:14:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.27
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:27 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/57] hw/arm/aspeed: Remove extraneous MemoryRegion object
- owner
-Date: Fri, 26 Jun 2020 16:13:28 +0100
-Message-Id: <20200626151424.30117-2-peter.maydell@linaro.org>
+Subject: [PULL 02/57] hw/arm/aspeed: Rename AspeedBoardState as
+ AspeedMachineState
+Date: Fri, 26 Jun 2020 16:13:29 +0100
+Message-Id: <20200626151424.30117-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
@@ -92,98 +92,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-I'm confused by this code, 'bmc' is created as:
+To have a more consistent naming, rename AspeedBoardState
+as AspeedMachineState.
 
-  bmc = g_new0(AspeedBoardState, 1);
-
-Then we use it as QOM owner for different MemoryRegion objects.
-But looking at memory_region_init_ram (similarly for ROM):
-
-  void memory_region_init_ram(MemoryRegion *mr,
-                              struct Object *owner,
-                              const char *name,
-                              uint64_t size,
-                              Error **errp)
-  {
-      DeviceState *owner_dev;
-      Error *err = NULL;
-
-      memory_region_init_ram_nomigrate(mr, owner, name, size, &err);
-      if (err) {
-          error_propagate(errp, err);
-          return;
-      }
-      /* This will assert if owner is neither NULL nor a DeviceState.
-       * We only want the owner here for the purposes of defining a
-       * unique name for migration. TODO: Ideally we should implement
-       * a naming scheme for Objects which are not DeviceStates, in
-       * which case we can relax this restriction.
-       */
-      owner_dev = DEVICE(owner);
-      vmstate_register_ram(mr, owner_dev);
-  }
-
-The expected assertion is not triggered ('bmc' is not NULL neither
-a DeviceState).
-
-'bmc' structure is defined as:
-
-  struct AspeedBoardState {
-      AspeedSoCState soc;
-      MemoryRegion ram_container;
-      MemoryRegion max_ram;
-  };
-
-What happens is when using 'OBJECT(bmc)', the QOM macros cast the
-memory pointed by bmc, which first member is 'soc', which is
-initialized ...:
-
-  object_initialize_child(OBJECT(machine), "soc",
-                          &bmc->soc, amc->soc_name);
-
-The 'soc' object is indeed a DeviceState, so the assertion passes.
-
-Since this is fragile and only happens to work by luck, remove the
-dangerous OBJECT(bmc) owner argument.
-
-Note, this probably breaks migration for this machine.
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Suggested-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200623072132.2868-2-f4bug@amsat.org
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20200623072132.2868-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/arm/aspeed.h |  4 ++--
+ hw/arm/aspeed.c         | 20 ++++++++++----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index 95b4daece86..5114ba0bd4f 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -11,7 +11,7 @@
+ 
+ #include "hw/boards.h"
+ 
+-typedef struct AspeedBoardState AspeedBoardState;
++typedef struct AspeedMachineState AspeedMachineState;
+ 
+ #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
+ #define ASPEED_MACHINE(obj) \
+@@ -45,7 +45,7 @@ typedef struct AspeedMachineClass {
+     const char *spi_model;
+     uint32_t num_cs;
+     uint32_t macs_mask;
+-    void (*i2c_init)(AspeedBoardState *bmc);
++    void (*i2c_init)(AspeedMachineState *bmc);
+ } AspeedMachineClass;
+ 
+ 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 863757e1f03..167fd5ed1c7 100644
+index 167fd5ed1c7..a167b736970 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -329,12 +329,12 @@ static void aspeed_machine_init(MachineState *machine)
-          * needed by the flash modules of the Aspeed machines.
-          */
-         if (ASPEED_MACHINE(machine)->mmio_exec) {
--            memory_region_init_alias(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
-+            memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
-                                      &fl->mmio, 0, fl->size);
-             memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
-                                         boot_rom);
-         } else {
--            memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
-+            memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
-                                    fl->size, &error_abort);
-             memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
-                                         boot_rom);
-@@ -345,7 +345,7 @@ static void aspeed_machine_init(MachineState *machine)
-     if (machine->kernel_filename && sc->num_cpus > 1) {
-         /* With no u-boot we must set up a boot stub for the secondary CPU */
-         MemoryRegion *smpboot = g_new(MemoryRegion, 1);
--        memory_region_init_ram(smpboot, OBJECT(bmc), "aspeed.smpboot",
-+        memory_region_init_ram(smpboot, NULL, "aspeed.smpboot",
-                                0x80, &error_abort);
-         memory_region_add_subregion(get_system_memory(),
-                                     AST_SMP_MAILBOX_BASE, smpboot);
+@@ -32,7 +32,7 @@ static struct arm_boot_info aspeed_board_binfo = {
+     .board_id = -1, /* device-tree-only board */
+ };
+ 
+-struct AspeedBoardState {
++struct AspeedMachineState {
+     AspeedSoCState soc;
+     MemoryRegion ram_container;
+     MemoryRegion max_ram;
+@@ -253,7 +253,7 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
+ 
+ static void aspeed_machine_init(MachineState *machine)
+ {
+-    AspeedBoardState *bmc;
++    AspeedMachineState *bmc;
+     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
+     AspeedSoCClass *sc;
+     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
+@@ -261,7 +261,7 @@ static void aspeed_machine_init(MachineState *machine)
+     int i;
+     NICInfo *nd = &nd_table[0];
+ 
+-    bmc = g_new0(AspeedBoardState, 1);
++    bmc = g_new0(AspeedMachineState, 1);
+ 
+     memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
+                        4 * GiB);
+@@ -374,7 +374,7 @@ static void aspeed_machine_init(MachineState *machine)
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
+ }
+ 
+-static void palmetto_bmc_i2c_init(AspeedBoardState *bmc)
++static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+     DeviceState *dev;
+@@ -396,7 +396,7 @@ static void palmetto_bmc_i2c_init(AspeedBoardState *bmc)
+     object_property_set_int(OBJECT(dev), 110000, "temperature3", &error_abort);
+ }
+ 
+-static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
++static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
+@@ -413,13 +413,13 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
+ }
+ 
+-static void ast2600_evb_i2c_init(AspeedBoardState *bmc)
++static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
+ {
+     /* Start with some devices on our I2C busses */
+     ast2500_evb_i2c_init(bmc);
+ }
+ 
+-static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
++static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+ 
+@@ -428,7 +428,7 @@ static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
+ }
+ 
+-static void swift_bmc_i2c_init(AspeedBoardState *bmc)
++static void swift_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+ 
+@@ -457,7 +457,7 @@ static void swift_bmc_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x4a);
+ }
+ 
+-static void sonorapass_bmc_i2c_init(AspeedBoardState *bmc)
++static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+ 
+@@ -501,7 +501,7 @@ static void sonorapass_bmc_i2c_init(AspeedBoardState *bmc)
+ 
+ }
+ 
+-static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
++static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
 -- 
 2.20.1
 
