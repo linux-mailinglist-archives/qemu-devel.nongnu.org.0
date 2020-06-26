@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D782620B2BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:43:12 +0200 (CEST)
-Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545E220B2C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:44:50 +0200 (CEST)
+Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joodL-0004J7-SB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1jooev-0007n7-8d
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolTB-0000Ay-QC
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:29 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59450)
+ id 1jolTH-0000HJ-8C
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:35 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:59466)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolT9-0000NQ-S5
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:29 -0400
+ id 1jolTF-0000Pp-Ge
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:34 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id F09314089EFB;
- Fri, 26 Jun 2020 10:20:25 +0000 (UTC)
-Subject: [PATCH 08/13] replay: implement replay-seek command
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9D6614089F07;
+ Fri, 26 Jun 2020 10:20:31 +0000 (UTC)
+Subject: [PATCH 09/13] replay: flush rr queue before loading the vmstate
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jun 2020 13:20:25 +0300
-Message-ID: <159316682571.10508.12291429930882664199.stgit@pasha-ThinkPad-X280>
+Date: Fri, 26 Jun 2020 13:20:31 +0300
+Message-ID: <159316683138.10508.3504505477148703571.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -64,190 +64,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch adds hmp/qmp commands replay_seek/replay-seek that proceed
-the execution to the specified instruction count.
-The command automatically loads nearest snapshot and replays the execution
-to find the desired instruction count.
+Non-empty record/replay queue prevents saving and loading the VM state,
+because it includes pending bottom halves and block coroutines.
+But when the new VM state is loaded, we don't have to preserve the consistency
+of the current state anymore. Therefore this patch just flushes the queue
+allowing the coroutines to finish and removes checking for empty rr queue
+for load_snapshot function.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
  0 files changed
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index e8ce385879..4288274c4e 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1851,6 +1851,24 @@ SRST
-   The command is ignored when there are no replay breakpoints.
- ERST
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index e00ed2f4a5..239c01e7df 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -149,6 +149,8 @@ void replay_disable_events(void);
+ void replay_enable_events(void);
+ /*! Returns true when saving events is enabled */
+ bool replay_events_enabled(void);
++/* Flushes events queue */
++void replay_flush_events(void);
+ /*! Adds bottom half event to the queue */
+ void replay_bh_schedule_event(QEMUBH *bh);
+ /* Adds oneshot bottom half event to the queue */
+diff --git a/migration/savevm.c b/migration/savevm.c
+index f583b9bd08..7d9d57ac33 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2842,12 +2842,6 @@ int load_snapshot(const char *name, Error **errp)
+     AioContext *aio_context;
+     MigrationIncomingState *mis = migration_incoming_get_current();
  
-+    {
-+        .name       = "replay_seek",
-+        .args_type  = "icount:i",
-+        .params     = "icount",
-+        .help       = "replay execution to the specified instruction count",
-+        .cmd        = hmp_replay_seek,
-+    },
-+
-+SRST
-+``replay_seek`` *icount*
-+Automatically proceed to the instruction count *icount*, when
-+replaying the execution. The command automatically loads nearest
-+snapshot and replays the execution to find the desired instruction.
-+When there is no preceding snapshot or the execution is not replayed,
-+then the command fails.
-+*icount* for the reference may be observed with ``info replay`` command.
-+ERST
-+
-     {
-         .name       = "info",
-         .args_type  = "item:s?",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 21849bdda5..655eb81a4c 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -133,5 +133,6 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict);
- void hmp_info_replay(Monitor *mon, const QDict *qdict);
- void hmp_replay_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
-+void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- 
- #endif
-diff --git a/qapi/replay.json b/qapi/replay.json
-index edf7cc9265..060e42129d 100644
---- a/qapi/replay.json
-+++ b/qapi/replay.json
-@@ -99,3 +99,23 @@
- #
- ##
- { 'command': 'replay-delete-break' }
-+
-+##
-+# @replay-seek:
-+#
-+# Automatically proceed to the instruction count @icount, when
-+# replaying the execution. The command automatically loads nearest
-+# snapshot and replays the execution to find the desired instruction.
-+# When there is no preceding snapshot or the execution is not replayed,
-+# then the command fails.
-+# icount for the reference may be obtained with @query-replay command.
-+#
-+# @icount: target instruction count
-+#
-+# Since: 5.1
-+#
-+# Example:
-+#
-+# -> { "execute": "replay-seek", "data": { "icount": 220414 } }
-+##
-+{ 'command': 'replay-seek', 'data': { 'icount': 'int' } }
-diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index 86e19bb217..cfd0221692 100644
---- a/replay/replay-debugging.c
-+++ b/replay/replay-debugging.c
-@@ -19,6 +19,8 @@
- #include "qapi/qapi-commands-replay.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/timer.h"
-+#include "block/snapshot.h"
-+#include "migration/snapshot.h"
- 
- void hmp_info_replay(Monitor *mon, const QDict *qdict)
- {
-@@ -127,3 +129,93 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
-         return;
+-    if (!replay_can_snapshot()) {
+-        error_setg(errp, "Record/replay does not allow loading snapshot "
+-                   "right now. Try once more later.");
+-        return -EINVAL;
+-    }
+-
+     if (!bdrv_all_can_snapshot(&bs)) {
+         error_setg(errp,
+                    "Device '%s' is writable but does not support snapshots",
+@@ -2881,6 +2875,12 @@ int load_snapshot(const char *name, Error **errp)
+         return -EINVAL;
      }
- }
+ 
++    /*
++     * Flush the record/replay queue. Now the VM state is going
++     * to change. Therefore we don't need to preserve its consistency
++     */
++    replay_flush_events();
 +
-+static char *replay_find_nearest_snapshot(int64_t icount,
-+                                          int64_t *snapshot_icount)
-+{
-+    BlockDriverState *bs;
-+    QEMUSnapshotInfo *sn_tab;
-+    QEMUSnapshotInfo *nearest = NULL;
-+    char *ret = NULL;
-+    int nb_sns, i;
-+    AioContext *aio_context;
-+
-+    *snapshot_icount = -1;
-+
-+    bs = bdrv_all_find_vmstate_bs();
-+    if (!bs) {
-+        goto fail;
-+    }
-+    aio_context = bdrv_get_aio_context(bs);
-+
-+    aio_context_acquire(aio_context);
-+    nb_sns = bdrv_snapshot_list(bs, &sn_tab);
-+    aio_context_release(aio_context);
-+
-+    for (i = 0; i < nb_sns; i++) {
-+        if (bdrv_all_find_snapshot(sn_tab[i].name, &bs) == 0) {
-+            if (sn_tab[i].icount != -1ULL
-+                && sn_tab[i].icount <= icount
-+                && (!nearest || nearest->icount < sn_tab[i].icount)) {
-+                nearest = &sn_tab[i];
-+            }
-+        }
-+    }
-+    if (nearest) {
-+        ret = g_strdup(nearest->name);
-+        *snapshot_icount = nearest->icount;
-+    }
-+    g_free(sn_tab);
-+
-+fail:
-+    return ret;
-+}
-+
-+static void replay_seek(int64_t icount, QEMUTimerCB callback, Error **errp)
-+{
-+    char *snapshot = NULL;
-+    int64_t snapshot_icount;
-+
-+    if (replay_mode != REPLAY_MODE_PLAY) {
-+        error_setg(errp, "replay must be enabled to seek");
-+        return;
-+    }
-+    if (!replay_snapshot) {
-+        error_setg(errp, "snapshotting is disabled");
+     /* Flush all IO requests so they don't interfere with the new state.  */
+     bdrv_drain_all_begin();
+ 
+diff --git a/replay/replay-events.c b/replay/replay-events.c
+index 302b84043a..a1c6bb934e 100644
+--- a/replay/replay-events.c
++++ b/replay/replay-events.c
+@@ -77,6 +77,10 @@ bool replay_has_events(void)
+ 
+ void replay_flush_events(void)
+ {
++    if (replay_mode == REPLAY_MODE_NONE) {
 +        return;
 +    }
 +
-+    snapshot = replay_find_nearest_snapshot(icount, &snapshot_icount);
-+    if (snapshot) {
-+        if (icount < replay_get_current_icount()
-+            || replay_get_current_icount() < snapshot_icount) {
-+            vm_stop(RUN_STATE_RESTORE_VM);
-+            load_snapshot(snapshot, errp);
-+        }
-+        g_free(snapshot);
-+    }
-+    if (replay_get_current_icount() <= icount) {
-+        replay_break(icount, callback, NULL);
-+        vm_start();
-+    } else {
-+        error_setg(errp, "cannot seek to the specified instruction count");
-+    }
-+}
-+
-+void qmp_replay_seek(int64_t icount, Error **errp)
-+{
-+    replay_seek(icount, replay_stop_vm, errp);
-+}
-+
-+void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t icount = qdict_get_try_int(qdict, "icount", -1LL);
-+    Error *err = NULL;
-+
-+    qmp_replay_seek(icount, &err);
-+    if (err) {
-+        error_report_err(err);
-+        error_free(err);
-+        return;
-+    }
-+}
+     g_assert(replay_mutex_locked());
+ 
+     while (!QTAILQ_EMPTY(&events_list)) {
+diff --git a/replay/replay-internal.h b/replay/replay-internal.h
+index 2f6145ec7c..97649ed8d7 100644
+--- a/replay/replay-internal.h
++++ b/replay/replay-internal.h
+@@ -149,8 +149,6 @@ void replay_read_next_clock(unsigned int kind);
+ void replay_init_events(void);
+ /*! Clears internal data structures for events handling */
+ void replay_finish_events(void);
+-/*! Flushes events queue */
+-void replay_flush_events(void);
+ /*! Returns true if there are any unsaved events in the queue */
+ bool replay_has_events(void);
+ /*! Saves events from queue into the file */
 
 
