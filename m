@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA1520BA43
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:25:18 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B485420BA58
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:33:11 +0200 (CEST)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jouuT-000615-KB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57358)
+	id 1jov26-0001MQ-9u
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutD-0004QN-N3
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42164
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jov18-0000wj-2o
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:32:10 -0400
+Resent-Date: Fri, 26 Jun 2020 16:32:10 -0400
+Resent-Message-Id: <E1jov18-0000wj-2o@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutB-0008FY-NB
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593203036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dpUi9okDFrRS2KbsyYZEvmzluKivL6/9CUxSxsk4Mt0=;
- b=PRpA1+rB86xOc6/2SFiyQunMEIKPAMXAw7f5Kc0jEBxUP5aXzGAUFkDVHAkTuOnl2b9PxX
- NWhfyQ9Q9lPYVPN/mrtxNWpW6X8jnLgCUTVPBwDaQA9yDfci2SsbsDi7FleiMSpEjCjBoa
- 4SyyFUHUoxKP+sIGk77MzbSKvfr/iI0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-iAD7BK-3OUSxClRCW0vl1g-1; Fri, 26 Jun 2020 16:23:54 -0400
-X-MC-Unique: iAD7BK-3OUSxClRCW0vl1g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE5FE107ACCA
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:23:53 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 296057B617;
- Fri, 26 Jun 2020 20:23:53 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] python/machine.py: re-add sigkill warning suppression
-Date: Fri, 26 Jun 2020 16:23:50 -0400
-Message-Id: <20200626202350.11060-4-jsnow@redhat.com>
-In-Reply-To: <20200626202350.11060-1-jsnow@redhat.com>
-References: <20200626202350.11060-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jov14-0003Tf-7o
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:32:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593203511; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hBTO2X9nGob5kYRxq4L7oLaVYMtlDPpDXlt74kyn+dabBfItByVzzwCCs3LmiZVf9XVA1kGwdyZQh5UXyqG7dMpOIMvW6zSximY7sUwBQHAOFZPB1Ia6J7v1Holqv6xl6XQRCXSHs1NvDvJi3lKSm+NAg5kmqV+bDzsJrjvzhxc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593203511;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=JPdfUwZbAQbSrIgM/WOfLWKpYZyUfkdnFiyV9/ks+gM=; 
+ b=UTemmvcDprlYkIqfHzWjPg4jynxVrfzvdfnro3jH5cmwQFoyi8l7NlEIOZV/BUbfMDjJDLQRm3gKWhFg87VhufIHCdWE3fsc1iBlWLSaAsLwHBDx9AwMPijX+BZqNCE0BL+e6s0yAUFAAOdH7QZRSke9FtWjTzc2Lw4zyDgi7Bo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593203510659887.5380285296804;
+ Fri, 26 Jun 2020 13:31:50 -0700 (PDT)
+Message-ID: <159320350941.31217.10032175224062882642@d1fd068a5071>
+Subject: Re: [PATCH] util/qemu-error: prepend guest name to error message to
+ identify affected VM owner
+In-Reply-To: <20200626201900.8876-1-msmarduch@digitalocean.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: msmarduch@digitalocean.com
+Date: Fri, 26 Jun 2020 13:31:50 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:21:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,76 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>, philmd@redhat.com,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com, msmarduch@digitalocean.com,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user kills QEMU on purpose, we don't need to warn them about that
-having happened: they know already.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/machine.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 66a9d4204c..8c9050af5d 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -22,6 +22,7 @@
- import os
- import subprocess
- import shutil
-+import signal
- import socket
- import tempfile
- from typing import Optional, Type
-@@ -122,6 +123,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
-         self._console_address = None
-         self._console_socket = None
-         self._remove_files = []
-+        self._killed = False
- 
-     def __enter__(self):
-         return self
-@@ -282,7 +284,7 @@ def _post_launch(self):
-         if self._qmp:
-             self._qmp.accept()
- 
--    def _post_shutdown(self):
-+    def _post_shutdown(self) -> None:
-         self._load_io_log()
- 
-         if self._qemu_log_file is not None:
-@@ -299,7 +301,8 @@ def _post_shutdown(self):
-             self._remove_if_exists(self._remove_files.pop())
- 
-         exitcode = self.exitcode()
--        if exitcode is not None and exitcode < 0:
-+        if (exitcode is not None and exitcode < 0
-+                and not (self._killed and exitcode == -signal.SIGKILL)):
-             msg = 'qemu received signal %i; command: "%s"'
-             if self._qemu_full_args:
-                 command = ' '.join(self._qemu_full_args)
-@@ -307,6 +310,7 @@ def _post_shutdown(self):
-                 command = ''
-             LOG.warning(msg, -int(exitcode), command)
- 
-+        self._killed = False
-         self._launched = False
- 
-     def launch(self):
-@@ -422,6 +426,7 @@ def shutdown(self, has_quit: bool = False, hard: bool = False) -> None:
- 
-         try:
-             if hard:
-+                self._killed = True
-                 self._hard_shutdown()
-             else:
-                 self._do_shutdown(has_quit)
--- 
-2.21.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNjIwMTkwMC44ODc2
+LTEtbXNtYXJkdWNoQGRpZ2l0YWxvY2Vhbi5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
+IHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
+aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
+bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBk
+b2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1p
+bmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICAgIHJh
+aXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJv
+Y2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxh
+YmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MDIwZTdlNWQyOWI2NDAzMmEyYzRkYzgyOThj
+NzJlNzgnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmlu
+ZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJF
+X09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywg
+J1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcv
+aG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6
+JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC16d2ppd2xlYS9zcmMvZG9ja2Vy
+LXNyYy4yMDIwLTA2LTI2LTE2LjI0LjQ2LjExNTAxOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11
+OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5v
+bi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0
+YW5jZS51dWlkPTAyMGU3ZTVkMjliNjQwMzJhMmM0ZGM4Mjk4YzcyZTc4Cm1ha2VbMV06ICoqKiBb
+ZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAv
+cGF0Y2hldy10ZXN0ZXItdG1wLXp3aml3bGVhL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRl
+c3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDdtNC4zODJzCnVzZXIgICAgMG04LjMz
+MHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjAwNjI2MjAxOTAwLjg4NzYtMS1tc21hcmR1Y2hAZGlnaXRhbG9jZWFuLmNvbS90ZXN0aW5n
+LmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
