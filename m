@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA69620BA71
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:43:46 +0200 (CEST)
-Received: from localhost ([::1]:59940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9B120BA86
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:48:18 +0200 (CEST)
+Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jovCK-0008NL-Oo
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
+	id 1jovGj-00072B-D1
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAQ-0006cm-6N
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54378
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAX-0006sz-EF
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49342
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAN-0005oB-9S
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:45 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAV-0005po-Jo
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593204102;
+ s=mimecast20190719; t=1593204111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oNhPhaxByI3BTfZupYYGTKC0C0PPGE+d9nTXAs0uWH4=;
- b=U1eM6dGMYAjSKl7l0fJzVV69NTWl1XZZKAxNVKhCu1hkVotTomRbal4qJJBL1b0otXCOfM
- 5MleoDFTzk7PJJNDcvDUt+nqg7FtI/gPsPQ81UUGGDRohsAane/dGn774e0/1GP6m0dtWg
- UxQU2ff/TNh04TNv4I0TgDp7vHtFC2I=
+ bh=gqk7ovbcZenmmjkGeGLVpvHvzhizoBYcL+O5A5dVKHI=;
+ b=jG5uf58XoX8arOzwk/gVEOWfNOrrT62LWQk8tVVhsJFWiqcgn4caoHX5lLCd5MTkknPIXd
+ YOSGnNBxyedEUQGkGgRCcRB9vmFaEn3wYgwipCV/FF7bCs/tw+9LdZtg2IIMnutRGz2v3Y
+ +NbNAuoVgSFpFEveo3D8TzV2DFa3Oqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-P_zF_z9WOnyt823INcb2DA-1; Fri, 26 Jun 2020 16:41:40 -0400
-X-MC-Unique: P_zF_z9WOnyt823INcb2DA-1
+ us-mta-311-tUvaUqc-OSm0OFb4iS3uag-1; Fri, 26 Jun 2020 16:41:49 -0400
+X-MC-Unique: tUvaUqc-OSm0OFb4iS3uag-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0149BFC1;
- Fri, 26 Jun 2020 20:41:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BA6918585BA;
+ Fri, 26 Jun 2020 20:41:48 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC26F19C58;
- Fri, 26 Jun 2020 20:41:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1C8319C58;
+ Fri, 26 Jun 2020 20:41:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/16] python/qmp.py: Do not return None from cmd_obj
-Date: Fri, 26 Jun 2020 16:41:21 -0400
-Message-Id: <20200626204133.14500-5-jsnow@redhat.com>
+Subject: [PATCH v4 05/16] python/qmp.py: add casts to JSON deserialization
+Date: Fri, 26 Jun 2020 16:41:22 -0400
+Message-Id: <20200626204133.14500-6-jsnow@redhat.com>
 In-Reply-To: <20200626204133.14500-1-jsnow@redhat.com>
 References: <20200626204133.14500-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 15:42:27
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,52 +84,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes typing the qmp library difficult, as it necessitates wrapping
-Optional[] around the type for every return type up the stack. At some
-point, it becomes difficult to discern or remember why it's None instead
-of the expected object.
+mypy and python type hints are not powerful enough to properly describe
+JSON messages in Python 3.6. The best we can do, generally, is describe
+them as Dict[str, Any].
 
-Use the python exception system to tell us exactly why we didn't get an
-object. Remove this special-cased return.
+Add casts to coerce this type for static analysis; but do NOT enforce
+this type at runtime in any way.
+
+Note: Python 3.8 adds a TypedDict construct which allows for the
+description of more arbitrary Dictionary shapes. There is a third-party
+module, "Pydantic", which is compatible with 3.6 that can be used
+instead of the JSON library that parses JSON messages to fully-typed
+Python objects, and may be preferable in some cases.
+
+(That is well beyond the scope of this commit or series.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- python/qemu/qmp.py | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ python/qemu/qmp.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index aa8a666b8a..ef3c919b76 100644
+index ef3c919b76..1ae36050a4 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -225,22 +225,18 @@ def accept(self, timeout=15.0):
-         self.__sockfile = self.__sock.makefile(mode='r')
-         return self.__negotiate_capabilities()
+@@ -13,6 +13,7 @@
+ import logging
+ from typing import (
+     Any,
++    cast,
+     Dict,
+     Optional,
+     TextIO,
+@@ -130,7 +131,10 @@ def __json_read(self, only_event=False):
+             data = self.__sockfile.readline()
+             if not data:
+                 return None
+-            resp = json.loads(data)
++            # By definition, any JSON received from QMP is a QMPMessage,
++            # and we are asserting only at static analysis time that it
++            # has a particular shape.
++            resp: QMPMessage = json.loads(data)
+             if 'event' in resp:
+                 self.logger.debug("<<< %s", resp)
+                 self.__events.append(resp)
+@@ -262,7 +266,7 @@ def command(self, cmd, **kwds):
+         ret = self.cmd(cmd, kwds)
+         if 'error' in ret:
+             raise QMPResponseError(ret)
+-        return ret['return']
++        return cast(QMPReturnValue, ret['return'])
  
--    def cmd_obj(self, qmp_cmd):
-+    def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
+     def pull_event(self, wait=False):
          """
-         Send a QMP command to the QMP Monitor.
- 
-         @param qmp_cmd: QMP command to be sent as a Python dict
--        @return QMP response as a Python dict or None if the connection has
--                been closed
-+        @return QMP response as a Python dict
-         """
-         self.logger.debug(">>> %s", qmp_cmd)
--        try:
--            self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
--        except OSError as err:
--            if err.errno == errno.EPIPE:
--                return None
--            raise err
-+        self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-         resp = self.__json_read()
-+        if resp is None:
-+            raise QMPConnectError("Unexpected empty reply from server")
-         self.logger.debug("<<< %s", resp)
-         return resp
- 
 -- 
 2.21.3
 
