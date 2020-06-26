@@ -2,81 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED58C20BC80
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:30:11 +0200 (CEST)
-Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB0320BC71
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:25:45 +0200 (CEST)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowrK-0002vH-UN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53926)
+	id 1jown2-0004Me-3I
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowJa-0005XJ-Ug
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:55:19 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:39471)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jowkE-0000y2-AB; Fri, 26 Jun 2020 18:22:51 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:38207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowJY-00033f-Pa
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:55:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208530; x=1624744530;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=W7Bj3HDtMeIedWxLjBsHkQ4m/+FTFewfRfdjawcE8FQ=;
- b=QN6Yn9X6CpPQyGcktnyawSI0SrOgVNt2Wy4UIJnO+TIeFPPeespcBhLp
- UFc18l9kQun3IHMAfggQhXPez2twlR+Qvrd79yicKdr8Ue5aYnbIjTyiq
- pJOjgUgDR5Yhuqf/aoAPVjc4onL1JY9TUU44zf68+mO+FGBgFh8ctkbgr
- 7Q6rgCkpcZRV8iKVyNUCAywkfT6K0Xj5h4dnGJkoIV6BRop3Xex2Zm2eF
- UAutpoGdfPk3F6p9hfZ0SCCZnfzqrj4KWR/tec1yPba6NPrwKsOIl1H1m
- Y0CEUSehVb9ltUQIlLJsod4A5fOQNXqONKVxUqs3r2asdbeIsw2+cv922 g==;
-IronPort-SDR: Rjyg7pdxrc21lYNCpIAP7HKyy+JJXvXnyOL79N7wnd8gObIQQC/wJ3nY7o6nic7KQLJm6gAO6S
- sOyhLhAy3SB3pbmKm85F/VlIZ585VR4axBLzFVIPib7RxG/ImyjUGlStXHCfDOIKIgio/G7oCg
- MtE+LKiN5qV15ieWTM+K1BFi45BKnqegjl81lesWSaa8YG8q+/z2UMXAHyKEmyofc73kIQdXZx
- wCCbafgNvoYcGMoyCEZsJUJTn/hOd/yqQwiSub4a0vMH4DZWg8w65FZJQBsoxcunMfElP8sbSz
- MX4=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="244048426"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:53 +0800
-IronPort-SDR: 6b7h1cC0YUv1d3AE2U9wq//HnbfSIJD/ZK1Yq8OnwFFXxCV44VJ8XjHLweanE/kJ4VHs/2NXrL
- GJNM6n6F8GtuHl/tRGdlzSw8LNbuQBYbw=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 14:42:50 -0700
-IronPort-SDR: fGTX2mw1mXO2QbRrrzImC/iO13eq3toWExK46e+JmQEhPykTdgHrbAWYcjIeE8q/y3r836GLGR
- ya/09ZaRXi1A==
-WDCIronportException: Internal
-Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.58.206])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:52 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 63/63] target/riscv: configure and turn on vector extension
- from command line
-Date: Fri, 26 Jun 2020 14:44:10 -0700
-Message-Id: <20200626214410.3613258-64-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
-References: <20200626214410.3613258-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jowkA-0001fK-A1; Fri, 26 Jun 2020 18:22:49 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 215F47475FA;
+ Sat, 27 Jun 2020 00:22:43 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id ECCEC74632C; Sat, 27 Jun 2020 00:22:42 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EB62674633D;
+ Sat, 27 Jun 2020 00:22:42 +0200 (CEST)
+Date: Sat, 27 Jun 2020 00:22:42 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v5 06/11] mac_oldworld: Rename ppc_heathrow_reset to
+ ppc_heathrow_cpu_reset
+In-Reply-To: <1dfc4c68-c85d-5e56-d3c2-d68ce0b2355c@ilande.co.uk>
+Message-ID: <alpine.BSF.2.22.395.2006270009510.64843@zero.eik.bme.hu>
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <c2f41c551f7393b5bde733cbf78a1fcb151f3e89.1592315226.git.balaton@eik.bme.hu>
+ <1dfc4c68-c85d-5e56-d3c2-d68ce0b2355c@ilande.co.uk>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=439617756=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:53:44
+Content-Type: multipart/mixed;
+ boundary="3866299591-1397681742-1593210162=:64843"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:57:16
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,127 +61,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-   "-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+--3866299591-1397681742-1593210162=:64843
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
+On Fri, 26 Jun 2020, Mark Cave-Ayland wrote:
+> On 16/06/2020 14:47, BALATON Zoltan wrote:
+>
+>> This function resets a CPU not the whole machine so reflect that in
+>> its name.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/ppc/mac_oldworld.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>> index 4200008851..f97f241e0c 100644
+>> --- a/hw/ppc/mac_oldworld.c
+>> +++ b/hw/ppc/mac_oldworld.c
+>> @@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>>      return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+>>  }
+>>
+>> -static void ppc_heathrow_reset(void *opaque)
+>> +static void ppc_heathrow_cpu_reset(void *opaque)
+>>  {
+>>      PowerPCCPU *cpu = opaque;
+>>
+>> @@ -112,7 +112,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>>
+>>          /* Set time-base frequency to 16.6 Mhz */
+>>          cpu_ppc_tb_init(env,  TBFREQ);
+>> -        qemu_register_reset(ppc_heathrow_reset, cpu);
+>> +        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
+>>      }
+>>
+>>      /* allocate RAM */
+>
+> As per my previous comment on your earlier version, I don't agree with this - the
+> reset is being registered at board level, it just so happens that as it's only
+> touching the CPU due to the opaque being passed in.
+>
+> I'd be inclined to pass in a suitable HeathrowMachineState object containing a
+> reference to the CPU instead.
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200623215920.2594-62-zhiwei_liu@c-sky.com
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h |  4 +++-
- target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 1 deletion(-)
+It's not a board level reset func but a CPU level one. See where it's 
+registered here:
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0ad51c6580..eef20ca6e5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -92,7 +92,7 @@ typedef struct CPURISCVState CPURISCVState;
- 
- #include "pmp.h"
- 
--#define RV_VLEN_MAX 512
-+#define RV_VLEN_MAX 256
- 
- FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
-@@ -279,12 +279,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d525cfb687..228b9bdb5d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -430,6 +430,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -469,10 +508,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
--- 
-2.27.0
+https://git.qemu.org/?p=qemu.git;a=blob;f=hw/ppc/mac_oldworld.c;h=f8c204ead73843098084bf5213ac4046d7d843c4;hb=HEAD#l111
 
+One for each CPU and as there could be more than one CPU, this won't work 
+with a single reference in HeathrowMachineState. We could reset CPUs in a 
+board level reset func (added by next patch) but I don't know how to 
+access CPU objects from MachineState (it did not look trivial when I've 
+looked) so I just left it as it is for later clean up separate from this 
+series. I've just renamed it to avoid confusion with board level reset 
+func which is usually named *_reset but I could call that 
+ppc_heathrow_board_reset and then we don't need this patch but I think 
+this is cleaner.
+
+I don't even know why we need a reset func to reset the CPU, I'd expect 
+that to be the default behaviour of any board reset without needing to 
+register a func to do it.
+
+Regards,
+BALATON Zoltan
+--3866299591-1397681742-1593210162=:64843--
 
