@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B5220B45B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:19:58 +0200 (CEST)
-Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C4620B45D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:20:45 +0200 (CEST)
+Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joq8z-0001OD-O7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:19:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35534)
+	id 1joq9k-0002Tz-V2
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3z-00025r-Kb
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:47 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34914)
+ id 1joq3x-00021f-N7
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:45 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3q-0006G7-Lg
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:47 -0400
-Received: by mail-wm1-x332.google.com with SMTP id l2so8225944wmf.0
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:37 -0700 (PDT)
+ id 1joq3q-0006GO-LV
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b6so9837189wrs.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Q8Ef3HWA8rNM9aTbA2EQAMf+hEg1mxxGyImAVLJmAIk=;
- b=sZg3zG2ErKaNOpVPZrMhqJcUjKJC77ZU+jmPSW2KgjOQ4tOEnJiT2Zu5jnQ+SIjjW7
- H2JFwjL2MiAKYKjDHw/gMuB96cmNceiWZGZ3co6eNvyocEDXmIUheXwvbMnpry9fkDZc
- dYQrJsJSNjoGQR7diwv1p1/EjzI2mVFfM7PzajphkljC8tqRII6gw6dT4YB0TpsbeV7s
- AmU92bfkBF0OOw7GIi4w9Qb6V5xLhgDgPYZKLQHUIOoKr0g6NvOrVgBu6DaW9onGGvQ4
- hZGVT1yXmNQqVNAHSz/DUz7Ky3ZN3l2LbnrYPJhcSmZaz951elvakB0ckgBNFcJDV5l9
- NyMA==
+ bh=NAVH5y7iWpRw66JxeAnEE7mguU/FzOf8PzQCxUY5S0o=;
+ b=iryO9eF9WC5BuHf5JIEB980xDud3lSmurQ/PHj4rSK+1R4O/rf4aQNogVcIKF5QYq0
+ 0MQNcxmMSTsAl1c5DcYPn5BwaoNxnvRQrVBh2FfKJwfz0RE4EVoETX0Cgox6/d5Ulaqq
+ GP4oEyT+WfvjHYcmJufkpRRv63gCY1f7m5UJqBMC2Zl3zy2rfiChL1fL47f1/BTZDp1F
+ M27fu5lCXbp9f9fPrkoopRFKPFA0z9vmyiFzRM0OQzQ8znMoDojL5Xv4xshLvPQ6NMv+
+ MtGtS4TyUE8O8LmS1NthGf9ybUAiSsRyBUruHxeT0RifO2RD5caIKXwEPDZAu2zIsS3P
+ 9OYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q8Ef3HWA8rNM9aTbA2EQAMf+hEg1mxxGyImAVLJmAIk=;
- b=PxFx8+t6V+lANn9EI9YByLsXPQUyDhWFSWK+n47m2EFO53F+Ax1weE6TcSf009VaJl
- 31yd7iS+sHLQnHGV9NmhBd+LS3VLlY688wmNfI2a0yvBh5Hd40NDwEO/0Xnto5iT3bPP
- 4XrIGkY0cvGsWHC9zTclkUehnVLMGNH/XvbId+JmUnPO3UqUwaqhllGuhwDypSGwb4kR
- 9Hmi/hv9oy51ijgdrD+kfEkF87A1Abq+H3QvCM+aYHd3BkbJgHrJWDlxJzKv/M8Lxyhg
- 9i70jG3vqlD4mWxvvjIoAFA4auGgs3s5LEFlACY3jCKdswwanww5+KCoyjsuXTUMVGH3
- FZVQ==
-X-Gm-Message-State: AOAM530YS2yCnuIn9VxIQS5/TD8xFDJtYNMR+e1HQS4uBKR+Ou9BqqCX
- lKVhGcq19fFbyyTcL1lmOVL68ntteTUX0Q==
-X-Google-Smtp-Source: ABdhPJwRYMVOauEYyWDMd6dL1z0UwW/sprD3rPfVgbjzawwk/whZ6CliGGJWD6V6RadziUekliIc2w==
-X-Received: by 2002:a1c:e143:: with SMTP id y64mr3910481wmg.90.1593184475946; 
- Fri, 26 Jun 2020 08:14:35 -0700 (PDT)
+ bh=NAVH5y7iWpRw66JxeAnEE7mguU/FzOf8PzQCxUY5S0o=;
+ b=CBDiDlkyxXM1s8rt4wbBMIIJWrEBG2CUv/C8ifbN/nUAP3tHWy7GPszGA8NXYDAF2E
+ rdBVWkrrs9gcXVGFAypjv5gIDbLVCdMLm16wuGnO7xVPpR79mQCRvieV1GS5S/oamZfn
+ 7U6nYXRBxi/rhMfTncEsNg088xISQhC/WLyWUbRhandIlOkm3rER19X2k/nHTOJUtla/
+ 4A/TOOR/cXB+uHApj66ZjKG72YlDyixkmmfC4Wmz338G8HtEi3cVxnYXgKzwB/HR/RRy
+ SCDBRaRkLP5aT1x3FQ2VTtFVRKA78d3hFjbmoVbsexxmK7D56J8c3OK8pzZuI0OTFmDL
+ 5nzg==
+X-Gm-Message-State: AOAM530q+4aGrDQFwQaAp9c54IM5VoP3gc6tvYZyuMBGtDylkbbPbNhs
+ 9uwQpm5iWLErpzofjhairI5ZbOmp/tiZEg==
+X-Google-Smtp-Source: ABdhPJxd/4VmNXEoVwl8m/RpvpfsYOMzhSl7JqCitiaMNRCpBmeKKpgZC3YTcc8k8uVd4jFtla3pBg==
+X-Received: by 2002:a5d:4a45:: with SMTP id v5mr4309953wrs.228.1593184476975; 
+ Fri, 26 Jun 2020 08:14:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.34
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:35 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/57] hw/misc/pca9552: Add a 'description' property for
- debugging purpose
-Date: Fri, 26 Jun 2020 16:13:35 +0100
-Message-Id: <20200626151424.30117-9-peter.maydell@linaro.org>
+Subject: [PULL 09/57] hw/misc/pca9552: Trace GPIO High/Low events
+Date: Fri, 26 Jun 2020 16:13:36 +0100
+Message-Id: <20200626151424.30117-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,73 +91,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add a description field to distinguish between multiple devices.
+Add a trivial representation of the PCA9552 GPIOs.
 
+Example booting obmc-phosphor-image:
+
+  $ qemu-system-arm -M witherspoon-bmc -trace pca955x_gpio_status
+  1592689902.327837:pca955x_gpio_status pca-unspecified GPIOs 0-15 [*...............]
+  1592689902.329934:pca955x_gpio_status pca-unspecified GPIOs 0-15 [**..............]
+  1592689902.330717:pca955x_gpio_status pca-unspecified GPIOs 0-15 [***.............]
+  1592689902.331431:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****............]
+  1592689902.332163:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........*..]
+  1592689902.332888:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........**.]
+  1592689902.333629:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690032.793289:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+  1592690033.303163:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690033.812962:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+  1592690034.323234:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........***]
+  1592690034.832922:pca955x_gpio_status pca-unspecified GPIOs 0-15 [****.........*.*]
+
+We notice the GPIO #14 (front-power LED) starts to blink.
+
+This LED is described in the witherspoon device-tree [*]:
+
+  front-power {
+      retain-state-shutdown;
+      default-state = "keep";
+      gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
+  };
+
+[*] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts?id=b1f9be9392f0#n140
+
+Suggested-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200623072723.6324-6-f4bug@amsat.org
+Message-id: 20200623072723.6324-7-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/pca9552.h |  1 +
- hw/misc/pca9552.c         | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
+ hw/misc/pca9552.c    | 39 +++++++++++++++++++++++++++++++++++++++
+ hw/misc/trace-events |  3 +++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
-index 90843b03b8a..bf1a5891378 100644
---- a/include/hw/misc/pca9552.h
-+++ b/include/hw/misc/pca9552.h
-@@ -27,6 +27,7 @@ typedef struct PCA955xState {
-     uint8_t pointer;
- 
-     uint8_t regs[PCA955X_NR_REGS];
-+    char *description; /* For debugging purpose only */
- } PCA955xState;
- 
- #endif
 diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 4de57dbe2e2..2cc52b02057 100644
+index 2cc52b02057..41f8ad213dd 100644
 --- a/hw/misc/pca9552.c
 +++ b/hw/misc/pca9552.c
-@@ -13,6 +13,7 @@
+@@ -13,12 +13,14 @@
  #include "qemu/osdep.h"
  #include "qemu/log.h"
  #include "qemu/module.h"
-+#include "hw/qdev-properties.h"
++#include "qemu/bitops.h"
+ #include "hw/qdev-properties.h"
  #include "hw/misc/pca9552.h"
  #include "hw/misc/pca9552_regs.h"
  #include "migration/vmstate.h"
-@@ -317,13 +318,30 @@ static void pca955x_initfn(Object *obj)
-     }
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
++#include "trace.h"
+ 
+ typedef struct PCA955xClass {
+     /*< private >*/
+@@ -49,6 +51,39 @@ static uint8_t pca955x_pin_get_config(PCA955xState *s, int pin)
+     return extract32(s->regs[reg], shift, 2);
  }
  
-+static void pca955x_realize(DeviceState *dev, Error **errp)
++/* Return INPUT status (bit #N belongs to GPIO #N) */
++static uint16_t pca955x_pins_get_status(PCA955xState *s)
 +{
-+    PCA955xState *s = PCA955X(dev);
++    return (s->regs[PCA9552_INPUT1] << 8) | s->regs[PCA9552_INPUT0];
++}
 +
-+    if (!s->description) {
-+        s->description = g_strdup("pca-unspecified");
++static void pca955x_display_pins_status(PCA955xState *s,
++                                        uint16_t previous_pins_status)
++{
++    PCA955xClass *k = PCA955X_GET_CLASS(s);
++    uint16_t pins_status, pins_changed;
++    int i;
++
++    pins_status = pca955x_pins_get_status(s);
++    pins_changed = previous_pins_status ^ pins_status;
++    if (!pins_changed) {
++        return;
++    }
++    if (trace_event_get_state_backends(TRACE_PCA955X_GPIO_STATUS)) {
++        char *buf = g_newa(char, k->pin_count + 1);
++
++        for (i = 0; i < k->pin_count; i++) {
++            if (extract32(pins_status, i, 1)) {
++                buf[i] = '*';
++            } else {
++                buf[i] = '.';
++            }
++        }
++        buf[i] = '\0';
++        trace_pca955x_gpio_status(s->description, buf);
 +    }
 +}
 +
-+static Property pca955x_properties[] = {
-+    DEFINE_PROP_STRING("description", PCA955xState, description),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pca955x_class_init(ObjectClass *klass, void *data)
+ static void pca955x_update_pin_input(PCA955xState *s)
  {
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-     I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
+     PCA955xClass *k = PCA955X_GET_CLASS(s);
+@@ -98,6 +133,8 @@ static uint8_t pca955x_read(PCA955xState *s, uint8_t reg)
  
-     k->event = pca955x_event;
-     k->recv = pca955x_recv;
-     k->send = pca955x_send;
-+    dc->realize = pca955x_realize;
-+    device_class_set_props(dc, pca955x_properties);
- }
+ static void pca955x_write(PCA955xState *s, uint8_t reg, uint8_t data)
+ {
++    uint16_t pins_status;
++
+     switch (reg) {
+     case PCA9552_PSC0:
+     case PCA9552_PWM0:
+@@ -110,8 +147,10 @@ static void pca955x_write(PCA955xState *s, uint8_t reg, uint8_t data)
+     case PCA9552_LS1:
+     case PCA9552_LS2:
+     case PCA9552_LS3:
++        pins_status = pca955x_pins_get_status(s);
+         s->regs[reg] = data;
+         pca955x_update_pin_input(s);
++        pca955x_display_pins_status(s, pins_status);
+         break;
  
- static const TypeInfo pca955x_info = {
+     case PCA9552_INPUT0:
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 68a6d9f2ab8..bd7bd37ea8d 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -209,3 +209,6 @@ via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size
+ # grlib_ahb_apb_pnp.c
+ grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+ grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
++
++# pca9552.c
++pca955x_gpio_status(const char *description, const char *buf) "%s GPIOs 0-15 [%s]"
 -- 
 2.20.1
 
