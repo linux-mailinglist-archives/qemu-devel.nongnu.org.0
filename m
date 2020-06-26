@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDEC20AACB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:37:49 +0200 (CEST)
-Received: from localhost ([::1]:48554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1790D20AAC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:36:55 +0200 (CEST)
+Received: from localhost ([::1]:45514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofBU-0001MU-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
+	id 1jofAc-00006c-2Q
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:36:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof5r-00080z-Ot
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:31:59 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36642)
+ id 1jof5t-00083y-Ps
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:01 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:46887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof5p-0001m1-Kk
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:31:59 -0400
-Received: by mail-pl1-x641.google.com with SMTP id j4so3759155plk.3
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:31:57 -0700 (PDT)
+ id 1jof5r-0001mb-7P
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:01 -0400
+Received: by mail-pl1-x642.google.com with SMTP id u9so147951pls.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5U9O4pRwEVTDPKKBoZu3AfrKnIcDYcw40rUeVwcX/4U=;
- b=WFh6wx7RsNdM0+t7QDzWhhaLLH+6nz08doQvnQ9KYCP81utLdex+SQ60n9+0i/pmCm
- gFmFBap7j4M4mrCLbNSF5fps75ldgqQ1Zb2//R4v4kkFk17m1Qn3EBbqGO4WwUD4FPB5
- 50Np7KPkg1GBqy6kwF4FxOizePtu6ftELpBWsSKZmhOM1X8o6Id5+HRtMaS9anIA4b6r
- HYTja/xv3ZTJfZwBKdbZyKHEixP4rH6HYKLKEGTJB2TwYfizy+SM6ICVgNEYo0TwGHwH
- MaSRSnzBKOpL1lQjnQDMpm9keNDvcm0+y4Qm2XTyk4gdHl8gA8UBoCaxn1ByMGwrxfSr
- 5DCA==
+ bh=OJbvGm24N0pCNxC6a6FRLJFUjaczE/2T9IjbSp057F0=;
+ b=OLro5hgFHe1h8BR+yREt3jdZO6jjBwGzkcmvO5EKHBfYXhg+hRTO/Z8Uy4JIrhG+Tv
+ i6P61a9vhX+vkrVNNuVy4ZRkrdCp5ft3WyI67DwqBCVNr4q5dKRNZhDKyZFQ3Xsj0B0L
+ wnTRGUQarZ/psvXsVHXnbfPAjVDCgs37B2yVTOfpMP7DlqQdLrG9QubYY6MknjVY5YCi
+ kl/6g2qAMfQ6wEXvYcVWjzstbliwWqOT7g3cFzHwX223dHG1/PL7VV/YHDr8+yqbIr/N
+ PS222JbZFOCb9KM937LMiPQrWR5dfn0dsbO9ZyRPm2UD10lDrx5r0pfsEhQHkU5uLEmA
+ LWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5U9O4pRwEVTDPKKBoZu3AfrKnIcDYcw40rUeVwcX/4U=;
- b=som+jeRTI8T9lA6tg+BV6/fQYk0CRtm+o9kiDi5gPT1uOryuqoekF0peKPvSR15yeM
- bA2H5dsQKUmOLZSjzeaQhBuSeB0ShOXQu0+t3w5aD68f2LKWP/yPjadQhG78RmuaSp5F
- J6l7QijW+mAuYvqkh5tDXu9K+kwx56qljAG4OJ6j3Z8mMpjrsZY5moIkuBSfjM8pU+ve
- PmfP2+BfT3q1XOwFOKWSG/8z4Kur9UZoom283aMjO8ADAN+iFAxKoRNydYTsB62Rq+kS
- iIyGvc5gCGTASk8kth1mPNcpgvAbYunA7WYvHJ1InsF0H90aFVlacxW2MhefilU9N19N
- ZsSw==
-X-Gm-Message-State: AOAM533gddlwTqBC/vzCkJ+X2D27yxGrLYq3MacAhYLvCFvPSIvziB9/
- qhgHOLqxOzdt50Wwj+ituz85xVijrU8=
-X-Google-Smtp-Source: ABdhPJz6rCOnhaJ1ifMEIsJQrw4mMwd0R9k2lpB7qZf0NPEu7rGNhXWkE6dGFc6ZJGafbdt8gosNbg==
-X-Received: by 2002:a17:90a:fe0c:: with SMTP id
- ck12mr1203899pjb.209.1593142315752; 
- Thu, 25 Jun 2020 20:31:55 -0700 (PDT)
+ bh=OJbvGm24N0pCNxC6a6FRLJFUjaczE/2T9IjbSp057F0=;
+ b=MdMNIVDzjTjJDiGzRqo/FwDIDB/dyAZvOT/FoW5Y+63LPGYw1pLdDWSvIhfERAukeB
+ N8ZLpLVVNB/S3ApyjF+i+4VwibAQ1CgpKblMq5auvPksCIhyr5VUkvC2oTESIvLSEWUg
+ FwOBEHA09CqhAqymhKbTU/n82M3AWexCCPKNW1zZdR1kffD9F/VgKLWvIFZHhtVKJlD7
+ techdlF5dGQ/A2nNzNl6monb161Sv6N1FjKAB+NGymo4k9/AYVFSseF527+zwQKIf+QK
+ hi2NjKC+STMfU3hiz2eeaWUv/lJ8MHqhHTb1tDto0iAHsbAeTCkknQV1w59aKprp4YOw
+ Z9EA==
+X-Gm-Message-State: AOAM533EP0ts+a/VALByJfBilX0lFAs4g4APIpTPmrARV7hFr1OLTRqo
+ TSpIbeWmkQ2lIDxKYC/Ow1oF8HW75Ec=
+X-Google-Smtp-Source: ABdhPJwSmwhzgHxTt+Ela9dEaDAsnVir6vZ26b7Z8JJzNfvNUlsptj8fe5Lq0ZnL4IJ+Pl6Z2D2Ydw==
+X-Received: by 2002:a17:90b:1981:: with SMTP id
+ mv1mr1173734pjb.41.1593142317202; 
+ Thu, 25 Jun 2020 20:31:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.31.54
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.31.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 20:31:55 -0700 (PDT)
+ Thu, 25 Jun 2020 20:31:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 07/46] target/arm: Add MTE system registers
-Date: Thu, 25 Jun 2020 20:31:05 -0700
-Message-Id: <20200626033144.790098-8-richard.henderson@linaro.org>
+Subject: [PATCH v9 08/46] target/arm: Add MTE bits to tb_flags
+Date: Thu, 25 Jun 2020 20:31:06 -0700
+Message-Id: <20200626033144.790098-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
 References: <20200626033144.790098-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,221 +91,187 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is TFSRE0_EL1, TFSR_EL1, TFSR_EL2, TFSR_EL3,
-RGSR_EL1, GCR_EL1, GMID_EL1, and PSTATE.TCO.
+Cache the composite ATA setting.
+
+Cache when MTE is fully enabled, i.e. access to tags are enabled
+and tag checks affect the PE.  Do this for both the normal context
+and the UNPRIV context.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: Add GMID; add access_mte.
-v4: Define only TCO at mte_insn_reg.
-v6: Define RAZ/WI version of TCO at mte_insn_reg;
-    honor TID5 for GMID_EL1; fix TFS crn/crm; recalc hflags after TCO.
+v3: Remove stub helper_mte_check; moved to a later patch.
+v6: Add mte0_active and ata bits; drop reviewed-by.
 ---
- target/arm/cpu.h           |  4 ++
- target/arm/internals.h     |  9 ++++
- target/arm/helper.c        | 94 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-a64.c | 21 +++++++++
- 4 files changed, 128 insertions(+)
+ target/arm/cpu.h           | 12 ++++++++----
+ target/arm/internals.h     | 18 +++++++++++++++++
+ target/arm/translate.h     |  5 +++++
+ target/arm/helper.c        | 40 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-a64.c |  4 ++++
+ 5 files changed, 75 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ff70115801..0a98b6a06d 100644
+index 0a98b6a06d..cb4f6ba69f 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -502,6 +502,9 @@ typedef struct CPUARMState {
-         uint64_t pmccfiltr_el0; /* Performance Monitor Filter Register */
-         uint64_t vpidr_el2; /* Virtualization Processor ID Register */
-         uint64_t vmpidr_el2; /* Virtualization Multiprocessor ID Register */
-+        uint64_t tfsr_el[4]; /* tfsre0_el1 is index 0.  */
-+        uint64_t gcr_el1;
-+        uint64_t rgsr_el1;
-     } cp15;
+@@ -3187,10 +3187,10 @@ typedef ARMCPU ArchCPU;
+  * |              |     |   TBFLAG_A32   |              |
+  * |              |     +-----+----------+  TBFLAG_AM32 |
+  * |  TBFLAG_ANY  |           |TBFLAG_M32|              |
+- * |              |         +-+----------+--------------|
+- * |              |         |         TBFLAG_A64        |
+- * +--------------+---------+---------------------------+
+- *  31          20        15                           0
++ * |              +-----------+----------+--------------|
++ * |              |            TBFLAG_A64               |
++ * +--------------+-------------------------------------+
++ *  31          20                                     0
+  *
+  * Unless otherwise noted, these bits are cached in env->hflags.
+  */
+@@ -3257,6 +3257,10 @@ FIELD(TBFLAG_A64, BT, 9, 1)
+ FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
+ FIELD(TBFLAG_A64, TBID, 12, 2)
+ FIELD(TBFLAG_A64, UNPRIV, 14, 1)
++FIELD(TBFLAG_A64, ATA, 15, 1)
++FIELD(TBFLAG_A64, TCMA, 16, 2)
++FIELD(TBFLAG_A64, MTE_ACTIVE, 18, 1)
++FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
  
-     struct {
-@@ -1282,6 +1285,7 @@ void pmu_init(ARMCPU *cpu);
- #define PSTATE_SS (1U << 21)
- #define PSTATE_PAN (1U << 22)
- #define PSTATE_UAO (1U << 23)
-+#define PSTATE_TCO (1U << 25)
- #define PSTATE_V (1U << 28)
- #define PSTATE_C (1U << 29)
- #define PSTATE_Z (1U << 30)
+ /**
+  * cpu_mmu_index:
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 4bdbc3a8ac..56b4672685 100644
+index 56b4672685..53e249687b 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -1159,6 +1159,9 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
-     if (isar_feature_aa64_uao(id)) {
-         valid |= PSTATE_UAO;
-     }
-+    if (isar_feature_aa64_mte(id)) {
-+        valid |= PSTATE_TCO;
-+    }
- 
-     return valid;
+@@ -1198,6 +1198,24 @@ static inline int exception_target_el(CPUARMState *env)
+     return target_el;
  }
-@@ -1234,4 +1237,10 @@ void arm_log_exception(int idx);
  
- #endif /* !CONFIG_USER_ONLY */
- 
-+/*
-+ * The log2 of the words in the tag block, for GMID_EL1.BS.
-+ * The is the maximum, 256 bytes, which manipulates 64-bits of tags.
-+ */
-+#define GMID_EL1_BS  6
++/* Determine if allocation tags are available.  */
++static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
++                                                 uint64_t sctlr)
++{
++    if (el < 3
++        && arm_feature(env, ARM_FEATURE_EL3)
++        && !(env->cp15.scr_el3 & SCR_ATA)) {
++        return false;
++    }
++    if (el < 2
++        && arm_feature(env, ARM_FEATURE_EL2)
++        && !(arm_hcr_el2_eff(env) & HCR_ATA)) {
++        return false;
++    }
++    sctlr &= (el == 0 ? SCTLR_ATA0 : SCTLR_ATA);
++    return sctlr != 0;
++}
 +
- #endif
+ #ifndef CONFIG_USER_ONLY
+ 
+ /* Security attributes for an address, as returned by v8m_security_lookup. */
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 6dfe24cedc..98bcc37c47 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -30,6 +30,7 @@ typedef struct DisasContext {
+     ARMMMUIdx mmu_idx; /* MMU index to use for normal loads/stores */
+     uint8_t tbii;      /* TBI1|TBI0 for insns */
+     uint8_t tbid;      /* TBI1|TBI0 for data */
++    uint8_t tcma;      /* TCMA1|TCMA0 for MTE */
+     bool ns;        /* Use non-secure CPREG bank on access */
+     int fp_excp_el; /* FP exception EL or 0 if enabled */
+     int sve_excp_el; /* SVE exception EL or 0 if enabled */
+@@ -77,6 +78,10 @@ typedef struct DisasContext {
+     bool unpriv;
+     /* True if v8.3-PAuth is active.  */
+     bool pauth_active;
++    /* True if v8.5-MTE access to tags is enabled.  */
++    bool ata;
++    /* True if v8.5-MTE tag checks affect the PE; index with is_unpriv.  */
++    bool mte_active[2];
+     /* True with v8.5-BTI and SCTLR_ELx.BT* set.  */
+     bool bt;
+     /* True if any CP15 access is trapped by HSTR_EL2 */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d6c326b58e..b4842ea23e 100644
+index b4842ea23e..2c6ec244af 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5881,6 +5881,9 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
-         { K(3, 0,  1, 2, 0), K(3, 4,  1, 2, 0), K(3, 5, 1, 2, 0),
-           "ZCR_EL1", "ZCR_EL2", "ZCR_EL12", isar_feature_aa64_sve },
+@@ -10655,6 +10655,16 @@ static int aa64_va_parameter_tbid(uint64_t tcr, ARMMMUIdx mmu_idx)
+     }
+ }
  
-+        { K(3, 0,  5, 6, 0), K(3, 4,  5, 6, 0), K(3, 5, 5, 6, 0),
-+          "TFSR_EL1", "TFSR_EL2", "TFSR_EL12", isar_feature_aa64_mte },
-+
-         /* TODO: ARMv8.2-SPE -- PMSCR_EL2 */
-         /* TODO: ARMv8.4-Trace -- TRFCR_EL2 */
-     };
-@@ -6855,6 +6858,86 @@ static const ARMCPRegInfo dcpodp_reg[] = {
- };
- #endif /*CONFIG_USER_ONLY*/
- 
-+static CPAccessResult access_aa64_tid5(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                       bool isread)
++static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
 +{
-+    if ((arm_current_el(env) < 2) && (arm_hcr_el2_eff(env) & HCR_TID5)) {
-+        return CP_ACCESS_TRAP_EL2;
++    if (regime_has_2_ranges(mmu_idx)) {
++        return extract64(tcr, 57, 2);
++    } else {
++        /* Replicate the single TCMA bit so we always have 2 bits.  */
++        return extract32(tcr, 30, 1) * 3;
 +    }
-+
-+    return CP_ACCESS_OK;
 +}
 +
-+static CPAccessResult access_mte(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                 bool isread)
-+{
-+    int el = arm_current_el(env);
-+
-+    if (el < 2 &&
-+        arm_feature(env, ARM_FEATURE_EL2) &&
-+        !(arm_hcr_el2_eff(env) & HCR_ATA)) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+    if (el < 3 &&
-+        arm_feature(env, ARM_FEATURE_EL3) &&
-+        !(env->cp15.scr_el3 & SCR_ATA)) {
-+        return CP_ACCESS_TRAP_EL3;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
-+static uint64_t tco_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    return env->pstate & PSTATE_TCO;
-+}
-+
-+static void tco_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t val)
-+{
-+    env->pstate = (env->pstate & ~PSTATE_TCO) | (val & PSTATE_TCO);
-+}
-+
-+static const ARMCPRegInfo mte_reginfo[] = {
-+    { .name = "TFSRE0_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 5, .crm = 6, .opc2 = 1,
-+      .access = PL1_RW, .accessfn = access_mte,
-+      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[0]) },
-+    { .name = "TFSR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 5, .crm = 6, .opc2 = 0,
-+      .access = PL1_RW, .accessfn = access_mte,
-+      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[1]) },
-+    { .name = "TFSR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 5, .crm = 6, .opc2 = 0,
-+      .access = PL2_RW, .accessfn = access_mte,
-+      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[2]) },
-+    { .name = "TFSR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 5, .crm = 6, .opc2 = 0,
-+      .access = PL3_RW,
-+      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[3]) },
-+    { .name = "RGSR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 0, .opc2 = 5,
-+      .access = PL1_RW, .accessfn = access_mte,
-+      .fieldoffset = offsetof(CPUARMState, cp15.rgsr_el1) },
-+    { .name = "GCR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 0, .opc2 = 6,
-+      .access = PL1_RW, .accessfn = access_mte,
-+      .fieldoffset = offsetof(CPUARMState, cp15.gcr_el1) },
-+    { .name = "GMID_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 4,
-+      .access = PL1_R, .accessfn = access_aa64_tid5,
-+      .type = ARM_CP_CONST, .resetvalue = GMID_EL1_BS },
-+    { .name = "TCO", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 7,
-+      .type = ARM_CP_NO_RAW,
-+      .access = PL0_RW, .readfn = tco_read, .writefn = tco_write },
-+    REGINFO_SENTINEL
-+};
-+
-+static const ARMCPRegInfo mte_tco_ro_reginfo[] = {
-+    { .name = "TCO", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 7,
-+      .type = ARM_CP_CONST, .access = PL0_RW, },
-+    REGINFO_SENTINEL
-+};
- #endif
- 
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -7980,6 +8063,17 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+                                    ARMMMUIdx mmu_idx, bool data)
+ {
+@@ -12679,6 +12689,36 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
          }
      }
- #endif /*CONFIG_USER_ONLY*/
-+
-+    /*
-+     * If full MTE is enabled, add all of the system registers.
-+     * If only "instructions available at EL0" are enabled,
-+     * then define only a RAZ/WI version of PSTATE.TCO.
-+     */
-+    if (cpu_isar_feature(aa64_mte, cpu)) {
-+        define_arm_cp_regs(cpu, mte_reginfo);
-+    } else if (cpu_isar_feature(aa64_mte_insn_reg, cpu)) {
-+        define_arm_cp_regs(cpu, mte_tco_ro_reginfo);
-+    }
- #endif
  
-     if (cpu_isar_feature(any_predinv, cpu)) {
++    if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
++        /*
++         * Set MTE_ACTIVE if any access may be Checked, and leave clear
++         * if all accesses must be Unchecked:
++         * 1) If no TBI, then there are no tags in the address to check,
++         * 2) If Tag Check Override, then all accesses are Unchecked,
++         * 3) If Tag Check Fail == 0, then Checked access have no effect,
++         * 4) If no Allocation Tag Access, then all accesses are Unchecked.
++         */
++        if (allocation_tag_access_enabled(env, el, sctlr)) {
++            flags = FIELD_DP32(flags, TBFLAG_A64, ATA, 1);
++            if (tbid
++                && !(env->pstate & PSTATE_TCO)
++                && (sctlr & (el == 0 ? SCTLR_TCF0 : SCTLR_TCF))) {
++                flags = FIELD_DP32(flags, TBFLAG_A64, MTE_ACTIVE, 1);
++            }
++        }
++        /* And again for unprivileged accesses, if required.  */
++        if (FIELD_EX32(flags, TBFLAG_A64, UNPRIV)
++            && tbid
++            && !(env->pstate & PSTATE_TCO)
++            && (sctlr & SCTLR_TCF0)
++            && allocation_tag_access_enabled(env, 0, sctlr)) {
++            flags = FIELD_DP32(flags, TBFLAG_A64, MTE0_ACTIVE, 1);
++        }
++        /* Cache TCMA as well as TBI. */
++        flags = FIELD_DP32(flags, TBFLAG_A64, TCMA,
++                           aa64_va_parameter_tcma(tcr, mmu_idx));
++    }
++
+     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+ }
+ 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 027be7d8c2..d4793dd8fe 100644
+index d4793dd8fe..55f49585be 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -1619,6 +1619,27 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
-         s->base.is_jmp = DISAS_UPDATE_EXIT;
-         break;
- 
-+    case 0x1c: /* TCO */
-+        if (dc_isar_feature(aa64_mte, s)) {
-+            /* Full MTE is enabled -- set the TCO bit as directed. */
-+            if (crm & 1) {
-+                set_pstate_bits(PSTATE_TCO);
-+            } else {
-+                clear_pstate_bits(PSTATE_TCO);
-+            }
-+            t1 = tcg_const_i32(s->current_el);
-+            gen_helper_rebuild_hflags_a64(cpu_env, t1);
-+            tcg_temp_free_i32(t1);
-+            /* Many factors, including TCO, go into MTE_ACTIVE. */
-+            s->base.is_jmp = DISAS_UPDATE_NOCHAIN;
-+        } else if (dc_isar_feature(aa64_mte_insn_reg, s)) {
-+            /* Only "instructions accessible at EL0" -- PSTATE.TCO is WI.  */
-+            s->base.is_jmp = DISAS_NEXT;
-+        } else {
-+            goto do_unallocated;
-+        }
-+        break;
-+
-     default:
-     do_unallocated:
-         unallocated_encoding(s);
+@@ -14171,6 +14171,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->mmu_idx = core_to_aa64_mmu_idx(core_mmu_idx);
+     dc->tbii = FIELD_EX32(tb_flags, TBFLAG_A64, TBII);
+     dc->tbid = FIELD_EX32(tb_flags, TBFLAG_A64, TBID);
++    dc->tcma = FIELD_EX32(tb_flags, TBFLAG_A64, TCMA);
+     dc->current_el = arm_mmu_idx_to_el(dc->mmu_idx);
+ #if !defined(CONFIG_USER_ONLY)
+     dc->user = (dc->current_el == 0);
+@@ -14182,6 +14183,9 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->bt = FIELD_EX32(tb_flags, TBFLAG_A64, BT);
+     dc->btype = FIELD_EX32(tb_flags, TBFLAG_A64, BTYPE);
+     dc->unpriv = FIELD_EX32(tb_flags, TBFLAG_A64, UNPRIV);
++    dc->ata = FIELD_EX32(tb_flags, TBFLAG_A64, ATA);
++    dc->mte_active[0] = FIELD_EX32(tb_flags, TBFLAG_A64, MTE_ACTIVE);
++    dc->mte_active[1] = FIELD_EX32(tb_flags, TBFLAG_A64, MTE0_ACTIVE);
+     dc->vec_len = 0;
+     dc->vec_stride = 0;
+     dc->cp_regs = arm_cpu->cp_regs;
 -- 
 2.25.1
 
