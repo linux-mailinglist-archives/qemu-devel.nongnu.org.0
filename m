@@ -2,101 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87E620AB04
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:56:09 +0200 (CEST)
-Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B0520AB11
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 06:02:11 +0200 (CEST)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofTE-0007wB-OL
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46952)
+	id 1jofZ4-0006My-G5
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 00:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1jofRo-0006Da-PN
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:54:40 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1jofRm-0005lC-LJ
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:54:40 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05Q3ptsJ077686;
- Fri, 26 Jun 2020 03:54:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=77ACAzk9WutKtZyM6KLHPxOZ4Brvg7PmGi/0yhGp6lA=;
- b=hzIocXDX4IgIn0w45Vn0p7e3KnkIusogsLuu9B+K+cG2kpcbLUJskWgaFDkgpzFAO313
- KEdn1BBAF0U1MWCWCmwRfzcJOU6FH6xmU5ffdAw8PWPYi/d9tMzF8leFzcDtGv7Nq/OI
- h6cZ3VXIa1HwCQP4gJg5Txab3L5SpaxWeEOUV6OG9ReT6V84lyvetExUN/hYWvwjhDZy
- hH8TLln8GpXsdrZZ9xTTYzQCpIWqIsICVo0rzp7T2cU9AO6DT/prJvqX8zkpdJHa9P1A
- imO+YeI/BmWVZDJkSDIvVA76RfOs7HIIyufNGvCDP4xTqHVfKBG6Ngg5mbMJAU9k/CMm nA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 31uustuuu0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 26 Jun 2020 03:54:31 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05Q3nSmn124376;
- Fri, 26 Jun 2020 03:54:31 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 31uurthyex-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Jun 2020 03:54:31 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05Q3sRZi025780;
- Fri, 26 Jun 2020 03:54:27 GMT
-Received: from [192.168.10.3] (/24.5.35.151)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 26 Jun 2020 03:54:27 +0000
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.14\))
-Subject: Re: RFC: use VFIO over a UNIX domain socket to implement device
- offloading
-From: John G Johnson <john.g.johnson@oracle.com>
-In-Reply-To: <20200623122715.GF36568@stefanha-x1.localdomain>
-Date: Thu, 25 Jun 2020 20:54:25 -0700
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7B305CB0-0D5F-4FF8-ACDC-828AF37687B1@oracle.com>
-References: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
- <20200401091712.GA221892@stefanha-x1.localdomain>
- <MW2PR02MB372349E25A0842DE045B95F58BD40@MW2PR02MB3723.namprd02.prod.outlook.com>
- <8101D131-3B95-4CF5-8D46-8755593AA97D@oracle.com>
- <A0E4C51F-B41C-486B-A5CE-3C4C2C9C1A40@oracle.com>
- <20200602090629.66f9e3f7@x1.home>
- <E78F4C2E-4382-4C98-9606-F1ABD9753699@oracle.com>
- <20200615104929.GD1491454@stefanha-x1.localdomain>
- <DE330A27-2343-459F-9EA0-D3C5F20EE87D@oracle.com>
- <20200623122715.GF36568@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>
-X-Mailer: Apple Mail (2.3445.104.14)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9663
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006260025
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9663
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999
- cotscore=-2147483648 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006260025
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=john.g.johnson@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 23:54:35
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jof6c-0001Pp-3v
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:46 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jof6a-00027w-Fg
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:45 -0400
+Received: by mail-pl1-x644.google.com with SMTP id d10so3756828pls.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=japKMCqtTJyDaS3XobN6C3/Z94MHElZymKmMsjyLpI4=;
+ b=P51XTj/SdzBcw3mubVvk8ocGw8WrWb9T4Inr/K0w31Ee8sfg3XL6P9okc0GeYVxi92
+ vSbw3QqvD51wl/nPx451MOHdgmj3hNJRGwQb6QB9oUGla9gw2prT12cNgpMnHhorpyH7
+ IPnR7hECYnuJutxFDTPlf9APqVY9gMhXQgSbWl+i9SANVsAyg+ig1fn66k5gYIz0tBsh
+ 1+PWMHSMRSVbXyYU972+IpbiWe92eUMUcWTX9UqWlFvS9Vc9E+8L9mSkC/3wfPSdLIUV
+ MSSQWqIYt3vRgHdiLlr9vLk1Eupvy2R38UCVIBAOhIpHOmMCvD3bCKDQlYLLEx2cbngi
+ WZGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=japKMCqtTJyDaS3XobN6C3/Z94MHElZymKmMsjyLpI4=;
+ b=AEVbBFBu1hRRT4t4wMz+vnXV6IYj+qUO+uN0nXlHrv6lu/4gnCkd1u5fS42jsqMRNe
+ zNUi9b9JTkCNkguTSC9zaelj/MnapNvq15lycx34zbE18eHPgx58HvbHYO7gEv1fRcnD
+ zXJDLvtYVq6TAZWne8k/oq+IzRZEAOXkascX37cuMkLye2iXzmmEVZCI/z61tteWVSp/
+ /ko5OuTndj+sjSbkb1gcm5z2tacttKvFkOWxg9KTBUpPkD9ke/sAKHllyCPBfzHMwAqm
+ BPDbrcEPStj+u4EMfU13sSpF1AQ/32X/qZYOiqPfERNHmyrquicVjMFDlXplfAmLiRIm
+ ID1A==
+X-Gm-Message-State: AOAM5330owkvXR0DEEoJ3Uu32bwtRs2cZGxYscD2dijsFg2XaBJT12na
+ LrWKhxDg68TuEsTnDU3XDGaxxPANXlc=
+X-Google-Smtp-Source: ABdhPJz4qSogDsP/DXHzeA5Py174UaCDCbO9NYhSTA7H20/vWsTnq3gAX+A1UzJovrG9o58AyUsTVw==
+X-Received: by 2002:a17:902:a504:: with SMTP id
+ s4mr833003plq.337.1593142362784; 
+ Thu, 25 Jun 2020 20:32:42 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jun 2020 20:32:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 42/46] target/arm: Cache the Tagged bit for a page in
+ MemTxAttrs
+Date: Thu, 25 Jun 2020 20:31:40 -0700
+Message-Id: <20200626033144.790098-43-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
+References: <20200626033144.790098-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,90 +87,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- "Harris, James R" <james.r.harris@intel.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- Kanth Ghatraju <Kanth.Ghatraju@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, "Zhang,
- Tina" <tina.zhang@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
+ steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This "bit" is a particular value of the page's MemAttr.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v6: Test HCR_EL2.{DC,DCT}; test Stage2 attributes.
+v8: Fill in cacheattrs for S1 disabled; retain tagging when
+    combining attributes; set mte_tagging in arm_cpu_tlb_fill.
+---
+ target/arm/helper.c     | 48 ++++++++++++++++++++++++++++++++++++++---
+ target/arm/tlb_helper.c |  5 +++++
+ 2 files changed, 50 insertions(+), 3 deletions(-)
 
-> On Jun 23, 2020, at 5:27 AM, Stefan Hajnoczi <stefanha@gmail.com> =
-wrote:
->=20
-> On Thu, Jun 18, 2020 at 02:38:04PM -0700, John G Johnson wrote:
->>> On Jun 15, 2020, at 3:49 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->>> An issue with file descriptor passing is that it's hard to revoke =
-access
->>> once the file descriptor has been passed. memfd supports sealing =
-with
->>> fnctl(F_ADD_SEALS) it doesn't revoke mmap(MAP_WRITE) on other =
-processes.
->>>=20
->>> Memory Protection Keys don't seem to be useful here either and their
->>> availability is limited (see pkeys(7)).
->>>=20
->>> One crazy idea is to use KVM as a sandbox for running the device and =
-let
->>> the vIOMMU control the page tables instead of the device (guest). =
-That
->>> way the hardware MMU provides memory translation, but I think this =
-is
->>> impractical because the guest environment is too different from the
->>> Linux userspace environment.
->>>=20
->>> As a starting point adding DMA_READ/DMA_WRITE messages would provide =
-the
->>> functionality and security. Unfortunately it makes DMA expensive and
->>> performance will suffer.
->>>=20
->>=20
->> 	Are you advocating for only using VFIO_USER_DMA_READ/WRITE and
->> not passing FDs at all?  The performance penalty would be large for =
-the
->> cases where the client and server are equally trusted.  Or are you
->> advocating for an option where the slower methods are used for cases
->> where the server is less trusted?
->=20
-> I think the enforcing IOMMU should be optional (due to the performance
-> overhead) but part of the spec from the start.
->=20
-
-
-	With this in mind, we will collapse the current memory region
-messages (VFIO_USER_ADD_MEMORY_REGION and VFIO_USER_SUB_MEMORY_REGION)
-and the IOMMU messages (VFIO_USER_IOMMU_MAP and VFIO_USER_IOMMU_UNMAP)
-into new messages (VFIO_USER_DMA_MAP and VFIO_USER_DMA_UNMAP).  Their
-contents will be the same as the memory region messages.
-
-	On a system without an IOMMU, the new messages will be used to
-export the system physical address space as DMA addresses.  On a system
-with an IOMMU they will be used to export the valid device DMA ranges
-programmed into the IOMMU by the guest.  This behavior matches how the
-existing QEMU VFIO object programs the host IOMMU.  The server will not
-be aware of whether the client is using an IOMMU.
-
-	In the QEMU VFIO implementation, will will add a =
-=E2=80=98secure-dma=E2=80=99
-option that suppresses exporting mmap()able FDs to the server.  All
-DMA will use the slow path to be validated by the client before =
-accessing
-guest memory.
-
-	Is this acceptable to you (and Alex, of course)?
-
-								JJ
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 2072db2f92..dc9c29f998 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11834,9 +11834,19 @@ static uint8_t combine_cacheattr_nibble(uint8_t s1, uint8_t s2)
+  */
+ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
+ {
+-    uint8_t s1lo = extract32(s1.attrs, 0, 4), s2lo = extract32(s2.attrs, 0, 4);
+-    uint8_t s1hi = extract32(s1.attrs, 4, 4), s2hi = extract32(s2.attrs, 4, 4);
++    uint8_t s1lo, s2lo, s1hi, s2hi;
+     ARMCacheAttrs ret;
++    bool tagged = false;
++
++    if (s1.attrs == 0xf0) {
++        tagged = true;
++        s1.attrs = 0xff;
++    }
++
++    s1lo = extract32(s1.attrs, 0, 4);
++    s2lo = extract32(s2.attrs, 0, 4);
++    s1hi = extract32(s1.attrs, 4, 4);
++    s2hi = extract32(s2.attrs, 4, 4);
+ 
+     /* Combine shareability attributes (table D4-43) */
+     if (s1.shareability == 2 || s2.shareability == 2) {
+@@ -11884,6 +11894,11 @@ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
+         }
+     }
+ 
++    /* TODO: CombineS1S2Desc does not consider transient, only WB, RWA. */
++    if (tagged && ret.attrs == 0xff) {
++        ret.attrs = 0xf0;
++    }
++
+     return ret;
+ }
+ 
+@@ -11963,8 +11978,11 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                  *  Normal Non-Shareable,
+                  *  Inner Write-Back Read-Allocate Write-Allocate,
+                  *  Outer Write-Back Read-Allocate Write-Allocate.
++                 * Do not overwrite Tagged within attrs.
+                  */
+-                cacheattrs->attrs = 0xff;
++                if (cacheattrs->attrs != 0xf0) {
++                    cacheattrs->attrs = 0xff;
++                }
+                 cacheattrs->shareability = 0;
+             }
+             *cacheattrs = combine_cacheattrs(*cacheattrs, cacheattrs2);
+@@ -12029,6 +12047,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+     /* Definitely a real MMU, not an MPU */
+ 
+     if (regime_translation_disabled(env, mmu_idx)) {
++        uint64_t hcr;
++        uint8_t memattr;
++
+         /*
+          * MMU disabled.  S1 addresses within aa64 translation regimes are
+          * still checked for bounds -- see AArch64.TranslateAddressS1Off.
+@@ -12066,6 +12087,27 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+         *phys_ptr = address;
+         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         *page_size = TARGET_PAGE_SIZE;
++
++        /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
++        hcr = arm_hcr_el2_eff(env);
++        cacheattrs->shareability = 0;
++        if (hcr & HCR_DC) {
++            if (hcr & HCR_DCT) {
++                memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
++            } else {
++                memattr = 0xff;  /* Normal, WB, RWA */
++            }
++        } else if (access_type == MMU_INST_FETCH) {
++            if (regime_sctlr(env, mmu_idx) & SCTLR_I) {
++                memattr = 0xee;  /* Normal, WT, RA, NT */
++            } else {
++                memattr = 0x44;  /* Normal, NC, No */
++            }
++            cacheattrs->shareability = 2; /* outer sharable */
++        } else {
++            memattr = 0x00;      /* Device, nGnRnE */
++        }
++        cacheattrs->attrs = memattr;
+         return 0;
+     }
+ 
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 89d90465a3..b35dc8a011 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -188,6 +188,11 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             phys_addr &= TARGET_PAGE_MASK;
+             address &= TARGET_PAGE_MASK;
+         }
++        /* Notice and record tagged memory. */
++        if (cpu_isar_feature(aa64_mte, cpu) && cacheattrs.attrs == 0xf0) {
++            arm_tlb_mte_tagged(&attrs) = true;
++        }
++
+         tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
+                                 prot, mmu_idx, page_size);
+         return true;
+-- 
+2.25.1
 
 
