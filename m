@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9B20B34B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:11:48 +0200 (CEST)
-Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1983B20B35C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:17:23 +0200 (CEST)
+Received: from localhost ([::1]:33144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jop51-0000Do-U7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45506)
+	id 1jopAQ-0002vt-42
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jop3w-0007c9-IO; Fri, 26 Jun 2020 10:10:40 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jop3u-0008Kc-Ot; Fri, 26 Jun 2020 10:10:40 -0400
-Received: by mail-ej1-x643.google.com with SMTP id w6so9521504ejq.6;
- Fri, 26 Jun 2020 07:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BS4NyKw/eQjqIQeqjru8JtNN/x9B5olCUCO3H2/Mp0Q=;
- b=GULjc3skOq1ZIuQwdyKXSzSeJw47OONkx5GbV4cR7KOWeOooITTgmZIZ6RS3PLpamL
- h01foO+AviDszvBHXx7KOHV9c/v+0nG2raqpEjoSf3U3Q+CeS8RJYi5rQiZEURsbBD79
- J0H1lGF/ijDR8gCXLQ4lYETdwQTE+lq7N3d05is06OOBeC6lB8iJRVfRBD2C3eJvpNsO
- DL0KFZhhnrv94K3NTvhzHMXmGe6fztgS16ePWRTQ//0ozpAcRjCkyODFWu9jfRx+bpB1
- MApsQjTaURV/GP3aPNWDzOgM6OLNbJ9I7w5DRZhsn+izRl1luN2a474Wv0/U/p4QNY2t
- eb7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BS4NyKw/eQjqIQeqjru8JtNN/x9B5olCUCO3H2/Mp0Q=;
- b=eft07aWUXAzzz/qT+4P8Hmey+LVYz6sdlKwtjhLUpYrpoDxIN5XcX5I4Pi34rZ2ZX1
- UFEtkynUiEAdWdMtCScnhs41kzLeLNxYLzGbZ4sCqipLC/7WUwUz9aq5idqOrm3s5WuF
- mspFOi3pifEtkWP1aNw4MDSS2uyl8+R9UVOG+hWJvH4TVVxCHlXyX1geciQ7l6bbTn4p
- 4xK5Ufhyn+srUfJbQJAVrHD0E2t56Mu4iZjpyvMiLjJcmuw09E9Qt3dnC0mz/C8H6kzl
- prETO3yBQvUoil8bv1f3KiGPNbBo3DvDF23iurA9cjHfbhLdRK2PnYZxYmeNmZ5XTA+B
- AMkw==
-X-Gm-Message-State: AOAM532qzf2md9/sqHdW4vywOwjje099nRIqtjKpJmmLeIhtpmpNUafq
- +wLnb8t+cg7FLJO5UBUs6kQvzNV5lFYuHDJjhEu1dLy3oyQ=
-X-Google-Smtp-Source: ABdhPJyqqO4GmWR8KbGPwNvvfU4D0Xjz9orezcSlVXInER7rw0lEqGlS2pd1z9GfRfGBxMcn38BHRTTrPe+StQCdU3c=
-X-Received: by 2002:a17:906:5203:: with SMTP id
- g3mr2645113ejm.58.1593180636936; 
- Fri, 26 Jun 2020 07:10:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jop9J-00021x-6i
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:16:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40736
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jop9G-0005J8-BO
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593180969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wBO9G9aCaRODxxor/KqzabPijpMlcFAKKWrn9HsbE48=;
+ b=PFpoANoHPTLPrFXdD0aVV1jce9wt2qmrZTZkmf6leJ1g55aa7SXFh5kf8tdJWvt3NdCMfu
+ e5zG+nJWoFbWlXX6r3aD2+sDuvBg97bVX0JjeD/JmVXFxN2iLEAEqjDAI4QW3VZWML60Xq
+ JMxl/7EYGb6YiKZOWFWsnk6yty6vvDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-sEgyfmfkOheSlinp4fNYsA-1; Fri, 26 Jun 2020 10:16:07 -0400
+X-MC-Unique: sEgyfmfkOheSlinp4fNYsA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84EE318FE860;
+ Fri, 26 Jun 2020 14:16:04 +0000 (UTC)
+Received: from work-vm (ovpn-113-27.ams2.redhat.com [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 078847F4F1;
+ Fri, 26 Jun 2020 14:15:31 +0000 (UTC)
+Date: Fri, 26 Jun 2020 15:15:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH QEMU v25 15/17] vfio: Add ioctl to get dirty pages bitmap
+ during dma unmap.
+Message-ID: <20200626141528.GI3087@work-vm>
+References: <1592684486-18511-1-git-send-email-kwankhede@nvidia.com>
+ <1592684486-18511-16-git-send-email-kwankhede@nvidia.com>
+ <20200624125614.5e742574@x1.home>
+ <8cf7ffdf-8ba4-d42d-cf8d-4af08686841a@nvidia.com>
+ <20200625131843.1a511078@x1.home>
 MIME-Version: 1.0
-References: <CA+XhMqwDLw2BJ9Cf0kEyUW+J+rTPOOvebRPPkBSiWdD50wct5Q@mail.gmail.com>
- <CAFEAcA8mpiPcwgz9-7c0GgSWz2hujzegOBvHn5qasCBtuyG8ww@mail.gmail.com>
-In-Reply-To: <CAFEAcA8mpiPcwgz9-7c0GgSWz2hujzegOBvHn5qasCBtuyG8ww@mail.gmail.com>
-From: David CARLIER <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 15:10:26 +0100
-Message-ID: <CA+XhMqwyRmQ7Dtawm4tMEMRJ9EEfxep8WC6qSRCEC_WyUptG-g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] haiku build fix second batch
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=devnexen@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200625131843.1a511078@x1.home>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,37 +84,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
+ quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
+ zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I sent again minux the ones already approved.
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Thu, 25 Jun 2020 20:31:12 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+> > On 6/25/2020 12:26 AM, Alex Williamson wrote:
+> > > On Sun, 21 Jun 2020 01:51:24 +0530
+> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >   
+> > >> With vIOMMU, IO virtual address range can get unmapped while in pre-copy
+> > >> phase of migration. In that case, unmap ioctl should return pages pinned
+> > >> in that range and QEMU should find its correcponding guest physical
+> > >> addresses and report those dirty.
+> > >>
+> > >> Suggested-by: Alex Williamson <alex.williamson@redhat.com>
+> > >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> > >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> > >> ---
+> > >>   hw/vfio/common.c | 85 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
+> > >>   1 file changed, 81 insertions(+), 4 deletions(-)
+> > >>
+> > >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > >> index 0518cf228ed5..a06b8f2f66e2 100644
+> > >> --- a/hw/vfio/common.c
+> > >> +++ b/hw/vfio/common.c
+> > >> @@ -311,11 +311,83 @@ static bool vfio_devices_are_stopped_and_saving(void)
+> > >>       return true;
+> > >>   }
+> > >>   
+> > >> +static bool vfio_devices_are_running_and_saving(void)
+> > >> +{
+> > >> +    VFIOGroup *group;
+> > >> +    VFIODevice *vbasedev;
+> > >> +
+> > >> +    QLIST_FOREACH(group, &vfio_group_list, next) {  
+> > > 
+> > > Same as previous, I'm curious if we should instead be looking at
+> > > container granularity.  It especially seems to make sense here where
+> > > we're unmapping from a container, so iterating every device in every
+> > > group seems excessive.
+> > >   
+> > 
+> > changing it with container argument.
+> > 
+> > >> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> > >> +            if ((vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) &&
+> > >> +                (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+> > >> +                continue;
+> > >> +            } else {
+> > >> +                return false;
+> > >> +            }  
+> > > 
+> > > I'm also not sure about the polarity of this function, should it be if
+> > > any device is _SAVING we should report the dirty bitmap?  For example,
+> > > what if we have a set of paried failover NICs where we intend to unplug
+> > > one just prior to stopping the devices, aren't we going to lose dirtied
+> > > pages with this logic that they all must be running and saving?  Thanks,
+> > >   
+> > 
+> > If migration is initiated, is device unplug allowed? Ideally it 
+> > shouldn't. If it is, then how QEMU handles data stream of device which 
+> > doesn't exist at destination?
+> 
+> include/hw/qdev-core.h
+> struct DeviceState {
+>     ...
+>     bool allow_unplug_during_migration;
+> 
+> AIUI, the failover_pair_id device is likely to be a vfio-pci NIC,
+> otherwise they'd simply migrate the primary NIC, so there's a very good
+> chance that a user would configure a VM with a migratable mdev device
+> and an failover NIC so that they have high speed networking on either
+> end of the migration.
 
-On Fri, 26 Jun 2020 at 14:39, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 26 Jun 2020 at 14:02, David CARLIER <devnexen@gmail.com> wrote:
-> >
-> > From 95ef79ddff73eebd1f1bec6673c2c68209fab107 Mon Sep 17 00:00:00 2001
-> > From: David Carlier <devnexen@gmail.com>
-> > Date: Fri, 26 Jun 2020 13:56:14 +0000
-> > Subject: [PATCH 1/3] Include endian.h for Haiku to solve bswap* macros build
-> >  failure.
-> >
-> > Signed-off-by: David Carlier <devnexen@gmail.com>
->
-> I'm afraid I'm now confused about which is the right version
-> of the various patches you've sent to the list. Our
-> https://wiki.qemu.org/Contribute/SubmitAPatch
-> documentation asks:
->  * Include a meaningful cover letter
->  * When resending patches add a version tag
->  * even if you only change one patch, you resend the entire series
->    and mark it as "v2"
->
-> Please could you send the whole set of patches you'd like
-> applied, with the subject header including "[PATCH v2]" and
-> with a cover letter email that describes the whole series?
->
-> thanks
-> -- PMM
+My understanding for that failover code is that happens right at the
+beginning of migration while we're still in MIGRATION_STATUS_SETUP;
+whether there's anything that enforces that is a different matter.
+But, in that case, I don't think you'd be interested in that dirtying.
+
+Dave
+
+> > _SAVING flag is set during pre-copy and stop-and-copy phase. Here we 
+> > only want to track pages which are unmapped during pre-copy phase, i.e. 
+> > when vCPU are running. In case of VM suspend /saveVM, there is no 
+> > pre-copy phase, but ideally we shouldn't see unmaps when vCPUs are 
+> > stopped, right? But still for safer side, since we know exact phase, I 
+> > would prefer to check for _SAVING and _RUNNING flags.
+> 
+> We can't have unmaps while vCPUs are stopped, but I think the failover
+> code allows that we can be in the pre-copy phase where not all devices
+> support migration.  As coded here, it appears that dirty tracking of any
+> unmap while in that phase is lost.  Thanks,
+> 
+> Alex
+> 
+> 
+> > >> +        }
+> > >> +    }
+> > >> +    return true;
+> > >> +}
+> > >> +
+> > >> +static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+> > >> +                                 hwaddr iova, ram_addr_t size,
+> > >> +                                 IOMMUTLBEntry *iotlb)
+> > >> +{
+> > >> +    struct vfio_iommu_type1_dma_unmap *unmap;
+> > >> +    struct vfio_bitmap *bitmap;
+> > >> +    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
+> > >> +    int ret;
+> > >> +
+> > >> +    unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+> > >> +
+> > >> +    unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
+> > >> +    unmap->iova = iova;
+> > >> +    unmap->size = size;
+> > >> +    unmap->flags |= VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
+> > >> +    bitmap = (struct vfio_bitmap *)&unmap->data;
+> > >> +
+> > >> +    /*
+> > >> +     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
+> > >> +     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
+> > >> +     * TARGET_PAGE_SIZE.
+> > >> +     */
+> > >> +
+> > >> +    bitmap->pgsize = TARGET_PAGE_SIZE;
+> > >> +    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
+> > >> +                   BITS_PER_BYTE;
+> > >> +
+> > >> +    if (bitmap->size > container->max_dirty_bitmap_size) {
+> > >> +        error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size);
+> > >> +        ret = -E2BIG;
+> > >> +        goto unmap_exit;
+> > >> +    }
+> > >> +
+> > >> +    bitmap->data = g_try_malloc0(bitmap->size);
+> > >> +    if (!bitmap->data) {
+> > >> +        ret = -ENOMEM;
+> > >> +        goto unmap_exit;
+> > >> +    }
+> > >> +
+> > >> +    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
+> > >> +    if (!ret) {
+> > >> +        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)bitmap->data,
+> > >> +                iotlb->translated_addr, pages);
+> > >> +    } else {
+> > >> +        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
+> > >> +    }
+> > >> +
+> > >> +    g_free(bitmap->data);
+> > >> +unmap_exit:
+> > >> +    g_free(unmap);
+> > >> +    return ret;
+> > >> +}
+> > >> +
+> > >>   /*
+> > >>    * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+> > >>    */
+> > >>   static int vfio_dma_unmap(VFIOContainer *container,
+> > >> -                          hwaddr iova, ram_addr_t size)
+> > >> +                          hwaddr iova, ram_addr_t size,
+> > >> +                          IOMMUTLBEntry *iotlb)
+> > >>   {
+> > >>       struct vfio_iommu_type1_dma_unmap unmap = {
+> > >>           .argsz = sizeof(unmap),
+> > >> @@ -324,6 +396,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
+> > >>           .size = size,
+> > >>       };
+> > >>   
+> > >> +    if (iotlb && container->dirty_pages_supported &&
+> > >> +        vfio_devices_are_running_and_saving()) {
+> > >> +        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+> > >> +    }
+> > >> +
+> > >>       while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> > >>           /*
+> > >>            * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+> > >> @@ -371,7 +448,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+> > >>        * the VGA ROM space.
+> > >>        */
+> > >>       if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
+> > >> -        (errno == EBUSY && vfio_dma_unmap(container, iova, size) == 0 &&
+> > >> +        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
+> > >>            ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
+> > >>           return 0;
+> > >>       }
+> > >> @@ -542,7 +619,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+> > >>               }
+> > >>           }
+> > >>   
+> > >> -        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1);
+> > >> +        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+> > >>           if (ret) {
+> > >>               error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> > >>                            "0x%"HWADDR_PRIx") = %d (%m)",
+> > >> @@ -853,7 +930,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+> > >>       }
+> > >>   
+> > >>       if (try_unmap) {
+> > >> -        ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+> > >> +        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+> > >>           if (ret) {
+> > >>               error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> > >>                            "0x%"HWADDR_PRIx") = %d (%m)",  
+> > >   
+> > 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
