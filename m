@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A965720B16B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:34:34 +0200 (CEST)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE46320B170
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:36:44 +0200 (CEST)
+Received: from localhost ([::1]:33870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jonYv-0003cP-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
+	id 1jonb1-0006L9-MG
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jonWF-0001sb-Cd
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:31:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57231
- helo=us-smtp-1.mimecast.com)
+ id 1jonWW-0002LK-F7
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:32:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56607
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jonWD-0005P9-Sn
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:31:47 -0400
+ id 1jonWU-0005kG-20
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:32:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593174704;
+ s=mimecast20190719; t=1593174721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jSQ9uPgV9jobRqmBjfpeMs29CJOeT30O+kTZVrdYSik=;
- b=ZsI5I0tL20shlxNpvVQy1puqXGJfcLkboJzp7mF48VFI1xLQ/xwYqJRKEOrieJlVfRLiV9
- s1/M/pZaGRyrsLkpPd/RhVDm8ZVS7/pwaAh5eT47uEH/g2Vou65vjdQ4nmXJc6hWzf+S5m
- HKJoQ3JPY/jUq+wsR2CFLmZrYpyXnZ4=
+ bh=s67lcN+4wxs+t6ikrBJs43qGW+BTZVmBv54GSLslqbo=;
+ b=HthnpFYDJlWMyRkTuPHsW+pjiuFS84dmVKiOfw7UupuRxfEBEGA/onFG2GrQ/uXLSVARK/
+ 3I6d3EaplSWG3SYMEuRQ9ThRKkMPaIL7tIoFBvRoydawU8beoBCb7mtx9RbwDoG0145iZ4
+ Cr+ANoTCbblFuvqWgfXSbJuygWZw9Ps=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-_aK2nfFOM-uLcpLmGtAt_A-1; Fri, 26 Jun 2020 08:31:42 -0400
-X-MC-Unique: _aK2nfFOM-uLcpLmGtAt_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-163-_9rC2urtMyK2lduirgSlXg-1; Fri, 26 Jun 2020 08:31:59 -0400
+X-MC-Unique: _9rC2urtMyK2lduirgSlXg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C35011005512;
- Fri, 26 Jun 2020 12:31:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F8BC804012;
+ Fri, 26 Jun 2020 12:31:58 +0000 (UTC)
 Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CCE2101E66D;
- Fri, 26 Jun 2020 12:31:41 +0000 (UTC)
-Date: Fri, 26 Jun 2020 13:31:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6F7211CC34;
+ Fri, 26 Jun 2020 12:31:57 +0000 (UTC)
+Date: Fri, 26 Jun 2020 13:31:56 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 10/17] block/nvme: Simplify nvme_init_queue() arguments
-Message-ID: <20200626123140.GQ281902@stefanha-x1.localdomain>
+Subject: Re: [PATCH 11/17] block/nvme: Simplify nvme_create_queue_pair()
+ arguments
+Message-ID: <20200626123156.GR281902@stefanha-x1.localdomain>
 References: <20200625184838.28172-1-philmd@redhat.com>
- <20200625184838.28172-11-philmd@redhat.com>
+ <20200625184838.28172-12-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200625184838.28172-11-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200625184838.28172-12-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IjNIXuzrMEaOuFwn"
+ protocol="application/pgp-signature"; boundary="nQUlLD2FJeKEtFpv"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,13 +87,13 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IjNIXuzrMEaOuFwn
+--nQUlLD2FJeKEtFpv
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2020 at 08:48:31PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> nvme_init_queue() doesn't require BlockDriverState anymore.
+On Thu, Jun 25, 2020 at 08:48:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> nvme_create_queue_pair() doesn't require BlockDriverState anymore.
 > Replace it by BDRVNVMeState to simplify.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
@@ -102,21 +103,21 @@ On Thu, Jun 25, 2020 at 08:48:31PM +0200, Philippe Mathieu-Daud=E9 wrote:
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---IjNIXuzrMEaOuFwn
+--nQUlLD2FJeKEtFpv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl716qsACgkQnKSrs4Gr
-c8g4bgf/QOoO6mDAydJEtCJDAs1rewX9OCx0inaI79laROv83Kf300v5XPRQL+25
-5/RWAygvdMYagRg2V1fjk2K55fONd3009l2AmECgqoInnhLko1R8VoGEJSI2tPuS
-gXADBBe1nDOsoI8v7clHQJpMnHogSkHdWk3/mdZEVCnaJBHdXg3Yer/eC/xX4qhq
-ZS9CYrHv1tE1hEhCyI3HqZlDRVzYoKLaEzxsBsxyBGa6DjrvHciXQUGl0IVfxrsk
-Y1Cn5V5zLYxo26YhGF/pgK80oXMktWwcwj7Dw5sKODEQVLQ70WeKtnzpX7GDU1zv
-FQM4hzyCUCEqcdrdmSueKJ+41/0ttg==
-=P6s6
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl716rwACgkQnKSrs4Gr
+c8ihWgf9GVVxlKyxeE+QquIusKp5qfwlVXI7UujJs6kNSRMMx56FXpbyVDUzWJho
+s1gIKFsUZLFlQd73mMJxOSAj+w7Bt3fIl+1nYem6aM+7+3RxJwrdcB6HarJq3Hjj
+K3cP4qPkcD/t12SNS7/VZfmeFNb2wqipuKnpWFShwZc9J0qrK2X7bZCZKr2tFT6n
+G9TwuRHUG8LlRYAE5ZQv1N5SefL6vnQK/XGeHB8LZ68DAUvMJE+wBnCgyA9ij4YK
+ONsg+OLCMktnLJp1gkCY508cjbBLumlzLLqLo0atg4Zz/TpaIk0L+qBn6+cvvQSg
+kO/vs4444CeH7+83wWQe81WQyIHxsA==
+=YOEm
 -----END PGP SIGNATURE-----
 
---IjNIXuzrMEaOuFwn--
+--nQUlLD2FJeKEtFpv--
 
 
