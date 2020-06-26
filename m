@@ -2,68 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4452420AF21
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:38:11 +0200 (CEST)
-Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5221120AF17
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:35:32 +0200 (CEST)
+Received: from localhost ([::1]:59868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokoE-0003ba-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57856)
+	id 1joklf-0007xf-7t
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1joklg-0000bP-Hw
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:35:32 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jokle-0003Gx-7W
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:35:32 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1joklc-0001I2-Bf
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 09:35:28 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 34DB82E80E7
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 09:35:28 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 26 Jun 2020 09:27:36 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1885247@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aleksandar-markovic philmd pmaydell
-X-Launchpad-Bug-Reporter: Aleksandar Markovic (aleksandar-markovic)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <159315507826.13901.17398620572438937429.malonedeb@wampee.canonical.com>
-Message-Id: <32aa7cf6-5f4d-eb79-2ebe-ee463f4389b8@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jokeC-0003Ei-Uf
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:27:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38597
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1joke9-0007Uo-KJ
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:27:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593163663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=eK1ByqFxjYOhmHmHtjXl69yX2Hyo7U2TRNxAda1lTpU=;
+ b=eAOxIDUIfeOvB/a+h28XE4HVft1TBZF1S8BIaA2EQtimDDFjf6n6o0gxwPd5E7h9RaFWDK
+ IK9VIAgZC/fK8nqWtc06oYoSFmuqDsxQYyiq8q81qoGArG66TjNs7842YDOYyWRIABk7b+
+ L10F+thf9zAdAOPQKIGKk0JvtxFrtmM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-LSWcjTgJPz-lfPmWPQa0cg-1; Fri, 26 Jun 2020 05:27:40 -0400
+X-MC-Unique: LSWcjTgJPz-lfPmWPQa0cg-1
+Received: by mail-wm1-f71.google.com with SMTP id e15so10178868wme.8
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 02:27:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=eK1ByqFxjYOhmHmHtjXl69yX2Hyo7U2TRNxAda1lTpU=;
+ b=ooTZu8Q0F6B7tTeqJ8k+R91ItUPHAJmchURf7diqTr07/VTqAfCih1M4Rk30XvYsgO
+ oDQWK79X8LzIFO5223hDo8WpapGDjmJ3SiPf8P7vNSaBsZSqzPx0uTiPIev6iG2IVW4O
+ yHWsrDxquWaMo5mQ1oo+xXwZ+GWiv6jnirDxt4gcU3J9DAczOJQRaPGqIxAc1MN5ONuO
+ sfpniRLn2I+GcpXxbQxEXKoOAZCZBtIZ+YqoF/rem9qSCNkjdDfGbz7slXNW7VwIqC/W
+ RekTDx87gya3qDccfaeyFUCe2f/SnnmBCVHdkC60iQd9U2NVoXzc0HRJcBGoRf89JFab
+ P5+A==
+X-Gm-Message-State: AOAM533LHfA9Ai0KHEk7RjZXGpeH6z3qxiXcVvrhDUfOxmuZzrV8ToP2
+ 8kEB4fDfSp+P+VhLXKZp/mo5lk/W3/akJZrk35xcian4ispy/wdnqNpv/eswu9YHWaYBNNfIZh3
+ x5oEGJ01T6je2ZLg=
+X-Received: by 2002:a1c:a385:: with SMTP id m127mr2286153wme.112.1593163658716; 
+ Fri, 26 Jun 2020 02:27:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyllPMigMAezTkofXzS5INEKqFe2vJP/crtWEjn212wQPzyk/rOL1/YBBD9YHfJd+P3+OeXbw==
+X-Received: by 2002:a1c:a385:: with SMTP id m127mr2286128wme.112.1593163658430; 
+ Fri, 26 Jun 2020 02:27:38 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id 63sm38807718wra.86.2020.06.26.02.27.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jun 2020 02:27:37 -0700 (PDT)
 Subject: Re: [Bug 1885247] [NEW] Build error in Intel 32-bit hosts
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1e0fd5c0279a7d0880c65a07c19195d0f7f6de98
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:10:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+To: Thomas Huth <thuth@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Bug 1885247 <1885247@bugs.launchpad.net>, arilou@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <159315507826.13901.17398620572438937429.malonedeb@wampee.canonical.com>
+ <CAHiYmc7_ra2qWJ8mkZ-vqL5vN2BKdWxAZeKNnMEkPtien5-fsw@mail.gmail.com>
+ <b34bf27c-3189-addc-0c50-b0c0c533876d@redhat.com>
+ <d2657f75-26fe-117b-183d-732d88da2653@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <32aa7cf6-5f4d-eb79-2ebe-ee463f4389b8@redhat.com>
+Date: Fri, 26 Jun 2020 11:27:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <d2657f75-26fe-117b-183d-732d88da2653@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,17 +126,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885247 <1885247@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/26/20 11:20 AM, Thomas Huth wrote:
-> On 26/06/2020 11.13, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 26/06/2020 11.13, Philippe Mathieu-Daudé wrote:
 >> On 6/26/20 9:37 AM, Aleksandar Markovic wrote:
->>> =D0=BF=D0=B5=D1=82, 26. =D1=98=D1=83=D0=BD 2020. =D1=83 09:11 Aleksanda=
-r Markovic
->>> <1885247@bugs.launchpad.net> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>>> пет, 26. јун 2020. у 09:11 Aleksandar Markovic
+>>> <1885247@bugs.launchpad.net> је написао/ла:
 >>>>
 >>>> Public bug reported:
 >>>>
@@ -96,22 +149,16 @@ r Markovic
 >>>>
 >>>> The build error message is:
 >>>>
->>>> =C2=A0=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_64-softmmu/hw/hyperv=
-/hyperv.o
->>>> =C2=A0=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_64-softmmu/hw/hyperv=
-/hyperv_testdev.o
->>>> =C2=A0=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_64-softmmu/hw/hyperv=
-/vmbus.o
+>>>>    CC      x86_64-softmmu/hw/hyperv/hyperv.o
+>>>>    CC      x86_64-softmmu/hw/hyperv/hyperv_testdev.o
+>>>>    CC      x86_64-softmmu/hw/hyperv/vmbus.o
 >>>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c: In function
->>>> =E2=80=98gpadl_iter_io=E2=80=99:
+>>>> ‘gpadl_iter_io’:
 >>>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c:386:13: error: cast
->>>> to pointer from integer of different size [-Werror=3Dint-to-pointer-ca=
-st]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 p =3D (void *)(=
-((uintptr_t)iter->map & TARGET_PAGE_MASK) |
+>>>> to pointer from integer of different size [-Werror=int-to-pointer-cast]
+>>>>           p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) |
 >>>> off_in_page);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ^
+>>>>               ^
 >>>> cc1: all warnings being treated as errors
 >>>> make[1]: *** [/home/rtrk/Build/qemu-master/rules.mak:69:
 >>>> hw/hyperv/vmbus.o] Error 1
@@ -120,18 +167,14 @@ st]
 >> FWIW there is no CI job covering x86 KVM on 32-bit host build.
 >> Should this be covered? I guess the problem is no CI services
 >> provide 32-bit x86...
-> =
-
+> 
 > You can certainly provide either a container, or install the 32-bit
 > libraries in a 64-bit environment. Then run
-> =
-
-> PKG_CONFIG_LIBDIR=3D... ./configure --extra-cflags=3D-m32
-> =
-
+> 
+> PKG_CONFIG_LIBDIR=... ./configure --extra-cflags=-m32
+> 
 > and it should be possible to build 32-bit binaries, too.
-> =
-
+> 
 > Alternatively, we could add a cross-compilation job that builds with
 > i686-w64-mingw32 in 32-bit.
 
@@ -140,44 +183,4 @@ https://app.shippable.com/github/qemu/qemu/runs/2437/2/console
 
 But this doesn't use KVM ;)
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885247
-
-Title:
-  Build error in Intel 32-bit hosts
-
-Status in QEMU:
-  New
-
-Bug description:
-  The code base is on master, checked out on Thursday June25th 2020,
-  0250c595c9d. The build procedure:
-
-  $ mkdir build-gcc
-  $ cd build-gcc
-  $ ../configure
-  $ make
-
-  The build error message is:
-
-    CC      x86_64-softmmu/hw/hyperv/hyperv.o
-    CC      x86_64-softmmu/hw/hyperv/hyperv_testdev.o
-    CC      x86_64-softmmu/hw/hyperv/vmbus.o
-  /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c: In function =E2=80=98gpad=
-l_iter_io=E2=80=99:
-  /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c:386:13: error: cast to poi=
-nter from integer of different size [-Werror=3Dint-to-pointer-cast]
-           p =3D (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_i=
-n_page);
-               ^
-  cc1: all warnings being treated as errors
-  make[1]: *** [/home/rtrk/Build/qemu-master/rules.mak:69: hw/hyperv/vmbus.=
-o] Error 1
-  make: *** [Makefile:527: x86_64-softmmu/all] Error 2
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885247/+subscriptions
 
