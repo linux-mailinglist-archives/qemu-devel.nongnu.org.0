@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33F220BC00
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:57:26 +0200 (CEST)
-Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB30320BC0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:59:39 +0200 (CEST)
+Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowLd-000886-Nv
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52724)
+	id 1jowNm-0003Do-SS
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI5-0002pm-2L
+ id 1jowI5-0002qa-GI
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:45 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52691)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI1-0002yi-MS
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:44 -0400
+ id 1jowI2-0002yn-W5
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208422; x=1624744422;
+ t=1593208424; x=1624744424;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qpKzwblaRf2F0jUNdWykbNTHSQmsZK/6FTkF0U3QfCc=;
- b=G9oi7hIyjvmVRGqNoh3L5vT5fezwuLQJwUCrEmuL6tDS49EFYoKiaTcn
- hDzXgzRzwRyzxyN0QKSEHv/Lwp9m/z/BWidrrTxnIHKMZQBswkkTGf9aS
- g6SxClZw/6a2v9Xh4gsBAuGqJDdaQLwFdkiB14b/wxe7qg5Gz3zQN7HYN
- JPdNNO8CKJ+QNuYJr5gDlZ+t7HKWQ4mdZQe8pe1t84orImEfCp8k0YsB+
- 3TFxpUQTFpaN8wQyneG2PQL2bvQWDu7JqEe+uzB08sSl1QEqHG8r2SNxQ
- wednxhFRJkpg0U6u2HFbRykMHs1ZbKNUp50V7V6kdlnnhu2kSn6nGqHzt A==;
-IronPort-SDR: JIQS3yqY0aqCtF0d6xvO0qh3hc//ilwlA0ZIeuOMaSTipRMWAQyILQaTPmajmn/n6YybkHoZS0
- 3gO6B2oNE4zFhSPSe4NkfoHRg1U2xIwxcBnFL0TEm5GKYm7N2pQYYsiiFtKv5Nrxv1OyNngvvp
- +zl219h4NbVXkR4ZA0UJrAdxjLtwAAZYVyqywxje61zJhp2/Ec8tm8mpesAFd08FxK7cOvMIX4
- xesUfUe5KOklNILoppbcHTGfMyB97cZtMy6IU1nENtGByQL9DJ8zgPfvy6JCO3dpMhGFydyRS7
- SA4=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360016"
+ bh=gfH3RYltiup+leB4/paBXRYbSi3EmWWxrrk+QaFhK7g=;
+ b=CFcvKgymGnKThy0/PgnbsxSYIcpRnCriCWHlJbaVmpHwBPP43W4uPTqB
+ x3cxmbOylinpK9FVx1CcK4fI3TYsQ/JTFX1r89IMI3pxVNbvBkU6Fg0sp
+ MuMVwrLwP7ooWauC079gVx8deD8uYjpjIAQlWWJlsdYbbaGs0PKXYtveD
+ enqNIRaYbeq9i+ozMFgd5WDyB3QfEwuXabJv1sCSSiuN+J+8HN1LaKeJ0
+ 55a+G+d8GxIeywuZs1lUEhHiRiMawQBemOpQ0ypnfHUvnPMIJa/rYKCSy
+ p0BjgtlnB8f0Wh0D92jFUforTPg9rPp8bDXVvk36fX5BRyFLWDzMhGiei g==;
+IronPort-SDR: 2NLXPqKK1E6uQ1TPU3tLjvPn2jlUapCkey1fvYCCgW/4fcpFEI0x8lUDesR0l4Gd2/yPZdVj7O
+ 8/XjFm5KJS1pEf81gFp5zcsRjL/LKfUQJVZ9jveru5HDUDXXthcJ3BjWP5fbYDczSRhbtbzPe+
+ raYsRGkENdnBOjQ1Wle3+Cbegc9+zPNQJiIL+j5OeuJONQ6Wi8Vhlufz/hrnsBtqgv1j7NNrRa
+ 9uLZ+cDOa1Bv8IP6R2XzlOs4Mf+UF/cMpGwbELV59SmCi3VNxL0HndlRIeaNK8UjYpn+EH5f19
+ xPk=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360021"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:35 +0800
-IronPort-SDR: CpgQb4GBUlh0b8PN6fj8lCCTHpQ5FTRlI5GsIjVAl7LXC5jM6BlHFKnP+YNlOZwwPyLRtB+HN2
- +LQdskaceYEq+wi10hEIsx9Wopv9v7aGo=
+ by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:36 +0800
+IronPort-SDR: 2q+3g4eOvS/kfxAOEmL/Tn2KqC48sT40yrq+r+GCEWfeRYx2dgCryFDc9w+piCDlSxoqqjwxQt
+ 042BTso0cebuenEqpXDiPrJUVZ4Ty32DM=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jun 2020 14:42:33 -0700
-IronPort-SDR: aOAlNHI6HhVx2L4O6K6ZQ85fBAQU1zqhV3EyBPUPFvQ2Lg8GIInwVSG7+By+VAOD0oByj3wazA
- jg4iglOu7dvA==
+IronPort-SDR: v6vrZszJGpqOQRH9Ngq+dzNNQfzdM31YoOawmL81G6/UvMFdJ3hpqLSyyMCuT5L7avjZrHjA9J
+ 7fnOnh8V7yMA==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
@@ -56,10 +56,9 @@ Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/63] riscv: plic: Add a couple of mising sifive_plic_update
- calls
-Date: Fri, 26 Jun 2020 14:43:09 -0700
-Message-Id: <20200626214410.3613258-3-alistair.francis@wdc.com>
+Subject: [PULL 04/63] target/riscv: implementation-defined constant parameters
+Date: Fri, 26 Jun 2020 14:43:11 -0700
+Message-Id: <20200626214410.3613258-5-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
@@ -89,58 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Jessica Clarke <jrtc27@jrtc27.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jessica Clarke <jrtc27@jrtc27.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Claiming an interrupt and changing the source priority both potentially
-affect whether an interrupt is pending, thus we must re-compute xEIP.
-Note that we don't put the sifive_plic_update inside sifive_plic_claim
-so that the logging of a claim (and the resulting IRQ) happens before
-the state update, making the causal effect clear, and that we drop the
-explicit call to sifive_plic_print_state when claiming since
-sifive_plic_update already does that automatically at the end for us.
+vlen is the vector register length in bits.
+elen is the max element size in bits.
+vext_spec is the vector specification version, default value is v0.7.1.
 
-This can result in both spurious interrupt storms if you fail to
-complete an IRQ before enabling interrupts (and no other actions occur
-that result in a call to sifive_plic_update), but also more importantly
-lost interrupts if a disabled interrupt is pending and then becomes
-enabled.
-
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200618210649.22451-1-jrtc27@jrtc27.com
-Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200623215920.2594-3-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_plic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h | 5 +++++
+ target/riscv/cpu.c | 7 +++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index d91e82b8ab..c20c192034 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -255,8 +255,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-                     plic->addr_config[addrid].hartid,
-                     mode_to_char(plic->addr_config[addrid].mode),
-                     value);
--                sifive_plic_print_state(plic);
-             }
-+            sifive_plic_update(plic);
-             return value;
-         }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0018a79fa3..302e0859a0 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -78,6 +78,8 @@ enum {
+ #define PRIV_VERSION_1_10_0 0x00011000
+ #define PRIV_VERSION_1_11_0 0x00011100
+ 
++#define VEXT_VERSION_0_07_1 0x00000701
++
+ #define TRANSLATE_PMP_FAIL 2
+ #define TRANSLATE_FAIL 1
+ #define TRANSLATE_SUCCESS 0
+@@ -113,6 +115,7 @@ struct CPURISCVState {
+     target_ulong guest_phys_fault_addr;
+ 
+     target_ulong priv_ver;
++    target_ulong vext_ver;
+     target_ulong misa;
+     target_ulong misa_mask;
+ 
+@@ -275,6 +278,8 @@ typedef struct RISCVCPU {
+ 
+         char *priv_spec;
+         char *user_spec;
++        uint16_t vlen;
++        uint16_t elen;
+         bool mmu;
+         bool pmp;
+     } cfg;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 391a0b9eec..d525cfb687 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -106,6 +106,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
+ }
+ 
++static void set_vext_version(CPURISCVState *env, int vext_ver)
++{
++    env->vext_ver = vext_ver;
++}
++
+ static void set_feature(CPURISCVState *env, int feature)
+ {
+     env->features |= (1ULL << feature);
+@@ -334,6 +339,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+     int priv_version = PRIV_VERSION_1_11_0;
++    int vext_version = VEXT_VERSION_0_07_1;
+     target_ulong target_misa = 0;
+     Error *local_err = NULL;
+ 
+@@ -357,6 +363,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
      }
-@@ -287,6 +287,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
-             qemu_log("plic: write priority: irq=%d priority=%d\n",
-                 irq, plic->source_priority[irq]);
-         }
-+        sifive_plic_update(plic);
-         return;
-     } else if (addr >= plic->pending_base && /* 1 bit per source */
-                addr < plic->pending_base + (plic->num_sources >> 3))
+ 
+     set_priv_version(env, priv_version);
++    set_vext_version(env, vext_version);
+ 
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
 -- 
 2.27.0
 
