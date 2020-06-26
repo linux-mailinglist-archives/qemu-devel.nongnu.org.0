@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9BB20AD78
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:44:11 +0200 (CEST)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FBE20AD8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:51:31 +0200 (CEST)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joj1u-0008QC-O4
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34514)
+	id 1joj90-0003Lc-I8
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1joj0u-0007Iz-IZ
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:43:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34904
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1joj0t-0004lV-0b
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:43:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593157386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QraqlMF49D4ldfp2zZFjFcQ+GphvZwdByM6vjcSBTFc=;
- b=V4hOuDHTJr/Co1xhEoXVxcufn1HB6qNFMAncsRoTTmdVXvTbvn3VA/rGEsuuCdt2XOE+9Y
- ILpzNV2ZvSCOvCy8An4Xxz50TT8A9vkXPzfPCV0EVqAy44bmhoKub5FrjEkDztIAouIi7H
- Jw7HkLv34zg77GCkgoAaURH+ZkJqIPE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-OGo3XNUnOO64MRhF1DBIIg-1; Fri, 26 Jun 2020 03:42:59 -0400
-X-MC-Unique: OGo3XNUnOO64MRhF1DBIIg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A8FC18585BD;
- Fri, 26 Jun 2020 07:42:58 +0000 (UTC)
-Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4BBB1002395;
- Fri, 26 Jun 2020 07:42:49 +0000 (UTC)
-Subject: Re: [PATCH v5 2/5] virtio-iommu: Implement RESV_MEM probe request
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200624132625.27453-1-eric.auger@redhat.com>
- <20200624132625.27453-3-eric.auger@redhat.com>
- <87zh8r1v6z.fsf@dusky.pond.sub.org>
- <CAFEAcA8OJ3_yA+o3FSJ1FOTpH73xbu_5YBGA5A5b8hOqEqvkiw@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <afdad70b-150e-17a3-a714-bdbbd6e534e1@redhat.com>
-Date: Fri, 26 Jun 2020 09:42:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joj80-0002kN-V6; Fri, 26 Jun 2020 03:50:28 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33966
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joj7y-0000MN-I8; Fri, 26 Jun 2020 03:50:28 -0400
+Received: from host86-158-109-79.range86-158.btcentralplus.com
+ ([86.158.109.79] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joj7u-00079U-AK; Fri, 26 Jun 2020 08:50:27 +0100
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, fthain@telegraphics.com.au
+References: <20200623204936.24064-1-mark.cave-ayland@ilande.co.uk>
+ <bca1d4a8-de1c-89f6-3958-61a6f6aec77c@vivier.eu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <7384413a-e596-df0f-09fa-6b7fac5d004b@ilande.co.uk>
+Date: Fri, 26 Jun 2020 08:50:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8OJ3_yA+o3FSJ1FOTpH73xbu_5YBGA5A5b8hOqEqvkiw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <bca1d4a8-de1c-89f6-3958-61a6f6aec77c@vivier.eu>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.158.109.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/22] ADB: fix autopoll issues and rework mac_via
+ state machine
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,34 +90,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, bbhushan2@marvell.com,
- Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On 26/06/2020 08:14, Laurent Vivier wrote:
 
-On 6/25/20 12:12 PM, Peter Maydell wrote:
-> On Thu, 25 Jun 2020 at 08:06, Markus Armbruster <armbru@redhat.com> wrote:
->>     $ qemu-system-x86_64 -nodefaults -S -display none -device virtio-iommu-pci,len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:99
->>     qemu-system-x86_64: -device virtio-iommu-pci,len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:99: pc-i440fx-5.1 machine fails to create iommu-map device tree bindings
->>     Check you machine implements a hotplug handler for the virtio-iommu-pci device
->>     Check the guest is booted without FW or with -no-acpi
+> Le 23/06/2020 à 22:49, Mark Cave-Ayland a écrit :
+>> This patchset is something I have been chipping away at for a while since
+>> spending some time over the Christmas holidays trying to boot the MacOS
+>> toolbox ROM on the new q800 machine.
 >>
->> By the way: s/Check you machine/Check your machine/.
+>> Initially I discovered that there were some problems when the MacOS ROM was
+>> enumerating ADB devices due to multiple meanings of the vADBInt bit. After
+>> fixing this there were still issues with keys being dropped during autopoll
+>> which were eventually traced back to the autopoll timer re-firing before
+>> the host had managed to read back the previous response.
+>>
+>> At this point I noticed that CUDA/PMU/mac_via all had their own implementations
+>> of ADB autopoll, and that it would make sense to consolidate the autopoll timer,
+>> mask, interval and locking into the ADB bus. This would allow the logic to be
+>> removed from each separate device and managed in just one place.
+>>
+>> Finally I updated the trace-events to allow separate tracing of bus requests
+>> and device responses which makes it easier to follow the ADB enumeration process.
+>>
+>> The breakdown of the patchset is as follows:
+>>
+>> - Patch 1 keeps checkpatch happy for the remainder of the patchset whilst patch
+>>   2 is the proper fix for a spurious ADB register 3 write during enumeration
+>>   caused by ignoring the request length which I had tried to work around earlier.
+>>
+>> - Patches 3 to 10 are part of the autopoll consolidation process which moves the
+>>   separate autopoll implementations into a single implementation within
+>>   ADBBusState.
+>>
+>> - Patches 11 to 13 update the ADB implementation to hold a status variable
+>>   indicating the result of the last request and allow devices to indicate
+>>   whether they have data to send. This extra information is required by the
+>>   upcoming mac_via state machine changes.
+>>
+>> - Patches 14 to 17 add a variable and functions to block and unblock ADB
+>>   autopoll at bus level, adding the functions at the correct places within
+>>   CUDA and PMU.
+>>
+>> - Patches 18 and 19 rework the mac_via ADB state machine so that the bus
+>>   can be enumerated correctly, and both explicit and autopoll requests work
+>>   under both MacOS and Linux.
+>>
+>> - Patch 20 enforces the blocking and unblocking of autopoll at the ADB
+>>   level, including adding an assert() to prevent developers from trying to
+>>   make an ADB request whilst autopoll is in progress.
+>>   
+>> - Patches 21 and 22 update the trace-events to separate out ADB device and
+>>   ADB bus events.
+>>
+>> The patch has been tested by myself and a couple of others during the development
+>> process across the PPC g3beige/mac99 and 68K q800 machine so it should be quite
+>> solid.
+>>
+>> One thing to indicate is that the patchset bumps the VMState versions for the
+>> affected devices but does not allow older versions to load. This is a conscious
+>> decision given that for the mac_via device used in the q800 machine it would be
+>> just about impossible to map this in a way that would work for all cases. Similarly
+>> for the Mac PPC machines migration is already hit/miss due to timebase issues so
+>> I don't see this as being a big loss.
+>>
+>> To finish off I'd also like to say a big thank-you to both Laurent Vivier and
+>> Finn Thain who both took time to answer my questions, dump information from a
+>> real q800, and analyse it in very fine detail. Without them this patchset would
+>> still be several months away.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>
+>>
+>> v2:
+>> - Rebased onto master
+>> - Added R-B tags from Philippe
+>> - Fixed byte discrepency at end of bus timeout spotted by Finn
+>> - Added Tested-by tag from Finn
+>>
+>>
+>> Mark Cave-Ayland (22):
+>>   adb: coding style update to fix checkpatch errors
+>>   adb: fix adb-mouse read length and revert disable-reg3-direct-writes
+>>     workaround
+>>   cuda: convert ADB autopoll timer from ns to ms
+>>   pmu: fix duplicate autopoll mask variable
+>>   pmu: honour autopoll_rate_ms when rearming the ADB autopoll timer
+>>   adb: introduce realize/unrealize and VMStateDescription for ADB bus
+>>   adb: create autopoll variables directly within ADBBusState
+>>   cuda: convert to use ADBBusState internal autopoll variables
+>>   pmu: convert to use ADBBusState internal autopoll variables
+>>   mac_via: convert to use ADBBusState internal autopoll variables
+>>   adb: introduce new ADBDeviceHasData method to ADBDeviceClass
+>>   adb: keep track of devices with pending data
+>>   adb: add status field for holding information about the last ADB
+>>     request
+>>   adb: use adb_request() only for explicit requests
+>>   adb: add autopoll_blocked variable to block autopoll
+>>   cuda: add adb_autopoll_block() and adb_autopoll_unblock() functions
+>>   pmu: add adb_autopoll_block() and adb_autopoll_unblock() functions
+>>   mac_via: move VIA1 portB write logic into mos6522_q800_via1_write()
+>>   mac_via: rework ADB state machine to be compatible with both MacOS and
+>>     Linux
+>>   adb: only call autopoll callbacks when autopoll is not blocked
+>>   adb: use adb_device prefix for ADB device trace events
+>>   adb: add ADB bus trace events
+>>
+>>  hw/input/adb-kbd.c           |  42 ++--
+>>  hw/input/adb-mouse.c         |  65 ++++--
+>>  hw/input/adb.c               | 210 ++++++++++++++++--
+>>  hw/input/trace-events        |  27 ++-
+>>  hw/misc/mac_via.c            | 411 +++++++++++++++++++++++------------
+>>  hw/misc/macio/cuda.c         |  60 +++--
+>>  hw/misc/macio/pmu.c          |  47 ++--
+>>  hw/misc/trace-events         |   3 +
+>>  hw/ppc/mac_newworld.c        |   2 -
+>>  include/hw/input/adb.h       |  26 ++-
+>>  include/hw/misc/mac_via.h    |   2 +-
+>>  include/hw/misc/macio/cuda.h |   4 -
+>>  include/hw/misc/macio/pmu.h  |   4 -
+>>  13 files changed, 620 insertions(+), 283 deletions(-)
+>>
 > 
-> Patch sent:
-> https://patchew.org/QEMU/20200625100811.12690-1-peter.maydell@linaro.org/
+> Acked-by: Laurent Vivier <laurent@vivier.eu>
 
-Thank you for the typo fix.
+Thanks Laurent! I know David is busy at the moment, but he's fine with the Mac PPC
+changes so I'll add your A-B tag and send a PR shortly.
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
 
+ATB,
+
+Mark.
 
