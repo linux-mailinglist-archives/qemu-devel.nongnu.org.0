@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109F020AC77
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:43:22 +0200 (CEST)
-Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05B120AC71
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:41:51 +0200 (CEST)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joi53-0005tc-1Z
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
+	id 1joi3a-0002zW-LN
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2O-0001Pb-CX; Fri, 26 Jun 2020 02:40:36 -0400
-Received: from ozlabs.org ([203.11.71.1]:38655)
+ id 1joi2N-0001PH-9w; Fri, 26 Jun 2020 02:40:35 -0400
+Received: from ozlabs.org ([203.11.71.1]:39473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2K-0001EP-JQ; Fri, 26 Jun 2020 02:40:36 -0400
+ id 1joi2K-0001ES-Jf; Fri, 26 Jun 2020 02:40:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49tS1l3vFwz9sSc; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
+ id 49tS1l4VBWz9sRR; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1593153627;
- bh=Ws6WPAfD6wiH7b15S4gArdEi5/jRjb5OfT645wiMVxI=;
- h=From:To:Cc:Subject:Date:From;
- b=o3NjFEMLu3rzQvSYoMBCIBFXpV5SztyZrCOOZ7OilMOi7YD8YWBcnricfcPJhZ+OI
- eUvvM3l73rf+FIJMQC0aqU8OuUPo01gYPidRrMNHWo1bhd+EtxIAuPERw4s0qBjlEo
- QaZ/vKDIgxa+pWa6szhM5FyUDDM2IoCLPMyd6q1w=
+ bh=o+KHJQVzpFO+ZEGV70kRkztoAAIYNBYFB3V3S/KxQWY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qAZA4KFWYn+kYNhe+nYW8jQegk/ysUYTMPEV/mAtq7ss0X51mqSdOerSwEPZvOQXQ
+ 25bgC7pcEBDivHkVdB1cjihrDnzMrE/cpHUX3sk9aKgQeGs05+tt4TnSYk1k9Ksbq9
+ fp7px2wEA24acLFRS1dvIXXHoG7X+GkX7Q7JEULE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/4] ppc-for-5.1 queue 20200626
-Date: Fri, 26 Jun 2020 16:40:20 +1000
-Message-Id: <20200626064024.383996-1-david@gibson.dropbear.id.au>
+Subject: [PULL 1/4] spapr: Simplify some warning printing paths in spapr_caps.c
+Date: Fri, 26 Jun 2020 16:40:21 +1000
+Message-Id: <20200626064024.383996-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200626064024.383996-1-david@gibson.dropbear.id.au>
+References: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -58,48 +59,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 63d211993b73ca9ac2bc618afeb61a698e9f5198:
+From: Greg Kurz <groug@kaod.org>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-06-25 16:52:42 +0100)
+We obviously only want to print a warning in these cases, but this is done
+in a rather convoluted manner. Just use warn_report() instead.
 
-are available in the Git repository at:
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <159188281098.70166.18387926536399257573.stgit@bahia.lan>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_caps.c | 28 ++++++----------------------
+ 1 file changed, 6 insertions(+), 22 deletions(-)
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200626
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index efdc0dbbcf..0c2bc8e06e 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -248,23 +248,18 @@ SpaprCapPossible cap_cfpc_possible = {
+ static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
+                                  Error **errp)
+ {
+-    Error *local_err = NULL;
+     uint8_t kvm_val =  kvmppc_get_cap_safe_cache();
+ 
+     if (tcg_enabled() && val) {
+         /* TCG only supports broken, allow other values and print a warning */
+-        error_setg(&local_err,
+-                   "TCG doesn't support requested feature, cap-cfpc=%s",
+-                   cap_cfpc_possible.vals[val]);
++        warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
++                    cap_cfpc_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+                    "Requested safe cache capability level not supported by kvm,"
+                    " try appending -machine cap-cfpc=%s",
+                    cap_cfpc_possible.vals[kvm_val]);
+     }
+-
+-    if (local_err != NULL)
+-        warn_report_err(local_err);
+ }
+ 
+ SpaprCapPossible cap_sbbc_possible = {
+@@ -277,23 +272,18 @@ SpaprCapPossible cap_sbbc_possible = {
+ static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
+                                         Error **errp)
+ {
+-    Error *local_err = NULL;
+     uint8_t kvm_val =  kvmppc_get_cap_safe_bounds_check();
+ 
+     if (tcg_enabled() && val) {
+         /* TCG only supports broken, allow other values and print a warning */
+-        error_setg(&local_err,
+-                   "TCG doesn't support requested feature, cap-sbbc=%s",
+-                   cap_sbbc_possible.vals[val]);
++        warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
++                    cap_sbbc_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+ "Requested safe bounds check capability level not supported by kvm,"
+                    " try appending -machine cap-sbbc=%s",
+                    cap_sbbc_possible.vals[kvm_val]);
+     }
+-
+-    if (local_err != NULL)
+-        warn_report_err(local_err);
+ }
+ 
+ SpaprCapPossible cap_ibs_possible = {
+@@ -309,24 +299,18 @@ SpaprCapPossible cap_ibs_possible = {
+ static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
+                                            uint8_t val, Error **errp)
+ {
+-    Error *local_err = NULL;
+     uint8_t kvm_val = kvmppc_get_cap_safe_indirect_branch();
+ 
+     if (tcg_enabled() && val) {
+         /* TCG only supports broken, allow other values and print a warning */
+-        error_setg(&local_err,
+-                   "TCG doesn't support requested feature, cap-ibs=%s",
+-                   cap_ibs_possible.vals[val]);
++        warn_report("TCG doesn't support requested feature, cap-ibs=%s",
++                    cap_ibs_possible.vals[val]);
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+ "Requested safe indirect branch capability level not supported by kvm,"
+                    " try appending -machine cap-ibs=%s",
+                    cap_ibs_possible.vals[kvm_val]);
+     }
+-
+-    if (local_err != NULL) {
+-        warn_report_err(local_err);
+-    }
+ }
+ 
+ #define VALUE_DESC_TRISTATE     " (broken, workaround, fixed)"
+-- 
+2.26.2
 
-for you to fetch changes up to 737ef968d442cb287b1fcc7da94b53284b0ad1e9:
-
-  target/ppc: Remove TIDR from POWER10 processor (2020-06-26 09:22:30 +1000)
-
-----------------------------------------------------------------
-ppc patch queue 2020-06-26
-
-Here's another pull request for qemu-5.1.  Not very much in this one,
-just a handful of assorted minor fixes and cleanups.
-
-I'm about to go on holiday for a couple of weeks, so this will be my
-last PR before the freeze, and maybe the last for 5.1 at all.  If
-there's some super important fix we need, Greg Kurz will handle it.
-
-----------------------------------------------------------------
-Cédric Le Goater (1):
-      target/ppc: Remove TIDR from POWER10 processor
-
-Greg Kurz (2):
-      spapr: Simplify some warning printing paths in spapr_caps.c
-      ppc/pnv: Silence missing BMC warning with qtest
-
-Gustavo Romero (1):
-      spapr: Fix typos in comments and macro indentation
-
- hw/ppc/pnv.c                    |  9 ++++++---
- hw/ppc/spapr_caps.c             | 28 ++++++----------------------
- hw/ppc/spapr_vio.c              |  6 +++---
- include/hw/ppc/xive_regs.h      |  2 +-
- target/ppc/translate_init.inc.c |  5 -----
- 5 files changed, 16 insertions(+), 34 deletions(-)
 
