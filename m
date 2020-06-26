@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C6520B605
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:39:15 +0200 (CEST)
-Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B9820B5FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:37:04 +0200 (CEST)
+Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorNi-0005Ew-3K
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54214)
+	id 1jorLb-0001KP-J1
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDQ-0005iP-PC; Fri, 26 Jun 2020 12:28:36 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45041)
+ id 1jorDR-0005kp-Jq; Fri, 26 Jun 2020 12:28:37 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDP-0003MP-0v; Fri, 26 Jun 2020 12:28:36 -0400
-Received: by mail-wr1-x432.google.com with SMTP id b6so10058273wrs.11;
- Fri, 26 Jun 2020 09:28:34 -0700 (PDT)
+ id 1jorDQ-0003Mc-40; Fri, 26 Jun 2020 12:28:37 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f7so7088347wrw.1;
+ Fri, 26 Jun 2020 09:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oHFlPrMpcTtOBWP3NYrDS+TwAAQ4/bzOCIhgvn/adfw=;
- b=RsG66TjsIQCKMEb+V8Q4ZvNkqmDMnrtWLg77QSwkYf/89eX9degbWi2evFq52Nz5jw
- yFa9OiTpILgZhb6kQzbSexTv1YagVa77F8swL6jodGIj2YTwcSRbL3EEUoiaX2e1/9v7
- lOWQvNm9HIqs/I1+cu77m9+9Ub+mJHRuWdbyBuNV8RNDxNuxJWsZ/3LQuNYnEP0AP0FH
- 06QfVXMh95CsaOHZsPyaxWxhShgKfugRjVvxRkoPnBKhd3pJ5oh0q0RAtUULW98BEHTe
- csjbWvbD0bWxnToTAEq8c8qFWocPuRQixropiWjwIZIASwSDL0Kw5tbjkOVX+5dP8cXd
- cy5A==
+ bh=j4YLj9RlP5uo0+3BOkjl/ihTz1eGF7coUl6hG3PUY6A=;
+ b=CUjZAt8b3mMAT+05mccVgH9jGMD+GA5IbtnYWCjVTkib+UDzUQpHaVlpP1dher+8IM
+ aTY6eAguh5gq2GTE83jsbjnKQ3ix0BitcRGkNRaJepkn+JBtQOrPdyySO3FwI46uNATp
+ Vq1GWWpLXDqIUspZY526Pg/3z0PxIX4mkAT7UllyfO1wyCNNFY935hU/dINLR2dO7PMQ
+ liT7viVINtgQT+E4Xm7mMC1z53k4NvX/VEeLF5EDQAgz/4mWvYvSuLcU3XhxODfLhS/H
+ 93kOcikkac2P3oHg8Ko+vGRQm9NUxX0D/73dJidZSLQ/0+uHiTxqsDUIkAsRj8yhDu6S
+ zt7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oHFlPrMpcTtOBWP3NYrDS+TwAAQ4/bzOCIhgvn/adfw=;
- b=Ia3GgvL4IFG7DgBSI0v8Fy3UrhdZpRbElyBGAulpV4QDkNkeyzE7xyvxbP66yq0Rbz
- C5UYjUAjvEIq9gMoaJAuJ7rcmwz9eBYqOeKSMAyUvrXVK0Ggmbhl5iwrF7RqTwSoMban
- ypIQfG42p8drjSe4HIjF6WdkPCsc5Bun5KpWG1NJ6DCJ6XV8m8bKWpvbhDIAj1E8qlgP
- PgHgzMcYf8OOIe3HA+kQbKvbCgo8BnlfFxVP3C6hI5a+3nr7bP7er5SnQNaZ8nat/MMb
- U0rtE98tgIM+1Id1eMljjxY5Q01a+nnz0QiFIWFEYDV+9wxeUIheDY6BFRkZYFptFHDx
- oMgQ==
-X-Gm-Message-State: AOAM530osD+ZH1fnAaZpw7zCHF5SnTwvgbunamxO1eg56UXJtbuD9SEX
- hpV8g51X5Q+9VDzYp1lhgaCFc1jR
-X-Google-Smtp-Source: ABdhPJzL2lWCzIRVpUZW0t7zSIVhe1fOvQ1SuouYV0gHoYnjJ2qvdtsYsHaKayvA1y1ejbuvn95SBA==
-X-Received: by 2002:a5d:46c7:: with SMTP id g7mr4549583wrs.365.1593188913262; 
- Fri, 26 Jun 2020 09:28:33 -0700 (PDT)
+ bh=j4YLj9RlP5uo0+3BOkjl/ihTz1eGF7coUl6hG3PUY6A=;
+ b=eNS4YMiZbxZUHqhP3K1RMgpRK2TQ+tid61oKv8yW1QIr6Q8DIqJjrLp6R+onsWKz51
+ ZCrvGDx6EpZyEeYQyRL7YD2o6norf92meyCGzG+v479sOT5D6LZCXfig84QsBzBFPyWx
+ lTFeRsx7ycXpuCWhHTQSWzTJvvEQc1VKcVFDk5MC4dYKf8AlvnBMy+EzOXkq8Q44sJxw
+ r/UEzSPueJmQLkB6s7tIGjm+32DjSNxuGcy6qs0bsPUl71hEo9WSQCCofopXUF+H8sJS
+ nhCAZ+Efp6VvvJ+33Gvv05Vl0U0v+/SR3ct6zAxSc+TfAXXk8XTtWxyI1I8SGeNfzL1l
+ zS9Q==
+X-Gm-Message-State: AOAM531gqKDQ+eKB5mQ1a5SFtQ7EklcvE25XcrBOzqSV6TLdbA3mzM33
+ 9O16noG+0nZ5YuemzU5A+MA97KHZ
+X-Google-Smtp-Source: ABdhPJxrkRdqQZQyUGb9pBMElH67D/oKd6bg6+/C6Yf0EspRZK+VP0ju866POmIsD7CwLGKqodtGfA==
+X-Received: by 2002:adf:dcd0:: with SMTP id x16mr4371446wrm.387.1593188914332; 
+ Fri, 26 Jun 2020 09:28:34 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.32
+ by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:28:32 -0700 (PDT)
+ Fri, 26 Jun 2020 09:28:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/14] hw/sd/sdcard: Make iolen unsigned
-Date: Fri, 26 Jun 2020 18:28:15 +0200
-Message-Id: <20200626162818.25840-12-f4bug@amsat.org>
+Subject: [PATCH v4 12/14] hw/sd/sdcard: Correctly display the command name in
+ trace events
+Date: Fri, 26 Jun 2020 18:28:16 +0200
+Message-Id: <20200626162818.25840-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
 References: <20200626162818.25840-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,48 +88,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Some ACMD were incorrectly displayed. Fix by remembering if we
+are processing a ACMD (with current_cmd_is_acmd) and add the
+sd_current_cmd_name() helper, which display to correct name
+regardless it is a CMD or ACMD.
 
-I/O request length can not be negative.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v4: Use uint32_t (pm215)
----
- hw/sd/sd.c         | 2 +-
- hw/sd/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/sd/sd.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index a0500f4551..8dd83c365c 100644
+index 8dd83c365c..798a2346a7 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1967,7 +1967,7 @@ uint8_t sd_read_data(SDState *sd)
+@@ -125,6 +125,7 @@ struct SDState {
+     uint8_t pwd[16];
+     uint32_t pwd_len;
+     uint8_t function_group[6];
++    bool current_cmd_is_acmd;
+     uint8_t current_cmd;
+     /* True if we will handle the next command as an ACMD. Note that this does
+      * *not* track the APP_CMD status bit!
+@@ -1704,6 +1705,8 @@ int sd_do_command(SDState *sd, SDRequest *req,
+                       req->cmd);
+         req->cmd &= 0x3f;
+     }
++    sd->current_cmd = req->cmd;
++    sd->current_cmd_is_acmd = sd->expecting_acmd;
+ 
+     if (sd->card_status & CARD_IS_LOCKED) {
+         if (!cmd_valid_while_locked(sd, req->cmd)) {
+@@ -1731,7 +1734,6 @@ int sd_do_command(SDState *sd, SDRequest *req,
+         /* Valid command, we can update the 'state before command' bits.
+          * (Do this now so they appear in r1 responses.)
+          */
+-        sd->current_cmd = req->cmd;
+         sd->card_status &= ~CURRENT_STATE;
+         sd->card_status |= (last_state << 9);
+     }
+@@ -1792,6 +1794,15 @@ send_response:
+     return rsplen;
+ }
+ 
++static const char *sd_current_cmd_name(SDState *sd)
++{
++    if (sd->current_cmd_is_acmd) {
++        return sd_acmd_name(sd->current_cmd);
++    } else {
++        return sd_cmd_name(sd->current_cmd);
++    }
++}
++
+ static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
  {
-     /* TODO: Append CRCs */
-     uint8_t ret;
--    int io_len;
-+    uint32_t io_len;
+     trace_sdcard_read_block(addr, len);
+@@ -1830,7 +1841,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+         return;
  
-     if (!sd->blk || !blk_is_inserted(sd->blk) || !sd->enable)
-         return 0x00;
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index 5f09d32eb2..d0cd7c6ec4 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -52,7 +52,7 @@ sdcard_unlock(void) ""
- sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
- sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
- sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
--sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, int length) "%s %20s/ CMD%02d len %d"
-+sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint32_t length) "%s %20s/ CMD%02d len %" PRIu32
- sdcard_set_voltage(uint16_t millivolts) "%u mV"
+     trace_sdcard_write_data(sd->proto_name,
+-                            sd_acmd_name(sd->current_cmd),
++                            sd_current_cmd_name(sd),
+                             sd->current_cmd, value);
+     switch (sd->current_cmd) {
+     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
+@@ -1984,7 +1995,7 @@ uint8_t sd_read_data(SDState *sd)
+     io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
  
- # milkymist-memcard.c
+     trace_sdcard_read_data(sd->proto_name,
+-                           sd_acmd_name(sd->current_cmd),
++                           sd_current_cmd_name(sd),
+                            sd->current_cmd, io_len);
+     switch (sd->current_cmd) {
+     case 6:	/* CMD6:   SWITCH_FUNCTION */
 -- 
 2.21.3
 
