@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A911220B46B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:23:38 +0200 (CEST)
-Received: from localhost ([::1]:49112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA9A20B474
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:25:14 +0200 (CEST)
+Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqCX-0007W5-Jx
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
+	id 1joqE4-0002Uo-WB
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3j-0001nG-Cv
+ id 1joq3j-0001nX-Hg
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:31 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34834)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3h-0006Aa-12
+ id 1joq3h-0006Ar-Qu
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:31 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g18so9900198wrm.2
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:28 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id s10so9821636wrw.12
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iuggorem9kG/dEp137reT753s8RZfimwKZKwNlrFDN8=;
- b=T39ySY3yOdG/WqFtaCHeFElJ5D7zdJT/GqAUAwCM2gFIUndSfFL15y9SM/AadAYFOU
- pNU+SxErshFa6Co49CRoPB90UmSnVSKYEo7i12uvIcy7KisqEmxsdHB9/tBZ68cGoQfI
- Vjlk9lqp72mJ5k/oKHI0Zj7DFtRaoTxqGEGMQT65k0vswAoCnKlFO3OdYh7wL7gxyndj
- MJpwSrx6e5aIGDMce5aMq0nWDoii+RnuoJSOAM6njEnrsINOxNTmOlOeu17nExYSUpj4
- 1afE8T3pbSvqnyp3AFoDjDqRIQyBVBI3Tk6Yyyr9vrtstpuks4Bwoc0dNnHtzIyTwq5h
- Gbxg==
+ bh=acP3Sx4OGOgiAbreBwnSKlVu9vGjvqCv6xOFJh6nkmA=;
+ b=DyYW4V0N7Rs19CAsNBze9ru/0AxHimeYSIXEkvBK6WH8PJ/+L1x4b7EPs7NSVGhbNI
+ e+YKG3uNKxLC7ay37ssKVSN62NNq+vyX7aViRjCvuDKCu4Gk5TBuJK9nc7uBBET4PS1E
+ saTNuuKgp/UnVSdLKLQ7HfMYh7z3lxmtV/8cM4d2KxzXw3LHRTxXWtAwcKkcHcmQ9nU2
+ jN/jPZqXc8VJwVuL5twYIady742o5e7ezQjcm5SRjZszDaaMBwvVu80GzftVXBa60HTj
+ QhVUXbzJAHRLGRG066F4b+usmWUybYW/8QyVjCu9Jb5oNb8Q3nrsWpv5xUewhsSZjOlQ
+ xIrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iuggorem9kG/dEp137reT753s8RZfimwKZKwNlrFDN8=;
- b=NgVgSgHbX/1IST57MnB3anjdaBQfoVqQS2MlzOIGWoPfOGVnb9MD6s7NZ9KEh7VcJ8
- zt+Tz1oSu0gKZKQv6dZlq2QwObwXykBxkYoHCO5I7V7OaEkMSwEUlB/HfGrjnNxkNfhY
- k+9EsMYCgJV/jglmckf4f0qVjElCUJr7t7FJpb8dRDua82mqUpYra2E/n7LZ5SHxjm8s
- rAvm7khuMZRdvtUkIPRhxNh6saCNPONEc81jLL9zvMMsrHh9qoFMHijAT7MHtsmA8v8j
- Z20y7GmZOQzRDQSO+IbMPrq6Wuwoluu0wJmmFVfw1EHGgn2HqtjnS6oyRWNg+F880A8i
- 1D6Q==
-X-Gm-Message-State: AOAM533EWMmlVTVEPhn5sjQY58gjgEzzyXc+q5Aaj5zIViGpmPBYZQk/
- VyiKaxtsW+pCkD6EMgIRKx2kV+0OlxFUfQ==
-X-Google-Smtp-Source: ABdhPJxUqRdRyHSUtbnsiME6kMFzvrOQz7uLBarPP/WYRlSUxEou+dltsQj9/wLYjjX+KtEW5MeRZg==
-X-Received: by 2002:adf:f083:: with SMTP id n3mr4291611wro.297.1593184467089; 
- Fri, 26 Jun 2020 08:14:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=acP3Sx4OGOgiAbreBwnSKlVu9vGjvqCv6xOFJh6nkmA=;
+ b=KlJUsr2gM0eLpTDYDbRueUp0puAobuZOLnv4s4rmQFcEj2aowJew4C7MJCMJuvDOYS
+ 6fe6ypdYEAWUkUAzFzIZTnypVM7uJOjVM+3R2bpKhD6zc1Z1aEt1cxDjSiFUieqwgcVj
+ +eohKyArfwhZiBfPg6/VtmVvLy/qQbxQ+FVz+JGy3NggLiyZ0TxkJgrpMpe0ZWhUExoL
+ SPv/vg8cNneI6RPAulxJXgUVIpnTJI6a/5UBwJHcd+40H0KGeROJyBt7P4PPYNcE6OvR
+ b/Bl1XzjGl/pW5iT0sXG4l5ywmQvR1PujsEQFO+cDmTiH152Qu8Z0V/7DvRqYeUxSQhi
+ J1Og==
+X-Gm-Message-State: AOAM530QQN309Vvs4hX0vUlJjML9GxN8B975ixXV6KZWGlrenxU2tjDL
+ mF3hDr7xCNfF1Qp3FTFY8KIV3vwx2aLBag==
+X-Google-Smtp-Source: ABdhPJxGXe7yGCiyniGBRQadKbMYMNdWDp2UwCSn5foHC8Xdjj2cL9wklYtDh9DF9mbF2botcCJpcg==
+X-Received: by 2002:adf:c404:: with SMTP id v4mr4126758wrf.85.1593184468148;
+ Fri, 26 Jun 2020 08:14:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.25
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:26 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/57] target-arm queue
-Date: Fri, 26 Jun 2020 16:13:27 +0100
-Message-Id: <20200626151424.30117-1-peter.maydell@linaro.org>
+Subject: [PULL 01/57] hw/arm/aspeed: Remove extraneous MemoryRegion object
+ owner
+Date: Fri, 26 Jun 2020 16:13:28 +0100
+Message-Id: <20200626151424.30117-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
+References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,8 +73,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,121 +90,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly this is RTH's memtag series, but there are also some cleanups
-from Philippe.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-thanks
--- PMM
+I'm confused by this code, 'bmc' is created as:
 
-The following changes since commit 10f7ffabf9c507fc02382b89912003b1c43c3231:
+  bmc = g_new0(AspeedBoardState, 1);
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-macppc-20200626' into staging (2020-06-26 12:14:18 +0100)
+Then we use it as QOM owner for different MemoryRegion objects.
+But looking at memory_region_init_ram (similarly for ROM):
 
-are available in the Git repository at:
+  void memory_region_init_ram(MemoryRegion *mr,
+                              struct Object *owner,
+                              const char *name,
+                              uint64_t size,
+                              Error **errp)
+  {
+      DeviceState *owner_dev;
+      Error *err = NULL;
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200626
+      memory_region_init_ram_nomigrate(mr, owner, name, size, &err);
+      if (err) {
+          error_propagate(errp, err);
+          return;
+      }
+      /* This will assert if owner is neither NULL nor a DeviceState.
+       * We only want the owner here for the purposes of defining a
+       * unique name for migration. TODO: Ideally we should implement
+       * a naming scheme for Objects which are not DeviceStates, in
+       * which case we can relax this restriction.
+       */
+      owner_dev = DEVICE(owner);
+      vmstate_register_ram(mr, owner_dev);
+  }
 
-for you to fetch changes up to c7459633baa71d1781fde4a245d6ec9ce2f008cf:
+The expected assertion is not triggered ('bmc' is not NULL neither
+a DeviceState).
 
-  target/arm: Enable MTE (2020-06-26 14:32:24 +0100)
+'bmc' structure is defined as:
 
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/aspeed: improve QOM usage
- * hw/misc/pca9552: trace GPIO change events
- * target/arm: Implement ARMv8.5-MemTag for system emulation
+  struct AspeedBoardState {
+      AspeedSoCState soc;
+      MemoryRegion ram_container;
+      MemoryRegion max_ram;
+  };
 
-----------------------------------------------------------------
-Philippe Mathieu-Daudé (12):
-      hw/arm/aspeed: Remove extraneous MemoryRegion object owner
-      hw/arm/aspeed: Rename AspeedBoardState as AspeedMachineState
-      hw/arm/aspeed: QOM'ify AspeedMachineState
-      hw/i2c/core: Add i2c_try_create_slave() and i2c_realize_and_unref()
-      hw/misc/pca9552: Rename 'nr_leds' as 'pin_count'
-      hw/misc/pca9552: Rename generic code as pca955x
-      hw/misc/pca9552: Add generic PCA955xClass, parent of TYPE_PCA9552
-      hw/misc/pca9552: Add a 'description' property for debugging purpose
-      hw/misc/pca9552: Trace GPIO High/Low events
-      hw/arm/aspeed: Describe each PCA9552 device
-      hw/misc/pca9552: Trace GPIO change events
-      hw/misc/pca9552: Model qdev output GPIOs
+What happens is when using 'OBJECT(bmc)', the QOM macros cast the
+memory pointed by bmc, which first member is 'soc', which is
+initialized ...:
 
-Richard Henderson (45):
-      target/arm: Add isar tests for mte
-      target/arm: Improve masking of SCR RES0 bits
-      target/arm: Add support for MTE to SCTLR_ELx
-      target/arm: Add support for MTE to HCR_EL2 and SCR_EL3
-      target/arm: Rename DISAS_UPDATE to DISAS_UPDATE_EXIT
-      target/arm: Add DISAS_UPDATE_NOCHAIN
-      target/arm: Add MTE system registers
-      target/arm: Add MTE bits to tb_flags
-      target/arm: Implement the IRG instruction
-      target/arm: Revise decoding for disas_add_sub_imm
-      target/arm: Implement the ADDG, SUBG instructions
-      target/arm: Implement the GMI instruction
-      target/arm: Implement the SUBP instruction
-      target/arm: Define arm_cpu_do_unaligned_access for user-only
-      target/arm: Implement LDG, STG, ST2G instructions
-      target/arm: Implement the STGP instruction
-      target/arm: Restrict the values of DCZID.BS under TCG
-      target/arm: Simplify DC_ZVA
-      target/arm: Implement the LDGM, STGM, STZGM instructions
-      target/arm: Implement the access tag cache flushes
-      target/arm: Move regime_el to internals.h
-      target/arm: Move regime_tcr to internals.h
-      target/arm: Add gen_mte_check1
-      target/arm: Add gen_mte_checkN
-      target/arm: Implement helper_mte_check1
-      target/arm: Implement helper_mte_checkN
-      target/arm: Add helper_mte_check_zva
-      target/arm: Use mte_checkN for sve unpredicated loads
-      target/arm: Use mte_checkN for sve unpredicated stores
-      target/arm: Use mte_check1 for sve LD1R
-      target/arm: Tidy trans_LD1R_zpri
-      target/arm: Add arm_tlb_bti_gp
-      target/arm: Add mte helpers for sve scalar + int loads
-      target/arm: Add mte helpers for sve scalar + int stores
-      target/arm: Add mte helpers for sve scalar + int ff/nf loads
-      target/arm: Handle TBI for sve scalar + int memory ops
-      target/arm: Add mte helpers for sve scatter/gather memory ops
-      target/arm: Complete TBI clearing for user-only for SVE
-      target/arm: Implement data cache set allocation tags
-      target/arm: Set PSTATE.TCO on exception entry
-      target/arm: Always pass cacheattr to get_phys_addr
-      target/arm: Cache the Tagged bit for a page in MemTxAttrs
-      target/arm: Create tagged ram when MTE is enabled
-      target/arm: Add allocation tag storage for system mode
-      target/arm: Enable MTE
+  object_initialize_child(OBJECT(machine), "soc",
+                          &bmc->soc, amc->soc_name);
 
- include/hw/arm/aspeed.h        |   12 +-
- include/hw/i2c/i2c.h           |    2 +
- include/hw/misc/pca9552.h      |   16 +-
- target/arm/cpu.h               |   50 +-
- target/arm/helper-a64.h        |   16 +
- target/arm/helper-sve.h        |  488 ++++++++++++++
- target/arm/helper.h            |    2 +
- target/arm/internals.h         |  153 ++++-
- target/arm/translate-a64.h     |    5 +
- target/arm/translate.h         |   23 +-
- hw/arm/aspeed.c                |   46 +-
- hw/arm/virt.c                  |   55 +-
- hw/i2c/core.c                  |   18 +-
- hw/misc/pca9552.c              |  216 +++++--
- target/arm/cpu.c               |   81 ++-
- target/arm/cpu64.c             |    5 +
- target/arm/helper-a64.c        |   94 +--
- target/arm/helper.c            |  423 ++++++++++---
- target/arm/m_helper.c          |   11 +-
- target/arm/mte_helper.c        |  906 ++++++++++++++++++++++++++
- target/arm/op_helper.c         |   16 +
- target/arm/sve_helper.c        |  616 ++++++++++++++----
- target/arm/tlb_helper.c        |   13 +-
- target/arm/translate-a64.c     |  657 ++++++++++++++++---
- target/arm/translate-sve.c     | 1366 ++++++++++++++++++++++++++--------------
- target/arm/translate-vfp.inc.c |    4 +-
- target/arm/translate.c         |   16 +-
- hw/misc/trace-events           |    4 +
- target/arm/Makefile.objs       |    1 +
- 29 files changed, 4391 insertions(+), 924 deletions(-)
- create mode 100644 target/arm/mte_helper.c
+The 'soc' object is indeed a DeviceState, so the assertion passes.
+
+Since this is fragile and only happens to work by luck, remove the
+dangerous OBJECT(bmc) owner argument.
+
+Note, this probably breaks migration for this machine.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200623072132.2868-2-f4bug@amsat.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/aspeed.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 863757e1f03..167fd5ed1c7 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -329,12 +329,12 @@ static void aspeed_machine_init(MachineState *machine)
+          * needed by the flash modules of the Aspeed machines.
+          */
+         if (ASPEED_MACHINE(machine)->mmio_exec) {
+-            memory_region_init_alias(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
++            memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
+                                      &fl->mmio, 0, fl->size);
+             memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+                                         boot_rom);
+         } else {
+-            memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
++            memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
+                                    fl->size, &error_abort);
+             memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+                                         boot_rom);
+@@ -345,7 +345,7 @@ static void aspeed_machine_init(MachineState *machine)
+     if (machine->kernel_filename && sc->num_cpus > 1) {
+         /* With no u-boot we must set up a boot stub for the secondary CPU */
+         MemoryRegion *smpboot = g_new(MemoryRegion, 1);
+-        memory_region_init_ram(smpboot, OBJECT(bmc), "aspeed.smpboot",
++        memory_region_init_ram(smpboot, NULL, "aspeed.smpboot",
+                                0x80, &error_abort);
+         memory_region_add_subregion(get_system_memory(),
+                                     AST_SMP_MAILBOX_BASE, smpboot);
+-- 
+2.20.1
+
 
