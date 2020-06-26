@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672BB20B46F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:24:19 +0200 (CEST)
-Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8477520B478
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:25:48 +0200 (CEST)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqDC-0000Tz-Da
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35760)
+	id 1joqEd-0003sX-He
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq48-0002Sx-AT
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:56 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33570)
+ id 1joq49-0002Ur-0F
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:57 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq46-0006QF-HJ
+ id 1joq47-0006Qb-D5
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:56 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id f18so1796338wrs.0
+Received: by mail-wm1-x331.google.com with SMTP id 17so9710624wmo.1
  for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8VSF8mtn2rKIPWEKD7pM39hWrvESRKdjWGtuiRVbIO0=;
- b=NZl9YFZRu9s+AV+U8EX1O6NaaSl9GYuJVY55d3FyrWWkm0CZ3NgXStjQGo+s7AnUHW
- kCuCdjzE8PayKAYxZ6vRR1whlBsgKBpN+BRkgWzKt+dD3vBL9Ne7bzgjMXmomUTAHvkz
- n4gcQ6TmZIA/17uKtUjNplKbKQtQxkmJUFsIJKLNmYGzI8tioDhI8TzLJtot73/52yvz
- b+bZlm5jF37uKDKJuFAydLcdfD/+SESGqbaFRRCW6gW/04iM/fOrAhRQC7wRnrdtos41
- IzW1lA7J+BmC2K6/CDHM3ufgto4uGOVoLaOM/yNHmEVLurAbaWWceCkMw///KyA51WWz
- hN+g==
+ bh=r2U9TX5zsESTYEbNur8CMT5Z/34UaA4R85ndNdp1sTE=;
+ b=YG0gHB02VYDuPPhpmE+0h5lVl06Fs9B3r3itF5NGmruW3B71nisjRTfs8yej6GqTki
+ H5NN5bfm0lTsMEoA8mBgDtXs6akXYKir6iKakfPfFBq1jGvc7+GwxEL+hyU6w5Il1tT7
+ 30UEbyNTegiooVvQEYvwRnutcunTy0VPXUE67s8u3a9FZgKs5R9hstmP0LTJkewXeTZ6
+ 0dLRu5HvKSLkW03lhIQrmL3S6lpRIMTdKhOA2vrrpQQ2qq3jUfajLrt7cwYLuCDI9cA0
+ 3bzPK6w+M6EXlqvNEETenMIotWNa19QuWXgDGhhQx/gXxeRbRhaEnIIQ3fqWVtgfpMit
+ tDgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8VSF8mtn2rKIPWEKD7pM39hWrvESRKdjWGtuiRVbIO0=;
- b=I6obyJSjDMfjypKzpJ/BrVHcHg0rD4kL3s1ye3ZNOLjIXcXmii0sezjHCwR7TwWtqS
- XOYRd4WdXQ/pp9n51VBd1IfX6AKmnjok1cnnVfxnP54YdYI8lf744A18ZMHkgcTvQphK
- 6F5XZTXjZxLNQd1yCJNX/F/aCYN66L62Q6WUic7MYTV9eE4vHIfk8UbgnI6joDgsMahO
- 1Fb/eWI5VNRxdXzmm6CeS8PMvA8RCuQADFW4VlSOA14TvyxY+7e1UAhuDWlo/65WfXlS
- dZ6+WMhcxsequE1/RooSjOhvklNFv2pOyhicz2qWosapq7Tp/YXqqKCSRS9cXb5mJ+Y/
- 7lNg==
-X-Gm-Message-State: AOAM531qaHtHY3IhppmWfmYQ/O6KIuftWbpDeVlWp663QWrZRrj5mEbT
- RnOBWlfMCg9vJQsQ3TDsSjxpxQk40hNEuQ==
-X-Google-Smtp-Source: ABdhPJz2U9FK5yCPdC6s6Xq8QttGqFwFlDNAD8EQ707CEJYBgti1kJS3Zt1oWQAGuYKNNpHwkg1hKg==
-X-Received: by 2002:adf:dc90:: with SMTP id r16mr4361009wrj.264.1593184492820; 
- Fri, 26 Jun 2020 08:14:52 -0700 (PDT)
+ bh=r2U9TX5zsESTYEbNur8CMT5Z/34UaA4R85ndNdp1sTE=;
+ b=pwggyOdq9e90GrH7FPUdPppBpScJvAPsnTSFMLH9jceqQcSSto37APdvYZgeBDeBpP
+ LiSLsjv1ibmJbyI8hr7x8G31HjPDRZfQnxeZ0w2fByfBPG6BZSvCHYMyTyj3XvfDq5VQ
+ UQE/2FsmtHX20ztOlt2yAKB/yP8IOwlIF/ANuSD5v7bO7NjAYo1Lsa20aWomdIdeDtCf
+ Xmrq9S2Wli0XwlNF4dPSahvKIgacy18oDONXi+1LsjHDECkLz5E6jei5cKYWpTjwrZo3
+ TY00/X6csfZs9RDGyYxYALliJXVSwouY2S7SjWi5xKoqeHgmPYEIJtyztYBgirUyZISV
+ WALg==
+X-Gm-Message-State: AOAM53170PoaXhNupyRMtmL5b0/YpcnOm1HlnPr6PM/4ChvESIQKNytu
+ KyBKWnq8WHNrwF8l0gzgzna37JCOcxTOdQ==
+X-Google-Smtp-Source: ABdhPJxCN51B3o6M1MbJI7NggTpZ1L4XiZJ6SJYt1uxO7uidOUE8h9jN2OIfcoEZiM0jWz27VUcQ/Q==
+X-Received: by 2002:a1c:4185:: with SMTP id o127mr3928795wma.8.1593184493791; 
+ Fri, 26 Jun 2020 08:14:53 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.51
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:52 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:53 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/57] target/arm: Implement the ADDG, SUBG instructions
-Date: Fri, 26 Jun 2020 16:13:50 +0100
-Message-Id: <20200626151424.30117-24-peter.maydell@linaro.org>
+Subject: [PULL 24/57] target/arm: Implement the GMI instruction
+Date: Fri, 26 Jun 2020 16:13:51 +0100
+Message-Id: <20200626151424.30117-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,130 +92,37 @@ From: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200626033144.790098-12-richard.henderson@linaro.org
+Message-id: 20200626033144.790098-13-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-a64.h    |  1 +
- target/arm/internals.h     |  9 +++++++
- target/arm/mte_helper.c    | 10 ++++++++
- target/arm/translate-a64.c | 51 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 71 insertions(+)
+ target/arm/translate-a64.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
-index 587ccbe42ff..6c116481e8f 100644
---- a/target/arm/helper-a64.h
-+++ b/target/arm/helper-a64.h
-@@ -105,3 +105,4 @@ DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
- DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
- 
- DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_4(addsubg, TCG_CALL_NO_RWG_SE, i64, env, i64, s32, i32)
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index ae611a6ff5d..5c69d4e5a56 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1261,6 +1261,15 @@ void arm_log_exception(int idx);
-  */
- #define GMID_EL1_BS  6
- 
-+/* We associate one allocation tag per 16 bytes, the minimum.  */
-+#define LOG2_TAG_GRANULE 4
-+#define TAG_GRANULE      (1 << LOG2_TAG_GRANULE)
-+
-+static inline int allocation_tag_from_addr(uint64_t ptr)
-+{
-+    return extract64(ptr, 56, 4);
-+}
-+
- static inline uint64_t address_with_allocation_tag(uint64_t ptr, int rtag)
- {
-     return deposit64(ptr, 56, 4, rtag);
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 539a04de84b..9ab9ed749d8 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -70,3 +70,13 @@ uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
- 
-     return address_with_allocation_tag(rn, rtag);
- }
-+
-+uint64_t HELPER(addsubg)(CPUARMState *env, uint64_t ptr,
-+                         int32_t offset, uint32_t tag_offset)
-+{
-+    int start_tag = allocation_tag_from_addr(ptr);
-+    uint16_t exclude = extract32(env->cp15.gcr_el1, 0, 16);
-+    int rtag = choose_nonexcluded_tag(start_tag, tag_offset, exclude);
-+
-+    return address_with_allocation_tag(ptr + offset, rtag);
-+}
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 03aa0925983..2ec02c8a5f3 100644
+index 2ec02c8a5f3..ee9dfa8e439 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -3808,6 +3808,54 @@ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
-     tcg_temp_free_i64(tcg_result);
- }
- 
-+/*
-+ * Add/subtract (immediate, with tags)
-+ *
-+ *  31 30 29 28         23 22 21     16 14      10 9   5 4   0
-+ * +--+--+--+-------------+--+---------+--+-------+-----+-----+
-+ * |sf|op| S| 1 0 0 0 1 1 |o2|  uimm6  |o3| uimm4 |  Rn | Rd  |
-+ * +--+--+--+-------------+--+---------+--+-------+-----+-----+
-+ *
-+ *    op: 0 -> add, 1 -> sub
-+ */
-+static void disas_add_sub_imm_with_tags(DisasContext *s, uint32_t insn)
-+{
-+    int rd = extract32(insn, 0, 5);
-+    int rn = extract32(insn, 5, 5);
-+    int uimm4 = extract32(insn, 10, 4);
-+    int uimm6 = extract32(insn, 16, 6);
-+    bool sub_op = extract32(insn, 30, 1);
-+    TCGv_i64 tcg_rn, tcg_rd;
-+    int imm;
-+
-+    /* Test all of sf=1, S=0, o2=0, o3=0.  */
-+    if ((insn & 0xa040c000u) != 0x80000000u ||
-+        !dc_isar_feature(aa64_mte_insn_reg, s)) {
-+        unallocated_encoding(s);
-+        return;
-+    }
-+
-+    imm = uimm6 << LOG2_TAG_GRANULE;
-+    if (sub_op) {
-+        imm = -imm;
-+    }
-+
-+    tcg_rn = cpu_reg_sp(s, rn);
-+    tcg_rd = cpu_reg_sp(s, rd);
-+
-+    if (s->ata) {
-+        TCGv_i32 offset = tcg_const_i32(imm);
-+        TCGv_i32 tag_offset = tcg_const_i32(uimm4);
-+
-+        gen_helper_addsubg(tcg_rd, cpu_env, tcg_rn, offset, tag_offset);
-+        tcg_temp_free_i32(tag_offset);
-+        tcg_temp_free_i32(offset);
-+    } else {
-+        tcg_gen_addi_i64(tcg_rd, tcg_rn, imm);
-+        gen_address_with_allocation_tag0(tcg_rd, tcg_rd);
-+    }
-+}
-+
- /* The input should be a value in the bottom e bits (with higher
-  * bits zero); returns that value replicated into every element
-  * of size e in a 64 bit integer.
-@@ -4170,6 +4218,9 @@ static void disas_data_proc_imm(DisasContext *s, uint32_t insn)
-     case 0x22: /* Add/subtract (immediate) */
-         disas_add_sub_imm(s, insn);
+@@ -5346,6 +5346,21 @@ static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
+                                              cpu_reg_sp(s, rn));
+         }
          break;
-+    case 0x23: /* Add/subtract (immediate, with tags) */
-+        disas_add_sub_imm_with_tags(s, insn);
++    case 5: /* GMI */
++        if (sf == 0 || !dc_isar_feature(aa64_mte_insn_reg, s)) {
++            goto do_unallocated;
++        } else {
++            TCGv_i64 t1 = tcg_const_i64(1);
++            TCGv_i64 t2 = tcg_temp_new_i64();
++
++            tcg_gen_extract_i64(t2, cpu_reg_sp(s, rn), 56, 4);
++            tcg_gen_shl_i64(t1, t1, t2);
++            tcg_gen_or_i64(cpu_reg(s, rd), cpu_reg(s, rm), t1);
++
++            tcg_temp_free_i64(t1);
++            tcg_temp_free_i64(t2);
++        }
 +        break;
-     case 0x24: /* Logical (immediate) */
-         disas_logic_imm(s, insn);
+     case 8: /* LSLV */
+         handle_shift_reg(s, A64_SHIFT_TYPE_LSL, sf, rm, rn, rd);
          break;
 -- 
 2.20.1
