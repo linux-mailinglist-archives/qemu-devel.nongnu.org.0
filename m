@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5B220AB0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:59:28 +0200 (CEST)
-Received: from localhost ([::1]:54072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D7020AAF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:52:49 +0200 (CEST)
+Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofWR-0004OK-Ml
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42888)
+	id 1jofQ0-0001Tj-IB
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6Y-0001HI-TP
+ id 1jof6Y-0001FP-7j
  for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:42 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42031)
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:51881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6V-00025s-Am
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:42 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b5so4050309pfp.9
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:38 -0700 (PDT)
+ id 1jof6W-00026S-Ei
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:41 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id l6so1327641pjq.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3GLkukFRFNUJ3dp50WZNEvNqQ9MQfmMd/OfAXS3PDtA=;
- b=aVuSM8iO0IGqBUEqC0YyOgFaWYN7UVoP3bP1m/AQnjqTHU2F5W5L4bjFh48y092Hzw
- wS69sa2IO2aaChJIj9BY/AhCVQ+RWH4aFhZuad7JXosb7gd6gL+10DIHvji2DDnTDeS9
- MNS6HP1bb4IjWazg3E8xRmKAbSt63/oKprsec4THUk0mciMfcK08zJCYZPpukhMriKlc
- 2ZWplBalntDlR55TcoOfLZrBoQ8IGvBUNQifxGNv+in4vly9uSEiu5gKEsgb3wf4SfCe
- mfuSD9iEa/Ydh6sIojlLutzK0JossfgcANSjTU+GrK0VYcQ9q8ys9ZaoqiXNp4aSAWrF
- 83Pw==
+ bh=zleS2QR+lFAdTaTiZt51fC/IOMo1sfVsNhWWJdJDQys=;
+ b=gYFxa8NuB2mYtUFTWDBAVaIz6bOCh6uFZoM2ePNF4ua8IT/81vvxe44MKjuBWqBDR4
+ qHTLhNM2Et6I3FICmaBJEDclG6zr9gL0gZFHaqsI8gp3P9il8iuXLLQ4eGr6/96KvhTD
+ tKy+tsKsjklxKBESDlhVUDVtgn+GhYIgkUId3fxqAPLoPV//+ux5KPxCLuEGkmflUxzs
+ LavZyXA6vDDEJCVGNTkzX/o1IDqKtuAnOgVUPOLF9b8W7ZM3IZVjkmsaxIOTFVRmpT+E
+ nXvcX5kHJ5RmLLxPqUC/TnE7aDK4V5tFmoFCMej2mUJabtqVQtVqTCO2WCrfYprnU2x6
+ s+vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3GLkukFRFNUJ3dp50WZNEvNqQ9MQfmMd/OfAXS3PDtA=;
- b=ixlnv13wkJnsvn7K1+0SA5xAGa6XoLjYVoWqb4uNJ86lDn05DDRdNv93bJlijpJ4bk
- GzSJc+k+HLJh1ciufoE9cs6BdOOs7ei+Slvcq3ZCu2dXFC7cPv5Y+6+kS9IkoFY0FWDZ
- gUdjfLRe6Ao+VU/gcK7aEa3FjOfV+BGxF1d7rYqO/Du6obUMOSxpbXV7LYDnYcNavhIe
- VbB5kOutmzRssyuh4bNGtBlWmRLagPpFTrJOpdpmBQrnBIBrgiIe/+VjFsWNUNKb5ddT
- k6HqwXisImJOhZLsmMpmSegxM2S7edKLXB/AfkdsgWnWBO0gAHpz6uReFkI7x7t+2m9W
- W7Rw==
-X-Gm-Message-State: AOAM530KWIBxGCPyrqcwkFoPvThQGiU2YokUU5Jn06xgv0ene8ScL6Ri
- ekaIbJQM6dRnTDKjMwDigaxHf/ZK5/A=
-X-Google-Smtp-Source: ABdhPJxEeYzw+GoK1wfuJhH5ypl1eBCJl4y9OIw2qRiVB5QxNt8RIvx79FRdB4hE/cXeNkGngv062Q==
-X-Received: by 2002:a63:c58:: with SMTP id 24mr888373pgm.343.1593142357597;
- Thu, 25 Jun 2020 20:32:37 -0700 (PDT)
+ bh=zleS2QR+lFAdTaTiZt51fC/IOMo1sfVsNhWWJdJDQys=;
+ b=untqzEV98MPWY+/NpMMtej5E03qfAVh99DSrmAp23ONHvq8gkd8hxrwdCw0toU3QHM
+ UJhXgTITaAiOiGTBRl1yUUetRJsRwvVpTGcT0LNlYU1QKo8Ds4oBnedhaTSG+s+3gUtL
+ iCCi0vD2CtER2G0fRN8JLBcLOGiPB6WGxcXEW+/fHOgQ0UwkeoHl0L4o6c4z3ZEaHwOU
+ VeX3yOP5/mzNfrY8jZiRGXh5b3cxSxtr8w0phXIE//psyqkkyTrFsTKTOiO8SpPqCOj1
+ NM7pcZJnWk4JsDoArfy/171h+D62VmF5nCWlv2TYtrnH7O58kJ/IRWah4bQVSJqjlLju
+ o8+g==
+X-Gm-Message-State: AOAM530gjFkbTFjbsJKN3Notz7yc+uaCg5+eN1nvJxETt/rA3KId/Rmw
+ KgAgq1UGStfXuDJXv6DnJPRsaqgrCHk=
+X-Google-Smtp-Source: ABdhPJyJeTadIcKspDiGrUT24TAEgve4dHjdLuidDO6tUtIlKpGTQ7FHhg7Ks4SKmnv76CVokfPepg==
+X-Received: by 2002:a17:90a:fe0c:: with SMTP id
+ ck12mr1206712pjb.209.1593142358824; 
+ Thu, 25 Jun 2020 20:32:38 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.36
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 20:32:36 -0700 (PDT)
+ Thu, 25 Jun 2020 20:32:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 38/46] target/arm: Complete TBI clearing for user-only for
- SVE
-Date: Thu, 25 Jun 2020 20:31:36 -0700
-Message-Id: <20200626033144.790098-39-richard.henderson@linaro.org>
+Subject: [PATCH v9 39/46] target/arm: Implement data cache set allocation tags
+Date: Thu, 25 Jun 2020 20:31:37 -0700
+Message-Id: <20200626033144.790098-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
 References: <20200626033144.790098-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,102 +91,113 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are a number of paths by which the TBI is still intact
-for user-only in the SVE helpers.
-
-Because we currently always set TBI for user-only, we do not
-need to pass down the actual TBI setting from above, and we
-can remove the top byte in the inner-most primitives, so that
-none are forgotten.  Moreover, this keeps the "dirty" pointer
-around at the higher levels, where we need it for any MTE checking.
-
-Since the normal case, especially for user-only, goes through
-RAM, this clearing merely adds two insns per page lookup, which
-will be completely in the noise.
+This is DC GVA and DC GZVA, and the tag check for DC ZVA.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v9: Added an assert for tbi in aarch64_tr_init_disas_context (pmm)
+v2: Use allocation_tag_mem + memset.
+v3: Require pre-cleaned addresses.
+v6: Move DCZ block size assert to cpu realize.
+    Perform a tag check for DC ZVA.
 ---
- target/arm/cpu.c           |  3 +++
- target/arm/sve_helper.c    | 19 +++++++++++++++++--
- target/arm/translate-a64.c |  5 +++++
- 3 files changed, 25 insertions(+), 2 deletions(-)
+ target/arm/cpu.h           |  4 +++-
+ target/arm/helper.c        | 16 ++++++++++++++++
+ target/arm/translate-a64.c | 39 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 58 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d9876337c0..afe81e9b6c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -203,6 +203,9 @@ static void arm_cpu_reset(DeviceState *dev)
-          * Enable TBI0 and TBI1.  While the real kernel only enables TBI0,
-          * turning on both here will produce smaller code and otherwise
-          * make no difference to the user-level emulation.
-+         *
-+         * In sve_probe_page, we assume that this is set.
-+         * Do not modify this without other changes.
-          */
-         env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
- #else
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index ad974c2cc5..382fa82bc8 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -3966,14 +3966,16 @@ static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
- static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
-                              target_ulong addr, uintptr_t ra)               \
- {                                                                           \
--    *(TYPEE *)(vd + H(reg_off)) = (TYPEM)TLB(env, addr, ra);                \
-+    *(TYPEE *)(vd + H(reg_off)) =                                           \
-+        (TYPEM)TLB(env, useronly_clean_ptr(addr), ra);                      \
- }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 3bf0518ca4..513c38970c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2360,7 +2360,9 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+ #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
+ #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
+ #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
+-#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
++#define ARM_CP_DC_GVA            (ARM_CP_SPECIAL | 0x0600)
++#define ARM_CP_DC_GZVA           (ARM_CP_SPECIAL | 0x0700)
++#define ARM_LAST_SPECIAL         ARM_CP_DC_GZVA
+ #define ARM_CP_FPU               0x1000
+ #define ARM_CP_SVE               0x2000
+ #define ARM_CP_NO_GDB            0x4000
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 44a3f9fb48..23cf44fcf4 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6998,6 +6998,22 @@ static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
+       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 5,
+       .type = ARM_CP_NOP, .access = PL0_W,
+       .accessfn = aa64_cacheop_poc_access },
++    { .name = "DC_GVA", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 4, .opc2 = 3,
++      .access = PL0_W, .type = ARM_CP_DC_GVA,
++#ifndef CONFIG_USER_ONLY
++      /* Avoid overhead of an access check that always passes in user-mode */
++      .accessfn = aa64_zva_access,
++#endif
++    },
++    { .name = "DC_GZVA", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 4, .opc2 = 4,
++      .access = PL0_W, .type = ARM_CP_DC_GZVA,
++#ifndef CONFIG_USER_ONLY
++      /* Avoid overhead of an access check that always passes in user-mode */
++      .accessfn = aa64_zva_access,
++#endif
++    },
+     REGINFO_SENTINEL
+ };
  
- #define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB) \
- static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
-                              target_ulong addr, uintptr_t ra)               \
- {                                                                           \
--    TLB(env, addr, (TYPEM)*(TYPEE *)(vd + H(reg_off)), ra);                 \
-+    TLB(env, useronly_clean_ptr(addr),                                      \
-+        (TYPEM)*(TYPEE *)(vd + H(reg_off)), ra);                            \
- }
- 
- #define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
-@@ -4091,6 +4093,19 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
-     int flags;
- 
-     addr += mem_off;
-+
-+    /*
-+     * User-only currently always issues with TBI.  See the comment
-+     * above useronly_clean_ptr.  Usually we clean this top byte away
-+     * during translation, but we can't do that for e.g. vector + imm
-+     * addressing modes.
-+     *
-+     * We currently always enable TBI for user-only, and do not provide
-+     * a way to turn it off.  So clean the pointer unconditionally here,
-+     * rather than look it up here, or pass it down from above.
-+     */
-+    addr = useronly_clean_ptr(addr);
-+
-     flags = probe_access_flags(env, addr, access_type, mmu_idx, nofault,
-                                &info->host, retaddr);
-     info->flags = flags;
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index e46c4a49e0..c20af6ee9d 100644
+index c20af6ee9d..73d753f11f 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -14634,6 +14634,11 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->features = env->features;
-     dc->dcz_blocksize = arm_cpu->dcz_blocksize;
- 
-+#ifdef CONFIG_USER_ONLY
-+    /* In sve_probe_page, we assume TBI is enabled. */
-+    tcg_debug_assert(dc->tbid & 1);
-+#endif
+@@ -1874,6 +1874,45 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         }
+         gen_helper_dc_zva(cpu_env, tcg_rt);
+         return;
++    case ARM_CP_DC_GVA:
++        {
++            TCGv_i64 clean_addr, tag;
 +
-     /* Single step state. The code-generation logic here is:
-      *  SS_ACTIVE == 0:
-      *   generate code with no special handling for single-stepping (except
++            /*
++             * DC_GVA, like DC_ZVA, requires that we supply the original
++             * pointer for an invalid page.  Probe that address first.
++             */
++            tcg_rt = cpu_reg(s, rt);
++            clean_addr = clean_data_tbi(s, tcg_rt);
++            gen_probe_access(s, clean_addr, MMU_DATA_STORE, MO_8);
++
++            if (s->ata) {
++                /* Extract the tag from the register to match STZGM.  */
++                tag = tcg_temp_new_i64();
++                tcg_gen_shri_i64(tag, tcg_rt, 56);
++                gen_helper_stzgm_tags(cpu_env, clean_addr, tag);
++                tcg_temp_free_i64(tag);
++            }
++        }
++        return;
++    case ARM_CP_DC_GZVA:
++        {
++            TCGv_i64 clean_addr, tag;
++
++            /* For DC_GZVA, we can rely on DC_ZVA for the proper fault. */
++            tcg_rt = cpu_reg(s, rt);
++            clean_addr = clean_data_tbi(s, tcg_rt);
++            gen_helper_dc_zva(cpu_env, clean_addr);
++
++            if (s->ata) {
++                /* Extract the tag from the register to match STZGM.  */
++                tag = tcg_temp_new_i64();
++                tcg_gen_shri_i64(tag, tcg_rt, 56);
++                gen_helper_stzgm_tags(cpu_env, clean_addr, tag);
++                tcg_temp_free_i64(tag);
++            }
++        }
++        return;
+     default:
+         break;
+     }
 -- 
 2.25.1
 
