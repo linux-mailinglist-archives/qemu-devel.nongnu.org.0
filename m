@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C252A20B3B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:37:18 +0200 (CEST)
-Received: from localhost ([::1]:39418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8BA20B3AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:36:44 +0200 (CEST)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jopTh-0001ef-NH
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51732)
+	id 1jopT9-0000wu-Q9
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jopPd-0006KV-EY
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:33:05 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jopPb-0004oH-OL
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:33:05 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 72so8812422otc.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 07:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nX6X95UqvlMI7EQX5jPP5U8M/5fPDmbMAURaJJ6lOLc=;
- b=jECW8HyGK5owBpVJAvP64CR7uOKXbeVQ4xwt9Btohk7lH0d1VYnRYdKjqO01FtL5vl
- LitWMyifixj9l3YniwkMj/5QOOiB9wh2zEB9rYIAcZRzK6kJBi3hRsbZbPkIrzLd8x4x
- xJYCwoItua43uDzjVqKQNi1KlqugiwnyeqnMR6poc8jLy34Wt5dA9J6yDPaJ6BSOIQdh
- EgSv3twfOUHlRLP/PewG342ktLthCCjAMZmWDYCI5INOp5DYjg+PNHbIVN4jvNnQm3vN
- j6b8Jh0mWLFmRoWi7L85y2zHD7EkZ1uIcw5K52EVK7hhEd7DM2czKCG8EaVeDWfDuoY6
- C3Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nX6X95UqvlMI7EQX5jPP5U8M/5fPDmbMAURaJJ6lOLc=;
- b=XXJt76eKFXHbULRMiROXzEO57JHi9QTgxGv6x84j1Cmdt9lfmu+EzrqwbD2nJvGhOK
- 3b5uI2UK/sFI5hq3c93e08EjNJHSIaYJ4dkUZkjyo27hPjgkgivG3kX41T2kqtKm80I1
- K5szkY7VZRr2ppt/J7pgBbtznSb9w3sQ2WH/8K/nLAG+e2D9EfxXtyo+KYvf0A73KMxG
- YogeyZvxa0OyQomSj3KC4wN/8I3QYDgYVJmBQgq6bLf9MtYW0RwdrXwB8+d+SN4MGJTx
- +Rqg8XW4C7UqA4OwRP0+ON0MDiudpxh3lON9llydPbrw1PueDPT0cYq5/l1f+vXvLgar
- hlTw==
-X-Gm-Message-State: AOAM53100kUHRcTm5LqC//ZM+zJbW7y7KkikJ8XNCF3ytF+5hk7r6dh4
- B5TwL7I3ekH55uhE7iJjEqFJn76geeJaTUQXqlhesA==
-X-Google-Smtp-Source: ABdhPJyzxen1/ysk6PxS3uaywQeWXbYvd5IEKaIrKO3y1qHH6nNOz0v/LXRjqF5T6Pp1JEksicenxSCyEJSZ0FYAPRs=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr31007ota.91.1593181982365; 
- Fri, 26 Jun 2020 07:33:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jopRQ-00080H-TO
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:34:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58729
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jopRO-0005YU-QU
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:34:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593182093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5TLD6AvWEM8BgU7QIHSuZb9g2i6j8DgTLgkkhv02194=;
+ b=QlCa+3+81mqAxpLBxysBQNqBidR5cnoTarzpAQJxEri/4L2pXId7Tje3f2DD8dw1Ehtxl5
+ Lo5covzKRVmLyiDfSHOAm131a90s7jViKxSLGMEKEDUNnyBSoSJep1bFjBHM8+jZrm4N06
+ 2v4vrTXiefob5Tday7YslYFRBGPBCxY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63--rianGpjNwWscTy_cOvIJA-1; Fri, 26 Jun 2020 10:34:51 -0400
+X-MC-Unique: -rianGpjNwWscTy_cOvIJA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BA57805EE3;
+ Fri, 26 Jun 2020 14:34:50 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FCEE8FF83;
+ Fri, 26 Jun 2020 14:34:47 +0000 (UTC)
+Subject: Re: [PATCH] migration/block-dirty-bitmap: fix add_bitmaps_to_list
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200626130658.76498-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <20eed09c-f667-ab71-9d1a-a08c0c9d6a65@redhat.com>
+Date: Fri, 26 Jun 2020 09:34:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <CA+XhMqwDLw2BJ9Cf0kEyUW+J+rTPOOvebRPPkBSiWdD50wct5Q@mail.gmail.com>
- <CAFEAcA8mpiPcwgz9-7c0GgSWz2hujzegOBvHn5qasCBtuyG8ww@mail.gmail.com>
- <CA+XhMqwyRmQ7Dtawm4tMEMRJ9EEfxep8WC6qSRCEC_WyUptG-g@mail.gmail.com>
-In-Reply-To: <CA+XhMqwyRmQ7Dtawm4tMEMRJ9EEfxep8WC6qSRCEC_WyUptG-g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Jun 2020 15:32:51 +0100
-Message-ID: <CAFEAcA-fj++yDKCbvfXWduVxTPsAhSkFKpEHcvcCvpdO8H0Cdg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] haiku build fix second batch
-To: David CARLIER <devnexen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200626130658.76498-1-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,19 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Jun 2020 at 15:10, David CARLIER <devnexen@gmail.com> wrote:
->
-> I sent again minux the ones already approved.
+On 6/26/20 8:06 AM, Vladimir Sementsov-Ogievskiy wrote:
+> We shouldn't fail, if found unnamed bitmap in a unnamed node or node
 
-Sorry, I intended that you should send the whole
-series, including the ones which I've reviewed.
-(Where I gave a reviewed-by tag, include that
-tag in the commit message when you resend the patch.)
+We shouldn't fail when finding an unnamed
 
-thanks
--- PMM
+> with auto-generated node name, as bitmap migration ignores such bitmaps
+> at all.
+
+such bitmaps in the first place.
+
+> 
+> Fixes: 82640edb88faa
+> Fixes: 4ff5cc121b089
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   migration/block-dirty-bitmap.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Will queue through the bitmaps tree.
+
+Is this easy enough to reproduce that it would be worth having iotest 
+coverage?
+
+> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+> index 47bc0f650c..b0dbf9eeed 100644
+> --- a/migration/block-dirty-bitmap.c
+> +++ b/migration/block-dirty-bitmap.c
+> @@ -274,7 +274,11 @@ static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
+>       DirtyBitmapMigBitmapState *dbms;
+>       Error *local_err = NULL;
+>   
+> -    bitmap = bdrv_dirty_bitmap_first(bs);
+> +    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
+> +        if (bdrv_dirty_bitmap_name(bitmap)) {
+> +            break;
+> +        }
+> +    }
+>       if (!bitmap) {
+>           return 0;
+>       }
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
