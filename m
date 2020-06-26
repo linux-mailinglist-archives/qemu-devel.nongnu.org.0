@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2273220AD15
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:27:19 +0200 (CEST)
-Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8D920AD23
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:29:10 +0200 (CEST)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joila-0005Eo-4x
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
+	id 1joinN-00009z-MS
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiL-0008NF-9F
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiL-0008Of-T6
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:23:57 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26543
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31362
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiI-0003QG-By
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:23:56 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiK-0003Qf-7m
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:23:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593156233;
+ s=mimecast20190719; t=1593156235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YGtscYE02ovFEJQV2k/q0RnteybdWD0PleR2p3WwxKg=;
- b=b8IVell0robaHUnmY2gGtGtHLLOfOwFvSem6hGDW2X9Uo8xnt2Pls2PoCBEHZUjiDy9iXs
- emFo0B1eIlrjz6Df1a751DEW4Hma/CKJ3H8Ob3DlE6e1y2AicMd90APAP6vw1iXoZC46Mn
- EA11ozl8RabDWDxOS1QmdmsOu8GcTsk=
+ bh=YT2Lfd7O+QVGQ8xv+hC3jhPD0m++9YaFVSyLU3va45M=;
+ b=URglxksR8bms/BZUnFC6mOZFL4A+OoP4O0UOnHR3R78LO5IdG8ZuklAoEvnj4PKbePam3c
+ 84bfpPgrJmB5l3idcvwWaAqbUIsatLNDMWj0QahMqNamX5L9S3j/o8gtQu5iZtzkhbifBR
+ gMpXY7pWZu1wlD6BjgTpUyjziICZIYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-P8CVEg5XP92mgBqIAWbjQA-1; Fri, 26 Jun 2020 03:23:50 -0400
-X-MC-Unique: P8CVEg5XP92mgBqIAWbjQA-1
+ us-mta-234-6vavMERPOVWwO-N-eZlSlg-1; Fri, 26 Jun 2020 03:23:53 -0400
+X-MC-Unique: 6vavMERPOVWwO-N-eZlSlg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0A94804001;
- Fri, 26 Jun 2020 07:23:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73C0EA0BD7;
+ Fri, 26 Jun 2020 07:23:52 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-35.ams2.redhat.com [10.36.113.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C92AB70915;
- Fri, 26 Jun 2020 07:23:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDEB41C8;
+ Fri, 26 Jun 2020 07:23:49 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 04/21] accel/kvm: Convert to ram_block_discard_disable()
-Date: Fri, 26 Jun 2020 09:22:31 +0200
-Message-Id: <20200626072248.78761-5-david@redhat.com>
+Subject: [PATCH v5 05/21] s390x/pv: Convert to ram_block_discard_disable()
+Date: Fri, 26 Jun 2020 09:22:32 +0200
+Message-Id: <20200626072248.78761-6-david@redhat.com>
 In-Reply-To: <20200626072248.78761-1-david@redhat.com>
 References: <20200626072248.78761-1-david@redhat.com>
 MIME-Version: 1.0
@@ -74,45 +74,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Janosch Frank <frankja@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Discarding memory does not work as expected. At the time this is called,
-we cannot have anyone active that relies on discards to work properly.
+Discarding RAM does not work as expected with protected VMs. Let's
+switch to ram_block_discard_disable() for now, as we want to get rid
+of qemu_balloon_inhibit(). Note that it will currently never fail, but
+might fail in the future with new technologies (e.g., virtio-mem).
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Janosch Frank <frankja@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- accel/kvm/kvm-all.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/s390x/s390-virtio-ccw.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index f24d7da783..4751ce67a9 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -40,7 +40,6 @@
- #include "trace.h"
- #include "hw/irq.h"
- #include "sysemu/sev.h"
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index b111406d56..023fd25f2b 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -43,7 +43,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/s390x/tod.h"
+ #include "sysemu/sysemu.h"
 -#include "sysemu/balloon.h"
- #include "qapi/visitor.h"
- #include "qapi/qapi-types-common.h"
- #include "qapi/qapi-visit-common.h"
-@@ -2222,7 +2221,8 @@ static int kvm_init(MachineState *ms)
+ #include "hw/s390x/pv.h"
+ #include "migration/blocker.h"
  
-     s->sync_mmu = !!kvm_vm_check_extension(kvm_state, KVM_CAP_SYNC_MMU);
-     if (!s->sync_mmu) {
--        qemu_balloon_inhibit(true);
-+        ret = ram_block_discard_disable(true);
-+        assert(!ret);
-     }
+@@ -329,7 +328,7 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
+     ms->pv = false;
+     migrate_del_blocker(pv_mig_blocker);
+     error_free_or_abort(&pv_mig_blocker);
+-    qemu_balloon_inhibit(false);
++    ram_block_discard_disable(false);
+ }
  
-     return 0;
+ static int s390_machine_protect(S390CcwMachineState *ms)
+@@ -338,17 +337,22 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+     int rc;
+ 
+    /*
+-    * Ballooning on protected VMs needs support in the guest for
+-    * sharing and unsharing balloon pages. Block ballooning for
+-    * now, until we have a solution to make at least Linux guests
+-    * either support it or fail gracefully.
++    * Discarding of memory in RAM blocks does not work as expected with
++    * protected VMs. Sharing and unsharing pages would be required. Disable
++    * it for now, until until we have a solution to make at least Linux
++    * guests either support it (e.g., virtio-balloon) or fail gracefully.
+     */
+-    qemu_balloon_inhibit(true);
++    rc = ram_block_discard_disable(true);
++    if (rc) {
++        error_report("protected VMs: cannot disable RAM discard");
++        return rc;
++    }
++
+     error_setg(&pv_mig_blocker,
+                "protected VMs are currently not migrateable.");
+     rc = migrate_add_blocker(pv_mig_blocker, &local_err);
+     if (rc) {
+-        qemu_balloon_inhibit(false);
++        ram_block_discard_disable(false);
+         error_report_err(local_err);
+         error_free_or_abort(&pv_mig_blocker);
+         return rc;
+@@ -357,7 +361,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+     /* Create SE VM */
+     rc = s390_pv_vm_enable();
+     if (rc) {
+-        qemu_balloon_inhibit(false);
++        ram_block_discard_disable(false);
+         migrate_del_blocker(pv_mig_blocker);
+         error_free_or_abort(&pv_mig_blocker);
+         return rc;
 -- 
 2.26.2
 
