@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A5220B2D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:46:37 +0200 (CEST)
-Received: from localhost ([::1]:40716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADC120B2DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:48:23 +0200 (CEST)
+Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jooge-0002ry-Fs
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:46:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38424)
+	id 1jooiM-0005Yt-SD
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolTN-0000N2-2d
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:41 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59494)
+ id 1jolTS-0000O5-MW
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:46 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:59536)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolTL-0000RQ-1A
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:40 -0400
+ id 1jolTQ-0000Tf-Pp
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:46 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4E7EC4089F08;
- Fri, 26 Jun 2020 10:20:37 +0000 (UTC)
-Subject: [PATCH 10/13] gdbstub: add reverse step support in replay mode
+ by mail.ispras.ru (Postfix) with ESMTPSA id E859E4089F09;
+ Fri, 26 Jun 2020 10:20:42 +0000 (UTC)
+Subject: [PATCH 11/13] gdbstub: add reverse continue support in replay mode
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jun 2020 13:20:37 +0300
-Message-ID: <159316683702.10508.7973844299019522260.stgit@pasha-ThinkPad-X280>
+Date: Fri, 26 Jun 2020 13:20:42 +0300
+Message-ID: <159316684270.10508.13920989386018312464.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -64,260 +64,196 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-GDB remote protocol supports two reverse debugging commands:
-reverse step and reverse continue.
-This patch adds support of the first one to the gdbstub.
-Reverse step is intended to step one instruction in the backwards
-direction. This is not possible in regular execution.
-But replayed execution is deterministic, therefore we can load one of
-the prior snapshots and proceed to the desired step. It is equivalent
-to stepping one instruction back.
-There should be at least one snapshot preceding the debugged part of
-the replay log.
+This patch adds support of the reverse continue operation for gdbstub.
+Reverse continue finds the last breakpoint that would happen in normal
+execution from the beginning to the current moment.
+Implementation of the reverse continue replays the execution twice:
+to find the breakpoints that were hit and to seek to the last breakpoint.
+Reverse continue loads the previous snapshot and tries to find the breakpoint
+since that moment. If there are no such breakpoints, it proceeds to
+the earlier snapshot, and so on. When no breakpoints or watchpoints were
+hit at all, execution stops at the beginning of the replay log.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
  0 files changed
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 603d17ff83..fb1e19c585 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -17,6 +17,7 @@
- #include "exec/log.h"
- #include "exec/translator.h"
- #include "exec/plugin-gen.h"
-+#include "sysemu/replay.h"
- 
- /* Pairs with tcg_clear_temp_count.
-    To be called by #TranslatorOps.{translate_insn,tb_stop} if
 diff --git a/cpus.c b/cpus.c
-index 41d1c5099f..35381ea941 100644
+index 35381ea941..6aed096eab 100644
 --- a/cpus.c
 +++ b/cpus.c
-@@ -1100,9 +1100,17 @@ static bool cpu_can_run(CPUState *cpu)
- 
- static void cpu_handle_guest_debug(CPUState *cpu)
- {
--    gdb_set_stop_cpu(cpu);
--    qemu_system_debug_request();
--    cpu->stopped = true;
-+    if (!replay_running_debug()) {
-+        gdb_set_stop_cpu(cpu);
-+        qemu_system_debug_request();
-+        cpu->stopped = true;
-+    } else {
-+        if (!cpu->singlestep_enabled) {
-+            cpu_single_step(cpu, SSTEP_ENABLE);
-+        } else {
-+            cpu_single_step(cpu, 0);
-+        }
-+    }
- }
- 
- #ifdef CONFIG_LINUX
+@@ -1106,6 +1106,11 @@ static void cpu_handle_guest_debug(CPUState *cpu)
+         cpu->stopped = true;
+     } else {
+         if (!cpu->singlestep_enabled) {
++            /*
++             * Report about the breakpoint and
++             * make a single step to skip it
++             */
++            replay_breakpoint();
+             cpu_single_step(cpu, SSTEP_ENABLE);
+         } else {
+             cpu_single_step(cpu, 0);
 diff --git a/exec.c b/exec.c
-index d6712fba7e..4bde79ea3b 100644
+index 4bde79ea3b..0f4665d858 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -2720,6 +2720,13 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
-         if (watchpoint_address_matches(wp, addr, len)
-             && (wp->flags & flags)) {
-+            if (replay_running_debug()) {
-+                /*
-+                 * Don't process the watchpoints when we are
-+                 * in a reverse debugging operation.
-+                 */
-+                return;
-+            }
+@@ -2725,6 +2725,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+                  * Don't process the watchpoints when we are
+                  * in a reverse debugging operation.
+                  */
++                replay_breakpoint();
+                 return;
+             }
              if (flags == BP_MEM_READ) {
-                 wp->flags |= BP_WATCHPOINT_HIT_READ;
-             } else {
 diff --git a/gdbstub.c b/gdbstub.c
-index 6950fd243f..a81b3b5fb8 100644
+index a81b3b5fb8..5d1cb2dde1 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -51,6 +51,7 @@
- #include "sysemu/runstate.h"
- #include "hw/semihosting/semihost.h"
- #include "exec/exec-all.h"
-+#include "sysemu/replay.h"
- 
- #ifdef CONFIG_USER_ONLY
- #define GDB_ATTACHED "0"
-@@ -375,6 +376,20 @@ typedef struct GDBState {
-  */
- static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
- 
-+/* Retrieves flags for single step mode. */
-+static int get_sstep_flags(void)
-+{
-+    /*
-+     * In replay mode all events written into the log should be replayed.
-+     * That is why NOIRQ flag is removed in this mode.
-+     */
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        return SSTEP_ENABLE;
-+    } else {
-+        return sstep_flags;
-+    }
-+}
-+
- static GDBState gdbserver_state;
- 
- static void init_gdbserver_state(void)
-@@ -501,7 +516,7 @@ static int gdb_continue_partial(char *newstates)
-                 break; /* nothing to do here */
-             case 's':
-                 trace_gdbstub_op_stepping(cpu->cpu_index);
--                cpu_single_step(cpu, sstep_flags);
-+                cpu_single_step(cpu, get_sstep_flags());
-                 cpu_resume(cpu);
-                 flag = 1;
-                 break;
-@@ -1874,10 +1889,31 @@ static void handle_step(GdbCmdContext *gdb_ctx, void *user_ctx)
-         gdb_set_cpu_pc((target_ulong)gdb_ctx->params[0].val_ull);
-     }
- 
--    cpu_single_step(gdbserver_state.c_cpu, sstep_flags);
-+    cpu_single_step(gdbserver_state.c_cpu, get_sstep_flags());
-     gdb_continue();
- }
- 
-+static void handle_backward(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (replay_mode != REPLAY_MODE_PLAY) {
-+        put_packet("E22");
-+    }
-+    if (gdb_ctx->num_params == 1) {
-+        switch (gdb_ctx->params[0].opcode) {
-+        case 's':
-+            if (replay_reverse_step()) {
+@@ -1907,6 +1907,13 @@ static void handle_backward(GdbCmdContext *gdb_ctx, void *user_ctx)
+                 put_packet("E14");
+             }
+             return;
++        case 'c':
++            if (replay_reverse_continue()) {
 +                gdb_continue();
 +            } else {
 +                put_packet("E14");
 +            }
 +            return;
-+        }
-+    }
-+
-+    /* Default invalid command */
-+    put_packet("");
-+}
-+
- static void handle_v_cont_query(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
-     put_packet("vCont;c;C;s;S");
-@@ -2124,6 +2160,10 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-         g_string_append(gdbserver_state.str_buf, ";qXfer:features:read+");
+         }
      }
  
-+    if (replay_mode == REPLAY_MODE_PLAY) {
-+        g_string_append(gdbserver_state.str_buf, ";ReverseStep+");
-+    }
-+
+@@ -2161,7 +2168,8 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
+     }
+ 
+     if (replay_mode == REPLAY_MODE_PLAY) {
+-        g_string_append(gdbserver_state.str_buf, ";ReverseStep+");
++        g_string_append(gdbserver_state.str_buf,
++            ";ReverseStep+;ReverseContinue+");
+     }
+ 
      if (gdb_ctx->num_params &&
-         strstr(gdb_ctx->params[0].data, "multiprocess+")) {
-         gdbserver_state.multiprocess = true;
-@@ -2460,6 +2500,17 @@ static int gdb_handle_packet(const char *line_buf)
-             cmd_parser = &step_cmd_desc;
-         }
-         break;
-+    case 'b':
-+        {
-+            static const GdbCmdParseEntry backward_cmd_desc = {
-+                .handler = handle_backward,
-+                .cmd = "b",
-+                .cmd_startswith = 1,
-+                .schema = "o0"
-+            };
-+            cmd_parser = &backward_cmd_desc;
-+        }
-+        break;
-     case 'F':
-         {
-             static const GdbCmdParseEntry file_io_cmd_desc = {
 diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 239c01e7df..13a8123b09 100644
+index 13a8123b09..b6cac175c4 100644
 --- a/include/sysemu/replay.h
 +++ b/include/sysemu/replay.h
-@@ -75,6 +75,17 @@ void replay_finish(void);
- void replay_add_blocker(Error *reason);
- /* Returns name of the replay log file */
- const char *replay_get_filename(void);
+@@ -81,11 +81,19 @@ const char *replay_get_filename(void);
+  * Returns true on success.
+  */
+ bool replay_reverse_step(void);
 +/*
-+ * Start making one step in backward direction.
++ * Start searching the last breakpoint/watchpoint.
 + * Used by gdbstub for backwards debugging.
-+ * Returns true on success.
++ * Returns true if the process successfully started.
 + */
-+bool replay_reverse_step(void);
-+/*
-+ * Returns true if replay module is processing
-+ * reverse_continue or reverse_step request
-+ */
-+bool replay_running_debug(void);
++bool replay_reverse_continue(void);
+ /*
+  * Returns true if replay module is processing
+  * reverse_continue or reverse_step request
+  */
+ bool replay_running_debug(void);
++/* Called in reverse debugging mode to collect breakpoint information */
++void replay_breakpoint(void);
  
  /* Processing the instructions */
  
 diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index cfd0221692..aa3ca040e2 100644
+index aa3ca040e2..27af103118 100644
 --- a/replay/replay-debugging.c
 +++ b/replay/replay-debugging.c
-@@ -22,6 +22,13 @@
- #include "block/snapshot.h"
+@@ -23,6 +23,8 @@
  #include "migration/snapshot.h"
  
-+static bool replay_is_debugging;
-+
-+bool replay_running_debug(void)
-+{
-+    return replay_is_debugging;
-+}
-+
- void hmp_info_replay(Monitor *mon, const QDict *qdict)
+ static bool replay_is_debugging;
++static int64_t replay_last_breakpoint;
++static int64_t replay_last_snapshot;
+ 
+ bool replay_running_debug(void)
  {
-     if (replay_mode == REPLAY_MODE_NONE) {
-@@ -219,3 +226,29 @@ void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-         return;
-     }
+@@ -252,3 +254,72 @@ bool replay_reverse_step(void)
+ 
+     return false;
  }
 +
-+static void replay_stop_vm_debug(void *opaque)
++static void replay_continue_end(void)
 +{
 +    replay_is_debugging = false;
 +    vm_stop(RUN_STATE_DEBUG);
 +    replay_delete_break();
 +}
 +
-+bool replay_reverse_step(void)
++static void replay_continue_stop(void *opaque)
++{
++    Error *err = NULL;
++    if (replay_last_breakpoint != -1LL) {
++        replay_seek(replay_last_breakpoint, replay_stop_vm_debug, &err);
++        if (err) {
++            error_free(err);
++            replay_continue_end();
++        }
++        return;
++    }
++    /*
++     * No breakpoints since the last snapshot.
++     * Find previous snapshot and try again.
++     */
++    if (replay_last_snapshot != 0) {
++        replay_seek(replay_last_snapshot - 1, replay_continue_stop, &err);
++        if (err) {
++            error_free(err);
++            replay_continue_end();
++        }
++        replay_last_snapshot = replay_get_current_icount();
++        return;
++    } else {
++        /* Seek to the very first step */
++        replay_seek(0, replay_stop_vm_debug, &err);
++        if (err) {
++            error_free(err);
++            replay_continue_end();
++        }
++        return;
++    }
++    replay_continue_end();
++}
++
++bool replay_reverse_continue(void)
 +{
 +    Error *err = NULL;
 +
 +    assert(replay_mode == REPLAY_MODE_PLAY);
 +
 +    if (replay_get_current_icount() != 0) {
-+        replay_seek(replay_get_current_icount() - 1, replay_stop_vm_debug, &err);
++        replay_seek(replay_get_current_icount() - 1, replay_continue_stop, &err);
 +        if (err) {
 +            error_free(err);
 +            return false;
 +        }
++        replay_last_breakpoint = -1LL;
 +        replay_is_debugging = true;
++        replay_last_snapshot = replay_get_current_icount();
 +        return true;
 +    }
 +
 +    return false;
 +}
++
++void replay_breakpoint(void)
++{
++    assert(replay_mode == REPLAY_MODE_PLAY);
++    replay_last_breakpoint = replay_get_current_icount();
++}
 diff --git a/stubs/replay.c b/stubs/replay.c
-index eacb366aa8..d5b52302e9 100644
+index d5b52302e9..45ebe77fb9 100644
 --- a/stubs/replay.c
 +++ b/stubs/replay.c
-@@ -93,3 +93,8 @@ uint64_t replay_get_current_icount(void)
+@@ -98,3 +98,8 @@ bool replay_reverse_step(void)
  {
-     return 0;
+     return false;
  }
 +
-+bool replay_reverse_step(void)
++bool replay_reverse_continue(void)
 +{
 +    return false;
 +}
