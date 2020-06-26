@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81A720AF11
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:33:53 +0200 (CEST)
-Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8E620AF16
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:35:31 +0200 (CEST)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokk4-0004Sr-NY
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
+	id 1jokle-0007zW-FB
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbW-00065K-5u; Fri, 26 Jun 2020 05:25:02 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34350
+ id 1jokba-00069a-IJ; Fri, 26 Jun 2020 05:25:06 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34360
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbR-0005NR-LQ; Fri, 26 Jun 2020 05:25:01 -0400
+ id 1jokbY-0005T3-3P; Fri, 26 Jun 2020 05:25:06 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbQ-0007bz-2q; Fri, 26 Jun 2020 10:25:00 +0100
+ id 1jokbU-0007bz-DW; Fri, 26 Jun 2020 10:25:06 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org, laurent@vivier.eu, david@gibson.dropbear.id.au,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Fri, 26 Jun 2020 10:23:12 +0100
-Message-Id: <20200626092317.3875-18-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 26 Jun 2020 10:23:13 +0100
+Message-Id: <20200626092317.3875-19-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 References: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 17/22] pmu: add adb_autopoll_block() and adb_autopoll_unblock()
- functions
+Subject: [PULL 18/22] mac_via: move VIA1 portB write logic into
+ mos6522_q800_via1_write()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,45 +66,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure that the PMU buffer is protected from autopoll requests overwriting
-its contents whilst existing PMU requests are in progress.
+Currently the logic is split between the mos6522 portB_write() callback and
+the memory region used to capture the VIA1 MMIO accesses. Move everything
+into the latter mos6522_q800_via1_write() function to keep all the logic in
+one place to make it easier to follow.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 Acked-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200623204936.24064-18-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20200623204936.24064-19-mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/pmu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/misc/mac_via.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 01d49e6695..598d8e7517 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -517,6 +517,7 @@ static void pmu_update(PMUState *s)
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 7a28bb37ac..a1dc00d9f6 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -801,11 +801,21 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
+                                     unsigned size)
  {
-     MOS6522PMUState *mps = &s->mos6522_pmu;
-     MOS6522State *ms = MOS6522(mps);
-+    ADBBusState *adb_bus = &s->adb_bus;
+     MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(opaque);
++    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
+     MOS6522State *ms = MOS6522(v1s);
  
-     /* Only react to changes in reg B */
-     if (ms->b == s->last_b) {
-@@ -578,6 +579,7 @@ static void pmu_update(PMUState *s)
-         s->cmd_rsp_pos = 0;
-         s->cmd_state = pmu_state_cmd;
+     addr = (addr >> 9) & 0xf;
+     mos6522_write(ms, addr, val, size);
  
-+        adb_autopoll_block(adb_bus);
-         trace_pmu_debug_protocol_cmd(s->cmd, s->cmdlen, s->rsplen);
-         break;
- 
-@@ -636,6 +638,7 @@ static void pmu_update(PMUState *s)
-     if (s->cmd_state == pmu_state_rsp && s->rsplen == s->cmd_rsp_pos) {
-         trace_pmu_debug_protocol_cmd_resp_complete(ms->ier);
- 
-+        adb_autopoll_unblock(adb_bus);
-         s->cmd_state = pmu_state_idle;
-     }
++    switch (addr) {
++    case VIA_REG_B:
++        via1_rtc_update(m);
++        via1_adb_update(m);
++
++        v1s->last_b = ms->b;
++        break;
++    }
++
+     via1_one_second_update(v1s);
+     via1_VBL_update(v1s);
  }
+@@ -1037,18 +1047,6 @@ static TypeInfo mac_via_info = {
+ };
+ 
+ /* VIA 1 */
+-static void mos6522_q800_via1_portB_write(MOS6522State *s)
+-{
+-    MOS6522Q800VIA1State *v1s = container_of(s, MOS6522Q800VIA1State,
+-                                             parent_obj);
+-    MacVIAState *m = container_of(v1s, MacVIAState, mos6522_via1);
+-
+-    via1_rtc_update(m);
+-    via1_adb_update(m);
+-
+-    v1s->last_b = s->b;
+-}
+-
+ static void mos6522_q800_via1_reset(DeviceState *dev)
+ {
+     MOS6522State *ms = MOS6522(dev);
+@@ -1071,10 +1069,8 @@ static void mos6522_q800_via1_init(Object *obj)
+ static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+-    MOS6522DeviceClass *mdc = MOS6522_DEVICE_CLASS(oc);
+ 
+     dc->reset = mos6522_q800_via1_reset;
+-    mdc->portB_write = mos6522_q800_via1_portB_write;
+ }
+ 
+ static const TypeInfo mos6522_q800_via1_type_info = {
 -- 
 2.20.1
 
