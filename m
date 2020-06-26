@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F4320AC78
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:43:22 +0200 (CEST)
-Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AC420AC70
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:41:45 +0200 (CEST)
+Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joi53-0005wC-EW
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
+	id 1joi3T-0002lb-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2O-0001Pm-KN; Fri, 26 Jun 2020 02:40:36 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33727 helo=ozlabs.org)
+ id 1joi2N-0001PG-7i; Fri, 26 Jun 2020 02:40:35 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48735 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2L-0001EO-AJ; Fri, 26 Jun 2020 02:40:36 -0400
+ id 1joi2L-0001ER-Cw; Fri, 26 Jun 2020 02:40:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49tS1l5GXJz9sSn; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
+ id 49tS1l5zWtz9sT6; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1593153627;
- bh=Zyd+21TNwqZFVKinK1W1M3pyiXHfAgldAX7SQP9sG7M=;
+ bh=3YYjwnPyp550Q+yo6TL9Otc/NC6+mV01kdh4w7Mzckk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a3jP50fJ/pRcUgCgBjAiNZy64+/5W/KehzC+xNUPrDW9YwsW26QsaryGKwMAa7Doa
- JOXoUKGA590YmrbLMpRdFyCWHWPEZyEredUtsDLmmE2DXenDmqcvvURfecN/1JKvQG
- O/1VzUDrD4D+saf7I+GzARIyuRLOYvnqcMz0mWMM=
+ b=PkcUJTGvkmBtOAq1pmuy4urmJz8ik/0MMF95QSuIgQXdoAR/OVnVNjXfaqoiuNXIu
+ olXnWPdbvSxFJ2JT5Uq8SVkhEr0cVvVWIhdqMTP6ZCQgqfECFVUkLCXFlbRG5spibv
+ mtEEP8dr3tUJjdsay/1MDW2Ws1q379kgWnYcw7OM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 2/4] spapr: Fix typos in comments and macro indentation
-Date: Fri, 26 Jun 2020 16:40:22 +1000
-Message-Id: <20200626064024.383996-3-david@gibson.dropbear.id.au>
+Subject: [PULL 3/4] ppc/pnv: Silence missing BMC warning with qtest
+Date: Fri, 26 Jun 2020 16:40:23 +1000
+Message-Id: <20200626064024.383996-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 References: <20200626064024.383996-1-david@gibson.dropbear.id.au>
@@ -60,70 +60,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gustavo Romero <gromero@linux.ibm.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gustavo Romero <gromero@linux.ibm.com>
+From: Greg Kurz <groug@kaod.org>
 
-This commit fixes typos in spapr_vio_reg_to_irq() comments and a macro
-indentation.
+The device introspect test in qtest emits some warnings with the
+the pnv machine types during the "nodefaults" phase:
 
-Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-Message-Id: <1590710681-12873-1-git-send-email-gromero@linux.ibm.com>
-Acked-by: Cédric Le Goater <clg@kaod.org>
+TEST check-qtest-ppc64: tests/qtest/device-introspect-test
+qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
+one
+qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
+one
+qemu-system-ppc64: warning: machine has no BMC device. Use '-device
+ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
+one
+
+This is expected since the pnv machine doesn't create the internal
+BMC simulator fallback when "-nodefaults" is passed on the command
+line, but these warnings appear in ci logs and confuse people.
+
+Not having a BMC isn't recommended but it is still a supported
+configuration, so a straightforward fix is to just silent this
+warning when qtest is enabled.
+
+Fixes: 25f3170b0654 ("ppc/pnv: Create BMC devices only when defaults are enabled")
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <159280903824.485572.831378159272329707.stgit@bahia.lan>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_vio.c         | 6 +++---
- include/hw/ppc/xive_regs.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/ppc/pnv.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 4318ed9638..731080d989 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -420,7 +420,7 @@ static void spapr_vio_busdev_reset(DeviceState *qdev)
- }
- 
- /*
-- * The register property of a VIO device is defined in livirt using
-+ * The register property of a VIO device is defined in libvirt using
-  * 0x1000 as a base register number plus a 0x1000 increment. For the
-  * VIO tty device, the base number is changed to 0x30000000. QEMU uses
-  * a base register number of 0x71000000 and then a simple increment.
-@@ -450,7 +450,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
- 
-     } else if (reg >= 0x30000000) {
-         /*
--         * VIO tty devices register values, when allocated by livirt,
-+         * VIO tty devices register values, when allocated by libvirt,
-          * are mapped in range [0xf0 - 0xff], gives us a maximum of 16
-          * vtys.
-          */
-@@ -459,7 +459,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
-     } else {
-         /*
-          * Other VIO devices register values, when allocated by
--         * livirt, should be mapped in range [0x00 - 0xef]. Conflicts
-+         * libvirt, should be mapped in range [0x00 - 0xef]. Conflicts
-          * will be detected when IRQ is claimed.
-          */
-         irq = (reg >> 12) & 0xff;
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 09f243600c..7879692825 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -71,7 +71,7 @@
-  * QW word 2 contains the valid bit at the top and other fields
-  * depending on the QW.
-  */
--#define TM_WORD2                0x8
-+#define   TM_WORD2              0x8
- #define   TM_QW0W2_VU           PPC_BIT32(0)
- #define   TM_QW0W2_LOGIC_SERV   PPC_BITMASK32(1, 31) /* XX 2,31 ? */
- #define   TM_QW1W2_VO           PPC_BIT32(0)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 8bd03f3b10..643098ad5f 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -21,6 +21,7 @@
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "sysemu/qtest.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+@@ -587,9 +588,11 @@ static void pnv_reset(MachineState *machine)
+     bmc = pnv_bmc_find(&error_fatal);
+     if (!pnv->bmc) {
+         if (!bmc) {
+-            warn_report("machine has no BMC device. Use '-device "
+-                        "ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' "
+-                        "to define one");
++            if (!qtest_enabled()) {
++                warn_report("machine has no BMC device. Use '-device "
++                            "ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' "
++                            "to define one");
++            }
+         } else {
+             pnv_bmc_set_pnor(bmc, pnv->pnor);
+             pnv->bmc = bmc;
 -- 
 2.26.2
 
