@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CB420AEE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:21:47 +0200 (CEST)
-Received: from localhost ([::1]:33970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2262020AEE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:25:10 +0200 (CEST)
+Received: from localhost ([::1]:40182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokYL-0002CP-Sz
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
+	id 1jokbc-0004sw-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:25:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jokXK-0001L3-4E
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:20:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30552
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jokXH-00016z-Ph
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 05:20:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593163238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lc/QeDq9aXyprvmtcQfCI3TkZtelMBZkeTtO1Imexec=;
- b=dp3R1gRo4cBm4o78KWCNPHTfQYsWWLGWLw5FbqHGq1758qRKlIPyMeg5PBpFz5sa3yrqYP
- kA2H+jP8M4YSrs9nTd0izttqgU/uzlQ32mcjyJjd7ysIONY2TOosWITzngCiz1w/TNvkbn
- Zl7HOa0KzinEe/EhyyZY2CbAuY1iAWE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-HoxND6Z7ONSqu_fnDfk9kA-1; Fri, 26 Jun 2020 05:20:35 -0400
-X-MC-Unique: HoxND6Z7ONSqu_fnDfk9kA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA3D6805EE1;
- Fri, 26 Jun 2020 09:20:33 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41EE360BF4;
- Fri, 26 Jun 2020 09:20:32 +0000 (UTC)
-Subject: Re: [Bug 1885247] [NEW] Build error in Intel 32-bit hosts
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Bug 1885247 <1885247@bugs.launchpad.net>, arilou@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <159315507826.13901.17398620572438937429.malonedeb@wampee.canonical.com>
- <CAHiYmc7_ra2qWJ8mkZ-vqL5vN2BKdWxAZeKNnMEkPtien5-fsw@mail.gmail.com>
- <b34bf27c-3189-addc-0c50-b0c0c533876d@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d2657f75-26fe-117b-183d-732d88da2653@redhat.com>
-Date: Fri, 26 Jun 2020 11:20:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joka9-0003MS-Fh; Fri, 26 Jun 2020 05:23:37 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34172
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joka7-0004J0-4Y; Fri, 26 Jun 2020 05:23:37 -0400
+Received: from host86-158-109-79.range86-158.btcentralplus.com
+ ([86.158.109.79] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joka1-0007bz-Kw; Fri, 26 Jun 2020 10:23:35 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: peter.maydell@linaro.org, laurent@vivier.eu, david@gibson.dropbear.id.au,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Date: Fri, 26 Jun 2020 10:22:55 +0100
+Message-Id: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <b34bf27c-3189-addc-0c50-b0c0c533876d@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-SA-Exim-Connect-IP: 86.158.109.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 00/22] qemu-macppc queue 20200626
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,53 +60,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/06/2020 11.13, Philippe Mathieu-Daudé wrote:
-> On 6/26/20 9:37 AM, Aleksandar Markovic wrote:
->> пет, 26. јун 2020. у 09:11 Aleksandar Markovic
->> <1885247@bugs.launchpad.net> је написао/ла:
->>>
->>> Public bug reported:
->>>
->>> The code base is on master, checked out on Thursday June25th 2020,
->>> 0250c595c9d. The build procedure:
->>>
->>> $ mkdir build-gcc
->>> $ cd build-gcc
->>> $ ../configure
->>> $ make
->>>
->>> The build error message is:
->>>
->>>    CC      x86_64-softmmu/hw/hyperv/hyperv.o
->>>    CC      x86_64-softmmu/hw/hyperv/hyperv_testdev.o
->>>    CC      x86_64-softmmu/hw/hyperv/vmbus.o
->>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c: In function ‘gpadl_iter_io’:
->>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c:386:13: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
->>>           p = (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) | off_in_page);
->>>               ^
->>> cc1: all warnings being treated as errors
->>> make[1]: *** [/home/rtrk/Build/qemu-master/rules.mak:69: hw/hyperv/vmbus.o] Error 1
->>> make: *** [Makefile:527: x86_64-softmmu/all] Error 2
-> 
-> FWIW there is no CI job covering x86 KVM on 32-bit host build.
-> Should this be covered? I guess the problem is no CI services
-> provide 32-bit x86...
+The following changes since commit 5acc270a355120ce967ca1f1eeca0abbdb9303c8:
 
-You can certainly provide either a container, or install the 32-bit 
-libraries in a 64-bit environment. Then run
+  Merge remote-tracking branch 'remotes/xtensa/tags/20200625-xtensa' into staging (2020-06-25 21:20:45 +0100)
 
-PKG_CONFIG_LIBDIR=... ./configure --extra-cflags=-m32
+are available in the Git repository at:
 
-and it should be possible to build 32-bit binaries, too.
+  git://github.com/mcayland/qemu.git tags/qemu-macppc-20200626
 
-Alternatively, we could add a cross-compilation job that builds with 
-i686-w64-mingw32 in 32-bit.
+for you to fetch changes up to e590e7f01479a1d4544aac062fe9fdb986502294:
 
-  Thomas
+  adb: add ADB bus trace events (2020-06-26 10:13:52 +0100)
 
+----------------------------------------------------------------
+qemu-macppc patches
+
+----------------------------------------------------------------
+Mark Cave-Ayland (22):
+      adb: coding style update to fix checkpatch errors
+      adb: fix adb-mouse read length and revert disable-reg3-direct-writes workaround
+      cuda: convert ADB autopoll timer from ns to ms
+      pmu: fix duplicate autopoll mask variable
+      pmu: honour autopoll_rate_ms when rearming the ADB autopoll timer
+      adb: introduce realize/unrealize and VMStateDescription for ADB bus
+      adb: create autopoll variables directly within ADBBusState
+      cuda: convert to use ADBBusState internal autopoll variables
+      pmu: convert to use ADBBusState internal autopoll variables
+      mac_via: convert to use ADBBusState internal autopoll variables
+      adb: introduce new ADBDeviceHasData method to ADBDeviceClass
+      adb: keep track of devices with pending data
+      adb: add status field for holding information about the last ADB request
+      adb: use adb_request() only for explicit requests
+      adb: add autopoll_blocked variable to block autopoll
+      cuda: add adb_autopoll_block() and adb_autopoll_unblock() functions
+      pmu: add adb_autopoll_block() and adb_autopoll_unblock() functions
+      mac_via: move VIA1 portB write logic into mos6522_q800_via1_write()
+      mac_via: rework ADB state machine to be compatible with both MacOS and Linux
+      adb: only call autopoll callbacks when autopoll is not blocked
+      adb: use adb_device prefix for ADB device trace events
+      adb: add ADB bus trace events
+
+ hw/input/adb-kbd.c           |  42 +++--
+ hw/input/adb-mouse.c         |  65 ++++---
+ hw/input/adb.c               | 210 ++++++++++++++++++++--
+ hw/input/trace-events        |  27 +--
+ hw/misc/mac_via.c            | 411 ++++++++++++++++++++++++++++---------------
+ hw/misc/macio/cuda.c         |  60 +++----
+ hw/misc/macio/pmu.c          |  47 +++--
+ hw/misc/trace-events         |   3 +
+ hw/ppc/mac_newworld.c        |   2 -
+ include/hw/input/adb.h       |  26 ++-
+ include/hw/misc/mac_via.h    |   2 +-
+ include/hw/misc/macio/cuda.h |   4 -
+ include/hw/misc/macio/pmu.h  |   4 -
+ 13 files changed, 620 insertions(+), 283 deletions(-)
 
