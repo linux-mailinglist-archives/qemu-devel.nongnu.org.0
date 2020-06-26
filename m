@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EE820AFE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:37:46 +0200 (CEST)
-Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21B220AFE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:39:38 +0200 (CEST)
+Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joljt-0001pJ-Py
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
+	id 1jollh-0003xN-QO
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1joldt-0002BM-SU
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:34 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45894
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1joldz-0002Kh-HU
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51465
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jolds-0003IC-9E
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:33 -0400
+ id 1joldx-0003KK-Pv
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593167491;
+ s=mimecast20190719; t=1593167497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ft8Z4dX6ZzqcvPBujF9qwjPG+Yt/DkxFH7/lzR9S8hE=;
- b=WjmiTKHqnbb6TLo/8HlH4t8D/+0mDcYmdItHgSeeofj3HMVtUHywRHH1Lmpg+lNJVupFun
- ym76nP+4eL4HGV8ATOmWJ/XeIPLpcvaAMW+TjIZQ8Ln5/MxIsYAR27TK8+NyskvTqCW6uV
- X8tazhq60SV76G7Afesk+ORi2AbfhUU=
+ bh=DBZLlnjf3A9WBShfSK1x+cBRW9dPdRmbBNg1+e4sJXM=;
+ b=eP130NqurP0tyzQdAXLSyokKK6GYZGy8la2fYgoNxSwIYzcEDtbIV5lUJ1RpAuxNwDbsl4
+ OhdJBUkc661kgdl/n9yJZ2ZEtnxFQpX/+J37jIzxqls05x8n1eqebFZQyXQ4Wr60V2M5ua
+ EbQOziCcemNA7Nbn2hflf4tqlhFqWaQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-Plu1kwG-NqiJNWDaWksJFw-1; Fri, 26 Jun 2020 06:31:28 -0400
-X-MC-Unique: Plu1kwG-NqiJNWDaWksJFw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-405-FWpZFlf2P5S-7qa31FDSQA-1; Fri, 26 Jun 2020 06:31:34 -0400
+X-MC-Unique: FWpZFlf2P5S-7qa31FDSQA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07A4D10059A1
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:31:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCB3B107ACCA
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:31:33 +0000 (UTC)
 Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3AE680882;
- Fri, 26 Jun 2020 10:31:24 +0000 (UTC)
-Date: Fri, 26 Jun 2020 11:31:22 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 743A360C87;
+ Fri, 26 Jun 2020 10:31:30 +0000 (UTC)
+Date: Fri, 26 Jun 2020 11:31:26 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 1/3] virtiofsd: Terminate capability list
-Message-ID: <20200626103122.GF281902@stefanha-x1.localdomain>
+Subject: Re: [PATCH 2/3] virtiofsd: Check capability calls
+Message-ID: <20200626103126.GG281902@stefanha-x1.localdomain>
 References: <20200625162929.46672-1-dgilbert@redhat.com>
- <20200625162929.46672-2-dgilbert@redhat.com>
+ <20200625162929.46672-3-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200625162929.46672-2-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200625162929.46672-3-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dgjlcl3Tl+kb3YDk"
+ protocol="application/pgp-signature"; boundary="9Iq5ULCa7nGtWwZS"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,46 +84,39 @@ Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dgjlcl3Tl+kb3YDk
+--9Iq5ULCa7nGtWwZS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2020 at 05:29:27PM +0100, Dr. David Alan Gilbert (git) wrot=
+On Thu, Jun 25, 2020 at 05:29:28PM +0100, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >=20
-> capng_updatev is a varargs function that needs a -1 to terminate it,
-> but it was missing.
+> Check the capability calls worked.
 >=20
-> In practice what seems to have been happening is that it's added the
-> capabilities we asked for, then runs into junk on the stack, so if
-> we're unlucky it might be adding some more, but in reality it's
-> failing - but after adding the capabilities we asked for.
->=20
-> Fixes: a59feb483b8 ("virtiofsd: only retain file system capabilities")
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  tools/virtiofsd/passthrough_ll.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---dgjlcl3Tl+kb3YDk
+--9Iq5ULCa7nGtWwZS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl71znoACgkQnKSrs4Gr
-c8hFwgf+KpmNHkGjRfZRdBpqgYqmm6P8GwGbZQHUIRJWvgwrKVZy1QG68IYMD34P
-o8/LC4nbhjNFD+zHNdiPDZlSY3x32OgmifFJN5wvcJZdL4+UMoqULFusgv2ORZ8j
-76qnUsJpFX/VZu3tM8l5S/ABByMvJc0fVRIRwMME3u5M9F3us7vjgBzSTGS3I0b9
-hEIO7VTSgaxfxX7dlzli7iNhVxKH9wpIcP3jzT4IpxHnABay8XpG8KJPHmZ8Epy6
-pfhKkkXHiHe8ijVH6haSMy43QYqWAAp1p5/WtklfttXqbAxXvIdeWXMckCBgoZ14
-VkRbGmuJpZS7/yM1hDtmoQZpv+woLg==
-=U6FJ
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl71zn0ACgkQnKSrs4Gr
+c8gJUAf/YNnk6vd+VlAKy6G4vPvZhq3Yxtcf+DIWtTDBSF1GI7Qm8BxcFTTijPha
+HA9u6NSLmuyjbFDKOM7we9ICGqK3DxdzlRjzWbvjqJ0mdUH1DpQKN6Z2o8nlTml6
+t0NwU7X+b2aPi6tJPgQkMoOptUv9cm8ITdyh+LJkA8eELrMV78tWW7dCoLPEJqeI
+eXq0lSEb04Lc3WraQuNxzhMeWGc4RQa4TheA4WxiOZGZBX5GFqAvU43/1fmWalug
+Mt2Y04Se/5Kf4UcVsNGu4Bh5z0BlC5cvJs+A8yKkQDf9EROebQiyLI59Cb0allSQ
+Ce3rTFDZgQp4lLlnvAMEzW+PlK3OSA==
+=/fPw
 -----END PGP SIGNATURE-----
 
---dgjlcl3Tl+kb3YDk--
+--9Iq5ULCa7nGtWwZS--
 
 
