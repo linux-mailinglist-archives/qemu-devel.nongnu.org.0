@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B247420B65B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:54:59 +0200 (CEST)
-Received: from localhost ([::1]:46340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DD220B674
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:58:44 +0200 (CEST)
+Received: from localhost ([::1]:58244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorcw-0001bO-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58290)
+	id 1jorgZ-0007oK-H8
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jorSQ-0006he-0x
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:44:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23327
+ id 1jorSe-0007KJ-R9
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:44:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30781
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jorSO-00078Q-4g
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:44:05 -0400
+ id 1jorSc-0007Cz-Km
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:44:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593189843;
+ s=mimecast20190719; t=1593189858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jopcFLzYJYJJslTMVzSauZtrYKoS/LSXGVIDKJZrsog=;
- b=HJ2f23KIwLF4+EjkZFYIrwj8CYbhyMY9zBcisMhCTa4+1eeD/Rp8SIx8ZOag/O3uu7Nk/q
- 9eXecoH8l2/HstjVWlpt6FFjpstPnpYnosUcVy4YWnGs0LuNSGzQZiwRUEUMZG6hl3Ol4s
- MoiddkG3ma1cl44hZjA6XkYNJexMnaA=
+ bh=JHHQF6mkyWRgUe0IWsRd24TZpPx3i5fw+ACFDGTzfv0=;
+ b=Ck/hcDDr3uyu+GdSvNCE/FzwpOf1YGLMWPqXuI6Z/yBvI5fqxQNbv5GmmrRXDU44gxujLp
+ /c0X1StKLTqMyIa/lpg3xlKC8tqVLKvNXHdh/ZhBResZ/A8mfBaIdI2KJXlh0zW1KaPeGD
+ iCn8fheb4XelGnVQzpmKap0JarVoHGI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-VuqSWe4OO9Or-vvCL_rZBg-1; Fri, 26 Jun 2020 12:44:02 -0400
-X-MC-Unique: VuqSWe4OO9Or-vvCL_rZBg-1
+ us-mta-439-2UCQmw4jOF-ApRI5WOHq_w-1; Fri, 26 Jun 2020 12:44:16 -0400
+X-MC-Unique: 2UCQmw4jOF-ApRI5WOHq_w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 527FA1005512;
- Fri, 26 Jun 2020 16:44:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22B557BAC;
+ Fri, 26 Jun 2020 16:44:15 +0000 (UTC)
 Received: from turbo.com (ovpn-112-91.ams2.redhat.com [10.36.112.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 969A65C1BB;
- Fri, 26 Jun 2020 16:43:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2E855C6C0;
+ Fri, 26 Jun 2020 16:44:00 +0000 (UTC)
 From: Christophe de Dinechin <dinechin@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/10] build: Add SPICE_CFLAGS and SPICE_LIBS to relevant files
-Date: Fri, 26 Jun 2020 18:43:05 +0200
-Message-Id: <20200626164307.3327380-9-dinechin@redhat.com>
+Subject: [PATCH 09/10] spice: Put spice functions in a separate load module
+Date: Fri, 26 Jun 2020 18:43:06 +0200
+Message-Id: <20200626164307.3327380-10-dinechin@redhat.com>
 In-Reply-To: <20200626164307.3327380-1-dinechin@redhat.com>
 References: <20200626164307.3327380-1-dinechin@redhat.com>
 MIME-Version: 1.0
@@ -90,155 +90,212 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of adding the spice build flags to the top-level build
-options, add them where they are necessary. This is a step to move the
-burden of linking with spice libraries away from the top-level qemu.
+Use the MODIFACE and MODIMPL macros to to redirect the highest-level
+qemu_spice functions into the spice-app.so load module when SPICE is
+compiled as a module.
+
+With these changes, the following shared libraries are no longer
+necessary in the top-level qemu binary:
+
+ 	libspice-server.so.1 => /lib64/libspice-server.so.1 (HEX)
+ 	libopus.so.0 => /lib64/libopus.so.0 (HEX)
+ 	liblz4.so.1 => /lib64/liblz4.so.1 (HEX)
+ 	libgstapp-1.0.so.0 => /lib64/libgstapp-1.0.so.0 (HEX)
+ 	libgstvideo-1.0.so.0 => /lib64/libgstvideo-1.0.so.0 (HEX)
+ 	libgstbase-1.0.so.0 => /lib64/libgstbase-1.0.so.0 (HEX)
+ 	libgstreamer-1.0.so.0 => /lib64/libgstreamer-1.0.so.0 (HEX)
+ 	libssl.so.1.1 => /lib64/libssl.so.1.1 (HEX)
+ 	liborc-0.4.so.0 => /lib64/liborc-0.4.so.0 (HEX)
 
 Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
 ---
- configure                |  4 ++--
- hw/display/Makefile.objs |  1 +
- hw/i386/Makefile.objs    |  1 +
- monitor/Makefile.objs    |  3 +++
- softmmu/Makefile.objs    |  2 +-
- stubs/Makefile.objs      |  2 +-
- ui/Makefile.objs         |  4 ++--
- util/module.c            | 13 +++++++++++--
- 8 files changed, 22 insertions(+), 8 deletions(-)
+ include/ui/qemu-spice.h | 24 +++++++++++++++---------
+ monitor/hmp-cmds.c      |  6 ++++++
+ softmmu/vl.c            |  1 +
+ ui/spice-core.c         | 31 +++++++++++++++++++++----------
+ ui/spice-display.c      |  2 +-
+ 5 files changed, 44 insertions(+), 20 deletions(-)
 
-diff --git a/configure b/configure
-index 2de1715800..ac83aea242 100755
---- a/configure
-+++ b/configure
-@@ -5148,8 +5148,6 @@ EOF
-      $pkg_config --atleast-version=0.12.3 spice-protocol && \
-      compile_prog "$spice_cflags" "$spice_libs" ; then
-     spice="yes"
--    libs_softmmu="$libs_softmmu $spice_libs"
--    QEMU_CFLAGS="$QEMU_CFLAGS $spice_cflags"
-     spice_protocol_version=$($pkg_config --modversion spice-protocol)
-     spice_server_version=$($pkg_config --modversion spice-server)
-   else
-@@ -7472,6 +7470,8 @@ fi
+diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
+index 8c23dfe717..0f7e139da5 100644
+--- a/include/ui/qemu-spice.h
++++ b/include/ui/qemu-spice.h
+@@ -24,22 +24,28 @@
  
- if test "$spice" = "yes" ; then
-   echo "CONFIG_SPICE=m" >> $config_host_mak
-+  echo "SPICE_CFLAGS=$spice_cflags" >> $config_host_mak
-+  echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
- fi
+ #include <spice.h>
+ #include "qemu/config-file.h"
++#include "qemu/module.h"
  
- if test "$smartcard" = "yes" ; then
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index f51411619b..273a956d96 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -46,6 +46,7 @@ obj-$(CONFIG_VGA) += vga.o
+-extern int using_spice;
++#define using_spice     (qemu_is_using_spice())
  
- common-obj-$(CONFIG_QXL:y=m) += qxl.mo
- qxl.mo-objs := qxl.o qxl-logger.o qxl-render.o
-+qxl.mo-cflags += $(SPICE_CFLAGS)
+-void qemu_spice_init(void);
++MODIFACE(bool, qemu_is_using_spice,(void));
++MODIFACE(void, qemu_start_using_spice, (void));
++MODIFACE(void, qemu_spice_init, (void));
+ void qemu_spice_input_init(void);
+ void qemu_spice_audio_init(void);
+-void qemu_spice_display_init(void);
+-int qemu_spice_display_add_client(int csock, int skipauth, int tls);
++MODIFACE(void, qemu_spice_display_init, (void));
++MODIFACE(int, qemu_spice_display_add_client, (int csock, int skipauth, int tls));
+ int qemu_spice_add_interface(SpiceBaseInstance *sin);
+ bool qemu_spice_have_display_interface(QemuConsole *con);
+ int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
+-int qemu_spice_set_passwd(const char *passwd,
+-                          bool fail_if_connected, bool disconnect_if_connected);
+-int qemu_spice_set_pw_expire(time_t expires);
+-int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+-                            const char *subject);
++MODIFACE(int, qemu_spice_set_passwd, (const char *passwd,
++                                      bool fail_if_connected,
++                                      bool disconnect_if_connected));
++MODIFACE(int, qemu_spice_set_pw_expire,(time_t expires));
++MODIFACE(int, qemu_spice_migrate_info,(const char *hostname,
++                                       int port, int tls_port,
++                                       const char *subject));
++MODIFACE(struct SpiceInfo *,qemu_spice_query, (Error **errp));
  
- obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
- obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 6abc74551a..bf9856be2a 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -2,6 +2,7 @@ obj-$(CONFIG_KVM) += kvm/
- obj-y += e820_memory_layout.o multiboot.o
- obj-y += x86.o
- obj-$(CONFIG_PC) += pc.o pc_sysfw.o
-+pc.o-cflags += $(SPICE_CFLAGS)
- obj-$(CONFIG_I440FX) += pc_piix.o
- obj-$(CONFIG_Q35) += pc_q35.o
- obj-$(CONFIG_MICROVM) += microvm.o
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index a8533c9dd7..fd58d80195 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -2,5 +2,8 @@ obj-y += misc.o
- common-obj-y += monitor.o qmp.o hmp.o
- common-obj-y += qmp-cmds.o qmp-cmds-control.o
- common-obj-y += hmp-cmds.o
-+qmp-cmds.o-cflags += $(SPICE_CFLAGS)
-+hmp-cmds.o-cflags += $(SPICE_CFLAGS)
-+misc.o-cflags += $(SPICE_CFLAGS)
+ #if !defined(SPICE_SERVER_VERSION) || (SPICE_SERVER_VERSION < 0xc06)
+ #define SPICE_NEEDS_SET_MM_TIME 1
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 2b0b58a336..6bd9c52658 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -56,6 +56,7 @@
+ #include "migration/misc.h"
  
- storage-daemon-obj-y += monitor.o qmp.o qmp-cmds-control.o
-diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
-index dd15c24346..0e7605bd32 100644
---- a/softmmu/Makefile.objs
-+++ b/softmmu/Makefile.objs
-@@ -1,3 +1,3 @@
- softmmu-main-y = softmmu/main.o
- obj-y += vl.o
--vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
-+vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS) $(SPICE_CFLAGS)
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index f32b9e47a3..1df8bb3814 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -19,10 +19,10 @@ stub-obj-y += replay.o
- stub-obj-y += runstate-check.o
- stub-obj-$(CONFIG_SOFTMMU) += semihost.o
- stub-obj-y += set-fd-handler.o
--stub-obj-y += vmgenid.o
- stub-obj-y += sysbus.o
- stub-obj-y += tpm.o
- stub-obj-y += trace-control.o
-+stub-obj-y += vmgenid.o
- stub-obj-y += vmstate.o
- stub-obj-$(CONFIG_SOFTMMU) += win32-kbd-hook.o
- 
-diff --git a/ui/Makefile.objs b/ui/Makefile.objs
-index 1ab515e23d..6a6fda2f06 100644
---- a/ui/Makefile.objs
-+++ b/ui/Makefile.objs
-@@ -57,8 +57,8 @@ spice-app.mo-objs += spice-core.o spice-input.o spice-display.o
- ifeq ($(CONFIG_GIO)$(CONFIG_SPICE),ym)
- spice-app.mo-objs += spice-app.o
- endif
--spice-app.mo-cflags := $(GIO_CFLAGS)
--spice-app.mo-libs := $(GIO_LIBS)
-+spice-app.mo-cflags := $(GIO_CFLAGS) $(SPICE_CFLAGS)
-+spice-app.mo-libs := $(GIO_LIBS) $(SPICE_LIBS)
- 
- common-obj-$(CONFIG_OPENGL) += shader.o
- common-obj-$(CONFIG_OPENGL) += console-gl.o
-diff --git a/util/module.c b/util/module.c
-index 2fa93561fe..29b4806520 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -22,11 +22,11 @@
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
+ #ifdef CONFIG_SPICE
++#include "ui/qemu-spice.h"
+ #include <spice/enums.h>
  #endif
--#ifdef CONFIG_TRACE_RECORDER
- #include "trace/recorder.h"
--#endif
  
+@@ -573,6 +574,11 @@ void hmp_info_vnc(Monitor *mon, const QDict *qdict)
+ #endif
  
-+RECORDER(modules, 16, "QEMU load modules");
+ #ifdef CONFIG_SPICE
++SpiceInfo *qmp_query_spice(Error **errp)
++{
++    return qemu_spice_query(errp);
++}
 +
- typedef struct ModuleEntry
+ void hmp_info_spice(Monitor *mon, const QDict *qdict)
  {
-     void (*init)(void);
-@@ -85,6 +85,15 @@ void register_dso_module_init(void (*fn)(void), module_init_type type)
+     SpiceChannelList *chan;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 3e15ee2435..c94b4fa49b 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -22,6 +22,7 @@
+  * THE SOFTWARE.
+  */
+ 
++#define MODULE_STUBS
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+diff --git a/ui/spice-core.c b/ui/spice-core.c
+index ecc2ec2c55..dbc1886b77 100644
+--- a/ui/spice-core.c
++++ b/ui/spice-core.c
+@@ -48,7 +48,7 @@ static time_t auth_expires = TIME_MAX;
+ static int spice_migration_completed;
+ static int spice_display_is_running;
+ static int spice_have_target_host;
+-int using_spice = 0;
++static int is_using_spice = 0;
+ 
+ static QemuThread me;
+ 
+@@ -503,7 +503,7 @@ static QemuOptsList qemu_spice_opts = {
+     },
+ };
+ 
+-SpiceInfo *qmp_query_spice(Error **errp)
++MODIMPL(SpiceInfo *,qemu_spice_query,(Error **errp))
  {
-     ModuleEntry *e;
+     QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
+     int port, tls_port;
+@@ -579,8 +579,9 @@ static void migration_state_notifier(Notifier *notifier, void *data)
+     }
+ }
  
-+#ifdef CONFIG_TRACE_RECORDER
-+    static const char *name[] = {
-+        "MIGRATION", "BLOCK", "OPTS", "QOM",
-+        "TRACE", "XEN_BACKEND", "LIBQOS", "FUZZ_TARGET",
-+        "MAX"
-+    };
-+#endif
-+    record(modules, "Register DSO module init %p type %u %+s",
-+           fn, type, name[type]);
-     init_lists();
+-int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+-                            const char *subject)
++MODIMPL(int, qemu_spice_migrate_info, (const char *hostname,
++                                       int port, int tls_port,
++                                       const char *subject))
+ {
+     int ret;
  
-     e = g_malloc0(sizeof(*e));
+@@ -634,7 +635,17 @@ static void vm_change_state_handler(void *opaque, int running,
+     }
+ }
+ 
+-void qemu_spice_init(void)
++MODIMPL(bool, qemu_is_using_spice, (void))
++{
++    return is_using_spice;
++}
++
++MODIMPL(void, qemu_start_using_spice, (void))
++{
++    is_using_spice = 1;
++}
++
++MODIMPL(void, qemu_spice_init, (void))
+ {
+     QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
+     const char *password, *str, *x509_dir, *addr,
+@@ -796,7 +807,7 @@ void qemu_spice_init(void)
+         error_report("failed to initialize spice server");
+         exit(1);
+     };
+-    using_spice = 1;
++    qemu_start_using_spice();
+ 
+     migration_state.notify = migration_state_notifier;
+     add_migration_state_change_notifier(&migration_state);
+@@ -945,8 +956,8 @@ static int qemu_spice_set_ticket(bool fail_if_conn, bool disconnect_if_conn)
+                                    fail_if_conn, disconnect_if_conn);
+ }
+ 
+-int qemu_spice_set_passwd(const char *passwd,
+-                          bool fail_if_conn, bool disconnect_if_conn)
++MODIMPL(int, qemu_spice_set_passwd,(const char *passwd,
++                                    bool fail_if_conn, bool disconnect_if_conn))
+ {
+     if (strcmp(auth, "spice") != 0) {
+         return -1;
+@@ -957,13 +968,13 @@ int qemu_spice_set_passwd(const char *passwd,
+     return qemu_spice_set_ticket(fail_if_conn, disconnect_if_conn);
+ }
+ 
+-int qemu_spice_set_pw_expire(time_t expires)
++MODIMPL(int, qemu_spice_set_pw_expire, (time_t expires))
+ {
+     auth_expires = expires;
+     return qemu_spice_set_ticket(false, false);
+ }
+ 
+-int qemu_spice_display_add_client(int csock, int skipauth, int tls)
++MODIMPL(int, qemu_spice_display_add_client, (int csock, int skipauth, int tls))
+ {
+     if (tls) {
+         return spice_server_add_ssl_client(spice_server, csock, skipauth);
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index 19632fdf6c..90529695fe 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -1164,7 +1164,7 @@ static void qemu_spice_display_init_one(QemuConsole *con)
+     register_displaychangelistener(&ssd->dcl);
+ }
+ 
+-void qemu_spice_display_init(void)
++MODIMPL(void, qemu_spice_display_init,(void))
+ {
+     QemuOptsList *olist = qemu_find_opts("spice");
+     QemuOpts *opts = QTAILQ_FIRST(&olist->head);
 -- 
 2.26.2
 
