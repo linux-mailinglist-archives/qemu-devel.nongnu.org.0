@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A294F20BC37
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:12:19 +0200 (CEST)
-Received: from localhost ([::1]:42346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211CA20BC13
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:02:19 +0200 (CEST)
+Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowa2-0007ej-7E
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53072)
+	id 1jowQL-0006kA-KE
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:02:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowIP-0003Ax-VG
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:06 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52691)
+ id 1jowI6-0002sm-MU
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:46 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:3628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowIC-0002yi-4S
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:05 -0400
+ id 1jowI4-0002zW-GM
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208433; x=1624744433;
+ t=1593208424; x=1624744424;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4c5dr70HHxoFN5U0jaV6lpPRzKmlhoGbxMmZ99CLIzk=;
- b=jXNEsSpgURTvZrG83IEcZlhAkaSZ+eCVbHVkaVh/sZtK88Gp9ka/SVXY
- 2LwMRATyW4MGJuBT+Lkel03Hzo1SoWkK84y+5tl1WenDwzNiyYUAugbfV
- fiRssIPHuup1pI6q2jWmVMjmNw5l3Dq7XDfr8jWaNSUuqix32tVFI0unx
- sfl8kowyBlViUCyFUOTQoHm4EjUapNhQEbmddXIxYkIK3CoqQlWKHvjOh
- ivCLSB8PaYB+Xi/5tqGzvW3wTKePs1kaYSWTau/gyo+aOJuPe+eDkIgBe
- 79gkNiNFQP1HgOPfYN4QJNMBDP5YnJZagrVdIA0zLZMq+AY5/4m59GZ5S w==;
-IronPort-SDR: renEQiZmmI9zpBqHR15TlTXSF6RJYWaVhVQa4raDBSBft51mRSOnFyCsoqn7PtaZgKzjKoOh0/
- XrAG4rfbJCWZ6nAvBhNqLWbeIkOviRDY9+s+PRTtIsMyF0ex/kIF9Nus/jdwfeGeqorlwQ/V9g
- goAyyrHp94t8/4wUIcRWBTXffB3CHYD0uTwh0DgK3CI4nc7Q7Bz0UgnLHZWkNiuYA7J4DmjZCI
- i+Wm3586Uyp0FNM4rwt7zMNzzkOqZVGAmALxWC7sqtvZERWcV2Od0SWDYWzlQVv/mRBlw6YWPx
- +EE=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360033"
+ bh=uQEy8TypEIi/gR8DwB3R6CCzI8cH45ZiqSr+NGl1IoY=;
+ b=SRhn94TQF6+b/M6GX802EqmeiFvZIZDOq+yzLqZGWYtTWMprEKkxKuDA
+ CZ125CwDFHHUiYaQsz7LOAZRC0Z2BtK/vaB88GHfPgdWIyVGCZ+C3cMI3
+ VHWpTDIZfegKHMbhDn98OHZKQKSHeS/rYsIs7lr0rjIX/CTOpSet9Ne9T
+ wbJxNi6/DJ29IgnCnk/8K8PGUZLaXL+n0E5g4fRXzEnPJ9EZibnoamNHD
+ emxm1pQ2E+rfzJN1wBmlLniiggA+QTG4IOYQWe3Annfu6EXied6gQcHKg
+ r4VMtbpli75DPYgZfBkCSUitfIMpyqyDmh47uloxUv2OlKvz4/2EJ+vIR w==;
+IronPort-SDR: gV+mytJSjDvm94uNVl0kI8FW53He2BaHKLemgD/yY22nroVJki8WAA0/S9ZufwIqLo1gAtCD56
+ jYPKILfpstXYDdhejWF6MaNSfKZtoHeUpD3cf9xEDAdTMneiEqh+maCBcir/xFpvkmmiWas5fw
+ 6Bmwd67k5S249iZ1ogKP05wx7f+gI93TAk/tPfau3Oqh9s5Y365PJq6zo/QzVACFfEhOh09fl0
+ RsxvPKpjgX3iAu4EOUzTxgfzUA6QsVrz6ed6FalIBhCCpz6F0/4nUAHX4JmMPQUWSSzC6wIfmr
+ /sA=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="250261252"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:38 +0800
-IronPort-SDR: 71+1FElImNxyVUZJqFPuuRPy5xB1hlTNxIQc8QEEsWxhxqE6puhWWzA7Nx64jwH73RXCrWjc5I
- cmGAA34qO7Okd4QKWBb9qrTlGzjfsbjkc=
+IronPort-SDR: a70BZnvm0unfF69Xi1/ed1LJWGGk5LQh/aIQIOWhfmIkIWhQ5SuX1MEpq9qhXTrW6OvK6qzG7k
+ HxO4sixjup0T9O2y6RU7ox4Tp22BC9GQI=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 14:42:35 -0700
-IronPort-SDR: yg+cwG2K+wVhAwDEF2bWeZmk9716sG0A6gMVbkZB1cwY3PzlODbLk1mQdkhI3KWuFlRjrIMGDq
- BeLPGCczz5dg==
+ 26 Jun 2020 14:42:37 -0700
+IronPort-SDR: p9wWMG5DMAacXhrMyC/Twoe09/nQVlv0K61egOFyRwXi3wimzwjTFU/vg35WUw/9d2GyXDcDB+
+ ORd5ZDssTtTA==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:37 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:38 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 10/63] target/riscv: add fault-only-first unit stride load
-Date: Fri, 26 Jun 2020 14:43:17 -0700
-Message-Id: <20200626214410.3613258-11-alistair.francis@wdc.com>
+Subject: [PULL 15/63] target/riscv: vector bitwise logical instructions
+Date: Fri, 26 Jun 2020 14:43:22 -0700
+Message-Id: <20200626214410.3613258-16-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=439617756=alistair.francis@wdc.com;
- helo=esa3.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:53:34
+ helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:53:37
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -88,277 +88,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The unit-stride fault-only-fault load instructions are used to
-vectorize loops with data-dependent exit conditions(while loops).
-These instructions execute as a regular load except that they
-will only take a trap on element 0.
-
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200623215920.2594-9-zhiwei_liu@c-sky.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200623215920.2594-14-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |  22 +++++
- target/riscv/insn32.decode              |   7 ++
- target/riscv/insn_trans/trans_rvv.inc.c |  73 ++++++++++++++++
- target/riscv/vector_helper.c            | 110 ++++++++++++++++++++++++
- 4 files changed, 212 insertions(+)
+ target/riscv/helper.h                   | 25 ++++++++++++
+ target/riscv/insn32.decode              |  9 +++++
+ target/riscv/insn_trans/trans_rvv.inc.c | 11 ++++++
+ target/riscv/vector_helper.c            | 51 +++++++++++++++++++++++++
+ 4 files changed, 96 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index f3650f736e..5c97bc446e 100644
+index 67a2e64c4a..f8b1c8a800 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -224,3 +224,25 @@ DEF_HELPER_6(vsxe_v_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsxe_v_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsxe_v_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsxe_v_d, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_5(vlbff_v_b, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbff_v_h, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhff_v_h, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlwff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlwff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vleff_v_b, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vleff_v_h, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vleff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vleff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbuff_v_b, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbuff_v_h, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbuff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlbuff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhuff_v_h, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhuff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlhuff_v_d, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlwuff_v_w, void, ptr, ptr, tl, env, i32)
-+DEF_HELPER_5(vlwuff_v_d, void, ptr, ptr, tl, env, i32)
+@@ -382,3 +382,28 @@ DEF_HELPER_6(vmsbc_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsbc_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsbc_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vmsbc_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
++
++DEF_HELPER_6(vand_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vand_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vand_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vand_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vor_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vor_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vor_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vor_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vxor_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vxor_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vxor_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vxor_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vand_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vand_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vand_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vand_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vor_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vor_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vor_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vor_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vxor_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vxor_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vxor_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vxor_vx_d, void, ptr, ptr, tl, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 287d52bcc9..7146aec22a 100644
+index be63e900c6..34d05a5917 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -226,6 +226,13 @@ vle_v      ... 000 . 00000 ..... 111 ..... 0000111 @r2_nfvm
- vlbu_v     ... 000 . 00000 ..... 000 ..... 0000111 @r2_nfvm
- vlhu_v     ... 000 . 00000 ..... 101 ..... 0000111 @r2_nfvm
- vlwu_v     ... 000 . 00000 ..... 110 ..... 0000111 @r2_nfvm
-+vlbff_v    ... 100 . 10000 ..... 000 ..... 0000111 @r2_nfvm
-+vlhff_v    ... 100 . 10000 ..... 101 ..... 0000111 @r2_nfvm
-+vlwff_v    ... 100 . 10000 ..... 110 ..... 0000111 @r2_nfvm
-+vleff_v    ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
-+vlbuff_v   ... 000 . 10000 ..... 000 ..... 0000111 @r2_nfvm
-+vlhuff_v   ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
-+vlwuff_v   ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
- vsb_v      ... 000 . 00000 ..... 000 ..... 0100111 @r2_nfvm
- vsh_v      ... 000 . 00000 ..... 101 ..... 0100111 @r2_nfvm
- vsw_v      ... 000 . 00000 ..... 110 ..... 0100111 @r2_nfvm
+@@ -313,6 +313,15 @@ vsbc_vvm        010010 1 ..... ..... 000 ..... 1010111 @r_vm_1
+ vsbc_vxm        010010 1 ..... ..... 100 ..... 1010111 @r_vm_1
+ vmsbc_vvm       010011 1 ..... ..... 000 ..... 1010111 @r_vm_1
+ vmsbc_vxm       010011 1 ..... ..... 100 ..... 1010111 @r_vm_1
++vand_vv         001001 . ..... ..... 000 ..... 1010111 @r_vm
++vand_vx         001001 . ..... ..... 100 ..... 1010111 @r_vm
++vand_vi         001001 . ..... ..... 011 ..... 1010111 @r_vm
++vor_vv          001010 . ..... ..... 000 ..... 1010111 @r_vm
++vor_vx          001010 . ..... ..... 100 ..... 1010111 @r_vm
++vor_vi          001010 . ..... ..... 011 ..... 1010111 @r_vm
++vxor_vv         001011 . ..... ..... 000 ..... 1010111 @r_vm
++vxor_vx         001011 . ..... ..... 100 ..... 1010111 @r_vm
++vxor_vi         001011 . ..... ..... 011 ..... 1010111 @r_vm
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 11a3a89d54..5e2fbb7078 100644
+index 98bd5bcb79..1552534796 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -561,3 +561,76 @@ GEN_VEXT_TRANS(vsxb_v, 0, rnfvm, st_index_op, st_index_check)
- GEN_VEXT_TRANS(vsxh_v, 1, rnfvm, st_index_op, st_index_check)
- GEN_VEXT_TRANS(vsxw_v, 2, rnfvm, st_index_op, st_index_check)
- GEN_VEXT_TRANS(vsxe_v, 3, rnfvm, st_index_op, st_index_check)
+@@ -1362,3 +1362,14 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
+ 
+ GEN_OPIVI_TRANS(vadc_vim, 0, vadc_vxm, opivx_vadc_check)
+ GEN_OPIVI_TRANS(vmadc_vim, 0, vmadc_vxm, opivx_vmadc_check)
 +
-+/*
-+ *** unit stride fault-only-first load
-+ */
-+static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
-+                       gen_helper_ldst_us *fn, DisasContext *s)
-+{
-+    TCGv_ptr dest, mask;
-+    TCGv base;
-+    TCGv_i32 desc;
-+
-+    TCGLabel *over = gen_new_label();
-+    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-+
-+    dest = tcg_temp_new_ptr();
-+    mask = tcg_temp_new_ptr();
-+    base = tcg_temp_new();
-+    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-+
-+    gen_get_gpr(base, rs1);
-+    tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-+    tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-+
-+    fn(dest, mask, base, cpu_env, desc);
-+
-+    tcg_temp_free_ptr(dest);
-+    tcg_temp_free_ptr(mask);
-+    tcg_temp_free(base);
-+    tcg_temp_free_i32(desc);
-+    gen_set_label(over);
-+    return true;
-+}
-+
-+static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-+{
-+    uint32_t data = 0;
-+    gen_helper_ldst_us *fn;
-+    static gen_helper_ldst_us * const fns[7][4] = {
-+        { gen_helper_vlbff_v_b,  gen_helper_vlbff_v_h,
-+          gen_helper_vlbff_v_w,  gen_helper_vlbff_v_d },
-+        { NULL,                  gen_helper_vlhff_v_h,
-+          gen_helper_vlhff_v_w,  gen_helper_vlhff_v_d },
-+        { NULL,                  NULL,
-+          gen_helper_vlwff_v_w,  gen_helper_vlwff_v_d },
-+        { gen_helper_vleff_v_b,  gen_helper_vleff_v_h,
-+          gen_helper_vleff_v_w,  gen_helper_vleff_v_d },
-+        { gen_helper_vlbuff_v_b, gen_helper_vlbuff_v_h,
-+          gen_helper_vlbuff_v_w, gen_helper_vlbuff_v_d },
-+        { NULL,                  gen_helper_vlhuff_v_h,
-+          gen_helper_vlhuff_v_w, gen_helper_vlhuff_v_d },
-+        { NULL,                  NULL,
-+          gen_helper_vlwuff_v_w, gen_helper_vlwuff_v_d }
-+    };
-+
-+    fn =  fns[seq][s->sew];
-+    if (fn == NULL) {
-+        return false;
-+    }
-+
-+    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-+    data = FIELD_DP32(data, VDATA, VM, a->vm);
-+    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+    data = FIELD_DP32(data, VDATA, NF, a->nf);
-+    return ldff_trans(a->rd, a->rs1, data, fn, s);
-+}
-+
-+GEN_VEXT_TRANS(vlbff_v, 0, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vlhff_v, 1, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vlwff_v, 2, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vleff_v, 3, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vlbuff_v, 4, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vlhuff_v, 5, r2nfvm, ldff_op, ld_us_check)
-+GEN_VEXT_TRANS(vlwuff_v, 6, r2nfvm, ldff_op, ld_us_check)
++/* Vector Bitwise Logical Instructions */
++GEN_OPIVV_GVEC_TRANS(vand_vv, and)
++GEN_OPIVV_GVEC_TRANS(vor_vv,  or)
++GEN_OPIVV_GVEC_TRANS(vxor_vv, xor)
++GEN_OPIVX_GVEC_TRANS(vand_vx, ands)
++GEN_OPIVX_GVEC_TRANS(vor_vx,  ors)
++GEN_OPIVX_GVEC_TRANS(vxor_vx, xors)
++GEN_OPIVI_GVEC_TRANS(vand_vi, 0, vand_vx, andi)
++GEN_OPIVI_GVEC_TRANS(vor_vi, 0, vor_vx,  ori)
++GEN_OPIVI_GVEC_TRANS(vxor_vi, 0, vxor_vx, xori)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 9355958d3f..d4d34d2471 100644
+index ad746175bd..6c53dc5796 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -577,3 +577,113 @@ GEN_VEXT_ST_INDEX(vsxe_v_b, int8_t,  int8_t,  idx_b, ste_b)
- GEN_VEXT_ST_INDEX(vsxe_v_h, int16_t, int16_t, idx_h, ste_h)
- GEN_VEXT_ST_INDEX(vsxe_v_w, int32_t, int32_t, idx_w, ste_w)
- GEN_VEXT_ST_INDEX(vsxe_v_d, int64_t, int64_t, idx_d, ste_d)
+@@ -1265,3 +1265,54 @@ GEN_VEXT_VMADC_VXM(vmsbc_vxm_b, uint8_t,  H1, DO_MSBC)
+ GEN_VEXT_VMADC_VXM(vmsbc_vxm_h, uint16_t, H2, DO_MSBC)
+ GEN_VEXT_VMADC_VXM(vmsbc_vxm_w, uint32_t, H4, DO_MSBC)
+ GEN_VEXT_VMADC_VXM(vmsbc_vxm_d, uint64_t, H8, DO_MSBC)
 +
-+/*
-+ *** unit-stride fault-only-fisrt load instructions
-+ */
-+static inline void
-+vext_ldff(void *vd, void *v0, target_ulong base,
-+          CPURISCVState *env, uint32_t desc,
-+          vext_ldst_elem_fn *ldst_elem,
-+          clear_fn *clear_elem,
-+          uint32_t esz, uint32_t msz, uintptr_t ra)
-+{
-+    void *host;
-+    uint32_t i, k, vl = 0;
-+    uint32_t mlen = vext_mlen(desc);
-+    uint32_t nf = vext_nf(desc);
-+    uint32_t vm = vext_vm(desc);
-+    uint32_t vlmax = vext_maxsz(desc) / esz;
-+    target_ulong addr, offset, remain;
++/* Vector Bitwise Logical Instructions */
++RVVCALL(OPIVV2, vand_vv_b, OP_SSS_B, H1, H1, H1, DO_AND)
++RVVCALL(OPIVV2, vand_vv_h, OP_SSS_H, H2, H2, H2, DO_AND)
++RVVCALL(OPIVV2, vand_vv_w, OP_SSS_W, H4, H4, H4, DO_AND)
++RVVCALL(OPIVV2, vand_vv_d, OP_SSS_D, H8, H8, H8, DO_AND)
++RVVCALL(OPIVV2, vor_vv_b, OP_SSS_B, H1, H1, H1, DO_OR)
++RVVCALL(OPIVV2, vor_vv_h, OP_SSS_H, H2, H2, H2, DO_OR)
++RVVCALL(OPIVV2, vor_vv_w, OP_SSS_W, H4, H4, H4, DO_OR)
++RVVCALL(OPIVV2, vor_vv_d, OP_SSS_D, H8, H8, H8, DO_OR)
++RVVCALL(OPIVV2, vxor_vv_b, OP_SSS_B, H1, H1, H1, DO_XOR)
++RVVCALL(OPIVV2, vxor_vv_h, OP_SSS_H, H2, H2, H2, DO_XOR)
++RVVCALL(OPIVV2, vxor_vv_w, OP_SSS_W, H4, H4, H4, DO_XOR)
++RVVCALL(OPIVV2, vxor_vv_d, OP_SSS_D, H8, H8, H8, DO_XOR)
++GEN_VEXT_VV(vand_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vand_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vand_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vand_vv_d, 8, 8, clearq)
++GEN_VEXT_VV(vor_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vor_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vor_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vor_vv_d, 8, 8, clearq)
++GEN_VEXT_VV(vxor_vv_b, 1, 1, clearb)
++GEN_VEXT_VV(vxor_vv_h, 2, 2, clearh)
++GEN_VEXT_VV(vxor_vv_w, 4, 4, clearl)
++GEN_VEXT_VV(vxor_vv_d, 8, 8, clearq)
 +
-+    /* probe every access*/
-+    for (i = 0; i < env->vl; i++) {
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+            continue;
-+        }
-+        addr = base + nf * i * msz;
-+        if (i == 0) {
-+            probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
-+        } else {
-+            /* if it triggers an exception, no need to check watchpoint */
-+            remain = nf * msz;
-+            while (remain > 0) {
-+                offset = -(addr | TARGET_PAGE_MASK);
-+                host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD,
-+                                         cpu_mmu_index(env, false));
-+                if (host) {
-+#ifdef CONFIG_USER_ONLY
-+                    if (page_check_range(addr, nf * msz, PAGE_READ) < 0) {
-+                        vl = i;
-+                        goto ProbeSuccess;
-+                    }
-+#else
-+                    probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
-+#endif
-+                } else {
-+                    vl = i;
-+                    goto ProbeSuccess;
-+                }
-+                if (remain <=  offset) {
-+                    break;
-+                }
-+                remain -= offset;
-+                addr += offset;
-+            }
-+        }
-+    }
-+ProbeSuccess:
-+    /* load bytes from guest memory */
-+    if (vl != 0) {
-+        env->vl = vl;
-+    }
-+    for (i = 0; i < env->vl; i++) {
-+        k = 0;
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+            continue;
-+        }
-+        while (k < nf) {
-+            target_ulong addr = base + (i * nf + k) * msz;
-+            ldst_elem(env, addr, i + k * vlmax, vd, ra);
-+            k++;
-+        }
-+    }
-+    /* clear tail elements */
-+    if (vl != 0) {
-+        return;
-+    }
-+    for (k = 0; k < nf; k++) {
-+        clear_elem(vd, env->vl + k * vlmax, env->vl * esz, vlmax * esz);
-+    }
-+}
-+
-+#define GEN_VEXT_LDFF(NAME, MTYPE, ETYPE, LOAD_FN, CLEAR_FN)     \
-+void HELPER(NAME)(void *vd, void *v0, target_ulong base,         \
-+                  CPURISCVState *env, uint32_t desc)             \
-+{                                                                \
-+    vext_ldff(vd, v0, base, env, desc, LOAD_FN, CLEAR_FN,        \
-+              sizeof(ETYPE), sizeof(MTYPE), GETPC());            \
-+}
-+
-+GEN_VEXT_LDFF(vlbff_v_b,  int8_t,   int8_t,   ldb_b,  clearb)
-+GEN_VEXT_LDFF(vlbff_v_h,  int8_t,   int16_t,  ldb_h,  clearh)
-+GEN_VEXT_LDFF(vlbff_v_w,  int8_t,   int32_t,  ldb_w,  clearl)
-+GEN_VEXT_LDFF(vlbff_v_d,  int8_t,   int64_t,  ldb_d,  clearq)
-+GEN_VEXT_LDFF(vlhff_v_h,  int16_t,  int16_t,  ldh_h,  clearh)
-+GEN_VEXT_LDFF(vlhff_v_w,  int16_t,  int32_t,  ldh_w,  clearl)
-+GEN_VEXT_LDFF(vlhff_v_d,  int16_t,  int64_t,  ldh_d,  clearq)
-+GEN_VEXT_LDFF(vlwff_v_w,  int32_t,  int32_t,  ldw_w,  clearl)
-+GEN_VEXT_LDFF(vlwff_v_d,  int32_t,  int64_t,  ldw_d,  clearq)
-+GEN_VEXT_LDFF(vleff_v_b,  int8_t,   int8_t,   lde_b,  clearb)
-+GEN_VEXT_LDFF(vleff_v_h,  int16_t,  int16_t,  lde_h,  clearh)
-+GEN_VEXT_LDFF(vleff_v_w,  int32_t,  int32_t,  lde_w,  clearl)
-+GEN_VEXT_LDFF(vleff_v_d,  int64_t,  int64_t,  lde_d,  clearq)
-+GEN_VEXT_LDFF(vlbuff_v_b, uint8_t,  uint8_t,  ldbu_b, clearb)
-+GEN_VEXT_LDFF(vlbuff_v_h, uint8_t,  uint16_t, ldbu_h, clearh)
-+GEN_VEXT_LDFF(vlbuff_v_w, uint8_t,  uint32_t, ldbu_w, clearl)
-+GEN_VEXT_LDFF(vlbuff_v_d, uint8_t,  uint64_t, ldbu_d, clearq)
-+GEN_VEXT_LDFF(vlhuff_v_h, uint16_t, uint16_t, ldhu_h, clearh)
-+GEN_VEXT_LDFF(vlhuff_v_w, uint16_t, uint32_t, ldhu_w, clearl)
-+GEN_VEXT_LDFF(vlhuff_v_d, uint16_t, uint64_t, ldhu_d, clearq)
-+GEN_VEXT_LDFF(vlwuff_v_w, uint32_t, uint32_t, ldwu_w, clearl)
-+GEN_VEXT_LDFF(vlwuff_v_d, uint32_t, uint64_t, ldwu_d, clearq)
++RVVCALL(OPIVX2, vand_vx_b, OP_SSS_B, H1, H1, DO_AND)
++RVVCALL(OPIVX2, vand_vx_h, OP_SSS_H, H2, H2, DO_AND)
++RVVCALL(OPIVX2, vand_vx_w, OP_SSS_W, H4, H4, DO_AND)
++RVVCALL(OPIVX2, vand_vx_d, OP_SSS_D, H8, H8, DO_AND)
++RVVCALL(OPIVX2, vor_vx_b, OP_SSS_B, H1, H1, DO_OR)
++RVVCALL(OPIVX2, vor_vx_h, OP_SSS_H, H2, H2, DO_OR)
++RVVCALL(OPIVX2, vor_vx_w, OP_SSS_W, H4, H4, DO_OR)
++RVVCALL(OPIVX2, vor_vx_d, OP_SSS_D, H8, H8, DO_OR)
++RVVCALL(OPIVX2, vxor_vx_b, OP_SSS_B, H1, H1, DO_XOR)
++RVVCALL(OPIVX2, vxor_vx_h, OP_SSS_H, H2, H2, DO_XOR)
++RVVCALL(OPIVX2, vxor_vx_w, OP_SSS_W, H4, H4, DO_XOR)
++RVVCALL(OPIVX2, vxor_vx_d, OP_SSS_D, H8, H8, DO_XOR)
++GEN_VEXT_VX(vand_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vand_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vand_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vand_vx_d, 8, 8, clearq)
++GEN_VEXT_VX(vor_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vor_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vor_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vor_vx_d, 8, 8, clearq)
++GEN_VEXT_VX(vxor_vx_b, 1, 1, clearb)
++GEN_VEXT_VX(vxor_vx_h, 2, 2, clearh)
++GEN_VEXT_VX(vxor_vx_w, 4, 4, clearl)
++GEN_VEXT_VX(vxor_vx_d, 8, 8, clearq)
 -- 
 2.27.0
 
