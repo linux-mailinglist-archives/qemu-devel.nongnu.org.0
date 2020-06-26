@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F9A20B7F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:18:02 +0200 (CEST)
-Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D682720B843
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:30:34 +0200 (CEST)
+Received: from localhost ([::1]:45126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1josvJ-0003tK-JV
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56126)
+	id 1jot7R-0007kP-Rb
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:30:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrm-0007Un-UT
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:23 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51512)
+ id 1jot0B-0003ds-E8
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:03 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrg-0001JL-DZ
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:22 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id 22so9650459wmg.1
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:14:15 -0700 (PDT)
+ id 1jot09-00055f-Af
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:03 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id b6so10356875wrs.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BoQbWA8pgX9GC2xijlmIAV/4o0rgmcM2g2psEePuq2U=;
- b=hWxqrGXsz36qzwCeXVhSjT+83pk8BWctvg22Wv2Emy+il1Fhtc7ZMaon6uHozo+7Mx
- 1De2xyZYtfWafr6gZz+zl2eS2TvvKuTqh+ZfDJFnit16t4wMHKjvub2vtIhiIVIZoSP2
- UJ/qK1/1hjlMxbCLEKm//kdBqsb67S4MTmS6kvvEkBI3Plu806emuZjxIr4zaSPCeXLE
- 2G0A9mFmbc1Vtcdz38SzzvlDAKvzS1TQrwJudokkN1NzKx5cP19FKiOYorrexPNN7ETW
- hkmYImsvQomjDZICZDKgpMEj8WzV8FiTwVG7sHlMPkRCQXU1J0FXRogyS8dN+WKc2exu
- nMhQ==
+ bh=xUZG6tLp/xI8r3bd4dXEs/uYPfQvAur5hQZG/hEKfXs=;
+ b=podm8PhcCmL7vam9aI9CPY+fYS9MtndrEkcOmhw8MQk++72Yuc43FVzU3vk10+0muO
+ OHYf0eclrX9mL3phNozKFbraMeBKc+HpCcAYuNwe7XbHUly4m+NafwlWvaA/PMTrncSo
+ FFUxpSBiu7G24wYTfj63pvyPsUeadOtO+MhHEdy6/7uHLizhi7Ratw/hGI0ViZkfJ6/j
+ 2s7Z5MjeCdCgkGyHV49f36Pd3EfwpoU+Ig7YpiJOo3uJ/dbZzWUy7m6scWTROV3lbrOa
+ UcCnwWrIihHhsfXBKEliydKSpMYSdBelC+ZwjOUCI7AXoLWG9a8kpNGTzC+fRz2nwCWv
+ lXdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BoQbWA8pgX9GC2xijlmIAV/4o0rgmcM2g2psEePuq2U=;
- b=FfnAT2WcsZkjV5fGlsnP1chrgvwkVHS9DpFX0KX7znffpG5fj2uHz3LHn2N7NyIZDg
- +y6g+VyC6uKcS5zAAiOMGTNMJ5YVAmmC0/O0Ee1OfGfkA5Wl3GfFad6fZ3yvtU1rFe+G
- EON8vX0OdzXel5VsxbCv/hTyUcM1QpT7Oa3BfVT0Xlf6zDy2MUzuXS9doKzRtqkSd9lh
- KOmsw0UyVutub+QhRk2X2FTiC6hjeUn94xM9g0G+QjIhChfbrJ+tibf0TtSio42AfkMk
- uFwrFMIaWw1sjg4bm2L1n9lAq2auL56bT18pNT2h54o0j0EJVDbgPrO8KiXpm/H6AmKT
- 738Q==
-X-Gm-Message-State: AOAM532XWIcQGgjv+wfsGzfQXH5iSQOfrWV+/N66qoZBBcaTa+YhdBsz
- HHs205OqXpmgPQgpxu/nXCy1cg==
-X-Google-Smtp-Source: ABdhPJxlKMLSvZR+MYg4gZ1LgSuaFbLj3SIQIT9vnqW+sVPQqu2GRaig6z0CWBuDI4F6txb1hMIo7g==
-X-Received: by 2002:a1c:b4c2:: with SMTP id d185mr4495615wmf.57.1593195254714; 
- Fri, 26 Jun 2020 11:14:14 -0700 (PDT)
+ bh=xUZG6tLp/xI8r3bd4dXEs/uYPfQvAur5hQZG/hEKfXs=;
+ b=OUvUFaCdyAzR9y6icFNjFZacfeKiDpDtFwKdeKF+srKDDf9Z0DjzGPtnJKTpD9a604
+ SFO6tAngGYupviGtSJTlqGRcFBJ38SoOwjx07e2F88YuCSld4SHeKqXYm0RIqka9Lru9
+ Asej6EorQO2Vh/xMtq+mM+BCmCSsQwHwD9S0h4FtugfoE9kZ0ITdhEMlibreDbKogb8b
+ dmUKN7lQ0Rt1YEM/uKkdR7kCSJ6j2paVQjWr6KY8/v5M5DYIao4eOXWRMcjWLu2CWZ7g
+ 76kJoyuLE+VjJPEJR01u8lFULbaOKxlgjNXp6F3tWj5RLqOvGOxfMu8978dbuoYHsuj+
+ wmLw==
+X-Gm-Message-State: AOAM532ZJy7XJVca1KUxJn5wVjgvHPqKxwCon7LxW3EuXC98KplJ2HkH
+ gjKVKlxpYyfIi6maKuooI5VHLw==
+X-Google-Smtp-Source: ABdhPJxo6zKuyUdIwOJz4uDUryeGy82n33hJD+nGjaO7b6mOUmJNkZsGXxNRzGm+438WrmeJeajkew==
+X-Received: by 2002:adf:f2cd:: with SMTP id d13mr4821906wrp.378.1593195779870; 
+ Fri, 26 Jun 2020 11:22:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t205sm18307821wmt.8.2020.06.26.11.14.06
+ by smtp.gmail.com with ESMTPSA id z16sm27768267wrr.35.2020.06.26.11.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 11:14:10 -0700 (PDT)
+ Fri, 26 Jun 2020 11:22:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B62821FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id F189A1FFA5;
  Fri, 26 Jun 2020 19:14:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 18/30] gitlab: introduce explicit "container" and "build"
- stages
-Date: Fri, 26 Jun 2020 19:13:45 +0100
-Message-Id: <20200626181357.26211-19-alex.bennee@linaro.org>
+Subject: [PATCH  v3 19/30] gitlab: build all container images during CI
+Date: Fri, 26 Jun 2020 19:13:46 +0100
+Message-Id: <20200626181357.26211-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626181357.26211-1-alex.bennee@linaro.org>
 References: <20200626181357.26211-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,138 +89,311 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Laszlo Ersek <lersek@redhat.com>, richard.henderson@linaro.org,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-If no stage is listed, jobs get put in an implicit "test" stage.
-Some jobs which create container images to be used by later stages
-are currently listed as in a "build" stages.
+We have a number of container images in tests/docker/dockerfiles
+that are intended to provide well defined environments for doing
+test builds. We want our CI system to use these containers too.
+
+This introduces builds of all of them as the first stage in the
+CI, so that the built containers are available for later build
+jobs. The containers are setup to use the GitLab container
+registry as the cache, so we only pay the penalty of the full
+build when the dockerfiles change. The main qemu-project/qemu
+repo is used as a second cache, so that users forking QEMU will
+see a fast turnaround time on their CI jobs.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200622153318.751107-3-berrange@redhat.com>
+[AJB: tweak the tag format]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200622153318.751107-2-berrange@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/edk2.yml    |  3 ++-
- .gitlab-ci.d/opensbi.yml |  3 ++-
- .gitlab-ci.yml           | 11 +++++++++++
- 3 files changed, 15 insertions(+), 2 deletions(-)
+ .gitlab-ci.d/containers.yml | 248 ++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.yml              |   3 +
+ 2 files changed, 251 insertions(+)
+ create mode 100644 .gitlab-ci.d/containers.yml
 
-diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
-index a9990b71475..e1e04524166 100644
---- a/.gitlab-ci.d/edk2.yml
-+++ b/.gitlab-ci.d/edk2.yml
-@@ -1,5 +1,5 @@
- docker-edk2:
-- stage: build
-+ stage: containers
-  rules: # Only run this job when the Dockerfile is modified
-  - changes:
-    - .gitlab-ci.d/edk2.yml
-@@ -24,6 +24,7 @@ docker-edk2:
-  - docker push $IMAGE_TAG
- 
- build-edk2:
-+ stage: build
-  rules: # Only run this job when ...
-  - changes: # ... roms/edk2/ is modified (submodule updated)
-    - roms/edk2/*
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index 6a1750784ac..62088ec5ec1 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -1,5 +1,5 @@
- docker-opensbi:
-- stage: build
-+ stage: containers
-  rules: # Only run this job when the Dockerfile is modified
-  - changes:
-    - .gitlab-ci.d/opensbi.yml
-@@ -24,6 +24,7 @@ docker-opensbi:
-  - docker push $IMAGE_TAG
- 
- build-opensbi:
-+ stage: build
-  rules: # Only run this job when ...
-  - changes: # ... roms/opensbi/ is modified (submodule updated)
-    - roms/opensbi/*
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+new file mode 100644
+index 00000000000..580439647ef
+--- /dev/null
++++ b/.gitlab-ci.d/containers.yml
+@@ -0,0 +1,248 @@
++
++
++.container_job_template: &container_job_definition
++  image: docker:stable
++  stage: containers
++  services:
++    - docker:dind
++  before_script:
++    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
++    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
++    - docker info
++    - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
++  script:
++    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
++    - sed -i -e "s,FROM qemu/,FROM $CI_REGISTRY_IMAGE/qemu/," tests/docker/dockerfiles/$NAME.docker
++    - docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG" -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
++    - docker push "$TAG"
++  after_script:
++    - docker logout
++
++amd64-centos7-container:
++  <<: *container_job_definition
++  variables:
++    NAME: centos7
++
++amd64-centos8-container:
++  <<: *container_job_definition
++  variables:
++    NAME: centos8
++
++amd64-debian10-container:
++  <<: *container_job_definition
++  variables:
++    NAME: debian10
++
++amd64-debian11-container:
++  <<: *container_job_definition
++  variables:
++    NAME: debian11
++
++amd64-debian9-container:
++  <<: *container_job_definition
++  variables:
++    NAME: debian9
++
++amd64-debian9-mxe-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian9-container']
++  variables:
++    NAME: debian9-mxe
++
++alpha-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-alpha-cross
++
++amd64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-amd64-cross
++
++amd64-debian-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-amd64
++
++arm64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-arm64-cross
++
++arm64-test-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian11-container']
++  variables:
++    NAME: debian-arm64-test-cross
++
++armel-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-armel-cross
++
++armhf-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-armhf-cross
++
++hppa-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-hppa-cross
++
++m68k-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-m68k-cross
++
++mips64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-mips64-cross
++
++mips64el-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-mips64el-cross
++
++mips-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-mips-cross
++
++mipsel-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-mipsel-cross
++
++powerpc-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-powerpc-cross
++
++ppc64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-ppc64-cross
++
++ppc64el-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-ppc64el-cross
++
++riscv64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-riscv64-cross
++
++s390x-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-s390x-cross
++
++sh4-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-sh4-cross
++
++sparc64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-sparc64-cross
++
++tricore-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian9-container']
++  variables:
++    NAME: debian-tricore-cross
++
++win32-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer3
++  needs: ['amd64-debian9-mxe-container']
++  variables:
++    NAME: debian-win32-cross
++
++win64-debian-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer3
++  needs: ['amd64-debian9-mxe-container']
++  variables:
++    NAME: debian-win64-cross
++
++xtensa-debian-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: debian-xtensa-cross
++
++cris-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-cris-cross
++
++amd64-fedora-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora
++
++i386-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-i386-cross
++
++amd64-ubuntu1804-container:
++  <<: *container_job_definition
++  variables:
++    NAME: ubuntu1804
++
++amd64-ubuntu2004-container:
++  <<: *container_job_definition
++  variables:
++    NAME: ubuntu2004
++
++amd64-ubuntu-container:
++  <<: *container_job_definition
++  variables:
++    NAME: ubuntu
++
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 349c77aa580..9fdc752ea63 100644
+index 9fdc752ea63..72d688875fd 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -1,3 +1,7 @@
-+stages:
-+  - containers
-+  - build
-+
+@@ -1,10 +1,13 @@
+ stages:
+   - containers
++  - containers-layer2
++  - containers-layer3
+   - build
+ 
  include:
    - local: '/.gitlab-ci.d/edk2.yml'
    - local: '/.gitlab-ci.d/opensbi.yml'
-@@ -17,6 +21,7 @@ include:
-   - JOBS=$(expr $(nproc) + 1)
++  - local: '/.gitlab-ci.d/containers.yml'
  
- build-system1:
-+ stage: build
-  image: ubuntu:19.10
-  <<: *before_script_apt
-  script:
-@@ -31,6 +36,7 @@ build-system1:
-  - make -j"$JOBS" check
- 
- build-system2:
-+ stage: build
-  image: fedora:latest
-  <<: *before_script_dnf
-  script:
-@@ -46,6 +52,7 @@ build-system2:
-  - make -j"$JOBS" check
- 
- build-disabled:
-+ stage: build
-  image: fedora:latest
-  <<: *before_script_dnf
-  script:
-@@ -62,6 +69,7 @@ build-disabled:
-  - make -j"$JOBS" check-qtest SPEED=slow
- 
- build-tcg-disabled:
-+ stage: build
-  image: centos:8
-  <<: *before_script_dnf
-  script:
-@@ -82,6 +90,7 @@ build-tcg-disabled:
-             260 261 262 263 264 270 272 273 277 279
- 
- build-user:
-+ stage: build
-  <<: *before_script_apt
-  script:
-  - mkdir build
-@@ -92,6 +101,7 @@ build-user:
-  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
- 
- build-clang:
-+ stage: build
-  image: fedora:latest
-  <<: *before_script_dnf
-  script:
-@@ -106,6 +116,7 @@ build-clang:
-  - make -j"$JOBS" check
- 
- build-tci:
-+ stage: build
-  image: centos:8
-  <<: *before_script_dnf
-  script:
+ .update_apt_template: &before_script_apt
+  before_script:
 -- 
 2.20.1
 
