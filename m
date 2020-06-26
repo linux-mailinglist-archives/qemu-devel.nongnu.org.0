@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207B920B33B
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:07:46 +0200 (CEST)
-Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8362520B340
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:09:08 +0200 (CEST)
+Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jop17-0001rK-3J
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43922)
+	id 1jop2R-0004DW-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1joozf-0000B1-BL; Fri, 26 Jun 2020 10:06:15 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41805)
+ id 1jop0f-00026B-Nm; Fri, 26 Jun 2020 10:07:17 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1joozd-0005vK-HL; Fri, 26 Jun 2020 10:06:14 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id dp18so9491853ejc.8;
- Fri, 26 Jun 2020 07:06:12 -0700 (PDT)
+ id 1jop0e-0006NY-6b; Fri, 26 Jun 2020 10:07:17 -0400
+Received: by mail-ej1-x643.google.com with SMTP id w16so9511212ejj.5;
+ Fri, 26 Jun 2020 07:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=Y4ui6W+HkPW/y/bkDNWfGq3qEgEM61+MM+QUv/DDP2s=;
- b=oTtc03u5mP+n6xA/1l6k5c8hq0mdaylGuSsP9K1ZLpdLiUg0rmotaTT7x0ghF0Jx3x
- 7a1q8pYsvXK4xfmf2MHndzuUsrr4jrAAIjxUb8YbJKggFfRlU5Br3dz1LhQcNFAHdnL3
- NnGkJSzFGLd7MrZPWLVzSWAU0ElKKBUJJ++jzhsV/xQ9q83cuWUZDfoJ7evN9GQ/G/6Q
- IVD+TuF873Bov7dhMK9RHX5qxlIq0HNNFNq7J4EkHB4PyDFFzsrVQlIgDM4cmm7ZN/Lt
- HZR3lt1Ixu6XTW8DrbCaYJWC4iWxXpFijOhl7Hc9eBpQeSehT6RbGLJw5qACzc2Ua8SN
- InlA==
+ bh=RuzXvA/aTpuOPYIFxer48+fv+OoNhJtBmY1ds60T/Kg=;
+ b=cXlB87Gpa4No3MW4eJDRBmhS5xsEQHwXHtJf4i8s8/j18Xm4rlsCi0fXOjGRyNFSZP
+ 9mF0MwusP5Y6O4EHdT2zFknqMa4AjNjfsN9CrNasgzemhd8uxBdJnv+FXgBeJTXyLV+e
+ i2ejkt9cUycfBANlsNhXhOnVSD8tnEHIJeIqtZGLxvmUuYEka/DZ8GRkGJt7U+gpgnWJ
+ sK0caCcTB+IRHacWnbltI14ik3yz4le0plrUbD0vWVHG63UrEEFjUBW2GTzCBj36c8tD
+ kxQYeh/7OJBcfMqK1A+1wiJWI9Q4jOZLIrWG2WEc1e7xLLfVZ47Gl6yqsRNC083gGrUT
+ LVpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Y4ui6W+HkPW/y/bkDNWfGq3qEgEM61+MM+QUv/DDP2s=;
- b=RwawZhYWHUJYqK1DPs+PZXRN+LwhitP9A5HjkWXuuzvdc5yVEVwKeUdwCGTkuskTLh
- AVCMSAt3rew8rIsK2hRCx2qyJ9PgoWz2Yk4lV9m2UZqjD/ToifbDyH/181r0g6GfgOIx
- aBxZqxiIhSy1wfcZvouiXGA0qlZ+ZQBMZtaGG2jAoTz7Jk3ia6uXFX708mBhi9SaQt/H
- RC/8zwO5uJbAIllxC/yZK93H9dZ9BvAZJx+Cz43yIYLRg5wDWEeTvYYyJ+QB4K40rn8A
- kp3nhLPC3Hsm43XpUd4GgzgMax75iNNH1XcpKrW1DmuEc2toS1PRv78+ZWV22YcVSzO3
- p1ZA==
-X-Gm-Message-State: AOAM531+79u9MtMj+Meki0slNvTuDfHVQQc1TptaHTw5DF1HQKArO0E6
- RcYWz1FLhM+lyh8qdvC+1uNaM/HNpRYbLX8LLT7lvrsCGnfUxg==
-X-Google-Smtp-Source: ABdhPJxFojS6/qaUqPZHHKFRS0j8y8BFnq669I53Cu53brb8xR/jYdOIskd7kIK77eJtg/ST9bOxzpQUOEgAwtOfz50=
-X-Received: by 2002:a17:906:a156:: with SMTP id
- bu22mr2642501ejb.322.1593180371432; 
- Fri, 26 Jun 2020 07:06:11 -0700 (PDT)
+ bh=RuzXvA/aTpuOPYIFxer48+fv+OoNhJtBmY1ds60T/Kg=;
+ b=L8mSHFD/plWwGmmg44CPlHqCI1EMCLw38dXNQva4ptzeK83002qvLS7pHj9eu60hfk
+ 0SikiLaYTVhB9awUgfytu11D9S0O9aqcZtmAIUviS/qimGCmVcZnYoQoZlmCXw5OPwnX
+ fUO8xkN9TPLryn9Ksi0vMLCsQVBzYeKE6bdUSJDd4Vud8mxkFrdKO5lV0mzTzlh1N2v3
+ CX3o/4Z36o6ED9sCSW+M1M9hFyc3hq6nKQpZ+T8AYfnlfHNoGJgcgUwO/dv6VtFiMSFD
+ d/5II3OFNzxydQpUcWy6CYi5KljCV1wb5NGHVaMYRsmYTq2sDiSyCUQW+PhJRmVdPUZD
+ Tsgw==
+X-Gm-Message-State: AOAM533DaA9M4rqyGQKkEacMB96nzKUEVVGpPJ25COXnZZGjdpmOjotx
+ ja4nwfz++s5l3FtTgomB4DidcgTX6SnZ4j+Eou6D72Zwi4wPcw==
+X-Google-Smtp-Source: ABdhPJwGcjkIj++hulhg/MQbba/bL/T4F9hqHMsepu/2cWUqK/lkdMZ46c/XodkhXqqOE98RlerRjWzPP7A6vXp/WDY=
+X-Received: by 2002:a17:906:3154:: with SMTP id
+ e20mr2836396eje.171.1593180434332; 
+ Fri, 26 Jun 2020 07:07:14 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 15:06:00 +0100
-Message-ID: <CA+XhMqyDqh0y=4YVjDXU-ZoYBFEtNzYL4MUwZQFk33NnazrajA@mail.gmail.com>
-Subject: [PATCH 0/3] second batch of haiku build fix
+Date: Fri, 26 Jun 2020 15:07:03 +0100
+Message-ID: <CA+XhMqxQ3o_h7_Fwho7gu9x9Pw5jCw=z-goVMyzJgQYqZR-cgA@mail.gmail.com>
+Subject: [PATCH 1/3] Include endian.h for Haiku to solve bswap* macros build
 To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=devnexen@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -77,20 +77,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From a548479cab82200d9df33a70f24aeebb00eb70ad Mon Sep 17 00:00:00 2001
+From 95ef79ddff73eebd1f1bec6673c2c68209fab107 Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 15:04:30 +0000
-Subject: [PATCH 0/3] second batch of haiku build fix
+Date: Fri, 26 Jun 2020 13:56:14 +0000
+Subject: [PATCH 1/3] Include endian.h for Haiku to solve bswap* macros build
+ failure.
 
-David Carlier (3):
-  Include endian.h for Haiku to solve bswap* macros build failure.
-  drm build ignored for Haiku.
-  syscall skipped for haiku used only in qemu_signalfd anyway
-
+Signed-off-by: David Carlier <devnexen@gmail.com>
+---
  include/qemu/bswap.h | 2 ++
- util/Makefile.objs   | 2 +-
- util/compatfd.c      | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 2a9f3fe783..1d3e4c24e4 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -8,6 +8,8 @@
+ # include <machine/bswap.h>
+ #elif defined(__FreeBSD__)
+ # include <sys/endian.h>
++#elif defined(__HAIKU__)
++# include <endian.h>
+ #elif defined(CONFIG_BYTESWAP_H)
+ # include <byteswap.h>
 
 -- 
 2.26.0
