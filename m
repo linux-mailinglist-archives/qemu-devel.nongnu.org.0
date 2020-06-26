@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21B220AFE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:39:38 +0200 (CEST)
-Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E0B20AFEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:42:49 +0200 (CEST)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jollh-0003xN-QO
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1jolom-000823-QS
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1joldz-0002Kh-HU
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51465
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jolfo-0005NU-Vt
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:33:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51548
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1joldx-0003KK-Pv
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:39 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jolfn-00045w-BL
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:33:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593167497;
+ s=mimecast20190719; t=1593167610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DBZLlnjf3A9WBShfSK1x+cBRW9dPdRmbBNg1+e4sJXM=;
- b=eP130NqurP0tyzQdAXLSyokKK6GYZGy8la2fYgoNxSwIYzcEDtbIV5lUJ1RpAuxNwDbsl4
- OhdJBUkc661kgdl/n9yJZ2ZEtnxFQpX/+J37jIzxqls05x8n1eqebFZQyXQ4Wr60V2M5ua
- EbQOziCcemNA7Nbn2hflf4tqlhFqWaQ=
+ bh=AYU5K2hAfmX2GUNWr0ua/BF8FmCBUP2+H46nooxPxcM=;
+ b=WvfEi5AF6uP0OV6qgDPgJvd5aUx2/zGO+yrIs/1Ce95FJ5O4Q1Wmh1TZdvjb10sSu2qmFb
+ nx/qxejZAXln8sy4ZIbUVGU2kNPdpjhjC0fiSwmLipyfM7rRbPX2yL0o6PyAYazbRx9Qwr
+ OJxmzr5GX17CQMkKD+omFvvMsOKZaBA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-FWpZFlf2P5S-7qa31FDSQA-1; Fri, 26 Jun 2020 06:31:34 -0400
-X-MC-Unique: FWpZFlf2P5S-7qa31FDSQA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-239-SE2UBXfRPYOl_aP91fMvVg-1; Fri, 26 Jun 2020 06:33:28 -0400
+X-MC-Unique: SE2UBXfRPYOl_aP91fMvVg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCB3B107ACCA
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:31:33 +0000 (UTC)
-Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 743A360C87;
- Fri, 26 Jun 2020 10:31:30 +0000 (UTC)
-Date: Fri, 26 Jun 2020 11:31:26 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 2/3] virtiofsd: Check capability calls
-Message-ID: <20200626103126.GG281902@stefanha-x1.localdomain>
-References: <20200625162929.46672-1-dgilbert@redhat.com>
- <20200625162929.46672-3-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1477C805EE2;
+ Fri, 26 Jun 2020 10:33:27 +0000 (UTC)
+Received: from work-vm (ovpn-113-27.ams2.redhat.com [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5BE25C1BB;
+ Fri, 26 Jun 2020 10:33:05 +0000 (UTC)
+Date: Fri, 26 Jun 2020 11:33:03 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v3 8/9] spapr: PEF: block migration
+Message-ID: <20200626103303.GE3087@work-vm>
+References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
+ <20200619020602.118306-9-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-In-Reply-To: <20200625162929.46672-3-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9Iq5ULCa7nGtWwZS"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
+In-Reply-To: <20200619020602.118306-9-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,43 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---9Iq5ULCa7nGtWwZS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* David Gibson (david@gibson.dropbear.id.au) wrote:
+> We haven't yet implemented the fairly involved handshaking that will be
+> needed to migrate PEF protected guests.  For now, just use a migration
+> blocker so we get a meaningful error if someone attempts this (this is the
+> same approach used by AMD SEV).
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-On Thu, Jun 25, 2020 at 05:29:28PM +0100, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Check the capability calls worked.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Do you expect this to happen if people run with -cpu host ?
+
+Dave
+
 > ---
->  tools/virtiofsd/passthrough_ll.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---9Iq5ULCa7nGtWwZS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl71zn0ACgkQnKSrs4Gr
-c8gJUAf/YNnk6vd+VlAKy6G4vPvZhq3Yxtcf+DIWtTDBSF1GI7Qm8BxcFTTijPha
-HA9u6NSLmuyjbFDKOM7we9ICGqK3DxdzlRjzWbvjqJ0mdUH1DpQKN6Z2o8nlTml6
-t0NwU7X+b2aPi6tJPgQkMoOptUv9cm8ITdyh+LJkA8eELrMV78tWW7dCoLPEJqeI
-eXq0lSEb04Lc3WraQuNxzhMeWGc4RQa4TheA4WxiOZGZBX5GFqAvU43/1fmWalug
-Mt2Y04Se/5Kf4UcVsNGu4Bh5z0BlC5cvJs+A8yKkQDf9EROebQiyLI59Cb0allSQ
-Ce3rTFDZgQp4lLlnvAMEzW+PlK3OSA==
-=/fPw
------END PGP SIGNATURE-----
-
---9Iq5ULCa7nGtWwZS--
+>  target/ppc/pef.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/target/ppc/pef.c b/target/ppc/pef.c
+> index 53a6af0347..6a50efd580 100644
+> --- a/target/ppc/pef.c
+> +++ b/target/ppc/pef.c
+> @@ -36,6 +36,8 @@ struct PefGuestState {
+>      Object parent_obj;
+>  };
+>  
+> +static Error *pef_mig_blocker;
+> +
+>  static int pef_kvm_init(HostTrustLimitation *gmpo, Error **errp)
+>  {
+>      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
+> @@ -52,6 +54,10 @@ static int pef_kvm_init(HostTrustLimitation *gmpo, Error **errp)
+>          }
+>      }
+>  
+> +    /* add migration blocker */
+> +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
+> +    migrate_add_blocker(pef_mig_blocker, &error_abort);
+> +
+>      return 0;
+>  }
+>  
+> -- 
+> 2.26.2
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
