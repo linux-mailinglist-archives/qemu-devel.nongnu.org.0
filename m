@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D1120B443
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:16:17 +0200 (CEST)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5516320B481
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:29:02 +0200 (CEST)
+Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joq5Q-0003ru-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
+	id 1joqHl-0000yJ-8h
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3m-0001qI-Ty
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:34 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40794)
+ id 1joq3q-0001up-Uz
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:38 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3k-0006CG-3r
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:34 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id f139so9704230wmf.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:31 -0700 (PDT)
+ id 1joq3m-0006Ci-JI
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:38 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 17so9709478wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gAVU66Bka2C31iTs/7lhQdbitwvERu6cMLvGdW1VOYU=;
- b=wF3jCnfedOFNoYhYCM+xFBrQXmjhgvuXH3fLFP73VeATuzHsYWSmp46hqIp8dI7bnb
- BhVGMEOuPf6wfCNnbl+KLNv4BsFYdbEMZdVqUjKnW8LRYRS4LP10agenMVXiENsQyUmO
- L97mxhhVTlI3R9QmJoxmpLFU9h85Uv010lkDdVc++/2U+pQYFaLaKH4N0+JlOaOVYaBz
- TWivR9QJ2XBW0lo3aDm7V1Hyb+qm4LggraEg+IN6lDQQ+5v5EGQ+F0u1JK7JRHnFuYP5
- Y/tyS/DBIaILTWiAUREORSpd0QbYhCpIp+2p6RqXpzuZNHpZqXc3guZwoBg0f+MQLBT1
- oTRA==
+ bh=5NNpdAjIha1dM9ij9yn8AmBkK2T4lQIQisubYegz+24=;
+ b=z2bc0kBn8qni+TYpmNR47RCxvOKOtjs6XldAc2gchth767mtaVYZxHWTdCRv/CQpJS
+ 99uuZmBzZYEj71m8qr3fCK5tWZqYe5HsDuYIO3I830t4j8iV/z4ztzQFx3vQTYmPhle2
+ pDOedvlfT8bXDfhEKIDQhLVP7CFuCpuQcuBQ8nztLl7YzML8iiiGMUqPLJItxD41Y0PD
+ 93Fb2r7beiFMuGnmtxyjmLG6wNegtnFT3no66mOB+MFGEHZJ6HrLyhsWK/LNLkLkCEP+
+ RO4NWCQC9d8p4UA1fsuGxSG5O2M2mZWI8qe9P0668tntzprmbpszZAAKFf9jRkO+lI14
+ cxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gAVU66Bka2C31iTs/7lhQdbitwvERu6cMLvGdW1VOYU=;
- b=ffT0LW7X/bY1Q1lgf97wi/94AXgKfqhCzGkSw28iT13EN3BtbCe/cZKztj0zGoBEOE
- leuRV4FsXtmr8+X5RnpYsNSXPGTGxp7vvnrqFzJrM9GgcuyBxCK+sXU4QOnjQXulKsKC
- MFCd/P0rKkU5HwXoGaBb8lzVV/wL5/FiE2/WDNgUO6pWs6X1l1D+c66bEVYbBU2nf0mF
- h67+B3ILA5xrup3bGGz+91bHjeI596Wxl8WRj+z75tr+28PKt4/X5scOSAMed6Hm5rOs
- UgEHNy3Ju0cLtQmuZaPMAeriMid+/b0T0sizxzoYAKEs+TBdqlrB1gY3CzXfDGFvglpO
- wt1A==
-X-Gm-Message-State: AOAM532vi+CzNGkUJ4ifUeENyrhfGQovcoIq6lFTSIiW0wOrRUTuKhjS
- kbicIvsT5dWQUhnRXwEnGLvfMwG+d2L2cw==
-X-Google-Smtp-Source: ABdhPJzIZ7vAtohsyjJZ1XmOJJObhrXr4eqSBvVJlgZgBjxCkQ29BVpnPr7UTg6aq8iMRHa+uwG4+A==
-X-Received: by 2002:a1c:2d54:: with SMTP id t81mr4247277wmt.154.1593184470404; 
- Fri, 26 Jun 2020 08:14:30 -0700 (PDT)
+ bh=5NNpdAjIha1dM9ij9yn8AmBkK2T4lQIQisubYegz+24=;
+ b=a/OwhZNWQcH1437kl4J62c3CCRddiP0kTCMxTEhQ1jWv5vPrRJyQ5/3S73fb80c4Q9
+ lW3xR5NitIWgVIM12a0viGDkdz8CMdMh62mLaWS2F5nB+dAdt1T84J7srFWgq9nj3A95
+ 3EVOAfvlVyYEsV2iYCj9AG9fwNVe96Enzmbc/OY96zxeW+UrDAW5YoOt/C26P40CGVNI
+ ChWketdxL+U6QxAQVYg6abEh42+CXGgskDrBSG9z5JcXsUs1rzm8LrTz0/j5UH7HIP7t
+ uRMVM+jWkxL8Qa3010/O4GEKZsNuULcAv7/NrTYuKcVCp7iPm+idiMpqTY5LWmK+6J0P
+ EL4A==
+X-Gm-Message-State: AOAM5323xKMWsby/MVR4xup2oP/SsIN6lktgb3BSI9aZVBpY/6yu1zDp
+ yzTsY0E4OBvZQCYoAWasL16fsRef8ZKxpA==
+X-Google-Smtp-Source: ABdhPJzWjJJZN8A3jeQ/Yhmhn1W6jelt7U5K6bfSV8eggKX0JD1xiocNLROw0Ct4pCTkqSc5wh+k5g==
+X-Received: by 2002:a7b:ca52:: with SMTP id m18mr3918676wml.92.1593184471473; 
+ Fri, 26 Jun 2020 08:14:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.29
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:29 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/57] hw/arm/aspeed: QOM'ify AspeedMachineState
-Date: Fri, 26 Jun 2020 16:13:30 +0100
-Message-Id: <20200626151424.30117-4-peter.maydell@linaro.org>
+Subject: [PULL 04/57] hw/i2c/core: Add i2c_try_create_slave() and
+ i2c_realize_and_unref()
+Date: Fri, 26 Jun 2020 16:13:31 +0100
+Message-Id: <20200626151424.30117-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,87 +92,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-AspeedMachineState seems crippled. We use incorrectly 2
-different structures to do the same thing. Merge them
-altogether:
-- Move AspeedMachine fields to AspeedMachineState
-- AspeedMachineState is now QOM
-- Remove unused AspeedMachine structure
+Extract i2c_try_create_slave() and i2c_realize_and_unref()
+from i2c_create_slave().
+We can now set properties on a I2CSlave before it is realized.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This is in line with the recent qdev/QOM changes merged
+in commit 6675a653d2e.
+
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200623072132.2868-4-f4bug@amsat.org
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20200623072723.6324-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed.h |  8 +-------
- hw/arm/aspeed.c         | 11 +++++++----
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ include/hw/i2c/i2c.h |  2 ++
+ hw/i2c/core.c        | 18 ++++++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index 5114ba0bd4f..09da9d9accf 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -15,13 +15,7 @@ typedef struct AspeedMachineState AspeedMachineState;
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 41172115652..d6e3d85faf0 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -80,6 +80,8 @@ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
  
- #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
- #define ASPEED_MACHINE(obj) \
--    OBJECT_CHECK(AspeedMachine, (obj), TYPE_ASPEED_MACHINE)
--
--typedef struct AspeedMachine {
--    MachineState parent_obj;
--
--    bool mmio_exec;
--} AspeedMachine;
-+    OBJECT_CHECK(AspeedMachineState, (obj), TYPE_ASPEED_MACHINE)
+ DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
++DeviceState *i2c_try_create_slave(const char *name, uint8_t addr);
++bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
  
- #define ASPEED_MAC0_ON   (1 << 0)
- #define ASPEED_MAC1_ON   (1 << 1)
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a167b736970..665d04fbf68 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -33,9 +33,14 @@ static struct arm_boot_info aspeed_board_binfo = {
+ /* lm832x.c */
+ void lm832x_key_event(DeviceState *dev, int key, int state);
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index 1aac457a2a0..acf34a12d6d 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -267,13 +267,27 @@ const VMStateDescription vmstate_i2c_slave = {
+     }
  };
  
- struct AspeedMachineState {
-+    /* Private */
-+    MachineState parent_obj;
-+    /* Public */
-+
-     AspeedSoCState soc;
-     MemoryRegion ram_container;
-     MemoryRegion max_ram;
-+    bool mmio_exec;
- };
- 
- /* Palmetto hardware value: 0x120CE416 */
-@@ -253,7 +258,7 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
- 
- static void aspeed_machine_init(MachineState *machine)
+-DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
++DeviceState *i2c_try_create_slave(const char *name, uint8_t addr)
  {
--    AspeedMachineState *bmc;
-+    AspeedMachineState *bmc = ASPEED_MACHINE(machine);
-     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
-     AspeedSoCClass *sc;
-     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
-@@ -261,8 +266,6 @@ static void aspeed_machine_init(MachineState *machine)
-     int i;
-     NICInfo *nd = &nd_table[0];
+     DeviceState *dev;
  
--    bmc = g_new0(AspeedMachineState, 1);
--
-     memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-                        4 * GiB);
-     memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
-@@ -751,7 +754,7 @@ static const TypeInfo aspeed_machine_types[] = {
-     }, {
-         .name          = TYPE_ASPEED_MACHINE,
-         .parent        = TYPE_MACHINE,
--        .instance_size = sizeof(AspeedMachine),
-+        .instance_size = sizeof(AspeedMachineState),
-         .instance_init = aspeed_machine_instance_init,
-         .class_size    = sizeof(AspeedMachineClass),
-         .class_init    = aspeed_machine_class_init,
+     dev = qdev_new(name);
+     qdev_prop_set_uint8(dev, "address", addr);
+-    qdev_realize_and_unref(dev, &bus->qbus, &error_fatal);
++    return dev;
++}
++
++bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
++{
++    return qdev_realize_and_unref(dev, &bus->qbus, errp);
++}
++
++DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
++{
++    DeviceState *dev;
++
++    dev = i2c_try_create_slave(name, addr);
++    i2c_realize_and_unref(dev, bus, &error_fatal);
++
+     return dev;
+ }
+ 
 -- 
 2.20.1
 
