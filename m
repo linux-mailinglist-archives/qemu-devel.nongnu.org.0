@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE27120BA44
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:25:18 +0200 (CEST)
-Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DD320BA46
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:25:20 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jouuT-00061e-Gz
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
+	id 1jouuV-00063N-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:25:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutD-0004QF-AN
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23254
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutE-0004Ql-LY
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:24:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50396
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutA-0008EK-MZ
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:58 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutC-0008Fk-1W
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593203034;
+ s=mimecast20190719; t=1593203037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ardjuL2aAdct5oh4Cr6oH/XNDTSpCc1hBoDeZFu6O5s=;
- b=Bag/F3a85nvmjo2QmJKL9cZeQXTnLx7yscfP+yV/0MvUKLnMZpLfn/hbPD2VtHtNvQOGJZ
- +Tb8R+w4PxXiMokFaS/QxmNNAXGvQmMdkruLuLcF1hEDFjvJEOwYG6QcMjgZ8SM3e5g9o6
- 3DMNB6JFxNlFrUO2FbP1P4KVbXtEMeU=
+ bh=oMztsq1waWQn+Mr4VtoXJfVtttkAmpFMiG1haz/Ad6c=;
+ b=fLH+cdEZA1Q1CnG3fPVz/fJ1Xw6iYT/etg5o4+K4vLG9JN6Vk846WX/KRueJSYojNOFsy/
+ jRl2x0A0oZQ1AVV4LhxqorAOGDeLTvozAzcxfs5f2K1IDsz8/JowRf+0gk/3VhLcrXlqc9
+ U8ByXLmCJJUsoXLgE4SLLbnity57bKM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-DtPYRSsJPdCuGXHlZuClyA-1; Fri, 26 Jun 2020 16:23:53 -0400
-X-MC-Unique: DtPYRSsJPdCuGXHlZuClyA-1
+ us-mta-352-9tr7N8MNPWykf8dP8Tc7jQ-1; Fri, 26 Jun 2020 16:23:55 -0400
+X-MC-Unique: 9tr7N8MNPWykf8dP8Tc7jQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2C3800597
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:23:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C95804003
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:23:53 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2D171671;
- Fri, 26 Jun 2020 20:23:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4270A71671;
+ Fri, 26 Jun 2020 20:23:52 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/3] python/machine.py: consolidate _post_shutdown()
-Date: Fri, 26 Jun 2020 16:23:48 -0400
-Message-Id: <20200626202350.11060-2-jsnow@redhat.com>
+Subject: [PATCH v4 2/3] python/machine.py: refactor shutdown
+Date: Fri, 26 Jun 2020 16:23:49 -0400
+Message-Id: <20200626202350.11060-3-jsnow@redhat.com>
 In-Reply-To: <20200626202350.11060-1-jsnow@redhat.com>
 References: <20200626202350.11060-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:23:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,78 +83,130 @@ Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move more cleanup actions into _post_shutdown. As a change, if QEMU
-should so happen to be terminated during a call to wait(), that event
-will now be logged.
+This is done primarily to avoid the 'bare except' pattern, which
+suppresses ALL exceptions and not just ones that we are anticipating to
+see.
 
-This is not likely to occur during normative use.
+Replace this with a pattern that isolates the different kind of shutdown
+paradigms and a new fallback shutdown handler that gracefully attempts
+one before the other.
+
+Ensure that the main shutdown() function ALWAYS calls the post_shutdown
+logic, no matter what kind of error we encountered. Subprocess wait
+timeouts are considered expected, everything else is unexpected.
+
+In cases where we encounter an expected error in the graceful shutdown
+timeout, we will not re-raise an exception above shutdown(). Otherwise,
+after post_shutdown cleanup, we will.
+
+I anticipate that this WILL lead to additional bug reports filed against
+this module, but that is unfortunately somewhat the point: This code
+shouldn't be hiding failures that exist elsewhere within the python
+code.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ python/qemu/machine.py | 76 +++++++++++++++++++++++++++++++++---------
+ 1 file changed, 61 insertions(+), 15 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 041c615052..f7e68191c2 100644
+index f7e68191c2..66a9d4204c 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -283,6 +283,8 @@ def _post_launch(self):
-             self._qmp.accept()
- 
-     def _post_shutdown(self):
-+        self._load_io_log()
-+
-         if self._qemu_log_file is not None:
-             self._qemu_log_file.close()
-             self._qemu_log_file = None
-@@ -296,6 +298,17 @@ def _post_shutdown(self):
-         while len(self._remove_files) > 0:
-             self._remove_if_exists(self._remove_files.pop())
- 
-+        exitcode = self.exitcode()
-+        if exitcode is not None and exitcode < 0:
-+            msg = 'qemu received signal %i; command: "%s"'
-+            if self._qemu_full_args:
-+                command = ' '.join(self._qemu_full_args)
-+            else:
-+                command = ''
-+            LOG.warning(msg, -int(exitcode), command)
-+
-+        self._launched = False
-+
-     def launch(self):
-         """
-         Launch the VM and make sure we cleanup and expose the
-@@ -344,7 +357,6 @@ def wait(self):
-         self._popen.wait()
-         if self._qmp:
+@@ -359,9 +359,59 @@ def wait(self):
              self._qmp.close()
--        self._load_io_log()
          self._post_shutdown()
  
-     def shutdown(self, has_quit=False, hard=False):
-@@ -371,21 +383,8 @@ def shutdown(self, has_quit=False, hard=False):
-                     self._popen.kill()
-             self._popen.wait()
+-    def shutdown(self, has_quit=False, hard=False):
++    def _hard_shutdown(self) -> None:
+         """
+-        Terminate the VM and clean up
++        Kill the VM if it is running.
++        """
++        if not self.is_running():
++            return
++
++        self._popen.kill()
++        self._popen.wait(timeout=60)
++
++    def _soft_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
++        """
++        Attempt to shutdown the VM gracefully if it is running.
++
++        :param has_quit: When True, don't attempt to issue 'quit' QMP command
++        :param timeout: Timeout for graceful shutdown. Default 3 seconds.
++        """
++        if not self.is_running():
++            return
++
++        if self._qmp is not None:
++            if not has_quit:
++                try:
++                    self._qmp.cmd('quit')
++                except ConnectionResetError:
++                    # QMP went away just before or just after sending 'quit'.
++                    # Covers EPIPE, ECONNABORTED, ECONNREFUSED, and ECONNRESET.
++                    if self.is_running():
++                        # Process is running, but the control channel is lost.
++                        # No remaining way to shut it down 'gracefully'.
++                        raise
++            self._qmp.close()
++
++        self._popen.wait(timeout=timeout)
++
++    def _do_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
++        """
++        Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
++
++        :param has_quit: When True, don't attempt to issue 'quit' QMP command
++        :param timeout: Timeout for graceful shutdown. Default 3 seconds.
++        """
++        try:
++            self._soft_shutdown(has_quit, timeout)
++        except subprocess.TimeoutExpired:
++            self._hard_shutdown()
++        except:
++            self._hard_shutdown()
++            raise
++
++    def shutdown(self, has_quit: bool = False, hard: bool = False) -> None:
++        """
++        Terminate the VM (gracefully if possible) and perform cleanup.
+         """
+         # If we keep the console socket open, we may deadlock waiting
+         # for QEMU to exit, while QEMU is waiting for the socket to
+@@ -370,22 +420,18 @@ def shutdown(self, has_quit=False, hard=False):
+             self._console_socket.close()
+             self._console_socket = None
  
--        self._load_io_log()
-         self._post_shutdown()
+-        if self.is_running():
++        try:
+             if hard:
+-                self._popen.kill()
+-            elif self._qmp:
+-                try:
+-                    if not has_quit:
+-                        self._qmp.cmd('quit')
+-                    self._qmp.close()
+-                    self._popen.wait(timeout=3)
+-                except:
+-                    self._popen.kill()
+-            self._popen.wait()
+-
+-        self._post_shutdown()
++                self._hard_shutdown()
++            else:
++                self._do_shutdown(has_quit)
++        finally:
++            self._post_shutdown()
  
--        exitcode = self.exitcode()
--        if exitcode is not None and exitcode < 0 and \
--                not (exitcode == -9 and hard):
--            msg = 'qemu received signal %i: %s'
--            if self._qemu_full_args:
--                command = ' '.join(self._qemu_full_args)
--            else:
--                command = ''
--            LOG.warning(msg, -int(exitcode), command)
--
--        self._launched = False
--
      def kill(self):
++        """
++        Terminate the VM forcefully and perform cleanup.
++        """
          self.shutdown(hard=True)
  
+     def set_qmp_monitor(self, enabled=True):
 -- 
 2.21.3
 
