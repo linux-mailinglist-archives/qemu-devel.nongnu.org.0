@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B296420BA16
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:15:22 +0200 (CEST)
-Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A177720BA4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:26:35 +0200 (CEST)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joukr-000112-PW
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:15:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55646)
+	id 1jouvi-0008NU-LW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:26:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1jouk7-0000TL-5F; Fri, 26 Jun 2020 16:14:35 -0400
-Received: from home.keithp.com ([63.227.221.253]:46130 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1jouk5-0005TO-Me; Fri, 26 Jun 2020 16:14:34 -0400
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id AD1023F2CB96;
- Fri, 26 Jun 2020 13:14:31 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id BkigoMvGP13E; Fri, 26 Jun 2020 13:14:31 -0700 (PDT)
-Received: from keithp.com (168-103-152-72.tukw.qwest.net [168.103.152.72])
- by elaine.keithp.com (Postfix) with ESMTPSA id 569373F2CA82;
- Fri, 26 Jun 2020 13:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1593202471; bh=msWDRdQRNxC30MFl3LwnTsr1ZyE7PDGQXo/A0w72/14=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Z5FcMgF6n+uG4v4yqhQogyuyKXfN63xj99pp4NCbpDHTrMDrDndbT4XPCiOlHHLtY
- X3LExSWhUw5hfpytQTek30eKJGT1UmHAb1E/WWP5DrkTc30hDzhxo5Ey16PhAQ65y9
- autN/xNXgX5PcCqhd0qN4zJnG7gm+O+mbG0QVnBqlvX25dgpRcfkyexgfh0TQQErjZ
- vDaaBrP9eNtXjIYfCPbrv+X+zkvNj0hFZ3agzt7IFif580ltBWvpqSzJf/VU+CG1Y3
- u7wWjhdU98M4cOYTLVGh3n9lPlhDJ76CRk/M+yqxqbVq/das4fK3WpARFm9vS+Ym/t
- 1rd5ZbSpHlC+w==
-Received: by keithp.com (Postfix, from userid 1000)
- id CEAB61582167; Fri, 26 Jun 2020 13:14:30 -0700 (PDT)
-To: Max Filippov <jcmvbkbc@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/arm: Add 'virtm' hardware
-In-Reply-To: <CAMo8Bf+57b=u12nMp4EWaza3WdOQpx_L_O=HvdouM99wW-Xe=A@mail.gmail.com>
-References: <20200625230740.549114-1-keithp@keithp.com>
- <CAFEAcA9ut5CVAgRTP-_BK3WpiDSmitFowZMe549TvgSAjj+Kfg@mail.gmail.com>
- <87imfdixv9.fsf@keithp.com>
- <CAFEAcA_ZRMpqAhR7BL05a+O_C54fhXZn8-+kC_KUU5n3BpzoCw@mail.gmail.com>
- <CAMo8Bf+57b=u12nMp4EWaza3WdOQpx_L_O=HvdouM99wW-Xe=A@mail.gmail.com>
-Date: Fri, 26 Jun 2020 13:14:30 -0700
-Message-ID: <877dvtinyx.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jouut-0007t8-Q9
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jouur-0000tS-Du
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:25:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jouun-0007dj-MB
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:25:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A2B472E80E7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:25:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:12:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Jun 2020 20:17:09 -0000
+From: Langston <1885332@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: langston0
+X-Launchpad-Bug-Reporter: Langston (langston0)
+X-Launchpad-Bug-Modifier: Langston (langston0)
+Message-Id: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
+Subject: [Bug 1885332] [NEW] Error in user-mode calculation of ELF aux
+ vector's AT_PHDR
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 04d615ba9220e18954ba3e2bd5aec8a5398e2763
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:25:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,45 +71,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: "Keith Packard" <keithp@keithp.com>
-From: "Keith Packard" via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-Max Filippov <jcmvbkbc@gmail.com> writes:
 
-> Most of them are due to unsupported/differently implemented
-> syscalls.
+I have an (admittedly strange) statically-linked ELF binary for Linux that =
+runs just fine on top of the Linux kernel in QEMU full-system emulation, bu=
+t crashes before main in user-mode emulation. Specifically, it crashes when=
+ initializing thread-local storage in glibc's _dl_aux_init, because it read=
+s out a strange value from the AT_PHDR entry of the ELF aux vector.
 
-Yeah, I think that was the basis of my confusion -- qemu-arm is not a
-bare metal environment, and my work is focused on enabling application
-development in that environment.
+The binary has these program headers:
 
-=2D-=20
-=2Dkeith
+  Program Headers:
+    Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+    EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
+    PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1000
+    LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1000
+    LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x100=
+00
+    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
+00
+    NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+    TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
+    GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
+    GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
+    LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1000
+    LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1000
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+If I build the Linux kernel with the following patch to the very end of
+create_elf_tables in fs/binfmt_elf.c
 
------BEGIN PGP SIGNATURE-----
+  /* Put the elf_info on the stack in the right place.  */
+  elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
+  int i;
+  for (i =3D 0; i < 15; i++) {
+    printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
+  }
+  if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
+      return -EFAULT;
+  return 0;
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl72VyYACgkQ2yIaaQAA
-ABEXpw/+ME0hsqDba1gmQY54wODhKE5wQn6I1AkSPsNmDN0rJ6sxM3EdesLlQOEh
-qLWQzBD9cSbcbkZrk8s9/jxjkrSnjbq+lPObGOrLTLbSgr9+AAerrozOrjDq4sKm
-W3DzWgFPxhj55IdSLrJhfLh2kgYPGLh+3cbhcfMaCDTULm2PD/KzfcL+6k8YAP+3
-DV7KFFKKbAzGAplZFVpifIpES6I0aCUkdcYypHlN2gPy7Ifh26du3DiEE4FdwGHe
-cunoK4rvlPHCiAyJusnetMb+OWzOx7utSSiUvB6naVHj4fBqaX46sZih6i8cGt5Y
-ONx7Pq2vwdVzd3I9yCRhIZmkG9wUvDapSl48kx7ZkNQPX5oQ903U9GUzeO5dR3QB
-8cZ6gurgIW59JMBhehpRDeljW+PMeBW/YFv2vWNvKNzcf0RQwzslPjXLG3Tm/Prd
-4xxPy8hYk4CZew5ssyKM87eNnxkA1eoVomR/IIiBWmZVvOuLDj2oF+ZqKYmx9Zjc
-/dtT7WttVUYkeF50V5Cy+GeeYbh66CA3LLUQVepmaDIGjw1DASQcOV2ZE0msXpiS
-kFI3OwCZf6JTachLNl0xAiLb10S00Rxf7WywdGkh7yc0TosxZc2GsTBdfqYeErAV
-YsFO1bOjiywNl7vJ8xrw8th8JACk5+xbXnCBRAcxaU6Jtv0F9XE=
-=3Bbs
------END PGP SIGNATURE-----
---=-=-=--
+and run it like this:
+
+  qemu-system-arm \
+    -M versatilepb \
+    -nographic \
+    -dtb ./dts/versatile-pb.dtb \
+    -kernel zImage \
+    -M versatilepb \
+    -m 128M \
+    -append "earlyprintk=3Dvga,keep" \
+    -initrd initramfs
+
+after I've built the kernel initramfs like this (where "init" is the
+binary in question):
+
+  make ARCH=3Darm versatile_defconfig
+  make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
+  cp "$1" arch/arm/boot/init
+  cd arch/arm/boot
+  echo init | cpio -o --format=3Dnewc > initramfs
+
+then I get the following output. This is the kernel's view of the aux
+vector for this binary:
+
+  0x10 =3D 0x1d7
+  0x6 =3D 0x1000
+  0x11 =3D 0x64
+  0x3 =3D 0x900000
+  0x4 =3D 0x20
+  0x5 =3D 0xb
+  0x7 =3D 0x0
+  0x8 =3D 0x0
+  0x9 =3D 0x101b8
+  0xb =3D 0x0
+  0xc =3D 0x0
+  0xd =3D 0x0
+  0xe =3D 0x0
+  0x17 =3D 0x0
+  0x19 =3D 0xbec62fb5
+
+However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at the
+aux vector at the beginning of __libc_start_init (for example, using
+this Python GDB API script: https://gist.github.com/langston-
+barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
+values:
+
+  AT_PHDR =3D 0xae000
+  AT_PHENT =3D 0x20
+  AT_PHNUM =3D 0xb
+  AT_PAGESZ =3D 0x1000
+  AT_BASE =3D 0x0
+  AT_FLAGS =3D 0x0
+  AT_ENTRY =3D 0x10230
+  AT_UID =3D 0x3e9
+  AT_EUID =3D 0x3e9
+  AT_GID =3D 0x3e9
+  AT_EGID =3D 0x3e9
+  AT_HWCAP =3D 0x1fb8d7
+  AT_CLKTCK =3D 0x64
+  AT_RANDOM =3D -0x103c0
+  AT_HWCAP2 =3D 0x1f
+  AT_NULL =3D 0x0
+
+The crucial difference is in AT_PHDR (0x3), which is indeed the virtual
+address of the PHDR segment when the kernel calculates it, but is not
+when QEMU calculates it.
+
+qemu-arm --version
+qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885332
+
+Title:
+  Error in user-mode calculation of ELF aux vector's AT_PHDR
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
+t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
+but crashes before main in user-mode emulation. Specifically, it crashes wh=
+en initializing thread-local storage in glibc's _dl_aux_init, because it re=
+ads out a strange value from the AT_PHDR entry of the ELF aux vector.
+
+  The binary has these program headers:
+
+    Program Headers:
+      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
+gn
+      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
+      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
+0000
+      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
+0000
+      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
+      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
+      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
+      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
+000
+      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
+000
+
+  If I build the Linux kernel with the following patch to the very end
+  of create_elf_tables in fs/binfmt_elf.c
+
+    /* Put the elf_info on the stack in the right place.  */
+    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
+    int i;
+    for (i =3D 0; i < 15; i++) {
+      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
+    }
+    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
+        return -EFAULT;
+    return 0;
+
+  and run it like this:
+
+    qemu-system-arm \
+      -M versatilepb \
+      -nographic \
+      -dtb ./dts/versatile-pb.dtb \
+      -kernel zImage \
+      -M versatilepb \
+      -m 128M \
+      -append "earlyprintk=3Dvga,keep" \
+      -initrd initramfs
+
+  after I've built the kernel initramfs like this (where "init" is the
+  binary in question):
+
+    make ARCH=3Darm versatile_defconfig
+    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
+    cp "$1" arch/arm/boot/init
+    cd arch/arm/boot
+    echo init | cpio -o --format=3Dnewc > initramfs
+
+  then I get the following output. This is the kernel's view of the aux
+  vector for this binary:
+
+    0x10 =3D 0x1d7
+    0x6 =3D 0x1000
+    0x11 =3D 0x64
+    0x3 =3D 0x900000
+    0x4 =3D 0x20
+    0x5 =3D 0xb
+    0x7 =3D 0x0
+    0x8 =3D 0x0
+    0x9 =3D 0x101b8
+    0xb =3D 0x0
+    0xc =3D 0x0
+    0xd =3D 0x0
+    0xe =3D 0x0
+    0x17 =3D 0x0
+    0x19 =3D 0xbec62fb5
+
+  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
+  the aux vector at the beginning of __libc_start_init (for example,
+  using this Python GDB API script: https://gist.github.com/langston-
+  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
+  values:
+
+    AT_PHDR =3D 0xae000
+    AT_PHENT =3D 0x20
+    AT_PHNUM =3D 0xb
+    AT_PAGESZ =3D 0x1000
+    AT_BASE =3D 0x0
+    AT_FLAGS =3D 0x0
+    AT_ENTRY =3D 0x10230
+    AT_UID =3D 0x3e9
+    AT_EUID =3D 0x3e9
+    AT_GID =3D 0x3e9
+    AT_EGID =3D 0x3e9
+    AT_HWCAP =3D 0x1fb8d7
+    AT_CLKTCK =3D 0x64
+    AT_RANDOM =3D -0x103c0
+    AT_HWCAP2 =3D 0x1f
+    AT_NULL =3D 0x0
+
+  The crucial difference is in AT_PHDR (0x3), which is indeed the
+  virtual address of the PHDR segment when the kernel calculates it, but
+  is not when QEMU calculates it.
+
+  qemu-arm --version
+  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
