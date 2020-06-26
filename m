@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E5020B48A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:30:43 +0200 (CEST)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4213A20B496
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:32:57 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqJO-0004P6-6X
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:30:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35512)
+	id 1joqLY-00081Q-7G
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3z-00024V-3I
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:47 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54879)
+ id 1joq42-0002CQ-Cm
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:50 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3r-0006HF-Uu
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:46 -0400
-Received: by mail-wm1-x336.google.com with SMTP id o8so9155250wmh.4
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:39 -0700 (PDT)
+ id 1joq3x-0006JC-99
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:50 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id u26so9095741wmn.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=amm+Xwelw2VlS16IoGViV05sMwQyqKglsr1nUDeUMzc=;
- b=L9I6MPnBMynVstZHCNTeCqW3qUr/7ccQdoU+qM9PT+EOsSfQEMVYOtBa1kp4ryCFLu
- 0y2fEm1SMmXZScba85AQpTJEhoc1sh18GdaKSj49LMrta6nr9Mux/iDOWfeg8rhixGdh
- gCgQJv84HoSSZhza/IdEjKbesTLa3e03sj5WrMiSQzi7t/322MYfsvcBTMWF307mB+GU
- 6oSauxf8PvUiGpLWit25+78+c/6WT+a7QfuTyePF3SU23ky9uH3UVikK0AVsRBWJV0uC
- 39XPBpbNYY2LYL4Rhwz6jWWBYGxwoHi8MRKyGAReQGRT1SgrAUmDN/i9m8BcITjbCu45
- F+PQ==
+ bh=0jclhN1iI8Ils0M7tH4L8prj0mKxUP8gosaZhHheF7I=;
+ b=HASE1GBTZmsW0//eemhsZdvHpYvDq7eTQhv0Pxnxuz2yMkdcE7TajImcK5b5ng01ZY
+ 858zW3VEdnaz/iWkxeRKTYN617GAYSeTfGbUPTYFpCOh7wwlnUPLJQTtdA4djQbj4zoY
+ JvMbpELmCVw7N2jLYuY+RzJfZ394ig41hNSYLWexSu1lVtBg2BjYQ03vXXONGs6TAZCu
+ qZ/57pvNSFy+AKMdi/im9DFMQrBc2gx2aLPHY4YYkqWfsziLTkedKAIba1icFRL4AxTH
+ Ww/8cVNRPMBceS7nhhDAsRVsC8u1+35p6jBtExMtgyMZxUZvdNOTj51//AWvQKjyOKE4
+ z3jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=amm+Xwelw2VlS16IoGViV05sMwQyqKglsr1nUDeUMzc=;
- b=W6RfdsFx9wK4v9z0biiVDB2yfmGLkcEARrwgtTG4W/JYM5ZouL64fn3aL3keV64RKk
- 4eN99gXfewx2nj+tfPj5lVULOLi991Pw+QLsi+tLX3Jw3szMqttPnZG7HHZ5xwWhYLwq
- ns7PCYhDk2AqpYliWs3p11LPhmdBtXsEORyzt0RQ1rIPbZi9E2gnLYSFjxTJi0VwXclU
- IVjmSgXw9vj3oMqzFXAy/raSGhdzqoP4vuBakBr2Wdebfe4oDrWNtz6jLF4dbFb0tMgj
- iea7LzcUT79lQvqUyq895XczBPLBvrZKL8/RlEsmuvkm4ar16nRKpvepS+CM4CrYNwsz
- ZASg==
-X-Gm-Message-State: AOAM5323Ll4PWEofJVOEKA9MK9Pk/SImE4FlrERTgwzHBz4LUE/FnbZs
- eZskKkTgyba4Yc1uKWa02PxKDcD9YXIA6A==
-X-Google-Smtp-Source: ABdhPJxhCc25FxQW1bYV1tSWDd0I0659PEMnjTzbnTzZvBK9qBw0ArGLuChi5oSOU9tGC17mazsqZw==
-X-Received: by 2002:a1c:2d83:: with SMTP id t125mr4026270wmt.187.1593184477864; 
- Fri, 26 Jun 2020 08:14:37 -0700 (PDT)
+ bh=0jclhN1iI8Ils0M7tH4L8prj0mKxUP8gosaZhHheF7I=;
+ b=gP4s8PuQ2YEoc6A5ibUsBPoFtwEtKN4TJ6v3gIh3wp9oYBekDt6GVbVakhLbkQGHSv
+ Vtpno3xtjcYZOD8v5w18u/QlkEHf5bN/fYvUtNwbkF7zt16xzZzajxesDg47C6LTsstT
+ fRuFRR0Tz53ZEfyry/S7/0bM5vDwGG4YZvurJr1x+HMdIMfYhBZ0kYKSe1qOsqU1Zwfz
+ tzq6ah98t7UIgzYty4AZetAWsd/ntSn+5HqKqtLXvkf1dSZV4krcpLovb8buMHCrwkwK
+ FC2HTLuC/RR1ZIYmoKd8CO0XSrBRo5rGZ5wP8btItp0EA7k+s/vPCc+LkXXYoP1f1pT0
+ 7XEQ==
+X-Gm-Message-State: AOAM530xNf+gyxk2RUSCLygzeNqE5mPlaAl0KC4FkUP4+Hv+dpPmWh6k
+ B8OSk4A83ET/tQzDKolFRntrfHjJ5e/1Dw==
+X-Google-Smtp-Source: ABdhPJwT97GDmfQwclQl0bbdVr5si7nN4+0sRWTxSvxHzuQEEE0J7YWNIEQNhVMabh2l7Dmn9HIPbA==
+X-Received: by 2002:a7b:ca52:: with SMTP id m18mr3919302wml.92.1593184481073; 
+ Fri, 26 Jun 2020 08:14:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.37
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:37 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/57] hw/arm/aspeed: Describe each PCA9552 device
-Date: Fri, 26 Jun 2020 16:13:37 +0100
-Message-Id: <20200626151424.30117-11-peter.maydell@linaro.org>
+Subject: [PULL 13/57] target/arm: Add isar tests for mte
+Date: Fri, 26 Jun 2020 16:13:40 +0100
+Message-Id: <20200626151424.30117-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,60 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-We have 2 distinct PCA9552 devices. Set their description
-to distinguish them when looking at the trace events.
-
-Description name taken from:
-https://github.com/open-power/witherspoon-xml/blob/master/witherspoon.xml
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Tested-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200623072723.6324-8-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200626033144.790098-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/arm/cpu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 665d04fbf68..379f9672a56 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -508,12 +508,15 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
- {
-     AspeedSoCState *soc = &bmc->soc;
-     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
-+    DeviceState *dev;
- 
-     /* Bus 3: TODO bmp280@77 */
-     /* Bus 3: TODO max31785@52 */
-     /* Bus 3: TODO dps310@76 */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), TYPE_PCA9552,
--                     0x60);
-+    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
-+    qdev_prop_set_string(dev, "description", "pca1");
-+    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3),
-+                          &error_fatal);
- 
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "tmp423", 0x4c);
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 5), "tmp423", 0x4c);
-@@ -528,8 +531,10 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
- 
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), 0x51,
-                           eeprom_buf);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), TYPE_PCA9552,
--                     0x60);
-+    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
-+    qdev_prop_set_string(dev, "description", "pca0");
-+    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11),
-+                          &error_fatal);
-     /* Bus 11: TODO ucd90160@64 */
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index cf66b8c7fb0..ff70115801f 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3814,6 +3814,16 @@ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
  }
  
++static inline bool isar_feature_aa64_mte_insn_reg(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) != 0;
++}
++
++static inline bool isar_feature_aa64_mte(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, MTE) >= 2;
++}
++
+ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 4 &&
 -- 
 2.20.1
 
