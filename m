@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A6A20B849
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:32:24 +0200 (CEST)
-Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80BA20B856
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:34:00 +0200 (CEST)
+Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jot9D-0001eG-8a
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
+	id 1jotAl-0003ip-HM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jot0E-0003mv-W1
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:07 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53418)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jot0O-0004D3-E7
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:16 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jot0D-00057v-AT
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j18so9660869wmi.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:23:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jot0M-0005Bq-ND
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:23:16 -0400
+Received: by mail-ot1-x341.google.com with SMTP id n6so9507941otl.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AGl2Uc8EGJJxA1tr+9fN1UmCX9zweogDk66dtMF1ioY=;
- b=M9PAo1GGD/3IdoVQbke8syP8CW0gW8XptiHLbRxVTvJMO1Za+Uhg/sLumcGRRacG46
- LuLVVAriBCUozEZZmbgE0EGy6wG/r8ZhhVIcZBYdiodX5a8nCJ+2l6Z/6vNO7yGGb8ZA
- cwws9nDgt2Xxel5GSQPBy7udJpiH3Vk4b1wJNV1g3/y6y6IEJXZcEjisN9WZeo4KWM6U
- IBvh5WeI129WfnuheRzXlUdWySG5RYfnTyFzxYEQDKe1ie1dQiIe/bl05zShL1nNLtqS
- WuUS1P5b0TMKHRXxY2uqvXWuEd55GEvZdZgmNKIiplFPgaJKD5aGnxKOuh2kFy33W5pE
- OyGg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LvgLLhBtWl2z+FXtxz/Ed4ovyKj4GMS7TWSgOgCVmF8=;
+ b=EPqpTzj1cd2Znrz+bTU7dU0M7aac5eS2BXa/IBOhXQR2XQh0lrwsQpMbvygPWOPXqV
+ IED5DHDcC0EvfEAHqsSO+pIuQMdzxt0rfzHCbv0735VwSWJ29q8A199giaXN4KrV7Lub
+ XPKY2IsFPCen0C4kll4IGDTzo72ctLkS7hIndKbXJe1aN+BaavBIhFiwF9pbwt+EYPxF
+ wwSVVwR0UphTRQtaPYyw1qwUlnc7LX9aOnmNoN47ofnjQy3E2TQXIY9MZswZZ1q4LADK
+ aGxWHheXXvrAhuYaR9UgdlXYY8l6In/nRQTf8X6d8+m4KI5RY9KdoKNcKQPCrUEw2XKt
+ ZoWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AGl2Uc8EGJJxA1tr+9fN1UmCX9zweogDk66dtMF1ioY=;
- b=q5ndwkf+g5XTX5CMkgqkd2R69odql2AP6vVq3uzZwFoClkIySa78rA0pWs/F7F9umN
- v4W7G/b30ns+VD5HFPn5/feBGdhV7hozxT4XQ3gmuymME3C3i6n/Lesamltx79KG/VMf
- GEno+hUC29ZlMYDltKwA2ifoJrflnzKXAHwS2Vhb63xc+bPVZ8VJGPCmLA703TzmW3kj
- nHACTiFXGqb21bJ4SMeMSXNCJFHIyDLYh8kmxgEBK6TyS1NMMtJsx7mQ4YOmKayedGH7
- E6dLNJQ1Qeroa1UEgnO2KwFYmNW7yDRXAwDILY5wLbnXPzv8sF2ru/RCdDE85DSw/OYC
- Cj/Q==
-X-Gm-Message-State: AOAM530XYpuprKpHeANPVdhOy+Rk88Z8WkN6JpG+1JOfAbGz7BlCsO9O
- 1C6NJfOzBvvU7FuwiCNxMp8a5A==
-X-Google-Smtp-Source: ABdhPJxeoMHPxTRYeLNWzBwOTp24A/CWsn9Y6KR0VDO2Cb2mV+/71sVQCreF8Swyczl4g7NuvS5R1Q==
-X-Received: by 2002:a1c:f608:: with SMTP id w8mr4632677wmc.78.1593195783948;
- Fri, 26 Jun 2020 11:23:03 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c2sm38315159wrv.47.2020.06.26.11.22.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 11:22:57 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E04EA1FFB3;
- Fri, 26 Jun 2020 19:14:03 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 29/30] gitlab: limit re-builds of the containers
-Date: Fri, 26 Jun 2020 19:13:56 +0100
-Message-Id: <20200626181357.26211-30-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200626181357.26211-1-alex.bennee@linaro.org>
-References: <20200626181357.26211-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LvgLLhBtWl2z+FXtxz/Ed4ovyKj4GMS7TWSgOgCVmF8=;
+ b=p4Y2xIw7+Q+rRFbE9CIwPG/dw7CPCL7SvRNSKxGW8oiL6minNyiMzqOPn0eb3r1wlL
+ CONU6WdwEP/wOH7jWYK2ZxyyoHIQhHPaVyxTkE5Ht+ZsEa3VNa96zoaHu3Q5hD0pdpi6
+ xLVcyeCwtjNQGH1npFKhgsbg7mQlllRbUVwWmgsBPDxPIDaiRvvmCxmfnF50fMJaQFQ6
+ YBp2CoYmIxKEd0kUFdMx1XROAgKXAAOVRufuVytmWnuPtggNqWa2EqtICQNw/yJsOdWs
+ 6pXjJxodTDE2IwW2AMb6eULs4aNyjIJ6l3udsP25wLdNZoZQ57b9hdn/q0f4PGs/on2t
+ bV0w==
+X-Gm-Message-State: AOAM532Hr5x1uO0eslpxjGJjynsp4nj3GihxslLbce/9YNeU3W9cvhUX
+ adl9bEnQVRxLmlJ0UZ/uWoKFrAu02vjLUeXfD6Cluw==
+X-Google-Smtp-Source: ABdhPJwqWBcYU+p1YL2CyFvXgzkoD6vjTsV8ilxoHyHNqOuH3dHYQgKKKOo384NY3q5AtATlWVvY2StqMzoeV+zZi2M=
+X-Received: by 2002:a4a:2f15:: with SMTP id p21mr3558948oop.20.1593195793213; 
+ Fri, 26 Jun 2020 11:23:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+References: <20200623072723.6324-1-f4bug@amsat.org>
+ <20200623072723.6324-2-f4bug@amsat.org>
+In-Reply-To: <20200623072723.6324-2-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Jun 2020 19:23:02 +0100
+Message-ID: <CAFEAcA9-Vjh-hkB9i9fvp9yEHuKW7cGeEDQ-kKmiiao2WogQDQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/9] hw/i2c/core: Add i2c_try_create_slave() and
+ i2c_realize_and_unref()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,41 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- aurelien@aurel32.net
+Cc: Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the time we are just rebuilding the same things. We can skip
-this although currently there is no mechanism for picking up new
-distro releases.
+On Tue, 23 Jun 2020 at 08:27, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Extract i2c_try_create_slave() and i2c_realize_and_unref()
+> from i2c_create_slave().
+> We can now set properties on a I2CSlave before it is realized.
+>
+> This is in line with the recent qdev/QOM changes merged
+> in commit 6675a653d2e.
+>
+> Reviewed-by: Corey Minyard <cminyard@mvista.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Rather than try to be too fine grained allow any change to trigger all
-the images being rebuilt.
+Couple of things I belatedly noticed on this patch, which I don't
+think are important enough for me to drop it from my pullreq,
+but which I think it would be nice to address in a followup:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/containers.yml | 4 ++++
- 1 file changed, 4 insertions(+)
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 4117211565..d6e3d85faf 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -80,6 +80,8 @@ int i2c_send(I2CBus *bus, uint8_t data);
+>  uint8_t i2c_recv(I2CBus *bus);
+>
+>  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
+r);
+> +DeviceState *i2c_try_create_slave(const char *name, uint8_t addr);
+> +bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 20b2fb1de5d..f56aa44f711 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -19,6 +19,10 @@
-     - docker push "$TAG"
-   after_script:
-     - docker logout
-+  only:
-+    changes:
-+      - .gitlab-ci.d/containers.yml
-+      - tests/docker/*
- 
- amd64-centos7-container:
-   <<: *container_job_definition
--- 
-2.20.1
+Can we have doc-comments for new global-scope functions, please ?
 
+> --- a/hw/i2c/core.c
+> +++ b/hw/i2c/core.c
+> @@ -267,13 +267,27 @@ const VMStateDescription vmstate_i2c_slave =3D {
+>      }
+>  };
+>
+> -DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
+r)
+> +DeviceState *i2c_try_create_slave(const char *name, uint8_t addr)
+>  {
+>      DeviceState *dev;
+>
+>      dev =3D qdev_new(name);
+>      qdev_prop_set_uint8(dev, "address", addr);
+> -    qdev_realize_and_unref(dev, &bus->qbus, &error_fatal);
+> +    return dev;
+> +}
+> +
+> +bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
+> +{
+> +    return qdev_realize_and_unref(dev, &bus->qbus, errp);
+> +}
+> +
+> +DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
+r)
+> +{
+> +    DeviceState *dev;
+> +
+> +    dev =3D i2c_try_create_slave(name, addr);
+> +    i2c_realize_and_unref(dev, bus, &error_fatal);
+> +
+
+We now have a _try_ function which isn't "same behaviour as
+the non-try function, but give me back an error status rather
+than just killing QEMU". That seems confusing -- is there a
+better name we can use ?
+
+thanks
+-- PMM
 
