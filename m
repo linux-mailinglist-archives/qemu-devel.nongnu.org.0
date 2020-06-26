@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFA520B80F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:22:49 +0200 (CEST)
-Received: from localhost ([::1]:39346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0671220B81D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:24:08 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joszw-0002Hy-M8
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56248)
+	id 1jot1D-00059x-06
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrw-0007d3-Qs
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54496)
+ id 1jot05-0003Qn-Pp
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:22:57 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrm-0001KB-Iw
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id o8so9637669wmh.4
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:14:20 -0700 (PDT)
+ id 1jot04-00050b-8q
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:22:57 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l2so8754094wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=efB7wfcutdBc5W3t5fL1ob0gckNKfFStml2EZYTXVio=;
- b=hRDwUXvVIWaARXFCCFsx6zabkJvV3F9JCos2bdgxxnogZNLArtzH0z849AR33zvX4f
- CAxxh0TCuzxEwJ3cA4JWgOwOKK5WyLExZ/TgpvUG/Dl9jhXxaOWNRYYbuIUYd59F4MBC
- wOqtvBrp1eL3cHNotdYN+if6KstPPD5H+FifU3AfdscPwe9ou2mkeW1AYu8vu04Jdt6l
- Ve+z7t7BPDdO8kSofZIYOJPUWAKyFIvdcrkfEZukHSqBA/hbePfTCHvY1TbvWuQGWOAR
- b7602qHC2FbeSmnjqdV48q28mFO1wtmleMX4VAA2rRbIL4tUFtmTU/589i++tDqovxmv
- Ryzw==
+ bh=UsvCJ1FtgsYHjIIgU0bFzUSnvljWkIkb9Subsb2kO6E=;
+ b=HI4KS185qC+55mTwfaURF8bnOdQJtP0e40UJLtp/NS5TxHakZPKe4QVpWt2FLMtXaF
+ 1BleFv29NtccJLYy+P2fZQWekYU1s2xA55Sfuv/fWCAp7T84wfPqlekf1qivS5KUDPNB
+ 0LNzFggT2mNNHF0TVBcHQ1RVBFZUTCB0NFJAS3OSQ9ubhCWCZ47c6qVLqli5QXY6Dfcp
+ gO1ffGgtApgAPWnewRxAlMziWW0nqkbU1MBr8kCTn78NrhYBmPSsRPsjc0KQj7Ys4DaS
+ v6csIBOzlm889rNFt91GS5kROqzMIRjRRcBhEwE7BrQytU8Kf2NiYdpXd3VTud7zpVJU
+ eJLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=efB7wfcutdBc5W3t5fL1ob0gckNKfFStml2EZYTXVio=;
- b=V5kvFmYpcVRdWH/CzVxtJdL+J7aVt28C0hXbqavNYMInJmp9BZD0qB462nFWV5TsIS
- /Q8T0x4t7Mp3ZgtcrOl7aF7ajuwuCO2u0HsepwfC2Sv7QQh/9Tfs0HWrw+VcFGwIGY7b
- 5RbmMwITEYDStKj0fjdIUeOFxji/bYQNjPEFYW+coq9EwFmXBSyih8Ku011AbcnGLdgd
- 6OdLHkSzHHh9TJVxotyNVpA8UGMQxQJY8KkJXzkmx/OznAcQGzVkBFVB3tUxUBtq7SdM
- mj1D/m2GagauiVTAiX9iE9tgPbK4oOlHzLKkw+Oxg8bjveGcYtMGeyfAWc+XMGmSXLzv
- Y5aw==
-X-Gm-Message-State: AOAM531HqdPhQCN8IUUi51FpXPO7WjS94YpuOymAJ/3r1W0/P0Ghzl0E
- b6oRLvFpyjemuTbpnBLpOk7Mrw==
-X-Google-Smtp-Source: ABdhPJwLa+J4WA6bngxodc2EB5uHRUirH/QkEs2MfYSEY5vkCkFMtAw2vLteQOwNpU1C2UlVB5JJ9g==
-X-Received: by 2002:a1c:98cc:: with SMTP id a195mr4654221wme.89.1593195259961; 
- Fri, 26 Jun 2020 11:14:19 -0700 (PDT)
+ bh=UsvCJ1FtgsYHjIIgU0bFzUSnvljWkIkb9Subsb2kO6E=;
+ b=Dza/YWxzICyfLlhGVfLm3JHj556OUOZIwwdKIpGtuTF8E8SRI9jufZ6cmI3VptYIoN
+ YkMTTM4er/3t6KqnZt25IanZE5NA7L1ZigyQzbBGTmiDtci+GJfCcdG525cwwHsuetiF
+ r+Gt8ZxEtErzk79FVoN+rrX4dokUSOxYnCC1Aslgur4aqg+r1pEBaIOqKwDFUs5pxzB3
+ 9ToXv7i5ByVJVnHR5+7dmfdpJo5oq1lXfdCVut1sWOC1tmtOQvT+giMfy1TFgeBNpSZE
+ o72tzFjNnSxnIGKg8X3RImWhq5F5TaLSSXet4cZ+/blULe5Lloz0vdhXFqk26IqCbTMT
+ u5AA==
+X-Gm-Message-State: AOAM53079WlgSdMQqJAFf/UAEPH9MTA+jCg3+fjDPCFH1HYApggTVaIv
+ 9Nq1wci20SCzUo7sD56YG1qDpQ==
+X-Google-Smtp-Source: ABdhPJyUu9mCVjoMCns72qXRVAts0xau7VyfRALREgyAj5LtSJJPoLESwXoK4ugeFTH0rUZ4F2uocA==
+X-Received: by 2002:a1c:2e47:: with SMTP id u68mr4929167wmu.45.1593195774898; 
+ Fri, 26 Jun 2020 11:22:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m10sm18440235wru.4.2020.06.26.11.14.05
+ by smtp.gmail.com with ESMTPSA id r12sm37304294wrc.22.2020.06.26.11.22.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 11:14:10 -0700 (PDT)
+ Fri, 26 Jun 2020 11:22:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4AD641FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 6FCFD1FF9C;
  Fri, 26 Jun 2020 19:14:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 13/30] tests/vm: allow us to take advantage of MTTCG
-Date: Fri, 26 Jun 2020 19:13:40 +0100
-Message-Id: <20200626181357.26211-14-alex.bennee@linaro.org>
+Subject: [PATCH v3 14/30] tests/docker: check for an parameters not empty
+ string
+Date: Fri, 26 Jun 2020 19:13:41 +0100
+Message-Id: <20200626181357.26211-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626181357.26211-1-alex.bennee@linaro.org>
 References: <20200626181357.26211-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +75,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,41 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently limit TCG guests to -smp 1 but now we have added some
-aarch64 guests we can do better when running on x86_64 hardware.
-Raise the limit for TCG guests when it is safe to do so.
-
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/vm/basevm.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/docker/common.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 890bbc5549a..b8c60803e2d 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -553,6 +553,12 @@ def parse_args(vmcls):
-     def get_default_jobs():
-         if kvm_available(vmcls.arch):
-             return multiprocessing.cpu_count() // 2
-+        elif os.uname().machine == "x86_64" and \
-+             vmcls.arch in ["aarch64", "x86_64", "i386"]:
-+            # MTTCG is available on these arches and we can allow more cores.
-+            # But only up to a reasonable limit. User can always override
-+            # these limits with --jobs.
-+            return min(multiprocessing.cpu_count() // 2, 8)
-         else:
-             return 1
- 
+diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+index 02cd67a8c5e..b27ce17e333 100755
+--- a/tests/docker/common.rc
++++ b/tests/docker/common.rc
+@@ -47,7 +47,7 @@ build_qemu()
+ check_qemu()
+ {
+     # default to make check unless the caller specifies
+-    if test -z "$@"; then
++    if [ $# == 0 ]; then
+         INVOCATION="check"
+     else
+         INVOCATION="$@"
 -- 
 2.20.1
 
