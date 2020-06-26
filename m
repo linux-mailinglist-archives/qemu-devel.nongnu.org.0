@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5A820B357
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:16:57 +0200 (CEST)
-Received: from localhost ([::1]:59544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2954D20B370
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 16:20:18 +0200 (CEST)
+Received: from localhost ([::1]:37466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jop9z-0002AD-JA
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46852)
+	id 1jopDE-0004q1-U7
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 10:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jop8t-0001ar-GY; Fri, 26 Jun 2020 10:15:47 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44179)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jopCK-0004L7-0N
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:19:20 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:34206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jop8q-0004rj-D4; Fri, 26 Jun 2020 10:15:47 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b6so9649169wrs.11;
- Fri, 26 Jun 2020 07:15:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jopCH-0006QA-FT
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 10:19:19 -0400
+Received: by mail-lj1-x242.google.com with SMTP id x18so10553017lji.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 07:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hMVEYTfoNiyM2aJIUw7Nzj+oEaHlnLtc2qVDZ0KGVfc=;
- b=MvSzTF7X5l8WF/rDJiuQgK7lKTZouJOjSogQ6XD6hdKem2cgXmyU+fZBoZSDT/uXfs
- A/+9aKQdAeNcKjLsh2RWI5UAnKtwV6C7PjE8We7Kw3xun6LAGRtRzAmBD15SG/IYCV0Z
- iMdUwXXhokj2LJI6ajE+xK993AqF0FGsqIGLTgiRt7p3WeZ/IJnXuHspS/ClwGmP5D6E
- i7E/G3m7D3qW7MhqDdgBxMzmkJFzhan6qQL0J28E7SILWHFYE3oz9a8KIP55xrUKNXLy
- VEVU0NwV0xEkgy2mtRbz+mg1oP/evZaFBzLdVdgYcaf+xVO4JDlHdpiy7bwkgzN4Fd7p
- BJDQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uw8v9cgjcz1o9NYQ3JDUINFfCN2ao/eHHaaJCDt/2So=;
+ b=ma+hnIeLm+lPoYA5kNCd8jmxQ5kgTuS8DS96lj26kpXCWmEnrH4gZQhtLsiowxO/Rq
+ TIXLlfBeJSBnXpxbo80yYV84slRq/iqWO3c1aIAIrkP2/xNKmAQXKKgXtIO6GJDWSdRH
+ X2zz3YXTNo84IZNokCbiALASAqnGCZZejU7ZkxDZTeZEB595+gW+mSM4VommY6gwUUp5
+ EmnIY0KViKCBngpugg77pletvDSaw+giUzK/bYfa/5ytOf3B8TGjQ80a0Z2lHXFD+aW7
+ PZsZHsQ6Rlk0N5WvJjtx68aY6x5LOkMyhHdUpuBLIfe3HRp35GSZRfsvlgBHLhjEFOcH
+ zGYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hMVEYTfoNiyM2aJIUw7Nzj+oEaHlnLtc2qVDZ0KGVfc=;
- b=LMwaoTC6SACIzlO18LWdPhDUMzApGISPOq1W7dTi5N3HudyGG0EyKWgb6GzR6oIURn
- 58X7qXC28YA2G15xAe6NHeb3xsDP6uKMbE+ZrjdQC9Em33ltpnuk2VFcrclp2MUXHfhV
- dmX+N4K50sPNoSvbaBjo42g5J9RK3l0K0AHWqLCPEHCFAcqpQXUnYka03qhoCy7YH72J
- MQRH0tOnOUkg+0qpS2HsU9mYrmv8FOYuete+AlogF0KM9ve/DZGh2F92MjrXWO48h5vG
- QDPEH9pnSzc/ZcKs+7+t4XECU359kOTTHpY6f+sZW7BgfhdpBFv/7eIcMhlrKj0aHw3M
- xsMg==
-X-Gm-Message-State: AOAM5336TwVygC//am+UbGjeHagFSuFlg5fcN71cFyX77zyfhzM5fx0x
- K8Lxm5ydli1sgfMc4O4HOq0=
-X-Google-Smtp-Source: ABdhPJyBmyMd1OTf/N/pepStxJim7FbKSrEHNfNQ9c4NLGGdAOk8COtJQ3ZV92OiPDAy/HiARTBfLQ==
-X-Received: by 2002:a5d:6a06:: with SMTP id m6mr3961523wru.321.1593180942217; 
- Fri, 26 Jun 2020 07:15:42 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id a2sm21691828wrn.68.2020.06.26.07.15.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 07:15:41 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/3] hw/i2c/smbus_eeprom: Set QOM parent
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20200626102744.15053-1-f4bug@amsat.org>
- <20200626102744.15053-2-f4bug@amsat.org>
- <alpine.BSF.2.22.395.2006261240500.94870@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2006261251480.94870@zero.eik.bme.hu>
- <f7da6118-a27a-a09d-9c8f-92cbf2eca96f@amsat.org>
- <alpine.BSF.2.22.395.2006261557050.56498@zero.eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4825239e-1e75-a401-2068-a8c14c38f60b@amsat.org>
-Date: Fri, 26 Jun 2020 16:15:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uw8v9cgjcz1o9NYQ3JDUINFfCN2ao/eHHaaJCDt/2So=;
+ b=ojjOsb9fZIfNTNZDxc2N14pE4kkzEnIoNgvRhDkMM/ryF1Bi+NaG7DQzYyJ66rF27h
+ tEEEBy5UFaV1nJLRfHexfiArADwZm7VYbl/tK99GCkFlGjth1MFD2BAj1HGom3Bx42ok
+ vFlQK87wXYOM4NTv6PR1/ecABo3kWnEsKCWABjHV0B5baUb7wvb34hiLGaBzFt0vm68i
+ pa9dGE8lj+Qx7jst4UMZpfn3+8Ag+u5nRupEhrfPoeJwa6l9kCtffCdmSeclpgkqQKx7
+ u6lRt3p/occuacx2VjwLScHUXIYvYvoBxZECJVfMa73f4kTy4rdiRhTKTGAo5W6HamJs
+ td5Q==
+X-Gm-Message-State: AOAM532Btr6SupDFvrfMjr0GhzTSu5dL+jka8s6fYMBTbin/Waucdstz
+ xrI0aX6PEMNFIf3YxCAmDLiFwt/IYRXmIADEEqg=
+X-Google-Smtp-Source: ABdhPJxiQaIO36FXMK/3tLXiscDvnZHLIHqIh3U469n58ezHMzH3Gxi0mTpYXL6rr/3zGt/XHRg8pTAQLlv7gqRp93o=
+X-Received: by 2002:a2e:850b:: with SMTP id j11mr1153422lji.30.1593181151074; 
+ Fri, 26 Jun 2020 07:19:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.22.395.2006261557050.56498@zero.eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+References: <20200624153142.13247-1-ahmedkhaledkaraman@gmail.com>
+ <20200624153142.13247-2-ahmedkhaledkaraman@gmail.com>
+ <CAHiYmc6vtE7VmQ-GSLqbCQxM7dEyc-e1TGBDGWYSV6CNV0wgGA@mail.gmail.com>
+In-Reply-To: <CAHiYmc6vtE7VmQ-GSLqbCQxM7dEyc-e1TGBDGWYSV6CNV0wgGA@mail.gmail.com>
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Date: Fri, 26 Jun 2020 16:18:35 +0200
+Message-ID: <CALTWKrX7PmFZot+uL3MB8hML0o1oMYAr66AEFu-b_vCsJi5J2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] scripts/performance: Add topN_perf.py script
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_OTHER_BAD_TLD=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,109 +82,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Markus Armbruster <armbru@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Huacai Chen <chenhc@lemote.com>, Fred Konrad <konrad@adacore.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 4:03 PM, BALATON Zoltan wrote:
-> On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
->> + Eduardo / Mark / Edgard / Alistair / Fred for QOM design.
->>
->> On 6/26/20 12:54 PM, BALATON Zoltan wrote:
->>> On Fri, 26 Jun 2020, BALATON Zoltan wrote:
->>>> On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
->>>>> Suggested-by: Markus Armbruster <armbru@redhat.com>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> ---
->>>>> Aspeed change pending latest ARM pull-request, so meanwhile sending
->>>>> as RFC.
->>>>> ---
->>>>> include/hw/i2c/smbus_eeprom.h |  9 ++++++---
->>>>> hw/i2c/smbus_eeprom.c         | 13 ++++++++++---
->>>>> hw/mips/fuloong2e.c           |  2 +-
->>>>> hw/ppc/sam460ex.c             |  2 +-
->>>>> 4 files changed, 18 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/include/hw/i2c/smbus_eeprom.h
->>>>> b/include/hw/i2c/smbus_eeprom.h
->>>>> index 68b0063ab6..037612bbbb 100644
->>>>> --- a/include/hw/i2c/smbus_eeprom.h
->>>>> +++ b/include/hw/i2c/smbus_eeprom.h
->>>>> @@ -26,9 +26,12 @@
->>>>> #include "exec/cpu-common.h"
->>>>> #include "hw/i2c/i2c.h"
->>>>>
->>>>> -void smbus_eeprom_init_one(I2CBus *bus, uint8_t address, uint8_t
->>>>> *eeprom_buf);
->>>>> -void smbus_eeprom_init(I2CBus *bus, int nb_eeprom,
->>>>> -                       const uint8_t *eeprom_spd, int size);
->>>>> +void smbus_eeprom_init_one(Object *parent_obj, const char
->>>>> *child_name,
->>>>> +                           I2CBus *smbus, uint8_t address,
->>>>> +                           uint8_t *eeprom_buf);
->>>>> +void smbus_eeprom_init(Object *parent_obj, const char
->>>>> *child_name_prefix,
->>>>> +                       I2CBus *smbus, int nb_eeprom,
->>>>> +                       const uint8_t *eeprom_spd, int
->>>>> eeprom_spd_size);
->>>>
->>>> Keeping I2CBus *smbus and uint8_t address as first parameters before
->>>> parent_obj and name looks better to me. These functions still operate
->>>> on an I2Cbus so could be regarded as methods of I2CBus therefore first
->>>> parameter should be that.
->>>
->>> Also isn't parent_obj is the I2Cbus itself? Why is that need to be
->>> passed? The i2c_init_bus() also takes parent and name params so both
->>> I2Cbus and it's parent should be available as parents of the new I2C
->>> device here without more parameters. What am I missing here?
->>
->> This is where I'm confused too and what I want to resolve with this
->> RFC series :)
->>
->> The SPD EEPROM is soldered on the DIMM module. The DIMM exposes the
->> memory address/data pins and the i2c pins. We plug DIMMs on a
->> (mother)board.
->>
->> I see the DIMM module being the parent. As we don't model it in QOM,
->> I used the MemoryRegion (which is what the SPD is describing).
->>
->> We could represent the DIMM as a container of DRAM + SPD EEPROM, but
->> it makes the modeling slightly more complex. The only benefit is a
->> clearer modeling.
->>
->> I'm not sure why the I2C bus is expected to be the parent. Maybe an
->> old wrong assumption?
-> 
-> I guess it's a question of what the parent should mean? Is it parent of
-> the object in which case it's the I2CBus (which is kind of logical view
-> of the object tree modelling the machine) or the parent of the thing
-> modelled in the machine (which is physical view of the machine
-> components) then it should be the RAM module. The confusion probably
-> comes from this question not answered. Also the DIMM module is not
-> modelled so when you assign SPD eeproms to memory region it could be
-> multiple SPD eeproms will be parented by a single RAM memory region
-> (possibly not covering it fully as in the mac_oldworld or sam460ex case
-> discussed in another thread). This does not seem too intuitive.
+On Thu, Jun 25, 2020 at 11:45 AM Aleksandar Markovic
+<aleksandar.qemu.devel@gmail.com> wrote:
+>
+> =D1=81=D1=80=D0=B5, 24. =D1=98=D1=83=D0=BD 2020. =D1=83 17:32 Ahmed Karam=
+an
+> <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > Syntax:
+> > topN_perf.py [-h] [-n] <number of displayed top functions>  -- \
+> >                  <qemu executable> [<qemu executable options>] \
+> >                  <target executable> [<target execurable options>]
+> >
+> > [-h] - Print the script arguments help message.
+> > [-n] - Specify the number of top functions to print.
+> >      - If this flag is not specified, the tool defaults to 25.
+> >
+> > Example of usage:
+> > topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
+> >
+> > Example Output:
+> >  No.  Percentage  Name                       Caller
+> > ----  ----------  -------------------------  -------------------------
+> >    1      16.25%  float64_mul                qemu-x86_64
+> >    2      12.01%  float64_sub                qemu-x86_64
+> >    3      11.99%  float64_add                qemu-x86_64
+> >    4       5.69%  helper_mulsd               qemu-x86_64
+> >    5       4.68%  helper_addsd               qemu-x86_64
+> >    6       4.43%  helper_lookup_tb_ptr       qemu-x86_64
+> >    7       4.28%  helper_subsd               qemu-x86_64
+> >    8       2.71%  f64_compare                qemu-x86_64
+> >    9       2.71%  helper_ucomisd             qemu-x86_64
+> >   10       1.04%  helper_pand_xmm            qemu-x86_64
+> >   11       0.71%  float64_div                qemu-x86_64
+> >   12       0.63%  helper_pxor_xmm            qemu-x86_64
+> >   13       0.50%  0x00007f7b7004ef95         [JIT] tid 491
+> >   14       0.50%  0x00007f7b70044e83         [JIT] tid 491
+> >   15       0.36%  helper_por_xmm             qemu-x86_64
+> >   16       0.32%  helper_cc_compute_all      qemu-x86_64
+> >   17       0.30%  0x00007f7b700433f0         [JIT] tid 491
+> >   18       0.30%  float64_compare_quiet      qemu-x86_64
+> >   19       0.27%  soft_f64_addsub            qemu-x86_64
+> >   20       0.26%  round_to_int               qemu-x86_64
+> >
+> > Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+> > ---
+> >  scripts/performance/topN_perf.py | 142 +++++++++++++++++++++++++++++++
+> >  1 file changed, 142 insertions(+)
+> >  create mode 100755 scripts/performance/topN_perf.py
+> >
+> > diff --git a/scripts/performance/topN_perf.py b/scripts/performance/top=
+N_perf.py
+> > new file mode 100755
+> > index 0000000000..d2b939c375
+> > --- /dev/null
+> > +++ b/scripts/performance/topN_perf.py
+> > @@ -0,0 +1,142 @@
+> > +#!/usr/bin/env python3
+> > +
+> > +#  Print the top N most executed functions in QEMU using perf.
+> > +#  Syntax:
+> > +#  topN_perf.py [-h] [-n] <number of displayed top functions>  -- \
+> > +#           <qemu executable> [<qemu executable options>] \
+> > +#           <target executable> [<target execurable options>]
+> > +#
+> > +#  [-h] - Print the script arguments help message.
+> > +#  [-n] - Specify the number of top functions to print.
+> > +#       - If this flag is not specified, the tool defaults to 25.
+> > +#
+> > +#  Example of usage:
+> > +#  topN_perf.py -n 20 -- qemu-arm coulomb_double-arm
+> > +#
+> > +#  This file is a part of the project "TCG Continuous Benchmarking".
+> > +#
+> > +#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+> > +#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmai=
+l.com>
+> > +#
+> > +#  This program is free software: you can redistribute it and/or modif=
+y
+> > +#  it under the terms of the GNU General Public License as published b=
+y
+> > +#  the Free Software Foundation, either version 2 of the License, or
+> > +#  (at your option) any later version.
+> > +#
+> > +#  This program is distributed in the hope that it will be useful,
+> > +#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > +#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> > +#  GNU General Public License for more details.
+> > +#
+> > +#  You should have received a copy of the GNU General Public License
+> > +#  along with this program. If not, see <https://www.gnu.org/licenses/=
+>.
+> > +
+> > +import argparse
+> > +import os
+> > +import subprocess
+> > +import sys
+> > +
+> > +
+> > +# Parse the command line arguments
+> > +parser =3D argparse.ArgumentParser(
+> > +    usage=3D'topN_perf.py [-h] [-n] <number of displayed top functions=
+ >  -- '
+> > +          '<qemu executable> [<qemu executable options>] '
+> > +          '<target executable> [<target executable options>]')
+> > +
+> > +parser.add_argument('-n', dest=3D'top', type=3Dint, default=3D25,
+> > +                    help=3D'Specify the number of top functions to pri=
+nt.')
+> > +
+> > +parser.add_argument('command', type=3Dstr, nargs=3D'+', help=3Dargpars=
+e.SUPPRESS)
+> > +
+> > +args =3D parser.parse_args()
+> > +
+> > +# Extract the needed variables from the args
+> > +command =3D args.command
+> > +top =3D args.top
+> > +
+> > +# Insure that perf is installed
+> > +check_perf =3D subprocess.run(["which", "perf"], stdout=3Dsubprocess.D=
+EVNULL)
+> > +if check_perf.returncode:
+> > +    sys.exit("Please install perf before running the script!")
+>
+> I would rename "chech_perf" to "check_perf_presence". It is more
+> specific, clearer.
+>
+> > +
+> > +# Insure user has previllage to run perf
+> > +check_perf_executability =3D subprocess.run(["perf", "stat", "ls", "/"=
+],
+> > +                           stdout=3Dsubprocess.DEVNULL, stderr=3Dsubpr=
+ocess.DEVNULL)
+> > +if check_perf_executability.returncode:
+> > +    sys.exit(
+> > +"""
+> > +Error:
+> > +You may not have permission to collect stats.
+> > +
+> > +Consider tweaking /proc/sys/kernel/perf_event_paranoid,
+> > +which controls use of the performance events system by
+> > +unprivileged users (without CAP_SYS_ADMIN).
+> > +
+> > +  -1: Allow use of (almost) all events by all users
+> > +      Ignore mlock limit after perf_event_mlock_kb without CAP_IPC_LOC=
+K
+> > +   0: Disallow ftrace function tracepoint by users without CAP_SYS_ADM=
+IN
+> > +      Disallow raw tracepoint access by users without CAP_SYS_ADMIN
+> > +   1: Disallow CPU event access by users without CAP_SYS_ADMIN
+> > +   2: Disallow kernel profiling by users without CAP_SYS_ADMIN
+> > +
+> > +To make this setting permanent, edit /etc/sysctl.conf too, e.g.:
+> > +   kernel.perf_event_paranoid =3D -1
+> > +"""
+> > +)
+>
+> Very good.
+>
+> > +
+> > +# Run perf record
+> > +perf_record =3D subprocess.run((["perf", "record"] + command),
+> > +                             stdout=3Dsubprocess.DEVNULL, stderr=3Dsub=
+process.PIPE)
+> > +if perf_record.returncode:
+> > +    os.unlink('perf.data')
+> > +    sys.exit(perf_record.stderr.decode("utf-8"))
+>
+> Here, the file "perf.data" will be created in the current working
+> directory. If one existed prior to script execution, it will be
+> overwritten.
+>
+> I think such "corruption" of current working directory is not optimal.
+> It would be better that the script doesn't touch current working
+> directory at all (perhaps user wants to keep perf.data he obtained
+> from some experiment in the past.
+>
+> Therefore, I think it would be better if you specify output of "perf
+> report" to be "/tmp/perf.data", not "perf.data", which is the default.
+> There is an option of "perf record" to specify the output file:
+>
+>        -o, --output=3D
+>            Output file name.
+>
+> > +
+> > +# Save perf report output to perf_report.out
+> > +with open("perf_report.out", "w") as output:
+> > +    perf_report =3D subprocess.run(
+> > +        ["perf", "report", "--stdio"], stdout=3Doutput, stderr=3Dsubpr=
+ocess.PIPE)
+> > +    if perf_report.returncode:
+> > +        os.unlink('perf.data')
+> > +        output.close()
+> > +        os.unlink('perf_report.out')
+> > +        sys.exit(perf_report.stderr.decode("utf-8"))
+>
+> For similar reasons described above, input file should be
+> "/tmp/perf.data". Option of "perf report" for input file:
+>
+>        -i, --input=3D
+>            Input file name.
+>
+> Output file should be "/tmp/perf_report.out", not "perf_report.out".
+>
+> > +
+> > +# Read the reported data to functions[]
+> > +functions =3D []
+> > +with open("perf_report.out", "r") as data:
+>
+> "/tmp/perf_report.out"
+>
+> > +    # Only read lines that are not comments (comments start with #)
+> > +    # Only read lines that are not empty
+> > +    functions =3D [line for line in data.readlines() if line and line[=
+0]
+> > +                 !=3D '#' and line[0] !=3D "\n"]
+> > +
+> > +# Limit the number of top functions to "top"
+> > +number_of_top_functions =3D top if len(functions) > top else len(funct=
+ions)
+> > +
+> > +# Store the data of the top functions in top_functions[]
+> > +top_functions =3D functions[:number_of_top_functions]
+> > +
+> > +# Print table header
+> > +print('{:>4}  {:>10}  {:<30}  {}\n{}  {}  {}  {}'.format('No.',
+> > +                                                         'Percentage',
+> > +                                                         'Name',
+>
+> 'Function Name' would be more ergonomic here.
+>
+> > +                                                         'Caller',
+>
+> Please replace 'Caller' with 'Invoked by'. 'Caller' implies a function
+> that directly calls the function in question. 'Invoked by' avoids such
+> confusion, and it just feels more appropriate here.
+>
+> > +                                                         '-' * 4,
+> > +                                                         '-' * 10,
+> > +                                                         '-' * 30,
+> > +                                                         '-' * 25))
+> > +
+> > +
+> > +# Print top N functions
+> > +for (index, function) in enumerate(top_functions, start=3D1):
+> > +    function_data =3D function.split()
+> > +    function_percentage =3D function_data[0]
+> > +    function_name =3D function_data[-1]
+> > +    function_caller =3D ' '.join(function_data[2:-2])
+>
+> function_invoker
+>
+> > +    print('{:>4}  {:>10}  {:<30}  {}'.format(index,
+> > +                                             function_percentage,
+> > +                                             function_name,
+> > +                                             function_caller))
+>
+> function_invoker
+>
+> > +
+> > +# Remove intermediate files
+> > +os.unlink('perf.data')
+> > +os.unlink('perf_report.out')
+>
+> os.unlink('/tmp/perf.data')
+> os.unlink('/tmp/perf_report.out')
+>
+>
+> > --
+> > 2.17.1
+> >
 
-From the bus perspective, requests are sent hoping for a device to
-answer to the requested address ("Hello, do I have children? Hello?
-Anybody here?"), if nobody is here, the request timeouts.
-So there is not really a strong family relationship here.
+Thanks Mr. Aleksandar. These are really valid points. I'll add these
+updates in v4 of this series.
 
-If you unplug a DIMM, you remove both the MemoryRegion and the EEPROM.
-This is how I understand the QOM parent relationship so far (if you
-remove a parent, you also remove its children).
-
-> 
-> Regards,
-> BALATON Zoltan
+Best regards,
+Ahmed Karaman
 
