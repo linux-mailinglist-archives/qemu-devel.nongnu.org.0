@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF19020BBF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:56:21 +0200 (CEST)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014F020BC0D
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:00:26 +0200 (CEST)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowKa-00066T-Pg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52884)
+	id 1jowOW-0004cZ-U1
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowIA-00031q-Jd
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:50 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:3622)
+ id 1jowIC-00036k-HD
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:52 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:39465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI6-0002yu-Kq
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:50 -0400
+ id 1jowI7-00031d-PC
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208426; x=1624744426;
+ t=1593208430; x=1624744430;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=eG/gQauqiqB7pnRKQNR5DJPgXbWrFHCFFDYCA+EJf6s=;
- b=WKbtvGwrNK3avWFpOy6Zv0N1yLBV3jLneYpuAx7spLKjDP3qfFuINwyz
- lbSHXsBvsk2ft7dZUmucesQ/e3k3WKIrMOo5um3CJcXaRZ4WGUyWL7G6D
- DG2OsgSackPeS31YmmIh0KV/BWksFORLmGnQxkD+zn7frbciuGwertD4G
- eexrnmaiHmWa0Pnc2d84YNmP2K67jJBQmtXzzed+HeSaqaxg1DYSZBfaK
- UkJO5QBFz/kUdzpZr/JXXr752CJaB/4jjcqkpCvFsXz0lD8QMe+IbWrNn
- 8HwUBiiKS4MCdutgcW4wYaXtswuHlXvzWExcBXbc74Gd4i0sk6b7JoKBP g==;
-IronPort-SDR: rsxOUiDChYA0LBc251N3X1FG7UZ7KvuKaMgaKFuoL85/18dYM7/Ly3io7HSa76hBRtElkC8IMT
- xutmcRZkz/xPEAtjc5cB+alDGtyvCzJNlwa6Jd590ZsW0H07UoEzBFTgfhZS+n8TZ6EJF1/Xwm
- tWVZE0ra1n2ooChC9aNIXhhho6lf1LkGMxGG0SWqQW19xtZWKetbxBeXpLmuZY6c8WfU2nUmE9
- O4/h0IjBHoyKOxLy4HJSpiZED8JDRZRXHrY5DD/FINJe9X2hOlh1cQW4/Uy3qZZajJsvjTn4L+
- WBo=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="250261254"
+ bh=tbklPidyoag+526OikMJvjaCDv2Vc7WfWRAIVv9bwqo=;
+ b=nFgt02fqPT6hlf4+A4dLkX2VxgEH52cB5/6hgPQVrn0EUZ5mZEz/KNAS
+ Ww3nsqnqWbjR4ebS+GgeeKmo7OyYvUw0joHb7QUOqnhnaE7HM4UzyBSqe
+ 33T6FKA66p7x/eGU7u9RLwfvopOMpyE9WuHuDV9ZeKtYjUa7p2PUURHWH
+ tO7V+d5DV1ytES81yEI6TbglHgAuZB8tcpDCatPXj1ulxM5ElTCil+YFT
+ AcHCaaYQGXbtw7rYjGu7dycqBCVQoh4BAmCsaNTMEZ70IfkcG4T2obgF6
+ pmqOP4460pbOGFXETtvUEhtVU1E27QfVkCDaHyAFr1n+SRccCzuDqeKbz Q==;
+IronPort-SDR: e4304jJQDV9YGX3pRrMeroyO2D3ujIFEMxiTuUoghtnG9HsZ8XojanRxJA34Rc3WH7Vi0eKMzI
+ qJ6323sI/pZcdAreUxVZhfk2HYFJqo3jGW1lPzCjUEOofaJxhU5rJ+83w1PCULhwe83Rl6wnKb
+ w63woE2Xk3MFe8gmhstWGifx8fGnmE4wLgVaJKGuWe4wKLpbJQF924ZZwUwvmT6esjywHXzK92
+ Pjt5Sf5MXNsnpkP6eWMrnzrw7ebUiL9yMSwGLqTp1ZQLUg1KbMH2qDpptHue9K/ixylm/6Pm0v
+ BPk=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="244048392"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:39 +0800
-IronPort-SDR: zNhZy9LIXGpCTdrZn5gH0euIsekXX+jexYfaubZfrVXOE6lOyvf1bEm8/EnDukLI/jozQDowlt
- qo4dUW5setSjl87LEMUMSXtouqP30FLnY=
+ by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:46 +0800
+IronPort-SDR: ZZxKm8i+1gREAm+5P/rIBCo5HHsfuJfvpxkTUrIqh6Z/WYDiz4wRht1kYrDQDfgxDqyb5er6bR
+ 0mb37usUkyTYEq6sMvJ+MfxL8BS1zvCQ0=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 14:42:37 -0700
-IronPort-SDR: inQc7ckG0dqza7GcwVyRG6fy1yDvopl6Nhs0GdffGt2zy2bcm4izHhME5ZjChubrnNB/I00c5E
- k4WbY0C7L5pQ==
+ 26 Jun 2020 14:42:43 -0700
+IronPort-SDR: tTscqipsB4dAGr0fwHXlHgDNh5KAOSudDI+MzwDSjZrh3Ya0LSrC3PUZIYLyFBjcztOGMhydP4
+ W3jXJyy2InRQ==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:39 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:44 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/63] target/riscv: vector narrowing integer right shift
- instructions
-Date: Fri, 26 Jun 2020 14:43:24 -0700
-Message-Id: <20200626214410.3613258-18-alistair.francis@wdc.com>
+Subject: [PULL 36/63] target/riscv: vector single-width floating-point fused
+ multiply-add instructions
+Date: Fri, 26 Jun 2020 14:43:43 -0700
+Message-Id: <20200626214410.3613258-37-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=439617756=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:53:37
+ helo=esa2.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 17:53:44
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -100,173 +100,384 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200623215920.2594-16-zhiwei_liu@c-sky.com
+Message-id: 20200623215920.2594-35-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   | 13 ++++
- target/riscv/insn32.decode              |  6 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 90 +++++++++++++++++++++++++
- target/riscv/vector_helper.c            | 14 ++++
- 4 files changed, 123 insertions(+)
+ target/riscv/helper.h                   |  49 +++++
+ target/riscv/insn32.decode              |  16 ++
+ target/riscv/insn_trans/trans_rvv.inc.c |  18 ++
+ target/riscv/vector_helper.c            | 251 ++++++++++++++++++++++++
+ 4 files changed, 334 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 6805bf7dbd..1ec2202814 100644
+index 9d7dcfeef9..108a177f25 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -432,3 +432,16 @@ DEF_HELPER_6(vsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+@@ -857,3 +857,52 @@ DEF_HELPER_6(vfwmul_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vfwmul_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vfwmul_vf_h, void, ptr, ptr, i64, ptr, env, i32)
+ DEF_HELPER_6(vfwmul_vf_w, void, ptr, ptr, i64, ptr, env, i32)
 +
-+DEF_HELPER_6(vnsrl_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsrl_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnsra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmacc_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmacc_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsac_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsac_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmadd_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmadd_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfmsub_vf_d, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vf_h, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vf_w, void, ptr, ptr, i64, ptr, env, i32)
++DEF_HELPER_6(vfnmsub_vf_d, void, ptr, ptr, i64, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index e5334230df..435415f9f9 100644
+index dd9bca7eeb..9ca765d37f 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -331,6 +331,12 @@ vsrl_vi         101000 . ..... ..... 011 ..... 1010111 @r_vm
- vsra_vv         101001 . ..... ..... 000 ..... 1010111 @r_vm
- vsra_vx         101001 . ..... ..... 100 ..... 1010111 @r_vm
- vsra_vi         101001 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsrl_vv        101100 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsrl_vx        101100 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsrl_vi        101100 . ..... ..... 011 ..... 1010111 @r_vm
-+vnsra_vv        101101 . ..... ..... 000 ..... 1010111 @r_vm
-+vnsra_vx        101101 . ..... ..... 100 ..... 1010111 @r_vm
-+vnsra_vi        101101 . ..... ..... 011 ..... 1010111 @r_vm
+@@ -465,6 +465,22 @@ vfdiv_vf        100000 . ..... ..... 101 ..... 1010111 @r_vm
+ vfrdiv_vf       100001 . ..... ..... 101 ..... 1010111 @r_vm
+ vfwmul_vv       111000 . ..... ..... 001 ..... 1010111 @r_vm
+ vfwmul_vf       111000 . ..... ..... 101 ..... 1010111 @r_vm
++vfmacc_vv       101100 . ..... ..... 001 ..... 1010111 @r_vm
++vfnmacc_vv      101101 . ..... ..... 001 ..... 1010111 @r_vm
++vfnmacc_vf      101101 . ..... ..... 101 ..... 1010111 @r_vm
++vfmacc_vf       101100 . ..... ..... 101 ..... 1010111 @r_vm
++vfmsac_vv       101110 . ..... ..... 001 ..... 1010111 @r_vm
++vfmsac_vf       101110 . ..... ..... 101 ..... 1010111 @r_vm
++vfnmsac_vv      101111 . ..... ..... 001 ..... 1010111 @r_vm
++vfnmsac_vf      101111 . ..... ..... 101 ..... 1010111 @r_vm
++vfmadd_vv       101000 . ..... ..... 001 ..... 1010111 @r_vm
++vfmadd_vf       101000 . ..... ..... 101 ..... 1010111 @r_vm
++vfnmadd_vv      101001 . ..... ..... 001 ..... 1010111 @r_vm
++vfnmadd_vf      101001 . ..... ..... 101 ..... 1010111 @r_vm
++vfmsub_vv       101010 . ..... ..... 001 ..... 1010111 @r_vm
++vfmsub_vf       101010 . ..... ..... 101 ..... 1010111 @r_vm
++vfnmsub_vv      101011 . ..... ..... 001 ..... 1010111 @r_vm
++vfnmsub_vf      101011 . ..... ..... 101 ..... 1010111 @r_vm
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index d2dbf701c8..9d2c327366 100644
+index 3ce7815f5d..ee601fd790 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1425,3 +1425,93 @@ GEN_OPIVX_GVEC_SHIFT_TRANS(vsra_vx,  sars)
- GEN_OPIVI_GVEC_TRANS(vsll_vi, 1, vsll_vx,  shli)
- GEN_OPIVI_GVEC_TRANS(vsrl_vi, 1, vsrl_vx,  shri)
- GEN_OPIVI_GVEC_TRANS(vsra_vi, 1, vsra_vx,  sari)
+@@ -2061,3 +2061,21 @@ GEN_OPFVF_TRANS(vfrdiv_vf,  opfvf_check)
+ /* Vector Widening Floating-Point Multiply */
+ GEN_OPFVV_WIDEN_TRANS(vfwmul_vv, opfvv_widen_check)
+ GEN_OPFVF_WIDEN_TRANS(vfwmul_vf)
 +
-+/* Vector Narrowing Integer Right Shift Instructions */
-+static bool opivv_narrow_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s) &&
-+            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-+            vext_check_reg(s, a->rd, false) &&
-+            vext_check_reg(s, a->rs2, true) &&
-+            vext_check_reg(s, a->rs1, false) &&
-+            vext_check_overlap_group(a->rd, 1 << s->lmul, a->rs2,
-+                2 << s->lmul) &&
-+            (s->lmul < 0x3) && (s->sew < 0x3));
-+}
-+
-+/* OPIVV with NARROW */
-+#define GEN_OPIVV_NARROW_TRANS(NAME)                               \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-+{                                                                  \
-+    if (opivv_narrow_check(s, a)) {                                \
-+        uint32_t data = 0;                                         \
-+        static gen_helper_gvec_4_ptr * const fns[3] = {            \
-+            gen_helper_##NAME##_b,                                 \
-+            gen_helper_##NAME##_h,                                 \
-+            gen_helper_##NAME##_w,                                 \
-+        };                                                         \
-+        TCGLabel *over = gen_new_label();                          \
-+        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-+                                                                   \
-+        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-+                           vreg_ofs(s, a->rs1),                    \
-+                           vreg_ofs(s, a->rs2), cpu_env, 0,        \
-+                           s->vlen / 8, data, fns[s->sew]);        \
-+        gen_set_label(over);                                       \
-+        return true;                                               \
-+    }                                                              \
-+    return false;                                                  \
-+}
-+GEN_OPIVV_NARROW_TRANS(vnsra_vv)
-+GEN_OPIVV_NARROW_TRANS(vnsrl_vv)
-+
-+static bool opivx_narrow_check(DisasContext *s, arg_rmrr *a)
-+{
-+    return (vext_check_isa_ill(s) &&
-+            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-+            vext_check_reg(s, a->rd, false) &&
-+            vext_check_reg(s, a->rs2, true) &&
-+            vext_check_overlap_group(a->rd, 1 << s->lmul, a->rs2,
-+                2 << s->lmul) &&
-+            (s->lmul < 0x3) && (s->sew < 0x3));
-+}
-+
-+/* OPIVX with NARROW */
-+#define GEN_OPIVX_NARROW_TRANS(NAME)                                     \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-+{                                                                        \
-+    if (opivx_narrow_check(s, a)) {                                      \
-+        static gen_helper_opivx * const fns[3] = {                       \
-+            gen_helper_##NAME##_b,                                       \
-+            gen_helper_##NAME##_h,                                       \
-+            gen_helper_##NAME##_w,                                       \
-+        };                                                               \
-+        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fns[s->sew], s);\
-+    }                                                                    \
-+    return false;                                                        \
-+}
-+
-+GEN_OPIVX_NARROW_TRANS(vnsra_vx)
-+GEN_OPIVX_NARROW_TRANS(vnsrl_vx)
-+
-+/* OPIVI with NARROW */
-+#define GEN_OPIVI_NARROW_TRANS(NAME, ZX, OPIVX)                          \
-+static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
-+{                                                                        \
-+    if (opivx_narrow_check(s, a)) {                                      \
-+        static gen_helper_opivx * const fns[3] = {                       \
-+            gen_helper_##OPIVX##_b,                                      \
-+            gen_helper_##OPIVX##_h,                                      \
-+            gen_helper_##OPIVX##_w,                                      \
-+        };                                                               \
-+        return opivi_trans(a->rd, a->rs1, a->rs2, a->vm,                 \
-+                           fns[s->sew], s, ZX);                          \
-+    }                                                                    \
-+    return false;                                                        \
-+}
-+
-+GEN_OPIVI_NARROW_TRANS(vnsra_vi, 1, vnsra_vx)
-+GEN_OPIVI_NARROW_TRANS(vnsrl_vi, 1, vnsrl_vx)
++/* Vector Single-Width Floating-Point Fused Multiply-Add Instructions */
++GEN_OPFVV_TRANS(vfmacc_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfnmacc_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfmsac_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfnmsac_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfmadd_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfnmadd_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfmsub_vv, opfvv_check)
++GEN_OPFVV_TRANS(vfnmsub_vv, opfvv_check)
++GEN_OPFVF_TRANS(vfmacc_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfnmacc_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfmsac_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfnmsac_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfmadd_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfnmadd_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfmsub_vf, opfvf_check)
++GEN_OPFVF_TRANS(vfnmsub_vf, opfvf_check)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index f63f06bd37..7b59719baa 100644
+index 6441d0ee08..1173964efd 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -1395,3 +1395,17 @@ GEN_VEXT_SHIFT_VX(vsra_vx_b, int8_t, int8_t, H1, H1, DO_SRL, 0x7, clearb)
- GEN_VEXT_SHIFT_VX(vsra_vx_h, int16_t, int16_t, H2, H2, DO_SRL, 0xf, clearh)
- GEN_VEXT_SHIFT_VX(vsra_vx_w, int32_t, int32_t, H4, H4, DO_SRL, 0x1f, clearl)
- GEN_VEXT_SHIFT_VX(vsra_vx_d, int64_t, int64_t, H8, H8, DO_SRL, 0x3f, clearq)
+@@ -3432,3 +3432,254 @@ RVVCALL(OPFVF2, vfwmul_vf_h, WOP_UUU_H, H4, H2, vfwmul16)
+ RVVCALL(OPFVF2, vfwmul_vf_w, WOP_UUU_W, H8, H4, vfwmul32)
+ GEN_VEXT_VF(vfwmul_vf_h, 2, 4, clearl)
+ GEN_VEXT_VF(vfwmul_vf_w, 4, 8, clearq)
 +
-+/* Vector Narrowing Integer Right Shift Instructions */
-+GEN_VEXT_SHIFT_VV(vnsrl_vv_b, uint8_t,  uint16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VV(vnsrl_vv_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VV(vnsrl_vv_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VV(vnsra_vv_b, uint8_t,  int16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VV(vnsra_vv_h, uint16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VV(vnsra_vv_w, uint32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VX(vnsrl_vx_b, uint8_t, uint16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VX(vnsrl_vx_h, uint16_t, uint32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VX(vnsrl_vx_w, uint32_t, uint64_t, H4, H8, DO_SRL, 0x3f, clearl)
-+GEN_VEXT_SHIFT_VX(vnsra_vx_b, int8_t, int16_t, H1, H2, DO_SRL, 0xf, clearb)
-+GEN_VEXT_SHIFT_VX(vnsra_vx_h, int16_t, int32_t, H2, H4, DO_SRL, 0x1f, clearh)
-+GEN_VEXT_SHIFT_VX(vnsra_vx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
++/* Vector Single-Width Floating-Point Fused Multiply-Add Instructions */
++#define OPFVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)       \
++static void do_##NAME(void *vd, void *vs1, void *vs2, int i,       \
++        CPURISCVState *env)                                        \
++{                                                                  \
++    TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
++    TX2 s2 = *((T2 *)vs2 + HS2(i));                                \
++    TD d = *((TD *)vd + HD(i));                                    \
++    *((TD *)vd + HD(i)) = OP(s2, s1, d, &env->fp_status);          \
++}
++
++static uint16_t fmacc16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(a, b, d, 0, s);
++}
++
++static uint32_t fmacc32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(a, b, d, 0, s);
++}
++
++static uint64_t fmacc64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(a, b, d, 0, s);
++}
++
++RVVCALL(OPFVV3, vfmacc_vv_h, OP_UUU_H, H2, H2, H2, fmacc16)
++RVVCALL(OPFVV3, vfmacc_vv_w, OP_UUU_W, H4, H4, H4, fmacc32)
++RVVCALL(OPFVV3, vfmacc_vv_d, OP_UUU_D, H8, H8, H8, fmacc64)
++GEN_VEXT_VV_ENV(vfmacc_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfmacc_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfmacc_vv_d, 8, 8, clearq)
++
++#define OPFVF3(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)           \
++static void do_##NAME(void *vd, uint64_t s1, void *vs2, int i,    \
++        CPURISCVState *env)                                       \
++{                                                                 \
++    TX2 s2 = *((T2 *)vs2 + HS2(i));                               \
++    TD d = *((TD *)vd + HD(i));                                   \
++    *((TD *)vd + HD(i)) = OP(s2, (TX1)(T1)s1, d, &env->fp_status);\
++}
++
++RVVCALL(OPFVF3, vfmacc_vf_h, OP_UUU_H, H2, H2, fmacc16)
++RVVCALL(OPFVF3, vfmacc_vf_w, OP_UUU_W, H4, H4, fmacc32)
++RVVCALL(OPFVF3, vfmacc_vf_d, OP_UUU_D, H8, H8, fmacc64)
++GEN_VEXT_VF(vfmacc_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfmacc_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfmacc_vf_d, 8, 8, clearq)
++
++static uint16_t fnmacc16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(a, b, d,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++static uint32_t fnmacc32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(a, b, d,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++static uint64_t fnmacc64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(a, b, d,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++RVVCALL(OPFVV3, vfnmacc_vv_h, OP_UUU_H, H2, H2, H2, fnmacc16)
++RVVCALL(OPFVV3, vfnmacc_vv_w, OP_UUU_W, H4, H4, H4, fnmacc32)
++RVVCALL(OPFVV3, vfnmacc_vv_d, OP_UUU_D, H8, H8, H8, fnmacc64)
++GEN_VEXT_VV_ENV(vfnmacc_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfnmacc_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfnmacc_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfnmacc_vf_h, OP_UUU_H, H2, H2, fnmacc16)
++RVVCALL(OPFVF3, vfnmacc_vf_w, OP_UUU_W, H4, H4, fnmacc32)
++RVVCALL(OPFVF3, vfnmacc_vf_d, OP_UUU_D, H8, H8, fnmacc64)
++GEN_VEXT_VF(vfnmacc_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfnmacc_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfnmacc_vf_d, 8, 8, clearq)
++
++static uint16_t fmsac16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(a, b, d, float_muladd_negate_c, s);
++}
++
++static uint32_t fmsac32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(a, b, d, float_muladd_negate_c, s);
++}
++
++static uint64_t fmsac64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(a, b, d, float_muladd_negate_c, s);
++}
++
++RVVCALL(OPFVV3, vfmsac_vv_h, OP_UUU_H, H2, H2, H2, fmsac16)
++RVVCALL(OPFVV3, vfmsac_vv_w, OP_UUU_W, H4, H4, H4, fmsac32)
++RVVCALL(OPFVV3, vfmsac_vv_d, OP_UUU_D, H8, H8, H8, fmsac64)
++GEN_VEXT_VV_ENV(vfmsac_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfmsac_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfmsac_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfmsac_vf_h, OP_UUU_H, H2, H2, fmsac16)
++RVVCALL(OPFVF3, vfmsac_vf_w, OP_UUU_W, H4, H4, fmsac32)
++RVVCALL(OPFVF3, vfmsac_vf_d, OP_UUU_D, H8, H8, fmsac64)
++GEN_VEXT_VF(vfmsac_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfmsac_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfmsac_vf_d, 8, 8, clearq)
++
++static uint16_t fnmsac16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(a, b, d, float_muladd_negate_product, s);
++}
++
++static uint32_t fnmsac32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(a, b, d, float_muladd_negate_product, s);
++}
++
++static uint64_t fnmsac64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(a, b, d, float_muladd_negate_product, s);
++}
++
++RVVCALL(OPFVV3, vfnmsac_vv_h, OP_UUU_H, H2, H2, H2, fnmsac16)
++RVVCALL(OPFVV3, vfnmsac_vv_w, OP_UUU_W, H4, H4, H4, fnmsac32)
++RVVCALL(OPFVV3, vfnmsac_vv_d, OP_UUU_D, H8, H8, H8, fnmsac64)
++GEN_VEXT_VV_ENV(vfnmsac_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfnmsac_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfnmsac_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfnmsac_vf_h, OP_UUU_H, H2, H2, fnmsac16)
++RVVCALL(OPFVF3, vfnmsac_vf_w, OP_UUU_W, H4, H4, fnmsac32)
++RVVCALL(OPFVF3, vfnmsac_vf_d, OP_UUU_D, H8, H8, fnmsac64)
++GEN_VEXT_VF(vfnmsac_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfnmsac_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfnmsac_vf_d, 8, 8, clearq)
++
++static uint16_t fmadd16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(d, b, a, 0, s);
++}
++
++static uint32_t fmadd32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(d, b, a, 0, s);
++}
++
++static uint64_t fmadd64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(d, b, a, 0, s);
++}
++
++RVVCALL(OPFVV3, vfmadd_vv_h, OP_UUU_H, H2, H2, H2, fmadd16)
++RVVCALL(OPFVV3, vfmadd_vv_w, OP_UUU_W, H4, H4, H4, fmadd32)
++RVVCALL(OPFVV3, vfmadd_vv_d, OP_UUU_D, H8, H8, H8, fmadd64)
++GEN_VEXT_VV_ENV(vfmadd_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfmadd_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfmadd_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfmadd_vf_h, OP_UUU_H, H2, H2, fmadd16)
++RVVCALL(OPFVF3, vfmadd_vf_w, OP_UUU_W, H4, H4, fmadd32)
++RVVCALL(OPFVF3, vfmadd_vf_d, OP_UUU_D, H8, H8, fmadd64)
++GEN_VEXT_VF(vfmadd_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfmadd_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfmadd_vf_d, 8, 8, clearq)
++
++static uint16_t fnmadd16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(d, b, a,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++static uint32_t fnmadd32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(d, b, a,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++static uint64_t fnmadd64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(d, b, a,
++            float_muladd_negate_c | float_muladd_negate_product, s);
++}
++
++RVVCALL(OPFVV3, vfnmadd_vv_h, OP_UUU_H, H2, H2, H2, fnmadd16)
++RVVCALL(OPFVV3, vfnmadd_vv_w, OP_UUU_W, H4, H4, H4, fnmadd32)
++RVVCALL(OPFVV3, vfnmadd_vv_d, OP_UUU_D, H8, H8, H8, fnmadd64)
++GEN_VEXT_VV_ENV(vfnmadd_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfnmadd_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfnmadd_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfnmadd_vf_h, OP_UUU_H, H2, H2, fnmadd16)
++RVVCALL(OPFVF3, vfnmadd_vf_w, OP_UUU_W, H4, H4, fnmadd32)
++RVVCALL(OPFVF3, vfnmadd_vf_d, OP_UUU_D, H8, H8, fnmadd64)
++GEN_VEXT_VF(vfnmadd_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfnmadd_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfnmadd_vf_d, 8, 8, clearq)
++
++static uint16_t fmsub16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(d, b, a, float_muladd_negate_c, s);
++}
++
++static uint32_t fmsub32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(d, b, a, float_muladd_negate_c, s);
++}
++
++static uint64_t fmsub64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(d, b, a, float_muladd_negate_c, s);
++}
++
++RVVCALL(OPFVV3, vfmsub_vv_h, OP_UUU_H, H2, H2, H2, fmsub16)
++RVVCALL(OPFVV3, vfmsub_vv_w, OP_UUU_W, H4, H4, H4, fmsub32)
++RVVCALL(OPFVV3, vfmsub_vv_d, OP_UUU_D, H8, H8, H8, fmsub64)
++GEN_VEXT_VV_ENV(vfmsub_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfmsub_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfmsub_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfmsub_vf_h, OP_UUU_H, H2, H2, fmsub16)
++RVVCALL(OPFVF3, vfmsub_vf_w, OP_UUU_W, H4, H4, fmsub32)
++RVVCALL(OPFVF3, vfmsub_vf_d, OP_UUU_D, H8, H8, fmsub64)
++GEN_VEXT_VF(vfmsub_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfmsub_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfmsub_vf_d, 8, 8, clearq)
++
++static uint16_t fnmsub16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
++{
++    return float16_muladd(d, b, a, float_muladd_negate_product, s);
++}
++
++static uint32_t fnmsub32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
++{
++    return float32_muladd(d, b, a, float_muladd_negate_product, s);
++}
++
++static uint64_t fnmsub64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
++{
++    return float64_muladd(d, b, a, float_muladd_negate_product, s);
++}
++
++RVVCALL(OPFVV3, vfnmsub_vv_h, OP_UUU_H, H2, H2, H2, fnmsub16)
++RVVCALL(OPFVV3, vfnmsub_vv_w, OP_UUU_W, H4, H4, H4, fnmsub32)
++RVVCALL(OPFVV3, vfnmsub_vv_d, OP_UUU_D, H8, H8, H8, fnmsub64)
++GEN_VEXT_VV_ENV(vfnmsub_vv_h, 2, 2, clearh)
++GEN_VEXT_VV_ENV(vfnmsub_vv_w, 4, 4, clearl)
++GEN_VEXT_VV_ENV(vfnmsub_vv_d, 8, 8, clearq)
++RVVCALL(OPFVF3, vfnmsub_vf_h, OP_UUU_H, H2, H2, fnmsub16)
++RVVCALL(OPFVF3, vfnmsub_vf_w, OP_UUU_W, H4, H4, fnmsub32)
++RVVCALL(OPFVF3, vfnmsub_vf_d, OP_UUU_D, H8, H8, fnmsub64)
++GEN_VEXT_VF(vfnmsub_vf_h, 2, 2, clearh)
++GEN_VEXT_VF(vfnmsub_vf_w, 4, 4, clearl)
++GEN_VEXT_VF(vfnmsub_vf_d, 8, 8, clearq)
 -- 
 2.27.0
 
