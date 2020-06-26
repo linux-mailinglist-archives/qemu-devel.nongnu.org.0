@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05B120AC71
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:41:51 +0200 (CEST)
-Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F4320AC78
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:43:22 +0200 (CEST)
+Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joi3a-0002zW-LN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49704)
+	id 1joi53-0005wC-EW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2N-0001PH-9w; Fri, 26 Jun 2020 02:40:35 -0400
-Received: from ozlabs.org ([203.11.71.1]:39473)
+ id 1joi2O-0001Pm-KN; Fri, 26 Jun 2020 02:40:36 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33727 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2K-0001ES-Jf; Fri, 26 Jun 2020 02:40:35 -0400
+ id 1joi2L-0001EO-AJ; Fri, 26 Jun 2020 02:40:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49tS1l4VBWz9sRR; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
+ id 49tS1l5GXJz9sSn; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1593153627;
- bh=o+KHJQVzpFO+ZEGV70kRkztoAAIYNBYFB3V3S/KxQWY=;
+ bh=Zyd+21TNwqZFVKinK1W1M3pyiXHfAgldAX7SQP9sG7M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qAZA4KFWYn+kYNhe+nYW8jQegk/ysUYTMPEV/mAtq7ss0X51mqSdOerSwEPZvOQXQ
- 25bgC7pcEBDivHkVdB1cjihrDnzMrE/cpHUX3sk9aKgQeGs05+tt4TnSYk1k9Ksbq9
- fp7px2wEA24acLFRS1dvIXXHoG7X+GkX7Q7JEULE=
+ b=a3jP50fJ/pRcUgCgBjAiNZy64+/5W/KehzC+xNUPrDW9YwsW26QsaryGKwMAa7Doa
+ JOXoUKGA590YmrbLMpRdFyCWHWPEZyEredUtsDLmmE2DXenDmqcvvURfecN/1JKvQG
+ O/1VzUDrD4D+saf7I+GzARIyuRLOYvnqcMz0mWMM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/4] spapr: Simplify some warning printing paths in spapr_caps.c
-Date: Fri, 26 Jun 2020 16:40:21 +1000
-Message-Id: <20200626064024.383996-2-david@gibson.dropbear.id.au>
+Subject: [PULL 2/4] spapr: Fix typos in comments and macro indentation
+Date: Fri, 26 Jun 2020 16:40:22 +1000
+Message-Id: <20200626064024.383996-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 References: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 00:31:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -9
 X-Spam_score: -1.0
 X-Spam_bar: -
@@ -59,110 +60,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+Cc: Gustavo Romero <gromero@linux.ibm.com>, qemu-devel@nongnu.org,
  groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-We obviously only want to print a warning in these cases, but this is done
-in a rather convoluted manner. Just use warn_report() instead.
+This commit fixes typos in spapr_vio_reg_to_irq() comments and a macro
+indentation.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159188281098.70166.18387926536399257573.stgit@bahia.lan>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+Message-Id: <1590710681-12873-1-git-send-email-gromero@linux.ibm.com>
+Acked-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_caps.c | 28 ++++++----------------------
- 1 file changed, 6 insertions(+), 22 deletions(-)
+ hw/ppc/spapr_vio.c         | 6 +++---
+ include/hw/ppc/xive_regs.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index efdc0dbbcf..0c2bc8e06e 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -248,23 +248,18 @@ SpaprCapPossible cap_cfpc_possible = {
- static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
-                                  Error **errp)
- {
--    Error *local_err = NULL;
-     uint8_t kvm_val =  kvmppc_get_cap_safe_cache();
- 
-     if (tcg_enabled() && val) {
-         /* TCG only supports broken, allow other values and print a warning */
--        error_setg(&local_err,
--                   "TCG doesn't support requested feature, cap-cfpc=%s",
--                   cap_cfpc_possible.vals[val]);
-+        warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
-+                    cap_cfpc_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
-                    "Requested safe cache capability level not supported by kvm,"
-                    " try appending -machine cap-cfpc=%s",
-                    cap_cfpc_possible.vals[kvm_val]);
-     }
--
--    if (local_err != NULL)
--        warn_report_err(local_err);
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index 4318ed9638..731080d989 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -420,7 +420,7 @@ static void spapr_vio_busdev_reset(DeviceState *qdev)
  }
  
- SpaprCapPossible cap_sbbc_possible = {
-@@ -277,23 +272,18 @@ SpaprCapPossible cap_sbbc_possible = {
- static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
-                                         Error **errp)
- {
--    Error *local_err = NULL;
-     uint8_t kvm_val =  kvmppc_get_cap_safe_bounds_check();
+ /*
+- * The register property of a VIO device is defined in livirt using
++ * The register property of a VIO device is defined in libvirt using
+  * 0x1000 as a base register number plus a 0x1000 increment. For the
+  * VIO tty device, the base number is changed to 0x30000000. QEMU uses
+  * a base register number of 0x71000000 and then a simple increment.
+@@ -450,7 +450,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
  
-     if (tcg_enabled() && val) {
-         /* TCG only supports broken, allow other values and print a warning */
--        error_setg(&local_err,
--                   "TCG doesn't support requested feature, cap-sbbc=%s",
--                   cap_sbbc_possible.vals[val]);
-+        warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
-+                    cap_sbbc_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
- "Requested safe bounds check capability level not supported by kvm,"
-                    " try appending -machine cap-sbbc=%s",
-                    cap_sbbc_possible.vals[kvm_val]);
-     }
--
--    if (local_err != NULL)
--        warn_report_err(local_err);
- }
- 
- SpaprCapPossible cap_ibs_possible = {
-@@ -309,24 +299,18 @@ SpaprCapPossible cap_ibs_possible = {
- static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
-                                            uint8_t val, Error **errp)
- {
--    Error *local_err = NULL;
-     uint8_t kvm_val = kvmppc_get_cap_safe_indirect_branch();
- 
-     if (tcg_enabled() && val) {
-         /* TCG only supports broken, allow other values and print a warning */
--        error_setg(&local_err,
--                   "TCG doesn't support requested feature, cap-ibs=%s",
--                   cap_ibs_possible.vals[val]);
-+        warn_report("TCG doesn't support requested feature, cap-ibs=%s",
-+                    cap_ibs_possible.vals[val]);
-     } else if (kvm_enabled() && (val > kvm_val)) {
-         error_setg(errp,
- "Requested safe indirect branch capability level not supported by kvm,"
-                    " try appending -machine cap-ibs=%s",
-                    cap_ibs_possible.vals[kvm_val]);
-     }
--
--    if (local_err != NULL) {
--        warn_report_err(local_err);
--    }
- }
- 
- #define VALUE_DESC_TRISTATE     " (broken, workaround, fixed)"
+     } else if (reg >= 0x30000000) {
+         /*
+-         * VIO tty devices register values, when allocated by livirt,
++         * VIO tty devices register values, when allocated by libvirt,
+          * are mapped in range [0xf0 - 0xff], gives us a maximum of 16
+          * vtys.
+          */
+@@ -459,7 +459,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
+     } else {
+         /*
+          * Other VIO devices register values, when allocated by
+-         * livirt, should be mapped in range [0x00 - 0xef]. Conflicts
++         * libvirt, should be mapped in range [0x00 - 0xef]. Conflicts
+          * will be detected when IRQ is claimed.
+          */
+         irq = (reg >> 12) & 0xff;
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 09f243600c..7879692825 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -71,7 +71,7 @@
+  * QW word 2 contains the valid bit at the top and other fields
+  * depending on the QW.
+  */
+-#define TM_WORD2                0x8
++#define   TM_WORD2              0x8
+ #define   TM_QW0W2_VU           PPC_BIT32(0)
+ #define   TM_QW0W2_LOGIC_SERV   PPC_BITMASK32(1, 31) /* XX 2,31 ? */
+ #define   TM_QW1W2_VO           PPC_BIT32(0)
 -- 
 2.26.2
 
