@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BCC20B00A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:50:59 +0200 (CEST)
-Received: from localhost ([::1]:44568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ABD20B013
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:55:46 +0200 (CEST)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolwg-0007ug-Jr
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
+	id 1jom1J-0001XP-E4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jolvP-0006p3-0e
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:49:39 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43670)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jom0D-0000PY-Bm
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:54:37 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:42900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jolvM-0002ZG-9J
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:49:38 -0400
-Received: by mail-oi1-x243.google.com with SMTP id x83so114184oif.10
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 03:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jom0B-00041z-HN
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:54:37 -0400
+Received: by mail-ej1-x641.google.com with SMTP id i14so8912899ejr.9
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 03:54:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Uk3+XOX8UBsxbr7+evqJ3YqsSaNIWDccByaCccjbNv4=;
- b=MtQV7Lqs96ypPvQuXzK8KXSrh+5VCdm+DVmbS7UHWLcqzCqCJqI/zPqWPycGRxplnx
- r/KzaNGu+HWBfGxBURs8rZeywZuM4Qy2iFMAeW6wUIYzgx/juv/mcSrOV7omxvGgipp3
- 2aYVTDKfK4gnjWnYHwxu2+pplZu91LmIIEVOorCtjiBd6k16f1URKrslC3+KzD7kpBCy
- QFKCQqStGk12T6UVS6N7031IrU2mlyaxaXv/IKoK8GwooX01YNJ0CjycCDAYVIkYCJy0
- c4KEvxR1A03ny5pGFMol3HO/2advkhGXOaLNM7XGMHngvKhxwH+QH+H5Mbei5INPVcqc
- n1PA==
+ :cc:content-transfer-encoding;
+ bh=S9tmgHeMzw4Gs9JiDQ2JO+kxLJNINpzRNVs/yrLrGf4=;
+ b=RlOt0sSIH4XkbojPtzaLlgbOIvmodJw8QrBjp7OIix7Zb4lle1VdFkK8mgZ3V9s1NW
+ saZ1QB1kqc11a+vG5t+/owu3Zqp6W3EesLItzw7qpD1r/XEfI2KA3auH37g6R4/bA3Fa
+ c9surUzhNUOZQHsVDg7OUCUVKUpunPrKbhO5nqFoB6DOrdcBAQvtSrJ2KusOZtmmf2Pj
+ tfKxwZzjzekCBVjHNvn63lpJTfifnNQ5XYoyucKa3O5euGThR6dx+IBH/34RrB/xq+1I
+ jhZ7TvCZ5lGCGQU7t404wryUwR0aqNKo+5hi24AadcLkCF14Wjv7dq88338EsqoAxd71
+ rbDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Uk3+XOX8UBsxbr7+evqJ3YqsSaNIWDccByaCccjbNv4=;
- b=g67+NYcFVSlgpXcYJUegqssNGyKZdhC0MeaGA3O/sCuTI22VYal5MuytumsxsnrKh6
- fVypOascDpdurwQE4yO8aFVEtCR1qNoWUWWMym+GjKIqzFhbKz1U+9pk4OL98N5tv+Rt
- yuCwF9w7ATJ3x1s4uCpH/Kt3TUzLMF2Btzw2xZ1WDXfQWRLo/e9R+T3gGjfOjV7f7oDo
- EJuvA6O373cU4QFWMI+kWXvOjmA6iKQMxmi+LbwfjQITHyVZda+b0FiuBWGXIit+ejIA
- mw8E9l4Cdye6j24LhkcycqT0TOlAk56xrSQ/fWky6MwJwnvNW8bQIAlNMte6+44+di0X
- xqbQ==
-X-Gm-Message-State: AOAM532bv5AfirPDVH4nkUFulM8Gh2W+wOYXVoR77XDgc3LMdmQsc8Y4
- KpN8g/wi4c+K8ys9UurDEg+xh6ALqjPUgx4sT6paMg==
-X-Google-Smtp-Source: ABdhPJwhbuH5iG4G5jMd8ffSPTciPuqZoX96zvqUuwDHXPkijEIkHBjXsC65m1rPaIVPfLAiiAuiFJSwWV1oHYQ5nm0=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr1891532oia.163.1593168574948; 
- Fri, 26 Jun 2020 03:49:34 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=S9tmgHeMzw4Gs9JiDQ2JO+kxLJNINpzRNVs/yrLrGf4=;
+ b=nXf2ggWxJLCSzLpnG22Z//RQ8uhuGLL4FQjJnDliaCF8w23u7Dub7rLMk+G1B/mprv
+ UVvlCzzl+mQqEMI+ID9jQhzhYVStOXz80RV2qPnwEfXvLe/Y2fNCA+en1GAmaNyE4l3d
+ I2X+AynMqgNw3NVE0BAVMxAmA/Jyy0jtCVZ99SnPEnFl3JZ3KSQWeigm5Srh2ljg8wY3
+ PScFydismXRfn9bwDpyNT/bvFAW6sNiMJTwmeWna+rNca1tDL54zDRegnfH84nbLwt0p
+ 8W7YD4mx3zrKX/OkBXoxBm95i4HheT0AHXaUXwCyX8TJLcYSaGIrme8nw6wwk+JTOAGI
+ TeTg==
+X-Gm-Message-State: AOAM531NxLhxiG1kvssCkjo4eQC0e27R4Jua2CAAAS9JPwxyJsAei+fc
+ tFeXBSTVqto5Ruock9YWERPmFnxbAdd2rPnJecg=
+X-Google-Smtp-Source: ABdhPJzrUyaS+JAiBU4zRZNcm5HXUGwHrRCyPN0i/vIgXw2l0/6RYmRLsLo1SKOm2QKS7y8kWq3v3oiOXr8ikX8oBFs=
+X-Received: by 2002:a17:906:2681:: with SMTP id
+ t1mr1061924ejc.350.1593168873231; 
+ Fri, 26 Jun 2020 03:54:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200624100210.59975-1-stefanha@redhat.com>
- <CAFEAcA_K7MtnEjRMZCbmYrJCm6qD4N7ZMHvGuAzXL9gD2zQNuA@mail.gmail.com>
- <20200626102506.GD281902@stefanha-x1.localdomain>
-In-Reply-To: <20200626102506.GD281902@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Jun 2020 11:49:23 +0100
-Message-ID: <CAFEAcA_kbt1Cmy3t+FWoZ_-OQ+=HgE=uzDbeXmFeJKnVdAdNFQ@mail.gmail.com>
-Subject: Re: [PULL 00/12] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <159315507826.13901.17398620572438937429.malonedeb@wampee.canonical.com>
+ <CAHiYmc7_ra2qWJ8mkZ-vqL5vN2BKdWxAZeKNnMEkPtien5-fsw@mail.gmail.com>
+ <b34bf27c-3189-addc-0c50-b0c0c533876d@redhat.com>
+ <d2657f75-26fe-117b-183d-732d88da2653@redhat.com>
+ <32aa7cf6-5f4d-eb79-2ebe-ee463f4389b8@redhat.com>
+In-Reply-To: <32aa7cf6-5f4d-eb79-2ebe-ee463f4389b8@redhat.com>
+From: Jon Doron <arilou@gmail.com>
+Date: Fri, 26 Jun 2020 13:54:21 +0300
+Message-ID: <CAP7QCoiuc3ZYXowBi6TahYEoxM3fiUQAwfo=pSUZeG5yOGTY9Q@mail.gmail.com>
+Subject: Re: [Bug 1885247] [NEW] Build error in Intel 32-bit hosts
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=arilou@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -80,99 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bug 1885247 <1885247@bugs.launchpad.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Jun 2020 at 11:25, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Thu, Jun 25, 2020 at 02:31:14PM +0100, Peter Maydell wrote:
-> > On Wed, 24 Jun 2020 at 11:02, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > The following changes since commit 171199f56f5f9bdf1e5d670d09ef1351d8f01bae:
-> > >
-> > >   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20200619-3' into staging (2020-06-22 14:45:25 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://github.com/stefanha/qemu.git tags/block-pull-request
-> > >
-> > > for you to fetch changes up to 7838c67f22a81fcf669785cd6c0876438422071a:
-> > >
-> > >   block/nvme: support nested aio_poll() (2020-06-23 15:46:08 +0100)
-> > >
-> > > ----------------------------------------------------------------
-> > > Pull request
-> > >
-> > > ----------------------------------------------------------------
-> >
-> > Failure on iotest 030, x86-64 Linux:
-> >
-> >   TEST    iotest-qcow2: 030 [fail]
-> > QEMU          --
-> > "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
-> > -nodefaults -display none -accel qtest
-> > QEMU_IMG      --
-> > "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-img"
-> > QEMU_IO       --
-> > "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-io"
-> >  --cache writeback --aio threads -f qcow2
-> > QEMU_NBD      --
-> > "/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-nbd"
-> > IMGFMT        -- qcow2 (compat=1.1)
-> > IMGPROTO      -- file
-> > PLATFORM      -- Linux/x86_64 e104462 4.15.0-76-generic
-> > TEST_DIR      --
-> > /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/scratch
-> > SOCK_DIR      -- /tmp/tmp.8tgdDjoZcO
-> > SOCKET_SCM_HELPER --
-> > /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotest/socket_scm_helper
-> >
-> > --- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/030.out
-> >  2019-07-15 17:18:35.251364738 +0100
-> > +++ /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/030.out.bad
-> >   2020-06-25 14:04:28.500534007 +0100
-> > @@ -1,5 +1,17 @@
-> > -...........................
-> > +.............F.............
-> > +======================================================================
-> > +FAIL: test_stream_parallel (__main__.TestParallelOps)
-> > +----------------------------------------------------------------------
-> > +Traceback (most recent call last):
-> > +  File "030", line 246, in test_stream_parallel
-> > +    self.assert_qmp(result, 'return', {})
-> > +  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
-> > line 848, in assert_qmp
-> > +    result = self.dictpath(d, path)
-> > +  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/iotests.py",
-> > line 822, in dictpath
-> > +    self.fail(f'failed path traversal for "{path}" in "{d}"')
-> > +AssertionError: failed path traversal for "return" in "{'error':
-> > {'class': 'DeviceNotActive', 'desc': "Block job 'stream-node8' not
-> > found"}}"
-> > +
-> >  ----------------------------------------------------------------------
-> >  Ran 27 tests
-> >
-> > -OK
-> > +FAILED (failures=1)
->
-> Strange, I can't reproduce this failure on my pull request branch or on
-> qemu.git/master.
->
-> Is this failure deterministic? Are you sure it is introduced by this
-> pull request?
+Is there a container I can download which has your build environment?
 
-It might be a random one that you got hit by; I just bounced
-the request because it's a block pullreq rather than anything
-obviously unrelated (and because I hadn't seen it before). I
-can have another go at merging this if you don't think it looks
-like it would be something caused by any of the patches in
-this series.
-
-thanks
--- PMM
+On Fri, Jun 26, 2020 at 12:27 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 6/26/20 11:20 AM, Thomas Huth wrote:
+> > On 26/06/2020 11.13, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 6/26/20 9:37 AM, Aleksandar Markovic wrote:
+> >>> =D0=BF=D0=B5=D1=82, 26. =D1=98=D1=83=D0=BD 2020. =D1=83 09:11 Aleksan=
+dar Markovic
+> >>> <1885247@bugs.launchpad.net> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >>>>
+> >>>> Public bug reported:
+> >>>>
+> >>>> The code base is on master, checked out on Thursday June25th 2020,
+> >>>> 0250c595c9d. The build procedure:
+> >>>>
+> >>>> $ mkdir build-gcc
+> >>>> $ cd build-gcc
+> >>>> $ ../configure
+> >>>> $ make
+> >>>>
+> >>>> The build error message is:
+> >>>>
+> >>>>    CC      x86_64-softmmu/hw/hyperv/hyperv.o
+> >>>>    CC      x86_64-softmmu/hw/hyperv/hyperv_testdev.o
+> >>>>    CC      x86_64-softmmu/hw/hyperv/vmbus.o
+> >>>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c: In function
+> >>>> =E2=80=98gpadl_iter_io=E2=80=99:
+> >>>> /home/rtrk/Build/qemu-master/hw/hyperv/vmbus.c:386:13: error: cast
+> >>>> to pointer from integer of different size [-Werror=3Dint-to-pointer-=
+cast]
+> >>>>           p =3D (void *)(((uintptr_t)iter->map & TARGET_PAGE_MASK) |
+> >>>> off_in_page);
+> >>>>               ^
+> >>>> cc1: all warnings being treated as errors
+> >>>> make[1]: *** [/home/rtrk/Build/qemu-master/rules.mak:69:
+> >>>> hw/hyperv/vmbus.o] Error 1
+> >>>> make: *** [Makefile:527: x86_64-softmmu/all] Error 2
+> >>
+> >> FWIW there is no CI job covering x86 KVM on 32-bit host build.
+> >> Should this be covered? I guess the problem is no CI services
+> >> provide 32-bit x86...
+> >
+> > You can certainly provide either a container, or install the 32-bit
+> > libraries in a 64-bit environment. Then run
+> >
+> > PKG_CONFIG_LIBDIR=3D... ./configure --extra-cflags=3D-m32
+> >
+> > and it should be possible to build 32-bit binaries, too.
+> >
+> > Alternatively, we could add a cross-compilation job that builds with
+> > i686-w64-mingw32 in 32-bit.
+>
+> Oh, this case is covered:
+> https://app.shippable.com/github/qemu/qemu/runs/2437/2/console
+>
+> But this doesn't use KVM ;)
+>
 
