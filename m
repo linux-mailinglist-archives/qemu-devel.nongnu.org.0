@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5010820AAE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:45:22 +0200 (CEST)
-Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895A420AAD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:41:04 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofIn-00072N-5y
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:45:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
+	id 1jofEd-0006ZI-E8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6H-0000XX-TE
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:25 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40488)
+ id 1jof6I-0000aQ-SX
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:26 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6G-0001z2-1P
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:25 -0400
-Received: by mail-pf1-x442.google.com with SMTP id u5so4057632pfn.7
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:23 -0700 (PDT)
+ id 1jof6H-0001zQ-7V
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:26 -0400
+Received: by mail-pg1-x542.google.com with SMTP id d194so985166pga.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t6HI4aoB3cLZJNWMSCpZ8ckTVshtbgUW+lD663JKJXM=;
- b=mvJ/p01TpaggEkt2JgzEazB8Xc0MzESXHS7zQtMptUNS0zY3b89x+jqHkpJNfc0Rjk
- vLC5kTpqA0d+1DfhZI4NIc70Rik4NlKVAMfOSBDWDru+8cETQtxulspMAYgz8+uFXaHd
- P6f6bR74rphVkok9RCzm7rNAOojxfGksnkqsc0i7770ackFRDnoMiu6sNw8kiRisnKq7
- Bsy6z5Zs5fhZF7PMIOJlq5uO6R1apxhiNUnuUiIKZS021OwHmD//1iDeI3OxQ4J0MmiY
- 6D6AuZw7Y+CLTqChYJwG25NPop7jjjhZxkNEGJ5xy2G7kLanR91CKFBM7j4Ea2fdCLOt
- 7Fyw==
+ bh=dIqElI8pgPAgNw6hNXIr8iL0uUccdVm5AQSZ4FugxDc=;
+ b=wiA1w3oHCKdr/EwT5MwK589bXXIHHaRM1KXHruh7MewTSBfuMLfMsMHAHGJKfhkyQi
+ 8RNfVQkJPzX5lST5KqvN+F7U90HBqWQdeQ9cENOPq6nxYitN3aUhAv8iD+KDaNh5LPWM
+ rG2eV9LqGdyifaYmmL3Be2fI+IT8UmQ5qbZ5Di68eI4/Ttq7ftLTvIukpMhHUT4r/oKt
+ Hfv4qIw6+WivxR1o0GAdcsKNbXLSiCgUhc0FQXX8hrP399w5NAW+Z7NEdRti3DaH8XSp
+ pny6GS5Nia0kOqFQA9stXW/RKXaK2DNQI3A6dfXbLnednz06H2/K6K9kVrj+VHMSe24Y
+ 5TJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t6HI4aoB3cLZJNWMSCpZ8ckTVshtbgUW+lD663JKJXM=;
- b=MJVt/hPWwOwv5PujW36n4DMGhAiv+G1WCF0a5tGlSdQhDclFuw7kEJTZkTNyIjchaY
- RciDZBsRdRKPBcmH1VBAA2SpI3avbB0miBOE7p5cGYMniP4hpxETcndj41ZH5d9PV8eS
- LNvl6iqV4FhEydAD6dqUnbgr0I3e11I41zyMzh+hoBsG2PkTqCklilw4h91kI79A3Rkx
- sY85dRF+hsfSLxQ8rnZAHipMSZK2sPESPY+szRa4E+kSaUt1ZurQf1WPAD7Iajexa2ak
- VY1yEpTCz077R3xvYo7xF/ngm0841qd76jODqJNKnazjFS9bvdRUpGCk3adcqNd6AMzo
- 9P0Q==
-X-Gm-Message-State: AOAM533aA9odWVhDNV3emHrWnyTNO/lBq7TZmeC5GXh1zTFSBx/cyDEa
- fICxmjLpek5cbBuuOFXXEQ7euhuFegk=
-X-Google-Smtp-Source: ABdhPJzRq0HP0s8F5a25SIJrGeUZNMqdZMXlSuonax7u6dz3qI67FYZTF+4DgqDNfUdGlvCA6H6+3A==
-X-Received: by 2002:a63:1c65:: with SMTP id c37mr948632pgm.118.1593142342274; 
- Thu, 25 Jun 2020 20:32:22 -0700 (PDT)
+ bh=dIqElI8pgPAgNw6hNXIr8iL0uUccdVm5AQSZ4FugxDc=;
+ b=ljjWy+Q7JzQZsgv3CDTd14nJHnmqdzVyNIRdiaS8fGGJ5zCMiPKaZ0dEb5X6QncujT
+ jJMwV1MHYl2M6gOsHrFxp8twS9PxuOA2S5jRwPPUyMgBWoLQycGerZX02vKo8+vvm1Hm
+ Ne3aiypyaQrRauc66fSxHlqohh8cNMluBFjtjcbjprDf4XX5Jn72jfFxKtgyIV0xL835
+ SErv8C1nbQfXjGJdK1bA436St2o7UUDxb4160sHoX0q5+oJLrNfnzdR0lttWzouc/MYa
+ ZcYVcFFGpWvLOoV4rcy3aqEpbDbIKdDl3rGG9lpieBYwkr3buBPCxFDy8pUvIux+Wp5/
+ dkhQ==
+X-Gm-Message-State: AOAM530UsWjVock+91aGhEyjNSrI5p9z5oxgFkKpf6FDNXFWJUqr4/Qe
+ QUS9FutRFSSS3FzrhbORgyx2DvYoOI4=
+X-Google-Smtp-Source: ABdhPJwqso5tEzA6AUcX4zHk0cgVv74Wl8Udl9zugsEDY0XQVtzLu/yZqe81cS08+0k/tCoLGl4Fzg==
+X-Received: by 2002:a63:6d48:: with SMTP id i69mr930225pgc.354.1593142343557; 
+ Thu, 25 Jun 2020 20:32:23 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.21
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 20:32:21 -0700 (PDT)
+ Thu, 25 Jun 2020 20:32:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 27/46] target/arm: Add helper_mte_check_zva
-Date: Thu, 25 Jun 2020 20:31:25 -0700
-Message-Id: <20200626033144.790098-28-richard.henderson@linaro.org>
+Subject: [PATCH v9 28/46] target/arm: Use mte_checkN for sve unpredicated loads
+Date: Thu, 25 Jun 2020 20:31:26 -0700
+Message-Id: <20200626033144.790098-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
 References: <20200626033144.790098-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,170 +90,133 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a special helper for DC_ZVA, rather than the more
-general mte_checkN.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-a64.h    |   1 +
- target/arm/mte_helper.c    | 106 +++++++++++++++++++++++++++++++++++++
- target/arm/translate-a64.c |  16 +++++-
- 3 files changed, 122 insertions(+), 1 deletion(-)
+v8: Drop the out-of-line helper (pmm).
+---
+ target/arm/translate-sve.c | 61 +++++++++++++++++++++-----------------
+ 1 file changed, 33 insertions(+), 28 deletions(-)
 
-diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
-index 005af678c7..5b0b699a50 100644
---- a/target/arm/helper-a64.h
-+++ b/target/arm/helper-a64.h
-@@ -106,6 +106,7 @@ DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index ac7b3119e5..11e0dfc210 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4342,71 +4342,76 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+     int len_remain = len % 8;
+     int nparts = len / 8 + ctpop8(len_remain);
+     int midx = get_mem_index(s);
+-    TCGv_i64 addr, t0, t1;
++    TCGv_i64 dirty_addr, clean_addr, t0, t1;
  
- DEF_HELPER_FLAGS_3(mte_check1, TCG_CALL_NO_WG, i64, env, i32, i64)
- DEF_HELPER_FLAGS_3(mte_checkN, TCG_CALL_NO_WG, i64, env, i32, i64)
-+DEF_HELPER_FLAGS_3(mte_check_zva, TCG_CALL_NO_WG, i64, env, i32, i64)
- DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_4(addsubg, TCG_CALL_NO_RWG_SE, i64, env, i64, s32, i32)
- DEF_HELPER_FLAGS_3(ldg, TCG_CALL_NO_WG, i64, env, i64, i64)
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index abe6af6b79..4f9bd3add3 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -667,3 +667,109 @@ uint64_t HELPER(mte_checkN)(CPUARMState *env, uint32_t desc, uint64_t ptr)
- {
-     return mte_checkN(env, desc, ptr, GETPC());
+-    addr = tcg_temp_new_i64();
+-    t0 = tcg_temp_new_i64();
++    dirty_addr = tcg_temp_new_i64();
++    tcg_gen_addi_i64(dirty_addr, cpu_reg_sp(s, rn), imm);
++    clean_addr = gen_mte_checkN(s, dirty_addr, false, rn != 31, len, MO_8);
++    tcg_temp_free_i64(dirty_addr);
+ 
+-    /* Note that unpredicated load/store of vector/predicate registers
++    /*
++     * Note that unpredicated load/store of vector/predicate registers
+      * are defined as a stream of bytes, which equates to little-endian
+-     * operations on larger quantities.  There is no nice way to force
+-     * a little-endian load for aarch64_be-linux-user out of line.
+-     *
++     * operations on larger quantities.
+      * Attempt to keep code expansion to a minimum by limiting the
+      * amount of unrolling done.
+      */
+     if (nparts <= 4) {
+         int i;
+ 
++        t0 = tcg_temp_new_i64();
+         for (i = 0; i < len_align; i += 8) {
+-            tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + i);
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
+             tcg_gen_st_i64(t0, cpu_env, vofs + i);
++            tcg_gen_addi_i64(clean_addr, cpu_reg_sp(s, rn), 8);
+         }
++        tcg_temp_free_i64(t0);
+     } else {
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
+ 
++        /* Copy the clean address into a local temp, live across the loop. */
++        t0 = clean_addr;
++        clean_addr = tcg_temp_local_new_i64();
++        tcg_gen_mov_i64(clean_addr, t0);
++        tcg_temp_free_i64(t0);
++
+         gen_set_label(loop);
+ 
+-        /* Minimize the number of local temps that must be re-read from
+-         * the stack each iteration.  Instead, re-compute values other
+-         * than the loop counter.
+-         */
++        t0 = tcg_temp_new_i64();
++        tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
++        tcg_gen_addi_i64(clean_addr, clean_addr, 8);
++
+         tp = tcg_temp_new_ptr();
+-        tcg_gen_addi_ptr(tp, i, imm);
+-        tcg_gen_extu_ptr_i64(addr, tp);
+-        tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, rn));
+-
+-        tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
+-
+         tcg_gen_add_ptr(tp, cpu_env, i);
+         tcg_gen_addi_ptr(i, i, 8);
+         tcg_gen_st_i64(t0, tp, vofs);
+         tcg_temp_free_ptr(tp);
++        tcg_temp_free_i64(t0);
+ 
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+     }
+ 
+-    /* Predicate register loads can be any multiple of 2.
++    /*
++     * Predicate register loads can be any multiple of 2.
+      * Note that we still store the entire 64-bit unit into cpu_env.
+      */
+     if (len_remain) {
+-        tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + len_align);
+-
++        t0 = tcg_temp_new_i64();
+         switch (len_remain) {
+         case 2:
+         case 4:
+         case 8:
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LE | ctz32(len_remain));
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx,
++                                MO_LE | ctz32(len_remain));
+             break;
+ 
+         case 6:
+             t1 = tcg_temp_new_i64();
+-            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEUL);
+-            tcg_gen_addi_i64(addr, addr, 4);
+-            tcg_gen_qemu_ld_i64(t1, addr, midx, MO_LEUW);
++            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUL);
++            tcg_gen_addi_i64(clean_addr, clean_addr, 4);
++            tcg_gen_qemu_ld_i64(t1, clean_addr, midx, MO_LEUW);
+             tcg_gen_deposit_i64(t0, t0, t1, 32, 32);
+             tcg_temp_free_i64(t1);
+             break;
+@@ -4415,9 +4420,9 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+             g_assert_not_reached();
+         }
+         tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
++        tcg_temp_free_i64(t0);
+     }
+-    tcg_temp_free_i64(addr);
+-    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(clean_addr);
  }
-+
-+/*
-+ * Perform an MTE checked access for DC_ZVA.
-+ */
-+uint64_t HELPER(mte_check_zva)(CPUARMState *env, uint32_t desc, uint64_t ptr)
-+{
-+    uintptr_t ra = GETPC();
-+    int log2_dcz_bytes, log2_tag_bytes;
-+    int mmu_idx, bit55;
-+    intptr_t dcz_bytes, tag_bytes, i;
-+    void *mem;
-+    uint64_t ptr_tag, mem_tag, align_ptr;
-+
-+    bit55 = extract64(ptr, 55, 1);
-+
-+    /* If TBI is disabled, the access is unchecked, and ptr is not dirty. */
-+    if (unlikely(!tbi_check(desc, bit55))) {
-+        return ptr;
-+    }
-+
-+    ptr_tag = allocation_tag_from_addr(ptr);
-+
-+    if (tcma_check(desc, bit55, ptr_tag)) {
-+        goto done;
-+    }
-+
-+    /*
-+     * In arm_cpu_realizefn, we asserted that dcz > LOG2_TAG_GRANULE+1,
-+     * i.e. 32 bytes, which is an unreasonably small dcz anyway, to make
-+     * sure that we can access one complete tag byte here.
-+     */
-+    log2_dcz_bytes = env_archcpu(env)->dcz_blocksize + 2;
-+    log2_tag_bytes = log2_dcz_bytes - (LOG2_TAG_GRANULE + 1);
-+    dcz_bytes = (intptr_t)1 << log2_dcz_bytes;
-+    tag_bytes = (intptr_t)1 << log2_tag_bytes;
-+    align_ptr = ptr & -dcz_bytes;
-+
-+    /*
-+     * Trap if accessing an invalid page.  DC_ZVA requires that we supply
-+     * the original pointer for an invalid page.  But watchpoints require
-+     * that we probe the actual space.  So do both.
-+     */
-+    mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
-+    (void) probe_write(env, ptr, 1, mmu_idx, ra);
-+    mem = allocation_tag_mem(env, mmu_idx, align_ptr, MMU_DATA_STORE,
-+                             dcz_bytes, MMU_DATA_LOAD, tag_bytes, ra);
-+    if (!mem) {
-+        goto done;
-+    }
-+
-+    /*
-+     * Unlike the reasoning for checkN, DC_ZVA is always aligned, and thus
-+     * it is quite easy to perform all of the comparisons at once without
-+     * any extra masking.
-+     *
-+     * The most common zva block size is 64; some of the thunderx cpus use
-+     * a block size of 128.  For user-only, aarch64_max_initfn will set the
-+     * block size to 512.  Fill out the other cases for future-proofing.
-+     *
-+     * In order to be able to find the first miscompare later, we want the
-+     * tag bytes to be in little-endian order.
-+     */
-+    switch (log2_tag_bytes) {
-+    case 0: /* zva_blocksize 32 */
-+        mem_tag = *(uint8_t *)mem;
-+        ptr_tag *= 0x11u;
-+        break;
-+    case 1: /* zva_blocksize 64 */
-+        mem_tag = cpu_to_le16(*(uint16_t *)mem);
-+        ptr_tag *= 0x1111u;
-+        break;
-+    case 2: /* zva_blocksize 128 */
-+        mem_tag = cpu_to_le32(*(uint32_t *)mem);
-+        ptr_tag *= 0x11111111u;
-+        break;
-+    case 3: /* zva_blocksize 256 */
-+        mem_tag = cpu_to_le64(*(uint64_t *)mem);
-+        ptr_tag *= 0x1111111111111111ull;
-+        break;
-+
-+    default: /* zva_blocksize 512, 1024, 2048 */
-+        ptr_tag *= 0x1111111111111111ull;
-+        i = 0;
-+        do {
-+            mem_tag = cpu_to_le64(*(uint64_t *)(mem + i));
-+            if (unlikely(mem_tag != ptr_tag)) {
-+                goto fail;
-+            }
-+            i += 8;
-+            align_ptr += 16 * TAG_GRANULE;
-+        } while (i < tag_bytes);
-+        goto done;
-+    }
-+
-+    if (likely(mem_tag == ptr_tag)) {
-+        goto done;
-+    }
-+
-+ fail:
-+    /* Locate the first nibble that differs. */
-+    i = ctz64(mem_tag ^ ptr_tag) >> 4;
-+    mte_check_fail(env, mmu_idx, align_ptr + i * TAG_GRANULE, ra);
-+
-+ done:
-+    return useronly_clean_ptr(ptr);
-+}
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 52be0400d7..a2a8280010 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1857,7 +1857,21 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         return;
-     case ARM_CP_DC_ZVA:
-         /* Writes clear the aligned block of memory which rt points into. */
--        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
-+        if (s->mte_active[0]) {
-+            TCGv_i32 t_desc;
-+            int desc = 0;
-+
-+            desc = FIELD_DP32(desc, MTEDESC, MIDX, get_mem_index(s));
-+            desc = FIELD_DP32(desc, MTEDESC, TBI, s->tbid);
-+            desc = FIELD_DP32(desc, MTEDESC, TCMA, s->tcma);
-+            t_desc = tcg_const_i32(desc);
-+
-+            tcg_rt = new_tmp_a64(s);
-+            gen_helper_mte_check_zva(tcg_rt, cpu_env, t_desc, cpu_reg(s, rt));
-+            tcg_temp_free_i32(t_desc);
-+        } else {
-+            tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
-+        }
-         gen_helper_dc_zva(cpu_env, tcg_rt);
-         return;
-     default:
+ 
+ /* Similarly for stores.  */
 -- 
 2.25.1
 
