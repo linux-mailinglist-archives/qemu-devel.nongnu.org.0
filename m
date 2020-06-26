@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A177720BA4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:26:35 +0200 (CEST)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A75F20BA26
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:20:45 +0200 (CEST)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jouvi-0008NU-LW
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
+	id 1jouq3-0002TH-SI
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jouut-0007t8-Q9
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:25:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48900)
+ (Exim 4.90_1) (envelope-from <msmarduch@digitalocean.com>)
+ id 1jouoa-0001vZ-VF
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:19:12 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jouur-0000tS-Du
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:25:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jouun-0007dj-MB
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:25:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A2B472E80E7
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:25:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 26 Jun 2020 20:17:09 -0000
-From: Langston <1885332@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0
-X-Launchpad-Bug-Reporter: Langston (langston0)
-X-Launchpad-Bug-Modifier: Langston (langston0)
-Message-Id: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
-Subject: [Bug 1885332] [NEW] Error in user-mode calculation of ELF aux
- vector's AT_PHDR
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 04d615ba9220e18954ba3e2bd5aec8a5398e2763
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:25:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <msmarduch@digitalocean.com>)
+ id 1jouoY-0006eE-K0
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:19:12 -0400
+Received: by mail-pl1-x641.google.com with SMTP id j4so4661013plk.3
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 13:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=digitalocean.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=pxbwWo5XWzO8IpihWkUfDIASJ7xv+l6dqrjnT/1bNec=;
+ b=PF/TjXQqDITWcQMOB8Zk/BufXKd3AM0SwETAN04L5JNQ1ly1eGg+he6BTX4ePWycbV
+ dbZHpgrE2vZFsYcx/MuO5Fd/G3cRvIrQcpAGlDaMT3INQOnzfgochgTKcjG9Ohy25Lde
+ RAD3PMk1dLVgmMNT+EzT8ViHMtjVs1JkF7F1w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=pxbwWo5XWzO8IpihWkUfDIASJ7xv+l6dqrjnT/1bNec=;
+ b=PAwIjSHwDj0qi83BJqqwiuWBf8ac/H9/XHeeMtq8/JnFmXWCO6cXJAucH6imXIXd2L
+ 7rkorhoH1DXJ0xMRrfhSmYnmZ9eyFCgjMdTbF01EdaadRsj1/cefdLSBAEZxMcjVOlVF
+ oxxQ6kEwrmPqq51kuTs43lxuPUtoZW//ORy3zHphx4yMCGxP3978zbcSJhqAcsJ6Aemx
+ VpHfiOxut04Pzo4p0EFEgwY/J21k16yNTrdsch/tgbTWwgvmIMkbu5ik5Vg0xvQc9WdU
+ PTWS1d8xLOzM4mHd6KVIvnQOdSRMUl6IZ1r5NjUwkZhsCHVxqLGuZC8LZccUzFSeUHq+
+ /Dug==
+X-Gm-Message-State: AOAM532R4iQw8zw4sCqy7dHluClksTvKc+pRYyGtgZUt9OWgd3GCrHSS
+ aL3V8Dw2Yor5wS3uYwnPtkEpiw==
+X-Google-Smtp-Source: ABdhPJxQzU4l/b9o4ZObmBEuCmcq7CB4ldKAHIeV1OST2bfcfazuFDHZhInG3DzdXImWQN/4xoprPw==
+X-Received: by 2002:a17:90a:4f4b:: with SMTP id
+ w11mr5359085pjl.11.1593202747757; 
+ Fri, 26 Jun 2020 13:19:07 -0700 (PDT)
+Received: from msmarduch-ThinkPad-T460s
+ ([2600:1700:4a30:84c0:9494:e58a:f7ca:ac1])
+ by smtp.gmail.com with ESMTPSA id x8sm12920086pje.31.2020.06.26.13.19.07
+ (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+ Fri, 26 Jun 2020 13:19:07 -0700 (PDT)
+From: Mario Smarduch <msmarduch@digitalocean.com>
+To: qemu-devel@nongnu.org,
+	armbru@redhat.com,
+	pbonzini@redhat.com
+Cc: peter.maydell@linaro.org,
+	msmarduch@digitalocean.com
+Subject: [PATCH] util/qemu-error: prepend guest name to error message to
+ identify affected VM owner
+Date: Fri, 26 Jun 2020 13:19:00 -0700
+Message-Id: <20200626201900.8876-1-msmarduch@digitalocean.com>
+X-Mailer: git-send-email 2.9.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=msmarduch@digitalocean.com; helo=mail-pl1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,251 +83,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+This is followup patch to the one submitted back in Oct, 19
+
+https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg02102.html
+
+My mistake here, I took my eyes of the mailing list after I got the
+initial thumbs up. This patch follows up on Markus comments in the
+above link.
+
+Purpose of this patch:
+
+We want to print guest name for errors, warnings and info messages. This 
+was the first of two patches the second being MCE errors targeting a VM 
+with guest name prepended. But in a large fleet we see many other
+errors that disable a VM or crash it. In a large fleet and centralized
+logging having the guest name enables identify of owner and customer.
+
+Signed-off-by: Mario Smarduch <msmarduch@digitalocean.com>
+---
+Test verification summary:
+
+a) qemu-system-x86_64 -msg help
+  guest-name=<bool (on/off)> - Prepends guest name for error messages but only if -name <guestname> is set otherwise option is ignored
+
+  timestamp=<bool (on/off)>
+
+b) qemu-system-x86_64 -help
+-msg [timestamp[=on|off]][,guest-name=[on|off]]
+                control error message format
+                timestamp=on enables timestamps (default: off)
+                guest-name=on enables guest name prefix but only if
+                              -name guest option is set (default: off)
+
+c) man qemu
+       -msg [timestamp[=on|off]][,guest-name[=on|off]]
+              Control error message format.
+
+              timestamp=on|off
+                     Prefix messages with a timestamp. Default is off.
+
+              guest-name=on|off
+                     Prefix  messages  with guest name but only if -name guest
+                     option is set otherwise the option is ignored. Default is
+                     off.
+d) command options
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp
+2020-06-26T01:01:23.140294Z qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp,guest-name
+2020-06-26T01:02:30.301431Z qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp,guest-name \
+                                    -name guest=DROPLET-123
+2020-06-26T01:04:37.720380Z DROPLET-1234 qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp=off,guest-name=off \
+                                    -name guest=DROPLET-123
+qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp=on,guest-name=off \
+                                    -name guest=DROPLET-123
+2020-06-26T01:06:33.888859Z qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp=off,guest-name=on \
+                                    -name guest=DROPLET-123
+DROPLET-1234 qemu-system-x86_64: Testing ERROR...
+
+./x86_64-softmmu/qemu-system-x86_64 -msg timestamp=on,guest-name=on \
+                                    -name guest=DROPLET-123
+2020-06-26T01:09:31.116283Z DROPLET-1234 qemu-system-x86_64: Testing ERROR... 
 
 
-I have an (admittedly strange) statically-linked ELF binary for Linux that =
-runs just fine on top of the Linux kernel in QEMU full-system emulation, bu=
-t crashes before main in user-mode emulation. Specifically, it crashes when=
- initializing thread-local storage in glibc's _dl_aux_init, because it read=
-s out a strange value from the AT_PHDR entry of the ELF aux vector.
+ include/qemu/error-report.h |  2 ++
+ qemu-options.hx             | 12 +++++++++---
+ softmmu/vl.c                |  9 +++++++++
+ util/qemu-error.c           |  7 +++++++
+ 4 files changed, 27 insertions(+), 3 deletions(-)
 
-The binary has these program headers:
+diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
+index 87532d8596..a5ad95ff1b 100644
+--- a/include/qemu/error-report.h
++++ b/include/qemu/error-report.h
+@@ -75,5 +75,7 @@ void error_init(const char *argv0);
+ const char *error_get_progname(void);
+ 
+ extern bool error_with_timestamp;
++extern bool error_with_guestname;
++extern const char *error_guest_name;
+ 
+ #endif
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 93bde2bbc8..ff75510b7c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4290,16 +4290,22 @@ HXCOMM Deprecated by -accel tcg
+ DEF("no-kvm", 0, QEMU_OPTION_no_kvm, "", QEMU_ARCH_I386)
+ 
+ DEF("msg", HAS_ARG, QEMU_OPTION_msg,
+-    "-msg timestamp[=on|off]\n"
++    "-msg [timestamp[=on|off]][,guest-name=[on|off]]\n"
+     "                control error message format\n"
+-    "                timestamp=on enables timestamps (default: off)\n",
++    "                timestamp=on enables timestamps (default: off)\n"
++    "                guest-name=on enables guest name prefix but only if\n"
++    "                              -name guest option is set (default: off)\n",
+     QEMU_ARCH_ALL)
+ SRST
+-``-msg timestamp[=on|off]``
++``-msg [timestamp[=on|off]][,guest-name[=on|off]]``
+     Control error message format.
+ 
+     ``timestamp=on|off``
+         Prefix messages with a timestamp. Default is off.
++
++    ``guest-name=on|off``
++        Prefix messages with guest name but only if -name guest option is set
++        otherwise the option is ignored. Default is off.
+ ERST
+ 
+ DEF("dump-vmstate", HAS_ARG, QEMU_OPTION_dump_vmstate,
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f669c06ede..3f7aad89c3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -389,6 +389,12 @@ static QemuOptsList qemu_msg_opts = {
+             .name = "timestamp",
+             .type = QEMU_OPT_BOOL,
+         },
++        {
++            .name = "guest-name",
++            .type = QEMU_OPT_BOOL,
++            .help = "Prepends guest name for error messages but only if "
++                    "-name guest is set otherwise option is ignored\n",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -1109,6 +1115,7 @@ static void realtime_init(void)
+ static void configure_msg(QemuOpts *opts)
+ {
+     error_with_timestamp = qemu_opt_get_bool(opts, "timestamp", false);
++    error_with_guestname = qemu_opt_get_bool(opts, "guest-name", false);
+ }
+ 
+ 
+@@ -3578,6 +3585,8 @@ void qemu_init(int argc, char **argv, char **envp)
+                 if (!opts) {
+                     exit(1);
+                 }
++                /* Capture guest name if -msg guest-name is used later */
++                error_guest_name = qemu_opt_get(opts, "guest");
+                 break;
+             case QEMU_OPTION_prom_env:
+                 if (nb_prom_envs >= MAX_PROM_ENVS) {
+diff --git a/util/qemu-error.c b/util/qemu-error.c
+index dac7c7dc50..017288b6c9 100644
+--- a/util/qemu-error.c
++++ b/util/qemu-error.c
+@@ -26,6 +26,8 @@ typedef enum {
+ 
+ /* Prepend timestamp to messages */
+ bool error_with_timestamp;
++bool error_with_guestname;
++const char *error_guest_name;
+ 
+ int error_printf(const char *fmt, ...)
+ {
+@@ -213,6 +215,11 @@ static void vreport(report_type type, const char *fmt, va_list ap)
+         g_free(timestr);
+     }
+ 
++    /* Only prepend guest name if -msg guest-name and -name guest=... are set */
++    if (error_with_guestname && error_guest_name && !cur_mon) {
++        error_printf("%s ", error_guest_name);
++    }
++
+     print_loc();
+ 
+     switch (type) {
+-- 
+2.17.1
 
-  Program Headers:
-    Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-    EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
-    PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1000
-    LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1000
-    LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x100=
-00
-    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
-00
-    NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-    TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-    GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-    GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-    LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1000
-    LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1000
-
-If I build the Linux kernel with the following patch to the very end of
-create_elf_tables in fs/binfmt_elf.c
-
-  /* Put the elf_info on the stack in the right place.  */
-  elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
-  int i;
-  for (i =3D 0; i < 15; i++) {
-    printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
-  }
-  if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
-      return -EFAULT;
-  return 0;
-
-and run it like this:
-
-  qemu-system-arm \
-    -M versatilepb \
-    -nographic \
-    -dtb ./dts/versatile-pb.dtb \
-    -kernel zImage \
-    -M versatilepb \
-    -m 128M \
-    -append "earlyprintk=3Dvga,keep" \
-    -initrd initramfs
-
-after I've built the kernel initramfs like this (where "init" is the
-binary in question):
-
-  make ARCH=3Darm versatile_defconfig
-  make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
-  cp "$1" arch/arm/boot/init
-  cd arch/arm/boot
-  echo init | cpio -o --format=3Dnewc > initramfs
-
-then I get the following output. This is the kernel's view of the aux
-vector for this binary:
-
-  0x10 =3D 0x1d7
-  0x6 =3D 0x1000
-  0x11 =3D 0x64
-  0x3 =3D 0x900000
-  0x4 =3D 0x20
-  0x5 =3D 0xb
-  0x7 =3D 0x0
-  0x8 =3D 0x0
-  0x9 =3D 0x101b8
-  0xb =3D 0x0
-  0xc =3D 0x0
-  0xd =3D 0x0
-  0xe =3D 0x0
-  0x17 =3D 0x0
-  0x19 =3D 0xbec62fb5
-
-However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at the
-aux vector at the beginning of __libc_start_init (for example, using
-this Python GDB API script: https://gist.github.com/langston-
-barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
-values:
-
-  AT_PHDR =3D 0xae000
-  AT_PHENT =3D 0x20
-  AT_PHNUM =3D 0xb
-  AT_PAGESZ =3D 0x1000
-  AT_BASE =3D 0x0
-  AT_FLAGS =3D 0x0
-  AT_ENTRY =3D 0x10230
-  AT_UID =3D 0x3e9
-  AT_EUID =3D 0x3e9
-  AT_GID =3D 0x3e9
-  AT_EGID =3D 0x3e9
-  AT_HWCAP =3D 0x1fb8d7
-  AT_CLKTCK =3D 0x64
-  AT_RANDOM =3D -0x103c0
-  AT_HWCAP2 =3D 0x1f
-  AT_NULL =3D 0x0
-
-The crucial difference is in AT_PHDR (0x3), which is indeed the virtual
-address of the PHDR segment when the kernel calculates it, but is not
-when QEMU calculates it.
-
-qemu-arm --version
-qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885332
-
-Title:
-  Error in user-mode calculation of ELF aux vector's AT_PHDR
-
-Status in QEMU:
-  New
-
-Bug description:
-  =
-
-  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
-t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
-but crashes before main in user-mode emulation. Specifically, it crashes wh=
-en initializing thread-local storage in glibc's _dl_aux_init, because it re=
-ads out a strange value from the AT_PHDR entry of the ELF aux vector.
-
-  The binary has these program headers:
-
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
-      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
-
-  If I build the Linux kernel with the following patch to the very end
-  of create_elf_tables in fs/binfmt_elf.c
-
-    /* Put the elf_info on the stack in the right place.  */
-    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
-    int i;
-    for (i =3D 0; i < 15; i++) {
-      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
-    }
-    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
-        return -EFAULT;
-    return 0;
-
-  and run it like this:
-
-    qemu-system-arm \
-      -M versatilepb \
-      -nographic \
-      -dtb ./dts/versatile-pb.dtb \
-      -kernel zImage \
-      -M versatilepb \
-      -m 128M \
-      -append "earlyprintk=3Dvga,keep" \
-      -initrd initramfs
-
-  after I've built the kernel initramfs like this (where "init" is the
-  binary in question):
-
-    make ARCH=3Darm versatile_defconfig
-    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
-    cp "$1" arch/arm/boot/init
-    cd arch/arm/boot
-    echo init | cpio -o --format=3Dnewc > initramfs
-
-  then I get the following output. This is the kernel's view of the aux
-  vector for this binary:
-
-    0x10 =3D 0x1d7
-    0x6 =3D 0x1000
-    0x11 =3D 0x64
-    0x3 =3D 0x900000
-    0x4 =3D 0x20
-    0x5 =3D 0xb
-    0x7 =3D 0x0
-    0x8 =3D 0x0
-    0x9 =3D 0x101b8
-    0xb =3D 0x0
-    0xc =3D 0x0
-    0xd =3D 0x0
-    0xe =3D 0x0
-    0x17 =3D 0x0
-    0x19 =3D 0xbec62fb5
-
-  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
-  the aux vector at the beginning of __libc_start_init (for example,
-  using this Python GDB API script: https://gist.github.com/langston-
-  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
-  values:
-
-    AT_PHDR =3D 0xae000
-    AT_PHENT =3D 0x20
-    AT_PHNUM =3D 0xb
-    AT_PAGESZ =3D 0x1000
-    AT_BASE =3D 0x0
-    AT_FLAGS =3D 0x0
-    AT_ENTRY =3D 0x10230
-    AT_UID =3D 0x3e9
-    AT_EUID =3D 0x3e9
-    AT_GID =3D 0x3e9
-    AT_EGID =3D 0x3e9
-    AT_HWCAP =3D 0x1fb8d7
-    AT_CLKTCK =3D 0x64
-    AT_RANDOM =3D -0x103c0
-    AT_HWCAP2 =3D 0x1f
-    AT_NULL =3D 0x0
-
-  The crucial difference is in AT_PHDR (0x3), which is indeed the
-  virtual address of the PHDR segment when the kernel calculates it, but
-  is not when QEMU calculates it.
-
-  qemu-arm --version
-  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
