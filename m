@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC48920B62E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:47:56 +0200 (CEST)
-Received: from localhost ([::1]:44614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C1920B63E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:50:02 +0200 (CEST)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorW7-00055k-Oj
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
+	id 1jorY9-0000Cd-Ra
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jorRu-0005tc-6o
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:43:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60323
+ id 1jorRx-00061E-6M
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:43:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39050
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jorRr-0006vo-As
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:43:33 -0400
+ id 1jorRv-0006yq-L9
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:43:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593189810;
+ s=mimecast20190719; t=1593189815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GJX9oFYWeI2gJAGUHHop5bfOVja0UQenPIRkX5m0vFQ=;
- b=CoBOFfwICFtgHI02bJycAxUU3vAtb8D0a3Gm97mOq+LlJdnP/zqsOVc0hNi9KvUy2Yx056
- aeDwQ3jRTfXW1l4LGwMoJtOXXubmdk+/YDiAgKEsxzyMX7kgOF1bkIkpAvIN404S54psyV
- 0Q5YRFGBdDW9HLTXL0OaDku8xj48W3Q=
+ bh=isO5jF/DekPZe6Mj8SRdMtRguAz69F1a7ZhvJaJnjcI=;
+ b=B8WZqOfQwNA7e2bWbmkudqZ3269M33N49mgDF4k+Ugcw9J7BAPTE60VJuDVy50Tm4XTbEP
+ GgmXbpKGoeeMckBdSFCP9XYiYkhBBTO5vVvozC+Pe1gMRLWaFARm1wfq5G2W+lPTlja/cF
+ rGEvAv2xJilI/68bj9U/ihTykw4QO8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-OWUx_frBP2yBZVixuc0q9g-1; Fri, 26 Jun 2020 12:43:26 -0400
-X-MC-Unique: OWUx_frBP2yBZVixuc0q9g-1
+ us-mta-236-DfNbjArCPDO1-JNYRSgGXA-1; Fri, 26 Jun 2020 12:43:29 -0400
+X-MC-Unique: DfNbjArCPDO1-JNYRSgGXA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B8101005512;
- Fri, 26 Jun 2020 16:43:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8987FEC1A4;
+ Fri, 26 Jun 2020 16:43:28 +0000 (UTC)
 Received: from turbo.com (ovpn-112-91.ams2.redhat.com [10.36.112.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE3795C1BB;
- Fri, 26 Jun 2020 16:43:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D257A5C1BB;
+ Fri, 26 Jun 2020 16:43:25 +0000 (UTC)
 From: Christophe de Dinechin <dinechin@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/10] minikconf: Pass variables for modules
-Date: Fri, 26 Jun 2020 18:42:59 +0200
-Message-Id: <20200626164307.3327380-3-dinechin@redhat.com>
+Subject: [PATCH 03/10] spice: Make spice a module configuration
+Date: Fri, 26 Jun 2020 18:43:00 +0200
+Message-Id: <20200626164307.3327380-4-dinechin@redhat.com>
 In-Reply-To: <20200626164307.3327380-1-dinechin@redhat.com>
 References: <20200626164307.3327380-1-dinechin@redhat.com>
 MIME-Version: 1.0
@@ -90,28 +90,67 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This commit changes the spice configuration 'm' by default, and moves
+the spice components to obj-m variables. It is sufficient to build
+without modules enable, but does not link correctly yet, since no
+shims have been created for the missing functions yet.
+
 Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
 ---
- scripts/minikconf.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile              | 1 +
+ Makefile.objs         | 1 +
+ chardev/Makefile.objs | 3 ++-
+ configure             | 2 +-
+ 4 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-index bcd91015d3..d60add97f6 100755
---- a/scripts/minikconf.py
-+++ b/scripts/minikconf.py
-@@ -690,10 +690,10 @@ if __name__ == '__main__':
-     parser = KconfigParser(data)
-     external_vars = set()
-     for arg in argv[3:]:
--        m = re.match(r'^(CONFIG_[A-Z0-9_]+)=([yn]?)$', arg)
-+        m = re.match(r'^(CONFIG_[A-Z0-9_]+)=([ymn]?)$', arg)
-         if m is not None:
-             name, value = m.groups()
--            parser.do_assignment(name, value == 'y')
-+            parser.do_assignment(name, value == 'y' or value == 'm')
-             external_vars.add(name[7:])
-         else:
-             fp = open(arg, 'rt', encoding='utf-8')
+diff --git a/Makefile b/Makefile
+index b29b0eeefa..ee674971a5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -477,6 +477,7 @@ dummy := $(call unnest-vars,, \
+                 common-obj-m \
+                 trace-obj-y)
+ 
++
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
+diff --git a/Makefile.objs b/Makefile.objs
+index 98383972ee..e38768c8d5 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -70,6 +70,7 @@ common-obj-$(CONFIG_TPM) += tpm.o
+ 
+ common-obj-y += backends/
+ common-obj-y += chardev/
++common-obj-m += chardev/
+ 
+ common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
+ qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
+diff --git a/chardev/Makefile.objs b/chardev/Makefile.objs
+index d68e1347f9..fc9910d4f2 100644
+--- a/chardev/Makefile.objs
++++ b/chardev/Makefile.objs
+@@ -22,4 +22,5 @@ common-obj-$(CONFIG_BRLAPI) += baum.o
+ baum.o-cflags := $(SDL_CFLAGS)
+ baum.o-libs := $(BRLAPI_LIBS)
+ 
+-common-obj-$(CONFIG_SPICE) += spice.o
++common-obj-$(CONFIG_SPICE) += spice.mo
++spice.mo-objs := spice.o
+diff --git a/configure b/configure
+index 130630b98f..2de1715800 100755
+--- a/configure
++++ b/configure
+@@ -7471,7 +7471,7 @@ if test "$posix_memalign" = "yes" ; then
+ fi
+ 
+ if test "$spice" = "yes" ; then
+-  echo "CONFIG_SPICE=y" >> $config_host_mak
++  echo "CONFIG_SPICE=m" >> $config_host_mak
+ fi
+ 
+ if test "$smartcard" = "yes" ; then
 -- 
 2.26.2
 
