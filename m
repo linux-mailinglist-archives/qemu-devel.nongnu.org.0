@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC72720B21F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:06:59 +0200 (CEST)
-Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD52720B20B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:04:26 +0200 (CEST)
+Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joo4H-00065k-De
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1joo1p-0002rY-No
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jonzI-0008MB-IA; Fri, 26 Jun 2020 09:01:48 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:36858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jonzG-0003JG-P4; Fri, 26 Jun 2020 09:01:48 -0400
-Received: by mail-ed1-x544.google.com with SMTP id dg28so6858355edb.3;
- Fri, 26 Jun 2020 06:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=x+ueAwuuCoBhWE4SweeoDogBc0rLsINh3QqIieHvwp4=;
- b=JcO+ii/1+CWaULQZ2KI0lI19Lb3DI42/E5HZJn2kD2weVN8PlUMwyHnRj1dJFGWy0e
- kxIIjGAvpmZsIi7qa58OzpAaq8HlEjpq7rZflPArQUYE8E08XvlXr1GDciudNG5Anv1D
- zlFKKkmEIYYO+B40qPaC5EVJP1AYWR5GVPEFKTzoRVCJq24SRMdeE9vzlPkXFfEND9Zz
- 6ytDibyz8r+SssA11b6BfwpscEaaF7oxZJMPexxXtllyGHxbfyWm3SB+h6NB6qpTHK+y
- DmuQVcGMXWxCCFSMVZFyiAdmVQLOD2rSMhl+8lEUPU742gFRpYi2gpmAxtI0UKFt6fiq
- fsqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=x+ueAwuuCoBhWE4SweeoDogBc0rLsINh3QqIieHvwp4=;
- b=DYouJ0RvS+YtEoj9/8aX2xXywHFBfNA+ymski+EUs2JuOYksW4tUCTjVsuhELgsXqM
- ND3lK2mFZKUZa2ODxDg7LKgkZmAP/feOxzRxQJ909uRI8TDHgXMUyteohu2YgS6CfK3q
- jiunWqfjMQ5aRy61cLfdXMdciNyY0kp3jVYiyhWXXsZ46a5X7bxfHta7z9oRXFY79074
- PEsnYJcoHJ6PaVZZZ/EI+LR2W/j+jmWHc5oVyykKAcbZYX9nwz9azvvInLXXaspvb+rX
- /EaWyEGeB4yQWu2LNGnTbQ7ozpKx4jfrGtAkhjill8Fv7Q0GnlGCREhOcotOJz1/5z6g
- 5N7A==
-X-Gm-Message-State: AOAM532cxSuSNnhljNf7HgWF+n1eBToyvVJ3tI66fP/geGZBqcG0oBef
- ISths9WWozomcD3nIBXqK9ZpPz9bHHY6eakG/1tZvpVYZ8I=
-X-Google-Smtp-Source: ABdhPJy+M2N9BrkiZlV7swDsVS8lr+foMdrRj87zqll0xgJJ6C3k5biHUlV4OF1DhIKDmM0vzIOa9y1wDtnuMg8vn0U=
-X-Received: by 2002:a50:9a82:: with SMTP id p2mr3170066edb.130.1593176504825; 
- Fri, 26 Jun 2020 06:01:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joo0k-0001vX-Mk; Fri, 26 Jun 2020 09:03:18 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34982
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joo0i-0003lN-Nw; Fri, 26 Jun 2020 09:03:18 -0400
+Received: from host86-158-109-79.range86-158.btcentralplus.com
+ ([86.158.109.79] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1joo0f-0000al-Jg; Fri, 26 Jun 2020 14:03:18 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <a0b567bf6e5b266a19de4eb6f6551270ffe2ce7b.1592315226.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <d8db3e1f-6421-ea36-8598-60e9d98f54fa@ilande.co.uk>
+Date: Fri, 26 Jun 2020 14:03:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-From: David CARLIER <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 14:01:34 +0100
-Message-ID: <CA+XhMqwEHEEmw+8tnRM8r-Ds4fLKpTBxAqbxVtjr2JZEJdMf4w@mail.gmail.com>
-Subject: [PATCH 3/3] haiku build fix
-To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=devnexen@gmail.com; helo=mail-ed1-x544.google.com
+In-Reply-To: <a0b567bf6e5b266a19de4eb6f6551270ffe2ce7b.1592315226.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.158.109.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v5 07/11] mac_oldworld: Map macio to expected address at
+ reset
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,34 +90,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From a548479cab82200d9df33a70f24aeebb00eb70ad Mon Sep 17 00:00:00 2001
-From: David Carlier <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 13:58:34 +0000
-Subject: [PATCH 3/3] syscall skipped for haiku used only in qemu_signalfd
- anyway
+On 16/06/2020 14:47, BALATON Zoltan wrote:
 
-Signed-off-by: David Carlier <devnexen@gmail.com>
----
- util/compatfd.c | 2 ++
- 1 file changed, 2 insertions(+)
+> Add a reset function that maps macio to the address expected by the
+> firmware of the board at startup.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/ppc/mac.h          | 12 ++++++++++++
+>  hw/ppc/mac_oldworld.c | 15 ++++++++++++++-
+>  2 files changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+> index a0d9e47031..79ccf8775d 100644
+> --- a/hw/ppc/mac.h
+> +++ b/hw/ppc/mac.h
+> @@ -55,6 +55,18 @@
+>  #define OLDWORLD_IDE1_IRQ      0xe
+>  #define OLDWORLD_IDE1_DMA_IRQ  0x3
+>  
+> +/* g3beige machine */
+> +#define TYPE_HEATHROW_MACHINE MACHINE_TYPE_NAME("g3beige")
+> +#define HEATHROW_MACHINE(obj) OBJECT_CHECK(HeathrowMachineState, (obj), \
+> +                                           TYPE_HEATHROW_MACHINE)
+> +
+> +typedef struct HeathrowMachineState {
+> +    /*< private >*/
+> +    MachineState parent;
+> +
+> +    PCIDevice *macio;
+> +} HeathrowMachineState;
+> +
+>  /* New World IRQs */
+>  #define NEWWORLD_CUDA_IRQ      0x19
+>  #define NEWWORLD_PMU_IRQ       0x19
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index f97f241e0c..13562e26e6 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -73,6 +73,15 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>      return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+>  }
+>  
+> +static void ppc_heathrow_reset(MachineState *machine)
+> +{
+> +    HeathrowMachineState *m = HEATHROW_MACHINE(machine);
+> +
+> +    qemu_devices_reset();
+> +    pci_default_write_config(m->macio, PCI_COMMAND, PCI_COMMAND_MEMORY, 2);
+> +    pci_default_write_config(m->macio, PCI_BASE_ADDRESS_0, 0xf3000000, 4);
+> +}
 
-diff --git a/util/compatfd.c b/util/compatfd.c
-index c296f55d14..ee47dd8089 100644
---- a/util/compatfd.c
-+++ b/util/compatfd.c
-@@ -16,7 +16,9 @@
- #include "qemu/osdep.h"
- #include "qemu/thread.h"
+As per my comment on a previous version, this doesn't feel right at all - it's either
+mapped at a fixed address (in which case it should be done in the macio device,
+probably via a property), or the BIOS should be programming the BAR accordingly.
 
-+#if defined(CONFIG_SIGNALFD)
- #include <sys/syscall.h>
-+#endif
 
- struct sigfd_compat_info
- {
--- 
-2.26.0
+ATB,
+
+Mark.
 
