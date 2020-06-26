@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7ED20AEF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:28:41 +0200 (CEST)
-Received: from localhost ([::1]:58848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43ADE20AEE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:25:42 +0200 (CEST)
+Received: from localhost ([::1]:42980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokf2-0004DH-QC
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
+	id 1jokc8-00068E-7i
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokaV-00049P-2c; Fri, 26 Jun 2020 05:23:59 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34228
+ id 1jokaa-0004KG-9V; Fri, 26 Jun 2020 05:24:04 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34238
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokaT-0004Yz-Ff; Fri, 26 Jun 2020 05:23:58 -0400
+ id 1jokaY-0004bJ-Bs; Fri, 26 Jun 2020 05:24:03 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokaP-0007bz-T5; Fri, 26 Jun 2020 10:24:00 +0100
+ id 1jokaW-0007bz-8s; Fri, 26 Jun 2020 10:24:04 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org, laurent@vivier.eu, david@gibson.dropbear.id.au,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Fri, 26 Jun 2020 10:23:00 +0100
-Message-Id: <20200626092317.3875-6-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 26 Jun 2020 10:23:01 +0100
+Message-Id: <20200626092317.3875-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 References: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 05/22] pmu: honour autopoll_rate_ms when rearming the ADB
- autopoll timer
+Subject: [PULL 06/22] adb: introduce realize/unrealize and VMStateDescription
+ for ADB bus
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,40 +65,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't use a fixed value but instead use the default value from the ADB bus
-state.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 Acked-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200623204936.24064-6-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20200623204936.24064-7-mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/pmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/input/adb.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index cae2845936..bae0b440d0 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -106,7 +106,7 @@ static void pmu_adb_poll(void *opaque)
-     }
- 
-     timer_mod(s->adb_poll_timer,
--              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 30);
-+              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
+diff --git a/hw/input/adb.c b/hw/input/adb.c
+index d85278a7b7..21a9b3aa96 100644
+--- a/hw/input/adb.c
++++ b/hw/input/adb.c
+@@ -89,10 +89,42 @@ int adb_poll(ADBBusState *s, uint8_t *obuf, uint16_t poll_mask)
+     return olen;
  }
  
- static void pmu_one_sec_timer(void *opaque)
-@@ -182,7 +182,7 @@ static void pmu_cmd_set_adb_autopoll(PMUState *s, uint16_t mask)
-     s->adb_poll_mask = mask;
-     if (mask) {
-         timer_mod(s->adb_poll_timer,
--                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 30);
-+                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + s->autopoll_rate_ms);
-     } else {
-         timer_del(s->adb_poll_timer);
-     }
++static const VMStateDescription vmstate_adb_bus = {
++    .name = "adb_bus",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void adb_bus_realize(BusState *qbus, Error **errp)
++{
++    ADBBusState *adb_bus = ADB_BUS(qbus);
++
++    vmstate_register(NULL, -1, &vmstate_adb_bus, adb_bus);
++}
++
++static void adb_bus_unrealize(BusState *qbus)
++{
++    ADBBusState *adb_bus = ADB_BUS(qbus);
++
++    vmstate_unregister(NULL, &vmstate_adb_bus, adb_bus);
++}
++
++static void adb_bus_class_init(ObjectClass *klass, void *data)
++{
++    BusClass *k = BUS_CLASS(klass);
++
++    k->realize = adb_bus_realize;
++    k->unrealize = adb_bus_unrealize;
++}
++
+ static const TypeInfo adb_bus_type_info = {
+     .name = TYPE_ADB_BUS,
+     .parent = TYPE_BUS,
+     .instance_size = sizeof(ADBBusState),
++    .class_init = adb_bus_class_init,
+ };
+ 
+ const VMStateDescription vmstate_adb_device = {
 -- 
 2.20.1
 
