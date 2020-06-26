@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A47620B67D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 19:01:34 +0200 (CEST)
-Received: from localhost ([::1]:36190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FFC20B69E
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 19:10:45 +0200 (CEST)
+Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorjJ-0001x2-BY
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 13:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34458)
+	id 1jorsC-0001iu-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 13:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1jorgR-0008G5-NM
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:58:35 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39994)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jorrQ-0001IW-74
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 13:09:56 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:40453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1jorgO-0003wk-H1
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:58:35 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f139so10006186wmf.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 09:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=foVkWIJLYjD4FD1rBPY1IYhpzC2IBIcxouLRn6FuaR4=;
- b=Afp2eRIJo6hRf0XYOmtmlyAJpz39bLc2aUQ5+Dw/rWt/212HZydc17PpxqfsLU5UNu
- pEYMz7nf4BE5pXGGINLmKXKnJ0OmPt0+dwqdmJWtXDMQfCiPwHhne7YFpEREebtNXnGV
- iWrYsUsAyfV91deH60N09CTTZOVVVzLkUQfxI=
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jorrN-00084s-Sw
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 13:09:55 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u5so4904380pfn.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=EvAUDqwpoFqGrtryxitUaLeigBIhi7ip9x0IrHUD61Y=;
+ b=zDJHILnwduDcH6RBmJa8r6fjAIUIfHZDu47c5dmFEBPaHEL7sYlAYCdK5d0fbtFL35
+ yKDKdzkgrk8r677LgeSTmJdkgfD2QHTaPyFEBWJpQIOhFlLcNkxrSBbY6Fzjxg1vTWFb
+ rX0HnsJkuK4XoFvovdSobkY1HifiBWgvX6CCeOrU4GHjmZYOGQATeLEfgWm6db2dg0zT
+ oA3TbevuYEvyeUp8Hef0/52zp4sdMg1rwgnRduz9fVc89j4lb+p5TmXTbqVUzUoUnKO8
+ esskhyGpHTCu2weNjKnE3dSYztRk2HWRnfSLhHe8HjR7ntA3cVGIn1s/2acXcSHhJZuI
+ vLLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=foVkWIJLYjD4FD1rBPY1IYhpzC2IBIcxouLRn6FuaR4=;
- b=l0BzGfsWEo8D3/IJSUQjFl/pbWNgZUi1Qv0tcsJRIlN8DmeAtM8qQk9VkH4xNAy+ts
- uhIP7sDXfAK+F1GAWlGBEcmVZhH2l0SIUkNyvPjgebSsRQdB/QaQHuDGi+Dpu0ZX1V5+
- al/ZaIu3IO8VagfH6cnSNrNp+RmHfs+TJL3fNq5IvGBnvtKhj9gwKKpG0autmH1xmWxN
- 0UsQC+iBsNYKgb4SX1FUlCSRPPlpEPBPaayE2rJ5qH2MZClxU5HQ6AxJzd8UZvipD0Pj
- CwTCKqpX0PT4kbCwm12UpXKgU1FkQPVm4S46vGsjLAiA2w8gpiTFEwDp30jl11XtGYHL
- k16g==
-X-Gm-Message-State: AOAM533nze4tXJvhPVvIDFO5gmC1qbXkdSc95pY+xn6g0yilvsnRClsv
- R4v0M0QcfXHhF/S5zA66YgnpuRRi8tCuKu3j2gme
-X-Google-Smtp-Source: ABdhPJxGozJoQflwj4tvInjvZPLYVWiwfl38aY4gPf1mfqAg7NArU8hfw2vLolTY3gKzAOsA2h1JNhBn4Pv5jAHOaBs=
-X-Received: by 2002:a1c:9d09:: with SMTP id g9mr4290988wme.31.1593190710569;
- Fri, 26 Jun 2020 09:58:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200626003313.715355-1-atish.patra@wdc.com>
- <20200626003313.715355-3-atish.patra@wdc.com>
- <CAEUhbmUCJcosvYd44qPMXdkE+Bj2MUcFBvz1VWSZL2w-6Z3d6g@mail.gmail.com>
-In-Reply-To: <CAEUhbmUCJcosvYd44qPMXdkE+Bj2MUcFBvz1VWSZL2w-6Z3d6g@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Fri, 26 Jun 2020 09:58:19 -0700
-Message-ID: <CAOnJCUKr5XXga5B02WDOeiyvEjgpAfcqp_VN-y2AAD0vXsn2Uw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] RISC-V: Copy the fdt in dram instead of ROM
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=atishp@atishpatra.org; helo=mail-wm1-x343.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=EvAUDqwpoFqGrtryxitUaLeigBIhi7ip9x0IrHUD61Y=;
+ b=c9MMShb30Z5eeEBFwk6ScGKrfyIA9I9jc94GU0AHI01WHGH5EZeV7ywRJdLhgr+U3T
+ v+9v6GVx9/19u0I6s8QD/nTogob6ucuE7fvr7i+xGcNbbRYs+difR4aOdKab7agDANrS
+ 9PEt4KFUBeHIknLZ+84llFESnfmzVNBuZbC6yXWMm/qp1w88d2WK/h7wp+3+/5z5zyP1
+ JevqzkR4x+AVdERdWSIlirm8q1kQuxY0TZcYdUaB8bvWMppF5A4w3yPQ9OZRLqSKlmPO
+ Aoi4edZPgKCfUqvI7PUh+rhiQ/g68CUo/APibHaU2b6MxxO1w8JyAol/gwq8y1ZnUuiY
+ yW/A==
+X-Gm-Message-State: AOAM530k2EDPcGpRlpTVqYj8dZbmH/m3hMI0FW/VSWeRTgIiD4lGhIKO
+ 8WcIt30P4ZFkS6wyMgYL4BjLmXQ0V+lNAw==
+X-Google-Smtp-Source: ABdhPJx1lNkqHIt0Ors+/xf4eTr5kY2vEClMLQ5YEZN6ovjGLI9owQOfPGwKNEgFU1OpCK+YVCHmWA==
+X-Received: by 2002:a62:3814:: with SMTP id f20mr3706179pfa.278.1593191391031; 
+ Fri, 26 Jun 2020 10:09:51 -0700 (PDT)
+Received: from Rfoley-MA01.hsd1.ma.comcast.net
+ ([2601:199:4480:60c0:78b5:2b0a:b9c6:c392])
+ by smtp.gmail.com with ESMTPSA id f18sm9941430pgv.84.2020.06.26.10.09.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 10:09:50 -0700 (PDT)
+From: Robert Foley <robert.foley@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] util/coroutine: Cleanup start_switch_fiber_ for TSAN.
+Date: Fri, 26 Jun 2020 13:00:01 -0400
+Message-Id: <20200626170001.27017-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=robert.foley@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -64,8 +65,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,307 +79,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, robert.foley@linaro.org, cota@braap.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, peter.puhov@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 26, 2020 at 4:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Atish,
->
-> On Fri, Jun 26, 2020 at 8:33 AM Atish Patra <atish.patra@wdc.com> wrote:
-> >
-> > Currently, the fdt is copied to the ROM after the reset vector. The firmware
-> > has to copy it to DRAM. Instead of this, directly copy the device tree to a
-> > pre-computed dram address. The device tree load address should be as far as
-> > possible from kernel and initrd images. That's why it is kept at the end of
-> > the DRAM or 4GB whichever is lesser.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/boot.c         | 57 +++++++++++++++++++++++++++++------------
-> >  hw/riscv/sifive_u.c     | 32 +++++++++++------------
-> >  hw/riscv/spike.c        |  7 ++++-
-> >  hw/riscv/virt.c         |  7 ++++-
-> >  include/hw/riscv/boot.h |  5 +++-
-> >  5 files changed, 71 insertions(+), 37 deletions(-)
-> >
-> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> > index 482b78147993..02c4018a8105 100644
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -159,44 +159,67 @@ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
-> >      return *start + size;
-> >  }
-> >
-> > +hwaddr riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
->
-> I think we should use uint32_t for the return value type, since it is
-> always below 4GiB
->
+This is a cleanup patch to follow-up the patch which introduced TSAN.
+This patch makes separate start_switch_fiber_ functions for TSAN and ASAN.
 
-You are correct. I will update it. Thanks.
-> > +{
-> > +    hwaddr temp, fdt_addr;
-> > +    hwaddr dram_end = dram_base + mem_size;
-> > +    int fdtsize = fdt_totalsize(fdt);
-> > +
-> > +    if (fdtsize <= 0) {
-> > +        error_report("invalid device-tree");
-> > +        exit(1);
-> > +    }
-> > +
-> > +    /*
-> > +     * We should put fdt as far as possible to avoid kernel/initrd overwriting
-> > +     * its content. But it should be addressable by 32 bit system as well.
-> > +     * Thus, put it at an aligned address that less than fdt size from end of
-> > +     * dram or 4GB whichever is lesser.
-> > +     */
-> > +    temp = MIN(dram_end, 4096 * MiB);
-> > +    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
-> > +
-> > +    fdt_pack(fdt);
-> > +    /* copy in the device tree */
-> > +    qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
->
-> Use fdtsize
->
+This does two things:
+1. Unrelated ASAN and TSAN code is separate and each function only
+   has arguments that are actually needed.
+2. The co->tsan_caller_fiber and co->tsan_co_fiber fields are only
+   access from within #ifdef CONFIG_TSAN.
 
-Sure.
-> > +
-> > +    rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
-> > +                          &address_space_memory);
-> > +
-> > +    return fdt_addr;
-> > +}
-> > +
-> >  void riscv_setup_rom_reset_vec(hwaddr start_addr, hwaddr rom_base,
-> > -                               hwaddr rom_size, void *fdt)
-> > +                               hwaddr rom_size,
-> > +                               hwaddr fdt_load_addr, void *fdt)
-> >  {
-> >      int i;
-> >      /* reset vector */
-> > -    uint32_t reset_vec[8] = {
-> > -        0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(dtb) */
-> > -        0x02028593,                  /*     addi   a1, t0, %pcrel_lo(1b) */
-> > +    uint32_t reset_vec[10] = {
-> > +        0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
->
-> fw_dync should be introduced in the next patch, so this line should be
-> kept unchanged in this patch
->
-As we have fdt_laddr, keeping it unchanged may create confusion with
-another dtb label.
-I will change the label to "end" in the next version.
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+---
+ util/coroutine-ucontext.c | 52 +++++++++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 18 deletions(-)
 
-> >          0xf1402573,                  /*     csrr   a0, mhartid  */
-> >  #if defined(TARGET_RISCV32)
-> > +        0x0202a583,                  /*     lw     a1, 32(t0) */
-> >          0x0182a283,                  /*     lw     t0, 24(t0) */
-> >  #elif defined(TARGET_RISCV64)
-> > +        0x0202b583,                  /*     ld     a1, 32(t0) */
-> >          0x0182b283,                  /*     ld     t0, 24(t0) */
-> >  #endif
-> >          0x00028067,                  /*     jr     t0 */
-> >          0x00000000,
-> >          start_addr,                  /* start: .dword */
-> >          0x00000000,
-> > -                                     /* dtb: */
-> > +        fdt_load_addr,               /* fdt_laddr: .dword */
-> > +        0x00000000,
-> > +                                     /* fw_dyn: */
-> >      };
-> >
-> >      /* copy in the reset vector in little_endian byte order */
-> > -    for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> > +    for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
-> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> >      }
-> >      rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
-> >                            rom_base, &address_space_memory);
-> >
-> > -    /* copy in the device tree */
-> > -    if (fdt_pack(fdt) || fdt_totalsize(fdt) >
-> > -        rom_size - sizeof(reset_vec)) {
-> > -        error_report("not enough space to store device-tree");
-> > -        exit(1);
-> > -    }
-> > -    qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-> > -    rom_add_blob_fixed_as("mrom.fdt", fdt, fdt_totalsize(fdt),
-> > -                           rom_base + sizeof(reset_vec),
-> > -                           &address_space_memory);
-> > -
-> >      return;
-> >  }
-> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > index 395b21703ab4..7d39a4e4ec6d 100644
-> > --- a/hw/riscv/sifive_u.c
-> > +++ b/hw/riscv/sifive_u.c
-> > @@ -379,6 +379,7 @@ static void sifive_u_machine_init(MachineState *machine)
-> >      MemoryRegion *flash0 = g_new(MemoryRegion, 1);
-> >      target_ulong start_addr = memmap[SIFIVE_U_DRAM].base;
-> >      int i;
-> > +    hwaddr fdt_load_addr;
-> >
-> >      /* Initialize SoC */
-> >      object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
-> > @@ -450,40 +451,37 @@ static void sifive_u_machine_init(MachineState *machine)
-> >          }
-> >      }
-> >
-> > +    /* Compute the fdt load address in dram */
-> > +    fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DRAM].base,
-> > +                                   machine->ram_size, s->fdt);
-> > +
-> >      /* reset vector */
-> > -    uint32_t reset_vec[8] = {
-> > +    uint32_t reset_vec[11] = {
-> >          s->msel,                       /* MSEL pin state */
-> > -        0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(dtb) */
-> > -        0x01c28593,                    /*     addi   a1, t0, %pcrel_lo(1b) */
-> > +        0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
-> >          0xf1402573,                    /*     csrr   a0, mhartid  */
-> >  #if defined(TARGET_RISCV32)
-> > +        0x0202a583,                    /*     lw     a1, 32(t0) */
-> >          0x0182a283,                    /*     lw     t0, 24(t0) */
-> >  #elif defined(TARGET_RISCV64)
-> > -        0x0182e283,                    /*     lwu    t0, 24(t0) */
-> > +        0x0202b583,                    /*     ld     a1, 32(t0) */
-> > +        0x0182b283,                    /*     ld     t0, 24(t0) */
->
-> This change (lwu => ld) is unnecessary.
->
-start_addr is a dword. Currently, the start address is within 32 bits.
-But it can be changed to more than 32 bits. No ?
-
-> >  #endif
-> >          0x00028067,                    /*     jr     t0 */
-> >          0x00000000,
-> >          start_addr,                    /* start: .dword */
-> > -                                       /* dtb: */
-> > +        0x00000000,
->
-> unnecessary change. Above lwu can be kept unchanged
->
-> > +        fdt_load_addr,                 /* fdt_laddr: .dword */
-> > +        0x00000000,
-> > +                                       /* fw_dyn: */
->
-> should be in next patch
->
-Will do.
-
-> >      };
-> >
-> >      /* copy in the reset vector in little_endian byte order */
-> > -    for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> > +    for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
-> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> >      }
-> >      rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
-> >                            memmap[SIFIVE_U_MROM].base, &address_space_memory);
-> > -
-> > -    /* copy in the device tree */
-> > -    if (fdt_pack(s->fdt) || fdt_totalsize(s->fdt) >
-> > -            memmap[SIFIVE_U_MROM].size - sizeof(reset_vec)) {
-> > -        error_report("not enough space to store device-tree");
-> > -        exit(1);
-> > -    }
-> > -    qemu_fdt_dumpdtb(s->fdt, fdt_totalsize(s->fdt));
-> > -    rom_add_blob_fixed_as("mrom.fdt", s->fdt, fdt_totalsize(s->fdt),
-> > -                          memmap[SIFIVE_U_MROM].base + sizeof(reset_vec),
-> > -                          &address_space_memory);
-> >  }
-> >
-> >  static bool sifive_u_machine_get_start_in_flash(Object *obj, Error **errp)
-> > diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> > index c696077cbc16..69f050c07e5a 100644
-> > --- a/hw/riscv/spike.c
-> > +++ b/hw/riscv/spike.c
-> > @@ -163,6 +163,7 @@ static void spike_board_init(MachineState *machine)
-> >      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-> >      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-> >      unsigned int smp_cpus = machine->smp.cpus;
-> > +    hwaddr fdt_load_addr;
-> >
-> >      /* Initialize SOC */
-> >      object_initialize_child(OBJECT(machine), "soc", &s->soc,
-> > @@ -208,9 +209,13 @@ static void spike_board_init(MachineState *machine)
-> >          }
-> >      }
-> >
-> > +    /* Compute the fdt load address in dram */
-> > +    fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
-> > +                                   machine->ram_size, s->fdt);
-> >      /* load the reset vector */
-> >      riscv_setup_rom_reset_vec(memmap[SPIKE_DRAM].base, memmap[SPIKE_MROM].base,
-> > -                              memmap[SPIKE_MROM].size, s->fdt);
-> > +                              memmap[SPIKE_MROM].size,
-> > +                              fdt_load_addr, s->fdt);
-> >
-> >      /* initialize HTIF using symbols found in load_kernel */
-> >      htif_mm_init(system_memory, mask_rom, &s->soc.harts[0].env, serial_hd(0));
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > index 8ec77e43de26..639e284fc2e3 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -478,6 +478,7 @@ static void virt_machine_init(MachineState *machine)
-> >      char *plic_hart_config;
-> >      size_t plic_hart_config_len;
-> >      target_ulong start_addr = memmap[VIRT_DRAM].base;
-> > +    hwaddr fdt_load_addr;
-> >      int i;
-> >      unsigned int smp_cpus = machine->smp.cpus;
-> >
-> > @@ -532,9 +533,13 @@ static void virt_machine_init(MachineState *machine)
-> >          start_addr = virt_memmap[VIRT_FLASH].base;
-> >      }
-> >
-> > +    /* Compute the fdt load address in dram */
-> > +    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
-> > +                                   machine->ram_size, s->fdt);
-> >      /* load the reset vector */
-> >      riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
-> > -                              virt_memmap[VIRT_MROM].size, s->fdt);
-> > +                              virt_memmap[VIRT_MROM].size,
-> > +                              fdt_load_addr, s->fdt);
-> >
-> >      /* create PLIC hart topology configuration string */
-> >      plic_hart_config_len = (strlen(VIRT_PLIC_HART_CONFIG) + 1) * smp_cpus;
-> > diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> > index 3e9759c89aa2..f64fcadd2390 100644
-> > --- a/include/hw/riscv/boot.h
-> > +++ b/include/hw/riscv/boot.h
-> > @@ -35,7 +35,10 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
-> >                                 symbol_fn_t sym_cb);
-> >  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
-> >                           uint64_t kernel_entry, hwaddr *start);
-> > +hwaddr riscv_load_fdt(hwaddr dram_start, uint64_t dram_size,
-> > +                                void *fdt);
->
-> nits: not indented to (
->
-> >  void riscv_setup_rom_reset_vec(hwaddr saddr, hwaddr rom_base,
-> > -                               hwaddr rom_size, void *fdt);
-> > +                               hwaddr rom_size,
-> > +                               hwaddr fdt_load_addr, void *fdt);
-> >
-> >  #endif /* RISCV_BOOT_H */
->
-> Regards,
-> Bin
->
-
-
+diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
+index 613f4c118e..bac164d1f1 100644
+--- a/util/coroutine-ucontext.c
++++ b/util/coroutine-ucontext.c
+@@ -47,8 +47,10 @@ typedef struct {
+     size_t stack_size;
+     sigjmp_buf env;
+ 
++#ifdef CONFIG_TSAN
+     void *tsan_co_fiber;
+     void *tsan_caller_fiber;
++#endif
+ 
+ #ifdef CONFIG_VALGRIND_H
+     unsigned int valgrind_stack_id;
+@@ -72,7 +74,10 @@ union cc_arg {
+     int i[2];
+ };
+ 
+-/* QEMU_ALWAYS_INLINE only does so if __OPTIMIZE__, so we cannot use it. */
++/*
++ * QEMU_ALWAYS_INLINE only does so if __OPTIMIZE__, so we cannot use it.
++ * always_inline is required to avoid TSan runtime fatal errors.
++ */
+ static inline __attribute__((always_inline))
+ void on_new_fiber(CoroutineUContext *co)
+ {
+@@ -82,6 +87,7 @@ void on_new_fiber(CoroutineUContext *co)
+ #endif
+ }
+ 
++/* always_inline is required to avoid TSan runtime fatal errors. */
+ static inline __attribute__((always_inline))
+ void finish_switch_fiber(void *fake_stack_save)
+ {
+@@ -104,18 +110,29 @@ void finish_switch_fiber(void *fake_stack_save)
+ #endif
+ }
+ 
+-static inline __attribute__((always_inline)) void start_switch_fiber(
+-    CoroutineAction action, void **fake_stack_save,
+-    const void *bottom, size_t size, void *new_fiber)
++/* always_inline is required to avoid TSan runtime fatal errors. */
++static inline __attribute__((always_inline))
++void start_switch_fiber_asan(CoroutineAction action, void **fake_stack_save,
++                             const void *bottom, size_t size)
+ {
+ #ifdef CONFIG_ASAN
+     __sanitizer_start_switch_fiber(
+             action == COROUTINE_TERMINATE ? NULL : fake_stack_save,
+             bottom, size);
+ #endif
++}
++
++/* always_inline is required to avoid TSan runtime fatal errors. */
++static inline __attribute__((always_inline))
++void start_switch_fiber_tsan(void **fake_stack_save,
++                             CoroutineUContext *co,
++                             bool caller)
++{
+ #ifdef CONFIG_TSAN
+-    void *curr_fiber =
+-        __tsan_get_current_fiber();
++    void *new_fiber = caller ?
++                      co->tsan_caller_fiber :
++                      co->tsan_co_fiber;
++    void *curr_fiber = __tsan_get_current_fiber();
+     __tsan_acquire(curr_fiber);
+ 
+     *fake_stack_save = curr_fiber;
+@@ -139,12 +156,9 @@ static void coroutine_trampoline(int i0, int i1)
+ 
+     /* Initialize longjmp environment and switch back the caller */
+     if (!sigsetjmp(self->env, 0)) {
+-        start_switch_fiber(
+-            COROUTINE_YIELD,
+-            &fake_stack_save,
+-            leader.stack,
+-            leader.stack_size,
+-            self->tsan_caller_fiber);
++        start_switch_fiber_asan(COROUTINE_YIELD, &fake_stack_save, leader.stack,
++                                leader.stack_size);
++        start_switch_fiber_tsan(&fake_stack_save, self, true); /* true=caller */
+         siglongjmp(*(sigjmp_buf *)co->entry_arg, 1);
+     }
+ 
+@@ -199,10 +213,10 @@ Coroutine *qemu_coroutine_new(void)
+ 
+     /* swapcontext() in, siglongjmp() back out */
+     if (!sigsetjmp(old_env, 0)) {
+-        start_switch_fiber(
+-            COROUTINE_YIELD,
+-            &fake_stack_save,
+-            co->stack, co->stack_size, co->tsan_co_fiber);
++        start_switch_fiber_asan(COROUTINE_YIELD, &fake_stack_save, co->stack,
++                                co->stack_size);
++        start_switch_fiber_tsan(&fake_stack_save,
++                                co, false); /* false=not caller */
+         swapcontext(&old_uc, &uc);
+     }
+ 
+@@ -259,8 +273,10 @@ qemu_coroutine_switch(Coroutine *from_, Coroutine *to_,
+ 
+     ret = sigsetjmp(from->env, 0);
+     if (ret == 0) {
+-        start_switch_fiber(action, &fake_stack_save,
+-                           to->stack, to->stack_size, to->tsan_co_fiber);
++        start_switch_fiber_asan(action, &fake_stack_save, to->stack,
++                                to->stack_size);
++        start_switch_fiber_tsan(&fake_stack_save,
++                                to, false); /* false=not caller */
+         siglongjmp(to->env, action);
+     }
+ 
 -- 
-Regards,
-Atish
+2.17.1
+
 
