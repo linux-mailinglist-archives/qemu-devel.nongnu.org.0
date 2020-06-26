@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6D620B484
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:29:40 +0200 (CEST)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B66220B466
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:22:33 +0200 (CEST)
+Received: from localhost ([::1]:44270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqIN-0002NP-J4
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
+	id 1joqBU-0005XQ-2n
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4K-0002wH-II
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:08 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53877)
+ id 1joq46-0002N3-7o
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:54 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4I-0006bY-KF
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:08 -0400
-Received: by mail-wm1-x332.google.com with SMTP id j18so9159129wmi.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:15:06 -0700 (PDT)
+ id 1joq44-0006P8-GT
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:53 -0400
+Received: by mail-ot1-x342.google.com with SMTP id 64so8932490oti.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=4niuaNLMyHoiI7IBJkW4eFNXSPAaql3UxQ8+CmFrSD4=;
- b=FUtsWH9XeaIaSpYAIGbzeeIhRVzgFR2S5orqMEBXz73Qr3Y4haB+LxAhT/It29SO2i
- HSXZAu3ZGkYQwpD71P6eR41ap+2zGQZrOePSMjo+u1xyoH2rHp4eCkdrvgIohaGB+/kq
- Fys6WZGARiYFfE205/r4lQk1vJoLAI/P8oWqi+cVeK73FZ7Gqwx7eabtKrz3KxfyCEt5
- /ec/56UCj4/twsiyasEEl9+koNrXEkzW7GPSR6lKtx5MblM9I4ODLymSaf7aOhtkdzG9
- 3HxoVQyupCY7vjyQpWGrdop01PblJYUEaykobO+M7YK3ERjfUVKCGZKKeUpTIbqnH8gt
- jobQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cSgVM8TP2AkWOMhCy3XOt6RDHPMwGUiOhqGBtWFDduo=;
+ b=tb/quDBjmyplrm8VtUA3w28h4Pf8cwHFR2BabTAZ0xRetjv1IIXUC0JgLfDvpTgKM6
+ hRFEHrTr5tz8+/wt9WlPxXdFF5p1ibd14B3LUybubY7xyRIn3uecGcA4GGo1Rj7AdiuY
+ DhErE8UKoGdLW+1amlqY22yX1MXXUwMM/BPas+7DqTZe5lkRhXgo2mchumV1UMyVd1Hw
+ hllIkA713bpRxyWKLYSxCT8yoFzvu3GzjlXfI1G2VQrDq2BRiYjuqZ16Z7haKtwcMDEG
+ O7O1calHQFax2OUiO3G2iRtzWcJEPvP1/Mvgf+Z06zVHnBKr1qwEsogB+BbNqV5Tl9LS
+ xIqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4niuaNLMyHoiI7IBJkW4eFNXSPAaql3UxQ8+CmFrSD4=;
- b=lMQJZhIGNYFK+Zi389LWlA2vWk1RQ6zLGVYaVLSsHtyIVIYiSbUhMDKBLymmDeo72V
- 0tDc+Xax261NUABpsa8nOTml52+lkb6eXc7gRueZJxd26S8INlOoRYtY/KRCOoMEi8ip
- FqOkf//SWQjY73f8+wearGE5PVPS6i4K13IHl8+b0frkPqa+MXgpFibajhsoCfKT2OBg
- XYMGIr3INmEFmMAsnkyVoZk9ah+IUIwx8fpfxBkMW+3uJ+QcLwju+4PUYTAKdrmYjd51
- 7FffGXa7/UWHWFf2LiGS9kEksq7Fwy+n4VhrFT91rS/RqAXnarhS+j7lwWIhW2O96lPe
- syDQ==
-X-Gm-Message-State: AOAM530aEkHV13LSYmcpuHHbC7EzIRk5Xdo4iV3N/ijuxcJEvznrpIg/
- 5137a61LrVbSuaiy+vnMSRj2edxsVjY//g==
-X-Google-Smtp-Source: ABdhPJx5lJbau7IuhvNtK81XTa0QDkb8Wg7yzYv/QoSugT5Pt5xVKmrORLfMS3vLSQfDkPXAt7rEkg==
-X-Received: by 2002:a05:600c:2202:: with SMTP id
- z2mr4157128wml.13.1593184505008; 
- Fri, 26 Jun 2020 08:15:05 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.15.03
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:15:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 33/57] target/arm: Move regime_el to internals.h
-Date: Fri, 26 Jun 2020 16:14:00 +0100
-Message-Id: <20200626151424.30117-34-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
-References: <20200626151424.30117-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cSgVM8TP2AkWOMhCy3XOt6RDHPMwGUiOhqGBtWFDduo=;
+ b=au+pPbVzukF3slvYEtvP5sZnu96JvBSCXii0KM6xKzDyjrNJSTOsalX3ABH+hkNzp0
+ iwI7XSJx6/KpCQFTqSDjqUhjQyQyRMxGW4/gDHIOSwkN0KQ/3wi/wAVCnXW1P1cY39CG
+ Cgp/nvIjjV3Xl6qdhmbNOaRSUjZvFM6KFLUJZSwU2wnaVzFZatWA/cCr9w54oZHuHTyj
+ YOUEdjAIV2GSBpTllzecwhfv2425O0sVtpVjIp8ehoJTGTJdpQlJoNi+iYm4t6lVx6a7
+ GW7ZdKSUZBmUpgxORDvs3my+Qh/hJD+xGL7zm2PzafWKCxN8WYQDBorXIY83C/0UwW1X
+ x31A==
+X-Gm-Message-State: AOAM531pdOUHfGHO9R4Qww0HlNzvj8TOchZX4USeQ0k5RQKRUXXsll6N
+ rRitRG3RKrT3Uq7CjAbgp1XsgkOVDVy/zwhK4STWKQ==
+X-Google-Smtp-Source: ABdhPJy6FbFBZM8w86/jc9bSgrKGCIu1IBQE8YTHnxi4fWqgzdZcTNCKypJ8NYocx5lUsQ72CJbTz5yBpjCM6s6jllc=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr204752ota.91.1593184491287; 
+ Fri, 26 Jun 2020 08:14:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+References: <20200626033144.790098-1-richard.henderson@linaro.org>
+In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Jun 2020 16:14:40 +0100
+Message-ID: <CAFEAcA9shF7VK60zZxfYUzsDwdWyiaou=8Go+KExG4mXyk-Deg@mail.gmail.com>
+Subject: Re: [PATCH v9 00/46] target/arm: Implement ARMv8.5-MemTag, system mode
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,8 +65,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,117 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Spickett <david.spickett@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Fri, 26 Jun 2020 at 04:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Version 9 incorporates some review:
+>
+>   * Adjust some commentary.
+>   * Added an assert for tbi in aarch64_tr_init_disas_context
+>   * Split arm,armv8.5-memtag to a new, final, patch.  We might
+>     just leave this one out of qemu mainline until the kernel
+>     patch set that requires it gets merged.
+>
 
-We will shortly need this in mte_helper.c as well.
+Thanks, applied all but patch 46 to target-arm.next.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200626033144.790098-22-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/internals.h | 36 ++++++++++++++++++++++++++++++++++++
- target/arm/helper.c    | 36 ------------------------------------
- 2 files changed, 36 insertions(+), 36 deletions(-)
-
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 5c69d4e5a56..c36fcb151b7 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -913,6 +913,42 @@ static inline bool regime_is_pan(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
- }
- 
-+/* Return the exception level which controls this address translation regime */
-+static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
-+{
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_E20_2:
-+    case ARMMMUIdx_E20_2_PAN:
-+    case ARMMMUIdx_Stage2:
-+    case ARMMMUIdx_E2:
-+        return 2;
-+    case ARMMMUIdx_SE3:
-+        return 3;
-+    case ARMMMUIdx_SE10_0:
-+        return arm_el_is_aa64(env, 3) ? 1 : 3;
-+    case ARMMMUIdx_SE10_1:
-+    case ARMMMUIdx_SE10_1_PAN:
-+    case ARMMMUIdx_Stage1_E0:
-+    case ARMMMUIdx_Stage1_E1:
-+    case ARMMMUIdx_Stage1_E1_PAN:
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+    case ARMMMUIdx_MPrivNegPri:
-+    case ARMMMUIdx_MUserNegPri:
-+    case ARMMMUIdx_MPriv:
-+    case ARMMMUIdx_MUser:
-+    case ARMMMUIdx_MSPrivNegPri:
-+    case ARMMMUIdx_MSUserNegPri:
-+    case ARMMMUIdx_MSPriv:
-+    case ARMMMUIdx_MSUser:
-+        return 1;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /* Return the FSR value for a debug exception (watchpoint, hardware
-  * breakpoint or BKPT insn) targeting the specified exception level.
-  */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d8c31d03dad..d14313de664 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9793,42 +9793,6 @@ void arm_cpu_do_interrupt(CPUState *cs)
- }
- #endif /* !CONFIG_USER_ONLY */
- 
--/* Return the exception level which controls this address translation regime */
--static uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    switch (mmu_idx) {
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_E20_2:
--    case ARMMMUIdx_E20_2_PAN:
--    case ARMMMUIdx_Stage2:
--    case ARMMMUIdx_E2:
--        return 2;
--    case ARMMMUIdx_SE3:
--        return 3;
--    case ARMMMUIdx_SE10_0:
--        return arm_el_is_aa64(env, 3) ? 1 : 3;
--    case ARMMMUIdx_SE10_1:
--    case ARMMMUIdx_SE10_1_PAN:
--    case ARMMMUIdx_Stage1_E0:
--    case ARMMMUIdx_Stage1_E1:
--    case ARMMMUIdx_Stage1_E1_PAN:
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--    case ARMMMUIdx_MPrivNegPri:
--    case ARMMMUIdx_MUserNegPri:
--    case ARMMMUIdx_MPriv:
--    case ARMMMUIdx_MUser:
--    case ARMMMUIdx_MSPrivNegPri:
--    case ARMMMUIdx_MSUserNegPri:
--    case ARMMMUIdx_MSPriv:
--    case ARMMMUIdx_MSUser:
--        return 1;
--    default:
--        g_assert_not_reached();
--    }
--}
--
- uint64_t arm_sctlr(CPUARMState *env, int el)
- {
-     /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
--- 
-2.20.1
-
+-- PMM
 
