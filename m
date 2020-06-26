@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834D820AFDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:36:38 +0200 (CEST)
-Received: from localhost ([::1]:38270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5020520AFC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:33:26 +0200 (CEST)
+Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolin-0000Xk-HL
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
+	id 1jolfh-0003pV-AJ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jole4-0002Wd-V8
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21845
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1joldn-00024Y-Pq
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:27 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38860
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jole3-0003NN-4S
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:44 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1joldm-0003F1-7z
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593167502;
+ s=mimecast20190719; t=1593167485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QR/HakmSlchkW8rUsYtzabgqq8Ooc2VYeCjnvOodyD0=;
- b=SRRgL/ypEElCrDFN5OEuW0hzlkvgvczZsDBVSjbtGQ3dPQxzSTRIcFuovxET/sjm5VOheF
- A6rxyrDyOlkJ0+DLi/nkh7RRTy+x8xlY6CGWZ1R1uzXJ5HvYCoiBGvgJxwqxxQktymDYVv
- +JhQSpdwUpDvmYvwykoJCd4v9RcwvOY=
+ bh=ucis0h5PRWD9uffGXWYAjZ2udEIvXSj5tEihR7WFgX0=;
+ b=GJc1jhJdedWfy0klwkrVCF8JYinJaGpMQjvwp7PoxdLX/CY4AtUxxkpUz+O1vdis5haFmZ
+ a6fKSNp99OHtHVGaPSGlvlCDuIcsFrl1k9TdgHEoNoAlVM8tsy3dLsMTLGyDPn9DOTcbkB
+ ZZ6em8+FvWrO4eoMVLNNxZi9F3KaQVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-zMWRtc4GMnOfaMwHVydwxg-1; Fri, 26 Jun 2020 06:31:38 -0400
-X-MC-Unique: zMWRtc4GMnOfaMwHVydwxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-373-yWalPltzOiiQANiIlM_Tww-1; Fri, 26 Jun 2020 06:31:22 -0400
+X-MC-Unique: yWalPltzOiiQANiIlM_Tww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9C010059A0;
- Fri, 26 Jun 2020 10:31:37 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA85A610F3;
- Fri, 26 Jun 2020 10:31:34 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
- armbru@redhat.com, pbonzini@redhat.com, jean-philippe@linaro.org,
- bbhushan2@marvell.com, peterx@redhat.com
-Subject: [PATCH v6 5/5] hw/arm/virt: Let the virtio-iommu bypass MSIs
-Date: Fri, 26 Jun 2020 12:30:57 +0200
-Message-Id: <20200626103057.11263-6-eric.auger@redhat.com>
-In-Reply-To: <20200626103057.11263-1-eric.auger@redhat.com>
-References: <20200626103057.11263-1-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1733010059A4
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:31:22 +0000 (UTC)
+Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2BCD5D9C5;
+ Fri, 26 Jun 2020 10:31:18 +0000 (UTC)
+Date: Fri, 26 Jun 2020 11:31:17 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 3/3] virtiofsd: Allow addition or removal of capabilities
+Message-ID: <20200626103117.GE281902@stefanha-x1.localdomain>
+References: <20200625162929.46672-1-dgilbert@redhat.com>
+ <20200625162929.46672-4-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200625162929.46672-4-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5oH/S/bF6lOfqCQb"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,126 +80,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment the virtio-iommu translates MSI transactions.
-This behavior is inherited from ARM SMMU. The virt machine
-code knows where the guest MSI doorbells are so we can easily
-declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
-setting the guest will not map MSIs through the IOMMU and those
-transactions will be simply bypassed.
+--5oH/S/bF6lOfqCQb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Depending on which MSI controller is in use (ITS or GICV2M),
-we declare either:
-- the ITS interrupt translation space (ITS_base + 0x10000),
-  containing the GITS_TRANSLATOR or
-- The GICV2M single frame, containing the MSI_SETSP_NS register.
+On Thu, Jun 25, 2020 at 05:29:29PM +0100, Dr. David Alan Gilbert (git) wrote:
+> +    /*
+> +     * The modcaps option is a colon separated list of caps,
+> +     * each preceded by either + or -.
+> +     */
+> +    while (lo->modcaps) {
+> +        capng_act_t action;
+> +        int cap;
+> +
+> +        char *next = strchr(lo->modcaps, ':');
+> +        if (next) {
+> +            *next = '\0';
+> +            next++;
+> +        }
+> +
+> +        switch (lo->modcaps[0]) {
+> +        case '+':
+> +            action = CAPNG_ADD;
+> +            break;
+> +
+> +        case '-':
+> +            action = CAPNG_DROP;
+> +            break;
+> +
+> +        default:
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Expecting '+'/'-' in modcaps but found '%c'\n",
+> +                     __func__, lo->modcaps[0]);
+> +            exit(1);
+> +        }
+> +        cap = capng_name_to_capability(lo->modcaps + 1);
+> +        if (cap < 0) {
+> +            fuse_log(FUSE_LOG_ERR, "%s: Unknown capability '%s'\n", __func__,
+> +                     lo->modcaps);
+> +            exit(1);
+> +        }
+> +        if (capng_update(action, CAPNG_PERMITTED | CAPNG_EFFECTIVE, cap)) {
+> +            fuse_log(FUSE_LOG_ERR, "%s: capng_update failed for '%s'\n",
+> +                     __func__, lo->modcaps);
+> +            exit(1);
+> +        }
+> +
+> +        lo->modcaps = next;
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+How about passing char *modcaps into this function so that lo->modcaps
+isn't modified by the parsing loop? That seems a bit cleaner and if we
+ever decide to free lo->modcaps it will work as expected.
 
----
-v5 -> v6:
-- do not hardcode doorbell base and size
-- removed Jean's R-b
+Stefan
 
-v3 -> v4:
-- use ':' as separators
+--5oH/S/bF6lOfqCQb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-v2 -> v3:
-- Add a new value to VirtMSIControllerType
+-----BEGIN PGP SIGNATURE-----
 
-v1 -> v2:
-- Test which MSI controller is instantiated
-- If GICV2M is in use, declare its doorbell as an MSI doorbell too
----
- include/hw/arm/virt.h |  7 +++++++
- hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl71znUACgkQnKSrs4Gr
+c8j0/Af/YwHgpiz4d/bv1YWIa/3z3/uXi46uYPop/57woEuGGAXbj2yjw4Umn+nQ
+oZxBzRjfzb1A2TBLMp9KkN5QYR06ZiH7r6+M0erhQB8Jls6rJBRhCONxTFvHm+ju
+LrYHliNi0+UNsP7T4MFHbpDpWcS1SNgNlY4rGTIcgB5gYUr6bg7NJYv00O1qDxhm
+/Q7yE9KN75B/K6IsMBusrgEJeC+opa1016uchr+pp3nWGxsXf56n1D1wisRwuUtW
+CNA77KI/D6eykjNtcm7BrgbSDLIi5t7Y8+z1EqMFIdMoMHs5nkmlD3K6Pw6WdUJf
+FtNOyXG4DfIoFy2xb53xXjJO7Uv5Mw==
+=xKFP
+-----END PGP SIGNATURE-----
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 31878ddc72..a18b6b397b 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -96,6 +96,12 @@ typedef enum VirtIOMMUType {
-     VIRT_IOMMU_VIRTIO,
- } VirtIOMMUType;
- 
-+typedef enum VirtMSIControllerType {
-+    VIRT_MSI_CTRL_NONE,
-+    VIRT_MSI_CTRL_GICV2M,
-+    VIRT_MSI_CTRL_ITS,
-+} VirtMSIControllerType;
-+
- typedef enum VirtGICType {
-     VIRT_GIC_VERSION_MAX,
-     VIRT_GIC_VERSION_HOST,
-@@ -136,6 +142,7 @@ typedef struct {
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
-+    VirtMSIControllerType msi_controller;
-     uint16_t virtio_iommu_bdf;
-     struct arm_boot_info bootinfo;
-     MemMapEntry *memmap;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 402c362c14..5ba62d6568 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -602,6 +602,7 @@ static void create_its(VirtMachineState *vms)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, vms->memmap[VIRT_GIC_ITS].base);
- 
-     fdt_add_its_gic_node(vms);
-+    vms->msi_controller = VIRT_MSI_CTRL_ITS;
- }
- 
- static void create_v2m(VirtMachineState *vms)
-@@ -622,6 +623,7 @@ static void create_v2m(VirtMachineState *vms)
-     }
- 
-     fdt_add_v2m_gic_node(vms);
-+    vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
- }
- 
- static void create_gic(VirtMachineState *vms)
-@@ -2149,8 +2151,36 @@ out:
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-+    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-+
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-+        hwaddr db_start = 0, db_end = 0;
-+        char *resv_prop_str;
-+
-+        switch (vms->msi_controller) {
-+        case VIRT_MSI_CTRL_NONE:
-+            return;
-+        case VIRT_MSI_CTRL_ITS:
-+            /* GITS_TRANSLATER page */
-+            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
-+            db_end = base_memmap[VIRT_GIC_ITS].base +
-+                     base_memmap[VIRT_GIC_ITS].size - 1;
-+            break;
-+        case VIRT_MSI_CTRL_GICV2M:
-+            /* MSI_SETSPI_NS page */
-+            db_start = base_memmap[VIRT_GIC_V2M].base;
-+            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
-+            break;
-+        }
-+        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
-+                                        db_start, db_end,
-+                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
-+
-+        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-+        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-+        g_free(resv_prop_str);
-     }
- }
- 
--- 
-2.20.1
+--5oH/S/bF6lOfqCQb--
 
 
