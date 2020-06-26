@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF9120AB03
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:55:53 +0200 (CEST)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A20020AB09
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:57:42 +0200 (CEST)
+Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofSy-0007Dt-Me
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:55:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
+	id 1jofUj-0002Wk-G3
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jofPZ-0001nw-5E
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:52:21 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:40154)
+ id 1jofRB-0004sL-CH
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:54:01 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jofPW-00058O-Gk
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:52:20 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id cm23so4376695pjb.5
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:52:17 -0700 (PDT)
+ id 1jofR8-0005bY-KZ
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:54:01 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id h22so4385829pjf.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4mFwf/JqqmC2jbvLacbyB+u7kIIaLwrBcw4P6fOKxd4=;
- b=Zuaj2/fnPxZgWulq6vDZ7xVVoutHF9kk/kl3hQ+HwMc4dtyKF2Y7MeXNN9Y/iqWGP1
- wYa3AFMJlOIth2FXvMcgWl8AkOZdMPALFVNd+AttTGlcWbkdYF8bjsZANMwQ9Yur/4s0
- vSzGCb3mNG2XtpwbFYsMN2kD9xcvrlAameMVLrldehqWF3C5av0ijwj96O6lc7P2UJup
- Ddc0i7rRrGzGKeKyeXxxtOi32dR7jNtYGJY7Zsl7ogeHxz6XpBt4ogsQ+nXavGp2xU/s
- 8aqXBQCgdDWSvZoiLYLeagHwnk7Ar6Iii1QpN7iwM2F9Hdu44iylFFuzckBYRgkKtFD2
- swMw==
+ bh=Re9Lg1r2LWOJ1SxULupJHxJffyaoVYAOqDCDTSEhS64=;
+ b=PuT8PmYgZbCeW4UIw0YokcFwECEa+Ph1+XztTTi/33ZQ+rJr7pQVK99KazxQOhDLxC
+ QyhFGhQUK1wQNubbwX/qTPhZWrv02zEPkl8qEyxU+5eEMGzRbOj5dMBZe99CtBjQIrP5
+ 5kSuJni8WYvwuHw2BjgNOSMXeXkmWAvv77T/peeHeML5VJspdkWuIUPFZq6DwLO6t4da
+ J3KHxfPNR4/BZlA96A4ulTQyENn5Q/bRi0kxmuk0YByzTSnHGiPQiaxSghW5r7zeMj1d
+ GMpH76Q0iwvkLLO4T7Y+aoupO7btS1f1e6mAOhmygLf07eWkTl/YrE8ZsSBxg9ft+t95
+ cpCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4mFwf/JqqmC2jbvLacbyB+u7kIIaLwrBcw4P6fOKxd4=;
- b=bDC0uI/THdJjY490uVMFEHAEdEQyZDP5NqCbcYHEEteCB3CFWeuQu94PRlAPD54uje
- PZp0/5AlkPrYxetEzzL9T/RIFZTgOTTbvnHCSku+V7+NegTzLzICDak6oAA71OZnJp/x
- z1wDmlC/bZdwfcBKTgWUCFgXbKkXu0l+GlB3qQFgXHrM6La6iyIjtOKHT1C2iCw/wbkE
- egfTIbaX3BOwfzu8NbmjffUyT/ytO5+h47udDTHRUX/tWi+OuDVu6OMa8L7sdc/x+PF0
- aPbJyDuHp7RpPIYf59hsHoyFVgGdd5bi0G5AJTH47y2dw5WXpvcjHLYVxGOpS3ZgaJA5
- LdYw==
-X-Gm-Message-State: AOAM533rO2CTFbltRXJHzxAZkK+aJbz+yuyysfLGL3z89rP5Q7fNa25M
- V3hOQzbrdmHvshNPJzcSzE2tjw==
-X-Google-Smtp-Source: ABdhPJzWU/bZVjEE1WvmS9tPfxJ/pHn11ZxQQVZtl1KxgPznUtPDN7+BiSjPW5xiuT8BIQwOHXPR/w==
-X-Received: by 2002:a17:90a:7185:: with SMTP id
- i5mr1229885pjk.175.1593143536702; 
- Thu, 25 Jun 2020 20:52:16 -0700 (PDT)
+ bh=Re9Lg1r2LWOJ1SxULupJHxJffyaoVYAOqDCDTSEhS64=;
+ b=iJ1G8ZkObvlaGB7qho/Z24E8SDBl3oMkj574kpm0rRBIO6AHHow+MuNFQq1H9iUT1X
+ sdBLHa35dsEfSInTZMMkbNpyjvZ7YSJ0Wc6HlpTect8uNeQ9dnxigl6XrsWz1F0/RNO/
+ fxON83jKkB/G4hVPgd1IJ6mBbmOCCMxdC8ver/o+qQUouex7ih/J5hNreJk5yNRq8eBj
+ K0yf/5ZlaRBDMBylZWCdM/gtPUQEqqsHyUCGiwfSaNNGijmyLOtBttyZeF2PyJBBWCK2
+ X4U2ESwh87wUiWQcYgk9x3BIFEuLRl70kMBz7nQOhnyuVFZ8/MFv3imucngxx8xh4MPS
+ hGOA==
+X-Gm-Message-State: AOAM530Yex8vlwgRl9kWuxzoyjZzSUiZGm45FgywbFHqpvxocdruq057
+ IKYfTFIKqG9w+xVfsxjgujCzEOCJ/FA=
+X-Google-Smtp-Source: ABdhPJxFsUNSsFZAiZ3vS4fZGikalyiVQukequ/nbpdigxN5yXXSehkesvAnrA3rpa1EYrSzHTvO3w==
+X-Received: by 2002:a17:902:148:: with SMTP id 66mr328158plb.308.1593143637232; 
+ Thu, 25 Jun 2020 20:53:57 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s23sm20102195pfs.157.2020.06.25.20.52.15
+ by smtp.gmail.com with ESMTPSA id cv3sm9323877pjb.45.2020.06.25.20.53.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 20:52:15 -0700 (PDT)
-Subject: Re: [PATCH v3 4/8] target/ppc: add vmulld instruction
+ Thu, 25 Jun 2020 20:53:56 -0700 (PDT)
+Subject: Re: [PATCH v3 8/8] target/ppc: add vdiv{su}{wd} vmod{su}{wd}
+ instructions
 To: Lijun Pan <ljp@linux.vnet.ibm.com>
 References: <20200625170018.64265-1-ljp@linux.ibm.com>
- <20200625170018.64265-5-ljp@linux.ibm.com>
- <b97971e5-43ea-26e4-bd75-7af8d5ae992b@linaro.org>
- <A788F4B0-3E48-4F55-9816-0387A7C5A24B@linux.vnet.ibm.com>
+ <20200625170018.64265-9-ljp@linux.ibm.com>
+ <4561adf0-2be1-e9c3-49d8-9de8c414ec40@linaro.org>
+ <233C7E06-CCB3-4164-82D5-7BC765CC8E01@linux.vnet.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a3ad445a-616c-d9af-18b6-cfb94f126bfd@linaro.org>
-Date: Thu, 25 Jun 2020 20:52:13 -0700
+Message-ID: <0095b0c7-ae6d-7a09-98b2-bf830b566186@linaro.org>
+Date: Thu, 25 Jun 2020 20:53:54 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <A788F4B0-3E48-4F55-9816-0387A7C5A24B@linux.vnet.ibm.com>
+In-Reply-To: <233C7E06-CCB3-4164-82D5-7BC765CC8E01@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,69 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 2:13 PM, Lijun Pan wrote:
->>>     case INDEX_op_mul_vec:
->>> -        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
->>> -        insn = VMULUWM;
->>> +        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
->>> +                         (vece == MO_64 && have_isa_3_10));
->>> +        insn = mul_op[vece];
->>
->> I think it would be ok to just index mul_op here, since the real isa check is
->> to be done elsewhere.
+On 6/25/20 2:15 PM, Lijun Pan wrote:
 > 
-> Just keep "insn = mul_op[vece];"
-> and remove"        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
->                          (vece == MO_64 && have_isa_3_10));“?
+> 
+>> On Jun 25, 2020, at 1:37 PM, Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> On 6/25/20 10:00 AM, Lijun Pan wrote:
+>>> +#define VDIV_MOD_DO(name, op, element, sign, bit)                       \
+>>> +    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
+>>> +    {                                                                   \
+>>> +        int i;                                                          \
+>>> +                                                                        \
+>>> +                                                                        \
+>>> +        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
+>>> +            if (unlikely((b->element[i] == 0) ||                        \
+>>> +                (sign &&                                                \
+>>> +                (b->element[i] == UINT##bit##_MAX) &&                   \
+>>> +                (a->element[i] == INT##bit##_MIN))))                    \
+>>> +                continue;                                               \
+>>> +            r->element[i] = a->element[i] op b->element[i];             \
+>>> +        }                                                               \
+>>> +    }
+>>
+>> Missing braces for the if.  Extra blank line before the for.
+> 
+> No, the braces are enough.
 
-Yes.
-
-> @@ -3016,6 +3016,8 @@int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type,
-> unsigned vece)
->              return -1;
->          case MO_32:
->              return have_isa_2_07 ? 1 : -1;
-> +        case MO_64:
-> +            return have_isa_3_10 ? 1 : -1;
->          }
-
-Actually, just "return have_isa_3_10".
-
-Returning 1 means that the opcode is supported directly.  Returning -1 means
-that the opcode can be expanded by tcg_expand_vec_op.  Returning 0 means that
-the tcg backend does not support the opcode at all.
-
-> something like below?
-> @@ -3712,6 +3712,11 @@static void tcg_target_init(TCGContext *s)
->          have_isa = tcg_isa_3_00;
->      }
->  #endif
-> +#ifdef PPC_FEATURE2_ARCH_3_10
-> +    if (hwcap2 & PPC_FEATURE2_ARCH_3_10) {
-> +        have_isa = tcg_isa_3_10;
-> +    }
-> +#endif
-
-Certainly this.
-
-> @@ -554,6 +554,7 @@typedef struct {
->  #define PPC_FEATURE2_HTM_NOSC           0x01000000
->  #define PPC_FEATURE2_ARCH_3_00          0x00800000
->  #define PPC_FEATURE2_HAS_IEEE128        0x00400000
-> +#define PPC_FEATURE2_ARCH_3_10          0x00200000
-
-Of this I'm not sure.  I didn't even realize these defines were here in
-include/elf.h.  For other tcg backends we get the defines from <sys/auxv.h>.
-
-If we do want to update include/elf.h, it should be a separate patch.  CC'ing
-Laurent for this.
+No they are not.  See CODING_STYLE.rst.
 
 
 r~
+
 
