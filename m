@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7598420BC09
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:59:39 +0200 (CEST)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965F420BC06
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:58:13 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowNm-0003By-GO
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
+	id 1jowMO-00018I-J4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI8-0002vx-2g
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:48 -0400
+ id 1jowIB-00034l-S3
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:51 -0400
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI5-0002yi-BV
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:47 -0400
+ id 1jowI8-0002yi-BN
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208426; x=1624744426;
+ t=1593208429; x=1624744429;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iMV0ou7nWYetcaL+zBf6ztDkQkcJPf0PQeTCcbE+MoM=;
- b=UeInn0EuIOhSwcw4o9/6aQc1YGN5sE0HM9icSy5WwGVKEyHH1++5PdQy
- qNLA+1yFfesdqRn9dZWHKCdWNYHdSYHjNFtNRFw7rAL89Upr1kHYL0FuW
- 2lgAOWjRKEEHtOJpeIYj96z0h82CyFa9pZ0EWlgyyeYuoZAXab1RV7aml
- P6qcFwGekqLI5xPnfrzeTTtgnlOCP4Zu86HCMiKJlW4vPlZytaOcEHut1
- pIlu/pZKz8+JTqw/0vJUzCqZIU7L+QZSy8/x2b+ZyBAd2NlQv5rinHUTn
- sINvf/LjS/omZ75StahIsVAUAXxc/l+zMd4w7FqPUp4ktYMq4wc8vJzQF A==;
-IronPort-SDR: EZ5iN57LTmuf7V3HxYC1kK16vVXMSijZX3T04/kvhhmlzB4A7rr+vdlx3m5yLo1jyBQMk99nWy
- 5R1jXJY7wuXzdKFIuKCuSbvKJ2lHmlMB/kDjD5KcZ54NBHG8akwVJDPAhtl7FOyo4/SB10wclP
- BXdGXfKBZL2gKZhi3Do8MfHlJa2iiZjZBAQaURVuKPiT9na7H1CA7YfM6K2M18dgqrMuEVOS4/
- NdppWJro7Y8c/udnm06UOIpmOoHLgiI7r2bUucDF/QU/oHHmvCEghW7cfoWwoJAT1yHeVra5uw
- jaM=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360022"
+ bh=775hJ2qN+nzkC2PMcXcoEiQBeZJ1Tc8+bipoCg7Uo+I=;
+ b=BLrIFcmaS15pvWlTxf9dt0h40s5lStr0MNehmQdj4y59gwSSvNmstCx5
+ 7kC7xfbEoCzmrjkPoJn77Vh1Vi6VpawpoZyAs8uRLLfAetEy9hrBcv52I
+ qrDTi8hQL7EA+844JlJ4Hw0mGek77hfe2bwXTJsVIPdAj2oEkFyo30m3A
+ UbCk5y/r/MY7s9Tw1+84BoRPQDPxCCH4njdgMZitMt/2XUdU9BBf+y0cs
+ 9qLN5PeeGVNlxcmhuLgqUAFOq7aChj9Ma9d8Q7lmtOdErXP56FMAjgTiF
+ UWFXGzXDIApoO3YBm+pU8Gz7xcryufU9jDuhSk2QXvHiaxe4DibfVpeF+ w==;
+IronPort-SDR: 7cmxd1F1AnCP+kPxrbeVZK2MmKoVlc5JIakBRBJMDQc+QvpTLG5e18JKD9srqVAx/j38wcHy7s
+ +a6VHhuvZf3+ELJ9cNzfI/+wxOr8gockJd60dg2EvAPq0TErZ0yukyAeiegeMKWY5Gfw71W76w
+ H+3NRssVqrvbt2UFMnW5SfBVdvaLtnLwu4I+/tqNFurfaS6H4yxdhoiLeWoXLclDN9XoWNTAhF
+ ENuUepvgcnXdOICAcdS4bb141AP4JIH94XUzRfAWuhe+hzZJ6lAFI2g+RJL/h3GSp2A/ltDFtF
+ SzM=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360026"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:36 +0800
-IronPort-SDR: JtL2yxQgyCTffPTcvlEf3ohr2VF1NucA7ym3yxzC1BYkMtQPxt345TZANVDIiQFAu36TCXDv6d
- Cjez/FxXLeGot5y/W0ta1QZj1xcrSSpXs=
+ by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:37 +0800
+IronPort-SDR: 9QUk9J+kEeUHmy+jJr1FvaOH+h6isNfQ+uF/Yx9FC7mnHINdswdjZfawj4jAsygTHThHhgll7u
+ RHskC1wFyMw2TuAoTCMhD8kwssE0dTJMs=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jun 2020 14:42:34 -0700
-IronPort-SDR: L0EyFJvkEYImUeN2F9GmGekmXs3zPDTIsFULVtJ+mlJyShERNe/7y27WZQqQ7A+oJP4Yj4FWJt
- 8+K2WdxgxRUg==
+IronPort-SDR: oa+/cNjfBJpNqK+RCAKjGsdC/rpma+EOwI49mUvEgLQneKNRrWsNbiBzbHvAPe8kMunl6X5d+x
+ B9U6soAzk7RA==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:35 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:36 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 05/63] target/riscv: support vector extension csr
-Date: Fri, 26 Jun 2020 14:43:12 -0700
-Message-Id: <20200626214410.3613258-6-alistair.francis@wdc.com>
+Subject: [PULL 07/63] target/riscv: add an internals.h header
+Date: Fri, 26 Jun 2020 14:43:14 -0700
+Message-Id: <20200626214410.3613258-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
@@ -95,170 +95,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The v0.7.1 specification does not define vector status within mstatus.
-A future revision will define the privileged portion of the vector status.
+The internals.h keeps things that are not relevant to the actual architecture,
+only to the implementation, separate.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200623215920.2594-4-zhiwei_liu@c-sky.com
+Message-id: 20200623215920.2594-6-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 15 +++++++++
- target/riscv/csr.c      | 75 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 89 insertions(+), 1 deletion(-)
+ target/riscv/internals.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 target/riscv/internals.h
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 7f64ee1174..8117e8b5a7 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -29,6 +29,14 @@
- #define FSR_NXA             (FPEXC_NX << FSR_AEXC_SHIFT)
- #define FSR_AEXC            (FSR_NVA | FSR_OFA | FSR_UFA | FSR_DZA | FSR_NXA)
- 
-+/* Vector Fixed-Point round model */
-+#define FSR_VXRM_SHIFT      9
-+#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+new file mode 100644
+index 0000000000..22a49af413
+--- /dev/null
++++ b/target/riscv/internals.h
+@@ -0,0 +1,24 @@
++/*
++ * QEMU RISC-V CPU -- internal functions and types
++ *
++ * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+/* Vector Fixed-Point saturation flag */
-+#define FSR_VXSAT_SHIFT     8
-+#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
++#ifndef RISCV_CPU_INTERNALS_H
++#define RISCV_CPU_INTERNALS_H
 +
- /* Control and Status Registers */
- 
- /* User Trap Setup */
-@@ -48,6 +56,13 @@
- #define CSR_FRM             0x002
- #define CSR_FCSR            0x003
- 
-+/* User Vector CSRs */
-+#define CSR_VSTART          0x008
-+#define CSR_VXSAT           0x009
-+#define CSR_VXRM            0x00a
-+#define CSR_VL              0xc20
-+#define CSR_VTYPE           0xc21
++#include "hw/registerfields.h"
 +
- /* User Timers and Counters */
- #define CSR_CYCLE           0xc00
- #define CSR_TIME            0xc01
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 383be0a955..ac01c835e1 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -46,6 +46,10 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
- static int fs(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-+    /* loose check condition for fcsr in vector extension */
-+    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
-+        return 0;
-+    }
-     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-         return -1;
-     }
-@@ -53,6 +57,14 @@ static int fs(CPURISCVState *env, int csrno)
-     return 0;
- }
- 
-+static int vs(CPURISCVState *env, int csrno)
-+{
-+    if (env->misa & RVV) {
-+        return 0;
-+    }
-+    return -1;
-+}
-+
- static int ctr(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-@@ -154,6 +166,10 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
- #endif
-     *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-         | (env->frm << FSR_RD_SHIFT);
-+    if (vs(env, csrno) >= 0) {
-+        *val |= (env->vxrm << FSR_VXRM_SHIFT)
-+                | (env->vxsat << FSR_VXSAT_SHIFT);
-+    }
-     return 0;
- }
- 
-@@ -166,10 +182,62 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
-     env->mstatus |= MSTATUS_FS;
- #endif
-     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-+    if (vs(env, csrno) >= 0) {
-+        env->vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
-+        env->vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
-+    }
-     riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
-     return 0;
- }
- 
-+static int read_vtype(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vtype;
-+    return 0;
-+}
-+
-+static int read_vl(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vl;
-+    return 0;
-+}
-+
-+static int read_vxrm(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxrm;
-+    return 0;
-+}
-+
-+static int write_vxrm(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxrm = val;
-+    return 0;
-+}
-+
-+static int read_vxsat(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxsat;
-+    return 0;
-+}
-+
-+static int write_vxsat(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxsat = val;
-+    return 0;
-+}
-+
-+static int read_vstart(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vstart;
-+    return 0;
-+}
-+
-+static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vstart = val;
-+    return 0;
-+}
-+
- /* User Timers and Counters */
- static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
- {
-@@ -1183,7 +1251,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
-     [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
-     [CSR_FCSR] =                { fs,   read_fcsr,        write_fcsr        },
--
-+    /* Vector CSRs */
-+    [CSR_VSTART] =              { vs,   read_vstart,      write_vstart      },
-+    [CSR_VXSAT] =               { vs,   read_vxsat,       write_vxsat       },
-+    [CSR_VXRM] =                { vs,   read_vxrm,        write_vxrm        },
-+    [CSR_VL] =                  { vs,   read_vl                             },
-+    [CSR_VTYPE] =               { vs,   read_vtype                          },
-     /* User Timers and Counters */
-     [CSR_CYCLE] =               { ctr,  read_instret                        },
-     [CSR_INSTRET] =             { ctr,  read_instret                        },
++#endif
 -- 
 2.27.0
 
