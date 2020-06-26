@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059CF20B2BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:43:13 +0200 (CEST)
-Received: from localhost ([::1]:52052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E1A20B2B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:43:12 +0200 (CEST)
+Received: from localhost ([::1]:51976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joodL-0004J6-Ug
+	id 1joodL-0004H5-1c
 	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolTY-0000Ok-26
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:52 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59562)
+ id 1jolTe-0000TU-Gv
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:58 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:59594)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolTW-0000YG-Cw
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:51 -0400
+ id 1jolTc-0000Z5-5L
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:58 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A3C6640A92BE;
- Fri, 26 Jun 2020 10:20:48 +0000 (UTC)
-Subject: [PATCH 12/13] replay: describe reverse debugging in docs/replay.txt
+ by mail.ispras.ru (Postfix) with ESMTPSA id 54CB340A92BE;
+ Fri, 26 Jun 2020 10:20:54 +0000 (UTC)
+Subject: [PATCH 13/13] tests/acceptance: add reverse debugging test
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jun 2020 13:20:48 +0300
-Message-ID: <159316684833.10508.798035270216502557.stgit@pasha-ThinkPad-X280>
+Date: Fri, 26 Jun 2020 13:20:54 +0300
+Message-ID: <159316685408.10508.14706931498440807749.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -62,58 +62,242 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 
-This patch updates the documentation and describes usage of the reverse
-debugging in QEMU+GDB.
+This is a test for GDB reverse debugging commands: reverse step and reverse continue.
+Every test in this suite consists of two phases: record and replay.
+Recording saves the execution of some instructions and makes an initial
+VM snapshot to allow reverse execution.
+Replay saves the order of the first instructions and then checks that they
+are executed backwards in the correct order.
+After that the execution is replayed to the end, and reverse continue
+command is checked by setting several breakpoints, and asserting
+that the execution is stopped at the last of them.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
  0 files changed
 
-diff --git a/docs/replay.txt b/docs/replay.txt
-index 70c27edb36..18d6169f3b 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -294,6 +294,39 @@ for recording and replaying must contain identical number of ports in record
- and replay modes, but their backends may differ.
- E.g., '-serial stdio' in record mode, and '-serial null' in replay mode.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ca5b1cf7f1..906af395fe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2572,6 +2572,7 @@ F: docs/replay.txt
+ F: stubs/replay.c
+ F: tests/acceptance/replay_kernel.py
+ F: tests/acceptance/replay_linux.py
++F: tests/acceptance/reverse_debugging.py
+ F: qapi/replay.json
  
-+Reverse debugging
-+-----------------
+ IOVA Tree
+diff --git a/tests/acceptance/reverse_debugging.py b/tests/acceptance/reverse_debugging.py
+new file mode 100644
+index 0000000000..dda42e1c1a
+--- /dev/null
++++ b/tests/acceptance/reverse_debugging.py
+@@ -0,0 +1,203 @@
++# Reverse debugging test
++#
++# Copyright (c) 2020 ISP RAS
++#
++# Author:
++#  Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++import os
++import logging
 +
-+Reverse debugging allows "executing" the program in reverse direction.
-+GDB remote protocol supports "reverse step" and "reverse continue"
-+commands. The first one steps single instruction backwards in time,
-+and the second one finds the last breakpoint in the past.
++from avocado_qemu import BUILD_DIR
++from avocado.utils import gdb
++from avocado.utils import process
++from avocado.utils.path import find_command
++from boot_linux_console import LinuxKernelTest
 +
-+Recorded executions may be used to enable reverse debugging. QEMU can't
-+execute the code in backwards direction, but can load a snapshot and
-+replay forward to find the desired position or breakpoint.
++class ReverseDebugging(LinuxKernelTest):
++    """
++    Test GDB reverse debugging commands: reverse step and reverse continue.
++    Recording saves the execution of some instructions and makes an initial
++    VM snapshot to allow reverse execution.
++    Replay saves the order of the first instructions and then checks that they
++    are executed backwards in the correct order.
++    After that the execution is replayed to the end, and reverse continue
++    command is checked by setting several breakpoints, and asserting
++    that the execution is stopped at the last of them.
++    """
 +
-+The following GDB commands are supported:
-+ - reverse-stepi (or rsi) - step one instruction backwards
-+ - reverse-continue (or rc) - find last breakpoint in the past
++    timeout = 10
++    STEPS = 10
++    endian_is_le = True
 +
-+Reverse step loads the nearest snapshot and replays the execution until
-+the required instruction is met.
++    def run_vm(self, record, shift, args, replay_path, image_path):
++        logger = logging.getLogger('replay')
++        vm = self.get_vm()
++        vm.set_console()
++        if record:
++            logger.info('recording the execution...')
++            mode = 'record'
++        else:
++            logger.info('replaying the execution...')
++            mode = 'replay'
++            vm.add_args('-s', '-S')
++        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s,rrsnapshot=init' %
++                    (shift, mode, replay_path),
++                    '-net', 'none')
++        vm.add_args('-drive', 'file=%s,if=none' % image_path)
++        if args:
++            vm.add_args(*args)
++        vm.launch()
++        return vm
 +
-+Reverse continue may include several passes of examining the execution
-+between the snapshots. Each of the passes include the following steps:
-+ 1. loading the snapshot
-+ 2. replaying to examine the breakpoints
-+ 3. if breakpoint or watchpoint was met
-+    - loading the snaphot again
-+    - replaying to the required breakpoint
-+ 4. else
-+    - proceeding to the p.1 with the earlier snapshot
++    @staticmethod
++    def get_reg_le(g, reg):
++        res = g.cmd(b'p%x' % reg)
++        num = 0
++        for i in range(len(res))[-2::-2]:
++            num = 0x100 * num + int(res[i:i + 2], 16)
++        return num
 +
-+Therefore usage of the reverse debugging requires at least one snapshot
-+created in advance. See the "Snapshotting" section to learn about running
-+record/replay and creating the snapshot in these modes.
++    @staticmethod
++    def get_reg_be(g, reg):
++        res = g.cmd(b'p%x' % reg)
++        return int(res, 16)
 +
- Replay log format
- -----------------
- 
++    def get_reg(self, g, reg):
++        # value may be encoded in BE or LE order
++        if self.endian_is_le:
++            return self.get_reg_le(g, reg)
++        else:
++            return self.get_reg_be(g, reg)
++
++    def get_pc(self, g):
++        return self.get_reg(g, self.REG_PC)
++
++    def check_pc(self, g, addr):
++        pc = self.get_pc(g)
++        if pc != addr:
++            self.fail('Invalid PC (read %x instead of %x)' % (pc, addr))
++
++    @staticmethod
++    def gdb_step(g):
++        g.cmd(b's', b'T05thread:01;')
++
++    @staticmethod
++    def gdb_bstep(g):
++        g.cmd(b'bs', b'T05thread:01;')
++
++    @staticmethod
++    def vm_get_icount(vm):
++        return vm.qmp('query-replay')['return']['icount']
++
++    def reverse_debugging(self, shift=7, args=None):
++        logger = logging.getLogger('replay')
++
++        # create qcow2 for snapshots
++        logger.info('creating qcow2 image for VM snapshots')
++        image_path = os.path.join(self.workdir, 'disk.qcow2')
++        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
++        if not os.path.exists(qemu_img):
++            qemu_img = find_command('qemu-img', False)
++        if qemu_img is False:
++            self.cancel('Could not find "qemu-img", which is required to '
++                        'create the temporary qcow2 image')
++        cmd = '%s create -f qcow2 %s 128M' % (qemu_img, image_path)
++        process.run(cmd)
++
++        replay_path = os.path.join(self.workdir, 'replay.bin')
++
++        # record the log
++        vm = self.run_vm(True, shift, args, replay_path, image_path)
++        while self.vm_get_icount(vm) <= self.STEPS:
++            pass
++        last_icount = self.vm_get_icount(vm)
++        vm.shutdown()
++
++        logger.info("recorded log with %s+ steps" % last_icount)
++
++        # replay and run debug commands
++        vm = self.run_vm(False, shift, args, replay_path, image_path)
++        logger.info('connecting to gdbstub')
++        g = gdb.GDBRemote('127.0.0.1', 1234, False, False)
++        g.connect()
++        r = g.cmd(b'qSupported')
++        if b'qXfer:features:read+' in r:
++            g.cmd(b'qXfer:features:read:target.xml:0,ffb')
++        if b'ReverseStep+' not in r:
++            self.fail('Reverse step is not supported by QEMU')
++        if b'ReverseContinue+' not in r:
++            self.fail('Reverse continue is not supported by QEMU')
++
++        logger.info('stepping forward')
++        steps = []
++        # record first instruction addresses
++        for _ in range(self.STEPS):
++            pc = self.get_pc(g)
++            logger.info('saving position %x' % pc)
++            steps.append(pc)
++            self.gdb_step(g)
++
++        # visit the recorded instruction in reverse order
++        logger.info('stepping backward')
++        for addr in steps[::-1]:
++            self.gdb_bstep(g)
++            self.check_pc(g, addr)
++            logger.info('found position %x' % addr)
++
++        logger.info('seeking to the end (icount %s)' % (last_icount - 1))
++        vm.qmp('replay-break', icount=last_icount - 1)
++        # continue - will return after pausing
++        g.cmd(b'c', b'T02thread:01;')
++
++        logger.info('setting breakpoints')
++        for addr in steps:
++            # hardware breakpoint at addr with len=1
++            g.cmd(b'Z1,%x,1' % addr, b'OK')
++
++        logger.info('running reverse continue to reach %x' % steps[-1])
++        # reverse continue - will return after stopping at the breakpoint
++        g.cmd(b'bc', b'T05thread:01;')
++
++        # assume that none of the first instructions is executed again
++        # breaking the order of the breakpoints
++        self.check_pc(g, steps[-1])
++        logger.info('successfully reached %x' % steps[-1])
++
++        logger.info('exitting gdb and qemu')
++        vm.shutdown()
++
++class ReverseDebugging_X86_64(ReverseDebugging):
++    REG_PC = 0x10
++    REG_CS = 0x12
++    def get_pc(self, g):
++        return self.get_reg_le(g, self.REG_PC) \
++            + self.get_reg_le(g, self.REG_CS) * 0x10
++
++    def test_x86_64_pc(self):
++        """
++        :avocado: tags=arch:x86_64
++        :avocado: tags=machine:pc
++        """
++        # start with BIOS only
++        self.reverse_debugging()
++
++class ReverseDebugging_AArch64(ReverseDebugging):
++    REG_PC = 32
++
++    def test_aarch64_virt(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=cpu:cortex-a53
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
++                      '/vmlinuz')
++        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        self.reverse_debugging(
++            args=('-kernel', kernel_path, '-cpu', 'cortex-a53'))
 
 
