@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B5B20AD1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:28:24 +0200 (CEST)
-Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B76E20AD11
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 09:26:53 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joimd-0007QJ-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58082)
+	id 1joilA-0004GP-6A
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 03:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiZ-0000Jb-0K
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:24:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29996
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiic-0000Ts-QG
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:24:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42311
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiV-0003Sc-30
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:24:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1joiiZ-0003Tt-RW
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 03:24:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593156246;
+ s=mimecast20190719; t=1593156251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NYlfhj1OTPEaIzcBYdA05uMy9bmVrgsPwAVJjLsnp5k=;
- b=BGDt8GyOmwlqM63xhOoI5GUaMBy1eJeHNZqj6/+TTSnqy9haN6/kI2QH0D+trsUds8YcCz
- Wn9meynsTxyDjSN4OSyzILwhSyAwlRGqX8VOBr6iM+y4cPQ7rWN8IwZTIMJJwdgmUWJP72
- 7Sh1wpnyVj7GlAXlVnuA0BtTcFXdlTc=
+ bh=RnPxIqV3PO9YH/Ax/pXijo9qKTRoXgMpN192PLj67tY=;
+ b=Y3jmrh1gcoW2pDdwVVq+tgZDYqzc9VNMakK4IVswtbRidMOJae2UhgtA0dhWTaS2bvXNJV
+ GAjPgqmQaU6DVe3t+J40H1jlIw9wxxKOxFf5FO8hSTTr6xHS8PFzoRhAacyLFpz0vvoswm
+ tVVCwAzIPZn2vRxmyoNLfckwO+OLIVw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-7Jh82G8aOGGxlw28373TdA-1; Fri, 26 Jun 2020 03:24:04 -0400
-X-MC-Unique: 7Jh82G8aOGGxlw28373TdA-1
+ us-mta-364-lE4D1g3hOGyYYDPxp5aeFw-1; Fri, 26 Jun 2020 03:24:09 -0400
+X-MC-Unique: lE4D1g3hOGyYYDPxp5aeFw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D9E1005512;
- Fri, 26 Jun 2020 07:24:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29040800D5C;
+ Fri, 26 Jun 2020 07:24:08 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-35.ams2.redhat.com [10.36.113.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 310241C8;
- Fri, 26 Jun 2020 07:23:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF7331C8;
+ Fri, 26 Jun 2020 07:24:05 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/21] target/i386: sev: Use ram_block_discard_disable()
-Date: Fri, 26 Jun 2020 09:22:34 +0200
-Message-Id: <20200626072248.78761-8-david@redhat.com>
+Subject: [PATCH v5 09/21] migration/colo: Use ram_block_discard_disable()
+Date: Fri, 26 Jun 2020 09:22:36 +0200
+Message-Id: <20200626072248.78761-10-david@redhat.com>
 In-Reply-To: <20200626072248.78761-1-david@redhat.com>
 References: <20200626072248.78761-1-david@redhat.com>
 MIME-Version: 1.0
@@ -74,52 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+Cc: Lukas Straub <lukasstraub2@web.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-s390x@nongnu.org,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AMD SEV will pin all guest memory, mark discarding of RAM broken. At the
-time this is called, we cannot have anyone active that relies on discards
-to work properly - let's still implement error handling.
+COLO will copy all memory in a RAM block, disable discarding of RAM.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Tested-by: Lukas Straub <lukasstraub2@web.de>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/i386/sev.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/migration/colo.h |  2 +-
+ migration/migration.c    |  8 +++++++-
+ migration/savevm.c       | 11 +++++++++--
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index d273174ad3..f100a53231 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -680,6 +680,12 @@ sev_guest_init(const char *id)
-     uint32_t host_cbitpos;
-     struct sev_user_data_status status = {};
+diff --git a/include/migration/colo.h b/include/migration/colo.h
+index 1636e6f907..768e1f04c3 100644
+--- a/include/migration/colo.h
++++ b/include/migration/colo.h
+@@ -25,7 +25,7 @@ void migrate_start_colo_process(MigrationState *s);
+ bool migration_in_colo_state(void);
  
-+    ret = ram_block_discard_disable(true);
-+    if (ret) {
-+        error_report("%s: cannot disable RAM discard", __func__);
-+        return NULL;
-+    }
-+
-     sev = lookup_sev_guest_info(id);
-     if (!sev) {
-         error_report("%s: '%s' is not a valid '%s' object",
-@@ -751,6 +757,7 @@ sev_guest_init(const char *id)
-     return sev;
- err:
-     sev_guest = NULL;
+ /* loadvm */
+-void migration_incoming_enable_colo(void);
++int migration_incoming_enable_colo(void);
+ void migration_incoming_disable_colo(void);
+ bool migration_incoming_colo_enabled(void);
+ void *colo_process_incoming_thread(void *opaque);
+diff --git a/migration/migration.c b/migration/migration.c
+index d365d82209..92e44e021e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -338,12 +338,18 @@ bool migration_incoming_colo_enabled(void)
+ 
+ void migration_incoming_disable_colo(void)
+ {
 +    ram_block_discard_disable(false);
-     return NULL;
+     migration_colo_enabled = false;
  }
  
+-void migration_incoming_enable_colo(void)
++int migration_incoming_enable_colo(void)
+ {
++    if (ram_block_discard_disable(true)) {
++        error_report("COLO: cannot disable RAM discard");
++        return -EBUSY;
++    }
+     migration_colo_enabled = true;
++    return 0;
+ }
+ 
+ void migrate_add_address(SocketAddress *address)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index b979ea6e7f..6e01724605 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2111,8 +2111,15 @@ static int loadvm_handle_recv_bitmap(MigrationIncomingState *mis,
+ 
+ static int loadvm_process_enable_colo(MigrationIncomingState *mis)
+ {
+-    migration_incoming_enable_colo();
+-    return colo_init_ram_cache();
++    int ret = migration_incoming_enable_colo();
++
++    if (!ret) {
++        ret = colo_init_ram_cache();
++        if (ret) {
++            migration_incoming_disable_colo();
++        }
++    }
++    return ret;
+ }
+ 
+ /*
 -- 
 2.26.2
 
