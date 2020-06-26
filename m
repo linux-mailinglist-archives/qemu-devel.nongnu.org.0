@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD1520B66F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:56:52 +0200 (CEST)
-Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE97520B678
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:59:57 +0200 (CEST)
+Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorel-0004zv-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
+	id 1jorhk-00013K-GO
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorST-0006rd-TN; Fri, 26 Jun 2020 12:44:09 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39640)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jorUY-0003Ks-5G
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:46:18 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorSS-00079N-6g; Fri, 26 Jun 2020 12:44:09 -0400
-Received: by mail-wm1-x342.google.com with SMTP id t194so9970841wmt.4;
- Fri, 26 Jun 2020 09:44:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jorUW-0007tO-Ak
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:46:17 -0400
+Received: by mail-ej1-x641.google.com with SMTP id ga4so9971590ejb.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 09:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xeya6t7YEUT6iXR0Ro2MM8pOQvxxAocwgvBGif3Bleg=;
- b=pc6DyX5mDlWcIPcSk+d3irTVLgRyxGwjvbtkjOQ3Zq47/e0ZBbN9LpDOG85zbLyqXS
- n2af3Y+zjuPBd+EUBXDIyWgy/pw/zPFyjkQSDUqdQhnPZVPYSbTVibiEHC0CJLpb29QZ
- Emy/9MWst6uhUue5kh55vDBT7gXs6Ky3HiV+kUHX0e9ux+tVbye9uHgJZoZQ8piJv0mU
- cDgfevM7RxKpfEks0rYJvms/5zeK5INRUsSufGKjSCmU6u4pHiiO6VFMMYU84WdC0Qxh
- +AJuSL0Al6LQhKgvTQ85TPlpy+OsgrUg/RHzi29LbdeNhL1G8XU54OQyl+zKdztK6a3I
- 95Bg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BNWksxwKvN4OS9zdvud/coWuMVdM1gG/KovFbz0SPRc=;
+ b=M9KAVpxL/Ng459P7eKivVpdYefVfyq7X+2OFu9jTWKXZ8pndQ7jrBqr0fYnseanRz0
+ 6kWvTpuXj/BrZz1Q3vcnv1KNOBadzsysolSRNXRtTwyxS/VpWDzjBm5U4X9QHgHDoR69
+ vZB8pamfjIEAvke0ZLsolSGlaJZQStfr/AjEJW3X40pAbsSCyAPC2ZBp+Trxz8tDT6S0
+ wLDbHo68iX3K7v40JeW1lLKXYE8bTiUthjp5I635x2B5mr6ZRM33KwGjiFkb8TsdGd6p
+ nieaZ4e1ekB1cKGU66CaU3BipjrGSnt+Ax/sUTe8LdcjA2xKvFmJ7pIyaPa/MfsI3I6E
+ q8kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Xeya6t7YEUT6iXR0Ro2MM8pOQvxxAocwgvBGif3Bleg=;
- b=MjSPNuEukCGA4QFOA8mhD7QIOLcmWS7MvI7z+HLGjn6/CMZFNWieU5LCWcNVOw5VKP
- qc7Wk+HSBogSDRVByMXTeB+pOpjCUnObB/5BNGYObUPZbTUTGD1s3X0gPolnKQH+LcGv
- DbanjOu7RgcHlW+Syk+ju8XUuyAA6T8AXQHRdzE1VWcO+oYP8ZMmU/eY8f8mCnqeYyTj
- HlKoJy5IyeFSXDniL1u/y6SJTc4S6lZFLw/qReR7ZWJpq979ZQJkQPmnZ4eRQyNgGm25
- /8VSMc25pgmiOvuWRcdCbXwerVPZFiXVjvqjO89atieE4h8+oZBPK+DzhJN8G4c439QH
- YW2w==
-X-Gm-Message-State: AOAM532DDsX94hLMVBnacdiQ9OiVOmjCyW1MSksXSz3VnKxGJsYCYaNK
- x0+p5FFneZY/w0cmSxxxjpj70ZXf
-X-Google-Smtp-Source: ABdhPJzn6w7hp9bB0UDKYrQPy0ZzIOQOelkAASsUJApyneIKBPOh6XsvFV+BQ3aG6AgZ0ZOKZqFZ1w==
-X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr4381286wmk.77.1593189846170;
- Fri, 26 Jun 2020 09:44:06 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id v66sm18808630wme.13.2020.06.26.09.44.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 09:44:05 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/3] Use object_get_canonical_path_component to get
- child description
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <20200626102744.15053-1-f4bug@amsat.org>
- <CAHiYmc6DNCaDzLautfL26Rv_hAjZ-M582nr-hj6t=JwB7zWcyg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <cfc8c2b4-4743-c067-cf27-76bbc2f67308@amsat.org>
-Date: Fri, 26 Jun 2020 18:44:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=BNWksxwKvN4OS9zdvud/coWuMVdM1gG/KovFbz0SPRc=;
+ b=cOrcnUlQdtIz9SCNIyINLGrf2L60rksoReLBJtThki0Q2De1ky7lJ53ATExCs4tlne
+ jL/d3xOZ7rEJDPk2qayoj32DMsmwvrq+33PNkcdc1vZDVLuVXlLEbI/8sj54C6KWx6I6
+ XLgx6Sw4YLMDHZKEG6hruY03GzE6c3Py0DRzA6HgRj1QCCCPwwjX8Jle7gvAMIrZnWrw
+ sRQcSUO77VsG/0DTdA5f8LC7ScZkCJLOBBzlioDFeN8AFcz9R6NwL+UjQUM5bAVr1X4q
+ lHlh0NwTUyXoEEGqWw5vUdl9d8Nu4ZBf6lmKZKJuGvtUaFkCb6KfGlXYol30ujMs5VGz
+ YHLw==
+X-Gm-Message-State: AOAM533K/PWboHQivKwLNIlJfWZyTO0rak9D79woMJt+K3BIC5tPjN/9
+ USMG6NSebth7PWK3AM646qmi8LV1
+X-Google-Smtp-Source: ABdhPJxni4I2NDuam1b+Vwc8J69zJXqIxN9oKq4sx3jjPGNPKMR3G7V28tQV11yMzRLbazmu/8axUA==
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr3490327eja.535.1593189974518; 
+ Fri, 26 Jun 2020 09:46:14 -0700 (PDT)
+Received: from AK-L.domain.name ([197.58.224.183])
+ by smtp.gmail.com with ESMTPSA id rv16sm10894889ejb.60.2020.06.26.09.46.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 09:46:13 -0700 (PDT)
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org, aleksandar.qemu.devel@gmail.com,
+ alex.bennee@linaro.org, rth@twiddle.net, eblake@redhat.com,
+ ldoktor@redhat.com, ehabkost@redhat.com, crosa@redhat.com
+Subject: [PATCH v4 0/3] Add Scripts for Finding Top 25 Executed Functions
+Date: Fri, 26 Jun 2020 18:45:43 +0200
+Message-Id: <20200626164546.22102-1-ahmedkhaledkaraman@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc6DNCaDzLautfL26Rv_hAjZ-M582nr-hj6t=JwB7zWcyg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,67 +86,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 5:59 PM, Aleksandar Markovic wrote:
-> пет, 26. јун 2020. у 12:27 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> This RFC is simply a proof-of-concept to see if I correctly
->> understood Markus' suggestion, see the thread around:
->> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08652.html
->>
->> Philippe Mathieu-Daudé (3):
->>   hw/i2c/smbus_eeprom: Set QOM parent
->>   hw/i2c/smbus_eeprom: Add description based on child name
->>   hw/i2c/smbus_eeprom: Trace reset() event
->>
->>  include/hw/i2c/smbus_eeprom.h |  9 ++++++---
->>  hw/i2c/smbus_eeprom.c         | 18 +++++++++++++++---
->>  hw/mips/fuloong2e.c           |  2 +-
->>  hw/ppc/sam460ex.c             |  2 +-
->>  hw/i2c/trace-events           |  3 +++
->>  5 files changed, 26 insertions(+), 8 deletions(-)
->>
->> --
-> 
-> Is there any documentation related to this interface? If yes, provide
-> the link, and describe what is not clear to you. If not, then this
-> series should provide appropriate documentation.
+Greetings,
 
-It is described in "qom/object.h":
+As a part of the TCG Continous Benchmarking project for GSoC this
+year, detailed reports discussing different performance measurement
+methodologies and analysis results will be sent here on the mailing
+list.
 
-/**
- * object_get_canonical_path_component:
- *
- * Returns: The final component in the object's canonical path.  The
-canonical
- * path is the path within the composition tree starting from the root.
- * %NULL if the object doesn't have a parent (and thus a canonical path).
- */
-char *object_get_canonical_path_component(const Object *obj);
+The project's first report was published on the mailing list on the
+22nd of June:
+https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06692.html
 
-> 
-> In times we desperately need working "Continuous Integration", it
-> looks we instead spend our time on "Continuous Interface Guessing" -
-> for years.
-> 
-> Thanks,
-> Aleksandar
-> 
-> 
-> 
->> 2.21.3
->>
-> 
+A section in this report deals with measuring the top 25 executed
+functions when running QEMU. It includes two Python scripts that
+automatically perform this task.
+
+This series adds these two scripts to a new performance directory
+created under the scripts directory. It also adds a new
+"Miscellaneous" section to the end of the MAINTAINERS file with a
+"Performance Tools and Tests" subsection.
+
+Previous versions of the series:
+v3:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07856.html
+v2:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg06147.html
+v1:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg04868.html
+
+Best regards,
+Ahmed Karaman
+
+v3->v4:
+- Save all intermediate files generated by the scripts in the '/tmp'
+  directory instead of the current working directory of the user.
+- Use more descriptive variable names and table headers.
+
+v2->v3:
+- Use a clearer "Syntax" and "Example of usage" in the script comment
+  and commit message.
+- Manually specify the instructions required to run Perf instead of
+  relying on the stderr produced by Perf.
+- Use more descriptive variable names.
+
+v1->v2:
+- Add an empty line at the end of the MAINTAINERS file.
+- Move MAINTAINERS patch to be the last in the series.
+- Allow custom number of top functions to be specified.
+- Check for vallgrind and perf before executing the scripts.
+- Ensure sufficient permissions when running the topN_perf script.
+- Use subprocess instead of os.system
+- Use os.unlink() for deleting intermediate files.
+- Spread out the data extraction steps.
+- Enable execution permission for the scripts.
+- Add script example output in the commit message.
+
+
+Ahmed Karaman (3):
+  scripts/performance: Add topN_perf.py script
+  scripts/performance: Add topN_callgrind.py script
+  MAINTAINERS: Add 'Performance Tools and Tests'subsection
+
+ MAINTAINERS                           |   7 ++
+ scripts/performance/topN_callgrind.py | 140 ++++++++++++++++++++++++
+ scripts/performance/topN_perf.py      | 149 ++++++++++++++++++++++++++
+ 3 files changed, 296 insertions(+)
+ create mode 100755 scripts/performance/topN_callgrind.py
+ create mode 100755 scripts/performance/topN_perf.py
+
+-- 
+2.17.1
+
 
