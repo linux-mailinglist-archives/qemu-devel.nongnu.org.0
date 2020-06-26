@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B796620BC98
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:34:14 +0200 (CEST)
-Received: from localhost ([::1]:38054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC66720BC82
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:31:37 +0200 (CEST)
+Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowvF-0007GE-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57368)
+	id 1jowsi-0004lZ-LR
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jowVe-00010q-BA
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:07:46 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:43074)
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jowPY-0006up-0n
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:01:28 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jowVc-000195-Au
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:07:46 -0400
-Received: by mail-il1-x12b.google.com with SMTP id i18so9775228ilk.10
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 15:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fHMa76Fw/WMBY897SgzH8A3qPbZJUmFRNNyDj8mx+Gk=;
- b=I1PA7Do+0YDv3JLgOOUG2Uug1M5T6H0dYXexdAIiGKdXerEegGwHhWy9j6pqnAuq1s
- +F+oA27AgeZxMbKpJFlntkMZCzDJqbUMsii1hERCttGZzf1GsBJyeiMMtURITvNFik7J
- MNgC+u3bq3pxJJhw0uRAzLsbp+y0Oj+bf9Ajy8KU3d4TKV6FQu9VWarey79RAevptDpL
- XH8vZ9VccexnVEqcMVwQPP7p5asby42Dw61HkaPhhxKjISWL32Fo1hdIHjNzV+e1HJpl
- lmByoZ4w9lBxQCgJdsd0m0RJzqOkD6p5GnBZA5i+gqwKgX/zVsf7ftsDyfTT3faKI8p1
- F1EQ==
+ (Exim 4.90_1) (envelope-from <jrtc27@jrtc27.com>) id 1jowPW-0006Pq-6Z
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 18:01:27 -0400
+Received: by mail-wr1-x429.google.com with SMTP id g18so10890488wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 15:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jrtc27.com; s=gmail.jrtc27.user;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=EzAK0n4lFLbG8Hhr/FajhMXYeVPNN5eCNuDlmt0qm/k=;
+ b=l6GchirpxG4REXFbmYKuotlA/CY55m9YFybeO/e1xQqUkA+KhuDALXrg3v9Q9YRu5p
+ Vvq3x7VWpKrYNiBFi015AFed/UjiF7Vizg6eUpgUPnRHlr7f16JUJQAZ567LkiewIIEi
+ qsmaGJc5ZDdEK5pZRh5TZYDgW8YhUTcH3fmovq7EbX+U5jEkuoZiuITn+S8I2+YDeEeu
+ 1MtdutSGbdAVIMbf7WpiAHO9NofpCEjzpTJA7OiUQyep3sY4OX1ZoE4VDATdt96dTTig
+ 73N+VEr7khqR9b/YoiND449qa8jniFacsj8VMgrd+y+khZBMKgbYcpHnqeVj203qZL+h
+ epQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fHMa76Fw/WMBY897SgzH8A3qPbZJUmFRNNyDj8mx+Gk=;
- b=HXx0lrrt6BlXEbiWljSRSfENqCjALbYjVQoB+DBUsFfgIFTDts/o1TEjv9wxM+qk2y
- JFUC1uDFbnxb7vmyNmhVxbpvUlxYMKxWIahmwTMFOwqvcGuJEgLr/0CsBW+YCfR77cbe
- oKl7g8f7meOm5E6U1WeTs+XRl3xZcN6XleAZU6Sa17RPJQKMpHxNka5RdmXeBVOreRSv
- cIReYp50yFQ8VEk2wgjyFmxax0ew1JbFASzFt1RS2AJG5/RcwFpL823lNz7fNiWnoRJE
- egP+WZKD81j2MceMUE67GNwduZTwYk1LPYP9eFZP9z7uP7Rn76KDN/g61BUhYM5sq6H9
- jo4Q==
-X-Gm-Message-State: AOAM530GhaZjpDP1ISeX5G9nUVmuuFM0I5YWEogXwuySmGrDSrFsbuLl
- adLt5YXcZHFfLtM7bKqiVt8ymeLgSlbs0VwHhE4=
-X-Google-Smtp-Source: ABdhPJxbG32ZIZog3lZdvuta4zZy0iX3FtJnPqMKUVTDw+ixtBJg30geQKTELhSV3F37VJ2KJczgPSLmSgpGt3cEWJE=
-X-Received: by 2002:a92:1b4c:: with SMTP id b73mr5286969ilb.131.1593209262495; 
- Fri, 26 Jun 2020 15:07:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200626214410.3613258-1-alistair.francis@wdc.com>
- <20200626214410.3613258-3-alistair.francis@wdc.com>
- <76226AC1-ADD7-4A58-A44E-B69050DF4932@jrtc27.com>
-In-Reply-To: <76226AC1-ADD7-4A58-A44E-B69050DF4932@jrtc27.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 26 Jun 2020 14:58:04 -0700
-Message-ID: <CAKmqyKMTZ7Jt66VrPf-daKCZ4xNtuxZFEw9=kC5ytdkPpzO0xw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=EzAK0n4lFLbG8Hhr/FajhMXYeVPNN5eCNuDlmt0qm/k=;
+ b=DIC05XBhuAffuKng197WodMqENGw6ttz4uCapzRWiQgDkIKGB1UQJSOGCsOwCYd9nv
+ 9YH34xFuwIVCxzneIy+ghXRB/0d53o0I6PorGJtuVAGqvmla7wSkNvjZRm0EztfUXLaT
+ JjhbwyTmQmUa5oiBh8R5AfApwTz9ygV2RlN5ZUr+GdKuNtRcp733aGBLX8a2xU31WtTH
+ t8JH0BYQFWLMbIM9hRmS7D/daYfI0u1LcU/oCt5EdVlLL+fJqDz7W1f8FcxbgjuEWQeB
+ 8V9ifMWXQ66JBxRJuKOU0eStPlT//JDRkWG9JSxYiHdc9NrCj/02pvWWnjG4TSW238Y/
+ ymSg==
+X-Gm-Message-State: AOAM532NmDFq1F4Mk/ML7OrPCFLBlCWlzacxJey2nui/r+kBKz2pUE93
+ MjUar3eK4GNf+m6L5S93p9Bq9w==
+X-Google-Smtp-Source: ABdhPJyb4uH/YeaipnEpAhvHbX2HWYPSuAkPLejzW70qQQOAQi3roOkzTp7NGLN2sENXEkKstJlpIQ==
+X-Received: by 2002:a5d:4910:: with SMTP id x16mr5670707wrq.401.1593208882067; 
+ Fri, 26 Jun 2020 15:01:22 -0700 (PDT)
+Received: from [192.168.149.251] (trinity-students-nat.trin.cam.ac.uk.
+ [131.111.193.104])
+ by smtp.gmail.com with ESMTPSA id 125sm19956745wmc.23.2020.06.26.15.01.21
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 26 Jun 2020 15:01:21 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
 Subject: Re: [PULL 02/63] riscv: plic: Add a couple of mising
  sifive_plic_update calls
-To: Jessica Clarke <jrtc27@jrtc27.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <20200626214410.3613258-3-alistair.francis@wdc.com>
+Date: Fri, 26 Jun 2020 23:01:20 +0100
+Content-Transfer-Encoding: 7bit
+Message-Id: <76226AC1-ADD7-4A58-A44E-B69050DF4932@jrtc27.com>
+References: <20200626214410.3613258-1-alistair.francis@wdc.com>
+ <20200626214410.3613258-3-alistair.francis@wdc.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=jrtc27@jrtc27.com; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 26, 2020 at 3:01 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
->
-> On 26 Jun 2020, at 22:43, Alistair Francis <alistair.francis@wdc.com> wrote:
-> >
-> > From: Jessica Clarke <jrtc27@jrtc27.com>
-> >
-> > Claiming an interrupt and changing the source priority both potentially
-> > affect whether an interrupt is pending, thus we must re-compute xEIP.
-> > Note that we don't put the sifive_plic_update inside sifive_plic_claim
-> > so that the logging of a claim (and the resulting IRQ) happens before
-> > the state update, making the causal effect clear, and that we drop the
-> > explicit call to sifive_plic_print_state when claiming since
-> > sifive_plic_update already does that automatically at the end for us.
-> >
-> > This can result in both spurious interrupt storms if you fail to
-> > complete an IRQ before enabling interrupts (and no other actions occur
-> > that result in a call to sifive_plic_update), but also more importantly
-> > lost interrupts if a disabled interrupt is pending and then becomes
-> > enabled.
-> >
-> > Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Message-id: 20200618210649.22451-1-jrtc27@jrtc27.com
-> > Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
->
-> Something went a bit weird here.
+On 26 Jun 2020, at 22:43, Alistair Francis <alistair.francis@wdc.com> wrote:
+> 
+> From: Jessica Clarke <jrtc27@jrtc27.com>
+> 
+> Claiming an interrupt and changing the source priority both potentially
+> affect whether an interrupt is pending, thus we must re-compute xEIP.
+> Note that we don't put the sifive_plic_update inside sifive_plic_claim
+> so that the logging of a claim (and the resulting IRQ) happens before
+> the state update, making the causal effect clear, and that we drop the
+> explicit call to sifive_plic_print_state when claiming since
+> sifive_plic_update already does that automatically at the end for us.
+> 
+> This can result in both spurious interrupt storms if you fail to
+> complete an IRQ before enabling interrupts (and no other actions occur
+> that result in a call to sifive_plic_update), but also more importantly
+> lost interrupts if a disabled interrupt is pending and then becomes
+> enabled.
+> 
+> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-id: 20200618210649.22451-1-jrtc27@jrtc27.com
+> Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
 
-Argh! Patches seems to apply two Message-id tags and I forgot to
-remove them from these two.
+Something went a bit weird here.
 
-I don't think this is a blocker though. Let me know if you or Peter
-thinks it is and I can send a v2.
+Jess
 
-Alistair
-
->
-> Jess
->
 
