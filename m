@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A9A20BA89
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:48:36 +0200 (CEST)
-Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE74820BAA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:51:05 +0200 (CEST)
+Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jovH1-0007b5-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33990)
+	id 1jovJQ-0002sw-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAj-0007Ar-Oy
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:42:06 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40627
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAl-0007Bl-0P
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:42:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27441
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAe-0005sl-OT
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:42:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAf-0005t3-Mv
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:42:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593204120;
+ s=mimecast20190719; t=1593204121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgPXhXn50eUAAS9+s9eH+67pArlk591EX0K8bG86+G0=;
- b=TRew1HBvn0svzxCkd6hqjZv0FaNt242N8Q4okhYPCe/cvGKE9WcPs+XMERdoSTFFWir17e
- TFmqwt0hHFxNWhbMHaBnU7ngC1aaRastleCvB2ctvhKI1hDvbWI8ZJRPq+BdKnSTfKOV82
- bywFp28Er8gHs98jpiWkdnuFkGvGPyk=
+ bh=eVtsA0DHrcqkkn68fiQz+xgrExE5tHtuRy1db8hnKnQ=;
+ b=B2HfqQqJD4ohNjJSXThF3AR3XkW5MUovcdYrSq0NjqRrNaJ48JnGTBG6YW1n1U7t43CPX5
+ d+fhnAkJd7BzM1zU1QVteUpOE66uskEQih6bvBF2YpsAfd/QRwa2K4WnooSAETvXDKyWSy
+ aJA3rQHsYaVJhLXj0pQDEFSH9szx+Ro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-9IMUI3OnNkaFtm6faG1Kvg-1; Fri, 26 Jun 2020 16:41:58 -0400
-X-MC-Unique: 9IMUI3OnNkaFtm6faG1Kvg-1
+ us-mta-198-LL7J-eVNP4mhOPpLwlI1OA-1; Fri, 26 Jun 2020 16:41:59 -0400
+X-MC-Unique: LL7J-eVNP4mhOPpLwlI1OA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 787F7107ACCA;
- Fri, 26 Jun 2020 20:41:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C8C107ACCD;
+ Fri, 26 Jun 2020 20:41:58 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A338B19C58;
- Fri, 26 Jun 2020 20:41:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 998A019724;
+ Fri, 26 Jun 2020 20:41:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/16] python/machine.py: fix _popen access
-Date: Fri, 26 Jun 2020 16:41:30 -0400
-Message-Id: <20200626204133.14500-14-jsnow@redhat.com>
+Subject: [PATCH v4 14/16] python/qemu: make 'args' style arguments immutable
+Date: Fri, 26 Jun 2020 16:41:31 -0400
+Message-Id: <20200626204133.14500-15-jsnow@redhat.com>
 In-Reply-To: <20200626204133.14500-1-jsnow@redhat.com>
 References: <20200626204133.14500-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 16:23:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,80 +84,147 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As always, Optional[T] causes problems with unchecked access. Add a
-helper that asserts the pipe is present before we attempt to talk with
-it.
+These arguments don't need to be mutable and aren't really used as
+such. Clarify their types as immutable and adjust code to match where
+necessary.
+
+In general, It's probably best not to accept a user-defined mutable
+object and store it as internal object state unless there's a strong
+justification for doing so. Instead, try to use generic types as input
+with empty tuples as the default, and coerce to list where necessary.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- python/qemu/machine.py | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ python/qemu/machine.py | 30 +++++++++++++++++-------------
+ python/qemu/qtest.py   | 16 ++++++++++++----
+ 2 files changed, 29 insertions(+), 17 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index cb3db1f66a..c189fa4e28 100644
+index c189fa4e28..15e854e04f 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -114,7 +114,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
-         # Runstate
-         self._qemu_log_path = None
-         self._qemu_log_file = None
--        self._popen = None
-+        self._popen: Optional['subprocess.Popen[bytes]'] = None
-         self._events = []
+@@ -18,6 +18,7 @@
+ #
+ 
+ import errno
++from itertools import chain
+ import logging
+ import os
+ import subprocess
+@@ -30,6 +31,8 @@
+     Dict,
+     List,
+     Optional,
++    Sequence,
++    Tuple,
+     Type,
+ )
+ from types import TracebackType
+@@ -68,8 +71,12 @@ class QEMUMachine:
+         # vm is guaranteed to be shut down here
+     """
+ 
+-    def __init__(self, binary, args=None, wrapper=None, name=None,
+-                 test_dir="/var/tmp",
++    def __init__(self,
++                 binary: str,
++                 args: Sequence[str] = (),
++                 wrapper: Sequence[str] = (),
++                 name: Optional[str] = None,
++                 test_dir: str = "/var/tmp",
+                  monitor_address: Optional[SocketAddrT] = None,
+                  socket_scm_helper=None, sock_dir=None):
+         '''
+@@ -87,14 +94,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+         # Direct user configuration
+ 
+         self._binary = binary
+-
+-        if args is None:
+-            args = []
+-        # Copy mutable input: we will be modifying our copy
+         self._args = list(args)
+-
+-        if wrapper is None:
+-            wrapper = []
+         self._wrapper = wrapper
+ 
+         self._name = name or "qemu-%d" % os.getpid()
+@@ -119,7 +119,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
          self._iolog = None
          self._qmp_set = True   # Enable QMP monitor by default.
-@@ -227,6 +227,12 @@ def is_running(self):
-         """Returns true if the VM is running."""
-         return self._popen is not None and self._popen.poll() is None
+         self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
+-        self._qemu_full_args = None
++        self._qemu_full_args: Tuple[str, ...] = ()
+         self._temp_dir = None
+         self._launched = False
+         self._machine = None
+@@ -340,7 +340,7 @@ def launch(self):
+             raise QEMUMachineError('VM already launched')
  
-+    @property
-+    def _subp(self) -> 'subprocess.Popen[bytes]':
-+        if self._popen is None:
-+            raise QEMUMachineError('Subprocess pipe not present')
-+        return self._popen
-+
-     def exitcode(self):
-         """Returns the exit code if possible, or None."""
-         if self._popen is None:
-@@ -237,7 +243,7 @@ def get_pid(self):
-         """Returns the PID of the running process, or None."""
-         if not self.is_running():
-             return None
--        return self._popen.pid
-+        return self._subp.pid
- 
-     def _load_io_log(self):
-         if self._qemu_log_path is not None:
-@@ -369,7 +375,7 @@ def wait(self):
+         self._iolog = None
+-        self._qemu_full_args = None
++        self._qemu_full_args = ()
+         try:
+             self._launch()
+             self._launched = True
+@@ -360,8 +360,12 @@ def _launch(self):
          """
-         Wait for the VM to power off
-         """
--        self._popen.wait()
-+        self._subp.wait()
-         if self._qmp_connection:
-             self._qmp.close()
-         self._post_shutdown()
-@@ -381,8 +387,8 @@ def _hard_shutdown(self) -> None:
-         if not self.is_running():
-             return
+         devnull = open(os.path.devnull, 'rb')
+         self._pre_launch()
+-        self._qemu_full_args = (self._wrapper + [self._binary] +
+-                                self._base_args + self._args)
++        self._qemu_full_args = tuple(
++            chain(self._wrapper,
++                  [self._binary],
++                  self._base_args,
++                  self._args)
++        )
+         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
+         self._popen = subprocess.Popen(self._qemu_full_args,
+                                        stdin=devnull,
+diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
+index 05c63a1d58..ae4661d4d3 100644
+--- a/python/qemu/qtest.py
++++ b/python/qemu/qtest.py
+@@ -22,6 +22,7 @@
+ from typing import (
+     List,
+     Optional,
++    Sequence,
+     TextIO,
+ )
  
--        self._popen.kill()
--        self._popen.wait(timeout=60)
-+        self._subp.kill()
-+        self._subp.wait(timeout=60)
+@@ -103,8 +104,13 @@ class QEMUQtestMachine(QEMUMachine):
+     A QEMU VM, with a qtest socket available.
+     """
  
-     def _soft_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
-         """
-@@ -407,7 +413,7 @@ def _soft_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
-                         raise
-             self._qmp.close()
+-    def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
+-                 socket_scm_helper=None, sock_dir=None):
++    def __init__(self,
++                 binary: str,
++                 args: Sequence[str] = (),
++                 name: Optional[str] = None,
++                 test_dir: str = "/var/tmp",
++                 socket_scm_helper: Optional[str] = None,
++                 sock_dir: Optional[str] = None):
+         if name is None:
+             name = "qemu-%d" % os.getpid()
+         if sock_dir is None:
+@@ -118,8 +124,10 @@ def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
+     @property
+     def _base_args(self) -> List[str]:
+         args = super()._base_args
+-        args.extend(['-qtest', 'unix:path=' + self._qtest_path,
+-                     '-accel', 'qtest'])
++        args.extend([
++            '-qtest', f"unix:path={self._qtest_path}",
++            '-accel', 'qtest'
++        ])
+         return args
  
--        self._popen.wait(timeout=timeout)
-+        self._subp.wait(timeout=timeout)
- 
-     def _do_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
-         """
+     def _pre_launch(self):
 -- 
 2.21.3
 
