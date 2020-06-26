@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0B820B524
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:45:00 +0200 (CEST)
-Received: from localhost ([::1]:60174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8E820B537
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:48:40 +0200 (CEST)
+Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqXD-0005D5-On
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:44:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
+	id 1joqal-0001cx-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4q-0003lG-Jk
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:40 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45353)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1joqQP-0001iZ-Dd
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:37:57 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4n-0006nV-MO
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:40 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s10so9825365wrw.12
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:15:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1joqQN-0007m9-KT
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:37:57 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id cm23so5099775pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=uTu7OHovsUuRycqX60tPTOf1KxCYgUCqmiTf0JQrhhE=;
- b=colkzIorq2oOsFQbS+gxoXgnDw0KuD3gCQI5SgWoj3LD1r6nBUFjLf4YdKsjnsS6YW
- JlE4+0EgreKWXcimb1LN3CFwOBFnIbCW99+6ByD18f6IG/yyv8CZsTHPCEq8cFwpI9V+
- dMeZ1C0RuB5i7sNwRJyQRzm5D3h84gqWMyDhfc5SzJRRAUICufJO1vDPi3FeqSHqqjac
- um3+U6xDcTANHvtBhk59KuiPsHeTTzWT/rT6XDREqETaSoLc/yQjW68btc6e20hmVjvh
- JcxKpv8izdoAOyBa5oqM2FQW2D9I/V1rmc66dtUkNDsuXhvmUDxnF01VvGZ/VGTuhqfZ
- 2Afw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Eiz+0GIH3tsZSp0WdMCWIyldsATrwS/pF9mZlVSR5ok=;
+ b=VHlFSAMwdTCzu9zIzmcXRfKrRfWh5lKpSI72VIfIaxOl5DrWo0nNAIBHDpPCqQp6IO
+ VfW6tGdUk74Awh0xVXqjkqUR52zvIK3vb2mWDszcuwPPathl4g8oyiq24ruUZ2KC9h42
+ rtLszQIdTLD6dx2FgLuclazXWKF6YUrv0ZsLJbsBLET+cArFLTns6OgzC1PkAj5OJNjL
+ zbfGpUsdO71wFDNI/ov9SUHTJo1LxYFt9BXsk0HMXQHEVGl2sNex3swFyw7owlB6B6S5
+ 054SijRvYAKMOovdpsXh/PQuGDAPhWxsdK618ABPiqEGnIdFKY5ALBW6HWAyDKsuz4Jd
+ humw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uTu7OHovsUuRycqX60tPTOf1KxCYgUCqmiTf0JQrhhE=;
- b=JA+IIIgMdAq0lYBSxSMZ8cXUfCU2P5EXoG/cGZ1kHT/DT43nwCIbAP1loewQByPR5t
- gqrNtVRSlNwSmuP7alydZolnUcYtla/Hser9CQyFxWTv6Z9JG4L2809VAepDldT1fPZ+
- NluXib6jZ4Nb01Zxbu4EWgC//DeVUbOXHY1Np9jaxhBM2dlg9gmuf/boYYZkhxQZK6Q7
- HmDyOfG+KPZtbiUivGGLq8UoBSNO/UBBh99Jazr1MK7uDGWxcoM6lCGmQE5WPzpmMU1I
- 68iNBGO4XaToS0AVVovlIrox2HpKwaeLNX30SJKy+XURM+w4MRAOYJaM9SeRMDDsxZrl
- 2gOw==
-X-Gm-Message-State: AOAM5323VFEG+Z2j8jla3BM58GWAuuVBsSQsCBwp/7so7qwDKXw+zlJm
- zzXe6tpzMFWOyGjGCu80zTLLiGJK0ZeQcA==
-X-Google-Smtp-Source: ABdhPJzP9Wz11R466OpgQIj+Twe84ndMwp38eWxzz+tZBSdy3rGUaD7D+rkBFx6M5GxEy1NATLu0GA==
-X-Received: by 2002:adf:f885:: with SMTP id u5mr4225800wrp.402.1593184536129; 
- Fri, 26 Jun 2020 08:15:36 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.15.34
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:15:35 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 57/57] target/arm: Enable MTE
-Date: Fri, 26 Jun 2020 16:14:24 +0100
-Message-Id: <20200626151424.30117-58-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
-References: <20200626151424.30117-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Eiz+0GIH3tsZSp0WdMCWIyldsATrwS/pF9mZlVSR5ok=;
+ b=Es2wAJXjeKrnwaOmjy2XMZhwWdURkBK+giEl3+DFS44jg/OvwypNbuAs46XHkuVfGW
+ GYExBf8QTkokH7GYM3eDYbbYoupO2+roX+bz9dtdtLM3UN3LGHzNbSkyNG20CZk2Eqi6
+ +R0t/X/1vQWihJqSkOD5iGbiVS7/xsClp+Au3iDr/48HLGDlhVqXwph7y56ZejcY9t8v
+ u0czZzsYTOCifn3mahNsuv67a9md036qNOn7ZchV7gLQkWGmhSnmn0KBxx+UOn+SfEaJ
+ VzyZjHQprYKZqPUajfVmwO5RFYKjmVUnC0piE6SVHJLLo+we7KZVsoumQRYVE3dreplS
+ oLjA==
+X-Gm-Message-State: AOAM533hWeHw6vFK3dxCg7iBFdFmo03O43ivq4TIFK0LMMU5B7oMBd8H
+ D4RUHEGVVw4WXNUn2SPHR8S8YQ==
+X-Google-Smtp-Source: ABdhPJxl6rOu+gPTwnzGhvLUhqPjcElNMpVciBvOig896C26rh1U5UG/l+L6jcAp8E1IgTZqrETcCQ==
+X-Received: by 2002:a17:902:ff18:: with SMTP id
+ f24mr3067144plj.118.1593185873996; 
+ Fri, 26 Jun 2020 08:37:53 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id m3sm18607983pfk.171.2020.06.26.08.37.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jun 2020 08:37:53 -0700 (PDT)
+Subject: Re: [PATCH v5] tcg: Sanitize shift constants on ppc64le so that shift
+ operations with large constants don't generate invalid instructions.
+To: agrecascino123@gmail.com, qemu-devel@nongnu.org
+References: <20200607211100.22858-1-agrecascino123@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <45a69aac-c803-950a-ee5d-e087f791a41e@linaro.org>
+Date: Fri, 26 Jun 2020 08:37:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+In-Reply-To: <20200607211100.22858-1-agrecascino123@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,40 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Catherine A. Frederick" <chocola@animebitch.es>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 6/7/20 2:10 PM, agrecascino123@gmail.com wrote:
+> From: "Catherine A. Frederick" <chocola@animebitch.es>
+> 
+> Signed-off-by: Catherine A. Frederick <chocola@animebitch.es>
+> ---
+> Okay, I removed the bad "fix" on sar_i64, and the asserts in the various functions. 
+> Crossing my fingers here.
+> 
+>  tcg/ppc/tcg-target.inc.c | 34 +++++++++++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 5 deletions(-)
 
-We now implement all of the components of MTE, without actually
-supporting any tagged memory.  All MTE instructions will work,
-trivially, so we can enable support.
+Sorry for losing track of this.  Now queued to tcg-next.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200626033144.790098-46-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu64.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index a0c1d8894b7..a2f4733eed6 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -654,6 +654,11 @@ static void aarch64_max_initfn(Object *obj)
- 
-         t = cpu->isar.id_aa64pfr1;
-         t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
-+        /*
-+         * Begin with full support for MTE; will be downgraded to MTE=1
-+         * during realize if the board provides no tag memory.
-+         */
-+        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-         cpu->isar.id_aa64pfr1 = t;
- 
-         t = cpu->isar.id_aa64mmfr1;
--- 
-2.20.1
-
+r~
 
