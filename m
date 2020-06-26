@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D2320AB05
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:56:11 +0200 (CEST)
-Received: from localhost ([::1]:42384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A11D20AAFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:54:13 +0200 (CEST)
+Received: from localhost ([::1]:33328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofTG-00083s-Is
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43076)
+	id 1jofRM-0004Lh-Jk
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:54:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6h-0001cr-LS
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:51 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46456)
+ id 1jof9l-0008Gj-JE
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:36:01 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof6g-0002A2-1c
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:51 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b16so4033639pfi.13
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:49 -0700 (PDT)
+ id 1jof9j-0003w0-0j
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:36:01 -0400
+Received: by mail-pg1-x543.google.com with SMTP id l63so4337065pge.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e+nPcVW2JQX4kQO3F4ekVFtgJoGprqMYmF1Q9wwLqRs=;
- b=yVStqs2gip2T/sKpXtnwfx5Y0pzw4/JkymozLTUK7lRWpJhkR63YdRF4y7jSw8Oj9t
- FHXxtv+pd+YF2fAb981Wu90JmEfSFw4Xlvga+4PveTio+rsRsrnRpdbTrabyrr8lkFnk
- 13sL0AOF2S3cWx5ZQxQi4FM2rk+XvzfvuaCqUnPSDh80pFdnEPWuOXBp9wg3YOaEYp9p
- HWB0S2m7d07vQMTbyvnisoN9YFy8DKVN21pQ241mTTeiHeyplVhF6Q4yqLNvSEhvinoU
- 7h80SCrRdHO9FHm1bLfrVXdxhrD7ii3iInB/U2w2YvxkCresu3/Clu+OQ29d19OaR2Lo
- 6koQ==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=S5hTNrTg53V+kvgMrMI5iFhgsZe445N0WGrm/PvSJ98=;
+ b=y/SNvrbD3dXtvEkLgIpgDJQ8pITtgayPjeuk5CTFoNbcT3CFf8mnYKRQlxXv/ztUa5
+ zPc5XbO6YT7lViWaWIIBNnLssTJ2tByKzfIC4pCRoguHnsMsA9FHaUSwwO/LSpkgI8hs
+ W1Qv3SbdL3IOk7kVfV3BQgSgDa4pwGTYhHOtV9F5i9CQhEGhVNVDgQe8ykgKjaVW7zIr
+ ilYDpc5ZnX+KQTatYv1aw0aFEq+OpkPzIv0WzfwowvCl7muIcrx+AYfsXaY/XVFhls2a
+ kOpAahrSy2hs/e3+btL9nA0KZHl1TlVhJagges6RLHt8FblpoZVl2i8G59Ihvi84sV03
+ g/Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=e+nPcVW2JQX4kQO3F4ekVFtgJoGprqMYmF1Q9wwLqRs=;
- b=ttX30EIeewOPSYEPOBwip114TEbSDN7azLpfuT/xQzithQ6FU0oEXnvzzXiC+84d+V
- YZCF04WGlsoXGTr7UraL9eYRGDVqAEM4JrU60kFuDk1p+lA2g0Qy89O8kTZqwoHJgC+I
- K14YEdJv3pqRICAUDtl/HRPq56NgMtMdMToCXupDXXLztSCd9rD4u5dMGyNTB1nIn2sa
- lgQKWOkIGYDKVRNCWinVxyt4Ad+ZGNdu7+DoiLqUwmEW+PjVDP/CQ3bPDbLbeNyMZzHc
- u5V4cMHKzgB8kCqrtWScu3IXuKuOnPXbAGYOp0TMXp1+Ks/ASXRQzUZTOBj0hWtiTuVV
- oWpA==
-X-Gm-Message-State: AOAM533+3WpxLZi8iLSm0D0urLdnZQVZ8hti0FklVo+Q84IHOpVFXn2Z
- uS0kVka+9+eNBu2q6M/7+9hTnQSt1xM=
-X-Google-Smtp-Source: ABdhPJzfktmToyFZFefZf/DkWV8rOlsrXWFZBgl+kVDitHzsaoXjk6U69eojtzCvVuuy73Lu7YwD/g==
-X-Received: by 2002:a63:af0f:: with SMTP id w15mr897900pge.363.1593142368246; 
- Thu, 25 Jun 2020 20:32:48 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 20:32:47 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=S5hTNrTg53V+kvgMrMI5iFhgsZe445N0WGrm/PvSJ98=;
+ b=MxNCKe9ZAaPvSyMLKJ1l3xJqhpn4ArwXkSHOAguZC2AzTT36Iexh6t3vX8GBtH3k0p
+ b3oxbuK5OL9i+w6IjsBkRg70q1g++hR9KZqgfe2X+OHJOVQUnKxDJBJiCz+hKfo5IjT+
+ e5YGmVxg24/23wkTRw9Z4G2TrCH2RXXuQCUVtGEPDdbK4tD9cu10zMTzB6lYSkpkjdaj
+ 1uL2I3KnoVtRhhfEanlGdG0s0ZzFrvRs+nNrYQE92Bgl/RlshHJBscsWmgpdaYu5N+Z4
+ c5qJtB55kf1h7dEZuO7OhM5vPuVCY3V0MX8dieBmDx0bsiD1yUb8ZbNxswpr99E1Ck+y
+ UPNw==
+X-Gm-Message-State: AOAM530dGT17o61Vj/u4OLHDidYQq3lm4Ws18GRGLVdWpz9ussD2Cx0E
+ tgbZSuWlEu75biF87qiYM3dB2Q==
+X-Google-Smtp-Source: ABdhPJzUArUa/eD1DNlfQ8+lJ04XX3pCwbtpZjwKye8glGdauyBz0IZRZ6FEbV032IBEP2MIKavUTQ==
+X-Received: by 2002:a05:6a00:15c7:: with SMTP id
+ o7mr820935pfu.51.1593142557733; 
+ Thu, 25 Jun 2020 20:35:57 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id j13sm9892374pje.25.2020.06.25.20.35.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Jun 2020 20:35:57 -0700 (PDT)
+Subject: Re: [PATCH v9 00/46] target/arm: Implement ARMv8.5-MemTag, system mode
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 46/46] target/arm: Add arm,armv8.5-memtag to dtb
-Date: Thu, 25 Jun 2020 20:31:44 -0700
-Message-Id: <20200626033144.790098-47-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
 References: <20200626033144.790098-1-richard.henderson@linaro.org>
+Message-ID: <64b21a5f-b7bc-8031-95a5-fa03c2800eda@linaro.org>
+Date: Thu, 25 Jun 2020 20:35:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,111 +94,23 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mte-v4 linux arm kernel development branch requires these tags.
-It is still an open question as to whether they will be required
-for the final commit.
+On 6/25/20 8:30 PM, Richard Henderson wrote:
+> Version 9 incorporates some review:
+> 
+>   * Adjust some commentary.
+>   * Added an assert for tbi in aarch64_tr_init_disas_context
+>   * Split arm,armv8.5-memtag to a new, final, patch.  We might
+>     just leave this one out of qemu mainline until the kernel
+>     patch set that requires it gets merged.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v9: Split from patch creating the tag memory; sort to the end
-    since it's not yet certain that it's a requirement.
----
- include/hw/arm/boot.h |  3 +++
- hw/arm/boot.c         | 12 +++++++++---
- hw/arm/virt.c         |  2 ++
- 3 files changed, 14 insertions(+), 3 deletions(-)
+Meant to say, the following patches lack review:
 
-diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-index ce2b48b88b..605446afe7 100644
---- a/include/hw/arm/boot.h
-+++ b/include/hw/arm/boot.h
-@@ -116,6 +116,9 @@ struct arm_boot_info {
-      */
-     bool secure_board_setup;
- 
-+    /* If set, all ram objects have tag memory objects. */
-+    bool tag_memory;
-+
-     arm_endianness endianness;
- };
- 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index fef4072db1..4f96ce42fe 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -427,7 +427,7 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
- 
- static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-                                uint32_t scells, hwaddr mem_len,
--                               int numa_node_id)
-+                               int numa_node_id, bool tag_memory)
- {
-     char *nodename;
-     int ret;
-@@ -446,6 +446,10 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-         ret = qemu_fdt_setprop_cell(fdt, nodename,
-                                     "numa-node-id", numa_node_id);
-     }
-+    if (tag_memory) {
-+        qemu_fdt_setprop(fdt, nodename, "arm,armv8.5-memtag", "", 0);
-+    }
-+
- out:
-     g_free(nodename);
-     return ret;
-@@ -534,6 +538,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     hwaddr mem_base, mem_len;
-     char **node_path;
-     Error *err = NULL;
-+    bool tag_memory;
- 
-     if (binfo->dtb_filename) {
-         char *filename;
-@@ -599,12 +604,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     }
-     g_strfreev(node_path);
- 
-+    tag_memory = binfo->tag_memory;
-     if (ms->numa_state != NULL && ms->numa_state->num_nodes > 0) {
-         mem_base = binfo->loader_start;
-         for (i = 0; i < ms->numa_state->num_nodes; i++) {
-             mem_len = ms->numa_state->nodes[i].node_mem;
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
--                                     scells, mem_len, i);
-+                                     scells, mem_len, i, tag_memory);
-             if (rc < 0) {
-                 fprintf(stderr, "couldn't add /memory@%"PRIx64" node\n",
-                         mem_base);
-@@ -615,7 +621,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-         }
-     } else {
-         rc = fdt_add_memory_node(fdt, acells, binfo->loader_start,
--                                 scells, binfo->ram_size, -1);
-+                                 scells, binfo->ram_size, -1, tag_memory);
-         if (rc < 0) {
-             fprintf(stderr, "couldn't add /memory@%"PRIx64" node\n",
-                     binfo->loader_start);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 22ce6d6199..8a4ddf13f7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1422,6 +1422,7 @@ static void create_secure_ram(VirtMachineState *vms,
- 
-     if (secure_tag_sysmem) {
-         create_tag_ram(secure_tag_sysmem, base, size, "mach-virt.secure-tag");
-+        qemu_fdt_setprop(vms->fdt, nodename, "arm,armv8.5-memtag", "", 0);
-     }
- 
-     g_free(nodename);
-@@ -1842,6 +1843,7 @@ static void machvirt_init(MachineState *machine)
-          */
-         if (object_property_find(cpuobj, "tag-memory", NULL)) {
-             if (!tag_sysmem) {
-+                vms->bootinfo.tag_memory = true;
-                 tag_sysmem = g_new(MemoryRegion, 1);
-                 memory_region_init(tag_sysmem, OBJECT(machine),
-                                    "tag-memory", UINT64_MAX / 32);
--- 
-2.25.1
+43-target-arm-Create-tagged-ram-when-MTE-is-enabled.patch
+44-target-arm-Add-allocation-tag-storage-for-system-.patch
+46-target-arm-Add-arm-armv8.5-memtag-to-dtb.patch
 
+That last one of course is new.
+
+
+r~
 
