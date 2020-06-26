@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF0920B52F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:46:38 +0200 (CEST)
-Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E67520B531
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:47:38 +0200 (CEST)
+Received: from localhost ([::1]:40890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqYn-0007DQ-Q2
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
+	id 1joqZl-0000et-4m
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1joqX7-0005hD-M4
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:44:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36191
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1joqYh-0007ym-0E
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:46:31 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59907
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1joqX5-0005R6-Uv
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:44:53 -0400
+ id 1joqYe-0006br-Lz
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:46:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593186290;
+ s=mimecast20190719; t=1593186387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ApeWwpVLFNQe8Iic/qyyIhLUyYMG+sllIleIM1iPLQw=;
- b=i0NsNSoY0Qmq6Pa4DKa5cD47BCpu37sobc5ZJTD2LtbLxOZb2+j8HW3YOE3G+hwu5X23qM
- VNfwT/aWd7mhhC/DlgwWgmyf9h4bBs2ThAbqbSDE3eAz0LUYnVVXP96TDFoSy4uSwue632
- HslafrpW+En7DR3YYvvTGJWg7hIa/HA=
+ bh=ZVClUSSwocLX08CzAt+OlHSvE9IJQxOD1nAt9dC0Hic=;
+ b=YoUoH1RSQBYK4YLZEGNxIsCD17n8eLN4t2GHMK2nBM3DajN26YkApVST6ISZQWWrbkHXPz
+ rk16D3GtCrQRbyS9ezqBvsipLjN7rCGkXIiRZ2nJVNMyWOaJ8wSbSIHmJcwtfSxE2FUTDD
+ Gvrfl8iatbwrM2Bltbv7hD4mN/6Gs/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-FMoU3uCpN8uDOeFBUo2Ghw-1; Fri, 26 Jun 2020 11:44:47 -0400
-X-MC-Unique: FMoU3uCpN8uDOeFBUo2Ghw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-5-j0Yyh8KaNbivJRIPGO0LZw-1; Fri, 26 Jun 2020 11:46:25 -0400
+X-MC-Unique: j0Yyh8KaNbivJRIPGO0LZw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72B10100A624;
- Fri, 26 Jun 2020 15:44:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5899A8015FD;
+ Fri, 26 Jun 2020 15:46:24 +0000 (UTC)
 Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3940660CD1;
- Fri, 26 Jun 2020 15:44:42 +0000 (UTC)
-Date: Fri, 26 Jun 2020 16:44:41 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E34BE71688;
+ Fri, 26 Jun 2020 15:46:23 +0000 (UTC)
+Date: Fri, 26 Jun 2020 16:46:22 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [RFC PATCH 3/3] fuzz: Add callbacks for dma-access functions
-Message-ID: <20200626154441.GB316372@stefanha-x1.localdomain>
-References: <20200611055651.13784-1-alxndr@bu.edu>
- <20200611055651.13784-4-alxndr@bu.edu>
- <20200623141456.GK36568@stefanha-x1.localdomain>
- <20200623145500.jtdb5skwj5htgfcz@mozz.bu.edu>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [PATCH v9 0/5] vhost-user block device backend implementation
+Message-ID: <20200626154622.GC316372@stefanha-x1.localdomain>
+References: <20200614183907.514282-1-coiby.xu@gmail.com>
+ <20200619120746.GA2422025@stefanha-x1.localdomain>
+ <20200625124656.ddca4ofgfhdgoerj@Rk>
 MIME-Version: 1.0
-In-Reply-To: <20200623145500.jtdb5skwj5htgfcz@mozz.bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200625124656.ddca4ofgfhdgoerj@Rk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+g7M9IMkV8truYOl"
+ protocol="application/pgp-signature"; boundary="2/5bycvrmDh4d1IB"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 02:19:36
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,105 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+g7M9IMkV8truYOl
+--2/5bycvrmDh4d1IB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 23, 2020 at 10:55:00AM -0400, Alexander Bulekov wrote:
-> On 200623 1514, Stefan Hajnoczi wrote:
-> > On Thu, Jun 11, 2020 at 01:56:51AM -0400, Alexander Bulekov wrote:
-> > > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > > ---
-> > >  exec.c                                | 17 ++++++++++++++++-
-> > >  include/exec/memory.h                 |  8 ++++++++
-> > >  include/exec/memory_ldst_cached.inc.h |  9 +++++++++
-> > >  include/sysemu/dma.h                  |  5 ++++-
-> > >  memory_ldst.inc.c                     | 12 ++++++++++++
-> > >  5 files changed, 49 insertions(+), 2 deletions(-)
+On Thu, Jun 25, 2020 at 08:46:56PM +0800, Coiby Xu wrote:
+> On Fri, Jun 19, 2020 at 01:07:46PM +0100, Stefan Hajnoczi wrote:
+> > On Mon, Jun 15, 2020 at 02:39:02AM +0800, Coiby Xu wrote:
+> > > v9
+> > >  - move logical block size check function to a utility function
+> > >  - fix issues regarding license, coding style, memory deallocation, e=
+tc.
 > >=20
-> > Please rename dma_read_cb() to fuzz_dma_read_cb() so the purpose of the
-> > function is clear.
+> > I have replied with patches that you can consider squashing into your
+> > series. I was testing this patch series and decided it was easier to
+> > send code than to go back and write review comments since I was already
+> > on a git branch.
 > >=20
-> > The ifdefs can be avoided by defining an empty function when CONFIG_FUZ=
-Z
-> > is undefined. In a header file:
+> > My patches can be combined into your original patches using "git rebase
+> > -i" and the "fixup" or "squash" directive.
 > >=20
-> >   #ifdef CONFIG_FUZZ
-> >   void fuzz_dma_read_cb(size_t addr, size_t len);
-> >   #else
-> >   static inline void fuzz_dma_read_cb(size_t addr, size_t len)
-> >   {
-> >       /* Do nothing */
-> >   }
-> >   #endif
+> > Please add my Signed-off-by: line to affected patches when squashing
+> > patches so that the git log records that I have confirmed that I have
+> > permission to contribute this code.
 > >=20
-> > Now the compiler should eliminate the deadcode:
-> >=20
-> >   #ifdef CONFIG_FUZZ
-> >   if (as->root =3D=3D get_system_memory()) {
-> >       dma_read_cb(addr, len);
-> >   }
-> >   #endif
-> >=20
-> > becomes:
-> >=20
-> >   if (as->root =3D=3D get_system_memory()) {
-> >       fuzz_dma_read_cb(addr, len);
-> >   }
-> >=20
-> > Hopefully gcc and clang will eliminate this and emit no instructions
-> > when CONFIG_FUZZ is undefined. If not, you can simply pass in 'as' and
-> > 'is_write' too:
-> >=20
-> >   void fuzz_dma_read_cb(AddressSpace *as, bool is_write, size_t addr, s=
-ize_t len)
-> >=20
-> > This way the conditional is moved inside fuzz_dma_read_cb() and deadcod=
-e
-> > elimination becomes trivial for the compiler:
-> >=20
-> >   fuzz_read_cb(as, is_write, addr, len);
+> > If you have questions about any of the patches, please let me know.
 >=20
-> Do you think it would be better to have a "trace_dma_read" or
-> "trace_device_read_from_guest_memory"? I haven't looked under the hood
-> too much for the tracepoint api, but these would just be standard
-> tracepoints(disabled for the majority of builds). When we build the
-> fuzzer, we could compile with --wrap=3D"trace_dma_read" and implement
-> a __wrap_trace_dma_read in the generic fuzzer. I looked at the symbols
-> for a qemu build and it looks like trace_* are actual functions, rather
-> than preprocessor magic, so maybe this could work?
+> Besides your Signed-off-by: line, shouldn't I also add copyright info to
+> the affected files as follows?
+>=20
+>  * Copyright (c) 2020 Coiby Xu <coiby.xu@gmail.com>
+>  *
+>  * Copyright (c) 2020 Red Hat, Inc., Stefan Hajnoczi <stefanha@redhat.com=
+>
 
-I think plain old functions are fine for what you are doing.
+The following would be good:
 
-QEMU's tracing does not provide callbacks that are invoked when a trace
-event is emitted. The fuzzing code wouldn't be able to hook
-trace_device_read_from_guest_memory, you could only analyze a trace
-after the fact.
+ * Copyright (c) 2020 Red Hat, Inc.
 
+Thanks,
 Stefan
 
---+g7M9IMkV8truYOl
+--2/5bycvrmDh4d1IB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl72F+kACgkQnKSrs4Gr
-c8jXmQf/VyMnAsIWlN7URKEJuILuHA6ZVPnHahzSM7ZFOw3dDDfc7CYYDrjkh8+2
-1UpXMRMlzKa8wS9HgaNJQi3MpHmMmzRPiV+RAogyTiLL0jph0/eVHt4cGORIUq2+
-/wmWGx9QcQkcBGbEE4eaKaWH9oj3uqCUf0OjAe4JIh6sjLC2Ib1DYB3/wlhzQ9FB
-iUzdL2mDrRXms9r6iTlDlr/TnvHQFUFStASxiqARg+xrZ2+HhyJGHPgyncq6dZUJ
-lRVOALtFdBHTHxCuoKV099eUtXH5PZPskfV0v7sVgBjpNTjZGser7dVhZNC8nKcE
-ztxdETCIpfiD0Hyn6ADeE/gAYZRPmA==
-=48ik
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl72GE4ACgkQnKSrs4Gr
+c8jhNAf+Ka7gRUT2JVdkP99vayZYD4tMVVRKSxi8QBOWzUvbLR7YFecmfENyNZiN
+YBvTWdeDovy4LanMH7jX3ow3BAWFJZNPscwa5Z+NRrkufvQujRWBb20FtuyTGRw5
+PqRmQ3RWtHte/jjsP49r0QoWxyv8R1HjF00zG9KzO0Pn9OBWfk5eHbw5X04SN83h
+IJXtmP0shV9TeHndEhO2TFKd27bDk2RAv+7kMTwVCw5MwJQtnswW8LK/a9jYxAnL
+mPVlbbBwzoPLLOWw/bjjG+Q3GYScZIjzus6TQ1PixvW5ZTuDQMYvB1U099Fx6mdu
+SwgCJvEuvwUGFB/3xtNdHzq39w/XsA==
+=NElB
 -----END PGP SIGNATURE-----
 
---+g7M9IMkV8truYOl--
+--2/5bycvrmDh4d1IB--
 
 
