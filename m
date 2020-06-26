@@ -2,106 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B57820BA6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:40:56 +0200 (CEST)
-Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1220BA92
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:50:02 +0200 (CEST)
+Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jov9b-0005t8-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33108)
+	id 1jovIP-0001BW-BW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jov8b-0005N9-Hf
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:39:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42632
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAY-0006uV-6c
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:54 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39458
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jov8Z-0005Gb-Lc
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:39:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jovAW-0005pu-Cl
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:41:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593203990;
+ s=mimecast20190719; t=1593204111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dP0LPqYzlMZsd31BMJlYdRUVInYnXXsz85jg1tfaPu4=;
- b=DMgqV3aj7OZQnM3F8h/AE4G6P2c5mA6nLoGxJdeotBuNZA7sCrpwf73S/SC0ehiHxiWuHp
- hTQeOFZMyZAYSuY/rn9oV4PUbjogps4+W+ny/WbEqah9tcIBFtsiJp/AZUI1bbWVUZGcjc
- lDQgFCSwlI5+QuMHyobNOUWZk2bD3Kg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-E1oAu6WlNhacV_3eXC-Rvw-1; Fri, 26 Jun 2020 16:39:49 -0400
-X-MC-Unique: E1oAu6WlNhacV_3eXC-Rvw-1
-Received: by mail-wr1-f69.google.com with SMTP id c18so4621336wrp.15
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 13:39:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=dP0LPqYzlMZsd31BMJlYdRUVInYnXXsz85jg1tfaPu4=;
- b=YCskOCdugb9LUrsOeudBsVM5hMSS/Zyb2YIPRmqA97hJDCsfYrTSl4+qWMHJAGx4Fj
- HkmAggiZSkag85WljYhaOPZzZZQQEeFj6v99n9LIdo4u20Eqdo/30t8r5R27cmajZKBc
- D+kBNdKlKfjt0UAqYmJO5Z0uZLeEtZT19tk7DUbNSr8Cs6Wg+XJRYNhgjOht86+utf8H
- w23TYCkpAav+VEFAtg9AGsDTFb07ctOPoRfWpXR7/8s6FSny6Ap3qFlcsCDVKfJcoJ93
- HG/M2nkM2ZsysyW2DoEQicZpidZT92y7C4BnNp9zvRyhZdLkNhgIY+K406kYmwS8YOd+
- UpdA==
-X-Gm-Message-State: AOAM533B2ja4AViR5OZUmTlEvuu0yTm6SmE7sVUuDZe0dzCMHWj2B8yj
- RuAfv/gQJlB78u68SHy5cNPZBdW5WUUh+TWpZ7sT4AiZh1IjVsDVEJ9oLpAfgurXkbvYrgjj4Oz
- mdPpoL9HEIh3lCL4=
-X-Received: by 2002:a1c:5603:: with SMTP id k3mr5363763wmb.116.1593203987201; 
- Fri, 26 Jun 2020 13:39:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8wGl36eS/AL+xm49GzkxZen/m3Ld3mq2C0ZPVnzO2Ig0MVdp73VOgCf45/a0m2QzCCt2vgQ==
-X-Received: by 2002:a1c:5603:: with SMTP id k3mr5363657wmb.116.1593203985159; 
- Fri, 26 Jun 2020 13:39:45 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id x7sm39414593wrr.72.2020.06.26.13.39.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 13:39:44 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] tests/qht-bench: Adjust testing rate by -1
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200626200950.1015121-1-richard.henderson@linaro.org>
- <20200626200950.1015121-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <9627ba2e-7ea0-432e-6005-8534156049a9@redhat.com>
-Date: Fri, 26 Jun 2020 22:39:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LSdIlkZqWYFXfjh0KkMrirTR7PACQeN8vvxGws0DXT8=;
+ b=jSj4HsMk6LYuQ0hPHCX9D6OiUeQUK351u7xG6vZYlljMjQ6suc2GUslKx3LJDHt5eu9T3q
+ 3qD4ezkb40w/jkY/3txlaQF7B+LAhAT+OHfZpx567dXYUOFO/zoH4c9ReEznFCp9scqSgn
+ kCkjz51rOPAA4ixCH9nxiyqHl92aeDc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-SAYXsDoKNP6aFgbuTJg2Wg-1; Fri, 26 Jun 2020 16:41:36 -0400
+X-MC-Unique: SAYXsDoKNP6aFgbuTJg2Wg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F71D107ACCA;
+ Fri, 26 Jun 2020 20:41:35 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6960119C58;
+ Fri, 26 Jun 2020 20:41:34 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/16] python: add mypy support to python/qemu
+Date: Fri, 26 Jun 2020 16:41:17 -0400
+Message-Id: <20200626204133.14500-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626200950.1015121-2-richard.henderson@linaro.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -110,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,97 +76,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 10:09 PM, Richard Henderson wrote:
-> Since the seed must be non-zero, subtracting 1 means puts the
-> rate in 0..UINT64_MAX-1, which allows the 0 and UINT64_MAX
-> thresholds to corrspond to 0% (never) and 100% (always).
-> 
-> Suggested-by: Emilio G. Cota <cota@braap.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/qht-bench.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/tests/qht-bench.c b/tests/qht-bench.c
-> index eb88a90137..ad885d89d0 100644
-> --- a/tests/qht-bench.c
-> +++ b/tests/qht-bench.c
-> @@ -25,7 +25,13 @@ struct thread_stats {
->  struct thread_info {
->      void (*func)(struct thread_info *);
->      struct thread_stats stats;
-> -    uint64_t r;
-> +    /*
-> +     * Seed is in the range [1..UINT64_MAX], because the RNG requires
-> +     * a non-zero seed.  To use, subtract 1 and compare against the
-> +     * threshold with </>=.  This lets threshold = 0 never match (0% hit),
-> +     * and threshold = UINT64_MAX always match (100% hit).
-> +     */
-> +    uint64_t seed;
->      bool write_op; /* writes alternate between insertions and removals */
->      bool resize_down;
->  } QEMU_ALIGNED(64); /* avoid false sharing among threads */
-> @@ -131,8 +137,9 @@ static uint64_t xorshift64star(uint64_t x)
->  static void do_rz(struct thread_info *info)
->  {
->      struct thread_stats *stats = &info->stats;
-> +    uint64_t r = info->seed - 1;
->  
-> -    if (info->r < resize_threshold) {
-> +    if (r < resize_threshold) {
->          size_t size = info->resize_down ? resize_min : resize_max;
->          bool resized;
->  
-> @@ -151,13 +158,14 @@ static void do_rz(struct thread_info *info)
->  static void do_rw(struct thread_info *info)
->  {
->      struct thread_stats *stats = &info->stats;
-> +    uint64_t r = info->seed - 1;
->      uint32_t hash;
->      long *p;
->  
-> -    if (info->r >= update_threshold) {
-> +    if (r >= update_threshold) {
->          bool read;
->  
-> -        p = &keys[info->r & (lookup_range - 1)];
-> +        p = &keys[r & (lookup_range - 1)];
->          hash = hfunc(*p);
->          read = qht_lookup(&ht, p, hash);
->          if (read) {
-> @@ -166,7 +174,7 @@ static void do_rw(struct thread_info *info)
->              stats->not_rd++;
->          }
->      } else {
-> -        p = &keys[info->r & (update_range - 1)];
-> +        p = &keys[r & (update_range - 1)];
->          hash = hfunc(*p);
->          if (info->write_op) {
->              bool written = false;
-> @@ -208,7 +216,7 @@ static void *thread_func(void *p)
->  
->      rcu_read_lock();
->      while (!atomic_read(&test_stop)) {
-> -        info->r = xorshift64star(info->r);
-> +        info->seed = xorshift64star(info->seed);
->          info->func(info);
->      }
->      rcu_read_unlock();
-> @@ -221,7 +229,7 @@ static void *thread_func(void *p)
->  static void prepare_thread_info(struct thread_info *info, int i)
->  {
->      /* seed for the RNG; each thread should have a different one */
-> -    info->r = (i + 1) ^ time(NULL);
-> +    info->seed = (i + 1) ^ time(NULL);
->      /* the first update will be a write */
->      info->write_op = true;
->      /* the first resize will be down */
-> 
+Based-on: 20200626202350.11060-1-jsnow@redhat.com
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This series modifies the python/qemu library to comply with mypy --strict.
+This requires my "refactor shutdown" patch as a pre-requisite.
+
+v4:
+001/16:[----] [--] 'python/qmp.py: Define common types'
+002/16:[----] [--] 'iotests.py: use qemu.qmp type aliases'
+003/16:[----] [--] 'python/qmp.py: re-absorb MonitorResponseError'
+004/16:[----] [--] 'python/qmp.py: Do not return None from cmd_obj'
+005/16:[----] [--] 'python/qmp.py: add casts to JSON deserialization'
+006/16:[----] [--] 'python/qmp.py: add QMPProtocolError'
+007/16:[----] [--] 'python/machine.py: Fix monitor address typing'
+008/16:[----] [--] 'python/machine.py: reorder __init__'
+009/16:[----] [--] 'python/machine.py: Don't modify state in _base_args()'
+010/16:[----] [--] 'python/machine.py: Handle None events in events_wait'
+011/16:[----] [--] 'python/machine.py: use qmp.command'
+012/16:[0010] [FC] 'python/machine.py: Add _qmp access shim'
+013/16:[----] [-C] 'python/machine.py: fix _popen access'
+014/16:[----] [--] 'python/qemu: make 'args' style arguments immutable'
+015/16:[----] [--] 'iotests.py: Adjust HMP kwargs typing'
+016/16:[----] [-C] 'python/qemu: Add mypy type annotations'
+
+ - Rebased on "refactor shutdown" v4
+ - Fixed _qmp access for scripts that disable QMP
+
+v3:
+005: Removed a cast, per Kevin Wolf's tip
+010: Renamed with correct function name;
+     Rewrote docstring and added comments
+016: Use SocketAddrT instead of Union[Tuple[str,str],str]
+
+"v2":
+- This version supports iotests 297
+- Many patches merged by Phil are removed
+- Replaces iotests.py type aliases with centralized ones
+  (See patch 2)
+- Imports etc are reworked to use the non-installable
+  package layout instead. (Mostly important for patch 3)
+
+Testing this out:
+- You'll need Python3.6+
+- I encourage you to use a virtual environment!
+- You don't necessarily need these exact versions, but I didn't test the
+  lower bounds, use older versions at your peril:
+  - pylint==2.5.0
+  - mypy=0.770
+  - flake8=3.7.8
+
+> cd ~/src/qemu/python/
+> flake8 qemu
+> mypy --strict qemu
+> cd qemu
+> pylint *.py
+
+These should all 100% pass.
+
+---
+
+Open RFC: What's the right way to hook this into make check to prevent
+regressions?
+
+John Snow (16):
+  python/qmp.py: Define common types
+  iotests.py: use qemu.qmp type aliases
+  python/qmp.py: re-absorb MonitorResponseError
+  python/qmp.py: Do not return None from cmd_obj
+  python/qmp.py: add casts to JSON deserialization
+  python/qmp.py: add QMPProtocolError
+  python/machine.py: Fix monitor address typing
+  python/machine.py: reorder __init__
+  python/machine.py: Don't modify state in _base_args()
+  python/machine.py: Handle None events in events_wait
+  python/machine.py: use qmp.command
+  python/machine.py: Add _qmp access shim
+  python/machine.py: fix _popen access
+  python/qemu: make 'args' style arguments immutable
+  iotests.py: Adjust HMP kwargs typing
+  python/qemu: Add mypy type annotations
+
+ python/qemu/accel.py          |   8 +-
+ python/qemu/machine.py        | 294 ++++++++++++++++++++--------------
+ python/qemu/qmp.py            | 111 +++++++++----
+ python/qemu/qtest.py          |  53 +++---
+ scripts/render_block_graph.py |   7 +-
+ tests/qemu-iotests/iotests.py |  11 +-
+ 6 files changed, 300 insertions(+), 184 deletions(-)
+
+-- 
+2.21.3
 
 
