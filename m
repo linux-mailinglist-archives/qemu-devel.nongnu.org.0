@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C28520B462
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:21:57 +0200 (CEST)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B2120B45C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:20:02 +0200 (CEST)
+Received: from localhost ([::1]:34656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqAu-0004Ua-5H
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1joq93-0001Vq-7Y
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:20:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq41-000298-1q
+ id 1joq41-0002Au-T8
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:49 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50978)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3x-0006Jq-9c
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:48 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l17so9180574wmj.0
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:44 -0700 (PDT)
+ id 1joq3y-0006KP-3o
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:49 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j4so7404011wrp.10
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OiVkZdXmMFp02tYSp5OVNi5864zwIsR2HUEVngWMuuQ=;
- b=j8eXAvb5sSuAv0/OJvaqL2818q0DSyGaB/EjOLiSAvSZahnFjCa7BQSfioYUjAFnaB
- YfLxc9Jx1K4uLXWneasunP5PgdkFj2MufzSIIzp4ooyrG5sA0wTiz1K+N4RofsuwPd29
- lmyvpm9PKaxla9v20ejK8YE0U5hbEku4w+bM73/dkRl+cAP3A2PpMmdLsSFwaQvkvxGD
- nTeXwMQMwzDnzuZm1tUEyJBMO1e4j/3iv8TJ0Hja/Hr467Mow/bdwdLJ9QS50ysCQPbs
- TlF7YigOGEa8/VuAsI6JujW+Mb5onrSIB/3gp3HkQ8C+ILj1VTJ/9v14bjK7lfNHB4W2
- Z+4Q==
+ bh=9pMs3LEbOiq50D52Qgdo7AAYpmJBtOiQsJyttNTt1Gw=;
+ b=nMaaip0NLvOoecvmqwY1FB62j5Q2DqpLUIUcrnibC9h2ZynG7JK1QfJBsc2HiLOJEB
+ 4A2NOBDxA7HsZ2NO2RfoMMLjMU/rGlI/PRJRbiGS+VqCOzMDBQuK0W3xAzAjj0imrMz4
+ 2b1ysRQnzDgAT3TZM9FfYK3a5Ti9VPRlMbp32d+HW36fDIG79V9rpqSdnEwkQztTLDty
+ Z2FETzqFOoIyCh1LaR5Cnbim0c2oiCOSf2Vf4Ck1v3n97GqpSExqsNw8gSD1VLvt+nqH
+ 606qlBMac8FZOkCe4U5wtTtFS8LGZFuBXirDvLbQi1l3O8TG1lS6QImUXDJuAwbfzVKh
+ jwlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OiVkZdXmMFp02tYSp5OVNi5864zwIsR2HUEVngWMuuQ=;
- b=eRDG8/8DmKx/vqJkNyYUgiingRNnVaKo4ONaJk7YPIts+850VWEaSZQZ0lWielUyYe
- 8odqa9ufNA2n7fcp0/VfNV7CQE8H2cqGOgcUwuJgM5+NNW429CIVuXPxYu0Rvzy9mB0C
- a8R0hmzk1oqwsim0pIJv2nCmlM8a58L/tecrkGwCi71HL5sYptxVMRE91zZpcsu2D23F
- Zi4wyGh5Wfq6A4BGKGYpJqzZ02ljN/AiPu0dzaVFBJqUIa0WtTsFucFh2n0o+TrbsMmd
- c3fFbrukDhXB3DmvwA+vNxgeNwl7LxQWIiqqGoMZk8CSGkT8MlbVUTXvLmaabYczzrwU
- tb8A==
-X-Gm-Message-State: AOAM5316xaYedoqksxHYfydbPEdbKWBNyQ3TV6UqqMZgHvaX6NN8sPXN
- GpDhHXvVxTV7Bv8oRoERb1ssMeH3VfrtMQ==
-X-Google-Smtp-Source: ABdhPJz1RGpx7xdbVYjD1UWsjr95CkTv1/FVN+8rx/wUQd8ZqPzutn+TtBvi25S0iRerQAsOk0pZCw==
-X-Received: by 2002:a1c:a949:: with SMTP id s70mr4314261wme.137.1593184483183; 
- Fri, 26 Jun 2020 08:14:43 -0700 (PDT)
+ bh=9pMs3LEbOiq50D52Qgdo7AAYpmJBtOiQsJyttNTt1Gw=;
+ b=NpvVfxMmXtSXswX8qCsHIAiUyZNg9M8GU5OA+9XfxgmUmzDbJp84/AhR6BZEkhq4gW
+ w81eLzG2EuyoUkfrYtZ5LZVn/pn1if8QOvcWnOwOdidL+/iOyNVlMkPifAyRAclb8LWr
+ z02Be7f25P7/f/uE5Q19sbBELgxAKFlqknmDaZ6BejUSqmBb0FeNnyBtwOQWmUQkf0zw
+ mKNd8XARfXYAJnXSi1ppOa6a0jem328GB2Q8qvaQ2DDT/V3F6vFFBJ6pn8j/CISl2g1u
+ AK9GDWQQ7zogIq8Vba1X0+dwleMwfTu1nj/ngLNxnbBRT/paXocPMzSzdWlCIdqHeV9S
+ zvlw==
+X-Gm-Message-State: AOAM531ZaxT6eDYeHjF7lvSf9aDoCwNuAyp/07Hpl5UwdB6xOSfa6U5j
+ gzSq2+mRtc8p35D45s8hb+BSR/pmL2PF5A==
+X-Google-Smtp-Source: ABdhPJxMNd8uNVQ7P5xw0ouvPSOT7C3sYY6kPzEX6rP3EzyyBlER2nPlCEBgv9w+O+UqFk0bZb+7Pg==
+X-Received: by 2002:a5d:6a04:: with SMTP id m4mr4216479wru.418.1593184484148; 
+ Fri, 26 Jun 2020 08:14:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.42
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:42 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/57] target/arm: Add support for MTE to SCTLR_ELx
-Date: Fri, 26 Jun 2020 16:13:42 +0100
-Message-Id: <20200626151424.30117-16-peter.maydell@linaro.org>
+Subject: [PULL 16/57] target/arm: Add support for MTE to HCR_EL2 and SCR_EL3
+Date: Fri, 26 Jun 2020 16:13:43 +0100
+Message-Id: <20200626151424.30117-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,60 +90,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This does not attempt to rectify all of the res0 bits, but does
-clear the mte bits when not enabled.  Since there is no high-part
-mapping of SCTLR, aa32 mode cannot write to these bits.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200626033144.790098-4-richard.henderson@linaro.org
+Message-id: 20200626033144.790098-5-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ target/arm/helper.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a29f0a28d84..8a0fb015819 100644
+index 8a0fb015819..d6c326b58e8 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4698,6 +4698,22 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     ARMCPU *cpu = env_archcpu(env);
- 
-+    if (arm_feature(env, ARM_FEATURE_PMSA) && !cpu->has_mpu) {
-+        /* M bit is RAZ/WI for PMSA with no MPU implemented */
-+        value &= ~SCTLR_M;
-+    }
-+
-+    /* ??? Lots of these bits are not implemented.  */
-+
-+    if (ri->state == ARM_CP_STATE_AA64 && !cpu_isar_feature(aa64_mte, cpu)) {
-+        if (ri->opc1 == 6) { /* SCTLR_EL3 */
-+            value &= ~(SCTLR_ITFSB | SCTLR_TCF | SCTLR_ATA);
-+        } else {
-+            value &= ~(SCTLR_ITFSB | SCTLR_TCF0 | SCTLR_TCF |
-+                       SCTLR_ATA0 | SCTLR_ATA);
+@@ -2021,6 +2021,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         if (cpu_isar_feature(aa64_pauth, cpu)) {
+             valid_mask |= SCR_API | SCR_APK;
+         }
++        if (cpu_isar_feature(aa64_mte, cpu)) {
++            valid_mask |= SCR_ATA;
 +        }
-+    }
-+
-     if (raw_read(env, ri) == value) {
-         /* Skip the TLB flush if nothing actually changed; Linux likes
-          * to do a lot of pointless SCTLR writes.
-@@ -4705,13 +4721,8 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         return;
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+     }
+@@ -5248,17 +5251,22 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
+         if (cpu_isar_feature(aa64_pauth, cpu)) {
+             valid_mask |= HCR_API | HCR_APK;
+         }
++        if (cpu_isar_feature(aa64_mte, cpu)) {
++            valid_mask |= HCR_ATA | HCR_DCT | HCR_TID5;
++        }
      }
  
--    if (arm_feature(env, ARM_FEATURE_PMSA) && !cpu->has_mpu) {
--        /* M bit is RAZ/WI for PMSA with no MPU implemented */
--        value &= ~SCTLR_M;
--    }
--
-     raw_write(env, ri, value);
--    /* ??? Lots of these bits are not implemented.  */
-+
-     /* This may enable/disable the MMU, so do a TLB flush.  */
-     tlb_flush(CPU(cpu));
+     /* Clear RES0 bits.  */
+     value &= valid_mask;
  
+-    /* These bits change the MMU setup:
++    /*
++     * These bits change the MMU setup:
+      * HCR_VM enables stage 2 translation
+      * HCR_PTW forbids certain page-table setups
+-     * HCR_DC Disables stage1 and enables stage2 translation
++     * HCR_DC disables stage1 and enables stage2 translation
++     * HCR_DCT enables tagging on (disabled) stage1 translation
+      */
+-    if ((env->cp15.hcr_el2 ^ value) & (HCR_VM | HCR_PTW | HCR_DC)) {
++    if ((env->cp15.hcr_el2 ^ value) & (HCR_VM | HCR_PTW | HCR_DC | HCR_DCT)) {
+         tlb_flush(CPU(cpu));
+     }
+     env->cp15.hcr_el2 = value;
 -- 
 2.20.1
 
