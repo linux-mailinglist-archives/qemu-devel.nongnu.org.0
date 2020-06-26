@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB3520B5EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:32:54 +0200 (CEST)
-Received: from localhost ([::1]:38060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5011620B5FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:37:24 +0200 (CEST)
+Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorHZ-0002sC-RN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54144)
+	id 1jorLv-0002Hq-Ak
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDM-0005VK-0E; Fri, 26 Jun 2020 12:28:32 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42734)
+ id 1jorDN-0005Y9-5W; Fri, 26 Jun 2020 12:28:33 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDK-0003L0-FM; Fri, 26 Jun 2020 12:28:31 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o11so10071932wrv.9;
- Fri, 26 Jun 2020 09:28:29 -0700 (PDT)
+ id 1jorDL-0003LI-N7; Fri, 26 Jun 2020 12:28:32 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h5so10073198wrc.7;
+ Fri, 26 Jun 2020 09:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q2Dr1F51NNYfRmDxzHUuA6aQIgYrZuE2BYPtrlUH9Ok=;
- b=VroG3sCX/GnrLSwQZyFwBa0QNsHOJc63q3kMy5xidet/I10niuuHM4+GbfxDY6bPj3
- uVlwbgNnCF9Oc6l9At+TAzInU6KmYaygcwZJTs+x+vcxyNR8EgSmyuDPChNXtMQ/nhRg
- Bss9vYilFCEoGztyEeToLfFSeMj6SRxOVtT/d0YMu8pGJRqyBMlA2/IJiP9nLcQVBSWX
- 85h7jC1Z2FdOTzfdAlPy2DH6/wbAqwvODFC9klvOSWRz20gFP03c7UcNbKIQjGROP2cs
- YFYSpdbuudYMb5oWJvzpBDa9/jkGb60sSITvHAt8P1YmTkPC+zckHoiYzmmLyg6MxPkl
- T2sA==
+ bh=KpF9MIzXWHFH1j+WNA+tLcvpyt6lEogn0WVElNJnFTM=;
+ b=ZQz6ojscR4GpPX9HEkimPLCyckwIyMKDMgjh21CemtY2xrLgtuJ/z8qRlNqxv0egq5
+ tj9pGbSfwbLotvo+zvIfyw1+t0yv11cpXNh5AKMDQsnoRg9xi/Oyx6jHFeiTBwZo5K30
+ r3Wlrjl8tvRm3OGhJLrYtJNd9DH1QjoCfsuCh1/pnvKWy+f41PjAj/due6AN61pNfEeK
+ cO5igRpOql+tJlt5LUPi4uzXX0r3+1KggcJ8VEZeDf3+pBuTIzekaqdbvfRCtf/76U8o
+ AttAx7oM8Xp04SHQJ8ONGb+dMdmvB2Z8fo70d9M6cgEcOyz960nf6a80jtkSYK7QQ1Wu
+ XFKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q2Dr1F51NNYfRmDxzHUuA6aQIgYrZuE2BYPtrlUH9Ok=;
- b=iJXbOfLLLicLS3Jwbc/yiaeu4pIKM8WhStdTCJ7EXDMF/KM1GzXiQN0FQ72dLBKI/C
- fGDgQ5MeEGKkROnrPSt3f4+DkZq59NNOE1ThZx5jGmQXG3YL9TJznjxvzPSfcLgzOgkm
- FQxzltTgkd/45OT18Ck25yYsts3puReU+WSWCppPTX7uZEyqXvEv7FGs7FWFnk/TcpTc
- K8WFj92XurvSEUdkpdKuDKppS7Dlsu2O65c8fa6YfMRVV+1R0RxIydJtFBZTUQuBo5UM
- QNYFiMeXciPgC12aLROTDpm54BjSChXIxF4eXxZsuELa0EBB1JvT7UOfwFLdWZfCvPw/
- Z7pg==
-X-Gm-Message-State: AOAM5317kjIussgr2tfXcgouCUboUWc3ppc3wQc+o6LuufeJrKuqW0DT
- ZklO7ipNdXOOoKkqQ/Qw3Z5s7EQs
-X-Google-Smtp-Source: ABdhPJyXI1Qx63Ng1eXKV9TBY7Rb3I/mcn0N2ie+3C6ugEEu2TQq2x9NTHMaNNrQXHSdFUB3vB2kHw==
-X-Received: by 2002:adf:e38d:: with SMTP id e13mr4561001wrm.304.1593188908619; 
- Fri, 26 Jun 2020 09:28:28 -0700 (PDT)
+ bh=KpF9MIzXWHFH1j+WNA+tLcvpyt6lEogn0WVElNJnFTM=;
+ b=bjzNMUoB0dnvnD1FcRL118/Dn7I94ExF0MuJzq24v6kDZ+G9IQyit8QeMBw/VCdfK0
+ RLIfh3HX21P+QtByIGFyKmS/FiAzCRIuUXT4KpsTRx7s+RyjAknqmEfTHyqQYZb2zM9v
+ Uye+z4ULSUak3AvovSvMrfZ2zA89ifC3odG75Ru9aLfL29ygI0LfrJIjxcUT+I3NdO6K
+ 1IEbOOAWsntUnbwq1w+/obPDepRKsmNqw6rUwf5nwox6WFFt4sUrWOhUAL6Dm4g0Q1pX
+ rwL4WAEnCw2VtqECZ8s7TqpmdxtzKsBFMO5XHcvBEiKBhh9kUAjDEA7eoD7svVAhJZ2T
+ DYzw==
+X-Gm-Message-State: AOAM532uPnPyLIyq+a+zETpAEC4LZtXlW+Ep0hO44EfiaCZbMASsToMe
+ QjYK0OcpGKg/LPzEhoigCKRV8qnq
+X-Google-Smtp-Source: ABdhPJzr3vN4IIPed9yajvsrdON/AAcvvefPm6imYi4Lkpixm6+n1A/pt7IbOcoueBCcgwK+DjrLWg==
+X-Received: by 2002:adf:ec88:: with SMTP id z8mr4557160wrn.395.1593188909631; 
+ Fri, 26 Jun 2020 09:28:29 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.27
+ by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:28:28 -0700 (PDT)
+ Fri, 26 Jun 2020 09:28:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/14] hw/sd/sdcard: Check address is in range
-Date: Fri, 26 Jun 2020 18:28:11 +0200
-Message-Id: <20200626162818.25840-8-f4bug@amsat.org>
+Subject: [PATCH v4 08/14] hw/sd/sdcard: Update the SDState documentation
+Date: Fri, 26 Jun 2020 18:28:12 +0200
+Message-Id: <20200626162818.25840-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
 References: <20200626162818.25840-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,27 +92,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a defense, assert if the requested address is out of the card area.
+Add more descriptive comments to keep a clear separation
+between static property vs runtime changeable.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/sd/sd.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 871c30a67f..0b606e9054 100644
+index 0b606e9054..7d20f344bf 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -539,6 +539,8 @@ static void sd_response_r7_make(SDState *sd, uint8_t *response)
+@@ -103,11 +103,14 @@ struct SDState {
+     uint32_t card_status;
+     uint8_t sd_status[64];
  
- static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
- {
-+    assert(addr < sd->size);
+-    /* Configurable properties */
++    /* Static properties */
 +
-     return addr >> (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT);
- }
+     uint8_t spec_version;
+     BlockBackend *blk;
+     bool spi;
  
++    /* Runtime changeables */
++
+     uint32_t mode;    /* current card mode, one of SDCardModes */
+     int32_t state;    /* current card state, one of SDCardStates */
+     uint32_t vhs;
 -- 
 2.21.3
 
