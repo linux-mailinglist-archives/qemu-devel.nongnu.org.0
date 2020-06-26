@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B71320AF6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:10:49 +0200 (CEST)
-Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DB720AF70
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:11:55 +0200 (CEST)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolJo-0003qJ-8g
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
+	id 1jolKs-0005T9-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jolH7-0000hk-Gs; Fri, 26 Jun 2020 06:08:01 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:43436)
+ id 1jolHA-0000no-F9; Fri, 26 Jun 2020 06:08:04 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:37041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jolH6-0005tR-0X; Fri, 26 Jun 2020 06:08:01 -0400
-Received: by mail-ed1-x544.google.com with SMTP id d15so6453350edm.10;
- Fri, 26 Jun 2020 03:07:59 -0700 (PDT)
+ id 1jolH8-0005tf-Sx; Fri, 26 Jun 2020 06:08:04 -0400
+Received: by mail-ej1-x644.google.com with SMTP id mb16so8813026ejb.4;
+ Fri, 26 Jun 2020 03:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=MSVPMtL0U7LZeXFp6t3i8NiLBjb/HuF+SqmOMbF9Q7U=;
- b=Nf7dl0TcPihaBgGqB9HYMl6NZafLJNyqqDZnDQ/dUHnMhC/MeGMaIYJsXfq0EfqcPw
- OOGo9eEzDA8aIxFPWKN7ykhobCGoaiRy8BV9JmVTgVbY7gpvXThjPHBTYAJ4cI5VmAak
- MZQ2VLhq/eZN62iWFuxtcCLyLSqLm0tZ+Hs9eCFN8z96qcXi/QfYOfjpZq0Yx//5jNqV
- MrhBfb2Gj8h+SBsdYcXvDXusd6OuSesO2ZeQDrE8J8Csz/K/WBdh+hpPna72Jm5NMeFg
- YfBKt5VJd7Ec65TNtJs3A3lwY6R3m4x7bV39NltY8QLNbYqC7kJ9LSy0sLxqJZn8gXGx
- Zyag==
+ bh=zwOhb5W3n8EF+279WipD9/D4F9y/pqe0fiyLrS8XTwc=;
+ b=E9TfjT+FB9c48l0KAh1aoVsgXA8hHyu42E0MjpXNsfQMe40p5YBn8TFPB15z+nQk9h
+ t+wLlbXbmnMS3dsNRPgFDEYcK1BR/qplOgB8Z0fIVWobtj45bTlgUPez8/cnknmUMmPD
+ E2B8wi2+FVTHQg8jCcfucJnBnppbWeNEOtZpIA0ZhwnO3v7h0s9j86c8UkHd0C/fpJhE
+ /Z01pjtYJzajn3b+1rmX0+YlFAPGwq3Dx9Upro0eIqgPlNLHvZ5V0UOMjYlJ3/WHIkKM
+ JPp+Egv/cCZoEQk3rYIXCSEs3avAGSlTU11AdY9vDnjFwPL25+g0GfZIvoFHEzTbUiT6
+ Rg5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=MSVPMtL0U7LZeXFp6t3i8NiLBjb/HuF+SqmOMbF9Q7U=;
- b=UrmamlsyiweIUOCYkdcnvIb7QzBZ6jonsDDxq7Ymd8lUg68dq4HU3gctgp1FyPur3N
- YKX3ecfdCZop8Ai1xFTSwKm6QpJf4m6YO+dmyeRDUAkWDyjDfP3Ed+GtPPUI5DFGNlYu
- MLbBuSEsSxUna3NgGt2KQ20z3u30N8KyJD97C2O30QUala/jRRZDg1tl0JzwnF8aETQi
- wJYRdw2HdvSCUwRDCe0qcjxFM8Cl7kt9jcjJNuJgHpME9zAU77QQRRKhaVexAiFv2Xp6
- sZU3VTVAAgRRHsSXN9rVh68R3vVup28Szu9bE6W09saTJQrhUE8YvZVA2uuJk+pOOSgU
- 6iRA==
-X-Gm-Message-State: AOAM5319l8SryHOeTesrTdE8EYplFGm4cl/M4i5u0+UoQdgEv2Pi2+18
- CnGf/8wbKePUzbJinsjqDRVEvNBaJAQj2OEx8LlDfI8K
-X-Google-Smtp-Source: ABdhPJzs+L7vsGWBgDn5C2GwSUJM76LCixQ97aEfvj2ALWJrPp3NMZNNWGsgCEyNIEgL56pbhYsPCYqog8k7bnWqQFk=
-X-Received: by 2002:a50:cf05:: with SMTP id c5mr2678664edk.232.1593166077974; 
- Fri, 26 Jun 2020 03:07:57 -0700 (PDT)
+ bh=zwOhb5W3n8EF+279WipD9/D4F9y/pqe0fiyLrS8XTwc=;
+ b=avipaTNWaSCcMhUGhB1qqrfuPJDDbhn0mV2pqCdLR53CWwoo36vTP/dDBkBqVo7dkT
+ fkx/FIoC0unVA7MKQRHt+eF1yxM6TnCB5WCSvXmAflPeiDqRnmgP8gBs3abbbv1EhLI8
+ CAWM/Abwl4MWVasXR6WYvXFXO2DkkvW1QerQRryLOvLGRJJE9o4Neb5Q5Yzw5Jj9bZT6
+ Qg1mkCtXEn1FemBvWE6dQwdQejyD0QTWshQU1abDwTGDRXXTAFbd1yBuWNqE//+2Kw3f
+ FcHYE7tl6qyz1f3aXZJ3k01lEGYG6wn5eILBt6v/Znz8IAtLOWlzVh/flFr/KHHMaUbr
+ PqlQ==
+X-Gm-Message-State: AOAM532y6NDvqF3WwLlgMdW+py+AHLSm5ocbYGveIKgyj3CIAJiKmRfM
+ jA7y2ISUdmN/q/sZo5WmIydoa5jWMmt59w7YWux+Gtao
+X-Google-Smtp-Source: ABdhPJz3kN2ptLEJWjJfNJss/1PxmTCRKimugvmEOWc0NORKV4BqZf9qhb+pKxAjRofGF5OlXLA+HS7O/fc1iKeuxls=
+X-Received: by 2002:a17:906:5203:: with SMTP id
+ g3mr1822576ejm.58.1593166081089; 
+ Fri, 26 Jun 2020 03:08:01 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 11:07:47 +0100
-Message-ID: <CA+XhMqxRDPotkG6ioYipzZNMLj-w1CbFbz2cd6BPet8GQ4r8oA@mail.gmail.com>
-Subject: [ PATCH 2/5] haiku build fix
+Date: Fri, 26 Jun 2020 11:07:50 +0100
+Message-ID: <CA+XhMqzxVaM2UHMjpOiwL-bM2GZb8KwSrXf1=+LTUy53mZGRWw@mail.gmail.com>
+Subject: [PATCH 3/5] haiku build fix
 To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=devnexen@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,57 +77,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 19a41d406eda976001827d248398d7fb172d140b Mon Sep 17 00:00:00 2001
+From 56890fa5728d11c72232348b3f3273e2df31c197 Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Fri, 26 Jun 2020 10:38:17 +0000
-Subject: [PATCH 2/5] Enable *pty API.
+Date: Fri, 26 Jun 2020 10:40:58 +0000
+Subject: [PATCH 3/5] Checking mlockall symbol presence
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
- configure           | 9 +++++++++
- util/qemu-openpty.c | 2 +-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ configure  | 15 +++++++++++++++
+ os-posix.c |  4 ++++
+ 2 files changed, 19 insertions(+)
 
 diff --git a/configure b/configure
-index 96ba4cf3ce..f040b07463 100755
+index f040b07463..34b0f0f036 100755
 --- a/configure
 +++ b/configure
-@@ -2373,6 +2373,12 @@ else
-   l2tpv3=no
+@@ -2379,6 +2379,18 @@ else
+   pty_h=no
  fi
 
-+if check_include "pty.h" ; then
-+  pty_h=yes
++cat > $TMPC <<EOF
++#include <sys/mman.h>
++int main(int argc, char *argv[]) {
++    return mlockall(MCL_FUTURE);
++}
++EOF
++if compile_prog "" "" ; then
++  have_mlockall=yes
 +else
-+  pty_h=no
++  have_mlockall=no
 +fi
 +
  #########################################
  # vhost interdependencies and host support
 
-@@ -7758,6 +7764,9 @@ fi
- if test "$sheepdog" = "yes" ; then
-   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
+@@ -7767,6 +7779,9 @@ fi
+ if test "$pty_h" = "yes" ; then
+   echo "CONFIG_PTY=y" >> $config_host_mak
  fi
-+if test "$pty_h" = "yes" ; then
-+  echo "CONFIG_PTY=y" >> $config_host_mak
++if test "$have_mlockall" = "yes" ; then
++  echo "CONFIG_MLOCKALL=y" >> $config_host_mak
 +fi
  if test "$fuzzing" = "yes" ; then
    if test "$have_fuzzer" = "yes"; then
      FUZZ_LDFLAGS=" -fsanitize=address,fuzzer"
-diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
-index 2e8b43bdf5..9d8ad6905e 100644
---- a/util/qemu-openpty.c
-+++ b/util/qemu-openpty.c
-@@ -35,7 +35,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
+diff --git a/os-posix.c b/os-posix.c
+index 3cd52e1e70..e02b566940 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -337,6 +337,7 @@ bool is_daemonized(void)
 
--#if defined(__GLIBC__)
-+#if defined CONFIG_PTY
- # include <pty.h>
- #elif defined CONFIG_BSD
- # include <termios.h>
+ int os_mlock(void)
+ {
++#if defined CONFIG_MLOCKALL
+     int ret = 0;
+
+     ret = mlockall(MCL_CURRENT | MCL_FUTURE);
+@@ -345,4 +346,7 @@ int os_mlock(void)
+     }
+
+     return ret;
++#else
++    return -ENOSYS;
++#endif
+ }
 --
 2.26.0
 
