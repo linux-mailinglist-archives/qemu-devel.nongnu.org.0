@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D8420B5FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:37:38 +0200 (CEST)
-Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3137A20B60D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:41:09 +0200 (CEST)
+Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorM9-0002rq-OV
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:37:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
+	id 1jorPY-0008Mc-5g
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDT-0005oL-VT; Fri, 26 Jun 2020 12:28:39 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44508)
+ id 1jorFY-0001Gy-82; Fri, 26 Jun 2020 12:30:48 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:35042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDS-0003My-DZ; Fri, 26 Jun 2020 12:28:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b6so10058414wrs.11;
- Fri, 26 Jun 2020 09:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+8tgefUeT5/9N4gOvIe9EAniXsDLRRPR141VmG/d0+0=;
- b=uF9Tw83Dk1rUCojYgrRS2FHYPs0sJSZpDX5J04Eb8q/I0Z6DiJsa91d1zkEJUXnPKG
- sEbbAwVtuBehmQw0IpuT8R4f66+Lo5bHSooSmpOo1J5l3QXlck8/QA2GFRp+ugY6jmyO
- uIqbVVJTRGKNVqfiT2YFS3twdCwMoc2i3yFzLRlrVc9l7o8oMZY2wR73RyxAlIcLdsYY
- roipTu18JZeIG9eXCHEhp8ipS24bYNHexDLLs1RClhimLxQzSfHmcRYEGtG/vkTadevg
- r8poti930etTbV78F8vd/A0+5RSCkVDzuyF2Xv4uDueGD6z8igzoNmOVyDAx05urrFBE
- 6EtQ==
+ id 1jorFV-0003sg-GM; Fri, 26 Jun 2020 12:30:47 -0400
+Received: by mail-ed1-f66.google.com with SMTP id e15so7406648edr.2;
+ Fri, 26 Jun 2020 09:30:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+8tgefUeT5/9N4gOvIe9EAniXsDLRRPR141VmG/d0+0=;
- b=nsscnbwG1hI/esYvFqHghUjrvsVOHSehe9PG5O8isUfAT9qhCjDeftSengHWK0EZxt
- GY+QfaehfZ4yx/wlEreaXkAYbFcY41CpfloB8jBCMAJAwSLaU5b/LSkfBkxZZqVUEAua
- ySeBKFWMdL3CvXAUxJkTI14Pylf0U9e/k8IeHFIO3D/mpy6oPbrgOE3NjMzlKhUgNyNp
- +Zyg8YxvNccIzF4BJH4/q/JuxEXkGSwmzHp/way/sNfsc66il9q1HjpCukS+3rMHkEhU
- hrFAdx3Briy3XNyPwZX+y91B4O+s0Pha6z2tPHq4lRHrkmPvvKpKC/5PoQS6XHnc69qt
- 7/jw==
-X-Gm-Message-State: AOAM531pKtwUBe8ClQtZ8c7AZpiaCt7c66HoD4LuZR2XBfLLbUEIn0IT
- qBbY8MS3Jm98oSydldYyfZR0/ljI
-X-Google-Smtp-Source: ABdhPJwoLvgUORYfhq/Vqw1lTQGmJjFbltOQcumKDJS8d4fAbaxKEc0vt+2G4sxod8H7FAkJbFKkqg==
-X-Received: by 2002:a5d:4202:: with SMTP id n2mr4466653wrq.171.1593188916688; 
- Fri, 26 Jun 2020 09:28:36 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:28:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/14] hw/sd/sdcard: Simplify realize() a bit
-Date: Fri, 26 Jun 2020 18:28:18 +0200
-Message-Id: <20200626162818.25840-15-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
-References: <20200626162818.25840-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0R1ZRoMHvzgmckZtT/a63CObqcUs+AVSroGfXaBAw2s=;
+ b=PvmXWPv+f2fN8JwnsZPZjylnQdZeRWFERjri9nwJ9rfAXHBakqmDwa80HoPBFhrlF3
+ BauHYsmyHtVcPslnalFULM9rqYA4D6lyhKNLixEe84/hEuOcpVnHK1ASFFMrsd2WDqIW
+ +TUPx60oKDGZQbZ81JIQnap6TEsw9QcjTWzYeYTzy4RaouFVD4RLth1JSFB1K60udzAR
+ 0yKsKJ0k1qJ9X6cI49Qu3EO/cCIncQw4BcjcWtQrLxYYbbgdlaraAxl+VB2eAA/mDI8A
+ /rNx41hQ2tH041xA5TIikQDVTONZMz8HLarBhxH33fOsQXEfZapM+cdegrLN3zJ0e/rY
+ GORg==
+X-Gm-Message-State: AOAM533X8sdrq+RiSd1NuYXWcwwSeNdcordKR0lSPRJrjAn6l9MGbtEN
+ /VTgC8hK2RpnjjtR4GfbKF7GNMEJ8O0QSplLjgxA2A==
+X-Google-Smtp-Source: ABdhPJwbuP/1MKA8PewILCXv2q9NuKSiSvSP1oJ2GIaB2b8Oaq+P/jHRQK8PN9+Tw+gGDhFelHDVwjFoUKwURNSkQ/Q=
+X-Received: by 2002:a50:c8c9:: with SMTP id k9mr4042945edh.157.1593189042788; 
+ Fri, 26 Jun 2020 09:30:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
+References: <20200626162818.25840-1-f4bug@amsat.org>
+In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 26 Jun 2020 18:30:30 +0200
+Message-ID: <CAAdtpL7bKGHdCgi29X-Thf-2yt=hRhCdCXqKeQpy0EVwdAMavw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] hw/sd/sdcard: Fix CVE-2020-13253 & cleanups
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.208.66;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 12:30:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,43 +69,15 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to check if sd->blk is set twice.
+On Fri, Jun 26, 2020 at 6:28 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Patches 5 & 6 fix CVE-2020-13253.
+> The rest are (accumulated) cleanups.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 8fdee4ed56..46cd7c1aba 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -2140,12 +2140,12 @@ static void sd_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (sd->blk && blk_is_read_only(sd->blk)) {
--        error_setg(errp, "Cannot use read-only drive as SD card");
--        return;
--    }
--
-     if (sd->blk) {
-+        if (blk_is_read_only(sd->blk)) {
-+            error_setg(errp, "Cannot use read-only drive as SD card");
-+            return;
-+        }
-+
-         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-                            BLK_PERM_ALL, errp);
-         if (ret < 0) {
--- 
-2.21.3
-
+Wrong branch... sorry for the noise :/
 
