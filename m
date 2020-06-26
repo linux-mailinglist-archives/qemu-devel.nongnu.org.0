@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A11D20AAFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:54:13 +0200 (CEST)
-Received: from localhost ([::1]:33328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF9120AB03
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:55:53 +0200 (CEST)
+Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofRM-0004Lh-Jk
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1jofSy-0007Dt-Me
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:55:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof9l-0008Gj-JE
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:36:01 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45363)
+ id 1jofPZ-0001nw-5E
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:52:21 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:40154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof9j-0003w0-0j
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:36:01 -0400
-Received: by mail-pg1-x543.google.com with SMTP id l63so4337065pge.12
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:35:58 -0700 (PDT)
+ id 1jofPW-00058O-Gk
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:52:20 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id cm23so4376695pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=S5hTNrTg53V+kvgMrMI5iFhgsZe445N0WGrm/PvSJ98=;
- b=y/SNvrbD3dXtvEkLgIpgDJQ8pITtgayPjeuk5CTFoNbcT3CFf8mnYKRQlxXv/ztUa5
- zPc5XbO6YT7lViWaWIIBNnLssTJ2tByKzfIC4pCRoguHnsMsA9FHaUSwwO/LSpkgI8hs
- W1Qv3SbdL3IOk7kVfV3BQgSgDa4pwGTYhHOtV9F5i9CQhEGhVNVDgQe8ykgKjaVW7zIr
- ilYDpc5ZnX+KQTatYv1aw0aFEq+OpkPzIv0WzfwowvCl7muIcrx+AYfsXaY/XVFhls2a
- kOpAahrSy2hs/e3+btL9nA0KZHl1TlVhJagges6RLHt8FblpoZVl2i8G59Ihvi84sV03
- g/Wg==
+ bh=4mFwf/JqqmC2jbvLacbyB+u7kIIaLwrBcw4P6fOKxd4=;
+ b=Zuaj2/fnPxZgWulq6vDZ7xVVoutHF9kk/kl3hQ+HwMc4dtyKF2Y7MeXNN9Y/iqWGP1
+ wYa3AFMJlOIth2FXvMcgWl8AkOZdMPALFVNd+AttTGlcWbkdYF8bjsZANMwQ9Yur/4s0
+ vSzGCb3mNG2XtpwbFYsMN2kD9xcvrlAameMVLrldehqWF3C5av0ijwj96O6lc7P2UJup
+ Ddc0i7rRrGzGKeKyeXxxtOi32dR7jNtYGJY7Zsl7ogeHxz6XpBt4ogsQ+nXavGp2xU/s
+ 8aqXBQCgdDWSvZoiLYLeagHwnk7Ar6Iii1QpN7iwM2F9Hdu44iylFFuzckBYRgkKtFD2
+ swMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=S5hTNrTg53V+kvgMrMI5iFhgsZe445N0WGrm/PvSJ98=;
- b=MxNCKe9ZAaPvSyMLKJ1l3xJqhpn4ArwXkSHOAguZC2AzTT36Iexh6t3vX8GBtH3k0p
- b3oxbuK5OL9i+w6IjsBkRg70q1g++hR9KZqgfe2X+OHJOVQUnKxDJBJiCz+hKfo5IjT+
- e5YGmVxg24/23wkTRw9Z4G2TrCH2RXXuQCUVtGEPDdbK4tD9cu10zMTzB6lYSkpkjdaj
- 1uL2I3KnoVtRhhfEanlGdG0s0ZzFrvRs+nNrYQE92Bgl/RlshHJBscsWmgpdaYu5N+Z4
- c5qJtB55kf1h7dEZuO7OhM5vPuVCY3V0MX8dieBmDx0bsiD1yUb8ZbNxswpr99E1Ck+y
- UPNw==
-X-Gm-Message-State: AOAM530dGT17o61Vj/u4OLHDidYQq3lm4Ws18GRGLVdWpz9ussD2Cx0E
- tgbZSuWlEu75biF87qiYM3dB2Q==
-X-Google-Smtp-Source: ABdhPJzUArUa/eD1DNlfQ8+lJ04XX3pCwbtpZjwKye8glGdauyBz0IZRZ6FEbV032IBEP2MIKavUTQ==
-X-Received: by 2002:a05:6a00:15c7:: with SMTP id
- o7mr820935pfu.51.1593142557733; 
- Thu, 25 Jun 2020 20:35:57 -0700 (PDT)
+ bh=4mFwf/JqqmC2jbvLacbyB+u7kIIaLwrBcw4P6fOKxd4=;
+ b=bDC0uI/THdJjY490uVMFEHAEdEQyZDP5NqCbcYHEEteCB3CFWeuQu94PRlAPD54uje
+ PZp0/5AlkPrYxetEzzL9T/RIFZTgOTTbvnHCSku+V7+NegTzLzICDak6oAA71OZnJp/x
+ z1wDmlC/bZdwfcBKTgWUCFgXbKkXu0l+GlB3qQFgXHrM6La6iyIjtOKHT1C2iCw/wbkE
+ egfTIbaX3BOwfzu8NbmjffUyT/ytO5+h47udDTHRUX/tWi+OuDVu6OMa8L7sdc/x+PF0
+ aPbJyDuHp7RpPIYf59hsHoyFVgGdd5bi0G5AJTH47y2dw5WXpvcjHLYVxGOpS3ZgaJA5
+ LdYw==
+X-Gm-Message-State: AOAM533rO2CTFbltRXJHzxAZkK+aJbz+yuyysfLGL3z89rP5Q7fNa25M
+ V3hOQzbrdmHvshNPJzcSzE2tjw==
+X-Google-Smtp-Source: ABdhPJzWU/bZVjEE1WvmS9tPfxJ/pHn11ZxQQVZtl1KxgPznUtPDN7+BiSjPW5xiuT8BIQwOHXPR/w==
+X-Received: by 2002:a17:90a:7185:: with SMTP id
+ i5mr1229885pjk.175.1593143536702; 
+ Thu, 25 Jun 2020 20:52:16 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id j13sm9892374pje.25.2020.06.25.20.35.56
+ by smtp.gmail.com with ESMTPSA id s23sm20102195pfs.157.2020.06.25.20.52.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 20:35:57 -0700 (PDT)
-Subject: Re: [PATCH v9 00/46] target/arm: Implement ARMv8.5-MemTag, system mode
+ Thu, 25 Jun 2020 20:52:15 -0700 (PDT)
+Subject: Re: [PATCH v3 4/8] target/ppc: add vmulld instruction
+To: Lijun Pan <ljp@linux.vnet.ibm.com>
+References: <20200625170018.64265-1-ljp@linux.ibm.com>
+ <20200625170018.64265-5-ljp@linux.ibm.com>
+ <b97971e5-43ea-26e4-bd75-7af8d5ae992b@linaro.org>
+ <A788F4B0-3E48-4F55-9816-0387A7C5A24B@linux.vnet.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20200626033144.790098-1-richard.henderson@linaro.org>
-Message-ID: <64b21a5f-b7bc-8031-95a5-fa03c2800eda@linaro.org>
-Date: Thu, 25 Jun 2020 20:35:55 -0700
+Message-ID: <a3ad445a-616c-d9af-18b6-cfb94f126bfd@linaro.org>
+Date: Thu, 25 Jun 2020 20:52:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
+In-Reply-To: <A788F4B0-3E48-4F55-9816-0387A7C5A24B@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,27 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
- steplong@quicinc.com
+Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/20 8:30 PM, Richard Henderson wrote:
-> Version 9 incorporates some review:
+On 6/25/20 2:13 PM, Lijun Pan wrote:
+>>>     case INDEX_op_mul_vec:
+>>> -        tcg_debug_assert(vece == MO_32 && have_isa_2_07);
+>>> -        insn = VMULUWM;
+>>> +        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
+>>> +                         (vece == MO_64 && have_isa_3_10));
+>>> +        insn = mul_op[vece];
+>>
+>> I think it would be ok to just index mul_op here, since the real isa check is
+>> to be done elsewhere.
 > 
->   * Adjust some commentary.
->   * Added an assert for tbi in aarch64_tr_init_disas_context
->   * Split arm,armv8.5-memtag to a new, final, patch.  We might
->     just leave this one out of qemu mainline until the kernel
->     patch set that requires it gets merged.
+> Just keep "insn = mul_op[vece];"
+> and remove"        tcg_debug_assert((vece == MO_32 && have_isa_2_07) ||
+>                          (vece == MO_64 && have_isa_3_10));“?
 
-Meant to say, the following patches lack review:
+Yes.
 
-43-target-arm-Create-tagged-ram-when-MTE-is-enabled.patch
-44-target-arm-Add-allocation-tag-storage-for-system-.patch
-46-target-arm-Add-arm-armv8.5-memtag-to-dtb.patch
+> @@ -3016,6 +3016,8 @@int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type,
+> unsigned vece)
+>              return -1;
+>          case MO_32:
+>              return have_isa_2_07 ? 1 : -1;
+> +        case MO_64:
+> +            return have_isa_3_10 ? 1 : -1;
+>          }
 
-That last one of course is new.
+Actually, just "return have_isa_3_10".
+
+Returning 1 means that the opcode is supported directly.  Returning -1 means
+that the opcode can be expanded by tcg_expand_vec_op.  Returning 0 means that
+the tcg backend does not support the opcode at all.
+
+> something like below?
+> @@ -3712,6 +3712,11 @@static void tcg_target_init(TCGContext *s)
+>          have_isa = tcg_isa_3_00;
+>      }
+>  #endif
+> +#ifdef PPC_FEATURE2_ARCH_3_10
+> +    if (hwcap2 & PPC_FEATURE2_ARCH_3_10) {
+> +        have_isa = tcg_isa_3_10;
+> +    }
+> +#endif
+
+Certainly this.
+
+> @@ -554,6 +554,7 @@typedef struct {
+>  #define PPC_FEATURE2_HTM_NOSC           0x01000000
+>  #define PPC_FEATURE2_ARCH_3_00          0x00800000
+>  #define PPC_FEATURE2_HAS_IEEE128        0x00400000
+> +#define PPC_FEATURE2_ARCH_3_10          0x00200000
+
+Of this I'm not sure.  I didn't even realize these defines were here in
+include/elf.h.  For other tcg backends we get the defines from <sys/auxv.h>.
+
+If we do want to update include/elf.h, it should be a separate patch.  CC'ing
+Laurent for this.
 
 
 r~
