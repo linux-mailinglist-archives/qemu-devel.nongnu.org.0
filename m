@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B1720BA45
+	by mail.lfdr.de (Postfix) with ESMTPS id CE27120BA44
 	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 22:25:18 +0200 (CEST)
-Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jouuT-000625-PB
+	id 1jouuT-00061e-Gz
 	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 16:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57368)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutE-0004QV-BA
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:24:00 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34355
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutD-0004QF-AN
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23254
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutC-0008Ff-1a
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:24:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1joutA-0008EK-MZ
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 16:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593203036;
+ s=mimecast20190719; t=1593203034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SVvKCFoGwOD71puzg6ZUTJeche6NQoxUQ/4utWYEjyI=;
- b=XizMBYFLtksDWXFoTATPETjj6PzjNti566LBVGDWU3f8Pqafe9D89dYqD6i5M57WLlssOh
- zJuuBzyUQ2L+CxY6rHBufSzzRG72BY4BNAhtRAkbFkurvWUzGtvJqmdRQVXb2EB/Mh8Zxa
- uvtmtyaQYp2MnVqQ241rmPIs4s8V3ng=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ardjuL2aAdct5oh4Cr6oH/XNDTSpCc1hBoDeZFu6O5s=;
+ b=Bag/F3a85nvmjo2QmJKL9cZeQXTnLx7yscfP+yV/0MvUKLnMZpLfn/hbPD2VtHtNvQOGJZ
+ +Tb8R+w4PxXiMokFaS/QxmNNAXGvQmMdkruLuLcF1hEDFjvJEOwYG6QcMjgZ8SM3e5g9o6
+ 3DMNB6JFxNlFrUO2FbP1P4KVbXtEMeU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-DK-2LhApN4ScT7EdYLPkvw-1; Fri, 26 Jun 2020 16:23:52 -0400
-X-MC-Unique: DK-2LhApN4ScT7EdYLPkvw-1
+ us-mta-117-DtPYRSsJPdCuGXHlZuClyA-1; Fri, 26 Jun 2020 16:23:53 -0400
+X-MC-Unique: DtPYRSsJPdCuGXHlZuClyA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B24C804001
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:23:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2C3800597
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 20:23:52 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76D2271671;
- Fri, 26 Jun 2020 20:23:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E2D171671;
+ Fri, 26 Jun 2020 20:23:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/3] python/machine.py: refactor shutdown
-Date: Fri, 26 Jun 2020 16:23:47 -0400
-Message-Id: <20200626202350.11060-1-jsnow@redhat.com>
+Subject: [PATCH v4 1/3] python/machine.py: consolidate _post_shutdown()
+Date: Fri, 26 Jun 2020 16:23:48 -0400
+Message-Id: <20200626202350.11060-2-jsnow@redhat.com>
+In-Reply-To: <20200626202350.11060-1-jsnow@redhat.com>
+References: <20200626202350.11060-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -82,33 +85,78 @@ Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4:
+Move more cleanup actions into _post_shutdown. As a change, if QEMU
+should so happen to be terminated during a call to wait(), that event
+will now be logged.
 
-001/3:[----] [--] 'python/machine.py: consolidate _post_shutdown()'
-002/3:[0010] [FC] 'python/machine.py: refactor shutdown'
-003/3:[----] [--] 'python/machine.py: re-add sigkill warning suppression'
+This is not likely to occur during normative use.
 
-- Rebased
-- Fixed exception handler to actually handle exception :(
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/qemu/machine.py | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-v3:
- - Split _post_shutdown refactor into own patch (now 1/3)
- - Re-add sigkill warning squelch (now 3/3)
-
-Applies straight to origin/master, ought to pass pylint and flake8:
-
-> cd ~/src/qemu/python/qemu
-> pylint *.py
-> flake8 *.py
-
-John Snow (3):
-  python/machine.py: consolidate _post_shutdown()
-  python/machine.py: refactor shutdown
-  python/machine.py: re-add sigkill warning suppression
-
- python/qemu/machine.py | 108 ++++++++++++++++++++++++++++++-----------
- 1 file changed, 79 insertions(+), 29 deletions(-)
-
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 041c615052..f7e68191c2 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -283,6 +283,8 @@ def _post_launch(self):
+             self._qmp.accept()
+ 
+     def _post_shutdown(self):
++        self._load_io_log()
++
+         if self._qemu_log_file is not None:
+             self._qemu_log_file.close()
+             self._qemu_log_file = None
+@@ -296,6 +298,17 @@ def _post_shutdown(self):
+         while len(self._remove_files) > 0:
+             self._remove_if_exists(self._remove_files.pop())
+ 
++        exitcode = self.exitcode()
++        if exitcode is not None and exitcode < 0:
++            msg = 'qemu received signal %i; command: "%s"'
++            if self._qemu_full_args:
++                command = ' '.join(self._qemu_full_args)
++            else:
++                command = ''
++            LOG.warning(msg, -int(exitcode), command)
++
++        self._launched = False
++
+     def launch(self):
+         """
+         Launch the VM and make sure we cleanup and expose the
+@@ -344,7 +357,6 @@ def wait(self):
+         self._popen.wait()
+         if self._qmp:
+             self._qmp.close()
+-        self._load_io_log()
+         self._post_shutdown()
+ 
+     def shutdown(self, has_quit=False, hard=False):
+@@ -371,21 +383,8 @@ def shutdown(self, has_quit=False, hard=False):
+                     self._popen.kill()
+             self._popen.wait()
+ 
+-        self._load_io_log()
+         self._post_shutdown()
+ 
+-        exitcode = self.exitcode()
+-        if exitcode is not None and exitcode < 0 and \
+-                not (exitcode == -9 and hard):
+-            msg = 'qemu received signal %i: %s'
+-            if self._qemu_full_args:
+-                command = ' '.join(self._qemu_full_args)
+-            else:
+-                command = ''
+-            LOG.warning(msg, -int(exitcode), command)
+-
+-        self._launched = False
+-
+     def kill(self):
+         self.shutdown(hard=True)
+ 
 -- 
 2.21.3
 
