@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B1520B4D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:39:41 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A99D20B4C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:37:38 +0200 (CEST)
+Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqS4-0004RK-MF
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
+	id 1joqQ5-00087y-Hw
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:37:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4Y-00037z-0w
+ id 1joq4Y-00038j-RB
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:22 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38619)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq4V-0006fL-1F
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:21 -0400
-Received: by mail-wr1-x432.google.com with SMTP id z13so9869972wrw.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:15:18 -0700 (PDT)
+ id 1joq4X-0006fb-2a
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:15:22 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q5so9851399wru.6
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bILgS802kOP5gR7fj6y5gd5HeqbKcxvhIhwFysJcVM8=;
- b=ikc5jYjQ856AR7oU5l2lo7qkhL6Lc7bpeAg9nDivQwnfosozM7k6Mx9I4AGgQmQ7tT
- lqYEth884Iw8y0c63t62p9OXgOESc0qXCCSRyOQ+UMPT/DAA6YopSzu/AlUuc52Fq1Ea
- ogtEol7VGp+sHAVsVejuWEDmwfrB/SvJ9jKVMd5yeLZEjweqClFoRDOaFyDWlU6RhxkD
- 65zjEEtulgaTS9ivpCmeHourc3PkENWyE3mYSEqM/8PNdhgLyetIVwfn+Efp1XFRHvWl
- yLfs9PHC75+JyLtPOMDRitHptRM/0emewHXOTRtpieZl8Ay/QrR1BjVMD0rGNtygt4Wj
- 3ZKg==
+ bh=8K/dkwNIkhX7mCrarFQM1tsE89/FiAwHTCjUY5kBac8=;
+ b=lPfBjQBP6rdHkmcKg23Fd+H1zA2Oxfps+2kjceJHaKfD322UYEs5sSRTJpD71tipdd
+ xLHxcPRQ7bJoM2lOwE80i08zP5yMleJXUqhsouvq5/lXgzkIPn9X4a7+XpFLzi2cXJG6
+ FyrZAYW7sKAHZZrKc03BZ/18H0TU/40WtlkE+vZUv5pxo33vNYh91fn5jBSBhFe0TQUs
+ Z/XQZjXQu9ixDfsSZs4wV7FhIJ0AZG2NxvqI+9N3JvRls//DpPGneZL3Q8uU01LUqzPE
+ 6bWNZ0+Teoh1rJEKrHy1zGwkYMfsoV1WvFFGinLxNBdx6JxnR2x+jJNdsnwZYVwdHnqQ
+ Mn5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bILgS802kOP5gR7fj6y5gd5HeqbKcxvhIhwFysJcVM8=;
- b=NX+e3+rk2b3tjTpGg3ScXB7g8xAGDiFk5v3mmPR9+J8PG6r1aIXOnaTtu4AfwEHK2r
- K2xusyG/uMbIS/202/pnc7MifKwUHmeeGl61Rnpwz/voI5CPGssc5zlzZraSai/rWhFC
- eCWv7mSOXeIdegIzLqDvaSU81jEsOOUJw5LCK3f93jSsv88/33rpnSdV6yI91Gu1598T
- N3IawwuhZvaDdqkT1J58Us1MLb3y/kggPCmVWj+cxmpgt0oQp3ai5bdMV9HPfRNHZtUA
- YgsfSZoz8Ow8W+KwKvAOCaoHICHvDcLeqsg6xj1kCitxXaJ8J3DnEGBrkGJCxdE9oY76
- +rZw==
-X-Gm-Message-State: AOAM530Y+86BmwUYWtPGfOquMyYPGNtT9pAIjfIue4Tn3YGmXeBsVej1
- SZ9f+rIM43XxakhOD3qyd6qdrZuXT5Nkkg==
-X-Google-Smtp-Source: ABdhPJzOd2b6ueRduEQL9wrC4g7qII6iCD7N2FP/XeEceYc1YnnqiwZuMJQcm7ELMswGsBePDcPdOw==
-X-Received: by 2002:a5d:4f0e:: with SMTP id c14mr4574072wru.410.1593184517379; 
- Fri, 26 Jun 2020 08:15:17 -0700 (PDT)
+ bh=8K/dkwNIkhX7mCrarFQM1tsE89/FiAwHTCjUY5kBac8=;
+ b=e+SynhbWm6Kj7l4F0FiWAlcwGIkDVULFRxdbMI7rWPL3c9/n0BmjcAE/ccdbDkeWLs
+ +t5feYDS74RI9ACf3MeEnbZcNjnoqvTLZKAAOA5p0pTOPmqne3j5pIa2TnJm+LLO6JA3
+ 2T8RuReUsCqmx3dpwNyEPxc8bw55AYqYGgo4brZ6QoFb4HJxGOGk6rFv2xUxcfyDwnJG
+ G+MTDRlrEL+GwkgfrfMg6AhAcLdDjMGu/Z9gUbi8wsG8OoUbNY9EQoviJKA+4tplRBBR
+ 0B45UHLI5KfME0n/xX37LQoK3gIgcbCEEwl4Wc9nEmp5ZmZO5BuhPBBmcThIqQBgbyMP
+ v3Vg==
+X-Gm-Message-State: AOAM530ta6nX/OT7k/0RMmz7K45n/ZBTj72JgVageM4RnrCvODVRwTkM
+ jl7gIr8DjdaIVsKP5xc78wu1xmGWyylHuA==
+X-Google-Smtp-Source: ABdhPJy/+tX7XIuEwF8sT3Af/mBb4CFJgHV8+u6LX4H6yhVlOmeGB47YXroFDe1bH9AUHFe91rdDXQ==
+X-Received: by 2002:adf:e908:: with SMTP id f8mr4219043wrm.3.1593184518367;
+ Fri, 26 Jun 2020 08:15:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.15.15
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.15.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:15:16 -0700 (PDT)
+ Fri, 26 Jun 2020 08:15:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/57] target/arm: Tidy trans_LD1R_zpri
-Date: Fri, 26 Jun 2020 16:14:10 +0100
-Message-Id: <20200626151424.30117-44-peter.maydell@linaro.org>
+Subject: [PULL 44/57] target/arm: Add arm_tlb_bti_gp
+Date: Fri, 26 Jun 2020 16:14:11 +0100
+Message-Id: <20200626151424.30117-45-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,46 +90,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Move the variable declarations to the top of the function,
-but do not create a new label before sve_access_check.
+Introduce an lvalue macro to wrap target_tlb_bit0.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200626033144.790098-32-richard.henderson@linaro.org
+Message-id: 20200626033144.790098-33-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ target/arm/cpu.h           | 13 +++++++++++++
+ target/arm/helper.c        |  2 +-
+ target/arm/translate-a64.c |  2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 4fa521989de..a3a0b98fbc5 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4883,17 +4883,19 @@ static bool trans_LD1RQ_zpri(DisasContext *s, arg_rpri_load *a)
- /* Load and broadcast element.  */
- static bool trans_LD1R_zpri(DisasContext *s, arg_rpri_load *a)
- {
--    if (!sve_access_check(s)) {
--        return true;
--    }
--
-     unsigned vsz = vec_full_reg_size(s);
-     unsigned psz = pred_full_reg_size(s);
-     unsigned esz = dtype_esz[a->dtype];
-     unsigned msz = dtype_msz(a->dtype);
--    TCGLabel *over = gen_new_label();
-+    TCGLabel *over;
-     TCGv_i64 temp, clean_addr;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index cb4f6ba69f2..c54f0ab18a1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3393,6 +3393,19 @@ static inline uint64_t *aa64_vfp_qreg(CPUARMState *env, unsigned regno)
+ /* Shared between translate-sve.c and sve_helper.c.  */
+ extern const uint64_t pred_esz_masks[4];
  
-+    if (!sve_access_check(s)) {
-+        return true;
-+    }
++/* Helper for the macros below, validating the argument type. */
++static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
++{
++    return x;
++}
 +
-+    over = gen_new_label();
++/*
++ * Lvalue macros for ARM TLB bits that we must cache in the TCG TLB.
++ * Using these should be a bit more self-documenting than using the
++ * generic target bits directly.
++ */
++#define arm_tlb_bti_gp(x) (typecheck_memtxattrs(x)->target_tlb_bit0)
 +
-     /* If the guarding predicate has no bits set, no load occurs.  */
-     if (psz <= 8) {
-         /* Reduce the pred_esz_masks value simply to reduce the
+ /*
+  * Naming convention for isar_feature functions:
+  * Functions which test 32-bit ID registers should have _aa32_ in
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 33f902387b4..44a3f9fb480 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11079,7 +11079,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     }
+     /* When in aarch64 mode, and BTI is enabled, remember GP in the IOTLB.  */
+     if (aarch64 && guarded && cpu_isar_feature(aa64_bti, cpu)) {
+-        txattrs->target_tlb_bit0 = true;
++        arm_tlb_bti_gp(txattrs) = true;
+     }
+ 
+     if (cacheattrs != NULL) {
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index a2a82800102..7a3774bfda7 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14434,7 +14434,7 @@ static bool is_guarded_page(CPUARMState *env, DisasContext *s)
+      * table entry even for that case.
+      */
+     return (tlb_hit(entry->addr_code, addr) &&
+-            env_tlb(env)->d[mmu_idx].iotlb[index].attrs.target_tlb_bit0);
++            arm_tlb_bti_gp(&env_tlb(env)->d[mmu_idx].iotlb[index].attrs));
+ #endif
+ }
+ 
 -- 
 2.20.1
 
