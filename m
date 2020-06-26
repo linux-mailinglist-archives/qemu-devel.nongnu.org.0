@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DC320BC02
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:57:30 +0200 (CEST)
-Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33F220BC00
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:57:26 +0200 (CEST)
+Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowLh-0008IK-4x
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
+	id 1jowLd-000886-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI2-0002li-NH
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:42 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52693)
+ id 1jowI5-0002pm-2L
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:45 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowHz-0002yn-NL
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:42 -0400
+ id 1jowI1-0002yi-MS
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208420; x=1624744420;
+ t=1593208422; x=1624744422;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=b1Ls40SLOrF/dDm3uwiXCXSUeExSWQX70TCAAQ9ReiI=;
- b=cbT3BU1DSE4UKt8tqQFqen23enxrDuj6ivjcZTEspfKbky6g+eMWJY9W
- w0453eoV/4tL2gYKYMUQP7DFIz1aCbM1AdjP82V754ZGwwL1zEBIxQHH/
- EPFxgLzNlXBlB1HtYLbAzuckJYuvV9cnHFtPszHGVzfxya7rPa5TypGnw
- cE8xkG5N2qZzE9i7+axNABwM8tdqvMO/Fq3Q6IjiBiAET4NVk4hFACx7t
- bZPznfFCBhBLAfdk4Fb70Pfir2pMrGBkM/eeGnmDjrYV7NoqA/xlTMFbp
- SnZJFji4TgfCP+P23J3SZV8KVSHU/yJNXBf1AKPk+PbcTLfhHSDTkRJ3P w==;
-IronPort-SDR: JhzmCAbjjteLYLqQAZL09sz76j3UHS4sfu6Tdt8MMNAs+MtBi2IEvP1AH+rElQikmnMz0YrjOi
- PK+WlKuxm6iHlaGhnKSGX+/4sOmTZyzxVobXpduoWK53U9dyuYwgE6AEsnAD3UgMjf1jsAVdE8
- z2AU6PjK39gionXbkAWTV24836xdhTZZgKsurxzg7VnvIR5PEKtnMH8Y4AynzmOOiV/bvy+azM
- 19J4gd64IAuraOiP3ePyHvOvijtQxs67O5bsWJtlVzPz9teBW7O1iJ+xA7e8wZZZJfoBfAiQIP
- 42g=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360014"
+ bh=qpKzwblaRf2F0jUNdWykbNTHSQmsZK/6FTkF0U3QfCc=;
+ b=G9oi7hIyjvmVRGqNoh3L5vT5fezwuLQJwUCrEmuL6tDS49EFYoKiaTcn
+ hDzXgzRzwRyzxyN0QKSEHv/Lwp9m/z/BWidrrTxnIHKMZQBswkkTGf9aS
+ g6SxClZw/6a2v9Xh4gsBAuGqJDdaQLwFdkiB14b/wxe7qg5Gz3zQN7HYN
+ JPdNNO8CKJ+QNuYJr5gDlZ+t7HKWQ4mdZQe8pe1t84orImEfCp8k0YsB+
+ 3TFxpUQTFpaN8wQyneG2PQL2bvQWDu7JqEe+uzB08sSl1QEqHG8r2SNxQ
+ wednxhFRJkpg0U6u2HFbRykMHs1ZbKNUp50V7V6kdlnnhu2kSn6nGqHzt A==;
+IronPort-SDR: JIQS3yqY0aqCtF0d6xvO0qh3hc//ilwlA0ZIeuOMaSTipRMWAQyILQaTPmajmn/n6YybkHoZS0
+ 3gO6B2oNE4zFhSPSe4NkfoHRg1U2xIwxcBnFL0TEm5GKYm7N2pQYYsiiFtKv5Nrxv1OyNngvvp
+ +zl219h4NbVXkR4ZA0UJrAdxjLtwAAZYVyqywxje61zJhp2/Ec8tm8mpesAFd08FxK7cOvMIX4
+ xesUfUe5KOklNILoppbcHTGfMyB97cZtMy6IU1nENtGByQL9DJ8zgPfvy6JCO3dpMhGFydyRS7
+ SA4=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360016"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:35 +0800
-IronPort-SDR: Cf1MCNKaLSuqKSgGmqT/YGemDpr7lqOD4Aup5kATx/aOBsP4dQqNHVfo53PdiAYs5NATUnDItE
- rIEn9b56rdklcUlfkatbOFpuXMLyv9Qao=
+IronPort-SDR: CpgQb4GBUlh0b8PN6fj8lCCTHpQ5FTRlI5GsIjVAl7LXC5jM6BlHFKnP+YNlOZwwPyLRtB+HN2
+ +LQdskaceYEq+wi10hEIsx9Wopv9v7aGo=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jun 2020 14:42:33 -0700
-IronPort-SDR: XtjPWSqekKH3gmfi8R09PM9X/b6JLKxYXcdKpIjI2Z+XEsyHWo0QZcXBwi4QFyiMkaGzCtemzL
- 3O8tzT0sdKjw==
+IronPort-SDR: aOAlNHI6HhVx2L4O6K6ZQ85fBAQU1zqhV3EyBPUPFvQ2Lg8GIInwVSG7+By+VAOD0oByj3wazA
+ jg4iglOu7dvA==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
- by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:34 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 26 Jun 2020 14:53:35 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/63] riscv: plic: Honour source priorities
-Date: Fri, 26 Jun 2020 14:43:08 -0700
-Message-Id: <20200626214410.3613258-2-alistair.francis@wdc.com>
+Subject: [PULL 02/63] riscv: plic: Add a couple of mising sifive_plic_update
+ calls
+Date: Fri, 26 Jun 2020 14:43:09 -0700
+Message-Id: <20200626214410.3613258-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
@@ -95,57 +96,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jessica Clarke <jrtc27@jrtc27.com>
 
-The source priorities can be used to order sources with respect to other
-sources, not just as a way to enable/disable them based off a threshold.
-We must therefore always claim the highest-priority source, rather than
-the first source we find.
+Claiming an interrupt and changing the source priority both potentially
+affect whether an interrupt is pending, thus we must re-compute xEIP.
+Note that we don't put the sifive_plic_update inside sifive_plic_claim
+so that the logging of a claim (and the resulting IRQ) happens before
+the state update, making the causal effect clear, and that we drop the
+explicit call to sifive_plic_print_state when claiming since
+sifive_plic_update already does that automatically at the end for us.
+
+This can result in both spurious interrupt storms if you fail to
+complete an IRQ before enabling interrupts (and no other actions occur
+that result in a call to sifive_plic_update), but also more importantly
+lost interrupts if a disabled interrupt is pending and then becomes
+enabled.
 
 Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200618202343.20455-1-jrtc27@jrtc27.com>
+Message-id: 20200618210649.22451-1-jrtc27@jrtc27.com
+Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_plic.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ hw/riscv/sifive_plic.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index 4f216c5585..d91e82b8ab 100644
+index d91e82b8ab..c20c192034 100644
 --- a/hw/riscv/sifive_plic.c
 +++ b/hw/riscv/sifive_plic.c
-@@ -166,6 +166,9 @@ static void sifive_plic_update(SiFivePLICState *plic)
- static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
- {
-     int i, j;
-+    uint32_t max_irq = 0;
-+    uint32_t max_prio = plic->target_priority[addrid];
-+
-     for (i = 0; i < plic->bitfield_words; i++) {
-         uint32_t pending_enabled_not_claimed =
-             (plic->pending[i] & ~plic->claimed[i]) &
-@@ -177,14 +180,18 @@ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
-             int irq = (i << 5) + j;
-             uint32_t prio = plic->source_priority[irq];
-             int enabled = pending_enabled_not_claimed & (1 << j);
--            if (enabled && prio > plic->target_priority[addrid]) {
--                sifive_plic_set_pending(plic, irq, false);
--                sifive_plic_set_claimed(plic, irq, true);
--                return irq;
-+            if (enabled && prio > max_prio) {
-+                max_irq = irq;
-+                max_prio = prio;
+@@ -255,8 +255,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
+                     plic->addr_config[addrid].hartid,
+                     mode_to_char(plic->addr_config[addrid].mode),
+                     value);
+-                sifive_plic_print_state(plic);
              }
++            sifive_plic_update(plic);
+             return value;
          }
      }
--    return 0;
-+
-+    if (max_irq) {
-+        sifive_plic_set_pending(plic, max_irq, false);
-+        sifive_plic_set_claimed(plic, max_irq, true);
-+    }
-+    return max_irq;
- }
- 
- static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
+@@ -287,6 +287,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
+             qemu_log("plic: write priority: irq=%d priority=%d\n",
+                 irq, plic->source_priority[irq]);
+         }
++        sifive_plic_update(plic);
+         return;
+     } else if (addr >= plic->pending_base && /* 1 bit per source */
+                addr < plic->pending_base + (plic->num_sources >> 3))
 -- 
 2.27.0
 
