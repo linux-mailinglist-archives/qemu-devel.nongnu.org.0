@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD78720B7E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:16:00 +0200 (CEST)
-Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C238420B7F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:17:54 +0200 (CEST)
+Received: from localhost ([::1]:50914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jostL-0000cj-MY
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
+	id 1josvB-0003oo-IP
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrV-0007JF-Cs
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:05 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37431)
+ id 1josrX-0007KA-1u
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:07 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1josrS-0001F6-S7
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:05 -0400
-Received: by mail-wr1-x432.google.com with SMTP id a6so10367983wrm.4
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:14:02 -0700 (PDT)
+ id 1josrT-0001FM-Nh
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:14:06 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id f7so7363171wrw.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KLxxBVgESg8+q++r/+fvnKLfCmcpFTynVpvVjZzQTYc=;
- b=d/3+7NNk/ECbJJCQpyDHdZ46ZLQHsWBXgG4yXVGpMhzCHzzP9JBYrkil4hsDuslnvM
- Q+rsl40kejeRCatacHyJzK/2+kv+HrNM3DKh45N+5MkmnAHNy2tX+2wyVMnSHlbVsqrD
- hvFnbp5X6rzhVLYLZiqr9Kq0z6Nv29sBM0vrIJA2WMvkgrWqed+9XdAcB2MB7V7Byw1p
- 1u4AwgjfQ/qZ89cYoxyC0tsSZ5RHePbGwegnWRqnu1eJul7uCY7Ls2OvvGWghXaOen9/
- E3GZ91nexNpU5sXOKV5YnukrDIzZIwcUQFA4kVQiRvwAUw6EwZo4Q3gWazNqvHQyW0g2
- b8cw==
+ bh=tZC0B8qZBNh5ZHLpWECSXwcvz7Y/QMYlsT+820N3gaU=;
+ b=g6pr6qaxIvJtD+EoG2TELUkHs5gPfwzSh1O9xG40dgzMh0mmkOYmu0cKnsYUVgDIDR
+ B2HsgOnWrpKfagdqiLWp0BSQTOU0pNPiRrVDpSg8aYfwy8Ocm1/qY4N1p+RwKaEAN1di
+ jZb+YGb/F/6Tzt9+pxUa4hmjiqulYEOKMl054g4hAhhsYVVQw1REw/dUxyCYPkaTLxqD
+ kSESORhFcLWpOS3SADyl6w5jNEmNPlHxaHUSyI0AGS1UfGqiLe7MamJMM5wEjn6HlM0L
+ UyzURUy7Q2pgScQrDwfermg5dpoK9XNLOgBrzU6VrwAihAlYCAR7mUyrkRRo1FiWROvI
+ lckA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KLxxBVgESg8+q++r/+fvnKLfCmcpFTynVpvVjZzQTYc=;
- b=D6x57fGUf710CvsoCfR6vu1hQKdGXAZE0B27nsYC5dbYGoX1HfMridu5BfsHe5Snyx
- 7O+68odufbT0I/+JahZQUOq7hnWqA0/vez0wFeq9pYc5RaGfgiQE7aeMIuN14p9Te2vx
- KS3Q7b7NXxEM6t6n+nby6O+jfkdfz71jV0q8i+SvUT1SX+7lREE9JYW0141C8V14lvzm
- f9CjkJKhEvhC9PFwn5JrmgtII6Vm2SFYN6Sjs5VwxsWx/rZ1CffQjNXZeMN7NByus9kX
- xm7cagFNxWLlJ+DEXzErhAZd83uotaYcMwpXMpQOT66LMDsPseUSx8qAy+0hJFI1Xp9H
- Rl4w==
-X-Gm-Message-State: AOAM531tSY7Rb9tQwzCjueX9Ox4vRAjJ/F29T4dxGK2bTp28Mv9aGw5d
- xTwwwM1mRrjuVjvdDQ2JphOi3w==
-X-Google-Smtp-Source: ABdhPJy4x0F8GG8eBNkBwC2yP8epvj5DpQJSODm9C3OVIG6FxO8PgXgcA7NwDLkq13JnOBaDFEEeYA==
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr4804457wrp.234.1593195241045; 
- Fri, 26 Jun 2020 11:14:01 -0700 (PDT)
+ bh=tZC0B8qZBNh5ZHLpWECSXwcvz7Y/QMYlsT+820N3gaU=;
+ b=LShoIcwJ3iF+xKVeJKpkGOPTdvpNkiJWSCaNaE3Ns23r6Uu3nuQgpb9Xt30aar+56u
+ WflhgFGGwVu4W8eOdO3hNp+ZO4jLQGGYrtp9Z49pcktnQ2lwvefFVaigfJ+SMDBz4I3J
+ idaMIIicWDcvjSGyZLvjA2ZozYc8lcCnQ71l0NEcsCM3X8g4FBxiSPpnbkZQPOBaylge
+ HFbSDBl5J4jnXAHCLL5yNRu2kS/3cvl9QP6T1bIb35ULW/ezVgdDfxFhwQfw7T1WR5r4
+ kc2iupmL4OLr/OYKa3bCtcvTmErkYsGFGYP/9oLPxvC8nf530sB0FekV/VlvOZPUPeW+
+ ukug==
+X-Gm-Message-State: AOAM532dR4A82Srame68nvkoJZ27HpswEXB9HM6lT28I92f9dSInZbSx
+ 5F3P8anVP3QnAqxwFdnu317cVg==
+X-Google-Smtp-Source: ABdhPJwKG0nxoK+odtcaosBcM5TK07wFU0p6AT2Wm77BAvnRY+GSt2t3ZvldS8N32XQm5chxDXBsOQ==
+X-Received: by 2002:a5d:4845:: with SMTP id n5mr4885014wrs.353.1593195242276; 
+ Fri, 26 Jun 2020 11:14:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k11sm35759589wrd.23.2020.06.26.11.13.58
+ by smtp.gmail.com with ESMTPSA id e5sm37859634wrs.33.2020.06.26.11.13.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 26 Jun 2020 11:13:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E160E1FF87;
- Fri, 26 Jun 2020 19:13:57 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 12B9F1FF8C;
+ Fri, 26 Jun 2020 19:13:58 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/30] iotests: Fix 051 output after qdev_init_nofail()
- removal
-Date: Fri, 26 Jun 2020 19:13:28 +0100
-Message-Id: <20200626181357.26211-2-alex.bennee@linaro.org>
+Subject: [PATCH v3 02/30] crypto/linux_keyring: fix 'secret_keyring' configure
+ test
+Date: Fri, 26 Jun 2020 19:13:29 +0100
+Message-Id: <20200626181357.26211-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626181357.26211-1-alex.bennee@linaro.org>
 References: <20200626181357.26211-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,57 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
- John Snow <jsnow@redhat.com>, aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ David Edmondson <david.edmondson@oracle.com>, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: David Edmondson <david.edmondson@oracle.com>
 
-Commit 96927c744 replaced qdev_init_nofail() call by
-isa_realize_and_unref() which has a different error
-message. Update the test output accordingly.
+The configure test for 'secret_keyring' incorrectly checked the
+'have_keyring' variable.
 
-Gitlab CI error after merging b77b5b3dc7:
-https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
-
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: 54e7aac0562452e4fcab65ca5001d030eef2de15
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200616154949.6586-1-philmd@redhat.com>
+Message-Id: <20200618092636.71832-1-david.edmondson@oracle.com>
 ---
- tests/qemu-iotests/051.pc.out | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index 0ea80d35f0e..da8ad871876 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- Testing: -drive if=ide
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs media, but drive is empty
-+(qemu) QEMU_PROG: Device needs media, but drive is empty
- 
- Testing: -drive if=virtio
- QEMU X.Y.Z monitor - type 'help' for more information
-@@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=ide,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is read-only
-+(qemu) QEMU_PROG: Block node is read-only
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=virtio,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
+diff --git a/configure b/configure
+index ae8737d5a2c..25b65981142 100755
+--- a/configure
++++ b/configure
+@@ -6437,7 +6437,7 @@ EOF
+ fi
+ if test "$secret_keyring" != "no"
+ then
+-    if test "$have_keyring" == "yes"
++    if test "$have_keyring" = "yes"
+     then
+ 	secret_keyring=yes
+     else
 -- 
 2.20.1
 
