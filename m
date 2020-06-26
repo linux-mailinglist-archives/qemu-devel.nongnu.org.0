@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB27620B012
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:55:36 +0200 (CEST)
-Received: from localhost ([::1]:48250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F14620B016
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:57:13 +0200 (CEST)
+Received: from localhost ([::1]:52572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jom19-0001E4-AL
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45976)
+	id 1jom2i-00036s-BK
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jom09-0000LT-7T; Fri, 26 Jun 2020 06:54:33 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jom06-0003z9-FK; Fri, 26 Jun 2020 06:54:32 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 607BE748DCC;
- Fri, 26 Jun 2020 12:54:24 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2525F748DCB; Fri, 26 Jun 2020 12:54:24 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 23D44748DCD;
- Fri, 26 Jun 2020 12:54:24 +0200 (CEST)
-Date: Fri, 26 Jun 2020 12:54:24 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 1/3] hw/i2c/smbus_eeprom: Set QOM parent
-In-Reply-To: <alpine.BSF.2.22.395.2006261240500.94870@zero.eik.bme.hu>
-Message-ID: <alpine.BSF.2.22.395.2006261251480.94870@zero.eik.bme.hu>
-References: <20200626102744.15053-1-f4bug@amsat.org>
- <20200626102744.15053-2-f4bug@amsat.org>
- <alpine.BSF.2.22.395.2006261240500.94870@zero.eik.bme.hu>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jom1z-0002ew-OA
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:56:27 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jom1y-00051K-34
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:56:27 -0400
+Received: by mail-ot1-x341.google.com with SMTP id q21so664225otc.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 03:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GcN+xma/RH65dKjl4Y/G1oiEhVnv0kx5nhRgddP9QJQ=;
+ b=Nhny+Q4wDkvTi/J7YYeGp6Wb+YYBxV5F/+sRGoXbK2Aqp/zChlG8XiUaoRhQIIWW7f
+ PMIIGbpNZSTukFlKTA1HF140J9aux/XNk5BGY9J7XJjXtciq8DtMKHT4zGlvD/SufHkN
+ jImMua1n6tyN5cC1tN3aQZwbEwfJVQcISaUsdI+0p4Crt97zlPAvkrUdkVeShnbHgJNp
+ UqAYnV7Tam+CGipnCCsKg5beskyaAGBgNijBfjpYYPjKfdElZXZ5L20SMJapfapUXWwx
+ 9Jr5sUNtixhnaFbwmCPNJmifE1ZUHy1FmcG10QSyMXoDtv07nBYf4kGlEw251PXAncsL
+ tYdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GcN+xma/RH65dKjl4Y/G1oiEhVnv0kx5nhRgddP9QJQ=;
+ b=nZcCTAznkAZyto4gVr4OIW3v4HUpyM2poxw1kib7WlbfC3mLFh32VzeAZu1RNva5P3
+ 8KMIfc54ieZN7QseUEkOQ95wQ0tZV4pTjd+Qw7d11mxSy391l1VQ8dc3vmlragP+N3MQ
+ TS9m7l2q2J5INdPWFk/Qp4pVbxJMBCzkX9gYuPqUyP25+86glqci8nCvX37yaqpmsJ5Q
+ 1h0036ydC4gioCxw3QUj4ydTChgreOSYeH836a6oKIpTyqyHOBrWq5ewOgKhc+9mIprP
+ LsjU7L3mwRSGSOK+oNrVrjFhP3rmLgM1qIGbRDK8GBP/Ko9D0MEmSvvJaBCC1wtt3SPq
+ qcfg==
+X-Gm-Message-State: AOAM533PkCEJIuY7lwXaV57TRzDJVpDdxL+qRu7XMzQ1k16D/jIq1HAg
+ 2OpzuNYrwNdXea1xuFms60bVHVdCvAyu4pbfvhWW+g==
+X-Google-Smtp-Source: ABdhPJz5wR2yx8DJZsNJMObqXzgRwQqOInXmVQkRp+sB1SUSyhCi6h2HeYZM4VDpea1qJornUHFYvN4L0Jw99OTBi5Q=
+X-Received: by 2002:a4a:ba17:: with SMTP id b23mr451498oop.69.1593168984925;
+ Fri, 26 Jun 2020 03:56:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1414184857-1593168864=:94870"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+References: <CA+XhMqyDzenX2BiR7CnvZc-J91wWCX8ra==T_=WCe3xq3-n2hQ@mail.gmail.com>
+In-Reply-To: <CA+XhMqyDzenX2BiR7CnvZc-J91wWCX8ra==T_=WCe3xq3-n2hQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Jun 2020 11:56:14 +0100
+Message-ID: <CAFEAcA8H9E+us8u_0KLeqFN0Ygq9kBonjOXAxXXyT1+bw9pWQg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] haiku build fix
+To: David CARLIER <devnexen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,144 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Markus Armbruster <armbru@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-ppc@nongnu.org, =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Huacai Chen <chenhc@lemote.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1414184857-1593168864=:94870
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 26 Jun 2020, BALATON Zoltan wrote:
-> On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Aspeed change pending latest ARM pull-request, so meanwhile sending
->> as RFC.
->> ---
->> include/hw/i2c/smbus_eeprom.h |  9 ++++++---
->> hw/i2c/smbus_eeprom.c         | 13 ++++++++++---
->> hw/mips/fuloong2e.c           |  2 +-
->> hw/ppc/sam460ex.c             |  2 +-
->> 4 files changed, 18 insertions(+), 8 deletions(-)
->> 
->> diff --git a/include/hw/i2c/smbus_eeprom.h b/include/hw/i2c/smbus_eeprom.h
->> index 68b0063ab6..037612bbbb 100644
->> --- a/include/hw/i2c/smbus_eeprom.h
->> +++ b/include/hw/i2c/smbus_eeprom.h
->> @@ -26,9 +26,12 @@
->> #include "exec/cpu-common.h"
->> #include "hw/i2c/i2c.h"
->> 
->> -void smbus_eeprom_init_one(I2CBus *bus, uint8_t address, uint8_t 
->> *eeprom_buf);
->> -void smbus_eeprom_init(I2CBus *bus, int nb_eeprom,
->> -                       const uint8_t *eeprom_spd, int size);
->> +void smbus_eeprom_init_one(Object *parent_obj, const char *child_name,
->> +                           I2CBus *smbus, uint8_t address,
->> +                           uint8_t *eeprom_buf);
->> +void smbus_eeprom_init(Object *parent_obj, const char *child_name_prefix,
->> +                       I2CBus *smbus, int nb_eeprom,
->> +                       const uint8_t *eeprom_spd, int eeprom_spd_size);
+On Fri, 26 Jun 2020 at 11:08, David CARLIER <devnexen@gmail.com> wrote:
 >
-> Keeping I2CBus *smbus and uint8_t address as first parameters before 
-> parent_obj and name looks better to me. These functions still operate on an 
-> I2Cbus so could be regarded as methods of I2CBus therefore first parameter 
-> should be that.
-
-Also isn't parent_obj is the I2Cbus itself? Why is that need to be passed? 
-The i2c_init_bus() also takes parent and name params so both I2Cbus and 
-it's parent should be available as parents of the new I2C device here 
-without more parameters. What am I missing here?
-
-> Regards,
-> BALATON Zoltan
+> From 4d0933384d2bfcd0fc8c4c06eed2d07f3f1b7f8b Mon Sep 17 00:00:00 2001
+> From: David Carlier <devnexen@gmail.com>
+> Date: Fri, 26 Jun 2020 10:35:40 +0000
+> Subject: [PATCH 1/5] Haiku build fix enabling BSD symbols.
 >
->> enum sdram_type { SDR = 0x4, DDR = 0x7, DDR2 = 0x8 };
->> uint8_t *spd_data_generate(enum sdram_type type, ram_addr_t size);
->> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
->> index b7def9eeb8..879fd7c416 100644
->> --- a/hw/i2c/smbus_eeprom.c
->> +++ b/hw/i2c/smbus_eeprom.c
->> @@ -165,7 +165,9 @@ static void smbus_eeprom_register_types(void)
->> 
->> type_init(smbus_eeprom_register_types)
->> 
->> -void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t 
->> *eeprom_buf)
->> +void smbus_eeprom_init_one(Object *parent_obj, const char *child_name,
->> +                           I2CBus *smbus, uint8_t address,
->> +                           uint8_t *eeprom_buf)
->> {
->>     DeviceState *dev;
->> 
->> @@ -173,10 +175,12 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t 
->> address, uint8_t *eeprom_buf)
->>     qdev_prop_set_uint8(dev, "address", address);
->>     /* FIXME: use an array of byte or block backend property? */
->>     SMBUS_EEPROM(dev)->init_data = eeprom_buf;
->> +    object_property_add_child(parent_obj, child_name, OBJECT(dev));
->>     qdev_realize_and_unref(dev, (BusState *)smbus, &error_fatal);
->> }
->> 
->> -void smbus_eeprom_init(I2CBus *smbus, int nb_eeprom,
->> +void smbus_eeprom_init(Object *parent_obj, const char *child_name_prefix,
->> +                       I2CBus *smbus, int nb_eeprom,
->>                        const uint8_t *eeprom_spd, int eeprom_spd_size)
->> {
->>     int i;
->> @@ -189,8 +193,11 @@ void smbus_eeprom_init(I2CBus *smbus, int nb_eeprom,
->>     }
->>
->>     for (i = 0; i < nb_eeprom; i++) {
->> -        smbus_eeprom_init_one(smbus, 0x50 + i,
->> +        char *name = g_strdup_printf("%s-%d", child_name_prefix, i);
->> +
->> +        smbus_eeprom_init_one(parent_obj, name, smbus, 0x50 + i,
->>                               eeprom_buf + (i * SMBUS_EEPROM_SIZE));
->> +        g_free(name);
->>     }
->> }
->> 
->> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
->> index 8ca31e5162..304a096c6a 100644
->> --- a/hw/mips/fuloong2e.c
->> +++ b/hw/mips/fuloong2e.c
->> @@ -377,7 +377,7 @@ static void mips_fuloong2e_init(MachineState *machine)
->>
->>     /* Populate SPD eeprom data */
->>     spd_data = spd_data_generate(DDR, machine->ram_size);
->> -    smbus_eeprom_init_one(smbus, 0x50, spd_data);
->> +    smbus_eeprom_init_one(OBJECT(machine->ram), "spd", smbus, 0x50, 
->> spd_data);
->>
->>     mc146818_rtc_init(isa_bus, 2000, NULL);
->> 
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index 1a106a68de..064d07f4e2 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -337,7 +337,7 @@ static void sam460ex_init(MachineState *machine)
->>     spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
->>                                  ram_sizes[0]);
->>     spd_data[20] = 4; /* SO-DIMM module */
->> -    smbus_eeprom_init_one(i2c, 0x50, spd_data);
->> +    smbus_eeprom_init_one(OBJECT(machine->ram), "spd", i2c, 0x50, 
->> spd_data);
->>     /* RTC */
->>     i2c_create_slave(i2c, "m41t80", 0x68);
->> 
->
---3866299591-1414184857-1593168864=:94870--
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> ---
+>  configure | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
