@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FBC20AC76
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:43:06 +0200 (CEST)
-Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD08620AC79
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:44:24 +0200 (CEST)
+Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joi4n-0005Jm-MQ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49912)
+	id 1joi63-0007Zo-Pa
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1joi3U-0003gt-CM
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 02:41:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47760
+ id 1joi3V-0003jn-9D
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 02:41:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1joi3R-0001ZK-HU
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 02:41:43 -0400
+ id 1joi3S-0001ZO-B0
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 02:41:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593153700;
+ s=mimecast20190719; t=1593153701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4ByN3fESxiaH4pbep30Tf1LNBSxt70lTNByVu0U+p48=;
- b=RBpvQ0N9cXXv8DCDIbhRULxc4N2ZlFfVb8TNwEnwW9PJt0zYp8bpZGGysyf+CIIAGvRlDq
- AhCHWPtDtXv3a3V9kLoCjRnyfL/fcNAwWqDHpMqsuviV8zFHhR4VzkgB3RvxGXjHVR3BLq
- udjMNrtQq/FTdCjyxkZUPDunllXVKKk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YqH1QU9PbMdH2k5uJqypd3cikFYJ1ExseHF+8Y/4DtI=;
+ b=it8QtmCDit9gJypGMMWzj2RgHb5w/MXfLFPWU5+6GHrFaRFdC1IILCSmM8cXGyHpvDnCnh
+ aRK6f3+wrFkmlYUXoMjSRuyAbOjdeSBbLlQ4htVfOz//xICyp64mpdZ77FAhV6D2qGxy+Q
+ 26RgmJdPaTJXyexW9P0XYAeGbOMqyKk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-MyfOUJmmNBWj_3ihAz0ntg-1; Fri, 26 Jun 2020 02:41:36 -0400
-X-MC-Unique: MyfOUJmmNBWj_3ihAz0ntg-1
+ us-mta-95-lJ1iFIgVNUqRxbH2tIMdXw-1; Fri, 26 Jun 2020 02:41:38 -0400
+X-MC-Unique: lJ1iFIgVNUqRxbH2tIMdXw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0970864ACA;
- Fri, 26 Jun 2020 06:41:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D6DC64ACA;
+ Fri, 26 Jun 2020 06:41:37 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-112-248.ams2.redhat.com
  [10.36.112.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 555B37FEB2;
- Fri, 26 Jun 2020 06:41:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 615E37FE8B;
+ Fri, 26 Jun 2020 06:41:35 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 0/1] memory: Delete assertion in
+Subject: [RFC v2 1/1] memory: Delete assertion in
  memory_region_unregister_iommu_notifier
-Date: Fri, 26 Jun 2020 08:41:21 +0200
-Message-Id: <20200626064122.9252-1-eperezma@redhat.com>
+Date: Fri, 26 Jun 2020 08:41:22 +0200
+Message-Id: <20200626064122.9252-2-eperezma@redhat.com>
+In-Reply-To: <20200626064122.9252-1-eperezma@redhat.com>
+References: <20200626064122.9252-1-eperezma@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -85,88 +90,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am able to hit this assertion when a Red Hat 7 guest virtio_net device
-raises an "Invalidation" of all the TLB entries. This happens in the
-guest's startup if 'intel_iommu=on' argument is passed to the guest
-kernel and right IOMMU/ATS devices are declared in qemu's command line.
-
-Command line:
-/home/qemu/x86_64-softmmu/qemu-system-x86_64 -name \
-guest=rhel7-test,debug-threads=on -machine \
-pc-q35-5.1,accel=kvm,usb=off,dump-guest-core=off,kernel_irqchip=split \
--cpu \
-Broadwell,vme=on,ss=on,vmx=on,f16c=on,rdrand=on,hypervisor=on,arat=on,tsc-adjust=on,umip=on,arch-capabilities=on,xsaveopt=on,pdpe1gb=on,abm=on,skip-l1dfl-vmentry=on,rtm=on,hle=on \
--m 8096 -realtime mlock=off -smp 2,sockets=2,cores=1,threads=1 -uuid \
-d022ecbf-679e-4755-87ce-eb87fc5bbc5d -display none -no-user-config \
--nodefaults -rtc base=utc,driftfix=slew -global \
-kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -global \
-ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -boot strict=on \
--device intel-iommu,intremap=on,device-iotlb=on -device \
-pcie-root-port,port=0x8,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x1 \
--device \
-pcie-root-port,port=0x9,chassis=2,id=pci.2,bus=pcie.0,addr=0x1.0x1 \
--device \
-pcie-root-port,port=0xa,chassis=3,id=pci.3,bus=pcie.0,addr=0x1.0x2 \
--device \
-pcie-root-port,port=0xb,chassis=4,id=pci.4,bus=pcie.0,addr=0x1.0x3 \
--device \
-pcie-root-port,port=0xc,chassis=5,id=pci.5,bus=pcie.0,addr=0x1.0x4 \
--device \
-pcie-root-port,port=0xd,chassis=6,id=pci.6,bus=pcie.0,addr=0x1.0x5 \
--device \
-pcie-root-port,port=0xe,chassis=7,id=pci.7,bus=pcie.0,addr=0x1.0x6 \
--device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.2,addr=0x0 -device \
-virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 -drive \
-file=/home/virtio-test2.qcow2,format=qcow2,if=none,id=drive-virtio-disk0 \
--device \
-virtio-blk-pci,scsi=off,bus=pci.4,addr=0x0,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1 \
--netdev tap,id=hostnet0,vhost=on,vhostforce=on -device \
-virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:0d:1d:f2,bus=pci.1,addr=0x0,iommu_platform=on,ats=on \
--device virtio-balloon-pci,id=balloon0,bus=pci.5,addr=0x0 -object \
-rng-random,id=objrng0,filename=/dev/urandom -device \
-virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.6,addr=0x0 -s -msg \
-timestamp=on
-
-Full backtrace:
-
-    at /home/qemu/hw/i386/intel_iommu.c:2468
-    (mr=0x555557609330, addr=136, value=0x7ffde5dfe478, size=4, shift=0, mask=4294967295, attrs=...) at /home/qemu/memory.c:483
-    (addr=136, value=0x7ffde5dfe478, size=4, access_size_min=4, access_size_max=8, access_fn=
-    0x555555883d38 <memory_region_write_accessor>, mr=0x555557609330, attrs=...) at /home/qemu/memory.c:544
-    at /home/qemu/memory.c:1476
-    (fv=0x7ffde00935d0, addr=4275634312, attrs=..., ptr=0x7ffff7ff0028, len=4, addr1=136, l=4, mr=0x555557609330) at /home/qemu/exec.c:3146
-    at /home/qemu/exec.c:3186
-    (as=0x5555567ca640 <address_space_memory>, addr=4275634312, attrs=..., buf=0x7ffff7ff0028, len=4) at /home/qemu/exec.c:3277
-    (as=0x5555567ca640 <address_space_memory>, addr=4275634312, attrs=..., buf=0x7ffff7ff0028, len=4, is_write=true)
-    at /home/qemu/exec.c:3287
-
---
-
-If we examinate *entry in frame 4 of backtrace:
-*entry = {target_as = 0x555556f6c050, iova = 0x0, translated_addr = 0x0,
-addr_mask = 0xffffffffffffffff, perm = 0x0}
-
-Which (I think) tries to invalidate all the TLB registers of the device.
-
-Just deleting that assert is enough for the VM to start and communicate
-using IOMMU, but maybe a better alternative is possible. We could move
-it to the caller functions in other cases than IOMMU invalidation, or
-make it conditional only if not invalidating.
-
-Any comment would be appreciated. Thanks!
-
-Guest kernel version: kernel-3.10.0-1151.el7.x86_64
-
 Bug reference: https://bugs.launchpad.net/qemu/+bug/1885175
 
-v2: Actually delete assertion instead of just commenting out using C99
+It is possible to hit this assertion on rhel7 guests if iommu is
+properly enabled.
 
-Eugenio Pérez (1):
-  memory: Delete assertion in memory_region_unregister_iommu_notifier
-
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
  memory.c | 2 --
  1 file changed, 2 deletions(-)
 
+diff --git a/memory.c b/memory.c
+index 2f15a4b250..7f789710d2 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1915,8 +1915,6 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
+         return;
+     }
+ 
+-    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
+-
+     if (entry->perm & IOMMU_RW) {
+         request_flags = IOMMU_NOTIFIER_MAP;
+     } else {
 -- 
 2.18.1
 
