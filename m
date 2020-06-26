@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0408520AFBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:32:15 +0200 (CEST)
-Received: from localhost ([::1]:50202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BB220AFCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:34:46 +0200 (CEST)
+Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joleY-0002Cn-06
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40682)
+	id 1jolgz-00067K-V9
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jold5-0001FD-L9
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:30:43 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:41293)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jold3-0002l0-Bt
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:30:43 -0400
-Received: by mail-il1-x141.google.com with SMTP id c75so7994382ila.8
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 03:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QOMrcDR4U+V5T92GZcEbutx6Qmep+lKhersa8iF6bWA=;
- b=oSAfKPnzMel3+gEaHB+GZ2ZxiqMnZmTnxar5uWccr9B9n+TAIApW3iANN9Ky4A1TSw
- xbXm7n87HuFiC4lCPWsP4OqyQ/ZsA6X8TujZL9zRMKzIQyZ05mn+bQ3UUddE0S45vbjB
- 59f4pT0RXaeGXi8mFGXgLnDGzxIn5Y5xEF1/YDdA4KM82er8WyUs8ivWDKMZYxDPorfz
- AHWxaPOOjGJSwu32lv2A2QW7QzQ6+E/AA8ewTSZ6iuym2ZoPsDPHT00IjVMzE0YjTvXE
- xGwrCaX7NCr63Io71L5lBIBbNGlR5r6BNLeVN40UWZrP+CyCG0kbjiKwRqL980dOj8w/
- ZOZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QOMrcDR4U+V5T92GZcEbutx6Qmep+lKhersa8iF6bWA=;
- b=iyMYKh8iNGAORMGc/js25QQ1wmmGCorzVemiCa9bewtxRI78U7fs9BxyTxly4HsnU8
- k5ehEA8XRgTNLfBUGaXOtIxeqAcg9BFTmnRPLZQnw5qw5YxZBZPxYgb6MTGQssARWKpP
- rjUTrGsfVYRoGCWUVL/S9JslRP0JbgKZ2odxFskzr+UnX8VXfEUxhkTE+6n2+UlVa0kd
- XqjKSQGSecaXZ2THRBpJ9iVwgl8Hm6I50mHyDYPyVRTXMLdoR5/reU66RgbqUFrPbL4S
- SuC2xkwUO9WdyqmiEGihnM9oy6gvQ6Yb6baNKdEurAbNN+J+vaC6i/ECC3f0JBT4S7tT
- EdzQ==
-X-Gm-Message-State: AOAM533fkaOyxONMg5TUFIrhiG2Fv0VvjMSgxgBAtQ7NHXL2mEN8APa8
- Nph0U2oEeoequfR2GxI1OBs2VSCqD022D1atpjk=
-X-Google-Smtp-Source: ABdhPJw0V6DWQzOalHV2Ug3rpxYyd4/jnm6qlhdnkKZ4tdYnPGcjkXTtnpeiUq4KD5maobqPfJ3ohFANtDhepVwn0h8=
-X-Received: by 2002:a92:9196:: with SMTP id e22mr2267999ill.147.1593167439950; 
- Fri, 26 Jun 2020 03:30:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1joldi-0001wK-3B
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56027
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1joldg-0003C1-D4
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593167479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SAWCETpNMNDNW0YqCfxZ+bcsIqoAL6Ek43Ufn11Nj4g=;
+ b=LWPjRok9z+L066qkBJDbi4oPG1Ruauk4Ck+hn20LXA5eOYTlTkUNoxbJz7+0Mr83NbyvuW
+ trGxLcTVmeiQfRfGLgyiXvI5NsAkxhK2orrp18slAXEUUUUo6Bar4VBxCOop3bokQORIU/
+ QOkpDIBzdoaKWCuPTjd+vrV3Xbukxz8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-kpQKq4NpMwmqE4hT4M5IOQ-1; Fri, 26 Jun 2020 06:31:16 -0400
+X-MC-Unique: kpQKq4NpMwmqE4hT4M5IOQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7BF0107ACCA;
+ Fri, 26 Jun 2020 10:31:14 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4407560C87;
+ Fri, 26 Jun 2020 10:31:02 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
+ armbru@redhat.com, pbonzini@redhat.com, jean-philippe@linaro.org,
+ bbhushan2@marvell.com, peterx@redhat.com
+Subject: [PATCH v6 0/5] VIRTIO-IOMMU probe request support and MSI bypass on
+ ARM
+Date: Fri, 26 Jun 2020 12:30:52 +0200
+Message-Id: <20200626103057.11263-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <1592914438-30317-1-git-send-email-chenhc@lemote.com>
- <1592914438-30317-4-git-send-email-chenhc@lemote.com>
- <CAHiYmc7FVCu6WTyFfUdz84iBYaL9QtrQ+Mv_nFU6KzzCWbnz=Q@mail.gmail.com>
- <CAHiYmc75wGPk=rQDTw9PfFGSsEzhgTXzTKTQC0GjiHWX-kH7aw@mail.gmail.com>
-In-Reply-To: <CAHiYmc75wGPk=rQDTw9PfFGSsEzhgTXzTKTQC0GjiHWX-kH7aw@mail.gmail.com>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Fri, 26 Jun 2020 18:30:28 +0800
-Message-ID: <CAAhV-H5FatNAvPk5SXkGQJ7s55bvsUoYSZQQFgMon3KKcFvjBA@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V5 3/4] hw/mips: Add Loongson-3 machine support
- (with KVM)
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,32 +82,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Alexandar,
+By default the virtio-iommu translates MSI transactions. This
+behavior is inherited from ARM SMMU. However the virt machine
+code knows where the MSI doorbells are, so we can easily
+declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+setting the guest iommu subsystem will not need to map MSIs.
+This setup will simplify the VFIO integration.
 
-On Wed, Jun 24, 2020 at 7:27 PM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
->
-> >
-> > What exactly is missing in tcg support? Would it work if Loongson EXT is supported in QEMU?
-> >
->
-> Huacai, hi.
->
-> I couldn't find the answer to this question in v6.
->
-> Could you please clarify this aspect?
-Jiaxun said that Loongson EXT is the only thing missing.
+In this series, the ITS or GICV2M doorbells are declared as
+HW MSI regions to be bypassed by the VIRTIO-IOMMU.
 
-Huacai
->
-> Thank you,
-> Aleksandar
+This also paves the way to the x86 integration where the MSI
+region, [0xFEE00000,0xFEEFFFFF], will be exposed by the q35
+machine.  However this will be handled in a separate series
+when not-DT support gets resolved.
+
+Best Regards
+
+Eric
+
+This series can be found at:
+https://github.com/eauger/qemu/tree/v5.0.0-virtio-iommu-msi-bypass-v6
+
+History:
+
+v5 -> v6:
+- do not hardcode start/end addresses of doorbells
+- check reserved region type on realize()
+
+v4 -> v5:
+- Take into account some additional comments from Markus:
+  - reserved region type becomes an unsigned + some comment/desc
+    rewording
+  - assert if the type is not RESERVED or MSI
+
+v3 -> v4:
+- collected Jean and markus's R-bs
+- tool into account all Markus' comments in [1/5] (except removal of
+  goto)
+- use ':' as delimitor instead of commas
+- add example in 4/5 commit message as suggested by Markus
+
+v2 -> v3:
+- Introduce VIRT_MSI_CTRL_NONE in VirtMSIControllerType
+- do not fill the remainder of the probe buffer
+
+v1 -> v2:
+- check which MSI controller is in use and advertise the
+  corresponding MSI doorbell
+- managed for both ITS and GICv2M
+- various fixes spotted by Peter and Jean-Philippe, see
+  individual logs
+
+v1: Most of those patches were respinned from
+  [PATCH for-5.0 v11 00/20] VIRTIO-IOMMU device
+  except the last one which is new
+
+Eric Auger (5):
+  qdev: Introduce DEFINE_PROP_RESERVED_REGION
+  virtio-iommu: Implement RESV_MEM probe request
+  virtio-iommu: Handle reserved regions in the translation process
+  virtio-iommu-pci: Add array of Interval properties
+  hw/arm/virt: Let the virtio-iommu bypass MSIs
+
+ include/exec/memory.h            |   6 ++
+ include/hw/arm/virt.h            |   7 ++
+ include/hw/qdev-properties.h     |   3 +
+ include/hw/virtio/virtio-iommu.h |   2 +
+ include/qemu/typedefs.h          |   1 +
+ hw/arm/virt.c                    |  30 +++++++++
+ hw/core/qdev-properties.c        |  89 +++++++++++++++++++++++++
+ hw/virtio/virtio-iommu-pci.c     |  13 ++++
+ hw/virtio/virtio-iommu.c         | 110 +++++++++++++++++++++++++++++--
+ hw/virtio/trace-events           |   1 +
+ 10 files changed, 258 insertions(+), 4 deletions(-)
+
+-- 
+2.20.1
+
 
