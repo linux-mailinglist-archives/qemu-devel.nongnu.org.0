@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AC420AC70
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:41:45 +0200 (CEST)
-Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92D520AC72
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 08:41:52 +0200 (CEST)
+Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joi3T-0002lb-Hn
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
+	id 1joi3b-00031o-Od
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 02:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2N-0001PG-7i; Fri, 26 Jun 2020 02:40:35 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48735 helo=ozlabs.org)
+ id 1joi2O-0001Pa-9q; Fri, 26 Jun 2020 02:40:36 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45655 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1joi2L-0001ER-Cw; Fri, 26 Jun 2020 02:40:34 -0400
+ id 1joi2K-0001ET-Ji; Fri, 26 Jun 2020 02:40:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49tS1l5zWtz9sT6; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
+ id 49tS1m0Ctcz9sTC; Fri, 26 Jun 2020 16:40:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1593153627;
- bh=3YYjwnPyp550Q+yo6TL9Otc/NC6+mV01kdh4w7Mzckk=;
+ d=gibson.dropbear.id.au; s=201602; t=1593153628;
+ bh=16oUjRspYdbi1tHyxvIiuNrezffZ2LhSzj1qCNaS2KI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PkcUJTGvkmBtOAq1pmuy4urmJz8ik/0MMF95QSuIgQXdoAR/OVnVNjXfaqoiuNXIu
- olXnWPdbvSxFJ2JT5Uq8SVkhEr0cVvVWIhdqMTP6ZCQgqfECFVUkLCXFlbRG5spibv
- mtEEP8dr3tUJjdsay/1MDW2Ws1q379kgWnYcw7OM=
+ b=b4XxXB+h8A7dTiUR6teQTaC7X2Y3KMEo5V0tncnJFaRQtO2lznaqX7k1jc1BcHd6+
+ 6rGA2NOShHTL1qVZg4RW8a4lunxFaeQpCcWtaISumuoGedMAoG8h5KxH/YpPQj6XbT
+ n2RJx5SmpQupLelsPU/Ra2lAK31FZKK+nQBAPFkI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 3/4] ppc/pnv: Silence missing BMC warning with qtest
-Date: Fri, 26 Jun 2020 16:40:23 +1000
-Message-Id: <20200626064024.383996-4-david@gibson.dropbear.id.au>
+Subject: [PULL 4/4] target/ppc: Remove TIDR from POWER10 processor
+Date: Fri, 26 Jun 2020 16:40:24 +1000
+Message-Id: <20200626064024.383996-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 References: <20200626064024.383996-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 00:31:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, TVD_SUBJ_WIPE_DEBT=1.004,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,73 +60,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Cédric Le Goater <clg@kaod.org>
 
-The device introspect test in qtest emits some warnings with the
-the pnv machine types during the "nodefaults" phase:
+It is not part of Power ISA Version 3.1.
 
-TEST check-qtest-ppc64: tests/qtest/device-introspect-test
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
-one
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
-one
-qemu-system-ppc64: warning: machine has no BMC device. Use '-device
-ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' to define
-one
-
-This is expected since the pnv machine doesn't create the internal
-BMC simulator fallback when "-nodefaults" is passed on the command
-line, but these warnings appear in ci logs and confuse people.
-
-Not having a BMC isn't recommended but it is still a supported
-configuration, so a straightforward fix is to just silent this
-warning when qtest is enabled.
-
-Fixes: 25f3170b0654 ("ppc/pnv: Create BMC devices only when defaults are enabled")
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159280903824.485572.831378159272329707.stgit@bahia.lan>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200623154534.266065-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/ppc/translate_init.inc.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 8bd03f3b10..643098ad5f 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -21,6 +21,7 @@
- #include "qemu-common.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
-+#include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/numa.h"
- #include "sysemu/reset.h"
-@@ -587,9 +588,11 @@ static void pnv_reset(MachineState *machine)
-     bmc = pnv_bmc_find(&error_fatal);
-     if (!pnv->bmc) {
-         if (!bmc) {
--            warn_report("machine has no BMC device. Use '-device "
--                        "ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' "
--                        "to define one");
-+            if (!qtest_enabled()) {
-+                warn_report("machine has no BMC device. Use '-device "
-+                            "ipmi-bmc-sim,id=bmc0 -device isa-ipmi-bt,bmc=bmc0,irq=10' "
-+                            "to define one");
-+            }
-         } else {
-             pnv_bmc_set_pnor(bmc, pnv->pnor);
-             pnv->bmc = bmc;
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index a40888411c..49212bfd90 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -9086,11 +9086,6 @@ static void init_proc_POWER10(CPUPPCState *env)
+     gen_spr_power8_rpr(env);
+     gen_spr_power9_mmu(env);
+ 
+-    /* POWER9 Specific registers */
+-    spr_register_kvm(env, SPR_TIDR, "TIDR", NULL, NULL,
+-                     spr_read_generic, spr_write_generic,
+-                     KVM_REG_PPC_TIDR, 0);
+-
+     /* FIXME: Filter fields properly based on privilege level */
+     spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
+                         spr_read_generic, spr_write_generic,
 -- 
 2.26.2
 
