@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA5D20B1C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:56:00 +0200 (CEST)
-Received: from localhost ([::1]:52120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357A820B1CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:57:29 +0200 (CEST)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jontf-0000iL-Qn
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
+	id 1jonv6-00039e-6y
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jonsX-0007n1-8Y
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:54:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32831
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jonsV-0000c4-12
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:54:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593176085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jG5xHbQkOPXS4K7vTb1CE/G2bqEpbQxgwGKver9eOIg=;
- b=JdQhY4gLSe8gocAYzjfjXNulDaunlmlBtKO/p51TUFbA7iDKBrT2b02J3t94jCj/XC2JTg
- vbtnYb82IntIeJY9EDvs3XH8xPAxdEYxaNLGSgIemHgjQ4Nj2FPWuLhtCOUFqW7PlcFagL
- lDclIWciqXnFCUTNmYFoGclJSKpMkfA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-QKMxRdfMOASzSbq0in78pQ-1; Fri, 26 Jun 2020 08:54:43 -0400
-X-MC-Unique: QKMxRdfMOASzSbq0in78pQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C675E184D17D;
- Fri, 26 Jun 2020 12:54:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8745219C4F;
- Fri, 26 Jun 2020 12:54:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0FEDD11384D4; Fri, 26 Jun 2020 14:54:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 20/25] x86: Fix x86_cpu_new() error API violations
-References: <20200624083737.3086768-1-armbru@redhat.com>
- <20200624083737.3086768-21-armbru@redhat.com>
- <20200624161703.153c7905@redhat.com>
-Date: Fri, 26 Jun 2020 14:54:38 +0200
-In-Reply-To: <20200624161703.153c7905@redhat.com> (Igor Mammedov's message of
- "Wed, 24 Jun 2020 16:17:03 +0200")
-Message-ID: <875zbeugvl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jontG-0000pk-2C; Fri, 26 Jun 2020 08:55:34 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34946
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jontE-000110-9s; Fri, 26 Jun 2020 08:55:33 -0400
+Received: from host86-158-109-79.range86-158.btcentralplus.com
+ ([86.158.109.79] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jontB-0000Y3-0H; Fri, 26 Jun 2020 13:55:33 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <c2f41c551f7393b5bde733cbf78a1fcb151f3e89.1592315226.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <1dfc4c68-c85d-5e56-d3c2-d68ce0b2355c@ilande.co.uk>
+Date: Fri, 26 Jun 2020 13:55:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <c2f41c551f7393b5bde733cbf78a1fcb151f3e89.1592315226.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.158.109.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v5 06/11] mac_oldworld: Rename ppc_heathrow_reset to
+ ppc_heathrow_cpu_reset
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,96 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+On 16/06/2020 14:47, BALATON Zoltan wrote:
 
-> On Wed, 24 Jun 2020 10:37:32 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->
->> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
->> pointer to a variable containing NULL.  Passing an argument of the
->> latter kind twice without clearing it in between is wrong: if the
->> first call sets an error, it no longer points to NULL for the second
->> call.
->> 
->> x86_cpu_new() is wrong that way: it passes &local_err to
->> object_property_set_uint() without checking it, and then to
->> qdev_realize().  Harmless, because the former can't actually fail
->> here.
->> 
->> Fix by checking for failure right away.  While there, replace
->> qdev_realize(); object_unref() by qdev_realize_and_unref().
->> 
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: Richard Henderson <rth@twiddle.net>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  hw/i386/x86.c | 12 +++---------
->>  1 file changed, 3 insertions(+), 9 deletions(-)
->> 
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index 34229b45c7..3a7029e6db 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -118,16 +118,10 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
->>  
->>  void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
->>  {
->> -    Object *cpu = NULL;
->> -    Error *local_err = NULL;
->> +    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
->>  
->> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
->> -
->> -    object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
->> -    qdev_realize(DEVICE(cpu), NULL, &local_err);
->> -
->> -    object_unref(cpu);
->> -    error_propagate(errp, local_err);
->> +    object_property_set_uint(cpu, apic_id, "apic-id", &error_abort);
-> it may fail here if user specified wrong cpu flags, but there is nothing we can do to fix it.
+> This function resets a CPU not the whole machine so reflect that in
+> its name.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/ppc/mac_oldworld.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 4200008851..f97f241e0c 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+>      return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+>  }
+>  
+> -static void ppc_heathrow_reset(void *opaque)
+> +static void ppc_heathrow_cpu_reset(void *opaque)
+>  {
+>      PowerPCCPU *cpu = opaque;
+>  
+> @@ -112,7 +112,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>  
+>          /* Set time-base frequency to 16.6 Mhz */
+>          cpu_ppc_tb_init(env,  TBFREQ);
+> -        qemu_register_reset(ppc_heathrow_reset, cpu);
+> +        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
+>      }
+>  
+>      /* allocate RAM */
 
-Really?
+As per my previous comment on your earlier version, I don't agree with this - the
+reset is being registered at board level, it just so happens that as it's only
+touching the CPU due to the opaque being passed in.
 
-object_property_set_uint() fails when property "apic-id" doesn't exist,
-has no ->set() method, or its ->set() fails.
+I'd be inclined to pass in a suitable HeathrowMachineState object containing a
+reference to the CPU instead.
 
-Property "apic-id" is defined in x86_cpu_properties[] as
 
-    DEFINE_PROP_UINT32("apic-id", X86CPU, apic_id, UNASSIGNED_APIC_ID),
+ATB,
 
-This means "apic-id" exists, and its ->set() is set_uint32().  That
-leaves only set_uint32() as possible source of failure.
-
-It fails when
-
-* the device is already realized: programming error
-
-* the value to be stored is not an integer: object_property_set_uint()
-  makes it one, can't fail
-
-* the value is not representable as uint32_t: @api_id is declared as
-  int64_t, but:
-
-  - pc_hot_add_cpu() passes x86_cpu_apic_id_from_index(), which is
-    uint32_t, converted to int64_t.  Can't fail.
-
-  - x86_cpus_init() passes possible_cpus->cpus[i].arch_id, which is
-    uint64_t.  Is this the "if user specified wrong cpu flags" case?
-
-  Aside: should the integer types be cleaned up?
-
-To assess the bug's impact, we need to know when the other call in this
-error pileup fails.  If we can make both fail, we have a crash bug.
-Else, we have a harmless API violation.
-
-Any ideas on how to make the qdev_realize() fail?
-
-[...]
-
+Mark.
 
