@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E0B20AFEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:42:49 +0200 (CEST)
-Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49B020AFE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:38:34 +0200 (CEST)
+Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolom-000823-QS
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
+	id 1jolkf-0002vj-O4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jolfo-0005NU-Vt
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:33:33 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51548
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1joljA-0001hc-Eg
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:37:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49868
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jolfn-00045w-BL
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:33:32 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jolj8-0005vf-CC
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:36:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593167610;
+ s=mimecast20190719; t=1593167817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AYU5K2hAfmX2GUNWr0ua/BF8FmCBUP2+H46nooxPxcM=;
- b=WvfEi5AF6uP0OV6qgDPgJvd5aUx2/zGO+yrIs/1Ce95FJ5O4Q1Wmh1TZdvjb10sSu2qmFb
- nx/qxejZAXln8sy4ZIbUVGU2kNPdpjhjC0fiSwmLipyfM7rRbPX2yL0o6PyAYazbRx9Qwr
- OJxmzr5GX17CQMkKD+omFvvMsOKZaBA=
+ bh=0wYhW9tVA6tTlmUW5tnp505Hx7+JzYALdKZkkTnQMdA=;
+ b=L2K7992LwHcaE3CRn0/pZq7cTQ2Xjfeme+i5/lVp3kRUyl6hQpHujqUGvxFQA1m89Ufx+u
+ tvUF8jT2n5wPDb01Yk1VM9rOTpFjwhTefHIsivyr8GsIz6G+J6iwdGBn96QeAuCZM6UWe6
+ kXhF1xN8jvv+qnznAHp5DZxotwdmxvA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-SE2UBXfRPYOl_aP91fMvVg-1; Fri, 26 Jun 2020 06:33:28 -0400
-X-MC-Unique: SE2UBXfRPYOl_aP91fMvVg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-108-wvoLeyBoPCiWUrQOf4vSMQ-1; Fri, 26 Jun 2020 06:36:55 -0400
+X-MC-Unique: wvoLeyBoPCiWUrQOf4vSMQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1477C805EE2;
- Fri, 26 Jun 2020 10:33:27 +0000 (UTC)
-Received: from work-vm (ovpn-113-27.ams2.redhat.com [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5BE25C1BB;
- Fri, 26 Jun 2020 10:33:05 +0000 (UTC)
-Date: Fri, 26 Jun 2020 11:33:03 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v3 8/9] spapr: PEF: block migration
-Message-ID: <20200626103303.GE3087@work-vm>
-References: <20200619020602.118306-1-david@gibson.dropbear.id.au>
- <20200619020602.118306-9-david@gibson.dropbear.id.au>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14539107ACCD;
+ Fri, 26 Jun 2020 10:36:54 +0000 (UTC)
+Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97A0E10023A0;
+ Fri, 26 Jun 2020 10:36:52 +0000 (UTC)
+Date: Fri, 26 Jun 2020 11:36:51 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 01/17] block/nvme: Avoid further processing if trace
+ event not enabled
+Message-ID: <20200626103651.GH281902@stefanha-x1.localdomain>
+References: <20200625184838.28172-1-philmd@redhat.com>
+ <20200625184838.28172-2-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200625184838.28172-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fmEUq8M7S0s+Fl0V"
 Content-Disposition: inline
-In-Reply-To: <20200619020602.118306-9-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,58 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Gibson (david@gibson.dropbear.id.au) wrote:
-> We haven't yet implemented the fairly involved handshaking that will be
-> needed to migrate PEF protected guests.  For now, just use a migration
-> blocker so we get a meaningful error if someone attempts this (this is the
-> same approach used by AMD SEV).
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+--fmEUq8M7S0s+Fl0V
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Do you expect this to happen if people run with -cpu host ?
+On Thu, Jun 25, 2020 at 08:48:22PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Avoid further processing if TRACE_NVME_SUBMIT_COMMAND_RAW is
+> not enabled.
 
-Dave
+Why?
 
-> ---
->  target/ppc/pef.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/target/ppc/pef.c b/target/ppc/pef.c
-> index 53a6af0347..6a50efd580 100644
-> --- a/target/ppc/pef.c
-> +++ b/target/ppc/pef.c
-> @@ -36,6 +36,8 @@ struct PefGuestState {
->      Object parent_obj;
->  };
->  
-> +static Error *pef_mig_blocker;
-> +
->  static int pef_kvm_init(HostTrustLimitation *gmpo, Error **errp)
->  {
->      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-> @@ -52,6 +54,10 @@ static int pef_kvm_init(HostTrustLimitation *gmpo, Error **errp)
->          }
->      }
->  
-> +    /* add migration blocker */
-> +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-> +    migrate_add_blocker(pef_mig_blocker, &error_abort);
-> +
->      return 0;
->  }
->  
-> -- 
-> 2.26.2
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+This saves 8 trace events, each with 8 arguments. I guess the intent is
+to improve performance. Did you measure an improvement?
+
+--fmEUq8M7S0s+Fl0V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl71z8MACgkQnKSrs4Gr
+c8g1nQf/RSgMRGsjTPgdf78ZwZIxX5hHeQJjsYKAUpmmhZ8GeIGEHizGIPZaEJ/y
+71Zvm8uw8aPlrljfLdrUWWq4JmQkP0v6H78a6ldfbnbBFVCILj+gJLtelzkjEXY5
+JMMkOXQqNeiXhLt9Zr6vTY/U3dWDxvw4m/d9AHliB3R3aD+AUhHnNrPFGNaEb6im
+FN+GnuTPPGNph354EJWsYoY/b4G/X9AK+I0CtfVzhH+b3Oz7vmptBeWoI3ShhQV+
+YGtYVuK3ges9UJ2f83gk+HWDPm1Ifw0OoF71k7zREC3XW9N9R0yFHSoHPHfQSFSm
+97lAZh5RUmc/4X75hLNfQhMYxc7mPg==
+=QNSI
+-----END PGP SIGNATURE-----
+
+--fmEUq8M7S0s+Fl0V--
 
 
