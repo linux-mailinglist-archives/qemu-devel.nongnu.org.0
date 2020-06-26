@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DE820B62F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:48:00 +0200 (CEST)
-Received: from localhost ([::1]:44944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B996320B61F
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:46:04 +0200 (CEST)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorWA-0005EL-VR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1jorUJ-0001OJ-MI
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorP8-0000GW-W7; Fri, 26 Jun 2020 12:40:43 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50744)
+ id 1jorP8-0000GY-WA; Fri, 26 Jun 2020 12:40:43 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorP6-00066w-EC; Fri, 26 Jun 2020 12:40:41 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l17so9431634wmj.0;
- Fri, 26 Jun 2020 09:40:39 -0700 (PDT)
+ id 1jorP7-00067m-Aj; Fri, 26 Jun 2020 12:40:42 -0400
+Received: by mail-wm1-x343.google.com with SMTP id o2so9975894wmh.2;
+ Fri, 26 Jun 2020 09:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R2DX/QQvHKfKb103HIE/F7gpPXUpgK50o5/9QbI2yBE=;
- b=KJza6d7/0XHGk9QScJHiogDEx4Kr/QcZg6XDP5GgSEv46bAujP6d5YNaRKpMycyeKD
- FVNJ9bVhdv/sSuEhabHCUJyzj+G+bfjBbBcNa4TrhobyzZEmNNuYgaKaEAoqy6sl3tz4
- YD7snXvqW07HGDcbDYJwpzK8+LzzcpVjcuL8pPKxLp0OaMtyMzivdpp63mwsNTJBDqxa
- n+ZNbpycmtLeh6AP79jp2/g1tZyDTkE0BkzeIr+NMpZ1tmb8Go9Cn0bbDJkxazUvH1Nu
- ma/5Fv0rDhlcQV7yai/82gPMseNHjyzT4HR4eSvcAA+vHr64oPo2fZKY8AN/R620ejZs
- cbhQ==
+ bh=GvHez0pE6D3D72aVrb08Q8wyh4pB4x9TJg2DukSgMrU=;
+ b=UpsxxqL4tceQIFxKNT74gHGiNesv+WvURhNEvFvLDfW75f/xa2YMvUH9y8WaruPn2T
+ Tpm8ZW1z4AFQct2CSRt7aD8R3AV0OF+zg0JaBozeqmzLDAHWu3iOmpHdDZ7LENVxX+jP
+ vw393zxdqCtOw1RfiW0LroBXwQIgPdnyyZ4EE2s0HTqC1/SMot6gEtG6WbAeHhOmculz
+ C4jK31V7XKccf998xuECro5fo7Y4iN3I1mdcvPoZU9/KSjoewkANNehBG8RI8iBxI+N9
+ QXP8mUdnNqu3rC3eoioymPHTdIU5lGurvku4WBxLiKRLzp6SY2izjs7OLEwFnwodHAc0
+ kaOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R2DX/QQvHKfKb103HIE/F7gpPXUpgK50o5/9QbI2yBE=;
- b=VsEKk/9GjRY1hOilXO1yvUO7UTMp+0fgg6FAXqNOOfbnFkxFf+8iOz7On4GGBoDSvZ
- AWeclD41v+zP9v43ZV6NtWrqPfll1GxvEvuVg7svNA9D5njij7jHHF+aNTX4OHXp3KAy
- utqomVNyI00jLQxRxTiqtYPbCJSyzzwoDeSkQfW65ZuQOxGaprf2Bn0gP0Ygo/oM/7He
- 0FHKjSMqJTGP8Qo/M/Tf5oPDVwd6XVljqPo5t/mErNyS5YHxx2opSfYQtHIhbFeIcbAe
- smwleSYV5XkOcmChMoFcX3v6GX9QFFPkAwVGacOJYEKIDtFOMm27VVTnSu5KVfYG9HfH
- 1ghA==
-X-Gm-Message-State: AOAM531PBBuU7iOUliQ31UXub3G5ohZOQb06jOJPgpI+qDUAWYr1ZkKj
- QHMh8png1iivztqQ4fHaUpxLn/SV
-X-Google-Smtp-Source: ABdhPJxQ+ftUwDr3GnixSzlUlHFNC7KeT3dhTezAnQ2x5WTO94b5OefT29xSTFBQtDC90ojVI/sWcw==
-X-Received: by 2002:a7b:c4d6:: with SMTP id g22mr4469593wmk.170.1593189638354; 
- Fri, 26 Jun 2020 09:40:38 -0700 (PDT)
+ bh=GvHez0pE6D3D72aVrb08Q8wyh4pB4x9TJg2DukSgMrU=;
+ b=lU4P7imQT9745N/dc01tp2dKdnI+0zeTiUg3SyIIXgweXYw7i5fW1hf3mJTAxVV4Zk
+ 17rMZNXUZ5IA0YDgSe+E+/yuDxTkj/J+6PAFSP+RGntaP7eTTtSB2wSOdAu82AT3whZo
+ qChwZa5Q/HyI6hOKN4xyboSdhpqVWW9ALmtbtY70w/872F1ARneQLx6DD4FM0Vrm6mAA
+ eMiDh1iLTJ1Vae4N30jy4BYtorIjL731wYKMO4DAsjsI6fZf9S9237XBRkIYIKfrJI29
+ yzPe3IgMo1ou/trK/7VeBiO6hpqEblVaEPkBaKHRmeTxJA+7L3NFbdCmGWjZez9R9RUT
+ 417A==
+X-Gm-Message-State: AOAM533Gc6+bnnC1TEvMyQCHlrs+teEEWo4YPxa+rbM6DZnTezB6DQN9
+ tF1L9UUtOFnzYbiZaloFbPfXNq7L
+X-Google-Smtp-Source: ABdhPJxZMEZDsTRcqCKoBgc6AVGSJpjDhrOGbvXoTkJB4DDVpe5hl/060sUHSdmbycHagw32M5wzJA==
+X-Received: by 2002:a7b:c38c:: with SMTP id s12mr4327392wmj.136.1593189639596; 
+ Fri, 26 Jun 2020 09:40:39 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id f12sm24623646wrw.53.2020.06.26.09.40.37
+ by smtp.gmail.com with ESMTPSA id f12sm24623646wrw.53.2020.06.26.09.40.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:40:37 -0700 (PDT)
+ Fri, 26 Jun 2020 09:40:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/15] hw/sd/sdcard: Check address is in range
-Date: Fri, 26 Jun 2020 18:40:19 +0200
-Message-Id: <20200626164026.766-9-f4bug@amsat.org>
+Subject: [PATCH v5 09/15] hw/sd/sdcard: Update the SDState documentation
+Date: Fri, 26 Jun 2020 18:40:20 +0200
+Message-Id: <20200626164026.766-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200626164026.766-1-f4bug@amsat.org>
 References: <20200626164026.766-1-f4bug@amsat.org>
@@ -92,86 +92,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a defense, assert if the requested address is out of the card area.
+Add more descriptive comments to keep a clear separation
+between static property vs runtime changeable.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ hw/sd/sd.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 22392e5084..2689a27b49 100644
+index 2689a27b49..d9ae4090fb 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -537,8 +537,10 @@ static void sd_response_r7_make(SDState *sd, uint8_t *response)
-     stl_be_p(response, sd->vhs);
- }
+@@ -103,11 +103,14 @@ struct SDState {
+     uint32_t card_status;
+     uint8_t sd_status[64];
  
--static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
-+static uint64_t sd_addr_to_wpnum(SDState *sd, uint64_t addr)
- {
-+    assert(addr < sd->size);
+-    /* Configurable properties */
++    /* Static properties */
 +
-     return addr >> (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT);
- }
+     uint8_t spec_version;
+     BlockBackend *blk;
+     bool spi;
  
-@@ -575,7 +577,7 @@ static void sd_reset(DeviceState *dev)
-     sd_set_cardstatus(sd);
-     sd_set_sdstatus(sd);
- 
--    sect = sd_addr_to_wpnum(size) + 1;
-+    sect = sd_addr_to_wpnum(sd, size) + 1;
-     g_free(sd->wp_groups);
-     sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
-     sd->wpgrps_size = sect;
-@@ -759,8 +761,8 @@ static void sd_erase(SDState *sd)
-         erase_end *= HWBLOCK_SIZE;
-     }
- 
--    erase_start = sd_addr_to_wpnum(erase_start);
--    erase_end = sd_addr_to_wpnum(erase_end);
-+    erase_start = sd_addr_to_wpnum(sd, erase_start);
-+    erase_end = sd_addr_to_wpnum(sd, erase_end);
-     sd->erase_start = 0;
-     sd->erase_end = 0;
-     sd->csd[14] |= 0x40;
-@@ -777,7 +779,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
-     uint32_t i, wpnum;
-     uint32_t ret = 0;
- 
--    wpnum = sd_addr_to_wpnum(addr);
-+    wpnum = sd_addr_to_wpnum(sd, addr);
- 
-     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
-         if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
-@@ -819,7 +821,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
- 
- static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
- {
--    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+    return test_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
- }
- 
- static void sd_lock_command(SDState *sd)
-@@ -1331,7 +1333,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            set_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
-@@ -1350,7 +1352,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            clear_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
++    /* Runtime changeables */
++
+     uint32_t mode;    /* current card mode, one of SDCardModes */
+     int32_t state;    /* current card state, one of SDCardStates */
+     uint32_t vhs;
 -- 
 2.21.3
 
