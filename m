@@ -2,52 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89C820B024
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 13:01:49 +0200 (CEST)
-Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C02B20B026
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 13:02:25 +0200 (CEST)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jom7A-0007JU-Q7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 07:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
+	id 1jom7k-000881-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 07:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jom5V-0006H9-Vj; Fri, 26 Jun 2020 07:00:05 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:41047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jom5T-00068T-G8; Fri, 26 Jun 2020 07:00:05 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 78BA97482D3;
- Fri, 26 Jun 2020 13:00:00 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 580627482CD; Fri, 26 Jun 2020 13:00:00 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 55AF07475FA;
- Fri, 26 Jun 2020 13:00:00 +0200 (CEST)
-Date: Fri, 26 Jun 2020 13:00:00 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 2/3] hw/i2c/smbus_eeprom: Add description based on
- child name
-In-Reply-To: <20200626102744.15053-3-f4bug@amsat.org>
-Message-ID: <alpine.BSF.2.22.395.2006261255120.94870@zero.eik.bme.hu>
-References: <20200626102744.15053-1-f4bug@amsat.org>
- <20200626102744.15053-3-f4bug@amsat.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jom60-0006yL-Qp
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 07:00:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49925
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jom5y-0006RR-VY
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 07:00:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593169234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r/yykV+lwvVzOYy2lLamhstqzS+CbiCk+L/CLfyRGNk=;
+ b=BHIrpmHQZBeqOqDsA4ltjcbbDd+Unb8xxoEZjoCuH7wwf6IuY4gTYv7eBH4hlx48tSZ4dC
+ 4xKQYOf81m4K8kFeR+xAsXy0cCFDogWgIWvRe0+/0QfnaBb1Ay3h/dkIcujf9tXjKfbOLF
+ /beS0RfHXNKDo5jWd0ew0SHDU/I+1Cg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-J7e6M59mMdC8UrSxSeJX3Q-1; Fri, 26 Jun 2020 07:00:31 -0400
+X-MC-Unique: J7e6M59mMdC8UrSxSeJX3Q-1
+Received: by mail-wr1-f69.google.com with SMTP id p10so10234038wrn.19
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 04:00:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r/yykV+lwvVzOYy2lLamhstqzS+CbiCk+L/CLfyRGNk=;
+ b=qjWzCoo4kRLSct/POpC8LkKEluFb3rZ0C1+kllYRDbjfrbMHijju19k3OVCXlypBf0
+ L3toRfC4xmvBCaPV5Pf6AH5wDAajVikZhyI4rDRhNFeLzRJJNOPb+VgoSvLza0oIwuNN
+ nVEzlO10OEGG0P8yM+5TUTh5varAxtil2AXDiINToOxV/gfKO0oLuvc7adZ9SOUqDQu+
+ 7b77pLnkuAecG41flhyCZit8SGqonZhxtdNnMy7o/SlmNm7Qs58oXBs+OtGsChxbgy4a
+ /gyo9vwx4wkd6pSGD+tj3I0RVB+pxAGm1C/KAVy+lHGSxmzF0DiXRTIgLwtzbaVDERwa
+ IOng==
+X-Gm-Message-State: AOAM5339QPRoz52DyBZVhtpvUO2hqyiPTz/mgP9mgL75AbhhQ/RvWnjZ
+ Q0q5SZd/HOtaUqh+JIpccIN6PEk9GU6A15f291ZICofR8MAudd8kFGVl+tWZoCFX8Y8/wydPvs3
+ ilN2UIqgFYD0CBgM=
+X-Received: by 2002:adf:f751:: with SMTP id z17mr3286776wrp.114.1593169230860; 
+ Fri, 26 Jun 2020 04:00:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPWZZcACd9drtmL7bIvHzcyGYYMdYb11fWo/NwKUZtaNy3Pb+ddyaSkoBmKt006/hlnv6kLA==
+X-Received: by 2002:adf:f751:: with SMTP id z17mr3286755wrp.114.1593169230665; 
+ Fri, 26 Jun 2020 04:00:30 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:91d0:a5f0:9f34:4d80?
+ ([2001:b07:6468:f312:91d0:a5f0:9f34:4d80])
+ by smtp.gmail.com with ESMTPSA id a12sm26355761wrv.41.2020.06.26.04.00.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jun 2020 04:00:30 -0700 (PDT)
+Subject: Re: [PATCH 0/2] target/i386: SSE floating-point fixes
+To: Joseph Myers <joseph@codesourcery.com>, qemu-devel@nongnu.org,
+ rth@twiddle.net, ehabkost@redhat.com
+References: <alpine.DEB.2.21.2006252355430.3832@digraph.polyomino.org.uk>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ec870b14-786d-5f77-0175-66161b338a2e@redhat.com>
+Date: Fri, 26 Jun 2020 13:00:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-726482454-1593169200=:94870"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 06:21:50
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <alpine.DEB.2.21.2006252355430.3832@digraph.polyomino.org.uk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,60 +100,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Markus Armbruster <armbru@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-ppc@nongnu.org, =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Huacai Chen <chenhc@lemote.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 26/06/20 01:57, Joseph Myers wrote:
+> Fix some issues relating to SSE floating-point emulation.  The first
+> patch fixes a problem with the handling of the FTZ bit that was found
+> through the testcase written for the second patch.  Rather than
+> writing a separate standalone test for that bug, it seemed sufficient
+> for the testcase in the second patch to cover both patches.
+> 
+> The style checker will produce its usual inapplicable warnings about
+> use of "volatile" in the testcase and about C99 hex float constants.
+> 
+> Joseph Myers (2):
+>   target/i386: set SSE FTZ in correct floating-point state
+>   target/i386: fix IEEE SSE floating-point exception raising
+> 
+>  target/i386/cpu.h                         |   1 +
+>  target/i386/fpu_helper.c                  |  35 +-
+>  target/i386/gdbstub.c                     |   1 +
+>  target/i386/helper.c                      |   1 +
+>  target/i386/helper.h                      |   1 +
+>  target/i386/ops_sse.h                     |  28 +-
+>  target/i386/translate.c                   |   1 +
+>  tests/tcg/i386/Makefile.target            |   4 +
+>  tests/tcg/i386/test-i386-sse-exceptions.c | 813 ++++++++++++++++++++++
+>  9 files changed, 872 insertions(+), 13 deletions(-)
+>  create mode 100644 tests/tcg/i386/test-i386-sse-exceptions.c
+> 
 
---3866299591-726482454-1593169200=:94870
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Queued, thanks.
 
-On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> hw/i2c/smbus_eeprom.c | 3 +++
-> 1 file changed, 3 insertions(+)
->
-> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
-> index 879fd7c416..22ba7b20d4 100644
-> --- a/hw/i2c/smbus_eeprom.c
-> +++ b/hw/i2c/smbus_eeprom.c
-> @@ -47,6 +47,7 @@ typedef struct SMBusEEPROMDevice {
->     uint8_t *init_data;
->     uint8_t offset;
->     bool accessed;
-> +    char *description;
-> } SMBusEEPROMDevice;
->
-> static uint8_t eeprom_receive_byte(SMBusDevice *dev)
-> @@ -134,7 +135,9 @@ static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
->     smbus_eeprom_reset(dev);
->     if (eeprom->init_data == NULL) {
->         error_setg(errp, "init_data cannot be NULL");
-> +        return;
->     }
-> +    eeprom->description = object_get_canonical_path_component(OBJECT(dev));
-> }
->
-> static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+Paolo
 
-What is this for? Shouldn't this description field be in some parent 
-object and whatever wants to print it could use the 
-object_get_canonical_path_component() as default value if it's not set 
-instead of adding more boiler plate to every object?
-
-Regards,
-BALATON Zoltan
---3866299591-726482454-1593169200=:94870--
 
