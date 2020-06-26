@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1BD20B86D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:36:03 +0200 (CEST)
-Received: from localhost ([::1]:60616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EEE20B847
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 20:32:15 +0200 (CEST)
+Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jotCk-0005lC-34
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59630)
+	id 1jot94-0001OX-61
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 14:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jot5p-0005nB-PK
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:28:53 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:36773)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jot7X-00006h-TT
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:30:39 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jot5o-0007RX-1p
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:28:53 -0400
-Received: by mail-ot1-x333.google.com with SMTP id 72so9509667otc.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:28:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jot7V-00006V-T5
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 14:30:39 -0400
+Received: by mail-pl1-x644.google.com with SMTP id 35so4579431ple.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 11:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uXD+8j0mSmONGAQEBtM4j2ZqesHLozj7Tl61qO1NF0g=;
- b=CqguY54YEBIrdlk1X3+prTUj2jtC1ChWLSjkH6RLGqaw0k8o7JX/xATyjYGfDoWkyz
- tts3D07hua7jJZ8CPiGwR6EXWTS91KzusuKfy8xGmURy0/CFX2Gu4yiiJ14OqCXK1GHS
- 2h1jVmmDcSsNs7QA9KhnKT/FGhyPSZMgTlFsmi29ESHa6G8uf1Co2XrG0Bi6RDXVAKPX
- KOmW3yzoqIPXGDvTOfNuJmMWWJxohT8q7ClS1Al+nCKmBf0BIXVfjUCANgeMQf2yMFO5
- 3jptEVUIW+sptEK4yUXlIwmOBNSkLWZ70gkJyl10CAiuc3lrAb8Q9IsjZfLfMZlPg8p6
- 4AyQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PTJcDQO5aEuvretSBIS4yy5RHu6MPt9cNZhgh83l8YE=;
+ b=FTnUcbkFfuCrC8p7nSWPWbTZAtR3Ou1yveL6/vVdPBCq3gZ73vdIgSV9h3OrDEV4J3
+ 06YQhBztDkgxJQsEfmAR/peVHpI+YkJ4SlyVFsLDpGu7qz2d399Hov0MHteEQIDNXJp9
+ 2GLPGW6Yaa1KpUXQbTpoC4I1BMP5hD+GLgXW1isG5dTMgI+RkXyLUInp1H6EQMMYontx
+ rI58uJAzot/OzVsNHzMf6jIK9dLT3ivi4wGKfWu9lHxsClObzat8IaHSyog8UtUUGHpY
+ DZaILeLfsqA1Z0JLO1Gn1KjEUQ2ZpARLHAP5vi4nMsdn2Nx5OThrJYtQKXQ4USFyjW2d
+ ji1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uXD+8j0mSmONGAQEBtM4j2ZqesHLozj7Tl61qO1NF0g=;
- b=qY2lEWE5UQUIYSqGzFWVd7V2liz79s+u42lRneWsa84WZJCSgxk3+s6mYtUNlkbpZD
- m5KYQlkmH0++NsIwF2ZqSwjaz0opUHkK17SFkBpZzYqoV4tKKalpJH4KORqApE+VLkXw
- Nr14LuHCNUvjgts6jk/ioEgGz8B4jqbB4hzIpyDAFMmaISk3iRX/AK28z+bUp2cB9BgD
- D5KZskQjTn+PlfJekdKwNhzIujEKMPMJUc0+mEQWogxH03verK6VXk4vgICEpXIxebLp
- EdUGD0ZNU1SGnJKr8amp5yzg2XK3GlamR6JKF+2HHWeXliHACIq5Nyz48B4jYjd/56Rl
- +6xA==
-X-Gm-Message-State: AOAM5303P31pxf6SRqaejzy+3POCyNn2z14bEMnQmtNWNIjrMYKVbJTS
- ZP5Mz2oQdMq2WEW+qrAyeEqSjvjfy4czcD7FX3RJeQ==
-X-Google-Smtp-Source: ABdhPJz1FReIOmwJT7xOV11Q7ta+Z8kldwZgFvQdJUy2di5Khl2BN5/Gkbxiu7adAhH4uSWC/cXXpUPMmiymcS5fI2U=
-X-Received: by 2002:a4a:9528:: with SMTP id m37mr3576025ooi.85.1593196130434; 
- Fri, 26 Jun 2020 11:28:50 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PTJcDQO5aEuvretSBIS4yy5RHu6MPt9cNZhgh83l8YE=;
+ b=iGu2jj6FtKHWQmJBZFYyjnwhf6Ew2tT5QyxNPpYb07oca5R4XyY4XbqPj6CyTobj5D
+ KGp0w6/53vmt03GpDAyCx7TnNsTWSOivKrYkxRHGYDQJk/8OiGh+ls2nAUj+j0wC/n98
+ reRY0vJdHw8/1o03CJkP5qYet6YAbwFmAnCJX6UJbuRyqW/K2hKBK1aAr0k76MIlhpFn
+ 14istKbh/Sz1aHl/mqRC0HQPtFlHEpqYUfOQ9I6F3qCQm696C0Ucrir1uQzNgjOPHPer
+ pYv/OShIRiv6WYNu4+1hhiJesyiC3X8W4f891/Jg1MeN9aPIgslwJAGREfnhdrWikrTU
+ x07A==
+X-Gm-Message-State: AOAM531iVFjIqYUCBTKPPCKi8abjZu45FByoczi3Db+inbBuz9vSZ501
+ y81IwsDa6o5lzM/WMGHMJoWGZA==
+X-Google-Smtp-Source: ABdhPJw73YE5ugtWzmlxcNnULtFBSsxNP2EYeuHKpGuK2GMIQL1WZm7G8A/oy2pJyF3j2fkSoL3eYg==
+X-Received: by 2002:a17:902:7045:: with SMTP id
+ h5mr3655100plt.151.1593196235603; 
+ Fri, 26 Jun 2020 11:30:35 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id y5sm23804520pgl.85.2020.06.26.11.30.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jun 2020 11:30:34 -0700 (PDT)
+Subject: Re: [PATCH v1 12/18] tests/vm: allow us to take advantage of MTTCG
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200622143204.12921-1-alex.bennee@linaro.org>
+ <20200622143204.12921-13-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3ab77b68-9f5d-6b99-e226-df4abb186add@linaro.org>
+Date: Fri, 26 Jun 2020 11:30:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200615204008.3069956-1-armbru@redhat.com>
-In-Reply-To: <20200615204008.3069956-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Jun 2020 19:28:39 +0100
-Message-ID: <CAFEAcA_EnwYq4je-_OQz22zpxeqcSjaZnP7ieN-CyHC3pJp2Zw@mail.gmail.com>
-Subject: Re: [PULL 00/84] QOM patches for 2020-06-15
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x333.google.com
+In-Reply-To: <20200622143204.12921-13-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -64,8 +77,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, f4bug@amsat.org,
+ cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Jun 2020 at 21:43, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 7d3660e79830a069f1848bb4fa1cdf8f666424fb:
->
->   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-06-12 23:06:22 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qom-2020-06-15
->
-> for you to fetch changes up to b77b5b3dc7a4730d804090d359c57d33573cf85a:
->
->   MAINTAINERS: Make section QOM cover hw/core/*bus.c as well (2020-06-15 22:06:04 +0200)
->
-> ----------------------------------------------------------------
-> QOM patches for 2020-06-15
->
-> * Make "info qom-tree" show children sorted
-> * Fixes around device realization
-> * Rework how we plug into devices into their parent bus
+On 6/22/20 7:31 AM, Alex Bennée wrote:
+>          if kvm_available(vmcls.arch):
+>              return multiprocessing.cpu_count() // 2
+> +        elif os.uname().machine == "x86_64" and \
+> +             vmcls.arch in ["aarch64", "x86_64", "i386"]:
+> +            # MTTCG is available on these arches and we can allow more cores.
+> +            # But only up to a reasonable limit. User can always override
+> +            # these limits with --jobs.
+> +            return min(multiprocessing.cpu_count() // 2, 8)
+>          else:
 
-Hi. I've just noticed that this commit added new global-scope
-functions to header files without documentation comments, eg
+And if multiprocessing.cpu_count() == 1?
+Seems like we should add max(count, 1) as well.
 
-bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
 
-Please could you provide some follow-up patches that document them?
-I don't think we have any hope of getting people to follow whatever
-the correct new way to create/configure/realize devices is if we
-don't document it :-(   [Concrete example: I now have no idea
-how this is supposed to work after this patchset.]
-
-thanks
--- PMM
+r~
 
