@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC5120B444
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:16:23 +0200 (CEST)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F9620B46D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:23:42 +0200 (CEST)
+Received: from localhost ([::1]:49496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joq5W-00047R-0E
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
+	id 1joqCb-0007fQ-52
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3z-00026R-Ue
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:47 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37170)
+ id 1joq41-00029R-6I
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:49 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3w-0006IN-Pi
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:47 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id a6so9868289wrm.4
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:41 -0700 (PDT)
+ id 1joq3x-0006Jb-E7
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:48 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a6so9087934wmm.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KiwKMAfLqBpV0Mc8jDI36+MCGtlMsxICaCbL8Ck1LtA=;
- b=viX4ROki9khXvURFoFHvwAW4qmRvNI1j3aTat0WLzRFeDUVmfut10SBSAlLI6Y5YgO
- YeTzj71kRWt6VRRCf1nAdSfa9+3qve8wb4BJfW64q7nXtMf0ekGQvBhlVwCiih6+nfOo
- UTl33igRbfRbct1kvr2rKLlgE0Ndnh2DC3zQ3JNCIxweioR4ftvns6Y0GIV0GD+J4Bmc
- gAXYYD0lgvp0Ex7HIVrFV8b1Tr2FFe5+nDFeQCPTU3IAiwL3upKxJiPTX+SeMmjazYD8
- eIEPGd8Bw5ClPhPf9V3x1ROldFy0mxAJ0JR1KWh9/VIb1TQuuUubucLqcpDxz5KymI/Q
- Jk6Q==
+ bh=rjuUJVD20e+gziaQHiWZSwoTVScu50+CWJVxi25EUi0=;
+ b=hxWb1ZbI7ZjxzlwUEX7AYsgh6PXtnVBPZa+B6C9LsN7/huzG2Gc5/cmHG+55HpHIwW
+ /gctvslhWJmMukLwbTgA0zcXgRuYSk6HV+Ls7cvoskNh7HKAeXBSRbta3lwttzVeLG9l
+ gnyWBEbUGNMsKBdjNbTvnbzQLw0ccDO/cVIVWflM5xVHbK9cjwCaFVj3i0KXRpgUsYT9
+ skxM1b/1hmlmagNNhHjae8RiiIf8TEKtb9Vl6fXdhc7BpvAuAMbvDzXLfFF4kMx/UsCF
+ vLtRi3CkNQWfhdyFYqL2di9gmKw6a+GHO4qC0R7VzR/7p2zXXxRl0JZsMC9lJh6qlgsx
+ DN7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KiwKMAfLqBpV0Mc8jDI36+MCGtlMsxICaCbL8Ck1LtA=;
- b=PbizvoJqeZm1c/Gp97Lu/6IdioZSHQRHFdCTCD/bw7h3/brDxsJE1gKDJOFhaxg9Fe
- WHZojbpOVCEkZI7TDiPIwcLnANgfrBkgrAmS8xorKh7hQhDTzx4rm62KHAHHfQc/wKeB
- h3UY//avu8haoYAGmD2fffKJTBu3006Saj7P30SYSYFtFTqfoI6EkTXv1GZuHC6b58uc
- k4kJAQPXpl5uBCMU/hPJQrt0qBhct+buYNAog+aubiIYG9P2zY2DbC11BKzVyeOcAL+n
- MHRrOL4LjaKSrR81h5LdB0hgJbfpnCsNdyahItWm51xfvmruhDPdxN2MFYaSdmC4/Nzv
- tyow==
-X-Gm-Message-State: AOAM531sPnNUL/U38BgX6aULOQzVA9ggmI/FnkAIOdb1ZIv1AivBh7dT
- WlRSheMhrxAL3JV630TKMhNEW2balTeI+w==
-X-Google-Smtp-Source: ABdhPJwbpdXvjx3kn9wB+AxaIeKP6qi5gG0T0KAzQvBznRZ3fFEVjzKaKColgahPcVH6h1u3UcJAwQ==
-X-Received: by 2002:adf:de01:: with SMTP id b1mr4160836wrm.305.1593184480108; 
- Fri, 26 Jun 2020 08:14:40 -0700 (PDT)
+ bh=rjuUJVD20e+gziaQHiWZSwoTVScu50+CWJVxi25EUi0=;
+ b=CGF9VqnZHWxno71fIZ0beitCpZqTBtdGtfsmiKw7mnUrYwl6ojC9z1cBLWsplSnGy/
+ /lsCrkfOOjfTv7ARRE3NoBujAgWHZ4++9RAO9TsXV2W8y5Ab9lktxPQF4OthCaaK0j03
+ 4QRYrqAP4dZZVpCu9WrKpbYrzwJHtpuMjASBp5jR69VI8no+BuEicZIV1du90iFzy/21
+ hIbuM+xdJcCAC9VCq/DAtKbrVydgkBiSlho0HJhsAFor8XhoEQ2MW/BRhflD7oLFnSf4
+ dE5GWMyZhI1nYGbLHINaBb4eBtdxiM7NINb+0/qhog6dt6Ni1UG3hqQ7ag1dE8YtVbg9
+ zSyQ==
+X-Gm-Message-State: AOAM530uEEGPITJuUSBfeoLI/WOcsPSTq6hZT1P8UJcZVoQrz5bwbteG
+ PquRDMXQk8WzR4UYQno0W3v8dWPNWYPUnQ==
+X-Google-Smtp-Source: ABdhPJzaZ/1zxa6AwmD2hIDklCxxKpTIGVpqazaCIC4JEK4/CSFvK4ActxUvKXcFtlfUckoMc1Wk+w==
+X-Received: by 2002:a1c:6354:: with SMTP id x81mr3823816wmb.98.1593184482122; 
+ Fri, 26 Jun 2020 08:14:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.38
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:39 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/57] hw/misc/pca9552: Model qdev output GPIOs
-Date: Fri, 26 Jun 2020 16:13:39 +0100
-Message-Id: <20200626151424.30117-13-peter.maydell@linaro.org>
+Subject: [PULL 14/57] target/arm: Improve masking of SCR RES0 bits
+Date: Fri, 26 Jun 2020 16:13:41 +0100
+Message-Id: <20200626151424.30117-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,74 +88,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The PCA9552 has 16 GPIOs which can be used as input,
-output or PWM mode. QEMU models the output GPIO with
-the qemu_irq type. Let the device expose the 16 GPIOs
-to allow us to later connect LEDs to these outputs.
+Protect reads of aa64 id registers with ARM_CP_STATE_AA64.
+Use this as a simpler test than arm_el_is_aa64, since EL3
+cannot change mode.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200623072723.6324-10-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200626033144.790098-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/pca9552.h | 1 +
- hw/misc/pca9552.c         | 6 ++++++
- 2 files changed, 7 insertions(+)
+ target/arm/helper.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
-index bf1a5891378..600356fbf90 100644
---- a/include/hw/misc/pca9552.h
-+++ b/include/hw/misc/pca9552.h
-@@ -27,6 +27,7 @@ typedef struct PCA955xState {
-     uint8_t pointer;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 972a7667309..a29f0a28d84 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2011,9 +2011,16 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     uint32_t valid_mask = 0x3fff;
+     ARMCPU *cpu = env_archcpu(env);
  
-     uint8_t regs[PCA955X_NR_REGS];
-+    qemu_irq gpio[PCA955X_PIN_COUNT_MAX];
-     char *description; /* For debugging purpose only */
- } PCA955xState;
- 
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 1c3ad57432a..80caa9ec8fc 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -17,6 +17,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pca9552.h"
- #include "hw/misc/pca9552_regs.h"
-+#include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-@@ -111,9 +112,11 @@ static void pca955x_update_pin_input(PCA955xState *s)
- 
-         switch (config) {
-         case PCA9552_LED_ON:
-+            qemu_set_irq(s->gpio[i], 1);
-             s->regs[input_reg] |= 1 << input_shift;
-             break;
-         case PCA9552_LED_OFF:
-+            qemu_set_irq(s->gpio[i], 0);
-             s->regs[input_reg] &= ~(1 << input_shift);
-             break;
-         case PCA9552_LED_PWM0:
-@@ -374,11 +377,14 @@ static void pca955x_initfn(Object *obj)
- 
- static void pca955x_realize(DeviceState *dev, Error **errp)
- {
-+    PCA955xClass *k = PCA955X_GET_CLASS(dev);
-     PCA955xState *s = PCA955X(dev);
- 
-     if (!s->description) {
-         s->description = g_strdup("pca-unspecified");
-     }
+-    if (arm_el_is_aa64(env, 3)) {
++    if (ri->state == ARM_CP_STATE_AA64) {
+         value |= SCR_FW | SCR_AW;   /* these two bits are RES1.  */
+         valid_mask &= ~SCR_NET;
 +
-+    qdev_init_gpio_out(dev, s->gpio, k->pin_count);
- }
++        if (cpu_isar_feature(aa64_lor, cpu)) {
++            valid_mask |= SCR_TLOR;
++        }
++        if (cpu_isar_feature(aa64_pauth, cpu)) {
++            valid_mask |= SCR_API | SCR_APK;
++        }
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+     }
+@@ -2032,12 +2039,6 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+             valid_mask &= ~SCR_SMD;
+         }
+     }
+-    if (cpu_isar_feature(aa64_lor, cpu)) {
+-        valid_mask |= SCR_TLOR;
+-    }
+-    if (cpu_isar_feature(aa64_pauth, cpu)) {
+-        valid_mask |= SCR_API | SCR_APK;
+-    }
  
- static Property pca955x_properties[] = {
+     /* Clear all-context RES0 bits.  */
+     value &= valid_mask;
 -- 
 2.20.1
 
