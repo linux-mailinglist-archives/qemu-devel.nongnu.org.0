@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B1C20AF12
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:34:04 +0200 (CEST)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE1520AEFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:31:44 +0200 (CEST)
+Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokkE-0004b0-UN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55390)
+	id 1jokhz-0000ok-1H
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbM-0005r0-Un; Fri, 26 Jun 2020 05:24:52 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34330
+ id 1jokbQ-0005z5-6G; Fri, 26 Jun 2020 05:24:56 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34340
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbI-0005El-84; Fri, 26 Jun 2020 05:24:52 -0400
+ id 1jokbN-0005JI-8H; Fri, 26 Jun 2020 05:24:55 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokbH-0007bz-4B; Fri, 26 Jun 2020 10:24:50 +0100
+ id 1jokbL-0007bz-1O; Fri, 26 Jun 2020 10:24:55 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org, laurent@vivier.eu, david@gibson.dropbear.id.au,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Fri, 26 Jun 2020 10:23:10 +0100
-Message-Id: <20200626092317.3875-16-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 26 Jun 2020 10:23:11 +0100
+Message-Id: <20200626092317.3875-17-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 References: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 15/22] adb: add autopoll_blocked variable to block autopoll
+Subject: [PULL 16/22] cuda: add adb_autopoll_block() and
+ adb_autopoll_unblock() functions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,84 +65,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whilst autopoll is enabled it is necessary to prevent the ADB buffer contents
-from being overwritten until the host has read back the response in its
-entirety.
-
-Add adb_autopoll_block() and adb_autopoll_unblock() functions in preparation
-for ensuring that the ADB buffer contents are protected for explicit ADB
-requests.
+Ensure that the CUDA buffer is protected from autopoll requests overwriting
+its contents whilst existing CUDA requests are in progress.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 Acked-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200623204936.24064-16-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20200623204936.24064-17-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/adb.c         | 21 +++++++++++++++++++++
- include/hw/input/adb.h |  4 ++++
- 2 files changed, 25 insertions(+)
+ hw/misc/macio/cuda.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/input/adb.c b/hw/input/adb.c
-index b3ad7c5fca..70aa1f4570 100644
---- a/hw/input/adb.c
-+++ b/hw/input/adb.c
-@@ -157,6 +157,26 @@ void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask)
-     }
- }
- 
-+void adb_autopoll_block(ADBBusState *s)
-+{
-+    s->autopoll_blocked = true;
-+
-+    if (s->autopoll_enabled) {
-+        timer_del(s->autopoll_timer);
-+    }
-+}
-+
-+void adb_autopoll_unblock(ADBBusState *s)
-+{
-+    s->autopoll_blocked = false;
-+
-+    if (s->autopoll_enabled) {
-+        timer_mod(s->autopoll_timer,
-+                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-+                  s->autopoll_rate_ms);
-+    }
-+}
-+
- static void adb_autopoll(void *opaque)
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index b7071e89d5..5bbc7770fa 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -116,6 +116,7 @@ static void cuda_update(CUDAState *s)
  {
-     ADBBusState *s = opaque;
-@@ -184,6 +204,7 @@ static const VMStateDescription vmstate_adb_bus = {
-         VMSTATE_BOOL(autopoll_enabled, ADBBusState),
-         VMSTATE_UINT8(autopoll_rate_ms, ADBBusState),
-         VMSTATE_UINT16(autopoll_mask, ADBBusState),
-+        VMSTATE_BOOL(autopoll_blocked, ADBBusState),
-         VMSTATE_END_OF_LIST()
-     }
- };
-diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
-index cff264739c..bb75a7b1e3 100644
---- a/include/hw/input/adb.h
-+++ b/include/hw/input/adb.h
-@@ -86,6 +86,7 @@ struct ADBBusState {
+     MOS6522CUDAState *mcs = &s->mos6522_cuda;
+     MOS6522State *ms = MOS6522(mcs);
++    ADBBusState *adb_bus = &s->adb_bus;
+     int packet_received, len;
  
-     QEMUTimer *autopoll_timer;
-     bool autopoll_enabled;
-+    bool autopoll_blocked;
-     uint8_t autopoll_rate_ms;
-     uint16_t autopoll_mask;
-     void (*autopoll_cb)(void *opaque);
-@@ -96,6 +97,9 @@ int adb_request(ADBBusState *s, uint8_t *buf_out,
-                 const uint8_t *buf, int len);
- int adb_poll(ADBBusState *s, uint8_t *buf_out, uint16_t poll_mask);
- 
-+void adb_autopoll_block(ADBBusState *s);
-+void adb_autopoll_unblock(ADBBusState *s);
-+
- void adb_set_autopoll_enabled(ADBBusState *s, bool enabled);
- void adb_set_autopoll_rate_ms(ADBBusState *s, int rate_ms);
- void adb_set_autopoll_mask(ADBBusState *s, uint16_t mask);
+     packet_received = 0;
+@@ -126,6 +127,9 @@ static void cuda_update(CUDAState *s)
+             /* data output */
+             if ((ms->b & (TACK | TIP)) != (s->last_b & (TACK | TIP))) {
+                 if (s->data_out_index < sizeof(s->data_out)) {
++                    if (s->data_out_index == 0) {
++                        adb_autopoll_block(adb_bus);
++                    }
+                     trace_cuda_data_send(ms->sr);
+                     s->data_out[s->data_out_index++] = ms->sr;
+                     cuda_delay_set_sr_int(s);
+@@ -140,6 +144,7 @@ static void cuda_update(CUDAState *s)
+                     /* indicate end of transfer */
+                     if (s->data_in_index >= s->data_in_size) {
+                         ms->b = (ms->b | TREQ);
++                        adb_autopoll_unblock(adb_bus);
+                     }
+                     cuda_delay_set_sr_int(s);
+                 }
 -- 
 2.20.1
 
