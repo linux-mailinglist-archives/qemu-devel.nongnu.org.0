@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC7020B2AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:41:38 +0200 (CEST)
-Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D0A20B2F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:55:00 +0200 (CEST)
+Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joobp-0002E2-7I
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
+	id 1joook-0003GK-N7
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jooZL-0008PQ-Ev
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:39:03 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jooZJ-0008S8-Ma
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:39:03 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w17so7374955oie.6
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 06:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g6rP+I7OcxR0JAnDkJ0llpNmylekoaWGwlpiJZqQuGQ=;
- b=KLt3w1Z7TIZW6DU3B7B+0BTVY7GMOmt1Mgf0R2bJ2NgjQ9aTnIK8w6QrItrVuzboVJ
- rfdLIllUXEi+CZRujO/g51Vmv4HC/I2NDgYghnZ9RzJzYFs/2uP2LB7yGFW50J7oIoJx
- FmOH95VjD0SNUjEF7hj6JoQcFms2aLZO8oGrcQB5Fyu3vKHa82/qgDM2oihoRuU11HLe
- zJ7550tlJ+tM64ddUeRizGze7khJG3Sy7bkodwdGYH7QSBNDrYhWU390rA5LEMYZJjhH
- 0NvDHj9A1b/PX8vRGdyBfrqqcGV9I2VppVM0VPKcwoIqVudYvlSmstOPFFUPMk5nzwto
- WGQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g6rP+I7OcxR0JAnDkJ0llpNmylekoaWGwlpiJZqQuGQ=;
- b=WFWuA5HMKjUKJTC/LIuulm8igsRVMQahpsiCLjDH5OsU1LwbB6ownX2ErJngTCiepz
- WUX/7wDKJOuYSLGq+XN4NGScK7Cl6TcdM06P1UejZ4ywmQ1xlzgCULfR3B+PC9Vas4MV
- Obo+NtXVjjrWyi6vHGDxebpUCkR802qGUtKhEqG1i7zBMJP/cMKJIPRaraas/kROF0IL
- Rit5xo5FMHJeAofuxbJKEvSR0LzlDmdaA2w7so+LVjkg+5n5e1HOd37g/8dnRIjS72AA
- bLbpjD75ide9K8kpmB58oyYavb5pNRF1FWTLX7IcH3516ZlYMYUxuwr4pwigR5oRCYB6
- qU0g==
-X-Gm-Message-State: AOAM530Bmtu60+3clwzWlXluZk3Eap+Vlg+U+Gopdin3vexVkKEItL1u
- tnkJ2VgibRPqJfRVO+Rx7vqaJfh/zzuuMHzEfyJGCy08S8WwyQ==
-X-Google-Smtp-Source: ABdhPJwFVbeelNmlR/2iQBDQq4UYCMbXhBak0Vw3g5umyciLpQeZBmjN0hSMWSaxUE0JFNTHO4fz1cfqzSzUDzrsNYA=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr2442216oia.163.1593178740487; 
- Fri, 26 Jun 2020 06:39:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1joonZ-0001ya-AU
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:53:45 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32190
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1joonX-0007HL-CA
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:53:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593179622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rwUZaNvroZripnZh67EbJIWuW7cvT996Qglx/6JLTMk=;
+ b=BPl8OK6C1b+ZLai2na5MQT6cFisoksdYD+scu4jfU2AfOGCfdYjP75tLvtkiPIXSpWG4is
+ ItMUVSyExvowAug5QwBGY6rUTVi7bB0U0vMua/yY3G2ChC2icJqxbT4HGVKOXyzJB7Ltqk
+ mGQE/Im2VyJmPRwb+69UDR/aYfN99O8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-blJYXWKgNzOx4D7C1GLkyg-1; Fri, 26 Jun 2020 09:53:39 -0400
+X-MC-Unique: blJYXWKgNzOx4D7C1GLkyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0ADB108C303;
+ Fri, 26 Jun 2020 13:53:36 +0000 (UTC)
+Received: from [10.36.114.197] (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAA2160BF4;
+ Fri, 26 Jun 2020 13:53:27 +0000 (UTC)
+Subject: Re: [PATCH RESEND 6/9] hw/arm/smmu-common: Manage IOTLB block entries
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200611161500.23580-1-eric.auger@redhat.com>
+ <20200611161500.23580-7-eric.auger@redhat.com>
+ <CAFEAcA9FZV=jSk_9aJ_tHy=KLy+YrTFNoiqvCv7BMs0dWrHWFA@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <db6d92ba-2716-40df-54d3-84fb51ab3ad3@redhat.com>
+Date: Fri, 26 Jun 2020 15:53:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <CA+XhMqwDLw2BJ9Cf0kEyUW+J+rTPOOvebRPPkBSiWdD50wct5Q@mail.gmail.com>
-In-Reply-To: <CA+XhMqwDLw2BJ9Cf0kEyUW+J+rTPOOvebRPPkBSiWdD50wct5Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Jun 2020 14:38:49 +0100
-Message-ID: <CAFEAcA8mpiPcwgz9-7c0GgSWz2hujzegOBvHn5qasCBtuyG8ww@mail.gmail.com>
-Subject: Re: [PATCH 1/3] haiku build fix second batch
-To: David CARLIER <devnexen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA9FZV=jSk_9aJ_tHy=KLy+YrTFNoiqvCv7BMs0dWrHWFA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,33 +86,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Jun 2020 at 14:02, David CARLIER <devnexen@gmail.com> wrote:
->
-> From 95ef79ddff73eebd1f1bec6673c2c68209fab107 Mon Sep 17 00:00:00 2001
-> From: David Carlier <devnexen@gmail.com>
-> Date: Fri, 26 Jun 2020 13:56:14 +0000
-> Subject: [PATCH 1/3] Include endian.h for Haiku to solve bswap* macros build
->  failure.
->
-> Signed-off-by: David Carlier <devnexen@gmail.com>
+Hi Peter,
 
-I'm afraid I'm now confused about which is the right version
-of the various patches you've sent to the list. Our
-https://wiki.qemu.org/Contribute/SubmitAPatch
-documentation asks:
- * Include a meaningful cover letter
- * When resending patches add a version tag
- * even if you only change one patch, you resend the entire series
-   and mark it as "v2"
+On 6/25/20 5:30 PM, Peter Maydell wrote:
+> On Thu, 11 Jun 2020 at 17:16, Eric Auger <eric.auger@redhat.com> wrote:
+>>
+>> At the moment each entry in the IOTLB corresponds to a page sized
+>> mapping (4K, 16K or 64K), even if the page belongs to a mapped
+>> block. In case of block mapping this unefficiently consume IOTLB
+>> entries.
+>>
+>> Change the value of the entry so that it reflects the actual
+>> mapping it belongs to (block or page start address and size).
+>>
+>> Also the level/tg of the entry is encoded in the key. In subsequent
+>> patches we will enable range invalidation. This latter is able
+>> to provide the level/tg of the entry.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> 
+>> -uint64_t smmu_get_iotlb_key(uint16_t asid, uint64_t iova)
+>> +uint64_t smmu_get_iotlb_key(uint16_t asid, uint64_t iova,
+>> +                            uint8_t tg, uint8_t level)
+>>  {
+>> -    return iova >> 12 | (uint64_t)(asid) << SMMU_IOTLB_ASID_SHIFT;
+>> +    return iova >> 12 | (uint64_t)(asid) << SMMU_IOTLB_ASID_SHIFT |
+>> +           (uint64_t)(level) << SMMU_IOTLB_LEVEL_SHIFT |
+>> +           (uint64_t)(tg) << SMMU_IOTLB_TG_SHIFT;
+>>  }
+> 
+>>  SMMUTLBEntry *smmu_iotlb_lookup(SMMUState *bs, SMMUTransCfg *cfg,
+>> -                                 hwaddr iova)
+>> +                                SMMUTransTableInfo *tt, hwaddr iova)
+>>  {
+>> -    uint64_t key = smmu_get_iotlb_key(cfg->asid, iova);
+>> -    SMMUTLBEntry *entry = g_hash_table_lookup(bs->iotlb, &key);
+>> +    uint8_t tg = (tt->granule_sz - 10) / 2;
+>> +    int level = tt->starting_level;
+>> +    SMMUTLBEntry *entry = NULL;
+>> +
+>> +    while (level <= 3) {
+>> +        uint64_t subpage_size = 1ULL << level_shift(level, tt->granule_sz);
+>> +        uint64_t mask = subpage_size - 1;
+>> +        uint64_t key;
+>> +
+>> +        key = smmu_get_iotlb_key(cfg->asid, iova & ~mask, tg, level);
+>> +        entry = g_hash_table_lookup(bs->iotlb, &key);
+>> +        if (entry) {
+>> +            break;
+>> +        }
+>> +        level++;
+> 
+> Rather than looping around doing multiple hash table lookups like
+> this, why not just avoid including the tg and level in the
+> key equality test?
+> 
+> If I understand the range-based-invalidation feature correctly,
+> the only time we care about the TG/LVL is if we're processing
+> an invalidate-range command that specifies them. But in that
+> case there should never be multiple entries in the bs->iotlb
+> with the same iova, so we can just check whether the entry
+> matches the requested TG/LVL once we've pulled it out of the
+> hash table. (Or we could architecturally validly just blow
+> it away regardless of requested TG/LVL -- they are only hints,
+> not required-to-match.)
 
-Please could you send the whole set of patches you'd like
-applied, with the subject header including "[PATCH v2]" and
-with a cover letter email that describes the whole series?
+This change could have been done independently on the RIL feature. As we
+now put block entries in the IOTLB , when we look for an iova
+translation, the IOVA can be mapped using different block sizes or using
+page entries. So we start looking at blocks of the bigger size (entry
+level) downto the page, for instance 4TB/512MB/64KB. We cannot know
+which block and size the address belongs to. I do not know if we can
+make any hypothesis on whether the driver is forbidden to invalidate an
+address that is not the starting address of an initial mapping.
 
-thanks
--- PMM
+Not a justification but an info, this is implemented the same way on x86
+(except they don't have variable TG), see vtd_lookup_iotlb in
+hw/i386/intel_iommu.c
+
+Thanks
+
+Eric
+> 
+> thanks
+> -- PMM
+> 
+
 
