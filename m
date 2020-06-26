@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357A820B1CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:57:29 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39DD20B1F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:01:10 +0200 (CEST)
+Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jonv6-00039e-6y
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
+	id 1jonyf-0006PR-Qn
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jontG-0000pk-2C; Fri, 26 Jun 2020 08:55:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34946
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jontE-000110-9s; Fri, 26 Jun 2020 08:55:33 -0400
-Received: from host86-158-109-79.range86-158.btcentralplus.com
- ([86.158.109.79] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jontB-0000Y3-0H; Fri, 26 Jun 2020 13:55:33 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1592315226.git.balaton@eik.bme.hu>
- <c2f41c551f7393b5bde733cbf78a1fcb151f3e89.1592315226.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <1dfc4c68-c85d-5e56-d3c2-d68ce0b2355c@ilande.co.uk>
-Date: Fri, 26 Jun 2020 13:55:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jonxH-0005eZ-5D
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:59:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30836
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jonxE-0002er-PV
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:59:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593176379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/eujCzkKLyh0OkB2WlxP+JFAAQ7Zyclc2suTaKoQmvQ=;
+ b=AZoBkaoOqPLBq2d3kaA8UqMTXOX2I2mU+opNGKHCEgoPnPGxUTdjPxTT/Y8Lizf6KP49jP
+ xhjaoj+RRWKPU5QmxC2+rxTprwRU6QiPkuzxCwMLc6LKUK5fc+i3TtQ/lvCWY5jHKeWFr6
+ PPPl/zFCZve4/ADm1EjJWBCBEaIMDYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-_6oXG1mIO1O5K5TrynexsQ-1; Fri, 26 Jun 2020 08:59:36 -0400
+X-MC-Unique: _6oXG1mIO1O5K5TrynexsQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94046107ACCA;
+ Fri, 26 Jun 2020 12:59:35 +0000 (UTC)
+Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3602171671;
+ Fri, 26 Jun 2020 12:59:35 +0000 (UTC)
+Date: Fri, 26 Jun 2020 13:59:33 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 15/17] block/nvme: Use per-queue AIO context
+Message-ID: <20200626125933.GY281902@stefanha-x1.localdomain>
+References: <20200625184838.28172-1-philmd@redhat.com>
+ <20200625184838.28172-16-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c2f41c551f7393b5bde733cbf78a1fcb151f3e89.1592315226.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.158.109.79
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v5 06/11] mac_oldworld: Rename ppc_heathrow_reset to
- ppc_heathrow_cpu_reset
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200625184838.28172-16-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6Jy4/gb9ZgnsEOX8"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,54 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/06/2020 14:47, BALATON Zoltan wrote:
+--6Jy4/gb9ZgnsEOX8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This function resets a CPU not the whole machine so reflect that in
-> its name.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Thu, Jun 25, 2020 at 08:48:36PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> To be able to use multiple queues on the same hardware,
+> we need to have each queue able to receive IRQ notifications
+> in the correct AIO context.
+> The context has to be proper to each queue, not to the block
+> driver. Move aio_context from BDRVNVMeState to NVMeQueuePair.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  hw/ppc/mac_oldworld.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 4200008851..f97f241e0c 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
->      return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
->  }
->  
-> -static void ppc_heathrow_reset(void *opaque)
-> +static void ppc_heathrow_cpu_reset(void *opaque)
->  {
->      PowerPCCPU *cpu = opaque;
->  
-> @@ -112,7 +112,7 @@ static void ppc_heathrow_init(MachineState *machine)
->  
->          /* Set time-base frequency to 16.6 Mhz */
->          cpu_ppc_tb_init(env,  TBFREQ);
-> -        qemu_register_reset(ppc_heathrow_reset, cpu);
-> +        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
->      }
->  
->      /* allocate RAM */
+> RFC because I'm not familiar with AIO context
 
-As per my previous comment on your earlier version, I don't agree with this - the
-reset is being registered at board level, it just so happens that as it's only
-touching the CPU due to the opaque being passed in.
+To keep things simple I suggest only doing Step 1 in this patch series.
 
-I'd be inclined to pass in a suitable HeathrowMachineState object containing a
-reference to the CPU instead.
+Step 1:
+The existing irq_notifier handler re-enters the request coroutine from a
+BH scheduled in the BlockDriverState's AioContext. It doesn't matter
+where the irq_notifier is handled, the completions will run in their
+respective BlockDriverState AioContexts. This means that two
+BlockDriverStates with different AioContexts sharing a single hardware
+state will work correctly with just a single hardware queue. Therefore
+multiqueue support is not required to support multiple BDSes with
+different AioContexts.
 
+Step 2:
+Better performance can be achieved by creating multiple hardware
+queuepairs, each with its own irq_notifier. During request submission a
+int queue_idx_from_aio_context(AioContext *ctx) mapping function selects
+a hardware queue. Hopefully that hardware queue's irq_notifier is
+handled in the same Aiocontext for best performance, but there might be
+cases where there are more BDS AioContexts than nvme hw queues.
 
-ATB,
+Step 3:
+When the QEMU block layer has multiqueue support then we'll no longer
+map the BlockDriverState AioContext to a queue index but instead use
+qemu_get_current_aio_context(). At this point a single BDS can process
+I/O in multiple AioContexts and hardware queuepairs.
 
-Mark.
+--6Jy4/gb9ZgnsEOX8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl718TUACgkQnKSrs4Gr
+c8hnOwf/T5EUkPjtvjyQBafQVX8OEsP/JXHGXB3CHe2xbfA8eurqYk4dD6bIa2PA
+peY1nHO0GI27SmkA7IgtuM5WzkNAlorqzqms+5WKNRvySr8dMKbgxRDoHP9qKVeR
+eqkV1Jvm5V7CPiLgpGYJ5SODu5pRtAFoU29IfynUGZTp4nJEnq9ILX63I8LTK5hq
+uyuPADgKdqnPZWSF9h4s4fNEGPudgCw3awgi3kmQnoOcxeKd/ye+d/CQvWwB5jQo
+mc0ZQ1amBEn4HzeG0tyto4d4ZsELOd7xLOkrvB2LkAuymTNdu+KRCyz3avRHbu8M
+zBApSEsFMGMVxEvD4k8W9KJHP9a/+A==
+=axOL
+-----END PGP SIGNATURE-----
+
+--6Jy4/gb9ZgnsEOX8--
+
 
