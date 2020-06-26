@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE46320B170
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:36:44 +0200 (CEST)
-Received: from localhost ([::1]:33870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A36C620B16C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 14:35:46 +0200 (CEST)
+Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jonb1-0006L9-MG
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45532)
+	id 1jona5-0004xx-Kx
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 08:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jonWW-0002LK-F7
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:32:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56607
+ id 1jonYR-0003nn-BN
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:34:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44922
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jonWU-0005kG-20
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:32:04 -0400
+ id 1jonYP-0006yI-CW
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 08:34:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593174721;
+ s=mimecast20190719; t=1593174840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=s67lcN+4wxs+t6ikrBJs43qGW+BTZVmBv54GSLslqbo=;
- b=HthnpFYDJlWMyRkTuPHsW+pjiuFS84dmVKiOfw7UupuRxfEBEGA/onFG2GrQ/uXLSVARK/
- 3I6d3EaplSWG3SYMEuRQ9ThRKkMPaIL7tIoFBvRoydawU8beoBCb7mtx9RbwDoG0145iZ4
- Cr+ANoTCbblFuvqWgfXSbJuygWZw9Ps=
+ bh=zCOBjSCmi9RE26Eu41WJ6JdgoXMuCsefufpdMv6ShFk=;
+ b=Yn+UaeEU4o3uQi9wtGWjpsaoaB4ALtOM43WwVEN3cRzMlfBO672X9DqUxEjXI8FborOwVj
+ k7SNAP7gXbeL3mmVD5qko68HZjPIAeA6RVwpQBryk43v72TKqN7Ji/S68EOP8G1bd8Hd/w
+ EGZ8T0Re6A4EjnLxOul/NDy9vbK2nr4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-_9rC2urtMyK2lduirgSlXg-1; Fri, 26 Jun 2020 08:31:59 -0400
-X-MC-Unique: _9rC2urtMyK2lduirgSlXg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-420-NU8LUM6tP-K-Ec2TnKsJhw-1; Fri, 26 Jun 2020 08:33:57 -0400
+X-MC-Unique: NU8LUM6tP-K-Ec2TnKsJhw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F8BC804012;
- Fri, 26 Jun 2020 12:31:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76D758031F6;
+ Fri, 26 Jun 2020 12:33:56 +0000 (UTC)
 Received: from localhost (ovpn-114-181.ams2.redhat.com [10.36.114.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6F7211CC34;
- Fri, 26 Jun 2020 12:31:57 +0000 (UTC)
-Date: Fri, 26 Jun 2020 13:31:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0541D5D9CA;
+ Fri, 26 Jun 2020 12:33:55 +0000 (UTC)
+Date: Fri, 26 Jun 2020 13:33:54 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 11/17] block/nvme: Simplify nvme_create_queue_pair()
- arguments
-Message-ID: <20200626123156.GR281902@stefanha-x1.localdomain>
+Subject: Re: [PATCH 12/17] block/nvme: Simplify nvme_kick trace event
+Message-ID: <20200626123354.GS281902@stefanha-x1.localdomain>
 References: <20200625184838.28172-1-philmd@redhat.com>
- <20200625184838.28172-12-philmd@redhat.com>
+ <20200625184838.28172-13-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200625184838.28172-12-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200625184838.28172-13-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nQUlLD2FJeKEtFpv"
+ protocol="application/pgp-signature"; boundary="PkEWctFf+8E2rcii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 02:19:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,37 +86,70 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nQUlLD2FJeKEtFpv
+--PkEWctFf+8E2rcii
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2020 at 08:48:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> nvme_create_queue_pair() doesn't require BlockDriverState anymore.
-> Replace it by BDRVNVMeState to simplify.
+On Thu, Jun 25, 2020 at 08:48:33PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> The queues are tied to the hardware, logging the block
+> driver using them is irrelevant.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  block/nvme.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  block/nvme.c       | 2 +-
+>  block/trace-events | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 1b7b23cea4..4d2f31a9b3 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -249,7 +249,7 @@ static void nvme_kick(BDRVNVMeState *s, NVMeQueuePair=
+ *q)
+>      if (s->plugged || !q->need_kick) {
+>          return;
+>      }
+> -    trace_nvme_kick(s, q->index);
+> +    trace_nvme_kick(q->index);
+>      assert(!(q->sq.tail & 0xFF00));
+>      /* Fence the write to submission queue entry before notifying the de=
+vice. */
+>      smp_wmb();
+> diff --git a/block/trace-events b/block/trace-events
+> index 29dff8881c..f0c476110b 100644
+> --- a/block/trace-events
+> +++ b/block/trace-events
+> @@ -154,7 +154,7 @@ vxhs_close(char *vdisk_guid) "Closing vdisk %s"
+>  vxhs_get_creds(const char *cacert, const char *client_key, const char *c=
+lient_cert) "cacert %s, client_key %s, client_cert %s"
+> =20
+>  # nvme.c
+> -nvme_kick(void *s, int queue) "s %p queue %d"
+> +nvme_kick(int queue) "queue %d"
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+BDRVNVMeState is included so it's possible to differentiate between
+multiple nvme driver instances. Simply tracing the queue number is not
+enough if you have multiple nvme driver instances.
 
---nQUlLD2FJeKEtFpv
+I suggest leaving this change until there is a hardware state object
+that can be traced instead of the BDRVNVMeState.
+
+--PkEWctFf+8E2rcii
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl716rwACgkQnKSrs4Gr
-c8ihWgf9GVVxlKyxeE+QquIusKp5qfwlVXI7UujJs6kNSRMMx56FXpbyVDUzWJho
-s1gIKFsUZLFlQd73mMJxOSAj+w7Bt3fIl+1nYem6aM+7+3RxJwrdcB6HarJq3Hjj
-K3cP4qPkcD/t12SNS7/VZfmeFNb2wqipuKnpWFShwZc9J0qrK2X7bZCZKr2tFT6n
-G9TwuRHUG8LlRYAE5ZQv1N5SefL6vnQK/XGeHB8LZ68DAUvMJE+wBnCgyA9ij4YK
-ONsg+OLCMktnLJp1gkCY508cjbBLumlzLLqLo0atg4Zz/TpaIk0L+qBn6+cvvQSg
-kO/vs4444CeH7+83wWQe81WQyIHxsA==
-=YOEm
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl716zIACgkQnKSrs4Gr
+c8jJ9Qf9HJuZXu8kmqsveZ+UvkYrGOXOhhCuNp9pztMlP/Hmn5Pks2HooNz7wFqE
+hY69WpKDBeugM9TCCGXYArTkuQWoGCULSAu6dUuXWN15jKu1aa2qkY08NVEIbefn
+lFvhCGgNfO8q08/Ggu0LOI6YuxlkGqdilW0CEKNmLd+c5ETcu+/NX19/RAIdxKXa
+tm/Mb1f22NvUlQ5qPfCC9YuX4RNo+GL8gYCHpWo9qBJLUu7zoHTb/x314+E6bv0O
++aBBWZtba4GsDGlc3iNskP9Pyr3MTKfpr42CmlfWB6JK9MTFsAS4oURP5EwaVLKq
+2rmiCY9DfWcGQia/6JCKKY0tJF9yMw==
+=SXYF
 -----END PGP SIGNATURE-----
 
---nQUlLD2FJeKEtFpv--
+--PkEWctFf+8E2rcii--
 
 
