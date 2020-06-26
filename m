@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A397820BC70
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:25:38 +0200 (CEST)
-Received: from localhost ([::1]:38510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE2720BC66
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 00:23:17 +0200 (CEST)
+Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowmv-00049j-Ix
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:25:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1jowke-0008Ji-5v
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 18:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowIw-000492-VX
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:38 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:39471)
+ id 1jowIx-0004Aq-LD
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:39 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:39460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowIu-00033f-JE
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:38 -0400
+ id 1jowIv-00030Y-JH
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:54:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208477; x=1624744477;
+ t=1593208478; x=1624744478;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9RZQj6v4mM7B38WHOPz+ON5a60a5621bnFIU0HDca6I=;
- b=K/CaBa7wh3zPR858jkskSWH/yuxYgsUVQWyzcbZd7Z9hhdXw2LOZ6PBV
- CGGMg6lv9z4hUL3GKoNtDxabDNx19USDhxhwKRC4lkWhr644EZ2/lEc88
- TO0kHl1xq/li9tv3slws0ptpLO1kszBCYeWsfav8Wcn2KNG044eIlFJ4v
- Mt4a50gX/K5+fakQwvPxpvvQBCEe4YTT4SV1sRHarEfxTQK7k33skEZjn
- 07DDPX2coi5gvlyHVXuL5rnbi4w1D6hM01AHH3okGwtZNT/kr43tu6Xfv
- BYz8jy2TE9y+2W5tndCNtYkSr7QoXdgtQh3PqeLcHhieXZ++U2W3k4gKk w==;
-IronPort-SDR: s5cmhKxdnEaAdw7JmD8m1zzZhgNXW4A9rDAReFCvEWdFRQxNINCVhibavvLtbpc6G1Hym7b+rl
- f5H5OHWLOsXuXT0314hfGlzN1JZGvdYdoszH3lJ2DF5zoau8xjKEgi8MN8zPGXHU5a6o9x655n
- aNNAG1F34FTDOsI3SsB4Xv/TOYjMdNRd9uiAam6naRwZ5XsPY78BlIc1s4mlFMPdiaoo7XqaBd
- eqpSR1bgelZ2FoS+MdGnzEXlEE0i5vQnhdFBjYWnuut5WCmyzSzHmK41MvWoIXcplHRazJBEuW
- Yqk=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="244048411"
+ bh=sc7uOHB+lnNxs0bKk4d6bC4l/OFPU8d7q0CMcubBq7A=;
+ b=YesZKyp71GIeFyla/s56MvYS3svmFxPZ3t/AylmgsNEzTIonDLYVkuvB
+ fH3FYmTxaR0eTw3pE+PDkTVP7FC951+8aHE7VfydyeDXrO0DdKIW8A7RB
+ KvOeeDZj4KF3pFY67JHzwOIpNgO4WE9/j58HrQPoAsiC0sw8+YheRduA0
+ 9dFGFFOIMWjgvTuW2rtDim/+kljOsIulacnzE0xY5WmpN5InIhwD50TSB
+ rE5zCp2JLTCUz4M9D+0ZSl5bV1Rwa9795XNc5bCl4yVJVkB75KFzgBI6n
+ Jq4BXYDOETRilcPl53HzrGZG0ABgSrMqMK/4wXwTJV+MeuUNyFoFgOyUE g==;
+IronPort-SDR: JvTFrIUNEYIEHOAy4N4wFVTpBOHI56rPxHK2a+71c7hXsZe7ltDpMaolNaTdOBqgP92BoT6RFR
+ B+RXHvioUUlODnMKtp6cuczEwZHvdt7o5Cu7rkXNmWYbgq0VsR83La9jqxUnE/aMhP8L7Nkne/
+ gISm5nn0c9lwWmHPNWVnK018IqwP1i8Qh3/ZLCYaD8RMuPdtQrU0abasLFNljzmoFXLVB3+A2z
+ YRQxbzYh/TrrX2OUR9Au8LISiWT5ejcJQaGtOp0IrcTpcNRJpFzVN9UNZaYMUuBO8zo/LHg1N/
+ tts=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="244048412"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:51 +0800
-IronPort-SDR: AIdeM50OB+04Yk4P6RxuAJeTamzDVVyKzrbpzYGerzw5uaIBGl2Yni7Bq2dlZlyZZ2gvMc7i0d
- s2OOsOrj+l04Lm9creO8BzRRqDevBToHw=
+IronPort-SDR: Hyix3SMEwg7I9UgBbsiiDUuwokQzuQgwOQqzKp7DLPX7igv3OUnH9kgckEc2ciowALBgsVzy6O
+ EnPKNdNJ3dQvHON3JrNuWo4hpoTMetHeE=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 14:42:47 -0700
-IronPort-SDR: 1nyGyC77WeW0ZK0htlc/9hZCzOlu4HYbOWcxUzq3NNW5yhrDc7oi2Ve/8B5L0HjzEpCTHQCCF/
- NgggUfDAG6ww==
+ 26 Jun 2020 14:42:48 -0700
+IronPort-SDR: 8XW98Kxfj6c2OAYHyFh9B7eZ7Vw1SvIpTYXm7K8QGN0yp7UiDGStkFi7GiqnQ7xavzesyehBUK
+ zOknpfg53SBg==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
@@ -56,9 +56,9 @@ Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 52/63] target/riscv: vector mask population count vmpopc
-Date: Fri, 26 Jun 2020 14:43:59 -0700
-Message-Id: <20200626214410.3613258-53-alistair.francis@wdc.com>
+Subject: [PULL 53/63] target/riscv: vmfirst find-first-set mask bit
+Date: Fri, 26 Jun 2020 14:44:00 -0700
+Message-Id: <20200626214410.3613258-54-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
 References: <20200626214410.3613258-1-alistair.francis@wdc.com>
@@ -98,48 +98,48 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200623215920.2594-51-zhiwei_liu@c-sky.com
+Message-id: 20200623215920.2594-52-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
  target/riscv/helper.h                   |  2 ++
  target/riscv/insn32.decode              |  1 +
  target/riscv/insn_trans/trans_rvv.inc.c | 32 +++++++++++++++++++++++++
- target/riscv/vector_helper.c            | 20 ++++++++++++++++
- 4 files changed, 55 insertions(+)
+ target/riscv/vector_helper.c            | 19 +++++++++++++++
+ 4 files changed, 54 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 292279f0c5..abae503b9c 100644
+index abae503b9c..28aeb74f43 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1101,3 +1101,5 @@ DEF_HELPER_6(vmor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
+@@ -1103,3 +1103,5 @@ DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
  DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
+ 
+ DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
 +
-+DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
++DEF_HELPER_4(vmfirst_m, tl, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index c71cbef182..971c06c09e 100644
+index 971c06c09e..a0f3315dbc 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -555,6 +555,7 @@ vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
- vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
+@@ -556,6 +556,7 @@ vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
  vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
  vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
-+vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
+ vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
++vmfirst_m       010101 . ..... ----- 010 ..... 1010111 @r2_vm
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index e2954aa99a..f2d229b151 100644
+index f2d229b151..01c32a3278 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2389,3 +2389,35 @@ GEN_MM_TRANS(vmor_mm)
- GEN_MM_TRANS(vmnor_mm)
- GEN_MM_TRANS(vmornot_mm)
- GEN_MM_TRANS(vmxnor_mm)
+@@ -2421,3 +2421,35 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
+     }
+     return false;
+ }
 +
-+/* Vector mask population count vmpopc */
-+static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
++/* vmfirst find-first-set mask bit */
++static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
 +{
 +    if (vext_check_isa_ill(s)) {
 +        TCGv_ptr src2, mask;
@@ -158,7 +158,7 @@ index e2954aa99a..f2d229b151 100644
 +        tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
 +        tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
 +
-+        gen_helper_vmpopc_m(dst, mask, src2, cpu_env, desc);
++        gen_helper_vmfirst_m(dst, mask, src2, cpu_env, desc);
 +        gen_set_gpr(a->rd, dst);
 +
 +        tcg_temp_free_ptr(mask);
@@ -170,19 +170,18 @@ index e2954aa99a..f2d229b151 100644
 +    return false;
 +}
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 028abd1871..b443819239 100644
+index b443819239..441308be12 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4542,3 +4542,23 @@ GEN_VEXT_MASK_VV(vmor_mm, DO_OR)
- GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
- GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
- GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
+@@ -4562,3 +4562,22 @@ target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
+     }
+     return cnt;
+ }
 +
-+/* Vector mask population count vmpopc */
-+target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
-+                              uint32_t desc)
++/* vmfirst find-first-set mask bit*/
++target_ulong HELPER(vmfirst_m)(void *v0, void *vs2, CPURISCVState *env,
++                               uint32_t desc)
 +{
-+    target_ulong cnt = 0;
 +    uint32_t mlen = vext_mlen(desc);
 +    uint32_t vm = vext_vm(desc);
 +    uint32_t vl = env->vl;
@@ -191,11 +190,11 @@ index 028abd1871..b443819239 100644
 +    for (i = 0; i < vl; i++) {
 +        if (vm || vext_elem_mask(v0, mlen, i)) {
 +            if (vext_elem_mask(vs2, mlen, i)) {
-+                cnt++;
++                return i;
 +            }
 +        }
 +    }
-+    return cnt;
++    return -1LL;
 +}
 -- 
 2.27.0
