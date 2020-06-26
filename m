@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D7420B2FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:57:28 +0200 (CEST)
-Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6A220B300
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:58:24 +0200 (CEST)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joor9-0005zr-Oy
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
+	id 1joos3-0007PD-77
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jooq0-0005Ae-5J
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:56:16 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26537
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jooq1-0005At-TK
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:56:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25604
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1joopx-0000ON-SH
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:56:15 -0400
+ id 1jooq0-0000Ow-4D
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 09:56:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593179772;
+ s=mimecast20190719; t=1593179775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HCayRb2gbD0W3KnwH4eij0QeBRKrfCZ1tIPZL5xVfS4=;
- b=UTLbZ0A0BW/gbOeBYe7wvM+PfZ8mq5QQXrQxJLAoEFsAv/qVtTzIhHo/ER3HRgOqeOKKfg
- bdcC+Plerv9qQFi7I7tBa+ROHTHawr/M5SZvnUTiduGcjY5JzWsZxWJZksfk8gNhNwDutS
- UbftAP3G6MGxZcGwFnz9tFtWBtJajTY=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=27FBSLD97IXkacBHsHNfuY1T6+kmG/JdRKJFQzspjU0=;
+ b=Yv9D3CMMhCNSkG6Oz0GUdnkoyywIZ0DEaioyjm4J4kc2TpJj/3XdjQa/EHYEByOQ8Eu51/
+ VQl4idjBkqPeq5eCtT/zTdXkwoj87SMQeXa7AEOs62K7TbaCVGlMssCKuf08bbvjx1D+Zh
+ ZCRNfGZW3EhVBCFz8Lo9pL6hnS5LgU4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-THwYJbcuPh6gGePo8BRBkA-1; Fri, 26 Jun 2020 09:56:10 -0400
-X-MC-Unique: THwYJbcuPh6gGePo8BRBkA-1
+ us-mta-394-fHJF7iUtPQKCqisaae9sSQ-1; Fri, 26 Jun 2020 09:56:11 -0400
+X-MC-Unique: fHJF7iUtPQKCqisaae9sSQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 385EC87950B
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 13:56:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 008F287950D;
+ Fri, 26 Jun 2020 13:56:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF2D310016E8
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 13:56:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B08410016E8;
+ Fri, 26 Jun 2020 13:56:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/31] Misc patches for 2020-06-24
-Date: Fri, 26 Jun 2020 09:56:06 -0400
-Message-Id: <20200626135608.6920-1-pbonzini@redhat.com>
+Subject: [PULL v2 09/31] exec: fetch the alignment of Linux devdax pmem
+ character device nodes
+Date: Fri, 26 Jun 2020 09:56:07 -0400
+Message-Id: <20200626135608.6920-2-pbonzini@redhat.com>
+In-Reply-To: <20200626135608.6920-1-pbonzini@redhat.com>
+References: <20200626135608.6920-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 03:23:21
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,149 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jingqi Liu <jingqi.liu@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ Joao Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5acc270a355120ce967ca1f1eeca0abbdb9303c8:
+From: Jingqi Liu <jingqi.liu@intel.com>
 
-  Merge remote-tracking branch 'remotes/xtensa/tags/20200625-xtensa' into staging (2020-06-25 21:20:45 +0100)
+If the backend file is devdax pmem character device, the alignment
+specified by the option 'align=NUM' in the '-object memory-backend-file'
+needs to match the alignment requirement of the devdax pmem character device.
 
-are available in the Git repository at:
+This patch uses the interfaces of libdaxctl to fetch the devdax pmem file
+'align', so that we can compare it with the NUM of 'align=NUM'.
+The NUM needs to be larger than or equal to the devdax pmem file 'align'.
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+It also fixes the problem that mmap() returns failure in qemu_ram_mmap()
+when the NUM of 'align=NUM' is less than the devdax pmem file 'align'.
 
-for you to fetch changes up to 730319aef0fcb94f11a4a2d32656437fdde7efdd:
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
+Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+Message-Id: <20200429085011.63752-2-jingqi.liu@intel.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ exec.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-  i386: Mask SVM features if nested SVM is disabled (2020-06-26 09:39:40 -0400)
-
-----------------------------------------------------------------
-* Various fixes
-* libdaxctl support to correctly align devdax character devices (Jingqi)
-* initial-all-set support for live migration (Jay)
-* forbid '-numa node, mem' for 5.1 and newer machine types (Igor)
-* x87 fixes (Joseph)
-* Tighten memory_region_access_valid (Michael) and fix fallout (myself)
-* Replay fixes (Pavel)
-
-----------------------------------------------------------------
-v1->v2: update MIN/MAX patch, fix 32-bit compilation
-
-Anthony PERARD (1):
-      xen: Actually fix build without passthrough
-
-David CARLIER (1):
-      util/getauxval: Porting to FreeBSD getauxval feature
-
-Eduardo Habkost (1):
-      i386: Mask SVM features if nested SVM is disabled
-
-Eric Blake (1):
-      osdep: Make MIN/MAX evaluate arguments only once
-
-Igor Mammedov (1):
-      numa: forbid '-numa node, mem' for 5.1 and newer machine types
-
-Jay Zhou (1):
-      kvm: support to get/set dirty log initial-all-set capability
-
-Jingqi Liu (3):
-      configure: add libdaxctl support
-      exec: fetch the alignment of Linux devdax pmem character device nodes
-      docs/nvdimm: add description of alignment requirement of device dax
-
-Jon Doron (1):
-      hyperv: vmbus: Remove the 2nd IRQ
-
-Joseph Myers (10):
-      target/i386: reimplement f2xm1 using floatx80 operations
-      softfloat: merge floatx80_mod and floatx80_rem
-      softfloat: fix floatx80 remainder pseudo-denormal check for zero
-      softfloat: do not return pseudo-denormal from floatx80 remainder
-      softfloat: do not set denominator high bit for floatx80 remainder
-      softfloat: return low bits of quotient from floatx80_modrem
-      target/i386: reimplement fprem, fprem1 using floatx80 operations
-      target/i386: reimplement fyl2xp1 using floatx80 operations
-      target/i386: reimplement fyl2x using floatx80 operations
-      target/i386: reimplement fpatan using floatx80 operations
-
-Liao Pingfang (1):
-      Makefile: Install qemu-[qmp/ga]-ref.* into the directory "interop"
-
-Marcelo Tosatti (1):
-      kvm: i386: allow TSC to differ by NTP correction bounds without TSC scaling
-
-Michael S. Tsirkin (1):
-      memory: Revert "memory: accept mismatching sizes in memory_region_access_valid"
-
-Paolo Bonzini (4):
-      libqos: usb-hcd-ehci: use 32-bit write for config register
-      libqos: pci-pc: use 32-bit write for EJ register
-      vmport: move compat properties to hw_compat_5_0
-      ibex_uart: fix XOR-as-pow
-
-Pavel Dovgaluk (2):
-      replay: notify the main loop when there are no instructions
-      replay: synchronize on every virtual timer callback
-
-Tao Xu (1):
-      target/i386: Add notes for versioned CPU models
-
-Thomas Huth (1):
-      hw/scsi/megasas: Fix possible out-of-bounds array access in tracepoints
-
- Makefile                            |   10 +-
- accel/kvm/kvm-all.c                 |   21 +-
- accel/tcg/translate-all.c           |    6 +-
- configure                           |   29 +
- cpus.c                              |   15 +-
- docs/index.html.in                  |    4 +-
- docs/nvdimm.txt                     |   10 +
- docs/system/deprecated.rst          |   37 +-
- exec.c                              |   54 +-
- fpu/softfloat.c                     |   87 ++-
- hw/arm/virt.c                       |    2 +-
- hw/char/ibex_uart.c                 |    2 +-
- hw/core/machine.c                   |    8 +-
- hw/core/numa.c                      |    7 +
- hw/hyperv/vmbus.c                   |    3 +-
- hw/i386/acpi-build.c                |    4 +-
- hw/i386/pc.c                        |    1 -
- hw/i386/pc_piix.c                   |    1 +
- hw/i386/pc_q35.c                    |    1 +
- hw/ppc/spapr.c                      |    2 +-
- hw/scsi/megasas.c                   |   36 +-
- hw/usb/hcd-xhci.h                   |    2 +-
- hw/xen/Makefile.objs                |    2 +-
- include/block/block.h               |    4 +-
- include/exec/cpu-all.h              |    8 +-
- include/exec/cpu-defs.h             |    7 +-
- include/fpu/softfloat.h             |    3 +
- include/hw/hyperv/vmbus-bridge.h    |    3 +-
- include/qemu/osdep.h                |   57 +-
- memory.c                            |   29 +-
- migration/qemu-file.c               |    2 +-
- qemu-options.hx                     |    9 +-
- replay/replay.c                     |    2 +-
- target/i386/cpu.c                   |    9 +
- target/i386/fpu_helper.c            | 1396 +++++++++++++++++++++++++++++++----
- target/i386/kvm.c                   |   46 +-
- target/m68k/softfloat.c             |   83 ---
- target/m68k/softfloat.h             |    1 -
- tests/qtest/libqos/pci-pc.c         |    2 +-
- tests/qtest/test-x86-cpuid-compat.c |    4 +-
- tests/qtest/usb-hcd-ehci-test.c     |    2 +-
- tests/tcg/i386/test-i386-f2xm1.c    | 1140 ++++++++++++++++++++++++++++
- tests/tcg/i386/test-i386-fpatan.c   | 1071 +++++++++++++++++++++++++++
- tests/tcg/i386/test-i386-fyl2x.c    | 1161 +++++++++++++++++++++++++++++
- tests/tcg/i386/test-i386-fyl2xp1.c  | 1156 +++++++++++++++++++++++++++++
- util/getauxval.c                    |   10 +
- util/qemu-timer.c                   |   32 +-
- 47 files changed, 6211 insertions(+), 370 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-f2xm1.c
- create mode 100644 tests/tcg/i386/test-i386-fpatan.c
- create mode 100644 tests/tcg/i386/test-i386-fyl2x.c
- create mode 100644 tests/tcg/i386/test-i386-fyl2xp1.c
+diff --git a/exec.c b/exec.c
+index d6712fba7e..21926dc9c7 100644
+--- a/exec.c
++++ b/exec.c
+@@ -77,6 +77,10 @@
+ 
+ #include "monitor/monitor.h"
+ 
++#ifdef CONFIG_LIBDAXCTL
++#include <daxctl/libdaxctl.h>
++#endif
++
+ //#define DEBUG_SUBPAGE
+ 
+ #if !defined(CONFIG_USER_ONLY)
+@@ -1745,6 +1749,46 @@ static int64_t get_file_size(int fd)
+     return size;
+ }
+ 
++static int64_t get_file_align(int fd)
++{
++    int64_t align = -1;
++#if defined(__linux__) && defined(CONFIG_LIBDAXCTL)
++    struct stat st;
++
++    if (fstat(fd, &st) < 0) {
++        return -errno;
++    }
++
++    /* Special handling for devdax character devices */
++    if (S_ISCHR(st.st_mode)) {
++        g_autofree char *path = NULL;
++        g_autofree char *rpath = NULL;
++        struct daxctl_ctx *ctx;
++        struct daxctl_region *region;
++        int rc = 0;
++
++        path = g_strdup_printf("/sys/dev/char/%d:%d",
++                    major(st.st_rdev), minor(st.st_rdev));
++        rpath = realpath(path, NULL);
++
++        rc = daxctl_new(&ctx);
++        if (rc) {
++            return -1;
++        }
++
++        daxctl_region_foreach(ctx, region) {
++            if (strstr(rpath, daxctl_region_get_path(region))) {
++                align = daxctl_region_get_align(region);
++                break;
++            }
++        }
++        daxctl_unref(ctx);
++    }
++#endif /* defined(__linux__) && defined(CONFIG_LIBDAXCTL) */
++
++    return align;
++}
++
+ static int file_ram_open(const char *path,
+                          const char *region_name,
+                          bool *created,
+@@ -2296,7 +2340,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+ {
+     RAMBlock *new_block;
+     Error *local_err = NULL;
+-    int64_t file_size;
++    int64_t file_size, file_align;
+ 
+     /* Just support these ram flags by now. */
+     assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
+@@ -2332,6 +2376,14 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
++    file_align = get_file_align(fd);
++    if (file_align > 0 && mr && file_align > mr->align) {
++        error_setg(errp, "backing store align 0x%" PRIx64
++                   " is larger than 'align' option 0x%" PRIx64,
++                   file_align, mr->align);
++        return NULL;
++    }
++
+     new_block = g_malloc0(sizeof(*new_block));
+     new_block->mr = mr;
+     new_block->used_length = size;
 -- 
 2.26.2
+
 
 
