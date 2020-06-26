@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3DA20B607
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:39:51 +0200 (CEST)
-Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639B120B614
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:43:11 +0200 (CEST)
+Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorOI-0006iV-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
+	id 1jorRW-0003hJ-BY
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jorJO-00079d-2N
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:34:46 -0400
-Resent-Date: Fri, 26 Jun 2020 12:34:46 -0400
-Resent-Message-Id: <E1jorJO-00079d-2N@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jorJK-0004sE-98
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 12:34:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593189270; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YLv8AcwpHc0UqoI39QZGGl1/9h3SD3GwZ0dgel2WjuYiqqR5WN8yaYBpsrVomtT+4RqTKYqLPUhNIbr3MBy48CxU8ydteiS31j+b84gHGyK4dsFAp293JeoG4sJMnuNts+jJe1WbcMmwCYLAbFkbMguWd2zl6IDCVBKuTUl7cb8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593189270;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=v38oQLpMogAXielcbiSJWfPMnOPrzcRY8f3K+r4wfzk=; 
- b=KY6XyhVcLJWI3wjeTBK0/GmTUXa3CU1UM2WXmKDYWI/b6fCR2e96sfGk5/VLRgbnjLU/k0EE4UMp/feCoaQYInfgMK+8V28rAxnm5k1nsIZLanNnvgYKvJ01VdM2TvAXnR9KBsHDjXOcxaIFm/cKIsjKzujxMry6bMSsI8NF7t4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593189266781262.608807512598;
- Fri, 26 Jun 2020 09:34:26 -0700 (PDT)
-Message-ID: <159318926545.28361.4987154757127294444@d1fd068a5071>
-Subject: Re: [PATCH v2 0/3] trace: Add a trace backend for the recorder library
-In-Reply-To: <20200626162706.3304357-1-dinechin@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jorOy-00008z-JK; Fri, 26 Jun 2020 12:40:34 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jorOw-0005zT-Nh; Fri, 26 Jun 2020 12:40:32 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j18so9409600wmi.3;
+ Fri, 26 Jun 2020 09:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=q9NxDW2oQ9w4rrOZiKQo2soGzZ8yBLvV0TRmyvXJhd8=;
+ b=Nq4H/Ejv9nri+mryeLy1j0xw2hWX1d6WofvdGeckWWqHHlWxL0/o0PIFGl0S4py5eh
+ FPUtffUdWzCCpNWuYRh/CUW29pMl9zWaWhQeKlGGw70wG90A+7DTPUzbW/HWW7utRQwQ
+ dVdxzSEIW0w80PI7mfXdcQWPWWZlFXI6GNLbDoK9acWAdzajK4Hkq7/37CygzMCFgfjC
+ +9448sTsI6PKnW1qM7gZW28QDLaZk0KnDvy79xbwiaK91O0/XnMCByW/b7P2tzfD0FHA
+ +50GiLCPHIAJkm/7Y5sSipjpQbdUKSY67CLwyvrmgehAcxihPySBjVD34hx8Lx0VhhDX
+ jP4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=q9NxDW2oQ9w4rrOZiKQo2soGzZ8yBLvV0TRmyvXJhd8=;
+ b=mKfwpaMCYnQJVu/9t4fSb1XcRXyiYiBmOai2r9lIY6Npyb89P5bOk6ybWj6KQrEUno
+ 2MTWvk1Y/K58A9odDDhiec1yVFudsGK7L0/6ODk6WfXecG6nhtvZ1cljzuLycHzkqqB5
+ HnKXGZbjFjzzHYv7MjBRw5GkpUHMJ91VgC8xFeTidTWxLGQr4eAwViAX+QiX4Cj9BW4/
+ ADwj8ZdnQ+RWNtn4Cxwxrdn8sZfHyuvg1iHuFAtvceX3i6FwcBVcGsW6QnZqeYLbOjXh
+ IXxarDM6UWqKU9APBNFXFp5jUROCYysDRdcYqJXw0IT+xFzwqvqJOIaeqa+3xL65rPuj
+ T3Hg==
+X-Gm-Message-State: AOAM533B/bYLNMe62tqeccdSalxopDXzaHkgAdKzE06LBw4bqMPhZcti
+ fEll2XY8zuGgCISAasapBoRDKkiK
+X-Google-Smtp-Source: ABdhPJwOMpDmb99nh5naGP4G/dvGTd7T4rzAhlsFajltFdcSMbnkUrK9zB0BYTczvFmJHZQWclCOHw==
+X-Received: by 2002:a1c:b182:: with SMTP id a124mr4119349wmf.114.1593189628827; 
+ Fri, 26 Jun 2020 09:40:28 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id f12sm24623646wrw.53.2020.06.26.09.40.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 09:40:28 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/15] hw/sd/sdcard: Fix CVE-2020-13253 & cleanups
+Date: Fri, 26 Jun 2020 18:40:11 +0200
+Message-Id: <20200626164026.766-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dinechin@redhat.com
-Date: Fri, 26 Jun 2020 09:34:26 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 12:34:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,68 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, mjt@tls.msk.ru, laurent@vivier.eu, qemu-devel@nongnu.org,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNjE2MjcwNi4zMzA0
-MzU3LTEtZGluZWNoaW5AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYyIDAvM10gdHJhY2U6IEFkZCBhIHRyYWNl
-IGJhY2tlbmQgZm9yIHRoZSByZWNvcmRlciBsaWJyYXJ5ClR5cGU6IHNlcmllcwpNZXNzYWdlLWlk
-OiAyMDIwMDYyNjE2MjcwNi4zMzA0MzU3LTEtZGluZWNoaW5AcmVkaGF0LmNvbQoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251
-bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFs
-Z29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNl
-Li4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0
-ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9q
-ZWN0L3FlbXUKICAgMTBmN2ZmYS4uODdmYjk1MiAgbWFzdGVyICAgICAtPiBtYXN0ZXIKIC0gW3Rh
-ZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDYyNjE1MTQyNC4zMDExNy0xLXBldGVyLm1heWRl
-bGxAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjAwNjI2MTUxNDI0LjMwMTE3LTEtcGV0ZXIubWF5
-ZGVsbEBsaW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA2MjYxNjI3
-MDYuMzMwNDM1Ny0xLWRpbmVjaGluQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMDYyNjE2Mjcw
-Ni4zMzA0MzU3LTEtZGluZWNoaW5AcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2gg
-J3Rlc3QnCjg1MGJlZDUgdHJhY2U6IEV4YW1wbGUgb2YgImNlbnRyYWxpemVkIiByZWNvcmRlciB0
-cmFjaW5nCjFmOWE4ZGEgdHJhY2U6IEFkZCBzdXBwb3J0IGZvciByZWNvcmRlciBiYWNrLWVuZAo3
-NmRkN2M2IE1ha2VmaWxlOiBDb21wdXRlIGxpYnJhcmllcyBmb3IgbGlicWVtdXV0aWwuYSBhbmQg
-bGlidmhvc3QtdXNlci5hCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzMgQ2hlY2tpbmcgY29tbWl0
-IDc2ZGQ3YzY3ZmU1ZSAoTWFrZWZpbGU6IENvbXB1dGUgbGlicmFyaWVzIGZvciBsaWJxZW11dXRp
-bC5hIGFuZCBsaWJ2aG9zdC11c2VyLmEpCjIvMyBDaGVja2luZyBjb21taXQgMWY5YThkYWVhNmVi
-ICh0cmFjZTogQWRkIHN1cHBvcnQgZm9yIHJlY29yZGVyIGJhY2stZW5kKQpXQVJOSU5HOiBhZGRl
-ZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRp
-bmc/CiMxMzA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
-YXJhY3RlcnMKIzE4MjogRklMRTogc2NyaXB0cy90cmFjZXRvb2wvYmFja2VuZC9yZWNvcmRlci5w
-eTo0ODoKKyAgICAgICAgb3V0KCdSRUNPUkRFUl9ERUZJTkUoJShuYW1lKXMsIDgsICJUcmFjZXRv
-b2wgcmVjb3JkZXIgZm9yICUoYXBpKXMoJShhcmdzKXMpIik7JywKCkVSUk9SOiBkbyBub3QgdXNl
-IEM5OSAvLyBjb21tZW50cwojMjQ3OiBGSUxFOiB0cmFjZS9yZWNvcmRlci5jOjE4OgorICAgIC8v
-IEFsbG93IGEgZHVtcCBpbiBjYXNlIHdlIHJlY2VpdmUgc29tZSB1bmhhbmRsZWQgc2lnbmFsCgpF
-UlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzI0ODogRklMRTogdHJhY2UvcmVjb3Jk
-ZXIuYzoxOToKKyAgICAvLyBGb3IgZXhhbXBsZSwgc2VuZCBVU1IyIHRvIGEgaHVuZyBwcm9jZXNz
-IHRvIGdldCBhIGR1bXAKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFy
-bXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzI0OTogRklMRTogdHJhY2UvcmVjb3JkZXIuYzoyMDoKKyAg
-ICBpZiAoZ2V0ZW52KCJSRUNPUkRFUl9UUkFDRVMiKSkKWy4uLl0KCkVSUk9SOiBzcGFjZSByZXF1
-aXJlZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzI1MDogRklMRTogdHJhY2UvcmVjb3JkZXIu
-YzoyMToKKyAgICAgICAgcmVjb3JkZXJfZHVtcF9vbl9jb21tb25fc2lnbmFscygwLDApOwogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogZG8gbm90IHVz
-ZSBDOTkgLy8gY29tbWVudHMKIzI4MTogRklMRTogdHJhY2UvcmVjb3JkZXIuaDoyNDoKKy8vIERp
-c2FibGUgcmVjb3JkZXIgbWFjcm9zCgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMK
-IzI4OTogRklMRTogdHJhY2UvcmVjb3JkZXIuaDozMjoKKyNlbmRpZiAvLyBDT05GSUdfVFJBQ0Vf
-UkVDT1JERVIKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMjkxOiBGSUxFOiB0
-cmFjZS9yZWNvcmRlci5oOjM0OgorI2VuZGlmIC8vIFRSQUNFX1JFQ09SREVSX0gKCkVSUk9SOiBk
-byBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMzEyOiBGSUxFOiB1dGlsL21vZHVsZS5jOjE1ODoK
-KyAgICAgICAgLy8gTmV3IHJlY29yZGVycyBtYXkgaGF2ZSBiZWVuIHB1bGxlZCBpbiwgYWN0aXZh
-dGUgdGhlbSBpZiBuZWNlc3NhcnkKCnRvdGFsOiA4IGVycm9ycywgMiB3YXJuaW5ncywgMjM3IGxp
-bmVzIGNoZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
-ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
-dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy8zIENo
-ZWNraW5nIGNvbW1pdCA4NTBiZWQ1MjNlNjMgKHRyYWNlOiBFeGFtcGxlIG9mICJjZW50cmFsaXpl
-ZCIgcmVjb3JkZXIgdHJhY2luZykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhp
-dGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3Bh
-dGNoZXcub3JnL2xvZ3MvMjAyMDA2MjYxNjI3MDYuMzMwNDM1Ny0xLWRpbmVjaGluQHJlZGhhdC5j
-b20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
-YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
-ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Patches 5 & 6 fix CVE-2020-13253.
+The rest are (accumulated) cleanups.
+
+Missing review:
+[PATCH 01/15] MAINTAINERS: Cc qemu-block mailing list
+[PATCH 03/15] hw/sd/sdcard: Move some definitions to use them
+[PATCH 04/15] hw/sd/sdcard: Use the HWBLOCK_SIZE definition
+[PATCH 05/15] hw/sd/sdcard: Do not switch to ReceivingData if
+[PATCH 07/15] hw/sd/sdcard: Initialize constant values first
+[PATCH 08/15] hw/sd/sdcard: Check address is in range
+[PATCH 12/15] hw/sd/sdcard: Make iolen unsigned
+[PATCH 13/15] hw/sd/sdcard: Correctly display the command name in
+
+$ git backport-diff -u v3
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+001/15:[----] [--] 'MAINTAINERS: Cc qemu-block mailing list'
+002/15:[----] [--] 'hw/sd/sdcard: Update coding style to make checkpatch.pl happy'
+003/15:[down] 'hw/sd/sdcard: Move some definitions to use them earlier'
+004/15:[down] 'hw/sd/sdcard: Use the HWBLOCK_SIZE definition'
+005/15:[0030] [FC] 'hw/sd/sdcard: Do not switch to ReceivingData if address is invalid'
+006/15:[----] [--] 'hw/sd/sdcard: Restrict Class 6 commands to SCSD cards'
+007/15:[down] 'hw/sd/sdcard: Initialize constant values first'
+008/15:[down] 'hw/sd/sdcard: Check address is in range'
+009/15:[----] [--] 'hw/sd/sdcard: Update the SDState documentation'
+010/15:[----] [--] 'hw/sd/sdcard: Simplify cmd_valid_while_locked()'
+011/15:[----] [--] 'hw/sd/sdcard: Constify sd_crc*()'s message argument'
+012/15:[0004] [FC] 'hw/sd/sdcard: Make iolen unsigned'
+013/15:[----] [-C] 'hw/sd/sdcard: Correctly display the command name in trace events'
+014/15:[0004] [FC] 'hw/sd/sdcard: Display offset in read/write_data() trace events'
+015/15:[----] [--] 'hw/sd/sdcard: Simplify realize() a bit'
+
+Philippe Mathieu-Daudé (15):
+  MAINTAINERS: Cc qemu-block mailing list
+  hw/sd/sdcard: Update coding style to make checkpatch.pl happy
+  hw/sd/sdcard: Move some definitions to use them earlier
+  hw/sd/sdcard: Use the HWBLOCK_SIZE definition
+  hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
+  hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
+  hw/sd/sdcard: Initialize constant values first
+  hw/sd/sdcard: Check address is in range
+  hw/sd/sdcard: Update the SDState documentation
+  hw/sd/sdcard: Simplify cmd_valid_while_locked()
+  hw/sd/sdcard: Constify sd_crc*()'s message argument
+  hw/sd/sdcard: Make iolen unsigned
+  hw/sd/sdcard: Correctly display the command name in trace events
+  hw/sd/sdcard: Display offset in read/write_data() trace events
+  hw/sd/sdcard: Simplify realize() a bit
+
+ hw/sd/sd.c         | 173 +++++++++++++++++++++++++++------------------
+ MAINTAINERS        |   1 +
+ hw/sd/trace-events |   4 +-
+ 3 files changed, 109 insertions(+), 69 deletions(-)
+
+-- 
+2.21.3
+
 
