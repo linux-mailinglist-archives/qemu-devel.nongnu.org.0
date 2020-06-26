@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A240720B5ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:32:41 +0200 (CEST)
-Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A8E20B5F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:34:57 +0200 (CEST)
+Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorHM-0002JM-9x
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54074)
+	id 1jorJY-000680-B0
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDH-0005HM-3O; Fri, 26 Jun 2020 12:28:27 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51804)
+ id 1jorDI-0005Kn-9b; Fri, 26 Jun 2020 12:28:28 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDF-0003K3-HK; Fri, 26 Jun 2020 12:28:26 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 22so9385449wmg.1;
- Fri, 26 Jun 2020 09:28:24 -0700 (PDT)
+ id 1jorDG-0003KN-Ph; Fri, 26 Jun 2020 12:28:27 -0400
+Received: by mail-wm1-x344.google.com with SMTP id u26so9222577wmn.1;
+ Fri, 26 Jun 2020 09:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NATlEi/FrWfP9Y28UrUe6cx6ZnLH5i2MWU0fBA6ejkY=;
- b=me1/iF1aFo1fTxDERquHZZNX7zuzCNPRbCgkK7mbuGDpLPmFSPRgOLe/V+sC6EA2wT
- EcLQfZ2BgiPLa6SEaY+RZyPqrohkPUuLRsdrkayMhQt822f1yRK0mV3yGFZY0gwKrYAd
- umAmHPbdnOMbijTgvWPwCMOzQSDsOpjfoYLepNaAsGMf+uJolUsOVlAnCCr+mFa/vuKU
- Q90G/tjjNjeMgru29NeIT84jYnsfSkzJo39gdobE05XFPBhrdiaFIYZUGNrv6KhFawFY
- eIa4I87js81E0nPYBE02n/3k6iT1nME1vTeSND8Sh4HQ2XRKJ4LStqBNu+9pPv3siZyB
- aVPQ==
+ bh=i3AX6k9zJcs7ntcPjDjs5EOqKiW+/SX/Gp5bwn7hkCA=;
+ b=NvfCZttOGz8tB9+6My1zPfHN6H1+XEyvbdNgtNX2q36ojoyII9aTnHBsedBvvZQPxE
+ 8PvZF0Q2uqM2FpMYwhvTjhjOOWGgeihnoO87d6B+FuT3ZAm4CwLslf83uKSOJrCfPKcf
+ PPxPr4tEs2O3qQ8IgyIswlSFk8GAekAXe+/qCaXE+OwMrTXRgstt8qO06nFx7J2ESrVy
+ 9H2/HquxNDMuPPzbysBSfDPDYtiMt6t9krrCHRKa6QfoyQ/6W73uSQIdRCwk11/0qoc4
+ 0dEx3oXYlN7jQtMlRwYa2OPkm0GEskBY3M9Job22q/gBiV1KU/HA95eLmn3/5epd+t0C
+ 94Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NATlEi/FrWfP9Y28UrUe6cx6ZnLH5i2MWU0fBA6ejkY=;
- b=Z4gmsBC0ChiY40xK4Ts9fDolWLBLW3cXVIBFuoWbair2KKbrI0gg0tO4kCUmUZo1f3
- ViFVP43Hzj0wI33HSr0duYqiM5xjhlf4hXUupNwwTuqQW10GnTfp5rrUgCw0n63aj8EZ
- 4sMz1NhJKS8FUxiInVF0ghZjKD6OsohDkUp+FRtZVBsyqN/eAzFGXZKQwwIRLxFVyrj9
- F5cAldObEvTX9fbchKDxCZp9rhpM4uQm1ST2zlU6/UtroDaxEqer240swnfdCh2y//9r
- A1I+G1LMnp9eU88KKdVQ5JjA4GvWLrvx68Wa9q5PWcYacvBPP54RnbEXR6hf62QK+pP2
- rLDQ==
-X-Gm-Message-State: AOAM5317otVN0MFYZrLUTwRPKU3Wqkxz0Y9sjGwkbbFRkAnU25LuJskZ
- 26qiCFKOK6XK0/U2Bg47RS7kUNm4
-X-Google-Smtp-Source: ABdhPJzj8YR/NMdyAkkcYLLw/zYIhrQBao0in30cw8Xty/GsQI2g4+fayEO0/s1CdCYPVsyEATksyA==
-X-Received: by 2002:a1c:f702:: with SMTP id v2mr4148991wmh.71.1593188903732;
- Fri, 26 Jun 2020 09:28:23 -0700 (PDT)
+ bh=i3AX6k9zJcs7ntcPjDjs5EOqKiW+/SX/Gp5bwn7hkCA=;
+ b=YQvlWgBX7jI/VUaitjK+3hvIbUhe5qPfriJsVVhIYo0PCCoF1t5nZke6VhsM2dL8+p
+ Fplb02YvLeEvGGEG1Q5ZHoM3DmKrLGciRrUpfNa3MG2e3Cjh4KG/L1PN3I26mi1RM7Yz
+ lH99AFRH53FRsPbgAW+7QB4hFgbHbQeQL2Vy7Sc83ALqnViCe4YMlhr8AKAhbcPI5dzS
+ T+XMsS0kJrKTfzL8pU0qgcZmEGt4MwwQ4tneuld6B/w/nm5Vtro0ZcQQ40vEA9bWdY3z
+ x4QTlZo4xaZto8cw5vdT9MuV2w1MJle93aLCff5atI34oBn7KQ43q4yilL4Cranbih2n
+ SMyQ==
+X-Gm-Message-State: AOAM531goojKxB1l1CHxkkQhhefqb4u+qqZJabCYFz5MbakLQ4VKpRsh
+ kP1sUt11SWOTHwCGCz+HvN1Snk0T
+X-Google-Smtp-Source: ABdhPJxu/cpLfmD+VnBOo+qRwlyWsoOZ4Kzp6bzhUPBfk6LZxzJcuxiIq0npsWcaPjqNzpFym5Tibw==
+X-Received: by 2002:a7b:c944:: with SMTP id i4mr4232248wml.22.1593188904883;
+ Fri, 26 Jun 2020 09:28:24 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.22
+ by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:28:23 -0700 (PDT)
+ Fri, 26 Jun 2020 09:28:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/14] hw/sd/sdcard: Move some definitions to use them
- earlier
-Date: Fri, 26 Jun 2020 18:28:07 +0200
-Message-Id: <20200626162818.25840-4-f4bug@amsat.org>
+Subject: [PATCH v4 04/14] hw/sd/sdcard: Use the HWBLOCK_SIZE definition
+Date: Fri, 26 Jun 2020 18:28:08 +0200
+Message-Id: <20200626162818.25840-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
 References: <20200626162818.25840-1-f4bug@amsat.org>
@@ -93,43 +92,94 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move some definitions to use them earlier.
+Replace the following different uses of the same value by
+the same HWBLOCK_SIZE definition:
+  - 512 (magic value)
+  - 0x200 (magic value)
+  - 1 << HWBLOCK_SHIFT
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/sd/sd.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index cac8d7d828..4816b4a462 100644
+index 4816b4a462..04451fdad2 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -80,6 +80,12 @@ enum SDCardStates {
-     sd_disconnect_state,
+@@ -81,6 +81,7 @@ enum SDCardStates {
  };
  
-+#define HWBLOCK_SHIFT   9                       /* 512 bytes */
-+#define SECTOR_SHIFT    5                       /* 16 kilobytes */
-+#define WPGROUP_SHIFT   7                       /* 2 megs */
-+#define CMULT_SHIFT     9                       /* 512 times HWBLOCK_SIZE */
-+#define WPGROUP_SIZE    (1 << (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT))
-+
- struct SDState {
-     DeviceState parent_obj;
+ #define HWBLOCK_SHIFT   9                       /* 512 bytes */
++#define HWBLOCK_SIZE    (1 << HWBLOCK_SHIFT)
+ #define SECTOR_SHIFT    5                       /* 16 kilobytes */
+ #define WPGROUP_SHIFT   7                       /* 2 megs */
+ #define CMULT_SHIFT     9                       /* 512 times HWBLOCK_SIZE */
+@@ -129,7 +130,7 @@ struct SDState {
+     uint32_t blk_written;
+     uint64_t data_start;
+     uint32_t data_offset;
+-    uint8_t data[512];
++    uint8_t data[HWBLOCK_SIZE];
+     qemu_irq readonly_cb;
+     qemu_irq inserted_cb;
+     QEMUTimer *ocr_power_timer;
+@@ -410,7 +411,7 @@ static void sd_set_csd(SDState *sd, uint64_t size)
+             ((HWBLOCK_SHIFT << 6) & 0xc0);
+         sd->csd[14] = 0x00;	/* File format group */
+     } else {			/* SDHC */
+-        size /= 512 * KiB;
++        size /= HWBLOCK_SIZE * KiB;
+         size -= 1;
+         sd->csd[0] = 0x40;
+         sd->csd[1] = 0x0e;
+@@ -574,7 +575,7 @@ static void sd_reset(DeviceState *dev)
+     sd->erase_start = 0;
+     sd->erase_end = 0;
+     sd->size = size;
+-    sd->blk_len = 0x200;
++    sd->blk_len = HWBLOCK_SIZE;
+     sd->pwd_len = 0;
+     sd->expecting_acmd = false;
+     sd->dat_lines = 0xf;
+@@ -685,7 +686,7 @@ static const VMStateDescription sd_vmstate = {
+         VMSTATE_UINT32(blk_written, SDState),
+         VMSTATE_UINT64(data_start, SDState),
+         VMSTATE_UINT32(data_offset, SDState),
+-        VMSTATE_UINT8_ARRAY(data, SDState, 512),
++        VMSTATE_UINT8_ARRAY(data, SDState, HWBLOCK_SIZE),
+         VMSTATE_UNUSED_V(1, 512),
+         VMSTATE_BOOL(enable, SDState),
+         VMSTATE_END_OF_LIST()
+@@ -754,8 +755,8 @@ static void sd_erase(SDState *sd)
  
-@@ -367,12 +373,6 @@ static void sd_set_cid(SDState *sd)
-     sd->cid[15] = (sd_crc7(sd->cid, 15) << 1) | 1;
- }
+     if (FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
+         /* High capacity memory card: erase units are 512 byte blocks */
+-        erase_start *= 512;
+-        erase_end *= 512;
++        erase_start *= HWBLOCK_SIZE;
++        erase_end *= HWBLOCK_SIZE;
+     }
  
--#define HWBLOCK_SHIFT	9			/* 512 bytes */
--#define SECTOR_SHIFT	5			/* 16 kilobytes */
--#define WPGROUP_SHIFT	7			/* 2 megs */
--#define CMULT_SHIFT	9			/* 512 times HWBLOCK_SIZE */
--#define WPGROUP_SIZE	(1 << (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT))
--
- static const uint8_t sd_csd_rw_mask[16] = {
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfc, 0xfe,
+     erase_start = sd_addr_to_wpnum(erase_start);
+@@ -1149,7 +1150,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+     case 16:	/* CMD16:  SET_BLOCKLEN */
+         switch (sd->state) {
+         case sd_transfer_state:
+-            if (req.arg > (1 << HWBLOCK_SHIFT)) {
++            if (req.arg > HWBLOCK_SIZE) {
+                 sd->card_status |= BLOCK_LEN_ERROR;
+             } else {
+                 trace_sdcard_set_blocklen(req.arg);
+@@ -1961,7 +1962,7 @@ uint8_t sd_read_data(SDState *sd)
+     if (sd->card_status & (ADDRESS_ERROR | WP_VIOLATION))
+         return 0x00;
+ 
+-    io_len = (sd->ocr & (1 << 30)) ? 512 : sd->blk_len;
++    io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
+ 
+     trace_sdcard_read_data(sd->proto_name,
+                            sd_acmd_name(sd->current_cmd),
 -- 
 2.21.3
 
