@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5516320B481
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:29:02 +0200 (CEST)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2238F20B47B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 17:26:53 +0200 (CEST)
+Received: from localhost ([::1]:37746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joqHl-0000yJ-8h
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35376)
+	id 1joqFg-0005w6-2I
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 11:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3q-0001up-Uz
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:38 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36083)
+ id 1joq3o-0001s5-9E
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:36 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1joq3m-0006Ci-JI
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:38 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 17so9709478wmo.1
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:32 -0700 (PDT)
+ id 1joq3m-0006DO-JY
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 11:14:35 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id j18so9157612wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 08:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5NNpdAjIha1dM9ij9yn8AmBkK2T4lQIQisubYegz+24=;
- b=z2bc0kBn8qni+TYpmNR47RCxvOKOtjs6XldAc2gchth767mtaVYZxHWTdCRv/CQpJS
- 99uuZmBzZYEj71m8qr3fCK5tWZqYe5HsDuYIO3I830t4j8iV/z4ztzQFx3vQTYmPhle2
- pDOedvlfT8bXDfhEKIDQhLVP7CFuCpuQcuBQ8nztLl7YzML8iiiGMUqPLJItxD41Y0PD
- 93Fb2r7beiFMuGnmtxyjmLG6wNegtnFT3no66mOB+MFGEHZJ6HrLyhsWK/LNLkLkCEP+
- RO4NWCQC9d8p4UA1fsuGxSG5O2M2mZWI8qe9P0668tntzprmbpszZAAKFf9jRkO+lI14
- cxoA==
+ bh=MGJixcDIgTvYDsTmGzHDvC7oKBPaR9Bngw/q3X8ML5A=;
+ b=tRd/GlfSq+fFbMFybYhBW+gWTUwa7fZtEYw8RH1txvzLYUp//sgX0paVD6KfZjCuDx
+ hiWrh2Y3+ImLKyGN7FOKF1RR3uoYA1K+2V0VFI8cmN5z98o5oUYgp8GbGxXBIPYMZ/td
+ YsMSjmJ91ClnAlfANoIwBwb0NGXvaRyUFVvTirpTW1stml92rOWlc4IfJ+iruFlqfHHw
+ 4l7GjpQzqcGdX93aQy/CjieHqTNILb74S08M/80Vm5VoJlfxKaxWknN573Wq7N3A7HqN
+ ND+zD7M9bpkl6o4AOd0kDv0SyTqy5dcpMilNw1BOzTSdnwbJc1MxS72lw+hAPlqBj0iP
+ y6nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5NNpdAjIha1dM9ij9yn8AmBkK2T4lQIQisubYegz+24=;
- b=a/OwhZNWQcH1437kl4J62c3CCRddiP0kTCMxTEhQ1jWv5vPrRJyQ5/3S73fb80c4Q9
- lW3xR5NitIWgVIM12a0viGDkdz8CMdMh62mLaWS2F5nB+dAdt1T84J7srFWgq9nj3A95
- 3EVOAfvlVyYEsV2iYCj9AG9fwNVe96Enzmbc/OY96zxeW+UrDAW5YoOt/C26P40CGVNI
- ChWketdxL+U6QxAQVYg6abEh42+CXGgskDrBSG9z5JcXsUs1rzm8LrTz0/j5UH7HIP7t
- uRMVM+jWkxL8Qa3010/O4GEKZsNuULcAv7/NrTYuKcVCp7iPm+idiMpqTY5LWmK+6J0P
- EL4A==
-X-Gm-Message-State: AOAM5323xKMWsby/MVR4xup2oP/SsIN6lktgb3BSI9aZVBpY/6yu1zDp
- yzTsY0E4OBvZQCYoAWasL16fsRef8ZKxpA==
-X-Google-Smtp-Source: ABdhPJzWjJJZN8A3jeQ/Yhmhn1W6jelt7U5K6bfSV8eggKX0JD1xiocNLROw0Ct4pCTkqSc5wh+k5g==
-X-Received: by 2002:a7b:ca52:: with SMTP id m18mr3918676wml.92.1593184471473; 
- Fri, 26 Jun 2020 08:14:31 -0700 (PDT)
+ bh=MGJixcDIgTvYDsTmGzHDvC7oKBPaR9Bngw/q3X8ML5A=;
+ b=FXrJhIIRpCOibm1lUeVsRgfwdXMKYw53r/2xe5QDmomms272wrwderHvBRZdPP05D2
+ Z3sf7CZ/YV6MjqQL8gKsv1J6Nx7PTe0BNZJfi0wsa9BYgSl/B4y4OcJlK/HXhFBXj3Kj
+ f/5/mzjykqLWdM9fn0CsJL5NNCdhAfano9IgWKc9XoUk5xZae0PWS1SD1b8s9nYOINvq
+ YLaIKBrTelQSxjEet5FX+ecmh+QVN4W7gA/8UMsD9KqrRPXl0swabYmwKuO2HQ6vi/Qd
+ lTK4UW/yzuLx2rN60AiYoGiKqVWL6bvVBLdh/OYbgVDX/J9dCQTBliy6CL+ifNun7fqw
+ GVhg==
+X-Gm-Message-State: AOAM533YZylU8bGxtjoa5xcCM6zrlrpHpFAEA7y6zpUVNH1rKVj0gP1W
+ h66KZYyAVBoCqiep3XSYAZODpmLI3a5S7g==
+X-Google-Smtp-Source: ABdhPJxdphpo27N1fjiYQhmRp9RSl03g7hANtNJC7zjjmv0Ss6DOA1ls0yDnp1L9p5g/Vrl9UEJRaQ==
+X-Received: by 2002:a7b:cb59:: with SMTP id v25mr3843942wmj.141.1593184472501; 
+ Fri, 26 Jun 2020 08:14:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.30
+ by smtp.gmail.com with ESMTPSA id w13sm37838852wrr.67.2020.06.26.08.14.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:14:30 -0700 (PDT)
+ Fri, 26 Jun 2020 08:14:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/57] hw/i2c/core: Add i2c_try_create_slave() and
- i2c_realize_and_unref()
-Date: Fri, 26 Jun 2020 16:13:31 +0100
-Message-Id: <20200626151424.30117-5-peter.maydell@linaro.org>
+Subject: [PULL 05/57] hw/misc/pca9552: Rename 'nr_leds' as 'pin_count'
+Date: Fri, 26 Jun 2020 16:13:32 +0100
+Message-Id: <20200626151424.30117-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626151424.30117-1-peter.maydell@linaro.org>
 References: <20200626151424.30117-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,72 +91,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Extract i2c_try_create_slave() and i2c_realize_and_unref()
-from i2c_create_slave().
-We can now set properties on a I2CSlave before it is realized.
+The PCA9552 device does not expose LEDs, but simple pins
+to connnect LEDs to. To be clearer with the device model,
+rename 'nr_leds' as 'pin_count'.
 
-This is in line with the recent qdev/QOM changes merged
-in commit 6675a653d2e.
-
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Tested-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200623072723.6324-2-f4bug@amsat.org
+Message-id: 20200623072723.6324-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/i2c/i2c.h |  2 ++
- hw/i2c/core.c        | 18 ++++++++++++++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
+ include/hw/misc/pca9552.h |  2 +-
+ hw/misc/pca9552.c         | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 41172115652..d6e3d85faf0 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -80,6 +80,8 @@ int i2c_send(I2CBus *bus, uint8_t data);
- uint8_t i2c_recv(I2CBus *bus);
+diff --git a/include/hw/misc/pca9552.h b/include/hw/misc/pca9552.h
+index ebb43c63fe1..bc5ed310878 100644
+--- a/include/hw/misc/pca9552.h
++++ b/include/hw/misc/pca9552.h
+@@ -26,7 +26,7 @@ typedef struct PCA9552State {
  
- DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
-+DeviceState *i2c_try_create_slave(const char *name, uint8_t addr);
-+bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
+     uint8_t regs[PCA9552_NR_REGS];
+     uint8_t max_reg;
+-    uint8_t nr_leds;
++    uint8_t pin_count;
+ } PCA9552State;
  
- /* lm832x.c */
- void lm832x_key_event(DeviceState *dev, int key, int state);
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 1aac457a2a0..acf34a12d6d 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -267,13 +267,27 @@ const VMStateDescription vmstate_i2c_slave = {
-     }
- };
- 
--DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
-+DeviceState *i2c_try_create_slave(const char *name, uint8_t addr)
+ #endif
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index cac729e35af..81da757a7ea 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -37,7 +37,7 @@ static void pca9552_update_pin_input(PCA9552State *s)
  {
-     DeviceState *dev;
+     int i;
  
-     dev = qdev_new(name);
-     qdev_prop_set_uint8(dev, "address", addr);
--    qdev_realize_and_unref(dev, &bus->qbus, &error_fatal);
-+    return dev;
-+}
-+
-+bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
-+{
-+    return qdev_realize_and_unref(dev, &bus->qbus, errp);
-+}
-+
-+DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
-+{
-+    DeviceState *dev;
-+
-+    dev = i2c_try_create_slave(name, addr);
-+    i2c_realize_and_unref(dev, bus, &error_fatal);
-+
-     return dev;
- }
+-    for (i = 0; i < s->nr_leds; i++) {
++    for (i = 0; i < s->pin_count; i++) {
+         uint8_t input_reg = PCA9552_INPUT0 + (i / 8);
+         uint8_t input_shift = (i % 8);
+         uint8_t config = pca9552_pin_get_config(s, i);
+@@ -185,7 +185,7 @@ static void pca9552_get_led(Object *obj, Visitor *v, const char *name,
+         error_setg(errp, "%s: error reading %s", __func__, name);
+         return;
+     }
+-    if (led < 0 || led > s->nr_leds) {
++    if (led < 0 || led > s->pin_count) {
+         error_setg(errp, "%s invalid led %s", __func__, name);
+         return;
+     }
+@@ -228,7 +228,7 @@ static void pca9552_set_led(Object *obj, Visitor *v, const char *name,
+         error_setg(errp, "%s: error reading %s", __func__, name);
+         return;
+     }
+-    if (led < 0 || led > s->nr_leds) {
++    if (led < 0 || led > s->pin_count) {
+         error_setg(errp, "%s invalid led %s", __func__, name);
+         return;
+     }
+@@ -291,9 +291,9 @@ static void pca9552_initfn(Object *obj)
+      * PCA955X device
+      */
+     s->max_reg = PCA9552_LS3;
+-    s->nr_leds = 16;
++    s->pin_count = 16;
  
+-    for (led = 0; led < s->nr_leds; led++) {
++    for (led = 0; led < s->pin_count; led++) {
+         char *name;
+ 
+         name = g_strdup_printf("led%d", led);
 -- 
 2.20.1
 
