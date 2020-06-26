@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A5320AAD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:41:44 +0200 (CEST)
-Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CF720AADA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:43:15 +0200 (CEST)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jofFH-00085N-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42204)
+	id 1jofGk-0002vr-4E
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof64-0008R2-1e
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:12 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36011)
+ id 1jof65-0008WC-Vz
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:14 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:55593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jof61-0001rx-Bw
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:11 -0400
-Received: by mail-pg1-x544.google.com with SMTP id p3so4364903pgh.3
- for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:08 -0700 (PDT)
+ id 1jof62-0001sE-Hy
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:32:13 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id f6so351962pjq.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5fYUL4cX+4WQxHc/ZTnx0EOBl/xdpMrdsWF0Wif8Mkw=;
- b=YDVefVrMdDT1pGi50VSX9yT8iQ9bF6PoGPvX21DX+b3Yw16uvEnJc6iYjX6t2/ffGn
- ntnejWW8V7Pgf9EhBok1E740eP/Gxgce9YjTKdZE0WAe4VZbUwG/4EIsjsiJhuiYGAJa
- CJcW1KXpyaLuA+rbYCT/42+vymmNwUIUxJTgSJ7Dkr58qpIJ8MlKDdB62a3SQj5Jq3us
- xtfEfnTssqRBfddVLLDRmYTA465jLLiDENgwPeg+fEe8vZK3dQVoafRptw0sPZsfKptN
- 077rycjuP4836/P6tEO+ky18Gpg0J52YsbD5XOO7y1VagezV02noE623eUW67oGxh7rQ
- quIQ==
+ bh=qDKnE6CQ1+e8GKFB2CRQQ8tPHOtJCQQxxuNXqwNntCM=;
+ b=jaGMFLVAxbTIUtc6DIUX+CwzqFpY7FZhyGacm7ZN3yS+gMkFSyJYEhS+52R+8jAiPi
+ ieo2zrRz1HajivQxqxLC2Himl9evv7EOszoFBSM8HSozUAgrs2IxVDBc6Zy5EOrM8a85
+ WtU0SD8d6noD4T6qwWYg6R6gWLpUrgDD6AqQvFiVQCVPBzSrIYVrtxaKXmyeWa66Rr6i
+ WN+uUWFPMlNLEGLf1sVHhuQGs6DrDlsPRUTw3tuL+mFkXn3Jk8BZ0eiCFHUMFFjPPHQa
+ baG9JhGew9Ln7YhKzmPpRrjUt1Tz6Wz1prENJMbmoyV0de+VYHMIcxtbv3HEQ2iVjVOS
+ F1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5fYUL4cX+4WQxHc/ZTnx0EOBl/xdpMrdsWF0Wif8Mkw=;
- b=sttiwWyrEUKNGH+YWWvM8pSxOoRGVtrtsEOW3ELMoMisrPun/ZrRnW82esOO4w6fB7
- vJhu/x+AC0hF7ooH2UZmkBHNbuNMFZ1Z77s0gwe5ynXVdDAaQL51ogxy6SkNdK7LbIlw
- asdxxU1kHHy/uqeGudQQr4jQSWuKteitltebAZc1QDjanZ2QsbKDlct1M+DBOM6Tdgzr
- MH4ZP3cZWM4x+FcjOb32BrUSFcqqILZ9CCgSk05AT2IXMQStVn30ki6LHAX6LEmRNwt1
- XJ8ADd4hV/Y89piJAo6bK4MWgECB8cYBec5yjVIOK8SW/o/JpKWSqukANuPC+bHeHy1W
- 7Pzg==
-X-Gm-Message-State: AOAM531WMxFXqLURAypEsWP3a1ZtSS3/u6TkfXRBs9VNHJinZ8RcwKYo
- 6XQhBXTn6W8naVGhtIx93VtCp2QJ228=
-X-Google-Smtp-Source: ABdhPJxFXtNjxmlB8bZg0VToJds7aGOuy4eWV7stnQ8QrqcnkwihV8E2vrOyHhWmNWhPvPpm/cSs4g==
-X-Received: by 2002:a62:1c8a:: with SMTP id c132mr860339pfc.69.1593142327662; 
- Thu, 25 Jun 2020 20:32:07 -0700 (PDT)
+ bh=qDKnE6CQ1+e8GKFB2CRQQ8tPHOtJCQQxxuNXqwNntCM=;
+ b=pqI7MHuN4UvFTHMnB4q9RVznxmv00sB2/dIiAyiWNwoUYsrvlp6RHPBxZ1W4Z4k3zA
+ OARZ4QH/EdzxckB7U1cxgyw1NhPctpdaBQuMUVcj79wLbuP/5jCx4kRIYIemWVszcWK1
+ Vu3JK75mGIdN3h86p5wh3yaVWGV81OQTBfWeOydhbWI7Wc5edirXc04wBEUgQkIZBrA7
+ 8Z/AoY76UgSwGK0NOuG2ksE7I6cJEvoYZVxR+M1kRn9TVc7JEWhU9j7G+dVnWNdeYneB
+ kqsGMzMjPdnJZFswo37Sa02ceSm2BlqJRE1+z9i8mhNBoYvcWut0VhCmHtYVBTPZSMha
+ B2jg==
+X-Gm-Message-State: AOAM531eeSsAPDa29tYjAy4vP6Aga5M+n5X1zMhQewyVMXf+0FC4IfrM
+ 18x9CE9bZGqQb6PPzzYL12TZw1EiEd8=
+X-Google-Smtp-Source: ABdhPJwaaGOp/hNhKe7YGxvgE4DsqDtu4Ty+br0aci61+MMPQYhpqHyM6Jbo0YbJ+OkGIvrZC2V62g==
+X-Received: by 2002:a17:90a:e983:: with SMTP id
+ v3mr1165562pjy.71.1593142328916; 
+ Thu, 25 Jun 2020 20:32:08 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.06
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.32.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 20:32:07 -0700 (PDT)
+ Thu, 25 Jun 2020 20:32:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 16/46] target/arm: Implement the STGP instruction
-Date: Thu, 25 Jun 2020 20:31:14 -0700
-Message-Id: <20200626033144.790098-17-richard.henderson@linaro.org>
+Subject: [PATCH v9 17/46] target/arm: Restrict the values of DCZID.BS under TCG
+Date: Thu, 25 Jun 2020 20:31:15 -0700
+Message-Id: <20200626033144.790098-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200626033144.790098-1-richard.henderson@linaro.org>
 References: <20200626033144.790098-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,84 +91,54 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We can simplify our DC_ZVA if we recognize that the largest BS
+that we actually use in system mode is 64.  Let us just assert
+that it fits within TARGET_PAGE_SIZE.
+
+For DC_GVA and STZGM, we want to be able to write whole bytes
+of tag memory, so assert that BS is >= 2 * TAG_GRANULE, or 32.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: Handle atomicity, require pre-cleaned address.
-v6: Fix constant offset shift, non-checked address, use pre-computed ata.
----
- target/arm/translate-a64.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ target/arm/cpu.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 436191c15c..e2295a371b 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -2690,7 +2690,7 @@ static void disas_ld_lit(DisasContext *s, uint32_t insn)
-  * +-----+-------+---+---+-------+---+-------+-------+------+------+
-  *
-  * opc: LDP/STP/LDNP/STNP        00 -> 32 bit, 10 -> 64 bit
-- *      LDPSW                    01
-+ *      LDPSW/STGP               01
-  *      LDP/STP/LDNP/STNP (SIMD) 00 -> 32 bit, 01 -> 64 bit, 10 -> 128 bit
-  *   V: 0 -> GPR, 1 -> Vector
-  * idx: 00 -> signed offset with non-temporal hint, 01 -> post-index,
-@@ -2715,6 +2715,7 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
-     bool is_signed = false;
-     bool postindex = false;
-     bool wback = false;
-+    bool set_tag = false;
- 
-     TCGv_i64 clean_addr, dirty_addr;
- 
-@@ -2727,6 +2728,14 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
- 
-     if (is_vector) {
-         size = 2 + opc;
-+    } else if (opc == 1 && !is_load) {
-+        /* STGP */
-+        if (!dc_isar_feature(aa64_mte_insn_reg, s) || index == 0) {
-+            unallocated_encoding(s);
-+            return;
-+        }
-+        size = 3;
-+        set_tag = true;
-     } else {
-         size = 2 + extract32(opc, 1, 1);
-         is_signed = extract32(opc, 0, 1);
-@@ -2767,7 +2776,7 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
-         return;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index d9b8ec791e..d9876337c0 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1758,6 +1758,30 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
      }
+ #endif
  
--    offset <<= size;
-+    offset <<= (set_tag ? LOG2_TAG_GRANULE : size);
- 
-     if (rn == 31) {
-         gen_check_sp_alignment(s);
-@@ -2777,8 +2786,22 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
-     if (!postindex) {
-         tcg_gen_addi_i64(dirty_addr, dirty_addr, offset);
-     }
--    clean_addr = clean_data_tbi(s, dirty_addr);
- 
-+    if (set_tag) {
-+        if (!s->ata) {
-+            /*
-+             * TODO: We could rely on the stores below, at least for
-+             * system mode, if we arrange to add MO_ALIGN_16.
-+             */
-+            gen_helper_stg_stub(cpu_env, dirty_addr);
-+        } else if (tb_cflags(s->base.tb) & CF_PARALLEL) {
-+            gen_helper_stg_parallel(cpu_env, dirty_addr, dirty_addr);
-+        } else {
-+            gen_helper_stg(cpu_env, dirty_addr, dirty_addr);
++    if (tcg_enabled()) {
++        int dcz_blocklen = 4 << cpu->dcz_blocksize;
++
++        /*
++         * We only support DCZ blocklen that fits on one page.
++         *
++         * Architectually this is always true.  However TARGET_PAGE_SIZE
++         * is variable and, for compatibility with -machine virt-2.7,
++         * is only 1KiB, as an artifact of legacy ARMv5 subpage support.
++         * But even then, while the largest architectural DCZ blocklen
++         * is 2KiB, no cpu actually uses such a large blocklen.
++         */
++        assert(dcz_blocklen <= TARGET_PAGE_SIZE);
++
++        /*
++         * We only support DCZ blocksize >= 2*TAG_GRANULE, which is to say
++         * both nibbles of each byte storing tag data may be written at once.
++         * Since TAG_GRANULE is 16, this means that blocklen must be >= 32.
++         */
++        if (cpu_isar_feature(aa64_mte, cpu)) {
++            assert(dcz_blocklen >= 2 * TAG_GRANULE);
 +        }
 +    }
 +
-+    clean_addr = clean_data_tbi(s, dirty_addr);
-     if (is_vector) {
-         if (is_load) {
-             do_fp_ld(s, rt, clean_addr, size);
+     qemu_init_vcpu(cs);
+     cpu_reset(cs);
+ 
 -- 
 2.25.1
 
