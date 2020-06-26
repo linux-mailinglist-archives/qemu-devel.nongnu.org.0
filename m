@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7252720B2D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:46:50 +0200 (CEST)
-Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C555720B2BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:43:32 +0200 (CEST)
+Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joogr-0003Ct-F6
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38254)
+	id 1joodf-00057J-OJ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolSu-0008HP-IS
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:12 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59394)
+ id 1jolT0-0008NS-8p
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:18 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:59416)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolSs-0000Ce-Jf
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:12 -0400
+ id 1jolSy-0000Fh-D1
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:20:17 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id D52044089EF1;
- Fri, 26 Jun 2020 10:20:08 +0000 (UTC)
-Subject: [PATCH 05/13] qapi: introduce replay.json for record/replay-related
- stuff
+ by mail.ispras.ru (Postfix) with ESMTPSA id 89AFB4089EF2;
+ Fri, 26 Jun 2020 10:20:14 +0000 (UTC)
+Subject: [PATCH 06/13] replay: introduce info hmp/qmp command
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jun 2020 13:20:08 +0300
-Message-ID: <159316680859.10508.4570677924280388493.stgit@pasha-ThinkPad-X280>
+Date: Fri, 26 Jun 2020 13:20:14 +0300
+Message-ID: <159316681429.10508.4981399825825703105.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -65,125 +64,168 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch adds replay.json file. It will be
-used for adding record/replay-related data structures and commands.
+This patch introduces 'info replay' monitor command and
+corresponding qmp request.
+These commands request the current record/replay mode, replay log file
+name, and the instruction count (number of recorded/replayed
+instructions).  The instruction count can be used with the
+replay_seek/replay_break commands added in the next two patches.
 
-Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
  0 files changed
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dd86c7f94..ca5b1cf7f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2572,6 +2572,7 @@ F: docs/replay.txt
- F: stubs/replay.c
- F: tests/acceptance/replay_kernel.py
- F: tests/acceptance/replay_linux.py
-+F: qapi/replay.json
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 30209e3903..117ba25f91 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -881,4 +881,15 @@ SRST
+     Show SEV information.
+ ERST
  
- IOVA Tree
- M: Peter Xu <peterx@redhat.com>
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index c9c896ae8d..e00ed2f4a5 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -14,6 +14,7 @@
++    {
++        .name       = "replay",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show record/replay information",
++        .cmd        = hmp_info_replay,
++    },
  
- #include "qapi/qapi-types-misc.h"
- #include "qapi/qapi-types-run-state.h"
-+#include "qapi/qapi-types-replay.h"
- #include "qapi/qapi-types-ui.h"
- #include "block/aio.h"
++SRST
++  ``info replay``
++    Display the record/replay information: mode and the current icount.
++ERST
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index c986cfd28b..a790589b9e 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -130,5 +130,6 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict);
+ void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
+ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
+ void hmp_info_sev(Monitor *mon, const QDict *qdict);
++void hmp_info_replay(Monitor *mon, const QDict *qdict);
  
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index 4673ab7490..eff501a97d 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -7,8 +7,8 @@ util-obj-y += qapi-util.o
- 
- QAPI_COMMON_MODULES = audio authz block-core block char common control crypto
- QAPI_COMMON_MODULES += dump error introspect job machine migration misc
--QAPI_COMMON_MODULES += net pragma qdev qom rdma rocker run-state sockets tpm
--QAPI_COMMON_MODULES += trace transaction ui
-+QAPI_COMMON_MODULES += net pragma qdev qom rdma replay rocker run-state sockets
-+QAPI_COMMON_MODULES += tpm trace transaction ui
- QAPI_TARGET_MODULES = machine-target misc-target
- QAPI_MODULES = $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
- 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index a5a0beb902..2a7af56887 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1493,24 +1493,6 @@
- { 'event': 'ACPI_DEVICE_OST',
-      'data': { 'info': 'ACPIOSTInfo' } }
- 
--##
--# @ReplayMode:
--#
--# Mode of the replay subsystem.
--#
--# @none: normal execution mode. Replay or record are not enabled.
--#
--# @record: record mode. All non-deterministic data is written into the
--#          replay log.
--#
--# @play: replay mode. Non-deterministic data required for system execution
--#        is read from the log.
--#
--# Since: 2.5
--##
--{ 'enum': 'ReplayMode',
--  'data': [ 'none', 'record', 'play' ] }
--
- ##
- # @xen-load-devices-state:
+ #endif
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 125ef7b1c2..947ef00a96 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -28,7 +28,8 @@
  #
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 43b0ba0dea..ce48897b94 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -81,6 +81,7 @@
- { 'include': 'qdev.json' }
- { 'include': 'machine.json' }
- { 'include': 'machine-target.json' }
-+{ 'include': 'replay.json' }
- { 'include': 'misc.json' }
- { 'include': 'misc-target.json' }
- { 'include': 'audio.json' }
+ # @icount: Current instruction count. Appears when execution record/replay
+ #          is enabled. Used for "time-traveling" to match the moment
+-#          in the recorded execution with the snapshots. (since 5.1)
++#          in the recorded execution with the snapshots. This counter may
++#          be obtained through @query-replay command (since 5.1)
+ #
+ # Since: 1.3
+ #
 diff --git a/qapi/replay.json b/qapi/replay.json
-new file mode 100644
-index 0000000000..9e13551d20
---- /dev/null
+index 9e13551d20..0a160466f2 100644
+--- a/qapi/replay.json
 +++ b/qapi/replay.json
-@@ -0,0 +1,26 @@
-+# -*- Mode: Python -*-
-+#
+@@ -24,3 +24,42 @@
+ ##
+ { 'enum': 'ReplayMode',
+   'data': [ 'none', 'record', 'play' ] }
 +
 +##
-+# = Record/replay
++# @ReplayInfo:
++#
++# Record/replay information.
++#
++# @mode: current mode.
++#
++# @filename: name of the record/replay log file.
++#            It is present only in record or replay modes, when the log
++#            is recorded or replayed.
++#
++# @icount: current number of executed instructions.
++#
++# Since: 5.1
++#
 +##
++{ 'struct': 'ReplayInfo',
++  'data': { 'mode': 'ReplayMode', '*filename': 'str', 'icount': 'int' } }
 +
-+{ 'include': 'common.json' }
++##
++# @query-replay:
++#
++# Retrieve the record/replay information.
++# It includes current instruction count which may be used for
++# @replay-break and @replay-seek commands.
++#
++# Returns: record/replay information.
++#
++# Since: 5.1
++#
++# Example:
++#
++# -> { "execute": "query-replay" }
++# <- { "return": { "mode": "play", "filename": "log.rr", "icount": 220414 } }
++#
++##
++{ 'command': 'query-replay',
++  'returns': 'ReplayInfo' }
+diff --git a/replay/Makefile.objs b/replay/Makefile.objs
+index 939be964a9..f847c5c023 100644
+--- a/replay/Makefile.objs
++++ b/replay/Makefile.objs
+@@ -8,3 +8,4 @@ common-obj-y += replay-snapshot.o
+ common-obj-y += replay-net.o
+ common-obj-y += replay-audio.o
+ common-obj-y += replay-random.o
++common-obj-y += replay-debugging.o
+diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+new file mode 100644
+index 0000000000..51a6de4e81
+--- /dev/null
++++ b/replay/replay-debugging.c
+@@ -0,0 +1,43 @@
++/*
++ * replay-debugging.c
++ *
++ * Copyright (c) 2010-2020 Institute for System Programming
++ *                         of the Russian Academy of Sciences.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+##
-+# @ReplayMode:
-+#
-+# Mode of the replay subsystem.
-+#
-+# @none: normal execution mode. Replay or record are not enabled.
-+#
-+# @record: record mode. All non-deterministic data is written into the
-+#          replay log.
-+#
-+# @play: replay mode. Non-deterministic data required for system execution
-+#        is read from the log.
-+#
-+# Since: 2.5
-+##
-+{ 'enum': 'ReplayMode',
-+  'data': [ 'none', 'record', 'play' ] }
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "sysemu/replay.h"
++#include "replay-internal.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qapi-commands-replay.h"
++
++void hmp_info_replay(Monitor *mon, const QDict *qdict)
++{
++    if (replay_mode == REPLAY_MODE_NONE) {
++        monitor_printf(mon, "Record/replay is not active\n");
++    } else {
++        monitor_printf(mon,
++            "%s execution '%s': instruction count = %"PRId64"\n",
++            replay_mode == REPLAY_MODE_RECORD ? "Recording" : "Replaying",
++            replay_get_filename(), replay_get_current_icount());
++    }
++}
++
++ReplayInfo *qmp_query_replay(Error **errp)
++{
++    ReplayInfo *retval = g_new0(ReplayInfo, 1);
++
++    retval->mode = replay_mode;
++    if (replay_get_filename()) {
++        retval->filename = g_strdup(replay_get_filename());
++        retval->has_filename = true;
++    }
++    retval->icount = replay_get_current_icount();
++    return retval;
++}
 
 
