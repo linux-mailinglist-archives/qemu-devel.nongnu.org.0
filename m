@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA76D20ABF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 07:51:52 +0200 (CEST)
-Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4144620ABFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 07:57:56 +0200 (CEST)
+Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1johHD-0001jL-P5
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 01:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40354)
+	id 1johN5-0003DZ-2S
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 01:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1johG6-0000ff-3U; Fri, 26 Jun 2020 01:50:42 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:40114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1johG3-0007BF-R5; Fri, 26 Jun 2020 01:50:41 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 97E71BF450;
- Fri, 26 Jun 2020 05:50:36 +0000 (UTC)
-Date: Fri, 26 Jun 2020 07:50:33 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Subject: Re: [PATCH v3 2/2] nvme: allow cmb and pmr to be enabled on same
- device
-Message-ID: <20200626055033.6vxqvi4s5pll7som@apples.localdomain>
-References: <20200622182511.17252-1-andrzej.jakowski@linux.intel.com>
- <20200622182511.17252-3-andrzej.jakowski@linux.intel.com>
- <20200625111308.42473x7wfzukp4ve@apples.localdomain>
- <f9ea530c-06fd-1773-b036-5b00b9c80d4f@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1johMI-0002fQ-IS
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 01:57:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53895
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1johMH-0000yZ-3N
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 01:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593151024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lNUBecxSsw9uvMMev7CnQGU54kzF8T30xltIj4yOMBc=;
+ b=Bp/9xzSTaTWQ02gbI9awQwPhAxxaaJiGVkUZfgv76PHn5F9TzsiakX3rZLsd0RukMETIrV
+ Ymm9A46HinMrT0OL5swnY+ntWhDIaesLzZLZzPEaQkJNMmaL9TWE+vJWAc2RG448su6GGM
+ Jipoxn3GodZkcjgPw4rFd6aeYygEYtI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-iMt2GuZNMSWpl9RZJKGibQ-1; Fri, 26 Jun 2020 01:55:53 -0400
+X-MC-Unique: iMt2GuZNMSWpl9RZJKGibQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED2C805F1C;
+ Fri, 26 Jun 2020 05:55:52 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-125.ams2.redhat.com [10.36.112.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82F9819934;
+ Fri, 26 Jun 2020 05:55:51 +0000 (UTC)
+Subject: Re: [PATCH v3] build: Haiku build fix
+To: David CARLIER <devnexen@gmail.com>, QEMU Trivial
+ <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+References: <CA+XhMqzX=OaRgxQbHKU82K2WhTBwL44sr+wpGKSjZWqaehLyJQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6bd67e4d-7815-b7bc-7c64-fc42155afd1f@redhat.com>
+Date: Fri, 26 Jun 2020 07:55:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f9ea530c-06fd-1773-b036-5b00b9c80d4f@linux.intel.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:50:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CA+XhMqzX=OaRgxQbHKU82K2WhTBwL44sr+wpGKSjZWqaehLyJQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,116 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kbusch@kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 25 15:57, Andrzej Jakowski wrote:
-> On 6/25/20 4:13 AM, Klaus Jensen wrote:
-> > 
-> > Come to think of it, the above might not even be sufficient since if just one
-> > of the nvme_addr_is_cmb checks fails, we end up issuing an invalid
-> > pci_dma_read. But I think that it will error out gracefully on that. But
-> > this needs to be checked.
-> > 
-> > I suggest that you just drop the size check from this patch since it's not
-> > needed and might need more work to be safe in the context of SGLs anyway.
-> > 
+  Hi!
+
+On 25/06/2020 23.30, David CARLIER wrote:
+>  From 78706a28c6aa8b5e522b5781588b38961d79d6f6 Mon Sep 17 00:00:00 2001
+> From: David Carlier <devnexen@gmail.com>
+> Date: Thu, 25 Jun 2020 19:32:42 +0000
+> Subject: [PATCH] build: haiku system build fix
+
+The above header lines should not be part of the e-mail body (otherwise 
+they will show up in the commit message if the patch gets applied with 
+"git am").
+
+> Most of missing features resides in the bsd library.
+> Also defining constant equivalence.
 > 
-> How about just MMIO access to CMB region? It can be done to any address.
-> What guarantees that this will not go outside of CMB region?
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> ---
+>   configure            | 34 ++++++++++++++++++++++++++++++++--
+>   include/qemu/bswap.h |  2 ++
+>   include/qemu/osdep.h |  4 ++++
+>   os-posix.c           |  4 ++++
+>   util/Makefile.objs   |  2 +-
+>   util/compatfd.c      |  2 ++
+>   util/main-loop.c     |  1 +
+>   util/oslib-posix.c   | 20 ++++++++++++++++++++
+>   util/qemu-openpty.c  |  2 +-
+>   9 files changed, 67 insertions(+), 4 deletions(-)
 > 
-
-This was addressed in commit 87ad860c622c ("nvme: fix out-of-bounds
-access to the CMB").
-
-> >> @@ -1453,33 +1457,62 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-> >>      id_ns->nuse = id_ns->ncap;
-> >>  }
-> >>  
-> >> -static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-> >> +static void nvme_bar4_init(PCIDevice *pci_dev, Error **errp)
-> >>  {
-> >> -    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
-> >> -    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-> >> -
-> >> -    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-> >> -    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
-> >> -    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-> >> -    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-> >> -    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-> >> -    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
-> >> -    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-> >> -
-> >> -    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-> >> -    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-> >> -                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-> >> -    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
-> >> +    NvmeCtrl *n = NVME(pci_dev);
-> >> +    int status;
-> >> +    uint64_t bar_size;
-> >> +    uint32_t msix_vectors;
-> >> +    uint32_t nvme_pba_offset;
-> >> +    uint32_t cmb_size_units;
-> >> +
-> >> +    msix_vectors = n->params.max_ioqpairs + 1;
-> >> +    nvme_pba_offset = PCI_MSIX_ENTRY_SIZE * msix_vectors;
-> >> +    bar_size = nvme_pba_offset + QEMU_ALIGN_UP(msix_vectors, 64) / 8;
-> >> +
-> >> +    if (n->params.cmb_size_mb) {
-> >> +        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-> >> +        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
-> >> +        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-> >> +        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-> >> +        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-> >> +        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
-> >> +        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-> >> +
-> >> +        cmb_size_units = NVME_CMBSZ_GETSIZEUNITS(n->bar.cmbsz);
-> >> +        n->cmb_offset = QEMU_ALIGN_UP(bar_size, cmb_size_units);
-> >> +
-> >> +        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_MSIX_BIR);
-> >> +        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, n->cmb_offset / cmb_size_units);
-> >> +
-> >> +        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-> >> +
-> >> +        bar_size += n->cmb_offset;
-> >> +        bar_size += NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
-> >> +    }
-> >> +
-> >> +    bar_size = pow2ceil(bar_size);
-> >> +
-> >> +    memory_region_init_io(&n->bar4, OBJECT(n), &nvme_cmb_ops, n,
-> >> +                          "nvme-bar4", bar_size);
-> >> +
-> >> +    status = msix_init(pci_dev, n->params.max_ioqpairs + 1,
-> >> +                       &n->bar4, NVME_MSIX_BIR, 0,
-> >> +                       &n->bar4, NVME_MSIX_BIR, nvme_pba_offset,
-> >> +                       0, errp);
-> > 
-> > This needs to use n->params.msix_qsize instead of
-> > n->params.max_ioqpairs.
+> diff --git a/configure b/configure
+> index ba88fd1824..43baeadf31 100755
+> --- a/configure
+> +++ b/configure
+> @@ -901,8 +901,8 @@ SunOS)
+>   ;;
+>   Haiku)
+>     haiku="yes"
+> -  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
+> -  LIBS="-lposix_error_mapper -lnetwork $LIBS"
+> +  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE $QEMU_CFLAGS"
+> +  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
+>   ;;
+>   Linux)
+>     audio_drv_list="try-pa oss"
+> @@ -2373,6 +2373,30 @@ else
+>     l2tpv3=no
+>   fi
 > 
-> Makese sense.
+> +cat > $TMPC <<EOF
+> +#include <pty.h>
+> +int main(int argc, char *argv[]) {
+> +    return 0;
+> +}
+> +EOF
 
-Another thing here. You are initializing a single memory region for bar4
-and use nvme_cmb_ops as callbacks for that.
+Please use the check_include function if you just want to test the 
+availability of a header.
 
-msix_init then overlays two memory regions ontop of this (for the table
-and the pba). I'm not sure this is... correct? Paolo, can you shed any
-light on this?
+> +if compile_prog "" "" ; then
+> +  pty_h=yes
+> +else
+> +  pty_h=no
+> +fi
 
-It looks to me like we need to do something more like what
-msix_init_exclusive_bar does:
+  Thanks,
+   Thomas
 
-  1. do a memory_region_init for n->bar4
-  2. msix_init adds io regions for the msix table and pba.
-  3. we should then add an io region for the cmb like msix_init does
-     (with a memory_region_init_io and a memory_region_add_subregion
-     pair) and keep n->ctrl_mem around.
-  4. pci_register_bar on n->bar4
-
-Thus, no "general" mmio_ops are registered for bar4, but only for the
-ctrl_mem and the msix_{table,pba}_mmio regions.
 
