@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A520AFAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:29:12 +0200 (CEST)
-Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FBA20AFB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:29:16 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolbb-0007A1-Ar
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
+	id 1jolbf-0007LS-Ms
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jolaI-0005rM-Fs; Fri, 26 Jun 2020 06:27:50 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37089)
+ id 1jolaL-0005uq-7V; Fri, 26 Jun 2020 06:27:53 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jolaG-0001w6-UY; Fri, 26 Jun 2020 06:27:50 -0400
-Received: by mail-wm1-x344.google.com with SMTP id o2so8883079wmh.2;
- Fri, 26 Jun 2020 03:27:48 -0700 (PDT)
+ id 1jolaJ-0001wn-M5; Fri, 26 Jun 2020 06:27:52 -0400
+Received: by mail-wm1-x336.google.com with SMTP id t194so8871806wmt.4;
+ Fri, 26 Jun 2020 03:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yMKB4/6egIXel+cyR6i/+SHKrBewfwc91aLTHBCpyyk=;
- b=oiHVLx0aZFKBCJeyX1+KNfQeLTy8dZz9gblBn+IJV54iohvrvemVmZm5VIEwDXmoTd
- GgJKxBh/tPhcLUY1OPCyC7u2xBtkuzWmcQ9BjuzgIP6tkINVZK+TU3H4MObk/D9X04py
- Tllb5pTvhP5z1IOtEmK+DTvxT8q+gY9d4Hmh8IHYx1jgkcwbVcARXZwsbgvCHX4wQKUV
- BpA9N2hdJml7b8Bz6MF+juPWPJTEHNvsun3zaRMdIp6S5D5VKqkVd4q+NbqODS1hXh2O
- yWMBWL8QcyxUf8weoPXMqtw/8mlxRuOBUCkXWDBBNtahcbxFOWjSeHMK6RMNxNflFSEn
- LQ+A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+RGAeI2YQi8BvYPpg0jL49kCXhZNllGvIOiiTVLYTbU=;
+ b=ApazatZNqHn4k3MF99XvzH6lKw+NE+uFPAQ81Qn9DLjU5UUsUQa+wVjkig55QJbdqY
+ pDVGeXypbBunazp0cYlSFI0WjVkVz2SFQmHY3onQ09A4RZfQjpvj1PABoxED+iqGaJc0
+ dgQnJaV8vB0y3LLtBgccyA1In9/goyxttNzWIQN3VjjpNUqrs6KQyAW4za7u43J8eDCy
+ emMWeRXEO2nCdU2K/B1A/VE0XKT6pZNyqrZvI39u/gSvg7TT8KMSgUE5nQg0V/1qq137
+ TBZWtNNtoDPgGZmFWRkEz4YFpgjpMej7O4rHQy3YGqqUQnu2niHVeIYgriPIFy1BIV+c
+ 7Stg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=yMKB4/6egIXel+cyR6i/+SHKrBewfwc91aLTHBCpyyk=;
- b=OKugNU1NqwBx3M74lpnnuhFO5rtmcuzoFXo9vWdPDV4q5dfes8I99BUL/vnneBJVDm
- Ar1D2mU9n2q0SV196OdFN2KAPiBzJsy5Hb8YdKUo76JHO4/5in2W4HdcDUKU4KHVtP8q
- gwLZUhLHiYpCgxjWMffXh/CuuMjdVkUQmdfQ1ztkhe8sbxGkp+VC9DVDmDXIER0CMyJv
- SfYDMyxIHzo3UcwJUeaJe2moKXOnIMu2mTVhziaEFGRv6hNj/dTD53bP0Yp7GI+oGU1X
- 23+pXWM+y35gbL+BLvAUjTsUkskflArolrmhPEbwTKU7JKwjosXHKMLIWVTkklUQQhMb
- lkhg==
-X-Gm-Message-State: AOAM533L+kCM97nOG5laQUdJ2LO5hXJ8KQtxyvJ+l/5NguQ1pkX0mSB8
- mrbkSFey5EBPxy1t9/dZ/B0=
-X-Google-Smtp-Source: ABdhPJznYoIg9DmNEsWlCv3Jb4AWCfVU0kQa7g5WkVrWxZ4O4n63umcLWAkduUdLl3JKqOUlD1YSpw==
-X-Received: by 2002:a1c:7d55:: with SMTP id y82mr408518wmc.72.1593167267030;
- Fri, 26 Jun 2020 03:27:47 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=+RGAeI2YQi8BvYPpg0jL49kCXhZNllGvIOiiTVLYTbU=;
+ b=PVAouLlGN4vtQTwZlNpoaShMn4giUMI/gbJjhMy7sCDRunRvPrYjRaZhqtn1UGfSOg
+ +X9aYURFoeYxzNMlG/7X5RD4zSLmSVeGg2VxMPZWpRg7TS5PuCeboU44mjn7HYNkaEGH
+ SCfSu3EDGIJzb5kR7xPOr1dHmBrl0xj6W93cfCLkM8AZAuxbnzMbxQ+ZlSRIij4xczsS
+ XpmdQFNC373VRMn8mjl2xW/Z1EyMfAEqqF2YVEBXSks7o7B++C2/WaFTuRRbIqiDi0rb
+ UAaSa/XCBuPA4lnA7lOPAHvE84iiDrtiX/iOkj5egPNCQ+YMEDfM+LglH6rZFvdphKF8
+ 3E9g==
+X-Gm-Message-State: AOAM531fJGKh//KEKej8EJyr+ti48DrrA+QLWWFydVi4VuYfNjyBjnhn
+ W9pJxFVgtL5N3kiHuR6CwIo=
+X-Google-Smtp-Source: ABdhPJyvasXasrsn1HBuFEDzvGxvu1XYBhfFf3I3PaMAgWraoex16kxPbF1KY0Vp3kRGf47v+1kWLg==
+X-Received: by 2002:a1c:8094:: with SMTP id b142mr962291wmd.122.1593167270036; 
+ Fri, 26 Jun 2020 03:27:50 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id f13sm15598194wmb.33.2020.06.26.03.27.45
+ by smtp.gmail.com with ESMTPSA id f13sm15598194wmb.33.2020.06.26.03.27.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 03:27:46 -0700 (PDT)
+ Fri, 26 Jun 2020 03:27:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/3] Use object_get_canonical_path_component to get child
- description
-Date: Fri, 26 Jun 2020 12:27:41 +0200
-Message-Id: <20200626102744.15053-1-f4bug@amsat.org>
+Subject: [RFC PATCH 2/3] hw/i2c/smbus_eeprom: Add description based on child
+ name
+Date: Fri, 26 Jun 2020 12:27:43 +0200
+Message-Id: <20200626102744.15053-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200626102744.15053-1-f4bug@amsat.org>
+References: <20200626102744.15053-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -98,22 +100,34 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This RFC is simply a proof-of-concept to see if I correctly
-understood Markus' suggestion, see the thread around:
-https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08652.html
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/i2c/smbus_eeprom.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Philippe Mathieu-Daudé (3):
-  hw/i2c/smbus_eeprom: Set QOM parent
-  hw/i2c/smbus_eeprom: Add description based on child name
-  hw/i2c/smbus_eeprom: Trace reset() event
-
- include/hw/i2c/smbus_eeprom.h |  9 ++++++---
- hw/i2c/smbus_eeprom.c         | 18 +++++++++++++++---
- hw/mips/fuloong2e.c           |  2 +-
- hw/ppc/sam460ex.c             |  2 +-
- hw/i2c/trace-events           |  3 +++
- 5 files changed, 26 insertions(+), 8 deletions(-)
-
+diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+index 879fd7c416..22ba7b20d4 100644
+--- a/hw/i2c/smbus_eeprom.c
++++ b/hw/i2c/smbus_eeprom.c
+@@ -47,6 +47,7 @@ typedef struct SMBusEEPROMDevice {
+     uint8_t *init_data;
+     uint8_t offset;
+     bool accessed;
++    char *description;
+ } SMBusEEPROMDevice;
+ 
+ static uint8_t eeprom_receive_byte(SMBusDevice *dev)
+@@ -134,7 +135,9 @@ static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
+     smbus_eeprom_reset(dev);
+     if (eeprom->init_data == NULL) {
+         error_setg(errp, "init_data cannot be NULL");
++        return;
+     }
++    eeprom->description = object_get_canonical_path_component(OBJECT(dev));
+ }
+ 
+ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
