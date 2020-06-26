@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BD820AEF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:29:07 +0200 (CEST)
-Received: from localhost ([::1]:59888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0930B20AEF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 11:28:28 +0200 (CEST)
+Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jokfS-0004dx-3s
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55040)
+	id 1jokep-0003bG-1F
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 05:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokau-0004uu-Du; Fri, 26 Jun 2020 05:24:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34280
+ id 1jokb0-00055I-Bk; Fri, 26 Jun 2020 05:24:31 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34290
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokas-0004ob-JF; Fri, 26 Jun 2020 05:24:24 -0400
+ id 1jokay-0004sa-Ju; Fri, 26 Jun 2020 05:24:30 -0400
 Received: from host86-158-109-79.range86-158.btcentralplus.com
  ([86.158.109.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jokap-0007bz-EW; Fri, 26 Jun 2020 10:24:25 +0100
+ id 1jokav-0007bz-Ev; Fri, 26 Jun 2020 10:24:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org, laurent@vivier.eu, david@gibson.dropbear.id.au,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Fri, 26 Jun 2020 10:23:05 +0100
-Message-Id: <20200626092317.3875-11-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 26 Jun 2020 10:23:06 +0100
+Message-Id: <20200626092317.3875-12-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
 References: <20200626092317.3875-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 10/22] mac_via: convert to use ADBBusState internal autopoll
- variables
+Subject: [PULL 11/22] adb: introduce new ADBDeviceHasData method to
+ ADBDeviceClass
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,110 +65,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is required later to allow devices to assert a service request (SRQ)
+signal to indicate that it has data to send, without having to consume it.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@telegraphics.com.au>
 Acked-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200623204936.24064-11-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20200623204936.24064-12-mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mac_via.c         | 22 ++++++++++------------
- include/hw/misc/mac_via.h |  1 -
- 2 files changed, 10 insertions(+), 13 deletions(-)
+ hw/input/adb-kbd.c     | 8 ++++++++
+ hw/input/adb-mouse.c   | 9 +++++++++
+ include/hw/input/adb.h | 3 +++
+ 3 files changed, 20 insertions(+)
 
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 9cd313c812..7a28bb37ac 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -601,6 +601,8 @@ static void via1_rtc_update(MacVIAState *m)
- 
- static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
- {
-+    ADBBusState *adb_bus = &s->adb_bus;
-+
-     if (state != ADB_STATE_IDLE) {
-         return 0;
-     }
-@@ -615,7 +617,8 @@ static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
- 
-     s->adb_data_in_index = 0;
-     s->adb_data_out_index = 0;
--    s->adb_data_in_size = adb_poll(&s->adb_bus, s->adb_data_in, 0xffff);
-+    s->adb_data_in_size = adb_poll(adb_bus, s->adb_data_in,
-+                                   adb_bus->autopoll_mask);
- 
-     if (s->adb_data_in_size) {
-         *data = s->adb_data_in[s->adb_data_in_index++];
-@@ -768,10 +771,6 @@ static void via_adb_poll(void *opaque)
-             s->b &= ~VIA1B_vADBInt;
-         }
-     }
--
--    timer_mod(m->adb_poll_timer,
--              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
+diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
+index 027dd3e531..23760ecf7b 100644
+--- a/hw/input/adb-kbd.c
++++ b/hw/input/adb-kbd.c
+@@ -300,6 +300,13 @@ static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
+     return olen;
  }
  
- static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
-@@ -854,10 +853,9 @@ static void mac_via_reset(DeviceState *dev)
++static bool adb_kbd_has_data(ADBDevice *d)
++{
++    KBDState *s = ADB_KEYBOARD(d);
++
++    return s->count > 0;
++}
++
+ /* This is where keyboard events enter this file */
+ static void adb_keyboard_event(DeviceState *dev, QemuConsole *src,
+                                InputEvent *evt)
+@@ -382,6 +389,7 @@ static void adb_kbd_class_init(ObjectClass *oc, void *data)
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+ 
+     adc->devreq = adb_kbd_request;
++    adc->devhasdata = adb_kbd_has_data;
+     dc->reset = adb_kbd_reset;
+     dc->vmsd = &vmstate_adb_kbd;
+ }
+diff --git a/hw/input/adb-mouse.c b/hw/input/adb-mouse.c
+index 78b6f5030c..e2359fd74d 100644
+--- a/hw/input/adb-mouse.c
++++ b/hw/input/adb-mouse.c
+@@ -197,6 +197,14 @@ static int adb_mouse_request(ADBDevice *d, uint8_t *obuf,
+     return olen;
+ }
+ 
++static bool adb_mouse_has_data(ADBDevice *d)
++{
++    MouseState *s = ADB_MOUSE(d);
++
++    return !(s->last_buttons_state == s->buttons_state &&
++             s->dx == 0 && s->dy == 0);
++}
++
+ static void adb_mouse_reset(DeviceState *dev)
  {
-     MacVIAState *m = MAC_VIA(dev);
-     MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
-+    ADBBusState *adb_bus = &m->adb_bus;
+     ADBDevice *d = ADB_DEVICE(dev);
+@@ -252,6 +260,7 @@ static void adb_mouse_class_init(ObjectClass *oc, void *data)
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  
--    timer_mod(m->adb_poll_timer,
--              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--              (NANOSECONDS_PER_SECOND / VIA_ADB_POLL_FREQ));
-+    adb_set_autopoll_enabled(adb_bus, true);
+     adc->devreq = adb_mouse_request;
++    adc->devhasdata = adb_mouse_has_data;
+     dc->reset = adb_mouse_reset;
+     dc->vmsd = &vmstate_adb_mouse;
+ }
+diff --git a/include/hw/input/adb.h b/include/hw/input/adb.h
+index 15b1874a3d..9b80204e43 100644
+--- a/include/hw/input/adb.h
++++ b/include/hw/input/adb.h
+@@ -39,6 +39,8 @@ typedef struct ADBDevice ADBDevice;
+ typedef int ADBDeviceRequest(ADBDevice *d, uint8_t *buf_out,
+                               const uint8_t *buf, int len);
  
-     timer_del(v1s->VBL_timer);
-     v1s->next_VBL = 0;
-@@ -872,6 +870,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
- {
-     MacVIAState *m = MAC_VIA(dev);
-     MOS6522State *ms;
-+    ADBBusState *adb_bus = &m->adb_bus;
-     struct tm tm;
-     int ret;
++typedef bool ADBDeviceHasData(ADBDevice *d);
++
+ #define TYPE_ADB_DEVICE "adb-device"
+ #define ADB_DEVICE(obj) OBJECT_CHECK(ADBDevice, (obj), TYPE_ADB_DEVICE)
  
-@@ -907,7 +906,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     qemu_get_timedate(&tm, 0);
-     m->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
+@@ -62,6 +64,7 @@ typedef struct ADBDeviceClass {
+     /*< public >*/
  
--    m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
-+    adb_register_autopoll_callback(adb_bus, via_adb_poll, m);
-     m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
-                                                VIA1_IRQ_ADB_READY_BIT);
+     ADBDeviceRequest *devreq;
++    ADBDeviceHasData *devhasdata;
+ } ADBDeviceClass;
  
-@@ -980,8 +979,8 @@ static int mac_via_post_load(void *opaque, int version_id)
- 
- static const VMStateDescription vmstate_mac_via = {
-     .name = "mac-via",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .post_load = mac_via_post_load,
-     .fields = (VMStateField[]) {
-         /* VIAs */
-@@ -1005,7 +1004,6 @@ static const VMStateDescription vmstate_mac_via = {
-         VMSTATE_INT32(wprotect, MacVIAState),
-         VMSTATE_INT32(alt, MacVIAState),
-         /* ADB */
--        VMSTATE_TIMER_PTR(adb_poll_timer, MacVIAState),
-         VMSTATE_INT32(adb_data_in_size, MacVIAState),
-         VMSTATE_INT32(adb_data_in_index, MacVIAState),
-         VMSTATE_INT32(adb_data_out_index, MacVIAState),
-diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index e74f85be0f..2aaf9e27bf 100644
---- a/include/hw/misc/mac_via.h
-+++ b/include/hw/misc/mac_via.h
-@@ -106,7 +106,6 @@ typedef struct MacVIAState {
- 
-     /* ADB */
-     ADBBusState adb_bus;
--    QEMUTimer *adb_poll_timer;
-     qemu_irq adb_data_ready;
-     int adb_data_in_size;
-     int adb_data_in_index;
+ #define TYPE_ADB_BUS "apple-desktop-bus"
 -- 
 2.20.1
 
