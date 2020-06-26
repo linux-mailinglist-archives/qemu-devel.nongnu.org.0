@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2363620BBF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:55:30 +0200 (CEST)
-Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DC320BC02
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 23:57:30 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jowJk-0004cI-L7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
+	id 1jowLh-0008IK-4x
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 17:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowI1-0002lW-GL
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:41 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52691)
+ id 1jowI2-0002li-NH
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:42 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=439617756=alistair.francis@wdc.com>)
- id 1jowHy-0002yi-PN
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:41 -0400
+ id 1jowHz-0002yn-NL
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 17:53:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593208419; x=1624744419;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=t7HBMjMU0oepV9W49kqMAwqywewHydfV15kONJQ3LoQ=;
- b=mrLujq2aD5k+WiXpeD23hKVeXGXYs29R9+mLpe20W4JV3A4DSeVOptgj
- 5+Di9KtB8uSEuTI15wAJaBVyJ5MQ2cHFBzMRTwy2n9stk1AZ6cLuRS5kA
- m95NYU9sObAmzrd+uud3eR0x7LbJJKlx+KegCW1r8ia0cDpeW5oz8mw05
- mK3SP7mNoPUFaIgCtBCAG6XuKUc9Bdtn6Gi68jr3oDKJ6reYsIeXeOfB+
- XeksBN19njb7HNkCFcovv3+gnyZeV1CiFy3VqlCp9sGlUOHUESbQVliAA
- BieTawH/gydwP5f2CjMSww7ao8O3alfr9uFuAUsP9xJs1JKLWQS2X/DYG g==;
-IronPort-SDR: wXUY3UrsYKHEABCdwklvg6FYuezxfisKRRD9Ma/EbJv1PkqTA2M+A8TUuGHNcmgdC/4Ars+GuT
- KbXOJGTBACUTBzkZFkIJJkpvhdm2ZP9pFi3G7MUiwiwJqImUf/X3U4wj0Dgkd94XPEneO3/YxR
- que3siUcnAXSpxr3ZGZwv/bcTiyfhOO0Ylu4oIYOjdEokXdS2X5XQWrlrOE1G6CNWbLtDTkH/8
- vemjQfUmNO/Sty1otNdKiOJur/yF62xkKveSIbEVahCMbP6qZxJzrZD9edDr5Yy0H8e3bI8+gu
- S6U=
-X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360012"
+ t=1593208420; x=1624744420;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=b1Ls40SLOrF/dDm3uwiXCXSUeExSWQX70TCAAQ9ReiI=;
+ b=cbT3BU1DSE4UKt8tqQFqen23enxrDuj6ivjcZTEspfKbky6g+eMWJY9W
+ w0453eoV/4tL2gYKYMUQP7DFIz1aCbM1AdjP82V754ZGwwL1zEBIxQHH/
+ EPFxgLzNlXBlB1HtYLbAzuckJYuvV9cnHFtPszHGVzfxya7rPa5TypGnw
+ cE8xkG5N2qZzE9i7+axNABwM8tdqvMO/Fq3Q6IjiBiAET4NVk4hFACx7t
+ bZPznfFCBhBLAfdk4Fb70Pfir2pMrGBkM/eeGnmDjrYV7NoqA/xlTMFbp
+ SnZJFji4TgfCP+P23J3SZV8KVSHU/yJNXBf1AKPk+PbcTLfhHSDTkRJ3P w==;
+IronPort-SDR: JhzmCAbjjteLYLqQAZL09sz76j3UHS4sfu6Tdt8MMNAs+MtBi2IEvP1AH+rElQikmnMz0YrjOi
+ PK+WlKuxm6iHlaGhnKSGX+/4sOmTZyzxVobXpduoWK53U9dyuYwgE6AEsnAD3UgMjf1jsAVdE8
+ z2AU6PjK39gionXbkAWTV24836xdhTZZgKsurxzg7VnvIR5PEKtnMH8Y4AynzmOOiV/bvy+azM
+ 19J4gd64IAuraOiP3ePyHvOvijtQxs67O5bsWJtlVzPz9teBW7O1iJ+xA7e8wZZZJfoBfAiQIP
+ 42g=
+X-IronPort-AV: E=Sophos;i="5.75,285,1589212800"; d="scan'208";a="145360014"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 27 Jun 2020 05:53:35 +0800
-IronPort-SDR: sHosuZNp6gA9E8YxgB45EzoUuUDCBXdInJyFgWFGs6Rkpr9p8d13q7GMT5bBUq/2s6V29euEZ9
- KdBCmRQ/JX8/KyKOX5oPnZQapn+kidJlQ=
+IronPort-SDR: Cf1MCNKaLSuqKSgGmqT/YGemDpr7lqOD4Aup5kATx/aOBsP4dQqNHVfo53PdiAYs5NATUnDItE
+ rIEn9b56rdklcUlfkatbOFpuXMLyv9Qao=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 14:42:32 -0700
-IronPort-SDR: 97/zO124RYDb08jUio8wxh9C09FfGYqAAbMBXPXT3CKlU+qyjwht3KQOOm1N5N9NvQF662fGeV
- 4ydPXLa0xKTQ==
+ 26 Jun 2020 14:42:33 -0700
+IronPort-SDR: XtjPWSqekKH3gmfi8R09PM9X/b6JLKxYXcdKpIjI2Z+XEsyHWo0QZcXBwi4QFyiMkaGzCtemzL
+ 3O8tzT0sdKjw==
 WDCIronportException: Internal
 Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.206])
@@ -56,10 +56,12 @@ Received: from 2hc7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/63] riscv-to-apply queue
-Date: Fri, 26 Jun 2020 14:43:07 -0700
-Message-Id: <20200626214410.3613258-1-alistair.francis@wdc.com>
+Subject: [PULL 01/63] riscv: plic: Honour source priorities
+Date: Fri, 26 Jun 2020 14:43:08 -0700
+Message-Id: <20200626214410.3613258-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
+References: <20200626214410.3613258-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.141;
@@ -86,113 +88,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Jessica Clarke <jrtc27@jrtc27.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 553cf5d7c47bee05a3dec9461c1f8430316d516b:
+From: Jessica Clarke <jrtc27@jrtc27.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200626' into staging (2020-06-26 18:22:36 +0100)
+The source priorities can be used to order sources with respect to other
+sources, not just as a way to enable/disable them based off a threshold.
+We must therefore always claim the highest-priority source, rather than
+the first source we find.
 
-are available in the Git repository at:
+Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200618202343.20455-1-jrtc27@jrtc27.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/riscv/sifive_plic.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200626-1
+diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+index 4f216c5585..d91e82b8ab 100644
+--- a/hw/riscv/sifive_plic.c
++++ b/hw/riscv/sifive_plic.c
+@@ -166,6 +166,9 @@ static void sifive_plic_update(SiFivePLICState *plic)
+ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
+ {
+     int i, j;
++    uint32_t max_irq = 0;
++    uint32_t max_prio = plic->target_priority[addrid];
++
+     for (i = 0; i < plic->bitfield_words; i++) {
+         uint32_t pending_enabled_not_claimed =
+             (plic->pending[i] & ~plic->claimed[i]) &
+@@ -177,14 +180,18 @@ static uint32_t sifive_plic_claim(SiFivePLICState *plic, uint32_t addrid)
+             int irq = (i << 5) + j;
+             uint32_t prio = plic->source_priority[irq];
+             int enabled = pending_enabled_not_claimed & (1 << j);
+-            if (enabled && prio > plic->target_priority[addrid]) {
+-                sifive_plic_set_pending(plic, irq, false);
+-                sifive_plic_set_claimed(plic, irq, true);
+-                return irq;
++            if (enabled && prio > max_prio) {
++                max_irq = irq;
++                max_prio = prio;
+             }
+         }
+     }
+-    return 0;
++
++    if (max_irq) {
++        sifive_plic_set_pending(plic, max_irq, false);
++        sifive_plic_set_claimed(plic, max_irq, true);
++    }
++    return max_irq;
+ }
+ 
+ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
+-- 
+2.27.0
 
-for you to fetch changes up to b39d59434ea10649fdb9e0a339c30c76e38c5e17:
-
-  target/riscv: configure and turn on vector extension from command line (2020-06-26 14:22:15 -0700)
-
-----------------------------------------------------------------
-This PR contains two patches to improve PLIC support in QEMU.
-
-The rest of the PR is adding support for the v0.7.1 RISC-V vector
-extensions. This is experimental support as the vector extensions are
-still in a draft state.
-
-----------------------------------------------------------------
-Jessica Clarke (2):
-      riscv: plic: Honour source priorities
-      riscv: plic: Add a couple of mising sifive_plic_update calls
-
-LIU Zhiwei (61):
-      target/riscv: add vector extension field in CPURISCVState
-      target/riscv: implementation-defined constant parameters
-      target/riscv: support vector extension csr
-      target/riscv: add vector configure instruction
-      target/riscv: add an internals.h header
-      target/riscv: add vector stride load and store instructions
-      target/riscv: add vector index load and store instructions
-      target/riscv: add fault-only-first unit stride load
-      target/riscv: add vector amo operations
-      target/riscv: vector single-width integer add and subtract
-      target/riscv: vector widening integer add and subtract
-      target/riscv: vector integer add-with-carry / subtract-with-borrow instructions
-      target/riscv: vector bitwise logical instructions
-      target/riscv: vector single-width bit shift instructions
-      target/riscv: vector narrowing integer right shift instructions
-      target/riscv: vector integer comparison instructions
-      target/riscv: vector integer min/max instructions
-      target/riscv: vector single-width integer multiply instructions
-      target/riscv: vector integer divide instructions
-      target/riscv: vector widening integer multiply instructions
-      target/riscv: vector single-width integer multiply-add instructions
-      target/riscv: vector widening integer multiply-add instructions
-      target/riscv: vector integer merge and move instructions
-      target/riscv: vector single-width saturating add and subtract
-      target/riscv: vector single-width averaging add and subtract
-      target/riscv: vector single-width fractional multiply with rounding and saturation
-      target/riscv: vector widening saturating scaled multiply-add
-      target/riscv: vector single-width scaling shift instructions
-      target/riscv: vector narrowing fixed-point clip instructions
-      target/riscv: vector single-width floating-point add/subtract instructions
-      target/riscv: vector widening floating-point add/subtract instructions
-      target/riscv: vector single-width floating-point multiply/divide instructions
-      target/riscv: vector widening floating-point multiply
-      target/riscv: vector single-width floating-point fused multiply-add instructions
-      target/riscv: vector widening floating-point fused multiply-add instructions
-      target/riscv: vector floating-point square-root instruction
-      target/riscv: vector floating-point min/max instructions
-      target/riscv: vector floating-point sign-injection instructions
-      target/riscv: vector floating-point compare instructions
-      target/riscv: vector floating-point classify instructions
-      target/riscv: vector floating-point merge instructions
-      target/riscv: vector floating-point/integer type-convert instructions
-      target/riscv: widening floating-point/integer type-convert instructions
-      target/riscv: narrowing floating-point/integer type-convert instructions
-      target/riscv: vector single-width integer reduction instructions
-      target/riscv: vector wideing integer reduction instructions
-      target/riscv: vector single-width floating-point reduction instructions
-      target/riscv: vector widening floating-point reduction instructions
-      target/riscv: vector mask-register logical instructions
-      target/riscv: vector mask population count vmpopc
-      target/riscv: vmfirst find-first-set mask bit
-      target/riscv: set-X-first mask bit
-      target/riscv: vector iota instruction
-      target/riscv: vector element index instruction
-      target/riscv: integer extract instruction
-      target/riscv: integer scalar move instruction
-      target/riscv: floating-point scalar move instructions
-      target/riscv: vector slide instructions
-      target/riscv: vector register gather instruction
-      target/riscv: vector compress instruction
-      target/riscv: configure and turn on vector extension from command line
-
- target/riscv/cpu.h                      |   82 +-
- target/riscv/cpu_bits.h                 |   15 +
- target/riscv/helper.h                   | 1069 +++++++
- target/riscv/internals.h                |   41 +
- target/riscv/insn32-64.decode           |   11 +
- target/riscv/insn32.decode              |  372 +++
- hw/riscv/sifive_plic.c                  |   20 +-
- target/riscv/cpu.c                      |   50 +
- target/riscv/csr.c                      |   75 +-
- target/riscv/fpu_helper.c               |   33 +-
- target/riscv/insn_trans/trans_rvv.inc.c | 2888 ++++++++++++++++++
- target/riscv/translate.c                |   27 +-
- target/riscv/vector_helper.c            | 4899 +++++++++++++++++++++++++++++++
- target/riscv/Makefile.objs              |    2 +-
- 14 files changed, 9534 insertions(+), 50 deletions(-)
- create mode 100644 target/riscv/internals.h
- create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
- create mode 100644 target/riscv/vector_helper.c
 
