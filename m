@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9F120AA52
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 04:02:42 +0200 (CEST)
-Received: from localhost ([::1]:42778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120CA20AABF
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 05:33:27 +0200 (CEST)
+Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jodhQ-00050n-Re
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 22:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51724)
+	id 1jof7G-0001hy-1j
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jun 2020 23:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jodgj-0004aN-UG
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 22:01:57 -0400
-Resent-Date: Thu, 25 Jun 2020 22:01:57 -0400
-Resent-Message-Id: <E1jodgj-0004aN-UG@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jodgg-0001gU-19
- for qemu-devel@nongnu.org; Thu, 25 Jun 2020 22:01:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593136888; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=P5txkNLecW6Bzne++dM25fRK0QquTLy46YIh2+fi2XYOYrsdRWfVcYzVKHqkJS5ISxV3+NyCwvNvXakEpCA7mWU/M8nJ/aDTb5HOZb1FjO+xp29Dl9kkR411l5uPXZkAIPmR9Pk7U6ksDN3pe3MrnIHSdPiQdDABkHL7DcQ1DR8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593136888;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=VjmrifVl5/4E9YUKC93WrktGVRhN6wZglUJVEo2++co=; 
- b=OMsUIx0mJP2gsOkJxFZ3ObvZF/nQpnE1H9X0BllXi0xo+KbW6RoSwecTZLTMgK1UD5XJzidXzW1qASJd0akq1Qw7Rctwwd/umZoEK0qarw1OLLqH9r8I/TqSgL7mf220M/9wpyUCTPWRTnh8Lk8Mf12ehvi9ANKIjfsQwp+0qqE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593136885424925.6422726307367;
- Thu, 25 Jun 2020 19:01:25 -0700 (PDT)
-Message-ID: <159313688421.25974.15903519159130270311@d1fd068a5071>
-Subject: Re: [PATCH 0/2] target/i386: SSE floating-point fixes
-In-Reply-To: <alpine.DEB.2.21.2006252355430.3832@digraph.polyomino.org.uk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jof5i-0007fU-9j
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:31:50 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jof5g-0001gf-IL
+ for qemu-devel@nongnu.org; Thu, 25 Jun 2020 23:31:50 -0400
+Received: by mail-pg1-x541.google.com with SMTP id l63so4332981pge.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Jun 2020 20:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YHNNcwR4Sw18AvMX2rsSzQnG1qtoz/3k0D7hw9cHPjY=;
+ b=y1bVqCCaeVNIYjFmzeCKq96JaB7Itf0EAhJMRLg/SMJb89IleC/c2pzhudfVZb0CPK
+ k++QXvhzD2LGWPXrpt/0wThxO/4I/fPupNWPupnXDhhaDtlXicxaCHys4+fbmLEuFm4J
+ upUi3Ev36dX27jlJkVZ5Qe+bayXZ4mclavea2vEFjCy5+FWyBhSNCQG3bkYbGNncX/Ua
+ 5YJ8Dy8Zjdw9a63ClGvo6ck7M0WWFIJuNDU1KwSQVbvpcgcNBEdWG8YFwc1CcOQjSNJt
+ fmRPZJiZSnfbFmXQjXbaOqoo84287I2YWqwMdwC5eV0heNeO1CPnnURk7Y3DWDrQO+vu
+ brVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YHNNcwR4Sw18AvMX2rsSzQnG1qtoz/3k0D7hw9cHPjY=;
+ b=XoXKQfdTkKZ4QNfqg7dyn75oXjzKr5pHBbCyE1JYfBS9gkmrckd7vjBr2dfK3Ii3QE
+ Qq8uvaVuaRgNfrOhti1Qe74m9g/mCiTcqwLxCxEOo68n4zfzPTZzvGGC3pBcC38lRrlF
+ LmAcsatoy4oGvs3zI6rehIUBrCy3enhkFxxDOOXwYTYmiLgEvmLPUi7kn9Fqo5r5rpm6
+ Mz/6OyhgeKw+qfOaXBpJKdQz+tIrpBx/5vcJxWdZ/v1cEhdNWhz84+42eR5viwz1IqI4
+ D32ICj7Ti9h/1SHGYZvTXxvaze8jOivNACSSoHPEKI4fNUiQ6YjAP0qAe1DMgpuLzsZj
+ Qz+Q==
+X-Gm-Message-State: AOAM533Aedi6J8H+5MOdmMSRHdyUzeR0y6aEraZMSUGTIyTnr79iqwwR
+ JHLSdPfGV3G3WprskCtJiOQmemBXAjM=
+X-Google-Smtp-Source: ABdhPJzfr827we/PhvrGgTLJmovw4MzBsYjkyRp/paJFsZQkzFx3d4JyFYaJpH+LswUlGJjhspCaaw==
+X-Received: by 2002:a05:6a00:1514:: with SMTP id
+ q20mr837165pfu.243.1593142306652; 
+ Thu, 25 Jun 2020 20:31:46 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id y27sm1605256pgc.56.2020.06.25.20.31.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Jun 2020 20:31:45 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/46] target/arm: Implement ARMv8.5-MemTag, system mode
+Date: Thu, 25 Jun 2020 20:30:58 -0700
+Message-Id: <20200626033144.790098-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: joseph@codesourcery.com
-Date: Thu, 25 Jun 2020 19:01:25 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/25 22:01:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,135 +84,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
- rth@twiddle.net
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, david.spickett@linaro.org,
+ steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9hbHBpbmUuREVCLjIuMjEuMjAw
-NjI1MjM1NTQzMC4zODMyQGRpZ3JhcGgucG9seW9taW5vLm9yZy51ay8KCgoKSGksCgpUaGlzIHNl
-cmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0
-IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIDAvMl0gdGFyZ2V0
-L2kzODY6IFNTRSBmbG9hdGluZy1wb2ludCBmaXhlcwpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDog
-YWxwaW5lLkRFQi4yLjIxLjIwMDYyNTIzNTU0MzAuMzgzMkBkaWdyYXBoLnBvbHlvbWluby5vcmcu
-dWsKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVh
-OWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29t
-L3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvYWxwaW5l
-LkRFQi4yLjIxLjIwMDYyNTIzNTU0MzAuMzgzMkBkaWdyYXBoLnBvbHlvbWluby5vcmcudWsgLT4g
-cGF0Y2hldy9hbHBpbmUuREVCLjIuMjEuMjAwNjI1MjM1NTQzMC4zODMyQGRpZ3JhcGgucG9seW9t
-aW5vLm9yZy51awpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjY5ODY5NzQgdGFyZ2V0
-L2kzODY6IGZpeCBJRUVFIFNTRSBmbG9hdGluZy1wb2ludCBleGNlcHRpb24gcmFpc2luZwo0ZWZm
-Yjc0IHRhcmdldC9pMzg2OiBzZXQgU1NFIEZUWiBpbiBjb3JyZWN0IGZsb2F0aW5nLXBvaW50IHN0
-YXRlCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzIgQ2hlY2tpbmcgY29tbWl0IDRlZmZiNzQ0NjIx
-MiAodGFyZ2V0L2kzODY6IHNldCBTU0UgRlRaIGluIGNvcnJlY3QgZmxvYXRpbmctcG9pbnQgc3Rh
-dGUpCjIvMiBDaGVja2luZyBjb21taXQgNjk4Njk3NGFmMDZlICh0YXJnZXQvaTM4NjogZml4IElF
-RUUgU1NFIGZsb2F0aW5nLXBvaW50IGV4Y2VwdGlvbiByYWlzaW5nKQpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMzMTA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1
-c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzIxOiBGSUxFOiB0ZXN0cy90Y2cv
-aTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzo3Ogordm9sYXRpbGUgZmxvYXQgZl9yZXM7
-CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBj
-b21tZW50CiMzMjI6IEZJTEU6IHRlc3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9u
-cy5jOjg6Cit2b2xhdGlsZSBkb3VibGUgZF9yZXM7CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlz
-IHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzMjQ6IEZJTEU6IHRlc3RzL3Rj
-Zy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjEwOgordm9sYXRpbGUgZmxvYXQgZl9z
-bmFuID0gX19idWlsdGluX25hbnNmKCIiKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1
-YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzMyNTogRklMRTogdGVzdHMvdGNnL2kz
-ODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MTE6Cit2b2xhdGlsZSBmbG9hdCBmX2hhbGYg
-PSAwLjVmOwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2Ug
-YWRkIGEgY29tbWVudAojMzI2OiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4
-Y2VwdGlvbnMuYzoxMjoKK3ZvbGF0aWxlIGZsb2F0IGZfdGhpcmQgPSAxLjBmIC8gMy4wZjsKCkVS
-Uk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1l
-bnQKIzMyNzogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6
-MTM6Cit2b2xhdGlsZSBmbG9hdCBmX25hbiA9IF9fYnVpbHRpbl9uYW5sKCIiKTsKCkVSUk9SOiBV
-c2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzMy
-ODogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MTQ6Cit2
-b2xhdGlsZSBmbG9hdCBmX2luZiA9IF9fYnVpbHRpbl9pbmZmKCk7CgpFUlJPUjogVXNlIG9mIHZv
-bGF0aWxlIGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzMjk6IEZJTEU6
-IHRlc3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjE1Ogordm9sYXRpbGUg
-ZmxvYXQgZl9uaW5mID0gLV9fYnVpbHRpbl9pbmZmKCk7CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxl
-IGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzMzA6IEZJTEU6IHRlc3Rz
-L3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjE2Ogordm9sYXRpbGUgZmxvYXQg
-Zl9vbmUgPSAxLjBmOwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBw
-bGVhc2UgYWRkIGEgY29tbWVudAojMzMxOiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYt
-c3NlLWV4Y2VwdGlvbnMuYzoxNzoKK3ZvbGF0aWxlIGZsb2F0IGZfdHdvID0gMi4wZjsKCkVSUk9S
-OiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQK
-IzMzMjogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MTg6
-Cit2b2xhdGlsZSBmbG9hdCBmX3plcm8gPSAwLjBmOwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBp
-cyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzMzOiBGSUxFOiB0ZXN0cy90
-Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzoxOToKK3ZvbGF0aWxlIGZsb2F0IGZf
-bnplcm8gPSAtMC4wZjsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywg
-cGxlYXNlIGFkZCBhIGNvbW1lbnQKIzMzNDogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2
-LXNzZS1leGNlcHRpb25zLmM6MjA6Cit2b2xhdGlsZSBmbG9hdCBmX21pbiA9IEZMVF9NSU47CgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzMzNTogRklM
-RTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MjE6Cit2b2xhdGls
-ZSBmbG9hdCBmX3RydWVfbWluID0gMHgxcC0xNDlmOwogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBeCgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFz
-ZSBhZGQgYSBjb21tZW50CiMzMzU6IEZJTEU6IHRlc3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2Ut
-ZXhjZXB0aW9ucy5jOjIxOgordm9sYXRpbGUgZmxvYXQgZl90cnVlX21pbiA9IDB4MXAtMTQ5ZjsK
-CkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNv
-bW1lbnQKIzMzNjogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25z
-LmM6MjI6Cit2b2xhdGlsZSBmbG9hdCBmX21heCA9IEZMVF9NQVg7CgpFUlJPUjogVXNlIG9mIHZv
-bGF0aWxlIGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzMzc6IEZJTEU6
-IHRlc3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjIzOgordm9sYXRpbGUg
-ZmxvYXQgZl9ubWF4ID0gLUZMVF9NQVg7CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlzIHVzdWFs
-bHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzMzk6IEZJTEU6IHRlc3RzL3RjZy9pMzg2
-L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjI1Ogordm9sYXRpbGUgZG91YmxlIGRfc25hbiA9
-IF9fYnVpbHRpbl9uYW5zKCIiKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3
-cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzM0MDogRklMRTogdGVzdHMvdGNnL2kzODYvdGVz
-dC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MjY6Cit2b2xhdGlsZSBkb3VibGUgZF9oYWxmID0gMC41
-OwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEg
-Y29tbWVudAojMzQxOiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlv
-bnMuYzoyNzoKK3ZvbGF0aWxlIGRvdWJsZSBkX3RoaXJkID0gMS4wIC8gMy4wOwoKRVJST1I6IFVz
-ZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzQy
-OiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzoyODoKK3Zv
-bGF0aWxlIGRvdWJsZSBkX25hbiA9IF9fYnVpbHRpbl9uYW4oIiIpOwoKRVJST1I6IFVzZSBvZiB2
-b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzQzOiBGSUxF
-OiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzoyOToKK3ZvbGF0aWxl
-IGRvdWJsZSBkX2luZiA9IF9fYnVpbHRpbl9pbmYoKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUg
-aXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzM0NDogRklMRTogdGVzdHMv
-dGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MzA6Cit2b2xhdGlsZSBkb3VibGUg
-ZF9uaW5mID0gLV9fYnVpbHRpbl9pbmYoKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1
-YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzM0NTogRklMRTogdGVzdHMvdGNnL2kz
-ODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MzE6Cit2b2xhdGlsZSBkb3VibGUgZF9vbmUg
-PSAxLjA7CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBh
-ZGQgYSBjb21tZW50CiMzNDY6IEZJTEU6IHRlc3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zc2UtZXhj
-ZXB0aW9ucy5jOjMyOgordm9sYXRpbGUgZG91YmxlIGRfdHdvID0gMi4wOwoKRVJST1I6IFVzZSBv
-ZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzQ3OiBG
-SUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzozMzoKK3ZvbGF0
-aWxlIGRvdWJsZSBkX3plcm8gPSAwLjA7CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxlIGlzIHVzdWFs
-bHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiMzNDg6IEZJTEU6IHRlc3RzL3RjZy9pMzg2
-L3Rlc3QtaTM4Ni1zc2UtZXhjZXB0aW9ucy5jOjM0Ogordm9sYXRpbGUgZG91YmxlIGRfbnplcm8g
-PSAtMC4wOwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2Ug
-YWRkIGEgY29tbWVudAojMzQ5OiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4
-Y2VwdGlvbnMuYzozNToKK3ZvbGF0aWxlIGRvdWJsZSBkX21pbiA9IERCTF9NSU47CgpFUlJPUjog
-c3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzM1MDogRklMRTogdGVz
-dHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6MzY6Cit2b2xhdGlsZSBkb3Vi
-bGUgZF90cnVlX21pbiA9IDB4MXAtMTA3NDsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIF4KCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFk
-ZCBhIGNvbW1lbnQKIzM1MDogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNl
-cHRpb25zLmM6MzY6Cit2b2xhdGlsZSBkb3VibGUgZF90cnVlX21pbiA9IDB4MXAtMTA3NDsKCkVS
-Uk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1l
-bnQKIzM1MTogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6
-Mzc6Cit2b2xhdGlsZSBkb3VibGUgZF9tYXggPSBEQkxfTUFYOwoKRVJST1I6IFVzZSBvZiB2b2xh
-dGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzUyOiBGSUxFOiB0
-ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc3NlLWV4Y2VwdGlvbnMuYzozODoKK3ZvbGF0aWxlIGRv
-dWJsZSBkX25tYXggPSAtREJMX01BWDsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxs
-eSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzM1NDogRklMRTogdGVzdHMvdGNnL2kzODYv
-dGVzdC1pMzg2LXNzZS1leGNlcHRpb25zLmM6NDA6Cit2b2xhdGlsZSBpbnQzMl90IGkzMl9tYXgg
-PSBJTlQzMl9NQVg7Cgp0b3RhbDogMzMgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMDMzIGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDIvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBF
-TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvYWxwaW5lLkRFQi4yLjIxLjIw
-MDYyNTIzNTU0MzAuMzgzMkBkaWdyYXBoLnBvbHlvbWluby5vcmcudWsvdGVzdGluZy5jaGVja3Bh
-dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
-YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
-dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Version 9 incorporates some review:
+
+  * Adjust some commentary.
+  * Added an assert for tbi in aarch64_tr_init_disas_context
+  * Split arm,armv8.5-memtag to a new, final, patch.  We might
+    just leave this one out of qemu mainline until the kernel
+    patch set that requires it gets merged.
+
+
+r~
+
+
+Richard Henderson (46):
+  target/arm: Add isar tests for mte
+  target/arm: Improve masking of SCR RES0 bits
+  target/arm: Add support for MTE to SCTLR_ELx
+  target/arm: Add support for MTE to HCR_EL2 and SCR_EL3
+  target/arm: Rename DISAS_UPDATE to DISAS_UPDATE_EXIT
+  target/arm: Add DISAS_UPDATE_NOCHAIN
+  target/arm: Add MTE system registers
+  target/arm: Add MTE bits to tb_flags
+  target/arm: Implement the IRG instruction
+  target/arm: Revise decoding for disas_add_sub_imm
+  target/arm: Implement the ADDG, SUBG instructions
+  target/arm: Implement the GMI instruction
+  target/arm: Implement the SUBP instruction
+  target/arm: Define arm_cpu_do_unaligned_access for user-only
+  target/arm: Implement LDG, STG, ST2G instructions
+  target/arm: Implement the STGP instruction
+  target/arm: Restrict the values of DCZID.BS under TCG
+  target/arm: Simplify DC_ZVA
+  target/arm: Implement the LDGM, STGM, STZGM instructions
+  target/arm: Implement the access tag cache flushes
+  target/arm: Move regime_el to internals.h
+  target/arm: Move regime_tcr to internals.h
+  target/arm: Add gen_mte_check1
+  target/arm: Add gen_mte_checkN
+  target/arm: Implement helper_mte_check1
+  target/arm: Implement helper_mte_checkN
+  target/arm: Add helper_mte_check_zva
+  target/arm: Use mte_checkN for sve unpredicated loads
+  target/arm: Use mte_checkN for sve unpredicated stores
+  target/arm: Use mte_check1 for sve LD1R
+  target/arm: Tidy trans_LD1R_zpri
+  target/arm: Add arm_tlb_bti_gp
+  target/arm: Add mte helpers for sve scalar + int loads
+  target/arm: Add mte helpers for sve scalar + int stores
+  target/arm: Add mte helpers for sve scalar + int ff/nf loads
+  target/arm: Handle TBI for sve scalar + int memory ops
+  target/arm: Add mte helpers for sve scatter/gather memory ops
+  target/arm: Complete TBI clearing for user-only for SVE
+  target/arm: Implement data cache set allocation tags
+  target/arm: Set PSTATE.TCO on exception entry
+  target/arm: Always pass cacheattr to get_phys_addr
+  target/arm: Cache the Tagged bit for a page in MemTxAttrs
+  target/arm: Create tagged ram when MTE is enabled
+  target/arm: Add allocation tag storage for system mode
+  target/arm: Enable MTE
+  target/arm: Add arm,armv8.5-memtag to dtb
+
+ include/hw/arm/boot.h          |    3 +
+ target/arm/cpu.h               |   50 +-
+ target/arm/helper-a64.h        |   16 +
+ target/arm/helper-sve.h        |  488 ++++++++++++
+ target/arm/helper.h            |    2 +
+ target/arm/internals.h         |  153 +++-
+ target/arm/translate-a64.h     |    5 +
+ target/arm/translate.h         |   23 +-
+ hw/arm/boot.c                  |   12 +-
+ hw/arm/virt.c                  |   57 +-
+ target/arm/cpu.c               |   81 +-
+ target/arm/cpu64.c             |    5 +
+ target/arm/helper-a64.c        |   94 +--
+ target/arm/helper.c            |  423 +++++++---
+ target/arm/m_helper.c          |   11 +-
+ target/arm/mte_helper.c        |  906 +++++++++++++++++++++
+ target/arm/op_helper.c         |   16 +
+ target/arm/sve_helper.c        |  616 +++++++++++---
+ target/arm/tlb_helper.c        |   13 +-
+ target/arm/translate-a64.c     |  657 +++++++++++++--
+ target/arm/translate-sve.c     | 1366 +++++++++++++++++++++-----------
+ target/arm/translate-vfp.inc.c |    4 +-
+ target/arm/translate.c         |   16 +-
+ target/arm/Makefile.objs       |    1 +
+ 24 files changed, 4182 insertions(+), 836 deletions(-)
+ create mode 100644 target/arm/mte_helper.c
+
+-- 
+2.25.1
+
 
