@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C92520B5E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:30:01 +0200 (CEST)
-Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F5220B5EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 18:32:54 +0200 (CEST)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jorEm-0007Kg-BR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1jorHZ-0002rf-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 12:32:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDF-0005ER-Qw; Fri, 26 Jun 2020 12:28:25 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38015)
+ id 1jorDE-0005CB-Es; Fri, 26 Jun 2020 12:28:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jorDE-0003Jq-9H; Fri, 26 Jun 2020 12:28:25 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z13so10089843wrw.5;
- Fri, 26 Jun 2020 09:28:23 -0700 (PDT)
+ id 1jorDC-0003IZ-Fv; Fri, 26 Jun 2020 12:28:24 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f7so7087714wrw.1;
+ Fri, 26 Jun 2020 09:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MjRNdoa0rZpF8KkV/ND0ssqMkJTZ9vSTBVaUds1+aIY=;
- b=qAStDZRVr7ScDijLA9Ah2b13vm8F+l336IWdpYR/DDFT1sM0VaVO4Oe+aAOwjwvHry
- Vt91tTTymcq3vwztjFWbN6Pqq3Kohplzu5Cn4WI4UXERvU5AIvrnrAj/+mlZ3WoP2aDp
- QePOmYK5aExk+F36hzvidIpCUJ+EY1Jmw8p3jeKpsQzYepJnZ7BfXa+3s7zQGG1prGM4
- GXKFoGTG+SGPy2Hr/qMTaqtSAza5Wo1ri5ORVCnF67RMeslFv9kGCVOVacoh/N9v+/Ta
- vw27OltOoWJ4sSNY8PixBJTfR7HGOA4LmlN9utdfX8fDi7VT4TZRC7d3JAucgTfeQHex
- gsYw==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x4O7UwIyxT8l9VdKCFKeBxe7B2S05VqXY1cTLrwYfpc=;
+ b=QdKirto5kEbgngWxsDaCRv9l4c933QEUEjVWfJE1ROejU2kRth45VMfwPJe09JH4pu
+ d6ILjiZ1qXdwCjlR2t8Op+6EO2W9m9A+Ku01D7JVS4U7FCIEGOeQEr4m/NkjCtuNcAFw
+ S6brB/IDq5JI2XO40ltNUlIW1P5oJQgy+B3IfVsdfw6qtjo7gXRhh402enqRh3xccZdT
+ o4RGhuICtKKQuaeQNXEtN4ilTevKoAzYQ3wjH9ciIf6vHpY7RBDhF5wvkQyHCSdv3IjE
+ xY8IMWUvTLp8uTf5oT4+sWAGHWeEURV9hNQw7BqoKp3u2fDw2cmxRXtvn5Vi7sjEunAj
+ nTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MjRNdoa0rZpF8KkV/ND0ssqMkJTZ9vSTBVaUds1+aIY=;
- b=JijXTD034crakli0pEd61VASyLRZWOynH0au4rXkje2bh4QMebKtdSTyssyxxC+kgv
- kLtfKOlq2jDL8lr7WFgH4ea0zr8ZuInGtcZkr9DvjSQlVKpNs9/3fhI7h9Zovo8ds9s/
- 6caTv+8svlNCfKf3HMH3sUgSGBnF1bZy+5XyLrRN7rXViGLIsGWYBNGmHNLeyd3tyorN
- jRADoMF3KW9aWECoG6fMfcLTQlO7i7zaOb5OR2WHHfzr0fbNb01L2KlesRxhAjwUZbri
- zdvVgoGVIPCRB2urNnO4dPE0lSS4Vt0A3Fyt2nUbw3iJG641tSYHJ0pov3KaCjcUmYX+
- tGuA==
-X-Gm-Message-State: AOAM532c0VeVJqKFTObVRzT/bkIL6C4q8VyKhn1MBR9F6Fd0qon5Ji0Z
- lxgJ0ZwXoThM6JySeRWCh+BavdKJ
-X-Google-Smtp-Source: ABdhPJw/BF1uVbSI/SzDx7PDYGkQzpsU2++1zSIM5HNoA0h/BNIZcjwhK4fzCXzybUrjU0wj9OY9FA==
-X-Received: by 2002:a5d:4202:: with SMTP id n2mr4465897wrq.171.1593188902554; 
- Fri, 26 Jun 2020 09:28:22 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=x4O7UwIyxT8l9VdKCFKeBxe7B2S05VqXY1cTLrwYfpc=;
+ b=Nsu45dZ201W7bIuf4PHiQTwZjH8baR3JZWcpBha3HG5YkarIcPd+UgGuYZXgDqi50J
+ 7Ui34TrdPixIQfzgt18RBWqhjLhfj+LdUo+BeuebDFXdgeyMLoMEEWHJj/BQGmVjl3JJ
+ SfVzNesizWYLPBOndcb8ft2+4AOXtTCIjwxfk/jAVax6hd94WOrSyt0frwAhnCbPJSjn
+ TJKan1+9xqDG+sL67PZklZtYH9oWXaQWD5UQ181bmYygHWnOCaMikoR//AF5X1z98QZ/
+ b3baKE+A9ZjoXjBMePUaf/qWILOs9msLQ8qaat03hWafDNB80/RFUmlTilMBbW7Wb7C+
+ I+YA==
+X-Gm-Message-State: AOAM531kDi1n/VNXH0leIjbuCU4Qm+uZFl8VsTiY7aPUw2cyKfpswlQA
+ qPzXNvD503HTeUnlPxLAPTJzbvQv
+X-Google-Smtp-Source: ABdhPJxt/RLWOFWSKC99kyETU8OEA5swXlUrDAqYMnSvAseWaNOnYiFkKPMazuG2O3g7lYVpOQWH8Q==
+X-Received: by 2002:adf:dcd0:: with SMTP id x16mr4370675wrm.387.1593188900397; 
+ Fri, 26 Jun 2020 09:28:20 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.21
+ by smtp.gmail.com with ESMTPSA id 12sm4867255wmg.6.2020.06.26.09.28.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 09:28:22 -0700 (PDT)
+ Fri, 26 Jun 2020 09:28:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/14] hw/sd/sdcard: Update coding style to make
- checkpatch.pl happy
-Date: Fri, 26 Jun 2020 18:28:06 +0200
-Message-Id: <20200626162818.25840-3-f4bug@amsat.org>
+Subject: [PATCH v4 00/14] hw/sd/sdcard: Fix CVE-2020-13253 & cleanups
+Date: Fri, 26 Jun 2020 18:28:04 +0200
+Message-Id: <20200626162818.25840-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200626162818.25840-1-f4bug@amsat.org>
-References: <20200626162818.25840-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,85 +84,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Patches 5 & 6 fix CVE-2020-13253.
+The rest are (accumulated) cleanups.
 
-To make the next commit easier to review, clean this code first.
+Missing review:
+[PATCH 01/14] MAINTAINERS: Cc qemu-block mailing list
+[PATCH 03/14] hw/sd/sdcard: Move some definitions to use them earlier
+[PATCH 04/14] hw/sd/sdcard: Use the HWBLOCK_SIZE definition
+[PATCH 05/14] hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
+[PATCH 07/14] hw/sd/sdcard: Check address is in range
+[PATCH 11/14] hw/sd/sdcard: Make iolen unsigned
+[PATCH 12/14] hw/sd/sdcard: Correctly display the command name in trace events
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/sd/sd.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+$ git backport-diff -u v3
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 97a9d32964..cac8d7d828 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -1170,8 +1170,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             sd->data_start = addr;
-             sd->data_offset = 0;
- 
--            if (sd->data_start + sd->blk_len > sd->size)
-+            if (sd->data_start + sd->blk_len > sd->size) {
-                 sd->card_status |= ADDRESS_ERROR;
-+            }
-             return sd_r1;
- 
-         default:
-@@ -1186,8 +1187,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             sd->data_start = addr;
-             sd->data_offset = 0;
- 
--            if (sd->data_start + sd->blk_len > sd->size)
-+            if (sd->data_start + sd->blk_len > sd->size) {
-                 sd->card_status |= ADDRESS_ERROR;
-+            }
-             return sd_r1;
- 
-         default:
-@@ -1232,12 +1234,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             sd->data_offset = 0;
-             sd->blk_written = 0;
- 
--            if (sd->data_start + sd->blk_len > sd->size)
-+            if (sd->data_start + sd->blk_len > sd->size) {
-                 sd->card_status |= ADDRESS_ERROR;
--            if (sd_wp_addr(sd, sd->data_start))
-+            }
-+            if (sd_wp_addr(sd, sd->data_start)) {
-                 sd->card_status |= WP_VIOLATION;
--            if (sd->csd[14] & 0x30)
-+            }
-+            if (sd->csd[14] & 0x30) {
-                 sd->card_status |= WP_VIOLATION;
-+            }
-             return sd_r1;
- 
-         default:
-@@ -1256,12 +1261,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             sd->data_offset = 0;
-             sd->blk_written = 0;
- 
--            if (sd->data_start + sd->blk_len > sd->size)
-+            if (sd->data_start + sd->blk_len > sd->size) {
-                 sd->card_status |= ADDRESS_ERROR;
--            if (sd_wp_addr(sd, sd->data_start))
-+            }
-+            if (sd_wp_addr(sd, sd->data_start)) {
-                 sd->card_status |= WP_VIOLATION;
--            if (sd->csd[14] & 0x30)
-+            }
-+            if (sd->csd[14] & 0x30) {
-                 sd->card_status |= WP_VIOLATION;
-+            }
-             return sd_r1;
- 
-         default:
+001/14:[----] [--] 'MAINTAINERS: Cc qemu-block mailing list'
+002/14:[----] [--] 'hw/sd/sdcard: Update coding style to make checkpatch.pl happy'
+003/14:[down] 'hw/sd/sdcard: Move some definitions to use them earlier'
+004/14:[down] 'hw/sd/sdcard: Use the HWBLOCK_SIZE definition'
+005/14:[0030] [FC] 'hw/sd/sdcard: Do not switch to ReceivingData if address is invalid'
+006/14:[----] [--] 'hw/sd/sdcard: Restrict Class 6 commands to SCSD cards'
+007/14:[down] 'hw/sd/sdcard: Check address is in range'
+008/14:[----] [--] 'hw/sd/sdcard: Update the SDState documentation'
+009/14:[----] [--] 'hw/sd/sdcard: Simplify cmd_valid_while_locked()'
+010/14:[----] [--] 'hw/sd/sdcard: Constify sd_crc*()'s message argument'
+011/14:[0004] [FC] 'hw/sd/sdcard: Make iolen unsigned'
+012/14:[----] [-C] 'hw/sd/sdcard: Correctly display the command name in trace events'
+013/14:[0004] [FC] 'hw/sd/sdcard: Display offset in read/write_data() trace events'
+014/14:[----] [--] 'hw/sd/sdcard: Simplify realize() a bit'
+
+Philippe Mathieu-Daudé (14):
+  MAINTAINERS: Cc qemu-block mailing list
+  hw/sd/sdcard: Update coding style to make checkpatch.pl happy
+  hw/sd/sdcard: Move some definitions to use them earlier
+  hw/sd/sdcard: Use the HWBLOCK_SIZE definition
+  hw/sd/sdcard: Do not switch to ReceivingData if address is invalid
+  hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
+  hw/sd/sdcard: Check address is in range
+  hw/sd/sdcard: Update the SDState documentation
+  hw/sd/sdcard: Simplify cmd_valid_while_locked()
+  hw/sd/sdcard: Constify sd_crc*()'s message argument
+  hw/sd/sdcard: Make iolen unsigned
+  hw/sd/sdcard: Correctly display the command name in trace events
+  hw/sd/sdcard: Display offset in read/write_data() trace events
+  hw/sd/sdcard: Simplify realize() a bit
+
+ hw/sd/sd.c         | 139 +++++++++++++++++++++++++++++----------------
+ MAINTAINERS        |   1 +
+ hw/sd/trace-events |   4 +-
+ 3 files changed, 92 insertions(+), 52 deletions(-)
+
 -- 
 2.21.3
 
