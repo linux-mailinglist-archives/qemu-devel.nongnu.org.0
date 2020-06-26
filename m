@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E3520B2C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:44:48 +0200 (CEST)
-Received: from localhost ([::1]:60344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E62920B2C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 15:45:05 +0200 (CEST)
+Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jooet-0007iR-Ta
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38012)
+	id 1joofA-000897-4z
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 09:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolSV-0007tO-TI
+ id 1jolSX-0007tp-Og
  for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:19:49 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:59294)
+Received: from mail.ispras.ru ([83.149.199.84]:59310)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1jolST-0008TB-AJ
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:19:47 -0400
+ id 1jolSW-0008VG-4S
+ for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:19:49 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 760CD4089EE5;
- Fri, 26 Jun 2020 10:19:40 +0000 (UTC)
-Subject: [PATCH 00/13] Reverse debugging
+ by mail.ispras.ru (Postfix) with ESMTPSA id 250754089EE6;
+ Fri, 26 Jun 2020 10:19:46 +0000 (UTC)
+Subject: [PATCH 01/13] replay: provide an accessor for rr filename
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jun 2020 13:19:40 +0300
-Message-ID: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
+Date: Fri, 26 Jun 2020 13:19:45 +0300
+Message-ID: <159316678590.10508.17231253241570362865.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
+References: <159316678008.10508.6615172353109944370.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -60,65 +62,41 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB remote protocol supports reverse debugging of the targets.
-It includes 'reverse step' and 'reverse continue' operations.
-The first one finds the previous step of the execution,
-and the second one is intended to stop at the last breakpoint that
-would happen when the program is executed normally.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-Reverse debugging is possible in the replay mode, when at least
-one snapshot was created at the record or replay phase.
-QEMU can use these snapshots for travelling back in time with GDB.
+This patch adds an accessor function for the name of the record/replay
+log file. Adding an accessor instead of making variable global,
+prevents accidental modification of this variable by other modules.
 
-Running the execution in replay mode allows using GDB reverse debugging
-commands:
- - reverse-stepi (or rsi): Steps one instruction to the past.
-   QEMU loads on of the prior snapshots and proceeds to the desired
-   instruction forward. When that step is reaches, execution stops.
- - reverse-continue (or rc): Runs execution "backwards".
-   QEMU tries to find breakpoint or watchpoint by loaded prior snapshot
-   and replaying the execution. Then QEMU loads snapshots again and
-   replays to the latest breakpoint. When there are no breakpoints in
-   the examined section of the execution, QEMU finds one more snapshot
-   and tries again. After the first snapshot is processed, execution
-   stops at this snapshot.
-
-The set of patches include the following modifications:
- - gdbstub update for reverse debugging support
- - functions that automatically perform reverse step and reverse
-   continue operations
- - hmp/qmp commands for manipulating the replay process
- - improvement of the snapshotting for saving the execution step
-   in the snapshot parameters
- - avocado-based acceptance tests for reverse debugging
-
-Acceptance tests intended to use the version of avocado framework, that
-will be released after 25.06.20, because it includes significant
-fixes of the remote GDB protocol.
-
-The patches are available in the repository:
-https://github.com/ispras/qemu/tree/rr-200626
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
-
-Pavel Dovgaluk (13):
-      replay: provide an accessor for rr filename
-      qcow2: introduce icount field for snapshots
-      migration: introduce icount field for snapshots
-      iotests: update snapshot test for new output format
-      qapi: introduce replay.json for record/replay-related stuff
-      replay: introduce info hmp/qmp command
-      replay: introduce breakpoint at the specified step
-      replay: implement replay-seek command
-      replay: flush rr queue before loading the vmstate
-      gdbstub: add reverse step support in replay mode
-      gdbstub: add reverse continue support in replay mode
-      replay: describe reverse debugging in docs/replay.txt
-      tests/acceptance: add reverse debugging test
-
-
  0 files changed
 
---
-Pavel Dovgalyuk
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index 5471bb514d..c9c896ae8d 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -72,6 +72,8 @@ void replay_start(void);
+ void replay_finish(void);
+ /*! Adds replay blocker with the specified error description */
+ void replay_add_blocker(Error *reason);
++/* Returns name of the replay log file */
++const char *replay_get_filename(void);
+ 
+ /* Processing the instructions */
+ 
+diff --git a/replay/replay.c b/replay/replay.c
+index 83ed9e0e24..42e82f7bc7 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -399,3 +399,8 @@ void replay_add_blocker(Error *reason)
+ {
+     replay_blockers = g_slist_prepend(replay_blockers, reason);
+ }
++
++const char *replay_get_filename(void)
++{
++    return replay_filename;
++}
+
 
