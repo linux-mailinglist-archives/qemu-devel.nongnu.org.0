@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF55520AFFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:45:55 +0200 (CEST)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47B920B008
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jun 2020 12:49:19 +0200 (CEST)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jolrm-0002Nj-6O
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1jolv4-00068r-LH
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 06:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jolqN-0001CO-56
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:44:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28454
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jolqK-0000k7-Mv
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 06:44:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593168263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=R00hQqPF3lhShtbvIek4n3YKTjw+/cU261cuUrWpip4=;
- b=CxlEFynd/fuBBRgrVQJE9WbpY0lWfm0vKkOs9NaNhBvVwQWWKtDZpVhkpcE5W8b2+rpgY6
- gUkWexg071eG0vHDGKf8js5Tn4cu+rDB7k0PY57tmh/B40ICfuTCaXqEw8VMEZq8oluaB5
- 7rmN2hKXAhk7wv/Dzthw7++tKPZCr5c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-Wv0eIi-5O_eW_cvekJ41GQ-1; Fri, 26 Jun 2020 06:44:21 -0400
-X-MC-Unique: Wv0eIi-5O_eW_cvekJ41GQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E85B510059A0
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:44:20 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A427E5BAD2
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 10:44:20 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: implement undocumented "smsw r32" behavior
-Date: Fri, 26 Jun 2020 06:44:19 -0400
-Message-Id: <20200626104419.15504-2-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1joltw-0005RT-In; Fri, 26 Jun 2020 06:48:08 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jolts-0002Dq-4M; Fri, 26 Jun 2020 06:48:06 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E1B077475FA;
+ Fri, 26 Jun 2020 12:47:58 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B60E374633D; Fri, 26 Jun 2020 12:47:58 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B48AF745702;
+ Fri, 26 Jun 2020 12:47:58 +0200 (CEST)
+Date: Fri, 26 Jun 2020 12:47:58 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 1/3] hw/i2c/smbus_eeprom: Set QOM parent
+In-Reply-To: <20200626102744.15053-2-f4bug@amsat.org>
+Message-ID: <alpine.BSF.2.22.395.2006261240500.94870@zero.eik.bme.hu>
+References: <20200626102744.15053-1-f4bug@amsat.org>
+ <20200626102744.15053-2-f4bug@amsat.org>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 01:49:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1679641061-1593168478=:94870"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,44 +59,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Markus Armbruster <armbru@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-ppc@nongnu.org, =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
+ Huacai Chen <chenhc@lemote.com>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 32-bit mode, the higher 16 bits of the destination
-register are undefined.  In practice CR0[31:0] is stored,
-just like in 64-bit mode, so just remove the "if" that
-currently differentiates the behavior.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/translate.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+--3866299591-1679641061-1593168478=:94870
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 4d808a6f93..60eac03498 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -7579,12 +7579,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         CASE_MODRM_OP(4): /* smsw */
-             gen_svm_check_intercept(s, pc_start, SVM_EXIT_READ_CR0);
-             tcg_gen_ld_tl(s->T0, cpu_env, offsetof(CPUX86State, cr[0]));
--            if (CODE64(s)) {
--                mod = (modrm >> 6) & 3;
--                ot = (mod != 3 ? MO_16 : s->dflag);
--            } else {
--                ot = MO_16;
--            }
-+            /*
-+             * In 32-bit mode, the higher 16 bits of the destination
-+             * register are undefined.  In practice CR0[31:0] is stored
-+             * just like in 64-bit mode.
-+             */
-+            mod = (modrm >> 6) & 3;
-+            ot = (mod != 3 ? MO_16 : s->dflag);
-             gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 1);
-             break;
-         case 0xee: /* rdpkru */
--- 
-2.26.2
+On Fri, 26 Jun 2020, Philippe Mathieu-Daudé wrote:
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Aspeed change pending latest ARM pull-request, so meanwhile sending
+> as RFC.
+> ---
+> include/hw/i2c/smbus_eeprom.h |  9 ++++++---
+> hw/i2c/smbus_eeprom.c         | 13 ++++++++++---
+> hw/mips/fuloong2e.c           |  2 +-
+> hw/ppc/sam460ex.c             |  2 +-
+> 4 files changed, 18 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/hw/i2c/smbus_eeprom.h b/include/hw/i2c/smbus_eeprom.h
+> index 68b0063ab6..037612bbbb 100644
+> --- a/include/hw/i2c/smbus_eeprom.h
+> +++ b/include/hw/i2c/smbus_eeprom.h
+> @@ -26,9 +26,12 @@
+> #include "exec/cpu-common.h"
+> #include "hw/i2c/i2c.h"
+>
+> -void smbus_eeprom_init_one(I2CBus *bus, uint8_t address, uint8_t *eeprom_buf);
+> -void smbus_eeprom_init(I2CBus *bus, int nb_eeprom,
+> -                       const uint8_t *eeprom_spd, int size);
+> +void smbus_eeprom_init_one(Object *parent_obj, const char *child_name,
+> +                           I2CBus *smbus, uint8_t address,
+> +                           uint8_t *eeprom_buf);
+> +void smbus_eeprom_init(Object *parent_obj, const char *child_name_prefix,
+> +                       I2CBus *smbus, int nb_eeprom,
+> +                       const uint8_t *eeprom_spd, int eeprom_spd_size);
 
+Keeping I2CBus *smbus and uint8_t address as first parameters before 
+parent_obj and name looks better to me. These functions still operate on 
+an I2Cbus so could be regarded as methods of I2CBus therefore first 
+parameter should be that.
+
+Regards,
+BALATON Zoltan
+
+> enum sdram_type { SDR = 0x4, DDR = 0x7, DDR2 = 0x8 };
+> uint8_t *spd_data_generate(enum sdram_type type, ram_addr_t size);
+> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+> index b7def9eeb8..879fd7c416 100644
+> --- a/hw/i2c/smbus_eeprom.c
+> +++ b/hw/i2c/smbus_eeprom.c
+> @@ -165,7 +165,9 @@ static void smbus_eeprom_register_types(void)
+>
+> type_init(smbus_eeprom_register_types)
+>
+> -void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t *eeprom_buf)
+> +void smbus_eeprom_init_one(Object *parent_obj, const char *child_name,
+> +                           I2CBus *smbus, uint8_t address,
+> +                           uint8_t *eeprom_buf)
+> {
+>     DeviceState *dev;
+>
+> @@ -173,10 +175,12 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t *eeprom_buf)
+>     qdev_prop_set_uint8(dev, "address", address);
+>     /* FIXME: use an array of byte or block backend property? */
+>     SMBUS_EEPROM(dev)->init_data = eeprom_buf;
+> +    object_property_add_child(parent_obj, child_name, OBJECT(dev));
+>     qdev_realize_and_unref(dev, (BusState *)smbus, &error_fatal);
+> }
+>
+> -void smbus_eeprom_init(I2CBus *smbus, int nb_eeprom,
+> +void smbus_eeprom_init(Object *parent_obj, const char *child_name_prefix,
+> +                       I2CBus *smbus, int nb_eeprom,
+>                        const uint8_t *eeprom_spd, int eeprom_spd_size)
+> {
+>     int i;
+> @@ -189,8 +193,11 @@ void smbus_eeprom_init(I2CBus *smbus, int nb_eeprom,
+>     }
+>
+>     for (i = 0; i < nb_eeprom; i++) {
+> -        smbus_eeprom_init_one(smbus, 0x50 + i,
+> +        char *name = g_strdup_printf("%s-%d", child_name_prefix, i);
+> +
+> +        smbus_eeprom_init_one(parent_obj, name, smbus, 0x50 + i,
+>                               eeprom_buf + (i * SMBUS_EEPROM_SIZE));
+> +        g_free(name);
+>     }
+> }
+>
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 8ca31e5162..304a096c6a 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -377,7 +377,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+>
+>     /* Populate SPD eeprom data */
+>     spd_data = spd_data_generate(DDR, machine->ram_size);
+> -    smbus_eeprom_init_one(smbus, 0x50, spd_data);
+> +    smbus_eeprom_init_one(OBJECT(machine->ram), "spd", smbus, 0x50, spd_data);
+>
+>     mc146818_rtc_init(isa_bus, 2000, NULL);
+>
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 1a106a68de..064d07f4e2 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -337,7 +337,7 @@ static void sam460ex_init(MachineState *machine)
+>     spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
+>                                  ram_sizes[0]);
+>     spd_data[20] = 4; /* SO-DIMM module */
+> -    smbus_eeprom_init_one(i2c, 0x50, spd_data);
+> +    smbus_eeprom_init_one(OBJECT(machine->ram), "spd", i2c, 0x50, spd_data);
+>     /* RTC */
+>     i2c_create_slave(i2c, "m41t80", 0x68);
+>
+>
+--3866299591-1679641061-1593168478=:94870--
 
