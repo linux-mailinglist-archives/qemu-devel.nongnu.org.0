@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C97120BF18
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 08:57:33 +0200 (CEST)
-Received: from localhost ([::1]:44808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE2420BF37
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 09:05:10 +0200 (CEST)
+Received: from localhost ([::1]:51734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jp4mK-00019w-M2
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 02:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50856)
+	id 1jp4th-0004QQ-8W
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 03:05:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jp4kn-0000Va-Lj
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 02:55:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42557
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jp4s9-0003bt-Ij
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 03:03:34 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52508
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jp4kj-0002wV-7V
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 02:55:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jp4s5-0004GK-Vc
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 03:03:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593240952;
+ s=mimecast20190719; t=1593241408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AeDLeuOeGX6DgT69dltZcc4Tby7qEJbJ8PMRhvYiB/s=;
- b=XJuJo0sTvGJxHlrpzAz0Lp8PEe5Z9ZkNmZqR60CkIwfaI0sHEP7pSZTHBs/IVkOq35tFOH
- wG/9DnRTPr8P1VNaTBREDC0cZExkTCd3RFYcgLX7KDhVCd18m4UNp8ZiI7bVnyeQVi1/x4
- VxzPdTmX3sbX/GLRVnDmDzgWxzd7Qw4=
+ bh=ootrqBJRKH2qUVzoBA6p2tLS+AjNZERDmQeZVCtW4Ts=;
+ b=GyvYEOZ8z8D+qTRKouoWAeKHfqLmWyMyRLOIXoxDBivxPaQaBY2Q2V0+QZc6uEr8P/GWAx
+ beRPG0S/OHu1DGii24ORzgNIv6BylbbUZMVJK4QAzT9JXpTze+V+rK5+vKMlo/OVOLLmT4
+ DMai2xl74zZBa0NJ7WFte8Y6cSeaDvk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-wlbJfcf6N6-34UGbq2jJcA-1; Sat, 27 Jun 2020 02:55:48 -0400
-X-MC-Unique: wlbJfcf6N6-34UGbq2jJcA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-452-VZH_Z0ZuPiO2hTrkhHvV2w-1; Sat, 27 Jun 2020 03:03:27 -0400
+X-MC-Unique: VZH_Z0ZuPiO2hTrkhHvV2w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F27818FE860;
- Sat, 27 Jun 2020 06:55:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5B548015F4;
+ Sat, 27 Jun 2020 07:03:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 089207F4EA;
- Sat, 27 Jun 2020 06:55:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41B2360BF4;
+ Sat, 27 Jun 2020 07:03:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8AE2511384A6; Sat, 27 Jun 2020 08:55:43 +0200 (CEST)
+ id C32BE11384A6; Sat, 27 Jun 2020 09:03:15 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 0/3] Use object_get_canonical_path_component to get
- child description
-References: <20200626102744.15053-1-f4bug@amsat.org>
-Date: Sat, 27 Jun 2020 08:55:43 +0200
-In-Reply-To: <20200626102744.15053-1-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 26 Jun 2020 12:27:41
- +0200")
-Message-ID: <87y2o9ro9c.fsf@dusky.pond.sub.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v6 4/5] virtio-iommu-pci: Add array of Interval properties
+References: <20200626103057.11263-1-eric.auger@redhat.com>
+ <20200626103057.11263-5-eric.auger@redhat.com>
+Date: Sat, 27 Jun 2020 09:03:15 +0200
+In-Reply-To: <20200626103057.11263-5-eric.auger@redhat.com> (Eric Auger's
+ message of "Fri, 26 Jun 2020 12:30:56 +0200")
+Message-ID: <87sgehrnws.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 02:54:02
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 02:53:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,25 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- =?utf-8?Q?C?= =?utf-8?Q?=C3=A9dric?= Le Goater <clg@kaod.org>,
- Huacai Chen <chenhc@lemote.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, jean-philippe@linaro.org, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Eric Auger <eric.auger@redhat.com> writes:
 
-> This RFC is simply a proof-of-concept to see if I correctly
-> understood Markus' suggestion, see the thread around:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08652.html
+> The machine may need to pass reserved regions to the
+> virtio-iommu-pci device (such as the MSI window on x86
+> or the MSI doorbells on ARM).
+>
+> So let's add an array of Interval properties.
+>
+> Note: if some reserved regions are already set by the
+> machine code - which should be the case in general -,
+> the length of the property array is already set and
+> prevents the end-user from modifying them. For example,
+> attempting to use:
+>
+> -device virtio-iommu-pci,\
+>  len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:1
+>
+> would result in the following error message:
+>
+> qemu-system-aarch64: -device virtio-iommu-pci,addr=0xa,
+> len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:1:
+> array size property len-reserved-regions may not be set more than once
+>
+> Otherwise, for example, adding two reserved regions is achieved
+> using the following options:
+>
+> -device virtio-iommu-pci,addr=0xa,len-reserved-regions=2,\
+>  reserved-regions[0]=0xfee00000:0xfeefffff:1,\
+>  reserved-regions[1]=0x1000000:100ffff:1
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>
+> ---
+> v5 -> v6:
+> - check the type value
+> - removed Jean's R-b
+>
+> v3 -> v4:
+> - added examples in the commit message as suggested by Markus
+> - added Jean's R-b
+> ---
+>  hw/virtio/virtio-iommu-pci.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+> index 632533abaf..9c9bda9490 100644
+> --- a/hw/virtio/virtio-iommu-pci.c
+> +++ b/hw/virtio/virtio-iommu-pci.c
+> @@ -33,6 +33,9 @@ struct VirtIOIOMMUPCI {
+>  
+>  static Property virtio_iommu_pci_properties[] = {
+>      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
+> +    DEFINE_PROP_ARRAY("reserved-regions", VirtIOIOMMUPCI,
+> +                      vdev.nb_reserved_regions, vdev.reserved_regions,
+> +                      qdev_prop_reserved_region, ReservedRegion),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -40,6 +43,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>  {
+>      VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
+>      DeviceState *vdev = DEVICE(&dev->vdev);
+> +    VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+>  
+>      if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
+>          MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
+> @@ -54,6 +58,15 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>                            "-no-acpi\n");
+>          return;
+>      }
+> +    for (int i = 0; i < s->nb_reserved_regions; i++) {
+> +        if (s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_RESERVED &&
+> +            s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_MSI) {
+> +            error_setg(errp, "reserved region %d has an invalid type", i);
+> +            error_append_hint(errp, "Valid values are "
+> +                              "VIRTIO_IOMMU_RESV_MEM_T_RESERVED and "
+> +                              "VIRTIO_IOMMU_RESV_MEM_T_SMI\n");
 
-Please show us output of "info qom-tree" before and after.  Feel free to
-cut uninteresting parts.
+Actually, valid values are 0 and 1.  Something like
+
+    -device virtio-iommu-pci,len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:VIRTIO_IOMMU_RESV_MEM_T_SMI
+
+will be rejected as invalid.
+
+> +        }
+> +    }
+>      object_property_set_link(OBJECT(dev),
+>                               OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+>                               "primary-bus", errp);
+
+Sorry for having to torture you this way!  Have a
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+with the error message touched up.
 
 
