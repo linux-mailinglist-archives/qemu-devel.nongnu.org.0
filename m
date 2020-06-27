@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE35720C342
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:18:56 +0200 (CEST)
-Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969C920C33F
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:18:24 +0200 (CEST)
+Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpETf-0004Sr-Qj
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
+	id 1jpET9-0003Ak-Ho
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpEN3-00028v-4P
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:05 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:48162)
+ id 1jpENA-0002RN-Pd
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:12 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:53394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpEMz-0007PW-Pq
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:04 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH2KqD156328;
- Sat, 27 Jun 2020 17:11:56 GMT
+ id 1jpEN8-0007Rv-Rn
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:12 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RHC01n193134;
+ Sat, 27 Jun 2020 17:12:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=XhxaWg4QsxSZZBdKA4EujWfXqG4S2H13WsNoHJUbqLQ=;
- b=jmacZJXq7FqeVezql+X7f06yH0uaptMs5fEAkdlhKSLacjO9i1OPqmvqHkXdx9dC6bol
- 9OXeps0urB3ucyee6T7cX5Ydp7UY5cClWFO2WA5JRup0gdd8ihPsyGCz6m7Ad7tPqA1n
- k/UgyhHjwjy9D2FUS/SBUXStBmksWheMnQ+6WasC+7IL3ZgPG2RgtTHawE6wDbEvf1t5
- PX4wjt2/NIVXdBN00sLlwwkeD405Ye2Pwiy4hUgIu+zQ6rO1g2cq2qCDOqbVmw76fb7o
- DOg58anPNTEbgCQas35k3E6nGm6CbnAXdhl+iRMCzEbvbtaVEsNOoL9Ot/q2Rcl9Z1Si bA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 31wx2m9b11-1
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=G/fseAFPQfbAIJooU997W+O6g6K8cG3OMnwqRRi1KUQ=;
+ b=zb9Dzq9+iJdWiDLjza4dD9S+ZOGhS2AO3DPZ8N7ZU6ZiQfZL0SNB/GTMK/XsFLZ6ahph
+ sXi+IREBprNDNm2J1ZBk2BiWHe6icxxM1OXsx7V0vBCRQuAsk9A8fwXy4cMHUVXiRkCm
+ 63EKs1xYxa54IDOfnnnxbn8F2TrabTX7tLztIzbTTkchCxzeCsAx9usI9kfCg+9qKG2K
+ 5HVJztAyC72pQyl0LXg/e0dixUcKNGreRPPhtQ31kY9HySyBsEiHjMeoB4DUN5UGqepP
+ wQMAMErBI4PtT08NW4+O3x9P2x8q1mlMrZhzfIdf60rTDlSdo9EH/WVUH6dsvy819OOd pg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 31wxrms9ak-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 27 Jun 2020 17:11:56 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8Hdf080915;
- Sat, 27 Jun 2020 17:09:56 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 31wv59awae-1
+ Sat, 27 Jun 2020 17:12:00 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8RwI102275;
+ Sat, 27 Jun 2020 17:09:58 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 31wwx17sce-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Jun 2020 17:09:56 +0000
+ Sat, 27 Jun 2020 17:09:58 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05RH9sdG002820;
- Sat, 27 Jun 2020 17:09:54 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RH9uPo030517;
+ Sat, 27 Jun 2020 17:09:56 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 27 Jun 2020 10:09:53 -0700
+ with ESMTP ; Sat, 27 Jun 2020 10:09:55 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 04/21] multi-process: setup a machine object for remote
- device process
-Date: Sat, 27 Jun 2020 10:09:26 -0700
-Message-Id: <e0192d9ae8c34016a834872dc037a04b4d66fdda.1593273671.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v7 05/21] multi-process: add qio channel function to transmit
+Date: Sat, 27 Jun 2020 10:09:27 -0700
+Message-Id: <cb545beadb8584feabcb5c8a0eabcda4ef4becd9.1593273671.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
 References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=1 bulkscore=0
- mlxscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006270124
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=3
+ adultscore=0 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006270124
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- impostorscore=0 cotscore=-2147483648 priorityscore=1501 malwarescore=0
- phishscore=0 suspectscore=1 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006270123
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:09
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999
+ priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 adultscore=0 cotscore=-2147483648
+ lowpriorityscore=0 suspectscore=3 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006270124
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:10
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -63
 X-Spam_score: -6.4
@@ -110,156 +109,109 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-remote-machine object sets up various subsystems of the remote
-device process. Instantiate PCI host bridge object and initialize RAM, IO &
-PCI memory regions.
+The entire array of the memory regions and file handlers.
+Will be used in the next patch.
 
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- MAINTAINERS              |  2 ++
- hw/i386/Makefile.objs    |  1 +
- hw/i386/remote.c         | 64 ++++++++++++++++++++++++++++++++++++++++
- include/hw/i386/remote.h | 31 +++++++++++++++++++
- 4 files changed, 98 insertions(+)
- create mode 100644 hw/i386/remote.c
- create mode 100644 include/hw/i386/remote.h
+ include/io/channel.h | 24 +++++++++++++++++++++++
+ io/channel.c         | 45 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e46f1960bf..83aae5b441 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2945,6 +2945,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
- S: Maintained
- F: hw/pci-host/remote.c
- F: include/hw/pci-host/remote.h
-+F: hw/i386/remote.c
-+F: include/hw/i386/remote.h
- 
- Build and test automation
- -------------------------
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 6abc74551a..5ead266a15 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -14,6 +14,7 @@ obj-$(CONFIG_XEN) += ../xenpv/ xen/
- obj-$(CONFIG_VMPORT) += vmport.o
- obj-$(CONFIG_VMMOUSE) += vmmouse.o
- obj-$(CONFIG_PC) += port92.o
-+obj-$(CONFIG_MPQEMU) += remote.o
- 
- obj-y += kvmvapic.o
- obj-$(CONFIG_ACPI) += acpi-common.o
-diff --git a/hw/i386/remote.c b/hw/i386/remote.c
-new file mode 100644
-index 0000000000..4d13abe9f3
---- /dev/null
-+++ b/hw/i386/remote.c
-@@ -0,0 +1,64 @@
-+/*
-+ * Machine for remote device
+diff --git a/include/io/channel.h b/include/io/channel.h
+index d4557f0930..c2e3eaeafc 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -779,5 +779,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+                                     IOHandler *io_read,
+                                     IOHandler *io_write,
+                                     void *opaque);
++/**
++ * qio_channel_writev_full_all:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to write data from
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to send
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Behaves like qio_channel_writev_full but will attempt
++ * to send all data passed (file handles and memory regions).
++ * The function will wait for all requested data
++ * to be written, yielding from the current coroutine
++ * if required.
 + *
++ * Returns: 0 if all bytes were written, or -1 on error
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "hw/i386/remote.h"
-+#include "exec/address-spaces.h"
-+#include "exec/memory.h"
-+#include "qapi/error.h"
-+
-+static void remote_machine_init(MachineState *machine)
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                           const struct iovec *iov,
++                           size_t niov,
++                           int *fds, size_t nfds,
++                           Error **errp);
+ 
+ #endif /* QIO_CHANNEL_H */
+diff --git a/io/channel.c b/io/channel.c
+index e4376eb0bc..22c10c5ccc 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -190,6 +190,51 @@ int qio_channel_writev_all(QIOChannel *ioc,
+     return ret;
+ }
+ 
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int *fds, size_t nfds,
++                                Error **errp)
 +{
-+    MemoryRegion *system_memory, *system_io, *pci_memory;
-+    RemMachineState *s = REMOTE_MACHINE(machine);
-+    RemotePCIHost *rem_host;
++    int ret = -1;
++    struct iovec *local_iov = g_new(struct iovec, niov);
++    struct iovec *local_iov_head = local_iov;
++    unsigned int nlocal_iov = niov;
 +
-+    system_memory = get_system_memory();
-+    system_io = get_system_io();
++    nlocal_iov = iov_copy(local_iov, nlocal_iov,
++                          iov, niov,
++                          0, iov_size(iov, niov));
 +
-+    pci_memory = g_new(MemoryRegion, 1);
-+    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
++    while (nlocal_iov > 0) {
++        ssize_t len;
++        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds,
++                                      nfds, errp);
++        if (len == QIO_CHANNEL_ERR_BLOCK) {
++            if (qemu_in_coroutine()) {
++                qio_channel_yield(ioc, G_IO_OUT);
++            } else {
++                qio_channel_wait(ioc, G_IO_OUT);
++            }
++            continue;
++        }
++        if (len < 0) {
++            goto cleanup;
++        }
 +
-+    rem_host = REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DEVICE));
++        iov_discard_front(&local_iov, &nlocal_iov, len);
 +
-+    rem_host->mr_pci_mem = pci_memory;
-+    rem_host->mr_sys_mem = system_memory;
-+    rem_host->mr_sys_io = system_io;
++        if (len > 0) {
++            fds = NULL;
++            nfds = 0;
++        }
++    }
 +
-+    s->host = rem_host;
-+
-+    object_property_add_child(OBJECT(s), "remote-device", OBJECT(rem_host));
-+    memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory, -1);
-+
-+    qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
++    ret = 0;
++ cleanup:
++    g_free(local_iov_head);
++    return ret;
 +}
 +
-+static void remote_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->init = remote_machine_init;
-+}
-+
-+static const TypeInfo remote_machine = {
-+    .name = TYPE_REMOTE_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .instance_size = sizeof(RemMachineState),
-+    .class_init = remote_machine_class_init,
-+};
-+
-+static void remote_machine_register_types(void)
-+{
-+    type_register_static(&remote_machine);
-+}
-+
-+type_init(remote_machine_register_types);
-diff --git a/include/hw/i386/remote.h b/include/hw/i386/remote.h
-new file mode 100644
-index 0000000000..d118a940be
---- /dev/null
-+++ b/include/hw/i386/remote.h
-@@ -0,0 +1,31 @@
-+/*
-+ * Remote machine configuration
-+ *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef REMOTE_MACHINE_H
-+#define REMOTE_MACHINE_H
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "qom/object.h"
-+#include "hw/boards.h"
-+#include "hw/pci-host/remote.h"
-+
-+typedef struct RemMachineState {
-+    MachineState parent_obj;
-+
-+    RemotePCIHost *host;
-+} RemMachineState;
-+
-+#define TYPE_REMOTE_MACHINE "remote-machine"
-+#define REMOTE_MACHINE(obj) \
-+    OBJECT_CHECK(RemMachineState, (obj), TYPE_REMOTE_MACHINE)
-+
-+#endif
+ ssize_t qio_channel_readv(QIOChannel *ioc,
+                           const struct iovec *iov,
+                           size_t niov,
 -- 
 2.25.GIT
 
