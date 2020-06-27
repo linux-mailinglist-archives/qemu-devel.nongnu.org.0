@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39C120BD53
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 02:01:40 +0200 (CEST)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A6320BD63
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 02:16:46 +0200 (CEST)
+Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1joyHr-0008IO-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 20:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53362)
+	id 1joyWT-00066e-BY
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jun 2020 20:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3E4v2XgsKCgIjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
- id 1joyCV-0008C2-Ql
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 19:56:07 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:36408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3E4v2XgsKCgIjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
- id 1joyCT-0002D6-8L
- for qemu-devel@nongnu.org; Fri, 26 Jun 2020 19:56:07 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id i7so7279090pfk.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jun 2020 16:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc:content-transfer-encoding;
- bh=nUtm+vJNSsWe7+cESloRLZCEeKgCBmiY5Gl6n8TmJfk=;
- b=VAKzsqE+KpoKsrGy3r95QT91IK/PTKlrQKPu5yFMjYYTIOWp73P2KdIlKtopw9CYDq
- fwPMI9gHr7n0RaFKTfxhyH+a09jAADIWN6s2BN7QSN9xogwFmJ6Eo16XnyTPUkoHp/lT
- njQpLRn9ZGcYmch8J1t/rjYyE185bwHIt9UGoXhX/39EAFVoa/4VemUUAtgw28vAgFHx
- MZVCwzd8KheLyASHgtCY8QWEFigi1fSkqGgv/YhPh4jQR2CIqJjT/ZWpB+lGzjYIQgmq
- OZn64xB9QC5jtSzt1XxdvOT9e9Ka68Cw8jdpaTaSR8u8H/I0cnWNBse2G5tpl1Qs5P6d
- O01w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=nUtm+vJNSsWe7+cESloRLZCEeKgCBmiY5Gl6n8TmJfk=;
- b=JMnLo3o6rOMwUpdcLf4eaRcm5/DrRwYMQZ36rAPgM53iTJ7RfW68Te28dDe10j8+jg
- 3fmS5Is/5dwMLot8vH5nlV8lJYiQJxnY5F6tE4eICyx+eJ1Tc8WIZvPRdc+kT3DxXYBk
- SengKhA9gTXv42HVV9IZAoFgYTrvCPxMD9FFhScmRbQuQWdVW4vvEZE9xRWpG03VO7Du
- ndeqh1cZDSyVUh7qai0QJ+am7j9HRmuD0sCGKpL75FRmiZoRmZ2YmlSnFGNjqQGG/rxa
- r5h60S1ffbi+8Hn/rBdmeTC80KXt190r6pWqsnUN/ulZONl9MyxH7esFeU54tFq7Aety
- P/Hw==
-X-Gm-Message-State: AOAM533G6QzoTPg5Mby1QNy1JbjD8nfoxTGegPZFDNKSmURPXie2rmT9
- nX8xfQPG0is0PdYrq28Ug5yu3yQrQD238PMOqw==
-X-Google-Smtp-Source: ABdhPJy/x6oiGbUrA1gyjei+/FgY4eGDz9wi55verYbKo531gfMHuK8WNG6A/GSI/mTYdHRCBGrWtwnHVfsRloYIMw==
-X-Received: by 2002:a17:90a:c695:: with SMTP id
- n21mr6390854pjt.206.1593215763436; 
- Fri, 26 Jun 2020 16:56:03 -0700 (PDT)
-Date: Fri, 26 Jun 2020 16:55:19 -0700
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1joyVV-0005Xy-9C; Fri, 26 Jun 2020 20:15:45 -0400
+Resent-Date: Fri, 26 Jun 2020 20:15:45 -0400
+Resent-Message-Id: <E1joyVV-0005Xy-9C@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1joyVS-0007ya-Q1; Fri, 26 Jun 2020 20:15:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593216922; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PO2X9gNBASUXCoOex2HrMAKiNP19Ulc1ujz1i/GKDUNQTlNEMPGH/h6uKMy9B4iTpyBR7sdVYR8UFnIImRHyr4X2T1gkxbNj55aRtj7swF3CT4Bdsh9a/eGD80LilUCD40mHtHwe8zhbDbGpiPBzVcuj7uxm9HquS8mmKyxZ4MI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593216922;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=0d/k0A4SpoN+T2oFcRa0n/XWfcKz03ezQZ1uFcAy3+Y=; 
+ b=g1mfddDBkmu+T9BjSHJ5Ey6P4Ovw8y+YI0hL6A8G06CpYFT5sP5BQJkl+mYoKjWmQsvPB6nBjTaSGQZKhlWZ930DcTDLk0pbOQLm2PhfueSH01GAXg9fpFCuW/ypeBxUNCITGKLh6sPaqqeG/ekAlFLH8yK8L5uloF9/GkkwDzA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593216921046365.80413883175106;
+ Fri, 26 Jun 2020 17:15:21 -0700 (PDT)
+Message-ID: <159321691954.31217.5343564721050843276@d1fd068a5071>
+Subject: Re: [PATCH v3 00/12] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC
+ machines
 In-Reply-To: <20200626235519.591734-1-hskinnemoen@google.com>
-Message-Id: <20200626235519.591734-13-hskinnemoen@google.com>
-Mime-Version: 1.0
-References: <20200626235519.591734-1-hskinnemoen@google.com>
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH v3 12/12] docs/system: Add Nuvoton machine documentation
-From: Havard Skinnemoen <hskinnemoen@google.com>
-To: peter.maydell@linaro.org, clg@kaod.org, joel@jms.id.au
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
- kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3E4v2XgsKCgIjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com;
- helo=mail-pf1-x44a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_OTHER_BAD_TLD=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=_AUTOLEARN
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: hskinnemoen@google.com
+Date: Fri, 26 Jun 2020 17:15:21 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/26 20:15:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,139 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, joel@jms.id.au,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, clg@kaod.org, hskinnemoen@google.com,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
----
- docs/system/arm/nuvoton.rst | 92 +++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst  |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 docs/system/arm/nuvoton.rst
-
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-new file mode 100644
-index 0000000000..7384662d58
---- /dev/null
-+++ b/docs/system/arm/nuvoton.rst
-@@ -0,0 +1,92 @@
-+Nuvoton iBMC boards (``npcm750-evb``, ``quanta-gsj``)
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-+
-+The `Nuvoton iBMC`_ chips (NPCM7xx) are a family of ARM-based SoCs that ar=
-e
-+designed to be used as Baseboard Management Controllers (BMCs) in various
-+servers. They all feature one or two ARM Cortex A9 CPU cores, as well as a=
-n
-+assortment of peripherals targeted for either Enterprise or Data Center /
-+Hyperscale applications. The former is a superset of the latter, so NPCM75=
-0 has
-+all the peripherals of NPCM730 and more.
-+
-+.. _Nuvoton iBMC: https://www.nuvoton.com/products/cloud-computing/ibmc/
-+
-+The NPCM750 SoC has two Cortex A9 cores and is targeted for the Enterprise
-+segment. The following machines are based on this chip :
-+
-+- ``npcm750-evb``       Nuvoton NPCM750 Evaluation board
-+
-+The NPCM730 SoC has two Cortex A9 cores and is targeted for Data Center an=
-d
-+Hyperscale applications. The following machines are based on this chip :
-+
-+- ``quanta-gsj``        Quanta GSJ server BMC
-+
-+There are also two more SoCs, NPCM710 and NPCM705, which are single-core
-+variants of NPCM750 and NPCM730, respectively. These are currently not
-+supported by QEMU.
-+
-+Supported devices
-+-----------------
-+
-+ * SMP (Dual Core Cortex-A9)
-+ * Cortex-A9MPCore built-in peripherals: SCU, GIC, Global Timer, Private T=
-imer
-+   and Watchdog.
-+ * SRAM, ROM and DRAM mappings
-+ * System Global Control Registers (GCR)
-+ * Clock and reset controller (CLK)
-+ * Timer controller (TIM)
-+ * Serial ports (16550-based)
-+ * DDR4 memory controller (dummy interface indicating memory training is d=
-one)
-+ * OTP controllers (no protection features)
-+ * Flash Interface Unit (FIU; no protection features)
-+
-+Missing devices
-+---------------
-+
-+ * GPIO controller
-+ * LPC/eSPI host-to-BMC interface, including
-+
-+   * Keyboard and mouse controller interface (KBCI)
-+   * Keyboard Controller Style (KCS) channels
-+   * BIOS POST code FIFO
-+   * System Wake-up Control (SWC)
-+   * Shared memory (SHM)
-+   * eSPI slave interface
-+
-+ * Ethernet controllers (GMAC and EMC)
-+ * USB host (USBH)
-+ * USB device (USBD)
-+ * SMBus controller (SMBF)
-+ * Peripheral SPI controller (PSPI)
-+ * Analog to Digital Converter (ADC)
-+ * SD/MMC host
-+ * Random Number Generator (RNG)
-+ * PECI interface
-+ * Pulse Width Modulation (PWM)
-+ * Tachometer
-+ * PCI and PCIe root complex and bridges
-+ * VDM and MCTP support
-+ * Serial I/O expansion
-+ * LPC/eSPI host
-+ * Coprocessor
-+ * Graphics
-+ * Video capture
-+ * Encoding compression engine
-+ * Security features
-+
-+Boot options
-+------------
-+
-+The Nuvoton machines can boot from an OpenBMC firmware image, or directly =
-into
-+a kernel using the ``-kernel`` option. OpenBMC images for `quanta-gsj` and
-+possibly others can be downloaded from the OpenPOWER jenkins :
-+
-+   https://openpower.xyz/
-+
-+Booting a full firmware image requires a Boot ROM specified via the ``-bio=
-s``
-+option to QEMU. The firmware image should be attached as an MTD drive. Exa=
-mple :
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -machine quanta-gsj -nographic \
-+      -bios npcm7xx_bootrom.bin \
-+      -drive file=3Dimage-bmc,if=3Dmtd,bus=3D0,unit=3D0,format=3Draw
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 1bd477a293..38a9daa9b9 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -84,6 +84,7 @@ undocumented; you can get a complete list by running
-    arm/aspeed
-    arm/musicpal
-    arm/nseries
-+   arm/nuvoton
-    arm/orangepi
-    arm/palm
-    arm/xscale
---=20
-2.27.0.212.ge8ba1cc988-goog
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyNjIzNTUxOS41OTE3
+MzQtMS1oc2tpbm5lbW9lbkBnb29nbGUuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
+aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGlu
+ZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5z
+dGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1Qg
+U0NSSVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9j
+a2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5n
+d0BmZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgICByYWlz
+ZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nl
+c3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJl
+bCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWEyMzBlNGJkMTE2NzQ5YTA4NzhhNzU4YjQ5N2Vl
+NjdlJywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVk
+JywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9P
+UFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdT
+SE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hv
+bWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eics
+ICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdmc2YXVmdnYvc3JjL2RvY2tlci1z
+cmMuMjAyMC0wNi0yNi0yMC4wOS40Mi4yMTcwNzovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpm
+ZWRvcmEnLCAnL3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24t
+emVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFu
+Y2UudXVpZD1hMjMwZTRiZDExNjc0OWEwODc4YTc1OGI0OTdlZTY3ZQptYWtlWzFdOiAqKiogW2Rv
+Y2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3Bh
+dGNoZXctdGVzdGVyLXRtcC12ZzZhdWZ2di9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0
+LW1pbmd3QGZlZG9yYV0gRXJyb3IgMgoKcmVhbCAgICA1bTM4LjY2MnMKdXNlciAgICAwbTkuMTI5
+cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMDA2MjYyMzU1MTkuNTkxNzM0LTEtaHNraW5uZW1vZW5AZ29vZ2xlLmNvbS90ZXN0aW5nLmRv
+Y2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
