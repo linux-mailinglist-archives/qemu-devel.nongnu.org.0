@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DF520C346
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:21:11 +0200 (CEST)
-Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9AB20C339
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:16:01 +0200 (CEST)
+Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpEVq-0007t9-05
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
+	id 1jpEQq-00087L-Lu
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpENQ-0002zn-MQ
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:31 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:36100)
+ id 1jpELZ-0008K5-FL
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:33 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:52334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpENO-0007UK-90
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:28 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH3B5s035240;
- Sat, 27 Jun 2020 17:12:20 GMT
+ id 1jpELW-00079d-JI
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:33 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH2ana172570;
+ Sat, 27 Jun 2020 17:10:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=y7ekJC7/byWzfQ1GbquoCayN6CPei2g6xIsS38QAJbo=;
- b=NVc226qkHLEMx+Y16d5DvBhl49dDzuoq/neTkgVT0w2wbmR8qp6yv4+fHQplEtOagsfG
- ZhV+EcQKA0iQsZVKwqvYSOZKvLzO295L6NH8dtK4Q5f3dFzjy8TwUf2qtu7Dwn8xRogP
- GXcer6aoQ+SpKdPwDZVZi0u/eeXKDAzJqZpHMI18LvlHa8gPLdYdqIEXGlmkRqZDF1YA
- 28PtKdbxIzduFwFF0QPgfIFBB4a6JOeBdFZGTQxFHKX80zeeBt8XZF4/EBFSNmPhWLVH
- X15JQw8fhYkLbOeG9ym3SbfLyw5s0ulIbzhERsXETMTnnm2LORDHOFByib0pn5lBcKNu iw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 31wwhr9ccp-1
+ bh=l+7gfyV68JQOk8h/tWymxftbgp+GxipuiOLfq0mxBuo=;
+ b=e6PB4ObdyV9XuDmToN24dPL9oYkSOmeMnNHaked8GKTKeTgoHrmonXvycXf1Wv/Z7KYJ
+ XXFeDI9zyIF9ZJ0TTIBnkccSyNJoKjTJ4uKs0K4ijZhRDMaf+cMdOSAfe0r0QZ6ELzvt
+ YmKJXpzzzjo+J8+TjLI4gRjZx4GojVHaEEe9gjgBwMHXADOxpy06vvxMVn4YR8yhNjqS
+ 2OEHo97Oja/VhLiY2xok7Es6B+xCpzFoj/XBAWTB+pHMYQiOe0ckCmatLgdB82Sz3dPM
+ lLa2l/UgZcUcXt4r95g6LPqug6mxK8UyfrwKSwsCy709bcyYZGLbqCttKpe84UVjBspf TQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 31wxrms98g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 27 Jun 2020 17:12:20 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8OZr171699;
- Sat, 27 Jun 2020 17:10:20 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 31wwehn50f-1
+ Sat, 27 Jun 2020 17:10:22 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8JiC081218;
+ Sat, 27 Jun 2020 17:10:21 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 31wv59aws6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Jun 2020 17:10:20 +0000
+ Sat, 27 Jun 2020 17:10:21 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RHAIij030692;
- Sat, 27 Jun 2020 17:10:18 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RHAKNL024367;
+ Sat, 27 Jun 2020 17:10:20 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 27 Jun 2020 10:10:17 -0700
+ with ESMTP ; Sat, 27 Jun 2020 10:10:20 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 15/21] multi-process: Synchronize remote memory
-Date: Sat, 27 Jun 2020 10:09:37 -0700
-Message-Id: <f9eb12b75572e91e7e0e530dbc9b8efae41f449e.1593273671.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v7 16/21] multi-process: create IOHUB object to handle irq
+Date: Sat, 27 Jun 2020 10:09:38 -0700
+Message-Id: <be2466be0c94a172ecb5060ea35244f6af5bd3af.1593273671.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
 References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
@@ -62,22 +62,23 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
- mlxscore=0
- malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006270124
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=1 bulkscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006270124
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- malwarescore=0
- phishscore=0 priorityscore=1501 clxscore=1015 cotscore=-2147483648
- mlxscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- spamscore=0 suspectscore=4 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006270123
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:03:10
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999
+ priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 adultscore=0 cotscore=-2147483648
+ lowpriorityscore=0 suspectscore=1 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006270123
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:10
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -63
 X-Spam_score: -6.4
@@ -111,321 +112,212 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Add memory-listener object which is used to keep the view of the RAM
-in sync between QEMU and remote process.
-A MemoryListener is registered for system-memory AddressSpace. The
-listener sends SYNC_SYSMEM message to the remote process when memory
-listener commits the changes to memory, the remote process receives
-the message and processes it in the handler for SYNC_SYSMEM message.
+IOHUB object is added to manage PCI IRQs. It uses KVM_IRQFD
+ioctl to create irqfd to injecting PCI interrupts to the guest.
+IOHUB object forwards the irqfd to the remote process. Remote process
+uses this fd to directly send interrupts to the guest, bypassing QEMU.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- MAINTAINERS                  |   2 +
- hw/i386/remote-msg.c         |   4 +
- hw/pci/Makefile.objs         |   1 +
- hw/pci/memory-sync.c         | 214 +++++++++++++++++++++++++++++++++++
- hw/pci/proxy.c               |   4 +
- include/hw/pci/memory-sync.h |  30 +++++
- include/hw/pci/proxy.h       |   3 +
- 7 files changed, 258 insertions(+)
- create mode 100644 hw/pci/memory-sync.c
- create mode 100644 include/hw/pci/memory-sync.h
+ MAINTAINERS               |   2 +
+ hw/Makefile.objs          |   1 +
+ hw/i386/remote-msg.c      |   4 +
+ hw/i386/remote.c          |  15 ++++
+ hw/pci/proxy.c            |  52 +++++++++++++
+ hw/remote/Makefile.objs   |   1 +
+ hw/remote/iohub.c         | 153 ++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/remote.h  |   2 +
+ include/hw/pci/pci_ids.h  |   3 +
+ include/hw/pci/proxy.h    |   8 ++
+ include/hw/remote/iohub.h |  50 +++++++++++++
+ include/io/mpqemu-link.h  |   6 ++
+ io/mpqemu-link.c          |   1 +
+ 13 files changed, 298 insertions(+)
+ create mode 100644 hw/remote/Makefile.objs
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 include/hw/remote/iohub.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b48c3114c1..38d605445e 100644
+index 38d605445e..f9ede7e094 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2954,6 +2954,8 @@ F: include/hw/i386/remote-memory.h
- F: hw/i386/remote-memory.c
- F: hw/pci/proxy.c
+@@ -2956,6 +2956,8 @@ F: hw/pci/proxy.c
  F: include/hw/pci/proxy.h
-+F: hw/pci/memory-sync.c
-+F: include/hw/pci/memory-sync.h
+ F: hw/pci/memory-sync.c
+ F: include/hw/pci/memory-sync.h
++F: hw/remote/iohub.c
++F: include/hw/remote/iohub.h
  
  Build and test automation
  -------------------------
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index 4cbe5e4e57..8caf659de0 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -40,6 +40,7 @@ devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+ devices-dirs-$(CONFIG_NUBUS) += nubus/
+ devices-dirs-y += semihosting/
+ devices-dirs-y += smbios/
++devices-dirs-y += remote/
+ endif
+ 
+ common-obj-y += $(devices-dirs-y)
 diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
-index ffb4143736..48b153eaae 100644
+index 48b153eaae..67fee4bb57 100644
 --- a/hw/i386/remote-msg.c
 +++ b/hw/i386/remote-msg.c
-@@ -9,6 +9,7 @@
- #include "io/channel-util.h"
+@@ -10,6 +10,7 @@
  #include "hw/pci/pci.h"
  #include "exec/memattrs.h"
-+#include "hw/i386/remote-memory.h"
+ #include "hw/i386/remote-memory.h"
++#include "hw/remote/iohub.h"
  
  static void process_connect_dev_msg(MPQemuMsg *msg, QIOChannel *com,
                                      Error **errp);
-@@ -63,6 +64,9 @@ gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
-     case BAR_READ:
-         process_bar_read(ioc, &msg, &local_err);
+@@ -67,6 +68,9 @@ gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
+     case SYNC_SYSMEM:
+         remote_sysmem_reconfig(&msg, &local_err);
          break;
-+    case SYNC_SYSMEM:
-+        remote_sysmem_reconfig(&msg, &local_err);
++    case SET_IRQFD:
++        process_set_irqfd_msg(pci_dev, &msg);
 +        break;
      default:
          error_setg(&local_err, "Unknown command (%d) received from proxy \
                     in remote process pid=%d", msg.cmd, getpid());
-diff --git a/hw/pci/Makefile.objs b/hw/pci/Makefile.objs
-index 515dda506c..c90acd5a6e 100644
---- a/hw/pci/Makefile.objs
-+++ b/hw/pci/Makefile.objs
-@@ -13,3 +13,4 @@ common-obj-$(CONFIG_PCI_EXPRESS) += pcie_port.o pcie_host.o
- common-obj-$(call lnot,$(CONFIG_PCI)) += pci-stub.o
- common-obj-$(CONFIG_ALL) += pci-stub.o
- obj-$(CONFIG_MPQEMU) += proxy.o
-+obj-$(CONFIG_MPQEMU) += memory-sync.o
-diff --git a/hw/pci/memory-sync.c b/hw/pci/memory-sync.c
-new file mode 100644
-index 0000000000..5f867974c4
---- /dev/null
-+++ b/hw/pci/memory-sync.c
-@@ -0,0 +1,214 @@
-+/*
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+diff --git a/hw/i386/remote.c b/hw/i386/remote.c
+index 5342e884ad..8e74a6f1af 100644
+--- a/hw/i386/remote.c
++++ b/hw/i386/remote.c
+@@ -17,12 +17,16 @@
+ #include "qapi/error.h"
+ #include "io/channel-util.h"
+ #include "io/channel.h"
++#include "hw/pci/pci_host.h"
++#include "hw/remote/iohub.h"
+ 
+ static void remote_machine_init(MachineState *machine)
+ {
+     MemoryRegion *system_memory, *system_io, *pci_memory;
+     RemMachineState *s = REMOTE_MACHINE(machine);
+     RemotePCIHost *rem_host;
++    PCIHostState *pci_host;
++    PCIDevice *pci_dev;
+ 
+     system_memory = get_system_memory();
+     system_io = get_system_io();
+@@ -42,6 +46,17 @@ static void remote_machine_init(MachineState *machine)
+     memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory, -1);
+ 
+     qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
++    pci_host = PCI_HOST_BRIDGE(rem_host);
++    pci_dev = pci_create_simple_multifunction(pci_host->bus,
++                                              PCI_DEVFN(REMOTE_IOHUB_DEV,
++                                                        REMOTE_IOHUB_FUNC),
++                                              true, TYPE_REMOTE_IOHUB_DEVICE);
 +
-+#include "qemu/compiler.h"
-+#include "qemu/int128.h"
-+#include "qemu/range.h"
-+#include "exec/memory.h"
-+#include "exec/cpu-common.h"
-+#include "cpu.h"
-+#include "exec/ram_addr.h"
-+#include "exec/address-spaces.h"
-+#include "io/mpqemu-link.h"
-+#include "hw/pci/memory-sync.h"
++    s->iohub = REMOTE_IOHUB_DEVICE(pci_dev);
 +
-+static void proxy_ml_begin(MemoryListener *listener)
-+{
-+    RemoteMemSync *sync = container_of(listener, RemoteMemSync, listener);
-+    int mrs;
-+
-+    for (mrs = 0; mrs < sync->n_mr_sections; mrs++) {
-+        memory_region_unref(sync->mr_sections[mrs].mr);
-+    }
-+
-+    g_free(sync->mr_sections);
-+    sync->mr_sections = NULL;
-+    sync->n_mr_sections = 0;
-+}
-+
-+static int get_fd_from_hostaddr(uint64_t host, ram_addr_t *offset)
-+{
-+    MemoryRegion *mr;
-+    ram_addr_t off;
-+
-+    /**
-+     * Assumes that the host address is a valid address as it's
-+     * coming from the MemoryListener system. In the case host
-+     * address is not valid, the following call would return
-+     * the default subregion of "system_memory" region, and
-+     * not NULL. So it's not possible to check for NULL here.
-+     */
-+    mr = memory_region_from_host((void *)(uintptr_t)host, &off);
-+
-+    if (offset) {
-+        *offset = off;
-+    }
-+
-+    return memory_region_get_fd(mr);
-+}
-+
-+static bool proxy_mrs_can_merge(uint64_t host, uint64_t prev_host, size_t size)
-+{
-+    bool merge;
-+    int fd1, fd2;
-+
-+    fd1 = get_fd_from_hostaddr(host, NULL);
-+
-+    fd2 = get_fd_from_hostaddr(prev_host, NULL);
-+
-+    merge = (fd1 == fd2);
-+
-+    merge &= ((prev_host + size) == host);
-+
-+    return merge;
-+}
-+
-+static bool try_merge(RemoteMemSync *sync, MemoryRegionSection *section)
-+{
-+    uint64_t mrs_size, mrs_gpa, mrs_page;
-+    MemoryRegionSection *prev_sec;
-+    bool merged = false;
-+    uintptr_t mrs_host;
-+    RAMBlock *mrs_rb;
-+
-+    if (!sync->n_mr_sections) {
-+        return false;
-+    }
-+
-+    mrs_rb = section->mr->ram_block;
-+    mrs_page = (uint64_t)qemu_ram_pagesize(mrs_rb);
-+    mrs_size = int128_get64(section->size);
-+    mrs_gpa = section->offset_within_address_space;
-+    mrs_host = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
-+               section->offset_within_region;
-+
-+    if (get_fd_from_hostaddr(mrs_host, NULL) < 0) {
-+        return true;
-+    }
-+
-+    mrs_host = mrs_host & ~(mrs_page - 1);
-+    mrs_gpa = mrs_gpa & ~(mrs_page - 1);
-+    mrs_size = ROUND_UP(mrs_size, mrs_page);
-+
-+    if (sync->n_mr_sections) {
-+        prev_sec = sync->mr_sections + (sync->n_mr_sections - 1);
-+        uint64_t prev_gpa_start = prev_sec->offset_within_address_space;
-+        uint64_t prev_size = int128_get64(prev_sec->size);
-+        uint64_t prev_gpa_end   = range_get_last(prev_gpa_start, prev_size);
-+        uint64_t prev_host_start =
-+            (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr) +
-+            prev_sec->offset_within_region;
-+        uint64_t prev_host_end = range_get_last(prev_host_start, prev_size);
-+
-+        if (mrs_gpa <= (prev_gpa_end + 1)) {
-+            g_assert(mrs_gpa > prev_gpa_start);
-+
-+            if ((section->mr == prev_sec->mr) &&
-+                proxy_mrs_can_merge(mrs_host, prev_host_start,
-+                                    (mrs_gpa - prev_gpa_start))) {
-+                uint64_t max_end = MAX(prev_host_end, mrs_host + mrs_size);
-+                merged = true;
-+                prev_sec->offset_within_address_space =
-+                    MIN(prev_gpa_start, mrs_gpa);
-+                prev_sec->offset_within_region =
-+                    MIN(prev_host_start, mrs_host) -
-+                    (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr);
-+                prev_sec->size = int128_make64(max_end - MIN(prev_host_start,
-+                                                             mrs_host));
-+            }
-+        }
-+    }
-+
-+    return merged;
-+}
-+
-+static void proxy_ml_region_addnop(MemoryListener *listener,
-+                                   MemoryRegionSection *section)
-+{
-+    RemoteMemSync *sync = container_of(listener, RemoteMemSync, listener);
-+
-+    if (!(memory_region_is_ram(section->mr) &&
-+          !memory_region_is_rom(section->mr))) {
-+        return;
-+    }
-+
-+    if (try_merge(sync, section)) {
-+        return;
-+    }
-+
-+    ++sync->n_mr_sections;
-+    sync->mr_sections = g_renew(MemoryRegionSection, sync->mr_sections,
-+                                sync->n_mr_sections);
-+    sync->mr_sections[sync->n_mr_sections - 1] = *section;
-+    sync->mr_sections[sync->n_mr_sections - 1].fv = NULL;
-+    memory_region_ref(section->mr);
-+}
-+
-+static void proxy_ml_commit(MemoryListener *listener)
-+{
-+    RemoteMemSync *sync = container_of(listener, RemoteMemSync, listener);
-+    MPQemuMsg msg;
-+    MemoryRegionSection section;
-+    ram_addr_t offset;
-+    uintptr_t host_addr;
-+    int region;
-+
-+    memset(&msg, 0, sizeof(MPQemuMsg));
-+
-+    msg.cmd = SYNC_SYSMEM;
-+    msg.bytestream = 0;
-+    msg.num_fds = sync->n_mr_sections;
-+    msg.size = sizeof(msg.data1);
-+    assert(msg.num_fds <= REMOTE_MAX_FDS);
-+
-+    for (region = 0; region < sync->n_mr_sections; region++) {
-+        section = sync->mr_sections[region];
-+        msg.data1.sync_sysmem.gpas[region] =
-+            section.offset_within_address_space;
-+        msg.data1.sync_sysmem.sizes[region] = int128_get64(section.size);
-+        host_addr = (uintptr_t)memory_region_get_ram_ptr(section.mr) +
-+                    section.offset_within_region;
-+        msg.fds[region] = get_fd_from_hostaddr(host_addr, &offset);
-+        msg.data1.sync_sysmem.offsets[region] = offset;
-+    }
-+    mpqemu_msg_send(&msg, sync->ioc);
-+}
-+
-+void deconfigure_memory_sync(RemoteMemSync *sync)
-+{
-+    memory_listener_unregister(&sync->listener);
-+}
-+
-+/*
-+ * TODO: Memory Sync need not be instantianted once per every proxy device.
-+ *       All remote devices are going to get the exact same updates at the
-+ *       same time. It therefore makes sense to have a broadcast model.
-+ *
-+ *       Broadcast model would involve running the MemorySync object in a
-+ *       thread. MemorySync would contain a list of mpqemu-link objects
-+ *       that need notification. proxy_ml_commit() could send the same
-+ *       message to all the links at the same time.
-+ */
-+void configure_memory_sync(RemoteMemSync *sync, QIOChannel *ioc)
-+{
-+    sync->n_mr_sections = 0;
-+    sync->mr_sections = NULL;
-+
-+    sync->ioc = ioc;
-+
-+    sync->listener.begin = proxy_ml_begin;
-+    sync->listener.commit = proxy_ml_commit;
-+    sync->listener.region_add = proxy_ml_region_addnop;
-+    sync->listener.region_nop = proxy_ml_region_addnop;
-+    sync->listener.priority = 10;
-+
-+    memory_listener_register(&sync->listener, &address_space_memory);
-+}
++    pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
++                 s->iohub, REMOTE_IOHUB_NB_PIRQS);
+ }
+ 
+ static void remote_set_socket(Object *obj, const char *str, Error **errp)
 diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
-index fff021a06a..5ecbdd2dcf 100644
+index 5ecbdd2dcf..9d8559b6d4 100644
 --- a/hw/pci/proxy.c
 +++ b/hw/pci/proxy.c
-@@ -17,6 +17,8 @@
- #include "monitor/monitor.h"
- #include "io/mpqemu-link.h"
+@@ -19,6 +19,9 @@
  #include "qemu/error-report.h"
-+#include "hw/pci/memory-sync.h"
-+#include "qom/object.h"
+ #include "hw/pci/memory-sync.h"
+ #include "qom/object.h"
++#include "qemu/event_notifier.h"
++#include "sysemu/kvm.h"
++#include "util/event_notifier-posix.c"
  
  static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
  {
-@@ -68,6 +70,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-         }
-         proxy_set_socket(dev, proxyfd, errp);
-     }
+@@ -57,6 +60,53 @@ static Property proxy_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void proxy_intx_update(PCIDevice *pci_dev)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
++    PCIINTxRoute route;
++    int pin = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
 +
-+    configure_memory_sync(&dev->sync, dev->com);
++    if (dev->irqfd.fd) {
++        dev->irqfd.flags = KVM_IRQFD_FLAG_DEASSIGN;
++        (void) kvm_vm_ioctl(kvm_state, KVM_IRQFD, &dev->irqfd);
++        memset(&dev->irqfd, 0, sizeof(struct kvm_irqfd));
++    }
++
++    route = pci_device_route_intx_to_irq(pci_dev, pin);
++
++    dev->irqfd.fd = event_notifier_get_fd(&dev->intr);
++    dev->irqfd.resamplefd = event_notifier_get_fd(&dev->resample);
++    dev->irqfd.gsi = route.irq;
++    dev->irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
++    (void) kvm_vm_ioctl(kvm_state, KVM_IRQFD, &dev->irqfd);
++}
++
++static void setup_irqfd(PCIProxyDev *dev)
++{
++    PCIDevice *pci_dev = PCI_DEVICE(dev);
++    MPQemuMsg msg;
++
++    event_notifier_init(&dev->intr, 0);
++    event_notifier_init(&dev->resample, 0);
++
++    memset(&msg, 0, sizeof(MPQemuMsg));
++    msg.cmd = SET_IRQFD;
++    msg.num_fds = 2;
++    msg.fds[0] = event_notifier_get_fd(&dev->intr);
++    msg.fds[1] = event_notifier_get_fd(&dev->resample);
++    msg.data1.set_irqfd.intx =
++        pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
++    msg.size = sizeof(msg.data1);
++
++    mpqemu_msg_send(&msg, dev->dev);
++
++    memset(&dev->irqfd, 0, sizeof(struct kvm_irqfd));
++
++    proxy_intx_update(pci_dev);
++
++    pci_device_set_intx_routing_notifier(pci_dev, proxy_intx_update);
++}
++
+ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+ {
+     PCIProxyDev *dev = PCI_PROXY_DEV(device);
+@@ -72,6 +122,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+     }
+ 
+     configure_memory_sync(&dev->sync, dev->com);
++
++    setup_irqfd(dev);
  }
  
  static int config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
-diff --git a/include/hw/pci/memory-sync.h b/include/hw/pci/memory-sync.h
+diff --git a/hw/remote/Makefile.objs b/hw/remote/Makefile.objs
 new file mode 100644
-index 0000000000..3c9007f318
+index 0000000000..635ce5e0ab
 --- /dev/null
-+++ b/include/hw/pci/memory-sync.h
-@@ -0,0 +1,30 @@
++++ b/hw/remote/Makefile.objs
+@@ -0,0 +1 @@
++common-obj-$(CONFIG_MPQEMU) += iohub.o
+diff --git a/hw/remote/iohub.c b/hw/remote/iohub.c
+new file mode 100644
+index 0000000000..9c6cfaecd4
+--- /dev/null
++++ b/hw/remote/iohub.c
+@@ -0,0 +1,153 @@
 +/*
++ * Remote IO Hub
++ *
 + * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
@@ -433,49 +325,310 @@ index 0000000000..3c9007f318
 + *
 + */
 +
-+#ifndef MEMORY_SYNC_H
-+#define MEMORY_SYNC_H
-+
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "exec/memory.h"
-+#include "io/channel.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_ids.h"
++#include "hw/pci/pci_bus.h"
++#include "hw/remote/iohub.h"
++#include "qemu/thread.h"
++#include "hw/boards.h"
++#include "hw/i386/remote.h"
++#include "qemu/main-loop.h"
 +
-+typedef struct RemoteMemSync {
-+    MemoryListener listener;
++static void remote_iohub_initfn(Object *obj)
++{
++    RemoteIOHubState *iohub = REMOTE_IOHUB_DEVICE(obj);
++    int slot, intx, pirq;
 +
-+    int n_mr_sections;
-+    MemoryRegionSection *mr_sections;
++    memset(&iohub->irqfds, 0, sizeof(iohub->irqfds));
++    memset(&iohub->resamplefds, 0, sizeof(iohub->resamplefds));
 +
-+    QIOChannel *ioc;
-+} RemoteMemSync;
++    for (slot = 0; slot < PCI_SLOT_MAX; slot++) {
++        for (intx = 0; intx < PCI_NUM_PINS; intx++) {
++            iohub->irq_num[slot][intx] = (slot + intx) % 4 + 4;
++        }
++    }
 +
-+void configure_memory_sync(RemoteMemSync *sync, QIOChannel *ioc);
-+void deconfigure_memory_sync(RemoteMemSync *sync);
++    for (pirq = 0; pirq < REMOTE_IOHUB_NB_PIRQS; pirq++) {
++        qemu_mutex_init(&iohub->irq_level_lock[pirq]);
++        iohub->irq_level[pirq] = 0;
++        event_notifier_init_fd(&iohub->irqfds[pirq], -1);
++        event_notifier_init_fd(&iohub->resamplefds[pirq], -1);
++    }
++}
 +
-+#endif
++static void remote_iohub_class_init(ObjectClass *klass, void *data)
++{
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    k->vendor_id = PCI_VENDOR_ID_ORACLE;
++    k->device_id = PCI_DEVICE_ID_REMOTE_IOHUB;
++}
++
++static const TypeInfo remote_iohub_info = {
++    .name       = TYPE_REMOTE_IOHUB_DEVICE,
++    .parent     = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(RemoteIOHubState),
++    .instance_init = remote_iohub_initfn,
++    .class_init  = remote_iohub_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { }
++    }
++};
++
++static void remote_iohub_register(void)
++{
++    type_register_static(&remote_iohub_info);
++}
++
++type_init(remote_iohub_register);
++
++int remote_iohub_map_irq(PCIDevice *pci_dev, int intx)
++{
++    BusState *bus = qdev_get_parent_bus(&pci_dev->qdev);
++    PCIBus *pci_bus = PCI_BUS(bus);
++    PCIDevice *pci_iohub =
++        pci_bus->devices[PCI_DEVFN(REMOTE_IOHUB_DEV, REMOTE_IOHUB_FUNC)];
++    RemoteIOHubState *iohub = REMOTE_IOHUB_DEVICE(pci_iohub);
++
++    return iohub->irq_num[PCI_SLOT(pci_dev->devfn)][intx];
++}
++
++/*
++ * TODO: Using lock to set the interrupt level could become a
++ *       performance bottleneck. Check if atomic arithmetic
++ *       is possible.
++ */
++void remote_iohub_set_irq(void *opaque, int pirq, int level)
++{
++    RemoteIOHubState *iohub = opaque;
++
++    assert(pirq >= 0);
++    assert(pirq < REMOTE_IOHUB_NB_PIRQS);
++
++    qemu_mutex_lock(&iohub->irq_level_lock[pirq]);
++
++    if (level) {
++        if (++iohub->irq_level[pirq] == 1) {
++            event_notifier_set(&iohub->irqfds[pirq]);
++        }
++    } else if (iohub->irq_level[pirq] > 0) {
++        iohub->irq_level[pirq]--;
++    }
++
++    qemu_mutex_unlock(&iohub->irq_level_lock[pirq]);
++}
++
++static void intr_resample_handler(void *opaque)
++{
++    ResampleToken *token = opaque;
++    RemoteIOHubState *iohub = token->iohub;
++    int pirq, s;
++
++    pirq = token->pirq;
++
++    s = event_notifier_test_and_clear(&iohub->resamplefds[pirq]);
++
++    assert(s >= 0);
++
++    qemu_mutex_lock(&iohub->irq_level_lock[pirq]);
++
++    if (iohub->irq_level[pirq]) {
++        event_notifier_set(&iohub->irqfds[pirq]);
++    }
++
++    qemu_mutex_unlock(&iohub->irq_level_lock[pirq]);
++}
++
++void process_set_irqfd_msg(PCIDevice *pci_dev, MPQemuMsg *msg)
++{
++    RemMachineState *machine = REMOTE_MACHINE(current_machine);
++    RemoteIOHubState *iohub = machine->iohub;
++    int pirq;
++
++    g_assert(msg->data1.set_irqfd.intx < 4);
++    g_assert(msg->num_fds == 2);
++
++    pirq = remote_iohub_map_irq(pci_dev, msg->data1.set_irqfd.intx);
++
++    if (event_notifier_get_fd(&iohub->irqfds[pirq]) != -1) {
++        event_notifier_cleanup(&iohub->irqfds[pirq]);
++        event_notifier_cleanup(&iohub->resamplefds[pirq]);
++        memset(&iohub->token[pirq], 0, sizeof(ResampleToken));
++    }
++
++    event_notifier_init_fd(&iohub->irqfds[pirq], msg->fds[0]);
++    event_notifier_init_fd(&iohub->resamplefds[pirq], msg->fds[1]);
++
++    iohub->token[pirq].iohub = iohub;
++    iohub->token[pirq].pirq = pirq;
++
++    qemu_set_fd_handler(msg->fds[1], intr_resample_handler, NULL,
++                        &iohub->token[pirq]);
++}
+diff --git a/include/hw/i386/remote.h b/include/hw/i386/remote.h
+index c3890e57ab..6af423ab54 100644
+--- a/include/hw/i386/remote.h
++++ b/include/hw/i386/remote.h
+@@ -18,12 +18,14 @@
+ #include "hw/boards.h"
+ #include "hw/pci-host/remote.h"
+ #include "io/channel.h"
++#include "hw/remote/iohub.h"
+ 
+ typedef struct RemMachineState {
+     MachineState parent_obj;
+ 
+     RemotePCIHost *host;
+     QIOChannel *ioc;
++    RemoteIOHubState *iohub;
+ } RemMachineState;
+ 
+ #define TYPE_REMOTE_MACHINE "remote-machine"
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index 11f8ab7149..bd0c17dc78 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -192,6 +192,9 @@
+ #define PCI_DEVICE_ID_SUN_SIMBA          0x5000
+ #define PCI_DEVICE_ID_SUN_SABRE          0xa000
+ 
++#define PCI_VENDOR_ID_ORACLE             0x108e
++#define PCI_DEVICE_ID_REMOTE_IOHUB       0xb000
++
+ #define PCI_VENDOR_ID_CMD                0x1095
+ #define PCI_DEVICE_ID_CMD_646            0x0646
+ 
 diff --git a/include/hw/pci/proxy.h b/include/hw/pci/proxy.h
-index 4f9f9c4e15..a41a6aeaa5 100644
+index a41a6aeaa5..e6f076ae95 100644
 --- a/include/hw/pci/proxy.h
 +++ b/include/hw/pci/proxy.h
-@@ -14,6 +14,7 @@
+@@ -12,9 +12,12 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
  
++#include <linux/kvm.h>
++
  #include "hw/pci/pci.h"
  #include "io/channel.h"
-+#include "hw/pci/memory-sync.h"
+ #include "hw/pci/memory-sync.h"
++#include "qemu/event_notifier.h"
  
  #define TYPE_PCI_PROXY_DEV "pci-proxy-dev"
  
-@@ -42,6 +43,8 @@ struct PCIProxyDev {
-     QIOChannel *com;
-     QIOChannel *dev;
+@@ -45,6 +48,11 @@ struct PCIProxyDev {
  
-+    RemoteMemSync sync;
+     RemoteMemSync sync;
+ 
++    struct kvm_irqfd irqfd;
++
++    EventNotifier intr;
++    EventNotifier resample;
 +
      ProxyMemoryRegion region[PCI_NUM_REGIONS];
  };
  
+diff --git a/include/hw/remote/iohub.h b/include/hw/remote/iohub.h
+new file mode 100644
+index 0000000000..9aacf3e04c
+--- /dev/null
++++ b/include/hw/remote/iohub.h
+@@ -0,0 +1,50 @@
++/*
++ * IO Hub for remote device
++ *
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef REMOTE_IOHUB_H
++#define REMOTE_IOHUB_H
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "hw/pci/pci.h"
++#include "qemu/event_notifier.h"
++#include "qemu/thread-posix.h"
++#include "io/mpqemu-link.h"
++
++#define REMOTE_IOHUB_NB_PIRQS    8
++
++#define REMOTE_IOHUB_DEV         31
++#define REMOTE_IOHUB_FUNC        0
++
++#define TYPE_REMOTE_IOHUB_DEVICE "remote-iohub"
++#define REMOTE_IOHUB_DEVICE(obj) \
++    OBJECT_CHECK(RemoteIOHubState, (obj), TYPE_REMOTE_IOHUB_DEVICE)
++
++typedef struct ResampleToken {
++    void *iohub;
++    int pirq;
++} ResampleToken;
++
++typedef struct RemoteIOHubState {
++    PCIDevice d;
++    uint8_t irq_num[PCI_SLOT_MAX][PCI_NUM_PINS];
++    EventNotifier irqfds[REMOTE_IOHUB_NB_PIRQS];
++    EventNotifier resamplefds[REMOTE_IOHUB_NB_PIRQS];
++    unsigned int irq_level[REMOTE_IOHUB_NB_PIRQS];
++    ResampleToken token[REMOTE_IOHUB_NB_PIRQS];
++    QemuMutex irq_level_lock[REMOTE_IOHUB_NB_PIRQS];
++} RemoteIOHubState;
++
++int remote_iohub_map_irq(PCIDevice *pci_dev, int intx);
++void remote_iohub_set_irq(void *opaque, int pirq, int level);
++void process_set_irqfd_msg(PCIDevice *pci_dev, MPQemuMsg *msg);
++
++#endif
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index 0422213863..a563b557ce 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -42,6 +42,7 @@ typedef enum {
+     PCI_CONFIG_READ,
+     BAR_WRITE,
+     BAR_READ,
++    SET_IRQFD,
+     MAX = INT_MAX,
+ } MPQemuCmd;
+ 
+@@ -64,6 +65,10 @@ typedef struct {
+     bool memory;
+ } BarAccessMsg;
+ 
++typedef struct {
++    int intx;
++} SetIrqFdMsg;
++
+ /**
+  * Maximum size of data2 field in the message to be transmitted.
+  */
+@@ -92,6 +97,7 @@ typedef struct {
+         uint64_t u64;
+         SyncSysmemMsg sync_sysmem;
+         BarAccessMsg bar_access;
++        SetIrqFdMsg set_irqfd;
+     } data1;
+ 
+     int fds[REMOTE_MAX_FDS];
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+index 026e25dca4..561ac0576f 100644
+--- a/io/mpqemu-link.c
++++ b/io/mpqemu-link.c
+@@ -258,6 +258,7 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+         break;
+     case BAR_WRITE:
+     case BAR_READ:
++    case SET_IRQFD:
+         if (msg->size != sizeof(msg->data1)) {
+             return false;
+         }
 -- 
 2.25.GIT
 
