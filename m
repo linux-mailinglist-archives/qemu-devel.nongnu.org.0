@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E260F20C341
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:18:42 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E613920C35E
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:52:20 +0200 (CEST)
+Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpETR-0003rf-SI
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:18:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34934)
+	id 1jpEzz-0006dr-BX
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpELg-00007q-E8
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:40 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:47260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpELd-0007BR-WA
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:40 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH4OtZ157820;
- Sat, 27 Jun 2020 17:10:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=ezXrBDecdyhEbNw6sVUbJWXX77mydgDvHdKqtavWP0k=;
- b=duZW3cb6Y6GBpiZgBE8TZgtB4mHFR3W/bmNF7wxbFocogpWRwk/Popw+m/xPE32RBMWw
- xeDtr08lMsbUDmnNpqybK6jGPD7eoL4tJ1ClT+R2zQjEN2FQGD+UMnv6LC93PMhRg6v0
- 9WoKp77CWoGJ1PdDx3R28q8+c7CUpVkueuvqRiJ4PBEhcpHiwVUbk4ImJBGERxh61XyS
- cS/t4q4ld/c4sPt6FQm5QIJZz1bfL5ov/1/Ejjq+BuIl2n2f1QTMd1pffuYwo68ZsXhO
- MdKxd+RlnIGces/l2DN02fqY36W3FwLfy25VSum9cdDyqIkVQhxbL4JbEs+i5ieSeSGg YQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 31wx2m9ay3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 27 Jun 2020 17:10:31 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8Qpg102219;
- Sat, 27 Jun 2020 17:10:31 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 31wwx17sut-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Jun 2020 17:10:31 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RHAUtg024383;
- Sat, 27 Jun 2020 17:10:30 GMT
-Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 27 Jun 2020 10:10:30 -0700
-From: elena.ufimtseva@oracle.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 21/21] multi-process: add configure and usage information
-Date: Sat, 27 Jun 2020 10:09:43 -0700
-Message-Id: <3624d64f8943aea7f9867c10159e15b42cac77ff.1593273671.git.elena.ufimtseva@oracle.com>
-X-Mailer: git-send-email 2.25.GIT
-In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
-References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jpEz7-0006D6-7b
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:51:25 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jpEz5-00049z-IP
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:51:24 -0400
+Received: by mail-ej1-x644.google.com with SMTP id ga4so12271833ejb.11
+ for <qemu-devel@nongnu.org>; Sat, 27 Jun 2020 10:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cft8K29IvIwysL2T6qzqpuXqnzz5p4Sk28aawTUjDtQ=;
+ b=gvJK1rh/N2AMQzKVcfq2IhZDn1YT9JnxdW/egAlASphtngY6oG3r2bNjgnP2ZQbN1O
+ 0LzuNueqFHsbjSWuTERDq79q/C5DunnDtIFTou2J2E1grjowjGhfgczz5pg+eiXD1K0g
+ d7hEqz8k6uAjvc+G0Pd3BipaNwwZmTy4buXB2g7Tv2WcpykMc231bib1pV+VZYYBc/a0
+ Uu9WPxGnVmJijNCYcSBKvDxPgV9ptPAqsMvWyXMPZn0irROBMURmURDa2kZLCvwsUBtF
+ /Shh4UUzXaMJdeDoxWTsszjKAoddj70SWXK89Ec5RqKnjf2TUJEBzpAefuDdt+lHXg2f
+ qctA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cft8K29IvIwysL2T6qzqpuXqnzz5p4Sk28aawTUjDtQ=;
+ b=kVf4IdbaZPoiHMU66bDyWsIrif2cRt+ZRtob8BkcyQsu4gs4ALR395qDwP9XIlMccB
+ VIZjC80Us3p6jS7MM45zN67KifB5uLqBYkfrDbS+0TjxiK9vlzOYtGavz81vg0Tk3jlr
+ 2vLBI/TsdZ+ECfmzCaLriGwwjV4bidHMQZaZk9acaJPTzqpm22RI6OKc0XSHZUC1zhuz
+ n/YS2qwpP09LPXQskGJEJw0PGrUOUK+9SSTmGxnvlSliUT39osLnxDn33LhFe2iuxrZv
+ YCeDMbRAASTRHe+XkZ0yICVxXBcKtl777mDIpdQhxMv1UJY4W45VvW+QOj/ZpSY1zZey
+ S4nw==
+X-Gm-Message-State: AOAM530vejnl70tc11irj+VfPhP3PwRhCzkPP7kyfbpnc7j6RhdcPpyo
+ zcSBSohk4Myfcuj5DZrXGosT/e1ayCOBpS3dbd0=
+X-Google-Smtp-Source: ABdhPJxHwM8sepKayotb6PChMJR3vWA3Io2TkB2wSXwM8vvNgG8vXimfX/UZhqNoTXWbQzDvbLwLV0hKTqoZIRKtI14=
+X-Received: by 2002:a17:906:46d0:: with SMTP id
+ k16mr7349366ejs.76.1593280281506; 
+ Sat, 27 Jun 2020 10:51:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=1
- adultscore=0 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006270124
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- impostorscore=0 cotscore=-2147483648 priorityscore=1501 malwarescore=0
- phishscore=0 suspectscore=1 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006270123
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:09
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <1592995531-32600-1-git-send-email-chenhc@lemote.com>
+ <1592995531-32600-2-git-send-email-chenhc@lemote.com>
+In-Reply-To: <1592995531-32600-2-git-send-email-chenhc@lemote.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Sat, 27 Jun 2020 19:51:10 +0200
+Message-ID: <CAL1e-=givB0ZSBa4w32WpjAveOC+WVcsUEpzM-VU_2dmop3H=A@mail.gmail.com>
+Subject: Re: [PATCH V6 1/4] hw/mips: Implement the kvm_type() hook in
+ MachineClass
+To: Huacai Chen <zltjiangshi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,249 +81,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On Wed, Jun 24, 2020 at 12:44 PM Huacai Chen <zltjiangshi@gmail.com> wrote:
+>
+> MIPS has two types of KVM: TE & VZ, and TE is the default type. Now we
+> can't create a VZ guest in QEMU because it lacks the kvm_type() hook in
+> MachineClass. This patch add the the kvm_type() hook to support both of
+> the two types.
+>
+> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
----
- MAINTAINERS                          |  2 +
- docs/multi-process.rst               | 71 ++++++++++++++++++++++++++++
- scripts/mpqemu-launcher-perf-mode.py | 67 ++++++++++++++++++++++++++
- scripts/mpqemu-launcher.py           | 47 ++++++++++++++++++
- 4 files changed, 187 insertions(+)
- create mode 100644 docs/multi-process.rst
- create mode 100644 scripts/mpqemu-launcher-perf-mode.py
- create mode 100755 scripts/mpqemu-launcher.py
+Applied to MIPS queue, with some minor changes.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a65a5dd279..60c21d8210 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2959,6 +2959,8 @@ F: include/hw/pci/memory-sync.h
- F: hw/remote/iohub.c
- F: include/hw/remote/iohub.h
- F: docs/devel/multi-process.rst
-+F: scripts/mpqemu-launcher.py
-+F: scripts/mpqemu-launcher-perf-mode.py
- 
- Build and test automation
- -------------------------
-diff --git a/docs/multi-process.rst b/docs/multi-process.rst
-new file mode 100644
-index 0000000000..0fa643a511
---- /dev/null
-+++ b/docs/multi-process.rst
-@@ -0,0 +1,71 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+To enable support for multi-process add --enable-mpqemu
-+to the list of options for the "configure" script.
-+
-+
-+2) Usage
-+--------
-+
-+Multi-process QEMU requires an orchestrator to launch. Please refer to a
-+light-weight python based orchestrator for mpqemu in
-+scripts/mpqemu-launcher.py to lauch QEMU in multi-process mode.
-+
-+Please refer to scripts/mpqemu-launcher-perf-mode.py for running the remote
-+process in performance mode.
-+
-+As of now, we only support the emulation of lsi53c895a in a separate process.
-+
-+Following is a description of command-line used to launch mpqemu.
-+
-+* Orchestrator:
-+
-+  - The Orchestrator creates a unix socketpair
-+
-+  - It launches the remote process and passes one of the
-+    sockets to it via command-line.
-+
-+  - It then launches QEMU and specifies the other socket as an option
-+    to the Proxy device object
-+
-+* Remote Process:
-+
-+  - QEMU can enter remote process mode by using the "remote" machine
-+    option. The socket suboption specifies the channel in which the
-+    remote process received messages
-+
-+  - The remaining options are no different from how one launches QEMU with
-+    devices. The only other requirement is each PCI device must have a
-+    unique ID specified to it. This is needed to pair remote device with the
-+    Proxy object.
-+
-+  - Example command-line for the remote process is as follows:
-+
-+      /usr/bin/qemu-system-x86_64                                        \
-+      -machine remote,socket=4                                           \
-+      -device lsi53c895a,id=lsi0                                         \
-+      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
-+      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0
-+
-+* QEMU:
-+
-+  - Since parts of the RAM are shared between QEMU & remote process, a
-+    memory-backend-memfd is required to facilitate this, as follows:
-+
-+    -object memory-backend-memfd,id=mem,size=2G
-+
-+  - A "pci-proxy-dev" device is created for each of the PCI devices emulated
-+    in the remote process. A "socket" sub-option specifies the other end of
-+    unix channel created by orchestrator. The "id" sub-option must be specified
-+    and should be the same as the "id" specified for the remote PCI device
-+
-+  - Example commandline for QEMU is as follows:
-+
-+      -device pci-proxy-dev,id=lsi0,socket=3
-diff --git a/scripts/mpqemu-launcher-perf-mode.py b/scripts/mpqemu-launcher-perf-mode.py
-new file mode 100644
-index 0000000000..583f65ca99
---- /dev/null
-+++ b/scripts/mpqemu-launcher-perf-mode.py
-@@ -0,0 +1,67 @@
-+#!/usr/bin/env python3
-+import socket
-+import os
-+import subprocess
-+import time
-+
-+PROC_QEMU='/usr/bin/qemu-system-x86_64'
-+
-+proxy_1, remote_1 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+proxy_2, remote_2 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+
-+remote_cmd_1 = [ PROC_QEMU,                                                    \
-+                 '-machine', 'remote,socket='+str(remote_1.fileno()),          \
-+                 '-device', 'lsi53c895a,id=lsi1',                              \
-+                 '-drive', 'id=drive_image1,file=/test-1.qcow2',               \
-+                 '-device', 'scsi-hd,id=drive1,drive=drive_image1,bus=lsi1.0,' \
-+                                'scsi-id=0',                                   \
-+                 '-nographic',                                                 \
-+               ]
-+
-+remote_cmd_2 = [ PROC_QEMU,                                                    \
-+                 '-machine', 'remote,socket='+str(remote_2.fileno()),          \
-+                 '-device', 'lsi53c895a,id=lsi2',                              \
-+                 '-drive', 'id=drive_image2,file=/test-2.qcow2',               \
-+                 '-device', 'scsi-hd,id=drive2,drive=drive_image2,bus=lsi2.0,' \
-+                                'scsi-id=0',                                   \
-+                 '-nographic',                                                 \
-+               ]
-+
-+proxy_cmd = [ PROC_QEMU,                                                       \
-+              '-name', 'OL7.4',                                                \
-+              '-machine', 'q35,accel=kvm',                                     \
-+              '-smp', 'sockets=1,cores=1,threads=1',                           \
-+              '-m', '2048',                                                    \
-+              '-object', 'memory-backend-memfd,id=sysmem-file,size=2G',        \
-+              '-numa', 'node,memdev=sysmem-file',                              \
-+              '-device', 'virtio-scsi-pci,id=virtio_scsi_pci0',                \
-+              '-drive', 'id=drive_image1,if=none,format=qcow2,'                \
-+                            'file=/home/ol7-hdd-1.qcow2',                      \
-+              '-device', 'scsi-hd,id=image1,drive=drive_image1,'               \
-+                             'bus=virtio_scsi_pci0.0',                         \
-+              '-boot', 'd',                                                    \
-+              '-vnc', ':0',                                                    \
-+              '-device', 'pci-proxy-dev,id=lsi1,fd='+str(proxy_1.fileno()),    \
-+              '-device', 'pci-proxy-dev,id=lsi2,fd='+str(proxy_2.fileno()),    \
-+            ]
-+
-+
-+pid = os.fork();
-+if pid == 0:
-+    # In remote_1
-+    print('Launching Remote process 1');
-+    process = subprocess.Popen(remote_cmd_1, pass_fds=[remote_1.fileno()])
-+    os._exit(0)
-+
-+
-+pid = os.fork();
-+if pid == 0:
-+    # In remote_2
-+    print('Launching Remote process 2');
-+    process = subprocess.Popen(remote_cmd_2, pass_fds=[remote_2.fileno()])
-+    os._exit(0)
-+
-+
-+print('Launching Proxy process');
-+process = subprocess.Popen(proxy_cmd, pass_fds=[proxy_1.fileno(),
-+                           proxy_2.fileno()])
-diff --git a/scripts/mpqemu-launcher.py b/scripts/mpqemu-launcher.py
-new file mode 100755
-index 0000000000..751b51eae7
---- /dev/null
-+++ b/scripts/mpqemu-launcher.py
-@@ -0,0 +1,47 @@
-+#!/usr/bin/env python3
-+import socket
-+import os
-+import subprocess
-+import time
-+
-+PROC_QEMU='/usr/bin/qemu-system-x86_64'
-+
-+proxy, remote = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+
-+remote_cmd = [ PROC_QEMU,                                                      \
-+               '-machine', 'remote,socket='+str(remote.fileno()),              \
-+               '-device', 'lsi53c895a,id=lsi1',                                \
-+               '-drive', 'id=drive_image1,file=/build/ol7-nvme-test-1.qcow2',  \
-+               '-device', 'scsi-hd,id=drive1,drive=drive_image1,bus=lsi1.0,'   \
-+                              'scsi-id=0',                                     \
-+               '-nographic',                                                   \
-+             ]
-+
-+proxy_cmd = [ PROC_QEMU,                                                       \
-+              '-name', 'OL7.4',                                                \
-+              '-machine', 'q35,accel=kvm',                                     \
-+              '-smp', 'sockets=1,cores=1,threads=1',                           \
-+              '-m', '2048',                                                    \
-+              '-object', 'memory-backend-memfd,id=sysmem-file,size=2G',        \
-+              '-numa', 'node,memdev=sysmem-file',                              \
-+              '-device', 'virtio-scsi-pci,id=virtio_scsi_pci0',                \
-+              '-drive', 'id=drive_image1,if=none,format=qcow2,'                \
-+                            'file=/home/ol7-hdd-1.qcow2',                      \
-+              '-device', 'scsi-hd,id=image1,drive=drive_image1,'               \
-+                             'bus=virtio_scsi_pci0.0',                         \
-+              '-boot', 'd',                                                    \
-+              '-vnc', ':0',                                                    \
-+              '-device', 'pci-proxy-dev,id=lsi1,fd='+str(proxy.fileno()),      \
-+            ]
-+
-+
-+pid = os.fork();
-+
-+if pid:
-+    # In Proxy
-+    print('Launching QEMU with Proxy object');
-+    process = subprocess.Popen(proxy_cmd, pass_fds=[proxy.fileno()])
-+else:
-+    # In remote
-+    print('Launching Remote process');
-+    process = subprocess.Popen(remote_cmd, pass_fds=[remote.fileno()])
--- 
-2.25.GIT
-
+>  target/mips/kvm.c      | 20 ++++++++++++++++++++
+>  target/mips/kvm_mips.h | 11 +++++++++++
+>  2 files changed, 31 insertions(+)
+>
+> diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+> index 96cfa10..373f582 100644
+> --- a/target/mips/kvm.c
+> +++ b/target/mips/kvm.c
+> @@ -21,10 +21,12 @@
+>  #include "qemu/main-loop.h"
+>  #include "qemu/timer.h"
+>  #include "sysemu/kvm.h"
+> +#include "sysemu/kvm_int.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/cpus.h"
+>  #include "kvm_mips.h"
+>  #include "exec/memattrs.h"
+> +#include "hw/boards.h"
+>
+>  #define DEBUG_KVM 0
+>
+> @@ -1270,3 +1272,21 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+>  {
+>      abort();
+>  }
+> +
+> +int mips_kvm_type(MachineState *machine, const char *vm_type)
+> +{
+> +    int r;
+> +    KVMState *s = KVM_STATE(machine->accelerator);
+> +
+> +    r = kvm_check_extension(s, KVM_CAP_MIPS_VZ);
+> +    if (r > 0) {
+> +        return KVM_VM_MIPS_VZ;
+> +    }
+> +
+> +    r = kvm_check_extension(s, KVM_CAP_MIPS_TE);
+> +    if (r > 0) {
+> +        return KVM_VM_MIPS_TE;
+> +    }
+> +
+> +    return -1;
+> +}
+> diff --git a/target/mips/kvm_mips.h b/target/mips/kvm_mips.h
+> index 1e40147..171d53d 100644
+> --- a/target/mips/kvm_mips.h
+> +++ b/target/mips/kvm_mips.h
+> @@ -12,6 +12,8 @@
+>  #ifndef KVM_MIPS_H
+>  #define KVM_MIPS_H
+>
+> +#include "cpu.h"
+> +
+>  /**
+>   * kvm_mips_reset_vcpu:
+>   * @cpu: MIPSCPU
+> @@ -23,4 +25,13 @@ void kvm_mips_reset_vcpu(MIPSCPU *cpu);
+>  int kvm_mips_set_interrupt(MIPSCPU *cpu, int irq, int level);
+>  int kvm_mips_set_ipi_interrupt(MIPSCPU *cpu, int irq, int level);
+>
+> +#ifdef CONFIG_KVM
+> +int mips_kvm_type(MachineState *machine, const char *vm_type);
+> +#else
+> +static inline int mips_kvm_type(MachineState *machine, const char *vm_type)
+> +{
+> +    return 0;
+> +}
+> +#endif
+> +
+>  #endif /* KVM_MIPS_H */
+> --
+> 2.7.0
+>
+>
 
