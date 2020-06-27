@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10A920C332
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:12:11 +0200 (CEST)
-Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F69120C343
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:20:04 +0200 (CEST)
+Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpEN8-00018U-P9
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
+	id 1jpEUl-0006X7-76
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:20:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpELJ-0007is-4B
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:17 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:52122)
+ id 1jpENC-0002U2-1B
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:14 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:48282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpELF-00071C-K2
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:16 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH2ddK172581;
- Sat, 27 Jun 2020 17:10:02 GMT
+ id 1jpEN9-0007S1-W4
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:13 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RHC44G177247;
+ Sat, 27 Jun 2020 17:12:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=f38bVO2T0ONvo//Y6Y+Hxg6hHWZdhZGpu1r3zOSMW8c=;
- b=m2hpGBy41ciROyvLI+U6z8KFeBG/dH0BdsNTnxJX+R0RCTpjdxRNQJjsiY+anuCyXyEC
- qVTvxvWvUMzqLyu9UGr7yN4d4Zi6KbwBg8g/bguv3R/xP5lWy6VAL4Ms0q8eqi771+YV
- 41dPlJP7cj3fqzo5eHr6WR31KsHcPwOXTiPvRng1SA7UJZihZxVhQBUw6SOfB+1vsm7/
- 0ZSEpWJ+vLgDQ5J5EaDgKWN9AWkmhuCEr0Z+Who0J6V4nqLH9qm5hL2UoyfGWPpxiFI2
- rERylLaV0KZbxKyxHXs/0+ZUHZ70REOfrIDqQ8t91f1zK7ksRGOTiSJ3uoql2GPFKLRP yA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 31wxrms97w-1
+ bh=oL6SUAb8+PiyIJlETuoaL5WPbhF1wckiiQRfNXErwjU=;
+ b=xKE9/7JG4B7ZBHpb3gUNbusSUmizKUuwJ8G8Wcbm4hUbVFoSXfaR2f3IjACPT2dp1XNa
+ 8uldDVIkGa/7pMfk54yQKRLpYS142tkARusiJlrLOnUK2IAO1tDq6mfWRonc6eqtGLj6
+ /x+SCF2lBfhPSmctspaz6FMV8lGB1WsJHbsl+22F5uxtbyNJomG5rsp3Vp20pBoOw3M9
+ XP5Y9zfyvcmm5TIKPW0b7CVHHCfg8X86bCvHtUlib54Y6rt+qsn/0iwRlMkkXIGB965Z
+ +YxPiasre6fVybRBJJSqyfIktPeEqTLYvWUbbulXJ63E6IHm9bqTy5B/440mOr2efpof LA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 31wx2m9b17-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 27 Jun 2020 17:10:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8PEb102161;
- Sat, 27 Jun 2020 17:10:01 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 31wwx17sea-1
+ Sat, 27 Jun 2020 17:12:04 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8mPF172225;
+ Sat, 27 Jun 2020 17:10:03 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 31wwehn4uq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Jun 2020 17:10:01 +0000
+ Sat, 27 Jun 2020 17:10:03 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RH9xf9030585;
- Sat, 27 Jun 2020 17:09:59 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05RHA2A7002843;
+ Sat, 27 Jun 2020 17:10:02 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 27 Jun 2020 10:09:59 -0700
+ with ESMTP ; Sat, 27 Jun 2020 10:10:01 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 07/21] multi-process: add co-routines to communicate with
- remote
-Date: Sat, 27 Jun 2020 10:09:29 -0700
-Message-Id: <d7013c71ba09fb73bc61a725088bebd91f0fda30.1593273671.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v7 08/21] multi-process: Initialize communication channel at
+ the remote end
+Date: Sat, 27 Jun 2020 10:09:30 -0700
+Message-Id: <f908ad44bec708a20f9367e2f79f529f3a672f0f.1593273671.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
 References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
@@ -62,23 +62,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=15
- adultscore=0 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ mlxscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0 bulkscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2004280000 definitions=main-2006270124
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999
- priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 phishscore=0 adultscore=0 cotscore=-2147483648
- lowpriorityscore=0 suspectscore=15 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006270123
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:10
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ impostorscore=0 cotscore=-2147483648 priorityscore=1501 malwarescore=0
+ phishscore=0 suspectscore=1 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006270124
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:09
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -63
 X-Spam_score: -6.4
@@ -86,8 +85,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,154 +111,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-process to avoid blocking the main loop during the message exchanges.
-To be used by proxy device.
+Initialize the common QIOChannel at remote the end
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/io/mpqemu-link.h | 16 +++++++++
- io/mpqemu-link.c         | 78 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
+ hw/i386/remote.c         | 16 ++++++++++++++++
+ include/hw/i386/remote.h |  2 ++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index 1542e8ed07..52aa89656c 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -17,6 +17,7 @@
- #include "qom/object.h"
- #include "qemu/thread.h"
- #include "io/channel.h"
-+#include "io/channel-socket.h"
- 
- #define REMOTE_MAX_FDS 8
- 
-@@ -30,6 +31,7 @@
-  */
- typedef enum {
-     INIT = 0,
-+    RET_MSG,
-     MAX = INT_MAX,
- } MPQemuCmd;
- 
-@@ -67,6 +69,20 @@ typedef struct {
-     uint8_t *data2;
- } MPQemuMsg;
- 
-+struct MPQemuRequest {
-+    MPQemuMsg *msg;
-+    QIOChannelSocket *sioc;
-+    Coroutine *co;
-+    bool finished;
-+    int error;
-+    long ret;
-+};
-+
-+typedef struct MPQemuRequest MPQemuRequest;
-+
-+uint64_t mpqemu_msg_send_reply_co(MPQemuMsg *msg, QIOChannel *ioc,
-+                                  Error **errp);
-+
- void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc);
- int mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc);
- 
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index bfc542b5fd..c430b4d6a2 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -16,6 +16,8 @@
+diff --git a/hw/i386/remote.c b/hw/i386/remote.c
+index 4d13abe9f3..1a1becffe0 100644
+--- a/hw/i386/remote.c
++++ b/hw/i386/remote.c
+@@ -15,6 +15,7 @@
+ #include "exec/address-spaces.h"
+ #include "exec/memory.h"
  #include "qapi/error.h"
- #include "qemu/iov.h"
- #include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
-+#include "io/channel-socket.h"
++#include "io/channel-util.h"
  
- void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc)
+ static void remote_machine_init(MachineState *machine)
  {
-@@ -118,6 +120,82 @@ int mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc)
-     return 0;
+@@ -42,6 +43,20 @@ static void remote_machine_init(MachineState *machine)
+     qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
  }
  
-+/* Use in proxy only as it clobbers fd handlers. */
-+static void coroutine_fn mpqemu_msg_send_co(void *data)
++static void remote_set_socket(Object *obj, const char *str, Error **errp)
 +{
-+    MPQemuRequest *req = (MPQemuRequest *)data;
-+    MPQemuMsg msg_reply = {0};
-+    long ret = -EINVAL;
++    RemMachineState *s = REMOTE_MACHINE(obj);
++    Error *local_err = NULL;
++    int fd = atoi(str);
 +
-+    if (!req->sioc) {
-+        error_report("No channel available to send command %d",
-+                     req->msg->cmd);
-+        atomic_mb_set(&req->finished, true);
-+        req->error = -EINVAL;
-+        return;
-+    }
-+
-+    req->co = qemu_coroutine_self();
-+    mpqemu_msg_send(req->msg, QIO_CHANNEL(req->sioc));
-+
-+    yield_until_fd_readable(req->sioc->fd);
-+
-+    ret = mpqemu_msg_recv(&msg_reply, QIO_CHANNEL(req->sioc));
-+    if (ret < 0) {
-+        error_report("ERROR: failed to get a reply for command %d, \
-+                     errno %s, ret is %ld",
-+                     req->msg->cmd, strerror(errno), ret);
-+        req->error = -errno;
-+    } else {
-+        if (!mpqemu_msg_valid(&msg_reply) || msg_reply.cmd != RET_MSG) {
-+            error_report("ERROR: Invalid reply received for command %d",
-+                         req->msg->cmd);
-+            req->error = -EINVAL;
-+        } else {
-+            req->ret = msg_reply.data1.u64;
-+        }
-+    }
-+    atomic_mb_set(&req->finished, true);
++    s->ioc = qio_channel_new_fd(fd, &local_err);
 +}
 +
-+/*
-+ * Create if needed and enter co-routine to send the message to the
-+ * remote channel ioc and wait for the reply.
-+ * Resturns the value from the reply message, sets the error on failure.
-+ */
-+
-+uint64_t mpqemu_msg_send_reply_co(MPQemuMsg *msg, QIOChannel *ioc,
-+                                  Error **errp)
++static void remote_instance_init(Object *obj)
 +{
-+    MPQemuRequest req = {0};
-+    uint64_t ret = UINT64_MAX;
-+
-+    req.sioc = QIO_CHANNEL_SOCKET(ioc);
-+    if (!req.sioc) {
-+        return ret;
-+    }
-+
-+    req.msg = msg;
-+    req.ret = 0;
-+    req.finished = false;
-+
-+    if (!req.co) {
-+        req.co = qemu_coroutine_create(mpqemu_msg_send_co, &req);
-+    }
-+
-+    qemu_coroutine_enter(req.co);
-+    while (!req.finished) {
-+        aio_poll(qemu_get_aio_context(), false);
-+    }
-+    if (req.error) {
-+        error_setg(errp, "Error exchanging message with remote process, "\
-+                        "socket %d, error %d", req.sioc->fd, req.error);
-+    }
-+    ret = req.ret;
-+
-+    return ret;
++    object_property_add_str(obj, "socket", NULL, remote_set_socket);
 +}
 +
- bool mpqemu_msg_valid(MPQemuMsg *msg)
+ static void remote_machine_class_init(ObjectClass *oc, void *data)
  {
-     if (msg->cmd >= MAX && msg->cmd < 0) {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -53,6 +68,7 @@ static const TypeInfo remote_machine = {
+     .name = TYPE_REMOTE_MACHINE,
+     .parent = TYPE_MACHINE,
+     .instance_size = sizeof(RemMachineState),
++    .instance_init = remote_instance_init,
+     .class_init = remote_machine_class_init,
+ };
+ 
+diff --git a/include/hw/i386/remote.h b/include/hw/i386/remote.h
+index d118a940be..0f8b861e7a 100644
+--- a/include/hw/i386/remote.h
++++ b/include/hw/i386/remote.h
+@@ -17,11 +17,13 @@
+ #include "qom/object.h"
+ #include "hw/boards.h"
+ #include "hw/pci-host/remote.h"
++#include "io/channel.h"
+ 
+ typedef struct RemMachineState {
+     MachineState parent_obj;
+ 
+     RemotePCIHost *host;
++    QIOChannel *ioc;
+ } RemMachineState;
+ 
+ #define TYPE_REMOTE_MACHINE "remote-machine"
 -- 
 2.25.GIT
 
