@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B426F20C34E
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:23:36 +0200 (CEST)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3A120C338
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jun 2020 19:15:58 +0200 (CEST)
+Received: from localhost ([::1]:49228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpEYB-0002Wc-P9
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:23:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1jpEQn-00081F-7f
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 13:15:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpENY-00031l-4V
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:37 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:53580)
+ id 1jpELd-0008TN-As
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:37 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:34932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1jpENU-0007UW-8y
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:12:35 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RHCO8F193179;
- Sat, 27 Jun 2020 17:12:24 GMT
+ id 1jpELb-0007BE-56
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 13:10:36 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH31c2034862;
+ Sat, 27 Jun 2020 17:10:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=YF0bbzvQlbn//cFkHghHM30Yolv8Z4AkTDb8vO2GHIQ=;
- b=IKjXULXo5uHQCzEqwFg7fMb9iC8meEpozenoK5v3DG2B9n+buA7NZfszs6pyJi2w0H2/
- mIQ7kgnAEeKHBsl96WSic1NzKHb8oY40sZQod3doJdbRpt7EonCSff63aYTfURl15zlK
- IMniNBvP3t2o3H8G7d1qlynPtS9oh+YQDYxR8MA0Fkjbq9MdNbc0QseHSWUgV6VwDFE+
- mBCMDXYW9KbMXoThS25XUWq1fIyfKrYKS6R4Y2pgl8nHguAaa2hk4vl8WvVYOmEzxh6q
- sLaWoLdFxHwU8ay5X1v9Iefu4nh4h6iFekL3KkjM9WSKkVeOcSPjf1BTcK514SFPjJB6 8w== 
+ bh=qllWI9fa6u/yVyuNXQBhUrQQ+jCVeLWDkqwJoPYzt5Y=;
+ b=WLMXje3U0az2a+XjwWVvflgV4zu8xwDth4JkYX8MKH2cHIpVvJMJ44z61gzbSOkGCPGH
+ +092avTiK2HM3idvvT9F4VehKEtfSPVSPoboKRoNZapMU5bDeFDp0vYtz/k8Ku0XLS7r
+ ndGF7yTcu/jabIhVGOy3rN8jdSt6tw32pUyFCcJ2b3SRqw8ZStQ6bbcBcAsxh0kfN0RO
+ Sd/k5eCpw9E7sg5cdL+CFC11Fy2iHoBqnRxaj8LAKZZszGFfc7OPDsOlizsUw0EU+Tpp
+ p4PmgVjWEJr+PDEBFANKuc027U3cZUI4veQdTw9I/3G86JowrgglwWqe/OCBDIIbe8gx jg== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 31wxrms9b2-1
+ by userp2130.oracle.com with ESMTP id 31wwhr9c9y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 27 Jun 2020 17:12:24 +0000
+ Sat, 27 Jun 2020 17:10:25 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8mPK172225;
- Sat, 27 Jun 2020 17:10:23 GMT
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05RH8TPe171840;
+ Sat, 27 Jun 2020 17:10:25 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 31wwehn512-1
+ by userp3020.oracle.com with ESMTP id 31wwehn51j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 27 Jun 2020 17:10:23 +0000
+ Sat, 27 Jun 2020 17:10:25 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RHAM5Q024371;
- Sat, 27 Jun 2020 17:10:22 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05RHAOQG024377;
+ Sat, 27 Jun 2020 17:10:24 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sat, 27 Jun 2020 10:10:22 -0700
+ with ESMTP ; Sat, 27 Jun 2020 10:10:23 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/21] multi-process: Retrieve PCI info from remote process
-Date: Sat, 27 Jun 2020 10:09:39 -0700
-Message-Id: <a6b53187fa9f8ae1bf8470a8a6da36f66a87d53a.1593273671.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v7 18/21] multi-process: heartbeat messages to remote
+Date: Sat, 27 Jun 2020 10:09:40 -0700
+Message-Id: <c93ff92180d1e5a1bcb620331bc57f6ae9c5447c.1593273671.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
 References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
@@ -68,16 +68,15 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
  engine=8.12.0-2004280000 definitions=main-2006270124
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9665
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999
- priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 phishscore=0 adultscore=0 cotscore=-2147483648
- lowpriorityscore=0 suspectscore=3 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006270124
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:10:10
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 cotscore=-2147483648
+ mlxscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 suspectscore=3 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006270123
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 13:03:10
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -63
 X-Spam_score: -6.4
@@ -109,237 +108,184 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Retrieve PCI configuration info about the remote device and
-configure the Proxy PCI object based on the returned information
+In order to detect remote processes which are hung, the
+proxy periodically sends heartbeat messages to confirm if
+the remote process is alive. The remote process responds
+to this heartbeat message to confirm it is alive.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- hw/i386/remote-msg.c     | 23 +++++++++++
- hw/pci/proxy.c           | 89 ++++++++++++++++++++++++++++++++++++++++
- include/io/mpqemu-link.h |  9 ++++
- io/mpqemu-link.c         |  5 +++
- 4 files changed, 126 insertions(+)
+ hw/i386/remote-msg.c     | 14 ++++++++++
+ hw/pci/proxy.c           | 58 ++++++++++++++++++++++++++++++++++++++++
+ include/hw/pci/proxy.h   |  2 ++
+ include/io/mpqemu-link.h |  1 +
+ io/mpqemu-link.c         |  1 +
+ 5 files changed, 76 insertions(+)
 
 diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
-index 67fee4bb57..9379ee6442 100644
+index 9379ee6442..919bddc1d5 100644
 --- a/hw/i386/remote-msg.c
 +++ b/hw/i386/remote-msg.c
-@@ -20,6 +20,8 @@ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-                                 MPQemuMsg *msg);
- static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
+@@ -22,6 +22,7 @@ static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
  static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
-+static void process_get_pci_info_msg(QIOChannel *ioc, MPQemuMsg *msg,
-+                                     PCIDevice *pci_dev);
+ static void process_get_pci_info_msg(QIOChannel *ioc, MPQemuMsg *msg,
+                                      PCIDevice *pci_dev);
++static void process_proxy_ping_msg(QIOChannel *ioc);
  
  gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
                              gpointer opaque)
-@@ -71,6 +73,9 @@ gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
-     case SET_IRQFD:
-         process_set_irqfd_msg(pci_dev, &msg);
+@@ -76,6 +77,9 @@ gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondition cond,
+     case GET_PCI_INFO:
+         process_get_pci_info_msg(ioc, &msg, pci_dev);
          break;
-+    case GET_PCI_INFO:
-+        process_get_pci_info_msg(ioc, &msg, pci_dev);
++    case PROXY_PING:
++        process_proxy_ping_msg(ioc);
 +        break;
      default:
          error_setg(&local_err, "Unknown command (%d) received from proxy \
                     in remote process pid=%d", msg.cmd, getpid());
-@@ -246,3 +251,21 @@ fail:
+@@ -269,3 +273,13 @@ static void process_get_pci_info_msg(QIOChannel *ioc, MPQemuMsg *msg,
  
      mpqemu_msg_send(&ret, ioc);
  }
 +
-+static void process_get_pci_info_msg(QIOChannel *ioc, MPQemuMsg *msg,
-+                                     PCIDevice *pci_dev)
++static void process_proxy_ping_msg(QIOChannel *ioc)
 +{
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(pci_dev);
 +    MPQemuMsg ret = { 0 };
 +
 +    ret.cmd = RET_MSG;
-+
-+    ret.data1.ret_pci_info.vendor_id = pc->vendor_id;
-+    ret.data1.ret_pci_info.device_id = pc->device_id;
-+    ret.data1.ret_pci_info.class_id = pc->class_id;
-+    ret.data1.ret_pci_info.subsystem_id = pc->subsystem_id;
-+
 +    ret.size = sizeof(ret.data1);
 +
 +    mpqemu_msg_send(&ret, ioc);
 +}
 diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
-index 9d8559b6d4..449341e459 100644
+index 449341e459..e2e9a13287 100644
 --- a/hw/pci/proxy.c
 +++ b/hw/pci/proxy.c
-@@ -23,6 +23,8 @@
- #include "sysemu/kvm.h"
+@@ -24,6 +24,8 @@
  #include "util/event_notifier-posix.c"
  
-+static void probe_pci_info(PCIDevice *dev);
-+
+ static void probe_pci_info(PCIDevice *dev);
++static void start_hb_timer(PCIProxyDev *dev);
++static void pci_proxy_dev_exit(PCIDevice *pdev);
+ 
  static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
  {
-     DeviceState *dev = DEVICE(pdev);
-@@ -110,6 +112,7 @@ static void setup_irqfd(PCIProxyDev *dev)
- static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
- {
-     PCIProxyDev *dev = PCI_PROXY_DEV(device);
-+    uint8_t *pci_conf = device->config;
-     int proxyfd;
- 
-     if (dev->fd) {
-@@ -121,9 +124,14 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-         proxy_set_socket(dev, proxyfd, errp);
-     }
- 
-+    pci_conf[PCI_LATENCY_TIMER] = 0xff;
-+    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
-+
-     configure_memory_sync(&dev->sync, dev->com);
- 
+@@ -132,6 +134,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
      setup_irqfd(dev);
+ 
+     probe_pci_info(PCI_DEVICE(dev));
 +
-+    probe_pci_info(PCI_DEVICE(dev));
++    start_hb_timer(dev);
  }
  
  static int config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
-@@ -267,3 +275,84 @@ const MemoryRegionOps proxy_mr_ops = {
-         .max_access_size = 1,
-     },
- };
+@@ -192,6 +196,7 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+     k->realize = pci_proxy_dev_realize;
+     k->config_read = pci_proxy_read_config;
+     k->config_write = pci_proxy_write_config;
++    k->exit = pci_proxy_dev_exit;
+ 
+     device_class_set_props(dc, proxy_properties);
+ }
+@@ -356,3 +361,56 @@ static void probe_pci_info(PCIDevice *dev)
+         }
+     }
+ }
 +
-+static void probe_pci_info(PCIDevice *dev)
++static void hb_msg(PCIProxyDev *dev)
 +{
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
-+    DeviceClass *dc = DEVICE_CLASS(pc);
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    MPQemuMsg msg = { 0 }, ret =  { 0 };
-+    uint32_t orig_val, new_val, class;
-+    uint8_t type;
-+    int i, size;
-+    char *name;
++    DeviceState *ds = DEVICE(dev);
++    MPQemuMsg msg = { 0 };
++    long ret = -EINVAL;
 +    Error *local_err = NULL;
 +
++    msg.cmd = PROXY_PING;
 +    msg.bytestream = 0;
 +    msg.size = 0;
-+    msg.cmd = GET_PCI_INFO;
 +
-+    ret.data1.u64  = mpqemu_msg_send_reply_co(&msg, pdev->dev, &local_err);
++    ret = mpqemu_msg_send_reply_co(&msg, dev->com, &local_err);
 +    if (local_err) {
-+        error_report("Error while sending GET_PCI_INFO message");
-+    }
-+
-+    pc->vendor_id = ret.data1.ret_pci_info.vendor_id;
-+    pc->device_id = ret.data1.ret_pci_info.device_id;
-+    pc->class_id = ret.data1.ret_pci_info.class_id;
-+    pc->subsystem_id = ret.data1.ret_pci_info.subsystem_id;
-+
-+    config_op_send(pdev, PCI_CLASS_DEVICE, &class, 1, PCI_CONFIG_READ);
-+    switch (class) {
-+    case PCI_BASE_CLASS_BRIDGE:
-+        set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_STORAGE:
-+        set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_NETWORK:
-+        set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_INPUT:
-+        set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_DISPLAY:
-+        set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_PROCESSOR:
-+        set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-+        break;
-+    default:
-+        set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+        break;
-+    }
-+
-+    for (i = 0; i < 6; i++) {
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       PCI_CONFIG_READ);
-+        new_val = 0xffffffff;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       PCI_CONFIG_WRITE);
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       PCI_CONFIG_READ);
-+        size = (~(new_val & 0xFFFFFFF0)) + 1;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       PCI_CONFIG_WRITE);
-+        type = (new_val & 0x1) ?
-+                   PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
-+
-+        if (size) {
-+            pdev->region[i].dev = pdev;
-+            pdev->region[i].present = true;
-+            if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-+                pdev->region[i].memory = true;
-+            }
-+            name = g_strdup_printf("bar-region-%d", i);
-+            memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                  &proxy_mr_ops, &pdev->region[i],
-+                                  name, size);
-+            pci_register_bar(dev, i, type, &pdev->region[i].mr);
-+            g_free(name);
-+        }
++        error_report("Lost contact with remote device %s, error code %ld",
++                     ds->id, ret);
 +    }
 +}
++
++#define NOP_INTERVAL 1000
++
++static void remote_ping(void *opaque)
++{
++    PCIProxyDev *dev = opaque;
++
++    hb_msg(dev);
++
++    timer_mod(dev->hb_timer,
++              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + NOP_INTERVAL);
++}
++
++static void start_hb_timer(PCIProxyDev *dev)
++{
++    dev->hb_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                 remote_ping,
++                                 dev);
++
++    timer_mod(dev->hb_timer,
++              qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + NOP_INTERVAL);
++}
++
++static void stop_hb_timer(PCIProxyDev *dev)
++{
++    timer_del(dev->hb_timer);
++    timer_free(dev->hb_timer);
++}
++
++static void pci_proxy_dev_exit(PCIDevice *pdev)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
++
++    stop_hb_timer(dev);
++}
+diff --git a/include/hw/pci/proxy.h b/include/hw/pci/proxy.h
+index e6f076ae95..037740309d 100644
+--- a/include/hw/pci/proxy.h
++++ b/include/hw/pci/proxy.h
+@@ -53,6 +53,8 @@ struct PCIProxyDev {
+     EventNotifier intr;
+     EventNotifier resample;
+ 
++    QEMUTimer *hb_timer;
++
+     ProxyMemoryRegion region[PCI_NUM_REGIONS];
+ };
+ 
 diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index a563b557ce..4b96cb8ccb 100644
+index 4b96cb8ccb..676d7eb3ef 100644
 --- a/include/io/mpqemu-link.h
 +++ b/include/io/mpqemu-link.h
-@@ -43,6 +43,7 @@ typedef enum {
-     BAR_WRITE,
+@@ -44,6 +44,7 @@ typedef enum {
      BAR_READ,
      SET_IRQFD,
-+    GET_PCI_INFO,
+     GET_PCI_INFO,
++    PROXY_PING,
      MAX = INT_MAX,
  } MPQemuCmd;
  
-@@ -69,6 +70,13 @@ typedef struct {
-     int intx;
- } SetIrqFdMsg;
- 
-+typedef struct {
-+    uint16_t vendor_id;
-+    uint16_t device_id;
-+    uint16_t class_id;
-+    uint16_t subsystem_id;
-+} RetPCIInfoMsg;
-+
- /**
-  * Maximum size of data2 field in the message to be transmitted.
-  */
-@@ -98,6 +106,7 @@ typedef struct {
-         SyncSysmemMsg sync_sysmem;
-         BarAccessMsg bar_access;
-         SetIrqFdMsg set_irqfd;
-+        RetPCIInfoMsg ret_pci_info;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
 diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index 561ac0576f..d09b2a2f50 100644
+index d09b2a2f50..7452e55e17 100644
 --- a/io/mpqemu-link.c
 +++ b/io/mpqemu-link.c
-@@ -263,6 +263,11 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
-             return false;
+@@ -264,6 +264,7 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
          }
          break;
-+    case GET_PCI_INFO:
-+        if (msg->size) {
-+            return false;
-+        }
-+        break;
-     default:
-         break;
-     }
+     case GET_PCI_INFO:
++    case PROXY_PING:
+         if (msg->size) {
+             return false;
+         }
 -- 
 2.25.GIT
 
