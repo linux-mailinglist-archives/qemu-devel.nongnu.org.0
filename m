@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029C320C87F
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:39:14 +0200 (CEST)
-Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C9920C87D
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:37:38 +0200 (CEST)
+Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYSf-0002Ef-1m
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
+	id 1jpYR7-0000GX-BF
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:37:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erik.lucas.smit@gmail.com>)
- id 1jpYIy-0005fe-Lb; Sun, 28 Jun 2020 10:29:12 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:42612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <erik.lucas.smit@gmail.com>)
- id 1jpYIx-0005Tz-3c; Sun, 28 Jun 2020 10:29:12 -0400
-Received: by mail-ed1-x542.google.com with SMTP id z17so10711236edr.9;
- Sun, 28 Jun 2020 07:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZjKuW1mQwpJiy6HB5bGM9HstZflvVeFdcxiGRekmHQY=;
- b=ngVPIuStvwTnANyO6vMcKp3J1eVRVlMBoTIe0qiDzL73gKAm01b+PwM2ZkEFb7mhi9
- 6kr0ZTNFubjwqelMfBMC+hynS13TZ+D0vlT3hHRf8uEAExC3VAnluZxFPvaBkpqnJmRQ
- wAxnggkmoYxvug/A8Q+OWdtNHQWATy6vhotvGN/hBEPtbLIe1i6N2VnOEpO4/gOrMd2G
- vYA+nwCzEGbc9HtrWp+Hj5VZy3IRI/mz7m/Yu8mFgNHPMuZs1FXOkYyiHdWtiVW/nXj8
- 4lHmem3Ur7EWTts/aNpT3F7gyGLYnxMsbQF/n0lEF5CojQCAmspWLQtXJx7lCfMhZzsd
- qMJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZjKuW1mQwpJiy6HB5bGM9HstZflvVeFdcxiGRekmHQY=;
- b=rk0Fq2IhWA5fn64bvSxtlBOFM/8lgT/bZ7oUg5CRW7Kr1g/2nvXYBkvh/ILPukZ/wM
- SazFptgouGIyqfjGcx5gIkZ+8siRsZNii6Am+/fvkqMnuUmb0Hkp8or8PDD5Jq9HewsM
- HI1yEGgNn1n6R5OpCOPMXuC2Ggjf5etpa9bzGttKzWOcogI1YRvWAcC9KtV5XG5sZQ78
- /RM6uQqZSJT2smfHpqs3fgyTa0pqRrCquuPjOvSmgBsXk2snN4TiMF8pu0Bi+3/HhCgc
- 97SHKJKO0x45qDHP/pzNgR0Xv9cxhYcBu0Y1g7xh/HupbAGlXPrjLmlKZP49JaiKiMWH
- 1XzA==
-X-Gm-Message-State: AOAM533Adecu9ME/d3lMDIvM6MT2iwjVhsZAlrcSBF6MgLpKhdBQGMym
- XdotjYPyjBcHX2vH+7jhhFA=
-X-Google-Smtp-Source: ABdhPJyfc9EvczjpeF+nbOV792W88dwi85PMpl8LlyBitnu4QvgE4tt+Qv8c0Hfw/YNgnkXb5SpW4g==
-X-Received: by 2002:a50:cf05:: with SMTP id c5mr13511180edk.232.1593354549304; 
- Sun, 28 Jun 2020 07:29:09 -0700 (PDT)
-Received: from Tank.localdomain (82-73-161-131.cable.dynamic.v4.ziggo.nl.
- [82.73.161.131])
- by smtp.gmail.com with ESMTPSA id kt4sm13025837ejb.48.2020.06.28.07.29.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:29:08 -0700 (PDT)
-From: erik-smit <erik.lucas.smit@gmail.com>
-To: erik.lucas.smit@gmail.com
-Subject: [PATCH v2] ftgmac100: fix dblac write test
-Date: Sun, 28 Jun 2020 16:26:59 +0200
-Message-Id: <20200628142658.29264-1-erik.lucas.smit@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jpYJH-0006Sm-Uc; Sun, 28 Jun 2020 10:29:31 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:38496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jpYJE-0005V2-U9; Sun, 28 Jun 2020 10:29:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 11A83746307;
+ Sun, 28 Jun 2020 16:29:26 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CE9A774594E; Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CCFD97456F8;
+ Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
+Date: Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v5 09/11] macio: Add dummy screamer register area
+In-Reply-To: <alpine.BSF.2.22.395.2006281555030.21756@zero.eik.bme.hu>
+Message-ID: <alpine.BSF.2.22.395.2006281627240.21756@zero.eik.bme.hu>
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <ecaaee4ba802b7a53de03e401c4d68e94de554f5.1592315226.git.balaton@eik.bme.hu>
+ <3012998c-8345-f654-1de1-dd623ef375e8@ilande.co.uk>
+ <alpine.BSF.2.22.395.2006281406340.95193@zero.eik.bme.hu>
+ <alpine.BSF.2.22.395.2006281555030.21756@zero.eik.bme.hu>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=erik.lucas.smit@gmail.com; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 08:37:51
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +61,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Jason Wang <jasowang@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test of the write of the dblac register was testing the old value
-instead of the new value. This would accept the write of an invalid value
-but subsequently refuse any following valid writes.
+On Sun, 28 Jun 2020, BALATON Zoltan wrote:
+> Here it is with --enable-debug and additional screamer debug:
+>
+> SCREAMER: screamer_read: addr 0000000000000000 -> 0
+> SCREAMER: screamer_write: addr 0000000000000000 val 11
+> SCREAMER: screamer_control_write: val 17
+> SCREAMER: basic rate: 44100
+> DBDMA[10]: writel 0x000000000000080c <= 0x00000010
+> DBDMA[10]: channel 0x10 reg 0x3
+> DBDMA[10]: dbdma_cmdptr_load 0x00000010
+> DBDMA[10]: writel 0x0000000000000800 <= 0xf0000000
+> DBDMA[10]: channel 0x10 reg 0x0
+> DBDMA[10]:  Clearing RUN !
+> DBDMA[10]:  clearing PAUSE !
+> DBDMA[10]:   -> ACTIVE down !
+> DBDMA[10]:  new status=0x00000000
+> SCREAMER: DMA TX flush!
+> DBDMA[10]: readl 0x0000000000000804 => 0x00000000
+> DBDMA[10]: channel 0x10 reg 0x1
+> DBDMA[10]: writel 0x0000000000000800 <= 0xf0008000
+> DBDMA[10]: channel 0x10 reg 0x0
+> DBDMA[10]:  Setting RUN !
+> DBDMA[10]:  clearing PAUSE !
+> DBDMA[10]:  -> ACTIVE up !
+> DBDMA[10]:  new status=0x00008400
+> DBDMA[10]: readl 0x0000000000000804 => 0x00008400
+> DBDMA[10]: channel 0x10 reg 0x1
+> DBDMA: -> DBDMA_run_bh
+> DBDMA[10]: channel_run
+> DBDMA[10]: dbdma_cmd 0x555556aac340
+> DBDMA[10]:     req_count 0x8000
+> DBDMA[10]:     command 0x0000
+> DBDMA[10]:     phy_addr 0x00000100
+> DBDMA[10]:     cmd_dep 0x00000000
+> DBDMA[10]:     res_count 0x0000
+> DBDMA[10]:     xfer_status 0x0000
+> DBDMA[10]: * OUTPUT_MORE *
+> DBDMA[10]: start_output
+> DBDMA[10]: addr 0x100 key 0x0
+> SCREAMER: DMA TX defer interrupt!
+> DBDMA: <- DBDMA_run_bh
+> SCREAMER: Processing deferred buffer
+> SCREAMER: DMA TX transfer: addr 100 len: 8000  bpos: 0
+>
+> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+> 0x0000000094ff7c19 in ?? ()
+>
+> (gdb) bt
+> #0  0x0000000094ff7c19 in  ()
+> #1  0x0000555555acb1e2 in pmac_screamer_tx_transfer (io=0x555556ab1a98) at 
+> hw/audio/screamer.c:79
+> #2  0x0000555555acb4dd in screamerspk_callback (opaque=0x555556aad630, 
+> avail=16384) at hw/audio/screamer.c:155
+> #3  0x0000555555a6af3d in audio_run_out (s=0x555556b12bd0) at 
+> audio/audio.c:1181
+> #4  0x0000555555a6b886 in audio_run (s=0x555556b12bd0, msg=0x55555609d4a9 
+> "alsa run (prepared)") at audio/audio.c:1372
+> #5  0x0000555555d00ce9 in alsa_poll_handler (opaque=0x555557959c60) at 
+> audio/alsaaudio.c:199
+> #6  0x0000555555e57079 in aio_dispatch_handler (ctx=0x5555567257f0, 
+> node=0x555557a0c6b0) at util/aio-posix.c:328
+> #7  0x0000555555e57232 in aio_dispatch_handlers (ctx=0x5555567257f0) at 
+> util/aio-posix.c:371
+> #8  0x0000555555e57288 in aio_dispatch (ctx=0x5555567257f0) at 
+> util/aio-posix.c:381
+> #9  0x0000555555e6d373 in aio_ctx_dispatch (source=0x5555567257f0, 
+> callback=0x0, user_data=0x0) at util/async.c:306
+> #10 0x00007ffff7cc6665 in g_main_context_dispatch () at 
+> /lib64/libglib-2.0.so.0
+> #11 0x0000555555e74898 in glib_pollfds_poll () at util/main-loop.c:219
+> #12 0x0000555555e74912 in os_host_main_loop_wait (timeout=28915159) at 
+> util/main-loop.c:242
+> #13 0x0000555555e74a17 in main_loop_wait (nonblocking=0) at 
+> util/main-loop.c:518
+> #14 0x0000555555981d35 in qemu_main_loop () at qemu/softmmu/vl.c:1664
+> #15 0x0000555555df59dc in main (argc=17, argv=0x7fffffffdf28, 
+> envp=0x7fffffffdfb8) at qemu/softmmu/main.c:49
+> (gdb) up
+> #1  0x0000555555acb1e2 in pmac_screamer_tx_transfer (io=0x555556ab1a98) at 
+> hw/audio/screamer.c:79
+> 79	    io->dma_end(io);
+> (gdb) p/x *io
+> $1 = {opaque = 0xa2140923, channel = 0x79130821, addr = 0x14137e1f, len = 
+> 0x0, is_last = 0x0, is_dma_out = 0x3408f81a, dma_end = 0x94ff7c19, processing 
+> = 0x19,  dma_mem = 0x53f5351b, dma_len = 0xc7f99f1e, dir = 0x21fbe921}
+>
+> Looks like dma_end is not pointing to the expected end procedure. Maybe 
+> something has overwritten it?
 
-Signed-off-by: erik-smit <erik.lucas.smit@gmail.com>
----
-Changes since v1:
+Looks like the dma op itself corrupts the struct:
 
-Changed %ld to HWADDR_PRIx to fix building on mingw
+(gdb) b pmac_screamer_tx_transfer
+Breakpoint 1 at 0x555555acb12c: file hw/audio/screamer.c, line 66.
+[...]
+DBDMA: -> DBDMA_run_bh
+DBDMA[10]: channel_run
+DBDMA[10]: dbdma_cmd 0x555556aac340
+DBDMA[10]:     req_count 0x8000
+DBDMA[10]:     command 0x0000
+DBDMA[10]:     phy_addr 0x00000100
+DBDMA[10]:     cmd_dep 0x00000000
+DBDMA[10]:     res_count 0x0000
+DBDMA[10]:     xfer_status 0x0000
+DBDMA[10]: * OUTPUT_MORE *
+DBDMA[10]: start_output
+DBDMA[10]: addr 0x100 key 0x0
+SCREAMER: DMA TX defer interrupt!
+DBDMA: <- DBDMA_run_bh
+SCREAMER: Processing deferred buffer
 
- hw/net/ftgmac100.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Thread 1 "qemu-system-ppc" hit Breakpoint 1, pmac_screamer_tx_transfer 
+(io=0x555556ab1a98) at hw/audio/screamer.c:66
+66	    ScreamerState *s = io->opaque;
+(gdb) p/x *io
+$4 = {opaque = 0x555556aad630, channel = 0x555556aac290, addr = 0x100, len = 0x8000, is_last = 0x0, is_dma_out = 0x1, dma_end = 0x555555b7d2aa, processing = 0x1, dma_mem = 0x0, dma_len = 0x0, dir = 0x0}
+(gdb) p dbdma_end
+$5 = {void (DBDMA_io *)} 0x555555b7d2aa <dbdma_end>
+(gdb) n
+68	    SCREAMER_DPRINTF("DMA TX transfer: addr %" HWADDR_PRIx
+(gdb)
+SCREAMER: DMA TX transfer: addr 100 len: 8000  bpos: 0
+71	    dma_memory_read(&address_space_memory, io->addr, 
+&s->buf[s->bpos], io->len);
+(gdb) n
+73	    s->bpos += io->len;
+(gdb) p/x *io
+$6 = {opaque = 0xa2140923, channel = 0x79130821, addr = 0x14137e1f, len = 0x60f3d1d, is_last = 0x0, is_dma_out = 0x3408f81a, dma_end = 0x94ff7c19, processing = 0x19, dma_mem = 0x53f5351b, dma_len = 0xc7f99f1e, dir = 0x21fbe921}
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 043ba61b86..b69e3dd14e 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -810,16 +810,18 @@ static void ftgmac100_write(void *opaque, hwaddr addr,
-         s->phydata = value & 0xffff;
-         break;
-     case FTGMAC100_DBLAC: /* DMA Burst Length and Arbitration Control */
--        if (FTGMAC100_DBLAC_TXDES_SIZE(s->dblac) < sizeof(FTGMAC100Desc)) {
-+        if (FTGMAC100_DBLAC_TXDES_SIZE(value) < sizeof(FTGMAC100Desc)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: transmit descriptor too small : %d bytes\n",
--                          __func__, FTGMAC100_DBLAC_TXDES_SIZE(s->dblac));
-+                          "%s: transmit descriptor too small: %" HWADDR_PRIx
-+                          " bytes\n", __func__,
-+                          FTGMAC100_DBLAC_TXDES_SIZE(value));
-             break;
-         }
--        if (FTGMAC100_DBLAC_RXDES_SIZE(s->dblac) < sizeof(FTGMAC100Desc)) {
-+        if (FTGMAC100_DBLAC_RXDES_SIZE(value) < sizeof(FTGMAC100Desc)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: receive descriptor too small : %d bytes\n",
--                          __func__, FTGMAC100_DBLAC_RXDES_SIZE(s->dblac));
-+                          "%s: receive descriptor too small : %" HWADDR_PRIx
-+                          " bytes\n", __func__,
-+                          FTGMAC100_DBLAC_RXDES_SIZE(value));
-             break;
-         }
-         s->dblac = value;
--- 
-2.25.1
-
+Regards,
+BALATON Zoltan
 
