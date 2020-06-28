@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF48820C531
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 03:38:32 +0200 (CEST)
-Received: from localhost ([::1]:50622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F21020C565
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 04:21:19 +0200 (CEST)
+Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpMH9-00062b-Qd
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 21:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57504)
+	id 1jpMwX-0003xO-TL
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jun 2020 22:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jpMGE-0005c2-65
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 21:37:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31088
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jpMGC-0001kJ-Ga
- for qemu-devel@nongnu.org; Sat, 27 Jun 2020 21:37:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593308251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x8hMocK+M7XFI8ekbVeJAF+qutZVxp0buX2uLgQl9OY=;
- b=TaQePKXbpqpYyyK9pUlsZ89wnQj9NxvxiY8tZzmpfWCT3y4A8LEUwOqvFhk4YzqRDYZKGZ
- f8sXWJGmnNYzrUr6boi5rzd9WwuC3e/y+PVJkAXbFV5nM7OJsaYKukZUmSPNbON/2iWaIF
- zfiLW468TNw5HgPZc2qyHOrDnmmkvhQ=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-AOSkP5miOUeat9SDVuNlPQ-1; Sat, 27 Jun 2020 21:37:27 -0400
-X-MC-Unique: AOSkP5miOUeat9SDVuNlPQ-1
-Received: by mail-pj1-f69.google.com with SMTP id d14so10344905pjw.5
- for <qemu-devel@nongnu.org>; Sat, 27 Jun 2020 18:37:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=x8hMocK+M7XFI8ekbVeJAF+qutZVxp0buX2uLgQl9OY=;
- b=nm7pd05Q28GgqkCAyWS0w6DvXY/dNo/W3FpUglwtrfpXc6ZDjLoQuujzq1PcUKQ8oH
- r7mN7Hd3oCWo6ZFlCkqkYhcNNtpbJzKSdcz6zBD1f9spe23ruLBUnoTCS+HtRADbnqoP
- TAlrBEXOp/HQgCvG/SeaYM45BvkBrbbymN92Q03AoSxCczrdxyHwmAFhlmDhjA3+SUyd
- FkqHmzKgSPEfqbp9PbByXHnStwhXr2gjpICJfo43aoEnMVuc/s4FLuL49T+VaBCAdM05
- 4Iv26J5ko0n5xWzidYy509iP3pQw1LMzLKpPrlI0ArJOYg7pUzkGg2Lmmb2VuSNbf1dD
- /sFA==
-X-Gm-Message-State: AOAM5305kLSMSvNZH0k1bT9O8mPKGsGocD/SDW0vA7FFhVc7ER4Kaps8
- Wa4DxlUSjH1QqGJjzj+Fu8az63yp9s+wZdPMC7veIfByD/ZPfcYYCeIwy57zY/3k1pbC92I4ov3
- bmyBZMQZcdc5u6d74PGEDjirxx7Zkakk=
-X-Received: by 2002:a62:7ccd:: with SMTP id x196mr8558059pfc.23.1593308246258; 
- Sat, 27 Jun 2020 18:37:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+fJruFgBrXT8IyMBFs+IucAdtKnP8atvXQgAuXMQtuUeDmP9/DWse39qkwlNorqPsjhSp97+gngBo2NX9GQo=
-X-Received: by 2002:a62:7ccd:: with SMTP id x196mr8558024pfc.23.1593308246002; 
- Sat, 27 Jun 2020 18:37:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1jpMvm-0003Wt-ON
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 22:20:30 -0400
+Received: from mxfz.ruijie.com.cn ([120.35.11.201]:8682
+ helo=FZEX4.ruijie.com.cn)
+ by eggs.gnu.org with esmtps (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lichun@ruijie.com.cn>)
+ id 1jpMvi-000769-Qz
+ for qemu-devel@nongnu.org; Sat, 27 Jun 2020 22:20:28 -0400
+Received: from FZEX3.ruijie.com.cn ([fe80::9480:e49e:2190:b001]) by
+ FZEX4.ruijie.com.cn ([fe80::4814:fd0d:3b:861c%16]) with mapi id
+ 14.03.0123.003; Sun, 28 Jun 2020 10:19:43 +0800
+From: <lichun@ruijie.com.cn>
+To: <marcandre.lureau@redhat.com>, <armbru@redhat.com>
+Subject: Re: Re: [PATCH v2] chardev/tcp: fix error message double free error
+Thread-Topic: Re: [PATCH v2] chardev/tcp: fix error message double free error
+Thread-Index: AQHWTPKVppZYxh0MakK5s2V06kqolw==
+Date: Sun, 28 Jun 2020 02:19:43 +0000
+Message-ID: <EEB2AE3E67807845A92E2350C6F5E02E0131DC4D34@FZEX3.ruijie.com.cn>
+References: <20200621213017.17978-1-lichun@ruijie.com.cn>,
+ <87pn9n3alv.fsf@dusky.pond.sub.org>,
+ <CAMxuvay1DnoogVOCxffYe4aA7sX8vZi6CoEa_j2kjWN22n3xAQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.20.101.108]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200622153756.19189-1-lulu@redhat.com>
- <877dvy45vr.fsf@dusky.pond.sub.org>
- <CACLfguWUoV7Ngt0U3Rdenvyp1s0PcWk2xsJirYGvHR3KSmZoeA@mail.gmail.com>
- <c8929663-27f2-93d6-e7b5-a3dc269fa7d2@redhat.com>
- <CACLfguW04Lz8jbe+HOPMk7V46A91USc7eo+XdP+3BX+OeOFzDA@mail.gmail.com>
- <87v9jf7nu8.fsf@dusky.pond.sub.org>
-In-Reply-To: <87v9jf7nu8.fsf@dusky.pond.sub.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Sun, 28 Jun 2020 09:37:15 +0800
-Message-ID: <CACLfguVO_ZGWDM48HLi=XT3pfZF0aT9wqjyuUVnBvvgOp0DSHw@mail.gmail.com>
-Subject: Re: [PATCH v1 00/10] vDPA support in qemu
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 21:37:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=120.35.11.201; envelope-from=lichun@ruijie.com.cn;
+ helo=FZEX4.ruijie.com.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/27 22:19:46
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,75 +62,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: rdunlap@infradead.org, Michael Tsirkin <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Rob Miller <rob.miller@broadcom.com>, saugatm@xilinx.com,
- Maxime Coquelin <maxime.coquelin@redhat.com>, hch@infradead.org,
- Eugenio Perez Martin <eperezma@redhat.com>, jgg@mellanox.com,
- mhabets@solarflare.com, Shahaf Shuler <shahafs@mellanox.com>,
- kevin.tian@intel.com, parav@mellanox.com,
- Vitaly Mireyno <vmireyno@marvell.com>, "Liang,
- Cunming" <cunming.liang@intel.com>, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>, "Wang,
- Zhihong" <zhihong.wang@intel.com>, Ariel Adam <aadam@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, hanand@xilinx.com, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, 706701795@qq.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 25, 2020 at 12:48 PM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
-> Cindy Lu <lulu@redhat.com> writes:
->
-> > On Tue, Jun 23, 2020 at 5:43 PM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >>
-> >> On 2020/6/23 =E4=B8=8B=E5=8D=885:16, Cindy Lu wrote:
-> >> > On Tue, Jun 23, 2020 at 3:07 PM Markus Armbruster <armbru@redhat.com=
-> wrote:
-> >> >> Cindy Lu <lulu@redhat.com> writes:
-> >> >>
-> >> >>> vDPA device is a device that uses a datapath which complies with t=
-he
-> >> >>> virtio specifications with vendor specific control path. vDPA devi=
-ces
-> >> >>> can be both physically located on the hardware or emulated by soft=
-ware.
-> >> >>> This RFC introduce the vDPA support in qemu
-> >> >>> TODO
-> >> >>> 1) vIOMMU support
-> >> >>> 2) live migration support
-> >> >> This gives me the foggiest of ideas on what vDPA is.  Could we use
-> >> >> docs/interop/vhost-vdpa.rst?
-> >> >>
-> >> > Sure will add this
-> >> >
-> >> >
-> >>
-> >> Not sure it's the best place since vhost-vdpa is kernel specific.
-> >>
-> >> Maybe kernel docs (TBD) is a better place and we can refer it this fil=
-e
-> >> in the future.
-> >>
-> >> But it doesn't harm if you said something more here and refer the kern=
-el
-> >> commit here:
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D4c8cf31885f69e86be0b5b9e6677a26797365e1d
-> >>
-> >> Thanks
-> >>
-> >>
-> > Hi Markus,
-> > I think I agree with Jason's opinion, kernel docs is a better place.
-> > Maybe we can keep what it is now, and do this job in the future.
->
-> I think a super-short description of vDPA here (one sentence?) together
-> with a link to complete information would be helpful.  If the link's
-> target doesn't yet exist, adding the link later is okay.
->
-sure thanks Markus, will do
-
+PkhpCj4KPk9uIFRodSwgSnVuIDI1LCAyMDIwIGF0IDEwOjQ3IEFNIE1hcmt1cyBBcm1icnVzdGVy
+IDxhcm1icnVAcmVkaGF0LmNvbT4gd3JvdGU6Cj4+Cj4+IGxpY2h1biA8bGljaHVuQHJ1aWppZS5j
+b20uY24+IHdyaXRlczoKPj4KPj4gPiBTaWduZWQtb2ZmLWJ5OiBsaWNodW4gPGxpY2h1bkBydWlq
+aWUuY29tLmNuPgo+PiA+IC0tLQo+PiA+wqAgY2hhcmRldi9jaGFyLXNvY2tldC5jIHwgMyArKy0K
+Pj4gPsKgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPj4g
+Pgo+PiA+IGRpZmYgLS1naXQgYS9jaGFyZGV2L2NoYXItc29ja2V0LmMgYi9jaGFyZGV2L2NoYXIt
+c29ja2V0LmMKPj4gPiBpbmRleCBhZmViZWVjNWMzLi41NjlkNTRjMTQ0IDEwMDY0NAo+PiA+IC0t
+LSBhL2NoYXJkZXYvY2hhci1zb2NrZXQuYwo+PiA+ICsrKyBiL2NoYXJkZXYvY2hhci1zb2NrZXQu
+Ywo+PiA+IEBAIC0xNDIsNiArMTQyLDggQEAgc3RhdGljIHZvaWQgY2hlY2tfcmVwb3J0X2Nvbm5l
+Y3RfZXJyb3IoQ2hhcmRldiAqY2hyLAo+PiA+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJVbmFibGUgdG8gY29ubmVjdCBjaGFyYWN0ZXIgZGV2
+aWNlICVzOiAiLAo+PiA+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGNoci0+bGFiZWwpOwo+PiA+wqDCoMKgwqDCoMKgwqDCoMKgIHMtPmNvbm5l
+Y3RfZXJyX3JlcG9ydGVkID0gdHJ1ZTsKPj4gPiArwqDCoMKgIH0gZWxzZSB7Cj4+ID4gK8KgwqDC
+oMKgwqDCoMKgIGVycm9yX2ZyZWUoZXJyKTsKPj4gPsKgwqDCoMKgwqAgfQo+PiA+wqDCoMKgwqDC
+oCBxZW11X2Nocl9zb2NrZXRfcmVzdGFydF90aW1lcihjaHIpOwo+PiA+wqAgfQo+PiA+IEBAIC0x
+MDg2LDcgKzEwODgsNiBAQCBzdGF0aWMgdm9pZCBxZW11X2Nocl9zb2NrZXRfY29ubmVjdGVkKFFJ
+T1Rhc2sgKnRhc2ssIHZvaWQgKm9wYXF1ZSkKPj4gPsKgwqDCoMKgwqAgaWYgKHFpb190YXNrX3By
+b3BhZ2F0ZV9lcnJvcih0YXNrLCAmZXJyKSkgewo+PiA+wqDCoMKgwqDCoMKgwqDCoMKgIHRjcF9j
+aHJfY2hhbmdlX3N0YXRlKHMsIFRDUF9DSEFSREVWX1NUQVRFX0RJU0NPTk5FQ1RFRCk7Cj4+ID7C
+oMKgwqDCoMKgwqDCoMKgwqAgY2hlY2tfcmVwb3J0X2Nvbm5lY3RfZXJyb3IoY2hyLCBlcnIpOwo+
+PiA+IC3CoMKgwqDCoMKgwqDCoCBlcnJvcl9mcmVlKGVycik7Cj4+ID7CoMKgwqDCoMKgwqDCoMKg
+wqAgZ290byBjbGVhbnVwOwo+PiA+wqDCoMKgwqDCoCB9Cj4+Cj4+IFNpbmNlIG15ICJFcnJvciBo
+YW5kbGluZyBmaXhlcyAmIGNsZWFudXBzIiBzZXJpZXMgZml4ZXMgc2ltaWxhciBlcnJvcnMuCj4+
+IEknbSBoYXBweSB0byBtZXJnZSB0aGlzIHBhdGNoIGFsb25nIHdpdGggaXQuwqAgVXAgdG8gTWFy
+Yy1BbmRyw6kuCj4KPlRoYXQgd291bGQgYmUgZ3JlYXQsIHRoYW5rcyEgClRoYW5rIHlvdSEKPg==
 
