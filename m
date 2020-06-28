@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7521720CA56
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 22:22:57 +0200 (CEST)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B517D20CA58
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 22:24:04 +0200 (CEST)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpdpI-0006tC-G3
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 16:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1jpdqN-0000bv-Oe
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 16:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpdnw-0005pG-Ho
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:32 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:46563)
+ id 1jpdnz-0005tZ-KS
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:35 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:47701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpdnu-0004EW-Rz
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:32 -0400
+ id 1jpdny-0004Ep-1e
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:35 -0400
 X-Originating-IP: 82.252.130.88
 Received: from localhost.localdomain (lns-bzn-59-82-252-130-88.adsl.proxad.net
  [82.252.130.88]) (Authenticated sender: jcd@tribudubois.net)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 93E32FF805;
- Sun, 28 Jun 2020 20:21:28 +0000 (UTC)
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 826C7FF803;
+ Sun, 28 Jun 2020 20:21:30 +0000 (UTC)
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 To: qemu-devel@nongnu.org, peter.maydell@linaro.org, peter.chubb@nicta.com.au,
  f4bug@amsat.org
-Subject: [PATCH 2/3] Add the ability to select a different PHY for each
- i.MX6UL FEC interface
-Date: Sun, 28 Jun 2020 22:20:57 +0200
-Message-Id: <ea1d604198b6b73ea6521676e45bacfc597aba53.1593296112.git.jcd@tribudubois.net>
+Subject: [PATCH 3/3] Select MDIO device 2 and 1 as PHY devices for i.MX6UL EVK
+ board.
+Date: Sun, 28 Jun 2020 22:20:58 +0200
+Message-Id: <fb41992126c091a71d76ab3d1898959091f60583.1593296112.git.jcd@tribudubois.net>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1593296112.git.jcd@tribudubois.net>
 References: <cover.1593296112.git.jcd@tribudubois.net>
@@ -62,60 +62,28 @@ Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add properties to the i.MX6UL processor to be able to select a
-particular PHY on the MDIO bus for each FEC device.
+The i.MX6UL EVK 14x14 board uses:
+- PHY 2 for FEC 1
+- PHY 1 for FEC 2
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
 ---
- hw/arm/fsl-imx6ul.c         | 10 ++++++++++
- include/hw/arm/fsl-imx6ul.h |  2 ++
- 2 files changed, 12 insertions(+)
+ hw/arm/mcimx6ul-evk.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index 6446034711e..51b2f256ec8 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -427,6 +427,9 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6UL_ENET2_TIMER_IRQ,
-         };
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index 2f845cedfce..9033d3f8f38 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -40,6 +40,8 @@ static void mcimx6ul_evk_init(MachineState *machine)
  
-+        object_property_set_uint(OBJECT(&s->eth[i]),
-+                                 s->phy_num[i],
-+                                 "phy-num", &error_abort);
-         object_property_set_uint(OBJECT(&s->eth[i]),
-                                  FSL_IMX6UL_ETH_NUM_TX_RINGS,
-                                  "tx-ring-num", &error_abort);
-@@ -607,10 +610,17 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-                                 FSL_IMX6UL_OCRAM_ALIAS_ADDR, &s->ocram_alias);
- }
+     s = FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
+     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
++    object_property_set_uint(OBJECT(s), 2, "fec1-phy-num", &error_fatal);
++    object_property_set_uint(OBJECT(s), 1, "fec2-phy-num", &error_fatal);
+     qdev_realize(DEVICE(s), NULL, &error_fatal);
  
-+static Property fsl_imx6ul_properties[] = {
-+    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX6ULState, phy_num[0], 0),
-+    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX6ULState, phy_num[1], 1),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void fsl_imx6ul_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-+    device_class_set_props(dc, fsl_imx6ul_properties);
-     dc->realize = fsl_imx6ul_realize;
-     dc->desc = "i.MX6UL SOC";
-     /* Reason: Uses serial_hds and nd_table in realize() directly */
-diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index 37c89cc5f92..fcbaf3dc861 100644
---- a/include/hw/arm/fsl-imx6ul.h
-+++ b/include/hw/arm/fsl-imx6ul.h
-@@ -87,6 +87,8 @@ typedef struct FslIMX6ULState {
-     MemoryRegion       caam;
-     MemoryRegion       ocram;
-     MemoryRegion       ocram_alias;
-+
-+    uint32_t           phy_num[FSL_IMX6UL_NUM_ETHS];
- } FslIMX6ULState;
- 
- enum FslIMX6ULMemoryMap {
+     memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_MMDC_ADDR,
 -- 
 2.25.1
 
