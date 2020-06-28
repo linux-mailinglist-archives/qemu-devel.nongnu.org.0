@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D2F20C98B
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:25:57 +0200 (CEST)
-Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1080120C97B
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:22:09 +0200 (CEST)
+Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpc04-0000cX-Le
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:25:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
+	id 1jpbwN-0003tl-Gv
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:22:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuZ-0002Jz-Av; Sun, 28 Jun 2020 14:20:15 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38392)
+ id 1jpbuR-000236-D4; Sun, 28 Jun 2020 14:20:07 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:38347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuW-0005Nw-Td; Sun, 28 Jun 2020 14:20:14 -0400
+ id 1jpbuO-0005Kf-Si; Sun, 28 Jun 2020 14:20:06 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 54C9074633D;
- Sun, 28 Jun 2020 20:20:11 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C5E74746335;
+ Sun, 28 Jun 2020 20:20:01 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 20A76746331; Sun, 28 Jun 2020 20:20:11 +0200 (CEST)
-Message-Id: <2d6ab0ef6aef80311a24089ab2f1152f554dcd98.1593367416.git.balaton@eik.bme.hu>
+ id A4493746331; Sun, 28 Jun 2020 20:20:01 +0200 (CEST)
+Message-Id: <c69a791c7cad1246f3f34b3993dee4f549b75aa2.1593367416.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
 References: <cover.1593367416.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [RFC PATCH v6 10/11] WIP macio/cuda: Attempt to add i2c support
+Subject: [PATCH v6 01/11] mac_oldworld: Allow loading binary ROM image
 Date: Sun, 28 Jun 2020 20:03:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +34,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 14:20:01
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,152 +61,81 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not a final, RFC patch attempt to implement i2c bus in CUDA
-needed for firmware to access SPD data of installed RAM. The skeleton
-is there but actual implementation of I2C commands need to be refined
-because I don't know how this is supposed to work. In my understanding
-after an I2C command (at least for combined transfer) CUDA should
-enter a mode where reading subsequent values from VIA[SR] should
-return bytes received from the i2C device but not sure what ends this
-mode or how to model it correctly. So this patch just returns fixed
-amount of bytes expected by reading SPD eeproms just to make testing
-the firmware ROM possible. Help fixing and finishing this is welcome,
-I don't plan to spend more time with this so just submitted it for
-whoever picks this up.
+The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
+the rom region and fall back to loading a binary image with -bios if
+loading ELF image failed. This allows testing emulation with a ROM
+image from real hardware as well as using an ELF OpenBIOS image.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/misc/macio/cuda.c         | 76 +++++++++++++++++++++++++++++++++++-
- include/hw/misc/macio/cuda.h |  1 +
- 2 files changed, 76 insertions(+), 1 deletion(-)
+v4: use load address from ELF to check if ROM is too big
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index 5bbc7770fa..3fc9773717 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -28,6 +28,7 @@
- #include "hw/ppc/mac.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "hw/i2c/i2c.h"
- #include "hw/input/adb.h"
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/cuda.h"
-@@ -370,6 +371,75 @@ static bool cuda_cmd_set_time(CUDAState *s,
-     return true;
- }
+ hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index f8c204ead7..baf3da6f90 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -59,6 +59,8 @@
+ #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
  
-+static bool cuda_cmd_get_set_iic(CUDAState *s,
-+                                 const uint8_t *in_data, int in_len,
-+                                 uint8_t *out_data, int *out_len)
-+{
-+    int i;
-+
-+    qemu_log_mask(LOG_UNIMP, "CUDA: unimplemented GET_SET_IIC %s 0x%x %d\n",
-+                  (in_data[0] & 1 ? "read" : "write"), in_data[0] >> 1,
-+                  in_len);
-+    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1)) {
-+        return false;
+ #define GRACKLE_BASE 0xfec00000
++#define PROM_BASE 0xffc00000
++#define PROM_SIZE (4 * MiB)
+ 
+ static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+                             Error **errp)
+@@ -99,6 +101,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     SysBusDevice *s;
+     DeviceState *dev, *pic_dev;
+     BusState *adb_bus;
++    uint64_t bios_addr;
+     int bios_size;
+     unsigned int smp_cpus = machine->smp.cpus;
+     uint16_t ppc_boot_device;
+@@ -127,24 +130,32 @@ static void ppc_heathrow_init(MachineState *machine)
+ 
+     memory_region_add_subregion(sysmem, 0, machine->ram);
+ 
+-    /* allocate and load BIOS */
+-    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
++    /* allocate and load firmware ROM */
++    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
+                            &error_fatal);
++    memory_region_add_subregion(sysmem, PROM_BASE, bios);
+ 
+-    if (bios_name == NULL)
++    if (!bios_name) {
+         bios_name = PROM_FILENAME;
 +    }
-+    for (i = 0; i < in_len - 3; i++) {
-+        if (i2c_send(s->i2c_bus, in_data[i])) {
-+            i2c_end_transfer(s->i2c_bus);
-+            return false;
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+-
+-    /* Load OpenBIOS (ELF) */
+     if (filename) {
+-        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
+-                             1, PPC_ELF_MACHINE, 0, 0);
++        /* Load OpenBIOS (ELF) */
++        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
++                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
++        if (bios_size <= 0) {
++            /* or load binary ROM image */
++            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
++            bios_addr = PROM_BASE;
++        } else {
++            /* load_elf sets high 32 bits for some reason, strip those */
++            bios_addr &= 0xffffffffULL;
 +        }
-+    }
-+    return true;
-+}
-+
-+static bool cuda_cmd_combined_iic(CUDAState *s,
-+                                  const uint8_t *in_data, int in_len,
-+                                  uint8_t *out_data, int *out_len)
-+{
-+    int i;
-+
-+    if (in_len < 3) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "CUDA: COMBINED_FORMAT_IIC too few input bytes\n");
-+        return false;
-+    }
-+    if ((in_data[0] & 0xfe) != (in_data[2] & 0xfe)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "CUDA: COMBINED_FORMAT_IIC address mismatch\n");
-+        return false;
-+    }
-+
-+    uint8_t data = in_data[1];
-+    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1) ||
-+        i2c_send_recv(s->i2c_bus, &data, in_data[0] & 1)) {
-+        return false;
-+    }
-+    i2c_end_transfer(s->i2c_bus);
-+    if (in_data[2] & 1) {
-+        if (i2c_start_transfer(s->i2c_bus, in_data[2] >> 1, in_data[2] & 1)) {
-+            i2c_end_transfer(s->i2c_bus);
-+            return false;
-+        }
-+        for (i = 0; i < 5; i++) {
-+            if (i2c_send_recv(s->i2c_bus, &out_data[i], in_data[2] & 1)) {
-+                i2c_end_transfer(s->i2c_bus);
-+                return false;
-+            }
-+        }
-+        *out_len = i;
-+        i2c_end_transfer(s->i2c_bus);
-+    } else {
-+        for (i = 0; i < in_len - 3; i++) {
-+            data = in_data[3 + i];
-+            if (i2c_send_recv(s->i2c_bus, &data, in_data[2] & 1)) {
-+                i2c_end_transfer(s->i2c_bus);
-+                return false;
-+            }
-+        }
-+    }
-+    return true;
-+}
-+
- static const CudaCommand handlers[] = {
-     { CUDA_AUTOPOLL, "AUTOPOLL", cuda_cmd_autopoll },
-     { CUDA_SET_AUTO_RATE, "SET_AUTO_RATE",  cuda_cmd_set_autorate },
-@@ -382,6 +452,8 @@ static const CudaCommand handlers[] = {
-       cuda_cmd_set_power_message },
-     { CUDA_GET_TIME, "GET_TIME", cuda_cmd_get_time },
-     { CUDA_SET_TIME, "SET_TIME", cuda_cmd_set_time },
-+    { CUDA_GET_SET_IIC, "GET_SET_IIC", cuda_cmd_get_set_iic },
-+    { CUDA_COMBINED_FORMAT_IIC, "COMBINED_FORMAT_IIC", cuda_cmd_combined_iic },
- };
- 
- static void cuda_receive_packet(CUDAState *s,
-@@ -549,6 +621,7 @@ static void cuda_init(Object *obj)
- {
-     CUDAState *s = CUDA(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    DeviceState *dev = DEVICE(obj);
- 
-     object_initialize_child(obj, "mos6522-cuda", &s->mos6522_cuda,
-                             TYPE_MOS6522_CUDA);
-@@ -557,7 +630,8 @@ static void cuda_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->mem);
- 
-     qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
--                        DEVICE(obj), "adb.0");
-+                        dev, "adb.0");
-+    s->i2c_bus = i2c_init_bus(dev, "i2c");
- }
- 
- static Property cuda_properties[] = {
-diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
-index a8cf0be1ec..6856ed7704 100644
---- a/include/hw/misc/macio/cuda.h
-+++ b/include/hw/misc/macio/cuda.h
-@@ -79,6 +79,7 @@ typedef struct CUDAState {
- 
-     ADBBusState adb_bus;
-     MOS6522CUDAState mos6522_cuda;
-+    I2CBus *i2c_bus;
- 
-     uint32_t tick_offset;
-     uint64_t tb_frequency;
+         g_free(filename);
+     } else {
+         bios_size = -1;
+     }
+-    if (bios_size < 0 || bios_size > BIOS_SIZE) {
++    if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+         exit(1);
+     }
 -- 
 2.21.3
 
