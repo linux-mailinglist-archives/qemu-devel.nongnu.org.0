@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18FC20C87A
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:34:51 +0200 (CEST)
-Received: from localhost ([::1]:54072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730C020C877
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:31:38 +0200 (CEST)
+Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYOQ-0005cO-Lh
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
+	id 1jpYLJ-0008AL-Bd
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEl-0006WE-Ry
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:51 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37590)
+ id 1jpYEm-0006Yt-TC
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:52 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEk-0004m7-2r
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:51 -0400
-Received: by mail-wm1-x344.google.com with SMTP id o2so13694914wmh.2
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:49 -0700 (PDT)
+ id 1jpYEl-0004mY-4h
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:52 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f18so5983671wrs.0
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dJ0W5rRE5YZi83vxM8j/ufJhgS7qKl+8QXLVWJzvwUI=;
- b=ke3gNQQEkRbYWHL25HPVR/Gxz/sTkvZlVuaag2J9HEa5p+Me4nBuqzNQBWi8kIHC0T
- Lmc05XIEn/Vo/pNeeg6kk+Wo3Lqv6SEvrpUMiecDV2TMsksGBScIwlIWLd8NsYCvxpf8
- ebNJ6uBdxnxRDHnG8GKaW989MJHQUDHI3ylSCocu+fz8PKo2TuOplQeyxyv/QulI9E0Y
- EmXg621ntzEOCAEazxoCfSnS1qRvzL/Y7ILo1IuWFK7pzq4M4SrXIaBGbih+bX7MkrpN
- Pm9liknWWevRNEfOGy0P0qTrNhhQjICagu4MUmiiIBWVlhlC15Gm8WWruM8l0TMLlduz
- 8WBg==
+ bh=Vmpo8pB4pBMBpoqr8J9eP1BB+PRV+N1N9F23e1inTwA=;
+ b=DWewYRK+RJ1GyPHDAcYN9AIsDv4Z9Xse4I6QjRetBl9d+NJp5Ya+qyhCU6WuIOJgnm
+ u+v1Z+1dM4gSgc1u+IenpHj99w3kl+d/55pd+HT3f4MF7l3rBZQ4cAbNh7coUIxSijGb
+ QMaX+0MgTwmftF6MArSrncbJR0pxZUeM283NjVhcTS1MKwNMbzPMuKiAq2vb0d/Mp6Vi
+ xwuTETp/eMWAZgipsT/hbYlZEpLvOstb73ukG1LrxanWtNv73XEeaWdRqLWrivXgjunp
+ ZhQvCLjdfUuFuaZdIBV8k61CWepUH4Hac+eEFXU6k10kO9Dw91RTXLtMEeV2QKlUIAaB
+ 3PUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dJ0W5rRE5YZi83vxM8j/ufJhgS7qKl+8QXLVWJzvwUI=;
- b=KLfBqehf013mbW3oumViCqq98sW7gi3BI1tR5hI1FhIpCS3sG/DhHqQjNmtwbcEoqp
- aEmPyicILcsWii8SODtvpLnZYbQNHsd/pZ1Nxp5YAek4yHiijnFylq83WPNZAnqayrX0
- y7V1tz0z3U0dOUVhO+ezjvBLhPcvqqIRjGKs3SrFNBUN0mrKYYYh27WpBmDip8ib2OvJ
- +Cy4v+DVlQDzI6a9o+Rl6s9xCzieOhsQtqxS4w58b2f190dVr365S1KdqEUL2KmoyXo6
- 3pDGREVmLRZBAb6rInnsZrRRm8EnNN+sgDCzLJ3Xvg6QytNviwjnRtbtlXjgM4aOzeKB
- 8/Fg==
-X-Gm-Message-State: AOAM532g6qnAhvuEO0dZBs9qqlKPm32qpPzaDC+IdCDSqjlB/RCLJXq5
- qqle23iY1fxG/d04nUJkChXXYw==
-X-Google-Smtp-Source: ABdhPJzCUX7M/b2eS8hPnxqgz58CYwq0qGbkB8fZH2U269vXE3sGMJn9XIv+pcbNtf3aJy3fnG7odg==
-X-Received: by 2002:a7b:c44d:: with SMTP id l13mr13183989wmi.66.1593354288842; 
- Sun, 28 Jun 2020 07:24:48 -0700 (PDT)
+ bh=Vmpo8pB4pBMBpoqr8J9eP1BB+PRV+N1N9F23e1inTwA=;
+ b=lORBVtkA0oUNhOGUgCyEYD3Ota959yGYTLCnCIiXD28l72PMJDNRITx8t4EwHAkHHp
+ OWiixdflC3Pca+3SH1dIvOD6hRzvRlOQIm0k1cL3CD12aMPSSOoD/vGlRiixKEyJWebH
+ MhLLgt36L+a+vm221xgO6mCxRoFwIg6RVdo6k/JNupkktzSvr+eqHJ80+gUyZbGAfYEr
+ btnSTKaedhttS8atIX/g490+p5zOyhwCS+oCubzOGQp87t6OOomJxP5xsPSEoXYaYPn/
+ 3p76jj9rrWC8sqS50amMEcRJCoKvNCDerlXTx0jbD9B2SPxgT4eG53B2zggTepvG9CdD
+ 0Cfw==
+X-Gm-Message-State: AOAM531pJ3JRgIGm4Gmin8penGmDuD14LFq3dbCV2uF0MALDjCTSOiiI
+ +jM9oCgriFzultZgJv3+7y04Vg==
+X-Google-Smtp-Source: ABdhPJyqa2XyCjk2yQL7M5LZSne1r7wL1p7G1bCoT7V1Oh+HIroBjIOFg/sJwPk/Y7iP76Iv8OUzVg==
+X-Received: by 2002:adf:c44d:: with SMTP id a13mr13387256wrg.205.1593354289855; 
+ Sun, 28 Jun 2020 07:24:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.47
+ by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:24:48 -0700 (PDT)
+ Sun, 28 Jun 2020 07:24:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 14/17] hw/arm/spitz: Use LOG_GUEST_ERROR for bad guest
+Subject: [PATCH 15/17] hw/arm/pxa2xx_pic: Use LOG_GUEST_ERROR for bad guest
  register accesses
-Date: Sun, 28 Jun 2020 15:24:26 +0100
-Message-Id: <20200628142429.17111-15-peter.maydell@linaro.org>
+Date: Sun, 28 Jun 2020 15:24:27 +0100
+Message-Id: <20200628142429.17111-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200628142429.17111-1-peter.maydell@linaro.org>
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,59 +91,65 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of logging guest accesses to invalid register offsets in the
-Spitz flash device with zaurus_printf() (which just prints to stderr),
-use the usual qemu_log_mask(LOG_GUEST_ERROR,...).
+Instead of using printf() for logging guest accesses to invalid
+register offsets in the pxa2xx PIC device, use the usual
+qemu_log_mask(LOG_GUEST_ERROR,...).
+
+This was the only user of the REG_FMT macro in pxa.h, so we can
+remove that.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/hw/arm/pxa.h | 1 -
+ hw/arm/pxa2xx_pic.c  | 9 +++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 6eb46869157..49eae3fce4e 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -23,6 +23,7 @@
- #include "hw/ssi/ssi.h"
- #include "hw/block/flash.h"
- #include "qemu/timer.h"
+diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
+index f6dfb5c0cf0..8843e5f9107 100644
+--- a/include/hw/arm/pxa.h
++++ b/include/hw/arm/pxa.h
+@@ -184,7 +184,6 @@ struct PXA2xxI2SState {
+ };
+ 
+ # define PA_FMT			"0x%08lx"
+-# define REG_FMT		"0x" TARGET_FMT_plx
+ 
+ PXA2xxState *pxa270_init(MemoryRegion *address_space, unsigned int sdram_size,
+                          const char *revision);
+diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
+index 105c5e63f2f..ceee6aa48db 100644
+--- a/hw/arm/pxa2xx_pic.c
++++ b/hw/arm/pxa2xx_pic.c
+@@ -11,6 +11,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
 +#include "qemu/log.h"
- #include "hw/arm/sharpsl.h"
- #include "ui/console.h"
- #include "hw/audio/wm8750.h"
-@@ -65,9 +66,6 @@ typedef struct {
- #define zaurus_printf(format, ...)                              \
-     fprintf(stderr, "%s: " format, __func__, ##__VA_ARGS__)
- 
--#undef REG_FMT
--#define REG_FMT                         "0x%02lx"
--
- /* Spitz Flash */
- #define FLASH_BASE              0x0c000000
- #define FLASH_ECCLPLB           0x00    /* Line parity 7 - 0 bit */
-@@ -137,7 +135,9 @@ static uint64_t sl_read(void *opaque, hwaddr addr, unsigned size)
-         return ecc_digest(&s->ecc, nand_getio(s->nand));
- 
+ #include "cpu.h"
+ #include "hw/arm/pxa.h"
+ #include "hw/sysbus.h"
+@@ -166,7 +167,9 @@ static uint64_t pxa2xx_pic_mem_read(void *opaque, hwaddr offset,
+     case ICHP:	/* Highest Priority register */
+         return pxa2xx_pic_highest(s);
      default:
--        zaurus_printf("Bad register offset " REG_FMT "\n", (unsigned long)addr);
+-        printf("%s: Bad register offset " REG_FMT "\n", __func__, offset);
 +        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "sl_read: bad register offset 0x%02" HWADDR_PRIx "\n",
-+                      addr);
++                      "pxa2xx_pic_mem_read: bad register offset 0x%" HWADDR_PRIx
++                      "\n", offset);
+         return 0;
      }
-     return 0;
  }
-@@ -168,7 +168,9 @@ static void sl_write(void *opaque, hwaddr addr,
+@@ -199,7 +202,9 @@ static void pxa2xx_pic_mem_write(void *opaque, hwaddr offset,
+         s->priority[32 + ((offset - IPR32) >> 2)] = value & 0x8000003f;
          break;
- 
      default:
--        zaurus_printf("Bad register offset " REG_FMT "\n", (unsigned long)addr);
+-        printf("%s: Bad register offset " REG_FMT "\n", __func__, offset);
 +        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "sl_write: bad register offset 0x%02" HWADDR_PRIx "\n",
-+                      addr);
++                      "pxa2xx_pic_mem_write: bad register offset 0x%"
++                      HWADDR_PRIx "\n", offset);
+         return;
      }
- }
- 
+     pxa2xx_pic_update(opaque);
 -- 
 2.20.1
 
