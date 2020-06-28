@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028A020C86A
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:26:50 +0200 (CEST)
-Received: from localhost ([::1]:46864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEA520C86E
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:28:43 +0200 (CEST)
+Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYGe-0007x9-Um
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
+	id 1jpYIU-0003BT-NC
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:28:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEZ-0005vZ-0A
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:39 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35678)
+ id 1jpYEa-0005xb-1y
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:40 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEX-0004eY-4b
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:38 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g18so14079448wrm.2
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:36 -0700 (PDT)
+ id 1jpYEY-0004fQ-6O
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:39 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g18so14079470wrm.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3ss6f23CNAuvklUxZG32njbzr6Gg86zxOuqDqmS/ynM=;
- b=T6yliv2ynCDkvif3fKCD2D6TcDFwvR3nL5zoN4cy8jL8Slw1Ter1/qy+X/TTKP4FqC
- Z+O8cQU6koLk9r3psOSOEUWOdLTN60y0mWzP9UjqPJnCLC98erBPt7BULi0rmnmOj4xg
- 5U8z89ZUp9IAGSkPNC7QlNkStKMoHfBCodheRL2/wvlFGBGXP2mxE5SUdJXdLm6+0IB7
- RTV42W9+N6SN8KZrtgMekiNX+9RHkSjMJ46kMzSYmj79nKLGQ5gFZYhW8gCS11osht9a
- euaZN6y0EnXnSHDM4Fmomod8g8BLGNH7WWJQkHw8f3llI4FlciRjAU7gQlG1/1KlzjoJ
- dGLQ==
+ bh=GNnYdzaF3r1xGcDpbFt33icK43InuylWrRKeXCca234=;
+ b=xgLGtE/GGCPBsNxMCFIFDLanp2OeMp/Q8joY9oW7xxzMlNKbMmcv+w6ruOdE/IvrO1
+ qYK+xhuIZkxNWqu3+z+rASUkaO6K69f9VmLfxww9eO++VSCBC3BsvTfL/85dIwInOq2H
+ VgANrAJ1CeABGI47Z7ILyOtrmqkkZTtM4TNXWIJh+ZFEoM7Q8mYh5KUuxpMnJyFdVmVy
+ u+dc181ohN6TaKtfIVssfi791LomhfBciglyOzVVVUuQmztO92GmZA9uSklqgs94gfS2
+ 0zD00J+5xeD4TN9Ohv39rfY4tyzC2498pYjxVjIycWXPA0wOrMvLZnNxCQuy8gh613xP
+ hQrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ss6f23CNAuvklUxZG32njbzr6Gg86zxOuqDqmS/ynM=;
- b=bmEL/Jja5TNOcdGbl/mMPbqSUYgvLYE153I8dqbWCdvC902tLK5GIjp8vNXeUWV0Wz
- 926zD7sbUZFIdaOcMJVQ4hAp4jey5bP3X0MacSidK0XI6PVHuamJODi8DkXXBzG7FQcE
- fnJ5mMOI78cuWnvWBhIr3MAgianuQA5kVFi1h1YzfFm5CPFEIuWl9iOYWZLfi1a/yU/z
- Rr1OwpTofkjPmj27t0BDpFEUOObjMhiq5QHNQh6PZWM/X+WwNQkMNAxHtxzs3zoHP5cw
- y57qmaMnMtzC8mJZkMXVqJGFmo67ZuwbklNL/A/gQSxBwyTKXGcZoDJMI2Hv4vA1/Fcd
- e94A==
-X-Gm-Message-State: AOAM531VX7gOnNWmPQCV7gaAH14IdOJaPyzgAk0EiMQJCOfZ6gK6Fa68
- MZyycbyWUno3djEoMOizFX7ll17i4euXsA==
-X-Google-Smtp-Source: ABdhPJzYhF34Q1FLOnavEsS4Xj+e4VnVCVeZCNIfkLZfLsfHp6V99sPzhLUhry7vjJGhbWPQjQTXbQ==
-X-Received: by 2002:adf:8524:: with SMTP id 33mr12956847wrh.366.1593354275803; 
- Sun, 28 Jun 2020 07:24:35 -0700 (PDT)
+ bh=GNnYdzaF3r1xGcDpbFt33icK43InuylWrRKeXCca234=;
+ b=hfjbcVqnJ9imVtZqSuXvIfBGq2u8uRnqxW2XYhvq6gh/HK/Vb3hQH2zNCSBSRQw1Im
+ vfAuqjnqa0H900ZB2EkbVrbhouXOMpFzFt3Q3oiYmRy3w8502UCM0IuNc3CTUfJnMv7I
+ oZG08pj67s5/hrAG95U+9+zVfHPRLva1HhJqi8FtGruJqrG6NseajBweDwgNXOjzZwJM
+ HG7ZHeO+jmoKiix4ma49MzynzHCN1tRp6kNh1HOwEUZuYTsns2n1QYSEXW8wqKHmGxDq
+ ttfz3fDnQdSwMDtDGeUYRQ4IGpU97o7NLv2yjtOLS/URNkXq/029fettB8HPVilndvj4
+ UTdA==
+X-Gm-Message-State: AOAM5335hTUE7yXsqkuEcPbvCVMiBnNK1dFXqk3UZmNOz7VcCJOktRYG
+ 0bI8Oyifmnoj51gOpvhQ0p90lg==
+X-Google-Smtp-Source: ABdhPJz9KTyUbB5QVik12U//ZiCY0dNVF6Wdcpzcy9IcdEsRsJxGeGzLrZq2zxMMa3pTnjRxoseiqw==
+X-Received: by 2002:a5d:5084:: with SMTP id a4mr13472284wrt.191.1593354276958; 
+ Sun, 28 Jun 2020 07:24:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.34
+ by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:24:35 -0700 (PDT)
+ Sun, 28 Jun 2020 07:24:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 03/17] hw/arm/spitz: Keep pointers to MPU and SSI devices in
- SpitzMachineState
-Date: Sun, 28 Jun 2020 15:24:15 +0100
-Message-Id: <20200628142429.17111-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/17] hw/arm/spitz: Keep pointers to scp0,
+ scp1 in SpitzMachineState
+Date: Sun, 28 Jun 2020 15:24:16 +0100
+Message-Id: <20200628142429.17111-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200628142429.17111-1-peter.maydell@linaro.org>
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,117 +91,91 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep pointers to the MPU and the SSI devices in SpitzMachineState.
-We're going to want to make GPIO connections between some of the
-SSI devices and the SCPs, so we want to keep hold of a pointer to
-those; putting the MPU into the struct allows us to pass just
-one thing to spitz_ssp_attach() rather than two.
+Keep pointers to scp0, scp1 in SpitzMachineState, and just pass
+that to spitz_scoop_gpio_setup().
 
-We have to retain the setting of the global "max1111" variable
-for the moment as it is used in spitz_adc_temp_on(); later in
-this series of commits we will be able to remove it.
+(We'll want to use some of the other fields in SpitzMachineState
+in that function in the next commit.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 50 ++++++++++++++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+ hw/arm/spitz.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
 diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index c70e912a33d..f48e966c047 100644
+index f48e966c047..69bc2b3fa10 100644
 --- a/hw/arm/spitz.c
 +++ b/hw/arm/spitz.c
-@@ -43,6 +43,11 @@ typedef struct {
- 
- typedef struct {
-     MachineState parent;
-+    PXA2xxState *mpu;
-+    DeviceState *mux;
-+    DeviceState *lcdtg;
-+    DeviceState *ads7846;
-+    DeviceState *max1111;
+@@ -48,6 +48,8 @@ typedef struct {
+     DeviceState *lcdtg;
+     DeviceState *ads7846;
+     DeviceState *max1111;
++    DeviceState *scp0;
++    DeviceState *scp1;
  } SpitzMachineState;
  
  #define TYPE_SPITZ_MACHINE "spitz-common"
-@@ -709,34 +714,33 @@ static void corgi_ssp_realize(SSISlave *d, Error **errp)
-     s->bus[2] = ssi_create_bus(dev, "ssi2");
+@@ -845,22 +847,23 @@ static void spitz_out_switch(void *opaque, int line, int level)
+ #define SPITZ_SCP2_BACKLIGHT_ON                 8
+ #define SPITZ_SCP2_MIC_BIAS             9
+ 
+-static void spitz_scoop_gpio_setup(PXA2xxState *cpu,
+-                DeviceState *scp0, DeviceState *scp1)
++static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
+ {
+-    qemu_irq *outsignals = qemu_allocate_irqs(spitz_out_switch, cpu, 8);
++    qemu_irq *outsignals = qemu_allocate_irqs(spitz_out_switch, sms->mpu, 8);
+ 
+-    qdev_connect_gpio_out(scp0, SPITZ_SCP_CHRG_ON, outsignals[0]);
+-    qdev_connect_gpio_out(scp0, SPITZ_SCP_JK_B, outsignals[1]);
+-    qdev_connect_gpio_out(scp0, SPITZ_SCP_LED_GREEN, outsignals[2]);
+-    qdev_connect_gpio_out(scp0, SPITZ_SCP_LED_ORANGE, outsignals[3]);
++    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_CHRG_ON, outsignals[0]);
++    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_JK_B, outsignals[1]);
++    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_GREEN, outsignals[2]);
++    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_ORANGE, outsignals[3]);
+ 
+-    if (scp1) {
+-        qdev_connect_gpio_out(scp1, SPITZ_SCP2_BACKLIGHT_CONT, outsignals[4]);
+-        qdev_connect_gpio_out(scp1, SPITZ_SCP2_BACKLIGHT_ON, outsignals[5]);
++    if (sms->scp1) {
++        qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
++                              outsignals[4]);
++        qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
++                              outsignals[5]);
+     }
+ 
+-    qdev_connect_gpio_out(scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
++    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
  }
  
--static void spitz_ssp_attach(PXA2xxState *cpu)
-+static void spitz_ssp_attach(SpitzMachineState *sms)
- {
--    DeviceState *mux;
--    DeviceState *dev;
-     void *bus;
- 
--    mux = ssi_create_slave(cpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
-+    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
- 
--    bus = qdev_get_child_bus(mux, "ssi0");
--    ssi_create_slave(bus, "spitz-lcdtg");
-+    bus = qdev_get_child_bus(sms->mux, "ssi0");
-+    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
- 
--    bus = qdev_get_child_bus(mux, "ssi1");
--    dev = ssi_create_slave(bus, "ads7846");
--    qdev_connect_gpio_out(dev, 0,
--                          qdev_get_gpio_in(cpu->gpio, SPITZ_GPIO_TP_INT));
-+    bus = qdev_get_child_bus(sms->mux, "ssi1");
-+    sms->ads7846 = ssi_create_slave(bus, "ads7846");
-+    qdev_connect_gpio_out(sms->ads7846, 0,
-+                          qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
- 
--    bus = qdev_get_child_bus(mux, "ssi2");
--    max1111 = ssi_create_slave(bus, "max1111");
--    max111x_set_input(max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
--    max111x_set_input(max1111, MAX1111_BATT_TEMP, 0);
--    max111x_set_input(max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
-+    bus = qdev_get_child_bus(sms->mux, "ssi2");
-+    sms->max1111 = ssi_create_slave(bus, "max1111");
-+    max1111 = sms->max1111;
-+    max111x_set_input(sms->max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
-+    max111x_set_input(sms->max1111, MAX1111_BATT_TEMP, 0);
-+    max111x_set_input(sms->max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
- 
--    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_LCDCON_CS,
--                        qdev_get_gpio_in(mux, 0));
--    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_ADS7846_CS,
--                        qdev_get_gpio_in(mux, 1));
--    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_MAX1111_CS,
--                        qdev_get_gpio_in(mux, 2));
-+    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_LCDCON_CS,
-+                        qdev_get_gpio_in(sms->mux, 0));
-+    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_ADS7846_CS,
-+                        qdev_get_gpio_in(sms->mux, 1));
-+    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_MAX1111_CS,
-+                        qdev_get_gpio_in(sms->mux, 2));
- }
- 
- /* CF Microdrive */
-@@ -936,6 +940,7 @@ static struct arm_boot_info spitz_binfo = {
- static void spitz_common_init(MachineState *machine)
- {
-     SpitzMachineClass *smc = SPITZ_MACHINE_GET_CLASS(machine);
-+    SpitzMachineState *sms = SPITZ_MACHINE(machine);
+ #define SPITZ_GPIO_HSYNC                22
+@@ -943,7 +946,6 @@ static void spitz_common_init(MachineState *machine)
+     SpitzMachineState *sms = SPITZ_MACHINE(machine);
      enum spitz_model_e model = smc->model;
      PXA2xxState *mpu;
-     DeviceState *scp0, *scp1 = NULL;
-@@ -945,6 +950,7 @@ static void spitz_common_init(MachineState *machine)
-     /* Setup CPU & memory */
-     mpu = pxa270_init(address_space_mem, spitz_binfo.ram_size,
-                       machine->cpu_type);
-+    sms->mpu = mpu;
+-    DeviceState *scp0, *scp1 = NULL;
+     MemoryRegion *address_space_mem = get_system_memory();
+     MemoryRegion *rom = g_new(MemoryRegion, 1);
  
-     sl_flash_register(mpu, (model == spitz) ? FLASH_128M : FLASH_1024M);
+@@ -962,12 +964,14 @@ static void spitz_common_init(MachineState *machine)
  
-@@ -954,7 +960,7 @@ static void spitz_common_init(MachineState *machine)
-     /* Setup peripherals */
-     spitz_keyboard_register(mpu);
+     spitz_ssp_attach(sms);
  
--    spitz_ssp_attach(mpu);
-+    spitz_ssp_attach(sms);
- 
-     scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
+-    scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
++    sms->scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
      if (model != akita) {
+-        scp1 = sysbus_create_simple("scoop", 0x08800040, NULL);
++        sms->scp1 = sysbus_create_simple("scoop", 0x08800040, NULL);
++    } else {
++        sms->scp1 = NULL;
+     }
+ 
+-    spitz_scoop_gpio_setup(mpu, scp0, scp1);
++    spitz_scoop_gpio_setup(sms);
+ 
+     spitz_gpio_setup(mpu, (model == akita) ? 1 : 2);
+ 
 -- 
 2.20.1
 
