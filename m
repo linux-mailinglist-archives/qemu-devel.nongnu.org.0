@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA4120C773
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 12:56:29 +0200 (CEST)
-Received: from localhost ([::1]:35342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C920C788
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 13:14:16 +0200 (CEST)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpUz5-0004cz-TN
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 06:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45364)
+	id 1jpVGJ-0007Qn-KR
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 07:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpUyM-0004CR-VP
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 06:55:42 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:38775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpUyK-0007bb-9h
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 06:55:42 -0400
-X-Originating-IP: 89.158.232.227
-Received: from [192.168.0.13] (89-158-232-227.rev.numericable.fr
- [89.158.232.227]) (Authenticated sender: jcd@tribudubois.net)
- by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id D708E240009
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 10:55:34 +0000 (UTC)
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-From: Jean-Christophe DUBOIS <jcd@tribudubois.net>
-Subject: Crash when running Qemu.
-Message-ID: <20d398f5-729e-57a7-db92-2243c106d832@tribudubois.net>
-Date: Sun, 28 Jun 2020 12:55:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jpV65-0006zG-7V; Sun, 28 Jun 2020 07:03:41 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jpV5y-0000Wa-1N; Sun, 28 Jun 2020 07:03:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=ItpxjVoPtVtKxu0hKe4xcgaHMMA/v4QrYTll2mpUm0A=; 
+ b=Fky5RQAmCEDLNYbannH6swC9UJcCwL2M/va/E5m8C+4QlAnSMPMsNGuPlK1ol8ia+M7gbMJOtvuLnLKwQLAizS6llgF0uFe1mkuBBG8pn55kCSSMwUlmmv/GHKCtwwrcnJKXVK5LvVHCAcZ3MmAHcnq6q0PV1CTxaKOAcBkA0TEf02J6332php967pQDXa59TX2jqSWMjOCPGHMv+Vfn6NFzKEeO5WxBHFLZL6nU7n6iul1fHtlidQEdI92KKPetAh5V9britH5ezNEq76RU7T9E36TRvjfBk54pt9hjjnior0egpYqHITYS4duZq5mxagHaLF5xxHJfCZ7wq/Joqw==;
+Received: from 26.red-79-158-236.dynamicip.rima-tde.net ([79.158.236.26]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1jpV5W-0002gM-WE; Sun, 28 Jun 2020 13:03:07 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1jpV5H-000387-Dh; Sun, 28 Jun 2020 13:02:51 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/34] Add subcluster allocation to qcow2
+Date: Sun, 28 Jun 2020 13:02:09 +0200
+Message-Id: <cover.1593342067.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=217.70.183.193; envelope-from=jcd@tribudubois.net;
- helo=relay1-d.mail.gandi.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 06:55:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 07:03:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,100 +59,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Derek Su <dereksu@qnap.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi,
 
-Since the last pull I did this week end on the qemu git tree (master 
-branch) I am unable to "start" qemu anymore (It was working OK from git 
-master previously).
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-Traces are provided bellow.
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
-Am I the only one to get this behavior?
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-JC
+The important change from v8 is patch 24. This patch fixes unaligned
+offsets in ZERO_ALLOC clusters, but the previous implementation was
+not working for images with extended L2 entries and was simply adding
+dead code. The new implementation works properly.
 
-jcd@jcd-UX305CA:~/Projects/µCOS/work$ 
-../../qemu/qemu/arm-softmmu/qemu-system-arm -machine mcimx6ul-evk -m 
-128M -display none -serial stdio -kernel ./OS.elf
-double free or corruption (!prev)
-Abandon (core dumped)
+If you want to test this series make sure to apply this patch first:
 
-Running the same command from "gdb" provides the following backtrace.
+   https://lists.gnu.org/archive/html/qemu-block/2020-06/msg00504.html
 
-jcd@jcd-UX305CA:~/Projects/µCOS/work$ gdb 
-../../qemu/qemu/arm-softmmu/qemu-system-arm
-GNU gdb (Ubuntu 9.1-0ubuntu1) 9.1
-Copyright (C) 2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later 
-<http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "x86_64-linux-gnu".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-     <http://www.gnu.org/software/gdb/documentation/>.
+Berto
 
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from ../../qemu/qemu/arm-softmmu/qemu-system-arm...
-(gdb) run -machine mcimx6ul-evk -m 128M -display none -serial stdio 
--kernel ./OS.elf
-Starting program: ../../qemu/qemu/arm-softmmu/qemu-system-arm -machine 
-mcimx6ul-evk -m 128M -display none -serial stdio -kernel ./OS.elf
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-[New Thread 0x7ffff738e700 (LWP 71630)]
-double free or corruption (!prev)
+Based-on: <20200610094600.4029-1-berto@igalia.com>
 
-Thread 1 "qemu-system-arm" received signal SIGABRT, Aborted.
-__GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-50    ../sysdeps/unix/sysv/linux/raise.c: Aucun fichier ou dossier de ce 
-type.
-(gdb) where
-#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-#1  0x00007ffff75d8859 in __GI_abort () at abort.c:79
-#2  0x00007ffff76433ee in __libc_message
-     (action=action@entry=do_abort, fmt=fmt@entry=0x7ffff776d285 "%s\n")
-     at ../sysdeps/posix/libc_fatal.c:155
-#3  0x00007ffff764b47c in malloc_printerr
-     (str=str@entry=0x7ffff776f690 "double free or corruption (!prev)")
-     at malloc.c:5347
-#4  0x00007ffff764d12c in _int_free
-     (av=0x7ffff779eb80 <main_arena>, p=0x5555567a3990, 
-have_lock=<optimized out>) at malloc.c:4317
-#5  0x0000555555c906c3 in type_initialize_interface
-     (ti=ti@entry=0x5555565b8f40, interface_type=0x555556597ad0, 
-parent_type=0x55555662ca10) at qom/object.c:259
-#6  0x0000555555c902da in type_initialize (ti=ti@entry=0x5555565b8f40)
-     at qom/object.c:323
-#7  0x0000555555c90d20 in type_initialize (ti=0x5555565b8f40)
-     at qom/object.c:1028
-#8  object_class_foreach_tramp
-     (key=<optimized out>, value=0x5555565b8f40, opaque=0x7fffffffdc20)
-     at qom/object.c:1016
-#9  0x00007ffff7c89058 in g_hash_table_foreach ()
-     at /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#10 0x0000555555c913a5 in object_class_foreach
-     (opaque=0x7fffffffdc18, include_abstract=false, 
-implements_type=<optimized out>, fn=0x555555c8f270 
-<object_class_get_list_tramp>) at qom/object.c:84
-#11 object_class_get_list
-     (implements_type=implements_type@entry=0x555555fd5e0c "machine", 
-include_abstract=include_abstract@entry=false) at qom/object.c:1095
-#12 0x00005555559a2195 in select_machine ()
-     at /home/jcd/Projects/qemu/qemu/softmmu/vl.c:3828
-#13 qemu_init (argc=<optimized out>, argv=0x7fffffffdef8, 
-envp=<optimized out>)
-     at /home/jcd/Projects/qemu/qemu/softmmu/vl.c:3828
-#14 0x0000555555856f9d in main
-     (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>)
-     at /home/jcd/Projects/qemu/qemu/softmmu/main.c:48
-(gdb)
+v9:
+- Patch 24: Change the algorithm so it actually does something in
+  images with extended L2 entries.
+- Patch 31: Update expected test results after rebase
+- Patch 34: Fix a couple of typos.
+            Add a new test for the changes in patch 24.
+            Test concurrent requests on different subclusters of the
+            same cluster.
+
+v8: https://lists.gnu.org/archive/html/qemu-block/2020-06/msg00546.html
+v7: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01683.html
+v6: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg01583.html
+v5: https://lists.gnu.org/archive/html/qemu-block/2020-05/msg00251.html
+v4: https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00966.html
+v3: https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00587.html
+v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+
+Output of git backport-diff against v8:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/34:[----] [--] 'qcow2: Make Qcow2AioTask store the full host offset'
+002/34:[----] [--] 'qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()'
+003/34:[----] [--] 'qcow2: Add calculate_l2_meta()'
+004/34:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+005/34:[----] [--] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+006/34:[----] [--] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+007/34:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+008/34:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+009/34:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+010/34:[----] [--] 'qcow2: Add offset_to_sc_index()'
+011/34:[----] [--] 'qcow2: Add offset_into_subcluster() and size_to_subclusters()'
+012/34:[----] [--] 'qcow2: Add l2_entry_size()'
+013/34:[----] [--] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+014/34:[----] [--] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
+015/34:[----] [--] 'qcow2: Add qcow2_get_subcluster_range_type()'
+016/34:[----] [--] 'qcow2: Add qcow2_cluster_is_allocated()'
+017/34:[----] [--] 'qcow2: Add cluster type parameter to qcow2_get_host_offset()'
+018/34:[----] [--] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
+019/34:[----] [--] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
+020/34:[----] [--] 'qcow2: Add subcluster support to calculate_l2_meta()'
+021/34:[----] [--] 'qcow2: Add subcluster support to qcow2_get_host_offset()'
+022/34:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+023/34:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+024/34:[0025] [FC] 'qcow2: Add subcluster support to check_refcounts_l2()'
+025/34:[----] [--] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+026/34:[----] [--] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+027/34:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
+028/34:[----] [--] 'qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()'
+029/34:[----] [--] 'qcow2: Add subcluster support to qcow2_measure()'
+030/34:[----] [--] 'qcow2: Add prealloc field to QCowL2Meta'
+031/34:[0004] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+032/34:[----] [--] 'qcow2: Allow preallocation and backing files if extended_l2 is set'
+033/34:[----] [--] 'qcow2: Assert that expand_zero_clusters_in_l1() does not support subclusters'
+034/34:[0152] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
+
+Alberto Garcia (34):
+  qcow2: Make Qcow2AioTask store the full host offset
+  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add offset_into_subcluster() and size_to_subclusters()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
+  qcow2: Add qcow2_get_subcluster_range_type()
+  qcow2: Add qcow2_cluster_is_allocated()
+  qcow2: Add cluster type parameter to qcow2_get_host_offset()
+  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_host_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
+  qcow2: Add subcluster support to qcow2_measure()
+  qcow2: Add prealloc field to QCowL2Meta
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Allow preallocation and backing files if extended_l2 is set
+  qcow2: Assert that expand_zero_clusters_in_l1() does not support
+    subclusters
+  iotests: Add tests for qcow2 images with extended L2 entries
+
+ docs/interop/qcow2.txt           |  68 ++-
+ docs/qcow2-cache.txt             |  19 +-
+ qapi/block-core.json             |   7 +
+ block/qcow2.h                    | 211 ++++++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-cluster.c            | 912 +++++++++++++++++++++----------
+ block/qcow2-refcount.c           |  47 +-
+ block/qcow2.c                    | 304 +++++++----
+ block/trace-events               |   2 +-
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++--
+ tests/qemu-iotests/060.out       |   3 +-
+ tests/qemu-iotests/061           |   6 +
+ tests/qemu-iotests/061.out       |  25 +-
+ tests/qemu-iotests/065           |  12 +-
+ tests/qemu-iotests/082.out       |  48 +-
+ tests/qemu-iotests/085.out       |  38 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198.out       |   2 +
+ tests/qemu-iotests/206.out       |   6 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 901 ++++++++++++++++++++++++++++++
+ tests/qemu-iotests/271.out       | 724 ++++++++++++++++++++++++
+ tests/qemu-iotests/274.out       |  49 +-
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/291.out       |   6 +-
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 32 files changed, 2963 insertions(+), 573 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
+
+-- 
+2.20.1
 
 
