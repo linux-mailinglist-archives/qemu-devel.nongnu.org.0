@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B517D20CA58
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 22:24:04 +0200 (CEST)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA4920CA68
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 22:39:06 +0200 (CEST)
+Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpdqN-0000bv-Oe
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 16:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1jpe4v-0005Ur-R5
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 16:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpdnz-0005tZ-KS
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:35 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:47701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jpdny-0004Ep-1e
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:21:35 -0400
-X-Originating-IP: 82.252.130.88
-Received: from localhost.localdomain (lns-bzn-59-82-252-130-88.adsl.proxad.net
- [82.252.130.88]) (Authenticated sender: jcd@tribudubois.net)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 826C7FF803;
- Sun, 28 Jun 2020 20:21:30 +0000 (UTC)
-From: Jean-Christophe Dubois <jcd@tribudubois.net>
-To: qemu-devel@nongnu.org, peter.maydell@linaro.org, peter.chubb@nicta.com.au,
- f4bug@amsat.org
-Subject: [PATCH 3/3] Select MDIO device 2 and 1 as PHY devices for i.MX6UL EVK
- board.
-Date: Sun, 28 Jun 2020 22:20:58 +0200
-Message-Id: <fb41992126c091a71d76ab3d1898959091f60583.1593296112.git.jcd@tribudubois.net>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1593296112.git.jcd@tribudubois.net>
-References: <cover.1593296112.git.jcd@tribudubois.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jpe3n-0004TG-Ih
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:37:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jpe3l-0006T2-64
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 16:37:55 -0400
+Received: by mail-wr1-x433.google.com with SMTP id s10so14541359wrw.12
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 13:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dnio0De21POelvllvqksyjy+SMPI9o8bFPvLcCpu5ds=;
+ b=LoYUReKuPBBhh50+a5IguzVq+r/I83IUCW3vmf9iHNpl7awgxs7d1eCsTvEsraF0yH
+ SKjC8/DKy29FdUqQocYTiBOyYFsz2vDst/dWQ5EmibRE0N6h4nClf0ZBGlfDpw20KzUO
+ TBk5SOzrli/LAJ1Yn/ObMVNwqR9ojsmNkAaPBaP5fK+D+OYJx4Z6N8CPuYjnANJPNzTC
+ yCIhxGNtfd9SIWTbr/TMYnsNqWbZtLLF5sofT7+XDEoZPRQ/zGbCsGzvIqMCg8dOyFu4
+ N9ZC82uzQPwgTyGLiMiu/0gqtkIv7t3cFZ33qcR5yDbFP3xFfk7heu3khKafmxIj38/y
+ BDMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dnio0De21POelvllvqksyjy+SMPI9o8bFPvLcCpu5ds=;
+ b=i66zUlOFChIzTL8x6MTBblzIpVhD2EQLZE3I+wr94f4yJ7VaBX/NtJG6iqgDuEaUIy
+ gxov+9+g1FlFTENBEkL8YqTu3fJ5oq99+MfJlmGEadDSrC6dxZCus2w+qwzn9ihWEiIr
+ I5kUKdKLQurKsx8MECrLRDQyPOXlvShJsNLWLsc/p5m0AAFa/FwVqbwwbcdNZTgHqs+C
+ wLwxAh13+5h1WZ91TlPhWmu457NDl1U9mQXmH1yVVQxamJ6uVrfLsJEacXgzlTdOzQ+C
+ U/oUuGuhp/BhaMYcG/XwMVcUycwAcELVIFIXMDsW2HoMVJDGFE8khSPY6rXq2Y9WBrrp
+ nrgw==
+X-Gm-Message-State: AOAM532FpLYXslc2CGJORDs6hq3/bYGjOCxlPGcWh1TOy2hUIKwh4D7V
+ iZSa1NJ8iqBeX7xeykee0rhEyw==
+X-Google-Smtp-Source: ABdhPJyBoWNloiWIvZU91opBKa+r9r/MOs5Xphr9ejNJpVsqjAfziBHpJQpCQOOIyO3cP/SRJuIClg==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr14587232wro.90.1593376671386; 
+ Sun, 28 Jun 2020 13:37:51 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id r11sm8402884wmh.1.2020.06.28.13.37.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Jun 2020 13:37:50 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/2] tosa: fix Coverity CID 1421929
+Date: Sun, 28 Jun 2020 21:37:46 +0100
+Message-Id: <20200628203748.14250-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.70.183.199; envelope-from=jcd@tribudubois.net;
- helo=relay9-d.mail.gandi.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 16:21:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,33 +83,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The i.MX6UL EVK 14x14 board uses:
-- PHY 2 for FEC 1
-- PHY 1 for FEC 2
+This series fixes Coverity issue CID 1421929, which pointed out that
+the 'outsignals' in tosa_gpio_setup() were leaked, in the same way
+that the equivalent bug for spitz was fixed in the series I posted
+earlier: instead of using qemu_allocate_irqs() we create a device
+to encapsulate the handling of the misc GPIO lines on this board.
+This is simpler than the spitz case because for tosa we don't need
+to work with any of the other devices on the board, so the misc-gpio
+device can be simple and self-contained.
 
-Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
----
- hw/arm/mcimx6ul-evk.c | 2 ++
- 1 file changed, 2 insertions(+)
+As with spitz, I started out by tidying up some stray hard-tabs.
 
-diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
-index 2f845cedfce..9033d3f8f38 100644
---- a/hw/arm/mcimx6ul-evk.c
-+++ b/hw/arm/mcimx6ul-evk.c
-@@ -40,6 +40,8 @@ static void mcimx6ul_evk_init(MachineState *machine)
- 
-     s = FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
-     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
-+    object_property_set_uint(OBJECT(s), 2, "fec1-phy-num", &error_fatal);
-+    object_property_set_uint(OBJECT(s), 1, "fec2-phy-num", &error_fatal);
-     qdev_realize(DEVICE(s), NULL, &error_fatal);
- 
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_MMDC_ADDR,
+thanks
+-- PMM
+
+Peter Maydell (2):
+  hw/arm/tosa.c: Detabify
+  hw/arm/tosa: Encapsulate misc GPIO handling in a device
+
+ hw/arm/tosa.c | 132 ++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 86 insertions(+), 46 deletions(-)
+
 -- 
-2.25.1
+2.20.1
 
 
