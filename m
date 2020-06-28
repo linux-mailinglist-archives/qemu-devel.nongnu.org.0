@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E223E20CAC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 23:43:55 +0200 (CEST)
-Received: from localhost ([::1]:60654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ED320CAC8
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 23:45:44 +0200 (CEST)
+Received: from localhost ([::1]:35936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpf5e-0000mh-8p
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 17:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57764)
+	id 1jpf7P-0002HJ-2h
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 17:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpf4P-0008Dl-A7
+ id 1jpf4P-0008Dt-Vb
  for qemu-devel@nongnu.org; Sun, 28 Jun 2020 17:42:37 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44182)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpf4N-00072O-1v
+ id 1jpf4N-00072N-5S
  for qemu-devel@nongnu.org; Sun, 28 Jun 2020 17:42:37 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b6so14639250wrs.11
+Received: by mail-wr1-x442.google.com with SMTP id q5so14645662wru.6
  for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 14:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0L5wQryvAxZg2uQOIJc+wY6esS/MPxiWmAjOVxgL35o=;
- b=VdGIgsvZYEvdI6unwaENYbt63e2u2rDQs9AQP4C8wCtXuc9jPhE1KEidMfb7tGsJsV
- cdY6pMoU1Q1WsDyVXnJUGiuj+lRhlDUW8C/C7u7ZjiY1jez/naScgBn+gWxqYYEfOUDp
- PULu9t8zZajuRG+KMdTcyF2TW9uiKLOgOnh7RE9acXp04bcCvAB2P/UDnmziDcodMpC4
- xXsgm/WA+A1rhJKFrXzj3KqMxQ6ZChnTgycWlGQLgoA5DQG3vDFUZcWjENo2vxE0aN5I
- jHQ2cMhJAxkgD+SKEvtXIkUS5ingtloY9KfKLuwOk+919/14SRDH0loP42HCx2gcbOka
- WtAg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZROhVR26UPnFTLpmqo4CvX6OnKKdzzJIIB4TAfobIgs=;
+ b=OUbyaE+sOsJVjprwRa1S+qohK+L+6aFTScTiGv3MTn7vj2VJDgSuxCCk/8ExOhntxt
+ N4ssIx7A3K43a9o8MR06M2E0086gYovNrFpjCayuug6U6B9Dsa21vqRfUCjRBtMEborz
+ KU/JAsiriWz4y21r0MBRO7s6sKLCWurBRqCdgmJNgaHZl+ev/Mw5YBJb7KMPcIj2jFPU
+ PUM0NzJ3MEKiNY0cB9y6+qzlzmox74uDu2x/vZPJhaIYm4oZ+axsAX1rhNxNku02dnVL
+ uWAPIju+5NbbaElZl1UkxZw577pza1txEBZ10gn/8/2ts3+M1pzEtPn5nu25JOdLlRQw
+ XKdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0L5wQryvAxZg2uQOIJc+wY6esS/MPxiWmAjOVxgL35o=;
- b=MMxssg3IzyTjeeq8ufophNDizVJJdQ9LQtSW+JM7mB865MS6FfCMrNnpPXkBYKA39W
- AZJftmlIKUrlkl8huWdwqMfX57oLBAm/CFXDMXgEefow6H2wjr+kD37jGq7fsIex15x6
- ipi5yjUU+RhRI1QS21x/a32WmCHWx0Sk4pj33nNQdxKZvZNg6FCDS3Rwpfvnv81/5cEs
- OaPtY1QWKC7pqydjFQiFsv0+BCisXU7zDM7TB24pnyhjQ1tCdhDRmRKhJJxpsuYy1EYw
- UCC+9cc3bsG8f5fFF7iCSWU6YrVvzjF3SSZ/gDFSj15HhLipg+5xk56mDulycq7JPsyM
- IFEQ==
-X-Gm-Message-State: AOAM530CTXjJzWMst+v3rDPYAhQYRYdhLvusPrhvbHhGuKxmpb/ebPwV
- zAGAWKDKA5Qz5dyOCRcQrZ0HtQ==
-X-Google-Smtp-Source: ABdhPJzfwWvfbVoTFRu3pFQ3IYLgmufinzQUeH+6fMaaL37BzU8coOu49jysJObC4Nz9PN2yfxt9Yg==
-X-Received: by 2002:adf:f984:: with SMTP id f4mr14088274wrr.221.1593380552472; 
- Sun, 28 Jun 2020 14:42:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZROhVR26UPnFTLpmqo4CvX6OnKKdzzJIIB4TAfobIgs=;
+ b=DDM2U/iaKL/5umbbeL8IN58xADjQnIaR4utaNSX3/uJeQQhJibzUB3Z5+hVc4i1aMr
+ VC6jL/vW5e4O9NKrFYs46nQ+Xz95JgtHubMItlCYGNFM59eGlivLT8uto07bGS3a795O
+ ++eeVLtrpZNN75ckQ0E4wtN83KQQtfzhdibyQNtuHGjZU0hpVsCxo3Vrqw4p74simk+t
+ ODCYh7emqEvLhaLqhIIlTamY/ug2/Oha+cnGRUuctTVGMFRNVnWvNIXkeZp+VoayII7f
+ uY7ZSOvL9roCK2s5vWJZsbHDnRj0Khyp64fLLG9FiwK75qcr0Cur0yic15wx9+tOjNgv
+ m4oA==
+X-Gm-Message-State: AOAM530s4c44Ee1QBvA0rrdDAx6N8KlzYnQP0LrxCKu3dnVCbbwTmJyb
+ JN7Zg80VYT/kBDsWX1feodAhUg==
+X-Google-Smtp-Source: ABdhPJx1ffhRmNmjbffKiwfCJboqcB/NY3S2IjoarIZv0H8XLtLY6/cvArLCULNNnzk7E1kN5+ZGrg==
+X-Received: by 2002:adf:f4c1:: with SMTP id h1mr13616969wrp.328.1593380553473; 
+ Sun, 28 Jun 2020 14:42:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t16sm26300948wru.9.2020.06.28.14.42.31
+ by smtp.gmail.com with ESMTPSA id t16sm26300948wru.9.2020.06.28.14.42.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 14:42:31 -0700 (PDT)
+ Sun, 28 Jun 2020 14:42:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/arm/palm.c: Fix Coverity issue CID 1421944
-Date: Sun, 28 Jun 2020 22:42:28 +0100
-Message-Id: <20200628214230.2592-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] hw/arm/palm.c: Detabify
+Date: Sun, 28 Jun 2020 22:42:29 +0100
+Message-Id: <20200628214230.2592-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200628214230.2592-1-peter.maydell@linaro.org>
+References: <20200628214230.2592-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,21 +88,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As for spitz and tosa, fix the Coverity issue CID 1421944 which
-points out that memory returned from qemu_allocate_irqs() is leaked
-by encapsulating the GPIO handling into a simple device.
-As with the other series, detabify the file first.
+Remove hard-tabs from palm.c.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/palm.c | 64 +++++++++++++++++++++++++--------------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-Peter Maydell (2):
-  hw/arm/palm.c: Detabify
-  hw/arm/palm.c: Encapsulate misc GPIO handling in a device
-
- hw/arm/palm.c | 111 ++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 77 insertions(+), 34 deletions(-)
-
+diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+index 97ca105d297..569836178f6 100644
+--- a/hw/arm/palm.c
++++ b/hw/arm/palm.c
+@@ -61,21 +61,21 @@ static const MemoryRegionOps static_ops = {
+ /* Palm Tunsgten|E support */
+ 
+ /* Shared GPIOs */
+-#define PALMTE_USBDETECT_GPIO	0
+-#define PALMTE_USB_OR_DC_GPIO	1
+-#define PALMTE_TSC_GPIO		4
+-#define PALMTE_PINTDAV_GPIO	6
+-#define PALMTE_MMC_WP_GPIO	8
+-#define PALMTE_MMC_POWER_GPIO	9
+-#define PALMTE_HDQ_GPIO		11
+-#define PALMTE_HEADPHONES_GPIO	14
+-#define PALMTE_SPEAKER_GPIO	15
++#define PALMTE_USBDETECT_GPIO   0
++#define PALMTE_USB_OR_DC_GPIO   1
++#define PALMTE_TSC_GPIO                 4
++#define PALMTE_PINTDAV_GPIO     6
++#define PALMTE_MMC_WP_GPIO      8
++#define PALMTE_MMC_POWER_GPIO   9
++#define PALMTE_HDQ_GPIO                 11
++#define PALMTE_HEADPHONES_GPIO  14
++#define PALMTE_SPEAKER_GPIO     15
+ /* MPU private GPIOs */
+-#define PALMTE_DC_GPIO		2
+-#define PALMTE_MMC_SWITCH_GPIO	4
+-#define PALMTE_MMC1_GPIO	6
+-#define PALMTE_MMC2_GPIO	7
+-#define PALMTE_MMC3_GPIO	11
++#define PALMTE_DC_GPIO          2
++#define PALMTE_MMC_SWITCH_GPIO  4
++#define PALMTE_MMC1_GPIO        6
++#define PALMTE_MMC2_GPIO        7
++#define PALMTE_MMC3_GPIO        11
+ 
+ static MouseTransformInfo palmte_pointercal = {
+     .x = 320,
+@@ -100,17 +100,17 @@ static struct {
+     int column;
+ } palmte_keymap[0x80] = {
+     [0 ... 0x7f] = { -1, -1 },
+-    [0x3b] = { 0, 0 },	/* F1	-> Calendar */
+-    [0x3c] = { 1, 0 },	/* F2	-> Contacts */
+-    [0x3d] = { 2, 0 },	/* F3	-> Tasks List */
+-    [0x3e] = { 3, 0 },	/* F4	-> Note Pad */
+-    [0x01] = { 4, 0 },	/* Esc	-> Power */
+-    [0x4b] = { 0, 1 },	/* 	   Left */
+-    [0x50] = { 1, 1 },	/* 	   Down */
+-    [0x48] = { 2, 1 },	/*	   Up */
+-    [0x4d] = { 3, 1 },	/*	   Right */
+-    [0x4c] = { 4, 1 },	/* 	   Centre */
+-    [0x39] = { 4, 1 },	/* Spc	-> Centre */
++    [0x3b] = { 0, 0 },  /* F1   -> Calendar */
++    [0x3c] = { 1, 0 },  /* F2   -> Contacts */
++    [0x3d] = { 2, 0 },  /* F3   -> Tasks List */
++    [0x3e] = { 3, 0 },  /* F4   -> Note Pad */
++    [0x01] = { 4, 0 },  /* Esc  -> Power */
++    [0x4b] = { 0, 1 },  /*         Left */
++    [0x50] = { 1, 1 },  /*         Down */
++    [0x48] = { 2, 1 },  /*         Up */
++    [0x4d] = { 3, 1 },  /*         Right */
++    [0x4c] = { 4, 1 },  /*         Centre */
++    [0x39] = { 4, 1 },  /* Spc  -> Centre */
+ };
+ 
+ static void palmte_button_event(void *opaque, int keycode)
+@@ -161,13 +161,13 @@ static void palmte_gpio_setup(struct omap_mpu_state_s *cpu)
+                             [PALMTE_MMC_SWITCH_GPIO]));
+ 
+     misc_gpio = qemu_allocate_irqs(palmte_onoff_gpios, cpu, 7);
+-    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,	misc_gpio[0]);
+-    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,	misc_gpio[1]);
+-    qdev_connect_gpio_out(cpu->gpio, 11,			misc_gpio[2]);
+-    qdev_connect_gpio_out(cpu->gpio, 12,			misc_gpio[3]);
+-    qdev_connect_gpio_out(cpu->gpio, 13,			misc_gpio[4]);
+-    omap_mpuio_out_set(cpu->mpuio, 1,				misc_gpio[5]);
+-    omap_mpuio_out_set(cpu->mpuio, 3,				misc_gpio[6]);
++    qdev_connect_gpio_out(cpu->gpio, PALMTE_MMC_POWER_GPIO,     misc_gpio[0]);
++    qdev_connect_gpio_out(cpu->gpio, PALMTE_SPEAKER_GPIO,       misc_gpio[1]);
++    qdev_connect_gpio_out(cpu->gpio, 11,                        misc_gpio[2]);
++    qdev_connect_gpio_out(cpu->gpio, 12,                        misc_gpio[3]);
++    qdev_connect_gpio_out(cpu->gpio, 13,                        misc_gpio[4]);
++    omap_mpuio_out_set(cpu->mpuio, 1,                           misc_gpio[5]);
++    omap_mpuio_out_set(cpu->mpuio, 3,                           misc_gpio[6]);
+ 
+     /* Reset some inputs to initial state.  */
+     qemu_irq_lower(qdev_get_gpio_in(cpu->gpio, PALMTE_USBDETECT_GPIO));
 -- 
 2.20.1
 
