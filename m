@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2EB20C86D
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:28:43 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028A020C86A
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:26:50 +0200 (CEST)
+Received: from localhost ([::1]:46864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYIU-00037I-09
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
+	id 1jpYGe-0007x9-Um
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEY-0005ty-7U
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:38 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37588)
+ id 1jpYEZ-0005vZ-0A
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:39 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEW-0004eC-4Y
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:37 -0400
-Received: by mail-wm1-x343.google.com with SMTP id o2so13694605wmh.2
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:35 -0700 (PDT)
+ id 1jpYEX-0004eY-4b
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:38 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g18so14079448wrm.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lUUWbbu7Y8pmzdSQjUCbPf/b5nShrOK6vJIrYmJ3aOc=;
- b=ZZzEqCiyHqW66MeLyTjP6vdAo8NAw9KQQfwr1KQOVSrSa+5K6iYED4zAnbSheORO5y
- UJbIO2Sb99u42fB1TFBVBHOxla60EOQJKIpffcza/HNDpV3lqUpQWwz7AsVSGh1x8vQM
- kjlBzoFu+vk7HWyae5joXbZ6X2pvtLW5pcsniIxdbO94lqIhL9VGFMwCnLCp93cnDM4I
- XXtuiMMFvwOQVvfLlIOWKMod7sf/pXTTjvtxYxZGtBNRg0bYec4qLMO6av1kM+Vdyua/
- x6hB4j+nVvJEACLjUhpsEcjtlGBjG3XZcYn3sGZShrs+LqTtf7NLUXB/majZfmmQZKfI
- A/Uw==
+ bh=3ss6f23CNAuvklUxZG32njbzr6Gg86zxOuqDqmS/ynM=;
+ b=T6yliv2ynCDkvif3fKCD2D6TcDFwvR3nL5zoN4cy8jL8Slw1Ter1/qy+X/TTKP4FqC
+ Z+O8cQU6koLk9r3psOSOEUWOdLTN60y0mWzP9UjqPJnCLC98erBPt7BULi0rmnmOj4xg
+ 5U8z89ZUp9IAGSkPNC7QlNkStKMoHfBCodheRL2/wvlFGBGXP2mxE5SUdJXdLm6+0IB7
+ RTV42W9+N6SN8KZrtgMekiNX+9RHkSjMJ46kMzSYmj79nKLGQ5gFZYhW8gCS11osht9a
+ euaZN6y0EnXnSHDM4Fmomod8g8BLGNH7WWJQkHw8f3llI4FlciRjAU7gQlG1/1KlzjoJ
+ dGLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lUUWbbu7Y8pmzdSQjUCbPf/b5nShrOK6vJIrYmJ3aOc=;
- b=UZiuDMdTsWAtbaGdQ32S7EkFuQGgJgD+6QD2URjcdArDi8AhmyfAYt580bXwH/VkEZ
- GhPWJtPS/1gfxzBVJ7DcAMHxfEbDVQx1JkjZv22WBUCBq2nTJ0GiKr+TOmkulEJ5D9fb
- VHtcrU3vM6ulr/nNtdZNeRLONhqkSVKVgORyBfL87NhPi2yuXZuSW+ZeJHTA+/OYkHpB
- thbetpddxbhNbe/560Bd09u92xTxtc1CNNTEIpINgvzJPeWWKlMSVhV886o5HwZunAFC
- GL0aL/4YPDCczbtLtJoGd6kD78JsZ1oTvuSsigU6uaLnhqlHIugkTAB7TQi+KyIhDWQB
- g+Qg==
-X-Gm-Message-State: AOAM533jRud4ow4fOVJv4i3BWAaeGJNExRp3N4eqS8fSnNRQDvDaObM0
- FnjmdwipZ1Fmn1KyggqXan03vg==
-X-Google-Smtp-Source: ABdhPJxbIZq9HZYzidiT57oheozoEkK4LR301DY4sN0NLaCJ49wfKAtw9KvrnUyCX8QCIu0Q3f0yDw==
-X-Received: by 2002:a1c:99c2:: with SMTP id b185mr13520572wme.52.1593354274670; 
- Sun, 28 Jun 2020 07:24:34 -0700 (PDT)
+ bh=3ss6f23CNAuvklUxZG32njbzr6Gg86zxOuqDqmS/ynM=;
+ b=bmEL/Jja5TNOcdGbl/mMPbqSUYgvLYE153I8dqbWCdvC902tLK5GIjp8vNXeUWV0Wz
+ 926zD7sbUZFIdaOcMJVQ4hAp4jey5bP3X0MacSidK0XI6PVHuamJODi8DkXXBzG7FQcE
+ fnJ5mMOI78cuWnvWBhIr3MAgianuQA5kVFi1h1YzfFm5CPFEIuWl9iOYWZLfi1a/yU/z
+ Rr1OwpTofkjPmj27t0BDpFEUOObjMhiq5QHNQh6PZWM/X+WwNQkMNAxHtxzs3zoHP5cw
+ y57qmaMnMtzC8mJZkMXVqJGFmo67ZuwbklNL/A/gQSxBwyTKXGcZoDJMI2Hv4vA1/Fcd
+ e94A==
+X-Gm-Message-State: AOAM531VX7gOnNWmPQCV7gaAH14IdOJaPyzgAk0EiMQJCOfZ6gK6Fa68
+ MZyycbyWUno3djEoMOizFX7ll17i4euXsA==
+X-Google-Smtp-Source: ABdhPJzYhF34Q1FLOnavEsS4Xj+e4VnVCVeZCNIfkLZfLsfHp6V99sPzhLUhry7vjJGhbWPQjQTXbQ==
+X-Received: by 2002:adf:8524:: with SMTP id 33mr12956847wrh.366.1593354275803; 
+ Sun, 28 Jun 2020 07:24:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.33
+ by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:24:34 -0700 (PDT)
+ Sun, 28 Jun 2020 07:24:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/17] hw/arm/spitz: Create SpitzMachineClass abstract base
- class
-Date: Sun, 28 Jun 2020 15:24:14 +0100
-Message-Id: <20200628142429.17111-3-peter.maydell@linaro.org>
+Subject: [PATCH 03/17] hw/arm/spitz: Keep pointers to MPU and SSI devices in
+ SpitzMachineState
+Date: Sun, 28 Jun 2020 15:24:15 +0100
+Message-Id: <20200628142429.17111-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200628142429.17111-1-peter.maydell@linaro.org>
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,214 +91,117 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the four Spitz-family machines (akita, borzoi, spitz, terrier)
-create a proper abstract class SpitzMachineClass which encapsulates
-the common behaviour, rather than having them all derive directly
-from TYPE_MACHINE:
- * instead of each machine class setting mc->init to a wrapper
-   function which calls spitz_common_init() with parameters,
-   put that data in the SpitzMachineClass and make spitz_common_init
-   the SpitzMachineClass machine-init function
- * move the settings of mc->block_default_type and
-   mc->ignore_memory_transaction_failures into the SpitzMachineClass
-   class init rather than repeating them in each machine's class init
+Keep pointers to the MPU and the SSI devices in SpitzMachineState.
+We're going to want to make GPIO connections between some of the
+SSI devices and the SCPs, so we want to keep hold of a pointer to
+those; putting the MPU into the struct allows us to pass just
+one thing to spitz_ssp_attach() rather than two.
 
-(The motivation is that we're going to want to keep some state in
-the SpitzMachineState so we can connect GPIOs between devices created
-in one sub-function of the machine init to devices created in a
-different sub-function.)
+We have to retain the setting of the global "max1111" variable
+for the moment as it is used in spitz_adc_temp_on(); later in
+this series of commits we will be able to remove it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 91 ++++++++++++++++++++++++++++++--------------------
- 1 file changed, 55 insertions(+), 36 deletions(-)
+ hw/arm/spitz.c | 50 ++++++++++++++++++++++++++++----------------------
+ 1 file changed, 28 insertions(+), 22 deletions(-)
 
 diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 9eaedab79b5..c70e912a33d 100644
+index c70e912a33d..f48e966c047 100644
 --- a/hw/arm/spitz.c
 +++ b/hw/arm/spitz.c
-@@ -33,6 +33,26 @@
- #include "exec/address-spaces.h"
- #include "cpu.h"
+@@ -43,6 +43,11 @@ typedef struct {
  
-+enum spitz_model_e { spitz, akita, borzoi, terrier };
-+
-+typedef struct {
-+    MachineClass parent;
-+    enum spitz_model_e model;
-+    int arm_id;
-+} SpitzMachineClass;
-+
-+typedef struct {
-+    MachineState parent;
-+} SpitzMachineState;
-+
-+#define TYPE_SPITZ_MACHINE "spitz-common"
-+#define SPITZ_MACHINE(obj) \
-+    OBJECT_CHECK(SpitzMachineState, obj, TYPE_SPITZ_MACHINE)
-+#define SPITZ_MACHINE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(SpitzMachineClass, obj, TYPE_SPITZ_MACHINE)
-+#define SPITZ_MACHINE_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(SpitzMachineClass, klass, TYPE_SPITZ_MACHINE)
-+
- #undef REG_FMT
- #define REG_FMT                         "0x%02lx"
+ typedef struct {
+     MachineState parent;
++    PXA2xxState *mpu;
++    DeviceState *mux;
++    DeviceState *lcdtg;
++    DeviceState *ads7846;
++    DeviceState *max1111;
+ } SpitzMachineState;
  
-@@ -905,8 +925,6 @@ static void spitz_gpio_setup(PXA2xxState *cpu, int slots)
+ #define TYPE_SPITZ_MACHINE "spitz-common"
+@@ -709,34 +714,33 @@ static void corgi_ssp_realize(SSISlave *d, Error **errp)
+     s->bus[2] = ssi_create_bus(dev, "ssi2");
  }
  
- /* Board init.  */
--enum spitz_model_e { spitz, akita, borzoi, terrier };
--
- #define SPITZ_RAM       0x04000000
- #define SPITZ_ROM       0x00800000
- 
-@@ -915,9 +933,10 @@ static struct arm_boot_info spitz_binfo = {
-     .ram_size = 0x04000000,
- };
- 
--static void spitz_common_init(MachineState *machine,
--                              enum spitz_model_e model, int arm_id)
-+static void spitz_common_init(MachineState *machine)
+-static void spitz_ssp_attach(PXA2xxState *cpu)
++static void spitz_ssp_attach(SpitzMachineState *sms)
  {
-+    SpitzMachineClass *smc = SPITZ_MACHINE_GET_CLASS(machine);
-+    enum spitz_model_e model = smc->model;
+-    DeviceState *mux;
+-    DeviceState *dev;
+     void *bus;
+ 
+-    mux = ssi_create_slave(cpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
++    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
+ 
+-    bus = qdev_get_child_bus(mux, "ssi0");
+-    ssi_create_slave(bus, "spitz-lcdtg");
++    bus = qdev_get_child_bus(sms->mux, "ssi0");
++    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
+ 
+-    bus = qdev_get_child_bus(mux, "ssi1");
+-    dev = ssi_create_slave(bus, "ads7846");
+-    qdev_connect_gpio_out(dev, 0,
+-                          qdev_get_gpio_in(cpu->gpio, SPITZ_GPIO_TP_INT));
++    bus = qdev_get_child_bus(sms->mux, "ssi1");
++    sms->ads7846 = ssi_create_slave(bus, "ads7846");
++    qdev_connect_gpio_out(sms->ads7846, 0,
++                          qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
+ 
+-    bus = qdev_get_child_bus(mux, "ssi2");
+-    max1111 = ssi_create_slave(bus, "max1111");
+-    max111x_set_input(max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
+-    max111x_set_input(max1111, MAX1111_BATT_TEMP, 0);
+-    max111x_set_input(max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
++    bus = qdev_get_child_bus(sms->mux, "ssi2");
++    sms->max1111 = ssi_create_slave(bus, "max1111");
++    max1111 = sms->max1111;
++    max111x_set_input(sms->max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
++    max111x_set_input(sms->max1111, MAX1111_BATT_TEMP, 0);
++    max111x_set_input(sms->max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
+ 
+-    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_LCDCON_CS,
+-                        qdev_get_gpio_in(mux, 0));
+-    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_ADS7846_CS,
+-                        qdev_get_gpio_in(mux, 1));
+-    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_MAX1111_CS,
+-                        qdev_get_gpio_in(mux, 2));
++    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_LCDCON_CS,
++                        qdev_get_gpio_in(sms->mux, 0));
++    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_ADS7846_CS,
++                        qdev_get_gpio_in(sms->mux, 1));
++    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_MAX1111_CS,
++                        qdev_get_gpio_in(sms->mux, 2));
+ }
+ 
+ /* CF Microdrive */
+@@ -936,6 +940,7 @@ static struct arm_boot_info spitz_binfo = {
+ static void spitz_common_init(MachineState *machine)
+ {
+     SpitzMachineClass *smc = SPITZ_MACHINE_GET_CLASS(machine);
++    SpitzMachineState *sms = SPITZ_MACHINE(machine);
+     enum spitz_model_e model = smc->model;
      PXA2xxState *mpu;
      DeviceState *scp0, *scp1 = NULL;
-     MemoryRegion *address_space_mem = get_system_memory();
-@@ -958,100 +977,100 @@ static void spitz_common_init(MachineState *machine,
-         /* A 4.0 GB microdrive is permanently sitting in CF slot 0.  */
-         spitz_microdrive_attach(mpu, 0);
+@@ -945,6 +950,7 @@ static void spitz_common_init(MachineState *machine)
+     /* Setup CPU & memory */
+     mpu = pxa270_init(address_space_mem, spitz_binfo.ram_size,
+                       machine->cpu_type);
++    sms->mpu = mpu;
  
--    spitz_binfo.board_id = arm_id;
-+    spitz_binfo.board_id = smc->arm_id;
-     arm_load_kernel(mpu->cpu, machine, &spitz_binfo);
-     sl_bootparam_write(SL_PXA_PARAM_BASE);
- }
+     sl_flash_register(mpu, (model == spitz) ? FLASH_128M : FLASH_1024M);
  
--static void spitz_init(MachineState *machine)
-+static void spitz_common_class_init(ObjectClass *oc, void *data)
- {
--    spitz_common_init(machine, spitz, 0x2c9);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->block_default_type = IF_IDE;
-+    mc->ignore_memory_transaction_failures = true;
-+    mc->init = spitz_common_init;
- }
+@@ -954,7 +960,7 @@ static void spitz_common_init(MachineState *machine)
+     /* Setup peripherals */
+     spitz_keyboard_register(mpu);
  
--static void borzoi_init(MachineState *machine)
--{
--    spitz_common_init(machine, borzoi, 0x33f);
--}
--
--static void akita_init(MachineState *machine)
--{
--    spitz_common_init(machine, akita, 0x2e8);
--}
--
--static void terrier_init(MachineState *machine)
--{
--    spitz_common_init(machine, terrier, 0x33f);
--}
-+static const TypeInfo spitz_common_info = {
-+    .name = TYPE_SPITZ_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .abstract = true,
-+    .instance_size = sizeof(SpitzMachineState),
-+    .class_size = sizeof(SpitzMachineClass),
-+    .class_init = spitz_common_class_init,
-+};
+-    spitz_ssp_attach(mpu);
++    spitz_ssp_attach(sms);
  
- static void akitapda_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    SpitzMachineClass *smc = SPITZ_MACHINE_CLASS(oc);
- 
-     mc->desc = "Sharp SL-C1000 (Akita) PDA (PXA270)";
--    mc->init = akita_init;
--    mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("pxa270-c0");
-+    smc->model = akita;
-+    smc->arm_id = 0x2e8;
- }
- 
- static const TypeInfo akitapda_type = {
-     .name = MACHINE_TYPE_NAME("akita"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SPITZ_MACHINE,
-     .class_init = akitapda_class_init,
- };
- 
- static void spitzpda_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    SpitzMachineClass *smc = SPITZ_MACHINE_CLASS(oc);
- 
-     mc->desc = "Sharp SL-C3000 (Spitz) PDA (PXA270)";
--    mc->init = spitz_init;
--    mc->block_default_type = IF_IDE;
--    mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("pxa270-c0");
-+    smc->model = spitz;
-+    smc->arm_id = 0x2c9;
- }
- 
- static const TypeInfo spitzpda_type = {
-     .name = MACHINE_TYPE_NAME("spitz"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SPITZ_MACHINE,
-     .class_init = spitzpda_class_init,
- };
- 
- static void borzoipda_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    SpitzMachineClass *smc = SPITZ_MACHINE_CLASS(oc);
- 
-     mc->desc = "Sharp SL-C3100 (Borzoi) PDA (PXA270)";
--    mc->init = borzoi_init;
--    mc->block_default_type = IF_IDE;
--    mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("pxa270-c0");
-+    smc->model = borzoi;
-+    smc->arm_id = 0x33f;
- }
- 
- static const TypeInfo borzoipda_type = {
-     .name = MACHINE_TYPE_NAME("borzoi"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SPITZ_MACHINE,
-     .class_init = borzoipda_class_init,
- };
- 
- static void terrierpda_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-+    SpitzMachineClass *smc = SPITZ_MACHINE_CLASS(oc);
- 
-     mc->desc = "Sharp SL-C3200 (Terrier) PDA (PXA270)";
--    mc->init = terrier_init;
--    mc->block_default_type = IF_IDE;
--    mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("pxa270-c5");
-+    smc->model = terrier;
-+    smc->arm_id = 0x33f;
- }
- 
- static const TypeInfo terrierpda_type = {
-     .name = MACHINE_TYPE_NAME("terrier"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SPITZ_MACHINE,
-     .class_init = terrierpda_class_init,
- };
- 
- static void spitz_machine_init(void)
- {
-+    type_register_static(&spitz_common_info);
-     type_register_static(&akitapda_type);
-     type_register_static(&spitzpda_type);
-     type_register_static(&borzoipda_type);
+     scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
+     if (model != akita) {
 -- 
 2.20.1
 
