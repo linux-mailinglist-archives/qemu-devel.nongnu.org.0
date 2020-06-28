@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D888020C879
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:34:09 +0200 (CEST)
-Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC26620C87B
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:35:43 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYNk-0004BV-O5
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
+	id 1jpYPG-0006OO-Md
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEj-0006QV-T4
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:49 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33829)
+ id 1jpYEk-0006Sg-MW
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:50 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEh-0004lH-Th
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:49 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g10so602567wmc.1
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:47 -0700 (PDT)
+ id 1jpYEi-0004lT-VF
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id q5so14033636wru.6
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f9cb+FEDC8NDU7u9+mTpSdy4O/EQL4qnuAeS5rgyprA=;
- b=GCUVfe7mJD1TB3/FZSxmQBtC8w76L1rMDeuBHUPN6Bd37epLnkdm+nK/IDlCNjVxB8
- 5dnhX32L7lITooFAeG/02Hs+TDh+W6H3uXob6DtAF56JLCpIXBP1PkNVd9Ci7VNx1una
- Xb7ffb1i1Ol1XSLGY9WY+5OAy8v2FbYWFg2QK93qXDIAGe3EzbF+OJsPESmTf1RCqGVr
- 48cLgSRN6Biv5dXEPm5OsQ9x25qAhyYGCnqdPsglJUHfIJxawuQsZRK9ZBTPwLEKf/3q
- WYGs+Cw874bKTW3fEGxx1cy+GOq8Ax6GrYzV5WGC8HDtar2ye2oU0A/yc4rGKucyEyFF
- z8AQ==
+ bh=fwBSY0MsI6h8FbtVujLNC6mJpu8V4peKWaK9z7XDiI0=;
+ b=rg7325tuDYm4hUluuyLxFpyBeffHXylA4vO7YVE+nBUruGnnIL7GDbNPBPROrBMHDq
+ SZwkDsEWqsPO0Nh8foIzHvMmvUEt5rXLSW/C1FOkdXGoxJILdMd3gXAtuH068iC3vvOT
+ w8wbeCN1qWkFmSWVzrcTAN0xgOYcZRIt0TmS4OaGwTW3Z7x0p+GdLzfHJ+ileI1FJuOy
+ JeQKmiW0uC1KKQadVkcMS5tVticI3PDxrrjUz17cHupg05Ri8nPN37aI6dgoUW8GVXrG
+ PFBxUNdrf5YRB7wd1O3kOJhTY3Qko9ODCBsnBMeA7MWKjHROYUzcww7omiMmCipT3ie4
+ SIRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f9cb+FEDC8NDU7u9+mTpSdy4O/EQL4qnuAeS5rgyprA=;
- b=B7q0c8Qou7AjZGPXdBNl12w6LLRJWDi3IwobRMh20VM05931zMyUuR1IBgsMPbUimf
- NzMNoxgzyK8+m3KN1qXrOnKcqxYBQmXnkKS9hG7ZjEDVXmb2DthT0CBKVykhjEiA/WM3
- orvN86S05tS1uTprl0j7gRkRcrAXnn1uC+nZhjJdScGe6lf3XVXFElvki2YH0g9e3skz
- rrQh5i2iWioI+coECCNeueFOrIewBcQTdXUs7hOPNybQbnlopCqRlt90iZXHs1yw1v/W
- 1juF1rRmi+ne1pSC4KGMbSh2Ofw1Uv67E+r/5Kr4W2zeP4TVavJlbugrsQte4G6pPsOR
- 0LcA==
-X-Gm-Message-State: AOAM5305L4PHjO3bp0IjM7WUmFPolg8dpahbBwlJMq0CVKJXgvBnUEki
- ZrLJoVHia3R7KeNgsPm0qqPs4A==
-X-Google-Smtp-Source: ABdhPJzoCXzmlB0F43pFg1CXG7vxmfw4iF7+lBA4lxGsPIpG9JpV3HYRzP7YwpZDWdN8IvIitV1Pug==
-X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr12975224wmk.11.1593354286515; 
- Sun, 28 Jun 2020 07:24:46 -0700 (PDT)
+ bh=fwBSY0MsI6h8FbtVujLNC6mJpu8V4peKWaK9z7XDiI0=;
+ b=ikR0TvklwayWeeLhJpk/aSzcT4Ry0HRHghdh7C5EDADdWrkwjHldx3PcZeY9mbw7ir
+ uc93yDKwqJVn37/gJ4vdWk9AaZA0EjyHM1btgbGsdNCR44y/kiqdpEHktRL0FxV1e+s9
+ 89O56CCSIFOJczteKfVXzqCf5l16aCxFn7b266Nda15J0zp7Mb+fpIL/EbAOEaeqmBDe
+ t/TTm+9k/rnnCUdkaUzqGyCRrG+siUl/KYQjzWvEfMw9vX9yxFQW2f8Y7uzMI/re/7fZ
+ r6DUcK3/yI5472Dkf75+1LxqaxtUs0ZPjK/5dxLub7EezqXQy4vg5yEsSzTBs562J6Vd
+ Jw4Q==
+X-Gm-Message-State: AOAM531zdO9aBcCXAjAXOWZoDwfhv5NjJetMip4HQCHu5vDiwX2mmrDs
+ CnMfriwrPM/9TXsbPcu6vOTeMQ==
+X-Google-Smtp-Source: ABdhPJwhM4e1FHu1qABUUYYOoeoVdZ6CLLE50UksqTTxQ/3xgvKTs6NaY7NEV/mWgNOfJ3mkEsyRVg==
+X-Received: by 2002:a5d:6912:: with SMTP id t18mr12770328wru.411.1593354287667; 
+ Sun, 28 Jun 2020 07:24:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.45
+ by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:24:45 -0700 (PDT)
+ Sun, 28 Jun 2020 07:24:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 12/17] hw/arm/spitz: Encapsulate misc GPIO handling in a device
-Date: Sun, 28 Jun 2020 15:24:24 +0100
-Message-Id: <20200628142429.17111-13-peter.maydell@linaro.org>
+Subject: [PATCH 13/17] hw/gpio/zaurus.c: Use LOG_GUEST_ERROR for bad guest
+ register accesses
+Date: Sun, 28 Jun 2020 15:24:25 +0100
+Message-Id: <20200628142429.17111-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200628142429.17111-1-peter.maydell@linaro.org>
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,222 +91,86 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we have a free-floating set of IRQs and a function
-spitz_out_switch() which handle some miscellaneous GPIO lines for the
-spitz board.  Encapsulate this behaviour in a simple QOM device.
+Instead of logging guest accesses to invalid register offsets in this
+device using zaurus_printf() (which just prints to stderr), use the
+usual qemu_log_mask(LOG_GUEST_ERROR,...).
 
-At this point we can finally remove the 'max1111' global, because the
-ADC battery-temperature value is now handled by the misc-gpio device
-writing the value to its outbound "adc-temp" GPIO, which the board
-code wires up to the appropriate inbound GPIO line on the max1111.
-
-This commit also fixes Coverity issue CID 1421913 (which pointed out
-that the 'outsignals' in spitz_scoop_gpio_setup() were leaked),
-because it removes the use of the qemu_allocate_irqs() API from this
-code entirely.
+Since this was the only use of the zaurus_printf() macro outside
+spitz.c, we can move the definition of that macro from sharpsl.h
+to spitz.c.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 129 +++++++++++++++++++++++++++++++++----------------
- 1 file changed, 87 insertions(+), 42 deletions(-)
+ include/hw/arm/sharpsl.h |  3 ---
+ hw/arm/spitz.c           |  3 +++
+ hw/gpio/zaurus.c         | 12 +++++++-----
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
+diff --git a/include/hw/arm/sharpsl.h b/include/hw/arm/sharpsl.h
+index 89e168fbff3..e986b28c527 100644
+--- a/include/hw/arm/sharpsl.h
++++ b/include/hw/arm/sharpsl.h
+@@ -9,9 +9,6 @@
+ 
+ #include "exec/hwaddr.h"
+ 
+-#define zaurus_printf(format, ...)	\
+-    fprintf(stderr, "%s: " format, __func__, ##__VA_ARGS__)
+-
+ /* zaurus.c */
+ 
+ #define SL_PXA_PARAM_BASE	0xa0000a00
 diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 1400a56729d..bab9968ccee 100644
+index bab9968ccee..6eb46869157 100644
 --- a/hw/arm/spitz.c
 +++ b/hw/arm/spitz.c
-@@ -51,6 +51,7 @@ typedef struct {
-     DeviceState *max1111;
-     DeviceState *scp0;
-     DeviceState *scp1;
-+    DeviceState *misc_gpio;
- } SpitzMachineState;
+@@ -62,6 +62,9 @@ typedef struct {
+ #define SPITZ_MACHINE_CLASS(klass) \
+     OBJECT_CLASS_CHECK(SpitzMachineClass, klass, TYPE_SPITZ_MACHINE)
  
- #define TYPE_SPITZ_MACHINE "spitz-common"
-@@ -658,8 +659,6 @@ static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
- #define SPITZ_GPIO_MAX1111_CS   20
- #define SPITZ_GPIO_TP_INT       11
++#define zaurus_printf(format, ...)                              \
++    fprintf(stderr, "%s: " format, __func__, ##__VA_ARGS__)
++
+ #undef REG_FMT
+ #define REG_FMT                         "0x%02lx"
  
--static DeviceState *max1111;
+diff --git a/hw/gpio/zaurus.c b/hw/gpio/zaurus.c
+index 9a12c683420..258e9264930 100644
+--- a/hw/gpio/zaurus.c
++++ b/hw/gpio/zaurus.c
+@@ -22,9 +22,7 @@
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
 -
- /* "Demux" the signal based on current chipselect */
- typedef struct {
-     SSISlave ssidev;
-@@ -695,18 +694,6 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
- #define SPITZ_BATTERY_VOLT      0xd0    /* About 4.0V */
- #define SPITZ_CHARGEON_ACIN     0x80    /* About 5.0V */
+-#undef REG_FMT
+-#define REG_FMT			"0x%02lx"
++#include "qemu/log.h"
  
--static void spitz_adc_temp_on(void *opaque, int line, int level)
--{
--    int batt_temp;
--
--    if (!max1111)
--        return;
--
--    batt_temp = level ? SPITZ_BATTERY_TEMP : 0;
--
--    qemu_set_irq(qdev_get_gpio_in(max1111, MAX1111_BATT_TEMP), batt_temp);
--}
--
- static void corgi_ssp_realize(SSISlave *d, Error **errp)
- {
-     DeviceState *dev = DEVICE(d);
-@@ -734,7 +721,6 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+ /* SCOOP devices */
  
-     bus = qdev_get_child_bus(sms->mux, "ssi2");
-     sms->max1111 = qdev_new(TYPE_MAX_1111);
--    max1111 = sms->max1111;
-     qdev_prop_set_uint8(sms->max1111, "input1" /* BATT_VOLT */,
-                         SPITZ_BATTERY_VOLT);
-     qdev_prop_set_uint8(sms->max1111, "input2" /* BATT_TEMP */, 0);
-@@ -810,27 +796,66 @@ static void spitz_akita_i2c_setup(PXA2xxState *cpu)
- 
- /* Other peripherals */
- 
--static void spitz_out_switch(void *opaque, int line, int level)
-+/*
-+ * Encapsulation of some miscellaneous GPIO line behaviour for the Spitz boards.
-+ *
-+ * QEMU interface:
-+ *  + named GPIO inputs "green-led", "orange-led", "charging", "discharging":
-+ *    these currently just print messages that the line has been signalled
-+ *  + named GPIO input "adc-temp-on": set to cause the battery-temperature
-+ *    value to be passed to the max111x ADC
-+ *  + named GPIO output "adc-temp": the ADC value, to be wired up to the max111x
-+ */
-+#define TYPE_SPITZ_MISC_GPIO "spitz-misc-gpio"
-+#define SPITZ_MISC_GPIO(obj) \
-+    OBJECT_CHECK(SpitzMiscGPIOState, (obj), TYPE_SPITZ_MISC_GPIO)
-+
-+typedef struct SpitzMiscGPIOState {
-+    SysBusDevice parent_obj;
-+
-+    qemu_irq adc_value;
-+} SpitzMiscGPIOState;
-+
-+static void spitz_misc_charging(void *opaque, int n, int level)
- {
--    switch (line) {
--    case 0:
--        zaurus_printf("Charging %s.\n", level ? "off" : "on");
--        break;
--    case 1:
--        zaurus_printf("Discharging %s.\n", level ? "on" : "off");
--        break;
--    case 2:
--        zaurus_printf("Green LED %s.\n", level ? "on" : "off");
--        break;
--    case 3:
--        zaurus_printf("Orange LED %s.\n", level ? "on" : "off");
--        break;
--    case 6:
--        spitz_adc_temp_on(opaque, line, level);
--        break;
--    default:
--        g_assert_not_reached();
--    }
-+    zaurus_printf("Charging %s.\n", level ? "off" : "on");
-+}
-+
-+static void spitz_misc_discharging(void *opaque, int n, int level)
-+{
-+    zaurus_printf("Discharging %s.\n", level ? "off" : "on");
-+}
-+
-+static void spitz_misc_green_led(void *opaque, int n, int level)
-+{
-+    zaurus_printf("Green LED %s.\n", level ? "off" : "on");
-+}
-+
-+static void spitz_misc_orange_led(void *opaque, int n, int level)
-+{
-+    zaurus_printf("Orange LED %s.\n", level ? "off" : "on");
-+}
-+
-+static void spitz_misc_adc_temp(void *opaque, int n, int level)
-+{
-+    SpitzMiscGPIOState *s = SPITZ_MISC_GPIO(opaque);
-+    int batt_temp = level ? SPITZ_BATTERY_TEMP : 0;
-+
-+    qemu_set_irq(s->adc_value, batt_temp);
-+}
-+
-+static void spitz_misc_gpio_init(Object *obj)
-+{
-+    SpitzMiscGPIOState *s = SPITZ_MISC_GPIO(obj);
-+    DeviceState *dev = DEVICE(obj);
-+
-+    qdev_init_gpio_in_named(dev, spitz_misc_charging, "charging", 1);
-+    qdev_init_gpio_in_named(dev, spitz_misc_discharging, "discharging", 1);
-+    qdev_init_gpio_in_named(dev, spitz_misc_green_led, "green-led", 1);
-+    qdev_init_gpio_in_named(dev, spitz_misc_orange_led, "orange-led", 1);
-+    qdev_init_gpio_in_named(dev, spitz_misc_adc_temp, "adc-temp-on", 1);
-+
-+    qdev_init_gpio_out_named(dev, &s->adc_value, "adc-temp", 1);
- }
- 
- #define SPITZ_SCP_LED_GREEN             1
-@@ -850,12 +875,22 @@ static void spitz_out_switch(void *opaque, int line, int level)
- 
- static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
- {
--    qemu_irq *outsignals = qemu_allocate_irqs(spitz_out_switch, sms->mpu, 8);
-+    DeviceState *miscdev = sysbus_create_simple(TYPE_SPITZ_MISC_GPIO, -1, NULL);
- 
--    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_CHRG_ON, outsignals[0]);
--    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_JK_B, outsignals[1]);
--    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_GREEN, outsignals[2]);
--    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_ORANGE, outsignals[3]);
-+    sms->misc_gpio = miscdev;
-+
-+    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_CHRG_ON,
-+                          qdev_get_gpio_in_named(miscdev, "charging", 0));
-+    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_JK_B,
-+                          qdev_get_gpio_in_named(miscdev, "discharging", 0));
-+    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_GREEN,
-+                          qdev_get_gpio_in_named(miscdev, "green-led", 0));
-+    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_ORANGE,
-+                          qdev_get_gpio_in_named(miscdev, "orange-led", 0));
-+    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON,
-+                          qdev_get_gpio_in_named(miscdev, "adc-temp-on", 0));
-+    qdev_connect_gpio_out_named(miscdev, "adc-temp", 0,
-+                                qdev_get_gpio_in(sms->max1111, MAX1111_BATT_TEMP));
- 
-     if (sms->scp1) {
-         qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
-@@ -863,8 +898,6 @@ static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
-         qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
-                               qdev_get_gpio_in_named(sms->lcdtg, "bl_power", 0));
+@@ -104,7 +102,9 @@ static uint64_t scoop_read(void *opaque, hwaddr addr,
+     case SCOOP_GPRR:
+         return s->gpio_level;
+     default:
+-        zaurus_printf("Bad register offset " REG_FMT "\n", (unsigned long)addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "scoop_read: bad register offset 0x%02" HWADDR_PRIx "\n",
++                      addr);
      }
--
--    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
+ 
+     return 0;
+@@ -150,7 +150,9 @@ static void scoop_write(void *opaque, hwaddr addr,
+         scoop_gpio_handler_update(s);
+         break;
+     default:
+-        zaurus_printf("Bad register offset " REG_FMT "\n", (unsigned long)addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "scoop_write: bad register offset 0x%02" HWADDR_PRIx "\n",
++                      addr);
+     }
  }
  
- #define SPITZ_GPIO_HSYNC                22
-@@ -1217,12 +1250,24 @@ static const TypeInfo spitz_lcdtg_info = {
-     .class_init    = spitz_lcdtg_class_init,
- };
- 
-+static const TypeInfo spitz_misc_gpio_info = {
-+    .name = TYPE_SPITZ_MISC_GPIO,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(SpitzMiscGPIOState),
-+    .instance_init = spitz_misc_gpio_init,
-+    /*
-+     * No class_init required: device has no internal state so does not
-+     * need to set up reset or vmstate, and does not have a realize method.
-+     */
-+};
-+
- static void spitz_register_types(void)
- {
-     type_register_static(&corgi_ssp_info);
-     type_register_static(&spitz_lcdtg_info);
-     type_register_static(&spitz_keyboard_info);
-     type_register_static(&sl_nand_info);
-+    type_register_static(&spitz_misc_gpio_info);
- }
- 
- type_init(spitz_register_types)
 -- 
 2.20.1
 
