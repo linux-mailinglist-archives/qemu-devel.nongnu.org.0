@@ -2,53 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C9920C87D
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:37:38 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786D820C881
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:41:08 +0200 (CEST)
+Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYR7-0000GX-BF
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:37:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
+	id 1jpYUV-0004WD-HJ
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpYJH-0006Sm-Uc; Sun, 28 Jun 2020 10:29:31 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:38496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpYJE-0005V2-U9; Sun, 28 Jun 2020 10:29:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 11A83746307;
- Sun, 28 Jun 2020 16:29:26 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CE9A774594E; Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CCFD97456F8;
- Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
-Date: Sun, 28 Jun 2020 16:29:25 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v5 09/11] macio: Add dummy screamer register area
-In-Reply-To: <alpine.BSF.2.22.395.2006281555030.21756@zero.eik.bme.hu>
-Message-ID: <alpine.BSF.2.22.395.2006281627240.21756@zero.eik.bme.hu>
-References: <cover.1592315226.git.balaton@eik.bme.hu>
- <ecaaee4ba802b7a53de03e401c4d68e94de554f5.1592315226.git.balaton@eik.bme.hu>
- <3012998c-8345-f654-1de1-dd623ef375e8@ilande.co.uk>
- <alpine.BSF.2.22.395.2006281406340.95193@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2006281555030.21756@zero.eik.bme.hu>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jpYKe-0008LB-LR
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:30:56 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:35518)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jpYKb-0005o6-G2
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:30:56 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id d4so13152096otk.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6u7fXVYdxMTkzxbjLuLIh00pONDtl0L8b9bjNLLuXQ8=;
+ b=zKvIPowyPrHn7wp6bg7qsSeeUd7E30tGN5E3SmT8RjocorHiFfFSqcYqONieltpRxw
+ UafpSCzVNFmM75CANgzLlWRLkTHphMKu0nbrS1/NhJjw/jmd4OjmxPGGra4boTR4sZf6
+ qYLzawkU0zBdpA72XvK3vdJsqRcsfIGMGKRd2yRkPAVZzvI5f9V+zkcG/Cuh0VV089lg
+ 3BhZhQkiYVyWymPI3DZgkbEGKWY3GpvRU4W8XlEBt8xH+itTQaNzc1DYYs6U71FLHPNt
+ /PQu+e6SgKnezZ6zDgS9Ef32swuhyZmArTbnY64khWBnrqCJ3axOZ1ZaYjjijy/Ma7Hw
+ CvPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6u7fXVYdxMTkzxbjLuLIh00pONDtl0L8b9bjNLLuXQ8=;
+ b=ZS7Nh3g28NpsRw4wY6mdNE7U9ehINdQC5Aa834sdNHxVFSV+cAWCN5pu9R0GTfsdWs
+ Lz7w0c2b++uVJv6WwLEeIp48cd9r6FQKmlTbRvkX9wtGEw8DozgjOy9f8Tja1szA+KcR
+ p1tpYUrLPR7HQvI4QI6uKc48FQhtQRoglvKHGW8lI2T1iZWCkGXV28EzJZwTtbJZ5Fr3
+ caeA8dCplZ0jxGtmTAPcXRlvgBkZ3uQRwQape8CeQYmUdW+sTY0+FMmH6JGXPQBFU6aK
+ L4W448bbsKgX1GgK7p6OBB31XpGrRKvgcV2K9u8RUcoSpl3BtW9MLR5lV5whZp+4VfA1
+ 5UGA==
+X-Gm-Message-State: AOAM5319h+spIozECQLgYlu0q0SfncR+1a/HQSvoS1UyR/9dJOfSQDWf
+ aAIiWwuL06Rf0rRwMzMGlqfurEng04ld+8+oTcYA4A==
+X-Google-Smtp-Source: ABdhPJwkMri13J2CSnh1p2ayLcYA16KLfbK150EfwJypNXrgOBP44rw3F2inYusJSK/hRbSeJJexAXdkukYqz8vJVWo=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr7367037ota.91.1593354652161; 
+ Sun, 28 Jun 2020 07:30:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 08:37:51
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200626214410.3613258-1-alistair.francis@wdc.com>
+In-Reply-To: <20200626214410.3613258-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 28 Jun 2020 15:30:41 +0100
+Message-ID: <CAFEAcA-8QejH-sFsP_rmKuYdYbQdYRjrHaNz4vLHzfYiSBCKYA@mail.gmail.com>
+Subject: Re: [PULL 00/63] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,139 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 28 Jun 2020, BALATON Zoltan wrote:
-> Here it is with --enable-debug and additional screamer debug:
+On Fri, 26 Jun 2020 at 22:53, Alistair Francis <alistair.francis@wdc.com> w=
+rote:
 >
-> SCREAMER: screamer_read: addr 0000000000000000 -> 0
-> SCREAMER: screamer_write: addr 0000000000000000 val 11
-> SCREAMER: screamer_control_write: val 17
-> SCREAMER: basic rate: 44100
-> DBDMA[10]: writel 0x000000000000080c <= 0x00000010
-> DBDMA[10]: channel 0x10 reg 0x3
-> DBDMA[10]: dbdma_cmdptr_load 0x00000010
-> DBDMA[10]: writel 0x0000000000000800 <= 0xf0000000
-> DBDMA[10]: channel 0x10 reg 0x0
-> DBDMA[10]:  Clearing RUN !
-> DBDMA[10]:  clearing PAUSE !
-> DBDMA[10]:   -> ACTIVE down !
-> DBDMA[10]:  new status=0x00000000
-> SCREAMER: DMA TX flush!
-> DBDMA[10]: readl 0x0000000000000804 => 0x00000000
-> DBDMA[10]: channel 0x10 reg 0x1
-> DBDMA[10]: writel 0x0000000000000800 <= 0xf0008000
-> DBDMA[10]: channel 0x10 reg 0x0
-> DBDMA[10]:  Setting RUN !
-> DBDMA[10]:  clearing PAUSE !
-> DBDMA[10]:  -> ACTIVE up !
-> DBDMA[10]:  new status=0x00008400
-> DBDMA[10]: readl 0x0000000000000804 => 0x00008400
-> DBDMA[10]: channel 0x10 reg 0x1
-> DBDMA: -> DBDMA_run_bh
-> DBDMA[10]: channel_run
-> DBDMA[10]: dbdma_cmd 0x555556aac340
-> DBDMA[10]:     req_count 0x8000
-> DBDMA[10]:     command 0x0000
-> DBDMA[10]:     phy_addr 0x00000100
-> DBDMA[10]:     cmd_dep 0x00000000
-> DBDMA[10]:     res_count 0x0000
-> DBDMA[10]:     xfer_status 0x0000
-> DBDMA[10]: * OUTPUT_MORE *
-> DBDMA[10]: start_output
-> DBDMA[10]: addr 0x100 key 0x0
-> SCREAMER: DMA TX defer interrupt!
-> DBDMA: <- DBDMA_run_bh
-> SCREAMER: Processing deferred buffer
-> SCREAMER: DMA TX transfer: addr 100 len: 8000  bpos: 0
+> The following changes since commit 553cf5d7c47bee05a3dec9461c1f8430316d51=
+6b:
 >
-> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> 0x0000000094ff7c19 in ?? ()
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+00626' into staging (2020-06-26 18:22:36 +0100)
 >
-> (gdb) bt
-> #0  0x0000000094ff7c19 in  ()
-> #1  0x0000555555acb1e2 in pmac_screamer_tx_transfer (io=0x555556ab1a98) at 
-> hw/audio/screamer.c:79
-> #2  0x0000555555acb4dd in screamerspk_callback (opaque=0x555556aad630, 
-> avail=16384) at hw/audio/screamer.c:155
-> #3  0x0000555555a6af3d in audio_run_out (s=0x555556b12bd0) at 
-> audio/audio.c:1181
-> #4  0x0000555555a6b886 in audio_run (s=0x555556b12bd0, msg=0x55555609d4a9 
-> "alsa run (prepared)") at audio/audio.c:1372
-> #5  0x0000555555d00ce9 in alsa_poll_handler (opaque=0x555557959c60) at 
-> audio/alsaaudio.c:199
-> #6  0x0000555555e57079 in aio_dispatch_handler (ctx=0x5555567257f0, 
-> node=0x555557a0c6b0) at util/aio-posix.c:328
-> #7  0x0000555555e57232 in aio_dispatch_handlers (ctx=0x5555567257f0) at 
-> util/aio-posix.c:371
-> #8  0x0000555555e57288 in aio_dispatch (ctx=0x5555567257f0) at 
-> util/aio-posix.c:381
-> #9  0x0000555555e6d373 in aio_ctx_dispatch (source=0x5555567257f0, 
-> callback=0x0, user_data=0x0) at util/async.c:306
-> #10 0x00007ffff7cc6665 in g_main_context_dispatch () at 
-> /lib64/libglib-2.0.so.0
-> #11 0x0000555555e74898 in glib_pollfds_poll () at util/main-loop.c:219
-> #12 0x0000555555e74912 in os_host_main_loop_wait (timeout=28915159) at 
-> util/main-loop.c:242
-> #13 0x0000555555e74a17 in main_loop_wait (nonblocking=0) at 
-> util/main-loop.c:518
-> #14 0x0000555555981d35 in qemu_main_loop () at qemu/softmmu/vl.c:1664
-> #15 0x0000555555df59dc in main (argc=17, argv=0x7fffffffdf28, 
-> envp=0x7fffffffdfb8) at qemu/softmmu/main.c:49
-> (gdb) up
-> #1  0x0000555555acb1e2 in pmac_screamer_tx_transfer (io=0x555556ab1a98) at 
-> hw/audio/screamer.c:79
-> 79	    io->dma_end(io);
-> (gdb) p/x *io
-> $1 = {opaque = 0xa2140923, channel = 0x79130821, addr = 0x14137e1f, len = 
-> 0x0, is_last = 0x0, is_dma_out = 0x3408f81a, dma_end = 0x94ff7c19, processing 
-> = 0x19,  dma_mem = 0x53f5351b, dma_len = 0xc7f99f1e, dir = 0x21fbe921}
+> are available in the Git repository at:
 >
-> Looks like dma_end is not pointing to the expected end procedure. Maybe 
-> something has overwritten it?
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200626-1
+>
+> for you to fetch changes up to b39d59434ea10649fdb9e0a339c30c76e38c5e17:
+>
+>   target/riscv: configure and turn on vector extension from command line =
+(2020-06-26 14:22:15 -0700)
+>
+> ----------------------------------------------------------------
+> This PR contains two patches to improve PLIC support in QEMU.
+>
+> The rest of the PR is adding support for the v0.7.1 RISC-V vector
+> extensions. This is experimental support as the vector extensions are
+> still in a draft state.
+>
 
-Looks like the dma op itself corrupts the struct:
+Hi; I'm afraid this fails to build on PPC64 and s390x (ie
+our big-endian hosts):
 
-(gdb) b pmac_screamer_tx_transfer
-Breakpoint 1 at 0x555555acb12c: file hw/audio/screamer.c, line 66.
-[...]
-DBDMA: -> DBDMA_run_bh
-DBDMA[10]: channel_run
-DBDMA[10]: dbdma_cmd 0x555556aac340
-DBDMA[10]:     req_count 0x8000
-DBDMA[10]:     command 0x0000
-DBDMA[10]:     phy_addr 0x00000100
-DBDMA[10]:     cmd_dep 0x00000000
-DBDMA[10]:     res_count 0x0000
-DBDMA[10]:     xfer_status 0x0000
-DBDMA[10]: * OUTPUT_MORE *
-DBDMA[10]: start_output
-DBDMA[10]: addr 0x100 key 0x0
-SCREAMER: DMA TX defer interrupt!
-DBDMA: <- DBDMA_run_bh
-SCREAMER: Processing deferred buffer
+/home/ubuntu/qemu/target/riscv/vector_helper.c: In function =E2=80=98vext_c=
+lear=E2=80=99:
+/home/ubuntu/qemu/target/riscv/vector_helper.c: In function =E2=80=98vext_c=
+lear=E2=80=99:
+/home/ubuntu/qemu/target/riscv/vector_helper.c:154:21: error: invalid
+operands to binary & (have =E2=80=98void *=E2=80=99 and =E2=80=98long long =
+unsigned int=E2=80=99)
+         memset(tail & ~(7ULL), 0, part1);
+                     ^
+/home/ubuntu/qemu/target/riscv/vector_helper.c:155:27: error: invalid
+operands to binary & (have =E2=80=98void *=E2=80=99 and =E2=80=98long long =
+unsigned int=E2=80=99)
+         memset((tail + 8) & ~(7ULL), 0, part2);
+                ~~~~~~~~~~ ^
+/home/ubuntu/qemu/target/riscv/vector_helper.c:154:21: error: invalid
+operands to binary & (have =E2=80=98void *=E2=80=99 and =E2=80=98long long =
+unsigned int=E2=80=99)
+         memset(tail & ~(7ULL), 0, part1);
+                     ^
+/home/ubuntu/qemu/target/riscv/vector_helper.c:155:27: error: invalid
+operands to binary & (have =E2=80=98void *=E2=80=99 and =E2=80=98long long =
+unsigned int=E2=80=99)
+         memset((tail + 8) & ~(7ULL), 0, part2);
+                ~~~~~~~~~~ ^
+/home/ubuntu/qemu/rules.mak:69: recipe for target
+'target/riscv/vector_helper.o' failed
 
-Thread 1 "qemu-system-ppc" hit Breakpoint 1, pmac_screamer_tx_transfer 
-(io=0x555556ab1a98) at hw/audio/screamer.c:66
-66	    ScreamerState *s = io->opaque;
-(gdb) p/x *io
-$4 = {opaque = 0x555556aad630, channel = 0x555556aac290, addr = 0x100, len = 0x8000, is_last = 0x0, is_dma_out = 0x1, dma_end = 0x555555b7d2aa, processing = 0x1, dma_mem = 0x0, dma_len = 0x0, dir = 0x0}
-(gdb) p dbdma_end
-$5 = {void (DBDMA_io *)} 0x555555b7d2aa <dbdma_end>
-(gdb) n
-68	    SCREAMER_DPRINTF("DMA TX transfer: addr %" HWADDR_PRIx
-(gdb)
-SCREAMER: DMA TX transfer: addr 100 len: 8000  bpos: 0
-71	    dma_memory_read(&address_space_memory, io->addr, 
-&s->buf[s->bpos], io->len);
-(gdb) n
-73	    s->bpos += io->len;
-(gdb) p/x *io
-$6 = {opaque = 0xa2140923, channel = 0x79130821, addr = 0x14137e1f, len = 0x60f3d1d, is_last = 0x0, is_dma_out = 0x3408f81a, dma_end = 0x94ff7c19, processing = 0x19, dma_mem = 0x53f5351b, dma_len = 0xc7f99f1e, dir = 0x21fbe921}
 
-Regards,
-BALATON Zoltan
+thanks
+-- PMM
 
