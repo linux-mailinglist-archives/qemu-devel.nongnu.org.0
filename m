@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9996020C989
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:25:06 +0200 (CEST)
-Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F9420C990
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:27:17 +0200 (CEST)
+Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpbzF-0008A5-HY
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
+	id 1jpc1L-0003Ew-1W
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuV-0002Aw-DX; Sun, 28 Jun 2020 14:20:11 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:38375)
+ id 1jpbuW-0002Dj-Ik; Sun, 28 Jun 2020 14:20:12 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuT-0005MQ-KE; Sun, 28 Jun 2020 14:20:11 -0400
+ id 1jpbuU-0005N3-Mb; Sun, 28 Jun 2020 14:20:12 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1CE59748DCB;
- Sun, 28 Jun 2020 20:20:08 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 23982748DCC;
+ Sun, 28 Jun 2020 20:20:09 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EC81E746331; Sun, 28 Jun 2020 20:20:07 +0200 (CEST)
-Message-Id: <d06cbbe37ae24ea18babf11913887c8b9891cfad.1593367416.git.balaton@eik.bme.hu>
+ id 04188746331; Sun, 28 Jun 2020 20:20:09 +0200 (CEST)
+Message-Id: <73921e8573a7888cb97cf974aa789318fafaa399.1593367416.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
 References: <cover.1593367416.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 07/11] mac_oldworld: Map macio to expected address at reset
+Subject: [PATCH v6 08/11] mac_oldworld: Add machine ID register
 Date: Sun, 28 Jun 2020 20:03:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +34,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 14:20:01
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,94 +61,79 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a reset function that maps macio to the address expected by the
-firmware of the board at startup.
+The G3 beige machine has a machine ID register that is accessed by the
+firmware to deternine the board config. Add basic emulation of it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac.h          | 12 ++++++++++++
- hw/ppc/mac_oldworld.c | 15 ++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+v6: Make MemoryRegionOps static const
+v4: Move MermoryRegion to MachineState, use constants
+
+ hw/ppc/mac.h          |  1 +
+ hw/ppc/mac_oldworld.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index 195967facd..58ae5a2226 100644
+index 58ae5a2226..75f1853a7b 100644
 --- a/hw/ppc/mac.h
 +++ b/hw/ppc/mac.h
-@@ -60,6 +60,18 @@
- #define OLDWORLD_SCREAMER_TX_DMA_IRQ 0x08
- #define OLDWORLD_SCREAMER_RX_IRQ  0x09
+@@ -69,6 +69,7 @@ typedef struct HeathrowMachineState {
+     /*< private >*/
+     MachineState parent;
  
-+/* g3beige machine */
-+#define TYPE_HEATHROW_MACHINE MACHINE_TYPE_NAME("g3beige")
-+#define HEATHROW_MACHINE(obj) OBJECT_CHECK(HeathrowMachineState, (obj), \
-+                                           TYPE_HEATHROW_MACHINE)
-+
-+typedef struct HeathrowMachineState {
-+    /*< private >*/
-+    MachineState parent;
-+
-+    PCIDevice *macio;
-+} HeathrowMachineState;
-+
- /* New World IRQs */
- #define NEWWORLD_CUDA_IRQ      0x19
- #define NEWWORLD_PMU_IRQ       0x19
++    MemoryRegion machine_id;
+     PCIDevice *macio;
+ } HeathrowMachineState;
+ 
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index f97f241e0c..13562e26e6 100644
+index 13562e26e6..8fbddba4eb 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -73,6 +73,15 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-     return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
+@@ -52,6 +52,9 @@
+ 
+ #define MAX_IDE_BUS 2
+ #define CFG_ADDR 0xf0000510
++#define MACHINE_ID_ADDR 0xff000004
++#define MACHINE_ID_VAL 0x3d8c
++
+ #define TBFREQ 16600000UL
+ #define CLOCKFREQ 266000000UL
+ #define BUSFREQ 66000000UL
+@@ -89,6 +92,22 @@ static void ppc_heathrow_cpu_reset(void *opaque)
+     cpu_reset(CPU(cpu));
  }
  
-+static void ppc_heathrow_reset(MachineState *machine)
++static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    HeathrowMachineState *m = HEATHROW_MACHINE(machine);
-+
-+    qemu_devices_reset();
-+    pci_default_write_config(m->macio, PCI_COMMAND, PCI_COMMAND_MEMORY, 2);
-+    pci_default_write_config(m->macio, PCI_BASE_ADDRESS_0, 0xf3000000, 4);
++    return (addr == 0 && size == 2 ? MACHINE_ID_VAL : 0);
 +}
 +
- static void ppc_heathrow_cpu_reset(void *opaque)
- {
-     PowerPCCPU *cpu = opaque;
-@@ -82,6 +91,7 @@ static void ppc_heathrow_cpu_reset(void *opaque)
- 
++static void machine_id_write(void *opaque, hwaddr addr,
++                             uint64_t val, unsigned size)
++{
++    return;
++}
++
++static const MemoryRegionOps machine_id_reg_ops = {
++    .read = machine_id_read,
++    .write = machine_id_write,
++};
++
  static void ppc_heathrow_init(MachineState *machine)
  {
-+    HeathrowMachineState *hm = HEATHROW_MACHINE(machine);
-     ram_addr_t ram_size = machine->ram_size;
-     const char *boot_device = machine->boot_order;
-     PowerPCCPU *cpu = NULL;
-@@ -287,6 +297,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     HeathrowMachineState *hm = HEATHROW_MACHINE(machine);
+@@ -239,6 +258,11 @@ static void ppc_heathrow_init(MachineState *machine)
+         }
+     }
  
-     /* MacIO */
-     macio = pci_new(-1, TYPE_OLDWORLD_MACIO);
-+    hm->macio = macio;
-     dev = DEVICE(macio);
-     qdev_prop_set_uint64(dev, "frequency", tbfreq);
-     object_property_set_link(OBJECT(macio), OBJECT(pic_dev), "pic",
-@@ -439,6 +450,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
- 
-     mc->desc = "Heathrow based PowerMAC";
-     mc->init = ppc_heathrow_init;
-+    mc->reset = ppc_heathrow_reset;
-     mc->block_default_type = IF_IDE;
-     mc->max_cpus = MAX_CPUS;
- #ifndef TARGET_PPC64
-@@ -455,9 +467,10 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
- }
- 
- static const TypeInfo ppc_heathrow_machine_info = {
--    .name          = MACHINE_TYPE_NAME("g3beige"),
-+    .name          = TYPE_HEATHROW_MACHINE,
-     .parent        = TYPE_MACHINE,
-     .class_init    = heathrow_class_init,
-+    .instance_size = sizeof(HeathrowMachineState),
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_FW_PATH_PROVIDER },
-         { }
++    memory_region_init_io(&hm->machine_id, OBJECT(machine),
++                          &machine_id_reg_ops, NULL, "machine_id", 2);
++    memory_region_add_subregion(get_system_memory(), MACHINE_ID_ADDR,
++                                &hm->machine_id);
++
+     /* XXX: we register only 1 output pin for heathrow PIC */
+     pic_dev = qdev_new(TYPE_HEATHROW);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
 -- 
 2.21.3
 
