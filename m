@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527D020C87C
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:36:46 +0200 (CEST)
-Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE18F20C87E
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 16:38:20 +0200 (CEST)
+Received: from localhost ([::1]:35310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpYQH-0007rz-CS
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
+	id 1jpYRo-0001K4-0D
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 10:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEo-0006cb-6H
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37458)
+ id 1jpYEp-0006gu-Uh
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:55 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpYEm-0004mr-9W
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a6so14056245wrm.4
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:51 -0700 (PDT)
+ id 1jpYEn-0004nG-PI
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 10:24:55 -0400
+Received: by mail-wm1-x342.google.com with SMTP id j18so13004152wmi.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 07:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=03unWo1zzivuM0us7q7fEwDLp9zh0qzy8bL3l2XLj/Q=;
- b=vIG40ChMwd+or/bA4R5r5eLZUe/PJkf3HFq4v0eQIabjB9atprSGbg9BhRFM7VJHZk
- Ym12zj0fkeq5PAxQAQB4KKKfwCBYpDEBYwRYuYucy5av0oqbVCG802ioymly1YZfkSZq
- TYXcan5ztzcuNYK/k3nNQRmvRd+dfwtuLQw/4ev0VuhT9iZ6VkjzHq5nSYkxVxg6JQdD
- bfxQ9hUiShCa4JG18aTorTT1Qfwss05aRkph+OMZuxwytnzLRnsyo264lvXI9Pueb6Z/
- O51cdc0W77/Oct0MAobp0KmjNgk0zer4JHHOXGUd953xZAxgfB2hizMNC8Eu7d9mNdsb
- 0mkg==
+ bh=PpVXQd412XMkJh1QeNoqsNlD9XCB50I4FpVy/sO+nw8=;
+ b=PVimSI+V6NHxsMVKvZ16PbRoMTrDaQkdmJb+90akfB+IzTZPgivHKxUy42q4PyWbWh
+ /pju7SYN/napeBkdvA/vA+f76jd0+bWHlw26pyf7BQcN2EtGoMgvL5LXrqlDbP1v6GU8
+ 9y5JMBU4xQtYw/P1iYYXVMSJmKIhP/fqUWxqROwfv8dN0WO1uWq9CLFDz1o4HZMXUDGG
+ CBhpD1/uSREmXLHcFxd9x8Ddb9VZznbB+tLbXrWXG/XJCTSqVJDU1s+x78nnaG+SWYR8
+ Y7gD0iFQZ02TuefNp+9imqcPt8BJyPHludlTlhlDJUI2bNH2y6jIHpvsSUdBeimpS4OH
+ x7OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=03unWo1zzivuM0us7q7fEwDLp9zh0qzy8bL3l2XLj/Q=;
- b=p5TlAaoV7+0i/O32fNk97Xbl5zxKCdfSLOccJXWabMw1LVSl787jq5sbXYfe3rPbgb
- 3e9U7m2t6dNuclGCXhJ7LsftBRZ+zWL+gXPJSU0h7/7A1IEX/SjVPG2gnhULhZa8+Cmb
- hl/odiwGML0k1+MSGfG46UkPKj4ab6Iq1tLluRV513+A34vVw+/Q/BDcLU3Y7WZD2739
- eZDaF0SI00pe1PAan9PqejFnd4KYDw+rNqMYOvc+3pOXCBIsm5S9TyXOQ5+kA8F0hFx+
- c8lCNPKkedKqlzQe9Pbcor0DcMfMDd6roppUlOKDl5w/ZQpnC0cgaSUq5P9V9kwMveYD
- LVrQ==
-X-Gm-Message-State: AOAM532PjcRHZ5z2jYwBCjUnQGyUJN74Pjd3ixrnowGaQocq5YaNbYMp
- bsxTOHhGfaxVeTh3ySH3ZWdxbA==
-X-Google-Smtp-Source: ABdhPJwD8fLhGsbc4MM96c19nSQ9n/lU7R+BjqFPmUWdQtxhYntTMH7wtQp1h3GfWSwkRyuqav0btg==
-X-Received: by 2002:a5d:4986:: with SMTP id r6mr12594556wrq.424.1593354291023; 
- Sun, 28 Jun 2020 07:24:51 -0700 (PDT)
+ bh=PpVXQd412XMkJh1QeNoqsNlD9XCB50I4FpVy/sO+nw8=;
+ b=CcHlEiAUM4B2GR+/8xwp9E3IxaDjBlIqXSMFdWuQEUdaofns7NCDn9Pxkry0nSEzkc
+ KG16Kx90yRcButz0qZY2s7XiR69pA+haoN/aAtqOOnrmw1TtwNxbN4H9UO2rXNbdYYQa
+ 8YVUsGUH85n1mr0FilX1YAUi7so5d5/EJDY0Axusj3fyDH168c7ZqVHEhO0wKtE+71T3
+ xm3RpaxK0YFo6cpZFlpB0C3PhP0RI807SoLCSPGmcHH+z2OpzTzlTS/sP/zPwxe3isvZ
+ 9brszLqagl1VHUzr/q/JYG02BQx6RuEStziVBjNDLxea/M4Cet2YZS5+k587gkKgKz6J
+ H7dw==
+X-Gm-Message-State: AOAM533ML9uX0xTJ54iDPzIorvq7j9TL1LIgCuGLVNVTpVEHAH7p4MzQ
+ goTC1BoHhBlmCwdvwNzZIUkfYQ==
+X-Google-Smtp-Source: ABdhPJwivEAUY5nnYJR4KpiuQQODNG4GPqXGQV+3LPXcVqGICBP0HJHLRi9UA70sfo9Pe94VYZW3ag==
+X-Received: by 2002:a1c:2906:: with SMTP id p6mr11101557wmp.68.1593354292332; 
+ Sun, 28 Jun 2020 07:24:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.49
+ by smtp.gmail.com with ESMTPSA id h13sm5321555wml.42.2020.06.28.07.24.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 07:24:50 -0700 (PDT)
+ Sun, 28 Jun 2020 07:24:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 16/17] hw/arm/spitz: Provide usual QOM macros for corgi-ssp
- and spitz-lcdtg
-Date: Sun, 28 Jun 2020 15:24:28 +0100
-Message-Id: <20200628142429.17111-17-peter.maydell@linaro.org>
+Subject: [PATCH 17/17] Replace uses of FROM_SSI_SLAVE() macro with QOM casts
+Date: Sun, 28 Jun 2020 15:24:29 +0100
+Message-Id: <20200628142429.17111-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200628142429.17111-1-peter.maydell@linaro.org>
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,110 +90,187 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QOM types "spitz-lcdtg" and "corgi-ssp" are missing the
-usual QOM TYPE and casting macros; provide and use them.
+The FROM_SSI_SLAVE() macro predates QOM and is used as a typesafe way
+to cast from an SSISlave* to the instance struct of a subtype of
+TYPE_SSI_SLAVE.  Switch to using the QOM cast macros instead, which
+have the same effect (by writing the QOM macros if the types were
+previously missing them.)
 
-In particular, we can safely use the QOM cast macros instead of
-FROM_SSI_SLAVE() because in both cases the 'ssidev' field of
-the instance state struct is the first field in it.
+(The FROM_SSI_SLAVE() macro allows the SSISlave member of the
+subtype's struct to be anywhere as long as it is named "ssidev",
+whereas a QOM cast macro insists that it is the first thing in the
+subtype's struct.  This is true for all the types we convert here.)
+
+This removes all the uses of FROM_SSI_SLAVE() so we can delete the
+definition.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ include/hw/ssi/ssi.h |  2 --
+ hw/arm/z2.c          | 11 +++++++----
+ hw/display/ads7846.c |  9 ++++++---
+ hw/display/ssd0323.c | 10 +++++++---
+ hw/sd/ssi-sd.c       |  4 ++--
+ 5 files changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 49eae3fce4e..f020aff9747 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -579,6 +579,9 @@ static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
- #define LCDTG_PICTRL    0x06
- #define LCDTG_POLCTRL   0x07
+diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
+index 5fd411f2e4e..eac168aa1db 100644
+--- a/include/hw/ssi/ssi.h
++++ b/include/hw/ssi/ssi.h
+@@ -66,8 +66,6 @@ struct SSISlave {
+     bool cs;
+ };
  
-+#define TYPE_SPITZ_LCDTG "spitz-lcdtg"
-+#define SPITZ_LCDTG(obj) OBJECT_CHECK(SpitzLCDTG, (obj), TYPE_SPITZ_LCDTG)
+-#define FROM_SSI_SLAVE(type, dev) DO_UPCAST(type, ssidev, dev)
+-
+ extern const VMStateDescription vmstate_ssi_slave;
+ 
+ #define VMSTATE_SSI_SLAVE(_field, _state) {                          \
+diff --git a/hw/arm/z2.c b/hw/arm/z2.c
+index a0f40959904..e1f22f58681 100644
+--- a/hw/arm/z2.c
++++ b/hw/arm/z2.c
+@@ -111,9 +111,12 @@ typedef struct {
+     int pos;
+ } ZipitLCD;
+ 
++#define TYPE_ZIPIT_LCD "zipit-lcd"
++#define ZIPIT_LCD(obj) OBJECT_CHECK(ZipitLCD, (obj), TYPE_ZIPIT_LCD)
 +
- typedef struct {
-     SSISlave ssidev;
-     uint32_t bl_intensity;
-@@ -616,7 +619,7 @@ static inline void spitz_bl_power(void *opaque, int line, int level)
- 
- static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+ static uint32_t zipit_lcd_transfer(SSISlave *dev, uint32_t value)
  {
--    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
-+    SpitzLCDTG *s = SPITZ_LCDTG(dev);
-     int addr;
-     addr = value >> 5;
-     value &= 0x1f;
-@@ -645,7 +648,7 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+-    ZipitLCD *z = FROM_SSI_SLAVE(ZipitLCD, dev);
++    ZipitLCD *z = ZIPIT_LCD(dev);
+     uint16_t val;
+     if (z->selected) {
+         z->buf[z->pos] = value & 0xff;
+@@ -153,7 +156,7 @@ static void z2_lcd_cs(void *opaque, int line, int level)
  
- static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+ static void zipit_lcd_realize(SSISlave *dev, Error **errp)
  {
--    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
-+    SpitzLCDTG *s = SPITZ_LCDTG(ssi);
-     DeviceState *dev = DEVICE(s);
+-    ZipitLCD *z = FROM_SSI_SLAVE(ZipitLCD, dev);
++    ZipitLCD *z = ZIPIT_LCD(dev);
+     z->selected = 0;
+     z->enabled = 0;
+     z->pos = 0;
+@@ -185,7 +188,7 @@ static void zipit_lcd_class_init(ObjectClass *klass, void *data)
+ }
  
-     s->bl_power = 0;
-@@ -664,6 +667,9 @@ static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
- #define SPITZ_GPIO_MAX1111_CS   20
- #define SPITZ_GPIO_TP_INT       11
+ static const TypeInfo zipit_lcd_info = {
+-    .name          = "zipit-lcd",
++    .name          = TYPE_ZIPIT_LCD,
+     .parent        = TYPE_SSI_SLAVE,
+     .instance_size = sizeof(ZipitLCD),
+     .class_init    = zipit_lcd_class_init,
+@@ -325,7 +328,7 @@ static void z2_init(MachineState *machine)
  
-+#define TYPE_CORGI_SSP "corgi-ssp"
-+#define CORGI_SSP(obj) OBJECT_CHECK(CorgiSSPState, (obj), TYPE_CORGI_SSP)
+     type_register_static(&zipit_lcd_info);
+     type_register_static(&aer915_info);
+-    z2_lcd = ssi_create_slave(mpu->ssp[1], "zipit-lcd");
++    z2_lcd = ssi_create_slave(mpu->ssp[1], TYPE_ZIPIT_LCD);
+     bus = pxa2xx_i2c_bus(mpu->i2c[0]);
+     i2c_create_slave(bus, TYPE_AER915, 0x55);
+     wm = i2c_create_slave(bus, TYPE_WM8750, 0x1b);
+diff --git a/hw/display/ads7846.c b/hw/display/ads7846.c
+index 9228b40b1af..56bf82fe079 100644
+--- a/hw/display/ads7846.c
++++ b/hw/display/ads7846.c
+@@ -29,6 +29,9 @@ typedef struct {
+     int output;
+ } ADS7846State;
+ 
++#define TYPE_ADS7846 "ads7846"
++#define ADS7846(obj) OBJECT_CHECK(ADS7846State, (obj), TYPE_ADS7846)
 +
- /* "Demux" the signal based on current chipselect */
- typedef struct {
-     SSISlave ssidev;
-@@ -673,7 +679,7 @@ typedef struct {
+ /* Control-byte bitfields */
+ #define CB_PD0		(1 << 0)
+ #define CB_PD1		(1 << 1)
+@@ -61,7 +64,7 @@ static void ads7846_int_update(ADS7846State *s)
  
- static uint32_t corgi_ssp_transfer(SSISlave *dev, uint32_t value)
+ static uint32_t ads7846_transfer(SSISlave *dev, uint32_t value)
  {
--    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, dev);
-+    CorgiSSPState *s = CORGI_SSP(dev);
-     int i;
+-    ADS7846State *s = FROM_SSI_SLAVE(ADS7846State, dev);
++    ADS7846State *s = ADS7846(dev);
  
-     for (i = 0; i < 3; i++) {
-@@ -702,7 +708,7 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
- static void corgi_ssp_realize(SSISlave *d, Error **errp)
+     switch (s->cycle ++) {
+     case 0:
+@@ -139,7 +142,7 @@ static const VMStateDescription vmstate_ads7846 = {
+ static void ads7846_realize(SSISlave *d, Error **errp)
  {
      DeviceState *dev = DEVICE(d);
--    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, d);
-+    CorgiSSPState *s = CORGI_SSP(d);
+-    ADS7846State *s = FROM_SSI_SLAVE(ADS7846State, d);
++    ADS7846State *s = ADS7846(d);
  
-     qdev_init_gpio_in(dev, corgi_ssp_gpio_cs, 3);
-     s->bus[0] = ssi_create_bus(dev, "ssi0");
-@@ -714,10 +720,11 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+     qdev_init_gpio_out(dev, &s->interrupt, 1);
+ 
+@@ -166,7 +169,7 @@ static void ads7846_class_init(ObjectClass *klass, void *data)
+ }
+ 
+ static const TypeInfo ads7846_info = {
+-    .name          = "ads7846",
++    .name          = TYPE_ADS7846,
+     .parent        = TYPE_SSI_SLAVE,
+     .instance_size = sizeof(ADS7846State),
+     .class_init    = ads7846_class_init,
+diff --git a/hw/display/ssd0323.c b/hw/display/ssd0323.c
+index c3bdb18742c..32d27f008ae 100644
+--- a/hw/display/ssd0323.c
++++ b/hw/display/ssd0323.c
+@@ -66,9 +66,13 @@ typedef struct {
+     uint8_t framebuffer[128 * 80 / 2];
+ } ssd0323_state;
+ 
++#define TYPE_SSD0323 "ssd0323"
++#define SSD0323(obj) OBJECT_CHECK(ssd0323_state, (obj), TYPE_SSD0323)
++
++
+ static uint32_t ssd0323_transfer(SSISlave *dev, uint32_t data)
  {
-     void *bus;
+-    ssd0323_state *s = FROM_SSI_SLAVE(ssd0323_state, dev);
++    ssd0323_state *s = SSD0323(dev);
  
--    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
-+    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1],
-+                                TYPE_CORGI_SSP);
+     switch (s->mode) {
+     case SSD0323_DATA:
+@@ -346,7 +350,7 @@ static const GraphicHwOps ssd0323_ops = {
+ static void ssd0323_realize(SSISlave *d, Error **errp)
+ {
+     DeviceState *dev = DEVICE(d);
+-    ssd0323_state *s = FROM_SSI_SLAVE(ssd0323_state, d);
++    ssd0323_state *s = SSD0323(d);
  
-     bus = qdev_get_child_bus(sms->mux, "ssi0");
--    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
-+    sms->lcdtg = ssi_create_slave(bus, TYPE_SPITZ_LCDTG);
- 
-     bus = qdev_get_child_bus(sms->mux, "ssi1");
-     sms->ads7846 = ssi_create_slave(bus, "ads7846");
-@@ -1220,7 +1227,7 @@ static void corgi_ssp_class_init(ObjectClass *klass, void *data)
+     s->col_end = 63;
+     s->row_end = 79;
+@@ -368,7 +372,7 @@ static void ssd0323_class_init(ObjectClass *klass, void *data)
  }
  
- static const TypeInfo corgi_ssp_info = {
--    .name          = "corgi-ssp",
-+    .name          = TYPE_CORGI_SSP,
+ static const TypeInfo ssd0323_info = {
+-    .name          = "ssd0323",
++    .name          = TYPE_SSD0323,
      .parent        = TYPE_SSI_SLAVE,
-     .instance_size = sizeof(CorgiSSPState),
-     .class_init    = corgi_ssp_class_init,
-@@ -1249,7 +1256,7 @@ static void spitz_lcdtg_class_init(ObjectClass *klass, void *data)
- }
+     .instance_size = sizeof(ssd0323_state),
+     .class_init    = ssd0323_class_init,
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 25cec2ddeaa..25cdf4c966d 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -74,7 +74,7 @@ typedef struct {
  
- static const TypeInfo spitz_lcdtg_info = {
--    .name          = "spitz-lcdtg",
-+    .name          = TYPE_SPITZ_LCDTG,
-     .parent        = TYPE_SSI_SLAVE,
-     .instance_size = sizeof(SpitzLCDTG),
-     .class_init    = spitz_lcdtg_class_init,
+ static uint32_t ssi_sd_transfer(SSISlave *dev, uint32_t val)
+ {
+-    ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, dev);
++    ssi_sd_state *s = SSI_SD(dev);
+ 
+     /* Special case: allow CMD12 (STOP TRANSMISSION) while reading data.  */
+     if (s->mode == SSI_SD_DATA_READ && val == 0x4d) {
+@@ -241,7 +241,7 @@ static const VMStateDescription vmstate_ssi_sd = {
+ 
+ static void ssi_sd_realize(SSISlave *d, Error **errp)
+ {
+-    ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, d);
++    ssi_sd_state *s = SSI_SD(d);
+     DeviceState *carddev;
+     DriveInfo *dinfo;
+     Error *err = NULL;
 -- 
 2.20.1
 
