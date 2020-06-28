@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C07D20C7A6
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 13:24:16 +0200 (CEST)
-Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E89820C79A
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 13:17:50 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpVPz-0001s1-AW
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 07:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48638)
+	id 1jpVJk-0004Ws-WD
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 07:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jpV6T-0007Xh-7D; Sun, 28 Jun 2020 07:04:05 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42434)
+ id 1jpV6W-0007f5-5H; Sun, 28 Jun 2020 07:04:08 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jpV6M-0000Xd-1a; Sun, 28 Jun 2020 07:04:04 -0400
+ id 1jpV6M-0000Xq-1d; Sun, 28 Jun 2020 07:04:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=vkGYrXfcdj4PNvZd6fOUVK45aqY2/Zl/2hS53SipmT0=; 
- b=DgYEfOLcgW4Anc1v8HxI5CABUq0sDgaJ2oL0Q3h5szK5GCrSW2XBi9kAy7nMBcXspWHabm/xwUsFZB5wTju9hn56eJUwVAqdSf9hTZMrje4Ly0RxCtIuaC89Lzp5uSdMobe+vCPxAArktxx2eDY8f+dozUWU/p5X3vQulv8kgxhmb9kNiiZ6w3tBsrBZ40jf4a8R2+JKBrMJOjhh2VoNUad5NXMyLaQJIFBEbTqRC0g3jrCdiO7LdQguxTMI1UKxu+UxcmFHPvTSqaonFO7XQwzRNjuBHCkvjwVlIaxBYyyzwk5urFgbM+es9dkSuBA4J00dKffHX83ddOMct2eJiA==;
+ bh=5q86OzsOKt/Py3cpreHKFjhS5m2/WJcDnGCV9QFfQgo=; 
+ b=b9wA4h9gBjtQORW4uEodrII6js+NjZbL78LCcbrfZAcuog7Ljg3J161d5HD4ulzYAoGvsi4Xkeqq/z5thQo0Jm3W8RyZH6t1/lCis+41+KqlynTO9pc4sCnDGAJtplIhCoWHkeiMMmb2CmTpRL7xMZBS8oQMAw2+VBW7cHTu0O799BHkP0f5H47qzVauVpcSe34BsLX0Dc1ew6SUhsX/3WMZc9X1j0w05GEh3NBLEKa7hY1sLbAMXHS3fBCMMtzlrMXVhZs6mSf59jGgiAiKGrNxaKCkK9n9J9JOUIQcL3BtpktL2Skds6WRU1PSKt6YtEY3PI4PjSSLIXIir4ioqg==;
 Received: from 26.red-79-158-236.dynamicip.rima-tde.net ([79.158.236.26]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jpV5Y-0002gt-D0; Sun, 28 Jun 2020 13:03:10 +0200
+ id 1jpV5Y-0002gv-Dm; Sun, 28 Jun 2020 13:03:10 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jpV5I-00039i-CH; Sun, 28 Jun 2020 13:02:52 +0200
+ id 1jpV5I-0003A6-EV; Sun, 28 Jun 2020 13:02:52 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 30/34] qcow2: Add prealloc field to QCowL2Meta
-Date: Sun, 28 Jun 2020 13:02:39 +0200
-Message-Id: <0dd88b3b4d3e90b28267267d7686cf5350d9dea0.1593342067.git.berto@igalia.com>
+Subject: [PATCH v9 32/34] qcow2: Allow preallocation and backing files if
+ extended_l2 is set
+Date: Sun, 28 Jun 2020 13:02:41 +0200
+Message-Id: <7bc65fa80f741d90be50ab25ede29b8e27aad677.1593342067.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1593342067.git.berto@igalia.com>
 References: <cover.1593342067.git.berto@igalia.com>
@@ -68,110 +69,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This field allows us to indicate that the L2 metadata update does not
-come from a write request with actual data but from a preallocation
-request.
+Traditional qcow2 images don't allow preallocation if a backing file
+is set. This is because once a cluster is allocated there is no way to
+tell that its data should be read from the backing file.
 
-For traditional images this does not make any difference, but for
-images with extended L2 entries this means that the clusters are
-allocated normally in the L2 table but individual subclusters are
-marked as unallocated.
-
-This will allow preallocating images that have a backing file.
-
-There is one special case: when we resize an existing image we can
-also request that the new clusters are preallocated. If the image
-already had a backing file then we have to hide any possible stale
-data and zero out the new clusters (see commit 955c7d6687 for more
-details).
-
-In this case the subclusters cannot be left as unallocated so the L2
-bitmap must be updated.
+Extended L2 entries have individual allocation bits for each
+subcluster, and therefore it is perfectly possible to have an
+allocated cluster with all its subclusters unallocated.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2.h         | 8 ++++++++
- block/qcow2-cluster.c | 2 +-
- block/qcow2.c         | 6 ++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ block/qcow2.c              | 7 ++++---
+ tests/qemu-iotests/206.out | 2 +-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 4ef4ae4ab0..f3499e53bf 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -463,6 +463,14 @@ typedef struct QCowL2Meta
-      */
-     bool skip_cow;
- 
-+    /**
-+     * Indicates that this is not a normal write request but a preallocation.
-+     * If the image has extended L2 entries this means that no new individual
-+     * subclusters will be marked as allocated in the L2 bitmap (but any
-+     * existing contents of that bitmap will be kept).
-+     */
-+    bool prealloc;
-+
-     /**
-      * The I/O vector with the data from the actual guest write request.
-      * If non-NULL, this is meant to be merged together with the data
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 1641976028..c8217081f2 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1066,7 +1066,7 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
-         set_l2_entry(s, l2_slice, l2_index + i, offset | QCOW_OFLAG_COPIED);
- 
-         /* Update bitmap with the subclusters that were just written */
--        if (has_subclusters(s)) {
-+        if (has_subclusters(s) && !m->prealloc) {
-             uint64_t l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
-             unsigned written_from = m->cow_start.offset;
-             unsigned written_to = m->cow_end.offset + m->cow_end.nb_bytes ?:
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 72bd25e774..003f166024 100644
+index 37bfae823c..1ea8d3b87e 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -2086,6 +2086,7 @@ static coroutine_fn int qcow2_handle_l2meta(BlockDriverState *bs,
-         QCowL2Meta *next;
- 
-         if (link_l2) {
-+            assert(!l2meta->prealloc);
-             ret = qcow2_alloc_cluster_link_l2(bs, l2meta);
-             if (ret) {
-                 goto out;
-@@ -3131,6 +3132,7 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
- 
-         while (meta) {
-             QCowL2Meta *next = meta->next;
-+            meta->prealloc = true;
- 
-             ret = qcow2_alloc_cluster_link_l2(bs, meta);
-             if (ret < 0) {
-@@ -4224,6 +4226,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-         int64_t clusters_allocated;
-         int64_t old_file_size, last_cluster, new_file_size;
-         uint64_t nb_new_data_clusters, nb_new_l2_tables;
-+        bool subclusters_need_allocation = false;
- 
-         /* With a data file, preallocation means just allocating the metadata
-          * and forwarding the truncate request to the data file */
-@@ -4305,6 +4308,8 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-                                    BDRV_REQ_ZERO_WRITE, NULL);
-             if (ret >= 0) {
-                 flags &= ~BDRV_REQ_ZERO_WRITE;
-+                /* Ensure that we read zeroes and not backing file data */
-+                subclusters_need_allocation = true;
-             }
-         } else {
-             ret = -1;
-@@ -4343,6 +4348,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-                     .offset       = nb_clusters << s->cluster_bits,
-                     .nb_bytes     = 0,
-                 },
-+                .prealloc     = !subclusters_need_allocation,
-             };
-             qemu_co_queue_init(&allocation.dependent_requests);
+@@ -3451,10 +3451,11 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         qcow2_opts->preallocation = PREALLOC_MODE_OFF;
+     }
+     if (qcow2_opts->has_backing_file &&
+-        qcow2_opts->preallocation != PREALLOC_MODE_OFF)
++        qcow2_opts->preallocation != PREALLOC_MODE_OFF &&
++        !qcow2_opts->extended_l2)
+     {
+-        error_setg(errp, "Backing file and preallocation cannot be used at "
+-                   "the same time");
++        error_setg(errp, "Backing file and preallocation can only be used at "
++                   "the same time if extended_l2 is on");
+         ret = -EINVAL;
+         goto out;
+     }
+diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
+index 363c5abe35..a100849fcb 100644
+--- a/tests/qemu-iotests/206.out
++++ b/tests/qemu-iotests/206.out
+@@ -203,7 +203,7 @@ Job failed: Different refcount widths than 16 bits require compatibility level 1
+ === Invalid backing file options ===
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"backing-file": "/dev/null", "driver": "qcow2", "file": "node0", "preallocation": "full", "size": 67108864}}}
+ {"return": {}}
+-Job failed: Backing file and preallocation cannot be used at the same time
++Job failed: Backing file and preallocation can only be used at the same time if extended_l2 is on
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
  
 -- 
 2.20.1
