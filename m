@@ -2,73 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B26620C936
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 19:22:27 +0200 (CEST)
-Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2BC20C992
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:27:26 +0200 (CEST)
+Received: from localhost ([::1]:43910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpb0b-0007JE-Vk
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 13:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41546)
+	id 1jpc1V-0003LE-DD
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jpaz6-0006aZ-SR
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 13:20:52 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jpaz5-0006Qs-4r
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 13:20:52 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id f18so13970316wml.3
- for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 10:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=t9hJrbLE5JBq+WGVMzdO0Vb+G78uOkcAQUzPYX9WTL4=;
- b=poCOz/A6Gfxi3RQ3wfszXL4eYKkc1SFEynLD55NoK4zoxzV4DTDaxcIeeGLPzWPg3L
- 1UAGNFDElbNpliHkvy9NnHoewtI7JMEE/7vU+ZdkXxTS5dwez616T0dvtyQ3DvmySjUx
- t1oet5/0SKnPOcVtfiTu4wb8uBohQHGTFkxa7o5hcHWFBQ2ZjoyODPkMouPrmgRR0Rba
- HEh1IqUvPSURZuvzg/adkhFiucTNFBssPXxGx31auoQI3FCWOeiNrq1ZW2EyuY/QZuWQ
- GX6f6pmBysLI/foOnUFen6ArfQLd9wKJjaBE/od5grRm9rzi152eMlp5LytDUVfpKE0c
- nhCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t9hJrbLE5JBq+WGVMzdO0Vb+G78uOkcAQUzPYX9WTL4=;
- b=RhU2R+GB/0UMzkg8yUjHyNRWZ2MW3WVrio6JzL2gdiMnEHKvXR383FxRd8NtJcbSty
- MkXMmBe6PDSetiBLdKLL0Xx5IvM4PWRrHnZ70yxiXe27oREzzoGUUp8xvGPd0HYB9PgK
- 0h1RcNQpvzTsowdhjPsMYNwT5rf65g4zUW8gzjrM3lyHwVytrJt8sTJKZgEUBAANbzCa
- tk00VRpChx9NfdCWRaKtj6EaiZhxgDOYe6yrKpGGWK0uwgm08czxPvgkvHJhk2PV4OJU
- nClkUlWIlBhCDdrgIfhYhxmyD8byTyen/x1/pKGRBKB0fuNt5w/TbX4B50xJ9ELlvJ6z
- MITA==
-X-Gm-Message-State: AOAM531BDrU+qOPbxivlpoU1b6fEH12tArcni3U9H8gIHHA/CDqkscoy
- FFEGufDdBThsZdyCmGSfjsjg7L76hFLyEaKxZBM=
-X-Google-Smtp-Source: ABdhPJxZCK6Q5wBAWywaPldODrQj7UUANpKK3pQH8gdhd8pxnVSM1a568JWcqw1Oy5ueyPtaKCxBAxY1cZC2vyyVxzI=
-X-Received: by 2002:a1c:cc0d:: with SMTP id h13mr14336861wmb.168.1593364849168; 
- Sun, 28 Jun 2020 10:20:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jpbuY-0002HP-84; Sun, 28 Jun 2020 14:20:14 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jpbuV-0005NQ-SR; Sun, 28 Jun 2020 14:20:13 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 58EC0748DCD;
+ Sun, 28 Jun 2020 20:20:10 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 11777746331; Sun, 28 Jun 2020 20:20:10 +0200 (CEST)
+Message-Id: <c4c0fdf928de0140e43c00f6aaa7877beb79e8d6.1593367416.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
+References: <cover.1593367416.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v6 09/11] i2c: Match parameters of i2c_start_transfer and
+ i2c_send_recv
+Date: Sun, 28 Jun 2020 20:03:36 +0200
 MIME-Version: 1.0
-References: <CALTWKrVWSvWOQVorXuC4HQbjSN=Tu+TDsc=mr1CUCL1cvJQS9Q@mail.gmail.com>
-In-Reply-To: <CALTWKrVWSvWOQVorXuC4HQbjSN=Tu+TDsc=mr1CUCL1cvJQS9Q@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Sun, 28 Jun 2020 19:20:37 +0200
-Message-ID: <CAHiYmc4Zbeo6A144PhXA_EmfPv6k4wpDr+=By3pUOp9-yeaFMA@mail.gmail.com>
-Subject: Re: [REPORT] [GSoC - TCG Continuous Benchmarking] [#1] Measuring
- Basic Performance Metrics of QEMU
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x32b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,66 +56,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BF=D0=BE=D0=BD, 22. =D1=98=D1=83=D0=BD 2020. =D1=83 12:31 Ahmed Karaman
-<ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Greetings,
->
-> Welcome to the TCG Continuous Benchmarking GSoC project!
-> This is the first report in a series that will be posted here on the
-> mailing list as part of the project.
->
-> During the project, multiple Linux profiling tools will be used.
-> These tools will help you profile your different QEMU execution
-> scenarios, and locate performance bottlenecks as well as performance
-> regression problems.
->
-> To provide you with a better understanding of these tools, this report
-> presents two of them - Perf and Callgrind.
-> It starts with measuring the basic performance metrics when running
-> a program using both tools, then it proceeds to calculating the top 25
-> most executed functions in QEMU
+These functions have a parameter that decides the direction of
+transfer but totally confusingly they don't match but inverted sense.
+To avoid frequent mistakes when using these functions change
+i2c_send_recv to match i2c_start_transfer. Also use bool in
+i2c_start_transfer instead of int to match i2c_send_recv.
 
-Now, thinking longer about topN scripts, I think one really missing
-thing is number of invocations (or calls, whatever term you prefer)
-for any function in the list. This data must be possible to obtain
-using callgrind_annotate (most likely by using --tree option). With
-perf, i don't think this is possible, given that perf works based on
-sampling.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+This probably won't be the solution accepted as Philippe has an
+alternative series fixing this problem here:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07022.html
+but until that or something else is merged this will do for the next
+patch. When this gets sorted out I'll send a rebased version.
 
-You don't need to start working on it right now, or work on it at all
-- this is more like a brainstorming suggestion from me. You can make
-improvements and correction all the way towards the end of the
-project, on Aug 31st.
+ hw/display/sm501.c   |  2 +-
+ hw/i2c/core.c        | 34 +++++++++++++++++-----------------
+ hw/i2c/ppc4xx_i2c.c  |  2 +-
+ include/hw/i2c/i2c.h |  4 ++--
+ 4 files changed, 21 insertions(+), 21 deletions(-)
 
-At the end of the project, perhaps you can publish a "Master Project
-Report" - a pdf that is basically a sum of all your reports produced
-during the project. That would be a nice reading!
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index a7fc08c52b..e714674681 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -1041,7 +1041,7 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
+                                   s->i2c_byte_count + 1, s->i2c_addr >> 1);
+                     for (i = 0; i <= s->i2c_byte_count; i++) {
+                         res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
+-                                            !(s->i2c_addr & 1));
++                                            s->i2c_addr & 1);
+                         if (res) {
+                             SM501_DPRINTF("sm501 i2c : transfer failed"
+                                           " i=%d, res=%d\n", i, res);
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index acf34a12d6..0303fefeaf 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -91,7 +91,7 @@ int i2c_bus_busy(I2CBus *bus)
+  * without releasing the bus.  If that fails, the bus is still
+  * in a transaction.
+  */
+-int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
++int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv)
+ {
+     BusChild *kid;
+     I2CSlaveClass *sc;
+@@ -175,26 +175,14 @@ void i2c_end_transfer(I2CBus *bus)
+     bus->broadcast = false;
+ }
+ 
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
++int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv)
+ {
+     I2CSlaveClass *sc;
+     I2CSlave *s;
+     I2CNode *node;
+     int ret = 0;
+ 
+-    if (send) {
+-        QLIST_FOREACH(node, &bus->current_devs, next) {
+-            s = node->elt;
+-            sc = I2C_SLAVE_GET_CLASS(s);
+-            if (sc->send) {
+-                trace_i2c_send(s->address, *data);
+-                ret = ret || sc->send(s, *data);
+-            } else {
+-                ret = -1;
+-            }
+-        }
+-        return ret ? -1 : 0;
+-    } else {
++    if (recv) {
+         ret = 0xff;
+         if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
+             sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
+@@ -206,19 +194,31 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
+         }
+         *data = ret;
+         return 0;
++    } else {
++        QLIST_FOREACH(node, &bus->current_devs, next) {
++            s = node->elt;
++            sc = I2C_SLAVE_GET_CLASS(s);
++            if (sc->send) {
++                trace_i2c_send(s->address, *data);
++                ret = ret || sc->send(s, *data);
++            } else {
++                ret = -1;
++            }
++        }
++        return ret ? -1 : 0;
+     }
+ }
+ 
+ int i2c_send(I2CBus *bus, uint8_t data)
+ {
+-    return i2c_send_recv(bus, &data, true);
++    return i2c_send_recv(bus, &data, false);
+ }
+ 
+ uint8_t i2c_recv(I2CBus *bus)
+ {
+     uint8_t data = 0xff;
+ 
+-    i2c_send_recv(bus, &data, false);
++    i2c_send_recv(bus, &data, true);
+     return data;
+ }
+ 
+diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+index c0a8e04567..d3899203a4 100644
+--- a/hw/i2c/ppc4xx_i2c.c
++++ b/hw/i2c/ppc4xx_i2c.c
+@@ -239,7 +239,7 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+                     }
+                 }
+                 if (!(i2c->sts & IIC_STS_ERR) &&
+-                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
++                    i2c_send_recv(i2c->bus, &i2c->mdata[i], recv)) {
+                     i2c->sts |= IIC_STS_ERR;
+                     i2c->extsts |= IIC_EXTSTS_XFRA;
+                     break;
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index d6e3d85faf..ad2475d6a2 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -72,10 +72,10 @@ struct I2CBus {
+ I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+ void i2c_set_slave_address(I2CSlave *dev, uint8_t address);
+ int i2c_bus_busy(I2CBus *bus);
+-int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
++int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv);
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
++int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
+ 
+-- 
+2.21.3
 
-Regards,
-Aleksandar
-
-> To dissect the output of each of the two tools, a separate section
-> for comparing the output results is presented which focuses on how
-> these results apply to QEMU.
-> Finally, a stability test is devised that compares how the output
-> of the two tools differ with each subsequent invocation of QEMU.
->
-> For easier accessibility, all reports will be hosted on a dedicated
-> website:
-> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/
->
-> Link to the first report:
-> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Measuring-Basic-P=
-erformance-Metrics-of-QEMU/
->
-> Best regards,
-> Ahmed Karaman
 
