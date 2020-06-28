@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1080120C97B
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:22:09 +0200 (CEST)
-Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D31920C97E
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:22:27 +0200 (CEST)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpbwN-0003tl-Gv
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51490)
+	id 1jpbwg-0004fi-FA
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:22:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuR-000236-D4; Sun, 28 Jun 2020 14:20:07 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:38347)
+ id 1jpbuT-00025v-9q; Sun, 28 Jun 2020 14:20:09 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:38364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuO-0005Kf-Si; Sun, 28 Jun 2020 14:20:06 -0400
+ id 1jpbuQ-0005LV-Cl; Sun, 28 Jun 2020 14:20:08 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C5E74746335;
- Sun, 28 Jun 2020 20:20:01 +0200 (CEST)
+ by localhost (Postfix) with SMTP id EE3727482D3;
+ Sun, 28 Jun 2020 20:20:04 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A4493746331; Sun, 28 Jun 2020 20:20:01 +0200 (CEST)
-Message-Id: <c69a791c7cad1246f3f34b3993dee4f549b75aa2.1593367416.git.balaton@eik.bme.hu>
+ id C4918746331; Sun, 28 Jun 2020 20:20:04 +0200 (CEST)
+Message-Id: <5e9db897c3b48bce89891599c55752acfae1b892.1593367416.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
 References: <cover.1593367416.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 01/11] mac_oldworld: Allow loading binary ROM image
+Subject: [PATCH v6 04/11] mac_oldworld: Drop some variables
 Date: Sun, 28 Jun 2020 20:03:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,80 +61,109 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
-the rom region and fall back to loading a binary image with -bios if
-loading ELF image failed. This allows testing emulation with a ROM
-image from real hardware as well as using an ELF OpenBIOS image.
+Values not used frequently enough may not worth putting in a local
+variable, especially with names almost as long as the original value
+because that does not improve readability, to the contrary it makes it
+harder to see what value is used. Drop a few such variables.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
-v4: use load address from ELF to check if ROM is too big
-
- hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ hw/ppc/mac_oldworld.c | 33 ++++++++++++++++-----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index f8c204ead7..baf3da6f90 100644
+index d1c4244b1e..4200008851 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -59,6 +59,8 @@
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+@@ -83,14 +83,11 @@ static void ppc_heathrow_reset(void *opaque)
+ static void ppc_heathrow_init(MachineState *machine)
+ {
+     ram_addr_t ram_size = machine->ram_size;
+-    const char *kernel_filename = machine->kernel_filename;
+-    const char *kernel_cmdline = machine->kernel_cmdline;
+-    const char *initrd_filename = machine->initrd_filename;
+     const char *boot_device = machine->boot_order;
+     PowerPCCPU *cpu = NULL;
+     CPUPPCState *env = NULL;
+     char *filename;
+-    int linux_boot, i;
++    int i;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     uint32_t kernel_base, initrd_base, cmdline_base = 0;
+     int32_t kernel_size, initrd_size;
+@@ -108,8 +105,6 @@ static void ppc_heathrow_init(MachineState *machine)
+     void *fw_cfg;
+     uint64_t tbfreq;
  
- #define GRACKLE_BASE 0xfec00000
-+#define PROM_BASE 0xffc00000
-+#define PROM_SIZE (4 * MiB)
- 
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
-@@ -99,6 +101,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     SysBusDevice *s;
-     DeviceState *dev, *pic_dev;
-     BusState *adb_bus;
-+    uint64_t bios_addr;
-     int bios_size;
-     unsigned int smp_cpus = machine->smp.cpus;
-     uint16_t ppc_boot_device;
-@@ -127,24 +130,32 @@ static void ppc_heathrow_init(MachineState *machine)
- 
-     memory_region_add_subregion(sysmem, 0, machine->ram);
- 
--    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-+    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
-                            &error_fatal);
-+    memory_region_add_subregion(sysmem, PROM_BASE, bios);
- 
--    if (bios_name == NULL)
-+    if (!bios_name) {
-         bios_name = PROM_FILENAME;
-+    }
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+-    linux_boot = (kernel_filename != NULL);
 -
--    /* Load OpenBIOS (ELF) */
-     if (filename) {
--        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
--                             1, PPC_ELF_MACHINE, 0, 0);
-+        /* Load OpenBIOS (ELF) */
-+        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
-+                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-+        if (bios_size <= 0) {
-+            /* or load binary ROM image */
-+            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+            bios_addr = PROM_BASE;
-+        } else {
-+            /* load_elf sets high 32 bits for some reason, strip those */
-+            bios_addr &= 0xffffffffULL;
-+        }
-         g_free(filename);
-     } else {
-         bios_size = -1;
-     }
--    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
+     /* init CPUs */
+     for (i = 0; i < smp_cpus; i++) {
+         cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+@@ -159,7 +154,7 @@ static void ppc_heathrow_init(MachineState *machine)
          exit(1);
+     }
+ 
+-    if (linux_boot) {
++    if (machine->kernel_filename) {
+         uint64_t lowaddr = 0;
+         int bswap_needed;
+ 
+@@ -169,30 +164,33 @@ static void ppc_heathrow_init(MachineState *machine)
+         bswap_needed = 0;
+ #endif
+         kernel_base = KERNEL_LOAD_ADDR;
+-        kernel_size = load_elf(kernel_filename, NULL,
++        kernel_size = load_elf(machine->kernel_filename, NULL,
+                                translate_kernel_address, NULL,
+                                NULL, &lowaddr, NULL, NULL, 1, PPC_ELF_MACHINE,
+                                0, 0);
+         if (kernel_size < 0)
+-            kernel_size = load_aout(kernel_filename, kernel_base,
++            kernel_size = load_aout(machine->kernel_filename, kernel_base,
+                                     ram_size - kernel_base, bswap_needed,
+                                     TARGET_PAGE_SIZE);
+         if (kernel_size < 0)
+-            kernel_size = load_image_targphys(kernel_filename,
++            kernel_size = load_image_targphys(machine->kernel_filename,
+                                               kernel_base,
+                                               ram_size - kernel_base);
+         if (kernel_size < 0) {
+-            error_report("could not load kernel '%s'", kernel_filename);
++            error_report("could not load kernel '%s'",
++                         machine->kernel_filename);
+             exit(1);
+         }
+         /* load initrd */
+-        if (initrd_filename) {
+-            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+-            initrd_size = load_image_targphys(initrd_filename, initrd_base,
++        if (machine->initrd_filename) {
++            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
++                                            KERNEL_GAP);
++            initrd_size = load_image_targphys(machine->initrd_filename,
++                                              initrd_base,
+                                               ram_size - initrd_base);
+             if (initrd_size < 0) {
+                 error_report("could not load initial ram disk '%s'",
+-                             initrd_filename);
++                             machine->initrd_filename);
+                 exit(1);
+             }
+             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+@@ -336,9 +334,10 @@ static void ppc_heathrow_init(MachineState *machine)
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_HEATHROW);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    if (kernel_cmdline) {
++    if (machine->kernel_cmdline) {
+         fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, cmdline_base);
+-        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE, kernel_cmdline);
++        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE,
++                         machine->kernel_cmdline);
+     } else {
+         fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, 0);
      }
 -- 
 2.21.3
