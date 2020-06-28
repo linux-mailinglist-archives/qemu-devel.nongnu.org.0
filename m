@@ -2,29 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C38920C97C
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:22:09 +0200 (CEST)
-Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D2F20C98B
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:25:57 +0200 (CEST)
+Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpbwO-0003vN-CY
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
+	id 1jpc04-0000cX-Le
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:25:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuS-00024i-Fe; Sun, 28 Jun 2020 14:20:08 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38343)
+ id 1jpbuZ-0002Jz-Av; Sun, 28 Jun 2020 14:20:15 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:38392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuP-0005KY-3x; Sun, 28 Jun 2020 14:20:08 -0400
+ id 1jpbuW-0005Nw-Td; Sun, 28 Jun 2020 14:20:14 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 25AEC74594E;
- Sun, 28 Jun 2020 20:20:01 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 54C9074633D;
+ Sun, 28 Jun 2020 20:20:11 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9E8E5745712; Sun, 28 Jun 2020 20:20:00 +0200 (CEST)
-Message-Id: <cover.1593367416.git.balaton@eik.bme.hu>
+ id 20A76746331; Sun, 28 Jun 2020 20:20:11 +0200 (CEST)
+Message-Id: <2d6ab0ef6aef80311a24089ab2f1152f554dcd98.1593367416.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
+References: <cover.1593367416.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 00/11] Mac Old World ROM experiment
+Subject: [RFC PATCH v6 10/11] WIP macio/cuda: Attempt to add i2c support
 Date: Sun, 28 Jun 2020 20:03:36 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,44 +61,152 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Latest version of this series with addressing review comments, adding
-review tags and tweaks to the WIP CUDA I2C support so with this on top
-of Mark's screaper patches (with a small fix) the ROM now plays the
-startup sound but then gets confused about some memory addresses. I
-don't want to debug this further so either some hints are needed what
-may be needed or someone could take over and finish these.
+This is not a final, RFC patch attempt to implement i2c bus in CUDA
+needed for firmware to access SPD data of installed RAM. The skeleton
+is there but actual implementation of I2C commands need to be refined
+because I don't know how this is supposed to work. In my understanding
+after an I2C command (at least for combined transfer) CUDA should
+enter a mode where reading subsequent values from VIA[SR] should
+return bytes received from the i2C device but not sure what ends this
+mode or how to model it correctly. So this patch just returns fixed
+amount of bytes expected by reading SPD eeproms just to make testing
+the firmware ROM possible. Help fixing and finishing this is welcome,
+I don't plan to spend more time with this so just submitted it for
+whoever picks this up.
 
-I think at least up to patch 8 this could be merged already, the rest
-needs more work.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/misc/macio/cuda.c         | 76 +++++++++++++++++++++++++++++++++++-
+ include/hw/misc/macio/cuda.h |  1 +
+ 2 files changed, 76 insertions(+), 1 deletion(-)
 
-Regards,
-BALATON Zoltan
-
-BALATON Zoltan (11):
-  mac_oldworld: Allow loading binary ROM image
-  mac_newworld: Allow loading binary ROM image
-  mac_oldworld: Drop a variable, use get_system_memory() directly
-  mac_oldworld: Drop some variables
-  grackle: Set revision in PCI config to match hardware
-  mac_oldworld: Rename ppc_heathrow_reset to ppc_heathrow_cpu_reset
-  mac_oldworld: Map macio to expected address at reset
-  mac_oldworld: Add machine ID register
-  i2c: Match parameters of i2c_start_transfer and i2c_send_recv
-  WIP macio/cuda: Attempt to add i2c support
-  mac_oldworld: Add SPD data to cover RAM
-
- hw/display/sm501.c           |   2 +-
- hw/i2c/core.c                |  34 +++++-----
- hw/i2c/ppc4xx_i2c.c          |   2 +-
- hw/misc/macio/cuda.c         |  76 ++++++++++++++++++++-
- hw/pci-host/grackle.c        |   2 +-
- hw/ppc/mac.h                 |  15 ++++-
- hw/ppc/mac_newworld.c        |  22 +++---
- hw/ppc/mac_oldworld.c        | 127 ++++++++++++++++++++++++++---------
- include/hw/i2c/i2c.h         |   4 +-
- include/hw/misc/macio/cuda.h |   1 +
- 10 files changed, 220 insertions(+), 65 deletions(-)
-
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 5bbc7770fa..3fc9773717 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -28,6 +28,7 @@
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "hw/i2c/i2c.h"
+ #include "hw/input/adb.h"
+ #include "hw/misc/mos6522.h"
+ #include "hw/misc/macio/cuda.h"
+@@ -370,6 +371,75 @@ static bool cuda_cmd_set_time(CUDAState *s,
+     return true;
+ }
+ 
++static bool cuda_cmd_get_set_iic(CUDAState *s,
++                                 const uint8_t *in_data, int in_len,
++                                 uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    qemu_log_mask(LOG_UNIMP, "CUDA: unimplemented GET_SET_IIC %s 0x%x %d\n",
++                  (in_data[0] & 1 ? "read" : "write"), in_data[0] >> 1,
++                  in_len);
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1)) {
++        return false;
++    }
++    for (i = 0; i < in_len - 3; i++) {
++        if (i2c_send(s->i2c_bus, in_data[i])) {
++            i2c_end_transfer(s->i2c_bus);
++            return false;
++        }
++    }
++    return true;
++}
++
++static bool cuda_cmd_combined_iic(CUDAState *s,
++                                  const uint8_t *in_data, int in_len,
++                                  uint8_t *out_data, int *out_len)
++{
++    int i;
++
++    if (in_len < 3) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC too few input bytes\n");
++        return false;
++    }
++    if ((in_data[0] & 0xfe) != (in_data[2] & 0xfe)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "CUDA: COMBINED_FORMAT_IIC address mismatch\n");
++        return false;
++    }
++
++    uint8_t data = in_data[1];
++    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1) ||
++        i2c_send_recv(s->i2c_bus, &data, in_data[0] & 1)) {
++        return false;
++    }
++    i2c_end_transfer(s->i2c_bus);
++    if (in_data[2] & 1) {
++        if (i2c_start_transfer(s->i2c_bus, in_data[2] >> 1, in_data[2] & 1)) {
++            i2c_end_transfer(s->i2c_bus);
++            return false;
++        }
++        for (i = 0; i < 5; i++) {
++            if (i2c_send_recv(s->i2c_bus, &out_data[i], in_data[2] & 1)) {
++                i2c_end_transfer(s->i2c_bus);
++                return false;
++            }
++        }
++        *out_len = i;
++        i2c_end_transfer(s->i2c_bus);
++    } else {
++        for (i = 0; i < in_len - 3; i++) {
++            data = in_data[3 + i];
++            if (i2c_send_recv(s->i2c_bus, &data, in_data[2] & 1)) {
++                i2c_end_transfer(s->i2c_bus);
++                return false;
++            }
++        }
++    }
++    return true;
++}
++
+ static const CudaCommand handlers[] = {
+     { CUDA_AUTOPOLL, "AUTOPOLL", cuda_cmd_autopoll },
+     { CUDA_SET_AUTO_RATE, "SET_AUTO_RATE",  cuda_cmd_set_autorate },
+@@ -382,6 +452,8 @@ static const CudaCommand handlers[] = {
+       cuda_cmd_set_power_message },
+     { CUDA_GET_TIME, "GET_TIME", cuda_cmd_get_time },
+     { CUDA_SET_TIME, "SET_TIME", cuda_cmd_set_time },
++    { CUDA_GET_SET_IIC, "GET_SET_IIC", cuda_cmd_get_set_iic },
++    { CUDA_COMBINED_FORMAT_IIC, "COMBINED_FORMAT_IIC", cuda_cmd_combined_iic },
+ };
+ 
+ static void cuda_receive_packet(CUDAState *s,
+@@ -549,6 +621,7 @@ static void cuda_init(Object *obj)
+ {
+     CUDAState *s = CUDA(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    DeviceState *dev = DEVICE(obj);
+ 
+     object_initialize_child(obj, "mos6522-cuda", &s->mos6522_cuda,
+                             TYPE_MOS6522_CUDA);
+@@ -557,7 +630,8 @@ static void cuda_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->mem);
+ 
+     qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
+-                        DEVICE(obj), "adb.0");
++                        dev, "adb.0");
++    s->i2c_bus = i2c_init_bus(dev, "i2c");
+ }
+ 
+ static Property cuda_properties[] = {
+diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
+index a8cf0be1ec..6856ed7704 100644
+--- a/include/hw/misc/macio/cuda.h
++++ b/include/hw/misc/macio/cuda.h
+@@ -79,6 +79,7 @@ typedef struct CUDAState {
+ 
+     ADBBusState adb_bus;
+     MOS6522CUDAState mos6522_cuda;
++    I2CBus *i2c_bus;
+ 
+     uint32_t tick_offset;
+     uint64_t tb_frequency;
 -- 
 2.21.3
 
