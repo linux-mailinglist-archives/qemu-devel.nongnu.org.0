@@ -2,38 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D9920C993
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:27:45 +0200 (CEST)
-Received: from localhost ([::1]:44500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CF620C9A4
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jun 2020 20:35:58 +0200 (CEST)
+Received: from localhost ([::1]:53406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpc1o-0003ZT-Hi
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51588)
+	id 1jpc9l-0007uk-1q
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 14:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuU-00027Z-AJ; Sun, 28 Jun 2020 14:20:10 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:38372)
+ id 1jpc8t-0007Eq-43; Sun, 28 Jun 2020 14:35:03 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:28674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpbuS-0005M0-KJ; Sun, 28 Jun 2020 14:20:09 -0400
+ id 1jpc8r-0007b2-FK; Sun, 28 Jun 2020 14:35:02 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 057C6748DCA;
- Sun, 28 Jun 2020 20:20:07 +0200 (CEST)
+ by localhost (Postfix) with SMTP id BCF2A74632C;
+ Sun, 28 Jun 2020 20:34:57 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DD3B3746331; Sun, 28 Jun 2020 20:20:06 +0200 (CEST)
-Message-Id: <a1e5a06fbfe48d1654ce74d8e999a4ee48788558.1593367416.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1593367416.git.balaton@eik.bme.hu>
-References: <cover.1593367416.git.balaton@eik.bme.hu>
+ id A0C6A745712; Sun, 28 Jun 2020 20:34:57 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9F6587456F8;
+ Sun, 28 Jun 2020 20:34:57 +0200 (CEST)
+Date: Sun, 28 Jun 2020 20:34:57 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 06/11] mac_oldworld: Rename ppc_heathrow_reset to
- ppc_heathrow_cpu_reset
-Date: Sun, 28 Jun 2020 20:03:36 +0200
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v5 00/11] Mac Old World ROM experiment
+In-Reply-To: <7e7de183-e453-0907-71ca-c1c8126e5543@ilande.co.uk>
+Message-ID: <alpine.BSF.2.22.395.2006282032040.88507@zero.eik.bme.hu>
+References: <cover.1592315226.git.balaton@eik.bme.hu>
+ <alpine.BSF.2.22.395.2006261218180.94870@zero.eik.bme.hu>
+ <7e7de183-e453-0907-71ca-c1c8126e5543@ilande.co.uk>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -56,44 +59,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function resets a CPU not the whole machine so reflect that in
-its name.
+On Fri, 26 Jun 2020, Mark Cave-Ayland wrote:
+> On 26/06/2020 11:21, BALATON Zoltan wrote:
+>> What about these patches? At least those that are finished (up to patch 9) could be
+>> merged. I've seen you sent a pull request but not including any of these. Will this
+>> need another rebase after your patches? If I rebase them will you consider merging
+>> them? (Otherwise I won't spend time with it.)
+>
+> Ah sorry I missed the latest version of these. I'll take a quick look now.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/ppc/mac_oldworld.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In case you missed that I've just sent the latest v6 version of the series 
+with changes you've suggested and I made since.
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 4200008851..f97f241e0c 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -73,7 +73,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-     return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
- }
- 
--static void ppc_heathrow_reset(void *opaque)
-+static void ppc_heathrow_cpu_reset(void *opaque)
- {
-     PowerPCCPU *cpu = opaque;
- 
-@@ -112,7 +112,7 @@ static void ppc_heathrow_init(MachineState *machine)
- 
-         /* Set time-base frequency to 16.6 Mhz */
-         cpu_ppc_tb_init(env,  TBFREQ);
--        qemu_register_reset(ppc_heathrow_reset, cpu);
-+        qemu_register_reset(ppc_heathrow_cpu_reset, cpu);
-     }
- 
-     /* allocate RAM */
--- 
-2.21.3
+> (BTW it seems the patches in your patchset have started appearing in a random order
+> when sent to the list again?)
 
+I've noticed this too but don't know why that happens or what to do to 
+prevent it. I submit these in one batch to my mail server which then seems 
+to send it off simultaneously and may end up out of order. I've tried 
+adding a 1 sec delay now but apparently that did not solve it. Sorry for 
+the inconvenience.
+
+Regards,
+BALATON Zoltan
 
