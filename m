@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A53E20CD01
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 09:41:03 +0200 (CEST)
-Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84C620CD0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 09:48:37 +0200 (CEST)
+Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpoPU-0004JO-He
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 03:41:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40086)
+	id 1jpoWq-0007rK-I9
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 03:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpoOh-0003rF-3v
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 03:40:11 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52237)
+ id 1jpoVR-0007HA-Ua; Mon, 29 Jun 2020 03:47:09 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpoOf-0004qI-Go
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 03:40:10 -0400
-Received: by mail-wm1-x342.google.com with SMTP id q15so14375590wmj.2
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 00:40:09 -0700 (PDT)
+ id 1jpoVQ-0005oH-CD; Mon, 29 Jun 2020 03:47:09 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f18so15117690wml.3;
+ Mon, 29 Jun 2020 00:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BPektP+Uh+GYLL9y4lVexxIG0AVJqTFfTTfU+psZ+FM=;
- b=tAznm8hA117jzoA4fWeHsLru1B+NED+K03sxo4hZnH4FfxvZ7phXzCu5hxz08p9BTi
- WfiqkYCPjjIoxfnSyYRaMOfiu1YvX/b4YFPm7k1oe0CKI8szgxijT6/AEwKGi5ch7qSU
- GrDkUEim4MgeeKJF68MHxQuDA3NUl22EMVOCZojeC6JMyUoG4cHB0Qs7SXhaARsnKSaF
- OnK3y8LAS7ujJmcRbkrA7VHbKWxQ6cKEG8DdCYUbP/r9Ld1riFrvL0seGoQ9liugdnZD
- +pM4BJT0+dYOQ3TZhYHjgZeJm/ZI3yo3lui4LTblnV/hpKjmJmgG7fMd9IGEKUZI1usM
- R8RA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EA3g3jLnXIf8aJQnmpGkok4BIBubDKvqorlCoqvInNc=;
+ b=GgqZeVv1g2WzGD/TcD4LTFjBt+K76p+b69GXhImbCVfGLiKfVY5LJSYYHH+1A/6z+z
+ PL9Ap7HFaMedyT+P1hOrgFCezdVWIfqcCWKC77K3yOF2VIVZQZVKeOl6EiRFdBX1wBwr
+ 11vkbm0KyuD7vi5B20UmcjFCF/5XGJYn/fvKUH+8uplefdKFgaVBriQm4fAAAUkabVzu
+ GzzyvB9naPdJrnUOHxiLR6ADQ/3wiUP0tmHkPO0cdE+OimJCYcex9SZFtQTGw4VBVvZo
+ s/yYEOlybbguQ1ghDLhMFemj5AYa8wLbQCrOLoqfg8zSH26VHvFWh59HXkd92MrpxxVb
+ vF5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BPektP+Uh+GYLL9y4lVexxIG0AVJqTFfTTfU+psZ+FM=;
- b=dYIUYjFq1LPmWRmbc4zMJiJVZMWfUP6iOeYhILawHaywtOol/Hv7W+gl+cg3vr30pr
- CYT96fZtd2nzd+3ft7/51efhA2bWB0V+d5KBm+OUcW5lY3YTtHM24oizg96dF/eudC9K
- 39C5BrCNgIWqNl0dqHA1OP30IlxqhwjGFvDeat+WaQo9kSgOAsy1Y4SzCJKYXgf3S/70
- eeRd3MB9HndwFIj9PMLNU5CUBNTWGvMt0etIn1HxLQjQqT0wTfHbVVaGVt2sSwXnCvNY
- ZE3wbZPa9ZVZShqgNWWEa7wKxGqm6cuTgeyC1Kq05xzpQzNJpba0Ge1ftZ4CCEJZWh2J
- 1+LA==
-X-Gm-Message-State: AOAM530kWxdM42NxPwX3v+CEzgEQ3VE3EleNA46DnuYIrkw8lv96W//a
- ixweZ1QgnChvGuu+leh4JKzDU1rJ4lA=
-X-Google-Smtp-Source: ABdhPJwl5ibcVpp2OEgR4SDm5D7Yd8VQ1MynyuydBi5PhRq/80WTxN/tGn2dSrd0HkxxqsTA7SRC8A==
-X-Received: by 2002:a1c:31c6:: with SMTP id
- x189mr14727153wmx.182.1593416407723; 
- Mon, 29 Jun 2020 00:40:07 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=EA3g3jLnXIf8aJQnmpGkok4BIBubDKvqorlCoqvInNc=;
+ b=HdATvg9pSh8K6pXbfhuCbzJVmIOlxWnNMNSn8V6e0TpQxHuJ39Jzfb2vBmCDCNcKUO
+ SeaSbYOuoCxJ6vZLci1yQW9lRHxiGPFIym3vZ4aurEmh2WxajyhySDN+SNZQ7SWEGsBM
+ LACPG9GQw9NoxOc6AeThbi2C1+wymZU/xO8T3bT3dbecefnTHqfmlZv9tkO1TjDMrZdQ
+ W76xMPtgR8yj10DuzHwqfoctrj/rgGdTeKDLT62an+FKAPbM5P0aYmpeZohBj7rPj+u0
+ qUQU8cPXanqLLDRb+T5KCLwXUVA+lGRu2CWQ2m6r7bpHGTcwWk5NnmUgjvfVwCAZwdNj
+ YZdg==
+X-Gm-Message-State: AOAM5303AL+hx9AcbLS9S3Q7lxsGuOQH9obXcONl4c7O0bjroYqGUYl3
+ sCcViZHrImOh3cx2ceH+S+I=
+X-Google-Smtp-Source: ABdhPJyjZta09C71AW+7Q1Z0AfyZirv88WpXilkS7kzq3jUN5xnllpSWFYmEhR0cCQ1FNC82bFeBeg==
+X-Received: by 2002:a7b:c0c9:: with SMTP id s9mr14564257wmh.166.1593416826514; 
+ Mon, 29 Jun 2020 00:47:06 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id d18sm14099336wrj.8.2020.06.29.00.40.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 00:40:07 -0700 (PDT)
-Subject: Re: Crash when running Qemu.
-To: Peter Maydell <peter.maydell@linaro.org>,
- Jean-Christophe DUBOIS <jcd@tribudubois.net>
-References: <20d398f5-729e-57a7-db92-2243c106d832@tribudubois.net>
- <CAFEAcA8wfgQxAzr_MJ+wr6XXKAHGRx5i0SXA44XDbHhum5JEwQ@mail.gmail.com>
- <2f7b2149-f671-a814-8ed7-4fb3aa885429@tribudubois.net>
- <CAFEAcA_CBcvCmjYt=jgd-RXja4vYbWcQ87=xNoGVuUkr7FBrsQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <11dfd675-6ef5-3773-c0ef-148ae60c72c9@amsat.org>
-Date: Mon, 29 Jun 2020 09:40:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by smtp.gmail.com with ESMTPSA id s18sm52669882wra.85.2020.06.29.00.47.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jun 2020 00:47:05 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Jean-Christophe DUBOIS <jcd@tribudubois.net>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/misc/pca9552: Add missing TypeInfo::class_size field
+Date: Mon, 29 Jun 2020 09:47:04 +0200
+Message-Id: <20200629074704.23028-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_CBcvCmjYt=jgd-RXja4vYbWcQ87=xNoGVuUkr7FBrsQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -94,40 +84,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/28/20 7:05 PM, Peter Maydell wrote:
-> On Sun, 28 Jun 2020 at 17:46, Jean-Christophe DUBOIS
-> <jcd@tribudubois.net> wrote:
->>
->> Le 28/06/2020 à 16:38, Peter Maydell a écrit :
->>> On Sun, 28 Jun 2020 at 11:56, Jean-Christophe DUBOIS
->>> <jcd@tribudubois.net> wrote:
->>>> jcd@jcd-UX305CA:~/Projects/µCOS/work$
->>>> ../../qemu/qemu/arm-softmmu/qemu-system-arm -machine mcimx6ul-evk -m
->>>> 128M -display none -serial stdio -kernel ./OS.elf
->>>> double free or corruption (!prev)
->>>> Abandon (core dumped)
->>> I can't repro using your command line but without the -kernel option,
->>> so it's probably specific to something your guest code is doing.
->>> I tested with git commit e7651153a8801dad6; which commit are you
->>> using?
->>
->> I was on master (553cf5d7c47bee05a3dec9461c1f8430316d516b)
->>
->> Reverting the June 23rd commit series on PCA9552 fixed the problem for me.
->>
->>> Can you provide either the elf file or a repro example that
->>> doesn't need it ?
->>
->> Please, find the OS.elf file as attachment.
-> 
-> Ah, thanks for tracking that down. Philippe, the valgrind
-> error in Jean-Christophe's other email in this thread suggests
-> something's wrong in the typeinfo or the class init for the
-> pca9552 changes you've made -- would you mind having a look at it?
+When adding the generic PCA955xClass in commit 736132e455, we
+forgot to set the class_size field. Fill it now to avoid:
 
-Oops... sure!
+  (gdb) run -machine mcimx6ul-evk -m 128M -display none -serial stdio -kernel ./OS.elf
+  Starting program: ../../qemu/qemu/arm-softmmu/qemu-system-arm -machine mcimx6ul-evk -m 128M -display none -serial stdio -kernel ./OS.elf
+  double free or corruption (!prev)
+  Thread 1 "qemu-system-arm" received signal SIGABRT, Aborted.
+  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+  (gdb) where
+  #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+  #1  0x00007ffff75d8859 in __GI_abort () at abort.c:79
+  #2  0x00007ffff76433ee in __libc_message
+      (action=action@entry=do_abort, fmt=fmt@entry=0x7ffff776d285 "%s\n")
+      at ../sysdeps/posix/libc_fatal.c:155
+  #3  0x00007ffff764b47c in malloc_printerr
+      (str=str@entry=0x7ffff776f690 "double free or corruption (!prev)")
+      at malloc.c:5347
+  #4  0x00007ffff764d12c in _int_free
+      (av=0x7ffff779eb80 <main_arena>, p=0x5555567a3990, have_lock=<optimized out>) at malloc.c:4317
+  #5  0x0000555555c906c3 in type_initialize_interface
+      (ti=ti@entry=0x5555565b8f40, interface_type=0x555556597ad0, parent_type=0x55555662ca10) at qom/object.c:259
+  #6  0x0000555555c902da in type_initialize (ti=ti@entry=0x5555565b8f40)
+      at qom/object.c:323
+  #7  0x0000555555c90d20 in type_initialize (ti=0x5555565b8f40)
+      at qom/object.c:1028
+
+  $ valgrind --track-origins=yes qemu-system-arm -M mcimx6ul-evk -m 128M -display none -serial stdio -kernel ./OS.elf
+  ==77479== Memcheck, a memory error detector
+  ==77479== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+  ==77479== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+  ==77479== Command: qemu-system-arm -M mcimx6ul-evk -m 128M -display none -serial stdio -kernel ./OS.elf
+  ==77479==
+  ==77479== Invalid write of size 2
+  ==77479==    at 0x6D8322: pca9552_class_init (pca9552.c:424)
+  ==77479==    by 0x844D1F: type_initialize (object.c:1029)
+  ==77479==    by 0x844D1F: object_class_foreach_tramp (object.c:1016)
+  ==77479==    by 0x4AE1057: g_hash_table_foreach (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6400.2)
+  ==77479==    by 0x8453A4: object_class_foreach (object.c:1038)
+  ==77479==    by 0x8453A4: object_class_get_list (object.c:1095)
+  ==77479==    by 0x556194: select_machine (vl.c:2416)
+  ==77479==    by 0x556194: qemu_init (vl.c:3828)
+  ==77479==    by 0x40AF9C: main (main.c:48)
+  ==77479==  Address 0x583f108 is 0 bytes after a block of size 200 alloc'd
+  ==77479==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+  ==77479==    by 0x4AF8D30: g_malloc0 (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6400.2)
+  ==77479==    by 0x844258: type_initialize.part.0 (object.c:306)
+  ==77479==    by 0x844D1F: type_initialize (object.c:1029)
+  ==77479==    by 0x844D1F: object_class_foreach_tramp (object.c:1016)
+  ==77479==    by 0x4AE1057: g_hash_table_foreach (in /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.6400.2)
+  ==77479==    by 0x8453A4: object_class_foreach (object.c:1038)
+  ==77479==    by 0x8453A4: object_class_get_list (object.c:1095)
+  ==77479==    by 0x556194: select_machine (vl.c:2416)
+  ==77479==    by 0x556194: qemu_init (vl.c:3828)
+  ==77479==    by 0x40AF9C: main (main.c:48)
+
+Fixes: 736132e455 ("hw/misc/pca9552: Add generic PCA955xClass")
+Reported-by: Jean-Christophe DUBOIS <jcd@tribudubois.net>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/misc/pca9552.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index 80caa9ec8f..68b574d084 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -410,6 +410,7 @@ static const TypeInfo pca955x_info = {
+     .instance_init = pca955x_initfn,
+     .instance_size = sizeof(PCA955xState),
+     .class_init    = pca955x_class_init,
++    .class_size    = sizeof(PCA955xClass),
+     .abstract      = true,
+ };
+ 
+-- 
+2.21.3
+
 
