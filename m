@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C0220D038
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:42:45 +0200 (CEST)
-Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9700920D03C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:44:58 +0200 (CEST)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwrk-00026A-2R
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55926)
+	id 1jpwtt-0005bv-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqI-0000I6-OZ
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqI-0000Hy-1Z
  for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:41:14 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42789)
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqG-0007ua-HR
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:41:14 -0400
-Received: by mail-lj1-x242.google.com with SMTP id h22so11602146lji.9
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:41:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqG-0007uq-5L
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:41:13 -0400
+Received: by mail-lj1-x243.google.com with SMTP id d17so4080076ljl.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pryqk9SMxJXWHDnBZcX/YYEDZmnhq7KMCQOp0n6/WTc=;
- b=hk67TDwP7/gDiWXaKmau2wsYSDAvhScNlRRGVI1hczkd4Ryk1Kq2CfSoQBIyD6p9YE
- sE9fIV39kA3FHPu3ebQCRl12ydE7vIIBsW8aBiFLhhzeGjud6TaJJleRtJSu9aD46Vgs
- Av5TUZ+qaVArxKWnxYIOK3u98MczMRSzlzkvILhIRzsASbhYUTq9oUdwcg+vkHA7wTXW
- zD6hB/eB/Ad69yaoytVLRrRuc6sDfs+DAgZFdAYXak2Y8IBU+UVyqQOoJ+GISrOXzLpY
- dZSqxbEJSZ1zgTGpz02lydf3ZEYdh7bcRbJ3Pq8DqLQOFk9UnAEj5malb3c4gctulhvg
- itPA==
+ bh=FzqnRuMT+XuVpao3SBx7aexWUtl8wLkCabLBdf8t04I=;
+ b=So5lf5afJ5W8x7xKTGXkrHCWcEQCr8GROvR+s6W26BNjRfb1eepoI1h1fAbcKwNWpY
+ 6pE6U4PGvh8lZtHZGn21Z3PRn2Z92Y6fH1kRBvmRJCh4IfFb2SyVazaCePIx12WbVF5v
+ OgklT7AYPMxyPEJlI5JOXntqeYjNE83+91zfGFQYvqreG4grBig0DCZACxgdVZn2nFLO
+ Jc8dHpR5BM8NlNM/UJSHMb/9aW7KiQD5Bc7zbEe8o2ESfPWebXHqloie2cv0goPlFhH/
+ sNhEA8r8UMvIDmC5dNoVCcFqWpDqZJTJ8UzBD/61lRUPI9xslxU213+m/nPhIazp5saU
+ Zbow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pryqk9SMxJXWHDnBZcX/YYEDZmnhq7KMCQOp0n6/WTc=;
- b=FEtretC3AUZ86iVB3UY0JG3b0UIGBAxBl2o1+iTzHEeBQNA2aYwIpK0RE5irtRFnto
- dJjr6IHKh3uYQV3qDPFMHCU+pAX4p4T1274zahcOXtjZB/po/1RicYKic8V5sH7RbG9b
- WRaQiJhbV0qPLXlNd19gW//uGtrCOnokGY5wb2wbk2tZ13G+f9McLI5fhNF4JodsK+Lu
- k8AzZe2l95aBPhErmrjkRYjQ+g+0Jc2eqJHBzZcwmCSyybD73ps4HvXT+Zt0jzHlOe9e
- 9iQCq9IewkjfYe81EaivRIbxAdPYKm04lvGDINCfidiaFtoPG/x2+LtEsZMUieTG2dQP
- 8zzQ==
-X-Gm-Message-State: AOAM531jy+XHk6+S/AO1gRmIAQjOo9DqjHxutmZBwJCDJ0VYUlN+dZjd
- L6WYklGq0GelfzD+PBLQmYvvD2YyYmKMkw==
-X-Google-Smtp-Source: ABdhPJyWoDGWH6afojnoBqQzf5AsKkngJXaaCPLINY0MlqBhqUd0WsLzGqOAdi/bmDIBLtSTbg+YtQ==
-X-Received: by 2002:a2e:b55c:: with SMTP id a28mr3933324ljn.42.1593448869100; 
- Mon, 29 Jun 2020 09:41:09 -0700 (PDT)
+ bh=FzqnRuMT+XuVpao3SBx7aexWUtl8wLkCabLBdf8t04I=;
+ b=SZDETOMM9PTyc3GvirE4hAh97ilXRfNAWLmhgwPND8d0PEatPE2DLx/UykDCpbzsFx
+ DRWrCSwfCYjdz15VZ2QuqmtyGhRk+9qobzXM2K/1WQ+U0HZCNvPkhtqPAF1yXXA8y+Lz
+ b7vR0aheFzL+YBqLvAOKLTB8De/TAoCWqhmMrEsggqxREr08D2ffFZ8nsnD0N3AW84gA
+ suBuO4EwKSqL6Lk+qVcZjTlaAnrqax8dq9lfXU3EaYjU/sxPpfL8PXTXB2UtT46KtUDy
+ IgtkePrqArlExOSrUIbX5Fqjv2PVss0c9vogzFMGYCMKx+g1Sv94yv9L9ovkimD8pAjF
+ SnaQ==
+X-Gm-Message-State: AOAM530SkD7WBZ9fyZEAP4StH/9UDemDmSXoZR144N6QICRS6Xsqk3JK
+ a2HRQHjqVPJRbtopp3lNqEq+rw4sW/g/aw==
+X-Google-Smtp-Source: ABdhPJxTAVIplwOhtdvRrkIMTarq8D2efEMYZcdrdKVWaELkTi+QB1KiRvZ2DpCPXOfzf1LrFAX6Bw==
+X-Received: by 2002:a2e:9857:: with SMTP id e23mr4450018ljj.411.1593448870151; 
+ Mon, 29 Jun 2020 09:41:10 -0700 (PDT)
 Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
  [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id o1sm37641lfi.92.2020.06.29.09.41.08
+ by smtp.gmail.com with ESMTPSA id o1sm37641lfi.92.2020.06.29.09.41.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 09:41:08 -0700 (PDT)
+ Mon, 29 Jun 2020 09:41:09 -0700 (PDT)
 From: Szymon Lukasz <noh4hss@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/9] chardev: add cols, rows fields
-Date: Mon, 29 Jun 2020 18:40:33 +0200
-Message-Id: <20200629164041.472528-2-noh4hss@gmail.com>
+Subject: [PATCH v3 2/9] chardev: add CHR_EVENT_RESIZE
+Date: Mon, 29 Jun 2020 18:40:34 +0200
+Message-Id: <20200629164041.472528-3-noh4hss@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629164041.472528-1-noh4hss@gmail.com>
 References: <20200629164041.472528-1-noh4hss@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=noh4hss@gmail.com; helo=mail-lj1-x242.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=noh4hss@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,73 +89,185 @@ Cc: lvivier@redhat.com, berrange@redhat.com, amit@kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These fields should be interpreted as the size of the terminal connected
-to a given chardev.
+Add a new chardev event, CHR_EVENT_RESIZE, which a backend should
+trigger if detects the size of the connected terminal changed.
 
 Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
 ---
- chardev/char-fe.c         | 13 +++++++++++++
- include/chardev/char-fe.h | 10 ++++++++++
- include/chardev/char.h    |  1 +
- 3 files changed, 24 insertions(+)
+ backends/cryptodev-vhost-user.c | 1 +
+ chardev/char.c                  | 1 +
+ hw/block/vhost-user-blk.c       | 1 +
+ hw/char/terminal3270.c          | 1 +
+ hw/char/virtio-console.c        | 1 +
+ hw/ipmi/ipmi_bmc_extern.c       | 1 +
+ hw/usb/ccid-card-passthru.c     | 1 +
+ hw/usb/dev-serial.c             | 1 +
+ hw/usb/redirect.c               | 1 +
+ include/chardev/char.h          | 4 ++++
+ monitor/hmp.c                   | 1 +
+ monitor/qmp.c                   | 1 +
+ net/vhost-user.c                | 1 +
+ 13 files changed, 16 insertions(+)
 
-diff --git a/chardev/char-fe.c b/chardev/char-fe.c
-index f3530a90e6..27f95bfcdf 100644
---- a/chardev/char-fe.c
-+++ b/chardev/char-fe.c
-@@ -336,6 +336,19 @@ void qemu_chr_fe_set_echo(CharBackend *be, bool echo)
+diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
+index 8b8cbc4223..bbf8ad426a 100644
+--- a/backends/cryptodev-vhost-user.c
++++ b/backends/cryptodev-vhost-user.c
+@@ -174,6 +174,7 @@ static void cryptodev_vhost_user_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
      }
- }
- 
-+void qemu_chr_fe_get_winsize(CharBackend *be, uint16_t *cols, uint16_t *rows)
-+{
-+    Chardev *chr = be->chr;
-+
-+    if (chr) {
-+        *cols = chr->cols;
-+        *rows = chr->rows;
-+    } else {
-+        *cols = 0;
-+        *rows = 0;
-+    }
-+}
-+
- void qemu_chr_fe_set_open(CharBackend *be, int fe_open)
- {
-     Chardev *chr = be->chr;
-diff --git a/include/chardev/char-fe.h b/include/chardev/char-fe.h
-index a553843364..3672b0d97d 100644
---- a/include/chardev/char-fe.h
-+++ b/include/chardev/char-fe.h
-@@ -154,6 +154,16 @@ int qemu_chr_fe_wait_connected(CharBackend *be, Error **errp);
-  */
- void qemu_chr_fe_set_echo(CharBackend *be, bool echo);
- 
-+/**
-+ * qemu_chr_fe_get_winsize:
-+ * @cols: the address for storing columns
-+ * @rows: the address for storing rows
-+ *
-+ * Get the size of the terminal connected to the chardev backend.
-+ * Returns *cols = *rows = 0, if no associated Chardev.
-+ */
-+void qemu_chr_fe_get_winsize(CharBackend *be, uint16_t *cols, uint16_t *rows);
-+
- /**
-  * qemu_chr_fe_set_open:
-  *
+diff --git a/chardev/char.c b/chardev/char.c
+index e3051295ac..904f8bf6e3 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -74,6 +74,7 @@ void qemu_chr_be_event(Chardev *s, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index a00b854736..1a656a27c3 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -403,6 +403,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
+index 2c47ebf007..eadccbb617 100644
+--- a/hw/char/terminal3270.c
++++ b/hw/char/terminal3270.c
+@@ -169,6 +169,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
+index 4f46753ea3..97b9240ef5 100644
+--- a/hw/char/virtio-console.c
++++ b/hw/char/virtio-console.c
+@@ -165,6 +165,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+index f9a13e0a44..9562584309 100644
+--- a/hw/ipmi/ipmi_bmc_extern.c
++++ b/hw/ipmi/ipmi_bmc_extern.c
+@@ -439,6 +439,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index bb325dbc4a..3c26b16ed0 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -321,6 +321,7 @@ static void ccid_card_vscard_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
+     case CHR_EVENT_CLOSED:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index 7e50e3ba47..e8e960d0e6 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -507,6 +507,7 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
+             break;
+         case CHR_EVENT_MUX_IN:
+         case CHR_EVENT_MUX_OUT:
++        case CHR_EVENT_RESIZE:
+             /* Ignore */
+             break;
+     }
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 417a60a2e6..b716c4fdd7 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1383,6 +1383,7 @@ static void usbredir_chardev_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
 diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 00589a6025..0cea33cb9a 100644
+index 0cea33cb9a..42203e9fa4 100644
 --- a/include/chardev/char.h
 +++ b/include/chardev/char.h
-@@ -65,6 +65,7 @@ struct Chardev {
-     char *filename;
-     int logfd;
-     int be_open;
-+    uint16_t cols, rows;
-     GSource *gsource;
-     GMainContext *gcontext;
-     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
+@@ -22,6 +22,10 @@ typedef enum {
+     CHR_EVENT_OPENED, /* new connection established */
+     CHR_EVENT_MUX_IN, /* mux-focus was set to this terminal */
+     CHR_EVENT_MUX_OUT, /* mux-focus will move on */
++    CHR_EVENT_RESIZE, /*
++                       * the size of the terminal connected to
++                       * the chardev changed
++                       */
+     CHR_EVENT_CLOSED /* connection closed.  NOTE: currently this event
+                       * is only bound to the read port of the chardev.
+                       * Normally the read port and write port of a
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d598dd02bb..020be03d61 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1373,6 +1373,7 @@ static void monitor_event(void *opaque, QEMUChrEvent event)
+         break;
+ 
+     case CHR_EVENT_BREAK:
++    case CHR_EVENT_RESIZE:
+         /* Ignored */
+         break;
+     }
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index d433ceae5b..58aecb475b 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -371,6 +371,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
+diff --git a/net/vhost-user.c b/net/vhost-user.c
+index 17532daaf3..e30cbe74bd 100644
+--- a/net/vhost-user.c
++++ b/net/vhost-user.c
+@@ -297,6 +297,7 @@ static void net_vhost_user_event(void *opaque, QEMUChrEvent event)
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+     case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_RESIZE:
+         /* Ignore */
+         break;
+     }
 -- 
 2.27.0
 
