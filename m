@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6430720D03D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:45:02 +0200 (CEST)
-Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EFA20D042
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:48:48 +0200 (CEST)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwtx-0005cM-9w
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56034)
+	id 1jpwxb-0001dl-LC
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqO-0000TU-MG
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:41:20 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noh4hss@gmail.com>) id 1jpwqM-0007vz-Hq
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:41:20 -0400
-Received: by mail-lj1-x244.google.com with SMTP id f5so2872540ljj.10
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lxRZU+ONjViNlnT9aeawgp2hWsb4PWJp8EM9YziKpEc=;
- b=psZD/KCrAxEwzTi6rVTwzyiJHNDg6NSFsnHzCsPBrcmp765C1ef2RNv1zNGY6FFclV
- qJ8owjNWHQ7VbjKSFuLlnuHZhehIedW4JVotmmXpAX0aD8pT9txQZtlaqERa7iE+Z9yy
- TcEXh+sXIiThs3xAmL+zro7tQkpNhbwYL9SuofwtAWKZwspx7DcVF/a0EhWC6hFeem7H
- zOaPRY/ncDq4gnEHwunk50TsAwQ9dZ0b63KI6pNjiyGtcwKcUonlGH5v4tQiI6fhPnwR
- Lg4vnJVvJ3W7Y9RqojT0WgSnC99JVmwf+5YEsP0quxdZfqXwqZ4EcM1tmvyO1j7UEeYt
- V3lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lxRZU+ONjViNlnT9aeawgp2hWsb4PWJp8EM9YziKpEc=;
- b=FUWwxEvuSdfB2QQJkL1Ta5evEzB7jAFvSnUDiHUCwC80eealfqsWrtIttpK+cdV1nX
- lIdKK1D14PGWnnixwW154UdtL5Mv3/snYfqIMFCc4L+jhDqgEBAhZ3nnPUh19owo7qGL
- 3GOeJiuFEFE8Tj5WKq9HCl7RaExEnQEPhhESNjFcyI1CfXj0bBeT+cQ81lUkXugaro65
- O/hP6gmwSpjyomy1F9XukjGvSHvSp37essKcOb+d7JHYhkoPY7SSJU1+XLg0SEbVmlA/
- M1MrTF6CBsyPCT2iKb7rPGW8J2FKQA0IGFPmntANBIlnvQ0pJHC4vI16rAQ/PcYC56Ee
- dAYQ==
-X-Gm-Message-State: AOAM532jI6S2OreTWe1s6jlWOxeAeO/btORktB/6wnr+D07zdeQ6tpd6
- ThEIBZsGudXmUBVrqFnrouCTUwBXVn0h8Q==
-X-Google-Smtp-Source: ABdhPJx4JZyHB5X7x4LBUxKub8f+FBsV3RuP4OqpI2RxrTGRp/UhRm+OLNS30h4VBpyZAibhFjUZPQ==
-X-Received: by 2002:a2e:8ed3:: with SMTP id e19mr8852615ljl.72.1593448876595; 
- Mon, 29 Jun 2020 09:41:16 -0700 (PDT)
-Received: from localhost.localdomain (193-239-39-51.ksi-system.net.
- [193.239.39.51])
- by smtp.gmail.com with ESMTPSA id o1sm37641lfi.92.2020.06.29.09.41.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 09:41:16 -0700 (PDT)
-From: Szymon Lukasz <noh4hss@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 9/9] virtio-console: notify the guest about terminal resizes
-Date: Mon, 29 Jun 2020 18:40:41 +0200
-Message-Id: <20200629164041.472528-10-noh4hss@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200629164041.472528-1-noh4hss@gmail.com>
-References: <20200629164041.472528-1-noh4hss@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jpwvN-0000Is-R6
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:46:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47369
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jpwvK-00007I-KX
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:46:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593449185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2ydEmJtS74dkGgWip283hz9yt3By0IcMIvsD9bpTDg=;
+ b=IGkEqEg5bqEuSpKLCEMfcxoCcLfe3xIevsigd857bbej5aEhyqCvZFBKDJsKu2O/HtS943
+ Yvt7hGVtHTKzy6Uqf6MS7Vq0Z7qWiUiQKX+0JbfQzYFP4ogiSwUKQYOOXqN5P+CjJsfmTi
+ XDlmfEnxButNtnmYbzUjYwCHUkF6Y4E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-cmLMNBy-PYq7UppDLNz0Ug-1; Mon, 29 Jun 2020 12:46:23 -0400
+X-MC-Unique: cmLMNBy-PYq7UppDLNz0Ug-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CECD80183C;
+ Mon, 29 Jun 2020 16:46:22 +0000 (UTC)
+Received: from work-vm (ovpn-114-210.ams2.redhat.com [10.36.114.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C37F60BF3;
+ Mon, 29 Jun 2020 16:46:20 +0000 (UTC)
+Date: Mon, 29 Jun 2020 17:46:18 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: Properly quitting qemu immediately after failing migration
+Message-ID: <20200629164618.GL2908@work-vm>
+References: <0dce6c63-4b83-8b1a-6d00-07235f637997@redhat.com>
+ <20200629154104.GK2908@work-vm>
+ <fb611d49-4fd9-ef1a-1383-1d15137f658d@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <fb611d49-4fd9-ef1a-1383-1d15137f658d@redhat.com>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=noh4hss@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,143 +83,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, berrange@redhat.com, amit@kernel.org, mst@redhat.com,
- Szymon Lukasz <noh4hss@gmail.com>, marcandre.lureau@redhat.com,
- pbonzini@redhat.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a virtio serial port is a console port forward terminal resize
-messages from the chardev backend to the guest.
+* Max Reitz (mreitz@redhat.com) wrote:
+> On 29.06.20 17:41, Dr. David Alan Gilbert wrote:
+> > * Max Reitz (mreitz@redhat.com) wrote:
+> >> Hi,
+> >>
+> >> In an iotest, I’m trying to quit qemu immediately after a migration has
+> >> failed.  Unfortunately, that doesn’t seem to be possible in a clean way:
+> >> migrate_fd_cleanup() runs only at some point after the migration state
+> >> is already “failed”, so if I just wait for that “failed” state and
+> >> immediately quit, some cleanup functions may not have been run yet.
+> > 
+> > Yeh this is hard; I always take the end of migrate_fd_cleanup to be the
+> > real end.
+> 
+> Yes, unfortunately I don’t seem to have a way to look for that end. :(
+> 
+> > It always happens on the main thread I think (it's done as a bh in some
+> > cases).
+> > 
+> >> This is a problem with dirty bitmap migration at least, because it
+> >> increases the refcount on all block devices that are to be migrated, so
+> >> if we don’t call the cleanup function before quitting, the refcount will
+> >> stay elevated and bdrv_close_all() will hit an assertion because those
+> >> block devices are still around after blk_remove_all_bs() and
+> >> blockdev_close_all_bdrv_states().
+> >>
+> >> In practice this particular issue might not be that big of a problem,
+> >> because it just means qemu aborts when the user intended to let it quit
+> >> anyway.  But on one hand I could imagine that there are other clean-up
+> >> paths that should definitely run before qemu quits (although I don’t
+> >> know), and on the other, it’s a problem for my test.
+> > 
+> > 'quit' varies - there are a lot of incoming failures that just assert;
+> > very few of them cause a clean exit (I think there are more clean ones
+> > after Peter's work on restartable postcopy a year or two ago).
+> 
+> Well, my problem is about the source side, where there is still a VM
+> running that I would expect to be in a sane state even after a failed
+> migration.
 
-Signed-off-by: Szymon Lukasz <noh4hss@gmail.com>
----
- hw/char/virtio-console.c | 62 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 58 insertions(+), 4 deletions(-)
+Oh! Source side; the source side I worry much more about; if the
+destination implodes after a failed migration I'm not too worried - but
+the source side *shall not* fail.
 
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index 97b9240ef5..c4c2c7a844 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -29,6 +29,7 @@ typedef struct VirtConsole {
- 
-     CharBackend chr;
-     guint watch;
-+    uint16_t cols, rows;
- } VirtConsole;
- 
- /*
-@@ -104,6 +105,33 @@ static ssize_t flush_buf(VirtIOSerialPort *port,
-     return ret;
- }
- 
-+static void virtconsole_send_resize(VirtIOSerialPort *port)
-+{
-+    uint16_t cols, rows;
-+    VirtConsole *vcon = VIRTIO_CONSOLE(port);
-+
-+    /*
-+     * We probably shouldn't send these messages before
-+     * we told the guest it is a console port (which we do
-+     * by sending VIRTIO_CONSOLE_CONSOLE_PORT message).
-+     * Instead of adding a new field to the device state
-+     * lets just use the guest_connected field for that purpose
-+     * since the guest should not care about the terminal size
-+     * before opening the port.
-+     */
-+    if (!port->guest_connected) {
-+        return;
-+    }
-+
-+    qemu_chr_fe_get_winsize(&vcon->chr, &cols, &rows);
-+
-+    if (cols != vcon->cols || rows != vcon->rows) {
-+        vcon->cols = cols;
-+        vcon->rows = rows;
-+        virtio_serial_send_console_resize(port, cols, rows);
-+    }
-+}
-+
- /* Callback function that's called when the guest opens/closes the port */
- static void set_guest_connected(VirtIOSerialPort *port, int guest_connected)
- {
-@@ -111,7 +139,9 @@ static void set_guest_connected(VirtIOSerialPort *port, int guest_connected)
-     DeviceState *dev = DEVICE(port);
-     VirtIOSerialPortClass *k = VIRTIO_SERIAL_PORT_GET_CLASS(port);
- 
--    if (!k->is_console) {
-+    if (k->is_console) {
-+        virtconsole_send_resize(port);
-+    } else {
-         qemu_chr_fe_set_open(&vcon->chr, guest_connected);
-     }
- 
-@@ -171,6 +201,23 @@ static void chr_event(void *opaque, QEMUChrEvent event)
-     }
- }
- 
-+static void chr_event_console(void *opaque, QEMUChrEvent event)
-+{
-+    VirtConsole *vcon = opaque;
-+    VirtIOSerialPort *port = VIRTIO_SERIAL_PORT(vcon);
-+
-+    trace_virtio_console_chr_event(port->id, event);
-+    switch (event) {
-+    case CHR_EVENT_OPENED:
-+    case CHR_EVENT_MUX_IN:
-+    case CHR_EVENT_RESIZE:
-+        virtconsole_send_resize(port);
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
- static int chr_be_change(void *opaque)
- {
-     VirtConsole *vcon = opaque;
-@@ -179,7 +226,9 @@ static int chr_be_change(void *opaque)
- 
-     if (k->is_console) {
-         qemu_chr_fe_set_handlers(&vcon->chr, chr_can_read, chr_read,
--                                 NULL, chr_be_change, vcon, NULL, true);
-+                                 chr_event_console, chr_be_change,
-+                                 vcon, NULL, true);
-+        virtconsole_send_resize(port);
-     } else {
-         qemu_chr_fe_set_handlers(&vcon->chr, chr_can_read, chr_read,
-                                  chr_event, chr_be_change, vcon, NULL, false);
-@@ -207,7 +256,7 @@ static void virtconsole_enable_backend(VirtIOSerialPort *port, bool enable)
-         VirtIOSerialPortClass *k = VIRTIO_SERIAL_PORT_GET_CLASS(port);
- 
-         qemu_chr_fe_set_handlers(&vcon->chr, chr_can_read, chr_read,
--                                 k->is_console ? NULL : chr_event,
-+                                 k->is_console ? chr_event_console : chr_event,
-                                  chr_be_change, vcon, NULL, false);
-     } else {
-         qemu_chr_fe_set_handlers(&vcon->chr, NULL, NULL, NULL,
-@@ -227,6 +276,11 @@ static void virtconsole_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    if (k->is_console) {
-+        vcon->cols = (uint16_t) -1;
-+        vcon->rows = (uint16_t) -1;
-+    }
-+
-     if (qemu_chr_fe_backend_connected(&vcon->chr)) {
-         /*
-          * For consoles we don't block guest data transfer just
-@@ -239,7 +293,7 @@ static void virtconsole_realize(DeviceState *dev, Error **errp)
-          */
-         if (k->is_console) {
-             qemu_chr_fe_set_handlers(&vcon->chr, chr_can_read, chr_read,
--                                     NULL, chr_be_change,
-+                                     chr_event_console, chr_be_change,
-                                      vcon, NULL, true);
-             virtio_serial_open(port);
-         } else {
--- 
-2.27.0
+> > I do see the end of migrate_fd_cleanup calls the notifier list; but it's
+> > not clear to me that it's alwyas going to see the first transition to
+> > 'failed' at that point.
+> 
+> What exactly do you mean?  It appears to me that both query-status and
+> the MIGRATION events signal the failed state before migrate_fd_cleanup()
+> is invoked.
+
+OK, I was getting confused between event sending and the notifiers; the
+event happens a bit before.  The state gets set to failed and then we
+call fd_cleanup in most cases; the state is what query-status is keyed
+off, and is also what causes the event to be sent.
+
+> If you mean I could add a notifier to that list to do something™, I’m
+> not sure what exactly it is I’d so.
+
+Yeh, that's why the notifiers are there....
+However, if you need to do some cleanup at the end of a migration, then
+I think adding a call inside migrate_fd_cleanup is perfectly fine.
+
+>  My test can’t do it, because it’s
+> an iotest, and even if it could, I suppose I’d want to wait until even
+> after all notifiers have been invoked (which isn’t guaranteed if I’d add
+> a notifier myself).
+> 
+> >> I tried working around the problem for my test by waiting on “Unable to
+> >> write” appearing on stderr, because that indicates that
+> >> migrate_fd_cleanup()’s error_report_err() has been reached.  But on one
+> >> hand, that isn’t really nice, and on the other, it doesn’t even work
+> >> when the failure is on the source side (because then there is no
+> >> s->error for migrate_fd_cleanup() to report).
+> >>
+> >> In all, I’m asking:
+> >> (1) Is there a nice solution for me now to delay quitting qemu until the
+> >> failed migration has been fully resolved, including the clean-up?
+> > 
+> > In vl.c, I added a call to migration_shutdown in qemu_cleanup - although
+> > that seems to be mostly about cleaning up the *outgoing* side; you could
+> > add some incoming cleanup there.
+> 
+> So you mean waiting until migrate_fd_cleanup() has run?  Maybe I’ll try
+> that tomorrow, although I’d hoped I could get this done without having
+> to modify the code base...  (I.e., I’d hoped there would be some
+> QMP-queriable flag somewhere that could tell me whether the
+> migrate_fd_cleanup() has run)
+
+Please be a little careful around there; i.e. try as far as possible not
+to hang on dead block devices.
+
+> >> (2) Isn’t it a problem if qemu crashes when you issue “quit” via QMP at
+> >> the wrong time?  Like, maybe lingering subprocesses when using “exec”?
+> > 
+> > Yeh that should be cleaner, but isn't.
+> 
+> :(
+
+Randomly quitting is safer than it used to be (again that qemu_cleanup
+code is what should make it so).
+
+Dave
+
+> OK then.  Thanks for your insights!
+> 
+> Max
+> 
+
+
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
