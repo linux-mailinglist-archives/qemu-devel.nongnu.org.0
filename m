@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478F720CF14
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:13:49 +0200 (CEST)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A223520CF0F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:11:36 +0200 (CEST)
+Received: from localhost ([::1]:36478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpuXb-0002EM-SS
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39358)
+	id 1jpuVT-0007fT-Ju
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:11:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jpuU4-00069l-5Z
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:10:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48976
+ id 1jpuU1-00066P-T3
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:10:05 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33546
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jpuU2-0004bv-O1
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:10:07 -0400
+ id 1jpuTy-0004bD-P7
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593439806;
+ s=mimecast20190719; t=1593439801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sOK3uS7kquM9s9wEV6pZlYOHCfNFUHdRhCA/wE76+oo=;
- b=K52TpI0pb+dYH13sLGB41/UI/OoZ25z+5C6qwbmN6z+WNuNUnt5GCByFoeXaPj88I0At+C
- rL0QjbvXanDhfD1ImZeDzeqIu/e/5UyC1oGyNPdunec+v+xzFIwN0Abjkbfk2bF1S1LXOz
- 94hfkSnEzMSDoMS9qZorDhkVtyct5d4=
+ bh=B1LyjU8xzIZMBXYgNC4nEAmhl6QuN+wa/UUdYKu1yp0=;
+ b=NwGuAFcE6CvZzrRdIU7BKvkhpP1syUs/GWqA0712kr111pBBRsnhkmyrOizKpneATwelTP
+ DxRcPZHRpGgqHVfZ3E4iKYJUOGfs6+FIi+zz9k7TQffdGW0WvoGB7wb0yj6UlA2CgcBino
+ cnLRxiQifXlSHPAqubAHYP9DILOvty0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-LuLbuAb1NfqVE6AxTjMsjg-1; Mon, 29 Jun 2020 10:09:56 -0400
-X-MC-Unique: LuLbuAb1NfqVE6AxTjMsjg-1
+ us-mta-230-9JFoD_XIOy-w1ixHB9rWhw-1; Mon, 29 Jun 2020 10:09:59 -0400
+X-MC-Unique: 9JFoD_XIOy-w1ixHB9rWhw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9234800D5C;
- Mon, 29 Jun 2020 14:09:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 803B1107ACCD;
+ Mon, 29 Jun 2020 14:09:58 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.195.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D25C21A888;
- Mon, 29 Jun 2020 14:09:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21C7E2B4A9;
+ Mon, 29 Jun 2020 14:09:55 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH 2/4] tests/acpi: virt: allow DSDT acpi table changes
-Date: Mon, 29 Jun 2020 16:09:36 +0200
-Message-Id: <20200629140938.17566-3-drjones@redhat.com>
+Subject: [PATCH 3/4] hw/arm/virt-acpi-build: Only expose flash on older
+ machine types
+Date: Mon, 29 Jun 2020 16:09:37 +0200
+Message-Id: <20200629140938.17566-4-drjones@redhat.com>
 In-Reply-To: <20200629140938.17566-1-drjones@redhat.com>
 References: <20200629140938.17566-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -86,20 +87,81 @@ Cc: peter.maydell@linaro.org, mst@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The flash device is exclusively for the host-controlled firmware, so
+we should not expose it to the OS. Exposing it risks the OS messing
+with it, which could break firmware runtime services and surprise the
+OS when all its changes disappear after reboot.
+
+As firmware needs the device and uses DT, we leave the device exposed
+there. It's up to firmware to remove the nodes from DT before sending
+it on to the OS. However, there's no need to force firmware to remove
+tables from ACPI (which it doesn't know how to do anyway), so we
+simply don't add the tables in the first place. But, as we've been
+adding the tables for quite some time and don't want to change the
+default hardware exposed to versioned machines, then we only stop
+exposing the flash device tables for 5.1 and later machine types.
+
+Suggested-by: Ard Biesheuvel <ard.biesheuvel@arm.com>
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/arm/virt-acpi-build.c | 5 ++++-
+ hw/arm/virt.c            | 3 +++
+ include/hw/arm/virt.h    | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..32a401ae35fa 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DSDT",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/DSDT.numamem",
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 1384a2cf2ab4..91f0df7b13a3 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -749,6 +749,7 @@ static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
+ static void
+ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ {
++    VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+     Aml *scope, *dsdt;
+     MachineState *ms = MACHINE(vms);
+     const MemMapEntry *memmap = vms->memmap;
+@@ -767,7 +768,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     acpi_dsdt_add_cpus(scope, vms->smp_cpus);
+     acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
+                        (irqmap[VIRT_UART] + ARM_SPI_BASE));
+-    acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
++    if (vmc->acpi_expose_flash) {
++        acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
++    }
+     acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+     acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+                     (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index cd0834ce7faf..5adc9ff799ef 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2482,9 +2482,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 1)
+ 
+ static void virt_machine_5_0_options(MachineClass *mc)
+ {
++    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
++
+     virt_machine_5_1_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     mc->numa_mem_supported = true;
++    vmc->acpi_expose_flash = true;
+ }
+ DEFINE_VIRT_MACHINE(5, 0)
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 31878ddc7223..c65be5fe0bb6 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -119,6 +119,7 @@ typedef struct {
+     bool no_highmem_ecam;
+     bool no_ged;   /* Machines < 4.2 has no support for ACPI GED device */
+     bool kvm_no_adjvtime;
++    bool acpi_expose_flash;
+ } VirtMachineClass;
+ 
+ typedef struct {
 -- 
 2.25.4
 
