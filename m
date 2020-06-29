@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2412520D5D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:54:01 +0200 (CEST)
-Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F94920D5D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:52:38 +0200 (CEST)
+Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzqq-0003zd-0w
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57422)
+	id 1jpzpV-0000xQ-2i
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jpznR-00074r-11; Mon, 29 Jun 2020 15:50:29 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46112)
+ id 1jpznR-000753-KJ; Mon, 29 Jun 2020 15:50:29 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jpznO-0005uX-Vt; Mon, 29 Jun 2020 15:50:28 -0400
+ id 1jpznP-0005un-FP; Mon, 29 Jun 2020 15:50:29 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 10798BF783;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 62FA0BF7EC;
  Mon, 29 Jun 2020 19:50:25 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 03/17] hw/block/nvme: replace dma_acct with blk_acct equivalent
-Date: Mon, 29 Jun 2020 21:50:03 +0200
-Message-Id: <20200629195017.1217056-4-its@irrelevant.dk>
+Subject: [PATCH 04/17] hw/block/nvme: remove redundant has_sg member
+Date: Mon, 29 Jun 2020 21:50:04 +0200
+Message-Id: <20200629195017.1217056-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629195017.1217056-1-its@irrelevant.dk>
 References: <20200629195017.1217056-1-its@irrelevant.dk>
@@ -61,41 +61,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The QSG isn't always initialized, so accounting could be wrong. Issue a
-call to blk_acct_start instead with the size taken from the QSG or IOV
-depending on the kind of I/O.
+Remove the has_sg member from NvmeRequest since it's redundant.
+
+Also, make sure the request iov is destroyed at completion time.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 11 ++++++-----
+ hw/block/nvme.h |  1 -
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index aaf4651eab4c..54f31e7429c6 100644
+index 54f31e7429c6..ded78a2301a6 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -585,9 +585,10 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
-         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -513,16 +513,20 @@ static void nvme_rw_cb(void *opaque, int ret)
+         block_acct_failed(blk_get_stats(n->conf.blk), &req->acct);
+         req->status = NVME_INTERNAL_DEV_ERROR;
+     }
+-    if (req->has_sg) {
++
++    if (req->qsg.nalloc) {
+         qemu_sglist_destroy(&req->qsg);
+     }
++    if (req->iov.nalloc) {
++        qemu_iovec_destroy(&req->iov);
++    }
++
+     nvme_enqueue_req_completion(cq, req);
+ }
+ 
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     NvmeRequest *req)
+ {
+-    req->has_sg = false;
+     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
+          BLOCK_ACCT_FLUSH);
+     req->aiocb = blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
+@@ -548,7 +552,6 @@ static uint16_t nvme_write_zeros(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+         return NVME_LBA_RANGE | NVME_DNR;
      }
  
--    dma_acct_start(n->conf.blk, &req->acct, &req->qsg, acct);
+-    req->has_sg = false;
+     block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
+                      BLOCK_ACCT_WRITE);
+     req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
+@@ -586,7 +589,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     }
+ 
      if (req->qsg.nsg > 0) {
-         req->has_sg = true;
-+        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->qsg.size,
-+                         acct);
+-        req->has_sg = true;
+         block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->qsg.size,
+                          acct);
          req->aiocb = is_write ?
-             dma_blk_write(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
-                           nvme_rw_cb, req) :
-@@ -595,6 +596,8 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+@@ -595,7 +597,6 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+             dma_blk_read(n->conf.blk, &req->qsg, data_offset, BDRV_SECTOR_SIZE,
                           nvme_rw_cb, req);
      } else {
-         req->has_sg = false;
-+        block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->iov.size,
-+                         acct);
+-        req->has_sg = false;
+         block_acct_start(blk_get_stats(n->conf.blk), &req->acct, req->iov.size,
+                          acct);
          req->aiocb = is_write ?
-             blk_aio_pwritev(n->conf.blk, data_offset, &req->iov, 0, nvme_rw_cb,
-                             req) :
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 54ec54f491bf..0169e1736f0c 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -22,7 +22,6 @@ typedef struct NvmeRequest {
+     struct NvmeSQueue       *sq;
+     BlockAIOCB              *aiocb;
+     uint16_t                status;
+-    bool                    has_sg;
+     NvmeCqe                 cqe;
+     BlockAcctCookie         acct;
+     QEMUSGList              qsg;
 -- 
 2.27.0
 
