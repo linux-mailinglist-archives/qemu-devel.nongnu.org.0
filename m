@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BAD20D5CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:49:48 +0200 (CEST)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2623A20D59C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:40:09 +0200 (CEST)
+Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzml-0006Sj-SR
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
+	id 1jpzdP-0007tb-R6
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:40:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jpzlN-0005hD-0D; Mon, 29 Jun 2020 15:48:21 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:32782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jpzlL-0005gw-Bs; Mon, 29 Jun 2020 15:48:20 -0400
-Received: by mail-il1-x142.google.com with SMTP id a11so7308697ilk.0;
- Mon, 29 Jun 2020 12:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZO8nlt67qGajT8gumgRqcgytwuiKZm5Fzjlpx3nwyVw=;
- b=b3qRhvLNOmiWz4o9mQfWGddS51+oa/lkT6r/6VaWzfjzZrosWP1/AqyX7jgQykOvux
- mhyLb1aRFFgMINFnG/pQgHZIzqiU4tvqs9omaJ94DG8qbQa+smbnUJRw+LqnuQZlPyi1
- yvSFGMvTCzF8WS9uZN97hdTm/UdBI7/dizl2WNLh1hN7eTP3U3aiTFSkHKiwlQEPdlgK
- V6BX8onU2aBK8QutbfteK66iHru2cyNw+9fhEH6DxEWMHgJrUix+hrK/IJSg0qH6IZHl
- z0IlG77fcpLA9Ubu43/H1xEiM18m/etKmNsIt20QVU1G57yD5C4vZiBuGLDlOwWltccV
- 78hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZO8nlt67qGajT8gumgRqcgytwuiKZm5Fzjlpx3nwyVw=;
- b=hzqirFsf+MixvlxYzdvNSYhMzhpiqqT54TEXKz9bXjKRTBtsKBAV4wsC3vn0UtU8RR
- fKKwrCqlW7asj3UJ2qZW944YKCYNaadmJALZvjvgu+nxTtXs6Yf2kksT+Jo0YYJw1TQt
- W1dbE3qrNn2hidebF+Dw96214n2clkr8H7i7FIOiXVP9MhqeOw1ndj+m/1eU7wXBINk1
- KpnCKpR3h6HBC5YwZEOpjWErxP4uohFKJLWb6wTYzwdOnQRTqpK/bf0o3aqwmFb4/btz
- Pfuh209pXEUi+lQDorPzsYtCHSU19PaAyXX8mKoNWwrBbHhLhZ/YF+0c3yIK9zxLbd9E
- 5QrQ==
-X-Gm-Message-State: AOAM533UBtGUrrk9lR/VE6cPUYC3YVXc0YDrXx48BAkhf45s18L78Hus
- 4/D2q6RSidMle7R+Mleh7jeZ0AxT2gHzExjqlVw=
-X-Google-Smtp-Source: ABdhPJz/PBx39EP3E3RmyqHyoObzwHk4M27bWkcoeng5Zs4Vw2Hc6HkMLbhqBisV7VvA2pQdk3HzVCw0D8ecbzqKBsY=
-X-Received: by 2002:a05:6e02:d51:: with SMTP id
- h17mr9211439ilj.131.1593460098111; 
- Mon, 29 Jun 2020 12:48:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jpzcF-0007Ig-90
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:38:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22666
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jpzcB-0003xu-QN
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:38:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593459530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7rU1Z1MwXy1xGigJIKhV2iTY0dh0M+FDTbMKueoICgY=;
+ b=iTq++sHxjSEtLSZgjgxNct1HIOO8KQ/kle1BkwkvQ5HM8h/2axLqQXXDZtrSlfbOnmuvcS
+ ZwpKbBZ+wAwr0tBrcqMIk0R4+ddnNG9J2oHB/fg/2OLXr3A06RsDpfg3bf1cjvV72p6v0D
+ ZV4GKWOEjIRVgOhldKHqmUB9yLDXpcs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-zCcVTHdVPxy-uGNDvsohlg-1; Mon, 29 Jun 2020 15:38:48 -0400
+X-MC-Unique: zCcVTHdVPxy-uGNDvsohlg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3716804001;
+ Mon, 29 Jun 2020 19:38:47 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-68.ams2.redhat.com
+ [10.36.113.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55A1D19C71;
+ Mon, 29 Jun 2020 19:38:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 42A2031E79; Mon, 29 Jun 2020 21:38:43 +0200 (CEST)
+Date: Mon, 29 Jun 2020 21:38:43 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sai Pavan Boddu <saipava@xilinx.com>
+Subject: Re: [PATCH v2 3/3] usb/hcd-xhci: Split pci wrapper for xhci base model
+Message-ID: <20200629193843.fufoicpgkpkes6sv@sirius.home.kraxel.org>
+References: <1593008176-9629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1593008176-9629-4-git-send-email-sai.pavan.boddu@xilinx.com>
+ <87y2obzhsc.fsf@dusky.pond.sub.org>
+ <BY5PR02MB67723A0D247E4D2BC60A0710CA920@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <871rm2tkxn.fsf@dusky.pond.sub.org>
+ <BY5PR02MB6772B9C9031FD35A9FA8A969CA930@BY5PR02MB6772.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-References: <20200628142429.17111-1-peter.maydell@linaro.org>
- <20200628142429.17111-5-peter.maydell@linaro.org>
-In-Reply-To: <20200628142429.17111-5-peter.maydell@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 29 Jun 2020 12:38:35 -0700
-Message-ID: <CAKmqyKPm2PzjPXxGb9p2_k-mD3MEYtHkT_owEhg+8+hM=_y1-g@mail.gmail.com>
-Subject: Re: [PATCH 04/17] hw/arm/spitz: Keep pointers to scp0,
- scp1 in SpitzMachineState
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <BY5PR02MB6772B9C9031FD35A9FA8A969CA930@BY5PR02MB6772.namprd02.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:38:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,107 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 28, 2020 at 7:27 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Keep pointers to scp0, scp1 in SpitzMachineState, and just pass
-> that to spitz_scoop_gpio_setup().
->
-> (We'll want to use some of the other fields in SpitzMachineState
-> in that function in the next commit.)
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+  Hi,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > >> Do you intend to add a "sysbus model" in a future patch?
+> > > [Sai Pavan Boddu]  Yes. I would be sending it along with that a device
+> > > which would be using it. (i.e for zynqmp soc ) Let me know, if its good to
+> > include hcd-xhci-sysbus.c here ?
 
-Alistair
+I think this would be useful, to see how the code separation plays out
+on the sysbus side.
 
-> ---
->  hw/arm/spitz.c | 34 +++++++++++++++++++---------------
->  1 file changed, 19 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-> index f48e966c047..69bc2b3fa10 100644
-> --- a/hw/arm/spitz.c
-> +++ b/hw/arm/spitz.c
-> @@ -48,6 +48,8 @@ typedef struct {
->      DeviceState *lcdtg;
->      DeviceState *ads7846;
->      DeviceState *max1111;
-> +    DeviceState *scp0;
-> +    DeviceState *scp1;
->  } SpitzMachineState;
->
->  #define TYPE_SPITZ_MACHINE "spitz-common"
-> @@ -845,22 +847,23 @@ static void spitz_out_switch(void *opaque, int line, int level)
->  #define SPITZ_SCP2_BACKLIGHT_ON                 8
->  #define SPITZ_SCP2_MIC_BIAS             9
->
-> -static void spitz_scoop_gpio_setup(PXA2xxState *cpu,
-> -                DeviceState *scp0, DeviceState *scp1)
-> +static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
->  {
-> -    qemu_irq *outsignals = qemu_allocate_irqs(spitz_out_switch, cpu, 8);
-> +    qemu_irq *outsignals = qemu_allocate_irqs(spitz_out_switch, sms->mpu, 8);
->
-> -    qdev_connect_gpio_out(scp0, SPITZ_SCP_CHRG_ON, outsignals[0]);
-> -    qdev_connect_gpio_out(scp0, SPITZ_SCP_JK_B, outsignals[1]);
-> -    qdev_connect_gpio_out(scp0, SPITZ_SCP_LED_GREEN, outsignals[2]);
-> -    qdev_connect_gpio_out(scp0, SPITZ_SCP_LED_ORANGE, outsignals[3]);
-> +    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_CHRG_ON, outsignals[0]);
-> +    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_JK_B, outsignals[1]);
-> +    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_GREEN, outsignals[2]);
-> +    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_LED_ORANGE, outsignals[3]);
->
-> -    if (scp1) {
-> -        qdev_connect_gpio_out(scp1, SPITZ_SCP2_BACKLIGHT_CONT, outsignals[4]);
-> -        qdev_connect_gpio_out(scp1, SPITZ_SCP2_BACKLIGHT_ON, outsignals[5]);
-> +    if (sms->scp1) {
-> +        qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
-> +                              outsignals[4]);
-> +        qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
-> +                              outsignals[5]);
->      }
->
-> -    qdev_connect_gpio_out(scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
-> +    qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
->  }
->
->  #define SPITZ_GPIO_HSYNC                22
-> @@ -943,7 +946,6 @@ static void spitz_common_init(MachineState *machine)
->      SpitzMachineState *sms = SPITZ_MACHINE(machine);
->      enum spitz_model_e model = smc->model;
->      PXA2xxState *mpu;
-> -    DeviceState *scp0, *scp1 = NULL;
->      MemoryRegion *address_space_mem = get_system_memory();
->      MemoryRegion *rom = g_new(MemoryRegion, 1);
->
-> @@ -962,12 +964,14 @@ static void spitz_common_init(MachineState *machine)
->
->      spitz_ssp_attach(sms);
->
-> -    scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
-> +    sms->scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
->      if (model != akita) {
-> -        scp1 = sysbus_create_simple("scoop", 0x08800040, NULL);
-> +        sms->scp1 = sysbus_create_simple("scoop", 0x08800040, NULL);
-> +    } else {
-> +        sms->scp1 = NULL;
->      }
->
-> -    spitz_scoop_gpio_setup(mpu, scp0, scp1);
-> +    spitz_scoop_gpio_setup(sms);
->
->      spitz_gpio_setup(mpu, (model == akita) ? 1 : 2);
->
-> --
-> 2.20.1
->
->
+> > Here's a clean way to provide different bus connectors (say PCI and
+> > sysbus) for the same core device:
+> > 
+> > Make the core device a TYPE_DEVICE.
+> > 
+> > For each desired bus, have a bus-specific device that contains a core device.
+> > Use object_initialize_child() for the component.
+
+> This was my V1 implementation.
+> Changed it to non-qom structure after some feedback from @Gred. Felt like XHCIState will not be used standalone.
+
+> > Example: core device TYPE_SERIAL, PCI device TYPE_PCI_SERIAL, ISA device
+> > TYPE_ISA_SERIAL, sysbus devices TYPE_SERIAL_IO. TYPE_SERIAL_MM.
+
+/me goes check out the serial code ...
+
+For reference: commit which transforms serial into the structure
+above is this:
+
+    commit 7781b88ee458ff933459503ade0b0a6ddaad08de
+    Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+    Date:   Mon Oct 21 23:32:12 2019 +0200
+
+        serial: initial qom-ification
+
+Note that this patch doesn't change structs, so ISASerialState still
+looks this way:
+
+struct ISASerialState {
+    ISADevice parent_obj;
+    [ ... ]
+    SerialState state;
+};
+
+So you can likewise keep your current "struct XHCIPciState" struct
+layout and still turn XHCIState into a device object.  Which is nice to
+have as it better models the hardware (xhci core behind pci connector).
+
+take care,
+  Gerd
+
 
