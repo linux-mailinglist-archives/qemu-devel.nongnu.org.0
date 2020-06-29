@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52A620D009
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:11:09 +0200 (CEST)
-Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB9020D00D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:12:37 +0200 (CEST)
+Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwNA-0003Oz-LU
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44434)
+	id 1jpwOa-0005sR-Ix
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jpwI2-0006Ec-PH
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:05:51 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jpwHy-000158-1s
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:05:50 -0400
-Received: by mail-oi1-x243.google.com with SMTP id r8so14816483oij.5
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wWDNWnjzspp0IiikPiabIV3kE/NWWN8M5Wv6eCazJuM=;
- b=NA15Qhk4GwUHEeuioCooN1k8XwkS5FyNkwe0sSeoB8num0eI1R0mYng9DfO9ZvdBBc
- qMNIGky1N5ESaAXdqEPWj8Q2WQbPdVr428NPYfnkgcbh2GbEfFVW1m11XDqg7OMJz9r/
- X74ec1OYP4ghZzrgLWIC8l5wcxz3L9X89O1pXTGW1NPkTnpSiYHWpLJtCFcHmwSozaHH
- FK1pe5Sv0LhJXcDyZ5lktF+k8RU8SB4tqbr6PqwWU56QGO6mUrH0+lcd5UtZk06R96Rh
- qhdVxmdDslXrb9O4wPNKbtNFze9fmSp20ZBsTTMDmUsuGBK/1uCU5SEDA6+3XLhm/54O
- S1Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wWDNWnjzspp0IiikPiabIV3kE/NWWN8M5Wv6eCazJuM=;
- b=HTHRQIgZzN3qI3cEDfcejwLb5lkD+XRljfJjw63KkXU2bFgLjbedcq/Z51yqHPq4dn
- aU0hpiwRwbvCGmwMesWl0feA1B9Nb3iuKPOFQOMVZiApM2CzTcmwgMO1W59lK+F/bBps
- iORXZnJ/lmA5nRQwWheykxQlNhtnzNT9lu++wy2G65KVBXxBWTI/SWCC7FV+1w+lbVSj
- FbqG6/KGbnkFs++ZU6ImT0buWJWvGMVPD3g/JYmOAbSAFfK8TgDogLq+dSI+AwrI4qZd
- uhpXwdg7WdcZjh4JcVI+zwZ+333KcxxY6pS+xyB9xEEQGk9sVJrAG85tVIQJttpva2sL
- FbsQ==
-X-Gm-Message-State: AOAM532uZGa0dl6H9V3aLvBP+WAFmHm3DgcgHr8xkbF2x1QQ51tereVi
- u2WhoQIaXHHImVARmXQqYNqKxDSvDBoo3/p5wzo=
-X-Google-Smtp-Source: ABdhPJwwGYy+hcBf96CQhm3X9AJJOP+KK2LyUUuI+sOwCABO1LFdww0i/v/uXQvYmQDBkrz+WHKUsjA7hOzx60mjFFo=
-X-Received: by 2002:aca:494d:: with SMTP id w74mr6963822oia.97.1593446744817; 
- Mon, 29 Jun 2020 09:05:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpwIM-0006m8-89
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:06:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22788
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpwII-00017p-1V
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:06:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593446764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4tB6C9HDkKQzKyRyXLKOzfYs3IvQqnkraQD0gjKkXvM=;
+ b=IYSsmkS+NauPeR87cy9v29/5fGArZl4cvE3GkNleAQGUX2ud5vzwYqcuDy+OPBQyF9Xp+A
+ cG0iOss+QUoaOECpEEEoeWGNzf/SM5aig6e5NvlpK9CbbpofuhQnoz+YbKusvzZJdfjrV1
+ Sq+qAJc70rGnAG4socWHnWXWxqUy9iE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-MVw8tqeUMtWvVLCZjdhuZw-1; Mon, 29 Jun 2020 12:06:01 -0400
+X-MC-Unique: MVw8tqeUMtWvVLCZjdhuZw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5E5718A08CE;
+ Mon, 29 Jun 2020 16:06:00 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D37AE10013C1;
+ Mon, 29 Jun 2020 16:05:54 +0000 (UTC)
+Subject: Re: [PULL 05/14] qapi: add unplug primary event
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20191029225932.14585-1-mst@redhat.com>
+ <20191029225932.14585-6-mst@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d3ad5752-47b9-a991-83cb-e6e1780e9d6a@redhat.com>
+Date: Mon, 29 Jun 2020 11:05:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200624185523.762240-1-ppandit@redhat.com>
- <20200624185523.762240-6-ppandit@redhat.com>
- <CAKXe6SKBYpdouoN=C_NZawLOnDMYjDU2X3c2CsCv7X7rPym1Rg@mail.gmail.com>
- <nycvar.YSQ.7.77.849.2006291718520.92950@xnncv>
- <f76bf4c5-7b6a-8ee2-b46f-9799f879ef16@redhat.com>
-In-Reply-To: <f76bf4c5-7b6a-8ee2-b46f-9799f879ef16@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 30 Jun 2020 00:05:08 +0800
-Message-ID: <CAKXe6SKBZpraQLgQRUP0YyipCQ_hgQ+djOXv9e2yG6nyKXvkww@mail.gmail.com>
-Subject: Re: [PATCH v2 5/9] nvram: add nrf51_soc flash read method
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20191029225932.14585-6-mst@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +83,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ Jens Freimann <jfreimann@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> =E4=BA=8E2020=E5=B9=B46=E6=9C=8829=E6=
-=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=8811:32=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 29/06/20 13:55, P J P wrote:
-> > |
-> > | I prefer here just 'qemu_log_mask(LOG_UNIMP, "%s not implemented\n",
-> > | __func__);' as other patches does.
-> >
-> > Earlier patch v1 did that. It was suggested to return ldl_le_p(), as th=
-at's a
-> > valid return IIUC, instead of a zero(0), in case flash_read() is called=
-.
-> >
-> > Thanks so much for the reviews. I'll send a revised series with due upd=
-ates.
->
-> I think abort() is preferable (while LOG_UNIMP is wrong as it implies
-> there is something to do that QEMU is not doing).
->
+On 10/29/19 6:00 PM, Michael S. Tsirkin wrote:
+> From: Jens Freimann <jfreimann@redhat.com>
+> 
+> This event is emitted when we sent a request to unplug a
+> failover primary device from the Guest OS and it includes the
+> device id of the primary device.
+> 
+> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+> Message-Id: <20191029114905.6856-6-jfreimann@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   qapi/migration.json | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
 
-Oh, here the UNIMP I understand as it will not be implemented, not the
-thing 'should do but not do now'.
+> +##
+> +# @UNPLUG_PRIMARY:
+> +#
+> +# Emitted from source side of a migration when migration state is
+> +# WAIT_UNPLUG. Device was unplugged by guest operating system.
+> +# Device resources in QEMU are kept on standby to be able to re-plug it in case
+> +# of migration failure.
+> +#
+> +# @device-id: QEMU device id of the unplugged device
+> +#
+> +# Since: 4.2
 
-If. we use. abort(), the guest also. can trigger this abort(crash).
-Though there is also other places we use this I think it is not very good.
+s/4.2/5.1/
 
-In fact I would like to silent ignore(callback do nothing) if the
-developer doesn't provide callback at the beginning.
-But there are some cases we use LOG_UNIMP:
--->https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D158b659451
+I'm not sure if the pull request will be respun for other reasons; if 
+not, fixing this in a followup patch may be the way to go.
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Thanks,
-Li Qiang
-
-
-> Paolo
->
 
