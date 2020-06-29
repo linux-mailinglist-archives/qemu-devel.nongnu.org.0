@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F4020D58C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:30:52 +0200 (CEST)
-Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3EF120D586
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:28:54 +0200 (CEST)
+Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzUR-0003yW-E2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
+	id 1jpzSX-0001CE-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRH-00082c-O1; Mon, 29 Jun 2020 15:27:35 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42918)
+ id 1jpzRH-00082A-Aw; Mon, 29 Jun 2020 15:27:35 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:42890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRF-0002IM-Ns; Mon, 29 Jun 2020 15:27:35 -0400
+ id 1jpzRC-0002GY-NQ; Mon, 29 Jun 2020 15:27:35 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 87FD7748DDA;
+ by localhost (Postfix) with SMTP id 686BC748DD8;
  Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0B6A47475F9; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
-Message-Id: <cf1ee4b79ff72d51e6e05027bb51439c2e6bbda1.1593456926.git.balaton@eik.bme.hu>
+ id 19782748DCA; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
+Message-Id: <aa3087554703e0849c3d6582cdefb265cc444403.1593456926.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593456926.git.balaton@eik.bme.hu>
 References: <cover.1593456926.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v7 2/8] mac_newworld: Allow loading binary ROM image
+Subject: [PATCH v7 5/8] mac_oldworld: Change PCI address of macio to match
+ real hardware
 Date: Mon, 29 Jun 2020 20:55:26 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +35,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:27:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,100 +62,28 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fall back to load binary ROM image if loading ELF fails. This also
-moves PROM_BASE and PROM_SIZE defines to board as these are matching
-the ROM size and address on this board and removes the now unused
-PROM_ADDR and BIOS_SIZE defines from common mac.h.
+The board firmware expect these to be at fixed addresses and programs
+them without probing, this patch puts the macio device at the expected
+PCI address.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
-Unlike mac_oldworld where the openbios-ppc image loads at end of ROM
-region here we only check size and assume ELF image is loaded from
-PROM_BASE, Checking the load addr here is tricky because this board is
-also be compiled both 64 and 32 bit and load_elf seems to always
-return 64 bit value so handling that could become a mess. If this is a
-problem then it's a preexisting one so should be fixed in a separate
-patch. This one just allows loading ROM binary too otherwise
-preserving previous behaviour.
+ hw/ppc/mac_oldworld.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/ppc/mac.h          |  2 --
- hw/ppc/mac_newworld.c | 22 ++++++++++++++--------
- 2 files changed, 14 insertions(+), 10 deletions(-)
-
-diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index 04e498bc57..195967facd 100644
---- a/hw/ppc/mac.h
-+++ b/hw/ppc/mac.h
-@@ -40,10 +40,8 @@
- /* SMP is not enabled, for now */
- #define MAX_CPUS 1
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 4200008851..6276973c95 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -286,7 +286,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     ide_drive_get(hd, ARRAY_SIZE(hd));
  
--#define BIOS_SIZE        (1 * MiB)
- #define NVRAM_SIZE        0x2000
- #define PROM_FILENAME    "openbios-ppc"
--#define PROM_ADDR         0xfff00000
- 
- #define KERNEL_LOAD_ADDR 0x01000000
- #define KERNEL_GAP       0x00100000
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 828c5992ae..c88142af57 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -82,6 +82,8 @@
- 
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
- 
-+#define PROM_BASE 0xfff00000
-+#define PROM_SIZE (1 * MiB)
- 
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
-@@ -100,7 +102,7 @@ static void ppc_core99_reset(void *opaque)
- 
-     cpu_reset(CPU(cpu));
-     /* 970 CPUs want to get their initial IP as part of their boot protocol */
--    cpu->env.nip = PROM_ADDR + 0x100;
-+    cpu->env.nip = PROM_BASE + 0x100;
- }
- 
- /* PowerPC Mac99 hardware initialisation */
-@@ -153,25 +155,29 @@ static void ppc_core99_init(MachineState *machine)
-     /* allocate RAM */
-     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
- 
--    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-+    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_core99.bios", PROM_SIZE,
-                            &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), PROM_BASE, bios);
- 
--    if (bios_name == NULL)
-+    if (!bios_name) {
-         bios_name = PROM_FILENAME;
-+    }
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
--
--    /* Load OpenBIOS (ELF) */
-     if (filename) {
-+        /* Load OpenBIOS (ELF) */
-         bios_size = load_elf(filename, NULL, NULL, NULL, NULL,
-                              NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
- 
-+        if (bios_size <= 0) {
-+            /* or load binary ROM image */
-+            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+        }
-         g_free(filename);
-     } else {
-         bios_size = -1;
-     }
--    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-         exit(1);
-     }
+     /* MacIO */
+-    macio = pci_new(-1, TYPE_OLDWORLD_MACIO);
++    macio = pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
+     dev = DEVICE(macio);
+     qdev_prop_set_uint64(dev, "frequency", tbfreq);
+     object_property_set_link(OBJECT(macio), OBJECT(pic_dev), "pic",
 -- 
 2.21.3
 
