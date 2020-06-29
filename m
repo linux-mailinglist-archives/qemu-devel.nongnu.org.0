@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8F420CB4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 02:53:57 +0200 (CEST)
-Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5C820CB46
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 02:50:51 +0200 (CEST)
+Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpi3Y-000790-NJ
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 20:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
+	id 1jpi0Y-0005bg-3u
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jun 2020 20:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jpi2T-0006i4-EI
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 20:52:49 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:57852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jpi2Q-0007k0-JS
- for qemu-devel@nongnu.org; Sun, 28 Jun 2020 20:52:49 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07719114|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0461644-0.00132375-0.952512;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03298; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=4; RT=4; SR=0; TI=SMTPD_---.HuCYwXx_1593391957; 
-Received: from 30.225.208.24(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HuCYwXx_1593391957)
- by smtp.aliyun-inc.com(10.147.41.187);
- Mon, 29 Jun 2020 08:52:37 +0800
-Subject: Re: [PULL 00/63] riscv-to-apply queue
-To: Alistair Francis <alistair23@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200626214410.3613258-1-alistair.francis@wdc.com>
- <CAFEAcA-8QejH-sFsP_rmKuYdYbQdYRjrHaNz4vLHzfYiSBCKYA@mail.gmail.com>
- <CAKmqyKNo9rPtbtqb1R3OFKH71geYjo0mZONNLxkL0Mg6bnb1Zw@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <ce1f8d52-7c87-b264-9463-4eeaf703ac64@c-sky.com>
-Date: Mon, 29 Jun 2020 08:52:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jphyv-0004m3-Qk
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 20:49:10 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:34910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jphyu-0007FE-2q
+ for qemu-devel@nongnu.org; Sun, 28 Jun 2020 20:49:09 -0400
+Received: by mail-lj1-x242.google.com with SMTP id f8so3881318ljc.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Jun 2020 17:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UucnVOUlq0fl3DLGeQWYN/9uiYLLRhCSlX0V+99wPYc=;
+ b=DZK6yLJbVJnpvwLcSrgR6oCNW5uD58CdShn+N4yWDGEE+a8e9pRyxwG1XXwr0CFaeR
+ 5Lc+v520tcKBo9v2Snvj6Esrabk4iF0rSppmvC8bWxGzZpCCIS+bR5pdVVD9/g6ba9EI
+ oJL18PZv9EX0alfig/0Z+n2GT0ZJIRJWvOIvFTlFGtEBIT3wUa3wHCKTlkgUw9uq/xNk
+ uynaUsPawNr4bjatarA59Srnq9kqMrWDBAWUCeDx5BtM4azJ6sCj1nzTkHHbcHPYRxPI
+ gEuiI921MBzB9Rjwy3RfiiJ+J6yY5iQ14bJB79PSeH5cslHsKCKar+W19OwMG4u2tPfP
+ 1wmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UucnVOUlq0fl3DLGeQWYN/9uiYLLRhCSlX0V+99wPYc=;
+ b=SkvNW8oZfiCxuz8Lmmn4gwZqxpXW7Ur8o6HIQi4cBVJykvxmwFX5rEa0aM0qn1V6DI
+ B2B72EYbpWPSM2ByUDkr6TAAo8+MExwi0/dzE+XA+2oJtHBBY6IdCW0xZ4BAJjomMo4F
+ xYLU+x9m8mNqBKM9aSYwbVVRz2CnMEcfC9qLKpXhANlgbV0F5ct0g0qkC6UfRphb0wZa
+ xDaUXeo34JpwPJa03Dr3uznbDjIcLQRf7vMg8abQqjj7YHVn7muTUSbks5QebbwMgoGO
+ thgovFRZ2fkfIe9hB9FNZhS5YZHGAlXx+apjl6nJlT+Q5PW2LI3GpMo63Ck4JDh9Umf5
+ fZoQ==
+X-Gm-Message-State: AOAM533CSCIxAUTOpU8x0+MimbpcM34YyGwRA2BoZGDiMfhNA6Jp+PoW
+ m/803W/Z+ZwWqTD8RiG757Jqr5DtgzyK4g==
+X-Google-Smtp-Source: ABdhPJx28o/UCFEHPvh7ufO5PkbWsmfDZAtDvPR+HUAhDH2mKkIbPpvdoOvJS/TMLZoCMJgKTDxe4g==
+X-Received: by 2002:a2e:4812:: with SMTP id v18mr6981795lja.353.1593391745378; 
+ Sun, 28 Jun 2020 17:49:05 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id i197sm5096429lfi.58.2020.06.28.17.49.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Jun 2020 17:49:04 -0700 (PDT)
+From: andrew@daynix.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] hw/net: Added CSO for IPv6
+Date: Mon, 29 Jun 2020 04:17:59 +0300
+Message-Id: <20200629011800.374914-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKNo9rPtbtqb1R3OFKH71geYjo0mZONNLxkL0Mg6bnb1Zw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/28 20:52:38
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+Received-SPF: none client-ip=2a00:1450:4864:20::242;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,70 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Andrew <andrew@daynix.com>
 
+Added fix for checksum offload for IPv6 if a backend doesn't
+have a virtual header.
+This patch is a part of IPv6 fragmentation.
 
-On 2020/6/29 6:51, Alistair Francis wrote:
-> On Sun, Jun 28, 2020 at 7:30 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->> On Fri, 26 Jun 2020 at 22:53, Alistair Francis <alistair.francis@wdc.com> wrote:
->>> The following changes since commit 553cf5d7c47bee05a3dec9461c1f8430316d516b:
->>>
->>>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200626' into staging (2020-06-26 18:22:36 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200626-1
->>>
->>> for you to fetch changes up to b39d59434ea10649fdb9e0a339c30c76e38c5e17:
->>>
->>>    target/riscv: configure and turn on vector extension from command line (2020-06-26 14:22:15 -0700)
->>>
->>> ----------------------------------------------------------------
->>> This PR contains two patches to improve PLIC support in QEMU.
->>>
->>> The rest of the PR is adding support for the v0.7.1 RISC-V vector
->>> extensions. This is experimental support as the vector extensions are
->>> still in a draft state.
->>>
->> Hi; I'm afraid this fails to build on PPC64 and s390x (ie
->> our big-endian hosts):
-> LIU Zhiwei do you mind looking into this?
-Sure, I will.
-I have applied for a gcc compile farm account today, but it maybe a few 
-days later before I can login.
-Please accept my apologies for my oversight.
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ hw/net/net_tx_pkt.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Zhiwei
->
-> Alistair
->
->> /home/ubuntu/qemu/target/riscv/vector_helper.c: In function ‘vext_clear’:
->> /home/ubuntu/qemu/target/riscv/vector_helper.c: In function ‘vext_clear’:
->> /home/ubuntu/qemu/target/riscv/vector_helper.c:154:21: error: invalid
->> operands to binary & (have ‘void *’ and ‘long long unsigned int’)
->>           memset(tail & ~(7ULL), 0, part1);
->>                       ^
->> /home/ubuntu/qemu/target/riscv/vector_helper.c:155:27: error: invalid
->> operands to binary & (have ‘void *’ and ‘long long unsigned int’)
->>           memset((tail + 8) & ~(7ULL), 0, part2);
->>                  ~~~~~~~~~~ ^
->> /home/ubuntu/qemu/target/riscv/vector_helper.c:154:21: error: invalid
->> operands to binary & (have ‘void *’ and ‘long long unsigned int’)
->>           memset(tail & ~(7ULL), 0, part1);
->>                       ^
->> /home/ubuntu/qemu/target/riscv/vector_helper.c:155:27: error: invalid
->> operands to binary & (have ‘void *’ and ‘long long unsigned int’)
->>           memset((tail + 8) & ~(7ULL), 0, part2);
->>                  ~~~~~~~~~~ ^
->> /home/ubuntu/qemu/rules.mak:69: recipe for target
->> 'target/riscv/vector_helper.o' failed
->>
->>
->> thanks
->> -- PMM
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 162f802dd7..331c73cfc0 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -468,8 +468,8 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
+     /* num of iovec without vhdr */
+     uint32_t iov_len = pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1;
+     uint16_t csl;
+-    struct ip_header *iphdr;
+     size_t csum_offset = pkt->virt_hdr.csum_start + pkt->virt_hdr.csum_offset;
++    uint16_t l3_proto = eth_get_l3_proto(iov, 1, iov->iov_len);
+ 
+     /* Put zero to checksum field */
+     iov_from_buf(iov, iov_len, csum_offset, &csum, sizeof csum);
+@@ -477,9 +477,18 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
+     /* Calculate L4 TCP/UDP checksum */
+     csl = pkt->payload_len;
+ 
++    csum_cntr = 0;
++    cso = 0;
+     /* add pseudo header to csum */
+-    iphdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
+-    csum_cntr = eth_calc_ip4_pseudo_hdr_csum(iphdr, csl, &cso);
++    if (l3_proto == ETH_P_IP) {
++        csum_cntr = eth_calc_ip4_pseudo_hdr_csum(
++                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
++                csl, &cso);
++    } else if (l3_proto == ETH_P_IPV6) {
++        csum_cntr = eth_calc_ip6_pseudo_hdr_csum(
++                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
++                csl, pkt->l4proto, &cso);
++    }
+ 
+     /* data checksum */
+     csum_cntr +=
+-- 
+2.27.0
 
 
