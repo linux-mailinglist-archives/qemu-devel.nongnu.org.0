@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C329320CEA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 15:08:54 +0200 (CEST)
-Received: from localhost ([::1]:32912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3221020CEB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 15:11:48 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jptWn-0000qz-NQ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 09:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50516)
+	id 1jptZb-0004JI-5u
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 09:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jptVZ-00080A-E7; Mon, 29 Jun 2020 09:07:37 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jptVX-0003Xk-NN; Mon, 29 Jun 2020 09:07:37 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l17so15335845wmj.0;
- Mon, 29 Jun 2020 06:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nkicVqB6AtB7pbMVd4jd3RpDBIwoeG3mvR00LkTjuIM=;
- b=nMUvD0dt8494UVYB0vbx8dvfy/ZA1RjS6V/VPfd1Lj0HBbeggJ7IJZjUb/e6bvJ5Vy
- PzQNHmhWokJBEg+am8V1iMM8D/xPYdTdaaJqIm6ycvx9GKOfpgfEgrZrROAu7q2HALUI
- nXY7eA25ZDbkkcWy7jLN/YyvcKpqIL/z3TFb4PFvwZ2QwKMR1qmVG19p3/hb85DUeY5C
- LveX29uXauff+PlhVpqKqgK0RcFhV/cmdwn4sqnLtF5vkCYH2rTxId6uMJ73/+GKzbFi
- sawpj6JfBEFHbVnBy9Sh1zO2ksCzGYmpc7OpfSohqvIWgS3rZfz3dnwLeL+AyZINxboX
- jE9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nkicVqB6AtB7pbMVd4jd3RpDBIwoeG3mvR00LkTjuIM=;
- b=mJRsn21RTJc2YnmRhYVVv+X3hN/xKtnQP/BUkr+Yqfs2OLBVO7TLf3BH5xM2yuBQDL
- kfQxHniRi1PqWCkXlqYur0WeQuAzHU+7gRgEasQa9t/Z3qkwvfUu56kfUTy07aHyVsrU
- k67fmPiwZJxzIrgpZX9lS2IjRbMlg2/E2+uZtshsKw1dehlv38ABWQhslN8I6gumpcgp
- e2TehZZRQWRk/qmm82RA3U8HOKJo9EEaHceOk4Wf4lcudbcX+yLdGI4gPvLNZ9lRZs3Q
- qanFyY6RgW1imfEJagPTFckAhEvs40Dw6+fjBGAHI+6ii/aG5ka+pXLHHdCl7t97pKs4
- F57A==
-X-Gm-Message-State: AOAM5330c1PD+QTafcGRAyRf22XzD8gQpqUXZ9tjHkdZ1o57mug5Wcg/
- szuuP/1qRw/q1Mr+2F+ArD0=
-X-Google-Smtp-Source: ABdhPJzrV+lg0VArzolN7gP43KUqonuP52bfkqMDeiL/gfsqWvDHIlInLLeMFO+iWs0WJXK2r6fX5w==
-X-Received: by 2002:a1c:c387:: with SMTP id t129mr9533353wmf.27.1593436053834; 
- Mon, 29 Jun 2020 06:07:33 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id g16sm46628199wrh.91.2020.06.29.06.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 06:07:32 -0700 (PDT)
-Date: Mon, 29 Jun 2020 14:07:31 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 06/17] block/nvme: Replace qemu_try_blockalign(bs) by
- qemu_try_memalign(pg_sz)
-Message-ID: <20200629130731.GK31392@stefanha-x1.localdomain>
-References: <20200625184838.28172-1-philmd@redhat.com>
- <20200625184838.28172-7-philmd@redhat.com>
- <20200626122433.GM281902@stefanha-x1.localdomain>
- <65f87fc2-876a-6222-59eb-a17dd38986e7@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jptVk-0008EH-0F; Mon, 29 Jun 2020 09:07:48 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jptVf-0003Y9-Ts; Mon, 29 Jun 2020 09:07:47 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07438486|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0520955-0.00143157-0.946473;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03305; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=8; RT=8; SR=0; TI=SMTPD_---.HucVN.U_1593436054; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HucVN.U_1593436054)
+ by smtp.aliyun-inc.com(10.147.44.145);
+ Mon, 29 Jun 2020 21:07:35 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 2/2] target/riscv: Do amo*.w insns operate with 32 bits
+Date: Mon, 29 Jun 2020 21:07:31 +0800
+Message-Id: <20200629130731.1080-3-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200629130731.1080-1-zhiwei_liu@c-sky.com>
+References: <20200629130731.1080-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uuKVzAmB+c+zQlhu"
-Content-Disposition: inline
-In-Reply-To: <65f87fc2-876a-6222-59eb-a17dd38986e7@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 09:07:36
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,57 +57,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For amo*.w insns, we should only calculate on the 32 bits data either from the
+register or the memory.
 
---uuKVzAmB+c+zQlhu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/insn_trans/trans_rva.inc.c | 60 +++++++++++++++++++------
+ 1 file changed, 47 insertions(+), 13 deletions(-)
 
-On Fri, Jun 26, 2020 at 02:48:55PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 6/26/20 2:24 PM, Stefan Hajnoczi wrote:
-> > On Thu, Jun 25, 2020 at 08:48:27PM +0200, Philippe Mathieu-Daud=C3=A9 w=
-rote:
-> >> qemu_try_blockalign() is a generic API that call back to the
-> >> block driver to return its page alignment. As we call from
-> >> within the very same driver, we already know to page alignment
-> >> stored in our state. Remove indirections and use the value from
-> >> BDRVNVMeState.
-> >=20
-> > The higher-level qemu_try_blockalign() API does not require all callers
-> > to be aware of the memory alignment details. It seems like a
-> > disadvantage to duplicate that knowledge throughout the code, even if
-> > it's in the same driver source code.
-> >=20
-> > Is there an advantage to this patch that I've missed?
->=20
-> This is required to later remove the BlockDriverState argument,
-> so nvme_init_queue() is per-hardware, not per-block-driver.
+diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
+index be8a9f06dd..6b3fc14436 100644
+--- a/target/riscv/insn_trans/trans_rva.inc.c
++++ b/target/riscv/insn_trans/trans_rva.inc.c
+@@ -81,19 +81,26 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+     return true;
+ }
+ 
+-static bool gen_amo(DisasContext *ctx, arg_atomic *a,
+-                    void(*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+-                    MemOp mop)
++static bool
++gen_amo_w(DisasContext *ctx, arg_atomic *a,
++          void(*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
++          MemOp mop, bool sign)
+ {
+     TCGv src1 = tcg_temp_new();
+     TCGv src2 = tcg_temp_new();
+ 
+     gen_get_gpr(src1, a->rs1);
+     gen_get_gpr(src2, a->rs2);
++    if (sign) {
++        tcg_gen_ext32s_tl(src2, src2);
++    } else {
++        tcg_gen_ext32u_tl(src2, src2);
++    }
+ 
+     (*func)(src2, src1, src2, ctx->mem_idx, mop);
+-
++    tcg_gen_ext32s_tl(src2, src2);
+     gen_set_gpr(a->rd, src2);
++
+     tcg_temp_free(src1);
+     tcg_temp_free(src2);
+     return true;
+@@ -114,59 +121,86 @@ static bool trans_sc_w(DisasContext *ctx, arg_sc_w *a)
+ static bool trans_amoswap_w(DisasContext *ctx, arg_amoswap_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_xchg_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_xchg_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amoadd_w(DisasContext *ctx, arg_amoadd_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_add_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_add_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amoxor_w(DisasContext *ctx, arg_amoxor_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_xor_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_xor_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amoand_w(DisasContext *ctx, arg_amoand_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_and_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_and_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amoor_w(DisasContext *ctx, arg_amoor_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_or_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_or_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amomin_w(DisasContext *ctx, arg_amomin_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_smin_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_smin_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amomax_w(DisasContext *ctx, arg_amomax_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_smax_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_smax_tl,
++                     (MO_ALIGN | MO_TESL), true);
+ }
+ 
+ static bool trans_amominu_w(DisasContext *ctx, arg_amominu_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_umin_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_umin_tl,
++                     (MO_ALIGN | MO_TEUL), false);
+ }
+ 
+ static bool trans_amomaxu_w(DisasContext *ctx, arg_amomaxu_w *a)
+ {
+     REQUIRE_EXT(ctx, RVA);
+-    return gen_amo(ctx, a, &tcg_gen_atomic_fetch_umax_tl, (MO_ALIGN | MO_TESL));
++    return gen_amo_w(ctx, a, &tcg_gen_atomic_fetch_umax_tl,
++                     (MO_ALIGN | MO_TEUL), false);
+ }
+ 
+ #ifdef TARGET_RISCV64
+ 
++static bool gen_amo(DisasContext *ctx, arg_atomic *a,
++                    void(*func)(TCGv_i64, TCGv_i64, TCGv_i64, TCGArg, MemOp),
++                    MemOp mop)
++{
++    TCGv src1 = tcg_temp_new();
++    TCGv src2 = tcg_temp_new();
++
++    gen_get_gpr(src1, a->rs1);
++    gen_get_gpr(src2, a->rs2);
++
++    (*func)(src2, src1, src2, ctx->mem_idx, mop);
++
++    gen_set_gpr(a->rd, src2);
++    tcg_temp_free(src1);
++    tcg_temp_free(src2);
++    return true;
++}
++
+ static bool trans_lr_d(DisasContext *ctx, arg_lr_d *a)
+ {
+     return gen_lr(ctx, a, MO_ALIGN | MO_TEQ);
+-- 
+2.23.0
 
-Makes sense. Please include this in the commit description.
-
-Thanks,
-Stefan
-
---uuKVzAmB+c+zQlhu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7555MACgkQnKSrs4Gr
-c8iE5AgAx/5rGAko8z2nZ0xrkt9rZhe+HXfPLh+vfJ2UroX+IkFz6E5+GAY9195g
-sQfVfb+ZdwvA7tnC/H3yHCclgn+8nX7zVfDFvyFsnFyZW9pYObwxpSu30F/uo3Ly
-8FqNLLQga44sUn1WhSE4FoF62SoyQ6mItILEfmhRjDasO3rVSBJTT3hWopPUKTVF
-R9JPci/vwnN6j8AKfsAqrFx1juedgdRBJsArmqljv4w/zxY9L9jOmyG71BS0Yr9g
-0HKL9MTyMRBlMroWuIZGz9nRBqrGJV2dex/j5fhiau7QfYvG9uqz2tFGrw0Li5j3
-RFa+rj4aeZ/MR4CfGTVfvsp4zccV1Q==
-=3Tv8
------END PGP SIGNATURE-----
-
---uuKVzAmB+c+zQlhu--
 
