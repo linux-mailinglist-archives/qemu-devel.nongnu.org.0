@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED6320CFF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:57:52 +0200 (CEST)
-Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57AA20CFFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:07:51 +0200 (CEST)
+Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwAJ-0008W8-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41746)
+	id 1jpwJy-0007Vu-Qw
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpw9L-0007yv-70
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:56:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38026
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jpwDG-0001fg-EQ
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:00:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59258
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpw9J-0007a7-F4
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:56:50 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jpwD7-0008Aj-7X
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:00:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593446208;
+ s=mimecast20190719; t=1593446444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oYI8XyX7jYhB71T5zzgqgOklxfvNaB4b6CGYYEoFDE0=;
- b=TLt3R6Xl6X1oNxMvC1wBEMVbnDhVCdiPlekS52A4w4i7SL6VFS1QQEY1na75UKiXMdUBIA
- vKKlqHAiEif+Qw7KPP8ssHWc7rPlSgH6ecsf/vkf/OdU+SIrWCuotg/0870a9RRHnFp0Pg
- FJsnm9ZZKijgb8vGNLVw3m45kRvzvtQ=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RA3iteWvU+8ObueBDBydeVuxtPWYHgvoWSoBcqtoj7o=;
+ b=YKrgE4WalX+20oC2JXU1d7vAisQ9GHM3lKnmn0M+vDqGpnWOwcA0ZMP9v7vOp5t4KZcYgc
+ E2QxgqP2roTBHkk3NGFT6pw9NGliBr/kmYVTF68TeVfFnOZOHzfrhjKQhGih2y8+mGEAvy
+ Tq4u6emuedKvbpSe0qnIAFTrv7CMT/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-hKvtX-AXPhCqJI9S-PZfhg-1; Mon, 29 Jun 2020 11:56:46 -0400
-X-MC-Unique: hKvtX-AXPhCqJI9S-PZfhg-1
+ us-mta-329-Ag2kAtJpMmWVqyNTjIR5Uw-1; Mon, 29 Jun 2020 12:00:41 -0400
+X-MC-Unique: Ag2kAtJpMmWVqyNTjIR5Uw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBF3A19200CE;
- Mon, 29 Jun 2020 15:56:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5171E9CFE7;
- Mon, 29 Jun 2020 15:56:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A9AB111384A6; Mon, 29 Jun 2020 17:56:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 2/4] smbus: Fix spd_data_generate() error API violation
-References: <20200422134815.1584-1-armbru@redhat.com>
- <20200422134815.1584-3-armbru@redhat.com>
- <alpine.BSF.2.22.395.2004221622140.19234@zero.eik.bme.hu>
- <0af0e0f0-8127-da83-d9d2-89a3fe28f778@redhat.com>
- <alpine.BSF.2.22.395.2004222053070.22480@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2006261315070.94870@zero.eik.bme.hu>
- <87k0ztrn9m.fsf@dusky.pond.sub.org>
- <alpine.BSF.2.22.395.2006271320590.53209@zero.eik.bme.hu>
-Date: Mon, 29 Jun 2020 17:56:42 +0200
-In-Reply-To: <alpine.BSF.2.22.395.2006271320590.53209@zero.eik.bme.hu>
- (BALATON Zoltan's message of "Sat, 27 Jun 2020 13:30:07 +0200 (CEST)")
-Message-ID: <87lfk5n9vp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98DA180183C;
+ Mon, 29 Jun 2020 16:00:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-124.ams2.redhat.com
+ [10.36.112.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F0C39CFE8;
+ Mon, 29 Jun 2020 16:00:38 +0000 (UTC)
+Subject: Re: Properly quitting qemu immediately after failing migration
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <0dce6c63-4b83-8b1a-6d00-07235f637997@redhat.com>
+ <20200629154518.GV1298906@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <679132a8-14e2-6ee1-fc27-662681123c3e@redhat.com>
+Date: Mon, 29 Jun 2020 18:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200629154518.GV1298906@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,63 +105,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8
+Content-Type: multipart/mixed; boundary="e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs"
 
-> On Sat, 27 Jun 2020, Markus Armbruster wrote:
->> Quick reply without having thought through the issues at all: I'm not
->
-> Does that mean you'll reply later with more detail or this is all you
-> had to say about this? (Just to know if I should wait for another
-> reply.)
+--e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Not sure I can find the time before the soft freeze.  Best not to wait
-for me.
+On 29.06.20 17:45, Daniel P. Berrang=C3=A9 wrote:
+> On Mon, Jun 29, 2020 at 03:48:35PM +0200, Max Reitz wrote:
+>> In practice this particular issue might not be that big of a problem,
+>> because it just means qemu aborts when the user intended to let it quit
+>> anyway.  But on one hand I could imagine that there are other clean-up
+>> paths that should definitely run before qemu quits (although I don=E2=80=
+=99t
+>> know), and on the other, it=E2=80=99s a problem for my test.
+>=20
+> In general we can't assume any cleanup runs when incoming migration
+> fails, because when loading the migration stream, it often aborts with
+> asserts if the data doesn't match what's expected.
 
->> opposed to you doing work to enable additional or even arbitrary memory
->> sizes where these actually work.  I'm first and foremost opposed to me
->> wasting time on "improving" code that is not used for anything.  That's
->> why I dumbed down spd_data_generate().
->
-> It was used by sam460ex until moving ram allocation to memdev broke it.
->
->> Secondly, I'm opposed to QEMU "correcting" user configuration.  I want
->> QEMU do exactly what it's told, and fail with a clear error message when
->> that is not possible.  The error message may include hints for the user
->> on how to correct the configuration.
->
-> I don't agree with that. It's already hard enough for non-expert users
-> to figure out the needed command line switches, making that even
-> harder by throwing back an error for everything that could work just
-> not exactly specified is needlessly annoying them further. To the
-> point of chasing them away from using QEMU. A lot of people prefer
-> VMWare or VirtualBox for this reason and only try QEMU if there's no
-> other way.
+My problem is about the source VM, though.
 
-We don't have to agree on everything.  I'm not the QEMU CLI dictator.
-The status quo is pretty clear, though:
+Max
 
-    $ qemu-system-ppc64 -help
-    [...]
-    -m [size=]megs[,slots=n,maxmem=size]
-                    configure guest RAM
-                    size: initial amount of guest memory
-    [...]
 
-It says "Initial amount of guest memory", not "Approximate amount of
-guest memory" or something like that.
+--e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs--
 
-If we decide we want to change it from "Initial amount of guest memory"
-to some "do what I mean" behavior, then that behavior needs to be
-documented.
+--0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Moreover, if DWIM is appropriate for one machine, it's probably
-appropriate for all of them.  The CLI should be as consistent as we can
-make it across machines.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl76ECUACgkQ9AfbAGHV
+z0Ae/ggAhA3YL3voGFLjbdICasP8UGnRkTfpKIqA4IgI8WRvVGN6F6Yn/tVGYZQo
+xUvSRc6RESwwGujEMZT7uvnFAmInk4srFf6U9+HZ5dxc65i0WdcppMGFzLXBdn/W
+E/LhCcftCdmKt044AvSmGS+y9cxFMqm6Ru6c2O0m9c5wi+qSTeUN9tR9GnWutXE2
+1DeaHdNp8K43DfLFxySJELLrDpaPZ3dkGGq/IJqmCzr40oWVqUi4y0n3IqxkJFnP
+DhLeQOkPwsgRuqYCNvvSzxHUU6BrmUR/8J9yfx8h8eAmGg2FOJjajakKhUmJ8qIP
+dnFjijabttZzQmRVG7N6N6u41Nhefg==
+=npDy
+-----END PGP SIGNATURE-----
+
+--0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8--
 
 
