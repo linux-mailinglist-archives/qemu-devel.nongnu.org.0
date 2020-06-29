@@ -2,70 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD3C20D5B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:41:50 +0200 (CEST)
-Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73BD20D592
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:34:21 +0200 (CEST)
+Received: from localhost ([::1]:52630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzf3-0001mm-Aw
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
+	id 1jpzXo-0000BH-UC
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jpzdd-0000ZV-O3; Mon, 29 Jun 2020 15:40:21 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jpzda-0004Ek-TP; Mon, 29 Jun 2020 15:40:21 -0400
-Received: by mail-io1-xd44.google.com with SMTP id i25so18531012iog.0;
- Mon, 29 Jun 2020 12:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xVLkDBAxHKQ4WkrpzyWFfHBf9M/cVOYEpiXFAVNde/8=;
- b=pEO8acix/qds0v5tl1c7pj5G4dghFFDHB2UOAiGN+iWXJn9kEcmu8cpBXG5NKtUDf5
- 440QgHaliWmsr3zFmtx93qhLBgxPDp/6/huIX9G08su6L+fUvmrZ9CkDSxQBpyA7TFFX
- ay4qm54BOhCyUoBD3Ex4R17wdKiGxA+l/yXOldF8U5wInz867rkcUTEleyEToOaW9QbZ
- pJ6aAfAlTeBFeuUP8jwGwSJSGwSqq/DFivHO1iUf3mlMHWAnMhZy3Qi+v6eFs8EgLacT
- sFyBQCB6pPTHHNCI6U0Vm/om2Yi9J3zbvWAiwgYehgltQQpGF7SZrBpSBT33MdCQFSBi
- 02NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xVLkDBAxHKQ4WkrpzyWFfHBf9M/cVOYEpiXFAVNde/8=;
- b=E9iiDkY7ZazYOeDv53hrpT5KvG88Whz0c70KuQGjranBBDxX5SMgZfRi+LGvD5Dxve
- MxFyBRacsTVv07NbPtjBnpLecrDVTKV5fM+tIzdCjMPx+wyLjLHc4LK8ZrIvDwoxROIW
- dJtGgbGdhybJYNxt+Nub6rtJduyoAGgHwoiyeAKg7Ahfl4BFuzdbgm+pS8LhDVu6y2Ig
- ENm6cwHhpKcoM4XAqAwh2BqTLycRgqybqGOCw6hK2UQ9UaM6qkEuP/OLb+MG6hE6w5GW
- 2vhExNhd9ooN6CHpjIo4ycR1GB8qADVW41ii7ZAY5Qmz9463UWbTTq04FEEYRAxhen2P
- hh2w==
-X-Gm-Message-State: AOAM533Id3cQqviKmkI6P2MYDGJYlGUu3JHqugp1thw9phpz2dzDgOCP
- p7XLofT1VSyuIteRjyD4wYj+MyLbV58X4HtLDCQ=
-X-Google-Smtp-Source: ABdhPJy3uoYCrqydJ+kiu7IU1dIryCFG96PCf1lSpJsAoK/8YzAmXDml9bUTc3unu7TWevh+Q6eJXDeyfC4BsbMKGAw=
-X-Received: by 2002:a5d:9306:: with SMTP id l6mr7475970ion.105.1593459616288; 
- Mon, 29 Jun 2020 12:40:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jpzUT-00051n-NY
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:30:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50055
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jpzUR-0002sT-7w
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:30:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593459049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=J6wNGUWjIQGIyrnuyjSjm8OoZXOCPDLw42iCRdtSn0o=;
+ b=bGBXAEpsSCG34KkGVz+SuNAtmwQIw2QdLRgCx3o8bPMFqqCTmNwZXLFip52i5F88/RACGi
+ hQcwBSYI0D/VNx8ru7qyrPp5RnFXpPxZFSvGIvdQ+AQNrf5UrrYGZ7iNZubyvFX3cpvfwh
+ nHBdVaaYNlugxmTpwZbBJftNwDk56WE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-LovbKirsMcCws4bsrLTP_w-1; Mon, 29 Jun 2020 15:30:44 -0400
+X-MC-Unique: LovbKirsMcCws4bsrLTP_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9E7F18FE860;
+ Mon, 29 Jun 2020 19:30:43 +0000 (UTC)
+Received: from [10.36.114.211] (ovpn-114-211.ams2.redhat.com [10.36.114.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09F6C10013C1;
+ Mon, 29 Jun 2020 19:30:38 +0000 (UTC)
+Subject: Re: [PATCH] net: tap: check if the file descriptor is valid before
+ using it
+To: Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20200624190009.300069-1-lvivier@redhat.com>
+ <20200625084835.GB1009994@redhat.com>
+ <541b40c5-ee72-d37d-1c30-664775812d1b@redhat.com>
+ <929203d2-20d2-7caf-e487-6bfe5b851974@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
+Message-ID: <ea94fa3c-edb5-220e-e0e0-4b7fca7b90e8@redhat.com>
+Date: Mon, 29 Jun 2020 21:30:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200628142429.17111-1-peter.maydell@linaro.org>
- <20200628142429.17111-2-peter.maydell@linaro.org>
-In-Reply-To: <20200628142429.17111-2-peter.maydell@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 29 Jun 2020 12:30:33 -0700
-Message-ID: <CAKmqyKMeOv4bhtXNN+7CswYUaC+7go6dwoZUm-71dFfOKLP96g@mail.gmail.com>
-Subject: Re: [PATCH 01/17] hw/arm/spitz: Detabify
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <929203d2-20d2-7caf-e487-6bfe5b851974@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:30:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,312 +141,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 28, 2020 at 7:24 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The spitz board has been around a long time, and still has a fair number
-> of hard-coded tab characters in it. We're about to do some work on
-> this source file, so start out by expanding out the tabs.
->
-> This commit is a pure whitespace only change.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 28/06/2020 08:31, Jason Wang wrote:
+> 
+> On 2020/6/25 下午7:56, Laurent Vivier wrote:
+>> On 25/06/2020 10:48, Daniel P. Berrangé wrote:
+>>> On Wed, Jun 24, 2020 at 09:00:09PM +0200, Laurent Vivier wrote:
+>>>> qemu_set_nonblock() checks that the file descriptor can be used and, if
+>>>> not, crashes QEMU. An assert() is used for that. The use of assert() is
+>>>> used to detect programming error and the coredump will allow to debug
+>>>> the problem.
+>>>>
+>>>> But in the case of the tap device, this assert() can be triggered by
+>>>> a misconfiguration by the user. At startup, it's not a real problem,
+>>>> but it
+>>>> can also happen during the hot-plug of a new device, and here it's a
+>>>> problem because we can crash a perfectly healthy system.
+>>> If the user/mgmt app is not correctly passing FDs, then there's a whole
+>>> pile of bad stuff that can happen. Checking whether the FD is valid is
+>>> only going to catch a small subset. eg consider if fd=9 refers to the
+>>> FD that is associated with the root disk QEMU has open. We'll fail to
+>>> setup the TAP device and close this FD, breaking the healthy system
+>>> again.
+>>>
+>>> I'm not saying we can't check if the FD is valid, but lets be clear that
+>>> this is not offering very much protection against a broken mgmt apps
+>>> passing bad FDs.
+>>>
+>> I agree with you, but my only goal here is to avoid the crash in this
+>> particular case.
+>>
+>> The punishment should fit the crime.
+>>
+>> The user can think the netdev_del doesn't close the fd, and he can try
+>> to reuse it. Sending back an error is better than crashing his system.
+>> After that, if the system crashes, it will be for the good reasons, not
+>> because of an assert.
+> 
+> 
+> Yes. And on top of this we may try to validate the TAP via st_dev
+> through fstat[1].
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I agree, but the problem I have is to know which major(st_dev) we can
+allow to use.
 
-Alistair
+Do we allow only macvtap major number?
+How to know the macvtap major number at user level?
+[it is allocated dynamically: do we need to parse /proc/devices?]
 
-> ---
-> Couple of checkpatch errors due to the QUEUE_KEY macro which can
-> be ignored as this is just a detabify.
-> ---
->  hw/arm/spitz.c | 156 ++++++++++++++++++++++++-------------------------
->  1 file changed, 78 insertions(+), 78 deletions(-)
->
-> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-> index fc18212e686..9eaedab79b5 100644
-> --- a/hw/arm/spitz.c
-> +++ b/hw/arm/spitz.c
-> @@ -34,25 +34,25 @@
->  #include "cpu.h"
->
->  #undef REG_FMT
-> -#define REG_FMT                        "0x%02lx"
-> +#define REG_FMT                         "0x%02lx"
->
->  /* Spitz Flash */
-> -#define FLASH_BASE             0x0c000000
-> -#define FLASH_ECCLPLB          0x00    /* Line parity 7 - 0 bit */
-> -#define FLASH_ECCLPUB          0x04    /* Line parity 15 - 8 bit */
-> -#define FLASH_ECCCP            0x08    /* Column parity 5 - 0 bit */
-> -#define FLASH_ECCCNTR          0x0c    /* ECC byte counter */
-> -#define FLASH_ECCCLRR          0x10    /* Clear ECC */
-> -#define FLASH_FLASHIO          0x14    /* Flash I/O */
-> -#define FLASH_FLASHCTL         0x18    /* Flash Control */
-> +#define FLASH_BASE              0x0c000000
-> +#define FLASH_ECCLPLB           0x00    /* Line parity 7 - 0 bit */
-> +#define FLASH_ECCLPUB           0x04    /* Line parity 15 - 8 bit */
-> +#define FLASH_ECCCP             0x08    /* Column parity 5 - 0 bit */
-> +#define FLASH_ECCCNTR           0x0c    /* ECC byte counter */
-> +#define FLASH_ECCCLRR           0x10    /* Clear ECC */
-> +#define FLASH_FLASHIO           0x14    /* Flash I/O */
-> +#define FLASH_FLASHCTL          0x18    /* Flash Control */
->
-> -#define FLASHCTL_CE0           (1 << 0)
-> -#define FLASHCTL_CLE           (1 << 1)
-> -#define FLASHCTL_ALE           (1 << 2)
-> -#define FLASHCTL_WP            (1 << 3)
-> -#define FLASHCTL_CE1           (1 << 4)
-> -#define FLASHCTL_RYBY          (1 << 5)
-> -#define FLASHCTL_NCE           (FLASHCTL_CE0 | FLASHCTL_CE1)
-> +#define FLASHCTL_CE0            (1 << 0)
-> +#define FLASHCTL_CLE            (1 << 1)
-> +#define FLASHCTL_ALE            (1 << 2)
-> +#define FLASHCTL_WP             (1 << 3)
-> +#define FLASHCTL_CE1            (1 << 4)
-> +#define FLASHCTL_RYBY           (1 << 5)
-> +#define FLASHCTL_NCE            (FLASHCTL_CE0 | FLASHCTL_CE1)
->
->  #define TYPE_SL_NAND "sl-nand"
->  #define SL_NAND(obj) OBJECT_CHECK(SLNANDState, (obj), TYPE_SL_NAND)
-> @@ -74,12 +74,12 @@ static uint64_t sl_read(void *opaque, hwaddr addr, unsigned size)
->      int ryby;
->
->      switch (addr) {
-> -#define BSHR(byte, from, to)   ((s->ecc.lp[byte] >> (from - to)) & (1 << to))
-> +#define BSHR(byte, from, to)    ((s->ecc.lp[byte] >> (from - to)) & (1 << to))
->      case FLASH_ECCLPLB:
->          return BSHR(0, 4, 0) | BSHR(0, 5, 2) | BSHR(0, 6, 4) | BSHR(0, 7, 6) |
->                  BSHR(1, 4, 1) | BSHR(1, 5, 3) | BSHR(1, 6, 5) | BSHR(1, 7, 7);
->
-> -#define BSHL(byte, from, to)   ((s->ecc.lp[byte] << (to - from)) & (1 << to))
-> +#define BSHL(byte, from, to)    ((s->ecc.lp[byte] << (to - from)) & (1 << to))
->      case FLASH_ECCLPUB:
->          return BSHL(0, 0, 0) | BSHL(0, 1, 2) | BSHL(0, 2, 4) | BSHL(0, 3, 6) |
->                  BSHL(1, 0, 1) | BSHL(1, 1, 3) | BSHL(1, 2, 5) | BSHL(1, 3, 7);
-> @@ -191,8 +191,8 @@ static void sl_nand_realize(DeviceState *dev, Error **errp)
->
->  /* Spitz Keyboard */
->
-> -#define SPITZ_KEY_STROBE_NUM   11
-> -#define SPITZ_KEY_SENSE_NUM    7
-> +#define SPITZ_KEY_STROBE_NUM    11
-> +#define SPITZ_KEY_SENSE_NUM     7
->
->  static const int spitz_gpio_key_sense[SPITZ_KEY_SENSE_NUM] = {
->      12, 17, 91, 34, 36, 38, 39
-> @@ -214,11 +214,11 @@ static int spitz_keymap[SPITZ_KEY_SENSE_NUM + 1][SPITZ_KEY_STROBE_NUM] = {
->      { 0x52, 0x43, 0x01, 0x47, 0x49,  -1 ,  -1 ,  -1 ,  -1 ,  -1 ,  -1  },
->  };
->
-> -#define SPITZ_GPIO_AK_INT      13      /* Remote control */
-> -#define SPITZ_GPIO_SYNC                16      /* Sync button */
-> -#define SPITZ_GPIO_ON_KEY      95      /* Power button */
-> -#define SPITZ_GPIO_SWA         97      /* Lid */
-> -#define SPITZ_GPIO_SWB         96      /* Tablet mode */
-> +#define SPITZ_GPIO_AK_INT       13      /* Remote control */
-> +#define SPITZ_GPIO_SYNC                 16      /* Sync button */
-> +#define SPITZ_GPIO_ON_KEY       95      /* Power button */
-> +#define SPITZ_GPIO_SWA          97      /* Lid */
-> +#define SPITZ_GPIO_SWB          96      /* Tablet mode */
->
->  /* The special buttons are mapped to unused keys */
->  static const int spitz_gpiomap[5] = {
-> @@ -300,7 +300,7 @@ static void spitz_keyboard_keydown(SpitzKeyboardState *s, int keycode)
->  #define SPITZ_MOD_CTRL    (1 << 8)
->  #define SPITZ_MOD_FN      (1 << 9)
->
-> -#define QUEUE_KEY(c)   s->fifo[(s->fifopos + s->fifolen ++) & 0xf] = c
-> +#define QUEUE_KEY(c)    s->fifo[(s->fifopos + s->fifolen ++) & 0xf] = c
->
->  static void spitz_keyboard_handler(void *opaque, int keycode)
->  {
-> @@ -308,25 +308,25 @@ static void spitz_keyboard_handler(void *opaque, int keycode)
->      uint16_t code;
->      int mapcode;
->      switch (keycode) {
-> -    case 0x2a: /* Left Shift */
-> +    case 0x2a:  /* Left Shift */
->          s->modifiers |= 1;
->          break;
->      case 0xaa:
->          s->modifiers &= ~1;
->          break;
-> -    case 0x36: /* Right Shift */
-> +    case 0x36:  /* Right Shift */
->          s->modifiers |= 2;
->          break;
->      case 0xb6:
->          s->modifiers &= ~2;
->          break;
-> -    case 0x1d: /* Control */
-> +    case 0x1d:  /* Control */
->          s->modifiers |= 4;
->          break;
->      case 0x9d:
->          s->modifiers &= ~4;
->          break;
-> -    case 0x38: /* Alt */
-> +    case 0x38:  /* Alt */
->          s->modifiers |= 8;
->          break;
->      case 0xb8:
-> @@ -536,14 +536,14 @@ static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
->
->  /* LCD backlight controller */
->
-> -#define LCDTG_RESCTL   0x00
-> -#define LCDTG_PHACTRL  0x01
-> -#define LCDTG_DUTYCTRL 0x02
-> -#define LCDTG_POWERREG0        0x03
-> -#define LCDTG_POWERREG1        0x04
-> -#define LCDTG_GPOR3    0x05
-> -#define LCDTG_PICTRL   0x06
-> -#define LCDTG_POLCTRL  0x07
-> +#define LCDTG_RESCTL    0x00
-> +#define LCDTG_PHACTRL   0x01
-> +#define LCDTG_DUTYCTRL  0x02
-> +#define LCDTG_POWERREG0         0x03
-> +#define LCDTG_POWERREG1         0x04
-> +#define LCDTG_GPOR3     0x05
-> +#define LCDTG_PICTRL    0x06
-> +#define LCDTG_POLCTRL   0x07
->
->  typedef struct {
->      SSISlave ssidev;
-> @@ -623,12 +623,12 @@ static void spitz_lcdtg_realize(SSISlave *dev, Error **errp)
->
->  /* SSP devices */
->
-> -#define CORGI_SSP_PORT         2
-> +#define CORGI_SSP_PORT          2
->
-> -#define SPITZ_GPIO_LCDCON_CS   53
-> -#define SPITZ_GPIO_ADS7846_CS  14
-> -#define SPITZ_GPIO_MAX1111_CS  20
-> -#define SPITZ_GPIO_TP_INT      11
-> +#define SPITZ_GPIO_LCDCON_CS    53
-> +#define SPITZ_GPIO_ADS7846_CS   14
-> +#define SPITZ_GPIO_MAX1111_CS   20
-> +#define SPITZ_GPIO_TP_INT       11
->
->  static DeviceState *max1111;
->
-> @@ -659,13 +659,13 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
->      s->enable[line] = !level;
->  }
->
-> -#define MAX1111_BATT_VOLT      1
-> -#define MAX1111_BATT_TEMP      2
-> -#define MAX1111_ACIN_VOLT      3
-> +#define MAX1111_BATT_VOLT       1
-> +#define MAX1111_BATT_TEMP       2
-> +#define MAX1111_ACIN_VOLT       3
->
-> -#define SPITZ_BATTERY_TEMP     0xe0    /* About 2.9V */
-> -#define SPITZ_BATTERY_VOLT     0xd0    /* About 4.0V */
-> -#define SPITZ_CHARGEON_ACIN    0x80    /* About 5.0V */
-> +#define SPITZ_BATTERY_TEMP      0xe0    /* About 2.9V */
-> +#define SPITZ_BATTERY_VOLT      0xd0    /* About 4.0V */
-> +#define SPITZ_CHARGEON_ACIN     0x80    /* About 5.0V */
->
->  static void spitz_adc_temp_on(void *opaque, int line, int level)
->  {
-> @@ -735,11 +735,11 @@ static void spitz_microdrive_attach(PXA2xxState *cpu, int slot)
->
->  /* Wm8750 and Max7310 on I2C */
->
-> -#define AKITA_MAX_ADDR 0x18
-> -#define SPITZ_WM_ADDRL 0x1b
-> -#define SPITZ_WM_ADDRH 0x1a
-> +#define AKITA_MAX_ADDR  0x18
-> +#define SPITZ_WM_ADDRL  0x1b
-> +#define SPITZ_WM_ADDRH  0x1a
->
-> -#define SPITZ_GPIO_WM  5
-> +#define SPITZ_GPIO_WM   5
->
->  static void spitz_wm8750_addr(void *opaque, int line, int level)
->  {
-> @@ -806,20 +806,20 @@ static void spitz_out_switch(void *opaque, int line, int level)
->      }
->  }
->
-> -#define SPITZ_SCP_LED_GREEN            1
-> -#define SPITZ_SCP_JK_B                 2
-> -#define SPITZ_SCP_CHRG_ON              3
-> -#define SPITZ_SCP_MUTE_L               4
-> -#define SPITZ_SCP_MUTE_R               5
-> -#define SPITZ_SCP_CF_POWER             6
-> -#define SPITZ_SCP_LED_ORANGE           7
-> -#define SPITZ_SCP_JK_A                 8
-> -#define SPITZ_SCP_ADC_TEMP_ON          9
-> -#define SPITZ_SCP2_IR_ON               1
-> -#define SPITZ_SCP2_AKIN_PULLUP         2
-> -#define SPITZ_SCP2_BACKLIGHT_CONT      7
-> -#define SPITZ_SCP2_BACKLIGHT_ON                8
-> -#define SPITZ_SCP2_MIC_BIAS            9
-> +#define SPITZ_SCP_LED_GREEN             1
-> +#define SPITZ_SCP_JK_B                  2
-> +#define SPITZ_SCP_CHRG_ON               3
-> +#define SPITZ_SCP_MUTE_L                4
-> +#define SPITZ_SCP_MUTE_R                5
-> +#define SPITZ_SCP_CF_POWER              6
-> +#define SPITZ_SCP_LED_ORANGE            7
-> +#define SPITZ_SCP_JK_A                  8
-> +#define SPITZ_SCP_ADC_TEMP_ON           9
-> +#define SPITZ_SCP2_IR_ON                1
-> +#define SPITZ_SCP2_AKIN_PULLUP          2
-> +#define SPITZ_SCP2_BACKLIGHT_CONT       7
-> +#define SPITZ_SCP2_BACKLIGHT_ON                 8
-> +#define SPITZ_SCP2_MIC_BIAS             9
->
->  static void spitz_scoop_gpio_setup(PXA2xxState *cpu,
->                  DeviceState *scp0, DeviceState *scp1)
-> @@ -839,15 +839,15 @@ static void spitz_scoop_gpio_setup(PXA2xxState *cpu,
->      qdev_connect_gpio_out(scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
->  }
->
-> -#define SPITZ_GPIO_HSYNC               22
-> -#define SPITZ_GPIO_SD_DETECT           9
-> -#define SPITZ_GPIO_SD_WP               81
-> -#define SPITZ_GPIO_ON_RESET            89
-> -#define SPITZ_GPIO_BAT_COVER           90
-> -#define SPITZ_GPIO_CF1_IRQ             105
-> -#define SPITZ_GPIO_CF1_CD              94
-> -#define SPITZ_GPIO_CF2_IRQ             106
-> -#define SPITZ_GPIO_CF2_CD              93
-> +#define SPITZ_GPIO_HSYNC                22
-> +#define SPITZ_GPIO_SD_DETECT            9
-> +#define SPITZ_GPIO_SD_WP                81
-> +#define SPITZ_GPIO_ON_RESET             89
-> +#define SPITZ_GPIO_BAT_COVER            90
-> +#define SPITZ_GPIO_CF1_IRQ              105
-> +#define SPITZ_GPIO_CF1_CD               94
-> +#define SPITZ_GPIO_CF2_IRQ              106
-> +#define SPITZ_GPIO_CF2_CD               93
->
->  static int spitz_hsync;
->
-> @@ -907,8 +907,8 @@ static void spitz_gpio_setup(PXA2xxState *cpu, int slots)
->  /* Board init.  */
->  enum spitz_model_e { spitz, akita, borzoi, terrier };
->
-> -#define SPITZ_RAM      0x04000000
-> -#define SPITZ_ROM      0x00800000
-> +#define SPITZ_RAM       0x04000000
-> +#define SPITZ_ROM       0x00800000
->
->  static struct arm_boot_info spitz_binfo = {
->      .loader_start = PXA2XX_SDRAM_BASE,
-> --
-> 2.20.1
->
->
+Thanks,
+Laurent
+
 
