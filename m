@@ -2,31 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5320DD34
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 23:50:07 +0200 (CEST)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601E820DD55
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 23:50:37 +0200 (CEST)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq1fB-0000Gc-MM
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 17:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
+	id 1jq1fe-0000hV-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 17:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1jq1de-0007IW-Ih
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 17:48:30 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46550)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1jq1df-0007JK-2x
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 17:48:31 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1jq1dc-00084s-84
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1jq1dc-00084t-8j
  for qemu-devel@nongnu.org; Mon, 29 Jun 2020 17:48:30 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 861E3BF450
+ by charlie.dont.surf (Postfix) with ESMTPSA id BB9CFBF724
  for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 21:48:26 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] hw/block/nvme: support multiple namespaces
-Date: Mon, 29 Jun 2020 23:48:21 +0200
-Message-Id: <20200629214825.1283673-1-its@irrelevant.dk>
+Subject: [PATCH v2 1/4] hw/block/nvme: refactor identify active namespace id
+ list
+Date: Mon, 29 Jun 2020 23:48:22 +0200
+Message-Id: <20200629214825.1283673-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200629214825.1283673-1-its@irrelevant.dk>
+References: <20200629214825.1283673-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
@@ -55,43 +58,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-v2: bummer, v1 didn't apply cleanly to master (it applied to Kevin's
-block tree); rebased to make patchew happy
+Prepare to support inactive namespaces.
 
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-This adds a new 'nvme-ns' device that attaches to the nvme device
-through a bus. This decouples the nvme controller and nvme namespaces
-such that multiple namespaces may be attached to the controller.
-
-With this in place, we can allocate a fresh pci vendor/device id and get
-rid of the Intel id pair that causes the Linux kernel to apply a bunch
-of quirks that the device no longer has.
-
-Based-on: <20200629203155.1236860-1-its@irrelevant.dk>
-("[PATCH 0/3] hw/block/nvme: support scatter gather lists")
-
-Klaus Jensen (4):
-  hw/block/nvme: refactor identify active namespace id list
-  hw/block/nvme: support multiple namespaces
-  pci: allocate pci id for nvme
-  hw/block/nvme: change controller pci id
-
- MAINTAINERS            |   1 +
- docs/specs/nvme.txt    |  23 ++++
- docs/specs/pci-ids.txt |   1 +
- hw/block/Makefile.objs |   2 +-
- hw/block/nvme-ns.c     | 172 ++++++++++++++++++++++++++
- hw/block/nvme-ns.h     |  66 ++++++++++
- hw/block/nvme.c        | 273 +++++++++++++++++++++++++++--------------
- hw/block/nvme.h        |  45 +++----
- hw/block/trace-events  |   8 +-
- hw/core/machine.c      |   1 +
- include/hw/pci/pci.h   |   1 +
- 11 files changed, 472 insertions(+), 121 deletions(-)
- create mode 100644 docs/specs/nvme.txt
- create mode 100644 hw/block/nvme-ns.c
- create mode 100644 hw/block/nvme-ns.h
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 4bcd114f76b1..eaee420219fd 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1573,16 +1573,16 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     uint32_t min_nsid = le32_to_cpu(c->nsid);
+     uint32_t *list;
+     uint16_t ret;
+-    int i, j = 0;
++    int j = 0;
+ 
+     trace_pci_nvme_identify_nslist(min_nsid);
+ 
+     list = g_malloc0(data_len);
+-    for (i = 0; i < n->num_namespaces; i++) {
+-        if (i < min_nsid) {
++    for (int i = 1; i <= n->num_namespaces; i++) {
++        if (i <= min_nsid) {
+             continue;
+         }
+-        list[j++] = cpu_to_le32(i + 1);
++        list[j++] = cpu_to_le32(i);
+         if (j == data_len / sizeof(uint32_t)) {
+             break;
+         }
 -- 
 2.27.0
 
