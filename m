@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4306220CE74
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 14:11:47 +0200 (CEST)
-Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6050D20CE7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 14:17:15 +0200 (CEST)
+Received: from localhost ([::1]:40202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpsdW-0007Ia-9x
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 08:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
+	id 1jpsio-0001GU-CX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 08:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jpsbk-0006Q9-9H
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 08:09:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36195
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpsgc-0008DT-Sn
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 08:14:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37614
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jpsbh-0001WR-6m
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 08:09:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpsgY-0002YR-7T
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 08:14:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593432591;
+ s=mimecast20190719; t=1593432893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fQnOtbN1Nslzs6MCLRwR9Rwoe28FDZGyTzzZtbcw+/I=;
- b=ixKimUjtcV1233nPoW7MquKy/E4fCx9aS9pXkxqyNO82eIg7+cz/nY6586nijibfggVU5u
- l6fUIvYQu5cZR0PN+3I53u4N+FCW39DNYYFPZGg+qDkYwfHvd98EDDnVH6Opo2sC0ihFGW
- YTToGpvBk8M/Lk1D1slL9QRL+kJup4I=
+ bh=7yRgfjhVD9oLd81ruHIaBv+/p6hpBn47iuPPxrmSq64=;
+ b=XK+sa7l2sN04E2wFwW5MEYrMAj9OE5fGQQKkBpzgIkR6fpDeDCWKcxzm40JVnrHXtH8sNW
+ Cf+ZorGz9QymFgraqI73YDN6AxTSpKN/TEieMcuEXlWZv0Bzc7uGcJFcD4/4VDZpFurqQW
+ KeNLA2B6xf5kLGPZVzeTdxZpotHGusA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-Y6GNt4e0OUGLwf_vweoWKg-1; Mon, 29 Jun 2020 08:09:49 -0400
-X-MC-Unique: Y6GNt4e0OUGLwf_vweoWKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-41-L-MuwiPjMq6jP0svL8YnlQ-1; Mon, 29 Jun 2020 08:14:45 -0400
+X-MC-Unique: L-MuwiPjMq6jP0svL8YnlQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AB87804002;
- Mon, 29 Jun 2020 12:09:48 +0000 (UTC)
-Received: from work-vm (ovpn-114-210.ams2.redhat.com [10.36.114.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8487C7CAC5;
- Mon, 29 Jun 2020 12:09:41 +0000 (UTC)
-Date: Mon, 29 Jun 2020 13:09:39 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 08/14] migration: add new migration state wait-unplug
-Message-ID: <20200629120939.GI2908@work-vm>
-References: <20191029225932.14585-1-mst@redhat.com>
- <20191029225932.14585-9-mst@redhat.com>
- <CAFEAcA8uSbC80a+yB4_DFtCB1_-sXW5R3ugTX6H9XDeBZV-mQQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42F5E8E2319;
+ Mon, 29 Jun 2020 12:12:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-140.ams2.redhat.com [10.36.112.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DB6A5D9DA;
+ Mon, 29 Jun 2020 12:12:05 +0000 (UTC)
+Subject: Re: Building in Solaris 11.4
+To: Michele Denber <mdenber@gmx.com>, qemu-devel@nongnu.org
+References: <5EF3C648.4060506@gmx.com> <5EF772B6.2010901@gmx.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <fcdd4b6c-eec5-2bfd-1004-8ac86e80bf0e@redhat.com>
+Date: Mon, 29 Jun 2020 14:12:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8uSbC80a+yB4_DFtCB1_-sXW5R3ugTX6H9XDeBZV-mQQ@mail.gmail.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <5EF772B6.2010901@gmx.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,70 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Peter Tribble <peter.tribble@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Tue, 29 Oct 2019 at 23:00, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > From: Jens Freimann <jfreimann@redhat.com>
-> >
-> > This patch adds a new migration state called wait-unplug.  It is entered
-> > after the SETUP state if failover devices are present. It will transition
-> > into ACTIVE once all devices were succesfully unplugged from the guest.
-> >
-> > So if a guest doesn't respond or takes long to honor the unplug request
-> > the user will see the migration state 'wait-unplug'.
-> >
-> > In the migration thread we query failover devices if they're are still
-> > pending the guest unplug. When all are unplugged the migration
-> > continues. If one device won't unplug migration will stay in wait_unplug
-> > state.
-> >
-> > Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Message-Id: <20191029114905.6856-9-jfreimann@redhat.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
+On 27/06/2020 18.24, Michele Denber wrote:
+> Well the make ran for a while and then stopped here:
 > 
-> Hi; Coverity has just (rather belatedly) noticed a possible
-> issue in this code (CID 1429995):
 > 
-> > @@ -3264,6 +3270,19 @@ static void *migration_thread(void *opaque)
-> >
-> >      qemu_savevm_state_setup(s->to_dst_file);
-> >
-> > +    if (qemu_savevm_nr_failover_devices()) {
-> > +        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> > +                          MIGRATION_STATUS_WAIT_UNPLUG);
-> > +
-> > +        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-> > +               qemu_savevm_state_guest_unplug_pending()) {
-> > +            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+> root@hemlock:~/qemu-5.0.0# gmake -j16
+> ...
+>    CC      util/bitops.o
+> util/qemu-openpty.c:56:12: error: static declaration of 
+> \u2018openpty\u2019 follows non-static declaration
+>   static int openpty(int *amaster, int *aslave, char *name,
+>              ^~~~~~~
+> In file included from /usr/include/termios.h:8:0,
+>                   from util/qemu-openpty.c:48:
+> /usr/include/sys/termios.h:538:12: note: previous declaration of 
+> \u2018openpty\u2019 was here
+>   extern int openpty(int *, int *, char *, struct termios *, struct 
+> winsize *);
+>              ^~~~~~~
+> gmake: *** [/export/home/denber/qemu-5.0.0/rules.mak:69: 
+> util/qemu-openpty.o] Error 1
 > 
-> Here we call qemu_sem_timedwait() but ignore the return value,
-> whereas all the other callsites for that function do something
-> with the return value. Is the code correct? (This is just a
-> heuristic Coverity has, and it's wrong a fair amount of the
-> time, so if it's wrong here too I can just mark it as a
-> false-positive in the Coverity UI.)
+> Interestingly, I ran across this openpty issue last year while building 
+> QEMU 2.12 in Solaris 10, here: https://bugs.launchpad.net/qemu/+bug/1777252
+> 
+> It looks like the change to fix that issue (missing openpty in Solaris) 
+> is having some trouble.  I'm not a good enough C programmer to figure it 
+> out.  Remove the openpty declaration from util/openpty.c perhaps?
 
-Hmm it's OK; that semaphore isn't really used at the moment,
-so it's pretty much just a sleep. And the loop always
-calls the qemu_savevm_state_guest_unplug_pending() before
-it goes around again; so it doesn't care if the return
-value indicates timeout or not.
+It's not the same bug as last year, but a new one: Seems like newer 
+versions of Solaris now have this functions in their libraries! So what 
+you want is something like this (completely untested):
 
-Dave
+diff --git a/configure b/configure
+--- a/configure
++++ b/configure
+@@ -5159,10 +5159,14 @@ extern int openpty(int *am, int *as, char *name, 
+void *termp, void *winp);
+  int main(void) { return openpty(0, 0, 0, 0, 0); }
+  EOF
 
-> thanks
-> -- PMM
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-if ! compile_prog "" "" ; then
++have_openpty="no"
++if compile_prog "" "" ; then
++  have_openpty="yes"
++else
+    if compile_prog "" "-lutil" ; then
+      libs_softmmu="-lutil $libs_softmmu"
+      libs_tools="-lutil $libs_tools"
++    have_openpty="yes"
+    fi
+  fi
+
+@@ -7407,6 +7411,9 @@ fi
+  if test "$have_broken_size_max" = "yes" ; then
+      echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
+  fi
++if test "$have_openpty" = "yes" ; then
++    echo "HAVE_OPENPTY=y" >> $config_host_mak
++fi
+
+  # Work around a system header bug with some kernel/XFS header
+  # versions where they both try to define 'struct fsxattr':
+diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
+--- a/util/qemu-openpty.c
++++ b/util/qemu-openpty.c
+@@ -52,7 +52,8 @@
+  #endif
+
+  #ifdef __sun__
+-/* Once Solaris has openpty(), this is going to be removed. */
++
++#if !defined(HAVE_OPENPTY)
+  static int openpty(int *amaster, int *aslave, char *name,
+                     struct termios *termp, struct winsize *winp)
+  {
+@@ -93,6 +94,7 @@ err:
+          close(mfd);
+          return -1;
+  }
++#endif
+
+  static void cfmakeraw (struct termios *termios_p)
+  {
+
+  HTH,
+   Thomas
 
 
