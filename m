@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5324C20CFBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:40:51 +0200 (CEST)
-Received: from localhost ([::1]:48994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2A120CFC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:43:58 +0200 (CEST)
+Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvtq-0001tH-88
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36984)
+	id 1jpvwr-0005q3-MK
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpvs8-0000xU-FN
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:39:04 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39022)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jpvs4-0004E1-V1
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:39:04 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w17so14035971oie.6
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LJBnXO/BKgQmZuNfKODBtv2ujBgwswE1G/Q5xK4+dy0=;
- b=raBB5xrRli6YpOSRngQX3tSXUzQ+e2bvusQhstygGPjPoCdCI33qe7B9gn45+ifob0
- OZLfEGrptEuLON+bD48Ic7cQWsTFeRTyvSm76zsGOI6/rkvKZ8UolNLKIUx/rnDOevBx
- hvvTt7YqauNDeXGbr7bGuvTZ17eWRtFhhW6LnwaIK+1ZYv9ehbTJhXXp9YwiAwf8NPJA
- xP1iIfb1FWXmyD94+gjreKzCLudXqQZv+tKqPMjSEzpkLEZ8aNnmY3OJrZ97dl+XvawD
- ffkrjbGdLXpBFMFGwFfodxxIREnU1hCICL+cdr7X1T50NIfSeb0r1HuKb7EgUqrEIqF1
- vXSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LJBnXO/BKgQmZuNfKODBtv2ujBgwswE1G/Q5xK4+dy0=;
- b=E0iEu0MOVInOBzdO+ywPygfm9eLhrLU+7c7efC8CPbfGDXioWSEzjP4OPkjIWbTRBT
- 9jRS4wLbsMZsUXjRwZWqIwvvdpyCaxQrWfSSYbNJkHB3/6IkF4fh480Dhp21pLptghs9
- XWYOHWfAP9C/EFfiBYofkofXK/4NojaGhSBOMqnCJRAsuwR8/5NHWTjN2p8nplTZ/FRG
- 0IOQOBizvk2xu+Q8JPn9qiFOIRCGk50jAtiIkCAYyb/PK6aPNTkaOeTnUWFK5BShvZO1
- 79Md9Lqw7BZLhui1xi4GdlfaAMKrdm5TEp3pMzzDbcgEzGDMfQAuY+CYhDPM4j9YJYSA
- SaIQ==
-X-Gm-Message-State: AOAM531jmKuScXWOl8rDiRQpkxPx1wd424evRI8mDrwipcp6DhVrjxUo
- UMx2ZkpMM7vyF+TN7BnBQoZwvhxcreZTKJ1JUzag2Q==
-X-Google-Smtp-Source: ABdhPJz5eXKatX0ycvrdnRQ5ANxhigAWVk4yusHi4dLtMaBLXmJ7UleJjMY3k3LlqUAQJdfPJQHQZz4wJLBfaTFsTHU=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr6762944oix.48.1593445134383;
- Mon, 29 Jun 2020 08:38:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jpvss-0001s3-Tt
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:39:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32051
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jpvsr-0004H8-5a
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593445188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1s/ZBhKXJh67z7lchcB4ai9mNvXXYMeQ9p8+kLlmwng=;
+ b=LOE+JtWksFsk9v3Lt7xVapKvMHGl2YPhYXOWyXmyoxEOi+rx2r7nkOox9odfwAfm7jJdQ+
+ pVd6yBKMJdh/fTAu++ixlmkiBntzJ/7NUT+TbvNdBX9gBG53H7CIexQhWeaPrRo3RZfm2E
+ JAhDSy5l+omAmzWq7lBF91WcHyEjzCc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-MhVxIeLNOWyBwGuZyOFbQQ-1; Mon, 29 Jun 2020 11:39:46 -0400
+X-MC-Unique: MhVxIeLNOWyBwGuZyOFbQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86BB510059D0
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 15:39:45 +0000 (UTC)
+Received: from gondolin (ovpn-113-61.ams2.redhat.com [10.36.113.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A34CD5D9E7;
+ Mon, 29 Jun 2020 15:39:35 +0000 (UTC)
+Date: Mon, 29 Jun 2020 17:39:33 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH RFC] virtio-fs: force virtio 1.x usage
+Message-ID: <20200629173933.35cea40f.cohuck@redhat.com>
+In-Reply-To: <20200629104948-mutt-send-email-mst@kernel.org>
+References: <20200629102758.421552-1-cohuck@redhat.com>
+ <20200629104948-mutt-send-email-mst@kernel.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20200629151642.11974-1-pbonzini@redhat.com>
- <aaa5f004-e500-5510-bf70-435b5c0f9383@redhat.com>
-In-Reply-To: <aaa5f004-e500-5510-bf70-435b5c0f9383@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Jun 2020 16:38:43 +0100
-Message-ID: <CAFEAcA9fQ-Lg-fB=_KMtTsNvYUQFExLyNf=idvtJY5bH89WkUQ@mail.gmail.com>
-Subject: Re: [PATCH] coverity: provide Coverity-friendly MIN_CONST and
- MAX_CONST
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Jun 2020 at 16:34, Eric Blake <eblake@redhat.com> wrote:
->
-> On 6/29/20 10:16 AM, Paolo Bonzini wrote:
-> > Coverity's parser chokes on __builtin_choose_expr inside a constant
-> > expression.  Since it is used only to raise compilation errors for
-> > non-constant arguments, we can just assume there are no such errors
-> > in the Coverity runs, and define MIN_CONST and MAX_CONST to the
-> > "classic" ternary-operator-based definitions of minimum and maximum.
-> >
-> > Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Mon, 29 Jun 2020 10:53:23 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Mon, Jun 29, 2020 at 12:27:58PM +0200, Cornelia Huck wrote:
+> > virtio-fs devices are only specified for virtio-1, so it is unclear
+> > how a legacy or transitional device should behave.
+> > 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > > ---
-> >   include/qemu/osdep.h | 17 ++++++++++++-----
-> >   1 file changed, 12 insertions(+), 5 deletions(-)
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
->
-> I wrote a variant in the meantime, and in comparing the two, the only
-> major difference was that I added a line:
->
->      Fixes: CID 1429992, CID 1429995, CID 1429997, CID 1429999
->
-> in the commit message, as well as a comment in osdep.h:
->
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 0d26a1b9bd07..98bc7156fa9b 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -250,7 +250,8 @@ extern int daemon(int, int);
->    * Note that neither form is usable as an #if condition; if you truly
->    * need to write conditional code that depends on a minimum or maximum
->    * determined by the pre-processor instead of the compiler, you'll
-> - * have to open-code it.
-> + * have to open-code it.  Sadly, Coverity is severely confused by the
-> + * constant variants, so we have to dumb things down there.
->    */
->   #undef MIN
->   #define MIN(a, b)                                       \
->
->
-> I'm fine whether or not we include that.
+> > 
+> > Forcing off legacy now (after the virtio-fs device has already been
+> > available) may have unintended consequences, therefore RFC.
+> > 
+> > By default, a virtio-pci device uses 'AUTO' for disable_legacy, which
+> > will resolve to different values based upon which bus the device has
+> > been plugged. Therefore, forcing disable_legacy may result in the same
+> > device or a quite different one.
+> > 
+> > Even though pre-virtio-1 behaviour of virtio-fs devices is simply not
+> > specified, toggling disable_legacy will have implications for the BAR
+> > layout, IIRC, and therefore a guest might end up getting a different
+> > device, even if it always used it with virtio-1 anyway.
+> > 
+> > Not sure what the best way to solve this problem is. Adding a compat
+> > property for disable_legacy=AUTO may be the right thing to do, but I'm
+> > not quite clear if there are any further implications here.  
+> 
+> Well I notice that this device is not migrateable.
+> So I think that we can just switch it over and be done with it.
 
-I would vote for including the comment improvement, please.
+Oh, that makes things easier. (I'm wondering if libvirt already
+configures this correctly?)
 
--- PMM
+> 
+> 
+> > Whatever we do here, we should make sure that the ccw incarnation of
+> > this device indeed forces virtio-1.  
+> 
+> I agree. I notice that the API virtio_pci_force_virtio_1 turned out
+> to be too fragile. I propose that instead we have a whitelist of
+> devices which can be legacy or transitional. Force rest to modern.
+
+Also, there are further complications because the mechanism is per
+transport, and therefore easy to miss.
+
+bool virtio_legacy_allowed(VirtIODevice *vdev)
+{
+    switch (vdev->device_id) {
+    case <...>:
+    <list of legacy-capable devices>
+        return true;
+    default:
+        return false;
+}
+
+Seems straightforward enough.
+
+> 
+> 
+> > ---
+> >  hw/virtio/vhost-user-fs-pci.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+> > index e11c889d82b3..244205edf765 100644
+> > --- a/hw/virtio/vhost-user-fs-pci.c
+> > +++ b/hw/virtio/vhost-user-fs-pci.c
+> > @@ -44,6 +44,7 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >          vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+> >      }
+> >  
+> > +    virtio_pci_force_virtio_1(vpci_dev);
+> >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+> >  }
+> >  
+> > -- 
+> > 2.25.4  
+> 
+
 
