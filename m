@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421F120D58E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:31:18 +0200 (CEST)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D19F20D590
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:33:14 +0200 (CEST)
+Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzUr-0004ox-5c
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:31:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51612)
+	id 1jpzWj-0007A1-Gw
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRJ-00086n-LR; Mon, 29 Jun 2020 15:27:37 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42921)
+ id 1jpzRI-00083T-8A; Mon, 29 Jun 2020 15:27:36 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:42920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRG-0002IU-D4; Mon, 29 Jun 2020 15:27:37 -0400
+ id 1jpzRG-0002IV-3I; Mon, 29 Jun 2020 15:27:35 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C5608748DCA;
+ by localhost (Postfix) with SMTP id B86E5748DDC;
  Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1E4B4748DCC; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
-Message-Id: <015adea83c4708c5ed32e561bc8d0691ef839764.1593456926.git.balaton@eik.bme.hu>
+ id 27F9D748DCB; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
+Message-Id: <9f5f44878dc0f60b073201e657d6e4dcc940f68c.1593456926.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593456926.git.balaton@eik.bme.hu>
 References: <cover.1593456926.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v7 6/8] i2c: Match parameters of i2c_start_transfer and
- i2c_send_recv
+Subject: [PATCH v7 8/8] mac_oldworld: Add SPD data to cover RAM
 Date: Mon, 29 Jun 2020 20:55:26 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -35,14 +34,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:27:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,145 +61,73 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These functions have a parameter that decides the direction of
-transfer but totally confusingly they don't match but inverted sense.
-To avoid frequent mistakes when using these functions change
-i2c_send_recv to match i2c_start_transfer. Also use bool in
-i2c_start_transfer instead of int to match i2c_send_recv.
+OpenBIOS gets RAM size via fw_cfg but rhe original board firmware
+detects RAM using SPD data so generate and add SDP eeproms to cover as
+much RAM as possible to describe with SPD (this may be less than the
+actual ram_size due to SDRAM size constraints).
+
+This patch is more complex as it should be which I intend to fix once
+agreement can be made on how to get back the necessary functionality
+removed by previous patches. See in this thread:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg08710.html
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
-This probably won't be the solution accepted as Philippe has an
-alternative series fixing this problem here:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07022.html
-but until that or something else is merged this will do for the next
-patch. When this gets sorted out I'll send a rebased version.
+ hw/ppc/mac_oldworld.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
- hw/display/sm501.c   |  2 +-
- hw/i2c/core.c        | 34 +++++++++++++++++-----------------
- hw/i2c/ppc4xx_i2c.c  |  2 +-
- include/hw/i2c/i2c.h |  4 ++--
- 4 files changed, 21 insertions(+), 21 deletions(-)
-
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index a7fc08c52b..e714674681 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1041,7 +1041,7 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
-                                   s->i2c_byte_count + 1, s->i2c_addr >> 1);
-                     for (i = 0; i <= s->i2c_byte_count; i++) {
-                         res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
--                                            !(s->i2c_addr & 1));
-+                                            s->i2c_addr & 1);
-                         if (res) {
-                             SM501_DPRINTF("sm501 i2c : transfer failed"
-                                           " i=%d, res=%d\n", i, res);
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index acf34a12d6..0303fefeaf 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -91,7 +91,7 @@ int i2c_bus_busy(I2CBus *bus)
-  * without releasing the bus.  If that fails, the bus is still
-  * in a transaction.
-  */
--int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
-+int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv)
- {
-     BusChild *kid;
-     I2CSlaveClass *sc;
-@@ -175,26 +175,14 @@ void i2c_end_transfer(I2CBus *bus)
-     bus->broadcast = false;
- }
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 6276973c95..6a27287c9f 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -34,6 +34,7 @@
+ #include "hw/input/adb.h"
+ #include "sysemu/sysemu.h"
+ #include "net/net.h"
++#include "hw/i2c/smbus_eeprom.h"
+ #include "hw/isa/isa.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
+@@ -104,6 +105,8 @@ static void ppc_heathrow_init(MachineState *machine)
+     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+     void *fw_cfg;
+     uint64_t tbfreq;
++    uint8_t *spd_data[3] = {};
++    I2CBus *i2c_bus;
  
--int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
-+int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv)
- {
-     I2CSlaveClass *sc;
-     I2CSlave *s;
-     I2CNode *node;
-     int ret = 0;
- 
--    if (send) {
--        QLIST_FOREACH(node, &bus->current_devs, next) {
--            s = node->elt;
--            sc = I2C_SLAVE_GET_CLASS(s);
--            if (sc->send) {
--                trace_i2c_send(s->address, *data);
--                ret = ret || sc->send(s, *data);
--            } else {
--                ret = -1;
--            }
--        }
--        return ret ? -1 : 0;
--    } else {
-+    if (recv) {
-         ret = 0xff;
-         if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
-             sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
-@@ -206,19 +194,31 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
-         }
-         *data = ret;
-         return 0;
-+    } else {
-+        QLIST_FOREACH(node, &bus->current_devs, next) {
-+            s = node->elt;
-+            sc = I2C_SLAVE_GET_CLASS(s);
-+            if (sc->send) {
-+                trace_i2c_send(s->address, *data);
-+                ret = ret || sc->send(s, *data);
-+            } else {
-+                ret = -1;
-+            }
-+        }
-+        return ret ? -1 : 0;
+     /* init CPUs */
+     for (i = 0; i < smp_cpus; i++) {
+@@ -121,8 +124,16 @@ static void ppc_heathrow_init(MachineState *machine)
+                      "maximum 2047 MB", ram_size / MiB);
+         exit(1);
      }
- }
+-
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
++    for (i = 0; i < 3; i++) {
++        int size_left = ram_size - i * 512 * MiB;
++        if (size_left > 0) {
++            uint32_t s = size_left / MiB;
++            s = (s > 512 ? 512 : s);
++            s = 1U << (31 - clz32(s));
++            spd_data[i] = spd_data_generate(SDR, s * MiB);
++        }
++    }
  
- int i2c_send(I2CBus *bus, uint8_t data)
- {
--    return i2c_send_recv(bus, &data, true);
-+    return i2c_send_recv(bus, &data, false);
- }
+     /* allocate and load firmware ROM */
+     memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
+@@ -302,6 +313,12 @@ static void ppc_heathrow_init(MachineState *machine)
+     macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
  
- uint8_t i2c_recv(I2CBus *bus)
- {
-     uint8_t data = 0xff;
- 
--    i2c_send_recv(bus, &data, false);
-+    i2c_send_recv(bus, &data, true);
-     return data;
- }
- 
-diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-index c0a8e04567..d3899203a4 100644
---- a/hw/i2c/ppc4xx_i2c.c
-+++ b/hw/i2c/ppc4xx_i2c.c
-@@ -239,7 +239,7 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
-                     }
-                 }
-                 if (!(i2c->sts & IIC_STS_ERR) &&
--                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
-+                    i2c_send_recv(i2c->bus, &i2c->mdata[i], recv)) {
-                     i2c->sts |= IIC_STS_ERR;
-                     i2c->extsts |= IIC_EXTSTS_XFRA;
-                     break;
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index d6e3d85faf..ad2475d6a2 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -72,10 +72,10 @@ struct I2CBus {
- I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
- void i2c_set_slave_address(I2CSlave *dev, uint8_t address);
- int i2c_bus_busy(I2CBus *bus);
--int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
-+int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv);
- void i2c_end_transfer(I2CBus *bus);
- void i2c_nack(I2CBus *bus);
--int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
-+int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv);
- int i2c_send(I2CBus *bus, uint8_t data);
- uint8_t i2c_recv(I2CBus *bus);
- 
+     dev = DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
++    i2c_bus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
++    for (i = 0; i < 3; i++) {
++        if (spd_data[i]) {
++            smbus_eeprom_init_one(i2c_bus, 0x50 + i, spd_data[i]);
++        }
++    }
+     adb_bus = qdev_get_child_bus(dev, "adb.0");
+     dev = qdev_new(TYPE_ADB_KEYBOARD);
+     qdev_realize_and_unref(dev, adb_bus, &error_fatal);
 -- 
 2.21.3
 
