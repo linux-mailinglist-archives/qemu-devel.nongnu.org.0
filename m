@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F7620CF0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:11:25 +0200 (CEST)
-Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF74720CF12
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:12:42 +0200 (CEST)
+Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpuVI-0007Ij-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39228)
+	id 1jpuWX-0001FG-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jpuTs-0005xk-Ln
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:09:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53242
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jpuTv-00060q-Ur
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:09:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25274
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jpuTp-0004Z6-PF
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:09:56 -0400
+ id 1jpuTu-0004al-GA
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593439792;
+ s=mimecast20190719; t=1593439797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Yv4UQAjVGHdERU/SehR0R0a8d5LcgwzEb1dg48NaHzY=;
- b=L+xXbKhPY8rC8pz0YNb3yuQpt59UeTuesqauw6s1pG0kTGLw2TSSdissxqrKtEeFpq3agU
- sNC6RXerijy4RkdZy/9MIALIKnI9doUSyj6cypeCanDEJimImW+JJAwONgjhXjk2gpRWkP
- LYuxS88QM5iWGFB5Kp48B6DqC/V1GHs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lROIehN5YQsdEHr0xlOBkIBdnbj3LY30xOH3fpB7+ps=;
+ b=gocYZELyeZAobKJcPfY5+QQbICiJdZwUZMWIM8N94v3OzuWK+gzUeYMGBJLFVSLRjcPIJV
+ pe3w+dH5BD5IlZE1AkhZXXE4w2t8k6pvbV9NQnK7S+ThhXIlPgjkX9Su6iB2ZUoAhz2UsJ
+ oJ5VGUoUAA4Aotb/orVhUg6DVI82r/g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-lvYdyOI2M7GJ028_Ukln7Q-1; Mon, 29 Jun 2020 10:09:50 -0400
-X-MC-Unique: lvYdyOI2M7GJ028_Ukln7Q-1
+ us-mta-479-4-NTEj6YPGS0ZMcXNpZO_A-1; Mon, 29 Jun 2020 10:09:53 -0400
+X-MC-Unique: 4-NTEj6YPGS0ZMcXNpZO_A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A2F5107ACCD;
- Mon, 29 Jun 2020 14:09:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7687E80183C;
+ Mon, 29 Jun 2020 14:09:52 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.195.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 260632B4A6;
- Mon, 29 Jun 2020 14:09:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A80AE2B47E;
+ Mon, 29 Jun 2020 14:09:49 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH 0/4] hw/arm/virt-acpi-build: Only expose flash on older
- machine types
-Date: Mon, 29 Jun 2020 16:09:34 +0200
-Message-Id: <20200629140938.17566-1-drjones@redhat.com>
+Subject: [PATCH 1/4] tests/acpi: remove stale allowed tables
+Date: Mon, 29 Jun 2020 16:09:35 +0200
+Message-Id: <20200629140938.17566-2-drjones@redhat.com>
+In-Reply-To: <20200629140938.17566-1-drjones@redhat.com>
+References: <20200629140938.17566-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,33 +87,36 @@ Cc: peter.maydell@linaro.org, mst@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The flash device is exclusively for the host-controlled firmware, so
-we should not expose it to the OS. Exposing it risks the OS messing
-with it, which could break firmware runtime services and surprise the
-OS when all its changes disappear after reboot.
+Fixes: 93dd625f8bf7 ("tests/acpi: update expected data files")
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-This change was suggested by Ard and Laszlo.
-
-Patch 3/4 is the meat. The other patches deal with updating qtest.
-
-Thanks,
-drew
-
-Andrew Jones (4):
-  tests/acpi: remove stale allowed tables
-  tests/acpi: virt: allow DSDT acpi table changes
-  hw/arm/virt-acpi-build: Only expose flash on older machine types
-  tests/acpi: virt: update golden masters for DSDT
-
- hw/arm/virt-acpi-build.c                    |   5 ++++-
- hw/arm/virt.c                               |   3 +++
- include/hw/arm/virt.h                       |   1 +
- tests/data/acpi/virt/DSDT                   | Bin 5307 -> 5205 bytes
- tests/data/acpi/virt/DSDT.memhp             | Bin 6668 -> 6566 bytes
- tests/data/acpi/virt/DSDT.numamem           | Bin 5307 -> 5205 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |  18 ------------------
- 7 files changed, 8 insertions(+), 19 deletions(-)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 8992f1f12b77..dfb8523c8bf4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,19 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT",
+-"tests/data/acpi/pc/DSDT.acpihmat",
+-"tests/data/acpi/pc/DSDT.bridge",
+-"tests/data/acpi/pc/DSDT.cphp",
+-"tests/data/acpi/pc/DSDT.dimmpxm",
+-"tests/data/acpi/pc/DSDT.ipmikcs",
+-"tests/data/acpi/pc/DSDT.memhp",
+-"tests/data/acpi/pc/DSDT.numamem",
+-"tests/data/acpi/q35/DSDT",
+-"tests/data/acpi/q35/DSDT.acpihmat",
+-"tests/data/acpi/q35/DSDT.bridge",
+-"tests/data/acpi/q35/DSDT.cphp",
+-"tests/data/acpi/q35/DSDT.dimmpxm",
+-"tests/data/acpi/q35/DSDT.ipmibt",
+-"tests/data/acpi/q35/DSDT.memhp",
+-"tests/data/acpi/q35/DSDT.mmio64",
+-"tests/data/acpi/q35/DSDT.numamem",
+-"tests/data/acpi/q35/DSDT.tis",
 -- 
 2.25.4
 
