@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A474A20D005
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:10:33 +0200 (CEST)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52A620D009
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:11:09 +0200 (CEST)
+Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwMa-0002DY-Cx
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44106)
+	id 1jpwNA-0003Oz-LU
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jpwGf-0005DM-FK
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:04:25 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39959)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jpwI2-0006Ec-PH
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:05:51 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jpwGd-0000g9-QN
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:04:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f139so16620691wmf.5
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=dYD3gpAibggWvJCfgwDYZvObI0QEt3hiu4x31wxnKjk=;
- b=Bpd4r5BXtRqY3V2nz2+yFgHpy5aU/zV7RGVDG1RMGLoCdeGi8qdmQcWuNfPpboeg7z
- 19pzqkry+q71Vc5zTTGgC9FjOKZrqcSIif8llympo0k4icCkXO+7KIDckd5XazRg/5rR
- YiR7mHp5AtqJ2/WW/VQh5suI6gG9S06f9tPfcl1iVR8JHWdqZdUDCxmZKlr+mOhm5iux
- wswqjoZ5AvATWaCQRaPzTNrdT/eY8RMj7jHkSqLqKF5X6Ka1HLPlG3h8UeTz48UGpGjh
- lTxR48xzlNEsfQTPwKakpuoKJRAplLAnL3WGCpe5Qb25ZqK2Dxqi3pvNIqNjR+ff/qvy
- FjNg==
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1jpwHy-000158-1s
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:05:50 -0400
+Received: by mail-oi1-x243.google.com with SMTP id r8so14816483oij.5
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 09:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wWDNWnjzspp0IiikPiabIV3kE/NWWN8M5Wv6eCazJuM=;
+ b=NA15Qhk4GwUHEeuioCooN1k8XwkS5FyNkwe0sSeoB8num0eI1R0mYng9DfO9ZvdBBc
+ qMNIGky1N5ESaAXdqEPWj8Q2WQbPdVr428NPYfnkgcbh2GbEfFVW1m11XDqg7OMJz9r/
+ X74ec1OYP4ghZzrgLWIC8l5wcxz3L9X89O1pXTGW1NPkTnpSiYHWpLJtCFcHmwSozaHH
+ FK1pe5Sv0LhJXcDyZ5lktF+k8RU8SB4tqbr6PqwWU56QGO6mUrH0+lcd5UtZk06R96Rh
+ qhdVxmdDslXrb9O4wPNKbtNFze9fmSp20ZBsTTMDmUsuGBK/1uCU5SEDA6+3XLhm/54O
+ S1Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=dYD3gpAibggWvJCfgwDYZvObI0QEt3hiu4x31wxnKjk=;
- b=i6t+2DmslGPPm+Z2y3ENJGHgx7+WoYGWxrDKLBiqZtBG8PyGbde+JOp3FmgO+sxpUT
- xQzQnZ7QAkIJY3+/WsG8Lt6T02RzkF38HsYS9Y2+fNLZ8WTj3BULacRyi6JpQcnc7UD6
- L8t92HKXu2IFanY3AFoo5dhCyuCsYBfWV8RAWj7SJVp/agB8sj5zUBTeSvCJklbSt4Nj
- KbJ0UtLX32x+bpRkVEsFvyLD7HusoiBJag/7MFAmaurHQ7U4I5kisHuDnAmyC6iHNz12
- KPRtA/d5fyzBWy7Sa8V+sJ7hOhqvu9/pbw7qnoh81N8Z9A38yhIcM3CbjT168DpDfyUf
- zTAw==
-X-Gm-Message-State: AOAM532Ywa8z1Y/XFQe1z7SjXE/hrWHP9GMqGL9aSM6PHnX2D+V03Y8s
- n+sPzTf7/lsaSLruHYMrNC4CAg==
-X-Google-Smtp-Source: ABdhPJzMIp6uRQ0i3UK5e4nEkt4aRvpT/vTds/fl6hpMUCc/YBCXAgQEN7/BeEGjL901L6D9auUH5w==
-X-Received: by 2002:a7b:c5d5:: with SMTP id n21mr17246683wmk.106.1593446661035; 
- Mon, 29 Jun 2020 09:04:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a126sm264983wme.28.2020.06.29.09.04.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 09:04:19 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1862B1FF7E;
- Mon, 29 Jun 2020 17:04:19 +0100 (BST)
-References: <20200626170001.27017-1-robert.foley@linaro.org>
- <20200629132640.GN31392@stefanha-x1.localdomain>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH] util/coroutine: Cleanup start_switch_fiber_ for TSAN.
-In-reply-to: <20200629132640.GN31392@stefanha-x1.localdomain>
-Date: Mon, 29 Jun 2020 17:04:19 +0100
-Message-ID: <875zb9svss.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wWDNWnjzspp0IiikPiabIV3kE/NWWN8M5Wv6eCazJuM=;
+ b=HTHRQIgZzN3qI3cEDfcejwLb5lkD+XRljfJjw63KkXU2bFgLjbedcq/Z51yqHPq4dn
+ aU0hpiwRwbvCGmwMesWl0feA1B9Nb3iuKPOFQOMVZiApM2CzTcmwgMO1W59lK+F/bBps
+ iORXZnJ/lmA5nRQwWheykxQlNhtnzNT9lu++wy2G65KVBXxBWTI/SWCC7FV+1w+lbVSj
+ FbqG6/KGbnkFs++ZU6ImT0buWJWvGMVPD3g/JYmOAbSAFfK8TgDogLq+dSI+AwrI4qZd
+ uhpXwdg7WdcZjh4JcVI+zwZ+333KcxxY6pS+xyB9xEEQGk9sVJrAG85tVIQJttpva2sL
+ FbsQ==
+X-Gm-Message-State: AOAM532uZGa0dl6H9V3aLvBP+WAFmHm3DgcgHr8xkbF2x1QQ51tereVi
+ u2WhoQIaXHHImVARmXQqYNqKxDSvDBoo3/p5wzo=
+X-Google-Smtp-Source: ABdhPJwwGYy+hcBf96CQhm3X9AJJOP+KK2LyUUuI+sOwCABO1LFdww0i/v/uXQvYmQDBkrz+WHKUsjA7hOzx60mjFFo=
+X-Received: by 2002:aca:494d:: with SMTP id w74mr6963822oia.97.1593446744817; 
+ Mon, 29 Jun 2020 09:05:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200624185523.762240-1-ppandit@redhat.com>
+ <20200624185523.762240-6-ppandit@redhat.com>
+ <CAKXe6SKBYpdouoN=C_NZawLOnDMYjDU2X3c2CsCv7X7rPym1Rg@mail.gmail.com>
+ <nycvar.YSQ.7.77.849.2006291718520.92950@xnncv>
+ <f76bf4c5-7b6a-8ee2-b46f-9799f879ef16@redhat.com>
+In-Reply-To: <f76bf4c5-7b6a-8ee2-b46f-9799f879ef16@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 30 Jun 2020 00:05:08 +0800
+Message-ID: <CAKXe6SKBZpraQLgQRUP0YyipCQ_hgQ+djOXv9e2yG6nyKXvkww@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] nvram: add nrf51_soc flash read method
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -89,38 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Robert Foley <robert.foley@linaro.org>,
- qemu-devel@nongnu.org, cota@braap.org, Stefan Hajnoczi <stefanha@redhat.com>,
- peter.puhov@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
+ Lei Sun <slei.casper@gmail.com>, Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Stefan Hajnoczi <stefanha@gmail.com> writes:
-
-> On Fri, Jun 26, 2020 at 01:00:01PM -0400, Robert Foley wrote:
->> This is a cleanup patch to follow-up the patch which introduced TSAN.
->> This patch makes separate start_switch_fiber_ functions for TSAN and ASA=
-N.
->>=20
->> This does two things:
->> 1. Unrelated ASAN and TSAN code is separate and each function only
->>    has arguments that are actually needed.
->> 2. The co->tsan_caller_fiber and co->tsan_co_fiber fields are only
->>    access from within #ifdef CONFIG_TSAN.
->>=20
->> Signed-off-by: Robert Foley <robert.foley@linaro.org>
->> ---
->>  util/coroutine-ucontext.c | 52 +++++++++++++++++++++++++--------------
->>  1 file changed, 34 insertions(+), 18 deletions(-)
+Paolo Bonzini <pbonzini@redhat.com> =E4=BA=8E2020=E5=B9=B46=E6=9C=8829=E6=
+=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=8811:32=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Thank you for revisiting this patch after it was applied!
+> On 29/06/20 13:55, P J P wrote:
+> > |
+> > | I prefer here just 'qemu_log_mask(LOG_UNIMP, "%s not implemented\n",
+> > | __func__);' as other patches does.
+> >
+> > Earlier patch v1 did that. It was suggested to return ldl_le_p(), as th=
+at's a
+> > valid return IIUC, instead of a zero(0), in case flash_read() is called=
+.
+> >
+> > Thanks so much for the reviews. I'll send a revised series with due upd=
+ates.
 >
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> I think abort() is preferable (while LOG_UNIMP is wrong as it implies
+> there is something to do that QEMU is not doing).
+>
 
-Who takes care of coroutine patches or should this go via a different
-tree?
+Oh, here the UNIMP I understand as it will not be implemented, not the
+thing 'should do but not do now'.
 
---=20
-Alex Benn=C3=A9e
+If. we use. abort(), the guest also. can trigger this abort(crash).
+Though there is also other places we use this I think it is not very good.
+
+In fact I would like to silent ignore(callback do nothing) if the
+developer doesn't provide callback at the beginning.
+But there are some cases we use LOG_UNIMP:
+-->https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D158b659451
+
+
+Thanks,
+Li Qiang
+
+
+> Paolo
+>
 
