@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C94320D0E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 20:39:10 +0200 (CEST)
-Received: from localhost ([::1]:33358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9BB20D0B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 20:36:43 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpygP-0008U9-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 14:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
+	id 1jpye2-00043V-FF
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 14:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jpyV4-0000lw-Ku; Mon, 29 Jun 2020 14:27:26 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:45956)
+ id 1jpyV5-0000n4-NB; Mon, 29 Jun 2020 14:27:31 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:45958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jpyV2-0000e5-8T; Mon, 29 Jun 2020 14:27:26 -0400
+ id 1jpyV2-0000e6-BQ; Mon, 29 Jun 2020 14:27:27 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 8C106BF818;
+ by charlie.dont.surf (Postfix) with ESMTPSA id DC54DBF450;
  Mon, 29 Jun 2020 18:26:58 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 15/17] hw/block/nvme: enforce valid queue creation sequence
-Date: Mon, 29 Jun 2020 20:26:40 +0200
-Message-Id: <20200629182642.1170387-16-its@irrelevant.dk>
+Subject: [PATCH 16/17] hw/block/nvme: provide the mandatory subnqn field
+Date: Mon, 29 Jun 2020 20:26:41 +0200
+Message-Id: <20200629182642.1170387-17-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629182642.1170387-1-its@irrelevant.dk>
 References: <20200629182642.1170387-1-its@irrelevant.dk>
@@ -39,7 +39,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,65 +61,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Support returning Command Sequence Error if Set Features on Number of
-Queues is called after queues have been created.
+The SUBNQN field is mandatory in NVM Express 1.3.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/block/nvme.c | 12 ++++++++++++
- hw/block/nvme.h |  1 +
- 2 files changed, 13 insertions(+)
+ hw/block/nvme.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 8a816b558eeb..798f6f30e7da 100644
+index 798f6f30e7da..9f0b9de73307 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -911,6 +911,13 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeCmd *cmd)
-     cq = g_malloc0(sizeof(*cq));
-     nvme_init_cq(cq, n, prp1, cqid, vector, qsize + 1,
-         NVME_CQ_FLAGS_IEN(qflags));
+@@ -2131,6 +2131,9 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP |
+                            NVME_ONCS_FEATURES);
+ 
++    pstrcpy((char *) id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qemu:");
++    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
 +
-+    /*
-+     * It is only required to set qs_created when creating a completion queue;
-+     * creating a submission queue without a matching completion queue will
-+     * fail.
-+     */
-+    n->qs_created = true;
-     return NVME_SUCCESS;
- }
- 
-@@ -1298,6 +1305,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
-         break;
-     case NVME_NUMBER_OF_QUEUES:
-+        if (n->qs_created) {
-+            return NVME_CMD_SEQ_ERROR | NVME_DNR;
-+        }
-+
-         /*
-          * NVMe v1.3, Section 5.21.1.7: 0xffff is not an allowed value for NCQR
-          * and NSQR.
-@@ -1430,6 +1441,7 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
- 
-     n->aer_queued = 0;
-     n->outstanding_aers = 0;
-+    n->qs_created = false;
- 
-     blk_flush(n->conf.blk);
-     n->bar.cc = 0;
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 34dddda29d96..54ec54f491bf 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -124,6 +124,7 @@ typedef struct NvmeCtrl {
-     BlockConf    conf;
-     NvmeParams   params;
- 
-+    bool        qs_created;
-     uint32_t    page_size;
-     uint16_t    page_bits;
-     uint16_t    max_prp_ents;
+     id->psd[0].mp = cpu_to_le16(0x9c4);
+     id->psd[0].enlat = cpu_to_le32(0x10);
+     id->psd[0].exlat = cpu_to_le32(0x4);
 -- 
 2.27.0
 
