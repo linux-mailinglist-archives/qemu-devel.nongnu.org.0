@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296D320CFB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:37:30 +0200 (CEST)
-Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF0920CFC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:42:30 +0200 (CEST)
+Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvqb-00079w-5s
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36084)
+	id 1jpvvR-0003r7-MM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvpB-0006DZ-Pc
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:36:03 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46315)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvpt-000797-Jw
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:36:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20895
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvp7-0003vP-OV
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:36:01 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvpr-00041e-NE
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:36:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593444956;
+ s=mimecast20190719; t=1593445002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lUr/Hi3rT4JfCNcFHmm1LOGXNOB27Ym657MaLLThJcI=;
- b=Pp4y94OoKwQXTZlzGxENOcj92JNl2yQXW7m23nsLB5o2x8QANOooqECEmTw+WX1f3MTYT1
- IYIQvdFIiR9YoIlkr1y+ZIXMx4KTvOcPPCADXdljbAZhSS8sgSdBH3XeNIFgKg6FjdUtW3
- Kq8kefYdmdwx2JG8Je/dewU6chqaCEY=
+ bh=2/WA4OLWyPhsjGIuu/Mzu7YoNI9FT5n1iXf1VvBRcbo=;
+ b=TD01g0UKOYoM/xsFFV6JxJypvusA90gWEK69QTFOOfk4zBxDMur6rIAOOfEzCfn8rnwK5F
+ oNUljd3x1JR/417ttl80qrWG06f692VLF/9wH9w7bXBQepV6H7ZPglpkTQI8yDwDQgkMR1
+ kL6jQtBUwJLF34f6+6IoBtHhePofAD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-LSAQPQpIP6C38hhvXb3liQ-1; Mon, 29 Jun 2020 11:35:39 -0400
-X-MC-Unique: LSAQPQpIP6C38hhvXb3liQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-69-nCZsfD8NMBilci3sGHaqGw-1; Mon, 29 Jun 2020 11:36:40 -0400
+X-MC-Unique: nCZsfD8NMBilci3sGHaqGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D84A81902EA0;
- Mon, 29 Jun 2020 15:35:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69E16805EF0;
+ Mon, 29 Jun 2020 15:36:39 +0000 (UTC)
 Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82D0419C71;
- Mon, 29 Jun 2020 15:35:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 236F85D98A;
+ Mon, 29 Jun 2020 15:36:39 +0000 (UTC)
 Subject: Re: [PATCH] coverity: provide Coverity-friendly MIN_CONST and
  MAX_CONST
-To: qemu-devel@nongnu.org, no-reply@patchew.org, pbonzini@redhat.com
-References: <159344410468.15477.8209266914104937697@d1fd068a5071>
 From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200629151642.11974-1-pbonzini@redhat.com>
+ <aaa5f004-e500-5510-bf70-435b5c0f9383@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <ee3aeb03-b36d-e3d1-a9c4-22c4c87ae9c2@redhat.com>
-Date: Mon, 29 Jun 2020 10:35:37 -0500
+Message-ID: <766059d5-614a-33e0-6068-68066110493c@redhat.com>
+Date: Mon, 29 Jun 2020 10:36:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <159344410468.15477.8209266914104937697@d1fd068a5071>
+In-Reply-To: <aaa5f004-e500-5510-bf70-435b5c0f9383@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -70,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 10:21 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200629151642.11974-1-pbonzini@redhat.com/
+On 6/29/20 10:34 AM, Eric Blake wrote:
+> On 6/29/20 10:16 AM, Paolo Bonzini wrote:
+>> Coverity's parser chokes on __builtin_choose_expr inside a constant
+>> expression.  Since it is used only to raise compilation errors for
+>> non-constant arguments, we can just assume there are no such errors
+>> in the Coverity runs, and define MIN_CONST and MAX_CONST to the
+>> "classic" ternary-operator-based definitions of minimum and maximum.
+>>
+>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   include/qemu/osdep.h | 17 ++++++++++++-----
+>>   1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
+> I wrote a variant in the meantime, and in comparing the two, the only 
+> major difference was that I added a line:
+> 
+>      Fixes: CID 1429992, CID 1429995, CID 1429997, CID 1429999
+> 
+> in the commit message, as well as a comment in osdep.h:
+> 
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 0d26a1b9bd07..98bc7156fa9b 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -250,7 +250,8 @@ extern int daemon(int, int);
+>    * Note that neither form is usable as an #if condition; if you truly
+>    * need to write conditional code that depends on a minimum or maximum
+>    * determined by the pre-processor instead of the compiler, you'll
+> - * have to open-code it.
+> + * have to open-code it.  Sadly, Coverity is severely confused by the
+> + * constant variants, so we have to dumb things down there.
+>    */
+>   #undef MIN
+>   #define MIN(a, b)                                       \
 > 
 > 
-> 
-> Hi,
-> 
-> This series seems to have some coding style problems. See output below for
-> more information:
-> 
-> Subject: [PATCH] coverity: provide Coverity-friendly MIN_CONST and MAX_CONST
-> Type: series
-> Message-id: 20200629151642.11974-1-pbonzini@redhat.com
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> === TEST SCRIPT END ===
-> 
->  From https://github.com/patchew-project/qemu
->   * [new tag]         patchew/20200629151642.11974-1-pbonzini@redhat.com -> patchew/20200629151642.11974-1-pbonzini@redhat.com
-> Switched to a new branch 'test'
-> 3aee0de coverity: provide Coverity-friendly MIN_CONST and MAX_CONST
-> 
-> === OUTPUT BEGIN ===
-> WARNING: architecture specific defines should be avoided
-> #38: FILE: include/qemu/osdep.h:269:
-> +#ifdef __COVERITY__
-> 
-> ERROR: Macros with complex values should be enclosed in parenthesis
 
-Obvious false positive.
-
-> #39: FILE: include/qemu/osdep.h:270:
-> +#define MIN_CONST(a, b) (a) < (b) ? (a) : (b)
-> 
-> ERROR: Macros with complex values should be enclosed in parenthesis
-
-But this one is a real complaint.  We really do want:
-
-#define MIN_CONST(a, b) ((a) < (b) ? (a) : (b))
+Oh, and the more significant difference that the syntax checker is 
+right: we want the fallback definition to be enclosed in an outer (). 
+Looks like we need v2.
 
 -- 
 Eric Blake, Principal Software Engineer
