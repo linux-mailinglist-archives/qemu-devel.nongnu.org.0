@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFB820CE57
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:46:42 +0200 (CEST)
-Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 241C420CE43
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:39:07 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpsFF-0004Ke-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54434)
+	id 1jps7u-0004k2-55
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jpsEE-0003t8-BF
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:45:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45428)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jps6v-0004DW-Hd; Mon, 29 Jun 2020 07:38:05 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jpsEB-0005us-Nr
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:45:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jpsEA-00037J-Mo
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 11:45:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A964D2E80E7
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 11:45:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jps6t-0004e4-TR; Mon, 29 Jun 2020 07:38:05 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h5so16179627wrc.7;
+ Mon, 29 Jun 2020 04:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ba/K5ALQXjenIjuBP8UpuRVrsp8eWE4BSwmJL4ZBh9A=;
+ b=p9ni3KKWuevwHEMZjAzHLUo3rWuWDXNVWoFnH3K6Fgc+I+kA4eOTGxVq138sgYzGJn
+ af6GK77dFBfAtSkaRCh/NX9VBypd8/anxrSHAZ6b3Tn3mJCRkaQPgIg+vKA0RBY7uBOb
+ gEhBSgf0wZpeoXjSs9SJHlG1jOAoenje4qlSoHe9l6KyPfW9WAp/xEkdPs67ejICV00h
+ euv1Uj9UMgIzN7ug8urZA1BbkPn4I2zk1MBZ+eGGDGYY9OYfdvmva+d311utUoi1A5ts
+ 4HYgOLhXu16RwzaBGV0BVY1UGMtPM0XrVnEa/WqmGpa8c3JnmR6ZQLoTv+iwyNS1Uey0
+ rjMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ba/K5ALQXjenIjuBP8UpuRVrsp8eWE4BSwmJL4ZBh9A=;
+ b=KtTYj8m2mtIvIdODku99gi/0Qx3THVnb6nO8uu2DrYk2098APIbLTarRq2xG+Aw0iZ
+ S08aKD5jETzPMn0Zc/eq6QIV9V8E9xz+9mLYLPD0H1r2BtERzBSpV/XH6tHcXaMDPepE
+ /0napRlUZDOPGwfJeahzhNiERot3qnii639kyBjefgNkz22A24+cJHh+lHgQKgnp8puL
+ C7zjMOLYpsDxvFCJaNWNX4dS8rRRV7FvimAovU/PmxnrmiTub6Zxw8U2WZN/A4hhWbC0
+ y7KmLWz5hCY9+lsDq3smHfptR/aETOHbp9SoLI9Nf46V+i6z3dHCO3/MbTpXG7BdGiAc
+ kUGQ==
+X-Gm-Message-State: AOAM530cPZox90Ve/+swZqO6dhAWgMESEUM2uD7nT1Hd3t2U3Bw3RP4K
+ ZEAdLYvivzFBZUxDmIFgHfM=
+X-Google-Smtp-Source: ABdhPJygEIsTNnggVwvSkNqXna1keo8bnP7+QU+ChLuOTvQub40fcaNKmpV9qJ/2ZbvR3M9hRiF2gQ==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr16801613wrv.177.1593430681587; 
+ Mon, 29 Jun 2020 04:38:01 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id f16sm21013351wmf.17.2020.06.29.04.38.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Jun 2020 04:38:00 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/3] Use object_get_canonical_path_component to get
+ child description
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200626102744.15053-1-f4bug@amsat.org>
+ <87y2o9ro9c.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bdc55286-0f1c-c2fd-7358-5c923d0cb091@amsat.org>
+Date: Mon, 29 Jun 2020 13:38:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Jun 2020 11:37:18 -0000
-From: Oksana Voshchana <1885553@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ovoshchana
-X-Launchpad-Bug-Reporter: Oksana Voshchana (ovoshchana)
-X-Launchpad-Bug-Modifier: Oksana Voshchana (ovoshchana)
-Message-Id: <159343063899.16720.10693725380601772129.malonedeb@soybean.canonical.com>
-Subject: [Bug 1885553] [NEW] make-check test failed with "Segmentation fault"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 518ca3bd2bb5491a22edc3bba698fcfdc3e7e9d9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 06:50:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87y2o9ro9c.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,55 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885553 <1885553@bugs.launchpad.net>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Huacai Chen <chenhc@lemote.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 6/27/20 8:55 AM, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> This RFC is simply a proof-of-concept to see if I correctly
+>> understood Markus' suggestion, see the thread around:
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08652.html
+> 
+> Please show us output of "info qom-tree" before and after.  Feel free to
+> cut uninteresting parts.
+> 
 
-While running the make-check testing on arm architecture the test failed wi=
-th error:
-"kill_qemu() detected QEMU death from signal 11 (Segmentation fault) (core =
-dumped)". Apart from that make-install test always passes.
-The problem doesn't reproduce in 100%
-qemu - from the master branch
-RHEL-8 kernel 4.18.0-221.el8.aarch64
-Logfile with an error you can to find in attachment
+For 'info qom-tree' this is a one-line change, because ram_memdev
+is not displayed in it:
 
-Thanks
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "make_check.log"
-   https://bugs.launchpad.net/bugs/1885553/+attachment/5388127/+files/make_=
-check.log
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885553
-
-Title:
-  make-check test failed with "Segmentation fault"
-
-Status in QEMU:
-  New
-
-Bug description:
-  While running the make-check testing on arm architecture the test failed =
-with error:
-  "kill_qemu() detected QEMU death from signal 11 (Segmentation fault) (cor=
-e dumped)". Apart from that make-install test always passes.
-  The problem doesn't reproduce in 100%
-  qemu - from the master branch
-  RHEL-8 kernel 4.18.0-221.el8.aarch64
-  Logfile with an error you can to find in attachment
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885553/+subscriptions
+ /machine (sam460ex-machine)
+   /peripheral (container)
+   /peripheral-anon (container)
+   /unattached (container)
+-    /device[2] (smbus-eeprom)
 
