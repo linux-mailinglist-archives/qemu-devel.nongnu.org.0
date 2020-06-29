@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A01520CDC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 12:06:53 +0200 (CEST)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F6420CDC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 12:09:26 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpqge-0004Kh-I6
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 06:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
+	id 1jpqj7-0007fV-L8
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 06:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jpqeu-0002xg-OJ
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:05:04 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49011
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jpqgp-0005HU-EF
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:07:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43236
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jpqet-00053h-1e
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:05:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jpqgn-0005Nj-Jh
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:07:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593425102;
+ s=mimecast20190719; t=1593425221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZVVt1lKwbJqAQLHXWnJkF+TcnTrvMyQEQKMrro2D6XE=;
- b=DEaBE3GBUO755HCYFK5DlNTMwtPYjY+1oeB2UkOel7pO3rBkhxu87Rp44gOToBibhERVFU
- FqgUxcjpm3FKOYO4Xp3S+YfK+WqrPbcER+27302eOc06yD64qojYN6VSmLzIOjDIbo/xW8
- vkplT5CQhY91E4CywXWCsX7RBHAdiSo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-0xNTvevvOwmr1vpqkk5Xjg-1; Mon, 29 Jun 2020 06:04:58 -0400
-X-MC-Unique: 0xNTvevvOwmr1vpqkk5Xjg-1
-Received: by mail-wm1-f72.google.com with SMTP id v6so15998729wmg.1
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 03:04:58 -0700 (PDT)
+ bh=ebtbzuShKdFsnLEEnvlghxuCH/oUBzNFvOMFpJTb4PY=;
+ b=GIJDrRRbmhm6dj0FrAj/CtawC4vDOWcLKF9Q05C1kj4HjrHLoDN9X1e+C4l0qhXz+kekhq
+ eRjIjRMLLQkVYPSW8QGNgFSe4UjH0D8ES8OWp7eQjK5TqrX0H6wTNqvStFHTrwytuXTfDE
+ z0hbmycftp8OsHusfyLr8B0vj2v47DI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-332-aDj6HH4eOPOQNdCzEOwFDQ-1; Mon, 29 Jun 2020 06:06:57 -0400
+X-MC-Unique: aDj6HH4eOPOQNdCzEOwFDQ-1
+Received: by mail-wr1-f72.google.com with SMTP id z3so16303291wrr.7
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 03:06:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=ZVVt1lKwbJqAQLHXWnJkF+TcnTrvMyQEQKMrro2D6XE=;
- b=gRmUDidC1eu3Ame7FLJQTBt6qR9NlXNe1lqJ1BnYsuYcZFyNzlIaJv6IshVPyul361
- LkpQXDT/TRezBoTCaxdK3FNVEdaz/WEACmFuyY0myOhg1oKi9MYl+pN/XpKCd/c5LS1d
- oNeCVcEVPvaYpGiokwj5Ogw4WSnRl/w1Uv3pueK2TQBu2OnN7t9aYTbKTg/ww0OcLPVS
- pmHIz43icHiUsO0KlyOyvc8hzOT9OEx/IzLIz7NiO6OU4gg3fApTVnfo75RMxesTmM1S
- 0OBjsVAV/5QX7YWreoTnoZ4UO7fyAu3LoVxrepB6lpfZU2QeKGbwk9fF7wlQxXmsY7d4
- vSeQ==
-X-Gm-Message-State: AOAM531K6kuA9IcCAS1M9UTr9QavS47ZlxhPhegDSNQHN3n1Xos5G0Gs
- vo+2WkucbCKkcIN0vCiCZe+5CA9vX7KTcABWMZom6mz+z8+jGi39VTwJ/YndmlplFlBWQLSYov5
- AObxyUfFKIATh/9E=
-X-Received: by 2002:a7b:c8c8:: with SMTP id f8mr16507968wml.142.1593425097544; 
- Mon, 29 Jun 2020 03:04:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJSttW7yOqs7h2MZy5qbKa4E5PvDqOO6VIjeGBpBkKta5vUusLSLNpuVV/rrY69H290s076g==
-X-Received: by 2002:a7b:c8c8:: with SMTP id f8mr16507951wml.142.1593425097303; 
- Mon, 29 Jun 2020 03:04:57 -0700 (PDT)
+ bh=ebtbzuShKdFsnLEEnvlghxuCH/oUBzNFvOMFpJTb4PY=;
+ b=ePYEEO7ayeZa4yxFqRiTvEapEB8TvG6S40lHjO8zpAr7lwwnSICIfezirorht90oaH
+ IAyZ23tYsmMfhOHGbtM6CKbTs8gFLkDTn6aDop6KHAz3lUzyLGA7eL2cbiVzWp+oHkAB
+ WCNSKzUtpfv+bDXxzL3xIRaYSXKFhPCdE8mHn534KSpeeoBy1XgpOZYOILqm7EwmrbmK
+ jXqleV7UcBU+Etr2x11Vf8oEtiPrafXxV8UZKfPF1qXit+qIt+FNemHxeTPK7ahG7MZL
+ cSqFmmJeMJZCN21++hDEwehTcxMtowDZobBe+a9iX+iBCMVG0AD1XPjL3mfi8dy1glx7
+ f3kw==
+X-Gm-Message-State: AOAM531tWyLsAmlvvJTmfhZWKiCA1jcSAIZzYE8x5hMK4ikG9AUToLH0
+ 2M+8dicM/xwkLqb+cM5Wb5TTR/zn3WoODsHhu2FlPRoPjtlh0Psl7vihwxgxIQSV0y9Pi3IcxnF
+ tmisXyr3nR87q/Rk=
+X-Received: by 2002:a1c:2503:: with SMTP id l3mr15678852wml.188.1593425216101; 
+ Mon, 29 Jun 2020 03:06:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx75PigmuY4UP7EoMhNv7tgqxG6sDJA1dyvsFBMOHn9OQUAVEeDpti4jsyvAuNANRzbTt0LNw==
+X-Received: by 2002:a1c:2503:: with SMTP id l3mr15678841wml.188.1593425215920; 
+ Mon, 29 Jun 2020 03:06:55 -0700 (PDT)
 Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id o205sm13677223wme.24.2020.06.29.03.04.56
+ by smtp.gmail.com with ESMTPSA id q1sm33681268wro.82.2020.06.29.03.06.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 03:04:56 -0700 (PDT)
-Subject: Re: [PATCH v3 16/30] .gitignore: un-ignore .gitlab-ci.d
+ Mon, 29 Jun 2020 03:06:55 -0700 (PDT)
+Subject: Re: [PATCH v3 09/30] tests/vm: change scripts to use self._config
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200626181357.26211-1-alex.bennee@linaro.org>
- <20200626181357.26211-17-alex.bennee@linaro.org>
+ <20200626181357.26211-10-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,12 +88,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <1ce850ba-6b26-57aa-290f-652e0922dd66@redhat.com>
-Date: Mon, 29 Jun 2020 12:04:55 +0200
+Message-ID: <a58c1f3d-f877-588a-e0e5-738479248402@redhat.com>
+Date: Mon, 29 Jun 2020 12:06:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200626181357.26211-17-alex.bennee@linaro.org>
+In-Reply-To: <20200626181357.26211-10-alex.bennee@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -109,7 +109,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,41 +122,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, richard.henderson@linaro.org, cota@braap.org,
- berrange@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, cota@braap.org,
+ Peter Puhov <peter.puhov@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/26/20 8:13 PM, Alex Bennée wrote:
-> The sooner we deprecate in-tree builds the sooner this mess of regexes
-> can be thrown away.
-
-:S
+> From: Robert Foley <robert.foley@linaro.org>
+> 
+> This change converts existing scripts to using for example self.ROOT_PASS,
+> to self._config['root_pass'].
+> We made similar changes for GUEST_USER, and GUEST_PASS.
+> This allows us also to remove the change in basevm.py,
+> which adds __getattr__ for backwards compatibility.
+> 
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20200601211421.1277-8-robert.foley@linaro.org>
+> ---
+>  tests/vm/basevm.py | 11 ++---------
+>  tests/vm/fedora    | 17 +++++++++--------
+>  tests/vm/freebsd   | 16 ++++++++--------
+>  tests/vm/netbsd    | 19 ++++++++++---------
+>  tests/vm/openbsd   | 17 +++++++++--------
+>  5 files changed, 38 insertions(+), 42 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v2
->   - just use explicit !/.gitlab-ci.d
-> ---
->  .gitignore | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index 90acb4347d4..2992d15931a 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -93,6 +93,7 @@
->  *.tp
->  *.vr
->  *.d
-> +!/.gitlab-ci.d
->  !/scripts/qemu-guest-agent/fsfreeze-hook.d
->  *.o
->  .sdk
-> 
 
 
