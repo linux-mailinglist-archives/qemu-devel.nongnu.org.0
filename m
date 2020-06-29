@@ -2,51 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EF320D905
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:10:44 +0200 (CEST)
-Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C50B20DCB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:22:10 +0200 (CEST)
+Received: from localhost ([::1]:41106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq06z-0005Cr-4c
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
+	id 1jq0I5-0004Fu-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jq06C-0004lN-Os
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 16:09:52 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:38879)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jq0H0-0003QQ-8R; Mon, 29 Jun 2020 16:21:02 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jq06A-0000eI-UC
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 16:09:52 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 05TK8hnY030733
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 29 Jun 2020 16:08:49 -0400
-Date: Mon, 29 Jun 2020 16:08:43 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [Bug 1878645] Re: null-ptr dereference in tcg_handle_interrupt
-Message-ID: <20200629200843.7fyiuemiscmleg6g@mozz.bu.edu>
-References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
- <159344662125.1630.9077511492884316123.malone@chaenomeles.canonical.com>
- <871rlxsnmr.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jq0Gx-0002UU-VY; Mon, 29 Jun 2020 16:21:01 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 31B25BF450;
+ Mon, 29 Jun 2020 20:20:57 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] hw/block/nvme: handle transient dma errors
+Date: Mon, 29 Jun 2020 22:20:51 +0200
+Message-Id: <20200629202053.1223342-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <871rlxsnmr.fsf@linaro.org>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 16:09:48
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 14:26:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,63 +51,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1878645 <1878645@bugs.launchpad.net>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200629 2000, Alex Bennée wrote:
-> 
-> Alexander Bulekov <1878645@bugs.launchpad.net> writes:
-> 
-> > I don't think this is a qtest-specific error: 
-> > cat << EOF| qemu-system-i386 -M q35 -nographic -serial none -monitor stdio
-> > o/4 0xcf8 0x8400f841
-> > o/4 0xcfc 0xaa215d6d
-> > o/4 0x6d30 0x2ef8ffbe
-> > o/1 0xb2 0x20
-> > EOF
-> >
-> > ...
-> > Segmentation fault
-> 
-> Both this and the qtest have the same problem of depending on
-> current_cpu which is a TLS variable which will never be correct from the
-> qtest or monitor context. There are only a few other cases.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Ah that makes sense. It probably isn't a real issue, but I'll send
-patches with the changes you suggested below.
-Thank you
+QEMU actually respects that Bus Master Enabling for a PCI device gets
+flipped, so in order to succesfully pass the block/011 test ("disable
+PCI device while doing I/O") the nvme device needs to know if a dma
+transfer was successful or not.
 
-> sun4m:cpu_halt_signal does:
-> 
->     if (level && current_cpu) {
->         cpu_interrupt(current_cpu, CPU_INTERRUPT_HALT);
->     }
-> 
-> pxa2xx:pxa2xx_pwrmode_write does a bare:
-> 
->     /* Suspend */
->     cpu_interrupt(current_cpu, CPU_INTERRUPT_HALT);
-> 
-> but given the context has a CPUARMState *env it could arguably use that
-> to derive current_cpu but as it's only triggered by a system register
-> write you can't actually trigger from a monitor/qtest command.
-> 
-> I would suggest either:
-> 
->         } else if (current_cpu) {
->             cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
->         }
-> 
-> or possibly:
-> 
->         } else {
->             cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_INTERRUPT_SMI);
->         }
-> 
-> if you really care about triggering a real IRQ from outside the CPU context.
-> 
-> -- 
-> Alex Bennée
-> 
+Based-on: <20200629195017.1217056-1-its@irrelevant.dk>
+("[PATCH 00/17] hw/block/nvme: AIO and address mapping refactoring")
+
+Klaus Jensen (2):
+  pci: pass along the return value of dma_memory_rw
+  hw/block/nvme: handle dma errors
+
+ hw/block/nvme.c       | 43 ++++++++++++++++++++++++++++++++-----------
+ hw/block/trace-events |  2 ++
+ include/block/nvme.h  |  2 +-
+ include/hw/pci/pci.h  |  3 +--
+ 4 files changed, 36 insertions(+), 14 deletions(-)
+
+-- 
+2.27.0
+
 
