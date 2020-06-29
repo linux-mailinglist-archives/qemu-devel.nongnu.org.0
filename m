@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC320CFF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:06:02 +0200 (CEST)
-Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C3220CFFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:07:52 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwID-0005LW-27
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
+	id 1jpwJz-0007Y8-4N
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpwEg-0002z1-NP
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24846
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpwF2-0003Iy-GC
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:44 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44850
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpwEd-0008Uu-Os
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:22 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpwEy-00006d-PM
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593446538;
+ s=mimecast20190719; t=1593446559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JikpwdincU9eGl4vMSWUhRx6reoO/JheifFIfcaIzB4=;
- b=PmsDlOhnLkytt7/ruA/sj7ozpVJ92vM0aXQHQahquJd9/l0Dr2tqrZqO0fEC8A+tQekGu1
- njEy8Ku1PXJ/J3Aleq2G7BmIUTk/Niut6hwarUtDs8QBkly+cu2o9eJ+LMbIzLaeFaga/+
- uXOXBDL+5tdA5N+ybM/Wl88STbokwJw=
+ bh=IgnWzIplglTMmsrRpF0Pu+Pu7Lafz3+3ZP18OW9i2RE=;
+ b=QOVGDl9S9phzhKfysPqBqnQL6Vs8tKuKpLYq2jo8GnbOrziyeKK6CCn9DiOlH4CtTcJjDC
+ HKwsR06S2xlFHyL6OmZ3gA+ZlrwFjlyI6xG2LhY+ZsVq0+xMo1YtWLbU7DC4k21MLlSnsP
+ lNdnbeMQ7n9Xjh+9BshpLr6qP6bDARU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-o45Bfvl7PaKs_2iwaBsHFg-1; Mon, 29 Jun 2020 12:01:55 -0400
-X-MC-Unique: o45Bfvl7PaKs_2iwaBsHFg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-334-RKFfgpavOuG-qceDpXWrlA-1; Mon, 29 Jun 2020 12:02:11 -0400
+X-MC-Unique: RKFfgpavOuG-qceDpXWrlA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0087100AA2F;
- Mon, 29 Jun 2020 16:01:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75E3660BEC;
- Mon, 29 Jun 2020 16:01:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DD75611384A6; Mon, 29 Jun 2020 18:01:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 25/31] osdep: Make MIN/MAX evaluate arguments only once
-References: <20200626135608.6920-1-pbonzini@redhat.com>
- <20200626135608.6920-3-pbonzini@redhat.com>
- <CAFEAcA9DOyivMUS1gAE_BPcmO7yf6J8d-_YZ8W=Ox8U_O0QcBg@mail.gmail.com>
-Date: Mon, 29 Jun 2020 18:01:52 +0200
-In-Reply-To: <CAFEAcA9DOyivMUS1gAE_BPcmO7yf6J8d-_YZ8W=Ox8U_O0QcBg@mail.gmail.com>
- (Peter Maydell's message of "Sat, 27 Jun 2020 22:35:21 +0100")
-Message-ID: <87366dn9n3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2DA18015FD;
+ Mon, 29 Jun 2020 16:02:10 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9017B70915;
+ Mon, 29 Jun 2020 16:02:04 +0000 (UTC)
+Subject: Re: [PATCH v2 3/3] scsi-disk: Add support for the GET LBA STATUS 16
+ command
+To: Stefan Hajnoczi <stefanha@gmail.com>, Lin Ma <LMa@suse.com>
+References: <AM6PR04MB578290CA80CC6000756C4C0EC5920@AM6PR04MB5782.eurprd04.prod.outlook.com>
+ <20200629103948.GF31392@stefanha-x1.localdomain>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <556bd179-71b5-cbe7-1d8b-eff20e70a7c0@redhat.com>
+Date: Mon, 29 Jun 2020 11:02:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200629103948.GF31392@stefanha-x1.localdomain>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,73 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 6/29/20 5:39 AM, Stefan Hajnoczi wrote:
 
-> On Fri, 26 Jun 2020 at 14:57, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>> SCSI defines 3 values and QEMU can represent all of them:
+>>>
+>>> 0 - mapped or unknown
+>>> 1 - deallocated
+>>> 2 - anchored
+>>>
+>>> See the BDRV_BLOCK_* constants in include/block/block.h. The
+>>> is_deallocated boolean is not enough to represent this state, but the
+>>> bdrv_block_status() return value can be used instead.
 >>
->> From: Eric Blake <eblake@redhat.com>
+>> I don't know which one in BDRV_BLOCK_* can be used to represent 'anchored'.
+>> It seems that I need to use BDRV_BLOCK_* combination to recognized 'anchored',
 >>
->> I'm not aware of any immediate bugs in qemu where a second runtime
->> evaluation of the arguments to MIN() or MAX() causes a problem, but
->> proactively preventing such abuse is easier than falling prey to an
->> unintended case down the road.  At any rate, here's the conversation
->> that sparked the current patch:
->> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg05718.html
->
-> Hi; the changes in this patch seem to confuse Coverity.
->
->> +#undef MIN
->> +#define MIN(a, b)                                       \
->> +    ({                                                  \
->> +        typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
->> +        _a < _b ? _a : _b;                              \
->> +    })
->> +#define MIN_CONST(a, b)                                         \
->> +    __builtin_choose_expr(                                      \
->> +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
->> +        (a) < (b) ? (a) : (b),                                  \
->> +        ((void)0))
->> +#undef MAX
->> +#define MAX(a, b)                                       \
->> +    ({                                                  \
->> +        typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
->> +        _a > _b ? _a : _b;                              \
->> +    })
->> +#define MAX_CONST(a, b)                                         \
->> +    __builtin_choose_expr(                                      \
->> +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
->> +        (a) > (b) ? (a) : (b),                                  \
->> +        ((void)0))
->
-> In particular, where MIN_CONST or MAX_CONST are used to
-> define values that must be const, eg in qemu-file.c:
->  50    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
-> or in hcd-xhci.h:
-> 217    USBPort  uports[MAX_CONST(MAXPORTS_2, MAXPORTS_3)];
->
-> Coverity reports:
->
-> CID 1429992 (#1 of 1): Unrecoverable parse warning (PARSE_ERROR)1.
-> expr_not_constant: expression must have a constant value
->
-> Can we do something (eg providing fallback less-intelligent
-> versions of the macro ifdef __COVERITY__) to help it?
+>> I'd like to use these combinations to analyze the bdrv_block_status() return value:
+>> 'deallocated': BDRV_BLOCK_ALLOCATED | BDRV_BLOCK_OFFSET_VALID | BDRV_BLOCK_ZERO
+>> 'anchored':    BDRV_BLOCK_ALLOCATED | BDRV_BLOCK_OFFSET_VALID | ! BDRV_BLOCK_ZERO | ! BDRV_BLOCK_DATA
+>> Am I right?
+> 
+> My understanding is that the SCSI status are mapped to QEMU block status
+> as follows:
+> 
+> allocated: BDRV_BLOCK_DATA | !BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID
 
-Perhaps we can solve the issue with scripts/coverity-model.c.
-Unfortunately, I can't spare the time to try right now.
+I haven't read the scsi code, but as written, I would assume that any 
+portion of the block status with this result has the following properties:
+- reading sees guest-visible data; we cannot guarantee whether it is all 
+zero, and the data reserves actual space
 
-> (This is the cause of CID 1429992, 1429995, 1429997,
-> 1429999. Parse errors are unfortunate because Coverity
-> abandons analysis of the affected function entirely,
-> and analysis of its callers is also limited.)
+> anchored: BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID
 
-Bummer.  I recommend to revert until we figure out how not to break
-Coverity.
+- reading sees all zeros, but the disk has reserved actual space such 
+that future writes will not run out of space
+
+> deallocated: !BDRV_BLOCK_DATA
+
+- reading does not see data; future writes will have to reserve space. 
+I would expect this option might also have '| BDRV_BLOCK_ZERO' depending 
+on whether this particular scsi device guarantees that reads of an 
+unallocated portion see all zeros instead of unspecified garbage.
+
+> 
+> I have CCed Eric Blake, who is familiar with block status.
+
+Adding Vladimir in CC as well, as he has pending patches that try to 
+clear up the use of BDRV_BLOCK_* constants with regards to two different 
+queries:
+- allocation implies that data comes from this layer of a backing chain, 
+rather than deferring to a backing image
+- allocation implies that storage is reserved (that is, not sparse)
+
+It sounds like we are trying to represent the second question for scsi 
+(namely, the same question that gets answered by lseek(SEEK_HOLE) for 
+POSIX files), and not the first (namely, the question answered for qcow2 
+images).
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
