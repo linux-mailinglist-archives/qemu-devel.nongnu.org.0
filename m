@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EB820EA68
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 02:43:53 +0200 (CEST)
-Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BEB20EA6E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 02:49:22 +0200 (CEST)
+Received: from localhost ([::1]:58528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq4NL-0008UU-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 20:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
+	id 1jq4Sf-0007jR-9N
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 20:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jq1dp-0007dy-Qx; Mon, 29 Jun 2020 17:48:41 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42871)
+ id 1jq1ds-0007h7-Jg; Mon, 29 Jun 2020 17:48:44 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:34858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jq1do-00087V-5w; Mon, 29 Jun 2020 17:48:41 -0400
-Received: by mail-ed1-x531.google.com with SMTP id z17so14316641edr.9;
- Mon, 29 Jun 2020 14:48:39 -0700 (PDT)
+ id 1jq1dq-000887-Ta; Mon, 29 Jun 2020 17:48:44 -0400
+Received: by mail-ed1-x544.google.com with SMTP id e15so14337137edr.2;
+ Mon, 29 Jun 2020 14:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=f5RanH9zq7dtLaGBYZRKWZh3DJKJJzVJqKalIINzzcQ=;
- b=oTQvgvVieFZVtwNZfM9tX/gERr9IlNPOSMHQg5fw2bZnctomk67Xp7TqShxaAuFaQu
- FLAfXqmbxZqxABVTyMK1vS0kMoS7on8bzcg43Mb3LzGwSm2ktvNyeGhEXFP5SyIQn5dc
- kgZGkXcgnm2F9PhdaPiF8YcwQ1jyMf1KEA1kjAQG1BAdKtj+6VAMKjthQnTmp6i+yito
- b0l23ZPN2ylOB5BSN7te7EJ9kEs0HJGYe8CGc0n3pUQjZn+2BwijnEalTWys52eyhLYo
- S5X6k19IoPUddGJekSumskzLnmm1j+use5QFAZIj100cK3+5alE3TybK38zlYaXT7ioc
- XNUw==
+ bh=Pz6xAlQLysREZhnvq2M/sf0ysYF+TT9ZKiYqFaLQuTA=;
+ b=RuO7wiighU8jJ7v2DItF5htekTBYqNmpK3TfeI+yOdvy5xXrogamRNiPU/emPplxFb
+ YzGVb1P+GYzPch1GI+RvDE0MIc8P0kZV2JYBKMXkfuDxJwLxPH8iA/dGlpLzY+imJ33u
+ b/DaiPs5v9aemgoOPRGmGNtBRwUq9gLLAc3s32rtVfAaPhqzmr2pM5wUaG5EW5LjNM72
+ qGDQY0gUePETjMIn6xR+szWSh8jeR8Qp+2nUsVoqrNaXCWuHVwvVrREz65qAisZalMZg
+ s3DGYf7J6GSVd8Qa7H4FFRSLBFdVKbP4wOmP8mRW2Z1xlhsMgN2wRf8KqjAqUZfqzVYP
+ RgUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=f5RanH9zq7dtLaGBYZRKWZh3DJKJJzVJqKalIINzzcQ=;
- b=b1EZWfvRYBbpvTH3imGSLyv7wk7ZKVr1p+eXkflGpUhXLYI/nc4nqUX2FMTamYFUuz
- RnBLW26jyk4AlBIkX7m8jnDOTj37eX1SbeTwDCaNzP1pdCfwocHjHpnoozbHCVqXtirS
- JpNWuKwy72OI15A9byeFIKTUlao+z5rY3cI4wTMrPWa2lZUzyLb8yyMUiDo8OWKbhhnN
- /2bxKIAaGfxoiZ/at8O0jT7vBHf7M3HYxtNdgEp4zB4zR2sRZS+S7aPrJjFn4haBnXou
- L5eLgVJNwuzB66aBn3U/onqfWOnw7Kh0MbYTGHea/JkuNBMRADuUBFICUUAor8b+9Jie
- SX/Q==
-X-Gm-Message-State: AOAM533TDGLfZFlfHCDLmxxsxOTS/EEu+8CLX8Xx7srPIgFCad9WcaBB
- f33E7Uu6nSfzR3eWYSEYIgGP2faXw1e7jlKhP0yvwGqQRew=
-X-Google-Smtp-Source: ABdhPJxEWSrszet9RbwL+IucQ5tiCdbKq0ExxtBKr0KDn4hjFun9J2sIWjuUBxaDln52DMWt3lTrizvU/SfhBWGsjjU=
-X-Received: by 2002:aa7:d297:: with SMTP id w23mr18971688edq.49.1593467318297; 
- Mon, 29 Jun 2020 14:48:38 -0700 (PDT)
+ bh=Pz6xAlQLysREZhnvq2M/sf0ysYF+TT9ZKiYqFaLQuTA=;
+ b=Ce6aq4yHdF+mQioyP5bejh0vnuHY1820vRrEskMEgSeiDiipNq01zOF7LsfGU36C0i
+ piprVXfYbcyhxxrDtyMEirwqXkB4CLla4LxAL6nu9GOfvIq0WjbraWCvo1prRidi09o5
+ IWXdsklhdS0tbs/Llqwyz3TOlKMNOaqAm1PbuliOgjMFJQ096abaFQ7l0BnxaPkURxvp
+ cKVCzIc8J9Jd3lvLf7J2BL1LLSBc7TrKMfGK0S6EBRAcK2/nV5mdXJp+kkxgBtANi2Ft
+ 7b4ZsUGgSVYaeVQW7Q8HLn2J26/828yMZEbCVsobuVgSLo7tsXVtfLzcdX8QmWsKUSvl
+ HmRA==
+X-Gm-Message-State: AOAM5339kKuwlpXuDhfftyH8kX86B0Xx0KXIFvlA4UNSQ1CG19Tvw/mU
+ /iheG4/bI8b3MzTIWp+PBrWM+kbMUElUxgUrF1d1JGMoV3w=
+X-Google-Smtp-Source: ABdhPJwvMYtpctIcPAvjg9DjJvKf++9u1NhWLfQ/o7Lz3ux2dgjMmTGK6bjDRl9rVKxF9FYFmiOy3oY9h+LYQLz/XS8=
+X-Received: by 2002:a50:9a82:: with SMTP id p2mr19393094edb.130.1593467320905; 
+ Mon, 29 Jun 2020 14:48:40 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Mon, 29 Jun 2020 22:48:27 +0100
-Message-ID: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
-Subject: [PATC 7/9] Skipping drm build, unsupported
+Date: Mon, 29 Jun 2020 22:48:30 +0100
+Message-ID: <CA+XhMqzZaXorKXQKXRNue9bhbrE3iawtM6EHNUVjGOuSayuvAw@mail.gmail.com>
+Subject: [PATCH 8/9] Skipping sys/syscall.h inclusion as only used in
+ qemu_signalfd anyway
 To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=devnexen@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -77,29 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 2001
+From b821b7e9bbf1f327058ee858a92c7a7ee6740e63 Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Mon, 29 Jun 2020 22:20:06 +0000
-Subject: [PATCH 7/9] Skipping drm build, unsupported.
+Date: Mon, 29 Jun 2020 22:20:39 +0000
+Subject: [PATCH 8/9] Skipping sys/syscall.h inclusion as only used in
+ qemu_signalfd anyway.
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
- util/Makefile.objs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/compatfd.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index cc5e37177a..faebc13fac 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -39,7 +39,7 @@ util-obj-y += qsp.o
- util-obj-y += range.o
- util-obj-y += stats64.o
- util-obj-y += systemd.o
--util-obj-$(CONFIG_POSIX) += drm.o
-+util-obj-$(CONFIG_LINUX) += drm.o
- util-obj-y += guest-random.o
- util-obj-$(CONFIG_GIO) += dbus.o
- dbus.o-cflags = $(GIO_CFLAGS)
+diff --git a/util/compatfd.c b/util/compatfd.c
+index c296f55d14..ee47dd8089 100644
+--- a/util/compatfd.c
++++ b/util/compatfd.c
+@@ -16,7 +16,9 @@
+ #include "qemu/osdep.h"
+ #include "qemu/thread.h"
+
++#if defined(CONFIG_SIGNALFD)
+ #include <sys/syscall.h>
++#endif
+
+ struct sigfd_compat_info
+ {
 --
 2.26.0
 
