@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57AA20CFFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:07:51 +0200 (CEST)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC320CFF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 18:06:02 +0200 (CEST)
+Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpwJy-0007Vu-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
+	id 1jpwID-0005LW-27
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 12:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jpwDG-0001fg-EQ
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:00:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59258
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpwEg-0002z1-NP
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24846
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jpwD7-0008Aj-7X
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:00:53 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jpwEd-0008Uu-Os
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 12:02:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593446444;
+ s=mimecast20190719; t=1593446538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RA3iteWvU+8ObueBDBydeVuxtPWYHgvoWSoBcqtoj7o=;
- b=YKrgE4WalX+20oC2JXU1d7vAisQ9GHM3lKnmn0M+vDqGpnWOwcA0ZMP9v7vOp5t4KZcYgc
- E2QxgqP2roTBHkk3NGFT6pw9NGliBr/kmYVTF68TeVfFnOZOHzfrhjKQhGih2y8+mGEAvy
- Tq4u6emuedKvbpSe0qnIAFTrv7CMT/Y=
+ in-reply-to:in-reply-to:references:references;
+ bh=JikpwdincU9eGl4vMSWUhRx6reoO/JheifFIfcaIzB4=;
+ b=PmsDlOhnLkytt7/ruA/sj7ozpVJ92vM0aXQHQahquJd9/l0Dr2tqrZqO0fEC8A+tQekGu1
+ njEy8Ku1PXJ/J3Aleq2G7BmIUTk/Niut6hwarUtDs8QBkly+cu2o9eJ+LMbIzLaeFaga/+
+ uXOXBDL+5tdA5N+ybM/Wl88STbokwJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-Ag2kAtJpMmWVqyNTjIR5Uw-1; Mon, 29 Jun 2020 12:00:41 -0400
-X-MC-Unique: Ag2kAtJpMmWVqyNTjIR5Uw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-496-o45Bfvl7PaKs_2iwaBsHFg-1; Mon, 29 Jun 2020 12:01:55 -0400
+X-MC-Unique: o45Bfvl7PaKs_2iwaBsHFg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98DA180183C;
- Mon, 29 Jun 2020 16:00:40 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-124.ams2.redhat.com
- [10.36.112.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F0C39CFE8;
- Mon, 29 Jun 2020 16:00:38 +0000 (UTC)
-Subject: Re: Properly quitting qemu immediately after failing migration
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <0dce6c63-4b83-8b1a-6d00-07235f637997@redhat.com>
- <20200629154518.GV1298906@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <679132a8-14e2-6ee1-fc27-662681123c3e@redhat.com>
-Date: Mon, 29 Jun 2020 18:00:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0087100AA2F;
+ Mon, 29 Jun 2020 16:01:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75E3660BEC;
+ Mon, 29 Jun 2020 16:01:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DD75611384A6; Mon, 29 Jun 2020 18:01:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 25/31] osdep: Make MIN/MAX evaluate arguments only once
+References: <20200626135608.6920-1-pbonzini@redhat.com>
+ <20200626135608.6920-3-pbonzini@redhat.com>
+ <CAFEAcA9DOyivMUS1gAE_BPcmO7yf6J8d-_YZ8W=Ox8U_O0QcBg@mail.gmail.com>
+Date: Mon, 29 Jun 2020 18:01:52 +0200
+In-Reply-To: <CAFEAcA9DOyivMUS1gAE_BPcmO7yf6J8d-_YZ8W=Ox8U_O0QcBg@mail.gmail.com>
+ (Peter Maydell's message of "Sat, 27 Jun 2020 22:35:21 +0100")
+Message-ID: <87366dn9n3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200629154518.GV1298906@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,59 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8
-Content-Type: multipart/mixed; boundary="e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs"
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On Fri, 26 Jun 2020 at 14:57, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> From: Eric Blake <eblake@redhat.com>
+>>
+>> I'm not aware of any immediate bugs in qemu where a second runtime
+>> evaluation of the arguments to MIN() or MAX() causes a problem, but
+>> proactively preventing such abuse is easier than falling prey to an
+>> unintended case down the road.  At any rate, here's the conversation
+>> that sparked the current patch:
+>> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg05718.html
+>
+> Hi; the changes in this patch seem to confuse Coverity.
+>
+>> +#undef MIN
+>> +#define MIN(a, b)                                       \
+>> +    ({                                                  \
+>> +        typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
+>> +        _a < _b ? _a : _b;                              \
+>> +    })
+>> +#define MIN_CONST(a, b)                                         \
+>> +    __builtin_choose_expr(                                      \
+>> +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
+>> +        (a) < (b) ? (a) : (b),                                  \
+>> +        ((void)0))
+>> +#undef MAX
+>> +#define MAX(a, b)                                       \
+>> +    ({                                                  \
+>> +        typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
+>> +        _a > _b ? _a : _b;                              \
+>> +    })
+>> +#define MAX_CONST(a, b)                                         \
+>> +    __builtin_choose_expr(                                      \
+>> +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
+>> +        (a) > (b) ? (a) : (b),                                  \
+>> +        ((void)0))
+>
+> In particular, where MIN_CONST or MAX_CONST are used to
+> define values that must be const, eg in qemu-file.c:
+>  50    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
+> or in hcd-xhci.h:
+> 217    USBPort  uports[MAX_CONST(MAXPORTS_2, MAXPORTS_3)];
+>
+> Coverity reports:
+>
+> CID 1429992 (#1 of 1): Unrecoverable parse warning (PARSE_ERROR)1.
+> expr_not_constant: expression must have a constant value
+>
+> Can we do something (eg providing fallback less-intelligent
+> versions of the macro ifdef __COVERITY__) to help it?
 
-On 29.06.20 17:45, Daniel P. Berrang=C3=A9 wrote:
-> On Mon, Jun 29, 2020 at 03:48:35PM +0200, Max Reitz wrote:
->> In practice this particular issue might not be that big of a problem,
->> because it just means qemu aborts when the user intended to let it quit
->> anyway.  But on one hand I could imagine that there are other clean-up
->> paths that should definitely run before qemu quits (although I don=E2=80=
-=99t
->> know), and on the other, it=E2=80=99s a problem for my test.
->=20
-> In general we can't assume any cleanup runs when incoming migration
-> fails, because when loading the migration stream, it often aborts with
-> asserts if the data doesn't match what's expected.
+Perhaps we can solve the issue with scripts/coverity-model.c.
+Unfortunately, I can't spare the time to try right now.
 
-My problem is about the source VM, though.
+> (This is the cause of CID 1429992, 1429995, 1429997,
+> 1429999. Parse errors are unfortunate because Coverity
+> abandons analysis of the affected function entirely,
+> and analysis of its callers is also limited.)
 
-Max
-
-
---e7WZhybtEEdbLpkfG0MRoONz3l1WvhzXs--
-
---0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl76ECUACgkQ9AfbAGHV
-z0Ae/ggAhA3YL3voGFLjbdICasP8UGnRkTfpKIqA4IgI8WRvVGN6F6Yn/tVGYZQo
-xUvSRc6RESwwGujEMZT7uvnFAmInk4srFf6U9+HZ5dxc65i0WdcppMGFzLXBdn/W
-E/LhCcftCdmKt044AvSmGS+y9cxFMqm6Ru6c2O0m9c5wi+qSTeUN9tR9GnWutXE2
-1DeaHdNp8K43DfLFxySJELLrDpaPZ3dkGGq/IJqmCzr40oWVqUi4y0n3IqxkJFnP
-DhLeQOkPwsgRuqYCNvvSzxHUU6BrmUR/8J9yfx8h8eAmGg2FOJjajakKhUmJ8qIP
-dnFjijabttZzQmRVG7N6N6u41Nhefg==
-=npDy
------END PGP SIGNATURE-----
-
---0GKB8DSFYzHo1K0MKLcK2sxgyJRVGIln8--
+Bummer.  I recommend to revert until we figure out how not to break
+Coverity.
 
 
