@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1716120CFCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:47:14 +0200 (CEST)
-Received: from localhost ([::1]:34432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A8220CFB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:33:22 +0200 (CEST)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvzz-0008UL-FL
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
+	id 1jpvmb-0002mk-62
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.boettcher@genode-labs.com>)
- id 1jpu2b-0001vo-2M
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:41:45 -0400
-Received: from mail.genode-labs.com ([94.130.141.206]:56394
- helo=genode.genode-labs.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.boettcher@genode-labs.com>)
- id 1jpu2Y-0000Sk-9l
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:41:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=genode-labs.com; s=2018-03; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Date:Message-ID:To:Subject:From:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mSJdnbPdHXfgRaHLt7gIw1fMHbT20CjL66DRqYCPq/I=; b=KvatqGqtfBiLCvp1rbGD+P6qDJ
- hgCkozj73zEVaDSFMxckG6X5Zw0b5e5zQ7hUitPd546j2h+R1oTDwXlitDEs26AVMMIuD1V9cefbh
- G4DMgYQndJ2DrE8Z9n67+KKykexVE/oZ1/mLpXbu+N7wMpPuI3ByxiwrbOgDqCOyJa63xbRJu/Fol
- SxohWkEChmqsJXCdj8sm92e1xuHprBVXi5CuenNnC/v/qc/wErBZ6+FL22qVk0+PHvmPadrqdtDh/
- ODHslgLVpGpcJkLLYIlAlWd3dh8Cd8k7RDo17fMwP3QbsOp1ZyoBvQW43l7yZxpEBYEmT0tAuMFmI
- eSVTssNQ==;
-Received: by mail.genode-labs.com (Exim 4.89) with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (envelope-from <alexander.boettcher@genode-labs.com>)
- id 1jptmS-0002xH-7l ; Mon, 29 Jun 2020 15:25:07 +0200
-From: Alexander Boettcher <alexander.boettcher@genode-labs.com>
-Subject: [PATCH] tcg/svm: use host cr4 during NPT page table walk
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>, 
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <c9ba7c23-581e-86d8-8174-37d2beeab768@genode-labs.com>
-Date: Mon, 29 Jun 2020 15:25:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jpvke-0001Ks-RR
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:21 -0400
+Resent-Date: Mon, 29 Jun 2020 11:31:20 -0400
+Resent-Message-Id: <E1jpvke-0001Ks-RR@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21307)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jpvkX-0002ou-WF
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593444656; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YAcLwwZGrgjUBwtgzaWLLcDhJidoaFj2TdpfbimDR/bTYQcOqb0q055hvbIhNnHlTrlwVY15SBAmbhPLhpAsb0XvINA2OCH5/z3gvD2fSk+lFFxC87w9hXIvBZhlkfX1dJtJbLvu1hD/j4SzO7iYF5B+M6hXJ38LRs84l/p+BEE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593444656;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=IwbH5EFSqXsL1SHb7/RsXkkWwQvMn+aXD5UXgN4U5WE=; 
+ b=JLacatbquWd1+1JfGL6O105Dlwg58TQNf9SfrOAS8+EGIfCbybXHWP9R2g+xR5jBieotj5baJzKUuasUq2+WBjB4vtgTtVBnSoRYJkXsjNEx5zqqP1G93uijbwvxWycMQvam8dHjpA7sSz5YTSUH2ibn+Zj7q6aqo0zttOSSYHE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593444105703223.69756248879946;
+ Mon, 29 Jun 2020 08:21:45 -0700 (PDT)
+Message-ID: <159344410468.15477.8209266914104937697@d1fd068a5071>
+Subject: Re: [PATCH] coverity: provide Coverity-friendly MIN_CONST and
+ MAX_CONST
+In-Reply-To: <20200629151642.11974-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=94.130.141.206;
- envelope-from=alexander.boettcher@genode-labs.com; helo=genode.genode-labs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 09:25:08
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Mon, 29 Jun 2020 08:21:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 11:31:10
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 29 Jun 2020 11:45:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,97 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-during a page table walk of TCG+SVM the code in target/i386/excp_helper.c get_hphys() uses the cr4 register of the guest instead of the hypervisor to check for the PSE bit. In the test case we have, the guest have not enabled (yet) the PSE bit and so the page table walk results in a wrong host physical address resolution and wrong content read by the guest.
-
-Attached patch is against 4.2.1, but works also on 3.1.0. It fixes the issue for our automated testcase, which is a 32bit hypervisor w/o PAE support running a guest VM with tcg+svm.
-The test worked beforehand up to qemu 2.12, started to fail with qemu 3.0 and later. The added TCG/SVM NPT commit seems to introduce the regression.
-
-In case someone want to try to reproduce it, the iso is at [0], the good case is [1] and the failing case is [2]. The used commandline is:
-
-qemu-system-i386 -no-kvm -nographic -cpu phenom -m 512 -machine q35 -cdrom seoul-vmm-test.iso
-
-[0] https://depot.genode.org/alex-ab/images/seoul-vmm-test.iso
-[1] https://depot.genode.org/alex-ab/images/seoul-vmm-good.txt
-[2] https://depot.genode.org/alex-ab/images/seoul-vmm-bad.txt
-
--- 
-Alexander Boettcher
-Genode Labs
-
-https://www.genode-labs.com - https://www.genode.org
-
-Genode Labs GmbH - Amtsgericht Dresden - HRB 28424 - Sitz Dresden
-Geschäftsführer: Dr.-Ing. Norman Feske, Christian Helmuth
-
-
-
-
-Signed-off-by: Alexander Boettcher <alexander.boettcher@genode-labs.com>
----
- target/i386/excp_helper.c | 4 ++--
- target/i386/svm.h         | 1 +
- target/i386/svm_helper.c  | 7 ++++++-
- 3 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
-index 1447bda7a9..b10c7ecbcc 100644
---- a/target/i386/excp_helper.c
-+++ b/target/i386/excp_helper.c
-@@ -262,8 +262,8 @@ static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-         }
-         ptep = pde | PG_NX_MASK;
- 
--        /* if PSE bit is set, then we use a 4MB page */
--        if ((pde & PG_PSE_MASK) && (env->cr[4] & CR4_PSE_MASK)) {
-+        /* if host cr4 PSE bit is set, then we use a 4MB page */
-+        if ((pde & PG_PSE_MASK) && (env->nested_pg_mode & SVM_NPT_PSE)) {
-             page_size = 4096 * 1024;
-             pte_addr = pde_addr;
- 
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index 23a3a040b8..ae30fc6f79 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -135,6 +135,7 @@
- #define SVM_NPT_PAE         (1 << 0)
- #define SVM_NPT_LMA         (1 << 1)
- #define SVM_NPT_NXE         (1 << 2)
-+#define SVM_NPT_PSE         (1 << 3)
- 
- #define SVM_NPTEXIT_P       (1ULL << 0)
- #define SVM_NPTEXIT_RW      (1ULL << 1)
-diff --git a/target/i386/svm_helper.c b/target/i386/svm_helper.c
-index 7b8105a1c3..6224387eab 100644
---- a/target/i386/svm_helper.c
-+++ b/target/i386/svm_helper.c
-@@ -209,16 +209,21 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
- 
-     nested_ctl = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-                                                           control.nested_ctl));
-+
-+    env->nested_pg_mode = 0;
-+
-     if (nested_ctl & SVM_NPT_ENABLED) {
-         env->nested_cr3 = x86_ldq_phys(cs,
-                                 env->vm_vmcb + offsetof(struct vmcb,
-                                                         control.nested_cr3));
-         env->hflags2 |= HF2_NPT_MASK;
- 
--        env->nested_pg_mode = 0;
-         if (env->cr[4] & CR4_PAE_MASK) {
-             env->nested_pg_mode |= SVM_NPT_PAE;
-         }
-+        if (env->cr[4] & CR4_PSE_MASK) {
-+            env->nested_pg_mode |= SVM_NPT_PSE;
-+        }
-         if (env->hflags & HF_LMA_MASK) {
-             env->nested_pg_mode |= SVM_NPT_LMA;
-         }
--- 
-2.17.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyOTE1MTY0Mi4xMTk3
+NC0xLXBib256aW5pQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSF0gY292ZXJpdHk6IHByb3ZpZGUgQ292ZXJpdHkt
+ZnJpZW5kbHkgTUlOX0NPTlNUIGFuZCBNQVhfQ09OU1QKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6
+IDIwMjAwNjI5MTUxNjQyLjExOTc0LTEtcGJvbnppbmlAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
+fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
+aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
+PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXct
+cHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA2MjkxNTE2NDIu
+MTE5NzQtMS1wYm9uemluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA2MjkxNTE2NDIuMTE5
+NzQtMS1wYm9uemluaUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcK
+M2FlZTBkZSBjb3Zlcml0eTogcHJvdmlkZSBDb3Zlcml0eS1mcmllbmRseSBNSU5fQ09OU1QgYW5k
+IE1BWF9DT05TVAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KV0FSTklORzogYXJjaGl0ZWN0dXJlIHNw
+ZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzM4OiBGSUxFOiBpbmNsdWRlL3FlbXUv
+b3NkZXAuaDoyNjk6CisjaWZkZWYgX19DT1ZFUklUWV9fCgpFUlJPUjogTWFjcm9zIHdpdGggY29t
+cGxleCB2YWx1ZXMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiMzOTogRklMRTog
+aW5jbHVkZS9xZW11L29zZGVwLmg6MjcwOgorI2RlZmluZSBNSU5fQ09OU1QoYSwgYikgKGEpIDwg
+KGIpID8gKGEpIDogKGIpCgpFUlJPUjogTWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMgc2hvdWxk
+IGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiM0MDogRklMRTogaW5jbHVkZS9xZW11L29zZGVw
+Lmg6MjcxOgorI2RlZmluZSBNQVhfQ09OU1QoYSwgYikgKGEpID4gKGIpID8gKGEpIDogKGIpCgp0
+b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDM0IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCAzYWVl
+MGRlMzBhZDIgKGNvdmVyaXR5OiBwcm92aWRlIENvdmVyaXR5LWZyaWVuZGx5IE1JTl9DT05TVCBh
+bmQgTUFYX0NPTlNUKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9
+PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDYyOTE1MTY0Mi4xMTk3NC0x
+LXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
+LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
+ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
+YXQuY29t
 
