@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135220CD6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:04:03 +0200 (CEST)
-Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3285B20CD6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:06:13 +0200 (CEST)
+Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpphq-0002rA-4d
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37880)
+	id 1jppjw-0005oP-6U
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jppfg-0001a1-1F; Mon, 29 Jun 2020 05:01:51 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34191)
+ id 1jppgr-0002NM-AK; Mon, 29 Jun 2020 05:03:02 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:32803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jppfe-0002Vm-Bl; Mon, 29 Jun 2020 05:01:47 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f7so12717885wrw.1;
- Mon, 29 Jun 2020 02:01:45 -0700 (PDT)
+ id 1jppgp-0002gE-M7; Mon, 29 Jun 2020 05:03:01 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f18so7661459wrs.0;
+ Mon, 29 Jun 2020 02:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Qi81FFPGwwGe3yhfdkVHKsQBPa1IQiolDV9VBMKBsAQ=;
- b=qkYw4IJiWd2yXiKbBHAHRuiHl22CnhW2UIoRy8uA4uMemUDDlU5qDUKOgRd6MNUtl3
- /n9zTV+/0QH+PQyw3B4DlJ4KV8Tu+P6HMTMm1IF2vilOPVsjMBAtjKcvm3sO1Hj5Lss2
- mCZwBTLk3Hk8rIRXxtOBzAWdX5pDfiqoJoGDVyNFP9W7eJRZItscI5dZBWBOAnQaK03z
- xWercgCXWw7N//TyERyBuDzV/hRPO0MwZkevffNowW+wk1nT1pxNYUHW2Ohu//fUEF/6
- Fdi6q0UFoQF75dW6FRNsnt93MRVMgTiSunklzmjng4gOGTq8FL2rYptwbhGTzCHwWRX5
- Iw+A==
+ bh=b+1it6LB/AbbY/JNv5oIBLgCzZ+qzVQM3tu1Ac4upgU=;
+ b=sgZs0SANfQWqiUg0hTxh/N1nLuY9YtkLAgDlcfQW3iYUnBPbw3Ro1v34KWoOx6ehMg
+ 5tkf4+twXBfZWesL4HctTQHK0Fp74C+n1S6DkIKUsUE3mFO+lScB5n9b/a3s8S47TKzp
+ aFbdz375b62Cb6IxqIXa9/CIKjeY2OMGB0P+bXKK/KllwlKpe86LUgui/6ni5rUzHZxy
+ b8iib93eVQbkU5ev5lMWZGmGpIcriITZHe2aZJqx2k2rh79/3SiEydCtip2WG9bUBQ8M
+ K/qB45rwFQglyBLfGCjVK1oBGCw6Rg8PQRQh0gEwPYuIxEW08yEPxP15v7d2+XecQq/G
+ oT7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Qi81FFPGwwGe3yhfdkVHKsQBPa1IQiolDV9VBMKBsAQ=;
- b=ZCSau1wGVgZd4G0gi3JBdl7+crVA+FLiWv4+PTol3wUhxFH3USY+h0U/+iFejiRazq
- rCFV+HNRtxpcHczmyVa0zzXFATvANpMIhxAD0dRCV9NpkCmah+DS+BzE7GNjD617r7ly
- qT+sm/nqiZ7M9+tYtba4OgUpwNMDu8SXnpm4byuqJPm6nGIUTcO3b26RZG24ukpD3Gvm
- PSBiIun+hYfa+QqRyyA1qGQDQaSGZMTIpdJnFPPIiEUyXl0NZyyrss6Ly0UM/cCee/Qu
- chRq1s1d9QOd1mhZi2HHDnlxnDkv/BD+v+k13uUKKSRYlIuIJ6VYJNIAvrrDMVIdq2lA
- cl0A==
-X-Gm-Message-State: AOAM530BXwGJpG2TfrU+lU+RfR68bPq1CO2qJu9OtGekMfSwDbzUgjiU
- Mn8UvXn8OlozyrhmkFvxouw=
-X-Google-Smtp-Source: ABdhPJx/0536PTqqLbNRFHVuYeeiGASUDiI1KbVDEIReY9gM0FWfdUvONjjAhHBGaceMdnf2DNIqvw==
-X-Received: by 2002:adf:e5d0:: with SMTP id a16mr15419928wrn.48.1593421304436; 
- Mon, 29 Jun 2020 02:01:44 -0700 (PDT)
+ bh=b+1it6LB/AbbY/JNv5oIBLgCzZ+qzVQM3tu1Ac4upgU=;
+ b=r1Y/eWQVAHOZTm6RO/pcia9ZOIFGLs+so1GlH/otgArb7ScsiPAxhdFZyE/v6w9mp+
+ 2RmHdG8JzU950v6iFXgtSmu/xMxQL3rABWnRytZ99qEsmGLTx/8rvkgDdT3wtVxPfbBh
+ HVjfhdVN4gGtfoLs6AsMrqie/tqAixVqAlspgw1d8+X8XF+c+TIw4ts8CUYlbh4hlONX
+ rZcoox75DjUcb5WrcbVdK3ZdrJb/h2Y7GgHe7zM3QZesMl1Kzof2GKz7wNuRQ1mtI3Ux
+ 2obxs8kOhzRQHau0+lzWoHRnE8T0UUGATR6TrlTYpGRVpxF8GIwsLTmtfeFQoVZYgqDG
+ TuMg==
+X-Gm-Message-State: AOAM5320UhxuXTGi54LKz1oImxc3LAIxi4+xYkoB0WNK5j3NcxY8JNni
+ R7XjMZvbRLFx/C0JsOFfQiA=
+X-Google-Smtp-Source: ABdhPJz4t4tSW82wiWw1w1/5V/eZKXPkWMRaMP9fROk/yL3039IJYpNpi/vdA/UipsPk0Xg8msOjTQ==
+X-Received: by 2002:a5d:6cce:: with SMTP id c14mr15318753wrc.377.1593421377870; 
+ Mon, 29 Jun 2020 02:02:57 -0700 (PDT)
 Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u16sm791493wmn.11.2020.06.29.02.01.43
+ by smtp.gmail.com with ESMTPSA id a4sm40925182wrg.80.2020.06.29.02.02.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 02:01:43 -0700 (PDT)
-Subject: Re: [PATCH 07/17] hw/misc/max111x: Don't use vmstate_register()
+ Mon, 29 Jun 2020 02:02:57 -0700 (PDT)
+Subject: Re: [PATCH 08/17] ssi: Add ssi_realize_and_unref()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200628142429.17111-1-peter.maydell@linaro.org>
- <20200628142429.17111-8-peter.maydell@linaro.org>
+ <20200628142429.17111-9-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9254a124-fa3a-a630-e3ef-17aeeea65cec@amsat.org>
-Date: Mon, 29 Jun 2020 11:01:43 +0200
+Message-ID: <19e2c63a-9aff-6d90-8f8a-9053dc7e41e9@amsat.org>
+Date: Mon, 29 Jun 2020 11:02:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200628142429.17111-8-peter.maydell@linaro.org>
+In-Reply-To: <20200628142429.17111-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,45 +89,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/28/20 4:24 PM, Peter Maydell wrote:
-> The max111x is a proper qdev device; we can use dc->vmsd rather than
-> directly calling vmstate_register().
+> Add an ssi_realize_and_unref(), for the benefit of callers
+> who want to be able to create an SSI device, set QOM properties
+> on it, and then do the realize-and-unref afterwards.
 > 
-> It's possible that this is a migration compat break, but the only
-> boards that use this device are the spitz-family ('akita', 'borzoi',
-> 'spitz', 'terrier').
+> The API works on the same principle as the recently added
+> qdev_realize_and_undef(), sysbus_realize_and_undef(), etc.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/misc/max111x.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  include/hw/ssi/ssi.h | 26 ++++++++++++++++++++++++++
+>  hw/ssi/ssi.c         |  7 ++++++-
+>  2 files changed, 32 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-> index d0e5534e4f5..abddfa3c660 100644
-> --- a/hw/misc/max111x.c
-> +++ b/hw/misc/max111x.c
-> @@ -140,8 +140,6 @@ static int max111x_init(SSISlave *d, int inputs)
->  
->      s->inputs = inputs;
->  
-> -    vmstate_register(VMSTATE_IF(dev), VMSTATE_INSTANCE_ID_ANY,
-> -                     &vmstate_max111x, s);
->      return 0;
+> diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
+> index 93f2b8b0beb..4be5325e654 100644
+> --- a/include/hw/ssi/ssi.h
+> +++ b/include/hw/ssi/ssi.h
+> @@ -79,6 +79,32 @@ extern const VMStateDescription vmstate_ssi_slave;
 >  }
 >  
-> @@ -206,6 +204,7 @@ static void max111x_class_init(ObjectClass *klass, void *data)
+>  DeviceState *ssi_create_slave(SSIBus *bus, const char *name);
+> +/**
+> + * ssi_realize_and_unref: realize and unref an SSI slave device
+> + * @dev: SSI slave device to realize
+> + * @bus: SSI bus to put it on
+> + * @errp: error pointer
+> + *
+> + * Call 'realize' on @dev, put it on the specified @bus, and drop the
+> + * reference to it. Errors are reported via @errp and by returning
+> + * false.
+> + *
+> + * This function is useful if you have created @dev via qdev_new()
+> + * (which takes a reference to the device it returns to you), so that
+> + * you can set properties on it before realizing it. If you don't need
+> + * to set properties then ssi_create_slave() is probably better (as it
+> + * does the create, init and realize in one step).
+> + *
+> + * If you are embedding the SSI slave into another QOM device and
+> + * initialized it via some variant on object_initialize_child() then
+> + * do not use this function, because that family of functions arrange
+> + * for the only reference to the child device to be held by the parent
+> + * via the child<> property, and so the reference-count-drop done here
+> + * would be incorrect.  (Instead you would want ssi_realize(), which
+> + * doesn't currently exist but would be trivial to create if we had
+> + * any code that wanted it.)
+> + */
+> +bool ssi_realize_and_unref(DeviceState *dev, SSIBus *bus, Error **errp);
 >  
->      k->transfer = max111x_transfer;
->      dc->reset = max111x_reset;
-> +    dc->vmsd = &vmstate_max111x;
+>  /* Master interface.  */
+>  SSIBus *ssi_create_bus(DeviceState *parent, const char *name);
+> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+> index 67b48c31cd6..a35d7ebb266 100644
+> --- a/hw/ssi/ssi.c
+> +++ b/hw/ssi/ssi.c
+> @@ -90,11 +90,16 @@ static const TypeInfo ssi_slave_info = {
+>      .abstract = true,
+>  };
+>  
+> +bool ssi_realize_and_unref(DeviceState *dev, SSIBus *bus, Error **errp)
+> +{
+> +    return qdev_realize_and_unref(dev, &bus->parent_obj, errp);
+> +}
+> +
+>  DeviceState *ssi_create_slave(SSIBus *bus, const char *name)
+>  {
+>      DeviceState *dev = qdev_new(name);
+>  
+> -    qdev_realize_and_unref(dev, &bus->parent_obj, &error_fatal);
+> +    ssi_realize_and_unref(dev, bus, &error_fatal);
+>      return dev;
 >  }
 >  
->  static const TypeInfo max111x_info = {
-> 
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
 
