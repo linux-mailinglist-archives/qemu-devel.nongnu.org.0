@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9704120CD39
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 10:18:25 +0200 (CEST)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4269120CD3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 10:19:50 +0200 (CEST)
+Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpozg-0004IP-Kn
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 04:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
+	id 1jpp12-00069K-8E
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 04:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jpoyk-0003N0-JQ; Mon, 29 Jun 2020 04:17:26 -0400
-Received: from mga03.intel.com ([134.134.136.65]:11113)
+ id 1jpoyp-0003Ww-QJ; Mon, 29 Jun 2020 04:17:31 -0400
+Received: from mga14.intel.com ([192.55.52.115]:7699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jpoyi-0002TY-7d; Mon, 29 Jun 2020 04:17:26 -0400
-IronPort-SDR: deRQyy878sRa2bdMzDADfR2YdETp34vciT7eEpNH/9Ifjj3+J2/Xmkv9r767bf5SVidaseHM+4
- PY6t/9QddSdg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="145923683"
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="145923683"
+ id 1jpoyn-0002U0-4e; Mon, 29 Jun 2020 04:17:31 -0400
+IronPort-SDR: f1l+pRlsHmkxIL22Oi6fNdEOGAJSm1WtEJgrdHTW+1MMtri0sHrFMO+zGofKWaSnz6pYInfWYd
+ VoACTE78YXgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="144988286"
+X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="144988286"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 01:17:21 -0700
-IronPort-SDR: 1Zwyzu/YwPn1MkJ9OCFZdXVksM3QsXLAqo19SoVGH0MMnnfIyAUsruC5b1uOGHTX0hAKUH4iUv
- c6m+KD1m9y7w==
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2020 01:17:25 -0700
+IronPort-SDR: XExOUvL2zfVNb/PL1BDUwtCQidazV9W6bUlYVtE6LvUG4/m0/mvoOekT7WBz7D8sBeulSN9QV3
+ CAPJe+y/sJSw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="480702391"
+X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="480702409"
 Received: from unknown (HELO localhost.localdomain.sh.intel.com)
  ([10.239.153.142])
- by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2020 01:17:19 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2020 01:17:25 -0700
 From: Wentong Wu <wentong.wu@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/nios2: in line the semantics of DISAS_UPDATE with
- other targets
-Date: Mon, 29 Jun 2020 12:05:34 -0400
-Message-Id: <20200629160535.3910-2-wentong.wu@intel.com>
+Subject: [PATCH 3/3] target/nios2: Use gen_io_start around wrctl instruction
+Date: Mon, 29 Jun 2020 12:05:35 -0400
+Message-Id: <20200629160535.3910-3-wentong.wu@intel.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200629160535.3910-1-wentong.wu@intel.com>
 References: <20200629160535.3910-1-wentong.wu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=wentong.wu@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 04:17:22
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=wentong.wu@intel.com;
+ helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 04:17:27
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -49
 X-Spam_score: -5.0
@@ -70,35 +69,41 @@ Cc: qemu-trivial@nongnu.org, marex@denx.de, crwulff@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In line the semantics of DISAS_UPDATE on nios2 target with other targets
-which is to explicitly write the PC back into the cpu state before doing
-a tcg_gen_exit_tb().
+wrctl instruction on nios2 target will cause checking cpu
+interrupt but tcg_handle_interrupt() will call cpu_abort()
+if the CPU gets an interrupt while it's not in 'can do IO'
+state, so add gen_io_start around wrctl instruction. Also
+at the same time, end the onging TB with DISAS_UPDATE.
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
 ---
- target/nios2/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/nios2/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index b052be85..83c10eb2 100644
+index 83c10eb2..51347ada 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -865,6 +865,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-     /* Indicate where the next block should start */
-     switch (dc->is_jmp) {
-     case DISAS_NEXT:
-+    case DISAS_UPDATE:
-         /* Save the current PC back into the CPU register */
-         tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
-         tcg_gen_exit_tb(NULL, 0);
-@@ -872,7 +873,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -32,6 +32,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
+ #include "qemu/qemu-print.h"
++#include "exec/gen-icount.h"
  
-     default:
-     case DISAS_JUMP:
--    case DISAS_UPDATE:
-         /* The jump will already have updated the PC register */
-         tcg_gen_exit_tb(NULL, 0);
-         break;
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+@@ -518,7 +519,11 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+     /* If interrupts were enabled using WRCTL, trigger them. */
+ #if !defined(CONFIG_USER_ONLY)
+     if ((instr.imm5 + CR_BASE) == CR_STATUS) {
++        if (tb_cflags(dc->tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
+         gen_helper_check_interrupts(dc->cpu_env);
++        dc->is_jmp = DISAS_UPDATE;
+     }
+ #endif
+ }
 -- 
 2.21.3
 
