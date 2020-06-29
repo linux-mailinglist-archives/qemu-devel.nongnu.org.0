@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0776420DCD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:34:32 +0200 (CEST)
-Received: from localhost ([::1]:34592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F32120DCD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:35:58 +0200 (CEST)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq0U3-0005xo-0k
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
+	id 1jq0VR-000880-FR
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq0Rv-00049h-Qr; Mon, 29 Jun 2020 16:32:21 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:46318)
+ id 1jq0S0-0004BL-4I; Mon, 29 Jun 2020 16:32:24 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:46332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq0Rs-00047t-I2; Mon, 29 Jun 2020 16:32:19 -0400
+ id 1jq0Rt-000480-N3; Mon, 29 Jun 2020 16:32:23 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 03B28BF450;
- Mon, 29 Jun 2020 20:32:12 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 0F411BF724;
+ Mon, 29 Jun 2020 20:32:14 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/3] hw/block/nvme: support scatter gather lists
-Date: Mon, 29 Jun 2020 22:31:52 +0200
-Message-Id: <20200629203155.1236860-1-its@irrelevant.dk>
+Subject: [PATCH 1/3] hw/block/nvme: harden cmb access
+Date: Mon, 29 Jun 2020 22:31:53 +0200
+Message-Id: <20200629203155.1236860-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200629203155.1236860-1-its@irrelevant.dk>
+References: <20200629203155.1236860-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
@@ -59,25 +61,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds support for scatter gather lists (SGLs). The full flexibility
-of SGLs require the device to be a bit more strict about CMB access,
-hence the "hw/block/nvme: harden cmb access" patch.
+Since the controller has only supported PRPs so far it has not been
+required to check the ending address (addr + len - 1) of the CMB access
+for validity since it has been guaranteed to be in range of the CMB.
 
-Based-on: <20200629202053.1223342-1-its@irrelevant.dk>
-("[PATCH 0/2] hw/block/nvme: handle transient dma errors")
+This changes when the controller adds support for SGLs (next patch), so
+add that check.
 
-Gollu Appalanaidu (1):
-  hw/block/nvme: add support for sgl bit bucket descriptor
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Klaus Jensen (2):
-  hw/block/nvme: harden cmb access
-  hw/block/nvme: add support for scatter gather lists
-
- hw/block/nvme.c       | 359 +++++++++++++++++++++++++++++++++++-------
- hw/block/trace-events |   4 +
- include/block/nvme.h  |   6 +-
- 3 files changed, 308 insertions(+), 61 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 94f5bf2a815f..191732692248 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -91,7 +91,12 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+ 
+ static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+ {
+-    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr)) {
++    hwaddr hi = addr + size - 1;
++    if (hi < addr) {
++        return 1;
++    }
++
++    if (n->bar.cmbsz && nvme_addr_is_cmb(n, addr) && nvme_addr_is_cmb(n, hi)) {
+         memcpy(buf, nvme_addr_to_cmb(n, addr), size);
+         return 0;
+     }
 -- 
 2.27.0
 
