@@ -2,32 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EF120D586
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:28:54 +0200 (CEST)
-Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27C320D587
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:29:01 +0200 (CEST)
+Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzSX-0001CE-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
+	id 1jpzSe-0001R1-NH
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRH-00082A-Aw; Mon, 29 Jun 2020 15:27:35 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:42890)
+ id 1jpzRH-00081i-3j; Mon, 29 Jun 2020 15:27:35 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRC-0002GY-NQ; Mon, 29 Jun 2020 15:27:35 -0400
+ id 1jpzRC-0002GX-Dk; Mon, 29 Jun 2020 15:27:34 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 686BC748DD8;
+ by localhost (Postfix) with SMTP id 24E9E748DCF;
  Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 19782748DCA; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
-Message-Id: <aa3087554703e0849c3d6582cdefb265cc444403.1593456926.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1593456926.git.balaton@eik.bme.hu>
-References: <cover.1593456926.git.balaton@eik.bme.hu>
+ id 01C43745712; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
+Message-Id: <cover.1593456926.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v7 5/8] mac_oldworld: Change PCI address of macio to match
- real hardware
+Subject: [PATCH v7 0/8] Mac Old World ROM experiment
 Date: Mon, 29 Jun 2020 20:55:26 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -35,14 +32,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:27:18
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,28 +59,52 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The board firmware expect these to be at fixed addresses and programs
-them without probing, this patch puts the macio device at the expected
-PCI address.
+This is now a minimal set of patches needed to make it possible to
+experiment with a firmware ROM from real hardware. After finding out
+that the board firmware does not probe PCI devices but expects them at
+known fixed addresses we only need to change the address of the macio
+device to get the firmware correctly map it. This allows dropping
+workarounds in previous versions for this and now only the minimal set
+of patches are included to get the firmware loaded and do something.
+(Also excluded the grackle revision and machine ID pathes for now that
+may be needed as the firmware accesses these but seems to go further
+without them so until we hit a problem we can live without it,
+although I wonder if this causes us unnecessary debugging later so
+unless they cause regressions they could be merged).
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/mac_oldworld.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I still don't get video output but at least it talks to the GPU chip
+now so it can be debugged and improved (this will either need
+emulating the correct chip the firmware has a driver for or an OF
+compliant ROM for the emulated card).
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 4200008851..6276973c95 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -286,7 +286,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     ide_drive_get(hd, ARRAY_SIZE(hd));
- 
-     /* MacIO */
--    macio = pci_new(-1, TYPE_OLDWORLD_MACIO);
-+    macio = pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
-     dev = DEVICE(macio);
-     qdev_prop_set_uint64(dev, "frequency", tbfreq);
-     object_property_set_link(OBJECT(macio), OBJECT(pic_dev), "pic",
+As before the I2C part (patches 6-8) is RFC and unfinished but the
+first 5 patches should be good enough now. I hope someone can take
+care of I2C, I can look at the ati-vga side later.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (8):
+  mac_oldworld: Allow loading binary ROM image
+  mac_newworld: Allow loading binary ROM image
+  mac_oldworld: Drop a variable, use get_system_memory() directly
+  mac_oldworld: Drop some variables
+  mac_oldworld: Change PCI address of macio to match real hardware
+  i2c: Match parameters of i2c_start_transfer and i2c_send_recv
+  WIP macio/cuda: Attempt to add i2c support
+  mac_oldworld: Add SPD data to cover RAM
+
+ hw/display/sm501.c           |  2 +-
+ hw/i2c/core.c                | 34 +++++++-------
+ hw/i2c/ppc4xx_i2c.c          |  2 +-
+ hw/misc/macio/cuda.c         | 76 ++++++++++++++++++++++++++++++-
+ hw/ppc/mac.h                 |  2 -
+ hw/ppc/mac_newworld.c        | 22 +++++----
+ hw/ppc/mac_oldworld.c        | 86 +++++++++++++++++++++++-------------
+ include/hw/i2c/i2c.h         |  4 +-
+ include/hw/misc/macio/cuda.h |  1 +
+ 9 files changed, 167 insertions(+), 62 deletions(-)
+
 -- 
 2.21.3
 
