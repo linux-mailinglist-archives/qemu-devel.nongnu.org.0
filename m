@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2E620CD6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:05:43 +0200 (CEST)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B7F20CD74
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:10:45 +0200 (CEST)
+Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jppjS-0004tZ-B9
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:05:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38434)
+	id 1jppoK-0007Wb-I2
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jpphW-00039V-Hm
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 05:03:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38215
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jpphU-0002ly-N4
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 05:03:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593421419;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vgq1iwTh2arrIUhYMEMWya2X99Eb0QjkhPCNq48ZUPY=;
- b=TD0pcpPo6QHHJ6mUXUIUtq2yor1GRkfqA1w77K0A7v+RFgX50T3ImRS7eVxNG+qY+x42q7
- 0/+wVewpjqGnONTUhpEeBSKjpsQkJ4tReefYW5KW/noU52B0H4ZqJWgK1mBLiV76eh4MNs
- Y80h3ObEEkNLUX1a5DkaLM57PvE/3Is=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-PHbvHJkTOpys2yN-fu9sRw-1; Mon, 29 Jun 2020 05:03:35 -0400
-X-MC-Unique: PHbvHJkTOpys2yN-fu9sRw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B5E1464;
- Mon, 29 Jun 2020 09:03:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 741981000329;
- Mon, 29 Jun 2020 09:03:32 +0000 (UTC)
-Date: Mon, 29 Jun 2020 10:03:29 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] util/qemu-option: Document the get_opt_value() function
-Message-ID: <20200629090329.GC1298906@redhat.com>
-References: <20200629070858.19850-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jppnW-00071K-Ti; Mon, 29 Jun 2020 05:09:54 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jppnV-00044B-A6; Mon, 29 Jun 2020 05:09:54 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f139so15336511wmf.5;
+ Mon, 29 Jun 2020 02:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PVfjpx+nNrAbdKkh7LGQo9GFJS/UGE6X3Fu++GnyF8Y=;
+ b=C+2goFTqTN6kls7UpDW8GJd9fJ3V6ha/tGwLpnTO2yhqgASrJSQwh1jsXyB/lO5QHa
+ O9f+QQOCpNNBZsP0yrp1xqMNzmjUlmqCKjDJfVZfunbPq0aWAQ0gYscXrpsEdVr4vlEZ
+ 2KLQM7RxHkcId1fwFeNYBTZ3yESLsjXGNS6irGgUjSHdIxoA9GxkENkPBJ4F3V6nJLSE
+ uu0Udc8OACU4uLmZofFXLjBF4KUaXLaT52x+lRpE+DxRz4qRbjYy6e3jRbEnDlXXxjo+
+ kSpjk/X1Og06h7cWRc/Ijlqrg+7nBhzRONm2RSCo7TwhztxuidBBulWFMPvEmGUfvGr5
+ MrAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PVfjpx+nNrAbdKkh7LGQo9GFJS/UGE6X3Fu++GnyF8Y=;
+ b=Dhi76ezT5dIgL6OssoCkRQ+TTmDn4GVzHy7rsRXHjtOFmMLvMb46+8taeemtRvXVOj
+ GS2/G8f2cChZ96ptGeeDAKXsjdzvl4Cr+bj2zA3bNnHuiO+hHw2HorQZbDBcET5hTt2r
+ GkyVa4JMq7goJNgtPBI9ptj5qLvhjVKqlhqj1Jjxz/7qAoXqPHs8KIe0BSI340U6oL3x
+ Q0NaSJ40mK5TIsIej2ISkwQIQjYgW1poTdCGVnIabxhZepMM+3tod7ubu+MdFjlH7hS0
+ kYrfZZJKRmQl7KWA3OsAP4mFnJXlV3awZbUW2GjLqIMFmZD386r424IRAHoP3/MmKTLW
+ nC+w==
+X-Gm-Message-State: AOAM532upxmxZacipGXufVkXmz4zyW1NQuesSsJiRkeKDVeX75aZw+3a
+ +ntB5iBhsEi++gyJC5KIIeo=
+X-Google-Smtp-Source: ABdhPJwtF8kYYfCqJDo9TPQNzPisxF+9IMxrbUS5Zp8FamZwfGjwJfavjAVYTzJK+oCAhSwvMCIHlQ==
+X-Received: by 2002:a1c:ab56:: with SMTP id u83mr15418455wme.94.1593421791228; 
+ Mon, 29 Jun 2020 02:09:51 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id b62sm17195358wmh.38.2020.06.29.02.09.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Jun 2020 02:09:50 -0700 (PDT)
+Subject: Re: [PATCH 09/17] hw/arm/spitz: Use max111x properties to set initial
+ values
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200628142429.17111-1-peter.maydell@linaro.org>
+ <20200628142429.17111-10-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bd800c18-4b59-3c88-0a8c-83ba6ab4a2ba@amsat.org>
+Date: Mon, 29 Jun 2020 11:09:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200629070858.19850-1-philmd@redhat.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200628142429.17111-10-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,42 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 29, 2020 at 09:08:58AM +0200, Philippe Mathieu-Daudé wrote:
-> Coverity noticed commit 950c4e6c94 introduced a dereference before
-> null check in get_opt_value (CID1391003):
+On 6/28/20 4:24 PM, Peter Maydell wrote:
+> Use the new max111x qdev properties to set the initial input
+> values rather than calling max111x_set_input(); this means that
+> on system reset the inputs will correctly return to their initial
+> values.
 > 
->   In get_opt_value: All paths that lead to this null pointer
->   comparison already dereference the pointer earlier (CWE-476)
-> 
-> We fixed this in commit 6e3ad3f0e31, but relaxed the check in commit
-> 0c2f6e7ee99 because "No callers of get_opt_value() pass in a NULL
-> for the 'value' parameter".
-> 
-> Since this function is publicly exposed, it risks new users to do
-> the same error again. Avoid that documenting the 'value' argument
-> must not be NULL.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> v2: Drop confuse comment (Damien Hedde)
-> ---
->  include/qemu/option.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  hw/arm/spitz.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+> index 11e413723f4..93a25edcb5b 100644
+> --- a/hw/arm/spitz.c
+> +++ b/hw/arm/spitz.c
+> @@ -731,11 +731,14 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+>                            qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
+>  
+>      bus = qdev_get_child_bus(sms->mux, "ssi2");
+> -    sms->max1111 = ssi_create_slave(bus, "max1111");
+> +    sms->max1111 = qdev_new("max1111");
+>      max1111 = sms->max1111;
+> -    max111x_set_input(sms->max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
+> -    max111x_set_input(sms->max1111, MAX1111_BATT_TEMP, 0);
+> -    max111x_set_input(sms->max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
+> +    qdev_prop_set_uint8(sms->max1111, "input1" /* BATT_VOLT */,
+> +                        SPITZ_BATTERY_VOLT);
+> +    qdev_prop_set_uint8(sms->max1111, "input2" /* BATT_TEMP */, 0);
+> +    qdev_prop_set_uint8(sms->max1111, "input3" /* ACIN_VOLT */,
+> +                        SPITZ_CHARGEON_ACIN);
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Actually for arrays it would be nice to use:
 
+    DEFINE_PROP_ARRAY("input", MAX111xState, nr_inputs, reset_input,
+                      qdev_prop_uint8, uint8_t),
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Then something like:
 
+qdev_prop_set_uint8_indexed(sms->max1111, "input", 2 /*BATT_TEMP*/, 0);
+
+Anyway,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +    ssi_realize_and_unref(sms->max1111, bus, &error_fatal);
+>  
+>      qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_LCDCON_CS,
+>                          qdev_get_gpio_in(sms->mux, 0));
+> 
 
