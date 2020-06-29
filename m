@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A9120CDD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 12:13:47 +0200 (CEST)
-Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACA120CDD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 12:15:14 +0200 (CEST)
+Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpqnK-0004vk-QW
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 06:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56366)
+	id 1jpqoj-0006YU-S4
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 06:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jpqm5-0003l3-Gf
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:12:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56933
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpqmt-0004yz-NG
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:13:19 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50349
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jpqm3-0006In-MI
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:12:29 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpqmr-0006Mw-TC
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 06:13:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593425547;
+ s=mimecast20190719; t=1593425596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mdBygMNGKdqTK9Woi5S4NFG+Dpf3G22S5avnro6tBWg=;
- b=ZaN7lQmRuF1stSEe69nlOOtcMSkZz5vGGX4IVrtI5l+ruAN5aToGYROkFa7jwAXUiCnYqi
- WBvLwNwscJjQdQIWws5oiKaS7VNMu58HjlSz/+GJBaGryNPLTpXBDi35lj7hCWX1ahr6Hn
- 7ECyampOi9WuU3f1/eZUjGOb2ZE8t+o=
+ bh=n7O4oYfh3b38L6euDh/hu4SRz/NQAVU16MVJHB3R6zU=;
+ b=WXsc6y8KFPb6xa8Aj1BeyZqc6A7Ws1yK3l9VvuiIcQhlV7TW4JX5TOST/LCoN6c9HJ08kn
+ YrYWCz7xuyWA5hBKWV6T52TZ/BRIXFDtnvJfBMCx08EnG2dxIkc+jp0YBJ4Om5I7x2+gsL
+ LFwFtxalpP27UHuQsZyv4MTF2SqYmho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-Pbpoc0yWN46agUu3FT1rgg-1; Mon, 29 Jun 2020 06:12:22 -0400
-X-MC-Unique: Pbpoc0yWN46agUu3FT1rgg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-212-Afm_7v6pOQOaBPA5Nz43_g-1; Mon, 29 Jun 2020 06:13:12 -0400
+X-MC-Unique: Afm_7v6pOQOaBPA5Nz43_g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BE4718A8220;
- Mon, 29 Jun 2020 10:12:21 +0000 (UTC)
-Received: from starship (unknown [10.35.206.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D29F11001B07;
- Mon, 29 Jun 2020 10:12:19 +0000 (UTC)
-Message-ID: <64a986ceccb48c45aaf9910c9a0ab865916b6fa6.camel@redhat.com>
-Subject: Re: [PATCH 05/19] iotests.py: Add (verify|has)_working_luks()
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Mon, 29 Jun 2020 13:12:18 +0300
-In-Reply-To: <20200625125548.870061-6-mreitz@redhat.com>
-References: <20200625125548.870061-1-mreitz@redhat.com>
- <20200625125548.870061-6-mreitz@redhat.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 742A3107ACF2;
+ Mon, 29 Jun 2020 10:13:11 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-140.ams2.redhat.com [10.36.112.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13284289B5;
+ Mon, 29 Jun 2020 10:13:03 +0000 (UTC)
+Subject: Re: [PATCH v3 20/30] gitlab: convert jobs to use custom built
+ containers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200626181357.26211-1-alex.bennee@linaro.org>
+ <20200626181357.26211-21-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <ecf1bca2-865f-5053-750c-356a0963f4ae@redhat.com>
+Date: Mon, 29 Jun 2020 12:13:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200626181357.26211-21-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,87 +83,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, richard.henderson@linaro.org,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ cota@braap.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-06-25 at 14:55 +0200, Max Reitz wrote:
-> Similar to _require_working_luks for bash tests, these functions can be
-> used to check whether our luks driver can actually create images.
+On 26/06/2020 20.13, Alex Bennée wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Now that we're building standard container images from
+> dockerfiles in tests/docker/dockerfiles, we can convert
+> the build jobs to use them. The key benefit of this is
+> that a contributor can now more easily replicate the CI
+> environment on their local machine. The container images
+> are cached too, so we are not spending time waiting for
+> the apt-get/dnf package installs to complete.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Message-Id: <20200622153318.751107-4-berrange@redhat.com>
+> [AJB: tweak naming convention]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  tests/qemu-iotests/iotests.py | 39 +++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index eee94e18cc..039170a8a3 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -1052,6 +1052,45 @@ def verify_quorum():
->      if not supports_quorum():
->          notrun('quorum support missing')
->  
-> +def has_working_luks() -> Tuple[bool, str]:
-> +    """
-> +    Check whether our LUKS driver can actually create images
-> +    (this extends to LUKS encryption for qcow2).
-> +
-> +    If not, return the reason why.
-> +    """
-> +
-> +    img_file = f'{test_dir}/luks-test.luks'
-> +    (output, status) = \
-> +        qemu_img_pipe_and_status('create', '-f', 'luks',
-> +                                 '--object', luks_default_secret_object,
-> +                                 '-o', luks_default_key_secret_opt,
-> +                                 '-o', 'iter-time=10',
-> +                                 img_file, '1G')
-> +    try:
-> +        os.remove(img_file)
-> +    except OSError:
-> +        pass
-> +
-> +    if status != 0:
-> +        reason = output
-> +        for line in output.splitlines():
-> +            if img_file + ':' in line:
-> +                reason = line.split(img_file + ':', 1)[1].strip()
-> +                break
-> +
-> +        return (False, reason)
-> +    else:
-> +        return (True, '')
-> +
-> +def verify_working_luks():
-> +    """
-> +    Skip test suite if LUKS does not work
-> +    """
-> +    (working, reason) = has_working_luks()
-> +    if not working:
-> +        notrun(reason)
-> +
->  def qemu_pipe(*args):
->      """
->      Run qemu with an option to print something and exit (e.g. a help option).
+>   .gitlab-ci.yml | 187 +++++++++++++++++++++----------------------------
+>   1 file changed, 81 insertions(+), 106 deletions(-)
 
-It just occured to me that we can have a situation when luks driver is blacklisted
-(via block driver blacklist "--block-drv-whitelist=") then this test.
-
-THe whilelist only affects the qmp it seems so this check doesn't catch it, 
-plus you could have case when luks driver is blacklisted but qcow2 isn't
-
-When I build qemu with
-'--block-drv-whitelist='raw,qcow2' I was able to break iotests 295 296
-But this is such a non issue, that I am just noting for reference.
-
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-
-
-Best regards,
-	Maxim Levitsky
-
-
-
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
