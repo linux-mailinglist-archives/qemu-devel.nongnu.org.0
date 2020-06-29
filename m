@@ -2,110 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353F520CDAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:47:30 +0200 (CEST)
-Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B752720CDB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 11:50:46 +0200 (CEST)
+Received: from localhost ([::1]:35638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpqNs-00028F-MO
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
+	id 1jpqR3-000498-Me
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 05:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jpqMi-0001d6-3O; Mon, 29 Jun 2020 05:46:16 -0400
-Received: from mail-am6eur05on2118.outbound.protection.outlook.com
- ([40.107.22.118]:41569 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jpqMf-00025o-P8; Mon, 29 Jun 2020 05:46:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=INUKDedztBhLinEJJeGYHZ7dhCK+yM52DjbHTo3uC8GgTRDJn95wzQGFR3ZQ5zBQxsdHLw1GuPcQdT3Pr0xHTgFib/gU6WdgJSPgyluA58wGEy2hQQtKxpciTOPxO1FwaqACqw6SD0vq70fpb/eYwGLOu31x//jWfb9JxRRjbJHJYRx2pAb6bTVbLlb8IdFoG/5Lu2Z6Z5cV/GFeLmI2aWUHaHOvGzVs6dj+/uYHAB71pEJ8+0Ip7xrav91X41cV9BYYvkq4A7R12c0uVpkrBPv4hBNqexAoGJj0kf8HFgA1LKWf8G+9sdnbojT6xwocFeXqUR78EiX25ovL0mT/nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mUzvYAJqaahz1AExeyLBWF0DQC+cO2uQdbVyM0tlsMs=;
- b=ldlvTEoGgUytlwZWi6NJsc0kKWIsHtJtGmlAsgD/VKikztOAyiluanSALs7R4Ngs5L2DDZmvJlCEbosqHhYM4BaEYOoR3yHjuF7LAMhpEeJaslprCGW5Uu9XCnbPsQ3rl9aEp1hZQEiS0tzGpXS8FU1lYvJI8a3kR25EywiETAfMuHdrGlCNZgH+GHP61kuXt/THbfiYHbMRdPOmWkkVKTX1qNFsdkuYpunp+fUH6XNcdOUzkZ4NAMc78Y4eCzFMKKwcE3Ag0bi8CNlnFQnAzYkh1Etd8orAULLzyJNUx9ydu4CQG7wrYBSdpRYN0KzXbnIneOGSdjmyJAvbEqUw7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mUzvYAJqaahz1AExeyLBWF0DQC+cO2uQdbVyM0tlsMs=;
- b=LttO4JUU/ajfb6qiZ+URVnvPk5OoXwcGXet5//HtGywwKJw5mFxnoJO+X1NDw6J573YI49HiYuybSyUmYMj/WwhrwEB0SUFSplTYUzstHUBh52cQCM+DDjJ5pnRmhCBeYLRM01+E2FQDpWUX2XmRWLIiWZCbyyW9Gs/aGmt7Ofs=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1905.eurprd08.prod.outlook.com (2603:10a6:203:43::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Mon, 29 Jun
- 2020 09:46:09 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
- 09:46:09 +0000
-Subject: Re: [PATCH 12/46] qemu-option: Factor out helper
- find_default_by_name()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-13-armbru@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <4a2ea025-aa77-0ad7-440f-9a500fd1178a@virtuozzo.com>
-Date: Mon, 29 Jun 2020 12:46:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-In-Reply-To: <20200624164344.3778251-13-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0017.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jpqOM-0002eW-CK
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 05:47:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38329
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jpqOI-0002EI-BL
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 05:47:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593424073;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4VYR/fC75ebH1WLdkbpoHJ9ISLpNRjMyBLzd6DN9WL8=;
+ b=i/b5DpHmiofxRdHwWLG3dyJ9hd6jU/TI2/DB9EST0gGq/ZBQTJl9hcSJSm3+eJp1DzWwww
+ ZUhMf+LjJU2FeCFeRNGAwohR025Lgabf7wlqF1IcoF15vRpjbIxQSvFFiW78jdKp3wv5U0
+ ZlCLZ3jOtCDf7HJro3h/4potDornRNs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-Kw4AtdkcOeams_KtcKtXnA-1; Mon, 29 Jun 2020 05:47:40 -0400
+X-MC-Unique: Kw4AtdkcOeams_KtcKtXnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CE54800D5C;
+ Mon, 29 Jun 2020 09:47:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C257B1C8;
+ Mon, 29 Jun 2020 09:47:24 +0000 (UTC)
+Date: Mon, 29 Jun 2020 10:47:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christophe de Dinechin <dinechin@redhat.com>
+Subject: Re: [PATCH 04/10] spice: Move all the spice-related code in
+ spice-app.so
+Message-ID: <20200629094721.GE1298906@redhat.com>
+References: <20200626164307.3327380-1-dinechin@redhat.com>
+ <20200626164307.3327380-5-dinechin@redhat.com>
+ <20200626172003.GL1028934@redhat.com> <lywo3qcjkv.fsf@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.28) by
- FR2P281CA0017.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.20 via Frontend Transport; Mon, 29 Jun 2020 09:46:08 +0000
-X-Originating-IP: [185.215.60.28]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f658e797-5e64-4562-e8b4-08d81c114017
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1905:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1905B356C4A6C8C9C862FB6DC16E0@AM5PR0801MB1905.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:400;
-X-Forefront-PRVS: 044968D9E1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FksXfXmm6Ac9Ex1djzh3blQtV/YtRkB8YOba2fmJnfFMwzKEhuLZBbzes1K8+NJI5CMqTA0sZ/sX2FQR0SrruFUNOSvGN/4h7RPxpcq4CGbBxmGQXIIlzjK4FX/jE+QX6iA6Z2udL+n1LClZGxYDFdoz8hk65MS2d8+VA1Z8rMDxzDeHgWgby27gToBYymvoN7YtQni9OtG1ywc+h/A2ARUe95vv75I2kisbQ3RwPJ8NFfzW7hYNtPAJLzew1/GNwLJ7fi1AZWC+LN0lzAgnyprHjClPHOQHfVuvRtYJ+o/eO8jfbiY6PX7NIVhJMUmZ8miXQ13i2fw1u5Kz4ADiDjYBduYIGKTr9dRJjAZNzugtvvKgUMVA7hmbT+HK3lr3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(396003)(366004)(346002)(39840400004)(136003)(6486002)(558084003)(478600001)(2616005)(36756003)(956004)(4326008)(26005)(8936002)(2906002)(186003)(16526019)(5660300002)(8676002)(16576012)(31696002)(316002)(86362001)(66946007)(66556008)(66476007)(52116002)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: AEF5Y8vpM89Xzt9hu0sPKMtC+u5qw94aF9Rm+XH9gCReia0QbrENnS8BLJTO2JqDoQoMAn4nHFMdlUDicQMkLvpov/2zP2y30d8MhgKFLhEqMVhh4zN7FFuwT/d3KaTZdLnY9eEaXOFfYMBpcAVVbakCwGIHPfqavwYXR/idTNQUHSK6hqKWkTYyzUcEZGh5mulsZcWu1agm9fHfSZke2WismroO8lsweoMEXJLBXZ+KyNRnP4Wgfic7U0LmtI1pQA9yvGaiQkj09LFBq/iZLNbFUHjjMIsi34beEqIEXH2m5r6XR5ivSG2NIqMu+8n4RQHpOGPCusXPCtmuTqMlOuU5m86zL3RyLMcASBCatwK8G6dkFXFJA51/5EHlD3uJxC44hHP3hkPKXJJTglvVj9fKhRlLpbicxYO55eJtgywarD5+wXSfzty86XZPa/yuxZ3A3pd1htRMg7JxFMR/KFJORTXmAgONUVfbkfX/6+4=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f658e797-5e64-4562-e8b4-08d81c114017
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2020 09:46:08.9171 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AQKG7BSL/0y1hOxXwWuvzvjDHpuUOEDwPOt1ol+8CsZzb/TUZepGKrYayb6jiFaaCT/89BM04xKB6R7oMQRPK/70XeAM1WjUe05oYfhWs1o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1905
-Received-SPF: pass client-ip=40.107.22.118;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 05:46:10
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+In-Reply-To: <lywo3qcjkv.fsf@redhat.com>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,17 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, peter.maydell@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24.06.2020 19:43, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+On Mon, Jun 29, 2020 at 11:22:40AM +0200, Christophe de Dinechin wrote:
+> 
+> On 2020-06-26 at 19:20 CEST, Daniel P. Berrangé wrote...
+> > On Fri, Jun 26, 2020 at 06:43:01PM +0200, Christophe de Dinechin wrote:
+> >> If we want to build spice as a separately loadable module, we need to
+> >> put all the spice code in one loadable module, because the build
+> >> system does not know how to deal with dependencies yet.
+> >>
+> >> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+> >> ---
+> >>  audio/Makefile.objs   | 2 +-
+> >>  chardev/Makefile.objs | 3 +--
+> >>  ui/Makefile.objs      | 8 ++++----
+> >>  3 files changed, 6 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/audio/Makefile.objs b/audio/Makefile.objs
+> >> index b4a4c11f31..298c895ff5 100644
+> >> --- a/audio/Makefile.objs
+> >> +++ b/audio/Makefile.objs
+> >> @@ -1,5 +1,5 @@
+> >>  common-obj-y = audio.o audio_legacy.o noaudio.o wavaudio.o mixeng.o
+> >> -common-obj-$(CONFIG_SPICE) += spiceaudio.o
+> >> +spice-app.mo-objs += ../audio/spiceaudio.o
+> >
+> > Explicitly showing paths in the variables doesn't look right. The
+> > make recipes are supposed to automatically expand bare file names
+> > to add the right path. This is usually dealt with by a call to
+> > the "unnest-vars" function.
+> 
+> I agree. I mentioned this in the cover letter:
+> 
+> > - Adding various non-UI files into spice-app.so, which required a
+> >   couple of ../pwd/foo.o references in the makefile. Not very nice,
+> >   but I did not want to spend too much time fixing the makefiles.
+> 
+> I did not find an elegant way to integrate a non-UI file into a .mo that is
+> declared in the ui section.
+> 
+> I considered various solutions:
+> 
+> a) Having separate load modules for different source directories.
+>    This exposes details of the build system into the generated libs.
+> 
+> b) Moving the source
+>    This breaks the logical organization of the sources
+> 
+> c) Manually managing this specific .o one level up
+>    This seems even harder to read / understand
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+I don't think any of these three should be required. The problem isn't
+the structure of the makefiles or layout of the source, rather it is
+a matter of expanding paths correctly in the build rules.
 
+> So I thought I would dedicate a bit more time to add that capability to the
+> unnest-vars function. I did not want to defer review for that, and vaguely
+> hoped that there was an existing correct way to do it that someone more
+> experienced in the build system could point me to.
+
+With QEMU's build system, regardless of where the rules are defined,
+they should get run in the context of the top level makefile, as all
+the sub-dir Makefiles are just includes. The unnest-vars function
+takes relative filenames and adds the correct directory prefix to
+them.
+
+IIUC, common-obj-m gets  spice-app.mo added. common-obj-m is processed
+by unnest-vars, but spice-app.mo-objs is not, so all its .o files are
+relative. So we just need to fix the way the *.mo-objs variables are
+processed, such that unnest-vars is used to add the directory prefixes.
+
+
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
