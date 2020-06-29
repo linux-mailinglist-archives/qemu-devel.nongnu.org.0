@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C935B20D077
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 19:42:54 +0200 (CEST)
-Received: from localhost ([::1]:55742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B9620D076
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 19:42:42 +0200 (CEST)
+Received: from localhost ([::1]:54524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpxnx-0002QJ-RM
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 13:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43682)
+	id 1jpxnl-0001sm-4v
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 13:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpxjj-0005nQ-GI; Mon, 29 Jun 2020 13:38:31 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39441)
+ id 1jpxjk-0005qw-R8; Mon, 29 Jun 2020 13:38:32 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpxjh-0000IV-RR; Mon, 29 Jun 2020 13:38:31 -0400
-Received: by mail-ej1-x641.google.com with SMTP id w6so17475668ejq.6;
- Mon, 29 Jun 2020 10:38:28 -0700 (PDT)
+ id 1jpxjj-0000Iz-2m; Mon, 29 Jun 2020 13:38:32 -0400
+Received: by mail-ej1-x644.google.com with SMTP id n26so3520828ejx.0;
+ Mon, 29 Jun 2020 10:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6cSGomOE4QTMbqeX26Zlg/Tz0PsmS6jvlXcVlbBS5jk=;
- b=MYoTbZy3tSOJy+RBaNTr/s68o6unK5Jg9w+yfwdUdOHKYQ0A8JCTOr3aAbfNhviUhY
- qUH87BKYUFQrnPrML2GzdkE1jex0nRM63rZExKsDC0WxoO3QVk6ZZ8qB+CiRI39mRjlQ
- 7bGUJJ+9ojSNmj1kF0FA4tbiQHiuoOq/jx1wZO92+JfHf5ZsRQ1nNIVVYbmObdN2E621
- qMhnXWoppLKGueLs9fndoU2EiA5rk0zj63zukK5fY5zULlk6PbrJy/A+Njf7S6duzxEI
- wSbqn8TX0tJTEvUKInvELvgZ40K4s9h8g1+7G7i2KL5C2PVISXI5wBkddv6A86CKUA+/
- BaNw==
+ bh=oo257JjDoIhwiqBvGiPI8EB4cn7Ei4fDeJ2qCeP5TaA=;
+ b=lP8vdaStVSuz39ejHkPGsHXCqdWUn/CMUHYK62NVHar1l4AGNMWtUS/P0/eXfQTmTE
+ uYGxgL5+66JepelWDyD/fYsCfnHmDRcec1tVZE10FTQI/Xe4wTaxsaVd/RWHnBc4YnZG
+ GtCZ1ZjymHvDlCkjP+4AdRKgWfWIVpGIk4g5AVy1k9KqmRRU9Pn3RmgG0Ltix8/+cQ8l
+ CTyLHTxpfVvPzLUnqXMXNx8lxFUmk74cDCWWLKGukMUjl01wACxHXV0PObAGLd0ThyEC
+ hKwqpA9GKCclezYRfZtA9Nx8QbD4z2rii4AkrdVVgTgyeLa7s9FxH/HcaEg2GFh5DZFC
+ d/ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6cSGomOE4QTMbqeX26Zlg/Tz0PsmS6jvlXcVlbBS5jk=;
- b=dliRD9B2EIZfMdUEFWrXhA1aAeUvIvT/sFj2o+HHCULm7sbKowxpcWHTdjtR2To64v
- yP+od4daSkm/tnMlkZoXucyTgptO18lCjBJ/d46lVqoPyF/Rnp3tgwTgyQDtYaPqWhoF
- 0LHp3mmMDTJp8pFG6J4QMaUJRWjvRmf0V4gwfJeNOQh1GHhmmsePM25A60AgCigTAbrY
- 6YYNlCi+pX/AuYVqJOHkKn/BIA4xwSY+qi4v3RP5SKGyZroActvhbAij/wUHMv+YcjUk
- iILHec5X+hLsbistzUat0a4cuWBrOUSRwlIXqUUcIZuNmQNXlQ79fRoHMNuUqHkTwgcp
- QV2Q==
-X-Gm-Message-State: AOAM532isotknkQkmrBvZwMjjtMd/MRsKAGgzdzxe/j60KGGqAFK+mF4
- vlDR+i8XkBx0eaGU+IzrdqMt5wAVxpo=
-X-Google-Smtp-Source: ABdhPJxpCvKXibp1/JiVxLX2RNV5rM15dNzb1UWuuOCmsy+mejhyx7LPpj2NHtJHBCSO61EMgBskfA==
-X-Received: by 2002:a17:906:17d5:: with SMTP id
- u21mr15597071eje.413.1593452307332; 
- Mon, 29 Jun 2020 10:38:27 -0700 (PDT)
+ bh=oo257JjDoIhwiqBvGiPI8EB4cn7Ei4fDeJ2qCeP5TaA=;
+ b=N1N7zCs7Kjtx9TTfKjookx/bjk4WdoJVirCnC7a5FD/NpJnCXI9DgRPXld4Qd5dJvw
+ YRwWmpb0i0BU+D+X7R5Hzl67yFklEMooc1GwKtL6GhXJJ8vqUhPOOiNVtl2JsPIxL2Ut
+ +I4VvFRbqfF5ZYpUPqWf/R26xQLJBc2tuUj9kxQi7M0CqxtokV7RUM/rbXtSwa8Zk0TU
+ 2d4QAlClt+8/29D+nZrs5+fbRB2TsweTu72dRzpLIaOXDt4WpH9LF8XlcdnPh4euFkoy
+ zdj+/hXJU0VRb9e69fpsdJzK9s3/6wOTN6DwKlJLHGSm8jB1b2R+Ha7duODYzissgnj+
+ cjXg==
+X-Gm-Message-State: AOAM530FfHZZWcfluhhIkv+0BIyKH0Yb9da3h0o0/ziVc/SG3ctK/KDk
+ KFNF7v3JfZhbu7hLITSjvaOVxjyPOvY=
+X-Google-Smtp-Source: ABdhPJxyiW7o/oxayhLh1afY4F4ZMV7KTtCzVZJVO2K0hzwkrRGP9OlE1T2pcuysBwnZMkCqu+XXQg==
+X-Received: by 2002:a17:906:4a87:: with SMTP id
+ x7mr14944733eju.44.1593452308817; 
+ Mon, 29 Jun 2020 10:38:28 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id ce19sm216029ejb.24.2020.06.29.10.38.26
+ by smtp.gmail.com with ESMTPSA id ce19sm216029ejb.24.2020.06.29.10.38.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 10:38:26 -0700 (PDT)
+ Mon, 29 Jun 2020 10:38:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/i2c: Rename i2c_try_create_slave() as i2c_slave_new()
-Date: Mon, 29 Jun 2020 19:38:18 +0200
-Message-Id: <20200629173821.22037-3-f4bug@amsat.org>
+Subject: [PATCH 3/5] hw/i2c: Rename i2c_realize_and_unref() as
+ i2c_slave_realize_and_unref()
+Date: Mon, 29 Jun 2020 19:38:19 +0200
+Message-Id: <20200629173821.22037-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200629173821.22037-1-f4bug@amsat.org>
 References: <20200629173821.22037-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -96,85 +97,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use "new" names for functions that allocate and initialize
-device objects: pci_new(), isa_new(), usb_new().
-Let's call this one i2c_slave_new(). Since we have to update
-all the callers, also let it return a I2CSlave object.
+The other i2c functions are called i2c_slave_FOO(). Rename as
+i2c_slave_realize_and_unref() to be consistent.
 
 Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/i2c/i2c.h | 2 +-
- hw/arm/aspeed.c      | 4 ++--
- hw/i2c/core.c        | 9 ++++-----
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ include/hw/i2c/i2c.h |  2 +-
+ hw/arm/aspeed.c      | 10 ++++++----
+ hw/i2c/core.c        |  6 +++---
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index d6e3d85faf..18efc668f1 100644
+index 18efc668f1..cb7211f027 100644
 --- a/include/hw/i2c/i2c.h
 +++ b/include/hw/i2c/i2c.h
-@@ -79,8 +79,8 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
- int i2c_send(I2CBus *bus, uint8_t data);
- uint8_t i2c_recv(I2CBus *bus);
+@@ -81,7 +81,7 @@ uint8_t i2c_recv(I2CBus *bus);
  
-+I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
+ I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
--DeviceState *i2c_try_create_slave(const char *name, uint8_t addr);
- bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
+-bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
++bool i2c_slave_realize_and_unref(I2CSlave *dev, I2CBus *bus, Error **errp);
  
  /* lm832x.c */
+ void lm832x_key_event(DeviceState *dev, int key, int state);
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 1285bf82c0..54ca36e0b6 100644
+index 54ca36e0b6..ed14e79f57 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -513,7 +513,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
-     /* Bus 3: TODO bmp280@77 */
-     /* Bus 3: TODO max31785@52 */
+@@ -515,8 +515,9 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
      /* Bus 3: TODO dps310@76 */
--    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
-+    dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
+     dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
      qdev_prop_set_string(dev, "description", "pca1");
-     i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 3),
-                           &error_fatal);
-@@ -531,7 +531,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+-    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 3),
+-                          &error_fatal);
++    i2c_slave_realize_and_unref(I2C_SLAVE(dev),
++                                aspeed_i2c_get_bus(&soc->i2c, 3),
++                                &error_fatal);
  
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 11), 0x51,
+     i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 4), "tmp423", 0x4c);
+     i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 5), "tmp423", 0x4c);
+@@ -533,8 +534,9 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
                            eeprom_buf);
--    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
-+    dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
+     dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
      qdev_prop_set_string(dev, "description", "pca0");
-     i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 11),
-                           &error_fatal);
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index acf34a12d6..6eacb4a463 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -267,13 +267,13 @@ const VMStateDescription vmstate_i2c_slave = {
-     }
- };
- 
--DeviceState *i2c_try_create_slave(const char *name, uint8_t addr)
-+I2CSlave *i2c_slave_new(const char *name, uint8_t addr)
- {
-     DeviceState *dev;
- 
-     dev = qdev_new(name);
-     qdev_prop_set_uint8(dev, "address", addr);
--    return dev;
-+    return I2C_SLAVE(dev);
+-    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 11),
+-                          &error_fatal);
++    i2c_slave_realize_and_unref(I2C_SLAVE(dev),
++                                aspeed_i2c_get_bus(&soc->i2c, 11),
++                                &error_fatal);
+     /* Bus 11: TODO ucd90160@64 */
  }
  
- bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
-@@ -283,10 +283,9 @@ bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index 6eacb4a463..135ea56036 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -276,16 +276,16 @@ I2CSlave *i2c_slave_new(const char *name, uint8_t addr)
+     return I2C_SLAVE(dev);
+ }
+ 
+-bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
++bool i2c_slave_realize_and_unref(I2CSlave *dev, I2CBus *bus, Error **errp)
+ {
+-    return qdev_realize_and_unref(dev, &bus->qbus, errp);
++    return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
+ }
  
  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
  {
--    DeviceState *dev;
-+    DeviceState *dev = DEVICE(i2c_slave_new(name, addr));
+     DeviceState *dev = DEVICE(i2c_slave_new(name, addr));
  
--    dev = i2c_try_create_slave(name, addr);
--    i2c_realize_and_unref(dev, bus, &error_fatal);
-+    i2c_realize_and_unref(I2C_SLAVE(dev), bus, &error_fatal);
+-    i2c_realize_and_unref(I2C_SLAVE(dev), bus, &error_fatal);
++    i2c_slave_realize_and_unref(I2C_SLAVE(dev), bus, &error_fatal);
  
      return dev;
  }
