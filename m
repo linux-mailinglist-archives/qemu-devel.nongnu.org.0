@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F1E20D59B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:38:15 +0200 (CEST)
-Received: from localhost ([::1]:35710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043FE20D5CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:48:02 +0200 (CEST)
+Received: from localhost ([::1]:53450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzba-0005LQ-RK
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53154)
+	id 1jpzl2-0004rJ-Fa
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jpzYD-0001e2-Hs
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:34:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26401
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jpzYB-0003H9-L1
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 15:34:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593459282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F9f2Fpt9PxJMUDu+6ZYAGg6oiRLXdK/cdsmaUrCm2kc=;
- b=U8YBoOYIIctzQCO2w9nt3EitJXidjtrEK1J/CNmRfqelTzYOp44+OnWArTt227B+c+WMSg
- UXd0SBwzmMgOJptQuf8K7zSpySwuxNnaCXRN7fJmrjPJhkVQJHHDxmJCUiml1EWND3LZu6
- cyXDjKGYFissOTGcxt0Uw7ZZsE+z59s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-JlLCwVJzMjyX7ZZ9iraMIw-1; Mon, 29 Jun 2020 15:34:40 -0400
-X-MC-Unique: JlLCwVJzMjyX7ZZ9iraMIw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21C5318FF662;
- Mon, 29 Jun 2020 19:34:39 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C9BD5C220;
- Mon, 29 Jun 2020 19:34:37 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- armbru@redhat.com
-Subject: [PATCH v5 3/3] tests/qmp-cmd-test: Add qmp/object-add-failure-modes
-Date: Mon, 29 Jun 2020 21:34:24 +0200
-Message-Id: <20200629193424.30280-4-eric.auger@redhat.com>
-In-Reply-To: <20200629193424.30280-1-eric.auger@redhat.com>
-References: <20200629193424.30280-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jpzjq-0004GR-9p; Mon, 29 Jun 2020 15:46:46 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:39002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jpzjo-0005NM-BK; Mon, 29 Jun 2020 15:46:45 -0400
+Received: by mail-il1-x142.google.com with SMTP id k6so15543734ili.6;
+ Mon, 29 Jun 2020 12:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JflIh2KC82RAfGb+J90gvtsop7+kSncUYkSw2aEPVOM=;
+ b=K49Jf/XoaUyuhoC9RJt9JAJWFPoprPZjh7lMqW0ZebeTiVNRiXFsXI83pwIlVBNvIL
+ 2uuMCTCiO+yVxJPoEqmPJoq17zFljsNsMfoU+xgTWuT7R3ySfkOd7OALtsm3RFmoZoEs
+ WpNsmIFbU6vMCVQ1MTIfrRZsJsQKmOSzw0M49sce3Nh92o/3aRW34axIbYtVbvG0AI13
+ TMFPUD2+arHDoThD1LgCl/YL8hUoYinDs8Cdo8z8HrlmQ7V1j6DLJmyNevhjEvbYH+l1
+ UI+J8JHqn6jISNoq7PDGnAP8E7pM8IECYnIoxX9Je/sfs1rmXMuDqkVovwGNAd6V29Ex
+ 7b+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JflIh2KC82RAfGb+J90gvtsop7+kSncUYkSw2aEPVOM=;
+ b=lPP/DaWC9vlzhMaF/AvoOy/R0NqHhQTK7+3rVOszDHJQXNolrhQ/JOjOD2xl/KtjT7
+ sNYx/Uf6a0YONPuTqjCFL4aJgYhRNMfe1r4juuP9zaJxiPLK/rhCKWdPZk/0jDpvRByf
+ 4uKi2nAx3M1KQv59/Dbyy5H/CM56g/F3FnDBah6LSZJuQN1kf/4gYhdiJApZBqvpUj7B
+ LN7AvY3rM1TogReWY3J6pOKBgsf+BB2yK/2SaAR88RdbQkq7V41wDplAEGNQjjTRnvYX
+ JQcD0A+fkLxoaavvL2kP61lm+Ctbe+l9v8vf1vj4JKeAsx9YKo/et2W40mP9Q4VSU0Nw
+ +VOA==
+X-Gm-Message-State: AOAM531x2mP/4SQEgNVjF1GYnCLyOjiMUzdhJ4JLxGdKHd+uP8Eg4bQ1
+ ZG4NkX7iOMBAlsv8rBlC4vfznKJ8B8pZzF2i8+g=
+X-Google-Smtp-Source: ABdhPJwv26YJfFb13R7uj+9T5pgejdyLE62y2hX95/RgybpFRsdaqJbeGoRBEPo5FibGjr8I2DnTkiR9GIfiLjNNYW4=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr18518815ilz.227.1593460002831; 
+ Mon, 29 Jun 2020 12:46:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:30:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200628142429.17111-1-peter.maydell@linaro.org>
+ <20200628142429.17111-4-peter.maydell@linaro.org>
+In-Reply-To: <20200628142429.17111-4-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 29 Jun 2020 12:36:59 -0700
+Message-ID: <CAKmqyKPDvjXoS_mrBv3MUwtVPbzHA7sHu2+W2D7Ak8Fh0Bzpdg@mail.gmail.com>
+Subject: Re: [PATCH 03/17] hw/arm/spitz: Keep pointers to MPU and SSI devices
+ in SpitzMachineState
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,170 +79,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge the existing object-add test cases into a single test
-functions and cover more failure cases.
+On Sun, Jun 28, 2020 at 7:24 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Keep pointers to the MPU and the SSI devices in SpitzMachineState.
+> We're going to want to make GPIO connections between some of the
+> SSI devices and the SCPs, so we want to keep hold of a pointer to
+> those; putting the MPU into the struct allows us to pass just
+> one thing to spitz_ssp_attach() rather than two.
+>
+> We have to retain the setting of the global "max1111" variable
+> for the moment as it is used in spitz_adc_temp_on(); later in
+> this series of commits we will be able to remove it.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
----
+Alistair
 
-v4 -> v5:
-- use 1M instead of 4G
----
- tests/qtest/qmp-cmd-test.c | 114 +++++++++++++++++++++++++++++++------
- 1 file changed, 97 insertions(+), 17 deletions(-)
-
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index fc65fa3726..c68f99f659 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -200,33 +200,116 @@ static void add_query_tests(QmpSchema *schema)
-     }
- }
- 
--static void test_object_add_without_props(void)
-+static void test_object_add_failure_modes(void)
- {
-     QTestState *qts;
-     QDict *resp;
- 
-+    /* attempt to create an object without props */
-     qts = qtest_init(common_args);
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
--                    " {'qom-type': 'memory-backend-ram', 'id': 'ram1' } }");
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1' } }");
-     g_assert_nonnull(resp);
-     qmp_assert_error_class(resp, "GenericError");
--    qtest_quit(qts);
--}
- 
--static void test_object_add_with_duplicate_id(void)
--{
--    QTestState *qts;
--    QDict *resp;
--
--    qts = qtest_init(common_args);
-+    /* attempt to create an object without qom-type */
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
--                    " {'qom-type': 'memory-backend-ram', 'id': 'ram1', 'props': {'size': 1048576 } } }");
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    qmp_assert_error_class(resp, "GenericError");
-+
-+    /* attempt to delete an object that does not exist */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    qmp_assert_error_class(resp, "GenericError");
-+
-+    /* attempt to create 2 objects with duplicate id */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     g_assert(qdict_haskey(resp, "return"));
-     resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
--                    " {'qom-type': 'memory-backend-ram', 'id': 'ram1', 'props': {'size': 1048576 } } }");
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': 1048576 } } }");
-     g_assert_nonnull(resp);
-     qmp_assert_error_class(resp, "GenericError");
-+
-+    /* delete ram1 object */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* attempt to create an object with a property of a wrong type */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': '1048576' } } }");
-+    g_assert_nonnull(resp);
-+    /* now do it right */
-+    qmp_assert_error_class(resp, "GenericError");
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': 1048576 } } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* delete ram1 object */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* attempt to create an object without the id */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram',"
-+                     " 'props': {'size': 1048576 } } }");
-+    g_assert_nonnull(resp);
-+    qmp_assert_error_class(resp, "GenericError");
-+    /* now do it right */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': 1048576 } } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* delete ram1 object */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* attempt to set a non existing property */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'sized': 1048576 } } }");
-+    g_assert_nonnull(resp);
-+    qmp_assert_error_class(resp, "GenericError");
-+    /* now do it right */
-+    resp = qtest_qmp(qts, "{'execute': 'object-add', 'arguments':"
-+                     " {'qom-type': 'memory-backend-ram', 'id': 'ram1',"
-+                     " 'props': {'size': 1048576 } } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* delete ram1 object without id */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'ida': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+
-+    /* delete ram1 object */
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    /* delete ram1 object that does not exist anymore*/
-+    resp = qtest_qmp(qts, "{'execute': 'object-del', 'arguments':"
-+                     " {'id': 'ram1' } }");
-+    g_assert_nonnull(resp);
-+    qmp_assert_error_class(resp, "GenericError");
-+
-     qtest_quit(qts);
- }
- 
-@@ -240,11 +323,8 @@ int main(int argc, char *argv[])
-     qmp_schema_init(&schema);
-     add_query_tests(&schema);
- 
--    qtest_add_func("qmp/object-add-without-props",
--                   test_object_add_without_props);
--    qtest_add_func("qmp/object-add-duplicate-id",
--                   test_object_add_with_duplicate_id);
--    /* TODO: add coverage of generic object-add failure modes */
-+    qtest_add_func("qmp/object-add-failure-modes",
-+                   test_object_add_failure_modes);
- 
-     ret = g_test_run();
- 
--- 
-2.20.1
-
+> ---
+>  hw/arm/spitz.c | 50 ++++++++++++++++++++++++++++----------------------
+>  1 file changed, 28 insertions(+), 22 deletions(-)
+>
+> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+> index c70e912a33d..f48e966c047 100644
+> --- a/hw/arm/spitz.c
+> +++ b/hw/arm/spitz.c
+> @@ -43,6 +43,11 @@ typedef struct {
+>
+>  typedef struct {
+>      MachineState parent;
+> +    PXA2xxState *mpu;
+> +    DeviceState *mux;
+> +    DeviceState *lcdtg;
+> +    DeviceState *ads7846;
+> +    DeviceState *max1111;
+>  } SpitzMachineState;
+>
+>  #define TYPE_SPITZ_MACHINE "spitz-common"
+> @@ -709,34 +714,33 @@ static void corgi_ssp_realize(SSISlave *d, Error **errp)
+>      s->bus[2] = ssi_create_bus(dev, "ssi2");
+>  }
+>
+> -static void spitz_ssp_attach(PXA2xxState *cpu)
+> +static void spitz_ssp_attach(SpitzMachineState *sms)
+>  {
+> -    DeviceState *mux;
+> -    DeviceState *dev;
+>      void *bus;
+>
+> -    mux = ssi_create_slave(cpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
+> +    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
+>
+> -    bus = qdev_get_child_bus(mux, "ssi0");
+> -    ssi_create_slave(bus, "spitz-lcdtg");
+> +    bus = qdev_get_child_bus(sms->mux, "ssi0");
+> +    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
+>
+> -    bus = qdev_get_child_bus(mux, "ssi1");
+> -    dev = ssi_create_slave(bus, "ads7846");
+> -    qdev_connect_gpio_out(dev, 0,
+> -                          qdev_get_gpio_in(cpu->gpio, SPITZ_GPIO_TP_INT));
+> +    bus = qdev_get_child_bus(sms->mux, "ssi1");
+> +    sms->ads7846 = ssi_create_slave(bus, "ads7846");
+> +    qdev_connect_gpio_out(sms->ads7846, 0,
+> +                          qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
+>
+> -    bus = qdev_get_child_bus(mux, "ssi2");
+> -    max1111 = ssi_create_slave(bus, "max1111");
+> -    max111x_set_input(max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
+> -    max111x_set_input(max1111, MAX1111_BATT_TEMP, 0);
+> -    max111x_set_input(max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
+> +    bus = qdev_get_child_bus(sms->mux, "ssi2");
+> +    sms->max1111 = ssi_create_slave(bus, "max1111");
+> +    max1111 = sms->max1111;
+> +    max111x_set_input(sms->max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
+> +    max111x_set_input(sms->max1111, MAX1111_BATT_TEMP, 0);
+> +    max111x_set_input(sms->max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
+>
+> -    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_LCDCON_CS,
+> -                        qdev_get_gpio_in(mux, 0));
+> -    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_ADS7846_CS,
+> -                        qdev_get_gpio_in(mux, 1));
+> -    qdev_connect_gpio_out(cpu->gpio, SPITZ_GPIO_MAX1111_CS,
+> -                        qdev_get_gpio_in(mux, 2));
+> +    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_LCDCON_CS,
+> +                        qdev_get_gpio_in(sms->mux, 0));
+> +    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_ADS7846_CS,
+> +                        qdev_get_gpio_in(sms->mux, 1));
+> +    qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_MAX1111_CS,
+> +                        qdev_get_gpio_in(sms->mux, 2));
+>  }
+>
+>  /* CF Microdrive */
+> @@ -936,6 +940,7 @@ static struct arm_boot_info spitz_binfo = {
+>  static void spitz_common_init(MachineState *machine)
+>  {
+>      SpitzMachineClass *smc = SPITZ_MACHINE_GET_CLASS(machine);
+> +    SpitzMachineState *sms = SPITZ_MACHINE(machine);
+>      enum spitz_model_e model = smc->model;
+>      PXA2xxState *mpu;
+>      DeviceState *scp0, *scp1 = NULL;
+> @@ -945,6 +950,7 @@ static void spitz_common_init(MachineState *machine)
+>      /* Setup CPU & memory */
+>      mpu = pxa270_init(address_space_mem, spitz_binfo.ram_size,
+>                        machine->cpu_type);
+> +    sms->mpu = mpu;
+>
+>      sl_flash_register(mpu, (model == spitz) ? FLASH_128M : FLASH_1024M);
+>
+> @@ -954,7 +960,7 @@ static void spitz_common_init(MachineState *machine)
+>      /* Setup peripherals */
+>      spitz_keyboard_register(mpu);
+>
+> -    spitz_ssp_attach(mpu);
+> +    spitz_ssp_attach(sms);
+>
+>      scp0 = sysbus_create_simple("scoop", 0x10800000, NULL);
+>      if (model != akita) {
+> --
+> 2.20.1
+>
+>
 
