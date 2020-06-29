@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4356720CE5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:55:48 +0200 (CEST)
-Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B127620CE5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:55:52 +0200 (CEST)
+Received: from localhost ([::1]:33128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpsO3-0001LL-7L
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
+	id 1jpsO7-0001Vk-L2
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jpsMs-0008WI-Gp
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:54:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25683
- helo=us-smtp-1.mimecast.com)
+ id 1jpsMt-00004x-J0
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:54:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42643
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jpsMq-0007Fy-Re
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:54:34 -0400
+ id 1jpsMr-0007GG-S3
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:54:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593431671;
+ s=mimecast20190719; t=1593431672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4+WnwAAoEzBB+5gQEaCkji5FwIjiSpEHzlyEYSIydvY=;
- b=TUvsb12U/qid+iEHna6G9CRKtFBJgHOIleCSLaQOptbQnd1CcNT61hHYe0octEHIcYkuZL
- q00AjBT3FCCD2KulPXXnrlsqj+pc6+jllFBVYn9ikim8fI/Oporg5zGit/EcW6UNtW8gSZ
- KjsAmrMkxTJ4L0HfnZTsPpOwjL3CgWg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8XnErx6ZAeEnolYIe84nUUnWLaj+8UOqElaNNo0W5Rg=;
+ b=BdU9EvSpvxZQItEBajuqcBJ0bgs5GR5P9yfuahe0cmPmKBpdgsEkAC65ACx/+5+KbDilGz
+ mqC04cAm4jgBI4AkbR3adMh3M4FG7icy1SXeNf8qO9KAQF2CrTUXBldXkHAvj3JMLMdjW2
+ Ieii0cvHJb3+UnH1kO51ThVh3xkuHUk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-E3girjSyO_2Y74CCFdtbsA-1; Mon, 29 Jun 2020 07:54:30 -0400
-X-MC-Unique: E3girjSyO_2Y74CCFdtbsA-1
+ us-mta-374-BFR1Fn0UNcCI6ixDtK-E9A-1; Mon, 29 Jun 2020 07:54:31 -0400
+X-MC-Unique: BFR1Fn0UNcCI6ixDtK-E9A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BE0D100A8E9
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 11:54:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DBFD464
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 11:54:30 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-210.ams2.redhat.com
  [10.36.114.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D29A96B8F;
- Mon, 29 Jun 2020 11:54:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54D0B9CFD1;
+ Mon, 29 Jun 2020 11:54:29 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
  vgoyal@redhat.com
-Subject: [PATCH v2 0/3] virtiofsd capability changes and addition
-Date: Mon, 29 Jun 2020 12:54:17 +0100
-Message-Id: <20200629115420.98443-1-dgilbert@redhat.com>
+Subject: [PATCH v2 1/3] virtiofsd: Terminate capability list
+Date: Mon, 29 Jun 2020 12:54:18 +0100
+Message-Id: <20200629115420.98443-2-dgilbert@redhat.com>
+In-Reply-To: <20200629115420.98443-1-dgilbert@redhat.com>
+References: <20200629115420.98443-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,29 +86,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Hi,
-  This is a set of changes relating to the capability restirctions
-introduced in virtiofsd back in a59feb483b8.
- 
-The first one is a potentially important fix; the missing terminator
-could mean extra capabilities are added based on junk on the stack;
-although that's not been seen in practice.
- 
+capng_updatev is a varargs function that needs a -1 to terminate it,
+but it was missing.
+
+In practice what seems to have been happening is that it's added the
+capabilities we asked for, then runs into junk on the stack, so if
+we're unlucky it might be adding some more, but in reality it's
+failing - but after adding the capabilities we asked for.
+
+Fixes: a59feb483b8 ("virtiofsd: only retain file system capabilities")
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-v2
-  Pass a copy of the parameter list into setup_capabilities
-
-Dr. David Alan Gilbert (3):
-  virtiofsd: Terminate capability list
-  virtiofsd: Check capability calls
-  virtiofsd: Allow addition or removal of capabilities
-
- docs/tools/virtiofsd.rst         |  5 +++
- tools/virtiofsd/helper.c         |  2 +
- tools/virtiofsd/passthrough_ll.c | 71 +++++++++++++++++++++++++++++---
- 3 files changed, 73 insertions(+), 5 deletions(-)
-
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 2ce7c96085..e373e3b36e 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2598,7 +2598,9 @@ static void setup_capabilities(void)
+             CAP_SETGID,
+             CAP_SETUID,
+             CAP_MKNOD,
+-            CAP_SETFCAP);
++            CAP_SETFCAP,
++            -1);
++
+     capng_apply(CAPNG_SELECT_BOTH);
+ 
+     cap.saved = capng_save_state();
 -- 
 2.26.2
 
