@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E68D20EA6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 02:45:59 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EB820EA68
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 02:43:53 +0200 (CEST)
+Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq4PO-0003Uu-IH
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 20:45:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
+	id 1jq4NL-0008UU-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 20:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jq1dn-0007Yi-Ah; Mon, 29 Jun 2020 17:48:39 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41281)
+ id 1jq1dp-0007dy-Qx; Mon, 29 Jun 2020 17:48:41 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1jq1dl-00086k-0N; Mon, 29 Jun 2020 17:48:38 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id dp18so18373358ejc.8;
- Mon, 29 Jun 2020 14:48:36 -0700 (PDT)
+ id 1jq1do-00087V-5w; Mon, 29 Jun 2020 17:48:41 -0400
+Received: by mail-ed1-x531.google.com with SMTP id z17so14316641edr.9;
+ Mon, 29 Jun 2020 14:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=EcjXyZClBQDI6g/qulm6+AdcW0n0dE3vmvE1TCbQQjI=;
- b=pMuL/MbpQ+Cd1vZizVp5J0g4dHKhBqmkdVyON/i0gCUa0SblHR4SbvzM++OWdSeakX
- IgMMP1SH5jPCTbfrNeWXR3q0xdGxPkDk6iiXL5wFrNsaNNeft8RlEF+tpWM1pNXPLvM5
- gwCVFw+suvY2X5u/wjpmopWaL6E3H3ZPfoull1GK7CBFaIVBoD/ZcKNyiKD2pm7iRkmv
- I+kVdEbfX+pXlioRwCngPXOAuREB86WBjmjAZ+fV3MTtVy04cE6oTvFMsgzc5d1bdvFc
- 6iNZ8SLI3fos+BaP0BsIZIJOnqIOGQD4w7D8m+F/obKdQ0ztQatWARKbrAtokeiIJUUJ
- aCqA==
+ bh=f5RanH9zq7dtLaGBYZRKWZh3DJKJJzVJqKalIINzzcQ=;
+ b=oTQvgvVieFZVtwNZfM9tX/gERr9IlNPOSMHQg5fw2bZnctomk67Xp7TqShxaAuFaQu
+ FLAfXqmbxZqxABVTyMK1vS0kMoS7on8bzcg43Mb3LzGwSm2ktvNyeGhEXFP5SyIQn5dc
+ kgZGkXcgnm2F9PhdaPiF8YcwQ1jyMf1KEA1kjAQG1BAdKtj+6VAMKjthQnTmp6i+yito
+ b0l23ZPN2ylOB5BSN7te7EJ9kEs0HJGYe8CGc0n3pUQjZn+2BwijnEalTWys52eyhLYo
+ S5X6k19IoPUddGJekSumskzLnmm1j+use5QFAZIj100cK3+5alE3TybK38zlYaXT7ioc
+ XNUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=EcjXyZClBQDI6g/qulm6+AdcW0n0dE3vmvE1TCbQQjI=;
- b=YygYuSVkaAzB6HIrvEhEaoCpCb6Na40Ik/Yy7w535Ycmpzi3v+2HK6TwZjGXROq93x
- 0eFdQLTM5veyAlmBJ8MYm4jMesmltZso+29RUjQJYSybTV0s79tJ4tL1L9PizRjby1Aq
- wc+Ynt/E/Lqvp3KExkoB7LBLtp21GCwD3h20aUiTeLEJxG7UiebvAo7V2CLF4bZEaChG
- 7RgHRNmrtnswH/h/pv647Ynjs95yiDUjwjwH5IHZuF1Xm7d1tcgJu0S52voHQ7utTTFu
- 82TxlECV9PQFNBI5n8AWWsM+Uqlsy9J1EQKOPFRKfA2cKKfOU/Zj2h+VpZtBzLP4Gmlw
- kDRw==
-X-Gm-Message-State: AOAM533mOKEbmwKcIVhCWR0ul0+tevTt6r5cfvPxybhPdtgPwhVcjE3y
- bgdfROxAmLMtNspdEhje5Q54msuybsTNlqdlEjSO4qKFx150oQ==
-X-Google-Smtp-Source: ABdhPJxzO2H3vbcaIqXLJIWTcCW+5OHfFKZdz/R6rvoFa4n92emecD0BR2QtGVwRXvwhNIRBJtZYD6ZcUgnsFNfVJ6Q=
-X-Received: by 2002:a17:906:c083:: with SMTP id
- f3mr10083290ejz.530.1593467315100; 
- Mon, 29 Jun 2020 14:48:35 -0700 (PDT)
+ bh=f5RanH9zq7dtLaGBYZRKWZh3DJKJJzVJqKalIINzzcQ=;
+ b=b1EZWfvRYBbpvTH3imGSLyv7wk7ZKVr1p+eXkflGpUhXLYI/nc4nqUX2FMTamYFUuz
+ RnBLW26jyk4AlBIkX7m8jnDOTj37eX1SbeTwDCaNzP1pdCfwocHjHpnoozbHCVqXtirS
+ JpNWuKwy72OI15A9byeFIKTUlao+z5rY3cI4wTMrPWa2lZUzyLb8yyMUiDo8OWKbhhnN
+ /2bxKIAaGfxoiZ/at8O0jT7vBHf7M3HYxtNdgEp4zB4zR2sRZS+S7aPrJjFn4haBnXou
+ L5eLgVJNwuzB66aBn3U/onqfWOnw7Kh0MbYTGHea/JkuNBMRADuUBFICUUAor8b+9Jie
+ SX/Q==
+X-Gm-Message-State: AOAM533TDGLfZFlfHCDLmxxsxOTS/EEu+8CLX8Xx7srPIgFCad9WcaBB
+ f33E7Uu6nSfzR3eWYSEYIgGP2faXw1e7jlKhP0yvwGqQRew=
+X-Google-Smtp-Source: ABdhPJxEWSrszet9RbwL+IucQ5tiCdbKq0ExxtBKr0KDn4hjFun9J2sIWjuUBxaDln52DMWt3lTrizvU/SfhBWGsjjU=
+X-Received: by 2002:aa7:d297:: with SMTP id w23mr18971688edq.49.1593467318297; 
+ Mon, 29 Jun 2020 14:48:38 -0700 (PDT)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Mon, 29 Jun 2020 22:48:24 +0100
-Message-ID: <CA+XhMqy6B_mtdwCYDAw0ZRAsmKROMw4hbw8pRznj9yPH2TwtPA@mail.gmail.com>
-Subject: [PATCH 6/9] Including endian.h for bswap operations
+Date: Mon, 29 Jun 2020 22:48:27 +0100
+Message-ID: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
+Subject: [PATC 7/9] Skipping drm build, unsupported
 To: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=devnexen@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x531.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,29 +77,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 2f65cab41a8f4508532b3893815f222bf2293463 Mon Sep 17 00:00:00 2001
+From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 2001
 From: David Carlier <devnexen@gmail.com>
-Date: Mon, 29 Jun 2020 22:19:34 +0000
-Subject: [PATCH 6/9] Including endian.h for bswap operations.
+Date: Mon, 29 Jun 2020 22:20:06 +0000
+Subject: [PATCH 7/9] Skipping drm build, unsupported.
 
 Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
- include/qemu/bswap.h | 2 ++
- 1 file changed, 2 insertions(+)
+ util/Makefile.objs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 2a9f3fe783..1d3e4c24e4 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -8,6 +8,8 @@
- # include <machine/bswap.h>
- #elif defined(__FreeBSD__)
- # include <sys/endian.h>
-+#elif defined(__HAIKU__)
-+# include <endian.h>
- #elif defined(CONFIG_BYTESWAP_H)
- # include <byteswap.h>
-
--- 
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index cc5e37177a..faebc13fac 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -39,7 +39,7 @@ util-obj-y += qsp.o
+ util-obj-y += range.o
+ util-obj-y += stats64.o
+ util-obj-y += systemd.o
+-util-obj-$(CONFIG_POSIX) += drm.o
++util-obj-$(CONFIG_LINUX) += drm.o
+ util-obj-y += guest-random.o
+ util-obj-$(CONFIG_GIO) += dbus.o
+ dbus.o-cflags = $(GIO_CFLAGS)
+--
 2.26.0
 
