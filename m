@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5120320CFB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:33:25 +0200 (CEST)
-Received: from localhost ([::1]:33198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085E220CFB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:34:07 +0200 (CEST)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvme-0002mS-7p
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
+	id 1jpvnJ-0003ei-VD
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvkS-0001ET-4G
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45400
+ id 1jpvl4-0001wF-3G
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:46 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56015
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvkP-0002nR-W0
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:07 -0400
+ id 1jpvl2-0002rV-25
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:31:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593444665;
+ s=mimecast20190719; t=1593444703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YdYt0x4CEugg+zGSd1bNAGxj3cHc7mxyey8WGHvbaN0=;
- b=R2ylx8DRx5SLV9UC4haOjnmwX+io5+QuBuwI1f0lksbqiAHOs8twHVjfYvLIDO3jWokCBC
- OjVIG4kBcmizXPCnNF7/qjbTMOhZCXva55RYxk6k7Fvo1+xsDi95J3gIQrrdVc2f92IXsR
- y/mAonNMG2hOuwZ26magMIxiVut4TTc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-_k3JQbNMNOSmTXeO-Xrowg-1; Mon, 29 Jun 2020 11:30:50 -0400
-X-MC-Unique: _k3JQbNMNOSmTXeO-Xrowg-1
-Received: by mail-wr1-f70.google.com with SMTP id 59so10074290wrp.4
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:30:50 -0700 (PDT)
+ bh=gWB+WzN7FPVMUr/ErnrDPYrYsgkM8JiZrAbY2nx3DiE=;
+ b=WaJGpLoKb1O108RpESk8ZbEdZLbpLO2Hyb01IaeubPOTd1NhcD+ieasjmPx5VQZnen1DNI
+ zs0wgwIplwYp6i7Rs2bBbPhmfl89/gWY5AWtPb1AOf0ucydrlg+xIQ1HQs7lZCEb1qUTR6
+ Z9Kj09JNxZ9YwQKVAtbjHu0x99rfuZ8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-byOzSyInMHijD4ub_F3wOw-1; Mon, 29 Jun 2020 11:31:41 -0400
+X-MC-Unique: byOzSyInMHijD4ub_F3wOw-1
+Received: by mail-wr1-f71.google.com with SMTP id f5so16594572wrv.22
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:31:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YdYt0x4CEugg+zGSd1bNAGxj3cHc7mxyey8WGHvbaN0=;
- b=poKX8Ki/dHnxKYVLffc55I0lnQshN8NeKBuSl3RicMb5a6b0fmV1Ic0WS7ozI6qQwz
- cjTGdK4JjWj/yT02irh0eVFxB1mtVr9TFqDUCrsT12hcsOlcwmtreW0Wbt9rS6GRgvOv
- gjXds68p/gGwOPBllT3Mb0+ZrQPP6fORWSuNlQboLQs5IDHlGi3jR2H0jsjw2D1Z3IhP
- HRAO6VkcjC0pOiM02actf0neEr9pHyrJFz4aWsiOPVTT0gTszidKUwnpeVzjgV3YcokS
- gabmYftmzolB1TgylHMoB7jnDzqhunW3BoGK+jTqE7gkOcRvmbT3XVEtw+GJdNd4DQ7C
- yZug==
-X-Gm-Message-State: AOAM532JD7QnHYa18MHpGzV4yPhBAG+6vqsnHFtnrXUTeLAu0Nrn/Jj6
- OA433z6HQ242H/168Os1oD0FOZLHZmwjNI5+ilP7jJ/5huTugtV1kEiatNbHbRpADtjbrLD0p7E
- 1EP37S+iIQnDvvM0=
-X-Received: by 2002:a1c:6408:: with SMTP id y8mr16740289wmb.122.1593444649893; 
- Mon, 29 Jun 2020 08:30:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6WNLjYigtqX1ZR6SH8lkRn1wXe74H8UOoAXt4ErRlp/EZyQfUMOEPNtxAAs86ABx3YwftSA==
-X-Received: by 2002:a1c:6408:: with SMTP id y8mr16740267wmb.122.1593444649654; 
- Mon, 29 Jun 2020 08:30:49 -0700 (PDT)
+ bh=gWB+WzN7FPVMUr/ErnrDPYrYsgkM8JiZrAbY2nx3DiE=;
+ b=U5DKZKNHD/rAT+WpZ2TYiikJ+VJeEbFA6xN+tj/CkMqzAVUt3xKdFTFS0HEmoHNjEe
+ wG38azmSLPjt0l1PV6cVwdRZhH5rT5+h6w1s7mDZUZb/Pz7aX1vDWccoQWs0fY3ygBF9
+ z0GdT5FSLVUxMM74p9xJTc64HPGfroSMuNODfcF0XZKPF4KumyXqaKFhFwtM+LqaS281
+ gj6qzgK6txGwWDfS8ltWdRIM/i6FzGNkRBmB8eY15JMVY1u3eHPMdAxq+W/jnFjYecoa
+ 9ZxajkhLKViqRqUzTPa8e0wiwRhBfD17x1ot37ewWleNnppGGOsVHeAD0n0UQbhBLhf5
+ lLZQ==
+X-Gm-Message-State: AOAM533+Stfh0igqehVinx6Y6u3W6nkY6wZDQgpagHMy6GS/DRdnQUfw
+ PuJrFnjBHlVpNdeuQy4uXWrA/KXpiBMt/7lTYZM03G6FiRHULW0pbjTCCySvi1LIvtUZVyQImTr
+ 91kmlEqVSbEgvVOc=
+X-Received: by 2002:adf:a491:: with SMTP id g17mr18526198wrb.132.1593444700438; 
+ Mon, 29 Jun 2020 08:31:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtdkS4yh3fA9vf0AcZ/YRjRlCAjRfesR2XneMRwMlUgG5O1meUbpEMoabLiEE96F6pKhrcCQ==
+X-Received: by 2002:adf:a491:: with SMTP id g17mr18526175wrb.132.1593444700253; 
+ Mon, 29 Jun 2020 08:31:40 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
  ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
- by smtp.gmail.com with ESMTPSA id a10sm104297wrm.21.2020.06.29.08.30.48
+ by smtp.gmail.com with ESMTPSA id l18sm63639wrt.59.2020.06.29.08.31.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 08:30:48 -0700 (PDT)
-Subject: Re: [PATCH v4 0/3] Avoid abort on QMP attempt to add an object with
- duplicate id
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, berrange@redhat.com, ehabkost@redhat.com,
- armbru@redhat.com
-References: <20200629112329.27611-1-eric.auger@redhat.com>
+ Mon, 29 Jun 2020 08:31:39 -0700 (PDT)
+Subject: Re: [PATCH v2 5/9] nvram: add nrf51_soc flash read method
+To: Li Qiang <liq3ea@gmail.com>, P J P <ppandit@redhat.com>
+References: <20200624185523.762240-1-ppandit@redhat.com>
+ <20200624185523.762240-6-ppandit@redhat.com>
+ <CAKXe6SKBYpdouoN=C_NZawLOnDMYjDU2X3c2CsCv7X7rPym1Rg@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8bd5b010-1c58-1a38-f234-d7669cd72d35@redhat.com>
-Date: Mon, 29 Jun 2020 17:30:47 +0200
+Message-ID: <d190ab9f-fa80-bc3d-450f-80d05e6a1231@redhat.com>
+Date: Mon, 29 Jun 2020 17:31:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200629112329.27611-1-eric.auger@redhat.com>
+In-Reply-To: <CAKXe6SKBYpdouoN=C_NZawLOnDMYjDU2X3c2CsCv7X7rPym1Rg@mail.gmail.com>
 Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -102,60 +103,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/20 13:23, Eric Auger wrote:
-> Attempting to add an object through QMP with an id that is
-> already used leads to a qemu abort. This is a regression since
-> d2623129a7de ("qom: Drop parameter @errp of object_property_add()
-> & friends").
+On 29/06/20 13:17, Li Qiang wrote:
+> The 'flash_ops' is for ROM, though I don't see where it calls
+> 'memory_region_rom_device_set_romd'
+> to ROMD, so this MR is in MMIO mode and it needs a read callback.
 > 
-> The first patch fixes the issue and the second patch adds a test
-> to check the error is gracefully returned to the QMP client.
+> However as the origin code doesn't provide a read callback. So why
+> here we return something?
 > 
-> The last patch can be considered independently. It merges all the
-> object-add tests into a single test function and cover new failure
-> cases.
-> 
-> Best Regards
-> 
-> Eric
-> 
-> This series can be found at:
-> https://github.com/eauger/qemu/tree/qom-graceful-v4
-> 
-> History:
-> - v3 -> v4:
->   - addressed style comment from Markus
->   - added patch 3
-> 
-> - v2 -> v3:
->   - don't take the object reference on failure in
->     object_property_try_add_child
->   - add g_assert_nonnull(resp) in 2/2 while keeping
->     Thomas A-b
-> 
-> - v1 -> v2:
->   - use the try terminology.
->   - turn object_property_try_add() into a non-static function
->   - add the test
-> 
-> 
-> Eric Auger (3):
->   qom: Introduce object_property_try_add_child()
->   tests/qmp-cmd-test: Add qmp/object-add-duplicate-id
->   tests/qmp-cmd-test: Add qmp/object-add-failure-modes
-> 
->  include/qom/object.h       | 26 +++++++++-
->  qom/object.c               | 21 ++++++--
->  qom/object_interfaces.c    |  7 ++-
->  tests/qtest/qmp-cmd-test.c | 99 ++++++++++++++++++++++++++++++++++++--
->  4 files changed, 140 insertions(+), 13 deletions(-)
-> 
+> I prefer here just 'qemu_log_mask(LOG_UNIMP, "%s not implemented\n",
+> __func__);' as other
+> patches does.
 
-Very nice.  I see a failure reported by Patchew, I'll look into it as
-well if you don't have time.
+Even abort() would do (with a comment).
 
 Paolo
 
