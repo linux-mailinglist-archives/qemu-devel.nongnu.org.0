@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDEC20CEA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 15:05:14 +0200 (CEST)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C777D20CEA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 15:09:03 +0200 (CEST)
+Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jptTF-0006tr-2a
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 09:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49364)
+	id 1jptWw-00015x-P9
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 09:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jptRX-0005Ys-8a
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:03:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52271
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jptVh-0008AS-EM
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:07:45 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53804
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jptRV-0002tH-JM
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:03:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jptVf-0003Ya-5x
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:07:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593435804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CRf76ArlwJyesDHGeAnuSZDeEhaebfrbEK0j8IMGjGE=;
- b=dfGy7ZCaemQnExG7gmJaUYW0oyTVvA7sCz87pEU2wFMU0I8RybtVC0P9+Tvx18cl1z6I+1
- KesO9brYG7/vQpmfpcEq8Y3ptpCqYWlEDW5mHuuEduxO32l/9d95eGBqXNKbvWSqbQKHFg
- pbk41dqlOy8wQPZWv1uTKbKBKdhYtLc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-lEtF7DdBNKqGH4P_0MdYIA-1; Mon, 29 Jun 2020 09:03:22 -0400
-X-MC-Unique: lEtF7DdBNKqGH4P_0MdYIA-1
-Received: by mail-wm1-f72.google.com with SMTP id g187so18433981wme.0
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 06:03:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CRf76ArlwJyesDHGeAnuSZDeEhaebfrbEK0j8IMGjGE=;
- b=mivQRGAdfhnrnmtkgiZdJx9T/jLgMvKGyvP+P9NxfO802DZsDjjs//wF05/rdhQN2R
- lZYZPGa05l4Ao/uQFFWb6R3ZUoT+R77Icv3HupMvwsoJV2ltAVxaFQjix3XpVsUtwp5q
- GVs1CHSY12zYwro/YauRGaXsX/g62lsP5L83TShGGq0JyicK1epxfWLouwXc6m490Qc2
- 1ZM+WGlw3GdjbeYw7mzcEtQAd0pNqOgW6nVI9bcosO+N1hGaLMm5pO1g8LOCRsA3DvWT
- Wvzk3iDW7URu3mEp8LEdStgVKdBDOIwFY36Moji5+Fjjp6HhU6C/ocWTQB3j16oTFv4o
- spaA==
-X-Gm-Message-State: AOAM532DC562sJF8ynsAtydgnDWbjcpESxKK6gCLGyyAyx0cYU/G8pzP
- ccCVJc/NEYFhmMFTwkRk9OnNerChObC/Q9zzKP0pewgRcsdm8jpsglzDL/dsVUEd68k5aYMK8pS
- hRMBD1I7OO3+yb1g=
-X-Received: by 2002:adf:82a1:: with SMTP id 30mr18096844wrc.210.1593435801466; 
- Mon, 29 Jun 2020 06:03:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyB05fztfkJk2u3yxaekMX+FSjnnbJ8jWTHPqOSkA5NWeZ/OnO4oZxUhG1GWohyBta71sX0Aw==
-X-Received: by 2002:adf:82a1:: with SMTP id 30mr18096826wrc.210.1593435801259; 
- Mon, 29 Jun 2020 06:03:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
- ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
- by smtp.gmail.com with ESMTPSA id m4sm12966711wmi.48.2020.06.29.06.03.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 06:03:20 -0700 (PDT)
-Subject: Re: [PATCH 4/8] i386: hvf: Implement CPU kick
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200624225850.16982-1-r.bolshakov@yadro.com>
- <20200624225850.16982-5-r.bolshakov@yadro.com>
- <9d63db4e-25a7-9c77-6f05-e5f808b8b33c@redhat.com>
- <20200625155712.GI25104@SPB-NB-133.local>
- <6508d40b-0142-1b42-2f48-fcd2da66ea4b@redhat.com>
- <20200629113107.GL25104@SPB-NB-133.local>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d1d7cf19-d56c-c095-a3b8-45e2be0752ea@redhat.com>
-Date: Mon, 29 Jun 2020 15:03:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ s=mimecast20190719; t=1593436062;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fjrgu/rKPkSQGiIvKKstHvKk/4pGFkNTm0bfc+qOU1I=;
+ b=efsrFER2zo6Et/F3xcyH6r5Zqs6yxP7RMOiRw788W1FJCmTPqsl2BOQkftNT7pyTv+qccM
+ PnsZYNlacZtLOm/GogXbtStFm0Bu841HihkK6KAFxNpzrg5luUKeXWVb5wVmEkgYipWAjS
+ J+hoomc22W3Ue880JOd5aUP3yZFCjQQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-MTiy4FOtOmSEEQGFmPexGA-1; Mon, 29 Jun 2020 09:07:32 -0400
+X-MC-Unique: MTiy4FOtOmSEEQGFmPexGA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A89B1800D42;
+ Mon, 29 Jun 2020 13:07:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D98427168E;
+ Mon, 29 Jun 2020 13:07:19 +0000 (UTC)
+Date: Mon, 29 Jun 2020 14:07:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC 0/4] Enable virtio-fs on s390x
+Message-ID: <20200629130716.GQ1298906@redhat.com>
+References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
+ <20200629125305.GH31392@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200629113107.GL25104@SPB-NB-133.local>
-Content-Language: en-US
+In-Reply-To: <20200629125305.GH31392@stefanha-x1.localdomain>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,32 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/20 13:31, Roman Bolshakov wrote:
-> I implemented what you proposed using VMX-preemption timer in Pin-based
-> controls and regular hv_vcpu_run(). It works fine without noticable
-> regressions, I'll send that in v2.
+On Mon, Jun 29, 2020 at 01:53:05PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Jun 25, 2020 at 12:04:26PM +0200, Marc Hartmayer wrote:
+> > This RFC is about enabling virtio-fs on s390x. For that we need
+> >  + some shim code (first patch), and we need
+> >  + libvhost-user to deal with virtio endiannes as mandated by the spec.
+> >  
+> > The second part is trickier, because unlike QEMU we are not certain
+> > about the guest's native endianness, which is needed to handle the
+> > legacy-interface appropriately. In fact, this is the reason why just
+> > RFC.
+> > 
+> > One of the open questions is whether to build separate versions, one
+> > for guest little endian and one for guest big endian, or do we want
+> > something like a command line option? (Digression on the libvirt
+> > modeling)
+> > 
+> > A third option would be to refuse legacy altogether.
 > 
-> hv_vcpu_run_until() was also evaluated on macOS 10.15.5 but it degrades
-> VM performance significantly compared to explicit setting of
-> VMX-preepmtion timer value and hv_vcpu_run(). The performance issue was
-> observed on Broadwell-based MacBook Air and Ivy Bridge-based MacBook
-> Pro.
+> I suggest the following:
 > 
-> macOS 11.0 Beta deprecated hv_vcpu_run() and introduced a special
-> declaration for hv_vcpu_run_until(), that's not available 10.15 -
-> HV_DEADLINE_FOREVER (UINT64_MAX, which is bigger than maximum value of
-> VMX-preeemption counter). Perhaps the performance issue is addressed
-> there.
+> 1. Combinations that worked with libvhost-user in the past must not break.
+> 
+> 2. New combinations should only support VIRTIO 1.0 and later.
+> 
+> This means continue to allow Legacy mode devices where they already run
+> today but don't add new code for the cases that didn't work.
 
-Possibly.  I'm worried that the preemption-timer trick will fail to run
-there, but we'll see.
+What I'm missing here is what PCI product ID was being used when the
+current impl is in legacy/transitional mode ?
 
-Paolo
+Normally legacy and transitional mode devices need an explicit PCI ID
+reserved, where as modern-only devices have a PCI ID derived from their
+VirtIO ID + a fixed offset.
+
+Was this mistakenly using a VirtIO ID + fixed offset for the legacy
+mode too ?
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
