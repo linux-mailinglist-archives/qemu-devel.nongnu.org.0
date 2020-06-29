@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576F720D07F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 19:58:22 +0200 (CEST)
-Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6E320D083
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 20:07:10 +0200 (CEST)
+Received: from localhost ([::1]:40678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpy2u-0006nQ-QJ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 13:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
+	id 1jpyBR-0002AN-J3
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 14:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpy1S-0006Cq-Pl
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 13:56:50 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:33208)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jpyA2-0001EY-79
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 14:05:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpy1P-000396-9Z
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 13:56:50 -0400
-Received: by mail-ed1-x543.google.com with SMTP id h28so13656413edz.0
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 10:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=22b/USseLZh5ABN4bpIf7G+xAqjRbApwjJeFivL5eEo=;
- b=HxCcQLMAczrlQpHxKVLs52oB0yyE1q1Ymt+H7YYHlq04gwpYv2YdeqWFiAUw9/6d1C
- 1kfgXbAfc6FeExLrHISk1HAfHy28Rpcr6niXfeTA4e2XaBJvXuD0gywXk6UL/C0Mm8iZ
- U5hMrnEw7n0qiz+pwjEbETC4gG6HCFh93KmdS5ovh+TarqqHesQaQ3UsBklM0UBRurpz
- SaKGEC8NNVWbt4v2Tws08o/6iwHdObnhCAaZDwx7JSrsCft7Ng1Y31vsXJ8AZ+BEIIGp
- Rc0ZpBElScD1nvD5wfwbqgQG6RvfsQKB+oxmbvXknncWp3/MHW5xkMDcbmPWQ7MKULq7
- SA6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=22b/USseLZh5ABN4bpIf7G+xAqjRbApwjJeFivL5eEo=;
- b=KqHmogmaau9ttxnUX7k87uQIuasaHP7pXNe6hVRFLit06y9vtZZ+XWtZT8j4AcVAQk
- kZWHpLJZYWVvZFiR8XDozYj6FK9LdrQEbUoUq1d9HWD21gRA7L9MgmLLyoA3gE3SQiA6
- fz4a6ERw4gEsbQn9UwHBoReZzA9nn+hepUFj+P8Ov2WJlAauWgN46VSvwqPd07Y5Ksaz
- PF7Crj/ZBV8ADST2Tb3/M4OqkQ6ULYHnnNxAaXVeMxfEKFl2KSmJ5wndFJhkXFMDjcMv
- HtY88mLDHmxIiEparyMJCkv+m0WASFAosOVK+GgUn6ISZCcOyr1/M7jfvH5sBMPtBjB8
- 250g==
-X-Gm-Message-State: AOAM533mxTUYSTp4N1T4SUrkHmzj5DZlzTCEW8Cwfc7Px9OSy/fYXF/9
- 3jCoQCiQkEypzza8PX1rwM4=
-X-Google-Smtp-Source: ABdhPJylvsp1cll93AE58pFuYWEhGrFMNV8iAE4SczBXJZ/ORLcxJVY0VGa4MAGTvh0sUHFFJpREVg==
-X-Received: by 2002:a05:6402:1544:: with SMTP id
- p4mr19230244edx.334.1593453405474; 
- Mon, 29 Jun 2020 10:56:45 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id d2sm447863edk.4.2020.06.29.10.56.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 10:56:44 -0700 (PDT)
-Subject: Re: [PATCH] target/m68k: fix physical address translation in
- m68k_cpu_get_phys_page_debug()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu
-References: <20200629162636.6648-1-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <853eebf0-f8a7-c7dc-bcbd-a491016a2e7a@amsat.org>
-Date: Mon, 29 Jun 2020 19:56:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jpyA0-0005Xe-7I
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 14:05:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jpy9y-0004tt-Lq
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 18:05:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9DDED2E810A
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 18:05:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200629162636.6648-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2020 17:57:45 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878645@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159345346552.32564.13490190049268847800.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1878645] Re: null-ptr dereference in ich9_apm_ctrl_changed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8f92d5885660f36d68e6c89bc30b7f1d66686472
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 06:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,47 +72,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 6:26 PM, Mark Cave-Ayland wrote:
-> The result of the get_physical_address() function should be combined with the
-> offset of the original page access before being returned. Otherwise the
-> m68k_cpu_get_phys_page_debug() function can round to the wrong page causing
-> incorrect lookups in gdbstub and various "Disassembler disagrees with
-> translator over instruction decoding" warnings to appear at translation time.
-> 
-> Fixes: 88b2fef6c3 ("target/m68k: add MC68040 MMU")
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/m68k/helper.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-> index 79b0b10ea9..631eab7774 100644
-> --- a/target/m68k/helper.c
-> +++ b/target/m68k/helper.c
-> @@ -820,10 +820,14 @@ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
->      if (env->sr & SR_S) {
->          access_type |= ACCESS_SUPER;
->      }
-> +
->      if (get_physical_address(env, &phys_addr, &prot,
->                               addr, access_type, &page_size) != 0) {
->          return -1;
->      }
-> +
-> +    addr &= TARGET_PAGE_MASK;
-> +    phys_addr += addr & (page_size - 1);
+** Summary changed:
 
-Correct but all the callers do the same, maybe this can somehow
-be moved to the callee? Anyway:
+- null-ptr dereference in tcg_handle_interrupt
++ null-ptr dereference in ich9_apm_ctrl_changed
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-- =
 
->      return phys_addr;
->  }
->  
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878645
 
+Title:
+  null-ptr dereference in ich9_apm_ctrl_changed
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input which triggers a NULL pointer dereference=
+ in
+  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
+is bug
+  is specific to QTest?
+
+  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
+00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
+  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D23862=3D=3DHint: address points to the zero page.
+      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
+mu/accel/tcg/tcg-all.c:57:21
+      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
+ude/hw/core/cpu.h:872:5
+      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
+emu/hw/isa/lpc_ich9.c:442:13
+      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
+hw/isa/apm.c:50:13
+      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/memory.c:544:18
+      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/memory.c:1476:16
+      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
+/qemu/exec.c:3137:23
+      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
+c.c:3177:14
+      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
+u/exec.c:3268:18
+      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
+:60:5
+      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
+qemu/qtest.c:392:13
+      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/qtest.c:710:9
+      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
+c:722:5
+      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/chardev/char.c:183:9
+      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
+/chardev/char.c:195:9
+      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/io/channel-watch.c:84:12
+      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0xc9c819)
+
+  =
+
+  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
+qtest commands:
+
+  cat << EOF | ./qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0
+  outl 0xcf8 0x8400f841
+  outl 0xcfc 0xaa215d6d
+  outl 0x6d30 0x2ef8ffbe
+  outb 0xb2 0x20
+  EOF
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
 
