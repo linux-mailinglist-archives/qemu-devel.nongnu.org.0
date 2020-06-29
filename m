@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9010F20CF27
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:27:50 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B2720CF2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 16:34:39 +0200 (CEST)
+Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpulB-0001Qp-JU
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43554)
+	id 1jpurm-0005up-66
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 10:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jpukG-00010W-PZ
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:26:52 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:45104)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jpuo8-0002xq-P1
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:30:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jpujz-00070e-Ln
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:26:52 -0400
-Received: by mail-lj1-x234.google.com with SMTP id t25so13673386lji.12
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 07:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5GZcz68V4hxxoTPJ6aKrG9vSruuod3XhiqsSWZNWgrI=;
- b=XpRMuHiUvR0J0qt4g7H33+9KX7C23lbASpYELviH5brNd3foba22/S8rJJK0huAF1E
- t8eDp5KkOab0rjPiaRYhvnSrjhkqs/Oo0m9VY8KY3Rlj+YHfS1IPZSakbAMm3iDyf61p
- A36G4WPZfbrwwPZZZJ4XyAHlMsGOrnhd9QIRXQodqDJXfhXv/SowbNjxt1+AdDSPD7W5
- ayO9oVTIN6olNBt36apgSZCEpAEkQZ93fHJsG/19g1WBGTMVAM62Be4pYXQTGMGNDIGF
- M3leHVzDXIbsI4hxBjeRCmEkwB3GgnIHNlwfFybkxnlcVFfDtKRxYtudnJYNqE76sXMr
- 19qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5GZcz68V4hxxoTPJ6aKrG9vSruuod3XhiqsSWZNWgrI=;
- b=M2YRjnWQEYYArT/HSWj9EYZaiAWspd4uHes0PhRSkUSJrHzTYqxHRVvyg0rDfRAsYV
- VCQF8dumNpocbDZqQSotW3CuT5xUacQ4yW4x4S+hiVohEypfDDZEuGvO9zlMJeUd8BcD
- gCri7INUGA7OP//nrd2/VvhtJkstaoToHA+1E6PtQpFr3cn81V3ywixHENU42ZfglTFB
- aEAWndhkAT0hWzPUpJKAwaWuJ82yqDFznqq4bvbag4kzn2IWrf9EtR7CEODg73tN3Z++
- fWIk1HcIe05H9DOyVtd2wzH5qwMC3ZqdFkc4uFERv+JrUb8Gr0JmpIFrbRX6Qxmz7uf5
- 4ylg==
-X-Gm-Message-State: AOAM531EH94NVKBTQFgv+Y4hglH3wD1setF8vV4mb6Rf/q6GqqEYHuL5
- JD/m/cCdMxrUmGNCSAvNNPZhowyw6cdSeucmWQ4=
-X-Google-Smtp-Source: ABdhPJykIeAsODuX/KqTXnr4P16ZVjCKJDr4rCQfMxINgMDxDptPTdvmcZymP4q4jFGptSMY3Cm8cq5RVQo789ZRvwU=
-X-Received: by 2002:a2e:9b87:: with SMTP id z7mr3875034lji.80.1593440793833;
- Mon, 29 Jun 2020 07:26:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jpuo5-0007ra-WA
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 10:30:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jpuo2-00012e-7y
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 14:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C6BCD2E810C
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 14:30:45 +0000 (UTC)
 MIME-Version: 1.0
-References: <CALTWKrVAW33jJs1Q+51wN07DDUbAqwo=o+WDCpoT=NFB6dNZ6A@mail.gmail.com>
- <CAHiYmc561nFcHR-RxqgCt9V+tegqpDbKFuDTdOEZKd9xW6MATw@mail.gmail.com>
-In-Reply-To: <CAHiYmc561nFcHR-RxqgCt9V+tegqpDbKFuDTdOEZKd9xW6MATw@mail.gmail.com>
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Date: Mon, 29 Jun 2020 16:26:20 +0200
-Message-ID: <CALTWKrU+Lp=XiGsC0pNH45ArnSbPAkcCDqQ+D9pWGEQ3Y=fLhw@mail.gmail.com>
-Subject: Re: [REPORT] [GSoC - TCG Continuous Benchmarking] [#2] Dissecting
- QEMU Into Three Main Parts
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000007cb38905a939d89c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lj1-x234.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2020 14:23:12 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1863333@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson mprivozn
+X-Launchpad-Bug-Reporter: =?utf-8?q?Michal_Pr=C3=ADvozn=C3=ADk_=28mprivozn?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158169737821.29590.14612222914203628319.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159344059349.3589.18045030163646637986.launchpad@wampee.canonical.com>
+Subject: [Bug 1863333] Re: Assigning NVMe disk to a domain causes VFIO_MAP_DMA
+ errors
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0dd8a9e1b3f22ff5bc2a0e1e4508dbddb89d5746
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 06:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,111 +75,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1863333 <1863333@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007cb38905a939d89c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
-Thank you for your support!
+-- =
 
-On Mon, Jun 29, 2020, 12:40 PM Aleksandar Markovic <
-aleksandar.qemu.devel@gmail.com> wrote:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863333
 
->
->
-> =D0=BF=D0=BE=D0=BD=D0=B5=D0=B4=D0=B5=D1=99=D0=B0=D0=BA, 29. =D1=98=D1=83=
-=D0=BD 2020., Ahmed Karaman <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5
-> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
->> Hi,
->>
->> The second report of the TCG Continuous Benchmarking series builds
->> upon the QEMU performance metrics calculated in the previous report.
->> This report presents a method to dissect the number of instructions
->> executed by a QEMU invocation into three main phases:
->> - Code Generation
->> - JIT Execution
->> - Helpers Execution
->> It devises a Python script that automates this process.
->>
->> After that, the report presents an experiment for comparing the
->> output of running the script on 17 different targets. Many conclusions
->> can be drawn from the results and two of them are discussed in the
->> analysis section.
->>
->> Report link:
->>
->> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Dissecting-QEMU-=
-Into-Three-Main-Parts/
->>
->> Previous reports:
->> Report 1 - Measuring Basic Performance Metrics of QEMU:
->> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06692.html
->>
->>
-> My sincere congratulations on the Report 2!!
->
-> And, on top of that, this is an excellent idea to list previous reports,
-> as you did in the paragraph above.
->
-> Keep reports coming!!
->
-> Aleksandar
->
->
->
->> Best regards,
->> Ahmed Karaman
->>
->
+Title:
+  Assigning NVMe disk to a domain causes VFIO_MAP_DMA errors
 
---0000000000007cb38905a939d89c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  New
 
-<div dir=3D"auto">Thank you for your support!=C2=A0</div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 29, 2020, 12=
-:40 PM Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemu.devel@gmai=
-l.com">aleksandar.qemu.devel@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><br><br>=D0=BF=D0=BE=D0=BD=D0=B5=D0=B4=D0=B5=D1=99=D0=B0=
-=D0=BA, 29. =D1=98=D1=83=D0=BD 2020., Ahmed Karaman &lt;<a href=3D"mailto:a=
-hmedkhaledkaraman@gmail.com" target=3D"_blank" rel=3D"noreferrer">ahmedkhal=
-edkaraman@gmail.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
-=B0=D0=BE/=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
-Hi,<br><br>The second report of the TCG Continuous Benchmarking series buil=
-ds<br>upon the QEMU performance metrics calculated in the previous=C2=A0rep=
-ort.<br>This report presents a method to dissect the number of instructions=
-<br>executed by a QEMU invocation into three main phases:<div>- Code Genera=
-tion<div>- JIT Execution<br>- Helpers Execution<br>It devises a Python scri=
-pt that automates this process.<br><br></div><div>After that, the report pr=
-esents an experiment for comparing the<br>output of running the script on 1=
-7 different targets. Many conclusions</div><div>can be drawn from the resul=
-ts and two of them are discussed in the</div><div>analysis section.<br></di=
-v><div><br></div><div>Report link:</div><div><a href=3D"https://ahmedkrmn.g=
-ithub.io/TCG-Continuous-Benchmarking/Dissecting-QEMU-Into-Three-Main-Parts/=
-" target=3D"_blank" rel=3D"noreferrer">https://ahmedkrmn.github.io/TCG-Cont=
-inuous-Benchmarking/Dissecting-QEMU-Into-Three-Main-Parts/</a><br></div><di=
-v><br>Previous reports:</div><div>Report 1 - Measuring Basic Performance Me=
-trics of QEMU:<br><a href=3D"https://lists.gnu.org/archive/html/qemu-devel/=
-2020-06/msg06692.html" target=3D"_blank" rel=3D"noreferrer">https://lists.g=
-nu.org/archive/html/qemu-devel/2020-06/msg06692.html</a><br></div><div><br>=
-</div></div></div></blockquote><div><br></div><div>My sincere congratulatio=
-ns on the Report 2!!</div><div><br></div><div>And, on top of that, this is =
-an excellent idea to list previous reports, as you did in the paragraph abo=
-ve.</div><div><br></div><div>Keep reports coming!!</div><div><br></div><div=
->Aleksandar</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div dir=3D"ltr"><div><div>Best regards,<br>Ahmed Karaman</div></div><=
-/div>
-</blockquote>
-</blockquote></div>
+Bug description:
+  I'm seeing some errors when assigning my NVMe disk to qemu. This is
+  the full command line:
 
---0000000000007cb38905a939d89c--
+  =
+
+  /home/zippy/work/qemu/qemu.git/x86_64-softmmu/qemu-system-x86_64 \
+  -name guest=3Dfedora,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-2-fedora/master-key.aes \
+  -machine pc-i440fx-4.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+  -cpu host \
+  -m size=3D4194304k,slots=3D16,maxmem=3D1099511627776k \
+  -overcommit mem-lock=3Doff \
+  -smp 4,sockets=3D1,dies=3D1,cores=3D2,threads=3D2 \
+  -object iothread,id=3Diothread1 \
+  -object iothread,id=3Diothread2 \
+  -object iothread,id=3Diothread3 \
+  -object iothread,id=3Diothread4 \
+  -mem-prealloc \
+  -mem-path /hugepages2M/libvirt/qemu/2-fedora \
+  -numa node,nodeid=3D0,cpus=3D0,mem=3D4096 \
+  -uuid 63840878-0deb-4095-97e6-fc444d9bc9fa \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D31,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -global PIIX4_PM.disable_s3=3D0 \
+  -global PIIX4_PM.disable_s4=3D0 \
+  -boot menu=3Don,strict=3Don \
+  -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x4 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x5 \
+  -blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/fedora.qc=
+ow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap=
+"}' \
+  -blockdev '{"node-name":"libvirt-2-format","read-only":false,"discard":"u=
+nmap","driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=
+=3Ddrive-scsi0-0-0-0,drive=3Dlibvirt-2-format,id=3Dscsi0-0-0-0,bootindex=3D=
+1 \
+  -blockdev '{"driver":"nvme","device":"0000:02:00.0","namespace":1,"node-n=
+ame":"libvirt-1-storage","auto-read-only":true,"discard":"unmap"}' \
+  -blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"ra=
+w","file":"libvirt-1-storage"}' \
+  -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x6,drive=3Dlibvirt-=
+1-format,id=3Dvirtio-disk0 \
+  -netdev tap,fd=3D33,id=3Dhostnet0,vhost=3Don,vhostfd=3D34 \
+  -device virtio-net-pci,host_mtu=3D9000,netdev=3Dhostnet0,id=3Dnet0,mac=3D=
+52:54:00:a4:6f:91,bus=3Dpci.0,addr=3D0x3 \
+  -chardev pty,id=3Dcharserial0 \
+  -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
+  -chardev socket,id=3Dcharchannel0,fd=3D35,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,seamless-migration=3D=
+on \
+  -device virtio-vga,id=3Dvideo0,virgl=3Don,max_outputs=3D1,bus=3Dpci.0,add=
+r=3D0x2 \
+  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 \
+  -sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourc=
+econtrol=3Ddeny \
+  -msg timestamp=3Don
+
+  And these are the errors I see:
+
+  2020-02-14T09:06:18.183167Z qemu-system-x86_64: VFIO_MAP_DMA failed: Inva=
+lid argument
+  2020-02-14T09:10:49.753767Z qemu-system-x86_64: VFIO_MAP_DMA failed: Cann=
+ot allocate memory
+  2020-02-14T09:11:04.530344Z qemu-system-x86_64: VFIO_MAP_DMA failed: No s=
+pace left on device
+  2020-02-14T09:11:04.531087Z qemu-system-x86_64: VFIO_MAP_DMA failed: No s=
+pace left on device
+  2020-02-14T09:11:04.531230Z qemu-system-x86_64: VFIO_MAP_DMA failed: No s=
+pace left on device
+
+  =
+
+  I'm doing nothing with the disk inside the guest, but:
+
+    # dd if=3D/dev/vda of=3D/dev/null status=3Dprogress
+
+  (the disk appears as /dev/vda in the guest). Surprisingly, I do not
+  see these errors when I use the traditional PCI assignment (-device
+  vfio-pci). My versions of kernel and qemu:
+
+  moe ~ # uname -r
+  5.4.15-gentoo
+  moe ~ # /home/zippy/work/qemu/qemu.git/x86_64-softmmu/qemu-system-x86_64 =
+--version
+  QEMU emulator version 4.2.50 (v4.2.0-1439-g5d6542bea7-dirty)
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863333/+subscriptions
 
