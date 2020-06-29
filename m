@@ -2,90 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79EB220CFB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:37:23 +0200 (CEST)
-Received: from localhost ([::1]:41386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8697620CFBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:38:38 +0200 (CEST)
+Received: from localhost ([::1]:44908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvqU-00071M-1c
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35430)
+	id 1jpvrh-0008Vl-HX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvmr-0004La-E2
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:33:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24045
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvo2-0005DH-1l
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:34:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57372
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvmo-0003Jz-9G
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:33:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jpvnx-0003UB-Kn
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:34:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593444813;
+ s=mimecast20190719; t=1593444884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tgp37D4A22DyyJeJlO5/5oM67EXfEP8dkN1Sqgfe31A=;
- b=GBwpeCEqWSljeSN7TJUImEqPnJjUevCISKhFZDpemWF0Rx2xsM8Mb8jCemImWPf0YRreVP
- T/6nUS1Il6Y/LE6BhN79Sa6XSuggfxyMdRxy94HTv1VgPCRhVXm0WKfAMv3m0YcJXtD8Xu
- W2a/7NLnMDZ8nStxeMUiqFb20bhwbHs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96--LBAIUI9MkqM8YqFpU4mmA-1; Mon, 29 Jun 2020 11:33:31 -0400
-X-MC-Unique: -LBAIUI9MkqM8YqFpU4mmA-1
-Received: by mail-wr1-f72.google.com with SMTP id o25so16614649wro.16
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:33:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tgp37D4A22DyyJeJlO5/5oM67EXfEP8dkN1Sqgfe31A=;
- b=GkUznDXvBVkUAlYhFKjun2AMrrlc/LxdKOxvqZ2TvIWub7BmhoDLhQDFuMvZJVy7gk
- o48rpAKxMYN6oCnK10z+ZkAYCdhp49q2oWbgFZV6mHgoxapIG/CRDxT6nD9yukbjA/FU
- rPF30sD+B8MhfzVc4I0H+pm4yqQTyTN5O1/sGBYwVyqmxOInYhIeFmLDl6z4vvqtsNEk
- KMLx1TY6kPTkstHcW39C0ORQVzLBKytQGXXRB4c2+E15RO0yACw8qD3+Pgn8bss1Ce/M
- ww2ZhP47EcfnRrSfsiUZO2Yd064IdrUXpwHkczsguFlvBHj6LVpz20Wl0xQxoSncaGeM
- RClw==
-X-Gm-Message-State: AOAM530sZUXGsAtZk6RVgqPRa1pUdHuvBYURveoNdJd9PC/x23uZoZxK
- ith8mGwrEKWISzyvBylGienwN14dst13seQOZIAxuMR1LKiS3NjoTzmAlJRInQ9H3l5ldKlK/rR
- LmXcp9COHWuG1fU8=
-X-Received: by 2002:a5d:5549:: with SMTP id g9mr18571701wrw.419.1593444810469; 
- Mon, 29 Jun 2020 08:33:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxh+fUE7kLhaCNk3+4XRrf1VAwiRkFzOOLuBs/98SgigCdX3jnzkHcLfOC8Hyg3QITSqWxYmQ==
-X-Received: by 2002:a5d:5549:: with SMTP id g9mr18571692wrw.419.1593444810298; 
- Mon, 29 Jun 2020 08:33:30 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
- ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
- by smtp.gmail.com with ESMTPSA id 63sm54672wra.86.2020.06.29.08.33.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 08:33:29 -0700 (PDT)
-Subject: Re: [PATCH v2 7/9] tz-ppc: add dummy read/write methods
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- P J P <ppandit@redhat.com>
-References: <20200624185523.762240-1-ppandit@redhat.com>
- <20200624185523.762240-8-ppandit@redhat.com>
- <7ffe6cd9-fc23-3fdf-6c57-7bb0af0dd030@redhat.com>
- <nycvar.YSQ.7.77.849.2006251427210.92950@xnncv>
- <86ed036e-cbf1-834d-59d9-af6db7b750ef@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <59de3903-cd09-2ee2-db89-a4afd25c4dc4@redhat.com>
-Date: Mon, 29 Jun 2020 17:33:28 +0200
+ bh=kLjfC5kDv+kHwKw+Q0MUImkIbffICxc4ikmCbvAT5GY=;
+ b=Qz7U/T3Z2RSmdMqMzyShuXYNbzouDnuHYsTe0X/pTM1u9uF5eLlvuiBW4DWPM7CeYhE/13
+ d8KmfD6vH7ZbrWYxq9UhKZUVFyAiwV54OHIrU7j8CIQN+RmhObYVfQcFdm3B3w3aetJH4E
+ 8FS5JMFTMVuUOTLGfIeS5pXG45mzouk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-41K7fSxBMLW1vUWrytDI3w-1; Mon, 29 Jun 2020 11:34:43 -0400
+X-MC-Unique: 41K7fSxBMLW1vUWrytDI3w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C97EC1A0;
+ Mon, 29 Jun 2020 15:34:41 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C30DA10013C1;
+ Mon, 29 Jun 2020 15:34:40 +0000 (UTC)
+Subject: Re: [PATCH] coverity: provide Coverity-friendly MIN_CONST and
+ MAX_CONST
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200629151642.11974-1-pbonzini@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <aaa5f004-e500-5510-bf70-435b5c0f9383@redhat.com>
+Date: Mon, 29 Jun 2020 10:34:40 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <86ed036e-cbf1-834d-59d9-af6db7b750ef@redhat.com>
+In-Reply-To: <20200629151642.11974-1-pbonzini@redhat.com>
 Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -106,37 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/20 12:21, Philippe Mathieu-Daudé wrote:
->> | >      g_assert_not_reached();
->> | 
->> | This is a shame we now have to fill the read/write handlers for
->> | unreachable code :( 
->> |
->> | > +static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
->> | 
->> | I'd instead use a clearer:
->> |        g_assert_not_reached();
->> | 
->> | > +static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
->> | 
->> | Ditto:
->> |        g_assert_not_reached();
->>
->> This will likely be called in tz_ppc_dummy_accepts() above. Do we still want 
->> to revise this patch? considering read/write callbacks are unreachable.
+On 6/29/20 10:16 AM, Paolo Bonzini wrote:
+> Coverity's parser chokes on __builtin_choose_expr inside a constant
+> expression.  Since it is used only to raise compilation errors for
+> non-constant arguments, we can just assume there are no such errors
+> in the Coverity runs, and define MIN_CONST and MAX_CONST to the
+> "classic" ternary-operator-based definitions of minimum and maximum.
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   include/qemu/osdep.h | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
 
-What would be called in tz_ppc_dummy_accepts()?
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Generally g_assert_not_reached is better (even better than abort :)).
+I wrote a variant in the meantime, and in comparing the two, the only 
+major difference was that I added a line:
 
-Paolo
+     Fixes: CID 1429992, CID 1429995, CID 1429997, CID 1429999
+
+in the commit message, as well as a comment in osdep.h:
+
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 0d26a1b9bd07..98bc7156fa9b 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -250,7 +250,8 @@ extern int daemon(int, int);
+   * Note that neither form is usable as an #if condition; if you truly
+   * need to write conditional code that depends on a minimum or maximum
+   * determined by the pre-processor instead of the compiler, you'll
+- * have to open-code it.
++ * have to open-code it.  Sadly, Coverity is severely confused by the
++ * constant variants, so we have to dumb things down there.
+   */
+  #undef MIN
+  #define MIN(a, b)                                       \
+
+
+I'm fine whether or not we include that.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
