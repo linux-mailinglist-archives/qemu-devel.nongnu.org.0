@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCA320CD38
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 10:18:17 +0200 (CEST)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9704120CD39
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 10:18:25 +0200 (CEST)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpozY-000440-0k
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 04:18:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
+	id 1jpozg-0004IP-Kn
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 04:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jpoyc-0003Dl-B8; Mon, 29 Jun 2020 04:17:18 -0400
-Received: from mga01.intel.com ([192.55.52.88]:2726)
+ id 1jpoyk-0003N0-JQ; Mon, 29 Jun 2020 04:17:26 -0400
+Received: from mga03.intel.com ([134.134.136.65]:11113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
- id 1jpoyZ-0002Ss-Fu; Mon, 29 Jun 2020 04:17:17 -0400
-IronPort-SDR: FD6CFyMecUErarYho3pSK5snzFwxnYIMnFsykeHH4mfuxdIp69kAduyQtb6Od2x8cBdbSO9bR+
- 9q9Z35VY16fw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="163940205"
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="163940205"
+ id 1jpoyi-0002TY-7d; Mon, 29 Jun 2020 04:17:26 -0400
+IronPort-SDR: deRQyy878sRa2bdMzDADfR2YdETp34vciT7eEpNH/9Ifjj3+J2/Xmkv9r767bf5SVidaseHM+4
+ PY6t/9QddSdg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="145923683"
+X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="145923683"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 01:17:08 -0700
-IronPort-SDR: 4N6khl6kmnJnWFvKf8CpLSEbQ434rGbJmXE0gIv+GItN86wGtY2ugQE5yWhoK2F4hYydYvQq8t
- mdASY0lh0bTA==
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2020 01:17:21 -0700
+IronPort-SDR: 1Zwyzu/YwPn1MkJ9OCFZdXVksM3QsXLAqo19SoVGH0MMnnfIyAUsruC5b1uOGHTX0hAKUH4iUv
+ c6m+KD1m9y7w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="480702354"
+X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="480702391"
 Received: from unknown (HELO localhost.localdomain.sh.intel.com)
  ([10.239.153.142])
- by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2020 01:17:06 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2020 01:17:19 -0700
 From: Wentong Wu <wentong.wu@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] target/nios2: add DISAS_NORETURN case for nothing more to
- generate
-Date: Mon, 29 Jun 2020 12:05:33 -0400
-Message-Id: <20200629160535.3910-1-wentong.wu@intel.com>
+Subject: [PATCH 2/3] target/nios2: in line the semantics of DISAS_UPDATE with
+ other targets
+Date: Mon, 29 Jun 2020 12:05:34 -0400
+Message-Id: <20200629160535.3910-2-wentong.wu@intel.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200629160535.3910-1-wentong.wu@intel.com>
+References: <20200629160535.3910-1-wentong.wu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=wentong.wu@intel.com;
- helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 04:17:09
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=wentong.wu@intel.com;
+ helo=mga03.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 04:17:22
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
 X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,45 +70,34 @@ Cc: qemu-trivial@nongnu.org, marex@denx.de, crwulff@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add DISAS_NORETURN case for nothing more to generate because at runtime
-execution will never return from some helper call. And at the same time
-replace DISAS_UPDATE in t_gen_helper_raise_exception and gen_exception
-with the newly added DISAS_NORETURN.
+In line the semantics of DISAS_UPDATE on nios2 target with other targets
+which is to explicitly write the PC back into the cpu state before doing
+a tcg_gen_exit_tb().
 
 Signed-off-by: Wentong Wu <wentong.wu@intel.com>
 ---
- target/nios2/translate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/nios2/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index e17656e6..b052be85 100644
+index b052be85..83c10eb2 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -149,7 +149,7 @@ static void t_gen_helper_raise_exception(DisasContext *dc,
-     tcg_gen_movi_tl(dc->cpu_R[R_PC], dc->pc);
-     gen_helper_raise_exception(dc->cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_UPDATE;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- static bool use_goto_tb(DisasContext *dc, uint32_t dest)
-@@ -802,7 +802,7 @@ static void gen_exception(DisasContext *dc, uint32_t excp)
-     tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
--    dc->is_jmp = DISAS_UPDATE;
-+    dc->is_jmp = DISAS_NORETURN;
- }
- 
- /* generate intermediate code for basic block 'tb'.  */
-@@ -877,6 +877,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+@@ -865,6 +865,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     /* Indicate where the next block should start */
+     switch (dc->is_jmp) {
+     case DISAS_NEXT:
++    case DISAS_UPDATE:
+         /* Save the current PC back into the CPU register */
+         tcg_gen_movi_tl(cpu_R[R_PC], dc->pc);
          tcg_gen_exit_tb(NULL, 0);
-         break;
+@@ -872,7 +873,6 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
  
-+    case DISAS_NORETURN:
-     case DISAS_TB_JUMP:
-         /* nothing more to generate */
+     default:
+     case DISAS_JUMP:
+-    case DISAS_UPDATE:
+         /* The jump will already have updated the PC register */
+         tcg_gen_exit_tb(NULL, 0);
          break;
 -- 
 2.21.3
