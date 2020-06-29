@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF6D20CFCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:48:29 +0200 (CEST)
-Received: from localhost ([::1]:40692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A58320CFCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:47:38 +0200 (CEST)
+Received: from localhost ([::1]:35894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpw1E-0002iQ-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38836)
+	id 1jpw0P-0000ft-BG
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jpvyy-0007rj-Mr
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:46:08 -0400
-Resent-Date: Mon, 29 Jun 2020 11:46:08 -0400
-Resent-Message-Id: <E1jpvyy-0007rj-Mr@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21373)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jpvyY-0007Kb-Ka
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:45:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48736
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jpvyv-0005g5-DN
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:46:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593445553; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gyWRJAlTJxzclfV4pnh8fgb3ykLaEC7kGHEICFKObJdXA2OHr2jpTwtvlK5/vpm2nwY3eobhiq3q+YiMIXHH4cSnWVPy1UCVxC+Ciz//W6ZuzK61XPciX99UoibR24p0I8lNxuBi3kx5v+Gr2ELm7TkJwrbsrpycCq5WCPClvjI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593445553;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=QAdjn2vAZT7d85GX+JvdYf4/FHskpiBft7FcM/zM2Uo=; 
- b=NtU0k3/iOm7rw7c68mRTCI73z24Jt7qWYgPHRUoJk27/sN/urp5LfeAgoGrEyWeWRtxpJ8BmBpJ++YNaytSwZ3LNU3XxHqvkVZzU0BwOTFx+pw6JIaMncbRY1177NmD+tNw4bY2zuBisACq34J7vUPwYc4aOOCth3F9zLJZTlwo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159344551592423.155462223089103;
- Mon, 29 Jun 2020 08:45:15 -0700 (PDT)
-Message-ID: <159344551488.15477.7802905287480431571@d1fd068a5071>
-Subject: Re: [PATCH] coverity: provide Coverity-friendly MIN_CONST and
- MAX_CONST
-In-Reply-To: <20200629151642.11974-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jpvyV-0005XX-SK
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:45:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593445538;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=msnZMWWtgL/M9218G+gaKXh3Y9bKHUsI7Q5OsTfsUjE=;
+ b=DQ418OEMhzWWqVxgEqiDpwevZDhYsjK3dEwAXXZec7zbDwzR9+gyFbZDw0dSGQTVVYL/AV
+ WVNhUG8XJykJ/uju0RTwGOgvi8ot2yRZPboXxEuKHb9gH7c491Kul76jjww2h4xRjGiH11
+ rS6e8hCF9TBKydlHZA57vzXg1uuad70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-yPf6eiJhN4y7uytwxHiNeQ-1; Mon, 29 Jun 2020 11:45:27 -0400
+X-MC-Unique: yPf6eiJhN4y7uytwxHiNeQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B5E7107ACF4;
+ Mon, 29 Jun 2020 15:45:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1573019C4F;
+ Mon, 29 Jun 2020 15:45:20 +0000 (UTC)
+Date: Mon, 29 Jun 2020 16:45:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: Properly quitting qemu immediately after failing migration
+Message-ID: <20200629154518.GV1298906@redhat.com>
+References: <0dce6c63-4b83-8b1a-6d00-07235f637997@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 29 Jun 2020 08:45:15 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 11:31:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <0dce6c63-4b83-8b1a-6d00-07235f637997@redhat.com>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:10:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,46 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYyOTE1MTY0Mi4xMTk3
-NC0xLXBib256aW5pQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSF0gY292ZXJpdHk6IHByb3ZpZGUgQ292ZXJpdHkt
-ZnJpZW5kbHkgTUlOX0NPTlNUIGFuZCBNQVhfQ09OU1QKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6
-IDIwMjAwNjI5MTUxNjQyLjExOTc0LTEtcGJvbnppbmlAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
-fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
-aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
-PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
-ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
-L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDYyOTE0MDkzOC4xNzU2Ni0x
-LWRyam9uZXNAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwNjI5MTQwOTM4LjE3NTY2LTEtZHJq
-b25lc0ByZWRoYXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDA2MjkxNTE2
-NDIuMTE5NzQtMS1wYm9uemluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA2MjkxNTE2NDIu
-MTE5NzQtMS1wYm9uemluaUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKYjRlNTJhOSBjb3Zlcml0eTogcHJvdmlkZSBDb3Zlcml0eS1mcmllbmRseSBNSU5fQ09OU1Qg
-YW5kIE1BWF9DT05TVAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KV0FSTklORzogYXJjaGl0ZWN0dXJl
-IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzM5OiBGSUxFOiBpbmNsdWRlL3Fl
-bXUvb3NkZXAuaDoyNjk6CisjaWZkZWYgX19DT1ZFUklUWV9fCgpFUlJPUjogTWFjcm9zIHdpdGgg
-Y29tcGxleCB2YWx1ZXMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiM0MDogRklM
-RTogaW5jbHVkZS9xZW11L29zZGVwLmg6MjcwOgorI2RlZmluZSBNSU5fQ09OU1QoYSwgYikgKGEp
-IDwgKGIpID8gKGEpIDogKGIpCgpFUlJPUjogTWFjcm9zIHdpdGggY29tcGxleCB2YWx1ZXMgc2hv
-dWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lzCiM0MTogRklMRTogaW5jbHVkZS9xZW11L29z
-ZGVwLmg6MjcxOgorI2RlZmluZSBNQVhfQ09OU1QoYSwgYikgKGEpID4gKGIpID8gKGEpIDogKGIp
-Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDM0IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBi
-NGU1MmE5N2JhZWQgKGNvdmVyaXR5OiBwcm92aWRlIENvdmVyaXR5LWZyaWVuZGx5IE1JTl9DT05T
-VCBhbmQgTUFYX0NPTlNUKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVO
-RCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlz
-IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDYyOTE1MTY0Mi4xMTk3
-NC0xLXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2Uu
-Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
-dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
-ZWRoYXQuY29t
+On Mon, Jun 29, 2020 at 03:48:35PM +0200, Max Reitz wrote:
+> In practice this particular issue might not be that big of a problem,
+> because it just means qemu aborts when the user intended to let it quit
+> anyway.  But on one hand I could imagine that there are other clean-up
+> paths that should definitely run before qemu quits (although I don’t
+> know), and on the other, it’s a problem for my test.
+
+In general we can't assume any cleanup runs when incoming migration
+fails, because when loading the migration stream, it often aborts with
+asserts if the data doesn't match what's expected.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
