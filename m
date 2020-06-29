@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2658B20CF55
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:07:47 +0200 (CEST)
-Received: from localhost ([::1]:56228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D0920CF5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:10:02 +0200 (CEST)
+Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvNp-0002yu-SJ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
+	id 1jpvQ2-0005dC-0u
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jpvMY-0002En-Gh
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:06:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60981
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jpvOO-00049p-3h
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:08:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59020
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jpvMW-0006CP-4m
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:06:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jpvOM-0006RJ-Jz
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:08:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593443183;
+ s=mimecast20190719; t=1593443297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=P71wirPiCaM59Ua8QEoG2At1u81AQQAwkL/F+klRUVo=;
- b=DfoGEm+8kLjWz8NdP/rG4tzzPs7H3uXBFyptfOFRMwIO3QjbTx9xyWjDuxBTjc1gwk3nNi
- krpGfskN9v1GmmOETE4XucVE9CKqpXTwFrs5t/vUjaIGFR91d14FhHQvdBAM4ioHB6cNuP
- ZXNAYjyR5XeOikIC+GFwAphzRkfFOzU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-KK6EiFM1M76gcK1jrtzScw-1; Mon, 29 Jun 2020 11:06:21 -0400
-X-MC-Unique: KK6EiFM1M76gcK1jrtzScw-1
-Received: by mail-wm1-f70.google.com with SMTP id s134so18527107wme.6
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:06:20 -0700 (PDT)
+ bh=vsZteiNAgND5qBpd3SyNwrF9Y7Vmj3Xi2pRaZOeG2+k=;
+ b=crbAfyKJsJ5dAbL1QxdJlJ8hd3sEdZEiMlDu3jY+fXUcvg4Hlhs5G6tvdhgn5lM7P9/GuA
+ K2yJWiwCWEUL/WW9fCO5d/kq3JrA+RX6stC/KR2xw93mfaMCGrP4IzYqICOqK0Ympm4HAi
+ 0W0m32KwwNefgjuI1hhPYnVVn7ZfYlg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-3C-l4lLZOsyurj0PtLMALQ-1; Mon, 29 Jun 2020 11:08:15 -0400
+X-MC-Unique: 3C-l4lLZOsyurj0PtLMALQ-1
+Received: by mail-wm1-f69.google.com with SMTP id h25so12808163wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:08:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=P71wirPiCaM59Ua8QEoG2At1u81AQQAwkL/F+klRUVo=;
- b=fqWXlrnI9VT8srDzlVIasgQRXBu4UJ710ALhYEr5AXeZ0WIAbERnQCAepK7VHLxHbd
- +A0adpJKs0KJKYjrP4d8m09RuRh3D3Gkwlp5S8iY2dMwryyY5mntSQO3cOiS6AdzzjAn
- wxt9fXx4LFHkm24tlM/yqykOz8KHNaTYdXUa/P4UIbaXq/dWGlUC14ek9r1xvWDwE3xu
- RfVuBndXgLeunOralBpoJ0krPw4m/tPNnGT67OKi+pKb+yhd4N8nD3HsXDYQ47OeWn/r
- a13qklX11sQhdD4i7V788ucG/ogfNSSOTRSLAtxHKpE9iY/ZZWUSkR+u/925QNXx0mhK
- SxxA==
-X-Gm-Message-State: AOAM532sRR6I5AQTL5N1GsyXX5vkD49gN8+oPlPVEtEnd7FwtM9wQ+1/
- KY3x2hPI3YkppFGDwJyXXxuGGsJsYfu3v3wbUTJYy239Wo0La9UYaF9uihy0hHWZ+O4AlHbQH+t
- PesH2QqnoF37LtDg=
-X-Received: by 2002:a5d:4202:: with SMTP id n2mr16899210wrq.171.1593443179915; 
- Mon, 29 Jun 2020 08:06:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvK6rDr1RmusDMAm1NnBDxeIWOfHqtlaJG8Q0uHx60+RJHAQnk9x26NAcHC/EQzGPHCOR0Og==
-X-Received: by 2002:a5d:4202:: with SMTP id n2mr16899184wrq.171.1593443179717; 
- Mon, 29 Jun 2020 08:06:19 -0700 (PDT)
+ bh=vsZteiNAgND5qBpd3SyNwrF9Y7Vmj3Xi2pRaZOeG2+k=;
+ b=O8P1DWjWB6UdHOnR/IR5RGKGQCDgjQ/BuMxSihnYb6IAH2+oQPTydxbn8TLFw6x/xR
+ f9lQdrlrak67E9MSvhRdZvDFUbMEkyXjdeUAZdI0jLKGzmqL63YeSOFGhqliDMrmYPwv
+ Y6fcIM2ED1Arf/WMGsDuQLNpf2iplWMNLifxj4RDI0GgrrmgJtaadtAqZ2RftHpdM8uN
+ 39qLUgmwjxBJUiSEjF4CDsT3J8ZxFzNr2PhHWRTiRFEZypbhepRtsUUi2xi0yTUlCFoC
+ KD2eQAa/PRtHnzHMf0OkK9y8iczJBNs9zSMk7M07Hab2OvJ/V5+nBuLqKp9EAKgA5sHm
+ hpHw==
+X-Gm-Message-State: AOAM533s15FBzc5XNx+GdlB4kWbbitOkvWp/ZGjMlAkiww+gkKTGRrEt
+ KHCbY896slw06wD/GXyrwCu1HbNOgh8k2wiPGtz0Ul0gKjE0Q9wn7BpY+r9ER7CMtJ/JEKD9YZP
+ pyfmtoYj2me/+Tes=
+X-Received: by 2002:a1c:cc03:: with SMTP id h3mr16867828wmb.87.1593443294715; 
+ Mon, 29 Jun 2020 08:08:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy56hMy0XoaQtJQPbBM9QB4bgllpXfCzPs1oGjMIw9BXCOs7+1konkmPP9/KR2QwDFjjRXMYA==
+X-Received: by 2002:a1c:cc03:: with SMTP id h3mr16867792wmb.87.1593443294449; 
+ Mon, 29 Jun 2020 08:08:14 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- z25sm65472wmk.28.2020.06.29.08.06.18
+ b184sm98334wmc.20.2020.06.29.08.08.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 08:06:19 -0700 (PDT)
-Date: Mon, 29 Jun 2020 11:06:16 -0400
+ Mon, 29 Jun 2020 08:08:13 -0700 (PDT)
+Date: Mon, 29 Jun 2020 11:08:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH 1/4] tests/acpi: remove stale allowed tables
-Message-ID: <20200629110443-mutt-send-email-mst@kernel.org>
-References: <20200629140938.17566-1-drjones@redhat.com>
- <20200629140938.17566-2-drjones@redhat.com>
+Subject: Re: [PATCH v10 12/12] tests/acpi: update expected data files
+Message-ID: <20200629110649-mutt-send-email-mst@kernel.org>
+References: <20200619091905.21676-1-kraxel@redhat.com>
+ <20200619091905.21676-13-kraxel@redhat.com>
+ <20200629115433.guw3qrmldfyshpma@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200629140938.17566-2-drjones@redhat.com>
+In-Reply-To: <20200629115433.guw3qrmldfyshpma@kamzik.brq.redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:37:37
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,49 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, eric.auger@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- ard.biesheuvel@arm.com, imammedo@redhat.com, lersek@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 29, 2020 at 04:09:35PM +0200, Andrew Jones wrote:
-> Fixes: 93dd625f8bf7 ("tests/acpi: update expected data files")
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-
-
-Ah yes. Thanks for fixing this! I will add something to the pull request
-script to catch this in the future.
-
-> ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 18 ------------------
->  1 file changed, 18 deletions(-)
+On Mon, Jun 29, 2020 at 01:54:33PM +0200, Andrew Jones wrote:
+> On Fri, Jun 19, 2020 at 11:19:05AM +0200, Gerd Hoffmann wrote:
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  tests/data/acpi/pc/DSDT           | Bin 5014 -> 4934 bytes
+> >  tests/data/acpi/pc/DSDT.acpihmat  | Bin 6338 -> 6258 bytes
+> >  tests/data/acpi/pc/DSDT.bridge    | Bin 6873 -> 6793 bytes
+> >  tests/data/acpi/pc/DSDT.cphp      | Bin 5477 -> 5397 bytes
+> >  tests/data/acpi/pc/DSDT.dimmpxm   | Bin 6667 -> 6587 bytes
+> >  tests/data/acpi/pc/DSDT.ipmikcs   | Bin 5086 -> 5006 bytes
+> >  tests/data/acpi/pc/DSDT.memhp     | Bin 6373 -> 6293 bytes
+> >  tests/data/acpi/pc/DSDT.numamem   | Bin 5020 -> 4940 bytes
+> >  tests/data/acpi/q35/DSDT          | Bin 7752 -> 7678 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat | Bin 9076 -> 9002 bytes
+> >  tests/data/acpi/q35/DSDT.bridge   | Bin 7769 -> 7695 bytes
+> >  tests/data/acpi/q35/DSDT.cphp     | Bin 8215 -> 8141 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9405 -> 9331 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7827 -> 7753 bytes
+> >  tests/data/acpi/q35/DSDT.memhp    | Bin 9111 -> 9037 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64   | Bin 8882 -> 8808 bytes
+> >  tests/data/acpi/q35/DSDT.numamem  | Bin 7758 -> 7684 bytes
+> >  tests/data/acpi/q35/DSDT.tis      | Bin 8357 -> 8283 bytes
+> >  18 files changed, 0 insertions(+), 0 deletions(-)
+> >
 > 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index 8992f1f12b77..dfb8523c8bf4 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1,19 +1 @@
->  /* List of comma-separated changed AML files to ignore */
-> -"tests/data/acpi/pc/DSDT",
-> -"tests/data/acpi/pc/DSDT.acpihmat",
-> -"tests/data/acpi/pc/DSDT.bridge",
-> -"tests/data/acpi/pc/DSDT.cphp",
-> -"tests/data/acpi/pc/DSDT.dimmpxm",
-> -"tests/data/acpi/pc/DSDT.ipmikcs",
-> -"tests/data/acpi/pc/DSDT.memhp",
-> -"tests/data/acpi/pc/DSDT.numamem",
-> -"tests/data/acpi/q35/DSDT",
-> -"tests/data/acpi/q35/DSDT.acpihmat",
-> -"tests/data/acpi/q35/DSDT.bridge",
-> -"tests/data/acpi/q35/DSDT.cphp",
-> -"tests/data/acpi/q35/DSDT.dimmpxm",
-> -"tests/data/acpi/q35/DSDT.ipmibt",
-> -"tests/data/acpi/q35/DSDT.memhp",
-> -"tests/data/acpi/q35/DSDT.mmio64",
-> -"tests/data/acpi/q35/DSDT.numamem",
-> -"tests/data/acpi/q35/DSDT.tis",
-> -- 
-> 2.25.4
+> Hi Gerd and Michael,
+> 
+> Shouldn't this patch also include the removal of these files from
+> tests/qtest/bios-tables-test-allowed-diff.h?
+> 
+> Thanks,
+> drew
+
+It should. Need to teach checkpatch to catch things like this ...
+
+-- 
+MST
 
 
