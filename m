@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DF220D5FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:04:37 +0200 (CEST)
-Received: from localhost ([::1]:48668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9911A20D982
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 22:11:43 +0200 (CEST)
+Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq016-0002AA-04
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:04:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60952)
+	id 1jq07y-0006Ez-K7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 16:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpzzZ-0001UT-8k; Mon, 29 Jun 2020 16:03:01 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:40353)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jq07B-0005mz-QQ
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 16:10:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jpzzX-00083r-Pi; Mon, 29 Jun 2020 16:03:00 -0400
-Received: by mail-ed1-x543.google.com with SMTP id b15so14042786edy.7;
- Mon, 29 Jun 2020 13:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W7HO/oMkPvYxcNGJN3DuxoOFdsHhv++SXUx3BJbN4/8=;
- b=lPfYDkFHK91nEAbqCz7F3xndYYQNDLjZDJy9JGiL5ekTocOFMkOpk+jXkcpcPU7ITM
- v+DFNl3LQf8pYvoDbH/flmdFbIIz+xf/6V/UYDmjRFbK8cxjiUTR4eEcscj9TrYjdvrV
- Jckfm2S4yznnjKT3NAeAkQeGRzhtXGzKFSyRPbpVjcazJz6op4nwazE55muabas0A840
- qL5PPqEdhjRadsedtFxOJ8/g8djQbObZ6JFRJU5hKxEi9Iubv3jmB3xX1I9MdYOxAgr/
- wRpnZMYdsnxBk1MSK2G5N58QhGqjwnJJoMPpCBJTRA1gpK0xhJBl9OSa8mBVKcHf7T62
- kcXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=W7HO/oMkPvYxcNGJN3DuxoOFdsHhv++SXUx3BJbN4/8=;
- b=LFffOqTUBiZU/1WTGowHJCfK09uIZicDCYd8sZ3akw88LJF/bP69Fy9Up/AOSns8yU
- 7smHqRcY8yp8U1W7QtyDm6FRZg0CIPKbob+q0eSzY4SF4kiVyyCS0ughA1OcCVKE7gd9
- vUI0jpnh0qZwB7+mcFsKCHsm6wQ5YmjAvLKQex8IScZDC63F3IKVuKxXu6o+7vCIFNUe
- tO4arrnfQdkArp06AiqE3vjzo7ZO0ua8Ro7tLo3DYU7nXBk2ROzrYovlaTOR+vevXstz
- FV/MKFcF2WSxaG45tZm7jLPeq6xdiTivgzg4egOkK9klnFjdVfRhhzhFCplq8zY/iGpd
- hYsw==
-X-Gm-Message-State: AOAM533CR4WGx6YrApaarEW0z4Utiy94SwaHH5uBJnB1d09Pz0GlraY2
- BzxQlnbHJBTYnKTGiKwXuclw1TR5HWg=
-X-Google-Smtp-Source: ABdhPJzdZNEpkwTG3gK2vBkQ+d5g2NUnDFOAgjhEo3hbRbV2kuIfQpQcoScpoMn/pe5K1YlGCKlIUw==
-X-Received: by 2002:aa7:c24d:: with SMTP id y13mr20280632edo.123.1593460977795; 
- Mon, 29 Jun 2020 13:02:57 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id e1sm668156edn.16.2020.06.29.13.02.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 13:02:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH] hw/ppc/ppc4xx: Only accept (combination of) pow2 DDR sizes
-Date: Mon, 29 Jun 2020 22:02:55 +0200
-Message-Id: <20200629200256.2240-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jq078-0000qu-Sf
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 16:10:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jq077-0004H8-2Z
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 20:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1014F2E80E7
+ for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 20:10:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jun 2020 20:05:11 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1884990@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kvanals philmd
+X-Launchpad-Bug-Reporter: Kenneth Van Alstyne (kvanals)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159301342319.25339.2718719880566533302.malonedeb@gac.canonical.com>
+Message-Id: <159346111206.1764.16794421393119762394.malone@wampee.canonical.com>
+Subject: [Bug 1884990] Re: Cirrus graphics results in monochrome colour depth
+ at 640x480 resolution
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3d3ac27644df92011a988f8c9f142b623e1184b4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 06:50:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,43 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1884990 <1884990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use popcount instruction to count the number of bits set in
-the RAM size. Allow at most 1 bit for each bank. This avoid
-using invalid hardware configurations.
+Yes, the maintainer will likely get the submodule updated before the
+next release.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/ppc/ppc4xx_devs.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+-- =
 
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index f1651e04d9..c2484a5695 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -687,6 +687,15 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-     int i;
-     int j;
- 
-+    if (ctpop64(size_left) > nr_banks) {
-+        if (nr_banks) {
-+            error_report("RAM size must be a power of 2");
-+        } else {
-+            error_report("RAM size must be the combination of %d powers of 2",
-+                         nr_banks);
-+        }
-+        exit(1);
-+    }
-     for (i = 0; i < nr_banks; i++) {
-         for (j = 0; sdram_bank_sizes[j] != 0; j++) {
-             bank_size = sdram_bank_sizes[j];
--- 
-2.21.3
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884990
 
+Title:
+  Cirrus graphics results in monochrome colour depth at 640x480
+  resolution
+
+Status in QEMU:
+  New
+
+Bug description:
+  Recently we upgraded to a distribution that bundled QEMU 4.2.0.  We
+  were previously running on QEMU 3.0.0.  When booting Windows 10 VMs on
+  x86_64, users experienced slow, monochrome graphics and the resolution
+  was restricted to 640x480.  Reverting to the prior vgabios-cirrus.bin
+  from the prior source tarball remediated the issue.
+
+  An example QEMU command line is below, if needed:
+  /bin/qemu-system-x86_64 -vnc 0.0.0.0:100 -device cirrus-vga,id=3Dvideo0,b=
+us=3Dpci.0,addr=3D0x2  -machine pc-i440fx-4.2,accel=3Dkvm,usb=3Doff,dump-gu=
+est-core=3Doff -cpu qemu64 -m 2048 -overcommit mem-lock=3Doff -smp 1,socket=
+s=3D1,cores=3D1,threads=3D1 -no-user-config -nodefaults -hda test.raw &
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884990/+subscriptions
 
