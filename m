@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9124C20CE55
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:45:10 +0200 (CEST)
-Received: from localhost ([::1]:47002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBB220CE59
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 13:49:40 +0200 (CEST)
+Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpsDl-0002zI-Km
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:45:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1jpsI8-0006HQ-0B
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 07:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpsBF-0000Mw-Hz
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:42:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27845
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jpsHK-0005q6-GQ
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:48:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41187
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jpsBC-0005Lq-K0
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:42:32 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jpsHI-0006Qh-FH
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 07:48:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593430949;
+ s=mimecast20190719; t=1593431326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z/RkuIQuzK49gSskXus4OhUcVxCD4MLmT/3nETTyv/s=;
- b=Owuec2DdrjKp/JfadbIEt55XrdK/FTrJvRpDbEVKTfifHoGqlj+vwOQVRqz3moin40bzjy
- X1wiIk2D6Hm2AAmj7LzZmjpW8tApjL2x7Uykgx0yBepMbfFtWpz29m6StPErEVYfFVnaFV
- zwliuOzQ2z0XMN6Tutw9qxhL0c/bemQ=
+ bh=vU1Ah32Lth3iZ9ekQhWBzDsgtatE01H5+I+vU2Vx66k=;
+ b=gig3/Y7w1v5R2Fh7sJLGrwwmQ+49AZj92HFVwLRRFjxzvcBdc5ItbFBsUezhSaB3M7yl5m
+ mY7NSRzQTnZuFkrQmWfWRVIQ62xCLjULxDVLhXR4kwi15FccBwO/rkr9WeDqLNep3yYMb6
+ 4peU2awGDpoNxBPDR66wEQtMSvWVfcY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-n2nuKfjHPUONQ-yRA55Vog-1; Mon, 29 Jun 2020 07:42:24 -0400
-X-MC-Unique: n2nuKfjHPUONQ-yRA55Vog-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-79-1EYMEJ6ON-m25gMiWS133Q-1; Mon, 29 Jun 2020 07:48:43 -0400
+X-MC-Unique: 1EYMEJ6ON-m25gMiWS133Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C8764AD4;
- Mon, 29 Jun 2020 11:42:23 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-140.ams2.redhat.com [10.36.112.140])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97645CF920;
- Mon, 29 Jun 2020 11:42:21 +0000 (UTC)
-Subject: Re: [PATCH v3 29/30] gitlab: limit re-builds of the containers
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200626181357.26211-1-alex.bennee@linaro.org>
- <20200626181357.26211-30-alex.bennee@linaro.org>
- <20200629100350.GF1298906@redhat.com> <87pn9irxjz.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7240239e-813c-3c4b-7886-fe5e87c9b092@redhat.com>
-Date: Mon, 29 Jun 2020 13:42:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16C088015FE;
+ Mon, 29 Jun 2020 11:48:42 +0000 (UTC)
+Received: from kaapi (ovpn-112-133.phx2.redhat.com [10.3.112.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 805C45D9DA;
+ Mon, 29 Jun 2020 11:48:35 +0000 (UTC)
+Date: Mon, 29 Jun 2020 17:18:32 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH v2 7/9] tz-ppc: add dummy read/write methods
+In-Reply-To: <CAKXe6S+E2gnqmSnPbDkj+Dh-KAHvPwSCw+jSb7QmgxWzTO=wyA@mail.gmail.com>
+Message-ID: <nycvar.YSQ.7.77.849.2006291714120.92950@xnncv>
+References: <20200624185523.762240-1-ppandit@redhat.com>
+ <20200624185523.762240-8-ppandit@redhat.com>
+ <7ffe6cd9-fc23-3fdf-6c57-7bb0af0dd030@redhat.com>
+ <nycvar.YSQ.7.77.849.2006251427210.92950@xnncv>
+ <CAFEAcA9yP=y9nzvqs_GZF=n9EXz7SPY4kiR6ZqHF+T+f7mnV5g@mail.gmail.com>
+ <CAKXe6S+E2gnqmSnPbDkj+Dh-KAHvPwSCw+jSb7QmgxWzTO=wyA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87pn9irxjz.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Type: multipart/mixed;
+ boundary="-1463810047-1415810342-1593431321=:92950"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:03:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,61 +86,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org, cota@braap.org, aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/2020 12.11, Alex Bennée wrote:
-> 
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
->> On Fri, Jun 26, 2020 at 07:13:56PM +0100, Alex Bennée wrote:
->>> Most of the time we are just rebuilding the same things. We can skip
->>> this although currently there is no mechanism for picking up new
->>> distro releases.
->>>
->>> Rather than try to be too fine grained allow any change to trigger all
->>> the images being rebuilt.
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>   .gitlab-ci.d/containers.yml | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
->>> index 20b2fb1de5d..f56aa44f711 100644
->>> --- a/.gitlab-ci.d/containers.yml
->>> +++ b/.gitlab-ci.d/containers.yml
->>> @@ -19,6 +19,10 @@
->>>       - docker push "$TAG"
->>>     after_script:
->>>       - docker logout
->>> +  only:
->>> +    changes:
->>> +      - .gitlab-ci.d/containers.yml
->>> +      - tests/docker/*
->>
->> How does this work for a person who forks the QEMU git repo and pushes
->> a change which doesn't touch the containers.yml file ?  AFAICT, all
->> their jobs will fail due to not having previously built any container
->> images in their brand new fork.
-> 
-> Hmm what we really need is a condition check to see if there is a local
-> registry with images in it.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-1415810342-1593431321=:92950
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Maybe it would be good enough to do something like this instead:
++-- On Mon, 29 Jun 2020, Li Qiang wrote --+
+| Peter Maydell <peter.maydell@linaro.org> 于2020年6月25日周四 下午8:22写道：
+| > The point of g_assert_not_reached() is that it documents and asserts that 
+| > the code is not reachable. If the read and write callbacks are unreachable 
+| > (which they are) then having their bodies just be a call to 
+| > g_assert_not_reached() is the best way to document that.
+| 
+| I agree with this.
 
-   rules:
-     - if: '$CI_COMMIT_BRANCH == "master"'
-     - changes:
-       - .gitlab-ci.d/containers.yml
-       - tests/docker/*
-
-... so that the pipeline is certainly run the first time when the master 
-branch gets initialized? (I did not try it out, just had the idea after 
-looking at the gitlab CI docs)
-
-  Thomas
+Okay, will do.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-1415810342-1593431321=:92950--
 
 
