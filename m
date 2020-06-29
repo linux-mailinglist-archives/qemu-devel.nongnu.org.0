@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78ECD20CFAF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:29:13 +0200 (CEST)
-Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1716120CFCA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 17:47:14 +0200 (CEST)
+Received: from localhost ([::1]:34432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpvia-0000Ex-H2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33712)
+	id 1jpvzz-0008UL-FL
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 11:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvhh-0008Et-NQ
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:28:17 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40153
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jpvhg-0002Br-6k
- for qemu-devel@nongnu.org; Mon, 29 Jun 2020 11:28:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593444495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pKg8ZddvbHzraPHDQ1GNO6Fx+FnKGii3D1djHVBSRHU=;
- b=RNLy17lJiS3IRuvcxZhD7KLaTt3Yhhmk8O9jWHBVv8bPK5Or/KyBbmohFoYBLxz0J7nJMq
- 38MdTbzAZPt6UrWY0KA3gIE3vXX5HdYJek+bDRO9GngorDeFz4U+r67CDjp5TSH9856ZAF
- pfhhqqKnLIg0jzrRTSnN7UcMDSLztic=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-JZLVwHlOMdWgnozc-MnqUw-1; Mon, 29 Jun 2020 11:28:14 -0400
-X-MC-Unique: JZLVwHlOMdWgnozc-MnqUw-1
-Received: by mail-wr1-f72.google.com with SMTP id g14so16675278wrp.8
- for <qemu-devel@nongnu.org>; Mon, 29 Jun 2020 08:28:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pKg8ZddvbHzraPHDQ1GNO6Fx+FnKGii3D1djHVBSRHU=;
- b=lTJF/2hOjD1XatAu6r7ALkFm7HiqGJTW+3C4op3Kzphlau1PjkrkL36mJQXcTGCJud
- ma8NAUKJvBgl4k19bnitisONrqXTvh1HjCT59ojh8OPBS83Qp/RcgT2jsMBrMy9qPeBt
- EcdNsnl1L0t13+rqUy6nAf4EI5bzYuNuRafnW+JZL6bXtB9mrcrvyAHKiI82q/HPRGuE
- omWDlyHNC12asveTSCXdWdHnaA/wkiIjd0M8xNqCa0MdShoSXKq7z731GG0rVpdSJ7th
- L9qvYXqPkOCJYGF5ZBpLAkdNl26bBvXuZhZ75hY8qZpcOXFBoVoCcYY0WgFnP9xrrAAP
- T3tQ==
-X-Gm-Message-State: AOAM533mXo+nB/5SeUtgYJr8xMlNv9W7cupKdNDdXjQ7XwUYROGlhu6t
- NJfMmVS0Zfw5swhDuX/E7OrMxj7Lszr4xoc+cPMmD7ppInCcWiPoSpXWYRpBCAaas+B6nGgjOHZ
- vlxfwjmVn0UzwBT8=
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr18177247wrq.101.1593444492892; 
- Mon, 29 Jun 2020 08:28:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOxspwzzS7d5cE0Im8919Tgh6IrsFG/UxYCvKuJbmYjG4/hd1vSKB47vEUNlNQZf7Vt9JhMw==
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr18177234wrq.101.1593444492730; 
- Mon, 29 Jun 2020 08:28:12 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
- ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
- by smtp.gmail.com with ESMTPSA id e17sm33713wrr.88.2020.06.29.08.28.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 08:28:12 -0700 (PDT)
-Subject: Re: [PULL v2 25/31] osdep: Make MIN/MAX evaluate arguments only once
-To: Eric Blake <eblake@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20200626135608.6920-1-pbonzini@redhat.com>
- <20200626135608.6920-3-pbonzini@redhat.com>
- <CAFEAcA9DOyivMUS1gAE_BPcmO7yf6J8d-_YZ8W=Ox8U_O0QcBg@mail.gmail.com>
- <82b6d089-3270-6bad-1165-33c148b4a375@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f09e9c8c-0f17-16ae-f1eb-e9dae594b208@redhat.com>
-Date: Mon, 29 Jun 2020 17:28:11 +0200
+ (Exim 4.90_1) (envelope-from <alexander.boettcher@genode-labs.com>)
+ id 1jpu2b-0001vo-2M
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:41:45 -0400
+Received: from mail.genode-labs.com ([94.130.141.206]:56394
+ helo=genode.genode-labs.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.boettcher@genode-labs.com>)
+ id 1jpu2Y-0000Sk-9l
+ for qemu-devel@nongnu.org; Mon, 29 Jun 2020 09:41:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=genode-labs.com; s=2018-03; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Date:Message-ID:To:Subject:From:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=mSJdnbPdHXfgRaHLt7gIw1fMHbT20CjL66DRqYCPq/I=; b=KvatqGqtfBiLCvp1rbGD+P6qDJ
+ hgCkozj73zEVaDSFMxckG6X5Zw0b5e5zQ7hUitPd546j2h+R1oTDwXlitDEs26AVMMIuD1V9cefbh
+ G4DMgYQndJ2DrE8Z9n67+KKykexVE/oZ1/mLpXbu+N7wMpPuI3ByxiwrbOgDqCOyJa63xbRJu/Fol
+ SxohWkEChmqsJXCdj8sm92e1xuHprBVXi5CuenNnC/v/qc/wErBZ6+FL22qVk0+PHvmPadrqdtDh/
+ ODHslgLVpGpcJkLLYIlAlWd3dh8Cd8k7RDo17fMwP3QbsOp1ZyoBvQW43l7yZxpEBYEmT0tAuMFmI
+ eSVTssNQ==;
+Received: by mail.genode-labs.com (Exim 4.89) with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (envelope-from <alexander.boettcher@genode-labs.com>)
+ id 1jptmS-0002xH-7l ; Mon, 29 Jun 2020 15:25:07 +0200
+From: Alexander Boettcher <alexander.boettcher@genode-labs.com>
+Subject: [PATCH] tcg/svm: use host cr4 during NPT page table walk
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>, 
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Message-ID: <c9ba7c23-581e-86d8-8174-37d2beeab768@genode-labs.com>
+Date: Mon, 29 Jun 2020 15:25:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <82b6d089-3270-6bad-1165-33c148b4a375@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 01:06:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: none client-ip=94.130.141.206;
+ envelope-from=alexander.boettcher@genode-labs.com; helo=genode.genode-labs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 09:25:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 29 Jun 2020 11:45:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,22 +71,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/20 17:23, Eric Blake wrote:
->>
->>
->> Can we do something (eg providing fallback less-intelligent
->> versions of the macro ifdef __COVERITY__) to help it?
-> 
-> Absolutely; I see we've done similar in include/qemu/thread.h.  I'll
-> post something later today.
+Hello,
 
-Done already, you're in Cc. :)
+during a page table walk of TCG+SVM the code in target/i386/excp_helper.c get_hphys() uses the cr4 register of the guest instead of the hypervisor to check for the PSE bit. In the test case we have, the guest have not enabled (yet) the PSE bit and so the page table walk results in a wrong host physical address resolution and wrong content read by the guest.
 
-Paolo
+Attached patch is against 4.2.1, but works also on 3.1.0. It fixes the issue for our automated testcase, which is a 32bit hypervisor w/o PAE support running a guest VM with tcg+svm.
+The test worked beforehand up to qemu 2.12, started to fail with qemu 3.0 and later. The added TCG/SVM NPT commit seems to introduce the regression.
 
+In case someone want to try to reproduce it, the iso is at [0], the good case is [1] and the failing case is [2]. The used commandline is:
+
+qemu-system-i386 -no-kvm -nographic -cpu phenom -m 512 -machine q35 -cdrom seoul-vmm-test.iso
+
+[0] https://depot.genode.org/alex-ab/images/seoul-vmm-test.iso
+[1] https://depot.genode.org/alex-ab/images/seoul-vmm-good.txt
+[2] https://depot.genode.org/alex-ab/images/seoul-vmm-bad.txt
+
+-- 
+Alexander Boettcher
+Genode Labs
+
+https://www.genode-labs.com - https://www.genode.org
+
+Genode Labs GmbH - Amtsgericht Dresden - HRB 28424 - Sitz Dresden
+Geschäftsführer: Dr.-Ing. Norman Feske, Christian Helmuth
+
+
+
+
+Signed-off-by: Alexander Boettcher <alexander.boettcher@genode-labs.com>
+---
+ target/i386/excp_helper.c | 4 ++--
+ target/i386/svm.h         | 1 +
+ target/i386/svm_helper.c  | 7 ++++++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
+index 1447bda7a9..b10c7ecbcc 100644
+--- a/target/i386/excp_helper.c
++++ b/target/i386/excp_helper.c
+@@ -262,8 +262,8 @@ static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+         }
+         ptep = pde | PG_NX_MASK;
+ 
+-        /* if PSE bit is set, then we use a 4MB page */
+-        if ((pde & PG_PSE_MASK) && (env->cr[4] & CR4_PSE_MASK)) {
++        /* if host cr4 PSE bit is set, then we use a 4MB page */
++        if ((pde & PG_PSE_MASK) && (env->nested_pg_mode & SVM_NPT_PSE)) {
+             page_size = 4096 * 1024;
+             pte_addr = pde_addr;
+ 
+diff --git a/target/i386/svm.h b/target/i386/svm.h
+index 23a3a040b8..ae30fc6f79 100644
+--- a/target/i386/svm.h
++++ b/target/i386/svm.h
+@@ -135,6 +135,7 @@
+ #define SVM_NPT_PAE         (1 << 0)
+ #define SVM_NPT_LMA         (1 << 1)
+ #define SVM_NPT_NXE         (1 << 2)
++#define SVM_NPT_PSE         (1 << 3)
+ 
+ #define SVM_NPTEXIT_P       (1ULL << 0)
+ #define SVM_NPTEXIT_RW      (1ULL << 1)
+diff --git a/target/i386/svm_helper.c b/target/i386/svm_helper.c
+index 7b8105a1c3..6224387eab 100644
+--- a/target/i386/svm_helper.c
++++ b/target/i386/svm_helper.c
+@@ -209,16 +209,21 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ 
+     nested_ctl = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+                                                           control.nested_ctl));
++
++    env->nested_pg_mode = 0;
++
+     if (nested_ctl & SVM_NPT_ENABLED) {
+         env->nested_cr3 = x86_ldq_phys(cs,
+                                 env->vm_vmcb + offsetof(struct vmcb,
+                                                         control.nested_cr3));
+         env->hflags2 |= HF2_NPT_MASK;
+ 
+-        env->nested_pg_mode = 0;
+         if (env->cr[4] & CR4_PAE_MASK) {
+             env->nested_pg_mode |= SVM_NPT_PAE;
+         }
++        if (env->cr[4] & CR4_PSE_MASK) {
++            env->nested_pg_mode |= SVM_NPT_PSE;
++        }
+         if (env->hflags & HF_LMA_MASK) {
+             env->nested_pg_mode |= SVM_NPT_LMA;
+         }
+-- 
+2.17.1
 
