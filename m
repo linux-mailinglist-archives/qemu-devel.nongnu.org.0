@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD2420D593
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:34:45 +0200 (CEST)
-Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421F120D58E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jun 2020 21:31:18 +0200 (CEST)
+Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jpzYC-0000zt-5S
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
+	id 1jpzUr-0004ox-5c
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 15:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRI-00084g-P0; Mon, 29 Jun 2020 15:27:36 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:42919)
+ id 1jpzRJ-00086n-LR; Mon, 29 Jun 2020 15:27:37 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jpzRF-0002IL-OR; Mon, 29 Jun 2020 15:27:36 -0400
+ id 1jpzRG-0002IU-D4; Mon, 29 Jun 2020 15:27:37 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B60B2748DDB;
+ by localhost (Postfix) with SMTP id C5608748DCA;
  Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2289E748DC8; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
-Message-Id: <93758f65ef21d977fe835364bb1386fb4c03a6ce.1593456926.git.balaton@eik.bme.hu>
+ id 1E4B4748DCC; Mon, 29 Jun 2020 21:27:18 +0200 (CEST)
+Message-Id: <015adea83c4708c5ed32e561bc8d0691ef839764.1593456926.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1593456926.git.balaton@eik.bme.hu>
 References: <cover.1593456926.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [RFC PATCH v7 7/8] WIP macio/cuda: Attempt to add i2c support
+Subject: [PATCH v7 6/8] i2c: Match parameters of i2c_start_transfer and
+ i2c_send_recv
 Date: Mon, 29 Jun 2020 20:55:26 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -34,14 +35,14 @@ Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/29 15:27:18
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,152 +62,145 @@ Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not a final, RFC patch attempt to implement i2c bus in CUDA
-needed for firmware to access SPD data of installed RAM. The skeleton
-is there but actual implementation of I2C commands need to be refined
-because I don't know how this is supposed to work. In my understanding
-after an I2C command (at least for combined transfer) CUDA should
-enter a mode where reading subsequent values from VIA[SR] should
-return bytes received from the i2C device but not sure what ends this
-mode or how to model it correctly. So this patch just returns fixed
-amount of bytes expected by reading SPD eeproms just to make testing
-the firmware ROM possible. Help fixing and finishing this is welcome,
-I don't plan to spend more time with this so just submitted it for
-whoever picks this up.
+These functions have a parameter that decides the direction of
+transfer but totally confusingly they don't match but inverted sense.
+To avoid frequent mistakes when using these functions change
+i2c_send_recv to match i2c_start_transfer. Also use bool in
+i2c_start_transfer instead of int to match i2c_send_recv.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/misc/macio/cuda.c         | 76 +++++++++++++++++++++++++++++++++++-
- include/hw/misc/macio/cuda.h |  1 +
- 2 files changed, 76 insertions(+), 1 deletion(-)
+This probably won't be the solution accepted as Philippe has an
+alternative series fixing this problem here:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07022.html
+but until that or something else is merged this will do for the next
+patch. When this gets sorted out I'll send a rebased version.
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index 5bbc7770fa..3fc9773717 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -28,6 +28,7 @@
- #include "hw/ppc/mac.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "hw/i2c/i2c.h"
- #include "hw/input/adb.h"
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/cuda.h"
-@@ -370,6 +371,75 @@ static bool cuda_cmd_set_time(CUDAState *s,
-     return true;
- }
- 
-+static bool cuda_cmd_get_set_iic(CUDAState *s,
-+                                 const uint8_t *in_data, int in_len,
-+                                 uint8_t *out_data, int *out_len)
-+{
-+    int i;
-+
-+    qemu_log_mask(LOG_UNIMP, "CUDA: unimplemented GET_SET_IIC %s 0x%x %d\n",
-+                  (in_data[0] & 1 ? "read" : "write"), in_data[0] >> 1,
-+                  in_len);
-+    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1)) {
-+        return false;
-+    }
-+    for (i = 0; i < in_len - 3; i++) {
-+        if (i2c_send(s->i2c_bus, in_data[i])) {
-+            i2c_end_transfer(s->i2c_bus);
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
-+static bool cuda_cmd_combined_iic(CUDAState *s,
-+                                  const uint8_t *in_data, int in_len,
-+                                  uint8_t *out_data, int *out_len)
-+{
-+    int i;
-+
-+    if (in_len < 3) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "CUDA: COMBINED_FORMAT_IIC too few input bytes\n");
-+        return false;
-+    }
-+    if ((in_data[0] & 0xfe) != (in_data[2] & 0xfe)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "CUDA: COMBINED_FORMAT_IIC address mismatch\n");
-+        return false;
-+    }
-+
-+    uint8_t data = in_data[1];
-+    if (i2c_start_transfer(s->i2c_bus, in_data[0] >> 1, in_data[0] & 1) ||
-+        i2c_send_recv(s->i2c_bus, &data, in_data[0] & 1)) {
-+        return false;
-+    }
-+    i2c_end_transfer(s->i2c_bus);
-+    if (in_data[2] & 1) {
-+        if (i2c_start_transfer(s->i2c_bus, in_data[2] >> 1, in_data[2] & 1)) {
-+            i2c_end_transfer(s->i2c_bus);
-+            return false;
-+        }
-+        for (i = 0; i < 5; i++) {
-+            if (i2c_send_recv(s->i2c_bus, &out_data[i], in_data[2] & 1)) {
-+                i2c_end_transfer(s->i2c_bus);
-+                return false;
-+            }
-+        }
-+        *out_len = i;
-+        i2c_end_transfer(s->i2c_bus);
-+    } else {
-+        for (i = 0; i < in_len - 3; i++) {
-+            data = in_data[3 + i];
-+            if (i2c_send_recv(s->i2c_bus, &data, in_data[2] & 1)) {
-+                i2c_end_transfer(s->i2c_bus);
-+                return false;
-+            }
-+        }
-+    }
-+    return true;
-+}
-+
- static const CudaCommand handlers[] = {
-     { CUDA_AUTOPOLL, "AUTOPOLL", cuda_cmd_autopoll },
-     { CUDA_SET_AUTO_RATE, "SET_AUTO_RATE",  cuda_cmd_set_autorate },
-@@ -382,6 +452,8 @@ static const CudaCommand handlers[] = {
-       cuda_cmd_set_power_message },
-     { CUDA_GET_TIME, "GET_TIME", cuda_cmd_get_time },
-     { CUDA_SET_TIME, "SET_TIME", cuda_cmd_set_time },
-+    { CUDA_GET_SET_IIC, "GET_SET_IIC", cuda_cmd_get_set_iic },
-+    { CUDA_COMBINED_FORMAT_IIC, "COMBINED_FORMAT_IIC", cuda_cmd_combined_iic },
- };
- 
- static void cuda_receive_packet(CUDAState *s,
-@@ -549,6 +621,7 @@ static void cuda_init(Object *obj)
+ hw/display/sm501.c   |  2 +-
+ hw/i2c/core.c        | 34 +++++++++++++++++-----------------
+ hw/i2c/ppc4xx_i2c.c  |  2 +-
+ include/hw/i2c/i2c.h |  4 ++--
+ 4 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index a7fc08c52b..e714674681 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -1041,7 +1041,7 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
+                                   s->i2c_byte_count + 1, s->i2c_addr >> 1);
+                     for (i = 0; i <= s->i2c_byte_count; i++) {
+                         res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
+-                                            !(s->i2c_addr & 1));
++                                            s->i2c_addr & 1);
+                         if (res) {
+                             SM501_DPRINTF("sm501 i2c : transfer failed"
+                                           " i=%d, res=%d\n", i, res);
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index acf34a12d6..0303fefeaf 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -91,7 +91,7 @@ int i2c_bus_busy(I2CBus *bus)
+  * without releasing the bus.  If that fails, the bus is still
+  * in a transaction.
+  */
+-int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
++int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv)
  {
-     CUDAState *s = CUDA(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    DeviceState *dev = DEVICE(obj);
- 
-     object_initialize_child(obj, "mos6522-cuda", &s->mos6522_cuda,
-                             TYPE_MOS6522_CUDA);
-@@ -557,7 +630,8 @@ static void cuda_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->mem);
- 
-     qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
--                        DEVICE(obj), "adb.0");
-+                        dev, "adb.0");
-+    s->i2c_bus = i2c_init_bus(dev, "i2c");
+     BusChild *kid;
+     I2CSlaveClass *sc;
+@@ -175,26 +175,14 @@ void i2c_end_transfer(I2CBus *bus)
+     bus->broadcast = false;
  }
  
- static Property cuda_properties[] = {
-diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
-index a8cf0be1ec..6856ed7704 100644
---- a/include/hw/misc/macio/cuda.h
-+++ b/include/hw/misc/macio/cuda.h
-@@ -79,6 +79,7 @@ typedef struct CUDAState {
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
++int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv)
+ {
+     I2CSlaveClass *sc;
+     I2CSlave *s;
+     I2CNode *node;
+     int ret = 0;
  
-     ADBBusState adb_bus;
-     MOS6522CUDAState mos6522_cuda;
-+    I2CBus *i2c_bus;
+-    if (send) {
+-        QLIST_FOREACH(node, &bus->current_devs, next) {
+-            s = node->elt;
+-            sc = I2C_SLAVE_GET_CLASS(s);
+-            if (sc->send) {
+-                trace_i2c_send(s->address, *data);
+-                ret = ret || sc->send(s, *data);
+-            } else {
+-                ret = -1;
+-            }
+-        }
+-        return ret ? -1 : 0;
+-    } else {
++    if (recv) {
+         ret = 0xff;
+         if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
+             sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
+@@ -206,19 +194,31 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
+         }
+         *data = ret;
+         return 0;
++    } else {
++        QLIST_FOREACH(node, &bus->current_devs, next) {
++            s = node->elt;
++            sc = I2C_SLAVE_GET_CLASS(s);
++            if (sc->send) {
++                trace_i2c_send(s->address, *data);
++                ret = ret || sc->send(s, *data);
++            } else {
++                ret = -1;
++            }
++        }
++        return ret ? -1 : 0;
+     }
+ }
  
-     uint32_t tick_offset;
-     uint64_t tb_frequency;
+ int i2c_send(I2CBus *bus, uint8_t data)
+ {
+-    return i2c_send_recv(bus, &data, true);
++    return i2c_send_recv(bus, &data, false);
+ }
+ 
+ uint8_t i2c_recv(I2CBus *bus)
+ {
+     uint8_t data = 0xff;
+ 
+-    i2c_send_recv(bus, &data, false);
++    i2c_send_recv(bus, &data, true);
+     return data;
+ }
+ 
+diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+index c0a8e04567..d3899203a4 100644
+--- a/hw/i2c/ppc4xx_i2c.c
++++ b/hw/i2c/ppc4xx_i2c.c
+@@ -239,7 +239,7 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+                     }
+                 }
+                 if (!(i2c->sts & IIC_STS_ERR) &&
+-                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
++                    i2c_send_recv(i2c->bus, &i2c->mdata[i], recv)) {
+                     i2c->sts |= IIC_STS_ERR;
+                     i2c->extsts |= IIC_EXTSTS_XFRA;
+                     break;
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index d6e3d85faf..ad2475d6a2 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -72,10 +72,10 @@ struct I2CBus {
+ I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+ void i2c_set_slave_address(I2CSlave *dev, uint8_t address);
+ int i2c_bus_busy(I2CBus *bus);
+-int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
++int i2c_start_transfer(I2CBus *bus, uint8_t address, bool recv);
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
++int i2c_send_recv(I2CBus *bus, uint8_t *data, bool recv);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
+ 
 -- 
 2.21.3
 
