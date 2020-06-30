@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553D120EF59
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 09:32:20 +0200 (CEST)
-Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1907E20EF60
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 09:33:45 +0200 (CEST)
+Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqAkd-0003os-3H
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 03:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
+	id 1jqAm0-0005tX-2R
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 03:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jqAiu-0003L8-1R
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 03:30:32 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:35079)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jqAis-00055k-AI
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 03:30:31 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id t74so10764842lff.2
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 00:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+KrQvNzKc9YSWzQ0AdGIBTSgjB2SMRu8sgBGWFvEcu0=;
- b=C/WCRyRdrhmZ3jJ/GfDk8X0yJK8lG8S1jxa4zqcCofEhelpld4crFOcsKlQaM3dXl8
- 622DrBwNzkRBSjm5dT/4SbuWjwnz9WWJ8bEBLvnKRJzkP6W5iYncKxalhDHsozBkGytz
- Va0pQpoG5O0Qwko9uONiUZ0zIrSpeN1Kno8ONRkTHsZDmLAm78NB/8C3fYKGno7gNP7l
- nELkjyzHevPtTUwtu/UrsUyEUrOyU6Uj7gpTpAPmVUAMAKyIhQPdJ42EPLLMMMmudmMk
- GBYfQYBf3k9GtWM+O4euPXx5sLj4dO9/ONk0AV1j8NBT3CpNqHWCpeMoWjzf0h9xAa6Y
- JLpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+KrQvNzKc9YSWzQ0AdGIBTSgjB2SMRu8sgBGWFvEcu0=;
- b=qBwP5RAlkIVapdWwRongT4/8nAkt516bsSTz86ZU901Q6PK6KWYXQI1NTAd/TszVoh
- uFSGFCxLJer4TFUVLn/f3jl1zt3XSSxoH61VVWneJTQML260HBoVA9X1TWJF18SKHbVB
- ebqstciSGttuZVssQ8J//OldsYy5yvdujaNYS/7+C2bvNxUArZVFmKhblK0HQCAC4vNX
- uu9qgHmvk0HR2mcRl9Se58dn4+lgdnRoU3ySXCernkNEBvCzOH0oIRDupq/vyskgK0KE
- WXSJFQCqcmxQO84knwKNM2Y4puILbs4rim1vY1s7CDZSzRJt/lDStGVkSYNEhwQhkzUv
- wlZg==
-X-Gm-Message-State: AOAM5306pQCOJCRuZx7wjRCgvvjSBlS4+kBJrtlCI9N14sXvx4NWjGig
- Idik1PdT2ev+aUi5iQM5CKYDhcWVWX3Kr9coE94=
-X-Google-Smtp-Source: ABdhPJzTBP5cQAeuNndWXoUrK/LOl9Y1mOH94bcy4plHkx4MWwI5d9fk5NSqKhpP9W+mDdAnyogN4TDcgR+JsVwxUVs=
-X-Received: by 2002:a19:815:: with SMTP id 21mr11013845lfi.119.1593502228407; 
- Tue, 30 Jun 2020 00:30:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jqAjg-0003jx-7A; Tue, 30 Jun 2020 03:31:20 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jqAjb-0005Ju-Jd; Tue, 30 Jun 2020 03:31:19 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.09593058|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_enroll_verification|0.0168163-0.00683792-0.976346;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03301; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.Hv39IgI_1593502266; 
+Received: from 30.225.208.21(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Hv39IgI_1593502266)
+ by smtp.aliyun-inc.com(10.147.44.129);
+ Tue, 30 Jun 2020 15:31:07 +0800
+Subject: Re: [PATCH 3/6] target/riscv: Check for LEGAL NaN-boxing
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+References: <20200626205917.4545-1-zhiwei_liu@c-sky.com>
+ <20200626205917.4545-4-zhiwei_liu@c-sky.com>
+ <CAEiOBXWCVWhZ4oopTvmhU5yfSW+pdyJPDvqDfnvHD2DesXdAhQ@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <1c4c9bff-7f77-6d8d-2950-7cc030175c05@c-sky.com>
+Date: Tue, 30 Jun 2020 15:31:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <CALTWKrVAW33jJs1Q+51wN07DDUbAqwo=o+WDCpoT=NFB6dNZ6A@mail.gmail.com>
- <CAE2XoE-dOHGtJO5f0xXA7r4hEeL5LDOPB1TDNPjWNC+hf9Qyew@mail.gmail.com>
-In-Reply-To: <CAE2XoE-dOHGtJO5f0xXA7r4hEeL5LDOPB1TDNPjWNC+hf9Qyew@mail.gmail.com>
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Date: Tue, 30 Jun 2020 09:29:49 +0200
-Message-ID: <CALTWKrVwRhQEEjMEq444fNgBp1Dv_XyJAV7suXCEmeS40raaEQ@mail.gmail.com>
-Subject: Re: [REPORT] [GSoC - TCG Continuous Benchmarking] [#2] Dissecting
- QEMU Into Three Main Parts
-To: luoyonggang@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lf1-x12f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAEiOBXWCVWhZ4oopTvmhU5yfSW+pdyJPDvqDfnvHD2DesXdAhQ@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------3B7E139C1DF6F854F1510999"
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:56:46
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,62 +63,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Ian Jiang <ianjiang.ict@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 7:59 AM =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <=
-luoyonggang@gmail.com> wrote:
->
-> Wonderful work, May I reproduce the work on my local machine?
->
-> On Mon, Jun 29, 2020 at 6:26 PM Ahmed Karaman <ahmedkhaledkaraman@gmail.c=
-om> wrote:
->>
->> Hi,
->>
->> The second report of the TCG Continuous Benchmarking series builds
->> upon the QEMU performance metrics calculated in the previous report.
->> This report presents a method to dissect the number of instructions
->> executed by a QEMU invocation into three main phases:
->> - Code Generation
->> - JIT Execution
->> - Helpers Execution
->> It devises a Python script that automates this process.
->>
->> After that, the report presents an experiment for comparing the
->> output of running the script on 17 different targets. Many conclusions
->> can be drawn from the results and two of them are discussed in the
->> analysis section.
->>
->> Report link:
->> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Dissecting-QEMU-=
-Into-Three-Main-Parts/
->>
->> Previous reports:
->> Report 1 - Measuring Basic Performance Metrics of QEMU:
->> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06692.html
->>
->> Best regards,
->> Ahmed Karaman
->
->
->
-> --
->          =E6=AD=A4=E8=87=B4
-> =E7=A4=BC
-> =E7=BD=97=E5=8B=87=E5=88=9A
-> Yours
->     sincerely,
-> Yonggang Luo
+This is a multi-part message in MIME format.
+--------------3B7E139C1DF6F854F1510999
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks Mr. Yonggang. Yes of course, go ahead.
-Please let me know if you have any further questions.
 
-Best Regards,
-Ahmed Karaman
+
+On 2020/6/30 15:20, Chih-Min Chao wrote:
+>
+>
+> On Sat, Jun 27, 2020 at 5:05 AM LIU Zhiwei <zhiwei_liu@c-sky.com 
+> <mailto:zhiwei_liu@c-sky.com>> wrote:
+>
+>     A narrow n-bit operation, where n < FLEN, checks that input operands
+>     are correctly NaN-boxed, i.e., all upper FLEN - n bits are 1.
+>     If so, the n least-significant bits of the input are used as the
+>     input value,
+>     otherwise the input value is treated as an n-bit canonical NaN.
+>
+>     Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com
+>     <mailto:zhiwei_liu@c-sky.com>>
+>     ---
+>      target/riscv/translate.c | 29 +++++++++++++++++++++++++++++
+>      1 file changed, 29 insertions(+)
+>
+>     diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>     index 4b1534c9a6..1c9b809d4a 100644
+>     --- a/target/riscv/translate.c
+>     +++ b/target/riscv/translate.c
+>     @@ -104,6 +104,35 @@ static void gen_nanbox_fpr(DisasContext *ctx,
+>     int regno)
+>          }
+>      }
+>
+>     +/*
+>     + * A narrow n-bit operation, where n < FLEN, checks that input
+>     operands
+>     + * are correctly NaN-boxed, i.e., all upper FLEN - n bits are 1.
+>     + * If so, the n least-signicant bits of the input are used as the
+>     input value,
+>     + * otherwise the input value is treated as an n-bit canonical NaN.
+>     + * (riscv-spec-v2.2 Section 9.2).
+>     + */
+>     +static void check_nanboxed(DisasContext *ctx, int num, ...)
+>     +{
+>     +    if (has_ext(ctx, RVD)) {
+>     +        int i;
+>     +        TCGv_i64 cond1 = tcg_temp_new_i64();
+>
+> forget to remove ?
+Oops!  Once I wanted to use tcg_gen_setcond_i64.
+
+Thanks for pointing it out. I will fixed it next patch set.
+
+Zhiwei
+
+>     +        TCGv_i64 t_nan = tcg_const_i64(0x7fc00000);
+>     +        TCGv_i64 t_max = tcg_const_i64(MAKE_64BIT_MASK(32, 32));
+>     +        va_list valist;
+>     +        va_start(valist, num);
+>     +
+>     +        for (i = 0; i < num; i++) {
+>     +            TCGv_i64 t = va_arg(valist, TCGv_i64);
+>     +            tcg_gen_movcond_i64(TCG_COND_GEU, t, t, t_max, t, t_nan);
+>     +        }
+>     +
+>     +        va_end(valist);
+>     +        tcg_temp_free_i64(cond1);
+>
+> forget to remove ?
+>
+>     +        tcg_temp_free_i64(t_nan);
+>     +        tcg_temp_free_i64(t_max);
+>     +    }
+>     +}
+>     +
+>      static void generate_exception(DisasContext *ctx, int excp)
+>      {
+>          tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+>     -- 
+>     2.23.0
+>
+>
+>  Chih-Min Chao
+
+
+--------------3B7E139C1DF6F854F1510999
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/6/30 15:20, Chih-Min Chao
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAEiOBXWCVWhZ4oopTvmhU5yfSW+pdyJPDvqDfnvHD2DesXdAhQ@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr"><br clear="all">
+          <div>
+            <div dir="ltr" class="gmail_signature"
+              data-smartmail="gmail_signature">
+              <div dir="ltr"><span style="color:rgb(136,136,136)"></span>
+                <div style="color:rgb(136,136,136)"><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Sat, Jun 27, 2020 at 5:05
+            AM LIU Zhiwei &lt;<a href="mailto:zhiwei_liu@c-sky.com"
+              moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt; wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">A narrow n-bit operation,
+            where n &lt; FLEN, checks that input operands<br>
+            are correctly NaN-boxed, i.e., all upper FLEN - n bits are
+            1.<br>
+            If so, the n least-significant bits of the input are used as
+            the input value,<br>
+            otherwise the input value is treated as an n-bit canonical
+            NaN.<br>
+            <br>
+            Signed-off-by: LIU Zhiwei &lt;<a
+              href="mailto:zhiwei_liu@c-sky.com" target="_blank"
+              moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;<br>
+            ---<br>
+             target/riscv/translate.c | 29 +++++++++++++++++++++++++++++<br>
+             1 file changed, 29 insertions(+)<br>
+            <br>
+            diff --git a/target/riscv/translate.c
+            b/target/riscv/translate.c<br>
+            index 4b1534c9a6..1c9b809d4a 100644<br>
+            --- a/target/riscv/translate.c<br>
+            +++ b/target/riscv/translate.c<br>
+            @@ -104,6 +104,35 @@ static void gen_nanbox_fpr(DisasContext
+            *ctx, int regno)<br>
+                 }<br>
+             }<br>
+            <br>
+            +/*<br>
+            + * A narrow n-bit operation, where n &lt; FLEN, checks that
+            input operands<br>
+            + * are correctly NaN-boxed, i.e., all upper FLEN - n bits
+            are 1.<br>
+            + * If so, the n least-signicant bits of the input are used
+            as the input value,<br>
+            + * otherwise the input value is treated as an n-bit
+            canonical NaN.<br>
+            + * (riscv-spec-v2.2 Section 9.2).<br>
+            + */<br>
+            +static void check_nanboxed(DisasContext *ctx, int num, ...)<br>
+            +{<br>
+            +    if (has_ext(ctx, RVD)) {<br>
+            +        int i;<br>
+            +        TCGv_i64 cond1 = tcg_temp_new_i64();<br>
+          </blockquote>
+          <div>forget to remove ? <br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Oops!  Once I wanted to use tcg_gen_setcond_i64. <br>
+    <br>
+    Thanks for pointing it out. I will fixed it next patch set.<br>
+    <br>
+    Zhiwei<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAEiOBXWCVWhZ4oopTvmhU5yfSW+pdyJPDvqDfnvHD2DesXdAhQ@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +        TCGv_i64 t_nan = tcg_const_i64(0x7fc00000);<br>
+            +        TCGv_i64 t_max = tcg_const_i64(MAKE_64BIT_MASK(32,
+            32));<br>
+            +        va_list valist;<br>
+            +        va_start(valist, num);<br>
+            +<br>
+            +        for (i = 0; i &lt; num; i++) {<br>
+            +            TCGv_i64 t = va_arg(valist, TCGv_i64);<br>
+            +            tcg_gen_movcond_i64(TCG_COND_GEU, t, t, t_max,
+            t, t_nan);<br>
+            +        }<br>
+            +<br>
+            +        va_end(valist);<br>
+            +        tcg_temp_free_i64(cond1);<br>
+          </blockquote>
+          <div>forget to remove ?  </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +        tcg_temp_free_i64(t_nan);<br>
+            +        tcg_temp_free_i64(t_max);<br>
+            +    }<br>
+            +}<br>
+            +<br>
+             static void generate_exception(DisasContext *ctx, int excp)<br>
+             {<br>
+                 tcg_gen_movi_tl(cpu_pc, ctx-&gt;base.pc_next);<br>
+            -- <br>
+            2.23.0<br>
+            <br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div> </div>
+          <div> Chih-Min Chao</div>
+          <div> </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------3B7E139C1DF6F854F1510999--
 
