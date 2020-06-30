@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA61220F286
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:19:51 +0200 (CEST)
-Received: from localhost ([::1]:36572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC0820F273
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:17:44 +0200 (CEST)
+Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDMk-00034T-NK
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
+	id 1jqDKh-0007rT-4f
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDFk-0002de-Sn
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:12:36 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:56202 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDFi-0006ET-Kx
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:12:36 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id F28384C886;
- Tue, 30 Jun 2020 10:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1593511950;
- x=1595326351; bh=nRfdTHkrrXY0LAEfhvcDRbsLe7NaPi6CbgUnnvy64D0=; b=
- P6ps+ZCxghTuI6MHdPlnDa49Hl46Q+qKcKdRhG0k5Xly48CUVd/fzYiDERmOE447
- bZFbfDUQJyP+Z73+y7aqgLdKbFGNRLqho+yXTvFpGjIN226N0bGd2VSjw8BJPkhp
- 3EwM19zNgquMsq14wc0vMQgpWCSmfZ31uK621/dNbHM=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RNIQIYe2jm2C; Tue, 30 Jun 2020 13:12:30 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqDIf-0006Re-OW
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:15:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24994
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqDId-0006kV-3Z
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:15:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593512134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vb7ygvRPmN2ygKpfVgGaW2RA5jYgFDz5aKuaFqPb4KE=;
+ b=a0gDTy1lm1z2nClfh99GSQPO0EKxRZxcybuJuj+l+Y3HB3VgOWBQqVWSfI0U4td8QcXu+x
+ QYSakpId5jQEL1BVNaqirCIvdD2eFAxu6ruOX8IItQHmQo6Ax0vzbIQD49dVRjhHlLWfso
+ EJVE3BQIwM/zqru4myvbXUQslRhOjjU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-GNd4VPA0NWuH1jzlPqmYFQ-1; Tue, 30 Jun 2020 06:15:30 -0400
+X-MC-Unique: GNd4VPA0NWuH1jzlPqmYFQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id C904A412C5;
- Tue, 30 Jun 2020 13:12:29 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 30
- Jun 2020 13:12:29 +0300
-Date: Tue, 30 Jun 2020 13:12:28 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/8] i386: hvf: Implement CPU kick
-Message-ID: <20200630101228.GA39334@SPB-NB-133.local>
-References: <20200624225850.16982-5-r.bolshakov@yadro.com>
- <9d63db4e-25a7-9c77-6f05-e5f808b8b33c@redhat.com>
- <20200625155712.GI25104@SPB-NB-133.local>
- <6508d40b-0142-1b42-2f48-fcd2da66ea4b@redhat.com>
- <20200629113107.GL25104@SPB-NB-133.local>
- <d1d7cf19-d56c-c095-a3b8-45e2be0752ea@redhat.com>
- <20200629132911.GN25104@SPB-NB-133.local>
- <0c8d14fa-e2cf-00e7-135f-d88fda38f31d@redhat.com>
- <20200629140433.GO25104@SPB-NB-133.local>
- <cb4a42b2-5bb7-5f69-64d1-cad6f4bb05df@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7A0BEC1A9;
+ Tue, 30 Jun 2020 10:15:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09FE061981;
+ Tue, 30 Jun 2020 10:15:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 702F811384A6; Tue, 30 Jun 2020 12:15:21 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 5/5] hw/i2c: Document the I2C qdev helpers
+References: <20200629173821.22037-1-f4bug@amsat.org>
+ <20200629173821.22037-6-f4bug@amsat.org>
+Date: Tue, 30 Jun 2020 12:15:21 +0200
+In-Reply-To: <20200629173821.22037-6-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 29 Jun 2020 19:38:21
+ +0200")
+Message-ID: <87zh8kg8qu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cb4a42b2-5bb7-5f69-64d1-cad6f4bb05df@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 06:12:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,103 +86,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Jan Kiszka <jan.kiszka@web.de>, David Gibson <david@gibson.dropbear.id.au>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 29, 2020 at 04:18:46PM +0200, Paolo Bonzini wrote:
-> On 29/06/20 16:04, Roman Bolshakov wrote:
-> > My approach is based
-> > hv_vcpu_run() and should hopefully work almost anywhere where
-> > Hypervisor.framework is available because Hypervisor framework exposes
-> > timer value
-> > (https://developer.apple.com/documentation/hypervisor/vmcs_guest_vmx_timer_value)
-> > since macOS 10.10.3+.
-> 
-> There are a few other constants for which it would be unwise to write
-> from userspace, so that's not a big consolation. :)
-> 
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Hi Paolo,
+> In commit d88c42ff2c we added new prototype but neglected to
+> add their documentation. Fix that.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/hw/i2c/i2c.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index c533058998..fcc61e509b 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -79,8 +79,56 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool sen=
+d);
+>  int i2c_send(I2CBus *bus, uint8_t data);
+>  uint8_t i2c_recv(I2CBus *bus);
+> =20
+> +/**
+> + * Create an I2C slave device on the heap.
+> + * @name: a device type name
+> + * @addr: I2C address of the slave when put on a bus
+> + *
+> + * This only initializes the device state structure and allows
+> + * properties to be set. Type @name must exist. The device still
+> + * needs to be realized. See qdev-core.h.
+> + */
+>  I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
+> +
+> +/**
+> + * Create an I2C slave device on the heap.
 
-So, I've tried Big Sur Beta and it has exactly the same performance
-issue with hv_vcpu_run_until() while hv_vcpu_run() works as good as it
-worked on 10.15.5. I've submitted FB7827341 to Apple wrt the issue.
+Suggest "Create and realize ..."
 
-> > I can also test how hv_vcpu_run_until() performs with HV_DEADLINE_FOREVER
-> > on the Beta. And if the performance issues with VMX-preemption timer and
-> > hv_vcpu_run_until() are fixed there.
-> 
-> Thanks!  The main thing to test on Big Sur would be: 1) whether the
-> preemption timer bit in the pin controls "sticks" to 0 after setting it
+> + * @bus: I2C bus to put it on
+> + * @name: I2C slave device type name
+> + * @addr: I2C address of the slave when put on a bus
+> + *
+> + * Create the device state structure, initialize it, put it on the
+> + * specified @bus, and drop the reference to it (the device is realized)=
+.
+> + * Any error aborts the process.
 
-It does not. If it's set, it stays there.
+Stick to imperative mood: Abort on error.
 
-> 2) whether the bit reads back as zero after
-> hv_vcpu_run_until(HV_DEADLINE_FOREVER).
-> 
+Do we need the sentence?  Doc comments of object_new(), qdev_new() and
+i2c_slave_new() don't have it, they document *preconditions* instead,
+using "must", and rely on the tacit understanding that a function may
+abort or crash when its documented preconditions aren't met.  Matter of
+taste, I guess.
 
-Likewise, it's not cleared if set.
+> + */
+>  I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t=
+ addr);
+> +
+> +/**
+> + * i2c_slave_realize_and_unref: realize and unref an I2C slave device
 
-As far as I understand, hv_vcpu_run_until(HV_DEADLINE_FOREVER) works
-like hv_vcpu_run() without VMX-preemption timer. Otherwise
-hv_vcpu_run_until() implicitly sets VMX-preemption timer Pin-based
-control and sets the timer value.
+Either consistently waste space for repeating the function name at the
+beginning of its doc comment, or consistently don't :)
 
-Thanks,
-Roman
+qdev_realize_and_unref()'s doc comment says "and drop a reference"
+instead of "unref", because "unref" is not a word.
 
-Here's the patch over v2 that adds support of hv_vcpu_run_until() on Big Sur:
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 317304aa1d..ad202f7358 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -72,8 +72,12 @@
- #include "sysemu/accel.h"
- #include "target/i386/cpu.h"
- 
-+#if defined(__MAC_10_16) && __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_16
-+#define HVF_MAX_DEADLINE HV_DEADLINE_FOREVER
-+#else
- /* Maximum value of VMX-preemption timer */
- #define HVF_MAX_DEADLINE UINT32_MAX
-+#endif
- 
- HVFState *hvf_state;
- 
-@@ -693,6 +697,7 @@ int hvf_vcpu_exec(CPUState *cpu)
-     CPUX86State *env = &x86_cpu->env;
-     int ret = 0;
-     uint64_t rip = 0;
-+    hv_return_t r;
- 
-     if (hvf_process_events(cpu)) {
-         return EXCP_HLT;
-@@ -718,10 +723,22 @@ int hvf_vcpu_exec(CPUState *cpu)
-         /* Use VMX-preemption timer trick only if available */
-         if (rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS) &
-             VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER) {
-+#if defined(__MAC_10_16) && __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_16
-+            r = hv_vcpu_run_until(cpu->hvf_fd,
-+                                  atomic_read(&env->hvf_deadline));
-+        } else {
-+            /*
-+             * Equivalent to behaviour of hv_vcpu_run() with VMX-preemption
-+             * timer disabled, prone to kick loss.
-+             */
-+            r = hv_vcpu_run_until(cpu->hvf_fd, HVF_MAX_DEADLINE);
-+        }
-+#else
-             wvmcs(cpu->hvf_fd, VMCS_PREEMPTION_TIMER_VALUE,
-                   atomic_read(&env->hvf_deadline));
-         }
--        hv_return_t r  = hv_vcpu_run(cpu->hvf_fd);
-+        r = hv_vcpu_run(cpu->hvf_fd);
-+#endif
-         atomic_set(&env->hvf_deadline, HVF_MAX_DEADLINE);
-         assert_hvf_ok(r);
- 
+> + * @dev: I2C slave device to realize
+> + * @bus: I2C bus to put it on
+> + * @addr: I2C address of the slave on the bus
+> + * @errp: error pointer
+
+$ git-grep -h "@errp:" | sort -u
+ *  @errp: pointer to Error*, to store an error if it happens
+ * @errp:   error object
+ * @errp: Error object
+ * @errp: Error object which may be set by job_complete(); this is not
+ * @errp: Error object.
+ * @errp: If an error occurs, a pointer to an area to store the error
+ * @errp: Output pointer for error information. Can be NULL.
+ * @errp: Pointer for reporting an #Error.
+ * @errp: Populated with an error in failure cases
+ * @errp: a pointer to an Error that is filled if getting/setting fails.
+ * @errp: a pointer to return the #Error object if an error occurs.
+ * @errp: an error indicator
+ * @errp: error
+ * @errp: error object
+ * @errp: error object handle
+ * @errp: handle to an error object
+ * @errp: if an error occurs, a pointer to an area to store the error
+ * @errp: indirect pointer to Error to be set
+ * @errp: location to store error
+ * @errp: location to store error information
+ * @errp: location to store error information.
+ * @errp: location to store error, will be set only for exception
+ * @errp: pointer to Error*, to store an error if it happens.
+ * @errp: pointer to NULL initialized error object
+ * @errp: pointer to a NULL initialized error object
+ * @errp: pointer to a NULL-initialized error object
+ * @errp: pointer to an error
+ * @errp: pointer to error object
+ * @errp: pointer to initialized error object
+ * @errp: pointer to uninitialized error object
+
+Aside: gotta love these two.
+
+ * @errp: returns an error if this function fails
+ * @errp: set *errp if the check failed, with reason
+ * @errp: set in case of an error
+ * @errp: set on error
+ * @errp: unused
+ * @errp: where to put errors
+
+Plenty of choice, recommend not to invent another one :)
+
+> + *
+> + * Call 'realize' on @dev, put it on the specified @bus, and drop the
+> + * reference to it. Errors are reported via @errp and by returning
+> + * false.
+
+Recommend to use a separate paragraph for the return value.  Since your
+comment style resembles GTK-Doc style[*], you may just as well use it
+for the return value, like this:
+
+      Returns: %true on success, %false on failure.
+
+By convention, it goes after the function description.
+
+> + *
+> + * This function is useful if you have created @dev via qdev_new(),
+> + * i2c_slave_new() or i2c_slave_try_new() (which take a reference to
+> + * the device it returns to you), so that you can set properties on it
+> + * before realizing it. If you don't need to set properties then
+> + * i2c_slave_create_simple() is probably better (as it does the create,
+> + * init and realize in one step).
+> + *
+> + * If you are embedding the I2C slave into another QOM device and
+> + * initialized it via some variant on object_initialize_child() then
+> + * do not use this function, because that family of functions arrange
+> + * for the only reference to the child device to be held by the parent
+> + * via the child<> property, and so the reference-count-drop done here
+> + * would be incorrect.  (Instead you would want i2c_slave_realize(),
+> + * which doesn't currently exist but would be trivial to create if we
+> + * had any code that wanted it.)
+> + */
+
+The advice on use is more elaborate qdev_realize_and_unref()'s.  That
+one simply shows intended use.  I doubt we need more.  But as the person
+who wrote qdev_realize_and_unref(), I'm singularly unqualified judging
+the need ;)
+
+>  bool i2c_slave_realize_and_unref(I2CSlave *dev, I2CBus *bus, Error **err=
+p);
+> =20
+>  /* lm832x.c */
+
+
+[*] A style I dislike, but it's common in QEMU, so you're certainly
+entitled to use it.
 
 
