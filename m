@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C8520FD8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:21:27 +0200 (CEST)
-Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD42F20FD9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:27:26 +0200 (CEST)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqMkw-000504-AY
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58696)
+	id 1jqMqj-0001q7-P9
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqMjs-0004U5-2p
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:20:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58865
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqMjp-0007W5-I6
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:20:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593548415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2vANeyoxKQOcESL4W/943DWDT/9HkfBmmtSx8GYVx50=;
- b=DYBbMDjq9DzlgfptCalQc0hMRspNf5dh7fv/9dLJPPNBMwA3jupxqw2QJHTQuP3S1qPavg
- gV1BBCDGIkHM5vpbzgCdG4eSBz2PMgt2uWMD2aYEZOZC1CgWp53JsFfgsOJglW8thqbsZg
- zY447uno9vqvguuawWmvl+q5s80ucB4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-96lLimHyPyG2scepeufolA-1; Tue, 30 Jun 2020 16:20:10 -0400
-X-MC-Unique: 96lLimHyPyG2scepeufolA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2082818B5FC8;
- Tue, 30 Jun 2020 20:19:59 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E40815F7D8;
- Tue, 30 Jun 2020 20:19:55 +0000 (UTC)
-Subject: Re: [PATCH v2 0/6] hw/mips/malta: Add the 'malta-strict' machine,
- matching Malta hardware
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200630145236.27529-1-f4bug@amsat.org>
- <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2d116426-3323-7429-ff41-7f6b9a9f1c55@redhat.com>
-Date: Tue, 30 Jun 2020 22:19:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqMq0-0001PS-7k
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:26:40 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqMpy-0008Rh-J1
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:26:39 -0400
+Received: by mail-wm1-x342.google.com with SMTP id o2so20856119wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 13:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e2BF+A9YUkBVWlpybbuT6qU8rSkjv4EZulEMn8kcqu0=;
+ b=N+4MIEwMPYNxMh4o25IFxTZbZg4oePBYEdRfnUBC2OmenTZZbwiVXL3U0Ptz4CDtq6
+ vDvZgXD1ec10qzIJfc+a3HIhfqizup1BiNXORiQ5tlDMfg9o4VsB2gAo8Nk//WuyxT58
+ kX6m5TzRFFIAq7x1ysltcsYu0PsomWhSF0L24hxZvhGXOlZcUDWt2Oqofob2z6PVwjCH
+ TRjwC3DgCO0rJYo0b360py1Ba3EDq9yjynlZK/k59ZIW7pYVvQXPDqTfngUtXSCxEyOI
+ ksHVS1Le/GOd6spfLkAwuiONj7tbtJyNhxg3PST3PNtFXzeJbHq/FyXkf0kc5E7jlrex
+ 3Tnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=e2BF+A9YUkBVWlpybbuT6qU8rSkjv4EZulEMn8kcqu0=;
+ b=bT6y8RKkxTJwPObuSJwo6MudkSrsX7pfyBWWbv/C7N5H7eIeZLtqoQFZiIjIhkopal
+ DOZ2hUhLbACVYON+2Nif3FBmDOci0tKp5M2Xu9pXZ5PXKxVd/ujRt7kJEPMN4vk5ZK3Z
+ kRK6pGhNy3UQjdiSpOhhyYkUymGfdI2eqDwhECNPY3YtSTeUr8teldKG4Q8d7WfKDXd9
+ Xb+sAKPgPfPgYWx1XKYLp1+3Bdl92F9HgRfJYsWGcJRiPd0S2DA5xa9pAug+ehF+bdpG
+ StG96ebzG3rtSpneYSywxyFsxa3sJpgJKEuSEfZjLfuHS8jkkViSwfBVPQvOm4Y8BBop
+ EF3Q==
+X-Gm-Message-State: AOAM533+O94dG+u4VaBESYR/yIooQNVXk9hYxX+Z6wx47gtyIcSdAoOp
+ F2hl5skBTip+DiLa4AIaRvG3108b1NE=
+X-Google-Smtp-Source: ABdhPJwbrSBTdMNAN6e7OHgq1vH8IAz8BeHi6cBJ2J7Y2QoZ00B+035VWi4lVKS9Dl4XVnoZ8KQE5A==
+X-Received: by 2002:a7b:cc17:: with SMTP id f23mr22422594wmh.41.1593548794348; 
+ Tue, 30 Jun 2020 13:26:34 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id 33sm4921361wri.16.2020.06.30.13.26.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 13:26:33 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/acceptance/machine_rx_gdbsim: Use stable URL for
+ test_linux_sash
+Date: Tue, 30 Jun 2020 22:26:31 +0200
+Message-Id: <20200630202631.7345-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,60 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Yunqiang Su <ysu@wavecomp.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/06/2020 17.38, Aleksandar Markovic wrote:
-> уто, 30. јун 2020. у 16:52 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> Hi,
->>
->> This series add a new 'malta-strict' machine, that aims to properly
->> model the real hardware (which is not what the current 'malta'
->> machine models).
->>
->> As a bonus for Debian builders, a 'malta-unleashed' machine RFC
->> patch is included. This might start another endless discussion
->> upstream, but this is not the point of, so I still include it
->> for people to test. The rest of the series is candidate for merging
->> in mainstream QEMU.
->>
->> Philippe Mathieu-Daudé (6):
->>    hw/mips/malta: Trivial code movement
->>    hw/mips/malta: Register the machine as a TypeInfo
->>    hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
->>    hw/mips/malta: Introduce the 'malta-strict' machine
->>    hw/mips/malta: Verify malta-strict machine uses correct DIMM sizes
->>    hw/mips/malta: Introduce the 'malta-unleashed' 64-bit machine
->>
->>   hw/mips/malta.c | 125 ++++++++++++++++++++++++++++++++++++++++++------
->>   1 file changed, 111 insertions(+), 14 deletions(-)
->>
->> --
-> 
-> This whole series is based on idea of emulating physically
-> non-existing feature, and as such violates the fundamental principles
-> of QEMU.
-> 
-> As such, not acceptable for upstreaming.
+Yoshinori said [*] URL references on OSDN were stable, but they
+appear not to be. Mirror the artifacts on GitHub to avoid failures
+while testing on CI.
 
-  Hi Aleksandar,
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg686487.html
 
-could you please point me to the spot where we declare this "fundamental 
-principle" of QEMU? Sorry, but I must have missed this piece of 
-information so far. And could you please enlighten me what we should do 
-now with virtio, since most of these devices also are physically 
-non-existent?
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/machine_rx_gdbsim.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-  Thanks,
-   Thomas
+diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
+index a44f2c87da..41fce0e908 100644
+--- a/tests/acceptance/machine_rx_gdbsim.py
++++ b/tests/acceptance/machine_rx_gdbsim.py
+@@ -50,10 +50,12 @@ def test_linux_sash(self):
+         :avocado: tags=machine:gdbsim-r5f562n7
+         :avocado: tags=endian:little
+         """
+-        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb')
++        dtb_url = ('https://github.com/philmd/qemu-testing-blob/raw/'
++                   'rx-gdbsim/rx/gdbsim/rx-gdbsim.dtb')
+         dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
+         dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
+-        kernel_url = ('http://acc.dl.osdn.jp/users/23/23845/zImage')
++        kernel_url = ('https://github.com/philmd/qemu-testing-blob/raw/'
++                      'rx-gdbsim/rx/gdbsim/zImage')
+         kernel_hash = '39a81067f8d72faad90866ddfefa19165d68fc99'
+         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+ 
+-- 
+2.21.3
 
 
