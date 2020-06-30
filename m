@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4083920F9CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 18:49:41 +0200 (CEST)
-Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F5A20F9E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 18:54:59 +0200 (CEST)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqJS0-0000c6-8C
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 12:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
+	id 1jqJX8-0004Kv-RS
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 12:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqJPo-0007Ny-Qx
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:47:24 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqJPm-0007zl-9O
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:47:24 -0400
-Received: by mail-ej1-x642.google.com with SMTP id y10so21368801eje.1
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 09:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5Xny8L3l0VFSndMmYb2T1ad6LbQdW7hhdEvQurbhWF8=;
- b=VftcJPlpkpULIXiqv5v6vLtQeN5eMAdqOTFCEYnl4vc7xojZZQhe7l/+QlTiWS4SzG
- FQ7Wcv03nhLu1eRIbjTbrTj3Q86slJN3eIhB+v9vSTESkSnlNyZhHUXyYyh0K1Va/T+j
- SMZMgw0SamnUsmCqKBt/dLiAIU5FrMlRlEnl+k/R4NLuKiqGW+ASTmSjCOGtz1vRhT6X
- neB4DyYgA4CZwMIxMKiQab+knMp4f1VoCVANK9j43cLQvp2Yj01T4nzB/l1YYOTGWG5b
- P/U27YxNUcd4axrqB54efvQD1wVzbZXRLR5pdTEpmcYOuobv5ti+nNl64aJ3Na9H480B
- ZPAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5Xny8L3l0VFSndMmYb2T1ad6LbQdW7hhdEvQurbhWF8=;
- b=Fb5+wdAPUKdk4vVL64DomFBXuk+8zHT086mn3m2r3i5w8St2djAMl7yeAwe7MIepYh
- F40BA4yjn4QJ3nshhv/jTe0aXmvk37kA2eXDjye6BZax3oNPJuklUg7vCkV37WtLcuXw
- b6kbfdkhR5PvXlOZOnr1uLqOyftqw7QREsivn1wEtI69x58tsfZySZn5QuZI6zvQVSJM
- 6SasbbSu+LcfmxliGlkB4KHoR3H65LiebxWGnB2W6aHOWHJDPb4alBnN9GOvni6ce5eT
- sbGTrMoUzjlYV1Nn5EIfWWYrPv3mO3tiPFLi25hGI9eOdY2o51dQ5IJbYeRtI4W6KSCc
- bD6w==
-X-Gm-Message-State: AOAM531Qxs1O9ru4fL4KLvQxhrX0aYHyT5gFToxmSDXlUmLciS9tS4cU
- nShy+KgqaNOx4SzpstEs9Mww/IOI
-X-Google-Smtp-Source: ABdhPJwDQ73Axr9M5TLrtvxTSucU5+Y2n/5drNaus3J2wJaTBhjHy9novJy1Wgslxw/nNDyYX1+LcQ==
-X-Received: by 2002:a17:906:6ad8:: with SMTP id
- q24mr13942592ejs.223.1593535640985; 
- Tue, 30 Jun 2020 09:47:20 -0700 (PDT)
-Received: from localhost.localdomain ([109.245.225.97])
- by smtp.gmail.com with ESMTPSA id d26sm3233096edz.93.2020.06.30.09.47.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 09:47:20 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] MAINTAINERS: Adjust MIPS maintainership
-Date: Tue, 30 Jun 2020 18:46:52 +0200
-Message-Id: <20200630164653.24880-3-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
-References: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqJWG-0003jX-5L
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:54:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30742
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqJWE-0000LK-Ce
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:54:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593536041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vJSruWLVjaaC73UPwEY++g4X186kLY1YJk3gSfzrbSc=;
+ b=Vp00+r/TpfJwS8Tdn1aU5Nd3JXx9Z/fnochZUl00VHzSDqfTMV80TeZpMeybE0Tzo9hXuB
+ V05asWgiJzSX40qJqQSBxfJxUT/6H3Ud5TY3kIFRaCE6U8DGZIFXJiZxSEK88MOa9FSyKL
+ OJoGQyrasnSxmecy7vax2YAtT91JYTE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-TmSaAU2mNz-Byg2juoJzaQ-1; Tue, 30 Jun 2020 12:53:59 -0400
+X-MC-Unique: TmSaAU2mNz-Byg2juoJzaQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 984D08F4E8;
+ Tue, 30 Jun 2020 16:53:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32D5B7BEDE;
+ Tue, 30 Jun 2020 16:53:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0C1EC17444; Tue, 30 Jun 2020 18:53:56 +0200 (CEST)
+Date: Tue, 30 Jun 2020 18:53:56 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATC 7/9] Skipping drm build, unsupported
+Message-ID: <20200630165356.2ka2ltwmrfjb5msn@sirius.home.kraxel.org>
+References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
+ <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
+ <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
+ <CAFEAcA8jkzf8+d5AyAVH2HJ544TyHsM4xP5tpWsKiJbJtWMjKw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA8jkzf8+d5AyAVH2HJ544TyHsM4xP5tpWsKiJbJtWMjKw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,100 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>, aleksandar.rikalo@syrmia.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paul Burton <paulburton@kernel.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, David CARLIER <devnexen@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paul Burton and Aurelien Jarno removed for not being present.
+> > > > -util-obj-$(CONFIG_POSIX) += drm.o
+> > > > +util-obj-$(CONFIG_LINUX) += drm.o
+> >
+> > Can't see anything linux-specific there.  Also note that FreeBSD (and
+> > possibly other *BSDs too) have drm support.  So CONFIG_POSIX looks
+> > correct to me.
+> 
+> This change was my suggestion; I assumed that "open /dev/dri/whatever"
+> was Linux-specific. The specific thing that doesn't work on
+> Haiku, or on Solaris for that matter, is that the code uses
+> DT_CHR, which isn't in POSIX but is a Linux-and-BSDism.
 
-Huacai Chen and Jiaxun Yang step in as new energy.
+Ah, that is the problem.  Yes, DT_CHR is an non-posix optimization which
+allows to get the file type directly, without another round-trip to the
+kernel.  If that isn't available you can stat() the file and check
+((st_mode & S_IFMT) == S_IFCHR) instead.
 
-CC: Paul Burton <paulburton@kernel.org>
-CC: Aurelien Jarno <aurelien@aurel32.net>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
----
- MAINTAINERS | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5d8acf8d31..7fc16e21c9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -213,7 +213,8 @@ F: disas/microblaze.c
- 
- MIPS TCG CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
-+M: Huacai Chen <chenhc@lemote.com>
-+R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: target/mips/
-@@ -377,6 +378,7 @@ F: target/arm/kvm.c
- 
- MIPS KVM CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+M: Huacai Chen <chenhc@lemote.com>
- S: Odd Fixes
- F: target/mips/kvm.c
- 
-@@ -1052,6 +1054,7 @@ MIPS Machines
- -------------
- Jazz
- M: Hervé Poussineau <hpoussin@reactos.org>
-+M: Huacai Chen <chenhc@lemote.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/mips/jazz.c
-@@ -1060,8 +1063,8 @@ F: hw/dma/rc4030.c
- 
- Malta
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+M: Huacai Chen <chenhc@lemote.com>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
--R: Aurelien Jarno <aurelien@aurel32.net>
- S: Maintained
- F: hw/isa/piix4.c
- F: hw/acpi/piix4.c
-@@ -1073,6 +1076,7 @@ F: tests/acceptance/machine_mips_malta.py
- 
- Mipssim
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+M: Huacai Chen <chenhc@lemote.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: hw/mips/mipssim.c
-@@ -1080,7 +1084,6 @@ F: hw/net/mipsnet.c
- 
- R4000
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Obsolete
- F: hw/mips/r4k.c
-@@ -1103,7 +1106,8 @@ S: Maintained
- F: hw/intc/loongson_liointc.c
- 
- Boston
--M: Paul Burton <pburton@wavecomp.com>
-+M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+M: Huacai Chen <chenhc@lemote.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/core/loader-fit.c
-@@ -2677,7 +2681,8 @@ F: disas/i386.c
- 
- MIPS TCG target
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
-+M: Huacai Chen <chenhc@lemote.com>
-+R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: tcg/mips/
--- 
-2.20.1
+take care,
+  Gerd
 
 
