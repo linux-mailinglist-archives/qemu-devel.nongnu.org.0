@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC0820F273
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:17:44 +0200 (CEST)
-Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DBD20F288
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:21:25 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDKh-0007rT-4f
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
+	id 1jqDOG-0004xJ-0G
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqDIf-0006Re-OW
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:15:37 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24994
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqDMn-0003je-SA
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:19:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20101
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqDId-0006kV-3Z
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:15:37 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqDMm-0007D6-7O
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:19:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593512134;
+ s=mimecast20190719; t=1593512391;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vb7ygvRPmN2ygKpfVgGaW2RA5jYgFDz5aKuaFqPb4KE=;
- b=a0gDTy1lm1z2nClfh99GSQPO0EKxRZxcybuJuj+l+Y3HB3VgOWBQqVWSfI0U4td8QcXu+x
- QYSakpId5jQEL1BVNaqirCIvdD2eFAxu6ruOX8IItQHmQo6Ax0vzbIQD49dVRjhHlLWfso
- EJVE3BQIwM/zqru4myvbXUQslRhOjjU=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5/YTSTtBJNgSHEoeRWodFZY56Vr3Pfh1xHTJBZZjh2U=;
+ b=P+DIhTUJKqj5fovrMZgLAn1PSYcsugoDQy6HmXsHc2ERZKuRV0X5IbrOziOkcSCkqNMJcr
+ qQdafpVDTudMFkiYxGBOQzTWJSGT8LFj0aIO8T20QMaOlOI2puZU5KmnlP/l3fBnPxhTh/
+ Sk3A8ooPhXwTCF3rCup1z/KdjY7KWck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-GNd4VPA0NWuH1jzlPqmYFQ-1; Tue, 30 Jun 2020 06:15:30 -0400
-X-MC-Unique: GNd4VPA0NWuH1jzlPqmYFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-249-eOgx7icWMWa1DHnG8Z69xg-1; Tue, 30 Jun 2020 06:19:47 -0400
+X-MC-Unique: eOgx7icWMWa1DHnG8Z69xg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7A0BEC1A9;
- Tue, 30 Jun 2020 10:15:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09FE061981;
- Tue, 30 Jun 2020 10:15:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 702F811384A6; Tue, 30 Jun 2020 12:15:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 5/5] hw/i2c: Document the I2C qdev helpers
-References: <20200629173821.22037-1-f4bug@amsat.org>
- <20200629173821.22037-6-f4bug@amsat.org>
-Date: Tue, 30 Jun 2020 12:15:21 +0200
-In-Reply-To: <20200629173821.22037-6-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 29 Jun 2020 19:38:21
- +0200")
-Message-ID: <87zh8kg8qu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3879464;
+ Tue, 30 Jun 2020 10:19:45 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-102.ams2.redhat.com
+ [10.36.113.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0226121E24;
+ Tue, 30 Jun 2020 10:19:43 +0000 (UTC)
+Subject: Re: [PATCH v9 02/34] qcow2: Convert qcow2_get_cluster_offset() into
+ qcow2_get_host_offset()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1593342067.git.berto@igalia.com>
+ <4d3e11a48c18c3b4d34f567046334d4a1afde352.1593342067.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <32a231b3-abc2-8d84-6a7d-eb8ccd388e33@redhat.com>
+Date: Tue, 30 Jun 2020 12:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <4d3e11a48c18c3b4d34f567046334d4a1afde352.1593342067.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wVJkEGsId50wQroYrDxa7r4QGvYT6hPrY"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,172 +108,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Jan Kiszka <jan.kiszka@web.de>, David Gibson <david@gibson.dropbear.id.au>,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wVJkEGsId50wQroYrDxa7r4QGvYT6hPrY
+Content-Type: multipart/mixed; boundary="E5hsCeLp3XpWOEFOmzYWZzzL6eFsR31om"
 
-> In commit d88c42ff2c we added new prototype but neglected to
-> add their documentation. Fix that.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+--E5hsCeLp3XpWOEFOmzYWZzzL6eFsR31om
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 28.06.20 13:02, Alberto Garcia wrote:
+> qcow2_get_cluster_offset() takes an (unaligned) guest offset and
+> returns the (aligned) offset of the corresponding cluster in the qcow2
+> image.
+>=20
+> In practice none of the callers need to know where the cluster starts
+> so this patch makes the function calculate and return the final host
+> offset directly. The function is also renamed accordingly.
+>=20
+> There is a pre-existing exception with compressed clusters: in this
+> case the function returns the complete cluster descriptor (containing
+> the offset and size of the compressed data). This does not change with
+> this patch but it is now documented.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/hw/i2c/i2c.h | 48 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
->
-> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-> index c533058998..fcc61e509b 100644
-> --- a/include/hw/i2c/i2c.h
-> +++ b/include/hw/i2c/i2c.h
-> @@ -79,8 +79,56 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool sen=
-d);
->  int i2c_send(I2CBus *bus, uint8_t data);
->  uint8_t i2c_recv(I2CBus *bus);
+>  block/qcow2.h         |  4 ++--
+>  block/qcow2-cluster.c | 42 +++++++++++++++++++++++-------------------
+>  block/qcow2.c         | 24 +++++++-----------------
+>  3 files changed, 32 insertions(+), 38 deletions(-)
+
+[...]
+
+> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+> index 4b5fc8c4a7..9ab41cb728 100644
+> --- a/block/qcow2-cluster.c
+> +++ b/block/qcow2-cluster.c
+
+[...]
+
+> @@ -537,8 +542,6 @@ int qcow2_get_cluster_offset(BlockDriverState *bs, ui=
+nt64_t offset,
+>          bytes_needed =3D bytes_available;
+>      }
 > =20
-> +/**
-> + * Create an I2C slave device on the heap.
-> + * @name: a device type name
-> + * @addr: I2C address of the slave when put on a bus
-> + *
-> + * This only initializes the device state structure and allows
-> + * properties to be set. Type @name must exist. The device still
-> + * needs to be realized. See qdev-core.h.
-> + */
->  I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
-> +
-> +/**
-> + * Create an I2C slave device on the heap.
+> -    *cluster_offset =3D 0;
+> -
 
-Suggest "Create and realize ..."
+You drop this line without replacement now.  That means that
+*host_offset is no longer set to 0 if the L1 entry is out of bounds or
+empty (which causes this function to return QCOW2_CLUSTER_UNALLOCATED
+and no error).  Was that intentional?
 
-> + * @bus: I2C bus to put it on
-> + * @name: I2C slave device type name
-> + * @addr: I2C address of the slave when put on a bus
-> + *
-> + * Create the device state structure, initialize it, put it on the
-> + * specified @bus, and drop the reference to it (the device is realized)=
-.
-> + * Any error aborts the process.
-
-Stick to imperative mood: Abort on error.
-
-Do we need the sentence?  Doc comments of object_new(), qdev_new() and
-i2c_slave_new() don't have it, they document *preconditions* instead,
-using "must", and rely on the tacit understanding that a function may
-abort or crash when its documented preconditions aren't met.  Matter of
-taste, I guess.
-
-> + */
->  I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t=
- addr);
-> +
-> +/**
-> + * i2c_slave_realize_and_unref: realize and unref an I2C slave device
-
-Either consistently waste space for repeating the function name at the
-beginning of its doc comment, or consistently don't :)
-
-qdev_realize_and_unref()'s doc comment says "and drop a reference"
-instead of "unref", because "unref" is not a word.
-
-> + * @dev: I2C slave device to realize
-> + * @bus: I2C bus to put it on
-> + * @addr: I2C address of the slave on the bus
-> + * @errp: error pointer
-
-$ git-grep -h "@errp:" | sort -u
- *  @errp: pointer to Error*, to store an error if it happens
- * @errp:   error object
- * @errp: Error object
- * @errp: Error object which may be set by job_complete(); this is not
- * @errp: Error object.
- * @errp: If an error occurs, a pointer to an area to store the error
- * @errp: Output pointer for error information. Can be NULL.
- * @errp: Pointer for reporting an #Error.
- * @errp: Populated with an error in failure cases
- * @errp: a pointer to an Error that is filled if getting/setting fails.
- * @errp: a pointer to return the #Error object if an error occurs.
- * @errp: an error indicator
- * @errp: error
- * @errp: error object
- * @errp: error object handle
- * @errp: handle to an error object
- * @errp: if an error occurs, a pointer to an area to store the error
- * @errp: indirect pointer to Error to be set
- * @errp: location to store error
- * @errp: location to store error information
- * @errp: location to store error information.
- * @errp: location to store error, will be set only for exception
- * @errp: pointer to Error*, to store an error if it happens.
- * @errp: pointer to NULL initialized error object
- * @errp: pointer to a NULL initialized error object
- * @errp: pointer to a NULL-initialized error object
- * @errp: pointer to an error
- * @errp: pointer to error object
- * @errp: pointer to initialized error object
- * @errp: pointer to uninitialized error object
-
-Aside: gotta love these two.
-
- * @errp: returns an error if this function fails
- * @errp: set *errp if the check failed, with reason
- * @errp: set in case of an error
- * @errp: set on error
- * @errp: unused
- * @errp: where to put errors
-
-Plenty of choice, recommend not to invent another one :)
-
-> + *
-> + * Call 'realize' on @dev, put it on the specified @bus, and drop the
-> + * reference to it. Errors are reported via @errp and by returning
-> + * false.
-
-Recommend to use a separate paragraph for the return value.  Since your
-comment style resembles GTK-Doc style[*], you may just as well use it
-for the return value, like this:
-
-      Returns: %true on success, %false on failure.
-
-By convention, it goes after the function description.
-
-> + *
-> + * This function is useful if you have created @dev via qdev_new(),
-> + * i2c_slave_new() or i2c_slave_try_new() (which take a reference to
-> + * the device it returns to you), so that you can set properties on it
-> + * before realizing it. If you don't need to set properties then
-> + * i2c_slave_create_simple() is probably better (as it does the create,
-> + * init and realize in one step).
-> + *
-> + * If you are embedding the I2C slave into another QOM device and
-> + * initialized it via some variant on object_initialize_child() then
-> + * do not use this function, because that family of functions arrange
-> + * for the only reference to the child device to be held by the parent
-> + * via the child<> property, and so the reference-count-drop done here
-> + * would be incorrect.  (Instead you would want i2c_slave_realize(),
-> + * which doesn't currently exist but would be trivial to create if we
-> + * had any code that wanted it.)
-> + */
-
-The advice on use is more elaborate qdev_realize_and_unref()'s.  That
-one simply shows intended use.  I doubt we need more.  But as the person
-who wrote qdev_realize_and_unref(), I'm singularly unqualified judging
-the need ;)
-
->  bool i2c_slave_realize_and_unref(I2CSlave *dev, I2CBus *bus, Error **err=
-p);
-> =20
->  /* lm832x.c */
+Max
 
 
-[*] A style I dislike, but it's common in QEMU, so you're certainly
-entitled to use it.
+--E5hsCeLp3XpWOEFOmzYWZzzL6eFsR31om--
+
+--wVJkEGsId50wQroYrDxa7r4QGvYT6hPrY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl77Eb4ACgkQ9AfbAGHV
+z0B1hgf9EY466rosg6ZG2Y7fdHXCgRpLjx3d47D9RPQF7b2S4poiPz/pciVvvzUk
+toPoCP2F9xT7vby3QCPe2dEFLoLz88Xe5GW24NT9uI93q9fAa90IAgmMY2G1UjZq
+KeMSzn+KBWFhNaI112G6Vd8aG9nodb9HtLfzjX8Qo5mIsUZ3pzPQnN5JlOeY6tyy
+seOtsfmberymb/pkRfl98YkcYRFTHPydyupROgco6OteQw0OcgHC6nFf1aVapsUb
+AmmtCTqChURd7qGzTx62V8ZUqCzglTGsNvhnk+Q/+Q0QVl8hU39MA/bz3/HlaxQH
+SoFaFSbi0cQOyz65lMkSJqSUWACseA==
+=nH5c
+-----END PGP SIGNATURE-----
+
+--wVJkEGsId50wQroYrDxa7r4QGvYT6hPrY--
 
 
