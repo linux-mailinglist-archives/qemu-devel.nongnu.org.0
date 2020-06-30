@@ -2,82 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A24120F20F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:02:12 +0200 (CEST)
-Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F283920F213
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:03:41 +0200 (CEST)
+Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqD5e-0007OV-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57502)
+	id 1jqD76-00013n-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD41-0006oD-Ju; Tue, 30 Jun 2020 06:00:29 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD3z-00047Q-Uu; Tue, 30 Jun 2020 06:00:29 -0400
-Received: by mail-ed1-x542.google.com with SMTP id d15so15588245edm.10;
- Tue, 30 Jun 2020 03:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wP+KWXpq2yGZrKogw0wPbBHdHwie6uhbtS+YQR5YgnA=;
- b=c3jbH9Y/xd+KLx7w8pYdjYI9gZ1Czc192YXumgjOs5XQlXn1145gL02Sz7Hv3CgiN9
- GBeroTDeBPcoeqzS7TCd0bub5vABjwH0BhfCLwFeO9US0ksQZm64ik+9iFHO4XQI134g
- M4im3TbHNq5/MeOsJKvc1xskQ2aP49Gp7RozV9uai9qfTRAp94lfkh0Sr7Pgs95w0vZ7
- aohgqwC46QMCwVRDI4uyZtvUTFfohsvPyYpyNCM9dCalVSSG0ZUlyq+T0FtDWVgWWwtO
- tABcgKcB97ttJ2ubJfJFDUzXp4SFr8CWazqNXwnVo3UwrnHZUgF2ctjh7BBahOfJzkc9
- f6Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wP+KWXpq2yGZrKogw0wPbBHdHwie6uhbtS+YQR5YgnA=;
- b=B2diFvImRkL2D1rYovhSx8WKgKr7qWvvDMQlKKXXhM5KtyInYoQ3XOJB7SdGRKWU0G
- yMFtBAxwy4Ob9LRWLdwYZ7yjphNTGoCukU73TyYHMBHwp33PBA3E6GytX06dsLOdsuhS
- pYRJ+c1TTy7zsrl5q65XP8gmt/64vPDcGqbY0j0m19JUBqcJQOlb3WuZnJCBE/b9tRD6
- 5E7UOjx/HwVkuUQhRxvjcE9xq91odKy2oQ1SIABkZte4+oeSIk5dVB79qn8Ng6YtqjvN
- UCTaXyW1+zWifv3DuQtw9srp38Ei/SoGfXBcCbgsNhVzKaQ7Lxn46ruHgozQy2SZSw7d
- Ka2w==
-X-Gm-Message-State: AOAM530UXfNvo2zHOfdG5U/LBETmWruWH2uIYU3jKE+Td0JlI/c2cQbr
- Nd6DR/4CK97o16TcLhuaTDzggRxa3v0=
-X-Google-Smtp-Source: ABdhPJxSOXNZYrmXyMfsMrnKCxVBCAZfn7RBXBSwMjrihOYsEo27g9CiCS/Cx5H6Dtvw5yCENaTQZA==
-X-Received: by 2002:a50:b2c2:: with SMTP id p60mr21527451edd.374.1593511224945; 
- Tue, 30 Jun 2020 03:00:24 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id o6sm592499edr.94.2020.06.30.03.00.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 03:00:24 -0700 (PDT)
-Subject: Re: [PATCH v5 08/15] hw/sd/sdcard: Check address is in range
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200626164026.766-1-f4bug@amsat.org>
- <20200626164026.766-9-f4bug@amsat.org>
- <001fb1d8-c689-36b9-3d49-31285c82422a@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0149de5e-3b9c-51ce-ef75-870bd363b5b8@amsat.org>
-Date: Tue, 30 Jun 2020 12:00:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jqD5R-0007fg-5q; Tue, 30 Jun 2020 06:01:58 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jqD5O-0004J1-SX; Tue, 30 Jun 2020 06:01:56 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id ACF33BF676;
+ Tue, 30 Jun 2020 10:01:51 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH 00/10] hw/block/nvme: namespace types and zoned namespaces
+Date: Tue, 30 Jun 2020 12:01:29 +0200
+Message-Id: <20200630100139.1483002-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <001fb1d8-c689-36b9-3d49-31285c82422a@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 04:46:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,105 +50,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 7:43 PM, Philippe Mathieu-Daudé wrote:
-> On 6/26/20 6:40 PM, Philippe Mathieu-Daudé wrote:
->> As a defense, assert if the requested address is out of the card area.
->>
->> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/sd/sd.c | 18 ++++++++++--------
->>  1 file changed, 10 insertions(+), 8 deletions(-)
->>
->> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
->> index 22392e5084..2689a27b49 100644
->> --- a/hw/sd/sd.c
->> +++ b/hw/sd/sd.c
->> @@ -537,8 +537,10 @@ static void sd_response_r7_make(SDState *sd, uint8_t *response)
->>      stl_be_p(response, sd->vhs);
->>  }
->>  
->> -static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
->> +static uint64_t sd_addr_to_wpnum(SDState *sd, uint64_t addr)
->>  {
->> +    assert(addr < sd->size);
-> 
-> This should be:
-> 
->        assert(addr <= sd->size);
+From: Klaus Jensen <k.jensen@samsung.com>
 
-No, the current code is correct...
+Hi all,
 
-> 
->> +
->>      return addr >> (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT);
->>  }
->>  
->> @@ -575,7 +577,7 @@ static void sd_reset(DeviceState *dev)
->>      sd_set_cardstatus(sd);
->>      sd_set_sdstatus(sd);
->>  
->> -    sect = sd_addr_to_wpnum(size) + 1;
->> +    sect = sd_addr_to_wpnum(sd, size) + 1;
+This series adds support for TP 4056 ("Namespace Types") and TP 4053
+("Zoned Namespaces") and is an alternative implementation to the one
+submitted by Dmitry[1].
 
-... but here this should be:
+While I don't want this to end up as a discussion about the merits of
+each version, I want to point out a couple of differences from Dmitry's
+version. At a glance, my version
 
-        sect = sd_addr_to_wpnum(sd, size - 1) + 1;
+  * builds on my patch series that adds fairly complete NVMe v1.4
+    mandatory support, as well as nice-to-have feature such as SGLs,
+    multiple namespaces and mostly just overall clean up. This finally
+    brings the nvme device into a fairly compliant state on which we can
+    add new features. I've tried hard to get these compliance and
+    clean-up patches merged for a long time (in parallel with developing
+    the emulation of NST and ZNS) and I would be really sad to see them
+    by-passed since they have already been through many iterations and
+    already carries Acked- and Reviewed-by's for the bulk of the
+    patches. I think the nvme device is already in a "frankenstate" wrt.
+    the implemented nvme version and the features it currently supports,
+    so I think this kind of cleanup is long overdue.
 
->>      g_free(sd->wp_groups);
->>      sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
->>      sd->wpgrps_size = sect;
->> @@ -759,8 +761,8 @@ static void sd_erase(SDState *sd)
->>          erase_end *= HWBLOCK_SIZE;
->>      }
->>  
->> -    erase_start = sd_addr_to_wpnum(erase_start);
->> -    erase_end = sd_addr_to_wpnum(erase_end);
->> +    erase_start = sd_addr_to_wpnum(sd, erase_start);
->> +    erase_end = sd_addr_to_wpnum(sd, erase_end);
->>      sd->erase_start = 0;
->>      sd->erase_end = 0;
->>      sd->csd[14] |= 0x40;
->> @@ -777,7 +779,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
->>      uint32_t i, wpnum;
->>      uint32_t ret = 0;
->>  
->> -    wpnum = sd_addr_to_wpnum(addr);
->> +    wpnum = sd_addr_to_wpnum(sd, addr);
->>  
->>      for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
->>          if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
->> @@ -819,7 +821,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
->>  
->>  static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
->>  {
->> -    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
->> +    return test_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
->>  }
->>  
->>  static void sd_lock_command(SDState *sd)
->> @@ -1331,7 +1333,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>              }
->>  
->>              sd->state = sd_programming_state;
->> -            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
->> +            set_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
->>              /* Bzzzzzzztt .... Operation complete.  */
->>              sd->state = sd_transfer_state;
->>              return sd_r1b;
->> @@ -1350,7 +1352,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->>              }
->>  
->>              sd->state = sd_programming_state;
->> -            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
->> +            clear_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
->>              /* Bzzzzzzztt .... Operation complete.  */
->>              sd->state = sd_transfer_state;
->>              return sd_r1b;
->>
-> 
+  * uses an attached blockdev and standard blk_aio for persistent zone
+    info. This is the same method used in our patches for Write
+    Uncorrectable and (separate and extended lba) metadata support, but
+    I've left those optional features out for now to ease the review
+    process.
+
+  * relies on the universal dulbe support added in ("hw/block/nvme: add
+    support for dulbe") and sparse images for handling reads in gaps
+    (above write pointer and below ZSZE); that is - the size of the
+    underlying blockdev is in terms of ZSZE, not ZCAP
+
+  * the controller uses timers to autonomously finish zones (wrt. FRL)
+
+I've been on paternity leave for a month, so I havn't been around to
+review Dmitry's patches, but I have started that process now. I would
+also be happy to work with Dmitry & Friends on merging our versions to
+get the best of both worlds if it makes sense.
+
+This series and all preparatory patch sets (the ones I've been posting
+yesterday and today) are available on my GitHub[2]. Unfortunately
+Patchew got screwed up in the middle of me sending patches and it never
+picked up v2 of "hw/block/nvme: support multiple namespaces" because it
+was getting late and I made a mistake with the CC's. So my posted series
+don't apply according to Patchew, but they actually do if you follow the
+Based-on's (... or just grab [2]).
+
+
+  [1]: Message-Id: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
+  [2]: https://github.com/birkelund/qemu/tree/for-master/nvme
+
+
+Based-on: <20200630043122.1307043-1-its@irrelevant.dk>
+("[PATCH 0/3] hw/block/nvme: bump to v1.4")
+
+Klaus Jensen (10):
+  hw/block/nvme: support I/O Command Sets
+  hw/block/nvme: add zns specific fields and types
+  hw/block/nvme: add basic read/write for zoned namespaces
+  hw/block/nvme: add the zone management receive command
+  hw/block/nvme: add the zone management send command
+  hw/block/nvme: add the zone append command
+  hw/block/nvme: track and enforce zone resources
+  hw/block/nvme: allow open to close transitions by controller
+  hw/block/nvme: allow zone excursions
+  hw/block/nvme: support reset/finish recommended limits
+
+ block/nvme.c          |    6 +-
+ hw/block/nvme-ns.c    |  397 +++++++++-
+ hw/block/nvme-ns.h    |  148 +++-
+ hw/block/nvme.c       | 1676 +++++++++++++++++++++++++++++++++++++++--
+ hw/block/nvme.h       |   76 +-
+ hw/block/trace-events |   43 +-
+ include/block/nvme.h  |  252 ++++++-
+ 7 files changed, 2469 insertions(+), 129 deletions(-)
+
+-- 
+2.27.0
+
 
