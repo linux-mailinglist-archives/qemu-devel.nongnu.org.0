@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDE720F357
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 13:04:40 +0200 (CEST)
-Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA4820F35D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 13:06:17 +0200 (CEST)
+Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqE47-0006cV-FD
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 07:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1jqE5g-0000Oe-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 07:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqE2z-00062M-9j
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:03:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22193
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqE2x-0006Kb-1F
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:03:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593515006;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zcj9qsdWh1ZJWwvONxX6MREQYwmxR+n7OlNW327iP8I=;
- b=bWRZjEaMXjoxOZGJGUBnMJ6sH9LWwRcq/U83971z/Ou8p1bfc7ZCuAIGRH6LCMFwrvlXaD
- cpAWxTBE+aVLYpACHW8/SOK91PlU5OxYSsObFdAnnngKCmyHqVzDVuNPqF2OyotDYKhjWB
- mdvG+nvbuTTYtdnpGIajFf1sLQhGqPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-ZSo0Xj2tMAKmAeRCu2cKNg-1; Tue, 30 Jun 2020 07:03:19 -0400
-X-MC-Unique: ZSo0Xj2tMAKmAeRCu2cKNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C23ED10059A1;
- Tue, 30 Jun 2020 11:03:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 635AE1002388;
- Tue, 30 Jun 2020 11:03:13 +0000 (UTC)
-Date: Tue, 30 Jun 2020 12:03:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] net: tap: check if the file descriptor is valid before
- using it
-Message-ID: <20200630110310.GG1370404@redhat.com>
-References: <20200625084835.GB1009994@redhat.com>
- <541b40c5-ee72-d37d-1c30-664775812d1b@redhat.com>
- <929203d2-20d2-7caf-e487-6bfe5b851974@redhat.com>
- <ea94fa3c-edb5-220e-e0e0-4b7fca7b90e8@redhat.com>
- <b912e24c-8dc5-7022-6ed2-cf10d72ef6e7@redhat.com>
- <20200630092318.GE1370404@redhat.com>
- <20200630093148.GF1370404@redhat.com>
- <247f4aa8-1846-c5ec-4fe3-1d344979ad52@redhat.com>
- <d24b43e9-5a8c-1cc0-9d1c-4ee01a8cbbca@redhat.com>
- <7a110325-0123-53da-604d-8a9374903782@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqE3q-0006oW-Qb
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:22 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqE3o-0006OQ-W5
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:22 -0400
+Received: by mail-ed1-x541.google.com with SMTP id d16so9110978edz.12
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 04:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iMY/qDN42/1+nPj56Hl9GWcH+he/tHPKIgILpQ6swvw=;
+ b=CTvtgQTGPdwHlNJXNOiOumXDnFnTgYGisgSfhHMwZ5S2djCQ/h3xwhpmvqg8gFsC0S
+ 1N7RJ5bwWjXn88yiqiMlhcg7gmxHt6dBNVMJ85z3sDTj2llGml2Q70NPfvjKgZ2WVAdU
+ RtHEer4ycO8ghBCnDN+P06/NJTo5BnV3Re/cyOmR6iJkxBJcTV7bNJoJVuKFaWjME+Cv
+ kfjdqa+pmwcg6Qdp12N0dMBPFrq+DDusY/JcqE/GBWiTKFf7NyMk1UKAZW9e1ypnEPA3
+ MW2LsjipfCZBcISIdajRvk07sDhPwW/0dtkWR+vlkHHJyzXjlka9LPx3cW2SzyezbALn
+ 19VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iMY/qDN42/1+nPj56Hl9GWcH+he/tHPKIgILpQ6swvw=;
+ b=FihM96hgGohtPmUmoEh1Cscdr19uGfp0fjqpuIAa74Nh1dfwKqQMk2mu+YUk2pV3+J
+ KjqjLCtfsnRT9VMvZ397cDuhCI3IeRaT8dFFU/DOUGisq/5QIrDQhTpapM0hUkOYfGRG
+ g8x1sdb15ORYi3QabqDG5apkiRJx5o5c/2VtswPWqIKGIXupdjN1ZhqtTR/lwaPl0/E6
+ MxECFatYSt1WA9uzO09w3xvL90Jn3bh6PQOY2UvtsI4kfLN51+RsDnPmQX2l12/s3K/a
+ px82n53O7N1sl7F8X3pJzXoB/hy0OI7qrSN6nJZsDvra4/4teYM9e6S6SzfbAQza/tr/
+ FWHA==
+X-Gm-Message-State: AOAM531hrHvv2Va0fTcBgO6x5dlPiQTf6GHYFilQI6sqJGhyy5C0HoWv
+ dvCTSfCrZS9R7kGWXRXb81o=
+X-Google-Smtp-Source: ABdhPJzLiODSm0oFz6WbkAZTrhexjgkVeBOlLYnCjzrkgohjXKqbZJN2ycErWGjBJd2QOOi9Oxn12A==
+X-Received: by 2002:a50:cd1e:: with SMTP id z30mr21724547edi.364.1593515059517; 
+ Tue, 30 Jun 2020 04:04:19 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id fi29sm1741415ejb.83.2020.06.30.04.04.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 04:04:18 -0700 (PDT)
+Subject: Re: [PATCH 0/7] hw/mips/malta: Rework to allow more than 2GB of RAM
+ on 64-bit
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200630081322.19146-1-f4bug@amsat.org>
+ <CAHiYmc6coeBBOvCAs+=Ccw2aXfw0m3gTdSM1Pc8AQvJ4QNBhow@mail.gmail.com>
+ <da6c2f55-b8b7-3492-37b3-d24a25106d72@amsat.org>
+ <CAAdtpL7MObRjk77ZFsNF4Xoghdj33mwufZ9s3L8fAC3XxkJCqA@mail.gmail.com>
+ <CAHiYmc59Ahpii2dvhVD8EPK4qzc8y2RNTwTbp4L1d2Mjun+Phg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3b75d15d-9195-bcd5-87aa-e243547552e5@amsat.org>
+Date: Tue, 30 Jun 2020 13:04:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <7a110325-0123-53da-604d-8a9374903782@redhat.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAHiYmc59Ahpii2dvhVD8EPK4qzc8y2RNTwTbp4L1d2Mjun+Phg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,135 +94,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yunqiang Su <ysu@wavecomp.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 12:35:46PM +0200, Laurent Vivier wrote:
-> On 30/06/2020 12:03, Jason Wang wrote:
-> > 
-> > On 2020/6/30 下午5:45, Laurent Vivier wrote:
-> >> On 30/06/2020 11:31, Daniel P. Berrangé wrote:
-> >>> On Tue, Jun 30, 2020 at 10:23:18AM +0100, Daniel P. Berrangé wrote:
-> >>>> On Tue, Jun 30, 2020 at 05:21:49PM +0800, Jason Wang wrote:
-> >>>>> On 2020/6/30 上午3:30, Laurent Vivier wrote:
-> >>>>>> On 28/06/2020 08:31, Jason Wang wrote:
-> >>>>>>> On 2020/6/25 下午7:56, Laurent Vivier wrote:
-> >>>>>>>> On 25/06/2020 10:48, Daniel P. Berrangé wrote:
-> >>>>>>>>> On Wed, Jun 24, 2020 at 09:00:09PM +0200, Laurent Vivier wrote:
-> >>>>>>>>>> qemu_set_nonblock() checks that the file descriptor can be
-> >>>>>>>>>> used and, if
-> >>>>>>>>>> not, crashes QEMU. An assert() is used for that. The use of
-> >>>>>>>>>> assert() is
-> >>>>>>>>>> used to detect programming error and the coredump will allow
-> >>>>>>>>>> to debug
-> >>>>>>>>>> the problem.
-> >>>>>>>>>>
-> >>>>>>>>>> But in the case of the tap device, this assert() can be
-> >>>>>>>>>> triggered by
-> >>>>>>>>>> a misconfiguration by the user. At startup, it's not a real
-> >>>>>>>>>> problem,
-> >>>>>>>>>> but it
-> >>>>>>>>>> can also happen during the hot-plug of a new device, and here
-> >>>>>>>>>> it's a
-> >>>>>>>>>> problem because we can crash a perfectly healthy system.
-> >>>>>>>>> If the user/mgmt app is not correctly passing FDs, then there's
-> >>>>>>>>> a whole
-> >>>>>>>>> pile of bad stuff that can happen. Checking whether the FD is
-> >>>>>>>>> valid is
-> >>>>>>>>> only going to catch a small subset. eg consider if fd=9 refers
-> >>>>>>>>> to the
-> >>>>>>>>> FD that is associated with the root disk QEMU has open. We'll
-> >>>>>>>>> fail to
-> >>>>>>>>> setup the TAP device and close this FD, breaking the healthy
-> >>>>>>>>> system
-> >>>>>>>>> again.
-> >>>>>>>>>
-> >>>>>>>>> I'm not saying we can't check if the FD is valid, but lets be
-> >>>>>>>>> clear that
-> >>>>>>>>> this is not offering very much protection against a broken mgmt
-> >>>>>>>>> apps
-> >>>>>>>>> passing bad FDs.
-> >>>>>>>>>
-> >>>>>>>> I agree with you, but my only goal here is to avoid the crash in
-> >>>>>>>> this
-> >>>>>>>> particular case.
-> >>>>>>>>
-> >>>>>>>> The punishment should fit the crime.
-> >>>>>>>>
-> >>>>>>>> The user can think the netdev_del doesn't close the fd, and he
-> >>>>>>>> can try
-> >>>>>>>> to reuse it. Sending back an error is better than crashing his
-> >>>>>>>> system.
-> >>>>>>>> After that, if the system crashes, it will be for the good
-> >>>>>>>> reasons, not
-> >>>>>>>> because of an assert.
-> >>>>>>> Yes. And on top of this we may try to validate the TAP via st_dev
-> >>>>>>> through fstat[1].
-> >>>>>> I agree, but the problem I have is to know which major(st_dev) we can
-> >>>>>> allow to use.
-> >>>>>>
-> >>>>>> Do we allow only macvtap major number?
-> >>>>>
-> >>>>> Macvtap and tuntap.
-> >>>>>
-> >>>>>
-> >>>>>> How to know the macvtap major number at user level?
-> >>>>>> [it is allocated dynamically: do we need to parse /proc/devices?]
-> >>>>>
-> >>>>> I think we can get them through fstat for /dev/net/tun and
-> >>>>> /dev/macvtapX.
-> >>>> Don't assume QEMU has any permission to access to these device nodes,
-> >>>> only the pre-opened FDs it is given by libvirt.
-> >>> Actually permissions are the least of the problem - the device nodes
-> >>> won't even exist, because QEMU's almost certainly running in a private
-> >>> mount namespace with a minimal /dev populated
-> >>>
-> >> I'm working on a solution using /proc/devices.
-> > 
-> > 
-> > Similar issue with /dev. There's no guarantee that qemu can access
-> > /proc/devices or it may not exist (CONFIG_PROCFS).
+On 6/30/20 1:01 PM, Aleksandar Markovic wrote:
 > 
-> There is a lot of things that will not work without /proc (several tools
-> rely on /proc, like ps, top, lsof, mount, ...). Some information are
-> only available from /proc, and if /proc is there, I think /proc/devices
-> is always readable by everyone. Moreover /proc is already used by qemu
-> in several places.
 > 
-> It can also a best effort check.
+> уторак, 30. јун 2020., Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> је написао/ла:
 > 
-> The problem with fstat() on /dev files is to guess the /dev/macvtapX as
-> X varies (the same with /dev/tapY)..
+>     On Tue, Jun 30, 2020 at 12:52 PM Philippe Mathieu-Daudé
+>     <f4bug@amsat.org <mailto:f4bug@amsat.org>> wrote:
+>     >
+>     > On 6/30/20 12:48 PM, Aleksandar Markovic wrote:
+>     > >
+>     > >
+>     > > уторак, 30. јун 2020., Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>
+>     > > <mailto:f4bug@amsat.org <mailto:f4bug@amsat.org>>> је написао/ла:
+>     > >
+>     > >     Hi,
+>     > >
+>     > >     Following Jiaxun Yang's patch and discussion:
+>     > >     https://patchwork.kernel.org/patch/11416915/
+>     <https://patchwork.kernel.org/patch/11416915/>
+>     > >     <https://patchwork.kernel.org/patch/11416915/
+>     <https://patchwork.kernel.org/patch/11416915/>>
+>     > >
+>     > >     - Rename the current machine as 'malta-virt' (keeping
+>     'malta' aliased)
+>     > >       Suggestions for better names are welcome, maybe
+>     'malta-unreal' or
+>     > >       'malta-unleashed' instead?
+>     > >     - Add 'malta-phys' which respects hardware restrictions (on
+>     RAM so far)
+>     > >     - Unleash 'malta-virt' to allow more than 2GB on 64-bit
+>     > >
+>     > >     Philippe Mathieu-Daudé (7):
+>     > >       hw/mips/malta: Trivial code movement
+>     > >       hw/mips/malta: Register the machine as a TypeInfo
+>     > >       hw/mips/malta: Rename 'malta' machine as 'malta-virt'
+>     > >       hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
+>     > >       hw/mips/malta: Introduce the 'malta-phys' machine
+>     > >       hw/mips/malta: Verify malta-phys machine uses correct DIMM
+>     sizes
+>     > >       hw/mips/malta: Allow more than 2GB on 64-bit malta-virt
+>     > >
+>     > >      hw/mips/malta.c | 121
+>     +++++++++++++++++++++++++++++++++++++++---------
+>     > >      1 file changed, 99 insertions(+), 22 deletions(-)
+>     > >
+>     > >     --
+>     > >
+>     > >
+>     > >
+>     > > Thank you, Philippe, for providing this series.
+>     > >
+>     > > However, in previous discussion on the patch you mention above, I
+>     > > already expressed serious reservations on the approach taken in that
+>     > > patch. These reservations stay today too.
+>     > >
+>     > > There is nothing qualitatively different between the original
+>     patch and
+>     > > this series. Naming and related stuff are just cosmetic issues.
+>     >
+>     > OK, what about considering all patches except the last one?
+>     > So we can run firmware on a real Malta board, not the QEMU
+>     > imaginary one (in the discussion you said QEMU should respect
+>     > real hardware, which I agree).
+>     >
+>     > >
+>     > > The good thing about this series is that one can apply it
+>     dowstream, if
+>     > > one finds it useful. However, it is not suitable for upstreaming
 > 
-> > 
-> >> macvtap has its own major number, but tuntap use "misc" (10) major
-> >> number.
+>     IOW, what is missing to have this series (except the last patch)
+>     accepted upstream?
 > 
-> Another question: it is possible to use the "fd=" parameter with macvtap
-> as macvtap creates a /dev/tapY device, but how to do that with tuntap
-> that does not create a /dev/tapY device?
+> 
+> It is not what is missing, but was already is in the series that makes
+> it not suitable for upstreaming. The very concept of the series is
+> problematic.
 
+What is the series is not suitable for upstream? Can you point to
+patch and code please? How would you conceptually resolve the
+problem?
 
-I think we should step back and ask why we need to check this at all.
-
-IMHO, if the passed-in FD works with the syscalls that tap-linux.c
-is executing, then that shows the FD is suitable for QEMU. The problem
-is that many of the tap APIs don't use "Error **errp" parameters to
-report errors, so we can't catch the failures. IOW, instead of checking
-the FD major/minor number, we should make the existing code be better
-at reporting errors, so they can be fed back to the QMP console
-gracefully.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> 
+> Regards,
+> Aleksandar
+> 
+> 
+> 
+> 
+> 
+>  
+> 
+>     > >
+>     > > Regards,
+>     > > Aleksandar
+>     > >
+>     > >
+>     > >
+>     > >     2.21.3
+>     > >
+> 
 
