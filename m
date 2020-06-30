@@ -2,47 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED05320F0DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:49:55 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD7B20F0EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:52:54 +0200 (CEST)
+Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqBxi-0007Yi-VH
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
+	id 1jqC0b-0003AF-Nr
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:52:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqBuo-0004kI-I6; Tue, 30 Jun 2020 04:46:54 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqBul-0008Vw-Eg; Tue, 30 Jun 2020 04:46:54 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id D79B5BF676;
- Tue, 30 Jun 2020 08:46:48 +0000 (UTC)
-Date: Tue, 30 Jun 2020 10:46:45 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/block/nvme: Align I/O BAR to 4 KiB
-Message-ID: <20200630084645.f53iwkmpbewnhilk@apples.localdomain>
-References: <20200625154834.367-1-philmd@redhat.com>
- <20200625182326.ookc3e6rpbcypuj3@apples.localdomain>
- <a186c461-7af3-371a-f82f-7dc3ced0ea84@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqBv1-0005BL-K9
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:47:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43216
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqBv0-00007k-4G
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:47:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593506825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=W3b/qTeenEtl21pNKmDf1cpErOMxHMaHRIktFWkMxSo=;
+ b=fOkF1BY0Vy+/4YCR7BXlNdY8RS8LXTHWlx//lePNbHwdvMCBOmVqZBZlUwb2FFGDDvBjWw
+ SA6AvkjNPojvaEh/wjF/xxJ7GhJLEOZ7gNG+nvx59fVeTBuouM/PVPVRaaVu3ShOroy9W9
+ Gpg+yqkoL7j/HdqFP9VDHMgZSiXN6LM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-exBOXwJ7OXONXjXxM5JGGw-1; Tue, 30 Jun 2020 04:47:03 -0400
+X-MC-Unique: exBOXwJ7OXONXjXxM5JGGw-1
+Received: by mail-ej1-f72.google.com with SMTP id op28so11386214ejb.15
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:47:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=W3b/qTeenEtl21pNKmDf1cpErOMxHMaHRIktFWkMxSo=;
+ b=PhnU7sWVVAOQM8jj6igloks35u9eNwF5f7amLL2KPki8oVKYQ8hAy4k+a876DxDws6
+ 9hrIXwSkx1Yfre2v7kjHz3eB+q8e9mO2zJ4knCYIuuZWmBMPmy8VluH6q0vf1KQqYWC3
+ bYsXf7f+F879smWrec3eBD5h9w/VOjQTlY6ikTjdaKRz/3Tw/lUrPnux7asHJccwfAZo
+ dBI91ELY3T9oSxIlcjzH1Wy1oDqDvk5RLsZHvDKGHFQB5LOL6VCY9uy/kMB5yLBgGElY
+ NJGvGE3z6hdOJSGstsYCRYMckotuhMTZziMk0sLkqWSO/0j/wU5uz+YM7O/1XvplbOgA
+ DKPQ==
+X-Gm-Message-State: AOAM530rnmJ+WhxZzdjxdx1QkWDp9G8FkxlyhviV/g7xcZUJvvsjxx0Z
+ ZzDQ+hSVHf0vtLLlbiAFOmtvd21QWJ8pAvCZQtX90GMUYLaGY08yNI+Zm8fgXUsa5v+v86FOtqE
+ nDLPqBhPrPnK7fQM=
+X-Received: by 2002:a50:f418:: with SMTP id r24mr16670878edm.382.1593506821861; 
+ Tue, 30 Jun 2020 01:47:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvK3ZzbDLQxQEReBmRbECL5H97QHOxX2C3nCwT4Q4CClNWIO8ETEGbBkEof8qEAE9WhDI/HQ==
+X-Received: by 2002:a50:f418:: with SMTP id r24mr16670861edm.382.1593506821700; 
+ Tue, 30 Jun 2020 01:47:01 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id dt22sm1574019ejc.104.2020.06.30.01.47.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 01:47:01 -0700 (PDT)
+Subject: Re: [PATC 7/9] Skipping drm build, unsupported
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
+ <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
+ <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <a482bd09-28c8-7de7-de06-dba60d1c8160@redhat.com>
+Date: Tue, 30 Jun 2020 10:46:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a186c461-7af3-371a-f82f-7dc3ced0ea84@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 04:46:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,57 +122,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ David CARLIER <devnexen@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 30 10:35, Philippe Mathieu-Daudé wrote:
-> Hi Klaus,
+On 6/30/20 10:23 AM, Gerd Hoffmann wrote:
+> On Tue, Jun 30, 2020 at 08:44:24AM +0200, Philippe Mathieu-DaudÃ© wrote:
+>> +Gerd
+>>
+>> On 6/29/20 11:48 PM, David CARLIER wrote:
+>>> From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 2001
+>>> From: David Carlier <devnexen@gmail.com>
+>>> Date: Mon, 29 Jun 2020 22:20:06 +0000
+>>> Subject: [PATCH 7/9] Skipping drm build, unsupported.
 > 
-> On 6/25/20 8:23 PM, Klaus Jensen wrote:
-> > On Jun 25 17:48, Philippe Mathieu-Daudé wrote:
-> >> Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> >> ---
-> >>  include/block/nvme.h | 3 +++
-> >>  hw/block/nvme.c      | 5 ++---
-> >>  2 files changed, 5 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> >> index 1720ee1d51..6d87c9c146 100644
-> >> --- a/include/block/nvme.h
-> >> +++ b/include/block/nvme.h
-> >> @@ -22,6 +22,8 @@ typedef struct NvmeBar {
-> >>      uint32_t    pmrebs;
-> >>      uint32_t    pmrswtp;
-> >>      uint32_t    pmrmsc;
-> >> +    uint32_t    reserved[58];
-> >> +    uint8_t     cmd_set_specfic[0x100];
-> >>  } NvmeBar;
-> > 
-> > This ends up as a freak mix of v1.3 and v1.4 specs. Since we already
-> > have the PMR stuff in there, I think it makes more sense to align with
-> > v1.4 and remove the reserved bytes.
+> --verbose please.
+
+David has difficulties understanding how to send patches,
+so you missed the cover/context. This is for the Haiku OS
+which apparently is POSIX.1-2001 compatible.
+
+I don't know about DRI-1.0, maybe it is POSIX.1-2008?
+
+>>> -util-obj-$(CONFIG_POSIX) += drm.o
+>>> +util-obj-$(CONFIG_LINUX) += drm.o
 > 
-> I'm sorry but I don't understand what you'd prefer, removing the
-> cmd_set_specfic[] for v1.3 and instead use this?
+> Can't see anything linux-specific there.  Also note that FreeBSD (and
+> possibly other *BSDs too) have drm support.  So CONFIG_POSIX looks
+> correct to me.
 > 
->       uint32_t    pmrmsc;
->  +    uint32_t    reserved[122];
->   } NvmeBar;
-> 
-> Or this?
-> 
->       uint32_t    pmrmsc;
->  +    uint8_t     reserved[488];
->   } NvmeBar;
+> take care,
+>   Gerd
 > 
 
-Yes, the second one.
-
-But it should be 484 bytes reserved and the bug is in the pmrmsc field
-that should be uint64_t. Can you fix that as well?  :)
 
