@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4623F20F248
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:09:43 +0200 (CEST)
-Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F9020F256
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:11:29 +0200 (CEST)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDCw-00047O-6N
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
+	id 1jqDEe-0007qa-PP
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7K-0002Tn-Aw; Tue, 30 Jun 2020 06:03:54 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37885)
+ id 1jqD7L-0002X9-GN; Tue, 30 Jun 2020 06:03:55 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7I-0004dI-Lj; Tue, 30 Jun 2020 06:03:53 -0400
-Received: by mail-ej1-x641.google.com with SMTP id lx13so1241187ejb.4;
- Tue, 30 Jun 2020 03:03:51 -0700 (PDT)
+ id 1jqD7J-0004dl-PH; Tue, 30 Jun 2020 06:03:55 -0400
+Received: by mail-ej1-x644.google.com with SMTP id n26so5957483ejx.0;
+ Tue, 30 Jun 2020 03:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2FehWZv489g7gLp1IpuJgAw0ELgG4HGTfqwfreEPxtg=;
- b=CZc2yj3rRHmUKsdZ8q5lEUQ9/BSmJRv4oTy85kFlRGlTFpmcKj7Gl9WJGTKGAKAbu0
- UPrINk+k2ucWASQo6917Lqnwm2e+lsnkJkv32Fed6JfV9eJWdwivnWiihMNTn+znAteQ
- oITiMFz1ct6B/s4jSRyhtpRte4t5oym1sqAp0YKV0tou4BEZ3Hz0KLpb3QWzk6ExspjT
- CP3lIUY1p0dPiWgJgTxAt5t8g+e2+hM3lgd88vRV6W0aR/0STnI9VjTmYoFFzt5Uktja
- KJhnjRNEiYHSjXIdsg8YrjAfKEUmBqgarvqSICAfILK3oug6nROK4lv+xmEA5W7lR/H5
- 0BPg==
+ bh=/hBqILuvbq8GQVmvRRiNXAXWPYKiP9RUKThJFiSA5Mw=;
+ b=D4Ior0JKJLdE58frgVDMp4O58wPgI545KyzfaQ2SJN4DE6qxQD9Yn9rKhNMCsN5PtL
+ BhpR3rHMIf8FeXoaBDJPINzcfastr+QCwhgJYs/ZxOV4REDl6leob4FnkfrXsfNZuLy8
+ GwAQPvtGpdac9F8/G+jj1ScOofZKG8MLZJG9a7BRu88d4F1MugdZ2z/N0YHm//DqTJMO
+ 8nApzv+XKMHVY9oIWZQ+kM5FBYhjLlcnice6/wh0zVOpacBFaP62OofmJnvctpEIcA0C
+ G4erwbGP/nfrRI3KbpbebM0vzkOLu+UuXlLOUYXTpR4D5xS0F4ArNju6plHBZQhwB2Ga
+ IFdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2FehWZv489g7gLp1IpuJgAw0ELgG4HGTfqwfreEPxtg=;
- b=BB3LVOfSeCeadDuMTC1egTyMTALlZSl0t8gC6tjxTUNgdolkT3ibq9byRpqQD7CQwn
- hXKi/mHJZenPb7tnHR1Asvz2/80lInDNMhTYLOptW0gnLYz/zAn+FnCnvlBVpPo45GvF
- Vxh0d4IPv9JuORRcicHGCazcoTBzoMIInPXELeeXK0zljEGPuKPK1UF9Ie/zH9zjlP4A
- LIgL2juZ/3EKdaf3JCEAH+TZqoXMq4EtK2e7ut4S8MVNL6RD0KToY6/jej0GOMauc4IL
- jtvNtYSm9MT4KInyAb0T+PYIiToQpYRLoKZvonZDzA9GqaC8HvXooTpZW5Vp0NKVdD6j
- +Faw==
-X-Gm-Message-State: AOAM530jSB8PlKdLj2/TPFCea+yBfsLh9VLgneLF/03b3kyLPflX0mzE
- mrOOlQ4BrrIL8bICRMACoBRCoKdJmpY=
-X-Google-Smtp-Source: ABdhPJzCL+AIs9+afEjc2reah4gGN0cmZG8vo2l/C6RU1HKPjXu6wemJ0JbVRICYCyOpiDqf8Lf6gg==
-X-Received: by 2002:a17:907:1059:: with SMTP id
- oy25mr18817818ejb.90.1593511430847; 
- Tue, 30 Jun 2020 03:03:50 -0700 (PDT)
+ bh=/hBqILuvbq8GQVmvRRiNXAXWPYKiP9RUKThJFiSA5Mw=;
+ b=K07Ue4JfpzWEip9nsDHMmRBU9myraAtyC2g4euanjekLlfdPDAEXhL2mmrdezlajiy
+ ln5GI42cBPXC7jrJOSl/nNUq3Lyc7Pr8DBMuP/EHXgkhKtLOcIvoK/7m8dqP9dRNj9hp
+ Go5uWEW+UQRtVfp+ehK4mPSj66ye1h2RsY0qiq3fN+B1SWy79Cf5KB1Tlt9IVQx6hiTm
+ sg/g+e/rlhgkUODzylhQp+HyDM7TVPCQ03hJT7bOx2PjwRId/B1tDNIIFHP1NucOpdIM
+ +OGr8V+y0wnXZUlygF1uL3oLpnecVqhtjTlH2PrCU6znz6GfS/I7m4LatTRbmhqFcKuS
+ ZDWg==
+X-Gm-Message-State: AOAM532fLsU5MCEmwnhmW+NkQCZ7AXVjxrPiEC4ONWRpO0DpsN3qBcvB
+ JTOPZuJXJy0k2Upg+gcEs7NVDW80Q0Q=
+X-Google-Smtp-Source: ABdhPJyA1/k2iECKdcUDWrEk+iyVzPSsLrYsMW5862+Qv8L7X00qh3DqHwC8VzWm4NReEdRcRQ1aYw==
+X-Received: by 2002:a17:906:c943:: with SMTP id
+ fw3mr17284014ejb.55.1593511431873; 
+ Tue, 30 Jun 2020 03:03:51 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.49
+ by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 03:03:50 -0700 (PDT)
+ Tue, 30 Jun 2020 03:03:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 06/15] hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
-Date: Tue, 30 Jun 2020 12:03:33 +0200
-Message-Id: <20200630100342.27625-7-f4bug@amsat.org>
+Subject: [PATCH v6 07/15] hw/sd/sdcard: Initialize constant values first
+Date: Tue, 30 Jun 2020 12:03:34 +0200
+Message-Id: <20200630100342.27625-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630100342.27625-1-f4bug@amsat.org>
 References: <20200630100342.27625-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,40 +93,63 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only SCSD cards support Class 6 (Block Oriented Write Protection)
-commands.
+Reorder initialization code, constant values first.
 
-  "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
-
-  4.3.14 Command Functional Difference in Card Capacity Types
-
-  * Write Protected Group
-
-  SDHC and SDXC do not support write-protected groups. Issuing
-  CMD28, CMD29 and CMD30 generates the ILLEGAL_COMMAND error.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/sd/sd.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 7e0d684aca..871c30a67f 100644
+index 871c30a67f..22392e5084 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -922,6 +922,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         sd->multi_blk_cnt = 0;
+@@ -556,22 +556,6 @@ static void sd_reset(DeviceState *dev)
      }
+     size = sect << 9;
  
-+    if (sd_cmd_class[req.cmd] == 6 && FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
-+        /* Only Standard Capacity cards support class 6 commands */
-+        return sd_illegal;
-+    }
+-    sect = sd_addr_to_wpnum(size) + 1;
+-
+-    sd->state = sd_idle_state;
+-    sd->rca = 0x0000;
+-    sd_set_ocr(sd);
+-    sd_set_scr(sd);
+-    sd_set_cid(sd);
+-    sd_set_csd(sd, size);
+-    sd_set_cardstatus(sd);
+-    sd_set_sdstatus(sd);
+-
+-    g_free(sd->wp_groups);
+-    sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
+-    sd->wpgrps_size = sect;
+-    sd->wp_groups = bitmap_new(sd->wpgrps_size);
+-    memset(sd->function_group, 0, sizeof(sd->function_group));
+     sd->erase_start = 0;
+     sd->erase_end = 0;
+     sd->size = size;
+@@ -581,6 +565,22 @@ static void sd_reset(DeviceState *dev)
+     sd->dat_lines = 0xf;
+     sd->cmd_line = true;
+     sd->multi_blk_cnt = 0;
++    sd->state = sd_idle_state;
++    sd->rca = 0x0000;
 +
-     switch (req.cmd) {
-     /* Basic commands (Class 0 and Class 1) */
-     case 0:	/* CMD0:   GO_IDLE_STATE */
++    sd_set_ocr(sd);
++    sd_set_scr(sd);
++    sd_set_cid(sd);
++    sd_set_csd(sd, size);
++    sd_set_cardstatus(sd);
++    sd_set_sdstatus(sd);
++
++    sect = sd_addr_to_wpnum(size) + 1;
++    g_free(sd->wp_groups);
++    sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
++    sd->wpgrps_size = sect;
++    sd->wp_groups = bitmap_new(sd->wpgrps_size);
++    memset(sd->function_group, 0, sizeof(sd->function_group));
+ }
+ 
+ static bool sd_get_inserted(SDState *sd)
 -- 
 2.21.3
 
