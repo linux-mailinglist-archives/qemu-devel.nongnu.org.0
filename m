@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5220F055
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:19:24 +0200 (CEST)
-Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3D920F04D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:18:11 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqBUB-0001OP-3N
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
+	id 1jqBT0-0007vi-CS
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOa-0001WG-Gf
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:36 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:33008)
+ id 1jqBPc-0003Ng-RS; Tue, 30 Jun 2020 04:14:40 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:42466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOZ-0003Ce-4y
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:36 -0400
-Received: by mail-ed1-x543.google.com with SMTP id h28so15330989edz.0
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:13:34 -0700 (PDT)
+ id 1jqBPa-0003Ki-FT; Tue, 30 Jun 2020 04:14:40 -0400
+Received: by mail-ej1-x644.google.com with SMTP id i14so19582797ejr.9;
+ Tue, 30 Jun 2020 01:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SGZ0w3GX0Fw/UVCGFTciL1Am4/K0WbWSFkFzf/a5Yeg=;
- b=IejZtuCP8CBNQ7wNJEVzMD8vn1uEh1LCzfmTf9kxt02JkzXHnUaxxrm+Pw6bIys1pF
- 4YB9Fk7Nl5++TiyQDzXJcG/xHADMf3+t2bvROAxnNlRQDO638q9nZrB7R1h5jH9R5u/J
- vm7OhiwD+LPQfG7kKw5t0IfAnefG/aBceTyzHfjGnCj83cNAOLedfWclIHjUuaoL54Qc
- 2Au6HwrOePFkFSXwyDKGznRbwFDttKvhidQUC2iqbhbwbF6PZSUylSH8LBCpjX2IdgCn
- Y6M0j9MiBbDNS9/eq1RvEGlerIj/wwZSfO+lOR62bz51cMpPUUeMAvFlBIJ/McXDYX+8
- gUHQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TudWM1wkL52+YWCkl1Dxv9SRDhDpUoJlZG8pQ7k5sm8=;
+ b=Yx6KI/SASjGSSGtYxS+OXZxdKukRBnSPeZcWwrJ9ePr2yfiUsje3Fas5mrR7IeOXKo
+ zoFHv5QfLpA3sVyA6dGAJbkvPUes51cmAW97XHzdWU2Hq5gITo5u+WSMkSwXAcVYDF6o
+ U53O4ivtG+2k5an2ec+gU6afRLvIOktv8qlgcN/UrcpKM2lqtfB2xZgA+cRuhB46jxEL
+ BvCf2fLc8JHK2+dpHzf86P+CA3bm+8jtDYz6phBBwfBHUo+t+LN3PdytzosHi5IRD6a0
+ RovQSexSCDlg8iWW2FTA8ps0wZvnmhFSB4uHDvFoRuYiRPqbZnrvloDMef8S3SPIAkfA
+ 1qTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SGZ0w3GX0Fw/UVCGFTciL1Am4/K0WbWSFkFzf/a5Yeg=;
- b=fURXUFgEenwbNDQVHl/yBhqjSY7yejRVK3L9pkiHBSUNqIsNu3gMs3RqvKHe5CxpyP
- bQGd3CeWSUdIH22y1qHSZ9b8CZjhfx4kpKKhkCMkGEz8lEXY3EGSd7LPU/iC+8zt2UNs
- zSiilw7SgZCiUCft/SkZjIxw9MR3bfh05mbLjMQ0I0GHIGxB1T1lyWrAxUDXbGJsW227
- eAgFR0A3DowlHeiawoAAUts/Q40mwMIvJRgiGYbAso8Myj5u/o2y+FMVM14wWrqp8tmk
- 8mnLY2J8AY58AmIFTn0RADWwqEPhs/zC411ME7/SoQTMWXIpA7xDO1ZF+D9CD6wAtHkc
- F0dQ==
-X-Gm-Message-State: AOAM530mI4iTIJX1L0kLwPUjL+oZcgXDFb2uYD7HsFfW4qvvXMjkVPC+
- iXau96KCJFLB27zszjWRf7U=
-X-Google-Smtp-Source: ABdhPJwFqCJKU5niLQVN0c7TBAtNOKfShqVHK68LWoGS0k6IOSwRVGQBfd/K8pFvZfsIt+P9eRhFYw==
-X-Received: by 2002:a05:6402:17f6:: with SMTP id
- t22mr22447564edy.141.1593504813883; 
- Tue, 30 Jun 2020 01:13:33 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TudWM1wkL52+YWCkl1Dxv9SRDhDpUoJlZG8pQ7k5sm8=;
+ b=khzj+vmMheuQD4xcF2qO+a5xZy94T7y4abVAmub4m73HFyiWt01P/zAzf7UUhWXJfo
+ Elg3zrVcVwfeAxmYdZqq0AAz1g33P7qF/obnL/YeKljmzULeSOBGeUvJhN7lIkb1Erep
+ 9ppTols78C8KLSlJ3dNHMeVNrifrVBdld74uORBXycNzSng6fOUS1px1T3WItohPbvqI
+ Uk13ADL/OzL5LmpZ+NCedDTQXK4hp8/MGq0tWcsao3Tbqr3B3x2A4JaO1VZybPcz/Ien
+ js4whGJrfJnlecPzkc7uMm7lk+aRAb7VvZ8eZYB8+XMEFrjkLyVqO3LFc1IxE6zxXfBd
+ PHQw==
+X-Gm-Message-State: AOAM5333gNE3+44+pn3s9z+7XwXQmPeLr1mv/wBAEPAD8roh/A1KY5CA
+ EsHZd5VF9jOgpcNDkI7bdow=
+X-Google-Smtp-Source: ABdhPJzIjtKP+rBOXYTiFYnpmXATCqJNlE5rSyXCQYdFPFb6nB3slVvyFhAk4Ezhi6nVdhVW2DXhow==
+X-Received: by 2002:a17:906:3958:: with SMTP id
+ g24mr16638205eje.26.1593504876419; 
+ Tue, 30 Jun 2020 01:14:36 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id z1sm1425948ejb.41.2020.06.30.01.13.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 01:13:33 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Yunqiang Su <ysu@wavecomp.com>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-devel@nongnu.org
-Subject: [PATCH 7/7] hw/mips/malta: Allow more than 2GB on 64-bit malta-virt
-Date: Tue, 30 Jun 2020 10:13:22 +0200
-Message-Id: <20200630081322.19146-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200630081322.19146-1-f4bug@amsat.org>
-References: <20200630081322.19146-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id jo25sm1422045ejb.116.2020.06.30.01.14.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 01:14:35 -0700 (PDT)
+Subject: Re: [PATCH] hw/misc/pca9552: Add missing TypeInfo::class_size field
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200629074704.23028-1-f4bug@amsat.org>
+ <CAFEAcA_uAJzddqVfttgZ9PjNfbrjt3q1=HaTwRNPs+=smrDkjg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bc93f3ed-a2bb-1b4a-d249-cf964bd43488@amsat.org>
+Date: Tue, 30 Jun 2020 10:14:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <CAFEAcA_uAJzddqVfttgZ9PjNfbrjt3q1=HaTwRNPs+=smrDkjg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,42 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>,
+ Jean-Christophe DUBOIS <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we don't respect the hardware restrictions, there is no good
-reason to limit the maximum amount of RAM to 2GB.
+On 6/29/20 11:07 PM, Peter Maydell wrote:
+> On Mon, 29 Jun 2020 at 08:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> When adding the generic PCA955xClass in commit 736132e455, we
+>> forgot to set the class_size field. Fill it now to avoid:
+> 
+> Thanks; I've applied this to master since it fixes a memory
+> corruption that affects all arm targets and I'm not otherwise
+> planning an arm pullreq for a bit.
 
-Suggested-by: Yunqiang Su <ysu@wavecomp.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/mips/malta.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 5768b88183..277cbc0303 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1482,10 +1482,11 @@ static void malta_machine_virt_class_init(ObjectClass *oc, void *data)
-     mc->is_default = true;
- #ifdef TARGET_MIPS64
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("20Kc");
-+    mmc->max_ramsize = 3 * GiB;
- #else
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
--#endif
-     mmc->max_ramsize = 2 * GiB;
-+#endif
- }
- 
- static void malta_machine_phys_class_init(ObjectClass *oc, void *data)
--- 
-2.21.3
-
+Thanks Peter!
 
