@@ -2,44 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26F520F254
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:11:06 +0200 (CEST)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CB620F21F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:05:23 +0200 (CEST)
+Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDEH-00078q-O6
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:11:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58038)
+	id 1jqD8k-0003dk-5B
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqD5i-0007sd-Sa; Tue, 30 Jun 2020 06:02:14 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqD5a-0004M9-4z; Tue, 30 Jun 2020 06:02:14 -0400
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 1B14DBF803;
- Tue, 30 Jun 2020 10:01:58 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH 10/10] hw/block/nvme: support reset/finish recommended limits
-Date: Tue, 30 Jun 2020 12:01:39 +0200
-Message-Id: <20200630100139.1483002-11-its@irrelevant.dk>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200630100139.1483002-1-its@irrelevant.dk>
-References: <20200630100139.1483002-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jqD72-0001oI-UN
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:03:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55712
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jqD70-0004ZU-QV
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:03:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593511413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eq/GE4ms39HWlyowLrPS9igJK74xuqkX1MglQGnV4VM=;
+ b=iOelCpXoez51XT0w7oL/ZAkjKBYTXGxgq3dmkkMhgW7OsoNeHyzmSGj4gT4Z+Gaoebnbxu
+ /mu8E/3ugMFru426UqLaVsz5wJbbpk6DDryZjZU2ZiYtetthgLD5Ygg51IqUVKJBUKy6kE
+ cxl4/lcTyYIi7E3SV+VG43OgY+/geoE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-upbwY-V-M4OY7DXv7wT50g-1; Tue, 30 Jun 2020 06:03:31 -0400
+X-MC-Unique: upbwY-V-M4OY7DXv7wT50g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 539EC1883617;
+ Tue, 30 Jun 2020 10:03:30 +0000 (UTC)
+Received: from [10.72.13.159] (ovpn-13-159.pek2.redhat.com [10.72.13.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FA275BAEC;
+ Tue, 30 Jun 2020 10:03:21 +0000 (UTC)
+Subject: Re: [PATCH] net: tap: check if the file descriptor is valid before
+ using it
+To: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200624190009.300069-1-lvivier@redhat.com>
+ <20200625084835.GB1009994@redhat.com>
+ <541b40c5-ee72-d37d-1c30-664775812d1b@redhat.com>
+ <929203d2-20d2-7caf-e487-6bfe5b851974@redhat.com>
+ <ea94fa3c-edb5-220e-e0e0-4b7fca7b90e8@redhat.com>
+ <b912e24c-8dc5-7022-6ed2-cf10d72ef6e7@redhat.com>
+ <20200630092318.GE1370404@redhat.com> <20200630093148.GF1370404@redhat.com>
+ <247f4aa8-1846-c5ec-4fe3-1d344979ad52@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <d24b43e9-5a8c-1cc0-9d1c-4ee01a8cbbca@redhat.com>
+Date: Tue, 30 Jun 2020 18:03:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <247f4aa8-1846-c5ec-4fe3-1d344979ad52@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 04:46:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,376 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the rrl and frl device parameters. The parameters specify the number
-of seconds before the device may perform an internal operation to
-"clear" the Reset Zone Recommended and Finish Zone Recommended
-attributes respectively.
 
-When the attibutes are set is governed by the rrld and frld parameters
-(Reset/Finish Recomended Limit Delay). The Reset Zone Recommended Delay
-starts when a zone becomes full. The Finish Zone Recommended Delay
-starts when the zone is first activated.  When the limits are reached,
-the attributes are cleared again and the process is restarted.
+On 2020/6/30 下午5:45, Laurent Vivier wrote:
+> On 30/06/2020 11:31, Daniel P. Berrangé wrote:
+>> On Tue, Jun 30, 2020 at 10:23:18AM +0100, Daniel P. Berrangé wrote:
+>>> On Tue, Jun 30, 2020 at 05:21:49PM +0800, Jason Wang wrote:
+>>>> On 2020/6/30 上午3:30, Laurent Vivier wrote:
+>>>>> On 28/06/2020 08:31, Jason Wang wrote:
+>>>>>> On 2020/6/25 下午7:56, Laurent Vivier wrote:
+>>>>>>> On 25/06/2020 10:48, Daniel P. Berrangé wrote:
+>>>>>>>> On Wed, Jun 24, 2020 at 09:00:09PM +0200, Laurent Vivier wrote:
+>>>>>>>>> qemu_set_nonblock() checks that the file descriptor can be used and, if
+>>>>>>>>> not, crashes QEMU. An assert() is used for that. The use of assert() is
+>>>>>>>>> used to detect programming error and the coredump will allow to debug
+>>>>>>>>> the problem.
+>>>>>>>>>
+>>>>>>>>> But in the case of the tap device, this assert() can be triggered by
+>>>>>>>>> a misconfiguration by the user. At startup, it's not a real problem,
+>>>>>>>>> but it
+>>>>>>>>> can also happen during the hot-plug of a new device, and here it's a
+>>>>>>>>> problem because we can crash a perfectly healthy system.
+>>>>>>>> If the user/mgmt app is not correctly passing FDs, then there's a whole
+>>>>>>>> pile of bad stuff that can happen. Checking whether the FD is valid is
+>>>>>>>> only going to catch a small subset. eg consider if fd=9 refers to the
+>>>>>>>> FD that is associated with the root disk QEMU has open. We'll fail to
+>>>>>>>> setup the TAP device and close this FD, breaking the healthy system
+>>>>>>>> again.
+>>>>>>>>
+>>>>>>>> I'm not saying we can't check if the FD is valid, but lets be clear that
+>>>>>>>> this is not offering very much protection against a broken mgmt apps
+>>>>>>>> passing bad FDs.
+>>>>>>>>
+>>>>>>> I agree with you, but my only goal here is to avoid the crash in this
+>>>>>>> particular case.
+>>>>>>>
+>>>>>>> The punishment should fit the crime.
+>>>>>>>
+>>>>>>> The user can think the netdev_del doesn't close the fd, and he can try
+>>>>>>> to reuse it. Sending back an error is better than crashing his system.
+>>>>>>> After that, if the system crashes, it will be for the good reasons, not
+>>>>>>> because of an assert.
+>>>>>> Yes. And on top of this we may try to validate the TAP via st_dev
+>>>>>> through fstat[1].
+>>>>> I agree, but the problem I have is to know which major(st_dev) we can
+>>>>> allow to use.
+>>>>>
+>>>>> Do we allow only macvtap major number?
+>>>>
+>>>> Macvtap and tuntap.
+>>>>
+>>>>
+>>>>> How to know the macvtap major number at user level?
+>>>>> [it is allocated dynamically: do we need to parse /proc/devices?]
+>>>>
+>>>> I think we can get them through fstat for /dev/net/tun and /dev/macvtapX.
+>>> Don't assume QEMU has any permission to access to these device nodes,
+>>> only the pre-opened FDs it is given by libvirt.
+>> Actually permissions are the least of the problem - the device nodes
+>> won't even exist, because QEMU's almost certainly running in a private
+>> mount namespace with a minimal /dev populated
+>>
+> I'm working on a solution using /proc/devices.
 
-If zone excursions are enabled (they are by default), when the Finish
-Recommended Limit is reached, the device will finish the zone.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.c    | 105 ++++++++++++++++++++++++++++++++++++++++++
- hw/block/nvme-ns.h    |  13 ++++++
- hw/block/nvme.c       |  49 +++++++++++++-------
- hw/block/nvme.h       |   7 +++
- hw/block/trace-events |   3 +-
- 5 files changed, 160 insertions(+), 17 deletions(-)
+Similar issue with /dev. There's no guarantee that qemu can access 
+/proc/devices or it may not exist (CONFIG_PROCFS).
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 3b9fa91c7af8..7f9b1d526197 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -25,6 +25,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/qdev-core.h"
- 
-+#include "trace.h"
- #include "nvme.h"
- #include "nvme-ns.h"
- 
-@@ -48,6 +49,91 @@ const char *nvme_zs_to_str(NvmeZoneState zs)
-     return NULL;
- }
- 
-+static void nvme_ns_process_timer(void *opaque)
-+{
-+    NvmeNamespace *ns = opaque;
-+    BusState *s = qdev_get_parent_bus(&ns->parent_obj);
-+    NvmeCtrl *n = NVME(s->parent);
-+    NvmeZone *zone;
-+
-+    trace_pci_nvme_ns_process_timer(ns->params.nsid);
-+
-+    int64_t next_timer = INT64_MAX, now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    QTAILQ_FOREACH(zone, &ns->zns.resources.lru_open, lru_entry) {
-+        int64_t activated_ns = now - zone->stats.activated_ns;
-+        if (activated_ns < ns->zns.frld_ns) {
-+            next_timer = MIN(next_timer, zone->stats.activated_ns +
-+                             ns->zns.frld_ns);
-+
-+            break;
-+        }
-+
-+        if (activated_ns < ns->zns.frld_ns + ns->zns.frl_ns) {
-+            NVME_ZA_SET_FZR(zone->zd.za, 0x1);
-+            nvme_zone_changed(n, ns, zone);
-+
-+            next_timer = MIN(next_timer, now + ns->zns.frl_ns);
-+
-+            continue;
-+        }
-+
-+        if (zone->wp_staging != le64_to_cpu(zone->zd.wp)) {
-+            next_timer = now + 500;
-+            continue;
-+        }
-+
-+        nvme_zone_excursion(n, ns, zone, NULL);
-+    }
-+
-+    QTAILQ_FOREACH(zone, &ns->zns.resources.lru_active, lru_entry) {
-+        int64_t activated_ns = now - zone->stats.activated_ns;
-+        if (activated_ns < ns->zns.frld_ns) {
-+            next_timer = MIN(next_timer, zone->stats.activated_ns +
-+                             ns->zns.frld_ns);
-+
-+            break;
-+        }
-+
-+        if (activated_ns < ns->zns.frld_ns + ns->zns.frl_ns) {
-+            NVME_ZA_SET_FZR(zone->zd.za, 0x1);
-+            nvme_zone_changed(n, ns, zone);
-+
-+            next_timer = MIN(next_timer, now + ns->zns.frl_ns);
-+
-+            continue;
-+        }
-+
-+        nvme_zone_excursion(n, ns, zone, NULL);
-+    }
-+
-+    QTAILQ_FOREACH(zone, &ns->zns.lru_finished, lru_entry) {
-+        int64_t finished_ns = now - zone->stats.finished_ns;
-+        if (finished_ns < ns->zns.rrld_ns) {
-+            next_timer = MIN(next_timer, zone->stats.finished_ns +
-+                             ns->zns.rrld_ns);
-+
-+            break;
-+        }
-+
-+        if (finished_ns < ns->zns.rrld_ns + ns->zns.rrl_ns) {
-+            NVME_ZA_SET_RZR(zone->zd.za, 0x1);
-+            nvme_zone_changed(n, ns, zone);
-+
-+            next_timer = MIN(next_timer, now + ns->zns.rrl_ns);
-+
-+            nvme_zone_changed(n, ns, zone);
-+            continue;
-+        }
-+
-+        NVME_ZA_SET_RZR(zone->zd.za, 0x0);
-+    }
-+
-+    if (next_timer != INT64_MAX) {
-+        timer_mod(ns->zns.timer, next_timer);
-+    }
-+}
-+
- static int nvme_ns_blk_resize(BlockBackend *blk, size_t len, Error **errp)
- {
- 	Error *local_err = NULL;
-@@ -262,6 +348,21 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns)
- 
-     id_ns->ncap = ns->zns.info.num_zones * ns->params.zns.zcap;
- 
-+    id_ns_zns->rrl = ns->params.zns.rrl;
-+    id_ns_zns->frl = ns->params.zns.frl;
-+
-+    if (ns->params.zns.rrl || ns->params.zns.frl) {
-+        ns->zns.rrl_ns = ns->params.zns.rrl * NANOSECONDS_PER_SECOND;
-+        ns->zns.rrld_ns = ns->params.zns.rrld * NANOSECONDS_PER_SECOND;
-+        ns->zns.frl_ns = ns->params.zns.frl * NANOSECONDS_PER_SECOND;
-+        ns->zns.frld_ns = ns->params.zns.frld * NANOSECONDS_PER_SECOND;
-+
-+        ns->zns.timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                     nvme_ns_process_timer, ns);
-+
-+        QTAILQ_INIT(&ns->zns.lru_finished);
-+    }
-+
-     id_ns_zns->mar = cpu_to_le32(ns->params.zns.mar);
-     id_ns_zns->mor = cpu_to_le32(ns->params.zns.mor);
- 
-@@ -515,6 +616,10 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_UINT16("zns.ozcs", NvmeNamespace, params.zns.ozcs, 0),
-     DEFINE_PROP_UINT32("zns.mar", NvmeNamespace, params.zns.mar, 0xffffffff),
-     DEFINE_PROP_UINT32("zns.mor", NvmeNamespace, params.zns.mor, 0xffffffff),
-+    DEFINE_PROP_UINT32("zns.rrl", NvmeNamespace, params.zns.rrl, 0),
-+    DEFINE_PROP_UINT32("zns.frl", NvmeNamespace, params.zns.frl, 0),
-+    DEFINE_PROP_UINT32("zns.rrld", NvmeNamespace, params.zns.rrld, 0),
-+    DEFINE_PROP_UINT32("zns.frld", NvmeNamespace, params.zns.frld, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index 6acda5c2cf3f..f92045f19948 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -31,6 +31,10 @@ typedef struct NvmeNamespaceParams {
-         uint16_t ozcs;
-         uint32_t mar;
-         uint32_t mor;
-+        uint32_t rrl;
-+        uint32_t frl;
-+        uint32_t rrld;
-+        uint32_t frld;
-     } zns;
- } NvmeNamespaceParams;
- 
-@@ -40,6 +44,11 @@ typedef struct NvmeZone {
- 
-     uint64_t wp_staging;
- 
-+    struct {
-+        int64_t activated_ns;
-+        int64_t finished_ns;
-+    } stats;
-+
-     QTAILQ_ENTRY(NvmeZone) lru_entry;
- } NvmeZone;
- 
-@@ -77,6 +86,10 @@ typedef struct NvmeNamespace {
-         } resources;
- 
-         NvmeChangedZoneList changed_list;
-+
-+        QTAILQ_HEAD(, NvmeZone) lru_finished;
-+        QEMUTimer *timer;
-+        int64_t rrl_ns, rrld_ns, frl_ns, frld_ns;
-     } zns;
- } NvmeNamespace;
- 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6db6daa62bc5..f28373feb887 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -875,13 +875,13 @@ static void nvme_process_aers(void *opaque)
-     }
- }
- 
--static void nvme_enqueue_event(NvmeCtrl *n, NvmeNamespace *ns,
--                               uint8_t event_type, uint8_t event_info,
--                               uint8_t log_page)
-+void nvme_enqueue_event(NvmeCtrl *n, NvmeNamespace *ns, uint8_t event_type,
-+                        uint8_t event_info, uint8_t log_page)
- {
-     NvmeAsyncEvent *event;
- 
--    trace_pci_nvme_enqueue_event(event_type, event_info, log_page);
-+    trace_pci_nvme_enqueue_event(ns ? ns->params.nsid : -1, event_type,
-+                                 event_info, log_page);
- 
-     if (n->aer_queued == n->params.aer_max_queued) {
-         trace_pci_nvme_enqueue_event_noqueue(n->aer_queued);
-@@ -1194,7 +1194,7 @@ static void nvme_update_zone_descr(NvmeNamespace *ns, NvmeRequest *req,
-     nvme_req_add_aio(req, aio);
- }
- 
--static void nvme_zone_changed(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-+void nvme_zone_changed(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
- {
-     uint16_t num_ids = le16_to_cpu(ns->zns.changed_list.num_ids);
- 
-@@ -1213,12 +1213,8 @@ static void nvme_zone_changed(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-                        NVME_LOG_CHANGED_ZONE_LIST);
- }
- 
--static uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns,
--                                    NvmeZone *zone, NvmeZoneState to,
--                                    NvmeRequest *req);
--
--static void nvme_zone_excursion(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
--    NvmeRequest *req)
-+void nvme_zone_excursion(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
-+                         NvmeRequest *req)
- {
-     trace_pci_nvme_zone_excursion(ns->params.nsid, nvme_zslba(zone),
-                                   nvme_zs_str(zone));
-@@ -1226,6 +1222,7 @@ static void nvme_zone_excursion(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
-     assert(nvme_zrm_transition(n, ns, zone, NVME_ZS_ZSF, req) == NVME_SUCCESS);
- 
-     NVME_ZA_SET_ZFC(zone->zd.za, 0x1);
-+    NVME_ZA_SET_FZR(zone->zd.za, 0x0);
- 
-     nvme_zone_changed(n, ns, zone);
- 
-@@ -1333,9 +1330,8 @@ out:
-  * The function does NOT change the Zone Attribute field; this must be done by
-  * the caller.
-  */
--static uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns,
--                                    NvmeZone *zone, NvmeZoneState to,
--                                    NvmeRequest *req)
-+uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
-+                             NvmeZoneState to, NvmeRequest *req)
- {
-     NvmeZoneState from = nvme_zs(zone);
-     uint16_t status;
-@@ -1366,7 +1362,7 @@ static uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns,
- 
-             QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_active, zone, lru_entry);
- 
--            goto out;
-+            goto activated;
- 
-         case NVME_ZS_ZSIO:
-         case NVME_ZS_ZSEO:
-@@ -1389,7 +1385,7 @@ static uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns,
- 
-             QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_open, zone, lru_entry);
- 
--            goto out;
-+            goto activated;
- 
-         default:
-             return NVME_INVALID_ZONE_STATE_TRANSITION | NVME_DNR;
-@@ -1512,8 +1508,28 @@ static uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns,
-         return NVME_INVALID_ZONE_STATE_TRANSITION | NVME_DNR;
-     }
- 
-+activated:
-+    zone->stats.activated_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (ns->params.zns.frld && !timer_pending(ns->zns.timer)) {
-+        int64_t next_timer = zone->stats.activated_ns + ns->zns.frld_ns;
-+        timer_mod(ns->zns.timer, next_timer);
-+    }
-+
- out:
-     nvme_zs_set(zone, to);
-+
-+    if (to == NVME_ZS_ZSF && ns->params.zns.rrld) {
-+        QTAILQ_INSERT_TAIL(&ns->zns.lru_finished, zone, lru_entry);
-+
-+        zone->stats.finished_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+        if (!timer_pending(ns->zns.timer)) {
-+            int64_t next_timer = zone->stats.finished_ns + ns->zns.rrld_ns;
-+            timer_mod(ns->zns.timer, next_timer);
-+        }
-+    }
-+
-     return NVME_SUCCESS;
- }
- 
-@@ -1979,6 +1995,7 @@ static uint16_t nvme_zone_mgmt_send_reset(NvmeCtrl *n, NvmeRequest *req,
- 
-     case NVME_ZS_ZSRO:
-         assert(!nvme_zrm_transition(n, ns, zone, NVME_ZS_ZSO, req));
-+
-         nvme_update_zone_info(ns, req, zone);
-         return NVME_NO_COMPLETE;
- 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 309fb1b94ecb..e51a38546080 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -318,5 +318,12 @@ static inline NvmeCtrl *nvme_ctrl(NvmeRequest *req)
- }
- 
- int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
-+uint16_t nvme_zrm_transition(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
-+                             NvmeZoneState to, NvmeRequest *req);
-+void nvme_enqueue_event(NvmeCtrl *n, NvmeNamespace *ns, uint8_t event_type,
-+                        uint8_t event_info, uint8_t log_page);
-+void nvme_zone_excursion(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone,
-+                         NvmeRequest *req);
-+void nvme_zone_changed(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone);
- 
- #endif /* HW_NVME_H */
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index c4c80644f782..249487ae79fc 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -85,7 +85,7 @@ pci_nvme_aer(uint16_t cid) "cid %"PRIu16""
- pci_nvme_aer_aerl_exceeded(void) "aerl exceeded"
- pci_nvme_aer_masked(uint8_t type, uint8_t mask) "type 0x%"PRIx8" mask 0x%"PRIx8""
- pci_nvme_aer_post_cqe(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
--pci_nvme_enqueue_event(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
-+pci_nvme_enqueue_event(uint32_t nsid, uint8_t typ, uint8_t info, uint8_t log_page) "nsid 0x%"PRIx32" type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
- pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
-@@ -105,6 +105,7 @@ pci_nvme_zone_zrm_release_active(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsi
- pci_nvme_zone_zrm_excursion_not_allowed(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
- pci_nvme_zone_changed(uint32_t nsid, uint64_t zslba) "nsid %"PRIu32" zslba 0x%"PRIx64""
- pci_nvme_zone_excursion(uint32_t nsid, uint64_t zslba, const char *zc) "nsid %"PRIu32" zslba 0x%"PRIx64" zc \"%s\""
-+pci_nvme_ns_process_timer(uint32_t nsid) "nsid %"PRIu32""
- pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
--- 
-2.27.0
+
+> macvtap has its own major number, but tuntap use "misc" (10) major number.
+
+
+Yes.
+
+Another possible solution is to validate the result of TUNGETIFF, but it 
+requires libvirt to tell us the ifname.
+
+Thanks
+
+
+
+>
+> Thanks,
+> Laurent
+>
+>
 
 
