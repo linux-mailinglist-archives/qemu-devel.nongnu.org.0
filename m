@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11EC20F88F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:41:12 +0200 (CEST)
-Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD9A20F88B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:40:38 +0200 (CEST)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqINj-0007Ol-LV
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1jqINB-0006Oz-0U
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqILJ-0003yV-N5
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:38:41 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqILI-0003Fr-2w
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:38:41 -0400
-Received: by mail-wr1-x442.google.com with SMTP id g18so20704549wrm.2
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:38:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1GbJ3qR8DbeArfmr/fgMB2nbWQEYgRsT+hJBwHxLbKY=;
- b=pfty3Mmn0wpkMG1+vuXJazh3KcumB9EsESuEuaTUYL4VIA72QUlAX20MQ9XOKdvZxu
- evodc3bS/zh4OiYw5jog3ziLsqHiKwe6mH77axBKKI6hybLYH9t1K1ZwiXxkIo1Ewxpz
- 0MLAqXzUh9XdpeKIcfoDJHOs5xGh0gFMUhYpc/mfrmfykeIFuEQubcKTYTRsGvWd3mU4
- 4WcgaPRs4i8E7TURMy0gcN74zb9Thk9sqCKMLTcBuHFcLIqMsv49aTLmd1mtBUr+R6bp
- LoAFqnwAKbM/aQnmcY2fFeyhyIegPUagm3/1Xpv4GFc4+0Vp3ivcmCQZTH6nVijJyAPy
- 87Gw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jqILw-0004va-Me
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:39:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52230)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jqILu-0003KJ-3C
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:39:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593531557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RfDTnZyAnMKxrAwhwYFuNYjdOfKdvzDk5jy6V9PyZC4=;
+ b=fo1rq93GGbAYa+PJ0AkeBrEPD53Fjxe1lYNW7VM2ezOByJGB0jUCwkvKqOeOvLZ1Wjvkbh
+ +5EJSI9xlY8CjfkTlszOL/bUpvT6OcJ3acY5l6MOLT4gC1l/SjTvQZsjTgSH7grPbTrOMj
+ f4RXJOT6f2EeVWYLIcjSuldJMdR/Ego=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-48C3fXQtNKyvTj5rVWIJjw-1; Tue, 30 Jun 2020 11:39:14 -0400
+X-MC-Unique: 48C3fXQtNKyvTj5rVWIJjw-1
+Received: by mail-qv1-f71.google.com with SMTP id m18so1048403qvt.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:39:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1GbJ3qR8DbeArfmr/fgMB2nbWQEYgRsT+hJBwHxLbKY=;
- b=grXv2oD0hTzo+4xhq0Vmrj7NsbMdR3URMBN9u6CVGdOvTfEDGfl0RrawX2YB4F35Gy
- KQKLfyZ7SXhRHNTJ21hasnjdp7KvE8j1MnDk7M73JaNb/Up0u07UYKhKG1BXk4Rx21Ok
- 6kGQ3uKYkVB0cpIi4UjhFzGHT2bz6WKTiQHQ23LyKiHTb6MnS3CwI2AMgBngIBDySluO
- G0LgIcQ9zZ4huNjupFChX++hfRk5uJEXMDCPz9Kz2KxFtE3twpDR7Z55sVN7JlMUarLk
- wiZw1sUMJXi4rtXNXpUkUFVDxyhWSxS3wvLbsVW9K+dSttW5wfPQ1vQ9BzWCNFTz/O74
- EyeQ==
-X-Gm-Message-State: AOAM533io9VZRi+Itqt9rBh1AW5PEe2JvAIwDvip7c+RrjGqH9cqL2gQ
- hxkSlrpN8+Iv02wP2uLXtQ9aNpSoG7IjLt87cY4=
-X-Google-Smtp-Source: ABdhPJz0gm2HZ9DsOqVgr1PrEUNoVoUfRyoq5lD0Gs5uOB912TgHE1ZA0bmHRqRdRwpc+wul+ZdMPevCO2iy7Mdo5ek=
-X-Received: by 2002:a5d:6907:: with SMTP id t7mr22303156wru.329.1593531518419; 
- Tue, 30 Jun 2020 08:38:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RfDTnZyAnMKxrAwhwYFuNYjdOfKdvzDk5jy6V9PyZC4=;
+ b=hde19Eeev6BNTdBJw8mWUmxp/rI/x4H6/1GU972ckEhIRKtL7+Rh+VDuTpw5wIMlmq
+ MfSYMHapsYg6AuddHtYLShWxYj3Qtj06Hhj9B0a6T4RGNK8OK+6XlSquQxT7oAqNyF1Q
+ duzce/4mujGAJ/9QxyitJi59m/oMuGxi0Ax1CSBTXyRU1TKMNH0qlfmTUreoWYXZRirO
+ WGBfmUPUvyB3IZxS234+w18cBLRPdiPLSQ0ZRiHPprKeem0dELFMfC/76CjCu9hsnBVL
+ wJXoFfJtynQhZjWml9Z2a4ZIHDAb5Xc6UW8p/XEMNjLIg337OSRCjS9bL1YLlqlwxRMH
+ j0/Q==
+X-Gm-Message-State: AOAM530c8YeE8RbaLLdjjvYTjkobFO+Pc5gQsf6uo6D3zjB1YDOP2t3G
+ x0reun2oylE/iD2mUKYx8lTjuC8DKs/1HzDjT9APd/TIEAIDPWZa05GKk+ZFB96kbCByKzOu7m3
+ xij2YLIPwtyo8anE=
+X-Received: by 2002:a05:620a:1385:: with SMTP id
+ k5mr19835417qki.148.1593531554161; 
+ Tue, 30 Jun 2020 08:39:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7pPgUKCwc1gJRfuL+VDoCP5hXui91OFR6cxvTos4qcKPFpFv1xfhm/2HVA+AxEES49aqRpw==
+X-Received: by 2002:a05:620a:1385:: with SMTP id
+ k5mr19835387qki.148.1593531553884; 
+ Tue, 30 Jun 2020 08:39:13 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id z18sm3481813qta.51.2020.06.30.08.39.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 08:39:13 -0700 (PDT)
+Date: Tue, 30 Jun 2020 11:39:11 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC v2 1/1] memory: Delete assertion in
+ memory_region_unregister_iommu_notifier
+Message-ID: <20200630153911.GD3138@xz-x1>
+References: <20200626064122.9252-1-eperezma@redhat.com>
+ <20200626064122.9252-2-eperezma@redhat.com>
+ <20200626212917.GD175520@xz-x1>
+ <8cf25190-53e6-8cbb-372b-e3d4ec714dc5@redhat.com>
+ <20200628144746.GA239443@xz-x1>
+ <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
+ <20200629133403.GA266532@xz-x1>
+ <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
 MIME-Version: 1.0
-References: <20200630145236.27529-1-f4bug@amsat.org>
-In-Reply-To: <20200630145236.27529-1-f4bug@amsat.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 30 Jun 2020 17:38:25 +0200
-Message-ID: <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] hw/mips/malta: Add the 'malta-strict' machine,
- matching Malta hardware
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,56 +102,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yunqiang Su <ysu@wavecomp.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D1=83=D1=82=D0=BE, 30. =D1=98=D1=83=D0=BD 2020. =D1=83 16:52 Philippe Math=
-ieu-Daud=C3=A9 <f4bug@amsat.org> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Hi,
->
-> This series add a new 'malta-strict' machine, that aims to properly
-> model the real hardware (which is not what the current 'malta'
-> machine models).
->
-> As a bonus for Debian builders, a 'malta-unleashed' machine RFC
-> patch is included. This might start another endless discussion
-> upstream, but this is not the point of, so I still include it
-> for people to test. The rest of the series is candidate for merging
-> in mainstream QEMU.
->
-> Philippe Mathieu-Daud=C3=A9 (6):
->   hw/mips/malta: Trivial code movement
->   hw/mips/malta: Register the machine as a TypeInfo
->   hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
->   hw/mips/malta: Introduce the 'malta-strict' machine
->   hw/mips/malta: Verify malta-strict machine uses correct DIMM sizes
->   hw/mips/malta: Introduce the 'malta-unleashed' 64-bit machine
->
->  hw/mips/malta.c | 125 ++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 111 insertions(+), 14 deletions(-)
->
-> --
+On Tue, Jun 30, 2020 at 10:41:10AM +0800, Jason Wang wrote:
+> >      /* According to ATS spec table 2.4:
+> >       * S = 0, bits 15:12 = xxxx     range size: 4K
+> >       * S = 1, bits 15:12 = xxx0     range size: 8K
+> >       * S = 1, bits 15:12 = xx01     range size: 16K
+> >       * S = 1, bits 15:12 = x011     range size: 32K
+> >       * S = 1, bits 15:12 = 0111     range size: 64K
+> >       * ...
+> >       */
+> 
+> 
+> Right, but the comment is probably misleading here, since it's for the PCI-E
+> transaction between IOMMU and device not for the device IOTLB invalidation
+> descriptor.
+> 
+> For device IOTLB invalidation descriptor, spec allows a [0, ~0ULL]
+> invalidation:
+> 
+> "
+> 
+> 6.5.2.5 Device-TLB Invalidate Descriptor
+> 
+> ...
+> 
+> Size (S): The size field indicates the number of consecutive pages targeted
+> by this invalidation
+> request. If S field is zero, a single page at page address specified by
+> Address [63:12] is requested
+> to be invalidated. If S field is Set, the least significant bit in the
+> Address field with value 0b
+> indicates the invalidation address range. For example, if S field is Set and
+> Address[12] is Clear, it
+> indicates an 8KB invalidation address range with base address in Address
+> [63:13]. If S field and
+> Address[12] is Set and bit 13 is Clear, it indicates a 16KB invalidation
+> address range with base
+> address in Address [63:14], etc.
+> 
+> "
+> 
+> So if we receive an address whose [63] is 0 and the rest is all 1, it's then
+> a [0, ~0ULL] invalidation.
 
-This whole series is based on idea of emulating physically
-non-existing feature, and as such violates the fundamental principles
-of QEMU.
+Yes.  I think invalidating the whole range is always fine.  It's still not
+arbitrary, right?  E.g., we can't even invalidate (0x1000, 0x3000) with
+device-iotlb because of the address mask, not to say sub-pages.
 
-As such, not acceptable for upstreaming.
+> 
+> 
+> > 
+> > > 
+> > > > > How about just convert to use a range [start, end] for any notifier and move
+> > > > > the checks (e.g the assert) into the actual notifier implemented (vhost or
+> > > > > vfio)?
+> > > > IOMMUTLBEntry itself is the abstraction layer of TLB entry.  Hardware TLB entry
+> > > > is definitely not arbitrary range either (because AFAICT the hardware should
+> > > > only cache PFN rather than address, so at least PAGE_SIZE aligned).
+> > > > Introducing this flag will already make this trickier just to avoid introducing
+> > > > another similar struct to IOMMUTLBEntry, but I really don't want to make it a
+> > > > default option...  Not to mention I probably have no reason to urge the rest
+> > > > iommu notifier users (tcg, vfio) to change their existing good code to suite
+> > > > any of the backend who can cooperate with arbitrary address ranges...
+> > > 
+> > > Ok, so it looks like we need a dedicated notifiers to device IOTLB.
+> > Or we can also make a new flag for device iotlb just like current UNMAP? Then
+> > we replace the vhost type from UNMAP to DEVICE_IOTLB.  But IMHO using the
+> > ARBITRARY_LENGTH flag would work in a similar way.  DEVICE_IOTLB flag could
+> > also allow virtio/vhost to only receive one invalidation (now IIUC it'll
+> > receive both iotlb and device-iotlb for unmapping a page when ats=on), but then
+> > ats=on will be a must and it could break some old (misconfiged) qemu because
+> > afaict previously virtio/vhost could even work with vIOMMU (accidentally) even
+> > without ats=on.
+> 
+> 
+> That's a bug and I don't think we need to workaround mis-configurated qemu
+> :)
 
-I don't see the point of sending again the same series, in just
-cosmetically different form, if it was said to you that the concept is
-wrong.
+IMHO it depends on the strictness we want on the qemu cmdline API. :)
 
-Regards,
-Aleksandar
+We should at least check libvirt to make sure it's using ats=on always, then I
+agree maybe we can avoid considering the rest...
 
+Thanks,
 
-> 2.21.3
->
+-- 
+Peter Xu
+
 
