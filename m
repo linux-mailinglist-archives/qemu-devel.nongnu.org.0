@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE1420F8EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:55:03 +0200 (CEST)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDC520F8F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:56:38 +0200 (CEST)
+Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqIb8-0006CY-Im
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47742)
+	id 1jqIcf-0000pO-94
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jqIZa-0003WW-D2
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:53:26 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44296)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jqIbT-00080Z-95; Tue, 30 Jun 2020 11:55:23 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jqIZY-0006Zl-RH
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:53:26 -0400
-Received: by mail-oi1-x244.google.com with SMTP id k6so13991350oij.11
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jqIbR-00078I-Kn; Tue, 30 Jun 2020 11:55:22 -0400
+Received: by mail-ej1-x643.google.com with SMTP id n26so7230556ejx.0;
+ Tue, 30 Jun 2020 08:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=bksqS5OXW4yPLtnDgxApaC1LnjKvojyARYOjWT9jY54=;
- b=vhLHPffVxPaiD8FYEzs/6assXv4aydjZlfAGsmN2QrDAO8qpdzN6mQdmr0E5Zb1h6s
- xEaKLNXOA1E2g7/JxtVnF3Qt5ynNsb8b/9wTXQv9iYlPC/Lh1P3YqnEEv8JOWWPHL34d
- qxEha3SvO/i+fn+aSbJZGWXqVqGr/R84Jzk9WiLiKJoSZyMIo2/ZksTGe74OJXphFIRb
- N7Pn5fxSnlQEP1uQ4PFsRuMVbb8JBophMJ+aFF1RE2qyc/88cTMNPr0lKWW2hCqmiWc+
- w+GjW1+Q7Wek06rmveLcDuMa02FUiVsnl7ifXmGSXvQnt1Y9JOvu5YV9NEnfBewwPQSZ
- cHxg==
+ bh=etBpffCKQSmPKqrcY2CSes+qNsgtWnbyzT0LnHfFSBw=;
+ b=JqKOQdjzrYgdtPqwXKCDoDKiTDfyJ5LKCSD0osiI+X2IKTvgmt3OTFJS2/GobZOR70
+ tg7W+/Rfr8Zmv64T7NtINvVfK+V0RFXTBU7daLMODoYqa1TIGtgoWOBdWj4PSb0oyzWc
+ YtADyAwqtpNmXdd3tNYNi0sLmwEJygXA++PjVpraO2dFemrnujVgDqVdnbF4XN8voW79
+ 2ogclAcOhAruLrC8OZujVmCGXIfag6p5ltCT2+YkMVIeaug7/6J4XWPiSyWltBlJ5eDI
+ s9XskEMvKQBHoDeDL7QVajDMbQeReE8/LUUSHA/FKc4bW3YFaG2CiYUZdibnHoKQSNBR
+ KQkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=bksqS5OXW4yPLtnDgxApaC1LnjKvojyARYOjWT9jY54=;
- b=rGPebhxAfmq22zps1MdShl0OrAY8ix6gULNp9AIlRU9nH799sz0iZWAhVyJMPu/kZ6
- 5+da7znVfHsGNzeXYPvSaMyRMKBknttSChZvoDIrGdzBkcAjy0g21nzywsZAKn0NkNj+
- sBGY/oTl18qnblxDZS3aYyTjx5hwB2/JKY9SmjX1IpX34gxOjPLjHpAd85bZDfuYZW6m
- rK80MZu9Sv2qyowmfNngup2G/hQ+YhDN1VBtVxeHdfHxFuBPZOQmYITn7c5Uer9lQ9NM
- 44Or4VrhjOtIcNGkj+YbjDA/qvA7g0YK+y0KVN+5L7/RH3QHWETyUeDOno4HS1lti2uQ
- 4EuQ==
-X-Gm-Message-State: AOAM532PThOZn8z8xFFLG1+tSOL62WvY0RWVGxAcBRf1GGISoYL+QUIL
- 90gP1Kd47FoI/jEfaX2tmgpNUEH/UEca311x6LbC1w==
-X-Google-Smtp-Source: ABdhPJwOisfkpCweJlEMmpgTkBVV4rGLNi06rBzppVFE4pYhne6j4wMAU2XN8nzWbeieHqPveUWLdQj3HtBPEqdKv90=
-X-Received: by 2002:a54:4694:: with SMTP id k20mr16009221oic.146.1593532403224; 
- Tue, 30 Jun 2020 08:53:23 -0700 (PDT)
+ bh=etBpffCKQSmPKqrcY2CSes+qNsgtWnbyzT0LnHfFSBw=;
+ b=qQ7iOhNd9SPMbJ2R9StGNxqL/UAKKGpGHuD/Z8zcwqWHf0agkxY3kw04eJ35s+7o+g
+ F9qwcXCQrDZZxRpBKs/MQqbUTEZX/gH9yZgqsyvmqfv/YwdhiqAICV4uaGwmaaSDQ7vM
+ PkeqJsxHWTDKNOU6dtJTkZrlmTDdYJmghW8ElspwVqflHATbxj44DB58bKRA8QgFdGRO
+ z8NgQcZtqL4STZ81NTN7wTmY0KQMsQbz/pOPiiaISoC0bY1UtLmHeR57XdFoDsIrouvC
+ ir/0nm28JHhyQa6dt7aU/i4mxlhPNhzx2cBVb6Jup5KtENzjMPKYtWC1WkRdgDLIEQd4
+ 0XVw==
+X-Gm-Message-State: AOAM5319a/l8Mr6I0MsZn7A2KBe+SzK2FMu657bGLB/bnm8LbCua/JCR
+ CaeYvE8t6M6bOaEOL49YwIdp87KpRCLgZZEunm8=
+X-Google-Smtp-Source: ABdhPJzb7TLHXgrnRsu7Nn7Y2sqJoFxVfF5X7Bd8x8JYMdLzPpudp0N3ihTeKVV8JLYfma34it00NR9HU7qCiJyo2sw=
+X-Received: by 2002:a17:906:9244:: with SMTP id
+ c4mr18562169ejx.60.1593532519395; 
+ Tue, 30 Jun 2020 08:55:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
  <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
  <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
-In-Reply-To: <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Jun 2020 16:53:12 +0100
-Message-ID: <CAFEAcA8jkzf8+d5AyAVH2HJ544TyHsM4xP5tpWsKiJbJtWMjKw@mail.gmail.com>
+ <a482bd09-28c8-7de7-de06-dba60d1c8160@redhat.com>
+ <20200630154825.k7ut6m3trfhwlmas@sirius.home.kraxel.org>
+In-Reply-To: <20200630154825.k7ut6m3trfhwlmas@sirius.home.kraxel.org>
+From: David CARLIER <devnexen@gmail.com>
+Date: Tue, 30 Jun 2020 16:55:08 +0100
+Message-ID: <CA+XhMqyANFyTxm8j_1hyLskeA1inDBCtpf3iR5sNR1PTwDUt1g@mail.gmail.com>
 Subject: Re: [PATC 7/9] Skipping drm build, unsupported
 To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=devnexen@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -82,39 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, David CARLIER <devnexen@gmail.com>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 09:24, Gerd Hoffmann <kraxel@redhat.com> wrote:
+1/ It does not compile on Haiku has dirent does not contain d_type
+field (among other things).
+2/ does not support drm anyway.
+3/ Haiku is less portable than a illumos or NetBSD system, even with
+the BSD compatibility layer.
+
+On Tue, 30 Jun 2020 at 16:48, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Tue, Jun 30, 2020 at 08:44:24AM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+> On Tue, Jun 30, 2020 at 10:46:59AM +0200, Philippe Mathieu-Daud=C3=A9 wro=
 te:
-> > +Gerd
+> > On 6/30/20 10:23 AM, Gerd Hoffmann wrote:
+> > > On Tue, Jun 30, 2020 at 08:44:24AM +0200, Philippe Mathieu-Daud=C3=83=
+=C2=A9 wrote:
+> > >> +Gerd
+> > >>
+> > >> On 6/29/20 11:48 PM, David CARLIER wrote:
+> > >>> From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 2=
+001
+> > >>> From: David Carlier <devnexen@gmail.com>
+> > >>> Date: Mon, 29 Jun 2020 22:20:06 +0000
+> > >>> Subject: [PATCH 7/9] Skipping drm build, unsupported.
+> > >
+> > > --verbose please.
 > >
-> > On 6/29/20 11:48 PM, David CARLIER wrote:
-> > > From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 200=
-1
-> > > From: David Carlier <devnexen@gmail.com>
-> > > Date: Mon, 29 Jun 2020 22:20:06 +0000
-> > > Subject: [PATCH 7/9] Skipping drm build, unsupported.
+> > David has difficulties understanding how to send patches,
+> > so you missed the cover/context. This is for the Haiku OS
+> > which apparently is POSIX.1-2001 compatible.
 >
-> --verbose please.
+> That doesn't explain why he thinks this patch is needed.
+> It should build just fine on Haiku ...
 >
-> > > -util-obj-$(CONFIG_POSIX) +=3D drm.o
-> > > +util-obj-$(CONFIG_LINUX) +=3D drm.o
+> take care,
+>   Gerd
 >
-> Can't see anything linux-specific there.  Also note that FreeBSD (and
-> possibly other *BSDs too) have drm support.  So CONFIG_POSIX looks
-> correct to me.
-
-This change was my suggestion; I assumed that "open /dev/dri/whatever"
-was Linux-specific. The specific thing that doesn't work on
-Haiku, or on Solaris for that matter, is that the code uses
-DT_CHR, which isn't in POSIX but is a Linux-and-BSDism.
-
-thanks
--- PMM
 
