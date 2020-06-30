@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF8720F64C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:53:14 +0200 (CEST)
-Received: from localhost ([::1]:48354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3112A20F623
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:48:22 +0200 (CEST)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGhF-0007eh-7Q
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1jqGcX-0007ik-4v
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGU2-0001Ly-8d; Tue, 30 Jun 2020 09:39:34 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGU0-0006LX-GN; Tue, 30 Jun 2020 09:39:33 -0400
-Received: by mail-ej1-x644.google.com with SMTP id dp18so20648044ejc.8;
- Tue, 30 Jun 2020 06:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Q/J0Q8HRfbG27Ye3g4wwIvBclHiw8k1nTV85awsZwW4=;
- b=NG1lPzVcx1qi5mzWzP26qpnLVHTJsZ1UzMnobEnp9qoo4T5eVTrkBgjgm89CTeZ9WH
- r5WOdEJkNrgVQd0g5p/nr8bVisv5yC9L+tgWVTK/qBvy7OKfVTScwXSHbR37jRJwzxOn
- ojLT68pprbZ+RKBDZbfL84SToYX/deBIkKHOQAsBz/3HqUAvMOA7pj3/6vMhPXWOoVhm
- ++DYpPZ713sGSomFKoSS29BrJbDBao6vTGf1CS3sD1rvhc8Kc6+RxxQ0WSrXisCOkZO6
- RsjdqBQoyfKkJ5YIavpi7aWz/CFGTzDZ/AlKqVXP1fiw18CDBz7CWIFJmOWRa4XYVfv1
- 97Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q/J0Q8HRfbG27Ye3g4wwIvBclHiw8k1nTV85awsZwW4=;
- b=WnrhrNz7xbbGAmbKAqJAliS26s65/AezlQBGuFDKRe+64Y8bj2Pjks64hPXDyUCYNU
- u7qCCNEHviJ+dJCXRa7f3yXxTk/nkdgaINYC8cgWT2bJvY9p9b7qFM16InQoQa1vc5RZ
- 5i3MoMoifmmZ8LOJskyykPB7vEf3RhqrDRrsvvxBUSfQboGE/3CE7kre60zCs2l2SmUV
- xwJBKJzE15ptq1Ee4MyH/iRj0lBLlIBmBDmzMRe7mGUgLYD2pivEl5ghB40vuMF6Rnd3
- mYQYi7hKbvPuJBxSj+eUXTzfTD5Hw0Pico2UPe59vmhGG+Aiqp+qWXTqop6RK9lSqukb
- YBJA==
-X-Gm-Message-State: AOAM532ZMZJD+XkcB+y44nATzeJkOX44CvJveVND+azil17X5h7NbFMx
- A/oBWFQvDBOvHvHSHa7nxsHzYNTUDps=
-X-Google-Smtp-Source: ABdhPJz4CNgwE4fuM8AZTyW7lrVaRSUsZxJwoZYtmlSsEC2Zi8BmWqpQdYrI2Why77sI9Uu6JUUuDA==
-X-Received: by 2002:a17:906:c102:: with SMTP id
- do2mr17807190ejc.126.1593524370687; 
- Tue, 30 Jun 2020 06:39:30 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 06:39:30 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 15/17] hw/sd/sdcard: Correctly display the command name in
- trace events
-Date: Tue, 30 Jun 2020 15:39:09 +0200
-Message-Id: <20200630133912.9428-16-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200630133912.9428-1-f4bug@amsat.org>
-References: <20200630133912.9428-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jqGTy-0001Ia-Ro
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:39:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60957
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jqGTx-0006Kl-CC
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:39:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593524368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BshmLbkCegvWQdOrab3Q23b6T16SbqzgLcrY5ZDWofo=;
+ b=TcPjXnniUnZJ33tHWmA3dPUViBWL7tbXLNiUhp+0FZuKAdWjCIg7V/6epToeNwE4d9sze6
+ BwjC04kAJCDIpX51rIP43DaiL9mGfm6jWjQBIOwzyDBggas6W+UJMvfySvfHx5QYpGQBJ6
+ zYNs2Ngs3kg9iB294APZ8XDXjgE6uBk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-fxhnA3w1Mg6DgPEn1ZgnZw-1; Tue, 30 Jun 2020 09:39:24 -0400
+X-MC-Unique: fxhnA3w1Mg6DgPEn1ZgnZw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB03C800D5C;
+ Tue, 30 Jun 2020 13:39:22 +0000 (UTC)
+Received: from titinator (ovpn-114-115.ams2.redhat.com [10.36.114.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 252647FE9C;
+ Tue, 30 Jun 2020 13:39:11 +0000 (UTC)
+References: <20200626164307.3327380-1-dinechin@redhat.com>
+ <20200626164307.3327380-2-dinechin@redhat.com>
+ <20200630052756-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.5.2; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 01/10] modules: Provide macros making it easier to
+ identify module exports
+In-reply-to: <20200630052756-mutt-send-email-mst@kernel.org>
+Date: Tue, 30 Jun 2020 15:39:10 +0200
+Message-ID: <lybll0d669.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,87 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Mar?= =?utf-8?Q?c-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some ACMD were incorrectly displayed. Fix by remembering if we
-are processing a ACMD (with current_cmd_is_acmd) and add the
-sd_current_cmd_name() helper, which display to correct name
-regardless it is a CMD or ACMD.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+On 2020-06-30 at 11:38 CEST, Michael S. Tsirkin wrote...
+> On Fri, Jun 26, 2020 at 06:42:58PM +0200, Christophe de Dinechin wrote:
+>> In order to facilitate the move of large chunks of functionality to
+>> load modules, it is simpler to create a wrapper with the same name
+>> that simply relays the implementation. For efficiency, this is
+>> typically done using inline functions in the header for the
+>> corresponding functionality. In that case, we rename the actual
+>> implementation by appending _implementation to its name. This makes it
+>> easier to select which function you want to put a breakpoint on.
+>>
+>> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+>> ---
+>>  include/qemu/module.h | 24 ++++++++++++++++++++++++
+>>  1 file changed, 24 insertions(+)
+>>
+>> diff --git a/include/qemu/module.h b/include/qemu/module.h
+>> index 011ae1ae76..1922a0293c 100644
+>> --- a/include/qemu/module.h
+>> +++ b/include/qemu/module.h
+>> @@ -39,6 +39,30 @@ static void __attribute__((constructor)) do_qemu_init_ ## function(void)    \
+>>  }
+>>  #endif
+>>
+>> +#ifdef CONFIG_MODULES
+>> +/* Identify which functions are replaced by a callback stub */
+>> +#ifdef MODULE_STUBS
+>> +#define MODIFACE(Ret,Name,Args)                                         \
+>> +    Ret (*Name)Args;                                                    \
+>> +    extern Ret Name##_implementation Args
+>> +#else /* !MODULE_STUBS */
+>> +#define MODIFACE(Ret,Name,Args)                                         \
+>> +    extern Ret (*Name)Args;                                             \
+>> +    extern Ret Name##_implementation Args
+>> +#endif /* MODULE_STUBS */
+>> +
+>> +#define MODIMPL(Ret,Name,Args)                                          \
+>> +    static void __attribute__((constructor)) Name##_register(void)      \
+>> +    {                                                                   \
+>> +        Name = Name##_implementation;                                   \
+>> +    }                                                                   \
+>> +    Ret Name##_implementation Args
+>> +#else /* !CONFIG_MODULES */
+>> +/* When not using a module, such functions are called directly */
+>> +#define MODIFACE(Ret,Name,Args)         Ret Name Args
+>> +#define MODIMPL(Ret,Name,Args)          Ret Name Args
+>> +#endif /* CONFIG_MODULES */
+>> +
+>>  typedef enum {
+>>      MODULE_INIT_MIGRATION,
+>>      MODULE_INIT_BLOCK,
+>
+> Hmm that's quite a bit of overhead for each call across modules.
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 3e9faa8add..eb549a52e1 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -125,6 +125,7 @@ struct SDState {
-     uint8_t pwd[16];
-     uint32_t pwd_len;
-     uint8_t function_group[6];
-+    bool current_cmd_is_acmd;
-     uint8_t current_cmd;
-     /* True if we will handle the next command as an ACMD. Note that this does
-      * *not* track the APP_CMD status bit!
-@@ -1718,6 +1719,8 @@ int sd_do_command(SDState *sd, SDRequest *req,
-                       req->cmd);
-         req->cmd &= 0x3f;
-     }
-+    sd->current_cmd = req->cmd;
-+    sd->current_cmd_is_acmd = sd->expecting_acmd;
- 
-     if (sd->card_status & CARD_IS_LOCKED) {
-         if (!cmd_valid_while_locked(sd, req->cmd)) {
-@@ -1745,7 +1748,6 @@ int sd_do_command(SDState *sd, SDRequest *req,
-         /* Valid command, we can update the 'state before command' bits.
-          * (Do this now so they appear in r1 responses.)
-          */
--        sd->current_cmd = req->cmd;
-         sd->card_status &= ~CURRENT_STATE;
-         sd->card_status |= (last_state << 9);
-     }
-@@ -1806,6 +1808,15 @@ send_response:
-     return rsplen;
- }
- 
-+static const char *sd_current_cmd_name(SDState *sd)
-+{
-+    if (sd->current_cmd_is_acmd) {
-+        return sd_acmd_name(sd->current_cmd);
-+    } else {
-+        return sd_cmd_name(sd->current_cmd);
-+    }
-+}
-+
- static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
- {
-     trace_sdcard_read_block(addr, len);
-@@ -1844,7 +1855,7 @@ void sd_write_data(SDState *sd, uint8_t value)
-         return;
- 
-     trace_sdcard_write_data(sd->proto_name,
--                            sd_acmd_name(sd->current_cmd),
-+                            sd_current_cmd_name(sd),
-                             sd->current_cmd, value);
-     switch (sd->current_cmd) {
-     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
-@@ -1998,7 +2009,7 @@ uint8_t sd_read_data(SDState *sd)
-     io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
- 
-     trace_sdcard_read_data(sd->proto_name,
--                           sd_acmd_name(sd->current_cmd),
-+                           sd_current_cmd_name(sd),
-                            sd->current_cmd, io_len);
-     switch (sd->current_cmd) {
-     case 6:	/* CMD6:   SWITCH_FUNCTION */
--- 
-2.21.3
+Do you mean runtime overhead, i.e. the difference between
+foo(x) and (*foo)(x)?
+
+
+> Can't code patching be used somehow?
+
+I've considered it, but this seems like a bit of a hammer for half a dozen
+calls that are mostly init, so not performance sensitive.
+
+In the old times, ld.so used to do that for you. All you had to do was to
+mark one symbol as weak. Apparently for security reasons, that feature was
+dropped several years ago. At least, that put call patching where it
+belonged, i.e. in the loader.
+
+>
+>
+>> --
+>> 2.26.2
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
 
 
