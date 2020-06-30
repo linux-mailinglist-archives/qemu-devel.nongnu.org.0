@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA5120F4CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:37:20 +0200 (CEST)
-Received: from localhost ([::1]:35682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B4320F4B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:34:18 +0200 (CEST)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFVn-00051h-TR
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
+	id 1jqFSr-0008K9-6K
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFPx-0005DX-70
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52190
- helo=us-smtp-1.mimecast.com)
+ id 1jqFQ0-0005EJ-13
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFPv-0003jj-1L
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:16 -0400
+ id 1jqFPx-0003jw-Hn
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593520274;
+ s=mimecast20190719; t=1593520276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=13ky1xAMDjm6BC9UbyOcoOYlgcqcL/dz1aVe9makXSo=;
- b=ZU9cwO/FwmYD87WHojJHvWajH/+ZD5yxhxbPQsMYEQLslA+RrxZoiZj6S5DahK4j6BJuD/
- dY9H8LcRebrMddSp3whQPcaM2cTYETjFF5h2EwcwDEQ43UVo5t2E8I6Ggv++B/t09F3luG
- MGzKyTCqA0Rc+ogEYQV7q1DjqQImPEU=
+ bh=P5WJC/lONKTLoi6rxFfZsZwDAUiOGKmFKgrKK48Cwxw=;
+ b=IL0O3a2XWuBvoYRL+dixv208CHFuZXhBZTaYZj6vBQgZ+NdYrVeO4tKxIf/B0eCBEcsd6+
+ Cgjzvx9rXJLtQfgQ955WQmoqJqyg8ezEYNQhK6rCRfhk191V8m5Yh1beB7urJb00i+NTqL
+ +dW2D1M9z6HF6i7g9tn2s/Dh6HS7DmY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-ddGoxLvNP4KRGGAd1ynbaA-1; Tue, 30 Jun 2020 08:30:59 -0400
-X-MC-Unique: ddGoxLvNP4KRGGAd1ynbaA-1
+ us-mta-5-7ZEOMwn8M5KK1xcd4uzTzg-1; Tue, 30 Jun 2020 08:31:07 -0400
+X-MC-Unique: 7ZEOMwn8M5KK1xcd4uzTzg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E077E107ACCA;
- Tue, 30 Jun 2020 12:30:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4647019200E8;
+ Tue, 30 Jun 2020 12:31:05 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8553D5C1C5;
- Tue, 30 Jun 2020 12:30:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 831395C1C5;
+ Tue, 30 Jun 2020 12:30:58 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 7/9] tz-ppc: add dummy read/write methods
-Date: Tue, 30 Jun 2020 17:57:08 +0530
-Message-Id: <20200630122710.1119158-8-ppandit@redhat.com>
+Subject: [PATCH v3 8/9] imx7-ccm: add digprog mmio write method
+Date: Tue, 30 Jun 2020 17:57:09 +0530
+Message-Id: <20200630122710.1119158-9-ppandit@redhat.com>
 In-Reply-To: <20200630122710.1119158-1-ppandit@redhat.com>
 References: <20200630122710.1119158-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ppandit@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,43 +92,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add tz-ppc-dummy mmio read/write methods to avoid assert failure
-during initialisation.
+Add digprog mmio write method to avoid assert failure during
+initialisation.
 
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/misc/tz-ppc.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/misc/imx7_ccm.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Update v3: use g_assert_not_reached()
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09451.html
+Update v3: Add Reviewed-by: ...
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09452.html
 
-diff --git a/hw/misc/tz-ppc.c b/hw/misc/tz-ppc.c
-index 6431257b52..36495c68e7 100644
---- a/hw/misc/tz-ppc.c
-+++ b/hw/misc/tz-ppc.c
-@@ -196,7 +196,21 @@ static bool tz_ppc_dummy_accepts(void *opaque, hwaddr addr,
-     g_assert_not_reached();
- }
- 
-+static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    g_assert_not_reached();
-+}
-+
-+static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
-+                                        uint64_t data, unsigned size)
-+{
-+    g_assert_not_reached();
-+}
-+
- static const MemoryRegionOps tz_ppc_dummy_ops = {
-+    /* define r/w methods to avoid assert failure in memory_region_init_io */
-+    .read = tz_ppc_dummy_read,
-+    .write = tz_ppc_dummy_write,
-     .valid.accepts = tz_ppc_dummy_accepts,
+diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
+index 02fc1ae8d0..5ac5ecf74c 100644
+--- a/hw/misc/imx7_ccm.c
++++ b/hw/misc/imx7_ccm.c
+@@ -131,8 +131,15 @@ static const struct MemoryRegionOps imx7_set_clr_tog_ops = {
+     },
  };
  
++static void imx7_digprog_write(void *opaque, hwaddr addr,
++                                        uint64_t data, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++}
++
+ static const struct MemoryRegionOps imx7_digprog_ops = {
+     .read = imx7_set_clr_tog_read,
++    .write = imx7_digprog_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .impl = {
+         .min_access_size = 4,
 -- 
 2.26.2
 
