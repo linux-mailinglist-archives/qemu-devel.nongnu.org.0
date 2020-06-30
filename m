@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A020FDC9
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:37:54 +0200 (CEST)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7BC20FE2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:51:39 +0200 (CEST)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqN0r-0007vw-Cc
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+	id 1jqNEA-0004oe-8a
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqMzl-0006o5-CH
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:36:45 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45699)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqNDA-0004AC-HI
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqMzi-0001Js-US
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:36:45 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g17so8943788plq.12
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 13:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pQz+eE/LNVaghZDJQsgpqifIdMEhLjlBM5/n4qi5Hyw=;
- b=m5uwXt3Z1VbWbh22VUKH3NWpmw4WKh8E0g3pZrsU7UZ00xgt4j7HW+3KuQnRaiTJn3
- k+VLMgYH/mO/2PQCsGhTiSqNUj0Cgz86iw0Vkb4JH1gXXdx+oFzna1XloCWeKs4WV3HL
- mp52eAErJAM44R44UtATFcBc7IS4YGaBN3KT35FXQ5ViHLbDTptv5kM2TCksMprcGxgL
- SXu/vlypMfFu+6Me8UnwrR4BVEqH7sgXSJcV+UfuAYLgC3CJURnbsFcysicd8iLCXW48
- /E5YCg4YG5lA/UCs3WruszFdnKrTdzGybDRnoQNjgfMx4euLEZLtZ3KvSdtHg7kCYEDn
- YPsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pQz+eE/LNVaghZDJQsgpqifIdMEhLjlBM5/n4qi5Hyw=;
- b=FUkPfsDbgSIi/dxsZCObu1tJw9YBa4uGIb1gESeqZGDt9ikjWv5UsTw07nStKZYIL8
- CVNXO6xakARhW4k9Mpsmnid9s8pP7h6dleeKOST3E+JDHgp8A7JGeQMjE7gPzJCMx427
- j50xKNiyAIlzNX7cF/7wHdALThWKXUGf4X+KyM1JFvwvpzPLYdOvKQOAdicqzzJldQry
- GU/5ldDgdi4y1hlmX/a9bXdEmWHYqBb3hQw0r2G6vG/ECzsu0n9wN41RcMmY4pJX8FTI
- IlbaKa8cmZPBWlWMZXFjEGoqNH68d3jJuHnRdjDYWBt40PUX+MKb0aT3gcQPKTo3FFjJ
- 0nVA==
-X-Gm-Message-State: AOAM533pke9xzCZ88h8k5kHlO8fRd5Ipp+YCCWa4dLal2cAG8jkjhSsh
- mrq/58ePTv9IdPE5135zF98++w==
-X-Google-Smtp-Source: ABdhPJzjwcjPn1fBHbtcB3mVRWbwqVl89AsIme9mr4PkMdNWp9pR+UiLfiUQD/I0gATJdwllrsTcfA==
-X-Received: by 2002:a17:90b:3187:: with SMTP id
- hc7mr7976511pjb.38.1593549400963; 
- Tue, 30 Jun 2020 13:36:40 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x24sm3555442pfo.12.2020.06.30.13.36.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 13:36:40 -0700 (PDT)
-Subject: Re: [PATCH v2 0/6] hw/mips/malta: Add the 'malta-strict' machine,
- matching Malta hardware
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200630145236.27529-1-f4bug@amsat.org>
- <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
- <5725b99b-b524-ab40-c74d-a615bb28d363@amsat.org>
- <CAHiYmc7AoJd7TMX_Beo3A2f3R1M=yrpe2ZydbsSysREf4Cx3Vw@mail.gmail.com>
- <a503201a-ed9f-dff6-6e3d-4729ed31ad98@amsat.org>
- <CAHiYmc6tp9k9eSOKiSWaQjmaTyvJXi3k+RmLWqLmhTHY9_KDnQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <45a0ca3e-06ba-c35d-c88a-e1d1fd944809@linaro.org>
-Date: Tue, 30 Jun 2020 13:36:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqND7-0003jX-S8
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:50:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jqND5-0007oc-Uy
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 20:50:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E38282E80E7
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 20:50:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc6tp9k9eSOKiSWaQjmaTyvJXi3k+RmLWqLmhTHY9_KDnQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Jun 2020 20:43:10 -0000
+From: Alistair Francis <1885350@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=alistair@alistair23.me; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 rpvrverve453-4tr5t34t5
+X-Launchpad-Bug-Reporter: Mina Magdy (rpvrverve453-4tr5t34t5)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <159323684589.25927.6403829131374464357.malonedeb@gac.canonical.com>
+Message-Id: <159354979062.15406.11232992155109006963.malone@soybean.canonical.com>
+Subject: [Bug 1885350] Re: RISCV dynamic rounding mode is not behaving
+ correctly
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2e55d24c7d3aa353a4a6d6fc04d4402c23f9828b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 16:50:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,91 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yunqiang Su <ysu@wavecomp.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1885350 <1885350@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/20 10:28 AM, Aleksandar Markovic wrote:
-> уто, 30. јун 2020. у 19:16 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> On 6/30/20 6:55 PM, Aleksandar Markovic wrote:
->>> уто, 30. јун 2020. у 18:46 Philippe Mathieu-Daudé <f4bug@amsat.org> је
->>> написао/ла:
->>>>
->>>> On 6/30/20 5:38 PM, Aleksandar Markovic wrote:
->>>>> уто, 30. јун 2020. у 16:52 Philippe Mathieu-Daudé <f4bug@amsat.org> је
->>>>> написао/ла:
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> This series add a new 'malta-strict' machine, that aims to properly
->>>>>> model the real hardware (which is not what the current 'malta'
->>>>>> machine models).
->>>>>>
->>>>>> As a bonus for Debian builders, a 'malta-unleashed' machine RFC
->>>>>> patch is included. This might start another endless discussion
->>>>>> upstream, but this is not the point of, so I still include it
->>>>>> for people to test. The rest of the series is candidate for merging
->>>>>> in mainstream QEMU.
->>>>>>
->>>>>> Philippe Mathieu-Daudé (6):
->>>>>>   hw/mips/malta: Trivial code movement
->>>>>>   hw/mips/malta: Register the machine as a TypeInfo
->>>>>>   hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
->>>>>>   hw/mips/malta: Introduce the 'malta-strict' machine
->>>>>>   hw/mips/malta: Verify malta-strict machine uses correct DIMM sizes
->>>>>>   hw/mips/malta: Introduce the 'malta-unleashed' 64-bit machine
->>>>>>
->>>>>>  hw/mips/malta.c | 125 ++++++++++++++++++++++++++++++++++++++++++------
->>>>>>  1 file changed, 111 insertions(+), 14 deletions(-)
->>>>>>
->>>>>> --
->>>>>
->>>>> This whole series is based on idea of emulating physically
->>>>> non-existing feature, and as such violates the fundamental principles
->>>>> of QEMU.
->>>>>
->>>>> As such, not acceptable for upstreaming.
->>>>>
->>>>> I don't see the point of sending again the same series, in just
->>>>> cosmetically different form, if it was said to you that the concept is
->>>>> wrong.
->>>>
->>>> Have you looked at the patches? What "violates the fundamental
->>>> principles of QEMU" is the code currently in mainstream. Should
->>>> we remove it? I can send a patch for it if it pleases you, but
->>>> you will make QEMU unuseful for many distribution users.
->>>>
->>>
->>> Past mistakes are past mistakes. We have to live with them. And not
->>> make them in the future.
->>>
->>> I see the whole series as a precursor for your change that repeats
->>> past mistakes, a "wolf in sheep clothing".
->>>
->>> That's why I reject the series as a whole.
->>
->> As a co-maintainer I don't accept that.
->>
-> 
-> I offered you the full maintainership for Malta.
-> 
-> You said you can proveide only "Odd fiexes".
-> 
-> I had to jump in to provide "Maintained" status.
-> 
-> Therefore, I provide the higher level of maintainership, and you have
-> to respect that. But you don't.
+This does look like incorrect behaviour. I have sent a patch to the
+mailing list. You can see the patch here:
+https://patchew.org/QEMU/cover.1593547870.git.alistair.francis@wdc.com/ea4f=
+280e6f77e734c8e555e3c98d10085ce9f5b6.1593547870.git.alistair.francis@wdc.co=
+m/
 
-You need to cool your jets here, Aleksandar.
+-- =
 
-You do not have some mythical "higher level" of maintainership.  Nor, as far as
-I can tell, are you actually doing anything with Malta whereas Philippe is.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885350
 
+Title:
+  RISCV dynamic rounding mode is not behaving correctly
 
-r~
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I=E2=80=99ve gone through the RISC-V code in latest QEMU release
+  (qemu-5.0.0-rc2) and when checking the Floating point encodings I
+  found the rounding mode is only updated if the opcode field =E2=80=9Crm=
+=E2=80=9D is
+  changed =E2=80=9Cctx->frm =3D=3D rm=E2=80=9D. But according to RISC-V Vol=
+ume I:
+  Unprivileged ISA, there=E2=80=99s a dynamic mode when rm=3D7 where the ro=
+unding
+  mode is set with frm value.
+
+  So for the same rm value (=3D7) and when changing frm value seeking
+  different rounding modes, and according to the below code, the
+  rounding mode won=E2=80=99t be updated. Please correct me if I got this
+  implementation wrong.
+
+  static void gen_set_rm(DisasContext *ctx, int rm)
+  {
+      TCGv_i32 t0;
+      if (ctx->frm =3D=3D rm) {
+          return;
+      }
+      ctx->frm =3D rm;
+      t0 =3D tcg_const_i32(rm);
+      gen_helper_set_rounding_mode(cpu_env, t0);
+      tcg_temp_free_i32(t0);
+  }
+
+  =
+
+  My testcase:
+  I set statically the rm field in the instruction to 7 and before this exe=
+cution I changed the value of frm field in fcsr register. For the 1st time =
+it worked (according to the code above, the rm is updated so the round mode=
+ will also be updated). But when changing fcsr register an re-execute the i=
+nstruction, there's no difference and the rounding mode is the same like th=
+e previous frm value.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885350/+subscriptions
 
