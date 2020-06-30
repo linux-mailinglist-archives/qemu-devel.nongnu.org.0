@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC5020F834
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:24:55 +0200 (CEST)
-Received: from localhost ([::1]:40988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA6820F83C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:27:29 +0200 (CEST)
+Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqI7y-0000iW-Sx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38124)
+	id 1jqIAS-0003p4-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqI6R-0008DH-Hy; Tue, 30 Jun 2020 11:23:19 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:34988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqI6M-0008N7-61; Tue, 30 Jun 2020 11:23:19 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.2817314|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0350566-0.00123636-0.963707;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03297; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=7; RT=7; SR=0; TI=SMTPD_---.HvHbvDN_1593530581; 
-Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HvHbvDN_1593530581)
- by smtp.aliyun-inc.com(10.147.42.241);
- Tue, 30 Jun 2020 23:23:01 +0800
-Subject: Re: [PATCH 1/2] tcg/tcg-op: Fix nonatomic_op load with MO_SIGN
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200629130731.1080-1-zhiwei_liu@c-sky.com>
- <20200629130731.1080-2-zhiwei_liu@c-sky.com>
- <db9e632e-4fcc-2374-590f-4ea35d1adda6@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <467328c7-1c9d-e352-5a0b-b0a299e7ad70@c-sky.com>
-Date: Tue, 30 Jun 2020 23:22:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqI8o-0002Ii-SO
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:46 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqI8n-0000HY-DK
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:46 -0400
+Received: by mail-ej1-x632.google.com with SMTP id w16so21081273ejj.5
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cCxOIsK10p+a2KtrC7RA0Frnv6gsVNI/JAZEh1+Xa7E=;
+ b=IP8YexjI8AnSGTNxD7Mxj6+RzzNyPdOF3CN/X1CafzDaFz1FvHSdzXvFxPCpb4+5Xs
+ uccyktrmXo2mgUiTs03u0iLz+EkajXIxKpf0xSYMH6tH73hz6EZsQ4pd03AfqTPYJ93t
+ hhpsb4ZbS57My6yaMH7mwhBJ3ukC/visoCVaI2kK3D/hgjvNPSfXNjZ4bTFBZbFZKkfq
+ oz5cHTtRh2lX5DkzxCBQ4qcvogt82TTp1rv4qDInjS5Hmu/64xQQaZfoVqcNnbIPC5Qh
+ UsWf+1wi7BlbMm8x81cxiRai7WpeoSMs0WWbH/jcsGgBaAWDMHmclWukJ0K8uVSiZbnV
+ 4kTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cCxOIsK10p+a2KtrC7RA0Frnv6gsVNI/JAZEh1+Xa7E=;
+ b=j928UU74S1Bo9woCarjZ1zpu7+eoGaZhD/E8BgpVl3XKbDYFqE+hpSbgKKOI2Dct/3
+ 7L7IhWD7tWSOyE6gRC1zWIDOMFzg2K3f6rMlNcSxcAV24NzoM3KtybcHeXDiKHSY/JLH
+ YvwhIN7tJJgK+8iWN5MiqLBDyf1s4w0ZDh038PxK1bN0+zqV8vWYBJ4DhjajXcHpj60B
+ D+D32u/fterz/IkDohR/4vYMDUw88S3niP7ZLHSzizcM2lLtP17dutmI6tFaxP4FeTZw
+ ZvUqBvnHdKQsgQS0weSaCajZcD7luUhgk/UI8xotJGmqHL+lIHQaw3jOv/0t8CZZedjr
+ JGYg==
+X-Gm-Message-State: AOAM53397vzgxfsQccXvn9iEXZxt3AWAlN7Vi+HJggOAjAF790ZPAdcm
+ ZEIU37f6Yv2eYr9RfobaCb9g6EDZ
+X-Google-Smtp-Source: ABdhPJxgoBwgLpOpihz0yvTyNadGEUldgbFhu++Gj1Ya1eP5cyL0//JByEMzx1SxH1ScY9yITuuAxQ==
+X-Received: by 2002:a17:906:7115:: with SMTP id
+ x21mr18448315ejj.86.1593530743605; 
+ Tue, 30 Jun 2020 08:25:43 -0700 (PDT)
+Received: from localhost.localdomain ([109.245.225.97])
+ by smtp.gmail.com with ESMTPSA id q21sm2272398ejc.112.2020.06.30.08.25.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 08:25:43 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target mips: Misc fixes and improvements
+Date: Tue, 30 Jun 2020 17:25:29 +0200
+Message-Id: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <db9e632e-4fcc-2374-590f-4ea35d1adda6@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 11:23:01
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x632.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,41 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com,
- wxy194768@alibaba-inc.com
+Cc: aleksandar.rikalo@syrmia.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+A collection of pendind fixes and improvements.
 
-On 2020/6/30 22:56, Richard Henderson wrote:
-> On 6/29/20 6:07 AM, LIU Zhiwei wrote:
->> @@ -3189,7 +3189,7 @@ static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
->>   
->>       memop = tcg_canonicalize_memop(memop, 0, 0);
->>   
->> -    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
->> +    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
->>       gen(t2, t1, val);
->>       tcg_gen_qemu_st_i32(t2, addr, idx, memop);
->>   
->> @@ -3232,7 +3232,7 @@ static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
->>   
->>       memop = tcg_canonicalize_memop(memop, 1, 0);
->>   
->> -    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
->> +    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
->>       gen(t2, t1, val);
->>       tcg_gen_qemu_st_i64(t2, addr, idx, memop);
-> This is insufficient for smin/smax -- we also need to extend the "val" input.
+Aleksandar Markovic (2):
+  target/mips: Remove identical if/else branches
+  MAINTAINERS: Adjust MIPS maintainership
 
-Do you mean we should call tcg_gen_ext_i64(val, val, memop) before 
-gen(t2, t1, val) for do_nonatomic_op_i64?
+ MAINTAINERS              | 10 +++++-----
+ target/mips/cp0_helper.c |  9 +--------
+ 2 files changed, 6 insertions(+), 13 deletions(-)
 
-I think it will be good if it doesn't have any other side effects.
-
-Zhiwei
->
->
-> r~
+-- 
+2.20.1
 
 
