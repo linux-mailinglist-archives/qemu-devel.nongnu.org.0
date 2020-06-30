@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F15F20F2D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:40:26 +0200 (CEST)
-Received: from localhost ([::1]:36484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654E220F2D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:39:19 +0200 (CEST)
+Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDgf-00023M-0g
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39998)
+	id 1jqDfa-0008WH-CK
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:39:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeG-0006dW-N6
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:37:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31256
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeL-0006pE-Du
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:01 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55052
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeE-0002Gu-Tf
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:37:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeK-0002IO-0g
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593513474;
+ s=mimecast20190719; t=1593513479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fkTG7IRqJeN6JuoPScOrScaWci+d/p8pBXmsF88s47c=;
- b=FKNovLgdyGK/Mhm4xJDYHjvvXEoOqxrwsPT1u/hZZEQUUpE5ZvFaxQM/+qoXhW0EsDwJ9F
- pzndnU2Top/DHf56gLhX4YRDldB6oKlw4hPVbJhSQutwpr9viPJogPh9VcwRet57fmRg+8
- aiTLwHwBmtJROlr5kFn7NVKJtCdtvYE=
+ bh=07ct4LP1waPEbEUp/nBsoiz2BrOfaHiWs7K68B/S55o=;
+ b=A4WrfqLEo0zxy/BVcb4BAAeduO/KQpYMT6CGRg31iae7j/qprk12D4ZJ0EBhg0MjP/K2Z1
+ 02CLWxl3SnxKimzKoq8njeIN2JdFfAxMSSY4CR/6ZAkElDuDFuFhtg6Oc+EnFm50SNmaSE
+ 8yYvfXNydJ0kkZT254rGs4fUexD17n4=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-JiAy2ysDNgemFlI7voqe2A-1; Tue, 30 Jun 2020 06:37:52 -0400
-X-MC-Unique: JiAy2ysDNgemFlI7voqe2A-1
-Received: by mail-ed1-f71.google.com with SMTP id cn4so12307570edb.9
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:37:52 -0700 (PDT)
+ us-mta-491-LOvzEYUZNN-xBlMHzlVbCA-1; Tue, 30 Jun 2020 06:37:57 -0400
+X-MC-Unique: LOvzEYUZNN-xBlMHzlVbCA-1
+Received: by mail-ed1-f71.google.com with SMTP id d3so2875477edq.14
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:37:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fkTG7IRqJeN6JuoPScOrScaWci+d/p8pBXmsF88s47c=;
- b=VPDF3VB9k7rnjZLLtss5jtPeeYR2DyFBOXwFuIdAuXvSF5OPjzr8Aj7iCWWNDG2605
- umljhYoLulGH6TSvKlyCJVXTS1RAZ26mtChflukMvxzIlPnxdfUTVKKbydpG7K29jwPA
- jeubZOo3ve38GRF3zeHtKMrN0PnIGJBCWk1sEJCEEe/yEfsqMG1cVo+jqexcx5qcxMEv
- 3sTBXkFApwLpKFTAlactpTtr1wZSZi1chMGyw+79IkghfTon9SxsSMxjOSYXyfPEXuZt
- 210RHWaWwzOtYrHRENskZ7DcrJSg0UUZSv58O+vfook2EXGRmTTWFs0wHaO1HaPA/I4Z
- XD2Q==
-X-Gm-Message-State: AOAM5333htgodO9ir07LkXAx4lAomdAOSDa/sXNC7xH54kDefRCoa1Sp
- kG+UWO/WNIXZvJ+mmHJN9eXgad83/ccayJuUk6M2PsIvgfm0x8OumgcCRj5Tbq7CwSMpM2yhs+L
- QYSmueYavPh/ETpE=
-X-Received: by 2002:a05:6402:1246:: with SMTP id
- l6mr14572446edw.224.1593513471311; 
- Tue, 30 Jun 2020 03:37:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMFIl2pDOGNN0g4EqTFUBNGH3wWqnwgJIJqtGgwOTn3uK4kVwV164AbFpzoxBwFuokz3Cwsg==
-X-Received: by 2002:a05:6402:1246:: with SMTP id
- l6mr14572430edw.224.1593513471162; 
- Tue, 30 Jun 2020 03:37:51 -0700 (PDT)
+ bh=07ct4LP1waPEbEUp/nBsoiz2BrOfaHiWs7K68B/S55o=;
+ b=uOrQkbW8bzhviB0I4VMfO2PG/fHDYyppKCZKN/Y+hFD6Cgbom8K5VYs2rBbsD5p79R
+ z+cugJ9virrQ4s/8VHThGnY6Vb/aIfqBeKiTuxks+DHak0LLzHxu7PzKxLRkPc+5H7g6
+ RKqNKcLDGPR+VEQXzTMZPYoOdWBdfN+wHugCmXHVC7eErb06kyuTu59ypPakbcqhbMUx
+ Jc4ryk6TfYmnFHxD2HR7ozyPLs+Es42oDskA3SqPqYgYGCzVH0YS/W/DBrDVwYwx9gUR
+ nefrzmeU+Us4DSQcdzt2WwXg4b1n+SN+6shz/5VawGVek41TMmBsd8HDo+SKVkcLmu4l
+ aO5Q==
+X-Gm-Message-State: AOAM530NXpWJayPNVeIiD3aY3SQ8vUfl6ir+8LCyMBD32YCfrIf7JXHB
+ M0YkzLvxGcVouUbgxGFTNgajavxk5BOSrC5dExp4LhvjbzikYOukuwdP3O0As8X1MEiysmI5zqH
+ +Kuc3oNTi5XjwUcI=
+X-Received: by 2002:a50:f08c:: with SMTP id v12mr21817174edl.119.1593513476389; 
+ Tue, 30 Jun 2020 03:37:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRkx0DAQKnDdDHqoeNpSfMkF+Ch6VdicM4WS42wesTeAvNpntDA9EgVIswaL5NEQPKHS4CvQ==
+X-Received: by 2002:a50:f08c:: with SMTP id v12mr21817165edl.119.1593513476262; 
+ Tue, 30 Jun 2020 03:37:56 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id o21sm1681416eja.37.2020.06.30.03.37.50
+ by smtp.gmail.com with ESMTPSA id lj18sm1676744ejb.43.2020.06.30.03.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 03:37:50 -0700 (PDT)
+ Tue, 30 Jun 2020 03:37:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] hw/block/nvme: Use QEMU_PACKED on hardware/packet
- structures
-Date: Tue, 30 Jun 2020 12:37:37 +0200
-Message-Id: <20200630103739.9715-3-philmd@redhat.com>
+Subject: [PATCH v2 3/4] hw/block/nvme: Fix pmrmsc register size
+Date: Tue, 30 Jun 2020 12:37:38 +0200
+Message-Id: <20200630103739.9715-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630103739.9715-1-philmd@redhat.com>
 References: <20200630103739.9715-1-philmd@redhat.com>
@@ -77,9 +74,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -102,193 +99,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
  Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These structures either describe hardware registers, or
-commands ('packets') to send to the hardware. To forbid
-the compiler to optimize and change fields alignment,
-mark the structures as packed.
+The Persistent Memory Region Controller Memory Space Control
+register is 64-bit wide. See 'Figure 68: Register Definition'
+of the 'NVM Express Base Specification Revision 1.4'.
 
+Fixes: 6cf9413229 ("introduce PMR support from NVMe 1.4 spec")
+Reported-by: Klaus Jensen <its@irrelevant.dk>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/block/nvme.h | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Cc: Keith Busch <kbusch@kernel.org>
+---
+ include/block/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 1720ee1d51..71c5681912 100644
+index 71c5681912..82c384614a 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -1,7 +1,7 @@
- #ifndef BLOCK_NVME_H
- #define BLOCK_NVME_H
+@@ -21,7 +21,7 @@ typedef struct QEMU_PACKED NvmeBar {
+     uint32_t    pmrsts;
+     uint32_t    pmrebs;
+     uint32_t    pmrswtp;
+-    uint32_t    pmrmsc;
++    uint64_t    pmrmsc;
+ } NvmeBar;
  
--typedef struct NvmeBar {
-+typedef struct QEMU_PACKED NvmeBar {
-     uint64_t    cap;
-     uint32_t    vs;
-     uint32_t    intms;
-@@ -377,7 +377,7 @@ enum NvmePmrmscMask {
- #define NVME_PMRMSC_SET_CBA(pmrmsc, val)   \
-     (pmrmsc |= (uint64_t)(val & PMRMSC_CBA_MASK) << PMRMSC_CBA_SHIFT)
- 
--typedef struct NvmeCmd {
-+typedef struct QEMU_PACKED NvmeCmd {
-     uint8_t     opcode;
-     uint8_t     fuse;
-     uint16_t    cid;
-@@ -422,7 +422,7 @@ enum NvmeIoCommands {
-     NVME_CMD_DSM                = 0x09,
- };
- 
--typedef struct NvmeDeleteQ {
-+typedef struct QEMU_PACKED NvmeDeleteQ {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -432,7 +432,7 @@ typedef struct NvmeDeleteQ {
-     uint32_t    rsvd11[5];
- } NvmeDeleteQ;
- 
--typedef struct NvmeCreateCq {
-+typedef struct QEMU_PACKED NvmeCreateCq {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -449,7 +449,7 @@ typedef struct NvmeCreateCq {
- #define NVME_CQ_FLAGS_PC(cq_flags)  (cq_flags & 0x1)
- #define NVME_CQ_FLAGS_IEN(cq_flags) ((cq_flags >> 1) & 0x1)
- 
--typedef struct NvmeCreateSq {
-+typedef struct QEMU_PACKED NvmeCreateSq {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -474,7 +474,7 @@ enum NvmeQueueFlags {
-     NVME_Q_PRIO_LOW     = 3,
- };
- 
--typedef struct NvmeIdentify {
-+typedef struct QEMU_PACKED NvmeIdentify {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -486,7 +486,7 @@ typedef struct NvmeIdentify {
-     uint32_t    rsvd11[5];
- } NvmeIdentify;
- 
--typedef struct NvmeRwCmd {
-+typedef struct QEMU_PACKED NvmeRwCmd {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -528,7 +528,7 @@ enum {
-     NVME_RW_PRINFO_PRCHK_REF    = 1 << 10,
- };
- 
--typedef struct NvmeDsmCmd {
-+typedef struct QEMU_PACKED NvmeDsmCmd {
-     uint8_t     opcode;
-     uint8_t     flags;
-     uint16_t    cid;
-@@ -547,7 +547,7 @@ enum {
-     NVME_DSMGMT_AD  = 1 << 2,
- };
- 
--typedef struct NvmeDsmRange {
-+typedef struct QEMU_PACKED NvmeDsmRange {
-     uint32_t    cattr;
-     uint32_t    nlb;
-     uint64_t    slba;
-@@ -569,14 +569,14 @@ enum NvmeAsyncEventRequest {
-     NVME_AER_INFO_SMART_SPARE_THRESH        = 2,
- };
- 
--typedef struct NvmeAerResult {
-+typedef struct QEMU_PACKED NvmeAerResult {
-     uint8_t event_type;
-     uint8_t event_info;
-     uint8_t log_page;
-     uint8_t resv;
- } NvmeAerResult;
- 
--typedef struct NvmeCqe {
-+typedef struct QEMU_PACKED NvmeCqe {
-     uint32_t    result;
-     uint32_t    rsvd;
-     uint16_t    sq_head;
-@@ -634,7 +634,7 @@ enum NvmeStatusCodes {
-     NVME_NO_COMPLETE            = 0xffff,
- };
- 
--typedef struct NvmeFwSlotInfoLog {
-+typedef struct QEMU_PACKED NvmeFwSlotInfoLog {
-     uint8_t     afi;
-     uint8_t     reserved1[7];
-     uint8_t     frs1[8];
-@@ -647,7 +647,7 @@ typedef struct NvmeFwSlotInfoLog {
-     uint8_t     reserved2[448];
- } NvmeFwSlotInfoLog;
- 
--typedef struct NvmeErrorLog {
-+typedef struct QEMU_PACKED NvmeErrorLog {
-     uint64_t    error_count;
-     uint16_t    sqid;
-     uint16_t    cid;
-@@ -659,7 +659,7 @@ typedef struct NvmeErrorLog {
-     uint8_t     resv[35];
- } NvmeErrorLog;
- 
--typedef struct NvmeSmartLog {
-+typedef struct QEMU_PACKED NvmeSmartLog {
-     uint8_t     critical_warning;
-     uint8_t     temperature[2];
-     uint8_t     available_spare;
-@@ -693,7 +693,7 @@ enum LogIdentifier {
-     NVME_LOG_FW_SLOT_INFO   = 0x03,
- };
- 
--typedef struct NvmePSD {
-+typedef struct QEMU_PACKED NvmePSD {
-     uint16_t    mp;
-     uint16_t    reserved;
-     uint32_t    enlat;
-@@ -713,7 +713,7 @@ enum {
-     NVME_ID_CNS_NS_ACTIVE_LIST = 0x2,
- };
- 
--typedef struct NvmeIdCtrl {
-+typedef struct QEMU_PACKED NvmeIdCtrl {
-     uint16_t    vid;
-     uint16_t    ssvid;
-     uint8_t     sn[20];
-@@ -807,7 +807,7 @@ enum NvmeFeatureIds {
-     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80
- };
- 
--typedef struct NvmeRangeType {
-+typedef struct QEMU_PACKED NvmeRangeType {
-     uint8_t     type;
-     uint8_t     attributes;
-     uint8_t     rsvd2[14];
-@@ -817,13 +817,13 @@ typedef struct NvmeRangeType {
-     uint8_t     rsvd48[16];
- } NvmeRangeType;
- 
--typedef struct NvmeLBAF {
-+typedef struct QEMU_PACKED NvmeLBAF {
-     uint16_t    ms;
-     uint8_t     ds;
-     uint8_t     rp;
- } NvmeLBAF;
- 
--typedef struct NvmeIdNs {
-+typedef struct QEMU_PACKED NvmeIdNs {
-     uint64_t    nsze;
-     uint64_t    ncap;
-     uint64_t    nuse;
+ enum NvmeCapShift {
 -- 
 2.21.3
 
