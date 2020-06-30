@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34DC20F28A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:21:51 +0200 (CEST)
-Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBEC20F261
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:12:16 +0200 (CEST)
+Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDOg-0005hc-Ul
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
+	id 1jqDFP-00018i-IH
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7W-0002pJ-HS; Tue, 30 Jun 2020 06:04:06 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:33016)
+ id 1jqD7U-0002mf-LK; Tue, 30 Jun 2020 06:04:05 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:44364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7R-0004il-Ay; Tue, 30 Jun 2020 06:04:06 -0400
-Received: by mail-ej1-x641.google.com with SMTP id n26so5957808ejx.0;
- Tue, 30 Jun 2020 03:04:00 -0700 (PDT)
+ id 1jqD7S-0004jD-Cr; Tue, 30 Jun 2020 06:04:04 -0400
+Received: by mail-ej1-x643.google.com with SMTP id ga4so19869853ejb.11;
+ Tue, 30 Jun 2020 03:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JRZNazdov+ee3WL2ncAzmR+/lQC5nrG6ZQMKrWySSrg=;
- b=opem8ZSbKmF91giGiCi7MDWnSBjvr5NhKBZu3dLGJzSwKth19+fxzUM8nxyNaKhDka
- 3kSw3F0+hxAvBEKoxBvlSXb6HuYPQQHmji0/+ISPKYQIS5mzO8qkqLFHNoGMA4mxyeHQ
- ZTi9uT3tcgfmyl4LVHZOjVnDMRJbwr/a8w1aMojJqNn+0eddxeuViqVeE+bXXgd7atYO
- s6f6akl9r+xOJMUP8XI3EM2jMv6VEiIZAY0jWyEJd4g8F87Z+EoMenWZl+BiA84LoLY1
- 92j4C/3EVaBZ2hHM0xHPxwWUqdg3CdDiXa9ZTtFsIWyhpTuwzxXaAQLoUNXzWdf1IDyR
- zrdg==
+ bh=GCA/b5P4oEFejWJMVskzw5rnEpDdc0VO+NTpGDzUdqY=;
+ b=le+pnGOKUuda9x8XTM54HzMlggBHV3uuwCOWiv7DfWp8jAxUF58n1jRgM5x2wffuxa
+ MChv+3X66zJnTIvSEU8wbGAJro7dQEREHIlfwm1BUjPn62PGT0n5o66V7t5SRneFj0f8
+ Mq4geFZDlt4WOnINIjOaFvZBNhYJ9NBU8n0aGkoYXUjieUf5mWZpE88gh2OzMBfIsJdU
+ FlqKadidSPTkHH3qnPYKt8/fPBKj4Vejb2qE+9fI4qRsMXx1m2myIB3A4b/4YAyYfxTY
+ Xi4dMWLN0hX0hI9mYZZ6cy3+BJ7Ftv6QIOt2w7iVG1fUX5GBHCn5TPNOSgF5wZO0qPRs
+ UEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JRZNazdov+ee3WL2ncAzmR+/lQC5nrG6ZQMKrWySSrg=;
- b=PpZRkjMxhD9j2S5tt9Q2aMSXDJ6UkjK70VhbRnrZQNDHSxUQsGoOImMV6G9P2Fh3rQ
- y2yvIbYMJ9xnmhj0KB+zSl8Gcf22ENdrA3Edke0A4H1UXoOnAwEaXntFUWQnVrx6sih+
- Fwb8zBLsgt9olcoZX2KEfzZxXsd7EnSskLIgjKTaOpeUREdCee8zD+UZw54TZPWi5ujf
- nU68lk9IsEyqPJlgbGY2+vmOmgIDyaTN43G/Of6zVjiDzfpV54iQG1/5oRJBNdYFhogv
- LT0PIvllUQcMNec5DVEscqYW1BkEs3IlBiVSSfPPNH1+G1zAKxfp/V9WRk/feyvzYB75
- pwXw==
-X-Gm-Message-State: AOAM5301EGlL3RpybjvDthSRvDpKvhPKn6Uf931CFfXWnSIKLxz1R16g
- ejUyGqVYULCoAoFmjRiPe0FFdVm7x8E=
-X-Google-Smtp-Source: ABdhPJwmYGAmIHsHUQXZQT2Ou3B9aIXP3KImTenN0WBqFnhgt3Z+6Iog1FuicQOK6txP6o1JxsCX4w==
-X-Received: by 2002:a17:907:7294:: with SMTP id
- dt20mr17178564ejc.355.1593511439610; 
- Tue, 30 Jun 2020 03:03:59 -0700 (PDT)
+ bh=GCA/b5P4oEFejWJMVskzw5rnEpDdc0VO+NTpGDzUdqY=;
+ b=NgPcrDz+eNgWPuS1XP/Vq/4q847/YiasUjl8X7PGpHYMMsNnbScF/XVl/6I5vYORX6
+ u7SXQiQyBkpKbeiNRQ6YiJDkaXn2AX6uJPd/+5upI/TGo9hi6y1BDZ5NcTg1UwALW69+
+ YNqdZZOwgADpneVn2hz5AZLZXfzTlcv+IzJKqONsiz4SZbKJMpxBkBbFz8ovfG16ISjZ
+ //vHIrZ0tCWAoqKbNJyiZ2129wUECc9QTV0P1YMJ0XnG8ktJQ8LYTTllsWaAq4VN3zaD
+ p5IUiHVZYuNlswd/dKzFV+BnaUASul2/KWEqhqalPTxfgGLp+EXG2ErljDrWHQHCvJ2N
+ WIAg==
+X-Gm-Message-State: AOAM533mUX8gTlRm5WRCrZ50rl1YDNLqYYLvODWA/7hMovRueTiW5ci2
+ hn7GI68rqUF+JmK6Z0pR8kHDRSK+2Co=
+X-Google-Smtp-Source: ABdhPJx/UXPmJKCrRFL+o2iujK1iaTo1kszTE9L6mS7CAVDQ9Uw2wFeqJM598jkHGqKu3b4F5L2/ow==
+X-Received: by 2002:a17:906:1414:: with SMTP id
+ p20mr17184146ejc.247.1593511440624; 
+ Tue, 30 Jun 2020 03:04:00 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.58
+ by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 03:03:59 -0700 (PDT)
+ Tue, 30 Jun 2020 03:04:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 14/15] hw/sd/sdcard: Display offset in read/write_data()
- trace events
-Date: Tue, 30 Jun 2020 12:03:41 +0200
-Message-Id: <20200630100342.27625-15-f4bug@amsat.org>
+Subject: [PATCH v6 15/15] hw/sd/sdcard: Simplify realize() a bit
+Date: Tue, 30 Jun 2020 12:03:42 +0200
+Message-Id: <20200630100342.27625-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630100342.27625-1-f4bug@amsat.org>
 References: <20200630100342.27625-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -94,57 +93,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Having 'base address' and 'relative offset' displayed
-separately is more helpful than the absolute address.
+We don't need to check if sd->blk is set twice.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c         | 8 ++++----
- hw/sd/trace-events | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ hw/sd/sd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index de194841a7..7f973f6763 100644
+index 7f973f6763..e1bba887b2 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1841,8 +1841,8 @@ void sd_write_data(SDState *sd, uint8_t value)
+@@ -2140,12 +2140,12 @@ static void sd_realize(DeviceState *dev, Error **errp)
          return;
+     }
  
-     trace_sdcard_write_data(sd->proto_name,
--                            sd_current_cmd_name(sd),
--                            sd->current_cmd, value);
-+                            sd_current_cmd_name(sd), sd->current_cmd,
-+                            sd->data_start, sd->data_offset, value);
-     switch (sd->current_cmd) {
-     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
-         sd->data[sd->data_offset ++] = value;
-@@ -1995,8 +1995,8 @@ uint8_t sd_read_data(SDState *sd)
-     io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
- 
-     trace_sdcard_read_data(sd->proto_name,
--                           sd_current_cmd_name(sd),
--                           sd->current_cmd, io_len);
-+                           sd_current_cmd_name(sd), sd->current_cmd,
-+                           sd->data_start, sd->data_offset, io_len);
-     switch (sd->current_cmd) {
-     case 6:	/* CMD6:   SWITCH_FUNCTION */
-         ret = sd->data[sd->data_offset ++];
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index d0cd7c6ec4..946923223b 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -51,8 +51,8 @@ sdcard_lock(void) ""
- sdcard_unlock(void) ""
- sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
- sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
--sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
--sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint32_t length) "%s %20s/ CMD%02d len %" PRIu32
-+sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, uint8_t value) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " val 0x%02x"
-+sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, uint32_t length) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " len %" PRIu32
- sdcard_set_voltage(uint16_t millivolts) "%u mV"
- 
- # milkymist-memcard.c
+-    if (sd->blk && blk_is_read_only(sd->blk)) {
+-        error_setg(errp, "Cannot use read-only drive as SD card");
+-        return;
+-    }
+-
+     if (sd->blk) {
++        if (blk_is_read_only(sd->blk)) {
++            error_setg(errp, "Cannot use read-only drive as SD card");
++            return;
++        }
++
+         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
+                            BLK_PERM_ALL, errp);
+         if (ret < 0) {
 -- 
 2.21.3
 
