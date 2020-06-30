@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C830420F88D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:40:47 +0200 (CEST)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40FE20F8BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:44:18 +0200 (CEST)
+Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqINK-0006gZ-QK
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42930)
+	id 1jqIQj-0002Vm-R1
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqIM6-0005F6-KI
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:39:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33878
+ id 1jqINW-0007zq-Ee
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:40:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48541
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqIM4-0003M9-Lw
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:39:30 -0400
+ id 1jqINU-0003pG-R9
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:40:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593531568;
+ s=mimecast20190719; t=1593531655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HG2LXqLNK+K2Yvy9ZHJ7MpukWzVaOXe4pBY0xpd20yw=;
- b=YhtoBpkE+NUHOiGYHRWIcji4ErlaR5vXUoudmhM2X9ufwhIq5EP3f5A9VsGhTieMoWZaNQ
- 9URmLTxNeKPQSMv1sDp6K3X9UZYJXn79ir9xigOUHRvfRHKYLl4XF988fWIwiXtgMlr4/u
- P5eADMw3rXaH2u04Co1zXv1rfC9uHSc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-wJNKYDDXNYCVcvtVYpHKow-1; Tue, 30 Jun 2020 11:39:18 -0400
-X-MC-Unique: wJNKYDDXNYCVcvtVYpHKow-1
-Received: by mail-wr1-f71.google.com with SMTP id p9so18942813wrx.10
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:39:17 -0700 (PDT)
+ bh=aF/Dg1AjV/NnA80KCOKuIhtcbq/hBmfaVpwEHsrsODk=;
+ b=MZyru60yKlyik+ejuxsLi4SF8iV5O5fbdmGZ+h1bnmsIx/HoNxyeey/1GAP0qxrrpa0d7l
+ UeLT+DqexaAXl/+3HYrsJy6YZIAzBqTVHIVBGIREKjEYuIxTChzqvoJ7kQQmYAUFkNVYXk
+ 80Nc8Zl7yINIczSM16o8ViZCpSLW38k=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-8Q2Of9O-MzOTF_hiLuIX1w-1; Tue, 30 Jun 2020 11:40:51 -0400
+X-MC-Unique: 8Q2Of9O-MzOTF_hiLuIX1w-1
+Received: by mail-wm1-f70.google.com with SMTP id y204so10051878wmd.2
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:40:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HG2LXqLNK+K2Yvy9ZHJ7MpukWzVaOXe4pBY0xpd20yw=;
- b=QtgtN09aMtNCE/uQ2w2v6HS6by6ZXNaBKxGI5Upx3BdSXj608M/Ob7OnlOk1mLN5p5
- 1+ps5ZXiv/r0FtALRf1gmeGjq25UyWkZicrOkfeiOPyiJiR2/TYfxo2ICbeqq5igz5q0
- JtpnX9kkufrAMTzB8vwA5LV5/+R/97maSH5dQnXV11NNnX3+eoqCG/ZdbzHmcsp8MjAS
- +sZmHbJLSH7V28ymMchHyWkWmlHRCnJ9t7Mv2cPeSsfAoNMW2SyhODq5rpBMy2DilcQa
- OY49d8Gvf8nv2lmG8GWnqFiSjFnUDFEHh52Ki2KpSL3rwRfY8tFcsZrZlpM+gcqeTqps
- 8THA==
-X-Gm-Message-State: AOAM533ZnC8JVrpJ6e0IwMaZmObq7UjhYQgXjCrisXC0+qXNYNznXXQK
- YQZbugxpA5vD1Ign298Jb2bcF28lw6phkzcSVKGFzy/5Lfin/ngjD0yfLUuPOWvtZr4Ug8Pvctc
- oxUeYwMw3hEnW0gs=
-X-Received: by 2002:adf:f6cb:: with SMTP id y11mr21687134wrp.100.1593531556755; 
- Tue, 30 Jun 2020 08:39:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0W1BqBQYRgnPEXlBUZdqrR1b9R7djo5iNDARWlN+xK7/rd+QjWE9JjIeOKeuyaNq/FpPeJA==
-X-Received: by 2002:adf:f6cb:: with SMTP id y11mr21687122wrp.100.1593531556484; 
- Tue, 30 Jun 2020 08:39:16 -0700 (PDT)
+ bh=aF/Dg1AjV/NnA80KCOKuIhtcbq/hBmfaVpwEHsrsODk=;
+ b=CImQWit1jlQ1bxOj2mlYScm+02TGt25g4VN/EfmX7COmCvJvodXPzZmkvD0pzgZHJT
+ 2mL1jQEEnazxD1u+SUDEk+IQj8ZdsZYsTpuv81DMmNgebUj54ed/TZ2ohYgCc67WDfB4
+ BrtnNs7EaXAN1LDI2pm3jW0UCDQwm3uNi/+bY8qyRR5Ul5iMBjuw4FM27GeLTLYHNx3K
+ aLsZ2Ga3GxWLhbsyQphM0sD1qa1QqCPGfO7Lfgv6OXD7sfLWJwq4KOZVOKYkKYApUZ2v
+ /9ohAc3dRAW9xevhMfFTz0u6c85TlDvFTjZu5D14+8nPaH4KdWymYzPwVA07+hY782qo
+ fOYA==
+X-Gm-Message-State: AOAM530krp9d6FK6PR4SXO2Acj9WKe4pQ7OlkxpiLsJIB8IaVnIRpU5Z
+ +6e7TUb7MnrNXkxd6+7ji9O/JYv6aTcf0xUd4mCMHV9qr4hqvzm+EtZsk17vhoylpT0togbETug
+ DLr9AqmmDvVfg0SY=
+X-Received: by 2002:a7b:cbcb:: with SMTP id n11mr20771249wmi.99.1593531650466; 
+ Tue, 30 Jun 2020 08:40:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYy9DWP4FHoJyz3wKp+sMwRgfqaImVviuvNOuXC021KYkoPuh4PgtYdXRz804l4cDZbj18Sg==
+X-Received: by 2002:a7b:cbcb:: with SMTP id n11mr20771237wmi.99.1593531650231; 
+ Tue, 30 Jun 2020 08:40:50 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:acad:d1d4:42b8:23e4?
  ([2001:b07:6468:f312:acad:d1d4:42b8:23e4])
- by smtp.gmail.com with ESMTPSA id n16sm3667346wmc.40.2020.06.30.08.39.15
+ by smtp.gmail.com with ESMTPSA id p25sm3781946wmg.39.2020.06.30.08.40.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 08:39:15 -0700 (PDT)
-Subject: Re: [PATCH v2] coverity: provide Coverity-friendly MIN_CONST and
- MAX_CONST
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200629162804.1096180-1-eblake@redhat.com>
+ Tue, 30 Jun 2020 08:40:49 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] scsi-disk: Add support for the GET LBA STATUS 16
+ command
+To: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Lin Ma <LMa@suse.com>
+References: <AM6PR04MB578290CA80CC6000756C4C0EC5920@AM6PR04MB5782.eurprd04.prod.outlook.com>
+ <20200629103948.GF31392@stefanha-x1.localdomain>
+ <556bd179-71b5-cbe7-1d8b-eff20e70a7c0@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bd658081-ca05-9d22-7486-46379b7577e2@redhat.com>
-Date: Tue, 30 Jun 2020 17:39:15 +0200
+Message-ID: <36c010ea-5075-5e4f-a7f2-13f145bf83e2@redhat.com>
+Date: Tue, 30 Jun 2020 17:40:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200629162804.1096180-1-eblake@redhat.com>
+In-Reply-To: <556bd179-71b5-cbe7-1d8b-eff20e70a7c0@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -102,89 +105,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/20 18:28, Eric Blake wrote:
-> Coverity has problems seeing through __builtin_choose_expr, which
-> result in it abandoning analysis of later functions that utilize a
-> definition that used MIN_CONST or MAX_CONST, such as in qemu-file.c:
+On 29/06/20 18:02, Eric Blake wrote:
+> - allocation implies that data comes from this layer of a backing chain, rather than deferring to a backing image 
 > 
->  50    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
+> - allocation implies that storage is reserved (that is, not sparse)
 > 
-> CID 1429992 (#1 of 1): Unrecoverable parse warning (PARSE_ERROR)1.
-> expr_not_constant: expression must have a constant value
-> 
-> As has been done in the past (see 07d66672), it's okay to dumb things
-> down when compiling for static analyzers.  (Of course, now the
-> syntax-checker has a false positive on our reference to
-> __COVERITY__...)
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: CID 1429992, CID 1429995, CID 1429997, CID 1429999
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
-> 
-> Improvements over Paolo's v1:
-> - proper use of ()
-> - add comment explaining the COVERITY section
-> - add indentation for easier read of #if/#else flow
-> 
->  include/qemu/osdep.h | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 0d26a1b9bd07..0fc206ae6154 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -250,7 +250,8 @@ extern int daemon(int, int);
->   * Note that neither form is usable as an #if condition; if you truly
->   * need to write conditional code that depends on a minimum or maximum
->   * determined by the pre-processor instead of the compiler, you'll
-> - * have to open-code it.
-> + * have to open-code it.  Sadly, Coverity is severely confused by the
-> + * constant variants, so we have to dumb things down there.
->   */
->  #undef MIN
->  #define MIN(a, b)                                       \
-> @@ -258,22 +259,28 @@ extern int daemon(int, int);
->          typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
->          _a < _b ? _a : _b;                              \
->      })
-> -#define MIN_CONST(a, b)                                         \
-> -    __builtin_choose_expr(                                      \
-> -        __builtin_constant_p(a) && __builtin_constant_p(b),     \
-> -        (a) < (b) ? (a) : (b),                                  \
-> -        ((void)0))
->  #undef MAX
->  #define MAX(a, b)                                       \
->      ({                                                  \
->          typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
->          _a > _b ? _a : _b;                              \
->      })
-> -#define MAX_CONST(a, b)                                         \
-> +
-> +#ifdef __COVERITY__
-> +# define MIN_CONST(a, b) ((a) < (b) ? (a) : (b))
-> +# define MAX_CONST(a, b) ((a) > (b) ? (a) : (b))
-> +#else
-> +# define MIN_CONST(a, b)                                        \
-> +    __builtin_choose_expr(                                      \
-> +        __builtin_constant_p(a) && __builtin_constant_p(b),     \
-> +        (a) < (b) ? (a) : (b),                                  \
-> +        ((void)0))
-> +# define MAX_CONST(a, b)                                        \
->      __builtin_choose_expr(                                      \
->          __builtin_constant_p(a) && __builtin_constant_p(b),     \
->          (a) > (b) ? (a) : (b),                                  \
->          ((void)0))
-> +#endif
-> 
->  /*
->   * Minimum function that returns zero only if both values are zero.
+> It sounds like we are trying to represent the second question for scsi
+> (namely, the same question that gets answered by lseek(SEEK_HOLE) for
+> POSIX files), and not the first (namely, the question answered for qcow2
+> images).
 > 
 
-Queued, thanks.
+Yes, SCSI does not know about layers.
+
+Paolo
 
 
