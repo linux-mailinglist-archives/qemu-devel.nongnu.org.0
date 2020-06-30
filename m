@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878A520F4B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:34:11 +0200 (CEST)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AD120F4D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:38:16 +0200 (CEST)
+Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFSk-000836-Fu
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
+	id 1jqFWh-0006Qa-Sw
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqFQq-0006LF-26; Tue, 30 Jun 2020 08:32:15 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:42704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqFQo-0003vp-Gl; Tue, 30 Jun 2020 08:32:11 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id i14so20342462ejr.9;
- Tue, 30 Jun 2020 05:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:cc:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=VrkfnazT2yj9IgpFzubDWyH6oSQm7gfNPjHJe2Wng0U=;
- b=QM2q96OqosO7MvFw3Y+wP8QdtAFpkaWTVp+mzG2o9FlTZMZI2rH5M6TnX7mx14Jb26
- FLDpnHfXi4dpFhhK9v83WRUOspM1tXz3OVfVeyicjl9FfETF+euFsdYiAK4WtdcyN92f
- kvgzbEg9z4+epVSSGrq0keO3r4DXPLenbLkHZpTUjoiEn43Ke1hVyZBLhFxzzODiUpFk
- kvL2E5v7h0Nj7iEKZ7ZzznYni90z6j6d9RW0C0HsenHetIeyHTnxZ9+IV3syApjztR0d
- 18mLKxvBVYHhUKuo3Zvw2WIEhDuXubtJBMSAcckyX/CcpFfvi7yAraw+t/1+09/5rAi6
- z7sg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqFSS-00005y-BF
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:33:52 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22348
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqFSQ-0004Af-Lr
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:33:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593520428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GxySVg17QxVsCAX2jHPs4jI3V5adW/FHNLz9nV4ubTQ=;
+ b=cx7HYaR5saR64FSHrdAbfjympjrEgLp++u5ZKvSs4fVna9vtpZwD7tVrNghrhMRSlUU2pp
+ bM/p3dhECL5MAHEW3NylcJ7V1WGDZcqy2sGqFGf1L/OVpjjtL+WgiNMf3kvz40Kcapq3KA
+ NAmvchNRsdPg3bfzYNCsJwO31SMmV9Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-X7JGm7bwMYuf7_WWZ72XZA-1; Tue, 30 Jun 2020 08:33:46 -0400
+X-MC-Unique: X7JGm7bwMYuf7_WWZ72XZA-1
+Received: by mail-wm1-f72.google.com with SMTP id s134so20767175wme.6
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 05:33:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:cc:from:subject:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=VrkfnazT2yj9IgpFzubDWyH6oSQm7gfNPjHJe2Wng0U=;
- b=pyf9S03iTwN7VHeGrUvLYNM6nYUGedXjpoZa4mnOFQghyErL5E1hpzdpanHjCslcYS
- rG6uK9zfo4nENhzb9dZhgfv0wtjsWGjOZ0qtnUTwjSqUh2zH4bcKmgLlShRNWtj82lzF
- 2Wq+EzeCmdQT6K5c6Kd2KNzZRpeW9N8wuEA5vo0fxc7Sy4Z+InW4tC31j1z+j8JYo+Aa
- 2HtJ20r8PQZe0t723UNiZBRHaWtjNhNMQ5Nzqkq+HxY9dqTzm7k3S8DOdtxs/1+vO56r
- hcVPTPge0xa/D/PdFRe3DG7AVo9K/4cGzKCtik7Pd1gwxyPHnwzumduk4d6hT1Xx1ddW
- /GVA==
-X-Gm-Message-State: AOAM530DsDkTWwnQ6LR0BTf7kDMVyqUvuY92x6NbpYtw+fTZHrw0OOZ7
- T5AA4kjR+xofkioYWrBnWyso4v7VagI=
-X-Google-Smtp-Source: ABdhPJzVgiIqDmiC3ZxAT9YMBWmcZ8xEwX3LcStUO+649ngh44TUr3jvkzuiIuMzO9EJ22qTIj0RlA==
-X-Received: by 2002:a17:906:1455:: with SMTP id
- q21mr1697312ejc.139.1593520328064; 
- Tue, 30 Jun 2020 05:32:08 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id c9sm2689938edv.8.2020.06.30.05.32.07
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GxySVg17QxVsCAX2jHPs4jI3V5adW/FHNLz9nV4ubTQ=;
+ b=JsDcpUmbEt0ywEylhVWCqiLn1BncwjkJE4OBCwKl+r7jC0A/I6eGyuZufy+M2a0Rq1
+ n/L46tYLg2GkZ6TIPovNkoodCF8BVilX/k2cpnCNTwxUKLX19PeVtSdD9D56qAxfWrO0
+ WExs8gRFM9MfA84/llxKLVfLoTNVPPajmMyit4rj4wEmGghQYerAzioI29ZgvF8bsEnA
+ dxqW2QzIc0B6XlrYP9kg9C/d/ApmV5UyWGah+gFcGpcULmGGZF0glPUpOHfQmtWxIyEB
+ k2oLm6COU+D0IWh3oi/CFnQtQVmUjD8BJMl+eklMKGMokEqtzNA05eRo/xmj8XUwr31N
+ SdHQ==
+X-Gm-Message-State: AOAM533Verqs/QQEpRbMIo+M8hD4PznuxIMrkkpBAEr50s2dzw6Ty4Sc
+ EpYsoiSvl+nOip/U9xROUpfKQRwAFkQK9Ue6SARhF5h4j9Ur22oBjZbogzpxKi8pKFzeJkemzAX
+ 06VALZFp/zZOXrqk=
+X-Received: by 2002:a5d:504b:: with SMTP id h11mr21218868wrt.160.1593520424438; 
+ Tue, 30 Jun 2020 05:33:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvz9jtL/aDK72Vo5NRs/bosAfzIV1iXr6gYv43gO2aPaX+2h+CVP2M+Sbx6ZAZga3g6EFbMw==
+X-Received: by 2002:a5d:504b:: with SMTP id h11mr21218855wrt.160.1593520424202; 
+ Tue, 30 Jun 2020 05:33:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
+ ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
+ by smtp.gmail.com with ESMTPSA id y7sm3509416wrt.11.2020.06.30.05.33.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 05:32:07 -0700 (PDT)
-To: Eddie James <eajames@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Joel Stanley <joel@jms.id.au>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Subject: hw/arm/aspeed: Why aspeed_machine_init uses empty SD cards?
-Message-ID: <3985e947-d798-b12c-1b55-71b3e4ed9189@amsat.org>
-Date: Tue, 30 Jun 2020 14:32:06 +0200
+ Tue, 30 Jun 2020 05:33:43 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] i386: hvf: Implement CPU kick
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20200630102824.77604-1-r.bolshakov@yadro.com>
+ <20200630102824.77604-5-r.bolshakov@yadro.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d75c6bd1-b588-796b-e238-21ff41fce60d@redhat.com>
+Date: Tue, 30 Jun 2020 14:33:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200630102824.77604-5-r.bolshakov@yadro.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,21 +102,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cédric, Eddie,
+On 30/06/20 12:28, Roman Bolshakov wrote:
+> @@ -966,6 +964,20 @@ int hvf_vcpu_exec(CPUState *cpu)
+>      return ret;
+>  }
+>  
+> +void hvf_vcpu_kick(CPUState *cpu)
+> +{
+> +    X86CPU *x86_cpu = X86_CPU(cpu);
+> +    CPUX86State *env = &x86_cpu->env;
+> +    hv_return_t err;
+> +
+> +    atomic_set(&env->hvf_deadline, 0);
+> +    err = hv_vcpu_interrupt(&cpu->hvf_fd, 1);
+> +    if (err) {
+> +        fprintf(stderr, "qemu:%s error %#x\n", __func__, err);
+> +        exit(1);
+> +    }
 
-I'm trying to understand commits 2bea128c3d0 and a29e3e12707,
-the Aspeed machines always add SD cards on the SD bus, even
-if there are no block drive to attach to. Is that what you
-want?
+Can a signal interrupt hv_vcpu_run?  If so you actually don't need
+hv_vcpu_interrupt at all.  You can also require the preemption time, all
+processor that support HVF have it, but never set it by default.  The
+deadline can be left at 0 all the time; instead, you toggle the bit in
+the pin-based controls.  In the signal handler you do:
 
-Expected behavior from the board is to create the SoC, the
-SoC creates the SDHCI which creates the SD bus. No need to
-add phantom SD cards to the machine if they don't exist.
+	if (atomic_xchg(&env->hvf_in_guest, false)) {
+		wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
+		      rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
+			| VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
+	}
 
-Thoughts?
+In the main loop you do:
+
+	atomic_set(&env->hvf_guest_mode, true);
+	smp_mb();
+	hv_vcpu_run(...);
+	atomic_set(&env->hvf_guest_mode, false);
+
+and in the preemption timer vmexit handler:
+	
+		wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
+		      rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
+			& ~VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
+
+I'll leave out this patch in the meanwhile.
+
+Paolo
+
+> +}
+> +
+>  bool hvf_allowed;
+>  
+>  static int hvf_accel_init(MachineState *ms)
+> diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
+> index 42de7ebc3a..6615365023 100644
+> --- a/target/i386/hvf/vmcs.h
+> +++ b/target/i386/hvf/vmcs.h
+> @@ -349,6 +349,7 @@
+>  #define VMCS_PIN_BASED_CTLS_EXTINT            (1 << 0)
+>  #define VMCS_PIN_BASED_CTLS_NMI               (1 << 3)
+>  #define VMCS_PIN_BASED_CTLS_VNMI              (1 << 5)
+> +#define VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER (1 << 6)
+>  
+>  #define VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING (1 << 2)
+>  #define VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET (1 << 3)
+> 
+
 
