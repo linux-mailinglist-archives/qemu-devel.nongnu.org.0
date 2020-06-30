@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818A020F124
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:07:33 +0200 (CEST)
-Received: from localhost ([::1]:59012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847F620F168
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:18:33 +0200 (CEST)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCEm-0008GD-DN
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40020)
+	id 1jqCPQ-00038M-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBW-0002jQ-3B
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:10 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42629
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqCCV-0004a7-Kx
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:05:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33426
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBN-0002vv-N1
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:09 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqCCT-000385-SH
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593507841;
+ s=mimecast20190719; t=1593507909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wP+XNnwqu0IBtgmmzqj18duZMA+PcoSN5axx/GTulTw=;
- b=UqOmNoh3MPoYRbK9O7CxpKv6+jP36zVOldjykOYS0ts45RGBJ6tFm2qieY3YK0K0D5C8RI
- UwdnsqbViFVxuVJujiT4/P7jzuGIJt1rgCCXtgqfWZqSMyw6/GkYnd1QlJX0C8Q/3QJp2J
- k80U6Kl5A4ENLaDshGsnCO/d+ppCpSY=
+ bh=XJDW/7zMg3Cqk5URhOEq3CEER6f/e01fiyEm77mzmeM=;
+ b=Ff42w7KouJfvtuqRU4N80f20nGNepE2hBy0nHsBiGVb96uz7BRFW6WOFZs0qX03Y3dWHvw
+ I3QhI0AKvdrxWjvq1RlT0sfNX65zeNwEEOh2SFxvzux7Xf4rP9PnRD1dt6WTr4RYBT4rip
+ tAUL6x2Y6jM0Y1E18RKVJtkGKhSg6bo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-Ce6Zhxs5Nt65ijkQTWLbrg-1; Tue, 30 Jun 2020 05:03:59 -0400
-X-MC-Unique: Ce6Zhxs5Nt65ijkQTWLbrg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-101-V2Pn4xNXO5-mq-D-pElmXg-1; Tue, 30 Jun 2020 05:04:59 -0400
+X-MC-Unique: V2Pn4xNXO5-mq-D-pElmXg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A31BBFC9
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 09:03:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
- [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48D4D60E1C;
- Tue, 30 Jun 2020 09:03:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4407B1138486; Tue, 30 Jun 2020 11:03:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/26] migration/rdma: Plug memory leaks in
- qemu_rdma_registration_stop()
-Date: Tue, 30 Jun 2020 11:03:51 +0200
-Message-Id: <20200630090351.1247703-27-armbru@redhat.com>
-In-Reply-To: <20200630090351.1247703-1-armbru@redhat.com>
-References: <20200630090351.1247703-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F5CE8015CE;
+ Tue, 30 Jun 2020 09:04:58 +0000 (UTC)
+Received: from localhost (ovpn-115-106.ams2.redhat.com [10.36.115.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65E2A741AC;
+ Tue, 30 Jun 2020 09:04:52 +0000 (UTC)
+Date: Tue, 30 Jun 2020 10:04:51 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [RFC 0/4] Enable virtio-fs on s390x
+Message-ID: <20200630090451.GE81930@stefanha-x1.localdomain>
+References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
+ <20200629125305.GH31392@stefanha-x1.localdomain>
+ <20200629130716.GQ1298906@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200629130716.GQ1298906@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="brEuL7wsLY8+TuWz"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,93 +83,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_rdma_registration_stop() uses the ERROR() macro to create, report
-to stderr, and store an Error object.  The stored Error object is
-never used, and its memory is leaked.
+--brEuL7wsLY8+TuWz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Even where ERROR() doesn't leak, it is ill-advised.  The whole point
-of passing an Error to the caller is letting the caller handle the
-error.  Error handling may report to stderr, to somewhere else, or not
-at all.  Also reporting in the callee mixes up concerns that should be
-kept separate.  Since I don't know what reporting to stderr is
-supposed to accomplish, I'm not touching it.
+On Mon, Jun 29, 2020 at 02:07:16PM +0100, Daniel P. Berrang=E9 wrote:
+> On Mon, Jun 29, 2020 at 01:53:05PM +0100, Stefan Hajnoczi wrote:
+> > On Thu, Jun 25, 2020 at 12:04:26PM +0200, Marc Hartmayer wrote:
+> > > This RFC is about enabling virtio-fs on s390x. For that we need
+> > >  + some shim code (first patch), and we need
+> > >  + libvhost-user to deal with virtio endiannes as mandated by the spe=
+c.
+> > > =20
+> > > The second part is trickier, because unlike QEMU we are not certain
+> > > about the guest's native endianness, which is needed to handle the
+> > > legacy-interface appropriately. In fact, this is the reason why just
+> > > RFC.
+> > >=20
+> > > One of the open questions is whether to build separate versions, one
+> > > for guest little endian and one for guest big endian, or do we want
+> > > something like a command line option? (Digression on the libvirt
+> > > modeling)
+> > >=20
+> > > A third option would be to refuse legacy altogether.
+> >=20
+> > I suggest the following:
+> >=20
+> > 1. Combinations that worked with libvhost-user in the past must not bre=
+ak.
+> >=20
+> > 2. New combinations should only support VIRTIO 1.0 and later.
+> >=20
+> > This means continue to allow Legacy mode devices where they already run
+> > today but don't add new code for the cases that didn't work.
+>=20
+> What I'm missing here is what PCI product ID was being used when the
+> current impl is in legacy/transitional mode ?
+>=20
+> Normally legacy and transitional mode devices need an explicit PCI ID
+> reserved, where as modern-only devices have a PCI ID derived from their
+> VirtIO ID + a fixed offset.
+>=20
+> Was this mistakenly using a VirtIO ID + fixed offset for the legacy
+> mode too ?
 
-Commit 2a1bc8bde7 "migration/rdma: rdma_accept_incoming_migration fix
-error handling" plugged the same leak in
-rdma_accept_incoming_migration().
+vhost-user-fs-pci does not support Legacy or Transitional mode. See
+hw/virtio/vhost-user-fs-pci.c:
 
-Plug the memory leak the same way: keep the report part, delete the
-store part.
+  static const VirtioPCIDeviceTypeInfo vhost_user_fs_pci_info =3D {
+      .base_name             =3D TYPE_VHOST_USER_FS_PCI,
+      .non_transitional_name =3D "vhost-user-fs-pci",
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      .instance_size =3D sizeof(VHostUserFSPCI),
+      .instance_init =3D vhost_user_fs_pci_instance_init,
+      .class_init    =3D vhost_user_fs_pci_class_init,
+  };
 
-The report part uses fprintf().  If it's truly an error, it should use
-error_report() instead.  But I don't know, so I leave it alone, just
-like commit 2a1bc8bde7 did.
+Stefan
 
-Fixes: 2da776db4846eadcb808598a5d3484d149773c05
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- migration/rdma.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+--brEuL7wsLY8+TuWz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index ec45d33ba3..3b18823268 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -3787,7 +3787,6 @@ static int qemu_rdma_registration_start(QEMUFile *f, void *opaque,
- static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
-                                        uint64_t flags, void *data)
- {
--    Error *local_err = NULL, **errp = &local_err;
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(opaque);
-     RDMAContext *rdma;
-     RDMAControlHeader head = { .len = 0, .repeat = 1 };
-@@ -3832,7 +3831,7 @@ static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
-                     &reg_result_idx, rdma->pin_all ?
-                     qemu_rdma_reg_whole_ram_blocks : NULL);
-         if (ret < 0) {
--            ERROR(errp, "receiving remote info!");
-+            fprintf(stderr, "receiving remote info!");
-             return ret;
-         }
- 
-@@ -3851,10 +3850,10 @@ static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
-          */
- 
-         if (local->nb_blocks != nb_dest_blocks) {
--            ERROR(errp, "ram blocks mismatch (Number of blocks %d vs %d) "
--                        "Your QEMU command line parameters are probably "
--                        "not identical on both the source and destination.",
--                        local->nb_blocks, nb_dest_blocks);
-+            fprintf(stderr, "ram blocks mismatch (Number of blocks %d vs %d) "
-+                    "Your QEMU command line parameters are probably "
-+                    "not identical on both the source and destination.",
-+                    local->nb_blocks, nb_dest_blocks);
-             rdma->error_state = -EINVAL;
-             return -EINVAL;
-         }
-@@ -3867,10 +3866,10 @@ static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
- 
-             /* We require that the blocks are in the same order */
-             if (rdma->dest_blocks[i].length != local->block[i].length) {
--                ERROR(errp, "Block %s/%d has a different length %" PRIu64
--                            "vs %" PRIu64, local->block[i].block_name, i,
--                            local->block[i].length,
--                            rdma->dest_blocks[i].length);
-+                fprintf(stderr, "Block %s/%d has a different length %" PRIu64
-+                        "vs %" PRIu64, local->block[i].block_name, i,
-+                        local->block[i].length,
-+                        rdma->dest_blocks[i].length);
-                 rdma->error_state = -EINVAL;
-                 return -EINVAL;
-             }
--- 
-2.26.2
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl77ADMACgkQnKSrs4Gr
+c8hLMwf/aadhKW+oh+ylcuZsCDSV2gGCkAI4sHl3bKc8pH9ZES+OM1QAj/C+caO0
+JisAEK6AXxtM560DjBbJu/WH5oAmlCjPeWbxoWlrR6qyP5pt9/mzVCS2dodAoItx
+UukOcbhSgEholJdN8vaAc0JwmgPXELvzDH8wOqrvG2DYiFytQaeUWbJfWjNWhI5I
+YsN5Q6tgVjROY/+XKVpiu8gDRTmEk3g0PTBhGsEvEnfMutDm3Poe8ZtRqQBVtoIv
+LU3c1H5qRygDGaUCjqZ3SFETYgV5sWucHRqg93NLnQJNo+HLFy8vCgBl1qt6m54U
+DACvrkHDeqDZgz9iKKtJ45i3cmO7uw==
+=e8uT
+-----END PGP SIGNATURE-----
+
+--brEuL7wsLY8+TuWz--
 
 
