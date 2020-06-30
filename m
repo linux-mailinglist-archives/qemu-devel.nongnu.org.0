@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BC920F9C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 18:48:39 +0200 (CEST)
-Received: from localhost ([::1]:48256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F64920F9D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 18:50:36 +0200 (CEST)
+Received: from localhost ([::1]:53854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqJR0-0007vq-Po
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 12:48:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32818)
+	id 1jqJSt-0001p8-Jr
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 12:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqJPB-0006Ag-Uu
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:46:45 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41480)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqJPb-00073u-QO
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:47:11 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqJPA-0007vI-DI
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:46:45 -0400
-Received: by mail-ej1-x642.google.com with SMTP id dp18so21346715ejc.8
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 09:46:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqJPa-0007yZ-6O
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 12:47:11 -0400
+Received: by mail-ed1-x535.google.com with SMTP id e22so16849663edq.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 09:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Kk42tX8GUX7lMkBOGjY+O1Hz9l62f4JEfvdJj/0Iub8=;
- b=hvIRpCJIIG0kffIJXJVPmE6W81swc/THwHYUG9H1uHN5oUqtHZtu8BBT4lyaKlpWLY
- F7XNDmlfUxtaUhcIY+sdcjSkwzveyS/rGAJtvU9GV46ZxSukYGuJ6P0lJPSBQdmkLqTV
- n+yHn+SO75j4rmz42wMoIUu7aB8uOvDRuaLnldZ5YrSK6ktqkRxzTxHqLaqAWopbdNts
- i5Uj1QHuWMs5Y2RhShVT5nH6or0TQeIFzwArYHTtzrtDlCt3/VhT9z8Gkh2f9qF5C6iJ
- iIiIl5a61mTOl3P1laaCopDNgy7LGydKm8/DS4eALGrA9t3Hm772thWl5XXmbJ5560KN
- hvxQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gcm+rSiBZKj3BDkKsCjIrFDz+yJHWruFvbBExCh4pSE=;
+ b=dMi1OpVUMvG9Wl3O9uWhSHS/IO6b4bRVvzh9blFYxVPMF104QXo88eyh+wOEf7+K9M
+ HRSfmcnyI1mxuGEFl7tEQSc1VPo3nW9yibfd01YyxrH1znNLxWoshJBE3SoIfY1sA84m
+ NdhlGUF6eJCPGAVjiPd15y0njM2ZiX3QJZRjaKtEGEailfBtuJGME5K/OSx6u8p7xYBU
+ 5GVrZ/hH4HFlXn9BE20he4r21bPoV1UqfpnsXpaN+RNebKmP7L82VIdqmOu8uVpL28/T
+ OIa9WQgOvENVxIuU84BLu9f40LE2EZbpTe59S4TeJByDJmOF/WJfQPSUXk/PuJoVCsHt
+ VVPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Kk42tX8GUX7lMkBOGjY+O1Hz9l62f4JEfvdJj/0Iub8=;
- b=A2c+tHCeGe4tbvkKA45YLc5fYsRZoxkIolFVOVwhGyICmQW4w4jZ7C670cEyF2F145
- lf1MKta9Jc43uZ5iEuLPcA7Kz1vnw56TYGaoAZdI0bFkfoYiea3IWt1ymOz1sBf3ysRO
- ugKO4Ofa9OFDFOUrjLowtjMCbhlGlcozcZ5NVp1vRV5mwiEy1Fhh4/LIYpLj3SJjaDv4
- lhwaGKVcRYw95SAG5lXwsHNbrBTUWwGgro2KnEwJHWTaoBYGkE7ssUVGBcC4WggDBMZT
- 6hRhsmvvztC3Fgj+/W0SZeOIl7nrppkX/VobgBGmsNreYMFXSi2cM2LOFbFLIfo2HHuF
- hTJQ==
-X-Gm-Message-State: AOAM5314T9+cxQ5wVzztM6w+m2rs7Dwlaq2pgfjzlNupQtGTWUOehq2u
- 7ugJTyOZYs4OXO6XZBCH1T4=
-X-Google-Smtp-Source: ABdhPJwx2cjOM/99PjvZ5DrhSWW3tHF14r63BHXkBjDie50FmRIGsb1OOncnHn+sc5w1jwKtxWuI7g==
-X-Received: by 2002:a17:906:90c1:: with SMTP id
- v1mr18766650ejw.481.1593535602750; 
- Tue, 30 Jun 2020 09:46:42 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id z8sm2406346eju.106.2020.06.30.09.46.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 09:46:42 -0700 (PDT)
-Subject: Re: [PATCH v2 0/6] hw/mips/malta: Add the 'malta-strict' machine,
- matching Malta hardware
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <20200630145236.27529-1-f4bug@amsat.org>
- <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5725b99b-b524-ab40-c74d-a615bb28d363@amsat.org>
-Date: Tue, 30 Jun 2020 18:46:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=gcm+rSiBZKj3BDkKsCjIrFDz+yJHWruFvbBExCh4pSE=;
+ b=OEUTTlk9G+mN5m3rFXg1SGnd9aRtODlUbM1TE2lzFoV1WTPizXOLOayok41k4RF4qI
+ iyCttsCscnc8TsmADz9xY07fRy4U/4xfy66gl8Qly5UoYDoA1/SY6r1EvCc60WjlKNAM
+ tuG4/Y7RQUr7Y2d+Y1BayM2VksUZuX4Y+r0Qwh3OCrd/vOO8u8k23P14rykTBz3NlY+H
+ ldlBTQu6CjoUp9ca4ZauRfrfTKjF6FdprASDOXaS7SZgWmwKfMxmuTKFv9I3hytxQ4BC
+ +1shftmQ30uKaiY1DiWtt2dGKk8wY93vdt1WaU/5FbO3+Gx8oiYLlhML0Iofny8GnQ7b
+ bOWg==
+X-Gm-Message-State: AOAM530YbSm42IKSk6AXGpkW4ha2vJIaZYtdL4iZReovPWYpfci11BPT
+ uxWGjmZxjSIijKbuvisNHA+szQN/
+X-Google-Smtp-Source: ABdhPJzsEEnVc5mERd6u/eZpnWTS+oJl0XcL65kC+oUV66ZRz+0Edfxof6WNzbl/OCkmCzqDOwN8RA==
+X-Received: by 2002:aa7:da89:: with SMTP id q9mr24385293eds.273.1593535628650; 
+ Tue, 30 Jun 2020 09:47:08 -0700 (PDT)
+Received: from localhost.localdomain ([109.245.225.97])
+ by smtp.gmail.com with ESMTPSA id d26sm3233096edz.93.2020.06.30.09.47.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 09:47:08 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] target mips: Misc fixes and improvements
+Date: Tue, 30 Jun 2020 18:46:50 +0200
+Message-Id: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x535.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,72 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yunqiang Su <ysu@wavecomp.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: aleksandar.rikalo@syrmia.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/20 5:38 PM, Aleksandar Markovic wrote:
-> уто, 30. јун 2020. у 16:52 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> Hi,
->>
->> This series add a new 'malta-strict' machine, that aims to properly
->> model the real hardware (which is not what the current 'malta'
->> machine models).
->>
->> As a bonus for Debian builders, a 'malta-unleashed' machine RFC
->> patch is included. This might start another endless discussion
->> upstream, but this is not the point of, so I still include it
->> for people to test. The rest of the series is candidate for merging
->> in mainstream QEMU.
->>
->> Philippe Mathieu-Daudé (6):
->>   hw/mips/malta: Trivial code movement
->>   hw/mips/malta: Register the machine as a TypeInfo
->>   hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
->>   hw/mips/malta: Introduce the 'malta-strict' machine
->>   hw/mips/malta: Verify malta-strict machine uses correct DIMM sizes
->>   hw/mips/malta: Introduce the 'malta-unleashed' 64-bit machine
->>
->>  hw/mips/malta.c | 125 ++++++++++++++++++++++++++++++++++++++++++------
->>  1 file changed, 111 insertions(+), 14 deletions(-)
->>
->> --
-> 
-> This whole series is based on idea of emulating physically
-> non-existing feature, and as such violates the fundamental principles
-> of QEMU.
-> 
-> As such, not acceptable for upstreaming.
-> 
-> I don't see the point of sending again the same series, in just
-> cosmetically different form, if it was said to you that the concept is
-> wrong.
+A collection of pending fixes and improvements.
 
-Have you looked at the patches? What "violates the fundamental
-principles of QEMU" is the code currently in mainstream. Should
-we remove it? I can send a patch for it if it pleases you, but
-you will make QEMU unuseful for many distribution users.
+v1->v2:
 
-What this series does is emulate the physically existing feature
-that are not yet emulated in QEMU.
+    - minor content and commit message changes
 
-Please refer to the datasheet 'MIPS Document Number: MD00051
-Revision 01.07' before rejecting this series, and find the
-correct arguments.
+Aleksandar Markovic (2):
+  target/mips: Remove identical if/else branches
+  MAINTAINERS: Adjust MIPS maintainership
 
-Thanks.
+ MAINTAINERS              | 15 ++++++++++-----
+ target/mips/cp0_helper.c |  9 +--------
+ 2 files changed, 11 insertions(+), 13 deletions(-)
 
-> 
-> Regards,
-> Aleksandar
-> 
-> 
->> 2.21.3
->>
-> 
+-- 
+2.20.1
+
 
