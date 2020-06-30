@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA6820F83C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:27:29 +0200 (CEST)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6046620F83E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:27:39 +0200 (CEST)
+Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqIAS-0003p4-Sv
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
+	id 1jqIAc-0003vZ-CF
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqI8o-0002Ii-SO
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:46 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38818)
+ id 1jqI8s-0002OC-69
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:50 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqI8n-0000HY-DK
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:46 -0400
-Received: by mail-ej1-x632.google.com with SMTP id w16so21081273ejj.5
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:25:45 -0700 (PDT)
+ id 1jqI8q-0000Hl-Kn
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:49 -0400
+Received: by mail-ej1-x643.google.com with SMTP id lx13so2408969ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cCxOIsK10p+a2KtrC7RA0Frnv6gsVNI/JAZEh1+Xa7E=;
- b=IP8YexjI8AnSGTNxD7Mxj6+RzzNyPdOF3CN/X1CafzDaFz1FvHSdzXvFxPCpb4+5Xs
- uccyktrmXo2mgUiTs03u0iLz+EkajXIxKpf0xSYMH6tH73hz6EZsQ4pd03AfqTPYJ93t
- hhpsb4ZbS57My6yaMH7mwhBJ3ukC/visoCVaI2kK3D/hgjvNPSfXNjZ4bTFBZbFZKkfq
- oz5cHTtRh2lX5DkzxCBQ4qcvogt82TTp1rv4qDInjS5Hmu/64xQQaZfoVqcNnbIPC5Qh
- UsWf+1wi7BlbMm8x81cxiRai7WpeoSMs0WWbH/jcsGgBaAWDMHmclWukJ0K8uVSiZbnV
- 4kTg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=upNPHIrMVxywp/ZU0zAWsGAEn/MYe/LdlqvxdOHWF20=;
+ b=dZp8w2UqXcH0XG1YEgXrIW8aF6sJyFJSL3f3zbsYf2e84NgvczXk4smWJq8n8RTAnO
+ 4n6ER8QhErArU+8Ng4l7P/dMtt4R7rTTS420wS9jxZPZYdBdW2yoVn7Dl5cHA44b/eDK
+ dX09AV76vB8/WWHp+CQuN3KyPVh/+IJlkT3iyO8emeDtN3rDneca625aZMuzTd47Z5JJ
+ S2fgSSe89CNP2DtYP0QqM8+FYirCSmwqvxkotQ2pL3G5kUeeHVpp73CJ3Nr5wUMuZGEe
+ 3QSaTX5JPTGIMGLy83UmU6Q0l0fyrAEJ5sStZeqemB+5kbCSLSBgr+mKiRxYuhW9yFNk
+ oOmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cCxOIsK10p+a2KtrC7RA0Frnv6gsVNI/JAZEh1+Xa7E=;
- b=j928UU74S1Bo9woCarjZ1zpu7+eoGaZhD/E8BgpVl3XKbDYFqE+hpSbgKKOI2Dct/3
- 7L7IhWD7tWSOyE6gRC1zWIDOMFzg2K3f6rMlNcSxcAV24NzoM3KtybcHeXDiKHSY/JLH
- YvwhIN7tJJgK+8iWN5MiqLBDyf1s4w0ZDh038PxK1bN0+zqV8vWYBJ4DhjajXcHpj60B
- D+D32u/fterz/IkDohR/4vYMDUw88S3niP7ZLHSzizcM2lLtP17dutmI6tFaxP4FeTZw
- ZvUqBvnHdKQsgQS0weSaCajZcD7luUhgk/UI8xotJGmqHL+lIHQaw3jOv/0t8CZZedjr
- JGYg==
-X-Gm-Message-State: AOAM53397vzgxfsQccXvn9iEXZxt3AWAlN7Vi+HJggOAjAF790ZPAdcm
- ZEIU37f6Yv2eYr9RfobaCb9g6EDZ
-X-Google-Smtp-Source: ABdhPJxgoBwgLpOpihz0yvTyNadGEUldgbFhu++Gj1Ya1eP5cyL0//JByEMzx1SxH1ScY9yITuuAxQ==
-X-Received: by 2002:a17:906:7115:: with SMTP id
- x21mr18448315ejj.86.1593530743605; 
- Tue, 30 Jun 2020 08:25:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=upNPHIrMVxywp/ZU0zAWsGAEn/MYe/LdlqvxdOHWF20=;
+ b=ObFfKD+boDOVGiLJJuTaZlzBiclqNtHuorJyWkq2lWJfiel1J7oDBTWwsAwC/D7q3Y
+ 8jlBUzjR4Kifncgx7rD37Zvy1Fetx47s1kiBORU5/lTgnn1iZnOB41zccMJGLYslKEQd
+ nz+uRmb95P7ZwmnuSjkCclSsTCuFqVoatFUSvN42zj/aEYr9hP1o2xVYgrqXW4joaCnk
+ yezA+nloIQCRb/pNW61hK4MSS0RRiGvb37LhpQg1aiBggJ+fj5Bfua7xPTlpCd3jRZDp
+ VHEuVIp4r0Td8d2t3wKsrT7JLQ70xsrYJ7ATzRAx0s48Ngyd79i2wP9PFPw1s+qp+6yK
+ QPPQ==
+X-Gm-Message-State: AOAM533lXUTuipgldQGFYhznqEbcKOQ+J4Z8Zy59jL6xdZ5u1WuIyIqq
+ 6eKVY4b7cflwp+Lf5lQoP8kHsWNO
+X-Google-Smtp-Source: ABdhPJy7cKhp9OFlgLgefCndZmJc3VFMDja3U9nT2ZQt7kNlHUAsOXmXI5OrWJvbDlR3A5d2f9SwSw==
+X-Received: by 2002:a17:906:b217:: with SMTP id
+ p23mr19224854ejz.98.1593530747223; 
+ Tue, 30 Jun 2020 08:25:47 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.225.97])
- by smtp.gmail.com with ESMTPSA id q21sm2272398ejc.112.2020.06.30.08.25.42
+ by smtp.gmail.com with ESMTPSA id q21sm2272398ejc.112.2020.06.30.08.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 08:25:43 -0700 (PDT)
+ Tue, 30 Jun 2020 08:25:46 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target mips: Misc fixes and improvements
-Date: Tue, 30 Jun 2020 17:25:29 +0200
-Message-Id: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH 1/2] target/mips: Remove identical if/else branches
+Date: Tue, 30 Jun 2020 17:25:30 +0200
+Message-Id: <20200630152531.20657-2-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
+References: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,16 +90,43 @@ Cc: aleksandar.rikalo@syrmia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A collection of pendind fixes and improvements.
+Remove the segment:
 
-Aleksandar Markovic (2):
-  target/mips: Remove identical if/else branches
-  MAINTAINERS: Adjust MIPS maintainership
+      if (other_tc == other->current_tc) {
+          tccause = other->CP0_Cause;
+      } else {
+          tccause = other->CP0_Cause;
+      }
 
- MAINTAINERS              | 10 +++++-----
- target/mips/cp0_helper.c |  9 +--------
- 2 files changed, 6 insertions(+), 13 deletions(-)
+Original contributor can't remember what was his intention.
 
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+---
+ target/mips/cp0_helper.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index bbf12e4a97..de64add038 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -375,16 +375,9 @@ target_ulong helper_mftc0_entryhi(CPUMIPSState *env)
+ target_ulong helper_mftc0_cause(CPUMIPSState *env)
+ {
+     int other_tc = env->CP0_VPEControl & (0xff << CP0VPECo_TargTC);
+-    int32_t tccause;
+     CPUMIPSState *other = mips_cpu_map_tc(env, &other_tc);
+ 
+-    if (other_tc == other->current_tc) {
+-        tccause = other->CP0_Cause;
+-    } else {
+-        tccause = other->CP0_Cause;
+-    }
+-
+-    return tccause;
++    return other->CP0_Cause;
+ }
+ 
+ target_ulong helper_mftc0_status(CPUMIPSState *env)
 -- 
 2.20.1
 
