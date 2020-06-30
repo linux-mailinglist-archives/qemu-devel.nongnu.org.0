@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8010720F4E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:42:02 +0200 (CEST)
-Received: from localhost ([::1]:47122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008D920F4F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:46:32 +0200 (CEST)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFaL-0002KC-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+	id 1jqFeg-0005s4-PG
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqFZE-0001ZY-2R
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:40:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42280)
+ id 1jqFdp-0005Lc-TP
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:45:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqFZC-0005Nu-2W
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:40:51 -0400
+ id 1jqFdo-00066b-6Z
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:45:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqFZA-0004zj-5I
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:40:48 +0000
+ id 1jqFdm-0005sU-If
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:45:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EC4D22E8106
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:40:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 87E8A2E80E7
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:45:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jun 2020 12:35:21 -0000
-From: dcb <1885718@bugs.launchpad.net>
+Date: Tue, 30 Jun 2020 12:39:05 -0000
+From: dcb <1885719@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,8 +40,8 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: dcb314
 X-Launchpad-Bug-Reporter: dcb (dcb314)
 X-Launchpad-Bug-Modifier: dcb (dcb314)
-Message-Id: <159352052121.16126.109202599760167358.malonedeb@soybean.canonical.com>
-Subject: [Bug 1885718] [NEW] qemu/target/mips/op_helper.c:943:5:
+Message-Id: <159352074602.16310.7520706958589320059.malonedeb@soybean.canonical.com>
+Subject: [Bug 1885719] [NEW] qemu/target/nios2/helper.c:261:20:
  style:inconclusive: Found duplicate branches for 'if' and 'else'
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 84c2f44fc80f9efdfc8312e7a6d7157d3583d3d8
+X-Launchpad-Hash: 31bef0a9f1a7de36dc0e8bc8a820567639337591
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 08:40:48
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885718 <1885718@bugs.launchpad.net>
+Reply-To: Bug 1885719 <1885719@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,11 +79,15 @@ Public bug reported:
 
 Source code is
 
-    if (other_tc =3D=3D other->current_tc) {
-        tccause =3D other->CP0_Cause;
-    } else {
-        tccause =3D other->CP0_Cause;
-    }
+            } else if (address >=3D 0x80000000) {
+                /* Kernel virtual page */
+                return cpu_nios2_handle_virtual_page(cs, address, rw, mmu_i=
+dx);
+            } else {
+                /* User virtual page */
+                return cpu_nios2_handle_virtual_page(cs, address, rw, mmu_i=
+dx);
+            }
 
 ** Affects: qemu
      Importance: Undecided
@@ -93,11 +97,11 @@ Source code is
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885718
+https://bugs.launchpad.net/bugs/1885719
 
 Title:
-  qemu/target/mips/op_helper.c:943:5: style:inconclusive: Found
-  duplicate branches for 'if' and 'else'
+  qemu/target/nios2/helper.c:261:20: style:inconclusive: Found duplicate
+  branches for 'if' and 'else'
 
 Status in QEMU:
   New
@@ -105,12 +109,16 @@ Status in QEMU:
 Bug description:
   Source code is
 
-      if (other_tc =3D=3D other->current_tc) {
-          tccause =3D other->CP0_Cause;
-      } else {
-          tccause =3D other->CP0_Cause;
-      }
+              } else if (address >=3D 0x80000000) {
+                  /* Kernel virtual page */
+                  return cpu_nios2_handle_virtual_page(cs, address, rw, mmu=
+_idx);
+              } else {
+                  /* User virtual page */
+                  return cpu_nios2_handle_virtual_page(cs, address, rw, mmu=
+_idx);
+              }
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885718/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1885719/+subscriptions
 
