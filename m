@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6FB20F4CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:36:53 +0200 (CEST)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA5120F4CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:37:20 +0200 (CEST)
+Received: from localhost ([::1]:35682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFVM-0003t9-0d
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42658)
+	id 1jqFVn-00051h-TR
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFPn-00054e-5B
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32141
+ id 1jqFPx-0005DX-70
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52190
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFPl-0003im-8U
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:06 -0400
+ id 1jqFPv-0003jj-1L
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593520264;
+ s=mimecast20190719; t=1593520274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UqytC2fk6ON/bzO2ooHYivM9VguXfJO4IjAnv4dzJeY=;
- b=b9hExgUPuAYOoPiM5pQQF7hZA+r1vCtVzLh7xDqUB/vNFWBoFryeEYGOV27Cx9j8Vxv2qN
- Z0MwctN79oeP9Y/+U0mZHANfrunZzsO2v+VaDa2RALWDB2kDju9vNZPkmgIH/jDaACM9c0
- C7La0IZwzXhzJBIFq6CRmlOsgxDmKLg=
+ bh=13ky1xAMDjm6BC9UbyOcoOYlgcqcL/dz1aVe9makXSo=;
+ b=ZU9cwO/FwmYD87WHojJHvWajH/+ZD5yxhxbPQsMYEQLslA+RrxZoiZj6S5DahK4j6BJuD/
+ dY9H8LcRebrMddSp3whQPcaM2cTYETjFF5h2EwcwDEQ43UVo5t2E8I6Ggv++B/t09F3luG
+ MGzKyTCqA0Rc+ogEYQV7q1DjqQImPEU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-wPAzjNDKMDap4zWznLcaTg-1; Tue, 30 Jun 2020 08:30:54 -0400
-X-MC-Unique: wPAzjNDKMDap4zWznLcaTg-1
+ us-mta-94-ddGoxLvNP4KRGGAd1ynbaA-1; Tue, 30 Jun 2020 08:30:59 -0400
+X-MC-Unique: ddGoxLvNP4KRGGAd1ynbaA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC085A0C20;
- Tue, 30 Jun 2020 12:30:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E077E107ACCA;
+ Tue, 30 Jun 2020 12:30:57 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E21725C1C5;
- Tue, 30 Jun 2020 12:30:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8553D5C1C5;
+ Tue, 30 Jun 2020 12:30:53 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 6/9] spapr_pci: add spapr msi read method
-Date: Tue, 30 Jun 2020 17:57:07 +0530
-Message-Id: <20200630122710.1119158-7-ppandit@redhat.com>
+Subject: [PATCH v3 7/9] tz-ppc: add dummy read/write methods
+Date: Tue, 30 Jun 2020 17:57:08 +0530
+Message-Id: <20200630122710.1119158-8-ppandit@redhat.com>
 In-Reply-To: <20200630122710.1119158-1-ppandit@redhat.com>
 References: <20200630122710.1119158-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -93,58 +93,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add spapr msi mmio read method to avoid NULL pointer dereference
-issue.
+Add tz-ppc-dummy mmio read/write methods to avoid assert failure
+during initialisation.
 
-Reported-by: Lei Sun <slei.casper@gmail.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/ppc/spapr_pci.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ hw/misc/tz-ppc.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Update v3: Add Acked-by: ...
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08054.html
+Update v3: use g_assert_not_reached()
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09451.html
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 329002ac04..7033352834 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -52,6 +52,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/hostmem.h"
- #include "sysemu/numa.h"
-+#include "qemu/log.h"
- 
- /* Copied from the kernel arch/powerpc/platforms/pseries/msi.c */
- #define RTAS_QUERY_FN           0
-@@ -738,6 +739,12 @@ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
-     return route;
+diff --git a/hw/misc/tz-ppc.c b/hw/misc/tz-ppc.c
+index 6431257b52..36495c68e7 100644
+--- a/hw/misc/tz-ppc.c
++++ b/hw/misc/tz-ppc.c
+@@ -196,7 +196,21 @@ static bool tz_ppc_dummy_accepts(void *opaque, hwaddr addr,
+     g_assert_not_reached();
  }
  
-+static uint64_t spapr_msi_read(void *opaque, hwaddr addr, unsigned size)
++static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-+    return 0;
++    g_assert_not_reached();
 +}
 +
- /*
-  * MSI/MSIX memory region implementation.
-  * The handler handles both MSI and MSIX.
-@@ -755,8 +762,10 @@ static void spapr_msi_write(void *opaque, hwaddr addr,
- }
- 
- static const MemoryRegionOps spapr_msi_ops = {
--    /* There is no .read as the read result is undefined by PCI spec */
--    .read = NULL,
-+    /* .read result is undefined by PCI spec
-+     * define .read method to avoid assert failure in memory_region_init_io
-+     */
-+    .read = spapr_msi_read,
-     .write = spapr_msi_write,
-     .endianness = DEVICE_LITTLE_ENDIAN
++static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
++                                        uint64_t data, unsigned size)
++{
++    g_assert_not_reached();
++}
++
+ static const MemoryRegionOps tz_ppc_dummy_ops = {
++    /* define r/w methods to avoid assert failure in memory_region_init_io */
++    .read = tz_ppc_dummy_read,
++    .write = tz_ppc_dummy_write,
+     .valid.accepts = tz_ppc_dummy_accepts,
  };
+ 
 -- 
 2.26.2
 
