@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB24D20F040
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:16:44 +0200 (CEST)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C4F20F039
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:14:47 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqBRb-0005Il-TX
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55730)
+	id 1jqBPi-0002gD-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOW-0001NG-65; Tue, 30 Jun 2020 04:13:32 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:38310)
+ id 1jqBOW-0001NA-4i
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:32 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOU-0003BF-Py; Tue, 30 Jun 2020 04:13:31 -0400
-Received: by mail-ed1-x544.google.com with SMTP id n2so6285008edr.5;
- Tue, 30 Jun 2020 01:13:27 -0700 (PDT)
+ id 1jqBOU-0003BK-FH
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:31 -0400
+Received: by mail-ed1-x542.google.com with SMTP id dm19so9048795edb.13
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U3siTkfLjVJQEaCMkrInYfzFvhXImBmDXKhPhC0qsnI=;
- b=m+1MJilz9DbWkTO/wHwclBjONPINORK+EgrYzLtZnj52Vd1sh1DptDFYfx8UsvacMV
- +s6mtDL833+mfqWno+VnZJksQZnxUsNrde+u2mEbxLkSwjK6bVqWp1CsbSsF+AcBvDKu
- 6NYoBie51jZW8cXfLUpBXCWGYEdqnlJTa2GE4DWqocSUBjtlWRN5sYhDRF/R/4FuFZdj
- nkijdZ/DIZUouw6NdylKy4nvevJ93Ocndz8aUrGCJq1VLcXE6IpVbTNxpB7g6yoNdCCH
- 67R/YlQ+tPV6iV+5IbLRc48htnGYF2hkMl/MEy6KknQdoNeQGLP5FKpvJEZCQyhp6Jcz
- 5iEw==
+ bh=6TGC6x4rGeJCZbg2l3usQflOGN4Jj1erw/qpqdPPGOc=;
+ b=Z7G0VGd3WnR82DHhhlog7nMomil0uuLUJ0hhT50uIi0JEtxliW/E3WW0VdXHc3uJRv
+ qSCbVxtljkNnuk4bUUmCPd7hDxqiwxLok1L9U/YHGzAteUwoS9MfKeVEpzb9zsDxjS8F
+ YIrS/X0B5RRwmNez5hxcR05BziuYTBhkIez+Yq1TQrEC8V9rDFiq1YSoZFOe+EdHNkG1
+ eHSv4426Q0UUJSOWLbL+e1ry2+RRMg2OH5w7RBgk6i8V202DH/575I4RqkcPIFQw/MQA
+ wYVNfbR2H+V1iaEge5PAXvmIW9IQGWQSaihaSGXGupqphUGH8nqvBRZ8rT05g6xyvpAP
+ fy7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U3siTkfLjVJQEaCMkrInYfzFvhXImBmDXKhPhC0qsnI=;
- b=NXt7qnd5sj1SVUqp+rfe0WHotrFlDxuBgxmgp3QGk0DwfzzfuQ8e0Q6w9G1x7MA2Yq
- OzsiqgRi5LiR90ttgXYcakKR2Twn71RnmFhqBrsHZfqwbyZ0b6dloDSvVE99AvDH4seF
- L+6zVZ4XS4NxX3d8RYdBEl3G9gjJ2u4IgE8N6UxEuXriFoyl4qQC9pG2sT7KVxxRex5w
- CyDgyyvxkP2Q18IXDbImSjjRNMsmHF/3drWCx7TPuyOaiWSd9xmIEN9s8KDU22VxTvey
- ne8Ns/Tv2vEBN5fB+PjIVrngNuAhrJaMLHIKLUlEPdZHeeR9WcXC4vFZaKdvR118j+MM
- oifg==
-X-Gm-Message-State: AOAM533Yr1SfpkiYokJFmCdtzX7kXJmWCEo3hQWI+RcOUqr+FITIyEVm
- Fg80ynuw+AZL0hBxA9uA1xI=
-X-Google-Smtp-Source: ABdhPJzM7ppcEeKlZ9RjMLKultQPdB56lqYgjj0W+MxQwF8TV9IcEx/0Aen4hemdvQL/YCM4KD29Nw==
-X-Received: by 2002:a50:d753:: with SMTP id i19mr22507794edj.9.1593504805954; 
- Tue, 30 Jun 2020 01:13:25 -0700 (PDT)
+ bh=6TGC6x4rGeJCZbg2l3usQflOGN4Jj1erw/qpqdPPGOc=;
+ b=ZOxcNCISr8Z5RsO8c6lXElXn6MYMhYuU3sPs436OGuZafgSR9J/pS9Esarl5sJti1Y
+ JdOB/qvpdD267jTEUMhddFPkZdhXfPSN5Z2F+tclQfoYkTpvXEqxpGvqMZAtlXTXDW+I
+ wqQQIY6TrzK6PwNfjqO0/uGCyFXRsVXQEn5ECeTXstnZ+nvjav73FXXiQf2ZsKL3E/LM
+ xzpcgHP/YncLcFEMI2kZWo9jL8qmsMFLIoIt+cSpx3QucNmRILY4vxoG+GH4fxpak7Jl
+ y7nyDFXy7lWBQScZ2UgS36fsVJ2NTXKxuLxhg64Ob6PP2BO8AzcNgDUUGSLP1IWfL5SX
+ F6yQ==
+X-Gm-Message-State: AOAM530lFnjNMF8ihHF9HoDFvDmHvuJa0UNpWupMqNsxrGTZnW2xzh+b
+ kz30aM4hVKxYMYFIGCoS//U=
+X-Google-Smtp-Source: ABdhPJxomnc8SlCtZ0f6r73FRm9rLMimM7GAXPhKNn8F4nYBeQOZ/GmSUjseLMek251lXgjwTmd/Fg==
+X-Received: by 2002:a05:6402:228d:: with SMTP id
+ cw13mr21949025edb.343.1593504807146; 
+ Tue, 30 Jun 2020 01:13:27 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id z1sm1425948ejb.41.2020.06.30.01.13.24
+ by smtp.gmail.com with ESMTPSA id z1sm1425948ejb.41.2020.06.30.01.13.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 01:13:25 -0700 (PDT)
+ Tue, 30 Jun 2020 01:13:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Yunqiang Su <ysu@wavecomp.com>, Aurelien Jarno <aurelien@aurel32.net>,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/7] hw/mips/malta: Trivial code movement
-Date: Tue, 30 Jun 2020 10:13:16 +0200
-Message-Id: <20200630081322.19146-2-f4bug@amsat.org>
+Subject: [PATCH 2/7] hw/mips/malta: Register the machine as a TypeInfo
+Date: Tue, 30 Jun 2020 10:13:17 +0200
+Message-Id: <20200630081322.19146-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630081322.19146-1-f4bug@amsat.org>
 References: <20200630081322.19146-1-f4bug@amsat.org>
@@ -63,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,52 +90,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial code movement to make the next patch easier to review.
+We want to add more machines. First convert from the old
+DEFINE_MACHINE() API to the more recent DEFINE_TYPES(TypeInfo[])
+one.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/mips/malta.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index d95926a89c..5b371c1e34 100644
+index 5b371c1e34..66172f0c82 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -1426,6 +1426,13 @@ static const TypeInfo mips_malta_device = {
-     .instance_size = sizeof(MaltaState),
- };
+@@ -70,6 +70,8 @@
  
-+static void mips_malta_register_types(void)
-+{
-+    type_register_static(&mips_malta_device);
-+}
+ #define MAX_IDE_BUS         2
+ 
++#define TYPE_MALTA_MACHINE       MACHINE_TYPE_NAME("malta")
 +
-+type_init(mips_malta_register_types)
-+
- static void mips_malta_machine_init(MachineClass *mc)
+ typedef struct {
+     MemoryRegion iomem;
+     MemoryRegion iomem_lo; /* 0 - 0x900 */
+@@ -1433,8 +1435,10 @@ static void mips_malta_register_types(void)
+ 
+ type_init(mips_malta_register_types)
+ 
+-static void mips_malta_machine_init(MachineClass *mc)
++static void malta_machine_class_init(ObjectClass *oc, void *data)
  {
++    MachineClass *mc = MACHINE_CLASS(oc);
++
      mc->desc = "MIPS Malta Core LV";
-@@ -1442,10 +1449,3 @@ static void mips_malta_machine_init(MachineClass *mc)
+     mc->init = mips_malta_init;
+     mc->block_default_type = IF_IDE;
+@@ -1448,4 +1452,16 @@ static void mips_malta_machine_init(MachineClass *mc)
+     mc->default_ram_id = "mips_malta.ram";
  }
  
- DEFINE_MACHINE("malta", mips_malta_machine_init)
--
--static void mips_malta_register_types(void)
--{
--    type_register_static(&mips_malta_device);
--}
--
--type_init(mips_malta_register_types)
+-DEFINE_MACHINE("malta", mips_malta_machine_init)
++static const TypeInfo malta_machine_types[] = {
++    {
++        .name          = MACHINE_TYPE_NAME("malta"),
++        .parent        = TYPE_MALTA_MACHINE,
++    }, {
++        .name          = TYPE_MALTA_MACHINE,
++        .parent        = TYPE_MACHINE,
++        .class_init    = malta_machine_class_init,
++        .abstract      = true,
++    }
++};
++
++DEFINE_TYPES(malta_machine_types)
 -- 
 2.21.3
 
