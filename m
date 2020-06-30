@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A94D20EC9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 06:33:19 +0200 (CEST)
-Received: from localhost ([::1]:40390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4A520EC9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 06:33:31 +0200 (CEST)
+Received: from localhost ([::1]:40806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq7xO-0008Kq-2R
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 00:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45290)
+	id 1jq7xa-0008Uq-7B
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 00:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq7ve-0006xT-T7; Tue, 30 Jun 2020 00:31:30 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47066)
+ id 1jq7vf-0006xl-EO; Tue, 30 Jun 2020 00:31:31 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:47074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq7vb-0004SL-Kx; Tue, 30 Jun 2020 00:31:30 -0400
+ id 1jq7vb-0004SP-Om; Tue, 30 Jun 2020 00:31:31 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 8CB02BF717;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 07FAEBF735;
  Tue, 30 Jun 2020 04:31:25 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/3] hw/block/nvme: add NVMe 1.4 specific fields
-Date: Tue, 30 Jun 2020 06:31:20 +0200
-Message-Id: <20200630043122.1307043-2-its@irrelevant.dk>
+Subject: [PATCH 2/3] hw/block/nvme: add commands supported and effects log page
+Date: Tue, 30 Jun 2020 06:31:21 +0200
+Message-Id: <20200630043122.1307043-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200630043122.1307043-1-its@irrelevant.dk>
 References: <20200630043122.1307043-1-its@irrelevant.dk>
@@ -53,368 +53,163 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Add new fields from NVM Express v1.4.
+This is to support for the Commands Supported and Effects log page. See
+NVM Express Spec 1.3d, sec. 5.14.1.5 ("Commands Supported and Effects")
 
-Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Co-authored-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c      |   3 +-
- include/block/nvme.h | 195 +++++++++++++++++++++++++++++++++++++------
- 2 files changed, 172 insertions(+), 26 deletions(-)
+ hw/block/nvme.c      | 20 +++++++++++++++++++-
+ hw/block/nvme.h      | 25 +++++++++++++++++++++++++
+ include/block/nvme.h | 21 +++++++++++++++++++++
+ 3 files changed, 65 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 8e147b667c81..07ac409f37c9 100644
+index 07ac409f37c9..9f1a1ba03b8a 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -60,7 +60,7 @@
- #define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
--#define NVME_SPEC_VER 0x00010300
-+#define NVME_SPEC_VER 0x00010400
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
- #define NVME_TEMPERATURE 0x143
-@@ -2910,6 +2910,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->ieee[2] = 0xb3;
-     id->mdts = n->params.mdts;
-     id->ver = cpu_to_le32(NVME_SPEC_VER);
-+    id->cntrltype = 0x1;
-     id->oacs = cpu_to_le16(0);
+@@ -67,6 +67,7 @@
+ #define NVME_TEMPERATURE_WARNING 0x157
+ #define NVME_TEMPERATURE_CRITICAL 0x175
+ #define NVME_NUM_FW_SLOTS 1
++#define NVME_MAX_ADM_IO_CMDS 0xFF
  
-     /*
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+@@ -1471,6 +1472,21 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
++static uint16_t nvme_effects_log(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
++    NvmeRequest *req)
++{
++    uint32_t trans_len;
++
++    if (off > sizeof(nvme_effects)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    trans_len = MIN(sizeof(nvme_effects) - off, buf_len);
++
++    return nvme_dma(n, (uint8_t *)&nvme_effects + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeCmd *cmd = &req->cmd;
+@@ -1514,6 +1530,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_smart_info(n, rae, len, off, req);
+     case NVME_LOG_FW_SLOT_INFO:
+         return nvme_fw_log_info(n, len, off, req);
++    case NVME_LOG_EFFECTS:
++        return nvme_effects_log(n, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -2927,7 +2945,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_EFFECTS_LOG | NVME_LPA_EXTENDED;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 66187902b7cf..e62bcd12a7a8 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -18,6 +18,31 @@ typedef struct NvmeParams {
+     bool     use_intel_id;
+ } NvmeParams;
+ 
++static const NvmeEffectsLog nvme_effects = {
++    .acs = {
++        [NVME_ADM_CMD_DELETE_SQ]    = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_CREATE_SQ]    = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_GET_LOG_PAGE] = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_DELETE_CQ]    = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_CREATE_CQ]    = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_IDENTIFY]     = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_ABORT]        = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_SET_FEATURES] = NVME_EFFECTS_CSUPP | NVME_EFFECTS_CCC |
++            NVME_EFFECTS_NIC | NVME_EFFECTS_NCC,
++        [NVME_ADM_CMD_GET_FEATURES] = NVME_EFFECTS_CSUPP,
++        [NVME_ADM_CMD_FORMAT_NVM]   = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC |
++            NVME_EFFECTS_NCC | NVME_EFFECTS_NIC | NVME_EFFECTS_CSE_MULTI,
++        [NVME_ADM_CMD_ASYNC_EV_REQ] = NVME_EFFECTS_CSUPP,
++    },
++
++    .iocs = {
++        [NVME_CMD_FLUSH]            = NVME_EFFECTS_CSUPP,
++        [NVME_CMD_WRITE]            = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC,
++        [NVME_CMD_READ]             = NVME_EFFECTS_CSUPP,
++        [NVME_CMD_WRITE_ZEROES]     = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC,
++    },
++};
++
+ typedef struct NvmeAsyncEvent {
+     QTAILQ_ENTRY(NvmeAsyncEvent) entry;
+     NvmeAerResult result;
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 2a9c5e95bfd2..b27be237cd33 100644
+index b27be237cd33..040e4ef36ddc 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -7,7 +7,7 @@ typedef struct NvmeBar {
-     uint32_t    intms;
-     uint32_t    intmc;
-     uint32_t    cc;
--    uint32_t    rsvd1;
-+    uint8_t     rsvd24[4];
-     uint32_t    csts;
-     uint32_t    nssrc;
-     uint32_t    aqa;
-@@ -15,14 +15,20 @@ typedef struct NvmeBar {
-     uint64_t    acq;
-     uint32_t    cmbloc;
-     uint32_t    cmbsz;
--    uint8_t     padding[3520]; /* not used by QEMU */
-+    uint32_t    bpinfo;
-+    uint32_t    bprsel;
-+    uint64_t    bpmbl;
-+    uint64_t    cmbmsc;
-+    uint32_t    cmbsts;
-+    uint8_t     rsvd92[3492];
-     uint32_t    pmrcap;
-     uint32_t    pmrctl;
-     uint32_t    pmrsts;
-     uint32_t    pmrebs;
-     uint32_t    pmrswtp;
--    uint32_t    pmrmsc;
--} NvmeBar;
-+    uint64_t    pmrmsc;
-+    uint8_t     rsvd3612[484];
-+} QEMU_PACKED NvmeBar;
+@@ -824,6 +824,24 @@ typedef struct NvmeSmartLog {
+     uint8_t     reserved2[320];
+ } NvmeSmartLog;
  
- enum NvmeCapShift {
-     CAP_MQES_SHIFT     = 0,
-@@ -34,7 +40,8 @@ enum NvmeCapShift {
-     CAP_CSS_SHIFT      = 37,
-     CAP_MPSMIN_SHIFT   = 48,
-     CAP_MPSMAX_SHIFT   = 52,
--    CAP_PMR_SHIFT      = 56,
-+    CAP_PMRS_SHIFT     = 56,
-+    CAP_CMBS_SHIFT     = 57,
- };
- 
- enum NvmeCapMask {
-@@ -47,7 +54,8 @@ enum NvmeCapMask {
-     CAP_CSS_MASK       = 0xff,
-     CAP_MPSMIN_MASK    = 0xf,
-     CAP_MPSMAX_MASK    = 0xf,
--    CAP_PMR_MASK       = 0x1,
-+    CAP_PMRS_MASK      = 0x1,
-+    CAP_CMBS_MASK      = 0x1,
- };
- 
- #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-@@ -59,6 +67,8 @@ enum NvmeCapMask {
- #define NVME_CAP_CSS(cap)   (((cap) >> CAP_CSS_SHIFT)    & CAP_CSS_MASK)
- #define NVME_CAP_MPSMIN(cap)(((cap) >> CAP_MPSMIN_SHIFT) & CAP_MPSMIN_MASK)
- #define NVME_CAP_MPSMAX(cap)(((cap) >> CAP_MPSMAX_SHIFT) & CAP_MPSMAX_MASK)
-+#define NVME_CAP_PMRS(cap)  (((cap) >> CAP_PMRS_SHIFT)   & CAP_PMRS_MASK)
-+#define NVME_CAP_CMBS(cap)  (((cap) >> CAP_CMBS_SHIFT)   & CAP_CMBS_MASK)
- 
- #define NVME_CAP_SET_MQES(cap, val)   (cap |= (uint64_t)(val & CAP_MQES_MASK)  \
-                                                            << CAP_MQES_SHIFT)
-@@ -78,8 +88,10 @@ enum NvmeCapMask {
-                                                            << CAP_MPSMIN_SHIFT)
- #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
-                                                             << CAP_MPSMAX_SHIFT)
--#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
--                                                            << CAP_PMR_SHIFT)
-+#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMRS_MASK)\
-+                                                            << CAP_PMRS_SHIFT)
-+#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMBS_MASK)\
-+                                                            << CAP_CMBS_SHIFT)
- 
- enum NvmeCcShift {
-     CC_EN_SHIFT     = 0,
-@@ -151,22 +163,58 @@ enum NvmeAqaMask {
- #define NVME_AQA_ACQS(aqa) ((aqa >> AQA_ACQS_SHIFT) & AQA_ACQS_MASK)
- 
- enum NvmeCmblocShift {
--    CMBLOC_BIR_SHIFT  = 0,
--    CMBLOC_OFST_SHIFT = 12,
-+    CMBLOC_BIR_SHIFT     = 0,
-+    CMBLOC_CQMMS_SHIFT   = 3,
-+    CMBLOC_CQPDS_SHIFT   = 4,
-+    CMBLOC_CDPMLS_SHIFT  = 5,
-+    CMBLOC_CDPCILS_SHIFT = 6,
-+    CMBLOC_CDMMMS_SHIFT  = 7,
-+    CMBLOC_CQDA_SHIFT    = 8,
-+    CMBLOC_OFST_SHIFT    = 12,
- };
- 
- enum NvmeCmblocMask {
--    CMBLOC_BIR_MASK  = 0x7,
--    CMBLOC_OFST_MASK = 0xfffff,
-+    CMBLOC_BIR_MASK     = 0x7,
-+    CMBLOC_CQMMS_MASK   = 0x1,
-+    CMBLOC_CQPDS_MASK   = 0x1,
-+    CMBLOC_CDPMLS_MASK  = 0x1,
-+    CMBLOC_CDPCILS_MASK = 0x1,
-+    CMBLOC_CDMMMS_MASK  = 0x1,
-+    CMBLOC_CQDA_MASK    = 0x1,
-+    CMBLOC_OFST_MASK    = 0xfffff,
- };
- 
--#define NVME_CMBLOC_BIR(cmbloc) ((cmbloc >> CMBLOC_BIR_SHIFT)  & \
--                                 CMBLOC_BIR_MASK)
--#define NVME_CMBLOC_OFST(cmbloc)((cmbloc >> CMBLOC_OFST_SHIFT) & \
--                                 CMBLOC_OFST_MASK)
-+#define NVME_CMBLOC_BIR(cmbloc) \
-+    ((cmbloc >> CMBLOC_BIR_SHIFT) & CMBLOC_BIR_MASK)
-+#define NVME_CMBLOC_CQMMS(cmbloc) \
-+    ((cmbloc >> CMBLOC_CQMMS_SHIFT) & CMBLOC_CQMMS_MASK)
-+#define NVME_CMBLOC_CQPDS(cmbloc) \
-+    ((cmbloc >> CMBLOC_CQPDS_SHIFT) & CMBLOC_CQPDS_MASK)
-+#define NVME_CMBLOC_CDPMLS(cmbloc) \
-+    ((cmbloc >> CMBLOC_CDPMLS_SHIFT) & CMBLOC_CDPMLS_MASK)
-+#define NVME_CMBLOC_CDPCILS(cmbloc) \
-+    ((cmbloc >> CMBLOC_CDPCILS_SHIFT) & CMBLOC_CDPCILS_MASK)
-+#define NVME_CMBLOC_CDMMS(cmbloc) \
-+    ((cmbloc >> CMBLOC_CDMMS_SHIFT) & CMBLOC_CDMMS_MASK)
-+#define NVME_CMBLOC_CQDA(cmbloc) \
-+    ((cmbloc >> CMBLOC_CQDA_SHIFT) & CMBLOC_CQDA_MASK)
-+#define NVME_CMBLOC_OFST(cmbloc) \
-+    ((cmbloc >> CMBLOC_OFST_SHIFT) & CMBLOC_OFST_MASK)
- 
--#define NVME_CMBLOC_SET_BIR(cmbloc, val)  \
-+#define NVME_CMBLOC_SET_BIR(cmbloc, val) \
-     (cmbloc |= (uint64_t)(val & CMBLOC_BIR_MASK) << CMBLOC_BIR_SHIFT)
-+#define NVME_CMBLOC_SET_CQMMS(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CQMMS_MASK) << CMBLOC_CQMMS_SHIFT)
-+#define NVME_CMBLOC_SET_CQPDS(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CQPDS_MASK) << CMBLOC_CQPDS_SHIFT)
-+#define NVME_CMBLOC_SET_CDPMLS(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CDPMLS_MASK) << CMBLOC_CDPMLS_SHIFT)
-+#define NVME_CMBLOC_SET_CDPCILS(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CDPCILS_MASK) << CMBLOC_CDPCILS_SHIFT)
-+#define NVME_CMBLOC_SET_CDMMS(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CDMMS_MASK) << CMBLOC_CDMMS_SHIFT)
-+#define NVME_CMBLOC_SET_CQDA(cmbloc, val) \
-+    (cmbloc |= (uint64_t)(val & CMBLOC_CQDA_MASK) << CMBLOC_CQDA_SHIFT)
- #define NVME_CMBLOC_SET_OFST(cmbloc, val) \
-     (cmbloc |= (uint64_t)(val & CMBLOC_OFST_MASK) << CMBLOC_OFST_SHIFT)
- 
-@@ -377,6 +425,35 @@ enum NvmePmrmscMask {
- #define NVME_PMRMSC_SET_CBA(pmrmsc, val)   \
-     (pmrmsc |= (uint64_t)(val & PMRMSC_CBA_MASK) << PMRMSC_CBA_SHIFT)
- 
-+enum NvmeCmbmscShift {
-+    CMBMSC_CRE_SHIFT  = 0,
-+    CMBMSC_CMSE_SHIFT = 1,
-+    CMBMSC_CBA_SHIFT  = 12,
++typedef struct NvmeEffectsLog {
++    uint32_t acs[256];
++    uint32_t iocs[256];
++    uint8_t  rsvd2048[2048];
++} NvmeEffectsLog;
++
++enum {
++    NVME_EFFECTS_CSUPP      = 1 <<  0,
++    NVME_EFFECTS_LBCC       = 1 <<  1,
++    NVME_EFFECTS_NCC        = 1 <<  2,
++    NVME_EFFECTS_NIC        = 1 <<  3,
++    NVME_EFFECTS_CCC        = 1 <<  4,
++    NVME_EFFECTS_CSE_SINGLE = 1 << 16,
++    NVME_EFFECTS_CSE_MULTI  = 1 << 17,
++    NVME_EFFECTS_CSE_MASK   = 3 << 16,
++    NVME_EFFECTS_UUID_SEL   = 1 << 19,
 +};
 +
-+enum NvmeCmbmscMask {
-+    CMBMSC_CRE_MASK  = 0x1,
-+    CMBMSC_CMSE_MASK = 0x1,
-+};
-+
-+#define CMBMSC_CBA_MASK ((1 << 52) - 1)
-+
-+#define NVME_CMBMSC_CRE(cmbmsc) \
-+    ((cmbmsc >> CMBMSC_CRE_SHIFT)  & CMBMSC_CRE_MASK)
-+#define NVME_CMBMSC_CMSE(cmbmsc) \
-+    ((cmbmsc >> CMBMSC_CMSE_SHIFT) & CMBMSC_CMSE_MASK)
-+#define NVME_CMBMSC_CBA(cmbmsc) \
-+    ((cmbmsc >> CMBMSC_CBA_SHIFT)  & CMBMSC_CBA_MASK)
-+
-+#define NVME_CMBMSC_SET_CRE(cmbmsc, val)  \
-+    (cmbmsc |= (uint64_t)(val & CMBMSC_CRE_MASK) << CMBMSC_CRE_SHIFT)
-+#define NVME_CMBMSC_SET_CMSE(cmbmsc, val) \
-+    (cmbmsc |= (uint64_t)(val & CMBMSC_CMSE_MASK) << CMBMSC_CMSE_SHIFT)
-+#define NVME_CMBMSC_SET_CBA(cmbmsc, val)  \
-+    (cmbmsc |= (uint64_t)(val & CMBMSC_CBA_MASK) << CMBMSC_CBA_SHIFT)
-+
-+#define NVME_CMBSTS_CBAI(cmbsts) (cmsts & 0x1)
-+
- enum NvmeSglDescriptorType {
-     NVME_SGL_DESCR_TYPE_DATA_BLOCK          = 0x0,
-     NVME_SGL_DESCR_TYPE_BIT_BUCKET          = 0x1,
-@@ -523,8 +600,12 @@ typedef struct NvmeIdentify {
-     uint64_t    rsvd2[2];
-     uint64_t    prp1;
-     uint64_t    prp2;
--    uint32_t    cns;
--    uint32_t    rsvd11[5];
-+    uint8_t     cns;
-+    uint8_t     rsvd3;
-+    uint16_t    cntid;
-+    uint16_t    nvmsetid;
-+    uint16_t    rsvd4;
-+    uint32_t    rsvd11[4];
- } NvmeIdentify;
- 
- typedef struct NvmeRwCmd {
-@@ -681,6 +762,23 @@ enum NvmeStatusCodes {
-     NVME_NO_COMPLETE            = 0xffff,
- };
- 
-+typedef struct NvmeNvmSetAttributes {
-+    uint16_t nvmsetid;
-+    uint16_t endgid;
-+    uint8_t  rsvd7[4];
-+    uint32_t rrt;
-+    uint32_t ows;
-+    uint8_t  tnvmsetcap[16];
-+    uint8_t  unvmsetcap[16];
-+    uint8_t  rsvd127[80];
-+} NvmeNvmSetAttributes;
-+
-+typedef struct NvmeIdNvmSetList {
-+    uint8_t nid;
-+    uint8_t rsvd127[127];
-+    NvmeNvmSetAttributes sets[31];
-+} NvmeIdNvmSetList;
-+
- typedef struct NvmeFwSlotInfoLog {
-     uint8_t     afi;
-     uint8_t     reserved1[7];
-@@ -734,6 +832,24 @@ enum NvmeSmartWarn {
-     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
- };
- 
-+typedef struct NvmeEnduranceGroupLog {
-+    uint8_t critical_warning;
-+    uint8_t rsvd2[2];
-+    uint8_t available_spare;
-+    uint8_t available_spare_threshold;
-+    uint8_t percentage_used;
-+    uint8_t rsvd31[26];
-+    uint8_t endurance_estimate[16];
-+    uint8_t data_units_read[16];
-+    uint8_t data_units_written[16];
-+    uint8_t media_units_written[16];
-+    uint8_t host_read_commands[16];
-+    uint8_t host_write_commands[16];
-+    uint8_t media_and_data_integrity_errors[16];
-+    uint8_t number_of_error_information_log_entries[16];
-+    uint8_t rsvd511[352];
-+} NvmeEnduranceGroupLog;
-+
- enum NvmeLogIdentifier {
+ enum NvmeSmartWarn {
+     NVME_SMART_SPARE                  = 1 << 0,
+     NVME_SMART_TEMPERATURE            = 1 << 1,
+@@ -854,6 +872,7 @@ enum NvmeLogIdentifier {
      NVME_LOG_ERROR_INFO     = 0x01,
      NVME_LOG_SMART_INFO     = 0x02,
-@@ -777,9 +893,14 @@ typedef struct NvmeIdCtrl {
-     uint32_t    rtd3e;
-     uint32_t    oaes;
-     uint32_t    ctratt;
--    uint8_t     rsvd100[12];
-+    uint16_t    rrls;
-+    uint8_t     rsvd102[9];
-+    uint8_t     cntrltype;
-     uint8_t     fguid[16];
--    uint8_t     rsvd128[128];
-+    uint16_t    crdt1;
-+    uint16_t    crdt2;
-+    uint16_t    crdt3;
-+    uint8_t     rsvd134[122];
-     uint16_t    oacs;
-     uint8_t     acl;
-     uint8_t     aerl;
-@@ -805,7 +926,16 @@ typedef struct NvmeIdCtrl {
-     uint16_t    mntmt;
-     uint16_t    mxtmt;
-     uint32_t    sanicap;
--    uint8_t     rsvd332[180];
-+    uint32_t    hmminds;
-+    uint16_t    hmmaxd;
-+    uint16_t    nsetidmax;
-+    uint16_t    endgidmax;
-+    uint8_t     anatt;
-+    uint8_t     anacap;
-+    uint32_t    anagrpmax;
-+    uint32_t    nanagrpid;
-+    uint32_t    pels;
-+    uint8_t     rsvd356[156];
-     uint8_t     sqes;
-     uint8_t     cqes;
-     uint16_t    maxcmd;
-@@ -817,11 +947,12 @@ typedef struct NvmeIdCtrl {
-     uint16_t    awun;
-     uint16_t    awupf;
-     uint8_t     nvscc;
--    uint8_t     rsvd531;
-+    uint8_t     nwpc;
-     uint16_t    acwu;
-     uint8_t     rsvd534[2];
-     uint32_t    sgls;
--    uint8_t     rsvd540[228];
-+    uint32_t    mnan;
-+    uint8_t     rsvd544[224];
-     uint8_t     subnqn[256];
-     uint8_t     rsvd1024[1024];
-     NvmePSD     psd[32];
-@@ -976,7 +1107,17 @@ typedef struct NvmeIdNs {
-     uint16_t    nabspf;
-     uint16_t    noiob;
-     uint8_t     nvmcap[16];
--    uint8_t     rsvd64[40];
-+    uint16_t    npwg;
-+    uint16_t    npwa;
-+    uint16_t    npdg;
-+    uint16_t    npda;
-+    uint16_t    nows;
-+    uint8_t     rsvd74[18];
-+    uint32_t    anagrpid;
-+    uint8_t     rsvd96[3];
-+    uint8_t     nsattr;
-+    uint16_t    nvmsetid;
-+    uint16_t    endgid;
-     uint8_t     nguid[16];
-     uint64_t    eui64;
-     NvmeLBAF    lbaf[16];
-@@ -1048,7 +1189,11 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeEnduranceGroupLog) != 512);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeNvmSetAttributes) != 128);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeIdNvmSetList) != 4096);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
++    NVME_LOG_EFFECTS        = 0x05,
+ };
+ 
+ typedef struct NvmePSD {
+@@ -980,6 +999,7 @@ enum NvmeIdCtrlFrmw {
+ };
+ 
+ enum NvmeIdCtrlLpa {
++    NVME_LPA_EFFECTS_LOG  = 1 << 1,
+     NVME_LPA_EXTENDED = 1 << 2,
+ };
+ 
+@@ -1195,5 +1215,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeNvmSetAttributes) != 128);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNvmSetList) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
  }
  #endif
 -- 
