@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716CA20F13C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:12:31 +0200 (CEST)
-Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7377B20F12E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:08:57 +0200 (CEST)
+Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCJa-00018G-D7
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
+	id 1jqCG8-0002gz-ET
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBZ-0002rd-HB
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31444
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBU-0002fB-Am
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42337
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBP-0002xg-7I
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBM-0002uy-U4
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593507842;
+ s=mimecast20190719; t=1593507840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nb7MgsXtYZ2X5YyIuOdODBAV8JiQjFyYIVMeqm+HCbQ=;
- b=N/cAaE9vXaIDZWO444yaKGzjIPvR9/RekPrfvc+soltceWJw8mOQWt9MoLywAvRtTHwADv
- OqBGgjweRWAIeIxH/svAS1V6odTpvXIKrpekWa+W2v5rR75Dig+oNLMOcgk2PsCvJJfwRQ
- OO5THeKvvKd//jNCtparlb2f0/O5+9I=
+ bh=LvrZY18W8Rz5a/2CEv5hsojGC21C7lsR5Wbs3KVWCTM=;
+ b=Q6p0XfcPdAN9KKEqFw/kQJPdRp8cW3QncJ/wwd+nGLyGBPuGgkbUOBA6redeIiqO+HA0Qi
+ TJMiutI+iqm07VaHCsbU3GvT4Jf75bmtnvfSs8QZtFlNjb9QwVIQtngmSj2r9+oEUsgF8k
+ ReKGR2MYQbPSlaSmyra/+as2Pp1Ejts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-ct-zd9ClNyyOvd3HiGk6yw-1; Tue, 30 Jun 2020 05:03:58 -0400
-X-MC-Unique: ct-zd9ClNyyOvd3HiGk6yw-1
+ us-mta-487-WwChkymhMh2dqwD6AeBh8A-1; Tue, 30 Jun 2020 05:03:58 -0400
+X-MC-Unique: WwChkymhMh2dqwD6AeBh8A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91EEBBFC5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E731107ACCD;
  Tue, 30 Jun 2020 09:03:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5995C741AC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C50C741B0;
  Tue, 30 Jun 2020 09:03:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 17F09113847F; Tue, 30 Jun 2020 11:03:52 +0200 (CEST)
+ id 1E3841138480; Tue, 30 Jun 2020 11:03:52 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/26] mips/cps: Fix mips_cps_realize() error API violations
-Date: Tue, 30 Jun 2020 11:03:44 +0200
-Message-Id: <20200630090351.1247703-20-armbru@redhat.com>
+Subject: [PATCH v3 20/26] x86: Fix x86_cpu_new() error handling
+Date: Tue, 30 Jun 2020 11:03:45 +0200
+Message-Id: <20200630090351.1247703-21-armbru@redhat.com>
 In-Reply-To: <20200630090351.1247703-1-armbru@redhat.com>
 References: <20200630090351.1247703-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -82,9 +82,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,83 +93,47 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-mips_cps_realize() is wrong that way: it passes &err to multiple
-object_property_set_FOO() without checking for failure, and then to
-sysbus_realize().  Harmless, because the object_property_set_FOO()
-can't actually fail here.
+x86_cpu_new() is wrong that way: it passes &local_err to
+object_property_set_uint() without checking it, and then to
+qdev_realize().  If both fail, we'll trip error_setv()'s assertion.
+To assess the bug's impact, we'd need to figure out how to make both
+calls fail.  Too much work for ignorant me, sorry.
 
-Fix by passing &error_abort instead.
+Fix by checking for failure right away.
 
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/mips/cps.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+ hw/i386/x86.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 5382bc86f7..0d7f3cf673 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -100,10 +100,12 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     /* Inter-Thread Communication Unit */
-     if (itu_present) {
-         object_initialize_child(OBJECT(dev), "itu", &s->itu, TYPE_MIPS_ITU);
--        object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
--        object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &err);
-+        object_property_set_int(OBJECT(&s->itu), 16, "num-fifo",
-+                                &error_abort);
-+        object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores",
-+                                &error_abort);
-         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
--                                 &err);
-+                                 &error_abort);
-         if (saar_present) {
-             s->itu.saar = &env->CP0_SAAR;
-         }
-@@ -119,8 +121,10 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 34229b45c7..93f7371a56 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -118,14 +118,16 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
  
-     /* Cluster Power Controller */
-     object_initialize_child(OBJECT(dev), "cpc", &s->cpc, TYPE_MIPS_CPC);
--    object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
--    object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err);
-+    object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running",
-+                            &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->cpc), &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-@@ -132,8 +136,10 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+ {
+-    Object *cpu = NULL;
+     Error *local_err = NULL;
+-
+-    cpu = object_new(MACHINE(x86ms)->cpu_type);
++    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
  
-     /* Global Interrupt Controller */
-     object_initialize_child(OBJECT(dev), "gic", &s->gic, TYPE_MIPS_GIC);
--    object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
--    object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
-+    object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(&s->gic), 128, "num-irq",
-+                            &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->gic), &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-@@ -147,9 +153,12 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     gcr_base = env->CP0_CMGCRBase << 4;
+     object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
++    if (local_err) {
++        goto out;
++    }
+     qdev_realize(DEVICE(cpu), NULL, &local_err);
  
-     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, TYPE_MIPS_GCR);
--    object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
--    object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
--    object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
-+    object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base",
-+                            &error_abort);
-     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic",
-                              &error_abort);
-     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc",
++out:
+     object_unref(cpu);
+     error_propagate(errp, local_err);
+ }
 -- 
 2.26.2
 
