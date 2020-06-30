@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D2920F03C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:16:20 +0200 (CEST)
-Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BD420F041
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:16:45 +0200 (CEST)
+Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqBRD-0004tc-8y
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1jqBRc-0005Jz-Q9
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOW-0001N8-2y
+ id 1jqBOW-0001OT-Vd
  for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:32 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:40992)
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:44345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBOU-0003BR-ET
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:31 -0400
-Received: by mail-ed1-x544.google.com with SMTP id e22so15293430edq.8
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:13:29 -0700 (PDT)
+ id 1jqBOV-0003Ba-B3
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:13:32 -0400
+Received: by mail-ed1-x544.google.com with SMTP id by13so5435958edb.11
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OSSf9Gph0a3stYSRY1wq7h1jREXKNcDTLzkc58dT+HY=;
- b=IWTNvzaeyoV6j/pIaU0mv+Bl2VjjDxQpM6ICioJ3/uMWAKNFTBi82Ykn6nWbmOB6eo
- wWydP3GhoTtTSWv92frGuWg9HdP+bgCjjY+YFmOngANqzmr9JEVgtD4IRaaq83TOsRKV
- Z6BRZppbOXlys7sM7jax1eCvRUbdcYiywu/JuWXCcUnia4SxKNQ6X9D+ICNIkmjJUBeq
- EzuUUF81JaBWCTmEjluLMyO4RrWR2w4A/p0yUCAHmbvC0jakzrssqd9sxMEVqjS7cx1F
- GfJ6ao8RxF4ISQ4QJVIuqfO8vjDZ6XUn4guu+x0LBawhwuQFx+qMbiKtr1/tDyzy0hBt
- YDIg==
+ bh=ezmv4JiTpP7X7OxAfnbPCLJGrwpvkIrxmTp8C42vD8c=;
+ b=E7sGX8hYaQWGWAbiiJHIameMhsNpWt4kQo4fWH9YLKfqwzat64USe8HUGabBeeKI0o
+ TGpJuX6da+FVHYOrGoSUXlm81/0q1/EkhwXc2EhmIWGizoyVc4a3JqDh7tT5ckZ7eUZM
+ hgTYNhwcR/EB4HCuLFpFn/oscKzlCWm0LKHJ3Yc+CWHIQIVUh0akyRrIW6PWlx5UdXmn
+ B0ac6DTSKStrj40Fee6GNnn16XVfUV30SAf3GOkNl/SJWUwse/i1PtZKdKOP8l50khd7
+ bTeoYyFUtP034TbAHMBruhW349Fl/Vob9JFNyek9G5nfc99snVZksQ2abDsUbqbsQnPq
+ kCSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OSSf9Gph0a3stYSRY1wq7h1jREXKNcDTLzkc58dT+HY=;
- b=ADxkh8yK3qbkPeF5cXJFsP4b3LoK+O/eqmfXZg8GI3QVleNwKhOpnhWbL2ieBWUZe7
- 07CxIF8H6CaatYulH4e8k4uHQYbTp1IBC6q7Rj3KWfthM6l5omhW3h7hIQ7gWKJqqRFL
- rjtBNpcATmhyaBBTu96NSJeHlxzrgHZsHXCFiXNSeEzt2xaS2MZQ1RsmHjNa+gBLzG1I
- u1Nnm4JQjVgUtYPBJXM5KmSZx7+149xk8pkg71qsH+go4X09qm5zOkj0Q9UE/UsL8TtO
- 5Nd7dVx7HRkTWGYoWprssu4Misl9IMZ9rNBZNdqE2eYS6Y5bnUTKeJjWC+ZMTk1XdLAf
- bBrQ==
-X-Gm-Message-State: AOAM5302BJLLTnc8FUqHeb6i/OyjVZTSsLdT5BSUAHtQ39M1qPF1xFMm
- vm6XTxrqHftH8VqJ1pcMWeE=
-X-Google-Smtp-Source: ABdhPJw7LsmEKggCoZZx9Chvkg6R1A46LnxwDTlsUlHFIAD7RV+WMm+mcziJqlLMFlTEJ1qp/yPxrA==
-X-Received: by 2002:a50:9e2e:: with SMTP id z43mr22171996ede.385.1593504808362; 
- Tue, 30 Jun 2020 01:13:28 -0700 (PDT)
+ bh=ezmv4JiTpP7X7OxAfnbPCLJGrwpvkIrxmTp8C42vD8c=;
+ b=BTqhUEgWd3Spfid1siWLmMVN7yhnQdxK+U0VAMP704mWzicKJbdCwxJqFEkDVnH4L/
+ ml3adPH1RveISiaF1E86PkptE/LKH4R9t6O7xvpvdWCBAEBaP1yeMi+10UMhLq0z3KVl
+ VjL2NrrypGMncANODQU7mpNUrzConDjoCwgdUUi3Fr44gdKtwW5u/OVl5mVS4j5tozqz
+ UJqlTjlgEFCnyFTSWnPeT9ByH8LBnw1xExxbJNPxPNKWuf1beP5+T1CyR0qIPg657f6A
+ jfIrXgr6ecGPQtRXk+nKdu1MYgpHiGoH8wkjEFFSnLCc7AIbzo63EiVgj5WNxl9h9Ew1
+ 4McA==
+X-Gm-Message-State: AOAM531BAiRNErlLwePiD70qOK741IkqMyLnV6b5FqJsn4VRHn1J/5Gw
+ Bhf9x4N0+nCignvlBASYiZc=
+X-Google-Smtp-Source: ABdhPJyHW9qIoDvNlErfWDN4rFRmEyLXCvyHQ8SFGSPUdARbnJwgyXjNRaiI7VHvMVCxpAtNE8y2ag==
+X-Received: by 2002:a05:6402:3138:: with SMTP id
+ dd24mr22094497edb.118.1593504809516; 
+ Tue, 30 Jun 2020 01:13:29 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id z1sm1425948ejb.41.2020.06.30.01.13.27
+ by smtp.gmail.com with ESMTPSA id z1sm1425948ejb.41.2020.06.30.01.13.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 01:13:27 -0700 (PDT)
+ Tue, 30 Jun 2020 01:13:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Yunqiang Su <ysu@wavecomp.com>, Aurelien Jarno <aurelien@aurel32.net>,
  qemu-devel@nongnu.org
-Subject: [PATCH 3/7] hw/mips/malta: Rename 'malta' machine as 'malta-virt'
-Date: Tue, 30 Jun 2020 10:13:18 +0200
-Message-Id: <20200630081322.19146-4-f4bug@amsat.org>
+Subject: [PATCH 4/7] hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
+Date: Tue, 30 Jun 2020 10:13:19 +0200
+Message-Id: <20200630081322.19146-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630081322.19146-1-f4bug@amsat.org>
 References: <20200630081322.19146-1-f4bug@amsat.org>
@@ -97,54 +98,100 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to model the real physical Malta board. The current model
-does not have the physical restrictions real hardware have.
-Rename the current machine as 'malta-virt'. To not disrupt command
-line users, keep the 'malta' machine name as an alias.
+The maximum RAM size is tied to the machine. First add the
+MaltaMachineClass, and add 'max_ramsize' to it. Set it to
+the current value of 2 GB, and adapt the code checking for
+the requested RAM is usable by the machine.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ hw/mips/malta.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 66172f0c82..f8fc567532 100644
+index f8fc567532..1ca41b44db 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -1439,8 +1439,16 @@ static void malta_machine_class_init(ObjectClass *oc, void *data)
+@@ -56,6 +56,7 @@
+ #include "sysemu/kvm.h"
+ #include "hw/semihosting/semihost.h"
+ #include "hw/mips/cps.h"
++#include "qemu/cutils.h"
+ 
+ #define ENVP_ADDR           0x80002000l
+ #define ENVP_NB_ENTRIES     16
+@@ -71,6 +72,17 @@
+ #define MAX_IDE_BUS         2
+ 
+ #define TYPE_MALTA_MACHINE       MACHINE_TYPE_NAME("malta")
++#define MALTA_MACHINE_CLASS(klass) \
++     OBJECT_CLASS_CHECK(MaltaMachineClass, (klass), TYPE_MALTA_MACHINE)
++#define MALTA_MACHINE_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(MaltaMachineClass, (obj), TYPE_MALTA_MACHINE)
++
++typedef struct MaltaMachineClass {
++    /* Private */
++    MachineClass parent_obj;
++    /* Public */
++    ram_addr_t max_ramsize;
++} MaltaMachineClass;
+ 
+ typedef struct {
+     MemoryRegion iomem;
+@@ -1232,7 +1244,7 @@ void mips_malta_init(MachineState *machine)
+     DriveInfo *dinfo;
+     int fl_idx = 0;
+     int be;
+-
++    MaltaMachineClass *mmc = MALTA_MACHINE_GET_CLASS(machine);
+     DeviceState *dev = qdev_new(TYPE_MIPS_MALTA);
+     MaltaState *s = MIPS_MALTA(dev);
+ 
+@@ -1248,10 +1260,16 @@ void mips_malta_init(MachineState *machine)
+     /* create CPU */
+     mips_create_cpu(machine, s, &cbus_irq, &i8259_irq);
+ 
+-    /* allocate RAM */
+-    if (ram_size > 2 * GiB) {
+-        error_report("Too much memory for this machine: %" PRId64 "MB,"
+-                     " maximum 2048MB", ram_size / MiB);
++    /*
++     * The GT-64120A north bridge accepts at most 256 MiB per SCS for
++     * address decoding, so we have a maximum of 1 GiB. We deliberately
++     * ignore this physical limitation.
++     */
++    if (ram_size > mmc->max_ramsize) {
++        char *maxsize_str = size_to_str(mmc->max_ramsize);
++        error_report("Too much memory for this machine: %" PRId64 " MiB,"
++                     " maximum %s", ram_size / MiB, maxsize_str);
++        g_free(maxsize_str);
+         exit(1);
+     }
+ 
+@@ -1446,6 +1464,7 @@ static void malta_machine_class_init(ObjectClass *oc, void *data)
+ static void malta_machine_virt_class_init(ObjectClass *oc, void *data)
  {
      MachineClass *mc = MACHINE_CLASS(oc);
++    MaltaMachineClass *mmc = MALTA_MACHINE_CLASS(oc);
  
--    mc->desc = "MIPS Malta Core LV";
-     mc->init = mips_malta_init;
-+    mc->default_ram_id = "mips_malta.ram";
-+}
-+
-+static void malta_machine_virt_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->desc = "MIPS Malta Core LV (no physical limitations)";
-+    mc->alias = "malta";
-     mc->block_default_type = IF_IDE;
-     mc->max_cpus = 16;
-     mc->is_default = true;
-@@ -1449,13 +1457,13 @@ static void malta_machine_class_init(ObjectClass *oc, void *data)
+     mc->desc = "MIPS Malta Core LV (no physical limitations)";
+     mc->alias = "malta";
+@@ -1457,6 +1476,7 @@ static void malta_machine_virt_class_init(ObjectClass *oc, void *data)
  #else
      mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
  #endif
--    mc->default_ram_id = "mips_malta.ram";
++    mmc->max_ramsize = 2 * GiB;
  }
  
  static const TypeInfo malta_machine_types[] = {
-     {
--        .name          = MACHINE_TYPE_NAME("malta"),
-+        .name          = MACHINE_TYPE_NAME("malta-virt"),
-         .parent        = TYPE_MALTA_MACHINE,
-+        .class_init    = malta_machine_virt_class_init,
+@@ -1467,6 +1487,7 @@ static const TypeInfo malta_machine_types[] = {
      }, {
          .name          = TYPE_MALTA_MACHINE,
          .parent        = TYPE_MACHINE,
++        .class_size    = sizeof(MaltaMachineClass),
+         .class_init    = malta_machine_class_init,
+         .abstract      = true,
+     }
 -- 
 2.21.3
 
