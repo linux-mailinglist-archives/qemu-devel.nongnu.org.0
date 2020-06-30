@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7D720F2BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:30:05 +0200 (CEST)
-Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E745020F2C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:32:50 +0200 (CEST)
+Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDWe-0003dS-55
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
+	id 1jqDZJ-0006v0-UH
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDVE-0001j2-4O
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:28:36 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:58100 helo=mta-01.yadro.com)
+ id 1jqDVD-0001iK-DD
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:28:35 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:58088 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDVA-0000Vd-Ud
+ id 1jqDVA-0000VX-To
  for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:28:35 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 9E1AC47D4C;
+ by mta-01.yadro.com (Postfix) with ESMTP id 55F9F4C890;
  Tue, 30 Jun 2020 10:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1593512910; x=1595327311; bh=YG/juBfGA83r80UZ6OQaDeJguuo6NOJLVCH
- 1uErc77E=; b=O6yxBFm+Inx1b4y7bAAMfExKU+9JVrJBy+ydZrnJAA3kc02PI0m
- gXtkAch8lD3rzP0w0a7mcCHjVDeTiWKjFWoCXaMAWKdOY7Kmes/g00p92tD/2KuX
- K/fn+fi6SUpnRiHJkiEX9A0cma1KUbESXuNJjpYSQ5bkIZg5kEl5jXYE=
+ 1593512910; x=1595327311; bh=oeWDG+WWzJ1ddsNbdkQSnBzk7CCguEOTiGP
+ 81HTc41Y=; b=PbWu9TfPRGVaZ9WEOYdxxhRWv5gWSpfR5Qs3K69BzKPXYzWTkup
+ KfttQxZwTpexxMpyotMDu3p/1YXes7Q+R+oG0tcy1LjSeK5zwGFXZR1JKnUr9WMS
+ vHz5YtOQmxUNbuW+utTisPZn/lWSZvU+iw0DnrKvwk0GUjgJWRoeBaKc=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nQMavJR763Rc; Tue, 30 Jun 2020 13:28:30 +0300 (MSK)
+ with ESMTP id 4tenPRJO27_C; Tue, 30 Jun 2020 13:28:30 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 993AA4C879;
+ by mta-01.yadro.com (Postfix) with ESMTPS id 0BF7C412C8;
  Tue, 30 Jun 2020 13:28:30 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 30
- Jun 2020 13:28:30 +0300
+ Jun 2020 13:28:29 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/9] i386: hvf: Move synchronize functions to sysemu
-Date: Tue, 30 Jun 2020 13:28:17 +0300
-Message-ID: <20200630102824.77604-3-r.bolshakov@yadro.com>
+Subject: [PATCH v2 1/9] i386: hvf: Set env->eip in macvm_set_rip()
+Date: Tue, 30 Jun 2020 13:28:16 +0300
+Message-ID: <20200630102824.77604-2-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200630102824.77604-1-r.bolshakov@yadro.com>
 References: <20200630102824.77604-1-r.bolshakov@yadro.com>
@@ -80,98 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+cpu_synchronize_state() is currently no-op for hvf but BIOS will hang in
+vAPIC option ROM when cpu_synchronize_state() is wired to
+hvf_cpu_synchronize_state().
+
+cpu_synchronize_state() state is called from vapic_write() during option
+ROM initialization. It sets dirty flag on the cpu. macvm_set_rip() is
+then invoked to advance IP after the I/O write to vAPIC port.
+
+macvm_set_rip() only modifies VMCS, it doesn't change env->eip.
+Therefore on the next iteration of vCPU loop, vcpu_dirty flag is checked
+and hvf_put_registers() overwrites correct RIP in VMCS with the value of
+env->eip that points to the I/O write instruction. Execution of the CPU
+gets stuck on the instruction.
+
+The issue can be avoided if eip doesn't contain stale value when dirty
+flag is set on cpu.
 
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- cpus.c                    | 12 ------------
- include/sysemu/hw_accel.h | 10 ++++++++++
- 2 files changed, 10 insertions(+), 12 deletions(-)
+ target/i386/hvf/vmx.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/cpus.c b/cpus.c
-index 41d1c5099f..d94456ed29 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1017,10 +1017,6 @@ void cpu_synchronize_all_states(void)
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index ce2a1532d5..1e8b29bf7d 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -173,6 +173,7 @@ static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
  
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_state(cpu);
--        /* TODO: move to cpu_synchronize_state() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_state(cpu);
--        }
-     }
- }
+     /* BUG, should take considering overlap.. */
+     wreg(cpu->hvf_fd, HV_X86_RIP, rip);
++    env->eip = rip;
  
-@@ -1030,10 +1026,6 @@ void cpu_synchronize_all_post_reset(void)
- 
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_post_reset(cpu);
--        /* TODO: move to cpu_synchronize_post_reset() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_post_reset(cpu);
--        }
-     }
- }
- 
-@@ -1043,10 +1035,6 @@ void cpu_synchronize_all_post_init(void)
- 
-     CPU_FOREACH(cpu) {
-         cpu_synchronize_post_init(cpu);
--        /* TODO: move to cpu_synchronize_post_init() */
--        if (hvf_enabled()) {
--            hvf_cpu_synchronize_post_init(cpu);
--        }
-     }
- }
- 
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 0ec2372477..80bce75921 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -14,6 +14,7 @@
- #include "hw/core/cpu.h"
- #include "sysemu/hax.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
- 
- static inline void cpu_synchronize_state(CPUState *cpu)
-@@ -24,6 +25,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_state(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_state(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-@@ -37,6 +41,9 @@ static inline void cpu_synchronize_post_reset(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_post_reset(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_post_reset(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-@@ -50,6 +57,9 @@ static inline void cpu_synchronize_post_init(CPUState *cpu)
-     if (hax_enabled()) {
-         hax_cpu_synchronize_post_init(cpu);
-     }
-+    if (hvf_enabled()) {
-+        hvf_cpu_synchronize_post_init(cpu);
-+    }
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
+     /* after moving forward in rip, we need to clean INTERRUPTABILITY */
+    val = rvmcs(cpu->hvf_fd, VMCS_GUEST_INTERRUPTIBILITY);
 -- 
 2.26.1
 
