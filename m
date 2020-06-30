@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D7820F189
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:25:57 +0200 (CEST)
-Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC8E20F18C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:27:16 +0200 (CEST)
+Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCWa-0005j7-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:25:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44966)
+	id 1jqCXr-0007uW-VG
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqCSt-0008VS-KU
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:22:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46939
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jqCUA-00026B-Mx
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:23:26 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42408
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqCSr-0005ur-KR
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:22:07 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jqCU9-00060Z-6e
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:23:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593508925;
+ s=mimecast20190719; t=1593509004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=80xmYj4wGcLLnjUAUvEpbHNwznLEbPlea/Csf0g+n5k=;
- b=ZvjFS82HXznqUhbzyz4HQIv4DHs7cZ5Wktn5Wil0rPjtWBqSSr3x1gMtx+rlhyYbUUVFfK
- YE/sOdxt57VlI8gf13d+3bpYiHGy+9fV4+HN3eG9G4BFTIuVlFPSA09gh54/E+XOqSZINO
- 8xtEqMOxub9ehcn59NxCFncpLWo6ezk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-XEyGZlgjPw-FtjJ9OEavOg-1; Tue, 30 Jun 2020 05:22:03 -0400
-X-MC-Unique: XEyGZlgjPw-FtjJ9OEavOg-1
-Received: by mail-wm1-f70.google.com with SMTP id z11so20595954wmg.5
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 02:22:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=80xmYj4wGcLLnjUAUvEpbHNwznLEbPlea/Csf0g+n5k=;
- b=miiowqW93+npCiZVsb/vs/zfo8uWtznEwCSzkjVk89YFP7ps6Lx+TdC+D/s1hUPIVs
- cc0EWQbqv8xXLS+KLB1qH5gGTOMpMzT8s5KlFzpO64hyavO69VWpDrs9zs39UTRnbzgA
- 0afAZh4Uh/YD91l3fiGb7HeXJLmNqcChAB1KywUFSt0EbN/xU9bSMOQ45CtgQKICiqLT
- 9WNtDXv4X/tKibUIuPZWpRWbdhyjfVq8O26AlJ3nBNTON9CWmTL1pW29VYKUh7dvnTKH
- eis0AFoo+tSbAw+xpCahDN9d2SkuKKWKktzAjRzwlKijI3LfHAf8hu2/tWwObK3TYkoO
- zKPg==
-X-Gm-Message-State: AOAM533NzBi29z137fwGduGIr6UpMo+Il3/4QWM7CNEruUqkkZLaCiHB
- s8C1/7gGqkQ9rq58xFdfXS5Uu/JMe+hIkjRYNP/htKcS3D88IeLINgLLeVGV/Iv2lwXPsak3owC
- JNFfsIyIK5dLrxZk=
-X-Received: by 2002:a1c:9804:: with SMTP id a4mr20467326wme.109.1593508922192; 
- Tue, 30 Jun 2020 02:22:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeBOuszfSwznuBMhWmK26aVtsZZT6eoEz+kLjd4MdkHZjiKAeQcBpb4Vck6rVtcli+DTDbig==
-X-Received: by 2002:a1c:9804:: with SMTP id a4mr20467296wme.109.1593508921916; 
- Tue, 30 Jun 2020 02:22:01 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
- by smtp.gmail.com with ESMTPSA id
- h13sm2850675wml.42.2020.06.30.02.22.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 02:22:01 -0700 (PDT)
-Date: Tue, 30 Jun 2020 05:21:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC v2 1/1] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-Message-ID: <20200630052148-mutt-send-email-mst@kernel.org>
-References: <20200626064122.9252-1-eperezma@redhat.com>
- <20200626064122.9252-2-eperezma@redhat.com>
- <20200626212917.GD175520@xz-x1>
- <8cf25190-53e6-8cbb-372b-e3d4ec714dc5@redhat.com>
- <20200628144746.GA239443@xz-x1>
- <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
- <20200629133403.GA266532@xz-x1>
- <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
- <1b4eaaaf-c2ab-0da8-afb4-1b7b4221e6cf@redhat.com>
+ bh=aDZcvfzw0hK8Fkeyg0vfnXChDUvqewVyO6l1EnEhsj0=;
+ b=BAP2QvP6MTApfCfxpKBk1vdzMweBdp+6pF0Z1o7UBi3UzD5C6atV60+xE0H+9EvGCl3OaO
+ r2kXzpGhXECfxJP6Hs76ypJdeqJbLMktbcxRiCliBCjhuiLR3ztRYdw9iCqprNif4GK6jo
+ Fz/YFl1DgIOHslqVGM9+vJKFuzIpm44=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-lSnZVvTxPFS62lKC8Zzq_g-1; Tue, 30 Jun 2020 05:23:20 -0400
+X-MC-Unique: lSnZVvTxPFS62lKC8Zzq_g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90831193F560;
+ Tue, 30 Jun 2020 09:23:19 +0000 (UTC)
+Received: from starship (unknown [10.35.207.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF2D5C1B0;
+ Tue, 30 Jun 2020 09:23:18 +0000 (UTC)
+Message-ID: <24b6fea6778fb92925bdb1da703e8563ae24353b.camel@redhat.com>
+Subject: Re: [PATCH 15/19] iotests: qemu-img tests for luks key management
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Date: Tue, 30 Jun 2020 12:23:16 +0300
+In-Reply-To: <0c8a96b3-9204-b138-d141-aaa9e0d02ac0@redhat.com>
+References: <20200625125548.870061-1-mreitz@redhat.com>
+ <20200625125548.870061-16-mreitz@redhat.com>
+ <10a4f572b6276a99fdc925b11ff6aa137e0ea50a.camel@redhat.com>
+ <0c8a96b3-9204-b138-d141-aaa9e0d02ac0@redhat.com>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
 MIME-Version: 1.0
-In-Reply-To: <1b4eaaaf-c2ab-0da8-afb4-1b7b4221e6cf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -106,134 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 04:29:19PM +0800, Jason Wang wrote:
+On Tue, 2020-06-30 at 10:56 +0200, Max Reitz wrote:
+> On 29.06.20 14:05, Maxim Levitsky wrote:
+> > On Thu, 2020-06-25 at 14:55 +0200, Max Reitz wrote:
+> > > From: Maxim Levitsky <mlevitsk@redhat.com>
+> > > 
+> > > This commit adds two tests, which test the new amend interface
+> > > of both luks raw images and qcow2 luks encrypted images.
+> > > 
+> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > [mreitz: Let 293 verify that LUKS works; drop $(seq) usage from 293;
+> > >          drop 293 and 294 from the auto group]
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > > ---
+> > >  tests/qemu-iotests/293     | 208 +++++++++++++++++++++++++++++++++++++
+> > >  tests/qemu-iotests/293.out |  99 ++++++++++++++++++
+> > >  tests/qemu-iotests/294     |  90 ++++++++++++++++
+> > >  tests/qemu-iotests/294.out |  30 ++++++
+> > >  tests/qemu-iotests/group   |   2 +
+> > >  5 files changed, 429 insertions(+)
+> > >  create mode 100755 tests/qemu-iotests/293
+> > >  create mode 100644 tests/qemu-iotests/293.out
+> > >  create mode 100755 tests/qemu-iotests/294
+> > >  create mode 100644 tests/qemu-iotests/294.out
 > 
-> On 2020/6/30 上午10:41, Jason Wang wrote:
-> > 
-> > On 2020/6/29 下午9:34, Peter Xu wrote:
-> > > On Mon, Jun 29, 2020 at 01:51:47PM +0800, Jason Wang wrote:
-> > > > On 2020/6/28 下午10:47, Peter Xu wrote:
-> > > > > On Sun, Jun 28, 2020 at 03:03:41PM +0800, Jason Wang wrote:
-> > > > > > On 2020/6/27 上午5:29, Peter Xu wrote:
-> > > > > > > Hi, Eugenio,
-> > > > > > > 
-> > > > > > > (CCing Eric, Yan and Michael too)
-> > > > > > > 
-> > > > > > > On Fri, Jun 26, 2020 at 08:41:22AM +0200, Eugenio Pérez wrote:
-> > > > > > > > diff --git a/memory.c b/memory.c
-> > > > > > > > index 2f15a4b250..7f789710d2 100644
-> > > > > > > > --- a/memory.c
-> > > > > > > > +++ b/memory.c
-> > > > > > > > @@ -1915,8 +1915,6 @@ void
-> > > > > > > > memory_region_notify_one(IOMMUNotifier
-> > > > > > > > *notifier,
-> > > > > > > >             return;
-> > > > > > > >         }
-> > > > > > > > -    assert(entry->iova >= notifier->start &&
-> > > > > > > > entry_end <= notifier->end);
-> > > > > > > I can understand removing the assertion should solve
-> > > > > > > the issue, however imho
-> > > > > > > the major issue is not about this single assertion
-> > > > > > > but the whole addr_mask
-> > > > > > > issue behind with virtio...
-> > > > > > I don't get here, it looks to the the range was from
-> > > > > > guest IOMMU drivers.
-> > > > > Yes.  Note that I didn't mean that it's a problem in virtio,
-> > > > > it's just the fact
-> > > > > that virtio is the only one I know that would like to
-> > > > > support arbitrary address
-> > > > > range for the translated region.  I don't know about tcg,
-> > > > > but vfio should still
-> > > > > need some kind of page alignment in both the address and the
-> > > > > addr_mask.  We
-> > > > > have that assumption too across the memory core when we do
-> > > > > translations.
-> > > > 
-> > > > Right but it looks to me the issue is not the alignment.
-> > > > 
-> > > > 
-> > > > > A further cause of the issue is the MSI region when vIOMMU
-> > > > > enabled - currently
-> > > > > we implemented the interrupt region using another memory
-> > > > > region so it split the
-> > > > > whole DMA region into two parts.  That's really a clean approach to IR
-> > > > > implementation, however that's also a burden to the
-> > > > > invalidation part because
-> > > > > then we'll need to handle things like this when the listened
-> > > > > range is not page
-> > > > > alighed at all (neither 0-0xfedffff, nor 0xfef0000-MAX).  If
-> > > > > without the IR
-> > > > > region (so the whole iommu address range will be a single FlatRange),
-> > > > 
-> > > > Is this a bug? I remember that at least for vtd, it won't do any
-> > > > DMAR on the
-> > > > intrrupt address range
-> > > I don't think it's a bug, at least it's working as how I
-> > > understand...  that
-> > > interrupt range is using an IR region, that's why I said the IR
-> > > region splits
-> > > the DMAR region into two pieces, so we have two FlatRange for the same
-> > > IOMMUMemoryRegion.
-> > 
-> > 
-> > I don't check the qemu code but if "a single FlatRange" means
-> > 0xFEEx_xxxx is subject to DMA remapping, OS need to setup passthrough
-> > mapping for that range in order to get MSI to work. This is not what vtd
-> > spec said:
-> > 
-> > """
-> > 
-> > 3.14 Handling Requests to Interrupt Address Range
-> > 
-> > Requests without PASID to address range 0xFEEx_xxxx are treated as
-> > potential interrupt requests and are not subjected to DMA remapping
-> > (even if translation structures specify a mapping for this
-> > range). Instead, remapping hardware can be enabled to subject such
-> > interrupt requests to interrupt remapping.
-> > 
-> > """
-> > 
-> > My understanding is vtd won't do any DMA translation on 0xFEEx_xxxx even
-> > if IR is not enabled.
+> [...]
 > 
+> > > diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+> > > index d886fa0cb3..b945dd4f20 100644
+> > > --- a/tests/qemu-iotests/group
+> > > +++ b/tests/qemu-iotests/group
+> > > @@ -301,4 +301,6 @@
+> > >  290 rw auto quick
+> > >  291 rw quick
+> > >  292 rw auto quick
+> > > +293 rw
+> > > +294 rw quick
+> > >  297 meta
+> > 
+> > I guess now we can add these to 'auto' group?
 > 
-> Ok, we had a dedicated mr for interrupt:
+> Have you run them on all platforms?  I haven’t.
+Me neither.
 > 
-> memory_region_add_subregion_overlap(MEMORY_REGION(&vtd_dev_as->iommu),
-> VTD_INTERRUPT_ADDR_FIRST,
-> &vtd_dev_as->iommu_ir, 1);
+> (I have run the openbsd build, but I’m not even sure I had these tests
+> in auto at that point.  And that build takes a really long time.)
 > 
-> So it should be fine. I guess the reason that I'm asking is that I thought
-> "IR" means "Interrupt remapping" but in fact it means "Interrupt Region"?
-> 
-> But I'm still not clear about the invalidation part for interrupt region,
-> maybe you can elaborate a little more on this.
-> 
-> Btw, I think guest can trigger the assert in vtd_do_iommu_translate() if we
-> teach vhost to DMA to that region:
+> All in all, I don’t think I ever want to add a test to auto again,
+> unless it’s done in a specific patch where the author guarantees they
+> tested it everywhere.
+If we look at this at this angle, it makes sense.
+I fully agreee.
 
-
-Why would we want to?
+Best regards,
+	Maxim Levitsky
 
 > 
->     /*
->      * We have standalone memory region for interrupt addresses, we
->      * should never receive translation requests in this region.
->      */
->     assert(!vtd_is_interrupt_addr(addr));
+> Max
 > 
-> Is this better to return false here? (We can work on the fix for vhost but
-> it should be not trivial)
-> 
-> Thanks
-> 
+
 
 
