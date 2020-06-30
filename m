@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9712A20F7BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:57:44 +0200 (CEST)
-Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A976520F7C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:59:10 +0200 (CEST)
+Received: from localhost ([::1]:55758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqHhe-00016y-Hz
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58498)
+	id 1jqHj3-00048j-NN
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:59:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqHgH-0007nP-Fb
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:56:17 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqHgF-00037S-Mz
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:56:17 -0400
-Received: by mail-pg1-x544.google.com with SMTP id g67so9169006pgc.8
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 07:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ySo3IrSh2zZoDnqprPzVne9wIGX1iErVR4kH5ApU/H0=;
- b=hjw7SSXFPElCFqgqu2T2PdzyPXB8GDiCkSDgvXt3UTS3cN/m/GDDtPWdrkuvucsg4z
- 2xlqAB/3+K8FG0PBJCzVDFKSAGnNcHY0xNffXbbekxars7MYSSSEjCrVD37dOsttQ+P0
- e7uITi66ZcBPyk160ae7HtFGp5H7BboWk9bnAuniDFpOtJTB7t5MnKsS1rn9ZivZxTTW
- Y0KjbpcMHz1E0pW3ooYRpE/I/HttUzrizmgsz38GHMRXxoBpSRuy9B30bHJ0Y5o0eanD
- K57cFKWnxJm+G7S3ChHgGElYpX4VseAJh5huwm0ouKRrHvln2WTytYRm1cqtSwAj8es+
- jPDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ySo3IrSh2zZoDnqprPzVne9wIGX1iErVR4kH5ApU/H0=;
- b=bVR5u7dtUTlyOIaomKs2yULndnksQnUSUq+dGbx3QqsbvDBitoml77p1rarq6YqDbK
- tP36Y6cnB8JV/8eGLmX8HbKhcsC6HHe786M37j4gyCXeI3PDWaFvl8RqaWXo6owyoEU9
- LqlgANoVT6c2WAVvG5HiSAzAjOysgc5giwdf65lFBJeUMHgpRWHqQSUv6eMuKdIk1FJY
- IEnwMSMksBjjUL0v0dt2wT7vsODj2Hn2l2gtWBnEjqt1ii80jwNSisc8fhUlYEqsC37d
- gYo+32vGBnK/68C3a9/7mqP6iAnCt5eOKpYIIUl2cjX/Fz/F3MCUJOrqcheIjMRf9szO
- l/pA==
-X-Gm-Message-State: AOAM5331KtmOlJvHWUcUUZVxJ7GBLlQc+B5Uua/mLZZlknYx2a5c5Q7r
- CN2JtioTPPyuaTKdftmSMW0uNA==
-X-Google-Smtp-Source: ABdhPJystL4w8DiZ8k+WJzM2zVVsTEGus27mUfQ3fODLg8E25R7NZGAhuVFnkmwRtqwuSzdNcE6Yyw==
-X-Received: by 2002:aa7:9630:: with SMTP id r16mr14000848pfg.144.1593528973633; 
- Tue, 30 Jun 2020 07:56:13 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id cl17sm2584730pjb.50.2020.06.30.07.56.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 07:56:12 -0700 (PDT)
-Subject: Re: [PATCH 1/2] tcg/tcg-op: Fix nonatomic_op load with MO_SIGN
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200629130731.1080-1-zhiwei_liu@c-sky.com>
- <20200629130731.1080-2-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <db9e632e-4fcc-2374-590f-4ea35d1adda6@linaro.org>
-Date: Tue, 30 Jun 2020 07:56:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jqHhm-0002e0-Dz
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:57:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52644
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jqHhk-0003FB-Sl
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:57:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593529067;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g1yfQKn6GEwqzNUZ58K70N0BMEJc6w6x0PkNaCMeo3A=;
+ b=DGpsMjL+ayBRUwY+8yGWYcvbxZJlMYSJDrTRadINTwrGqneq3KjVTIVbhcfwhWD8H+9ABi
+ 3VA603Pkg/HHzdHQsuwjhMSUnCPeXllpLXOvQWWpV6AKG4Kx4PkQ6t3rEOj8wzi+6og6+a
+ fHtebJrHRq3yXmjWz0c/pkUSHvUgHPs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-V2WzYmbKMSimGuLAYyXooA-1; Tue, 30 Jun 2020 10:57:45 -0400
+X-MC-Unique: V2WzYmbKMSimGuLAYyXooA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A39B9185B384;
+ Tue, 30 Jun 2020 14:57:43 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-114-211.ams2.redhat.com
+ [10.36.114.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D38D6741A6;
+ Tue, 30 Jun 2020 14:57:38 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] net: tap: check file descriptor can be used
+Date: Tue, 30 Jun 2020 16:57:35 +0200
+Message-Id: <20200630145737.232095-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200629130731.1080-2-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com,
- wxy194768@alibaba-inc.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 6:07 AM, LIU Zhiwei wrote:
-> @@ -3189,7 +3189,7 @@ static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
->  
->      memop = tcg_canonicalize_memop(memop, 0, 0);
->  
-> -    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
-> +    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
->      gen(t2, t1, val);
->      tcg_gen_qemu_st_i32(t2, addr, idx, memop);
->  
-> @@ -3232,7 +3232,7 @@ static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
->  
->      memop = tcg_canonicalize_memop(memop, 1, 0);
->  
-> -    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
-> +    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
->      gen(t2, t1, val);
->      tcg_gen_qemu_st_i64(t2, addr, idx, memop);
+v2: Add patch from Daniel to check the fd can be used=0D
+=0D
+    I have updated Daniel's patch not to check for EINVAL on TUNGETIFF=0D
+    as I think we can avoid this special case because TUNGETIFF=0D
+    is available since kernel v2.6.27 (October 2008)=0D
+    Moreover I think the code was wrong as it was checking with -EINVAL and=
+=0D
+    not EINVAL.=0D
+=0D
+Daniel P. Berrang=EF=BF=BD=EF=BF=BD (1):=0D
+  net: detect errors from probing vnet hdr flag for TAP devices=0D
+=0D
+Laurent Vivier (1):=0D
+  net: tap: check if the file descriptor is valid before using it=0D
+=0D
+ include/qemu/sockets.h |  1 +=0D
+ net/tap-bsd.c          |  2 +-=0D
+ net/tap-linux.c        |  8 +++++---=0D
+ net/tap-solaris.c      |  2 +-=0D
+ net/tap-stub.c         |  2 +-=0D
+ net/tap.c              | 38 +++++++++++++++++++++++++++++++++-----=0D
+ net/tap_int.h          |  2 +-=0D
+ util/oslib-posix.c     |  5 +++++=0D
+ util/oslib-win32.c     |  6 ++++++=0D
+ 9 files changed, 54 insertions(+), 12 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-This is insufficient for smin/smax -- we also need to extend the "val" input.
-
-
-r~
 
