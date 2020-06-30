@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2747420FD94
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:23:55 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E180320FDA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:29:03 +0200 (CEST)
+Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqMnK-0000UQ-6j
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59038)
+	id 1jqMsI-00039n-Tl
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=44328bdba=alistair.francis@wdc.com>)
- id 1jqMl9-0005Zh-BW; Tue, 30 Jun 2020 16:21:39 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:36486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=44328bdba=alistair.francis@wdc.com>)
- id 1jqMl6-0007ik-Ij; Tue, 30 Jun 2020 16:21:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593548497; x=1625084497;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oe/HJvqIrpe1Q963Js2YhP3t8Wj7CiObFT3VDk5z1o8=;
- b=OdNW0M3h2W97AAJjx1r0FA/WQLH6eetQ8M+M3ssFkIyIUHY0Zg6UDaVD
- wL/EIhUD1mU1Q2zisO+zCBLkCE4nXRkuaAkkNVxLTl3DJFhHWu44Aw8Bb
- ANaB9Hq11rMBzVzZoRLhaBdaetZhuUu+Qg6uIfM+wUdeJ9N9G8aTojUYn
- 9UsKmyVUDjrIRcHdqIi7UC90EP0L7doQ6w4zFB2ecJNve340Fi9rlHBsm
- p52wqLnqQSOjVZxjxYWoykZjnxfFhkk8g8duvOMgsOfhKWKgXZSL0Z9SF
- 9cETWzMi6N/uDgryzMg3d4zmeIHHvjyMXHcwanSYAmfqLUAvtjRBqCEn/ g==;
-IronPort-SDR: 5MJgjR+SrZWiAq7SPVI4Y7b90JKLx+mEQGNjb1DVTyp4ZwaYlw+81smFZjFpptUiDUSGigfitF
- bIjmJxFzG9l0HnxxnIWhnovdHG5Z7TX28B7FQu9dqkDP38YsbebWKZQAB/EHFcBbJaAMsbCIZM
- +62DzCKVhsneFWE5zfJew7oJHgRhrneE/NtmXC83txftCtvUsiciR1/Mt5aemmi83rm4ExpGPG
- 0c2SpmboIkx3E+DqRMWvbySqh8TxPpwqZpj4nTjEwqbN8rbxsAzoLd3XH0b05vQNvGXSlFdh1P
- YLg=
-X-IronPort-AV: E=Sophos;i="5.75,298,1589212800"; d="scan'208";a="142665042"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Jul 2020 04:21:32 +0800
-IronPort-SDR: HfWYZyXpBhM4GGljnyTaHw4G2RVBfcGmTGS7YJ7SZ6Qha2M2sNvBPWe4BfDGf6VkgZm8Vx823F
- 38a66sgiNbYyM8ZwfYIiNI6cOYAIiKm+E=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 13:10:23 -0700
-IronPort-SDR: oY5mkjpCir8lill1zcfNbQ4ehqRRe6RyKBb8gd+UYngMQzo3MUFrpLJP98J626ZKY06vmUqXkg
- N0pqtQk06FRQ==
-WDCIronportException: Internal
-Received: from us6fgspc2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.58.109])
- by uls-op-cesaip02.wdc.com with ESMTP; 30 Jun 2020 13:21:31 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 3/3] target/riscv: Regen floating point rounding mode in
- dynamic mode
-Date: Tue, 30 Jun 2020 13:12:13 -0700
-Message-Id: <ea4f280e6f77e734c8e555e3c98d10085ce9f5b6.1593547870.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1593547870.git.alistair.francis@wdc.com>
-References: <cover.1593547870.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jqMrQ-0002gA-6w; Tue, 30 Jun 2020 16:28:08 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:40045)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jqMrO-0000IV-GW; Tue, 30 Jun 2020 16:28:07 -0400
+Received: by mail-il1-x144.google.com with SMTP id e18so8305099ilr.7;
+ Tue, 30 Jun 2020 13:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FHrHcTzze7zQdyxECIXPNcwUxE2Nx2ychXxykp9UAbI=;
+ b=gmQh2pdOXnvyBSKnIGKKXUQCYxJcJRbQnoE9JOvo/5ZjKcHv9jUUupdvGOqt8MoAAQ
+ m9cF628thIvRQUFCyBUApLZ+Q2fUiHJevCMQTG+zCLHd+IK0T33HTOt/p/8QyXc0eAL7
+ UmlGbWdAFjGHmbk+2ynL+zYUELTyF7vpNN3S/db84ujWk5+UDNCyrXkhp9DQ/f0M4/d5
+ hCue3an7Yx5RGScakItQuzFMpLCH8fHYnsNuDPHCnc9MU6UWz/5DRk6HlCEB3QbCY3gk
+ npxuslz1fAuv+Ev03uHImGcb7zURSpvypFuUdJwtxYo8sRIXxS05E0FMIo39w4L2zYEd
+ 0ZmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FHrHcTzze7zQdyxECIXPNcwUxE2Nx2ychXxykp9UAbI=;
+ b=r3Y96dQJQGNHQl44ZJ6ZYz2EfwBvn7Mv5vh7jI08z9V+r0U/sarbSoXi9xWwMgEzH6
+ vbDQezSIvGzosWd/0GTxWWbCbq6TF29WQa6zg9sBanB90/KRPfvcJ5RuAoC2kLdTwK61
+ OOgTV0FWPqOOrEtMLJTMIChyBAQsHToTb2g9cnQUQrdXkUEkgdMninRTwtAo6XhnAFCR
+ YrhKV0W7s/NacjgIXP48l8Ck+y4kbZ212vt0okCHj+/Q8Z68LT99xn2BLQ3E6J05CUjt
+ SISwm+YffiPOLWisGupMvh5Vv/qeDNLLLcU3rHStjHDohFCBbEU26to9DJgq80VLhICU
+ QWRw==
+X-Gm-Message-State: AOAM532Xbh4bk/cH3KuTbWik48ZlbWPiGxujMhBXakNMW/MsfQ1PhB1l
+ j6Un8+0D/64lYnahnRa/OaO8dLh83jhDe3Ea4fc=
+X-Google-Smtp-Source: ABdhPJzTqgfrczWUhw0lDvlcd0U0JYjHY5ggg3AhHv38T4UXrJ4CB1yZZV3NUR4QaDSBwbR/LGs82aelCd4974dA9NA=
+X-Received: by 2002:a92:5f12:: with SMTP id t18mr4506499ilb.267.1593548885135; 
+ Tue, 30 Jun 2020 13:28:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=44328bdba=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 16:21:24
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
+ <20200617213415.22417-7-dmitry.fomichev@wdc.com>
+In-Reply-To: <20200617213415.22417-7-dmitry.fomichev@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 30 Jun 2020 13:18:21 -0700
+Message-ID: <CAKmqyKObR_cW_MZ4O3JRNf5DcVosdHA0iMkpnAWpXRQeW+MTQw@mail.gmail.com>
+Subject: Re: [PATCH v2 06/18] hw/block/nvme: Define trace events related to NS
+ Types
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,36 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Maxim Levitsky <mlevitsky@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a guest specificies the the rounding mode should be dynamic 0b111
-then we want to re-caclulate the rounding mode on each instruction. The
-gen_helper_set_rounding_mode() function will correctly check the
-rounding mode and handle a dynamic rounding, we just need to make sure
-it's always called if dynamic rounding is selected.
+On Wed, Jun 17, 2020 at 2:46 PM Dmitry Fomichev <dmitry.fomichev@wdc.com> wrote:
+>
+> A few trace events are defined that are relevant to implementing
+> Namespace Types (NVMe TP 4056).
+>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-Fixes: 1885350 ("RISCV dynamic rounding mode is not behaving correctly")
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index ce71ca7a92..a39eba679a 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -490,7 +490,7 @@ static void gen_set_rm(DisasContext *ctx, int rm)
- {
-     TCGv_i32 t0;
- 
--    if (ctx->frm == rm) {
-+    if (ctx->frm == rm && rm != 7) {
-         return;
-     }
-     ctx->frm = rm;
--- 
-2.27.0
+Alistair
 
+> ---
+>  hw/block/trace-events | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index 423d491e27..3f3323fe38 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -39,8 +39,13 @@ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size,
+>  pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
+>  pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
+>  pci_nvme_identify_ctrl(void) "identify controller"
+> +pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+>  pci_nvme_identify_ns(uint16_t ns) "identify namespace, nsid=%"PRIu16""
+> +pci_nvme_identify_ns_csi(uint16_t ns, uint8_t csi) "identify namespace, nsid=%"PRIu16", csi=0x%"PRIx8""
+>  pci_nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
+> +pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "identify namespace list, nsid=%"PRIu16", csi=0x%"PRIx8""
+> +pci_nvme_list_ns_descriptors(void) "identify namespace descriptors"
+> +pci_nvme_identify_cmd_set(void) "identify i/o command set"
+>  pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
+>  pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
+>  pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+> @@ -59,6 +64,8 @@ pci_nvme_mmio_stopped(void) "cleared controller enable bit"
+>  pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
+>  pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+>  pci_nvme_cmd_supp_and_effects_log_read(void) "commands supported and effects log read"
+> +pci_nvme_css_nvm_cset_selected_by_host(uint32_t cc) "NVM command set selected by host, bar.cc=0x%"PRIx32""
+> +pci_nvme_css_all_csets_sel_by_host(uint32_t cc) "all supported command sets selected by host, bar.cc=0x%"PRIx32""
+>
+>  # nvme traces for error conditions
+>  pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
+> @@ -72,6 +79,9 @@ pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
+>  pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
+>  pci_nvme_err_invalid_effects_log_offset(uint64_t ofs) "commands supported and effects log offset must be 0, got %"PRIu64""
+>  pci_nvme_err_invalid_effects_log_len(uint32_t len) "commands supported and effects log size is 4096, got %"PRIu32""
+> +pci_nvme_err_change_css_when_enabled(void) "changing CC.CSS while controller is enabled"
+> +pci_nvme_err_only_nvm_cmd_set_avail(void) "setting 110b CC.CSS, but only NVM command set is enabled"
+> +pci_nvme_err_invalid_iocsci(uint32_t idx) "unsupported command set combination index %"PRIu32""
+>  pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
+>  pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
+>  pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
+> @@ -127,6 +137,7 @@ pci_nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion qu
+>  pci_nvme_ub_db_wr_invalid_sq(uint32_t qid) "submission queue doorbell write for nonexistent queue, sqid=%"PRIu32", ignoring"
+>  pci_nvme_ub_db_wr_invalid_sqtail(uint32_t qid, uint16_t new_tail) "submission queue doorbell write value beyond queue size, sqid=%"PRIu32", new_head=%"PRIu16", ignoring"
+>  pci_nvme_unsupported_log_page(uint16_t lid) "unsupported log page 0x%"PRIx16""
+> +pci_nvme_ub_unknown_css_value(void) "unknown value in cc.css field"
+>
+>  # xen-block.c
+>  xen_block_realize(const char *type, uint32_t disk, uint32_t partition) "%s d%up%u"
+> --
+> 2.21.0
+>
+>
 
