@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F16A20F2CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:38:03 +0200 (CEST)
-Received: from localhost ([::1]:54196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C39C20F2CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:36:24 +0200 (CEST)
+Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDeM-00066y-JE
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37682)
+	id 1jqDcl-0003Nc-GF
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
- id 1jqDVt-0003L2-Qt
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:29:17 -0400
-Received: from mailin3.audi.de ([143.164.102.17]:53675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
- id 1jqDVr-0000eZ-ES
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:29:17 -0400
-From: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, David Brenken
- <david.brenken@efs-auto.org>
-Subject: Re: [PATCH v3 1/1] tricore: added triboard with tc27x_soc
-Thread-Topic: [PATCH v3 1/1] tricore: added triboard with tc27x_soc
-Thread-Index: AdZOx+ecudLgwbd+Qa2lYFrQh/1gHQ==
-Date: Tue, 30 Jun 2020 10:28:57 +0000
-Message-ID: <4006678c6d834f4fb126314e83f99f5c@efs-auto.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.241.65.249]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqDbN-00023z-UU
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:34:58 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqDbM-0001dL-AD
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:34:57 -0400
+Received: by mail-wm1-x343.google.com with SMTP id w3so6627994wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GDR6ape9ULFXd9AXd8i0jKbRDr4t91uOPO8xiLTtEMg=;
+ b=kNvFppDHSgN+hrqF2l1GkxZTfStYLb2U/LoFBsMhpFzIbcFrBCKH3tgVsuWCov29hj
+ UrNWt6MJACXctTRAfuRl3MK2Vok41hBsnX1qzbc6uj0yze/TYPpVa0X/Wusq+SIQnrC0
+ wOZ4WAYuduKueIIoO0KIIsQGaR09PhhjfBjjLXRAqxK9uzJeR0UZbmfO82/UZwOvUi7T
+ +g1SfMwTzgtUZZCqWWFu+LdYVcOTZ+P442uEpS892qReAbL6Cx+6eg1oIiwEAPpu2Zmp
+ YgG0jO7dylL21uZL4jVbBWzDZ39FmDqSWHCJ0yDmDXwy1tgSjK0WL2oJMyLTYCMY4PFj
+ +gXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GDR6ape9ULFXd9AXd8i0jKbRDr4t91uOPO8xiLTtEMg=;
+ b=EaqVoKE2w2E64iKolB3EzFXt4K3Z80B4Hiaqo1lo9NKXzg9dC0RmgqC/f+Foat86Ti
+ ia2ukHGf1lVQsX38rtAr+gCptP7cKzEvmdW66n0G58eFzK47DbEundhYDkETXAX9PlJ4
+ IwzD300O9z+bOgfd/HNdLHx370N+y42hlJLNMiOxQG9kzcowfK7z7Qw30xT0xI9UA7Jq
+ Iae4iQ4V/pQdjWd4cFInEyUQZ6rOPNar8o/E6ChJLlfGwUOYxf39caXWhvfVKaEYv+0V
+ 950AaeHWrrF/NLGwk7glvLt0rIMS8J3+W3PAnzhghqfilkw4OXq7ve9Q4USsI1wwjZnf
+ R6oQ==
+X-Gm-Message-State: AOAM531dQncMXixSjVsuaHpNE7/w07GmuKSt+vzgI3W3UcUXbHUA55sz
+ did/mca95bJsulOuq0t0zuRSKw==
+X-Google-Smtp-Source: ABdhPJzl9tkm8enEs/hDb+Gz0ucL+qakMIaH8Vab9zX4tKhKtjf534WJ/GV1cRV1Dx11AVGs6raHkw==
+X-Received: by 2002:a1c:bb43:: with SMTP id l64mr21506440wmf.151.1593513294114; 
+ Tue, 30 Jun 2020 03:34:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k185sm3178123wmk.47.2020.06.30.03.34.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 03:34:52 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3C9C21FF7E;
+ Tue, 30 Jun 2020 11:34:52 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user/elfload: use MAP_FIXED in pgb_reserved_va
+Date: Tue, 30 Jun 2020 11:34:48 +0100
+Message-Id: <20200630103448.22742-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Received-SPF: none client-ip=143.164.102.17;
- envelope-from=andreas.konopik@efs-auto.de; helo=mailin3.audi.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 06:29:10
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,54 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Hofstetter, Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Brenken,
- David \(EFS-GH5\)" <david.brenken@efs-auto.de>, "Rasche,
- Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Biermanski, Lars
- \(EFS-GH3\)" <lars.biermanski@efs-auto.de>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>, richard.henderson@linaro.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bastian,
+Given we assert the requested address matches what we asked we should
+also make that clear in the mmap flags. Otherwise we see failures in
+the GitLab environment for some currently unknown but allowable
+reason.
 
-> On Mon, Jun 22, 2020 at 03:19:34PM +0200, David Brenken wrote:
-> > From: Andreas Konopik <andreas.konopik@efs-auto.de>
-> > +const MemmapEntry tc27x_soc_memmap[] =3D {
-> > +    [TC27XD_DSPR2]     =3D { 0x50000000,   0x1E000 },
-> > +    [TC27XD_DCACHE2]   =3D { 0x5001E000,    0x2000 },
-> > +    [TC27XD_DTAG2]     =3D { 0x500C0000,     0xC00 },
->=20
-> The size changed from 0xa00 to 0xc00 from v2. The manual states that it h=
-as no
-> size. I guess you inferred the size from the address range. How does real=
- hw
-> behave if you access DTAG2?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-DTAG size of 0xa00 was a mistake, 0xc00 is correct. Even though the manual =
-does not assign sizes, DTAG and PTAG can be mapped for memory testing purpo=
-ses.
-Therefore memory accesses to DTAG/PTAG are possible (see Footnote 3 & 4 [1,=
- Page 3-10]).
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index b5cb21384a1..be8facfbcc8 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2294,7 +2294,7 @@ static void pgb_dynamic(const char *image_name, long align)
+ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+                             abi_ulong guest_hiaddr, long align)
+ {
+-    const int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
++    const int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE | MAP_FIXED;
+     void *addr, *test;
+ 
+     if (guest_hiaddr > reserved_va) {
+-- 
+2.20.1
 
-Real hardware has to be configured via MTU before accessing DTAG/PTAG. Beca=
-use QEMU tricore has no MTU, we wanted to be less restrictive by mapping DT=
-AG/PTAG into memory.
-
-> Why not use KiB/MiB sizes as before? I created a patch for that. Can you =
-check
-> that I didn't skrew up the sizes?
-
-Thank you, the patch looks good to me.
-How do you want to proceed? Should we send you a Patch v4?
-
-> The remainder looks good to me.
-
-Great!
-
-Kind regards,
-
-Andreas
-
-[1] https://hitex.co.uk/fileadmin/uk-files/downloads/ShieldBuddy/tc27xD_um_=
-v2.2.pdf
 
