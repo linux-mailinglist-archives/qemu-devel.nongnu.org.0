@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D3620F35E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 13:07:22 +0200 (CEST)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9965720F363
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 13:08:43 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqE6j-0002V4-IF
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 07:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
+	id 1jqE82-0004Mo-K8
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 07:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqE4M-0007Uh-2H
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57202
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqE4O-0007as-Sy
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26230
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqE4K-0006R0-H3
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:53 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqE4N-0006RI-BH
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 07:04:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593515091;
+ s=mimecast20190719; t=1593515094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YZCe5OgsdLzHyTw8HV351yv3jE/x9fSK5ohsnhOc0Kk=;
- b=YoREJ7czVVrCBVPZvQbL02ZSdIv36qOH3/h9CwxjzWtje/GmAu+uuhVwClt6DCzljbGS9X
- MjUKfMAP0aBdy/ypN+h8i7F0mb7yTpBOlHw1vtx/zqPyLy1h4AnTqaHp8gJtlvqJdC/4bk
- Yub96knXQHBSmHHzsnLVWo1JHYRhFVM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-40z8NBxTN1ybQt7q1hqBdg-1; Tue, 30 Jun 2020 07:04:47 -0400
-X-MC-Unique: 40z8NBxTN1ybQt7q1hqBdg-1
-Received: by mail-ed1-f71.google.com with SMTP id 92so16630270edl.8
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 04:04:47 -0700 (PDT)
+ bh=6hZuFq5xzvZS6bLKa5uoWehD4BHAaugQmIpv0406m0o=;
+ b=fBOd9b32PtI5b4NCQmApcQx+uSUx8XJfGu0DiLpJwXTL63yrGaG8Qkvq71/odCoUxQuX/f
+ HFV8zLl2UIZbHL2IcHuVnfqdCfzjkZH3xh7ZH8wLfoHMOF+bmRL/Yp03JipRH7kIiT3fKM
+ qzJVo51yukYILT1TX5yv3bw17lyxK1c=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-bK6T768AMYqFJWpmg8q0UQ-1; Tue, 30 Jun 2020 07:04:53 -0400
+X-MC-Unique: bK6T768AMYqFJWpmg8q0UQ-1
+Received: by mail-ej1-f70.google.com with SMTP id q9so2350523ejr.21
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 04:04:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YZCe5OgsdLzHyTw8HV351yv3jE/x9fSK5ohsnhOc0Kk=;
- b=a6kzgnNl/Tecl6WmW2zZpPdxNo18ktB6nOwWM8z4e8LWQ4mPOQoLCQQ+EEENFguJiD
- 8wp7UcHa/Cgfh//d43bCf42idn/GLI4oldu726XzEeLOpj/YPeEP4mESd594QmFw55v2
- 0/hkekkv/04vzA4pgzXuYsFj0Fx6u+tL+PB5HZ39LmhF8nMj5U13DTTd8X6xBwpf+J+L
- Hic8Cl/+osP534ks72VjslUIOF37iVabLOUQjT717q8pbpxVRrf+t5eUYfuspzyVrauc
- h0tbjtsBNcW7GaRMB8sTNi/5983e9+ZV5EnqVWj0pyELpkKdC/vm4otnhG+utqNuw0Qp
- pkIA==
-X-Gm-Message-State: AOAM5317AamaFCH6LaSqMemj5+dNPYW3NbqE47zsGVvjA9eyq7DIxkz5
- kaJ1Y0QvpU2KODzDfJMFj9+b5qvlxKGe/gSeB0Zuwv+N8avs8PAx2ZM4QVfmSd7cejmJpQkX/FG
- /pBMCc8t6wrehxJw=
-X-Received: by 2002:a17:906:2851:: with SMTP id
- s17mr18057134ejc.347.1593515086525; 
- Tue, 30 Jun 2020 04:04:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxquEY1ayhYdraosdZZbxagGQCURPcP1PP5/ZbIJQXa3Ch69ikv0ig+if7CiLz0O1U9PJeqpQ==
-X-Received: by 2002:a17:906:2851:: with SMTP id
- s17mr18057121ejc.347.1593515086374; 
- Tue, 30 Jun 2020 04:04:46 -0700 (PDT)
+ bh=6hZuFq5xzvZS6bLKa5uoWehD4BHAaugQmIpv0406m0o=;
+ b=YqSfNI5N9hIfBAkqMBeSXq6SKWdfoTrxcPDzU72BXQUHWE4wZBsNJmX3FbrFx7mmWW
+ vSFvMfJl6XagFENCB5hc9AtbBqOppgchM+OMb2vmWEJUBI+iZMmjzDPp8A7VSRU3x5xg
+ mfOFyvcFq56Qc+/CTSsGVIZzdYyslaCgK1xS3T/TpNyzcXvcF3eRLw4rEYe0M1JeAJ+Z
+ TapZTkEwDsf6fyP8a4voddrEBV7C7lN2Bs40gbWxJ1L4T7BJcaU74azHzGkrPS6VmTLE
+ OsNEJD5lfUZ6Fn2qlOjPA8ujDi/RBbg+M1rnjQpgT+eD+/Te8kzYj7SaJFmHUNe7dfCM
+ YeZw==
+X-Gm-Message-State: AOAM5335TWY9wRdoBHtnFcKhvOxqtiFXZBFoyq2F50znJOvhkOMU6Fxa
+ 0ryx3EAttRri9PwuG3gRwlZ9wJgVEHdYzzePtENm9TeFNejNSmtJQd93MV3slIGcIcmZeYLuyZ0
+ e0I6Tb2fO6xZEhYI=
+X-Received: by 2002:a05:6402:30b2:: with SMTP id
+ df18mr22502385edb.229.1593515091613; 
+ Tue, 30 Jun 2020 04:04:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZUkApC1FjmmylYyn2z2GZ6iWGdUJiEoqr44T2hS6r3AcnMdadaqiLSoi1HMBQkHtJGZQ9mQ==
+X-Received: by 2002:a05:6402:30b2:: with SMTP id
+ df18mr22502365edb.229.1593515091375; 
+ Tue, 30 Jun 2020 04:04:51 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id sa10sm1756669ejb.79.2020.06.30.04.04.45
+ by smtp.gmail.com with ESMTPSA id d12sm2472028edx.80.2020.06.30.04.04.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 04:04:45 -0700 (PDT)
+ Tue, 30 Jun 2020 04:04:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] hw/block/nvme: Fix pmrmsc register size
-Date: Tue, 30 Jun 2020 13:04:28 +0200
-Message-Id: <20200630110429.19972-4-philmd@redhat.com>
+Subject: [PATCH v3 4/4] hw/block/nvme: Align I/O BAR to 4 KiB
+Date: Tue, 30 Jun 2020 13:04:29 +0200
+Message-Id: <20200630110429.19972-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630110429.19972-1-philmd@redhat.com>
 References: <20200630110429.19972-1-philmd@redhat.com>
@@ -76,9 +76,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -101,39 +101,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
  Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Persistent Memory Region Controller Memory Space Control
-register is 64-bit wide. See 'Figure 68: Register Definition'
-of the 'NVM Express Base Specification Revision 1.4'.
+Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
 
-Fixes: 6cf9413229 ("introduce PMR support from NVMe 1.4 spec")
-Reported-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
----
- include/block/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/block/nvme.h | 2 ++
+ hw/block/nvme.c      | 5 ++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 71c5681912..82c384614a 100644
+index 82c384614a..4e1cea576a 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -21,7 +21,7 @@ typedef struct QEMU_PACKED NvmeBar {
-     uint32_t    pmrsts;
+@@ -22,6 +22,7 @@ typedef struct QEMU_PACKED NvmeBar {
      uint32_t    pmrebs;
      uint32_t    pmrswtp;
--    uint32_t    pmrmsc;
-+    uint64_t    pmrmsc;
+     uint64_t    pmrmsc;
++    uint8_t     reserved[484];
  } NvmeBar;
  
  enum NvmeCapShift {
+@@ -879,6 +880,7 @@ enum NvmeIdNsDps {
+ 
+ static inline void _nvme_check_size(void)
+ {
++    QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 6628d0a4ba..2aa54bc20e 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -55,7 +55,6 @@
+ #include "nvme.h"
+ 
+ #define NVME_MAX_IOQPAIRS 0xffff
+-#define NVME_REG_SIZE 0x1000
+ #define NVME_DB_SIZE  4
+ #define NVME_CMB_BIR 2
+ #define NVME_PMR_BIR 2
+@@ -1322,7 +1321,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
+     NvmeCtrl *n = (NvmeCtrl *)opaque;
+     if (addr < sizeof(n->bar)) {
+         nvme_write_bar(n, addr, data, size);
+-    } else if (addr >= 0x1000) {
++    } else {
+         nvme_process_db(n, addr, data);
+     }
+ }
+@@ -1416,7 +1415,7 @@ static void nvme_init_state(NvmeCtrl *n)
+ {
+     n->num_namespaces = 1;
+     /* add one to max_ioqpairs to account for the admin queue pair */
+-    n->reg_size = pow2ceil(NVME_REG_SIZE +
++    n->reg_size = pow2ceil(sizeof(NvmeBar) +
+                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
 -- 
 2.21.3
 
