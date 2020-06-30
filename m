@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B8D20F17A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:22:39 +0200 (CEST)
-Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2E20F158
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:15:33 +0200 (CEST)
+Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCTO-0000G1-Hn
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:22:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
+	id 1jqCMV-0007OA-T9
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqCID-0008P0-M7
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:11:05 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41171)
+ id 1jqCJ1-0001Tt-Ne; Tue, 30 Jun 2020 05:11:56 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:46890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqCIB-00047K-4e
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:11:05 -0400
-Received: by mail-ej1-x642.google.com with SMTP id dp18so19751421ejc.8
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 02:11:02 -0700 (PDT)
+ id 1jqCIz-0004CX-Q2; Tue, 30 Jun 2020 05:11:55 -0400
+Received: by mail-ej1-x644.google.com with SMTP id p20so19705681ejd.13;
+ Tue, 30 Jun 2020 02:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YnRbQF4CNsI2LpFOWlrWsgpBsgv3+NtZOnnvfk8bn/Y=;
- b=guA7WTLzylFdawBiPBZ0i7/3sfcGKlgYw8MkbXtHgOvv0DLXo0sNd0bdRgaQKG1KsY
- S7ZhzK6Amyc5btP6gi2AnyEiHMYJQqYUNqoFUUz7i9oG2k4i5cByaUw5zse7TL3CBoC7
- qjdOl39z1T/7oCeWE6yiS+sfKKF/bLgBHFMrWTYXQigtqCQk2PL6B31CMWYGAKN+Hhh7
- KuFHW0SR0so3I/BC4xcL48HAdkUxrHQOjkuQsNe4Amo0sicm+HYN+enOIfO9Bc3CLktl
- 9KheXNFOfdRRy+6rFZ0iQXemUPhA9rX3ZZ1udEoxNLInhIIHCQW2CnVcZL5I+iUkxLaB
- dYpA==
+ bh=D9mdRQwdC5EeawapV6J9Zhfd1oXOQ1bzYAweYGrslB0=;
+ b=mPjmTkFGyKcqjBGHNQL/ybRic2qOU7jfupN2hoPT6OiXntJtBmGobch5q6ddaofksM
+ 0S8ov06nGUcdaVb49fwF2BaKpQU6hjwMI6ARFyfE5ajPIRK7AHG+GgZOydThtAQJlWgK
+ nOKxVft8dYCzDbA1ttNazCXSZ/jlSkcWBsTSFYu+wHFol+b/hS05A+FnFiD2lejG9UN3
+ 49BLFBhozBbhxpdfe/wI94YLsgWi8r+8SeaXLDKfN3WBhfWlJmIBYpLhbINR3xVfgbep
+ kEooP91hGH37d9PptFdxsd3Yt7E+VEhD1Yflk+1IOMCPADLL+Q4UOhOdGCkxdqqzqH4L
+ zZBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YnRbQF4CNsI2LpFOWlrWsgpBsgv3+NtZOnnvfk8bn/Y=;
- b=IVdwwHnQKn3I33+XcYA5WQfBpkhIz1plqXpKfYC1f4PaSEgm6q3K1bZslKy+AZXSGb
- rR4JWYaWWt/VtAOx6F5bxT19IKF0Lw1MSKlsypFZ6KcP+LSEdt65Y1N6RqAzfK1D2l+6
- GWJIN8ZF8VNj5AAU1QmgfV6+Cg9icUQTCR5M7fkIK0NyMRZEtYoLntc+Bc45PcPe1+Q3
- IZJzWLQftqSxGuuJavNf5Y+l96ZJSJiYD6Qi2tKMgAklqEqhmGlaQNWYviO/xsgADpN+
- m+buFci7VtDZ9B+hynEUMCelkh93m2yMiCJpOrr9srdq/5VXswkwWi6uzI4Yh+Ihv87X
- Z2HA==
-X-Gm-Message-State: AOAM533lqD0YATkxAgbmlEUzQZacGsBQeW5kXTSRDCgf8cSBHalWZzwQ
- 9sJip6CRLnE8oEHubGdb4hQ=
-X-Google-Smtp-Source: ABdhPJzVrj5XleWDNdvtqx4kfPRHfdd7PtqbbD/Tgk+7VFq/HuVwWTsPNRgBhR2egJLHaLMc47RZOQ==
-X-Received: by 2002:a17:906:a058:: with SMTP id
- bg24mr17600182ejb.370.1593508261048; 
- Tue, 30 Jun 2020 02:11:01 -0700 (PDT)
+ bh=D9mdRQwdC5EeawapV6J9Zhfd1oXOQ1bzYAweYGrslB0=;
+ b=s8aVdO+0SVGTczEOaqDqDh1m/r1+89XEouaTwOlWyHQX9zBFCk/NxmbsJHvz8oIHOo
+ iM7frlM9z+bmhvn6NYcRsoelM4gUnKJgyRTIWtJaKICXChBzhtpIc1uWqer6wVatYn1o
+ EPhOgw8AURagnaWZ9MLTC0NegcySGucDpLHwLEYsY5WvGgehWdFMo2kL4JvJ0u4+/kLY
+ seomwCpL6TbvGf4jC0t43zhrwt1XZGwNSCYwVZzKmVhMTSsknjkEMNs0VYUX6rJKPqvz
+ iJQupfYAhlOooRfV2awngVV7bflRiJcIpNYEnnq8gmyDR2bMCKeIc+4094+vuw5oGAav
+ L8tw==
+X-Gm-Message-State: AOAM533MkiQsx/zYP8xyOQQqLvjTdiDVjCAVjKrwIu8I71MZP0Kk2O2q
+ T8tOzKW+y2WKZFcVb3LOk/cyrpouy+M=
+X-Google-Smtp-Source: ABdhPJx4IUyki2vnUYKTEG1SxAtDntt9j4qZwsf0KDgrt64egUoVkWbBipSoM3e6LhEIbgIpsbyWFQ==
+X-Received: by 2002:a17:906:1499:: with SMTP id
+ x25mr17153476ejc.406.1593508311814; 
+ Tue, 30 Jun 2020 02:11:51 -0700 (PDT)
 Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w15sm1527813ejk.103.2020.06.30.02.11.00
+ by smtp.gmail.com with ESMTPSA id v5sm1562164eje.88.2020.06.30.02.11.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 02:11:00 -0700 (PDT)
-Subject: Re: [PATCH v3 09/26] sd/milkymist-memcard: Plug minor memory leak in
- realize
+ Tue, 30 Jun 2020 02:11:51 -0700 (PDT)
+Subject: Re: [PATCH v3 24/26] hw/arm/armsse: Fix armsse_realize() error API
+ violation
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200630090351.1247703-1-armbru@redhat.com>
- <20200630090351.1247703-10-armbru@redhat.com>
+ <20200630090351.1247703-25-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <70dd1d7d-a0e8-17e5-b3c6-27fb74b91d69@amsat.org>
-Date: Tue, 30 Jun 2020 11:10:59 +0200
+Message-ID: <943dbf9e-71fd-c53d-46d6-c19e7e4a000b@amsat.org>
+Date: Tue, 30 Jun 2020 11:11:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200630090351.1247703-10-armbru@redhat.com>
+In-Reply-To: <20200630090351.1247703-25-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,43 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Walle <michael@walle.cc>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/30/20 11:03 AM, Markus Armbruster wrote:
-> milkymist_memcard_realize() leaks an Error object when realization of
-> its "sd-card" device fails.  Quite harmless, since we only ever
-> realize this once, in milkymist_init() via milkymist_memcard_create().
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
+> call.
 > 
-> Plug the leak.
+> armsse_realize() is wrong that way: it passes &err to
+> object_property_set_int() multiple times without checking it, and then
+> to sysbus_realize().  Harmless, because the former can't actually fail
+> here.
 > 
-> Fixes: 3d0369ba499866cc6a839f71212d97876500762d
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Cc: Michael Walle <michael@walle.cc>
+> Fix by passing &error_abort instead.
+> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/sd/milkymist-memcard.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-> index 482e97191e..afdb8aa0c0 100644
-> --- a/hw/sd/milkymist-memcard.c
-> +++ b/hw/sd/milkymist-memcard.c
-> @@ -280,9 +280,8 @@ static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
->      blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
->      carddev = qdev_new(TYPE_SD_CARD);
->      qdev_prop_set_drive(carddev, "drive", blk);
-> -    qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err);
-> -    if (err) {
-> -        error_setg(errp, "failed to init SD card: %s", error_get_pretty(err));
-> +    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err)) {
-> +        error_propagate_prepend(errp, err, "failed to init SD card: %s");
->          return;
->      }
->      s->enabled = blk && blk_is_inserted(blk);
-> 
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> ---
+>  hw/arm/armsse.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+> index c73cc6badf..e2cf43ee0b 100644
+> --- a/hw/arm/armsse.c
+> +++ b/hw/arm/armsse.c
+> @@ -991,13 +991,13 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysinfo), 0, 0x40020000);
+>      /* System control registers */
+>      object_property_set_int(OBJECT(&s->sysctl), info->sys_version,
+> -                            "SYS_VERSION", &err);
+> +                            "SYS_VERSION", &error_abort);
+>      object_property_set_int(OBJECT(&s->sysctl), info->cpuwait_rst,
+> -                            "CPUWAIT_RST", &err);
+> +                            "CPUWAIT_RST", &error_abort);
+>      object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
+> -                            "INITSVTOR0_RST", &err);
+> +                            "INITSVTOR0_RST", &error_abort);
+>      object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
+> -                            "INITSVTOR1_RST", &err);
+> +                            "INITSVTOR1_RST", &error_abort);
+>      sysbus_realize(SYS_BUS_DEVICE(&s->sysctl), &err);
+>      if (err) {
+>          error_propagate(errp, err);
+> 
 
 
