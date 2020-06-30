@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D9620F628
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:50:39 +0200 (CEST)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92D720F602
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:44:14 +0200 (CEST)
+Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGej-0003Xe-V4
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
+	id 1jqGYX-0008Gg-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGTv-0001Ex-BC; Tue, 30 Jun 2020 09:39:27 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:33969)
+ id 1jqGTw-0001Gg-JU; Tue, 30 Jun 2020 09:39:28 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:33969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGTt-0006Jd-Pd; Tue, 30 Jun 2020 09:39:27 -0400
-Received: by mail-ed1-x542.google.com with SMTP id a8so15033747edy.1;
- Tue, 30 Jun 2020 06:39:24 -0700 (PDT)
+ id 1jqGTv-0006K8-2U; Tue, 30 Jun 2020 09:39:28 -0400
+Received: by mail-ed1-x541.google.com with SMTP id a8so15033840edy.1;
+ Tue, 30 Jun 2020 06:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VFFOiCizJ+mW5k6WnhghvzdFvmIVL76nU3yTXrPInm0=;
- b=BO7i1ymp9yBffSDllzficR4ZG69UtZZ5R74AqNSXRYh8yUuIGpV8FDDWcdVshR7lJO
- ud8RU7KqCzVcV5rMG4Nbmwt/FwZVPDlyxK+nBEwUg/8vXpMuwlr8PUzX+1hiboXF2NEJ
- nZ4Nu1oUzek7wlaIZjxu/o3ZHnNPjJaSzTDCc9apCxXDRgAxYL+MH/Ge43MbdLJFxmYm
- QRJSYlgHF15tzT/pnn95AScFJ8BDfNsu4GDmiQ565xM0Dbyx4AADHTgKi9jxF1APw+P/
- UHWyrE0HlrQrtpCZ2/qGum2R1hCn0lB4P7/AaisN7MRRF+CaSJZpfP6J56pSL7n/sKPM
- OBWw==
+ bh=6i321mcNSRw2m36TDk2KcjbjHnC/Dq7f3je0r+sPTKo=;
+ b=WJZHVbPFMOUj0/HCodmNBPiOdNv0CqHRJBu18vHOef4cN6GdCxnWxbLRan+D8v9tRz
+ QYxoCn79dslUca3ulY+yAPelyVpQsY+cGc8ve8GDTuSbzCsT3KzApqNaVlpfhk4uZTZR
+ klRQdCgItjLcJU2vu+pywgrlt3YuXk6SavHh3Xj2kh5iyamhqDd8P86+ievV9Zugu2on
+ +Ytxl3Fh4ps/d2fl0UWZHPtYxe51Y02CnjRTPW2CyhRvPB2iMF7zOH9w+PiKEHjP+PbK
+ ydTLGgXjMvpQIAVeJIUuNlLcwAWo55IklL7zBDiyiqL7PLTAjbQOHCX2wVBgAUr2/e9B
+ WnoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VFFOiCizJ+mW5k6WnhghvzdFvmIVL76nU3yTXrPInm0=;
- b=J+s8UBqxs4Y34KQPuBB6A29eb72MldJth0cGtP8AEMsDfFYIEkK3WqU05HUDk560OA
- OJmpDWgDo99sti+fIIflugeiKXfgI02ER1wcMuYt6eupuXCNQFnqwvV2DCLEheZuyFKN
- syUWqNsBYYE7TDFemsb8hydGhjoJrv2FP8XV2O/UxbzSOCbOfL7CtBQD21J20H0hoGQ2
- tOWZkhjGjCA4zXnftrd/uzYORIHIkh7/mPLD1KMd1kQLXibgy9XeIib1DJCfNzWlfBhI
- m40pqtj2N5uR/uvBTNT+gguNM06t/3ZvOb4n+XHZ8RGStLAVKRQS3x8BBSW4cMcpKcpS
- KDTA==
-X-Gm-Message-State: AOAM531wET6YQmdJcvsu0CC3VWxV2oimor2lWaZK16+PCXgt1XwtRTb7
- sVKLqMbq6rR1vgzgjH7bq7NAeu7351E=
-X-Google-Smtp-Source: ABdhPJwRdFf/h+UGSi2IZWls9PKOqan0JBjUYiv+eqhH8xA4qmKnc1X36AvIDR+rlcXshLQVKX6Tvw==
-X-Received: by 2002:aa7:d049:: with SMTP id n9mr15933117edo.39.1593524363856; 
- Tue, 30 Jun 2020 06:39:23 -0700 (PDT)
+ bh=6i321mcNSRw2m36TDk2KcjbjHnC/Dq7f3je0r+sPTKo=;
+ b=p3R8mxud1+SDKj4ajzpwwkArPCS04XvgJQDdYOMPtr8qKM0UaSQLBS6kbDsPq4KwRl
+ MroRkXrPRXlG8cgm+8A2mGNym6tehBmRfQxvkzxRgoZsYktPLPIJRPDtFKtabfeiRAo9
+ fG++1rhDTEZWGUaMaFUSEpCdsy2byCP7dJop9A9hPnwBzbbwULpAKkt7cmAvrOu5zRDW
+ rGXbHZuCm25Dd4Nr9DaEKQmJTWVS/diPwyVpTlsm2zwp+Th5F/qGDlQedYVd9NKwH0TW
+ Yea333Uodvx20IWwq5ML7s5UAS1ZCLUrlA2PMZDJnPv5qd54A1wCc/M/jsVqgn8qfX7r
+ sgGA==
+X-Gm-Message-State: AOAM532dmY9+jWmHhNwaWP8VzOq2DbN/T9pjHqNTTfrVsxkp79HIU9Do
+ I6IyXEzMzJGHrjSR6JRJQzsJ/u/+xAo=
+X-Google-Smtp-Source: ABdhPJxGfVf7TQt/b2lQW+csA7wxj4HnHYZaaDrG0EMT03/PzMTsk0nDj8z/v6CCe0XLtoinGEa9eA==
+X-Received: by 2002:a50:e791:: with SMTP id b17mr24240501edn.366.1593524365176; 
+ Tue, 30 Jun 2020 06:39:25 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.22
+ by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 06:39:23 -0700 (PDT)
+ Tue, 30 Jun 2020 06:39:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 09/17] hw/sd/sdcard: Special case the -ENOMEDIUM error
-Date: Tue, 30 Jun 2020 15:39:03 +0200
-Message-Id: <20200630133912.9428-10-f4bug@amsat.org>
+Subject: [PATCH v7 10/17] hw/sd/sdcard: Check address is in range
+Date: Tue, 30 Jun 2020 15:39:04 +0200
+Message-Id: <20200630133912.9428-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630133912.9428-1-f4bug@amsat.org>
 References: <20200630133912.9428-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,60 +92,77 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we have no interest in the underlying block geometry,
-directly call blk_getlength(). We have to care about machines
-creating SD card with not drive attached (probably incorrect
-API use). Simply emit a warning when such Frankenstein cards
-of zero size are reset.
+As a defense, assert if the requested address is out of the card area.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ hw/sd/sd.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index e5adcc8055..548745614e 100644
+index 548745614e..5d1b314a32 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -545,18 +545,30 @@ static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
- static void sd_reset(DeviceState *dev)
+@@ -537,8 +537,10 @@ static void sd_response_r7_make(SDState *sd, uint8_t *response)
+     stl_be_p(response, sd->vhs);
+ }
+ 
+-static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
++static uint64_t sd_addr_to_wpnum(SDState *sd, uint64_t addr)
  {
-     SDState *sd = SD_CARD(dev);
--    uint64_t size;
--    uint64_t sect;
- 
-     trace_sdcard_reset();
-     if (sd->blk) {
--        blk_get_geometry(sd->blk, &sect);
--    } else {
--        sect = 0;
--    }
--    size = sect << 9;
-+        int64_t size = blk_getlength(sd->blk);
++    assert(addr < sd->size);
 +
-+        if (size == -ENOMEDIUM) {
-+            /*
-+             * FIXME blk should be set once per device in sd_realize(),
-+             * and we shouldn't be checking it in sed_reset(). But this
-+             * is how the reparent currently works.
-+             */
-+            char *id = object_get_canonical_path_component(OBJECT(dev));
-+
-+            warn_report("sd-card '%s' created with no drive.",
-+                        id ? id : "unknown");
-+            g_free(id);
-+            size = 0;
-+        }
-+        assert(size >= 0);
-+        sd->size = size;
-+    } else {
-+        sd->size = 0;
-+    }
+     return addr >> (HWBLOCK_SHIFT + SECTOR_SHIFT + WPGROUP_SHIFT);
+ }
  
--    sd->size = size;
-     sd->state = sd_idle_state;
-     sd->rca = 0x0000;
-     sd_set_ocr(sd);
+@@ -773,8 +775,8 @@ static void sd_erase(SDState *sd)
+         erase_end *= HWBLOCK_SIZE;
+     }
+ 
+-    erase_start = sd_addr_to_wpnum(erase_start);
+-    erase_end = sd_addr_to_wpnum(erase_end);
++    erase_start = sd_addr_to_wpnum(sd, erase_start);
++    erase_end = sd_addr_to_wpnum(sd, erase_end);
+     sd->erase_start = 0;
+     sd->erase_end = 0;
+     sd->csd[14] |= 0x40;
+@@ -791,7 +793,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
+     uint32_t i, wpnum;
+     uint32_t ret = 0;
+ 
+-    wpnum = sd_addr_to_wpnum(addr);
++    wpnum = sd_addr_to_wpnum(sd, addr);
+ 
+     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
+         if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
+@@ -833,7 +835,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
+ 
+ static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
+ {
+-    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
++    return test_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
+ }
+ 
+ static void sd_lock_command(SDState *sd)
+@@ -1345,7 +1347,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             }
+ 
+             sd->state = sd_programming_state;
+-            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
++            set_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
+             /* Bzzzzzzztt .... Operation complete.  */
+             sd->state = sd_transfer_state;
+             return sd_r1b;
+@@ -1364,7 +1366,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             }
+ 
+             sd->state = sd_programming_state;
+-            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
++            clear_bit(sd_addr_to_wpnum(sd, addr), sd->wp_groups);
+             /* Bzzzzzzztt .... Operation complete.  */
+             sd->state = sd_transfer_state;
+             return sd_r1b;
 -- 
 2.21.3
 
