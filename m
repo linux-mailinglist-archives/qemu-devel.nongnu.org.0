@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9BE20F151
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:14:50 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098D920F16B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:19:31 +0200 (CEST)
+Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCLp-0006QL-8L
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
+	id 1jqCQM-0004Ma-22
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBh-0002wz-ES
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43021
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBi-0002xJ-4p
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36091
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBQ-0002yd-Or
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqCBW-000325-RH
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:04:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593507844;
+ s=mimecast20190719; t=1593507850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OcxBdk1yR0L0NGPCwHLwfbasPaqRo7Vbg5ITcMbllEc=;
- b=M9Z5jkDzHjMMC6WWiZsOlNas8A7zzkngdP0KPO6Y/hf/XNu9VMrUyQMrVJkPdy8CUUxvQu
- koLkfzMuMZHCx03tpw1KMPCgq/NfmHN/g1+1xPfQ94eO0cOvpbrfONbgY6UKj/04RG3XSU
- SBrIpbgZqaL2+JgAjHposXrgC7Rp+TM=
+ bh=ZmXb9ILhe1X8APImpWvwbAgIgzkLxUvGh78EDt0/2OM=;
+ b=Ia8M2OBjipflZBTcaohvAwZRDSMu5cSReSNz6HRBnTt2G61JYunRxJ5579zqJ2q6wfpESV
+ AvV31QziqoimRzmHLZ/cH1XwDHba+1qUx7zeMmpvfiPSOLNTKDb8ABYvpl3ZRvPEd5IPL7
+ k7+SELJ3FrpEvdVVOzTVbH3QfR3s9EY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-UB7F9aXdNhWsl7eGaxuNFw-1; Tue, 30 Jun 2020 05:04:01 -0400
-X-MC-Unique: UB7F9aXdNhWsl7eGaxuNFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-141-aY32VCrkMrq8AOb-D7-CQw-1; Tue, 30 Jun 2020 05:04:03 -0400
+X-MC-Unique: aY32VCrkMrq8AOb-D7-CQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE93883DE30;
- Tue, 30 Jun 2020 09:03:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 312C7BFCC;
+ Tue, 30 Jun 2020 09:04:02 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
  [10.36.112.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E885C1B0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EDAC5D9D3;
  Tue, 30 Jun 2020 09:03:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0D1C11384D4; Tue, 30 Jun 2020 11:03:51 +0200 (CEST)
+ id A4717113846D; Tue, 30 Jun 2020 11:03:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/26] net/virtio: Fix failover_replug_primary() return
- value regression
-Date: Tue, 30 Jun 2020 11:03:26 +0200
-Message-Id: <20200630090351.1247703-2-armbru@redhat.com>
+Subject: [PATCH v3 02/26] pci: Delete useless error_propagate()
+Date: Tue, 30 Jun 2020 11:03:27 +0200
+Message-Id: <20200630090351.1247703-3-armbru@redhat.com>
 In-Reply-To: <20200630090351.1247703-1-armbru@redhat.com>
 References: <20200630090351.1247703-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,42 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jens Freimann <jfreimann@redhat.com>, qemu-stable@nongnu.org,
+Cc: Jens Freimann <jfreimann@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 150ab54aa6 "net/virtio: fix re-plugging of primary device"
-fixed failover_replug_primary() to return false on failure.  Commit
-5a0948d36c "net/virtio: Fix failover error handling crash bugs" broke
-it again for hotplug_handler_plug() failure.  Unbreak it.
-
-Commit 5a0948d36c4cbc1c5534afac6fee99de55245d12
-
-Fixes: 5a0948d36c4cbc1c5534afac6fee99de55245d12
 Cc: Jens Freimann <jfreimann@redhat.com>
 Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: qemu-stable@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Jens Freimann <jfreimann@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/pci/pci.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index aff67a92df..9bb5578e5d 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3129,7 +3129,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-         if (err) {
-             goto out;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index b22dedc88c..de0fae10ab 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2123,7 +2123,6 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+         if (!pci_bus_is_express(pci_get_bus(pci_dev))) {
+             error_setg(errp, "failover primary device must be on "
+                              "PCIExpress bus");
+-            error_propagate(errp, local_err);
+             pci_qdev_unrealize(DEVICE(pci_dev));
+             return;
          }
--        hotplug_handler_plug(hotplug_ctrl, n->primary_dev, errp);
-+        hotplug_handler_plug(hotplug_ctrl, n->primary_dev, &err);
-     }
- 
- out:
+@@ -2131,7 +2130,6 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+         if (class_id != PCI_CLASS_NETWORK_ETHERNET) {
+             error_setg(errp, "failover primary device is not an "
+                              "Ethernet device");
+-            error_propagate(errp, local_err);
+             pci_qdev_unrealize(DEVICE(pci_dev));
+             return;
+         }
+@@ -2141,7 +2139,6 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+         } else {
+             error_setg(errp, "failover: primary device must be in its own "
+                               "PCI slot");
+-            error_propagate(errp, local_err);
+             pci_qdev_unrealize(DEVICE(pci_dev));
+             return;
+         }
 -- 
 2.26.2
 
