@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE9A20FC86
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 21:15:25 +0200 (CEST)
-Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6259220FC88
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 21:15:32 +0200 (CEST)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqLj1-0007ey-FA
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 15:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42120)
+	id 1jqLj9-0007wR-7J
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 15:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhD-0005wF-3y
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:31 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46533
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhF-0005yF-7H
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21438
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhA-0005VO-0r
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhD-0005Vj-Oo
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593544407;
+ s=mimecast20190719; t=1593544411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9YRbo/UhOb1CmcNeW/PB2xmFFgsU/55SRfJR/9kEmto=;
- b=ahdCRh3VUgOpfziHsgFN6F5OVXkkXvhgNDd3Rlo4QyRBdmSmIZ8iaheJjGLRNpbB/xQuti
- Etcy90cbEBfnJjWxnbDhX2xUuCJzhBPq0o4PklJSi6j00IpFDmzzXizjYSoSPP2Q/UMTXb
- IEaD05bpS3d8rms2y0SFxod9bKt95mM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oDXkElBCSL5Fje+j3PutyCwM6gIK6a01PpGIaTigzW4=;
+ b=ehMtRkpT+yxnnQNe2BF5uLiESR7RM7pYYMwjBLiFNJ49DNuUEqbXoVcypZLR032lz5v2bD
+ 0ztpqMKx80uLxOfjMmJxT+O6h8QM768V4b8LqxI/VlC4tmeHDxxOICKtX/63B4RVzRMdfx
+ YkNnQXS76oBgtpgy547Ytvkx0S5QKfs=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-hYMTRQkzOwyLDM3GTO8Iow-1; Tue, 30 Jun 2020 15:13:23 -0400
-X-MC-Unique: hYMTRQkzOwyLDM3GTO8Iow-1
-Received: by mail-wm1-f70.google.com with SMTP id g124so21425481wmg.6
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:13:23 -0700 (PDT)
+ us-mta-217-f6_TNI6BPDeCH-0mQYI7wA-1; Tue, 30 Jun 2020 15:13:27 -0400
+X-MC-Unique: f6_TNI6BPDeCH-0mQYI7wA-1
+Received: by mail-wm1-f70.google.com with SMTP id q20so11579753wme.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:13:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9YRbo/UhOb1CmcNeW/PB2xmFFgsU/55SRfJR/9kEmto=;
- b=FVLOUDVYANormRBm2uDCO9ndOzeNXTmrRnLFTcSf8rpjc7MOYvf3usV8j2aWzIiN6K
- WCPqpz7N5xQwTmRnrBu+nbm2pCjoJIfHVUty9bEyGsIlY+VD7gFuobExHglYEtBaT0cn
- o1aLh8Exu6fqlh+KgSk1b5O5Nvu3VOQTkm0HLYcSRkyoSlKByJykqP7GLnXLziainYaZ
- 0wDxZ/h0s7H4iSII6Bk1NcqahJ/RjYZEQ4j1TENoKHOQlMHatUXKaMRmMM1sArSlHj87
- 9GGh7LSlfSVDaWjtIBw3xfbjYZ9Drj3j6JcdyRkOwsGSvNAmmyJTLlgavUVSk0xc4R44
- Q2zw==
-X-Gm-Message-State: AOAM530yI4mAjIe3cb+Q/CzW8l3BJDyoDZ9AEQENnaN56e1Ydh02LFLC
- vXQay/Ptvs08zpr0w//jzIa74IAEOz1lO/wqZSnTSQBqAgiZExUROfsn5akCSSvT70NjXYVIdYc
- 5BA/pQdJe8lYb7yM=
-X-Received: by 2002:a5d:4002:: with SMTP id n2mr24410054wrp.255.1593544401760; 
- Tue, 30 Jun 2020 12:13:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfpxK3MiMk8oy9c1P8XR4yPPfvtdr3cPR/93PMhkwqeeJ65KdPzoCogF1rXkeGr7HQIeZQag==
-X-Received: by 2002:a5d:4002:: with SMTP id n2mr24410011wrp.255.1593544400901; 
- Tue, 30 Jun 2020 12:13:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oDXkElBCSL5Fje+j3PutyCwM6gIK6a01PpGIaTigzW4=;
+ b=SBNfuebIkC1irm3UTEOvWnVvl9RF3yvvaEO7jRBpliQKBJRDMp6fNfOafVbkTcKEeO
+ 3h5czwDCovyK/a3TGR0KNWXSOnk8hNdUoZPq8+mJkRyNDnS+bd/V9gWygMNZIqhPCMIl
+ rnPIXA4Niiwwl++o8ivRXFAw79oGxlSjeB4W0rgbC1f/6eKRY9gCA5RyClRQM3zXlvaL
+ GIGPWVr+2pGwg/iQh6wZvCjQM+zVDMaAdzaT8Wwn0Otywy6YNip64isuP1Sc1M9dSoUc
+ 4TSzx/qaRi7MYNz7h5Y63o/cxao6gX6VnytlmsugMOMzsOag2kvp1LzfxlTSxxWu7kET
+ Pnxg==
+X-Gm-Message-State: AOAM531y2anAWzlhqRvzMmVhSe5v4mMOMr9nPV9AHTmsEO1UHhFP2kWV
+ eDLQjm5RPJCXNGcBkDtvEfxGoOOlfN8pvEzC0MMt7cZpz5+1j+VhnChZbPVSqwkZ3jXY/5KigNY
+ nKSEjc4rO039zPEc=
+X-Received: by 2002:a7b:c055:: with SMTP id u21mr22142438wmc.132.1593544405935; 
+ Tue, 30 Jun 2020 12:13:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjM85LW5DmxOv6Awt6/4b1jhrOzm3MXlEFAr2qP7AdnzrwJJ62ZtEn+gKE2mBtaPe1hxsz9g==
+X-Received: by 2002:a7b:c055:: with SMTP id u21mr22142408wmc.132.1593544405652; 
+ Tue, 30 Jun 2020 12:13:25 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id 104sm4781595wrl.25.2020.06.30.12.13.19
+ by smtp.gmail.com with ESMTPSA id w17sm4989638wra.42.2020.06.30.12.13.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 12:13:20 -0700 (PDT)
+ Tue, 30 Jun 2020 12:13:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 00/12] block/nvme: Various cleanups required to use
- multiple queues
-Date: Tue, 30 Jun 2020 21:13:06 +0200
-Message-Id: <20200630191318.30021-1-philmd@redhat.com>
+Subject: [PATCH v2 01/12] block/nvme: Replace magic value by SCALE_MS
+ definition
+Date: Tue, 30 Jun 2020 21:13:07 +0200
+Message-Id: <20200630191318.30021-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200630191318.30021-1-philmd@redhat.com>
+References: <20200630191318.30021-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -103,67 +106,26 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Use self-explicit SCALE_MS definition instead of magic value.
 
-This series is mostly code rearrangement (cleanups) to be
-able to split the hardware code from the block driver code,
-to be able to use multiple queues on the same hardware, or
-multiple block drivers on the same hardware.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Missing review: 1, 2, 5, 6, 8, 12.
-
-Since v1:
-- rebased
-- use SCALE_MS definition
-- added Stefan's R-b
-- addressed Stefan's review comments
-  - use union { NvmeIdCtrl / NvmeIdNs }
-  - move irq_notifier to NVMeQueuePair
-  - removed patches depending on "a tracable hardware stateo
-    object instead of BDRVNVMeState".
-
-Please review,
-
-Phil.
-
-$ git backport-diff -u v1
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/12:[down] 'block/nvme: Replace magic value by SCALE_MS definition'
-002/12:[----] [--] 'block/nvme: Avoid further processing if trace event not enabled'
-003/12:[0002] [FC] 'block/nvme: Let nvme_create_queue_pair() fail gracefully'
-004/12:[----] [-C] 'block/nvme: Define QUEUE_INDEX macros to ease code review'
-005/12:[down] 'block/nvme: Rename local variable'
-006/12:[down] 'block/nvme: Use union of NvmeIdCtrl / NvmeIdNs structures'
-007/12:[0011] [FC] 'block/nvme: Replace qemu_try_blockalign0 by qemu_try_blockalign/memset'
-008/12:[0004] [FC] 'block/nvme: Replace qemu_try_blockalign(bs) by qemu_try_memalign(pg_sz)'
-009/12:[----] [-C] 'block/nvme: Simplify nvme_init_queue() arguments'
-010/12:[----] [-C] 'block/nvme: Replace BDRV_POLL_WHILE by AIO_WAIT_WHILE'
-011/12:[0010] [FC] 'block/nvme: Simplify nvme_create_queue_pair() arguments'
-012/12:[0056] [FC] 'block/nvme: Use per-queue AIO context'
-
-Philippe Mathieu-Daudé (12):
-  block/nvme: Replace magic value by SCALE_MS definition
-  block/nvme: Avoid further processing if trace event not enabled
-  block/nvme: Let nvme_create_queue_pair() fail gracefully
-  block/nvme: Define QUEUE_INDEX macros to ease code review
-  block/nvme: Rename local variable
-  block/nvme: Use union of NvmeIdCtrl / NvmeIdNs structures
-  block/nvme: Replace qemu_try_blockalign0 by qemu_try_blockalign/memset
-  block/nvme: Replace qemu_try_blockalign(bs) by
-    qemu_try_memalign(pg_sz)
-  block/nvme: Simplify nvme_init_queue() arguments
-  block/nvme: Replace BDRV_POLL_WHILE by AIO_WAIT_WHILE
-  block/nvme: Simplify nvme_create_queue_pair() arguments
-  block/nvme: Use per-queue AIO context
-
- block/nvme.c | 186 ++++++++++++++++++++++++++++-----------------------
- 1 file changed, 103 insertions(+), 83 deletions(-)
-
+diff --git a/block/nvme.c b/block/nvme.c
+index 374e268915..2f5e3c2adf 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -715,7 +715,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     /* Reset device to get a clean state. */
+     s->regs->cc = cpu_to_le32(le32_to_cpu(s->regs->cc) & 0xFE);
+     /* Wait for CSTS.RDY = 0. */
+-    deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * 1000000ULL;
++    deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
+     while (le32_to_cpu(s->regs->csts) & 0x1) {
+         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+             error_setg(errp, "Timeout while waiting for device to reset (%"
 -- 
 2.21.3
 
