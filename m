@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA0820F622
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:48:00 +0200 (CEST)
-Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE6520F626
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:49:56 +0200 (CEST)
+Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGcB-000740-II
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
+	id 1jqGe3-0001vP-Dz
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGU4-0001Qf-D1; Tue, 30 Jun 2020 09:39:36 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:33339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGU2-0006MC-Qs; Tue, 30 Jun 2020 09:39:36 -0400
-Received: by mail-ej1-x641.google.com with SMTP id n26so6701580ejx.0;
- Tue, 30 Jun 2020 06:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tv3cmbEAPQXfnR101UMsB/BGFDSkA4UlLHtuhpdSRTY=;
- b=RZwld1LpTlMivvRFtSgkkewYWAozjm9c+mZhg+8hyFNdCAYhhViSqsMRKMh3IR+LBy
- 0+3/b6lnT070B980UAtoCmriTlp/UywBCkcKUyjBxnBa55iYV4MlXbKHy21MdHhwWrTF
- 1Byys60KyVshW292Ee9bCCg8KE+EqSNPWpvK19EH7CdGV4DnGmLck9M57nKTi3bPTwaF
- bNHb9g4LJZacdU6kEY4yJfJgRkViTRqEjyvDs5Teg5Y59kxM/uT8coMrcx/Q7bzmkDAq
- XJHs0uyyAnAnGKO8Ppx5K/ORHho/mVk9IxLlTpkrNoQFe5cF3OCfbiTnLJtEjrFT50v/
- pCFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tv3cmbEAPQXfnR101UMsB/BGFDSkA4UlLHtuhpdSRTY=;
- b=WW9a7yVnzML1V0UppFJTjEt+U5dWbt3Ha9ox0vUwRRpZsOT4tmpkAAjixd29g8dZ0E
- zm+JEr79DRIj0oAqjZC89Fb42mldk/bks5VAQsTWtFLf43YYrEPiQv8v/iOClfexxPOn
- p2kAjbv7Hl4/+hlDKYWkrGniitFYNWSKwZMa7UpeaIVJWMVu8gRS21r4LFVy9JC1twMR
- rf22WX3coLslN5+V8Bl3LFqVlIatB4tPtgZ09YEO31VtPxbviQY9l3zdgSsHMeOFBL3L
- LcVZ1G4LvIagfcFCOHTBhV4Rv2JxVxu9o7RJEqozEBVv3CdPjvMxaTnqgjnQrLrzBkDT
- iKCw==
-X-Gm-Message-State: AOAM533Qy4HFBSqczw4UfRg9aqbguFcBpVuytmRD64kzcPnaUg0FfP2q
- sE2bqBQtxHTTJ1VprS6SvvUGFzzDIQo=
-X-Google-Smtp-Source: ABdhPJxprMXSEY422d+55cynJZbdJ2JJRydkzFCARpZUc4WY2Z2+H9HW8zezDTdqbSzrgBRGSsIChQ==
-X-Received: by 2002:a17:906:1f4f:: with SMTP id
- d15mr18121720ejk.206.1593524372900; 
- Tue, 30 Jun 2020 06:39:32 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 06:39:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <tobin@linux.vnet.ibm.com>)
+ id 1jqGVu-0004bq-3u
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:41:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobin@linux.vnet.ibm.com>)
+ id 1jqGVs-0006sU-2z
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:41:29 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05UDWVEX009257; Tue, 30 Jun 2020 09:41:24 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32041dvwnm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Jun 2020 09:41:24 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05UDWac0009436;
+ Tue, 30 Jun 2020 09:41:23 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 32041dvwn4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Jun 2020 09:41:23 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05UDZvVH030739;
+ Tue, 30 Jun 2020 13:41:22 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01wdc.us.ibm.com with ESMTP id 31wwr8r8d5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Jun 2020 13:41:22 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 05UDfL3V58458484
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 30 Jun 2020 13:41:21 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F22FC6057;
+ Tue, 30 Jun 2020 13:41:21 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3F9D8C6055;
+ Tue, 30 Jun 2020 13:41:20 +0000 (GMT)
+Received: from Tobins-MBP-2.fios-router.home (unknown [9.85.167.92])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 30 Jun 2020 13:41:20 +0000 (GMT)
+From: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/17] hw/sd/sdcard: Simplify realize() a bit
-Date: Tue, 30 Jun 2020 15:39:11 +0200
-Message-Id: <20200630133912.9428-18-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200630133912.9428-1-f4bug@amsat.org>
-References: <20200630133912.9428-1-f4bug@amsat.org>
+Subject: SEV: QMP support for Inject-Launch-Secret
+Date: Tue, 30 Jun 2020 09:41:01 -0400
+Message-Id: <20200630134102.46777-1-tobin@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-06-30_06:2020-06-30,
+ 2020-06-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 suspectscore=1 adultscore=0
+ clxscore=1011 phishscore=0 lowpriorityscore=0 mlxlogscore=773
+ malwarescore=0 impostorscore=0 cotscore=-2147483648 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006300094
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=tobin@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 09:41:26
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,44 +97,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: thomas.lendacky@amd.com, jejb@linux.ibm.com, tobin@ibm.com,
+ dgilbert@redhat.com, Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>,
+ pbonzini@redhat.com, brijesh.singh@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to check if sd->blk is set twice.
+This is an update to part of a patch submitted previously to
+provide support for injecting a secret blob into guest memory
+using AMD SEV.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+The user provides a header and a wrapped secret blob via QMP,
+which are provided to the AMD Secure Processor and injected
+into the guest.
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 304fa4143a..8ef6715665 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -2154,12 +2154,12 @@ static void sd_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (sd->blk && blk_is_read_only(sd->blk)) {
--        error_setg(errp, "Cannot use read-only drive as SD card");
--        return;
--    }
--
-     if (sd->blk) {
-+        if (blk_is_read_only(sd->blk)) {
-+            error_setg(errp, "Cannot use read-only drive as SD card");
-+            return;
-+        }
-+
-         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-                            BLK_PERM_ALL, errp);
-         if (ret < 0) {
+Note that this patch requires the user to provide the guest
+physical address where the secret will be injected via QMP.
+
+Tobin Feldman-Fitzthum (1):
+  sev: add sev-inject-launch-secret
+
+ include/monitor/monitor.h |  3 ++
+ include/sysemu/sev.h      |  2 ++
+ monitor/misc.c            |  8 ++---
+ qapi/misc-target.json     | 18 +++++++++++
+ target/i386/monitor.c     |  9 ++++++
+ target/i386/sev-stub.c    |  5 +++
+ target/i386/sev.c         | 66 +++++++++++++++++++++++++++++++++++++++
+ target/i386/trace-events  |  1 +
+ 8 files changed, 108 insertions(+), 4 deletions(-)
+
 -- 
-2.21.3
+2.20.1 (Apple Git-117)
 
 
