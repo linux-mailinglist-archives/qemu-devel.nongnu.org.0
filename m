@@ -2,111 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6750A20F82A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:23:05 +0200 (CEST)
-Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DD920F840
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:28:21 +0200 (CEST)
+Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqI6C-0006gI-Ck
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
+	id 1jqIBE-0004YH-99
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqI3s-0005au-HR
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:20:43 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31989
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jqI4G-0005m7-1b
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:21:04 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31877
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqI3l-00086n-KK
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:20:40 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jqI4E-00087s-C6
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593530432;
+ s=mimecast20190719; t=1593530458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3Q68uV4NKCffVlEx9DmYr8Tcy2UpV4TM2zGQR62nl10=;
- b=NRZ1wtX5pu9BB21lmk5cShEnO4TUS3K7uZ5upKWry+ZEkC+O4HFjjKWyVhzHSnYAn67PkC
- j6EuBS/JJr4b1UjmULLP35vDTwJ6PMIayfPC+tjlQC88iKhk9wLzBYI1dtnv6WPkm4j2yi
- 2kPvN0F7YkKMtqrFCykRh+pgaE65G48=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-eRWCQcDQNH6BGk7hSlkWmw-1; Tue, 30 Jun 2020 11:19:56 -0400
-X-MC-Unique: eRWCQcDQNH6BGk7hSlkWmw-1
-Received: by mail-ed1-f72.google.com with SMTP id cn4so13011068edb.9
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:19:56 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=yUmhadzYsbJoUsPNvSzXULsKvEgPV32pY2Dh+SsTOBs=;
+ b=YL/Rrp70o6VwAgegTSjdxJtFfZQmcTRY5weZznk27S7XM1S22xQYd0Yv2l1mtephZZO/Mr
+ 58T/ue6YTyMXgvXpaswccQUgnH/XxW2uAeGTFdHw2Z77PtVqQuErI+PsRvnmVx9kWB2nub
+ vu8RIfX7uatNFhfkNL5sCUHgbvtEZMU=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-tfOaxwxuMpWY0jrC2DgSoA-1; Tue, 30 Jun 2020 11:20:56 -0400
+X-MC-Unique: tfOaxwxuMpWY0jrC2DgSoA-1
+Received: by mail-qv1-f69.google.com with SMTP id 59so14130377qvb.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:20:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=3Q68uV4NKCffVlEx9DmYr8Tcy2UpV4TM2zGQR62nl10=;
- b=H+6Nwtb2GHU2yK9kGDOcrpqtzhSCHi9WFqa0Zw0OXrSfcWyFGIcX/ombGWvDN+gRHF
- Dtx8i7I++dNoBh9QFzH0jR++PqlVt5Q69cbztm4GO0bRVonjYnXZ788WIIRs1iXO59mS
- WiAmNu9Hstm8QLv8MfsKMpgTgfBNwx/2kdpg6yAzTbzC+XAv5982StVdwC22KvdPEACE
- G6jBIioBf1fSKZ9+nCzWbhdaK8w2NR/RFDXXzhm1B1/sLSBsmznHuLLHVLvPDicV1I0+
- xpVnlWO2b/Wl35aoGJFPWPNe5ivh2Ev/i5sK0vTtsagdzORnv9i8Kwf9NctH8MYO9HxC
- Ikuw==
-X-Gm-Message-State: AOAM531NzEzGQnHvtJcI6WMMe3twKV8btEkr+pyYuTR1IHhfMjHAPfhV
- e78ky9pq7NrwfnKcB28yV8V1EAudnv0Snwlckzrr95VAViobSBPnUNznrZxdwugF1GFJ41AGpZR
- atvV7v0s//rE1Pdk=
-X-Received: by 2002:a17:906:4086:: with SMTP id
- u6mr20093274ejj.9.1593530395530; 
- Tue, 30 Jun 2020 08:19:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx968WRLbUisR+Ua1av2ZFZrg5txPJ4uxePXOJef4L9Vgi/0Ql6VBEd7JzAxiIPxCPm9IU36A==
-X-Received: by 2002:a17:906:4086:: with SMTP id
- u6mr20093262ejj.9.1593530395330; 
- Tue, 30 Jun 2020 08:19:55 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id k15sm2231802eji.49.2020.06.30.08.19.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 08:19:54 -0700 (PDT)
-Subject: Re: [PATCH 1/2] xen: fix legacy 'xen-sysdev' and 'xen-backend' bus
- types
-To: Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
- qemu-devel@nongnu.org
-References: <20200624121841.17971-1-paul@xen.org>
- <20200624121841.17971-2-paul@xen.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <ee15f95a-ef85-8246-f10d-2778baa343c7@redhat.com>
-Date: Tue, 30 Jun 2020 17:19:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yUmhadzYsbJoUsPNvSzXULsKvEgPV32pY2Dh+SsTOBs=;
+ b=ekVlex57BqbF74YXzbTpR5uYPIS5SIOHaGARh7FgFKh+KZTN3WkGloyyA/Mt3E0K1F
+ 4HtgDL4bqNMjpPv2iPrgbPFGmIm3LXdZsKvkDqilhhGxtxefFP1FggxlX4qMJsyly6Ma
+ 7q1E4+uLPd3EX8Y3edOXRnJXX67THiQ7XBFY/egDKYz1gy0YBUF+Dt2b/6btGqumoHi4
+ pmr1tJpn0w2Yhn7lIk4THsTkMpstYca2EKRr8Vp6XrXDeWkFlWUQfGfr6XSMJFh0UGZU
+ dOhG6W82mxojzbVxINIhCE/hSw0ggjk/eUK3IIik5u+NtNQTDXjpv3lfCezN3RFdSbv+
+ LBqw==
+X-Gm-Message-State: AOAM530WT9OeyYkP2FE0hMO4ueMe95OzZDUpFb05V3l4l2mFWajpBG5L
+ 1p8tGTIX1RseRIZjuLTFj3VcUwIfuNBB2qXnt6UQgd7b4IMSUaJAFXzxAQLKGcrt0wLnH1M2eBj
+ xwbPGSVCDCm7EohM=
+X-Received: by 2002:ac8:691:: with SMTP id f17mr21071263qth.60.1593530455163; 
+ Tue, 30 Jun 2020 08:20:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaSyRApaOEKtSry3MwsgGncS6tKjbi/UUHjyaY0u983MTzn5zOMB9Ndi7N57O0ZmipW+5A6g==
+X-Received: by 2002:ac8:691:: with SMTP id f17mr21071097qth.60.1593530453188; 
+ Tue, 30 Jun 2020 08:20:53 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id t48sm3530585qtb.50.2020.06.30.08.20.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 08:20:52 -0700 (PDT)
+Date: Tue, 30 Jun 2020 11:20:50 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC v2 1/1] memory: Delete assertion in
+ memory_region_unregister_iommu_notifier
+Message-ID: <20200630152050.GC3138@xz-x1>
+References: <20200626064122.9252-2-eperezma@redhat.com>
+ <20200626212917.GD175520@xz-x1>
+ <8cf25190-53e6-8cbb-372b-e3d4ec714dc5@redhat.com>
+ <20200628144746.GA239443@xz-x1>
+ <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
+ <20200629133403.GA266532@xz-x1>
+ <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
+ <1b4eaaaf-c2ab-0da8-afb4-1b7b4221e6cf@redhat.com>
+ <20200630052148-mutt-send-email-mst@kernel.org>
+ <49f547e1-dd87-7abe-1075-9dcece75b641@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200624121841.17971-2-paul@xen.org>
-Content-Language: en-US
+In-Reply-To: <49f547e1-dd87-7abe-1075-9dcece75b641@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -127,66 +103,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <pdurrant@amazon.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Jason Andryuk <jandryuk@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/20 2:18 PM, Paul Durrant wrote:
-> From: Paul Durrant <pdurrant@amazon.com>
-> 
-> 'xen-sysdev' plugs into the 'System' bus type, not 'xen-sysbus. That bus type
-> is what 'xen-backend' plugs into.
-> 'xen-sysdev' is drived form 'sys-bus-device' so the bus type need not be
-> overridden. 'xen-backend' is derived from 'device', which plugs into the
-> generic 'bus' type, so its bus type should be overridden to 'xen-sysbus'.
-> 
-> Without this patch, the following assertion will fail:
-> 
-> qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
-> `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
-> failed.
-> 
-> Reported-by: Jason Andryuk <jandryuk@gmail.com>
-> Fixes: 81cb05732efb ("qdev: Assert devices are plugged into a bus that can take them")
-> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> ---
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Anthony Perard <anthony.perard@citrix.com>
-> ---
->  hw/xen/xen-legacy-backend.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-> index 2335ee2e65..c5c75c0064 100644
-> --- a/hw/xen/xen-legacy-backend.c
-> +++ b/hw/xen/xen-legacy-backend.c
-> @@ -789,11 +789,12 @@ static void xendev_class_init(ObjectClass *klass, void *data)
->      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->      /* xen-backend devices can be plugged/unplugged dynamically */
->      dc->user_creatable = true;
-> +    dc->bus_type = TYPE_XENSYSBUS;
->  }
->  
->  static const TypeInfo xendev_type_info = {
->      .name          = TYPE_XENBACKEND,
-> -    .parent        = TYPE_XENSYSDEV,
-> +    .parent        = TYPE_DEVICE,
->      .class_init    = xendev_class_init,
->      .instance_size = sizeof(struct XenLegacyDevice),
->  };
-> @@ -824,7 +825,6 @@ static void xen_sysdev_class_init(ObjectClass *klass, void *data)
->      DeviceClass *dc = DEVICE_CLASS(klass);
->  
->      device_class_set_props(dc, xen_sysdev_properties);
-> -    dc->bus_type = TYPE_XENSYSBUS;
->  }
->  
->  static const TypeInfo xensysdev_info = {
-> 
+On Tue, Jun 30, 2020 at 05:23:31PM +0800, Jason Wang wrote:
+> > > Ok, we had a dedicated mr for interrupt:
+> > > 
+> > > memory_region_add_subregion_overlap(MEMORY_REGION(&vtd_dev_as->iommu),
+> > > VTD_INTERRUPT_ADDR_FIRST,
+> > > &vtd_dev_as->iommu_ir, 1);
+> > > 
+> > > So it should be fine. I guess the reason that I'm asking is that I thought
+> > > "IR" means "Interrupt remapping" but in fact it means "Interrupt Region"?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I was meaning "interrupt remapping", and of course it's the interrupt region
+too when IR enabled...
+
+> > > 
+> > > But I'm still not clear about the invalidation part for interrupt region,
+> > > maybe you can elaborate a little more on this.
+> > > 
+> > > Btw, I think guest can trigger the assert in vtd_do_iommu_translate() if we
+> > > teach vhost to DMA to that region:
+> > 
+> > Why would we want to?
+> 
+> 
+> I meant a buggy(malicious) guest driver.
+
+Yes seems possible.  Do you want to post a patch?  Let me know if you want me
+to...  Thanks,
+
+-- 
+Peter Xu
 
 
