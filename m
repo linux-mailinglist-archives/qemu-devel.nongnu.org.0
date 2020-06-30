@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E180320FDA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:29:03 +0200 (CEST)
-Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C8520FD8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:21:27 +0200 (CEST)
+Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqMsI-00039n-Tl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60394)
+	id 1jqMkw-000504-AY
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jqMrQ-0002gA-6w; Tue, 30 Jun 2020 16:28:08 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:40045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jqMrO-0000IV-GW; Tue, 30 Jun 2020 16:28:07 -0400
-Received: by mail-il1-x144.google.com with SMTP id e18so8305099ilr.7;
- Tue, 30 Jun 2020 13:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FHrHcTzze7zQdyxECIXPNcwUxE2Nx2ychXxykp9UAbI=;
- b=gmQh2pdOXnvyBSKnIGKKXUQCYxJcJRbQnoE9JOvo/5ZjKcHv9jUUupdvGOqt8MoAAQ
- m9cF628thIvRQUFCyBUApLZ+Q2fUiHJevCMQTG+zCLHd+IK0T33HTOt/p/8QyXc0eAL7
- UmlGbWdAFjGHmbk+2ynL+zYUELTyF7vpNN3S/db84ujWk5+UDNCyrXkhp9DQ/f0M4/d5
- hCue3an7Yx5RGScakItQuzFMpLCH8fHYnsNuDPHCnc9MU6UWz/5DRk6HlCEB3QbCY3gk
- npxuslz1fAuv+Ev03uHImGcb7zURSpvypFuUdJwtxYo8sRIXxS05E0FMIo39w4L2zYEd
- 0ZmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FHrHcTzze7zQdyxECIXPNcwUxE2Nx2ychXxykp9UAbI=;
- b=r3Y96dQJQGNHQl44ZJ6ZYz2EfwBvn7Mv5vh7jI08z9V+r0U/sarbSoXi9xWwMgEzH6
- vbDQezSIvGzosWd/0GTxWWbCbq6TF29WQa6zg9sBanB90/KRPfvcJ5RuAoC2kLdTwK61
- OOgTV0FWPqOOrEtMLJTMIChyBAQsHToTb2g9cnQUQrdXkUEkgdMninRTwtAo6XhnAFCR
- YrhKV0W7s/NacjgIXP48l8Ck+y4kbZ212vt0okCHj+/Q8Z68LT99xn2BLQ3E6J05CUjt
- SISwm+YffiPOLWisGupMvh5Vv/qeDNLLLcU3rHStjHDohFCBbEU26to9DJgq80VLhICU
- QWRw==
-X-Gm-Message-State: AOAM532Xbh4bk/cH3KuTbWik48ZlbWPiGxujMhBXakNMW/MsfQ1PhB1l
- j6Un8+0D/64lYnahnRa/OaO8dLh83jhDe3Ea4fc=
-X-Google-Smtp-Source: ABdhPJzTqgfrczWUhw0lDvlcd0U0JYjHY5ggg3AhHv38T4UXrJ4CB1yZZV3NUR4QaDSBwbR/LGs82aelCd4974dA9NA=
-X-Received: by 2002:a92:5f12:: with SMTP id t18mr4506499ilb.267.1593548885135; 
- Tue, 30 Jun 2020 13:28:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqMjs-0004U5-2p
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:20:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58865
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqMjp-0007W5-I6
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:20:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593548415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2vANeyoxKQOcESL4W/943DWDT/9HkfBmmtSx8GYVx50=;
+ b=DYBbMDjq9DzlgfptCalQc0hMRspNf5dh7fv/9dLJPPNBMwA3jupxqw2QJHTQuP3S1qPavg
+ gV1BBCDGIkHM5vpbzgCdG4eSBz2PMgt2uWMD2aYEZOZC1CgWp53JsFfgsOJglW8thqbsZg
+ zY447uno9vqvguuawWmvl+q5s80ucB4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-96lLimHyPyG2scepeufolA-1; Tue, 30 Jun 2020 16:20:10 -0400
+X-MC-Unique: 96lLimHyPyG2scepeufolA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2082818B5FC8;
+ Tue, 30 Jun 2020 20:19:59 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E40815F7D8;
+ Tue, 30 Jun 2020 20:19:55 +0000 (UTC)
+Subject: Re: [PATCH v2 0/6] hw/mips/malta: Add the 'malta-strict' machine,
+ matching Malta hardware
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200630145236.27529-1-f4bug@amsat.org>
+ <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2d116426-3323-7429-ff41-7f6b9a9f1c55@redhat.com>
+Date: Tue, 30 Jun 2020 22:19:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
- <20200617213415.22417-7-dmitry.fomichev@wdc.com>
-In-Reply-To: <20200617213415.22417-7-dmitry.fomichev@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 30 Jun 2020 13:18:21 -0700
-Message-ID: <CAKmqyKObR_cW_MZ4O3JRNf5DcVosdHA0iMkpnAWpXRQeW+MTQw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/18] hw/block/nvme: Define trace events related to NS
- Types
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAHiYmc4=pmzEyhVTHaqxBnCotE8V+vaptMFincyurvAyDHNn6g@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Keith Busch <kbusch@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsky@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Yunqiang Su <ysu@wavecomp.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 17, 2020 at 2:46 PM Dmitry Fomichev <dmitry.fomichev@wdc.com> wrote:
->
-> A few trace events are defined that are relevant to implementing
-> Namespace Types (NVMe TP 4056).
->
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+On 30/06/2020 17.38, Aleksandar Markovic wrote:
+> уто, 30. јун 2020. у 16:52 Philippe Mathieu-Daudé <f4bug@amsat.org> је
+> написао/ла:
+>>
+>> Hi,
+>>
+>> This series add a new 'malta-strict' machine, that aims to properly
+>> model the real hardware (which is not what the current 'malta'
+>> machine models).
+>>
+>> As a bonus for Debian builders, a 'malta-unleashed' machine RFC
+>> patch is included. This might start another endless discussion
+>> upstream, but this is not the point of, so I still include it
+>> for people to test. The rest of the series is candidate for merging
+>> in mainstream QEMU.
+>>
+>> Philippe Mathieu-Daudé (6):
+>>    hw/mips/malta: Trivial code movement
+>>    hw/mips/malta: Register the machine as a TypeInfo
+>>    hw/mips/malta: Introduce MaltaMachineClass::max_ramsize
+>>    hw/mips/malta: Introduce the 'malta-strict' machine
+>>    hw/mips/malta: Verify malta-strict machine uses correct DIMM sizes
+>>    hw/mips/malta: Introduce the 'malta-unleashed' 64-bit machine
+>>
+>>   hw/mips/malta.c | 125 ++++++++++++++++++++++++++++++++++++++++++------
+>>   1 file changed, 111 insertions(+), 14 deletions(-)
+>>
+>> --
+> 
+> This whole series is based on idea of emulating physically
+> non-existing feature, and as such violates the fundamental principles
+> of QEMU.
+> 
+> As such, not acceptable for upstreaming.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+  Hi Aleksandar,
 
-Alistair
+could you please point me to the spot where we declare this "fundamental 
+principle" of QEMU? Sorry, but I must have missed this piece of 
+information so far. And could you please enlighten me what we should do 
+now with virtio, since most of these devices also are physically 
+non-existent?
 
-> ---
->  hw/block/trace-events | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index 423d491e27..3f3323fe38 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -39,8 +39,13 @@ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size,
->  pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
->  pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
->  pci_nvme_identify_ctrl(void) "identify controller"
-> +pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
->  pci_nvme_identify_ns(uint16_t ns) "identify namespace, nsid=%"PRIu16""
-> +pci_nvme_identify_ns_csi(uint16_t ns, uint8_t csi) "identify namespace, nsid=%"PRIu16", csi=0x%"PRIx8""
->  pci_nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
-> +pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "identify namespace list, nsid=%"PRIu16", csi=0x%"PRIx8""
-> +pci_nvme_list_ns_descriptors(void) "identify namespace descriptors"
-> +pci_nvme_identify_cmd_set(void) "identify i/o command set"
->  pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
->  pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
->  pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
-> @@ -59,6 +64,8 @@ pci_nvme_mmio_stopped(void) "cleared controller enable bit"
->  pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
->  pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
->  pci_nvme_cmd_supp_and_effects_log_read(void) "commands supported and effects log read"
-> +pci_nvme_css_nvm_cset_selected_by_host(uint32_t cc) "NVM command set selected by host, bar.cc=0x%"PRIx32""
-> +pci_nvme_css_all_csets_sel_by_host(uint32_t cc) "all supported command sets selected by host, bar.cc=0x%"PRIx32""
->
->  # nvme traces for error conditions
->  pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
-> @@ -72,6 +79,9 @@ pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
->  pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
->  pci_nvme_err_invalid_effects_log_offset(uint64_t ofs) "commands supported and effects log offset must be 0, got %"PRIu64""
->  pci_nvme_err_invalid_effects_log_len(uint32_t len) "commands supported and effects log size is 4096, got %"PRIu32""
-> +pci_nvme_err_change_css_when_enabled(void) "changing CC.CSS while controller is enabled"
-> +pci_nvme_err_only_nvm_cmd_set_avail(void) "setting 110b CC.CSS, but only NVM command set is enabled"
-> +pci_nvme_err_invalid_iocsci(uint32_t idx) "unsupported command set combination index %"PRIu32""
->  pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
->  pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
->  pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
-> @@ -127,6 +137,7 @@ pci_nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion qu
->  pci_nvme_ub_db_wr_invalid_sq(uint32_t qid) "submission queue doorbell write for nonexistent queue, sqid=%"PRIu32", ignoring"
->  pci_nvme_ub_db_wr_invalid_sqtail(uint32_t qid, uint16_t new_tail) "submission queue doorbell write value beyond queue size, sqid=%"PRIu32", new_head=%"PRIu16", ignoring"
->  pci_nvme_unsupported_log_page(uint16_t lid) "unsupported log page 0x%"PRIx16""
-> +pci_nvme_ub_unknown_css_value(void) "unknown value in cc.css field"
->
->  # xen-block.c
->  xen_block_realize(const char *type, uint32_t disk, uint32_t partition) "%s d%up%u"
-> --
-> 2.21.0
->
->
+  Thanks,
+   Thomas
+
 
