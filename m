@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE2720FE40
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:56:30 +0200 (CEST)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD29C20FE23
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:50:24 +0200 (CEST)
+Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqNIr-0007xz-Mb
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
+	id 1jqNCx-0003gI-6W
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jqNHr-000778-0t; Tue, 30 Jun 2020 16:55:27 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:43482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jqNHp-0004HP-BR; Tue, 30 Jun 2020 16:55:26 -0400
-Received: by mail-io1-xd43.google.com with SMTP id k23so22507877iom.10;
- Tue, 30 Jun 2020 13:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cS07S9PeaiBeK0IzcW0qbV66hIIZRnIen/5zf8xLf1c=;
- b=X5EoJpC6n7Z6YvON2sQFoVhsOwbawuSeaPsYxkJC7x4N17/U9xK5Udfy3kNOcTYIhT
- O+GkysAPVljHAvKXJ2dYXmrQjXO43xv2rgdCBJkKH6sQxcgRkmA/u5nPOvXhpNWT9B99
- HGkqf3WY/gz51AbJIrU/xP+wb4ckM+HyjKOIXFy4m0k8as5CCO7mIWDv+GH64bF2/R0v
- v/FrnOyOywvCyrfe92Hi0DRZAyMhy5Xw9ECYsEiIg68q04JIQyu2EOE3WVKHSyowWs4d
- FTIjBHfoIZ5iPoxETbygTdLObU4TnqOgzK6VDkXcjcLyDhbRWsEpCYcxMrRt23MYc0Kz
- uEjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cS07S9PeaiBeK0IzcW0qbV66hIIZRnIen/5zf8xLf1c=;
- b=W1PGFlJ/fLTxl/MT/OrloDXoeIrxkWN3NnE939DPij2Rlb9fVFVXtpDFpvxZ5OoelN
- i6hE9q2i+Rlpslatz+poAbHuxSfs2otiyty6N2x3pUPm5LcgsPTVCVYe0qPBgVgVuGub
- ND3OjWGdbre7F6VZ+8g4lQOilDT8iHnyDE+JBr3hlMIXwMzOBPPvo5SmBqIiV+AuG6Jo
- gmt2jcQP27XrKrjDehNHV2I+CzIzcVFGUzxpkMz9Rxfu4IQUZ2iqOlC4FnH/fNjPsFFZ
- LlSakGYnnOVeSdUyfUAr0H0NXF4JHOhjQBtJWjV0kqfF2FkeJivdlPf6ZR0orn5zz6E5
- wdRQ==
-X-Gm-Message-State: AOAM533f8fpYgFfIS305JCMxiD6zUMhpovQoIqlt1rB34tzj5bcKeugX
- VeKN7fygse3SF3trVoAMGB02fORZmlPInAAOWmA=
-X-Google-Smtp-Source: ABdhPJzc1HK+aiVyA7xPxnOjkc+y1u/ihbeEBTgGWDTI84rWORAuSnFo5uoYbu2GP0rHoINmq9H2KpRzQDktup9jgmY=
-X-Received: by 2002:a6b:8dd1:: with SMTP id
- p200mr23583366iod.118.1593550523524; 
- Tue, 30 Jun 2020 13:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jqNBy-0003AR-9m; Tue, 30 Jun 2020 16:49:22 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jqNBv-0003Xr-5e; Tue, 30 Jun 2020 16:49:21 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E132F74633F;
+ Tue, 30 Jun 2020 22:49:06 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B627774633E; Tue, 30 Jun 2020 22:49:06 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B4CC8746333;
+ Tue, 30 Jun 2020 22:49:06 +0200 (CEST)
+Date: Tue, 30 Jun 2020 22:49:06 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v7 0/8] Mac Old World ROM experiment
+In-Reply-To: <5057ce7a-8e34-5b07-e93b-9cf8976fa3b2@ilande.co.uk>
+Message-ID: <alpine.BSF.2.22.395.2006302219090.46417@zero.eik.bme.hu>
+References: <cover.1593456926.git.balaton@eik.bme.hu>
+ <5057ce7a-8e34-5b07-e93b-9cf8976fa3b2@ilande.co.uk>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-References: <20200628142429.17111-1-peter.maydell@linaro.org>
- <20200628142429.17111-6-peter.maydell@linaro.org>
-In-Reply-To: <20200628142429.17111-6-peter.maydell@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 30 Jun 2020 13:45:39 -0700
-Message-ID: <CAKmqyKPiq4QGuhUADFLhMnekEpDA2NPh=MTHPskUjt2u+DTA5g@mail.gmail.com>
-Subject: Re: [PATCH 05/17] hw/arm/spitz: Implement inbound GPIO lines for bit5
- and power signals
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,115 +58,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 28, 2020 at 7:29 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 30 Jun 2020, Mark Cave-Ayland wrote:
+> On 29/06/2020 19:55, BALATON Zoltan wrote:
+>> This is now a minimal set of patches needed to make it possible to
+>> experiment with a firmware ROM from real hardware. After finding out
+>> that the board firmware does not probe PCI devices but expects them at
+>> known fixed addresses we only need to change the address of the macio
+>> device to get the firmware correctly map it. This allows dropping
+>> workarounds in previous versions for this and now only the minimal set
+>> of patches are included to get the firmware loaded and do something.
+>> (Also excluded the grackle revision and machine ID pathes for now that
+>> may be needed as the firmware accesses these but seems to go further
+>> without them so until we hit a problem we can live without it,
+>> although I wonder if this causes us unnecessary debugging later so
+>> unless they cause regressions they could be merged).
+>>
+>> I still don't get video output but at least it talks to the GPU chip
+>> now so it can be debugged and improved (this will either need
+>> emulating the correct chip the firmware has a driver for or an OF
+>> compliant ROM for the emulated card).
+>>
+>> As before the I2C part (patches 6-8) is RFC and unfinished but the
+>> first 5 patches should be good enough now. I hope someone can take
+>> care of I2C, I can look at the ati-vga side later.
 >
-> Currently the Spitz board uses a nasty hack for the GPIO lines
-> that pass "bit5" and "power" information to the LCD controller:
-> the lcdtg realize function sets a global variable to point to
-> the instance it just realized, and then the functions spitz_bl_power()
-> and spitz_bl_bit5() use that to find the device they are changing
-> the internal state of. There is a comment reading:
->  FIXME: Implement GPIO properly and remove this hack.
-> which was added in 2009.
->
-> Implement GPIO properly and remove this hack.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> If you can sort out the issue with masking in patches 1 and 2 then I'd be happy to
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Patch 2 does not have masking only patch 1, I'll try to have a look and 
+reply to that message.
 
-Alistair
+> take patches 1-5. Obviously there is still some discussion around the i2c part, so I
+> can wait a few more days to see what the outcome is there: the patches generally seem
 
-> ---
->  hw/arm/spitz.c | 28 ++++++++++++----------------
->  1 file changed, 12 insertions(+), 16 deletions(-)
->
-> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-> index 69bc2b3fa10..11e413723f4 100644
-> --- a/hw/arm/spitz.c
-> +++ b/hw/arm/spitz.c
-> @@ -586,12 +586,9 @@ static void spitz_bl_update(SpitzLCDTG *s)
->          zaurus_printf("LCD Backlight now off\n");
->  }
->
-> -/* FIXME: Implement GPIO properly and remove this hack.  */
-> -static SpitzLCDTG *spitz_lcdtg;
-> -
->  static inline void spitz_bl_bit5(void *opaque, int line, int level)
->  {
-> -    SpitzLCDTG *s = spitz_lcdtg;
-> +    SpitzLCDTG *s = opaque;
->      int prev = s->bl_intensity;
->
->      if (level)
-> @@ -605,7 +602,7 @@ static inline void spitz_bl_bit5(void *opaque, int line, int level)
->
->  static inline void spitz_bl_power(void *opaque, int line, int level)
->  {
-> -    SpitzLCDTG *s = spitz_lcdtg;
-> +    SpitzLCDTG *s = opaque;
->      s->bl_power = !!level;
->      spitz_bl_update(s);
->  }
-> @@ -639,13 +636,16 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
->      return 0;
->  }
->
-> -static void spitz_lcdtg_realize(SSISlave *dev, Error **errp)
-> +static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
->  {
-> -    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
-> +    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
-> +    DeviceState *dev = DEVICE(s);
->
-> -    spitz_lcdtg = s;
->      s->bl_power = 0;
->      s->bl_intensity = 0x20;
-> +
-> +    qdev_init_gpio_in_named(dev, spitz_bl_bit5, "bl_bit5", 1);
-> +    qdev_init_gpio_in_named(dev, spitz_bl_power, "bl_power", 1);
->  }
->
->  /* SSP devices */
-> @@ -820,15 +820,11 @@ static void spitz_out_switch(void *opaque, int line, int level)
->      case 3:
->          zaurus_printf("Orange LED %s.\n", level ? "on" : "off");
->          break;
-> -    case 4:
-> -        spitz_bl_bit5(opaque, line, level);
-> -        break;
-> -    case 5:
-> -        spitz_bl_power(opaque, line, level);
-> -        break;
->      case 6:
->          spitz_adc_temp_on(opaque, line, level);
->          break;
-> +    default:
-> +        g_assert_not_reached();
->      }
->  }
->
-> @@ -858,9 +854,9 @@ static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
->
->      if (sms->scp1) {
->          qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
-> -                              outsignals[4]);
-> +                              qdev_get_gpio_in_named(sms->lcdtg, "bl_bit5", 0));
->          qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
-> -                              outsignals[5]);
-> +                              qdev_get_gpio_in_named(sms->lcdtg, "bl_power", 0));
->      }
->
->      qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
-> --
-> 2.20.1
->
->
+The fix to i2c API would be welcome (not sure it will be resolved in a few 
+days but we'll see) but it's not the main problem that makes patch 7 RFC. 
+Rather the hardcoded returning 5 bytes in cuda_cmd_combined_iic() which is 
+probably not how CUDA should work (apart from that I'm also not sure 
+cuda_cmd_get_set_iic() is correct) but
+
+1. I don't know how CUDA works
+2. Don't have time and interest in larger CUDA model refactoring
+
+so I've only made the changes needed to be able to test the ROM and 
+identify what needs to be fixed. This CUDA I2C is one thing that someone 
+with more knowledge/interest may want to look at in more detail. If 
+there's nobody to make a better patch now maybe we can test if this breaks 
+anything and once the I2C API changes settle down I can rebase it as it 
+is, maybe also removing i2c attempts from cuda_cmd_get_set_iic() only 
+leaving a log there is better as that command only seems to be used to 
+access not yet emulated devices and always returns error at the moment 
+anyway not reaching any of the i2c calls in there (I think it may be the 
+audio mixer device the ROM tries to poke with this command but I'm not 
+sure, I've also seen another i2c address, could be some sensor?, maybe 
+DingusPPC has some info on these i2c devices but haven't checked it). 
+Anyway, this i2c part is not urgent and can come back to it later. If we 
+get in the first 5 patches now that would clean my tree sufficiently to 
+only leave patches I intend to change later and get rid of the finished 
+ones so I have less patches piling up.
+
+> okay, the one change I would like to see is to add a comment around the SPD parts
+> mentioning that these are only used by the real G3 ROM and not OpenBIOS.
+
+This patch also has a dependency on spd_data_generate() API that probably 
+won't get fixed before the freeze unless I submit a patch but not sure 
+I'll have time for that, also it's not useful without the previous I2C 
+patch so again we can see where this goes and come back to it with the I2C 
+part.
+
+> My only concern is whether an incomplete i2c implementation could cause OSs that
+> currently boot to hang, so it is important that you can test a variety of OS images
+> from MacOS to Linux and BSD to ensure that it doesn't cause any regression.
+
+I neither have these images nor time to test all of them so I hoped you 
+could do this as part of your merge testing or someone else can help out 
+here with testing.
+
+Regards,
+BALATON Zoltan
 
