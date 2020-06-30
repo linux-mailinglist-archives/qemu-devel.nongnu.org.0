@@ -2,109 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7207820F1D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:40:48 +0200 (CEST)
-Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F8920F1DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:42:45 +0200 (CEST)
+Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCkx-0003yd-BJ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
+	id 1jqCmq-0006N6-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqCjn-0002wV-21
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:39:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43591
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqCkD-0003iL-KZ
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:40:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24052
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqCjk-0000TM-QK
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:39:34 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqCkB-0000aH-P1
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:40:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593509971;
+ s=mimecast20190719; t=1593509999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ATPNIEecoeus0NcTildAwjVvmS0pUbK+VfMvy4W4ZY=;
- b=hxloTcbinAfxf2MTzguzI6V5XhYZD9KDmPvcjXcyM58duO08LtlUBZmMzR7z3NCO3A6749
- eK0/vyHm+i406MCPeQl476VYtxjC4otIxqKEDtjFxi2ZvW/uJIkvKa1utFYevA1xOQEIWa
- qEqpkskto9JpsenuHWSMHag63jUYkFk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-86nKTYQxPdSimn9kvJv1PA-1; Tue, 30 Jun 2020 05:39:27 -0400
-X-MC-Unique: 86nKTYQxPdSimn9kvJv1PA-1
-Received: by mail-ed1-f72.google.com with SMTP id y4so4931948edv.17
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 02:39:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=3ATPNIEecoeus0NcTildAwjVvmS0pUbK+VfMvy4W4ZY=;
- b=UHGCff+6QK+T14P8KFzjpGImVAkJNNQkhK10nKBTHspEe59xfMkv8jD/KkdPxNmZJX
- XYIeIGo3UubXK1efsrb1hp5oZHbk3oygGzh0kvm8TIM2i/mTgho0KRM6h/s2jmggukw2
- 1tVqcSmyEscm8zKdwUR5vhyA0NcOeVuxnlTcYM+NwCNRLy+T4meVRzIJyHTedKzm5YxK
- vJb2iw81auGaegSOYr9Cv6W7gFr/LwHR7Zd0BlFYeHPL+q1G2pu8j4y6ELkJ4tRkbuL0
- QQpIgzoJQwigUL9xOkaNXuo3iuhcON9SlVsmygxA0/Ni+BQcAQ5eMt4blAn/ManEme8T
- yb4w==
-X-Gm-Message-State: AOAM5310gJgEFRdRjd9YPuidAxxQm/RkcMFHVSCDVCO+7crnPBKPd+T7
- lXnp6rmtwjGEtwbPhtnle8kITirCGWLnYUlbeUfE4fRow4wi1uyqx9F8+ed/DH3LdYgI+dNAem/
- wcPLeKfDLxJ3WJfA=
-X-Received: by 2002:a50:8467:: with SMTP id 94mr21559726edp.249.1593509966526; 
- Tue, 30 Jun 2020 02:39:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyagq0Zj8acaAJAvFf7ykiwaAs5XYxHoPfsR5pa2C5j5dX+noJqf1XtxjgmTRcBRGimZRwkdA==
-X-Received: by 2002:a50:8467:: with SMTP id 94mr21559712edp.249.1593509966378; 
- Tue, 30 Jun 2020 02:39:26 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id d22sm1583881ejc.90.2020.06.30.02.39.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 02:39:25 -0700 (PDT)
-Subject: Re: [PATCH] hw/block/nvme: Align I/O BAR to 4 KiB
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20200625154834.367-1-philmd@redhat.com>
- <20200625182326.ookc3e6rpbcypuj3@apples.localdomain>
- <a186c461-7af3-371a-f82f-7dc3ced0ea84@redhat.com>
- <20200630084645.f53iwkmpbewnhilk@apples.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <5a205368-ca51-d3f6-22a5-5f04194150c7@redhat.com>
-Date: Tue, 30 Jun 2020 11:39:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ in-reply-to:in-reply-to:references:references;
+ bh=G7U1eDyaFVKc4xIgFDlBscwNxSL+RWJFQCOyDTR2WB4=;
+ b=ZDhaeSwPxtrii0uyvck43/ByhaB083k72uqPcW13YVMn+4FsyB+Umv4j8EaYjgbYcrlPrr
+ tG0HsrzhbkXlps8vTFZHwmVFXzcp9zZUPAiyKymvAGB2BnB7s/xEUsaj0iUB2KV3U1W+Hc
+ 3OMaNJgpGakkCEsPGVFanD78cwY/DOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-y03lNSTIOdaSg26QhIHJ1Q-1; Tue, 30 Jun 2020 05:39:56 -0400
+X-MC-Unique: y03lNSTIOdaSg26QhIHJ1Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 691B619067E6;
+ Tue, 30 Jun 2020 09:39:55 +0000 (UTC)
+Received: from gondolin (ovpn-113-12.ams2.redhat.com [10.36.113.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC64D60C81;
+ Tue, 30 Jun 2020 09:39:44 +0000 (UTC)
+Date: Tue, 30 Jun 2020 11:39:32 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC 0/4] Enable virtio-fs on s390x
+Message-ID: <20200630113932.484b3fde.cohuck@redhat.com>
+In-Reply-To: <20200630090451.GE81930@stefanha-x1.localdomain>
+References: <20200625100430.22407-1-mhartmay@linux.ibm.com>
+ <20200629125305.GH31392@stefanha-x1.localdomain>
+ <20200629130716.GQ1298906@redhat.com>
+ <20200630090451.GE81930@stefanha-x1.localdomain>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200630084645.f53iwkmpbewnhilk@apples.localdomain>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
+Content-Type: multipart/signed; boundary="Sig_/EdTKuiXSaLBVO8rGMFs_Bes";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -112,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,63 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/20 10:46 AM, Klaus Jensen wrote:
-> On Jun 30 10:35, Philippe Mathieu-Daudé wrote:
->> Hi Klaus,
->>
->> On 6/25/20 8:23 PM, Klaus Jensen wrote:
->>> On Jun 25 17:48, Philippe Mathieu-Daudé wrote:
->>>> Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>>  include/block/nvme.h | 3 +++
->>>>  hw/block/nvme.c      | 5 ++---
->>>>  2 files changed, 5 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/include/block/nvme.h b/include/block/nvme.h
->>>> index 1720ee1d51..6d87c9c146 100644
->>>> --- a/include/block/nvme.h
->>>> +++ b/include/block/nvme.h
->>>> @@ -22,6 +22,8 @@ typedef struct NvmeBar {
->>>>      uint32_t    pmrebs;
->>>>      uint32_t    pmrswtp;
->>>>      uint32_t    pmrmsc;
->>>> +    uint32_t    reserved[58];
->>>> +    uint8_t     cmd_set_specfic[0x100];
->>>>  } NvmeBar;
->>>
->>> This ends up as a freak mix of v1.3 and v1.4 specs. Since we already
->>> have the PMR stuff in there, I think it makes more sense to align with
->>> v1.4 and remove the reserved bytes.
->>
->> I'm sorry but I don't understand what you'd prefer, removing the
->> cmd_set_specfic[] for v1.3 and instead use this?
->>
->>       uint32_t    pmrmsc;
->>  +    uint32_t    reserved[122];
->>   } NvmeBar;
->>
->> Or this?
->>
->>       uint32_t    pmrmsc;
->>  +    uint8_t     reserved[488];
->>   } NvmeBar;
->>
-> 
-> Yes, the second one.
-> 
-> But it should be 484 bytes reserved and the bug is in the pmrmsc field
-> that should be uint64_t. Can you fix that as well?  :)
-> 
+--Sig_/EdTKuiXSaLBVO8rGMFs_Bes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Ah this is what you did in "hw/block/nvme: add NVMe 1.4 specific fields"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg717891.html
+On Tue, 30 Jun 2020 10:04:51 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> On Mon, Jun 29, 2020 at 02:07:16PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > On Mon, Jun 29, 2020 at 01:53:05PM +0100, Stefan Hajnoczi wrote: =20
+> > > On Thu, Jun 25, 2020 at 12:04:26PM +0200, Marc Hartmayer wrote: =20
+> > > > This RFC is about enabling virtio-fs on s390x. For that we need
+> > > >  + some shim code (first patch), and we need
+> > > >  + libvhost-user to deal with virtio endiannes as mandated by the s=
+pec.
+> > > > =20
+> > > > The second part is trickier, because unlike QEMU we are not certain
+> > > > about the guest's native endianness, which is needed to handle the
+> > > > legacy-interface appropriately. In fact, this is the reason why jus=
+t
+> > > > RFC.
+> > > >=20
+> > > > One of the open questions is whether to build separate versions, on=
+e
+> > > > for guest little endian and one for guest big endian, or do we want
+> > > > something like a command line option? (Digression on the libvirt
+> > > > modeling)
+> > > >=20
+> > > > A third option would be to refuse legacy altogether. =20
+> > >=20
+> > > I suggest the following:
+> > >=20
+> > > 1. Combinations that worked with libvhost-user in the past must not b=
+reak.
+> > >=20
+> > > 2. New combinations should only support VIRTIO 1.0 and later.
+> > >=20
+> > > This means continue to allow Legacy mode devices where they already r=
+un
+> > > today but don't add new code for the cases that didn't work. =20
+> >=20
+> > What I'm missing here is what PCI product ID was being used when the
+> > current impl is in legacy/transitional mode ?
+> >=20
+> > Normally legacy and transitional mode devices need an explicit PCI ID
+> > reserved, where as modern-only devices have a PCI ID derived from their
+> > VirtIO ID + a fixed offset.
+> >=20
+> > Was this mistakenly using a VirtIO ID + fixed offset for the legacy
+> > mode too ? =20
+>=20
+> vhost-user-fs-pci does not support Legacy or Transitional mode. See
+> hw/virtio/vhost-user-fs-pci.c:
+>=20
+>   static const VirtioPCIDeviceTypeInfo vhost_user_fs_pci_info =3D {
+>       .base_name             =3D TYPE_VHOST_USER_FS_PCI,
+>       .non_transitional_name =3D "vhost-user-fs-pci",
+>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>       .instance_size =3D sizeof(VHostUserFSPCI),
+>       .instance_init =3D vhost_user_fs_pci_instance_init,
+>       .class_init    =3D vhost_user_fs_pci_class_init,
+>   };
+
+This makes it very unlikely that someone accidentally configures
+non-modern, but does not prevent it AFAICS. See
+<20200630113527.7b27f34f.cohuck@redhat.com>, which I just sent.
+
+(I may be off, because that is all very confusing...)
+
+--Sig_/EdTKuiXSaLBVO8rGMFs_Bes
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl77CFQACgkQ3s9rk8bw
+L6825Q/+NFkDCgcuIQ36wa2jKmoUW5Af/jj5GCy7DWriPJeoEYCMghRRZdlkOVYw
+asoZ1z0x0VbuexT9Ho8ncpWtLTcUR83jQ93Nj/RxDv/v8TyoTdXbj+B6Gw1ISMWe
+4eyNNjRAuZ1M0RcR2kMKUv33PbkeUnGC9co52opa8hc3NIP6G11vfJ2/8Vs/59qb
+TLGbJzt6GpO2Qb9kCkliBzS2yxjCeFEKtFTkfn8suXuyOJufoq6Cuz6vf6FKvFd/
+HjYr0M0iy4FYrCNbCRpFJhzSeVMEjQ6fbNoI9iZFon28NnYii1EvowyRV9cpGJdi
+fF26bKyY4lApLMQs4IrxjMRBjAyH/2wSWdFLqijOqA+MgmnvrKg4Q6GIuEhqznTd
+xJVFsUvVOqHBGT6K/5DtftjfphT38baIfQLNBz4+dYiwRmbhUZ0yB+6BZToleilO
+k+L/EVJUhQQSNzory/UqrC7j4ofedubGDKfOp/x8nSaVTaCrB/A6+PIVTg9jCPVk
+tQ99V+KILx6zRKrEDeRmjQzfW7M87mxG6QPjzQ7cVuh7jPWTMjrQckgHrRqpQ9oL
+QAp2/rx+rmiaOjyoHGD0gx44InDR83GZxKexlqz6bhGbG9mJnmPYKPTia/bC7Gbj
+zMlss5EFG6gQ3lcVnUO8p+WgxXFYEVWO5AtCWqC/HVO+TSB2+dU=
+=saXa
+-----END PGP SIGNATURE-----
+
+--Sig_/EdTKuiXSaLBVO8rGMFs_Bes--
 
 
