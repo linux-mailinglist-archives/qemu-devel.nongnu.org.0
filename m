@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91ACB20F262
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:12:44 +0200 (CEST)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371AA20F265
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:14:52 +0200 (CEST)
+Received: from localhost ([::1]:49306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDFr-0001xD-IE
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
+	id 1jqDHv-0004ua-8O
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7I-0002P3-2L; Tue, 30 Jun 2020 06:03:52 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42538)
+ id 1jqD7J-0002RI-93; Tue, 30 Jun 2020 06:03:53 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqD7G-0004cn-D8; Tue, 30 Jun 2020 06:03:51 -0400
-Received: by mail-ej1-x643.google.com with SMTP id i14so19906888ejr.9;
- Tue, 30 Jun 2020 03:03:49 -0700 (PDT)
+ id 1jqD7H-0004d6-FB; Tue, 30 Jun 2020 06:03:52 -0400
+Received: by mail-ej1-x644.google.com with SMTP id ga4so19869333ejb.11;
+ Tue, 30 Jun 2020 03:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i3AX6k9zJcs7ntcPjDjs5EOqKiW+/SX/Gp5bwn7hkCA=;
- b=IEKL2LMZH0/frLWh99/3r5wwdykr2VKNm1Wa0MgHcETnX10XHnjCRRenK2whSolssw
- 9/LsfjZ99vJYdJ4j2n/JjD0PXoahwoljYFP0Ot9FnZVpdqIO1WkkJSZ8utwxe5hfdY1b
- jbPRxAjthFs/itv5YuyOc+by8mtqvOHhQ434+h8YduQ5wFHzFHml45cPH7DAYN4j02FS
- uNRZSmWqlB25KkLuwnXOSJv3VPnI22WV+Z0g++Ma6wOA6UJCQgNx/F5QajoNu4WmUySU
- zJh8XAOXdkCLFd22y0YL6Ce/aVbT/Heyi//Ro2BTKq6PiUM2BpoxJ+S6SRNrEKzr5b+Z
- A07w==
+ bh=0q3fvINBMewfm4ouk0ChZ+kON+bgL7uzrdyA1Uly1X8=;
+ b=BR8L593kU1PbitxiYKnrw39mzvTGh4JSU0jV3EPCvbMio1hNLVjBVXewnzOz2lCVM8
+ TwZIAwkEtfvbcVEm81u+NrA7CT2Ew1JPYguQ0avW9lKZryI22UUtDJWIpJtJLP8wugZb
+ k7I6I9OzMtoxWwpcJ1cwJtVgJtHZQt2qMZMINm3irnJk69qAJlj6z63+EZ4pPD+7bPS2
+ erV0oy8SvNTacbUfxsfSse0pcI1il/DxlF3wDRPt/5PE3oUj43x4wqCfQjPpq6mHoDYF
+ /kwMJ3vIUvHd/61Pjxpf45xJvuyWJvLyV1xBWkZC39MET42OvkP2TDFeK/4Ymz2bnZnD
+ XK0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i3AX6k9zJcs7ntcPjDjs5EOqKiW+/SX/Gp5bwn7hkCA=;
- b=ZKl+IE1gVWLShQ2v/fg5WCElI378Ia7DYgtVQ39XqeKt4EamsQvk5VI9EaWGnLyLLt
- E0bZa9TXKy6lgNnNQkpcCqYFDr9Ht/vI036LcgoQdIaqX6hBbqCj8Dol5ejDBfGJAbjM
- d4V647FM74yQ/p4PRB62/uNKEDQUbcq17WIQNzzkybPEeAKJ76nH+W2lIuaILN7tPdHX
- ES0A9lqycBTtSPPBmL6gvW9Z0ctxGjqEZqLWSE5QYjjNsGQPbvNBwZ2ph1dy9kuK8uYk
- x7xvrZzI6QpWv2vX6hXqLNdGpYKPJWKFEH0zuYBx4sl5DXLs20hl4YegC/lt+O8OVEGq
- xclQ==
-X-Gm-Message-State: AOAM533gEfHU43qX4Eo0wRLQxG9Na/ukhJR2lewGMBoIM90A2i34Jrce
- RI0Wp8MZ6hRQO7ZNwikDPPQyvse6Yc4=
-X-Google-Smtp-Source: ABdhPJzHnfqUeAgd+c1AOgg8ja274FnZFBqR0ujPY7o0XxBRBrtq/1+c+OFyVIzaknIIbLth/3w4cw==
-X-Received: by 2002:a17:907:a92:: with SMTP id
- by18mr18590748ejc.116.1593511428544; 
- Tue, 30 Jun 2020 03:03:48 -0700 (PDT)
+ bh=0q3fvINBMewfm4ouk0ChZ+kON+bgL7uzrdyA1Uly1X8=;
+ b=KjR8po5tg1e9qJExQ51j75vVd0aOA5bJ4N6/FGoYOVoF1w36CP5EXouvZKioqUaZF/
+ sGaSmvCwo/7Qw6BCipIQO5yNU6r2hEkMMWRKwxLhsGZGplk6Jf9F+yHwDEQ3bvCCJc1L
+ FszxcYcKTnbydXjecZ62zWXpK5ix9pfzEFkHyVz0bAwjjv9kzhxRYBFLudzagrbUy8ua
+ fcutoRcjGjYEDy1upVcrmCdUUToszbTl8RI8amB9J9N7npjqUN2/Jci76yLkflk57mEq
+ i/4pcZa+RMG+ChdafDroTXN70rhGXtJcb71QOd1Kv2BXOKBoItDm9RAbn3dgKzV2jO2q
+ MIsQ==
+X-Gm-Message-State: AOAM530oBi/cCEGS0hbQSh4RQA3vSlrKQ8PzPCG3q9xgGynCffB5mbXs
+ kaCLkJere3+bX7Sq4lfHnb9uBHo5X4s=
+X-Google-Smtp-Source: ABdhPJy9dxy3W18ume45TOc7fhb1ju2NXH96SCExZEwUfKdhJ9ukSFk1lG9N99GAk9UTyyJFeWBe7g==
+X-Received: by 2002:a17:906:1414:: with SMTP id
+ p20mr17183571ejc.247.1593511429645; 
+ Tue, 30 Jun 2020 03:03:49 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.47
+ by smtp.gmail.com with ESMTPSA id h2sm2304697edk.54.2020.06.30.03.03.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 03:03:48 -0700 (PDT)
+ Tue, 30 Jun 2020 03:03:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/15] hw/sd/sdcard: Use the HWBLOCK_SIZE definition
-Date: Tue, 30 Jun 2020 12:03:31 +0200
-Message-Id: <20200630100342.27625-5-f4bug@amsat.org>
+Subject: [PATCH v6 05/15] hw/sd/sdcard: Do not switch to ReceivingData if
+ address is invalid
+Date: Tue, 30 Jun 2020 12:03:32 +0200
+Message-Id: <20200630100342.27625-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630100342.27625-1-f4bug@amsat.org>
 References: <20200630100342.27625-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -87,100 +88,129 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the following different uses of the same value by
-the same HWBLOCK_SIZE definition:
-  - 512 (magic value)
-  - 0x200 (magic value)
-  - 1 << HWBLOCK_SHIFT
+Only move the state machine to ReceivingData if there is no
+pending error. This avoids later OOB access while processing
+commands queued.
 
+  "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
+
+  4.3.3 Data Read
+
+  Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+  occurred and no data transfer is performed.
+
+  4.3.4 Data Write
+
+  Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
+  occurred and no data transfer is performed.
+
+WP_VIOLATION errors are not modified: the error bit is set, we
+stay in receive-data state, wait for a stop command. All further
+data transfer is ignored. See the check on sd->card_status at the
+beginning of sd_read_data() and sd_write_data().
+
+Fixes: CVE-2020-13253
+Cc: Prasad J Pandit <pjp@fedoraproject.org>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1880822
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+v4: Only modify ADDRESS_ERROR, not WP_VIOLATION (pm215)
+---
+ hw/sd/sd.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 4816b4a462..04451fdad2 100644
+index 04451fdad2..7e0d684aca 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -81,6 +81,7 @@ enum SDCardStates {
- };
- 
- #define HWBLOCK_SHIFT   9                       /* 512 bytes */
-+#define HWBLOCK_SIZE    (1 << HWBLOCK_SHIFT)
- #define SECTOR_SHIFT    5                       /* 16 kilobytes */
- #define WPGROUP_SHIFT   7                       /* 2 megs */
- #define CMULT_SHIFT     9                       /* 512 times HWBLOCK_SIZE */
-@@ -129,7 +130,7 @@ struct SDState {
-     uint32_t blk_written;
-     uint64_t data_start;
-     uint32_t data_offset;
--    uint8_t data[512];
-+    uint8_t data[HWBLOCK_SIZE];
-     qemu_irq readonly_cb;
-     qemu_irq inserted_cb;
-     QEMUTimer *ocr_power_timer;
-@@ -410,7 +411,7 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-             ((HWBLOCK_SHIFT << 6) & 0xc0);
-         sd->csd[14] = 0x00;	/* File format group */
-     } else {			/* SDHC */
--        size /= 512 * KiB;
-+        size /= HWBLOCK_SIZE * KiB;
-         size -= 1;
-         sd->csd[0] = 0x40;
-         sd->csd[1] = 0x0e;
-@@ -574,7 +575,7 @@ static void sd_reset(DeviceState *dev)
-     sd->erase_start = 0;
-     sd->erase_end = 0;
-     sd->size = size;
--    sd->blk_len = 0x200;
-+    sd->blk_len = HWBLOCK_SIZE;
-     sd->pwd_len = 0;
-     sd->expecting_acmd = false;
-     sd->dat_lines = 0xf;
-@@ -685,7 +686,7 @@ static const VMStateDescription sd_vmstate = {
-         VMSTATE_UINT32(blk_written, SDState),
-         VMSTATE_UINT64(data_start, SDState),
-         VMSTATE_UINT32(data_offset, SDState),
--        VMSTATE_UINT8_ARRAY(data, SDState, 512),
-+        VMSTATE_UINT8_ARRAY(data, SDState, HWBLOCK_SIZE),
-         VMSTATE_UNUSED_V(1, 512),
-         VMSTATE_BOOL(enable, SDState),
-         VMSTATE_END_OF_LIST()
-@@ -754,8 +755,8 @@ static void sd_erase(SDState *sd)
- 
-     if (FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
-         /* High capacity memory card: erase units are 512 byte blocks */
--        erase_start *= 512;
--        erase_end *= 512;
-+        erase_start *= HWBLOCK_SIZE;
-+        erase_end *= HWBLOCK_SIZE;
-     }
- 
-     erase_start = sd_addr_to_wpnum(erase_start);
-@@ -1149,7 +1150,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-     case 16:	/* CMD16:  SET_BLOCKLEN */
+@@ -1167,13 +1167,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+     case 17:	/* CMD17:  READ_SINGLE_BLOCK */
          switch (sd->state) {
          case sd_transfer_state:
--            if (req.arg > (1 << HWBLOCK_SHIFT)) {
-+            if (req.arg > HWBLOCK_SIZE) {
-                 sd->card_status |= BLOCK_LEN_ERROR;
-             } else {
-                 trace_sdcard_set_blocklen(req.arg);
-@@ -1961,7 +1962,7 @@ uint8_t sd_read_data(SDState *sd)
-     if (sd->card_status & (ADDRESS_ERROR | WP_VIOLATION))
-         return 0x00;
+-            sd->state = sd_sendingdata_state;
+-            sd->data_start = addr;
+-            sd->data_offset = 0;
  
--    io_len = (sd->ocr & (1 << 30)) ? 512 : sd->blk_len;
-+    io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
+             if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++                return sd_r1;
+             }
++
++            sd->state = sd_sendingdata_state;
++            sd->data_start = addr;
++            sd->data_offset = 0;
+             return sd_r1;
  
-     trace_sdcard_read_data(sd->proto_name,
-                            sd_acmd_name(sd->current_cmd),
+         default:
+@@ -1184,13 +1186,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+     case 18:	/* CMD18:  READ_MULTIPLE_BLOCK */
+         switch (sd->state) {
+         case sd_transfer_state:
+-            sd->state = sd_sendingdata_state;
+-            sd->data_start = addr;
+-            sd->data_offset = 0;
+ 
+             if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++                return sd_r1;
+             }
++
++            sd->state = sd_sendingdata_state;
++            sd->data_start = addr;
++            sd->data_offset = 0;
+             return sd_r1;
+ 
+         default:
+@@ -1230,14 +1234,17 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             /* Writing in SPI mode not implemented.  */
+             if (sd->spi)
+                 break;
++
++            if (sd->data_start + sd->blk_len > sd->size) {
++                sd->card_status |= ADDRESS_ERROR;
++                return sd_r1;
++            }
++
+             sd->state = sd_receivingdata_state;
+             sd->data_start = addr;
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size) {
+-                sd->card_status |= ADDRESS_ERROR;
+-            }
+             if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+             }
+@@ -1257,14 +1264,17 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             /* Writing in SPI mode not implemented.  */
+             if (sd->spi)
+                 break;
++
++            if (sd->data_start + sd->blk_len > sd->size) {
++                sd->card_status |= ADDRESS_ERROR;
++                return sd_r1;
++            }
++
+             sd->state = sd_receivingdata_state;
+             sd->data_start = addr;
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size) {
+-                sd->card_status |= ADDRESS_ERROR;
+-            }
+             if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+             }
 -- 
 2.21.3
 
