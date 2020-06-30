@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7BC20FE2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:51:39 +0200 (CEST)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE2720FE40
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 22:56:30 +0200 (CEST)
+Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqNEA-0004oe-8a
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1jqNIr-0007xz-Mb
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 16:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqNDA-0004AC-HI
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:50:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48216)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jqNHr-000778-0t; Tue, 30 Jun 2020 16:55:27 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:43482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqND7-0003jX-S8
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 16:50:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqND5-0007oc-Uy
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 20:50:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E38282E80E7
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 20:50:31 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jqNHp-0004HP-BR; Tue, 30 Jun 2020 16:55:26 -0400
+Received: by mail-io1-xd43.google.com with SMTP id k23so22507877iom.10;
+ Tue, 30 Jun 2020 13:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cS07S9PeaiBeK0IzcW0qbV66hIIZRnIen/5zf8xLf1c=;
+ b=X5EoJpC6n7Z6YvON2sQFoVhsOwbawuSeaPsYxkJC7x4N17/U9xK5Udfy3kNOcTYIhT
+ O+GkysAPVljHAvKXJ2dYXmrQjXO43xv2rgdCBJkKH6sQxcgRkmA/u5nPOvXhpNWT9B99
+ HGkqf3WY/gz51AbJIrU/xP+wb4ckM+HyjKOIXFy4m0k8as5CCO7mIWDv+GH64bF2/R0v
+ v/FrnOyOywvCyrfe92Hi0DRZAyMhy5Xw9ECYsEiIg68q04JIQyu2EOE3WVKHSyowWs4d
+ FTIjBHfoIZ5iPoxETbygTdLObU4TnqOgzK6VDkXcjcLyDhbRWsEpCYcxMrRt23MYc0Kz
+ uEjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cS07S9PeaiBeK0IzcW0qbV66hIIZRnIen/5zf8xLf1c=;
+ b=W1PGFlJ/fLTxl/MT/OrloDXoeIrxkWN3NnE939DPij2Rlb9fVFVXtpDFpvxZ5OoelN
+ i6hE9q2i+Rlpslatz+poAbHuxSfs2otiyty6N2x3pUPm5LcgsPTVCVYe0qPBgVgVuGub
+ ND3OjWGdbre7F6VZ+8g4lQOilDT8iHnyDE+JBr3hlMIXwMzOBPPvo5SmBqIiV+AuG6Jo
+ gmt2jcQP27XrKrjDehNHV2I+CzIzcVFGUzxpkMz9Rxfu4IQUZ2iqOlC4FnH/fNjPsFFZ
+ LlSakGYnnOVeSdUyfUAr0H0NXF4JHOhjQBtJWjV0kqfF2FkeJivdlPf6ZR0orn5zz6E5
+ wdRQ==
+X-Gm-Message-State: AOAM533f8fpYgFfIS305JCMxiD6zUMhpovQoIqlt1rB34tzj5bcKeugX
+ VeKN7fygse3SF3trVoAMGB02fORZmlPInAAOWmA=
+X-Google-Smtp-Source: ABdhPJzc1HK+aiVyA7xPxnOjkc+y1u/ihbeEBTgGWDTI84rWORAuSnFo5uoYbu2GP0rHoINmq9H2KpRzQDktup9jgmY=
+X-Received: by 2002:a6b:8dd1:: with SMTP id
+ p200mr23583366iod.118.1593550523524; 
+ Tue, 30 Jun 2020 13:55:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jun 2020 20:43:10 -0000
-From: Alistair Francis <1885350@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=alistair@alistair23.me; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 rpvrverve453-4tr5t34t5
-X-Launchpad-Bug-Reporter: Mina Magdy (rpvrverve453-4tr5t34t5)
-X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <159323684589.25927.6403829131374464357.malonedeb@gac.canonical.com>
-Message-Id: <159354979062.15406.11232992155109006963.malone@soybean.canonical.com>
-Subject: [Bug 1885350] Re: RISCV dynamic rounding mode is not behaving
- correctly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2e55d24c7d3aa353a4a6d6fc04d4402c23f9828b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 16:50:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200628142429.17111-1-peter.maydell@linaro.org>
+ <20200628142429.17111-6-peter.maydell@linaro.org>
+In-Reply-To: <20200628142429.17111-6-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 30 Jun 2020 13:45:39 -0700
+Message-ID: <CAKmqyKPiq4QGuhUADFLhMnekEpDA2NPh=MTHPskUjt2u+DTA5g@mail.gmail.com>
+Subject: Re: [PATCH 05/17] hw/arm/spitz: Implement inbound GPIO lines for bit5
+ and power signals
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,68 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885350 <1885350@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This does look like incorrect behaviour. I have sent a patch to the
-mailing list. You can see the patch here:
-https://patchew.org/QEMU/cover.1593547870.git.alistair.francis@wdc.com/ea4f=
-280e6f77e734c8e555e3c98d10085ce9f5b6.1593547870.git.alistair.francis@wdc.co=
-m/
+On Sun, Jun 28, 2020 at 7:29 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Currently the Spitz board uses a nasty hack for the GPIO lines
+> that pass "bit5" and "power" information to the LCD controller:
+> the lcdtg realize function sets a global variable to point to
+> the instance it just realized, and then the functions spitz_bl_power()
+> and spitz_bl_bit5() use that to find the device they are changing
+> the internal state of. There is a comment reading:
+>  FIXME: Implement GPIO properly and remove this hack.
+> which was added in 2009.
+>
+> Implement GPIO properly and remove this hack.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--- =
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885350
+Alistair
 
-Title:
-  RISCV dynamic rounding mode is not behaving correctly
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  I=E2=80=99ve gone through the RISC-V code in latest QEMU release
-  (qemu-5.0.0-rc2) and when checking the Floating point encodings I
-  found the rounding mode is only updated if the opcode field =E2=80=9Crm=
-=E2=80=9D is
-  changed =E2=80=9Cctx->frm =3D=3D rm=E2=80=9D. But according to RISC-V Vol=
-ume I:
-  Unprivileged ISA, there=E2=80=99s a dynamic mode when rm=3D7 where the ro=
-unding
-  mode is set with frm value.
-
-  So for the same rm value (=3D7) and when changing frm value seeking
-  different rounding modes, and according to the below code, the
-  rounding mode won=E2=80=99t be updated. Please correct me if I got this
-  implementation wrong.
-
-  static void gen_set_rm(DisasContext *ctx, int rm)
-  {
-      TCGv_i32 t0;
-      if (ctx->frm =3D=3D rm) {
-          return;
-      }
-      ctx->frm =3D rm;
-      t0 =3D tcg_const_i32(rm);
-      gen_helper_set_rounding_mode(cpu_env, t0);
-      tcg_temp_free_i32(t0);
-  }
-
-  =
-
-  My testcase:
-  I set statically the rm field in the instruction to 7 and before this exe=
-cution I changed the value of frm field in fcsr register. For the 1st time =
-it worked (according to the code above, the rm is updated so the round mode=
- will also be updated). But when changing fcsr register an re-execute the i=
-nstruction, there's no difference and the rounding mode is the same like th=
-e previous frm value.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885350/+subscriptions
+> ---
+>  hw/arm/spitz.c | 28 ++++++++++++----------------
+>  1 file changed, 12 insertions(+), 16 deletions(-)
+>
+> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+> index 69bc2b3fa10..11e413723f4 100644
+> --- a/hw/arm/spitz.c
+> +++ b/hw/arm/spitz.c
+> @@ -586,12 +586,9 @@ static void spitz_bl_update(SpitzLCDTG *s)
+>          zaurus_printf("LCD Backlight now off\n");
+>  }
+>
+> -/* FIXME: Implement GPIO properly and remove this hack.  */
+> -static SpitzLCDTG *spitz_lcdtg;
+> -
+>  static inline void spitz_bl_bit5(void *opaque, int line, int level)
+>  {
+> -    SpitzLCDTG *s = spitz_lcdtg;
+> +    SpitzLCDTG *s = opaque;
+>      int prev = s->bl_intensity;
+>
+>      if (level)
+> @@ -605,7 +602,7 @@ static inline void spitz_bl_bit5(void *opaque, int line, int level)
+>
+>  static inline void spitz_bl_power(void *opaque, int line, int level)
+>  {
+> -    SpitzLCDTG *s = spitz_lcdtg;
+> +    SpitzLCDTG *s = opaque;
+>      s->bl_power = !!level;
+>      spitz_bl_update(s);
+>  }
+> @@ -639,13 +636,16 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+>      return 0;
+>  }
+>
+> -static void spitz_lcdtg_realize(SSISlave *dev, Error **errp)
+> +static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+>  {
+> -    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
+> +    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
+> +    DeviceState *dev = DEVICE(s);
+>
+> -    spitz_lcdtg = s;
+>      s->bl_power = 0;
+>      s->bl_intensity = 0x20;
+> +
+> +    qdev_init_gpio_in_named(dev, spitz_bl_bit5, "bl_bit5", 1);
+> +    qdev_init_gpio_in_named(dev, spitz_bl_power, "bl_power", 1);
+>  }
+>
+>  /* SSP devices */
+> @@ -820,15 +820,11 @@ static void spitz_out_switch(void *opaque, int line, int level)
+>      case 3:
+>          zaurus_printf("Orange LED %s.\n", level ? "on" : "off");
+>          break;
+> -    case 4:
+> -        spitz_bl_bit5(opaque, line, level);
+> -        break;
+> -    case 5:
+> -        spitz_bl_power(opaque, line, level);
+> -        break;
+>      case 6:
+>          spitz_adc_temp_on(opaque, line, level);
+>          break;
+> +    default:
+> +        g_assert_not_reached();
+>      }
+>  }
+>
+> @@ -858,9 +854,9 @@ static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
+>
+>      if (sms->scp1) {
+>          qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
+> -                              outsignals[4]);
+> +                              qdev_get_gpio_in_named(sms->lcdtg, "bl_bit5", 0));
+>          qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
+> -                              outsignals[5]);
+> +                              qdev_get_gpio_in_named(sms->lcdtg, "bl_power", 0));
+>      }
+>
+>      qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
+> --
+> 2.20.1
+>
+>
 
