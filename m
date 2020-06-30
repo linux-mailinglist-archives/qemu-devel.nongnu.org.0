@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C282520F0E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:52:45 +0200 (CEST)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0897A20F0ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:53:48 +0200 (CEST)
+Received: from localhost ([::1]:59622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqC0S-0002wk-PA
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36318)
+	id 1jqC1T-0004iM-1s
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqByf-0000sp-Sy
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:50:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22907
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqC0U-0003bg-PD
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:52:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30008
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqBye-0000fK-4G
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:50:53 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqC0S-0000sa-SC
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:52:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593507051;
+ s=mimecast20190719; t=1593507164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8LPIbR6VP+jENeQRLj9u1oukf9ucQIGKk9Hg+tZmCpA=;
- b=WFCfZJjT5IGGC3PEgBF/wtOR7i6DvGL23alG5rxftGv5CpsNw0X76dod18zyJsMt3/wW7w
- S/izMwNJgQQq0tHlSDypPF9RKph+JzLQda39d9/yUhWCVN82cRWOd7n6h/P88Vq2g/fmAq
- gBYGHh8KQpE0Vl3jdmq8RjLlNqqbAIo=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h/keYVa/RQ1nchMl00Bkwp+1BGlVXQLRPx0yDc6gsmU=;
+ b=G4AkychfaC3ts/W62EuIwJ7TwNtc4j5GTH4kvbp7wsAg4HWpS1WvPwrlV02Tqr75pxXrSE
+ i9J8XS35ADdLNevSNLXL0GdnwiuH+e2x9K6pVY8UDWBFI7ZIcNUhlPAfw0knwnlNrXG8+W
+ zrXkH9QenaB5pj6oPHDxiiG65njnXBM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-ChNVLAE9P6ymyenXKr_xvQ-1; Tue, 30 Jun 2020 04:50:46 -0400
-X-MC-Unique: ChNVLAE9P6ymyenXKr_xvQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-422-RaP93JuWMnmLIw9JGQGq2A-1; Tue, 30 Jun 2020 04:52:41 -0400
+X-MC-Unique: RaP93JuWMnmLIw9JGQGq2A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D9C8100CCC0;
- Tue, 30 Jun 2020 08:50:44 +0000 (UTC)
-Received: from localhost (ovpn-115-106.ams2.redhat.com [10.36.115.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94A525D9DC;
- Tue, 30 Jun 2020 08:50:43 +0000 (UTC)
-Date: Tue, 30 Jun 2020 09:50:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] util/coroutine: Cleanup start_switch_fiber_ for TSAN.
-Message-ID: <20200630085042.GD81930@stefanha-x1.localdomain>
-References: <20200626170001.27017-1-robert.foley@linaro.org>
- <20200629132640.GN31392@stefanha-x1.localdomain>
- <875zb9svss.fsf@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12095107ACF3;
+ Tue, 30 Jun 2020 08:52:41 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-102.ams2.redhat.com
+ [10.36.113.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E14237FE9C;
+ Tue, 30 Jun 2020 08:52:39 +0000 (UTC)
+Subject: Re: [PATCH 05/19] iotests.py: Add (verify|has)_working_luks()
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
+References: <20200625125548.870061-1-mreitz@redhat.com>
+ <20200625125548.870061-6-mreitz@redhat.com>
+ <64a986ceccb48c45aaf9910c9a0ab865916b6fa6.camel@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <85fe6726-0bac-f991-a3cb-c4adbfd29582@redhat.com>
+Date: Tue, 30 Jun 2020 10:52:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <875zb9svss.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+In-Reply-To: <64a986ceccb48c45aaf9910c9a0ab865916b6fa6.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sgneBHv3152wZ8jf"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ protocol="application/pgp-signature";
+ boundary="dU0ubZ5s0QM0yQeeudjH7iPAyW0FbVa6K"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,7 +93,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +106,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Robert Foley <robert.foley@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, cota@braap.org,
- peter.puhov@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---sgneBHv3152wZ8jf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dU0ubZ5s0QM0yQeeudjH7iPAyW0FbVa6K
+Content-Type: multipart/mixed; boundary="EyJJi9aXamUaydEeWGVjiKfjtoiXl9DwF"
+
+--EyJJi9aXamUaydEeWGVjiKfjtoiXl9DwF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2020 at 05:04:19PM +0100, Alex Benn=E9e wrote:
+On 29.06.20 12:12, Maxim Levitsky wrote:
+> On Thu, 2020-06-25 at 14:55 +0200, Max Reitz wrote:
+>> Similar to _require_working_luks for bash tests, these functions can be
+>> used to check whether our luks driver can actually create images.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  tests/qemu-iotests/iotests.py | 39 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 39 insertions(+)
+>>
+>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.=
+py
+>> index eee94e18cc..039170a8a3 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -1052,6 +1052,45 @@ def verify_quorum():
+>>      if not supports_quorum():
+>>          notrun('quorum support missing')
+>> =20
+>> +def has_working_luks() -> Tuple[bool, str]:
+>> +    """
+>> +    Check whether our LUKS driver can actually create images
+>> +    (this extends to LUKS encryption for qcow2).
+>> +
+>> +    If not, return the reason why.
+>> +    """
+>> +
+>> +    img_file =3D f'{test_dir}/luks-test.luks'
+>> +    (output, status) =3D \
+>> +        qemu_img_pipe_and_status('create', '-f', 'luks',
+>> +                                 '--object', luks_default_secret_object=
+,
+>> +                                 '-o', luks_default_key_secret_opt,
+>> +                                 '-o', 'iter-time=3D10',
+>> +                                 img_file, '1G')
+>> +    try:
+>> +        os.remove(img_file)
+>> +    except OSError:
+>> +        pass
+>> +
+>> +    if status !=3D 0:
+>> +        reason =3D output
+>> +        for line in output.splitlines():
+>> +            if img_file + ':' in line:
+>> +                reason =3D line.split(img_file + ':', 1)[1].strip()
+>> +                break
+>> +
+>> +        return (False, reason)
+>> +    else:
+>> +        return (True, '')
+>> +
+>> +def verify_working_luks():
+>> +    """
+>> +    Skip test suite if LUKS does not work
+>> +    """
+>> +    (working, reason) =3D has_working_luks()
+>> +    if not working:
+>> +        notrun(reason)
+>> +
+>>  def qemu_pipe(*args):
+>>      """
+>>      Run qemu with an option to print something and exit (e.g. a help op=
+tion).
 >=20
-> Stefan Hajnoczi <stefanha@gmail.com> writes:
+> It just occured to me that we can have a situation when luks driver is bl=
+acklisted
+> (via block driver blacklist "--block-drv-whitelist=3D") then this test.
 >=20
-> > On Fri, Jun 26, 2020 at 01:00:01PM -0400, Robert Foley wrote:
-> >> This is a cleanup patch to follow-up the patch which introduced TSAN.
-> >> This patch makes separate start_switch_fiber_ functions for TSAN and A=
-SAN.
-> >>=20
-> >> This does two things:
-> >> 1. Unrelated ASAN and TSAN code is separate and each function only
-> >>    has arguments that are actually needed.
-> >> 2. The co->tsan_caller_fiber and co->tsan_co_fiber fields are only
-> >>    access from within #ifdef CONFIG_TSAN.
-> >>=20
-> >> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> >> ---
-> >>  util/coroutine-ucontext.c | 52 +++++++++++++++++++++++++-------------=
--
-> >>  1 file changed, 34 insertions(+), 18 deletions(-)
-> >
-> > Thank you for revisiting this patch after it was applied!
-> >
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> Who takes care of coroutine patches or should this go via a different
-> tree?
+> THe whilelist only affects the qmp it seems so this check doesn't catch i=
+t,=20
+> plus you could have case when luks driver is blacklisted but qcow2 isn't
 
-Commit 0aebab04b9289bd37017593b413ce7a762b54c55 ("configure: add
---enable-tsan flag + fiber annotations for coroutine-ucontext") went
-through your tree. Please take this follow-up patch too.
+Yes, the whitelist only affects qemu proper, not qemu-img.
 
-Stefan
+> When I build qemu with
+> '--block-drv-whitelist=3D'raw,qcow2' I was able to break iotests 295 296
+> But this is such a non issue, that I am just noting for reference.
 
---sgneBHv3152wZ8jf
+Hm.  If anything, that=E2=80=99s actually a problem in the test infrastruct=
+ure,
+isn=E2=80=99t it?  For example, if you don=E2=80=99t whitelist qcow2, then =
+all qcow2
+tests break.  Ideally, they shouldn=E2=80=99t.  The test infrastructure sho=
+uld
+check whether the format used to run the test ($IMGFMT) is actually
+supported (e.g. iotests.py=E2=80=99s _verify_image_format() could check whe=
+ther
+the format is actually in supported_formats()), and if it isn=E2=80=99t, sk=
+ip
+the test.
+
+OTOH, that=E2=80=99s pretty much the user=E2=80=99s fault for using an $IMG=
+FMT that they
+didn=E2=80=99t whitelist, so I=E2=80=99m not sure whether we=E2=80=99re act=
+ually keen on fixing
+that.
+
+*shrug* O:)
+
+Max
+
+
+--EyJJi9aXamUaydEeWGVjiKfjtoiXl9DwF--
+
+--dU0ubZ5s0QM0yQeeudjH7iPAyW0FbVa6K
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl76/OIACgkQnKSrs4Gr
-c8jsPAgAvQQ1ogMqXLEsnxp0+t5UA4sACrW7utuWMo2Unn7+ehgl0SX4ckbBlv+y
-uMve91NTCxNULipG0D0aRk7DnqcGr/1cHheBIOFVTdEJRxA4T187dNS6kRIoq09l
-V5bMvqPp+awXruLxGD/WdCLJku1s3c0281vPBH2hY0CJr4T61cyjT0FgQFlD6MFH
-4qYhInHuEZ0U5biBnrxiMehvO62AOI8cGoAdcJRRbqA07msz+R4uyRCXv1MOdK0s
-3lN5gcmN7syQUfMjD8fTg6m3FtglZyAUl3XPwPv2YP1GGIs8voZVn+bXdccE5rg9
-jWRwNaB7qttEkVa4IAZiB0uyEyrRVg==
-=EUw1
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl76/VUACgkQ9AfbAGHV
+z0BmgggAm4H0CNJ/RR6FNIXwuhYbmbDLo+iV4Uer+hmnnRIbuaICr/vO8Z9f/rTr
+au5cEIe6u0hYV2kTpi7HRzNuqk/Wegs87rOwMpE34Cwt0DqVV+368V72E2cGpHpl
+XmPPWNrNdzXVH0FqWgJKq+4sqyMn/TvUGyrusHuIJDcsyz7KKCKKrR67yNZMxRBq
+SFKZqMtl8GzePyIJzHiuJmFOK+7+DU23W1Yzbd/EH1IobZ/7Nsb0+3uhUixmmyRD
+gCtqX+nqckjyyO7H/KTwbjOf1R0ZyUTFp8cZ0G0SHUqZTvulsoIAJKi8WBdAUFR1
+YdbcvjzGSTjMn/yegXRHiMcN9xsDRA==
+=1G9L
 -----END PGP SIGNATURE-----
 
---sgneBHv3152wZ8jf--
+--dU0ubZ5s0QM0yQeeudjH7iPAyW0FbVa6K--
 
 
