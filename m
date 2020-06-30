@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF16620FC9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 21:20:30 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1F720FCA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 21:22:58 +0200 (CEST)
+Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqLnx-0007Rp-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 15:20:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
+	id 1jqLqL-0002S1-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 15:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLha-0006Uw-B6
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40639
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLht-0006uR-Fh
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:14:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29592
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhX-0005XV-Vd
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:13:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqLhp-0005ZM-11
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 15:14:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593544429;
+ s=mimecast20190719; t=1593544447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JwOS0dTFEWL6oyJkADDTKayrcrCvjz0aXfTaNffA7dY=;
- b=A+xkyFnhnBN7pSVTVJtB2f/FWv115ToqGxC7GhRFC1dWTVR0Klnkeg4OtQcbNM0SOVZqKS
- 8/2sOOVpq7KFqRtKZ4oRnAHTgY5satxKUHCvJ6Rzh+zAFcK3Qp8zryIUYliTiQw7TIjSB0
- ScUbrNjJflTzR3X5I1/avSIZpH3R8VE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-oxSFFa8sPv6rTRujviHvQg-1; Tue, 30 Jun 2020 15:13:48 -0400
-X-MC-Unique: oxSFFa8sPv6rTRujviHvQg-1
-Received: by mail-wm1-f72.google.com with SMTP id a21so21154028wmd.0
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:13:47 -0700 (PDT)
+ bh=EcEIQ0Xt95Hgt2rsFb2a6/aei8m4wjvow7AnP4TfaSs=;
+ b=XWo2dr3LzxmA11kvVhfg/0XTZTll52/bcS8s9m3vlLd1OmuwxmdOocD2VHaHrevD/PQ7ov
+ joBcLWmcc+gz3P9gsf70Pcip9O9a816QYJXIgn9TBhNO/HIN0UuUUXnijQvDukK0weJ9WZ
+ lxfsy8t40gQRvj2CvSUcKBvFRXW7Kws=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-a3ThsnsIPA2pf3dMFdcq-Q-1; Tue, 30 Jun 2020 15:13:51 -0400
+X-MC-Unique: a3ThsnsIPA2pf3dMFdcq-Q-1
+Received: by mail-wr1-f70.google.com with SMTP id o12so19019113wrj.23
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 12:13:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JwOS0dTFEWL6oyJkADDTKayrcrCvjz0aXfTaNffA7dY=;
- b=X72gJTF8ujGeZ8PjuuumZhupi32kd7/LV9MAIwBaoRg+C0lVfn99+9wwQqyz1mKJ8l
- W3bp8u1OYycCWoSmmg/ID82mqLcCG+o1qLK84k3VlNkkKuSF6IBBq2GZ6JvOW5OBYYxP
- BSVB7NxPlRFLvU1Ih0vAiuAK+8s8Pn4tM46zZRAkMju5MmnsTORdhMdDqIpjitnVqkNQ
- kSKWlRoRxK6tYvfl837NGIOpQCFkfjl/vReKGG1+IjLplbeanGNrLt/+daGCWdjXMrcG
- tGrNEyB+Lr/xWotP/gkU9cOxUQp5Jg4ZbHLZEczJLHJWRjrLckoJjuEQgN7LeLh9nqxa
- KVTQ==
-X-Gm-Message-State: AOAM531MvsMlcugflJT8byAhZ4rCoo+71PQUnXh3w4mwiCB5yB2yqNIr
- 51efT+LdU6l81UgcLW32s6o6Ylj8A2pz26gg/pDZnrexuAttbOkRalUDsWtl64kJtOmKaccMNZE
- MF/+SrwlN2ugb/9A=
-X-Received: by 2002:adf:e948:: with SMTP id m8mr23627167wrn.398.1593544426608; 
- Tue, 30 Jun 2020 12:13:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6sSf6GxnS8+vTJS8mFterJVik6kcKKrFZr5Z33nidnpIjIjpS8zSEYkw8IA7Rk6e1NcoHOQ==
-X-Received: by 2002:adf:e948:: with SMTP id m8mr23627062wrn.398.1593544424684; 
- Tue, 30 Jun 2020 12:13:44 -0700 (PDT)
+ bh=EcEIQ0Xt95Hgt2rsFb2a6/aei8m4wjvow7AnP4TfaSs=;
+ b=S+PARvbU3X1B7kaXjs+kIP4FDQ7BGhc7ZzTAScCrm7skxddbOhXjh8A5DyrvpWCy7B
+ oy58i7XUTvMKng8qF+rQHS4cAkEAcyYxxtdHFeOWqWdK2qb+bAqbsqIrRDDs0udM4rcr
+ 8jP7CFBbuBwCxKF3UjQBSBH8XnXMSfA/to/ifg9waV7k3nBApPFYbSGTCVUif/htnDP8
+ MvMZv48nxYY4wBKRpKkiac0dzirxouS6ptipw909MOPnIpvWWZu3anN28Lx8pdsVMruE
+ eFWQeSiRlHefLeTg1vSC51NTbfobMJh1c6TfTTRrF1RGx7MGfqloC2vD70xdYKllf96r
+ Vy7A==
+X-Gm-Message-State: AOAM5305WSAdUjtVFzJZh7vfJT4s/BAzO1t+uNAnaCUtwsZbODyJixuH
+ sfrstpy15wTx+Ub4SCg9sFkdaluF2az2vnulFv7Y48nGx2usM+Uf3REUpAUZvVnbTG7oFnUI//J
+ 5+hpjU+Z3X+y4P/E=
+X-Received: by 2002:a1c:4d11:: with SMTP id o17mr22304554wmh.134.1593544429923; 
+ Tue, 30 Jun 2020 12:13:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyOmAb1pXfLdMTML9O6YmWsoD58SvUu2/u2ZsHvpSZX+YLHW1yBXSmPY3zUc9mG8On17Zm/yA==
+X-Received: by 2002:a1c:4d11:: with SMTP id o17mr22304540wmh.134.1593544429733; 
+ Tue, 30 Jun 2020 12:13:49 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w17sm4990456wra.42.2020.06.30.12.13.43
+ by smtp.gmail.com with ESMTPSA id c2sm4731485wrv.47.2020.06.30.12.13.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 12:13:44 -0700 (PDT)
+ Tue, 30 Jun 2020 12:13:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 05/12] block/nvme: Rename local variable
-Date: Tue, 30 Jun 2020 21:13:11 +0200
-Message-Id: <20200630191318.30021-6-philmd@redhat.com>
+Subject: [PATCH v2 06/12] block/nvme: Use union of NvmeIdCtrl / NvmeIdNs
+ structures
+Date: Tue, 30 Jun 2020 21:13:12 +0200
+Message-Id: <20200630191318.30021-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630191318.30021-1-philmd@redhat.com>
 References: <20200630191318.30021-1-philmd@redhat.com>
@@ -75,9 +76,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,70 +106,95 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to modify the code in the next commit. Renaming
-the 'resp' variable to 'id' first makes the next commit easier
-to review. No logical changes.
+We allocate an unique chunk of memory then use it for two
+different structures. By using an union, we make it clear
+the data is overlapping (and we can remove the casts).
 
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ block/nvme.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 28762d7ee8..b9760ff04f 100644
+index b9760ff04f..7ebd5be1f3 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -510,8 +510,8 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+@@ -508,9 +508,10 @@ static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
+ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+ {
      BDRVNVMeState *s = bs->opaque;
-     NvmeIdCtrl *idctrl;
-     NvmeIdNs *idns;
-+    uint8_t *id;
+-    NvmeIdCtrl *idctrl;
+-    NvmeIdNs *idns;
+-    uint8_t *id;
++    union {
++        NvmeIdCtrl ctrl;
++        NvmeIdNs ns;
++    } *id;
      NvmeLBAF *lbaf;
--    uint8_t *resp;
      uint16_t oncs;
      int r;
-     uint64_t iova;
-@@ -520,14 +520,14 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+@@ -520,14 +521,12 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
          .cdw10 = cpu_to_le32(0x1),
      };
  
--    resp = qemu_try_blockalign0(bs, sizeof(NvmeIdCtrl));
--    if (!resp) {
-+    id = qemu_try_blockalign0(bs, sizeof(NvmeIdCtrl));
-+    if (!id) {
+-    id = qemu_try_blockalign0(bs, sizeof(NvmeIdCtrl));
++    id = qemu_try_blockalign0(bs, sizeof(*id));
+     if (!id) {
          error_setg(errp, "Cannot allocate buffer for identify response");
          goto out;
      }
--    idctrl = (NvmeIdCtrl *)resp;
--    idns = (NvmeIdNs *)resp;
--    r = qemu_vfio_dma_map(s->vfio, resp, sizeof(NvmeIdCtrl), true, &iova);
-+    idctrl = (NvmeIdCtrl *)id;
-+    idns = (NvmeIdNs *)id;
-+    r = qemu_vfio_dma_map(s->vfio, id, sizeof(NvmeIdCtrl), true, &iova);
+-    idctrl = (NvmeIdCtrl *)id;
+-    idns = (NvmeIdNs *)id;
+-    r = qemu_vfio_dma_map(s->vfio, id, sizeof(NvmeIdCtrl), true, &iova);
++    r = qemu_vfio_dma_map(s->vfio, id, sizeof(*id), true, &iova);
      if (r) {
          error_setg(errp, "Cannot map buffer for DMA");
          goto out;
-@@ -554,8 +554,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+@@ -539,22 +538,22 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+         goto out;
+     }
+ 
+-    if (le32_to_cpu(idctrl->nn) < namespace) {
++    if (le32_to_cpu(id->ctrl.nn) < namespace) {
+         error_setg(errp, "Invalid namespace");
+         goto out;
+     }
+-    s->write_cache_supported = le32_to_cpu(idctrl->vwc) & 0x1;
+-    s->max_transfer = (idctrl->mdts ? 1 << idctrl->mdts : 0) * s->page_size;
++    s->write_cache_supported = le32_to_cpu(id->ctrl.vwc) & 0x1;
++    s->max_transfer = (id->ctrl.mdts ? 1 << id->ctrl.mdts : 0) * s->page_size;
+     /* For now the page list buffer per command is one page, to hold at most
+      * s->page_size / sizeof(uint64_t) entries. */
+     s->max_transfer = MIN_NON_ZERO(s->max_transfer,
+                           s->page_size / sizeof(uint64_t) * s->page_size);
+ 
+-    oncs = le16_to_cpu(idctrl->oncs);
++    oncs = le16_to_cpu(id->ctrl.oncs);
      s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROS);
      s->supports_discard = !!(oncs & NVME_ONCS_DSM);
  
--    memset(resp, 0, 4096);
--
-+    memset(id, 0, 4096);
+-    memset(id, 0, 4096);
++    memset(id, 0, sizeof(*id));
      cmd.cdw10 = 0;
      cmd.nsid = cpu_to_le32(namespace);
      if (nvme_cmd_sync(bs, s->queues[QUEUE_INDEX_ADMIN], &cmd)) {
-@@ -587,8 +586,8 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+@@ -562,11 +561,11 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+         goto out;
+     }
  
-     s->blkshift = lbaf->ds;
- out:
--    qemu_vfio_dma_unmap(s->vfio, resp);
--    qemu_vfree(resp);
-+    qemu_vfio_dma_unmap(s->vfio, id);
-+    qemu_vfree(id);
- }
+-    s->nsze = le64_to_cpu(idns->nsze);
+-    lbaf = &idns->lbaf[NVME_ID_NS_FLBAS_INDEX(idns->flbas)];
++    s->nsze = le64_to_cpu(id->ns.nsze);
++    lbaf = &id->ns.lbaf[NVME_ID_NS_FLBAS_INDEX(id->ns.flbas)];
  
- static bool nvme_poll_queues(BDRVNVMeState *s)
+-    if (NVME_ID_NS_DLFEAT_WRITE_ZEROES(idns->dlfeat) &&
+-            NVME_ID_NS_DLFEAT_READ_BEHAVIOR(idns->dlfeat) ==
++    if (NVME_ID_NS_DLFEAT_WRITE_ZEROES(id->ns.dlfeat) &&
++            NVME_ID_NS_DLFEAT_READ_BEHAVIOR(id->ns.dlfeat) ==
+                     NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ZEROES) {
+         bs->supported_write_flags |= BDRV_REQ_MAY_UNMAP;
+     }
 -- 
 2.21.3
 
