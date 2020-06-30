@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3D920F04D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:18:11 +0200 (CEST)
-Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2AC20F06A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 10:22:58 +0200 (CEST)
+Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqBT0-0007vi-CS
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:18:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
+	id 1jqBXd-0002r8-I6
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 04:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBPc-0003Ng-RS; Tue, 30 Jun 2020 04:14:40 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:42466)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqBWr-0002S8-O8
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:22:09 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqBPa-0003Ki-FT; Tue, 30 Jun 2020 04:14:40 -0400
-Received: by mail-ej1-x644.google.com with SMTP id i14so19582797ejr.9;
- Tue, 30 Jun 2020 01:14:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqBWp-0004do-Av
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 04:22:09 -0400
+Received: by mail-wr1-x431.google.com with SMTP id b6so19150536wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 01:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TudWM1wkL52+YWCkl1Dxv9SRDhDpUoJlZG8pQ7k5sm8=;
- b=Yx6KI/SASjGSSGtYxS+OXZxdKukRBnSPeZcWwrJ9ePr2yfiUsje3Fas5mrR7IeOXKo
- zoFHv5QfLpA3sVyA6dGAJbkvPUes51cmAW97XHzdWU2Hq5gITo5u+WSMkSwXAcVYDF6o
- U53O4ivtG+2k5an2ec+gU6afRLvIOktv8qlgcN/UrcpKM2lqtfB2xZgA+cRuhB46jxEL
- BvCf2fLc8JHK2+dpHzf86P+CA3bm+8jtDYz6phBBwfBHUo+t+LN3PdytzosHi5IRD6a0
- RovQSexSCDlg8iWW2FTA8ps0wZvnmhFSB4uHDvFoRuYiRPqbZnrvloDMef8S3SPIAkfA
- 1qTQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BMLaRU3s8UQTTUhwcnZoSYdgZA2xp5dIWtP45k393v0=;
+ b=uJXM4anerfDCNqtTQmLbBFfyMw7SxYY5QUSIZSuTqDSooGg9OdUN2uHQUAEdSb02gY
+ 1OSTdaT6hjVJBEbHyHxjRdCaKRH8OXdpoAN4HVO0PzKkEcIcIk1NRxj3+fvUAc9mnbUq
+ fV9ACExlz5pjiI40sy4gUqaH6vgVx2wzLnlWjn/WhRWpUH5UJTCwF5EM6SmcKJBHtiyR
+ R/yWyddJJvFH/+gDMLXYGattniXtoECUsX8gibfMaLorE5xK10B8oWAvuZQaDVtZIIQY
+ dd3uaJgMgOC+3hTsv/u9bjwpq2TeuSfV5WU7s9wJZXkaDd/6UTJok4uI/oyvHMe6TtRW
+ 9qTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TudWM1wkL52+YWCkl1Dxv9SRDhDpUoJlZG8pQ7k5sm8=;
- b=khzj+vmMheuQD4xcF2qO+a5xZy94T7y4abVAmub4m73HFyiWt01P/zAzf7UUhWXJfo
- Elg3zrVcVwfeAxmYdZqq0AAz1g33P7qF/obnL/YeKljmzULeSOBGeUvJhN7lIkb1Erep
- 9ppTols78C8KLSlJ3dNHMeVNrifrVBdld74uORBXycNzSng6fOUS1px1T3WItohPbvqI
- Uk13ADL/OzL5LmpZ+NCedDTQXK4hp8/MGq0tWcsao3Tbqr3B3x2A4JaO1VZybPcz/Ien
- js4whGJrfJnlecPzkc7uMm7lk+aRAb7VvZ8eZYB8+XMEFrjkLyVqO3LFc1IxE6zxXfBd
- PHQw==
-X-Gm-Message-State: AOAM5333gNE3+44+pn3s9z+7XwXQmPeLr1mv/wBAEPAD8roh/A1KY5CA
- EsHZd5VF9jOgpcNDkI7bdow=
-X-Google-Smtp-Source: ABdhPJzIjtKP+rBOXYTiFYnpmXATCqJNlE5rSyXCQYdFPFb6nB3slVvyFhAk4Ezhi6nVdhVW2DXhow==
-X-Received: by 2002:a17:906:3958:: with SMTP id
- g24mr16638205eje.26.1593504876419; 
- Tue, 30 Jun 2020 01:14:36 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id jo25sm1422045ejb.116.2020.06.30.01.14.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 01:14:35 -0700 (PDT)
-Subject: Re: [PATCH] hw/misc/pca9552: Add missing TypeInfo::class_size field
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200629074704.23028-1-f4bug@amsat.org>
- <CAFEAcA_uAJzddqVfttgZ9PjNfbrjt3q1=HaTwRNPs+=smrDkjg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <bc93f3ed-a2bb-1b4a-d249-cf964bd43488@amsat.org>
-Date: Tue, 30 Jun 2020 10:14:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BMLaRU3s8UQTTUhwcnZoSYdgZA2xp5dIWtP45k393v0=;
+ b=Ketv7m5FClVsFgR29UVt5QLlFdnQuxL00ZGsY0pozpdqH4JZKd0ruDw7q4IoRRhBJn
+ 71YFQQ0gzwQe6QrYvbuJdpUNelCjl+oP5xzECnjqikXXMluG4rS1uOhtqcDL+8dxYwd/
+ 87gbGNq+1SOwMN9MKMFnoSdpFKdLVyjaeqd4FQM4W6XtBz9i8RuNC/+xqyFoE7tRRo7s
+ lddFHl96ItDOs5uWnQLk5x4vmdN8bh9bDcWqfr69a6p6jsut+YgfUFylniFPw+AxjKrG
+ B4JmTQg4bISe7HInrTHXA/E3zLIzPWyIFKGmQbrbPPq45lOkIaZDI8RWyLh8YWDy0d+d
+ FN/A==
+X-Gm-Message-State: AOAM5328JZPR3zhMyustAx3vMVizo33J4uESXNFmSgIeULy9VKdQM+6T
+ N/K2NPQeAN0ZUR1XizaEX/5APD7bJ92WBHdgOBA=
+X-Google-Smtp-Source: ABdhPJzn1h/fJzqb7Prez2xQRdicIhozOtC4g3BY2zl7Hwa1DkowPODnq2FUi0qYRK0SqxBJuQtnxaOno9f24X7bBT0=
+X-Received: by 2002:adf:f885:: with SMTP id u5mr20325805wrp.402.1593505325479; 
+ Tue, 30 Jun 2020 01:22:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_uAJzddqVfttgZ9PjNfbrjt3q1=HaTwRNPs+=smrDkjg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+References: <CALTWKrVAW33jJs1Q+51wN07DDUbAqwo=o+WDCpoT=NFB6dNZ6A@mail.gmail.com>
+ <CAE2XoE-dOHGtJO5f0xXA7r4hEeL5LDOPB1TDNPjWNC+hf9Qyew@mail.gmail.com>
+ <CALTWKrVwRhQEEjMEq444fNgBp1Dv_XyJAV7suXCEmeS40raaEQ@mail.gmail.com>
+In-Reply-To: <CALTWKrVwRhQEEjMEq444fNgBp1Dv_XyJAV7suXCEmeS40raaEQ@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 30 Jun 2020 10:21:52 +0200
+Message-ID: <CAHiYmc5Em7zaVZzBZdp-13Mw2MnM_-nxZ=g+_ePnDCcBiwJrRg@mail.gmail.com>
+Subject: Re: [REPORT] [GSoC - TCG Continuous Benchmarking] [#2] Dissecting
+ QEMU Into Three Main Parts
+To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,22 +83,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe DUBOIS <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, luoyonggang@gmail.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 11:07 PM, Peter Maydell wrote:
-> On Mon, 29 Jun 2020 at 08:47, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> When adding the generic PCA955xClass in commit 736132e455, we
->> forgot to set the class_size field. Fill it now to avoid:
-> 
-> Thanks; I've applied this to master since it fixes a memory
-> corruption that affects all arm targets and I'm not otherwise
-> planning an arm pullreq for a bit.
+=D1=83=D1=82=D0=BE, 30. =D1=98=D1=83=D0=BD 2020. =D1=83 09:30 Ahmed Karaman
+<ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
+=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On Tue, Jun 30, 2020 at 7:59 AM =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)=
+ <luoyonggang@gmail.com> wrote:
+> >
+> > Wonderful work, May I reproduce the work on my local machine?
+> >
+> > On Mon, Jun 29, 2020 at 6:26 PM Ahmed Karaman <ahmedkhaledkaraman@gmail=
+.com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> The second report of the TCG Continuous Benchmarking series builds
+> >> upon the QEMU performance metrics calculated in the previous report.
+> >> This report presents a method to dissect the number of instructions
+> >> executed by a QEMU invocation into three main phases:
+> >> - Code Generation
+> >> - JIT Execution
+> >> - Helpers Execution
+> >> It devises a Python script that automates this process.
+> >>
+> >> After that, the report presents an experiment for comparing the
+> >> output of running the script on 17 different targets. Many conclusions
+> >> can be drawn from the results and two of them are discussed in the
+> >> analysis section.
+> >>
+> >> Report link:
+> >> https://ahmedkrmn.github.io/TCG-Continuous-Benchmarking/Dissecting-QEM=
+U-Into-Three-Main-Parts/
+> >>
+> >> Previous reports:
+> >> Report 1 - Measuring Basic Performance Metrics of QEMU:
+> >> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg06692.html
+> >>
+> >> Best regards,
+> >> Ahmed Karaman
+> >
+> >
+> >
+> > --
+> >          =E6=AD=A4=E8=87=B4
+> > =E7=A4=BC
+> > =E7=BD=97=E5=8B=87=E5=88=9A
+> > Yours
+> >     sincerely,
+> > Yonggang Luo
+>
+> Thanks Mr. Yonggang. Yes of course, go ahead.
+> Please let me know if you have any further questions.
+>
 
-Thanks Peter!
+Yes, Ahmed, you said Mr. Yonggang can go ahaed - but you didn't say how. :)
+
+As far as I know, this is how Ahmed test bed is setup:
+
+1) Fresh installation on Ubuntu 18.04 on an Inter 64-bit host.
+2) Install QEMU build prerequisite packages.
+3) Install perf (this step is not necessary for Report 2, but it is
+for Report 1).
+4) Install vallgrind.
+5) Install 16 gcc cross-compilers. (which, together with native
+comipler, will sum up to the 17 possible QEMU targets)
+
+That is all fine if Mr. Yongang is able to do the above, or if he
+already have similar system.
+
+I am fairly convinced that the setup for any Debian-based Linux
+distribution will be almost identical as described above
+
+However, let's say Mr.Yongang system is Suse-bases distribution (SUSE
+Linux Enterprise, openSUSE Leap, openSUSE Tumbleweed, Gecko). He could
+do steps 2), 3), 4) in a fairly similar manner. But, step 5) will be
+difficult. I know that support for cross-compilers is relatively poor
+for Suse-based distributions. I think Mr. Yongang could run experiment
+from the second part of Report 2 only for 5 or 6 targets, rather than
+17 as you did.
+
+The bottom line for Report 2:
+
+I think there should be an "Appendix" note on installing
+cross-compilers. And some general note on your test bed, as well as
+some guideline for all people like Mr. Yongang who wish to repro the
+results on their own systems.
+
+Sincerely,
+Aleksandar
+
+
+
+
+
+
+
+
+
+2)
+
+
+> Best Regards,
+> Ahmed Karaman
 
