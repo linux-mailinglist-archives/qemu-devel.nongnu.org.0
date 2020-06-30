@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A89E20F2DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:42:08 +0200 (CEST)
-Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D500520F2D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:39:57 +0200 (CEST)
+Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDiJ-0004PY-7r
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40092)
+	id 1jqDgC-0001N6-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeR-00073X-8I
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35398
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqDej-0007hd-1n
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:25 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25073
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqDeP-0002Iz-C6
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:06 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqDeh-0002Kx-6k
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:38:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593513484;
+ s=mimecast20190719; t=1593513502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KgE+8CKv6/Z+MnfgzHWSN8+i1Bas9SZKWAfL4wzjfr8=;
- b=ho4ecY/zh7d/alrW/N2GkdozO2YhywosmXXrQPVIhME5nFJbUHZkhRMXg6CsHtUHE5rg8u
- uMvaZPLUegs2jAD1yeoPpkdco3JdaDNv1l97RzLrS+VuBgTrStXB+MWbb3Z9OIcBwz/yPU
- FNaDbv10C90sZcMk2mTAx1y6Lq31KHQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-0mQj0Sr6MNSNnRDR9ff6oQ-1; Tue, 30 Jun 2020 06:38:02 -0400
-X-MC-Unique: 0mQj0Sr6MNSNnRDR9ff6oQ-1
-Received: by mail-ed1-f70.google.com with SMTP id v8so9794906edj.4
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:38:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KgE+8CKv6/Z+MnfgzHWSN8+i1Bas9SZKWAfL4wzjfr8=;
- b=FNqL5QZGD26zNOzLTLHYPzz+TYT7dWpZ3KMsNQb05SIB6qeGi+VeAWkD5d+kUBKUSc
- 5oIDuYuat1UuHNTTvCOmzmp54HjgLjS8nMeiAIDvZ/LZe7DGUhxzJ3fC3k5OEixsAAlD
- 6Fvo+eegBykHyQlosnpGtmS94RiWnwMkjkvZTqDuxRvKiyM3dSlkM9BqF2jh7rk6MNvo
- zCapL8/oi/6NuNLGtAXOG9xHJWd99tRlaFTnXAcx+jE+t5abtObyMjRFkH1oDU0Ky1+S
- pt9aKWXcPQ2JDN2ZENLK4mbiXVxHb1lUFNkm70/pAvAhhOxoiDToUg7MyVOmXfshShUH
- g6sw==
-X-Gm-Message-State: AOAM530bQOP+5VfqI+f5qjCDu4J8US70lFmPi3T2s6LlniXP5hKlS+eP
- TZTKFTcwYeCSNOafglPm5injIVvzlSVra5nNbr7dUnZJF1bwPQnOkzRoNq12EsgHAiysBF+5I0X
- 1qexduku8ETwhDtI=
-X-Received: by 2002:a05:6402:c83:: with SMTP id
- cm3mr22989140edb.307.1593513481400; 
- Tue, 30 Jun 2020 03:38:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9Gjnla44WQKSl8hAi+5QOLJIZe+8bMY69KPhOyBWZpg2+s2E51X17m/nWXutXHZi86V6A5A==
-X-Received: by 2002:a05:6402:c83:: with SMTP id
- cm3mr22989134edb.307.1593513481272; 
- Tue, 30 Jun 2020 03:38:01 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id dh16sm2502594edb.3.2020.06.30.03.38.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 03:38:00 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] hw/block/nvme: Align I/O BAR to 4 KiB
-Date: Tue, 30 Jun 2020 12:37:39 +0200
-Message-Id: <20200630103739.9715-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200630103739.9715-1-philmd@redhat.com>
-References: <20200630103739.9715-1-philmd@redhat.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AxBNVHf+qMW+Z96D9qo3n5fIB1s62lk8rutAufpLazw=;
+ b=IMWn2MYZrAp2xefwOk5UlVGGgORNVqZOBBf1isCoVI+76YOm/NpHGlpn5yxdW3EyHBrQBn
+ J/l6Bk4CEz+dUc8PEzxAJhCr1e19nsWnDcFOmcBlGv6TL1jw+zxdMWfuvYGNl50xRfh4vy
+ xYIkXGSqN/Ck/JvCtpHEI96+rz+Ol/c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-_amUexhVPcKALh5X0m8gLw-1; Tue, 30 Jun 2020 06:38:20 -0400
+X-MC-Unique: _amUexhVPcKALh5X0m8gLw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B46F0107ACF3;
+ Tue, 30 Jun 2020 10:38:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-102.ams2.redhat.com
+ [10.36.113.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A1115BAEC;
+ Tue, 30 Jun 2020 10:38:16 +0000 (UTC)
+Subject: Re: [PATCH v9 05/34] qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters
+ in handle_copied()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1593342067.git.berto@igalia.com>
+ <4b6d5c3a4359b3e5274df5ac22262b2b4198fb99.1593342067.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4cfbcb03-abc6-951b-24d3-6e544904da52@redhat.com>
+Date: Tue, 30 Jun 2020 12:38:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <4b6d5c3a4359b3e5274df5ac22262b2b4198fb99.1593342067.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="eiezvypKLK94LXCTInjSUQChOFipBSYY9"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 02:00:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -99,75 +108,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify the NVMe emulated device by aligning the I/O BAR to 4 KiB.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--eiezvypKLK94LXCTInjSUQChOFipBSYY9
+Content-Type: multipart/mixed; boundary="BmkDFurPlZbi3OV9IzHDweQtGNnzu6WVN"
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: Do not include 'cmd_set_specfic' (Klaus)
----
- include/block/nvme.h | 2 ++
- hw/block/nvme.c      | 5 ++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+--BmkDFurPlZbi3OV9IzHDweQtGNnzu6WVN
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 82c384614a..4e1cea576a 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -22,6 +22,7 @@ typedef struct QEMU_PACKED NvmeBar {
-     uint32_t    pmrebs;
-     uint32_t    pmrswtp;
-     uint64_t    pmrmsc;
-+    uint8_t     reserved[484];
- } NvmeBar;
- 
- enum NvmeCapShift {
-@@ -879,6 +880,7 @@ enum NvmeIdNsDps {
- 
- static inline void _nvme_check_size(void)
- {
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) != 4);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6628d0a4ba..2aa54bc20e 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -55,7 +55,6 @@
- #include "nvme.h"
- 
- #define NVME_MAX_IOQPAIRS 0xffff
--#define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
-@@ -1322,7 +1321,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
-     NvmeCtrl *n = (NvmeCtrl *)opaque;
-     if (addr < sizeof(n->bar)) {
-         nvme_write_bar(n, addr, data, size);
--    } else if (addr >= 0x1000) {
-+    } else {
-         nvme_process_db(n, addr, data);
-     }
- }
-@@ -1416,7 +1415,7 @@ static void nvme_init_state(NvmeCtrl *n)
- {
-     n->num_namespaces = 1;
-     /* add one to max_ioqpairs to account for the admin queue pair */
--    n->reg_size = pow2ceil(NVME_REG_SIZE +
-+    n->reg_size = pow2ceil(sizeof(NvmeBar) +
-                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
-     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
-     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
--- 
-2.21.3
+On 28.06.20 13:02, Alberto Garcia wrote:
+> When writing to a qcow2 file there are two functions that take a
+> virtual offset and return a host offset, possibly allocating new
+> clusters if necessary:
+>=20
+>    - handle_copied() looks for normal data clusters that are already
+>      allocated and have a reference count of 1. In those clusters we
+>      can simply write the data and there is no need to perform any
+>      copy-on-write.
+>=20
+>    - handle_alloc() looks for clusters that do need copy-on-write,
+>      either because they haven't been allocated yet, because their
+>      reference count is !=3D 1 or because they are ZERO_ALLOC clusters.
+>=20
+> The ZERO_ALLOC case is a bit special because those are clusters that
+> are already allocated and they could perfectly be dealt with in
+> handle_copied() (as long as copy-on-write is performed when required).
+>=20
+> In fact, there is extra code specifically for them in handle_alloc()
+> that tries to reuse the existing allocation if possible and frees them
+> otherwise.
+>=20
+> This patch changes the handling of ZERO_ALLOC clusters so the
+> semantics of these two functions are now like this:
+>=20
+>    - handle_copied() looks for clusters that are already allocated and
+>      which we can overwrite (NORMAL and ZERO_ALLOC clusters with a
+>      reference count of 1).
+>=20
+>    - handle_alloc() looks for clusters for which we need a new
+>      allocation (all other cases).
+>=20
+> One important difference after this change is that clusters found
+> in handle_copied() may now require copy-on-write, but this will be
+> necessary anyway once we add support for subclusters.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/qcow2-cluster.c | 256 +++++++++++++++++++++++-------------------
+>  1 file changed, 141 insertions(+), 115 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--BmkDFurPlZbi3OV9IzHDweQtGNnzu6WVN--
+
+--eiezvypKLK94LXCTInjSUQChOFipBSYY9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl77FhcACgkQ9AfbAGHV
+z0DMpgf9FNyYmrnC97jdCVt4cy97cY+MvLDw3g6BMI14PTaequ0/8R6h3QYE+h86
+iP8HlumAL6qBuPzDWJgSQaUuledqQjm0NpJU6ibNJZi0NquX0RqWNyudbIqdxE+G
+U9cQdqPcc5goS+wRH4f6EWFPKnCiZSQwHK+Sfg7m8Xist7whJeqoKD3XdYwvH6QH
+GMdaMJHk/MTAYMIob0oj7qPv9tso2eCuW96GMZ4ZZf7tLUILnns0SM5UMq7VP09S
+DWtJJzSH2yrU82LyUTmThs9609FnBIR3rD28dV0ulQp4obeBLvM0EylhHNDxqzml
+wdz2Lk9ibzp8RllPJQezuE/GKbz0PA==
+=d+A3
+-----END PGP SIGNATURE-----
+
+--eiezvypKLK94LXCTInjSUQChOFipBSYY9--
 
 
