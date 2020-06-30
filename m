@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BBC20F8D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:49:48 +0200 (CEST)
-Received: from localhost ([::1]:34796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3AE20F8E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:53:20 +0200 (CEST)
+Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqIW3-0007m1-ME
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
+	id 1jqIZT-0002uh-B9
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqIUp-0006bX-OE
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:48:31 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57586
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqIUo-000562-9F
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:48:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593532109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pZdqAzsWwawS+olvAAUNItPD6bp8kPtVOSiNxAkxq7Q=;
- b=A4uumEOxsu1c0fPSMef/b/ykoQUJTPfgU+vC23o9Zt9YLwLfaHLQ0HxuI49OigZKvMZZL5
- FwPUVBHVPVloFXeDiry0bX2FN8T3QInyvb3QwmZF4YrbJXhRJf7dDYHPeWe1oq2wEQEiZs
- DXBt6H0A2svPI7Vk6Lmst6xixtR/Ge0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-KfH9Re9sNV-YYVC_Z2Bl-A-1; Tue, 30 Jun 2020 11:48:28 -0400
-X-MC-Unique: KfH9Re9sNV-YYVC_Z2Bl-A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FF3EC1A6;
- Tue, 30 Jun 2020 15:48:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-41.ams2.redhat.com
- [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A33E99CFF1;
- Tue, 30 Jun 2020 15:48:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7247617444; Tue, 30 Jun 2020 17:48:25 +0200 (CEST)
-Date: Tue, 30 Jun 2020 17:48:25 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATC 7/9] Skipping drm build, unsupported
-Message-ID: <20200630154825.k7ut6m3trfhwlmas@sirius.home.kraxel.org>
-References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
- <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
- <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
- <a482bd09-28c8-7de7-de06-dba60d1c8160@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jqIWn-0000pn-8m
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:50:33 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jqIWl-0005cE-GD
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:50:32 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w17so17169298oie.6
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6lB44BMNpK9yW8Es4rQx+p4Y7as+yKp6SJ+BkG8X7iY=;
+ b=RX3WaqbWydL5FNPuV7InT6pPVgLKx/65Vl/Oe0ds712OVeK1RjoLqonmZbbavMFpv8
+ N8LTsIcF0LVa6aefTDnldn6NWo9mvnZm0gN3o4opmO6DhEiQSyddHokgxYYAmtlIUG9Z
+ d1JZb0hB7RIqns4Ep+MvKw7y1AbRyn7xnlT75UX807MRgEvI+m2NDLjluAsP0LVMPj1+
+ V//nq33X/Yadnp0A+EiJYj5/Y9/w30iL/rVr9/tZUfdJ8+Rg655yVi0Z9hgD9fln8+5t
+ xsQjpTsibP8Lo+jcuwX+dZWxyKpSDIBE/DBZNzBNxkKWr1sy83UmfEmhaQIbJPYrG+56
+ fD/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6lB44BMNpK9yW8Es4rQx+p4Y7as+yKp6SJ+BkG8X7iY=;
+ b=NkkmpJeO/Fym7wrPTyz3j+FdKplvG3mz11Xl1iHPNBM93fERd60hbXhWJSSZoRGhVo
+ YIOLRukPrIWZIPZ6x1dQOvwYXOYle2lZYiUG9ACsezfZ1eRgQVYN0xIAsRULaX+FQf7i
+ w1uhKe6lpogtIE0u37n/1QL2H8Lg3i9gwtSkthdiX0lUkBZ7HpYEBpxD78aBuRfhsckL
+ JWhl9ZUOi8AFyTYJ6GAsRUdLId1NiItvEsCMbAuDcfoMkwkVKG4qFjHgtANLnchCRFQa
+ dVZULBLWJbrmHT69GQMAHjVGp1zlcmcTJ2gtH07qeojDJPKdeiEC5QG5lAX6hqkkUiEP
+ XVrg==
+X-Gm-Message-State: AOAM533JE++cScmiYnNuxXJgbVeV0VtMZ87T7LVKPOEGbFgzP/QoqLAr
+ EcBtAK3DdncdhLfXkYEzpMcZOnyvM07KnfCQht+eKg==
+X-Google-Smtp-Source: ABdhPJyWSWsS8+b6rXEauoiOwSHvLSg+Nc+gaABlL0aOQBa4QQXpL5nzIFzuMBcA2mTr6VzdMtGvqOJ0+brW0vq3CVE=
+X-Received: by 2002:aca:54c9:: with SMTP id
+ i192mr10062926oib.163.1593532230034; 
+ Tue, 30 Jun 2020 08:50:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a482bd09-28c8-7de7-de06-dba60d1c8160@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200611161500.23580-1-eric.auger@redhat.com>
+ <20200611161500.23580-7-eric.auger@redhat.com>
+ <CAFEAcA9FZV=jSk_9aJ_tHy=KLy+YrTFNoiqvCv7BMs0dWrHWFA@mail.gmail.com>
+ <db6d92ba-2716-40df-54d3-84fb51ab3ad3@redhat.com>
+In-Reply-To: <db6d92ba-2716-40df-54d3-84fb51ab3ad3@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jun 2020 16:50:18 +0100
+Message-ID: <CAFEAcA8ez0ycijFSZrVA3haaoKGho2Q2gQR=cDiiAm7S=-t6OQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND 6/9] hw/arm/smmu-common: Manage IOTLB block entries
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,33 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- David CARLIER <devnexen@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ zhangfei.gao@foxmail.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 10:46:59AM +0200, Philippe Mathieu-Daudé wrote:
-> On 6/30/20 10:23 AM, Gerd Hoffmann wrote:
-> > On Tue, Jun 30, 2020 at 08:44:24AM +0200, Philippe Mathieu-DaudÃ© wrote:
-> >> +Gerd
-> >>
-> >> On 6/29/20 11:48 PM, David CARLIER wrote:
-> >>> From 157a0374093371719de42e99364352d64190f52a Mon Sep 17 00:00:00 2001
-> >>> From: David Carlier <devnexen@gmail.com>
-> >>> Date: Mon, 29 Jun 2020 22:20:06 +0000
-> >>> Subject: [PATCH 7/9] Skipping drm build, unsupported.
-> > 
-> > --verbose please.
-> 
-> David has difficulties understanding how to send patches,
-> so you missed the cover/context. This is for the Haiku OS
-> which apparently is POSIX.1-2001 compatible.
+On Fri, 26 Jun 2020 at 14:53, Auger Eric <eric.auger@redhat.com> wrote:
+> On 6/25/20 5:30 PM, Peter Maydell wrote:
+> > Rather than looping around doing multiple hash table lookups like
+> > this, why not just avoid including the tg and level in the
+> > key equality test?
+> >
+> > If I understand the range-based-invalidation feature correctly,
+> > the only time we care about the TG/LVL is if we're processing
+> > an invalidate-range command that specifies them. But in that
+> > case there should never be multiple entries in the bs->iotlb
+> > with the same iova, so we can just check whether the entry
+> > matches the requested TG/LVL once we've pulled it out of the
+> > hash table. (Or we could architecturally validly just blow
+> > it away regardless of requested TG/LVL -- they are only hints,
+> > not required-to-match.)
+>
+> This change could have been done independently on the RIL feature. As we
+> now put block entries in the IOTLB , when we look for an iova
+> translation, the IOVA can be mapped using different block sizes or using
+> page entries. So we start looking at blocks of the bigger size (entry
+> level) downto the page, for instance 4TB/512MB/64KB. We cannot know
+> which block and size the address belongs to.
 
-That doesn't explain why he thinks this patch is needed.
-It should build just fine on Haiku ...
+Yes, but we wouldn't need to care which TG and LVL the
+address belongs to if we didn't put them into
+the key, would we? I'm probably missing something here, but
+just because the hardware might want to use the hints in
+the invalidation-command about TG and LVL doesn't inherently
+mean QEMU is most efficient if it cares about the hints.
 
-take care,
-  Gerd
-
+thanks
+-- PMM
 
