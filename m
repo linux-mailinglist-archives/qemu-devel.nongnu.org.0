@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E157F20F696
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:01:19 +0200 (CEST)
-Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8033B20F695
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:01:11 +0200 (CEST)
+Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGp4-0008LH-RO
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41516)
+	id 1jqGow-0008Ae-FY
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jqGnS-000759-Gk
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:59:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49263
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jqGnN-0001nh-FV
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:59:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593525572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bZwpjbAIXxPrkEsubCEfhdZJfkR0IvPBEK77hq15UpY=;
- b=QyLxcS2aZwIgh33i33I3aSHhQNqQZXMw7O/0usZ26x2ecG+DMLHK2GmFpOI9hn7WI/oFjp
- d6StZSyV3NvV40RuwKqrWhkiBMjS/REXWg0mLHam+jUPc47aFyRts3biCzG5XxPEOKGNa8
- 2jZ8guLRFQ0zzHwT+WwaQWez/WA+q84=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-kyDzF7K3PiOvE-5n3MotJQ-1; Tue, 30 Jun 2020 09:59:30 -0400
-X-MC-Unique: kyDzF7K3PiOvE-5n3MotJQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 447D71054FAE
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 13:59:25 +0000 (UTC)
-Received: from work-vm (ovpn-113-225.ams2.redhat.com [10.36.113.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1025B77F60;
- Tue, 30 Jun 2020 13:59:14 +0000 (UTC)
-Date: Tue, 30 Jun 2020 14:59:12 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] Revert "tests/migration: Reduce autoconverge initial
- bandwidth"
-Message-ID: <20200630135912.GI2673@work-vm>
-References: <20200623145506.439100-1-mst@redhat.com>
- <20200630090717-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1jqGnL-0006yt-4W
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:59:31 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:37793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1jqGnI-0001mW-Ki
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:59:30 -0400
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: CdQDhhe/vltse0IAgZlqTjOb33oITBRQkWwnnAUWMqaDjQkGRd6MqEuQLO/+CTqMXjFgNhUWqB
+ JQBFCCHtm1puW3hrPoIjtPK8ernonrSNiXM8VsGkdgzqFokXl+t43w61LqIv1NHI3ZZfZpWHuk
+ 9VboYHAo/oukmhdxNbvsIf3tRDtl7Z1SClc12+m0i4kYRHmiUl5tuHkqDpnMmSSkMBySYTQjdy
+ MTaGqtKs2CeNWNR+ARHaGj9+wIe/TIJbhnbzg+H/fCR14M0LRAER+lU6hYaKtoACQVCCA34/r4
+ 0sE=
+X-SBRS: 2.7
+X-MesageID: 21272894
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.75,297,1589256000"; d="scan'208";a="21272894"
+Date: Tue, 30 Jun 2020 14:59:21 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Jason Andryuk <jandryuk@gmail.com>
+Subject: Re: [PATCH] xen: Fix xen-legacy-backend qdev types
+Message-ID: <20200630135921.GB2030@perard.uk.xensource.com>
+References: <20200624121939.10282-1-jandryuk@gmail.com>
+ <000a01d64a23$4a595e90$df0c1bb0$@xen.org>
+ <CAKf6xpuiRj_b+M+E0wBzPhraLxdebL6xr_1dMGc-jnzhWb0mhg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200630090717-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAKf6xpuiRj_b+M+E0wBzPhraLxdebL6xr_1dMGc-jnzhWb0mhg@mail.gmail.com>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 09:59:24
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +66,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: xen-devel <xen-devel@lists.xenproject.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, QEMU <qemu-devel@nongnu.org>,
+ Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Tue, Jun 23, 2020 at 10:57:02AM -0400, Michael S. Tsirkin wrote:
-> > This reverts commit 6d1da867e65f ("tests/migration: Reduce autoconverge initial bandwidth")
-> > since that change makes unit tests much slower for all developers, while it's not
-> > a robust way to fix migration tests. Migration tests need to find
-> > a more robust way to discover a reasonable bandwidth without slowing
-> > things down for everyone.
-> > 
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On Wed, Jun 24, 2020 at 08:52:44AM -0400, Jason Andryuk wrote:
+> On Wed, Jun 24, 2020 at 8:30 AM Paul Durrant <xadimgnik@gmail.com> wrote:
+> >
+> > > -----Original Message-----
+> > > From: Jason Andryuk <jandryuk@gmail.com>
+> > > Sent: 24 June 2020 13:20
+> > > To: Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard@citrix.com>; Paul
+> > > Durrant <paul@xen.org>; xen-devel@lists.xenproject.org
+> > > Cc: Jason Andryuk <jandryuk@gmail.com>; qemu-devel@nongnu.org
+> > > Subject: [PATCH] xen: Fix xen-legacy-backend qdev types
+> > >
+> > > xen-sysdev is a TYPE_SYS_BUS_DEVICE.  bus_type should not be changed so
+> > > that it can plug into the System bus.  Otherwise this assert triggers:
+> > > qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
+> > > `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
+> > > failed.
+> > >
+> > > TYPE_XENBACKEND attaches to TYPE_XENSYSBUS, so its class_init needs to
+> > > be set accordingly to attach the qdev.  Otherwise the following assert
+> > > triggers:
+> > > qemu-system-i386: hw/core/qdev.c:102: qdev_set_parent_bus: Assertion
+> > > `dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type)'
+> > > failed.
+> > >
+> > > TYPE_XENBACKEND is not a subclass of XEN_XENSYSDEV, so it's parent
+> > > is just TYPE_DEVICE.  Change that.
+> > >
+> > > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> >
+> > Clearly we raced. This patch and my patch #1 are identical so I'm happy to give my ack to this.
 > 
-> What's the conclusion here? Should I merge this?
-
-Yes please; I need to rethink that.
-
-Dave
-
+> Yeah, looks like you beat me by a hair :)
 > 
-> > ---
-> >  tests/qtest/migration-test.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index dc3490c9fa..21ea5ba1d2 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> > @@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
-> >       * without throttling.
-> >       */
-> >      migrate_set_parameter_int(from, "downtime-limit", 1);
-> > -    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
-> > +    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
-> >  
-> >      /* To check remaining size after precopy */
-> >      migrate_set_capability(from, "pause-before-switchover", true);
-> > -- 
-> > MST
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Either way it gets fixed is fine by me.
 
+Since there's a choice to make, I think I'll take this patch, but I will
+add:
+Fixes: 81cb05732efb ("qdev: Assert devices are plugged into a bus that can take them")
+
+Thanks,
+
+-- 
+Anthony PERARD
 
