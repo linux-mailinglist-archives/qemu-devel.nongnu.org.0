@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA94220F8D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:50:08 +0200 (CEST)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D6A20F8CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:48:44 +0200 (CEST)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqIWN-0008KL-OG
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1jqIV1-0006Lf-FS
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqIRv-00047A-Kt
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:45:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49296
+ id 1jqIRs-00042m-BA
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:45:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41435
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqIRt-0004Ym-Uc
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:45:31 -0400
+ id 1jqIRq-0004XS-Mr
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:45:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593531928;
+ s=mimecast20190719; t=1593531925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7DiqiMDZFfUEcQK+ZSH9v2PIgWNJBt3qwpmszrKavw4=;
- b=HJVBWHqVbngAQKS85Mfoc8kwIkmpQ/WSMGB7B/wlYdcphF2eZ2H9xQDucGtZ6Unkxf1Dyn
- YrpLositBFh1K0PVYLj5M2d/BmhfTlwNkc6v3yZuhG9Hcf2Oh0O87ZGhBa88Ib2/mzdwAZ
- aXUVJuK/1Zb256ozg13KnIMH8wb/A9Y=
+ bh=6Gus6cY7WkGisapkwB2Z/oUU+cDvAzT67RkKmQRJGD4=;
+ b=T1Xyic9R8nUYyt8lYKvvKYGSSbpadiawqUQPQNEuCAmmTLMMDB01N0EBrUQ/64Upqbflay
+ Xxi+NjbpnZUyK0wv9MsGzBeZnW31EZd3EITT8NRjzJaK71PfKptY1qUDg2oY7zDKQ59AIJ
+ ncv+IzUgFjBaCEr3ZJQzxiAYtvq+jGU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-nV_bIMToPo-VLwHNGnLfIw-1; Tue, 30 Jun 2020 11:45:23 -0400
-X-MC-Unique: nV_bIMToPo-VLwHNGnLfIw-1
+ us-mta-145-tYWUqNOKPCqew9EsBKp7tA-1; Tue, 30 Jun 2020 11:45:23 -0400
+X-MC-Unique: tYWUqNOKPCqew9EsBKp7tA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1A3F1005512
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 15:45:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CCAA1800D42
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 15:45:23 +0000 (UTC)
 Received: from virtlab511.virt.lab.eng.bos.redhat.com
  (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72B6A1A90F
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D34B01A90F
  for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 15:45:22 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] target-i386: sev: provide proper error reporting for
- query-sev-capabilities
-Date: Tue, 30 Jun 2020 11:45:20 -0400
-Message-Id: <20200630154521.552874-2-pbonzini@redhat.com>
+Subject: [PATCH 2/2] target-i386: sev: fail query-sev-capabilities if QEMU
+ cannot use SEV
+Date: Tue, 30 Jun 2020 11:45:21 -0400
+Message-Id: <20200630154521.552874-3-pbonzini@redhat.com>
 In-Reply-To: <20200630154521.552874-1-pbonzini@redhat.com>
 References: <20200630154521.552874-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -60,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,125 +86,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The query-sev-capabilities was reporting errors through error_report;
-change it to use Error** so that the cause of the failure is clearer.
+In some cases, such as if the kvm-amd "sev" module parameter is set
+to 0, SEV will be unavailable but query-sev-capabilities will still
+return all the information.  This tricks libvirt into erroneously
+reporting that SEV is available.  Check the actual usability of the
+feature and return the appropriate error if QEMU cannot use KVM
+or KVM cannot use SEV.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/monitor.c  | 10 +---------
- target/i386/sev-stub.c |  3 ++-
- target/i386/sev.c      | 18 +++++++++---------
- target/i386/sev_i386.h |  2 +-
- 4 files changed, 13 insertions(+), 20 deletions(-)
+ target/i386/sev.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 27ebfa3ad2..7abae3c8df 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -726,13 +726,5 @@ SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
- 
- SevCapability *qmp_query_sev_capabilities(Error **errp)
- {
--    SevCapability *data;
--
--    data = sev_get_capabilities();
--    if (!data) {
--        error_setg(errp, "SEV feature is not available");
--        return NULL;
--    }
--
--    return data;
-+    return sev_get_capabilities(errp);
- }
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index e5ee13309c..88e3f39a1e 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
-@@ -44,7 +44,8 @@ char *sev_get_launch_measurement(void)
-     return NULL;
- }
- 
--SevCapability *sev_get_capabilities(void)
-+SevCapability *sev_get_capabilities(Error **errp)
- {
-+    error_setg(errp, "SEV is not available in this QEMU");
-     return NULL;
- }
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index d273174ad3..70f9ee026f 100644
+index 70f9ee026f..22194b3e32 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -399,7 +399,7 @@ sev_get_info(void)
+@@ -450,6 +450,15 @@ sev_get_capabilities(Error **errp)
+     uint32_t ebx;
+     int fd;
  
- static int
- sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
--                 size_t *cert_chain_len)
-+                 size_t *cert_chain_len, Error **errp)
- {
-     guchar *pdh_data = NULL;
-     guchar *cert_chain_data = NULL;
-@@ -410,8 +410,8 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
-     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
-     if (r < 0) {
-         if (err != SEV_RET_INVALID_LEN) {
--            error_report("failed to export PDH cert ret=%d fw_err=%d (%s)",
--                         r, err, fw_error_to_str(err));
-+            error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
-+                       r, err, fw_error_to_str(err));
-             return 1;
-         }
-     }
-@@ -423,8 +423,8 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
- 
-     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
-     if (r < 0) {
--        error_report("failed to export PDH cert ret=%d fw_err=%d (%s)",
--                     r, err, fw_error_to_str(err));
-+        error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
-+                   r, err, fw_error_to_str(err));
-         goto e_free;
-     }
- 
-@@ -441,7 +441,7 @@ e_free:
- }
- 
- SevCapability *
--sev_get_capabilities(void)
-+sev_get_capabilities(Error **errp)
- {
-     SevCapability *cap = NULL;
-     guchar *pdh_data = NULL;
-@@ -452,13 +452,13 @@ sev_get_capabilities(void)
- 
++    if (!kvm_enabled()) {
++        error_setg(errp, "KVM not enabled\n");
++        return NULL;
++    }
++    if (kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_OP, NULL) < 0) {
++        error_setg(errp, "SEV is not enabled\n");
++        return NULL;
++    }
++
      fd = open(DEFAULT_SEV_DEVICE, O_RDWR);
      if (fd < 0) {
--        error_report("%s: Failed to open %s '%s'", __func__,
--                     DEFAULT_SEV_DEVICE, strerror(errno));
-+        error_setg_errno(errp, errno, "Failed to open %s",
-+                         DEFAULT_SEV_DEVICE);
-         return NULL;
-     }
- 
-     if (sev_get_pdh_info(fd, &pdh_data, &pdh_len,
--                         &cert_chain_data, &cert_chain_len)) {
-+                         &cert_chain_data, &cert_chain_len, errp)) {
-         goto out;
-     }
- 
-diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index 8eb7de1bef..4db6960f60 100644
---- a/target/i386/sev_i386.h
-+++ b/target/i386/sev_i386.h
-@@ -34,6 +34,6 @@ extern SevInfo *sev_get_info(void);
- extern uint32_t sev_get_cbit_position(void);
- extern uint32_t sev_get_reduced_phys_bits(void);
- extern char *sev_get_launch_measurement(void);
--extern SevCapability *sev_get_capabilities(void);
-+extern SevCapability *sev_get_capabilities(Error **errp);
- 
- #endif
+         error_setg_errno(errp, errno, "Failed to open %s",
 -- 
 2.26.2
-
 
 
