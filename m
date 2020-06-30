@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808BC20F188
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:25:20 +0200 (CEST)
-Received: from localhost ([::1]:46562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D49520F19B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 11:29:00 +0200 (CEST)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqCVz-0004P5-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45392)
+	id 1jqCZX-0001ts-77
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 05:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jqCUa-0002hE-Aa
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:23:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41944
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jqCUY-00063p-Ba
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 05:23:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593509029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9m1hmzt5chzlQr+t+Z2BWaepuHgAzCHaf17YlHMbZOY=;
- b=FiTfk/QDNz7Izi1uqo3GiBZyFf4gCbdP6j7Hzf1D/Z7wG7+zi0ABh2t08CQRpL8oQrPgPH
- 0RDVKCl22yHpM5BiDgkxOYJ2+wZjcWx9ysnCPmb3Ugwp95+xxZkh7W1dH6K9Ulz81ovuWD
- eJP+JkZez2koMCToPveqyeQxuzLfVpg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-hDuehoYEO_WKTB3FST4WZg-1; Tue, 30 Jun 2020 05:23:47 -0400
-X-MC-Unique: hDuehoYEO_WKTB3FST4WZg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1682107ACCA;
- Tue, 30 Jun 2020 09:23:46 +0000 (UTC)
-Received: from [10.72.13.159] (ovpn-13-159.pek2.redhat.com [10.72.13.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68E317BED5;
- Tue, 30 Jun 2020 09:23:33 +0000 (UTC)
-Subject: Re: [RFC v2 1/1] memory: Delete assertion in
- memory_region_unregister_iommu_notifier
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200626064122.9252-1-eperezma@redhat.com>
- <20200626064122.9252-2-eperezma@redhat.com> <20200626212917.GD175520@xz-x1>
- <8cf25190-53e6-8cbb-372b-e3d4ec714dc5@redhat.com>
- <20200628144746.GA239443@xz-x1>
- <54d2cdfd-97b8-9e1d-a607-d7a5e96be3a1@redhat.com>
- <20200629133403.GA266532@xz-x1>
- <2589d0e9-cc5b-a4df-8790-189b49f1a40e@redhat.com>
- <1b4eaaaf-c2ab-0da8-afb4-1b7b4221e6cf@redhat.com>
- <20200630052148-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <49f547e1-dd87-7abe-1075-9dcece75b641@redhat.com>
-Date: Tue, 30 Jun 2020 17:23:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jqCYV-0000xD-PI; Tue, 30 Jun 2020 05:27:56 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:19319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jqCYS-0006ie-4o; Tue, 30 Jun 2020 05:27:55 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DFBA2748DCC;
+ Tue, 30 Jun 2020 11:27:48 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9B775748DCB; Tue, 30 Jun 2020 11:27:48 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 99869748DCA;
+ Tue, 30 Jun 2020 11:27:48 +0200 (CEST)
+Date: Tue, 30 Jun 2020 11:27:48 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 2/4] smbus: Fix spd_data_generate() error API violation
+In-Reply-To: <20bcd5be-7664-4555-38bc-c8c68b603127@amsat.org>
+Message-ID: <alpine.BSF.2.22.395.2006301118100.65701@zero.eik.bme.hu>
+References: <20200422134815.1584-1-armbru@redhat.com>
+ <20200422134815.1584-3-armbru@redhat.com>
+ <alpine.BSF.2.22.395.2004221622140.19234@zero.eik.bme.hu>
+ <0af0e0f0-8127-da83-d9d2-89a3fe28f778@redhat.com>
+ <alpine.BSF.2.22.395.2004222053070.22480@zero.eik.bme.hu>
+ <alpine.BSF.2.22.395.2006261315070.94870@zero.eik.bme.hu>
+ <87k0ztrn9m.fsf@dusky.pond.sub.org>
+ <731e8765-4886-3bfe-b877-06078d0e977d@amsat.org>
+ <alpine.BSF.2.22.395.2006292127520.63145@zero.eik.bme.hu>
+ <20bcd5be-7664-4555-38bc-c8c68b603127@amsat.org>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20200630052148-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:34:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/mixed;
+ boundary="3866299591-1423549813-1593509268=:65701"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 05:27:49
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,135 +67,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yan Zhao <yan.y.zhao@intel.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 2020/6/30 下午5:21, Michael S. Tsirkin wrote:
-> On Tue, Jun 30, 2020 at 04:29:19PM +0800, Jason Wang wrote:
->> On 2020/6/30 上午10:41, Jason Wang wrote:
->>> On 2020/6/29 下午9:34, Peter Xu wrote:
->>>> On Mon, Jun 29, 2020 at 01:51:47PM +0800, Jason Wang wrote:
->>>>> On 2020/6/28 下午10:47, Peter Xu wrote:
->>>>>> On Sun, Jun 28, 2020 at 03:03:41PM +0800, Jason Wang wrote:
->>>>>>> On 2020/6/27 上午5:29, Peter Xu wrote:
->>>>>>>> Hi, Eugenio,
->>>>>>>>
->>>>>>>> (CCing Eric, Yan and Michael too)
->>>>>>>>
->>>>>>>> On Fri, Jun 26, 2020 at 08:41:22AM +0200, Eugenio Pérez wrote:
->>>>>>>>> diff --git a/memory.c b/memory.c
->>>>>>>>> index 2f15a4b250..7f789710d2 100644
->>>>>>>>> --- a/memory.c
->>>>>>>>> +++ b/memory.c
->>>>>>>>> @@ -1915,8 +1915,6 @@ void
->>>>>>>>> memory_region_notify_one(IOMMUNotifier
->>>>>>>>> *notifier,
->>>>>>>>>              return;
->>>>>>>>>          }
->>>>>>>>> -    assert(entry->iova >= notifier->start &&
->>>>>>>>> entry_end <= notifier->end);
->>>>>>>> I can understand removing the assertion should solve
->>>>>>>> the issue, however imho
->>>>>>>> the major issue is not about this single assertion
->>>>>>>> but the whole addr_mask
->>>>>>>> issue behind with virtio...
->>>>>>> I don't get here, it looks to the the range was from
->>>>>>> guest IOMMU drivers.
->>>>>> Yes.  Note that I didn't mean that it's a problem in virtio,
->>>>>> it's just the fact
->>>>>> that virtio is the only one I know that would like to
->>>>>> support arbitrary address
->>>>>> range for the translated region.  I don't know about tcg,
->>>>>> but vfio should still
->>>>>> need some kind of page alignment in both the address and the
->>>>>> addr_mask.  We
->>>>>> have that assumption too across the memory core when we do
->>>>>> translations.
->>>>> Right but it looks to me the issue is not the alignment.
+--3866299591-1423549813-1593509268=:65701
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 30 Jun 2020, Philippe Mathieu-Daud� wrote:
+> On 6/29/20 11:31 PM, BALATON Zoltan wrote:
+>>>>> Besides the above here's another use case of the fix ups that I wanted
+>>>>> to keep:
+>>>>>
+>>>>> https://patchew.org/QEMU/cover.1592315226.git.balaton@eik.bme.hu/b5f4598529a77f15f554c593e9be2d0ff9e5fab3.1592315226.git.balaton@eik.bme.hu/
 >>>>>
 >>>>>
->>>>>> A further cause of the issue is the MSI region when vIOMMU
->>>>>> enabled - currently
->>>>>> we implemented the interrupt region using another memory
->>>>>> region so it split the
->>>>>> whole DMA region into two parts.  That's really a clean approach to IR
->>>>>> implementation, however that's also a burden to the
->>>>>> invalidation part because
->>>>>> then we'll need to handle things like this when the listened
->>>>>> range is not page
->>>>>> alighed at all (neither 0-0xfedffff, nor 0xfef0000-MAX).  If
->>>>>> without the IR
->>>>>> region (so the whole iommu address range will be a single FlatRange),
->>>>> Is this a bug? I remember that at least for vtd, it won't do any
->>>>> DMAR on the
->>>>> intrrupt address range
->>>> I don't think it's a bug, at least it's working as how I
->>>> understand...  that
->>>> interrupt range is using an IR region, that's why I said the IR
->>>> region splits
->>>> the DMAR region into two pieces, so we have two FlatRange for the same
->>>> IOMMUMemoryRegion.
->>>
->>> I don't check the qemu code but if "a single FlatRange" means
->>> 0xFEEx_xxxx is subject to DMA remapping, OS need to setup passthrough
->>> mapping for that range in order to get MSI to work. This is not what vtd
->>> spec said:
->>>
->>> """
->>>
->>> 3.14 Handling Requests to Interrupt Address Range
->>>
->>> Requests without PASID to address range 0xFEEx_xxxx are treated as
->>> potential interrupt requests and are not subjected to DMA remapping
->>> (even if translation structures specify a mapping for this
->>> range). Instead, remapping hardware can be enabled to subject such
->>> interrupt requests to interrupt remapping.
->>>
->>> """
->>>
->>> My understanding is vtd won't do any DMA translation on 0xFEEx_xxxx even
->>> if IR is not enabled.
+>>>>> This board normally uses OpenBIOS which gets RAM size from fw_cfg and
+>>>>> so works with whatever amount of RAM (also Linux booted with -kernel
+>>>>> probably does not care) so any -memory value is valid. However some
+>>>>> may want to also use original firmware ROM for compatibility which
+>>>>> detects RAM reading SPD eeproms (the i2c emulation needed for that is
+>>>>> not working yet but once that's fixed this will be the case). I want
+>>>>> to add smbus_eeproms for this but do not want to just abort for cases
+>>>>> where -memory given by user cannot be covered with SPD data. Instead a
+>>>>> warning and covering as much RAM as possible should be enough (the ROM
+>>>>> will detect less RAM than given with -m
+>>>>> but that's OK and better than just bailing out without a message
+>>>>> tripping an assert). But I don't want to replicate in board code the
+>>>>> calculation and checks the spd_data_generate() function does anyway
+>>>>> (that would just puzzle reviewers for every use of this functions).
+>>>>>
+>>>>> Previously this was possible with my original spd_data_generate()
+>>>>> implementation. What's your suggestion to bring that functionality
+>>>>> back without breaking Error API? Maybe adding new parameters to tell
+>>>>> the spd_data_generate() which fixups are allowed?
+[...]
+>> What I'd like is reverting f26740c61a57f and fix that some other way so
+>> I don't have to duplicate size check in board code as can be seen in the
+>> patchew link above but could just call spd_data_generate() to do its
+>> job. This was discussed at the time that patch was in review you can
+>> read it here:
 >>
->> Ok, we had a dedicated mr for interrupt:
+>> http://patchwork.ozlabs.org/project/qemu-devel/patch/20200420132826.8879-3-armbru@redhat.com/
 >>
->> memory_region_add_subregion_overlap(MEMORY_REGION(&vtd_dev_as->iommu),
->> VTD_INTERRUPT_ADDR_FIRST,
->> &vtd_dev_as->iommu_ir, 1);
 >>
->> So it should be fine. I guess the reason that I'm asking is that I thought
->> "IR" means "Interrupt remapping" but in fact it means "Interrupt Region"?
->>
->> But I'm still not clear about the invalidation part for interrupt region,
->> maybe you can elaborate a little more on this.
->>
->> Btw, I think guest can trigger the assert in vtd_do_iommu_translate() if we
->> teach vhost to DMA to that region:
+>> My points were not really considered then, now that I have another use
+>> case maybe it could be revisited and fixed. What I want is to be able to
+>> call spd_data_generate() from board code with whatever siz�?© (the
+>> board does not need to know about SPD limits and so cannot pre-check the
+>> size) and the function should return the largest possible size SPD and
+>> some indication if the size was not used completely. If Error cannot be
+>> used for this, return the message or error some other way but let the
+>> board code decide if it wants to abort or it can use the smaller SPD. Do
+>> not assert in the helper function. Maybe the DIMM type fix up can be
+>> dropped and only keep the size fix up so then we don't need to use error
+>> twice, the board could call the function again if a different type is
+>> also acceptable, since only sam460ex would need this I can do that there
+>> for type fixup and call spd_data_generate() again with DDR2 if first one
+>> with DDR could not fit all ram. But at least the asserts should be
+>> dropped for this and the size check brought back. Then adding SPD to
+>> mac_oldworld could also be done by calling spd_data_generate() instead
+>> of duplicating the checks this function does anyway. This board has
+>> three slots so if user says -m 1400 it would call spd_data_generate()
+>> with 1400 first, get back 512 SPD that it adds to first slot then calls
+>> spd_data_generate() again with 888, gets 512 again that it adds to 2nd
+>> slot and calls spd_data_generate() for last slot with 376 which would
+>> give 256 and 120 remaining that it may warn the user about but still
+>> continue because the SPD data is only used by a ROM from real hardware
+>> (that may be used for compatibility with some software) but the default
+>> OpenBIOS disregards SPD data and would still use 1400 so it's not an
+>> error to abort on. Simply if using a firmare ROM then only 1280 MB of
+>> the 1400 will be available due to its limitations but that's not a
+>> reason to force users to change their command line. Printing a warning
+>> is enough to hint they may use different value but aborting without an
+>> error message on an assert which is the current situation is not really
+>> a user friendly way.
 >
-> Why would we want to?
-
-
-I meant a buggy(malicious) guest driver.
-
-Thanks
-
-
+> I just noticed we have a MachineClass::fixup_ram_size() handler. There
+> is only one implementation (on s390x) which does a bit the opposite:
+> If the user asks for -m 1400, it will pad to a valid physical size,
+> so in your example to 1472 MiB. Then the guest can use only 1400 if it
+> is happy with it. 72 MiB are wasted, but this is still better than the
+> 576 MiB wasted if we were using 2 GiB instead ;)
 >
->>      /*
->>       * We have standalone memory region for interrupt addresses, we
->>       * should never receive translation requests in this region.
->>       */
->>      assert(!vtd_is_interrupt_addr(addr));
->>
->> Is this better to return false here? (We can work on the fix for vhost but
->> it should be not trivial)
->>
->> Thanks
->>
+> See commit 5c30ef937f5:
+>
+> static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
+> {
+>    /* same logic as in sclp.c */
+>    int increment_size = 20;
+>    ram_addr_t newsz;
+>
+>    while ((sz >> increment_size) > MAX_STORAGE_INCREMENTS) {
+>        increment_size++;
+>    }
+>    newsz = sz >> increment_size << increment_size;
+>
+>    if (sz != newsz) {
+>        qemu_printf("Ram size %" PRIu64 "MB was fixed up to %" PRIu64
+>                    "MB to match machine restrictions. "
+>                    "Consider updating "
+>                    "the guest definition.\n", (uint64_t) (sz / MiB),
+>                    (uint64_t) (newsz / MiB));
+>    }
+>    return newsz;
+> }
 
+May have a look but first sight it might work for sam460ex but not for the 
+mac_oldworld problem as described above without duplicating size checks in 
+board code that I'd like to avoid and have it only in spd_data_generate 
+for clarity and avoiding mistakes in duplicated copies. What the above 
+could be good for is to avoid unused RAM area but that's not related to 
+spd_data_generate and if it returns error some way or asserts.
+
+I think the problem with fix up was that memdev will allocate mem region 
+and it does not have a callback for the board to apply fixup or any other 
+way to specify constraints so by the time board code runs the memory 
+region is already allocated with the user specified size so all the board 
+code can do is use that or abort (or not use and waste some amount). Maybe 
+s390x wasn't converted to this or using it differently?
+
+Regards,
+BALATON Zoltan
+--3866299591-1423549813-1593509268=:65701--
 
