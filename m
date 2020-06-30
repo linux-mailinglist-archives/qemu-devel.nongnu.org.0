@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B1A20F2CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:36:40 +0200 (CEST)
-Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F16A20F2CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:38:03 +0200 (CEST)
+Received: from localhost ([::1]:54196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDd1-0003tW-IB
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37466)
+	id 1jqDeM-00066y-JE
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDVK-0001oQ-NJ
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:28:42 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:58188 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
+ id 1jqDVt-0003L2-Qt
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:29:17 -0400
+Received: from mailin3.audi.de ([143.164.102.17]:53675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqDVF-0000Yu-Q6
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:28:42 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 38B9E412C8;
- Tue, 30 Jun 2020 10:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1593512914; x=1595327315; bh=yrctfyslInb9wd24ZeqDcRrPa5bol+8mHtC
- UZl/8RGI=; b=s817XI9/jnoL1pqFs4IWeRwi5fNTCnkbiwGASOAgNxbKv/w422S
- DkMsInfqitvigaATJ6x/4krztvo+Us3N4Fd+/0ca8yil025NE+AmD518/jxFyvI2
- bodoqWQRM5kRGE0NAMzpxxYE2oExFiN59Mkr7mK3+BBu4CWLwYetHEBI=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LF5aX9eymL4N; Tue, 30 Jun 2020 13:28:34 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id CEEA04C89B;
- Tue, 30 Jun 2020 13:28:34 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 30
- Jun 2020 13:28:34 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 9/9] MAINTAINERS: Add Cameron as HVF co-maintainer
-Date: Tue, 30 Jun 2020 13:28:24 +0300
-Message-ID: <20200630102824.77604-10-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200630102824.77604-1-r.bolshakov@yadro.com>
-References: <20200630102824.77604-1-r.bolshakov@yadro.com>
+ (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
+ id 1jqDVr-0000eZ-ES
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:29:17 -0400
+From: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, David Brenken
+ <david.brenken@efs-auto.org>
+Subject: Re: [PATCH v3 1/1] tricore: added triboard with tc27x_soc
+Thread-Topic: [PATCH v3 1/1] tricore: added triboard with tc27x_soc
+Thread-Index: AdZOx+ecudLgwbd+Qa2lYFrQh/1gHQ==
+Date: Tue, 30 Jun 2020 10:28:57 +0000
+Message-ID: <4006678c6d834f4fb126314e83f99f5c@efs-auto.de>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.241.65.249]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 06:12:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-TM-AS-GCONF: 00
+Received-SPF: none client-ip=143.164.102.17;
+ envelope-from=andreas.konopik@efs-auto.de; helo=mailin3.audi.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 06:29:10
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,35 +58,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Cameron Esfahani <dirty@apple.com>
+Cc: "Hofstetter, Georg \(EFS-GH2\)" <Georg.Hofstetter@efs-auto.de>, "Brenken,
+ David \(EFS-GH5\)" <david.brenken@efs-auto.de>, "Rasche,
+ Robert \(EFS-GH2\)" <robert.rasche@efs-auto.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Biermanski, Lars
+ \(EFS-GH3\)" <lars.biermanski@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar patch was sent a while ago but got lost.
-While at it, add a status wiki page.
+Hi Bastian,
 
-Cc: Cameron Esfahani <dirty@apple.com>
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+> On Mon, Jun 22, 2020 at 03:19:34PM +0200, David Brenken wrote:
+> > From: Andreas Konopik <andreas.konopik@efs-auto.de>
+> > +const MemmapEntry tc27x_soc_memmap[] =3D {
+> > +    [TC27XD_DSPR2]     =3D { 0x50000000,   0x1E000 },
+> > +    [TC27XD_DCACHE2]   =3D { 0x5001E000,    0x2000 },
+> > +    [TC27XD_DTAG2]     =3D { 0x500C0000,     0xC00 },
+>=20
+> The size changed from 0xa00 to 0xc00 from v2. The manual states that it h=
+as no
+> size. I guess you inferred the size from the address range. How does real=
+ hw
+> behave if you access DTAG2?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dec252f38b..b6d4f62ba2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -417,7 +417,9 @@ F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
- 
- X86 HVF CPUs
-+M: Cameron Esfahani <dirty@apple.com>
- M: Roman Bolshakov <r.bolshakov@yadro.com>
-+W: https://wiki.qemu.org/Features/HVF
- S: Maintained
- F: accel/stubs/hvf-stub.c
- F: target/i386/hvf/
--- 
-2.26.1
+DTAG size of 0xa00 was a mistake, 0xc00 is correct. Even though the manual =
+does not assign sizes, DTAG and PTAG can be mapped for memory testing purpo=
+ses.
+Therefore memory accesses to DTAG/PTAG are possible (see Footnote 3 & 4 [1,=
+ Page 3-10]).
 
+Real hardware has to be configured via MTU before accessing DTAG/PTAG. Beca=
+use QEMU tricore has no MTU, we wanted to be less restrictive by mapping DT=
+AG/PTAG into memory.
+
+> Why not use KiB/MiB sizes as before? I created a patch for that. Can you =
+check
+> that I didn't skrew up the sizes?
+
+Thank you, the patch looks good to me.
+How do you want to proceed? Should we send you a Patch v4?
+
+> The remainder looks good to me.
+
+Great!
+
+Kind regards,
+
+Andreas
+
+[1] https://hitex.co.uk/fileadmin/uk-files/downloads/ShieldBuddy/tc27xD_um_=
+v2.2.pdf
 
