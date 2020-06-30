@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CA720F624
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:48:34 +0200 (CEST)
-Received: from localhost ([::1]:58244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D9620F628
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:50:39 +0200 (CEST)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGcj-0008C1-CI
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:48:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
+	id 1jqGej-0003Xe-V4
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGTu-0001CJ-At; Tue, 30 Jun 2020 09:39:26 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:35461)
+ id 1jqGTv-0001Ex-BC; Tue, 30 Jun 2020 09:39:27 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:33969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqGTs-0006JG-MC; Tue, 30 Jun 2020 09:39:25 -0400
-Received: by mail-ed1-x544.google.com with SMTP id e15so16262211edr.2;
- Tue, 30 Jun 2020 06:39:23 -0700 (PDT)
+ id 1jqGTt-0006Jd-Pd; Tue, 30 Jun 2020 09:39:27 -0400
+Received: by mail-ed1-x542.google.com with SMTP id a8so15033747edy.1;
+ Tue, 30 Jun 2020 06:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uCWGmD+bgn4Y2GrUizD+G8/TwFtuJI6lZxJDh/W1Rng=;
- b=RSaNzF7CbF9k8PI5rtmpHuzt9wDkHj4Zs5XVMwjlDQisRmrjnFvTnObBAxtAlRCPQd
- Qf+N3xKg/2WfnVNlersmYkOKpioa3zQeEuMvqW2BMcyqbWKz3UIWEjTVScAur53YzBm1
- XxniCU8Q+wI6wHnf08GIzgtOEaaY5FL4oPE0JVZuFshe5dVbx8drdl605m8KX5sfU7i1
- YPwsmi9AMCZMcPmL9xMu7JVbm35UhPRotE+NRpNLSy2Z8wlP0GvVVqrQDcMdOU7N1xZz
- UiZQHvK+2AFF9b9c9HE9+1hhEY+0bRybgszgg+mDSzDpQ6mgoOmWfCAZXeuD8A5eESfv
- Ce9w==
+ bh=VFFOiCizJ+mW5k6WnhghvzdFvmIVL76nU3yTXrPInm0=;
+ b=BO7i1ymp9yBffSDllzficR4ZG69UtZZ5R74AqNSXRYh8yUuIGpV8FDDWcdVshR7lJO
+ ud8RU7KqCzVcV5rMG4Nbmwt/FwZVPDlyxK+nBEwUg/8vXpMuwlr8PUzX+1hiboXF2NEJ
+ nZ4Nu1oUzek7wlaIZjxu/o3ZHnNPjJaSzTDCc9apCxXDRgAxYL+MH/Ge43MbdLJFxmYm
+ QRJSYlgHF15tzT/pnn95AScFJ8BDfNsu4GDmiQ565xM0Dbyx4AADHTgKi9jxF1APw+P/
+ UHWyrE0HlrQrtpCZ2/qGum2R1hCn0lB4P7/AaisN7MRRF+CaSJZpfP6J56pSL7n/sKPM
+ OBWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uCWGmD+bgn4Y2GrUizD+G8/TwFtuJI6lZxJDh/W1Rng=;
- b=iQzU77zmi8g/BdA73ls7JCs90KcMfMfbiynSd+EzkI6kuomONEehRALNKaZY1tnkEK
- ZPwM9rfp19vr1yYsZtP54yqGgjMG9hJZmTe7lkFCSnr5L3UFIRd9lhFOSZGtMeVQIVRs
- lb+ZVl5IgBTfnDyJndEE8YslMMrBmO99brbvkwEqz8VBGNhcG5+3esS43kdiuxaiddia
- usG6gdcNUp1P7VWcCbLSxX4t3q3b54nwK+TWIFHJUiP1GJfoccMnNJ2msetKo1OLvShd
- YLVpPgJMfm75+6OKu7Z8UR6txC/bXQo4hViKmBom5iIskM3JNuAoWOEx4DtECwPJBUj3
- FInA==
-X-Gm-Message-State: AOAM532cD3pMfwqaVcdPkwrXmJOZUmUiu7xuuopdbBuLQl6drT+NBlgc
- +PwfRVIoHQQjT+e4N2Dd1RcUlcqMJeQ=
-X-Google-Smtp-Source: ABdhPJxkHlEvFofkVpNPN8Z0SQg13iRYAQr5YwXd4sZOY5ljj4ROIz2pAVG7H5dfZgIENEQGWl0q6g==
-X-Received: by 2002:aa7:d3cd:: with SMTP id o13mr22568115edr.176.1593524362774; 
- Tue, 30 Jun 2020 06:39:22 -0700 (PDT)
+ bh=VFFOiCizJ+mW5k6WnhghvzdFvmIVL76nU3yTXrPInm0=;
+ b=J+s8UBqxs4Y34KQPuBB6A29eb72MldJth0cGtP8AEMsDfFYIEkK3WqU05HUDk560OA
+ OJmpDWgDo99sti+fIIflugeiKXfgI02ER1wcMuYt6eupuXCNQFnqwvV2DCLEheZuyFKN
+ syUWqNsBYYE7TDFemsb8hydGhjoJrv2FP8XV2O/UxbzSOCbOfL7CtBQD21J20H0hoGQ2
+ tOWZkhjGjCA4zXnftrd/uzYORIHIkh7/mPLD1KMd1kQLXibgy9XeIib1DJCfNzWlfBhI
+ m40pqtj2N5uR/uvBTNT+gguNM06t/3ZvOb4n+XHZ8RGStLAVKRQS3x8BBSW4cMcpKcpS
+ KDTA==
+X-Gm-Message-State: AOAM531wET6YQmdJcvsu0CC3VWxV2oimor2lWaZK16+PCXgt1XwtRTb7
+ sVKLqMbq6rR1vgzgjH7bq7NAeu7351E=
+X-Google-Smtp-Source: ABdhPJwRdFf/h+UGSi2IZWls9PKOqan0JBjUYiv+eqhH8xA4qmKnc1X36AvIDR+rlcXshLQVKX6Tvw==
+X-Received: by 2002:aa7:d049:: with SMTP id n9mr15933117edo.39.1593524363856; 
+ Tue, 30 Jun 2020 06:39:23 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.21
+ by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 06:39:22 -0700 (PDT)
+ Tue, 30 Jun 2020 06:39:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 08/17] hw/sd/sdcard: Call sd_addr_to_wpnum where it is used,
- consider zero size
-Date: Tue, 30 Jun 2020 15:39:02 +0200
-Message-Id: <20200630133912.9428-9-f4bug@amsat.org>
+Subject: [PATCH v7 09/17] hw/sd/sdcard: Special case the -ENOMEDIUM error
+Date: Tue, 30 Jun 2020 15:39:03 +0200
+Message-Id: <20200630133912.9428-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630133912.9428-1-f4bug@amsat.org>
 References: <20200630133912.9428-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,41 +92,60 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid setting 'sect' variable just once (its name is confuse
-anyway). Directly set 'sd->wpgrps_size'. Special case when
-size is zero.
+As we have no interest in the underlying block geometry,
+directly call blk_getlength(). We have to care about machines
+creating SD card with not drive attached (probably incorrect
+API use). Simply emit a warning when such Frankenstein cards
+of zero size are reset.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/sd/sd.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 078b0e81ee..e5adcc8055 100644
+index e5adcc8055..548745614e 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -556,8 +556,6 @@ static void sd_reset(DeviceState *dev)
-     }
-     size = sect << 9;
+@@ -545,18 +545,30 @@ static inline uint64_t sd_addr_to_wpnum(uint64_t addr)
+ static void sd_reset(DeviceState *dev)
+ {
+     SDState *sd = SD_CARD(dev);
+-    uint64_t size;
+-    uint64_t sect;
  
--    sect = sd_addr_to_wpnum(size) + 1;
--
-     sd->size = size;
+     trace_sdcard_reset();
+     if (sd->blk) {
+-        blk_get_geometry(sd->blk, &sect);
+-    } else {
+-        sect = 0;
+-    }
+-    size = sect << 9;
++        int64_t size = blk_getlength(sd->blk);
++
++        if (size == -ENOMEDIUM) {
++            /*
++             * FIXME blk should be set once per device in sd_realize(),
++             * and we shouldn't be checking it in sed_reset(). But this
++             * is how the reparent currently works.
++             */
++            char *id = object_get_canonical_path_component(OBJECT(dev));
++
++            warn_report("sd-card '%s' created with no drive.",
++                        id ? id : "unknown");
++            g_free(id);
++            size = 0;
++        }
++        assert(size >= 0);
++        sd->size = size;
++    } else {
++        sd->size = 0;
++    }
+ 
+-    sd->size = size;
      sd->state = sd_idle_state;
      sd->rca = 0x0000;
-@@ -570,7 +568,11 @@ static void sd_reset(DeviceState *dev)
- 
-     g_free(sd->wp_groups);
-     sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
--    sd->wpgrps_size = sect;
-+    if (sd->size) {
-+        sd->wpgrps_size = sd_addr_to_wpnum(sd, sd->size) + 1;
-+    } else {
-+        sd->wpgrps_size = 1;
-+    }
-     sd->wp_groups = bitmap_new(sd->wpgrps_size);
-     memset(sd->function_group, 0, sizeof(sd->function_group));
-     sd->erase_start = 0;
+     sd_set_ocr(sd);
 -- 
 2.21.3
 
