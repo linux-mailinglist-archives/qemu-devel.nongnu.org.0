@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A6920EC66
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 06:19:32 +0200 (CEST)
-Received: from localhost ([::1]:55090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B6A20EC9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 06:26:44 +0200 (CEST)
+Received: from localhost ([::1]:33662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq7k2-0001tm-Hi
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 00:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42798)
+	id 1jq7r1-0005E2-7k
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 00:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq7gW-0000kP-26; Tue, 30 Jun 2020 00:15:52 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:47014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jq7gU-0002Ed-17; Tue, 30 Jun 2020 00:15:51 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id CED40BF717;
- Tue, 30 Jun 2020 04:15:46 +0000 (UTC)
-Date: Tue, 30 Jun 2020 06:15:43 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v2 02/18] hw/block/nvme: Define 64 bit cqe.result
-Message-ID: <20200630041543.pqr52rivjr5rrq6n@apples.localdomain>
-References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
- <20200617213415.22417-3-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jq7qC-0004mN-6V
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 00:25:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jq7qA-0003Ww-1a
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 00:25:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jq7q3-0007wp-AP
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 04:25:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E1B352E812D
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 04:25:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200617213415.22417-3-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:09:10
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Jun 2020 04:17:15 -0000
+From: Launchpad Bug Tracker <1869858@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chenyifei2008 janitor th-huth
+X-Launchpad-Bug-Reporter: chen (chenyifei2008)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158564614354.21602.16034266356442698815.malonedeb@gac.canonical.com>
+Message-Id: <159349063592.19938.6033813023591968124.malone@loganberry.canonical.com>
+Subject: [Bug 1869858] Re: qemu can't start Windows10arm64 19H1(with kvm)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 58b3f36b7d3289ce57172efd1c5a5e2778dc0938
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 00:25:45
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,108 +72,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsky@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Reply-To: Bug 1869858 <1869858@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 18 06:33, Dmitry Fomichev wrote:
-> From: Ajay Joshi <ajay.joshi@wdc.com>
-> 
-> A new write command, Zone Append, is added as a part of Zoned
-> Namespace Command Set. Upon successful completion of this command,
-> the controller returns the start LBA of the performed write operation
-> in cqe.result field. Therefore, the maximum size of this variable
-> needs to be changed from 32 to 64 bit, consuming the reserved 32 bit
-> field that follows the result in CQE struct. Since the existing
-> commands are expected to return a 32 bit LE value, two separate
-> variables, result32 and result64, are now kept in a union.
-> 
-> Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-> ---
->  block/nvme.c         | 2 +-
->  block/trace-events   | 2 +-
->  hw/block/nvme.c      | 6 +++---
->  include/block/nvme.h | 6 ++++--
->  4 files changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index eb2f54dd9d..ca245ec574 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -287,7 +287,7 @@ static inline int nvme_translate_error(const NvmeCqe *c)
->  {
->      uint16_t status = (le16_to_cpu(c->status) >> 1) & 0xFF;
->      if (status) {
-> -        trace_nvme_error(le32_to_cpu(c->result),
-> +        trace_nvme_error(le64_to_cpu(c->result64),
->                           le16_to_cpu(c->sq_head),
->                           le16_to_cpu(c->sq_id),
->                           le16_to_cpu(c->cid),
-> diff --git a/block/trace-events b/block/trace-events
-> index 29dff8881c..05c1393943 100644
-> --- a/block/trace-events
-> +++ b/block/trace-events
-> @@ -156,7 +156,7 @@ vxhs_get_creds(const char *cacert, const char *client_key, const char *client_ce
->  # nvme.c
->  nvme_kick(void *s, int queue) "s %p queue %d"
->  nvme_dma_flush_queue_wait(void *s) "s %p"
-> -nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
-> +nvme_error(uint64_t cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %ld sq_head %d sqid %d cid %d status 0x%x"
->  nvme_process_completion(void *s, int index, int inflight) "s %p queue %d inflight %d"
->  nvme_process_completion_queue_busy(void *s, int index) "s %p queue %d"
->  nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 3ed9f3d321..a1bbc9acde 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -823,7 +823,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
->  
-> -    req->cqe.result = result;
-> +    req->cqe.result32 = result;
->      return NVME_SUCCESS;
->  }
->  
-> @@ -859,8 +859,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->                                      ((dw11 >> 16) & 0xFFFF) + 1,
->                                      n->params.max_ioqpairs,
->                                      n->params.max_ioqpairs);
-> -        req->cqe.result = cpu_to_le32((n->params.max_ioqpairs - 1) |
-> -                                      ((n->params.max_ioqpairs - 1) << 16));
-> +        req->cqe.result32 = cpu_to_le32((n->params.max_ioqpairs - 1) |
-> +                                        ((n->params.max_ioqpairs - 1) << 16));
->          break;
->      case NVME_TIMESTAMP:
->          return nvme_set_feature_timestamp(n, cmd);
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 1720ee1d51..9c3a04dcd7 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -577,8 +577,10 @@ typedef struct NvmeAerResult {
->  } NvmeAerResult;
->  
->  typedef struct NvmeCqe {
-> -    uint32_t    result;
-> -    uint32_t    rsvd;
-> +    union {
-> +        uint64_t     result64;
-> +        uint32_t     result32;
-> +    };
->      uint16_t    sq_head;
->      uint16_t    sq_id;
->      uint16_t    cid;
-> -- 
-> 2.21.0
-> 
-> 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869858
+
+Title:
+  qemu can't start Windows10arm64 19H1(with kvm)
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  My cpu's model is arm64(cortex-a53),I want start Win10arm64 with kvm,Beca=
+use is fast than x86.But it's did'nt work.The screnn is card in Uefi's logo=
+. But I am use ramfb now,So it has nothing to do with the graphics card.But=
+ if I discard kvm,It can start now.But its so slowly.But I use the uefi and=
+ kvm can start with Debian arm64 buster. So who's the problem?qemu or kvm o=
+r Microsoft?But others use it to start successfully. I don't know what I wo=
+uld like to do
+  This is start command(Qemu version is 4.1')
+  qemu-system-aarch64 -hda /win10.vhdx -cdrom /win10arm.iso -m 1G -accel kv=
+m -smp 4 -cpu host -pflash efi.img -pflash var.img -device ramfb -device qe=
+mu-xhci -device usb-kbd -device usb-mouse -device usb-tablet
+  If I replace the above three parameters with "- CPU cortex-a53" and "- ac=
+cel TCG" and "- device VGA", I can start normally. What's the matter?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869858/+subscriptions
 
