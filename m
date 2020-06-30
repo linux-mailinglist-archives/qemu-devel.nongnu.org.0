@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA5420EAAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 03:11:16 +0200 (CEST)
-Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1660120EA93
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 03:05:04 +0200 (CEST)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jq4nr-0005vj-NT
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 21:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
+	id 1jq4hq-0001JG-AE
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jun 2020 21:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jq4ma-0005Lj-Ra; Mon, 29 Jun 2020 21:09:56 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:34164)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jq4mY-0004gt-QW; Mon, 29 Jun 2020 21:09:56 -0400
-Received: by mail-io1-xd44.google.com with SMTP id m81so19282708ioa.1;
- Mon, 29 Jun 2020 18:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SHz87V7dIZrshDxwiNROVV+HaOi4iIKGHix/vBfscjQ=;
- b=DRQeESsmidoxpYq0Y6o9GXe57TDd5t0o3VZ1TlueROGgQ6dYsuaIP/lKR6OlAVONBe
- o7GIzcvDsmN6N6q76yAGBK4IfrCi+u6CF7kdpspW3tfGhPLXq/PaJj68+e4WNNKLKMRx
- tlxOtqKstuFV02aB3zyliOUCNwomozF8R3hDP4g1wMPmpqqkuzoSkaYMoDtaA1AWShXK
- 5C93ua1ATFvMQcSynia+oNcG2rGKjWbaFlngG5tsvlIVRchXrPTWcaDq82i1PKkYAybe
- 0pGtuxAWFixQR17PHbFF3Tk7XdB3ld3zCeRpTBv1solPu/dPefvxYJudsy67k4MDUTcU
- Qpqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SHz87V7dIZrshDxwiNROVV+HaOi4iIKGHix/vBfscjQ=;
- b=DzalJeKnF5hTM/wOmckfuk+QyIksX+Qu5fHX5mkOgtFVub5lUB7ZekTs/HBUoLyGPY
- RQoBtk/Qgow7nHZ0CjwhkuN4VEylzUds9qOVVf9vd4uU/ZQ21/oXLAMQAiNW5MH3aZSt
- EideH7y/Ef5ZizGtoiRxAOITQ6s2kdiZb9iwcWpKl8lEQPohzUvNKf+NBSIyimw+ShmZ
- JSHdWAbdN6kIZiq0x9EFxt6QqggRzgmqFsmBwAZYADEn3JjYSsQ4gXef2Tx10LbqVQ5m
- JEw1UaPBUm05PmwhD9OIhQQ8Mma0URQ1+U1y/OWl20vk2MBkr4zAAJhyXlVYpi60hzZn
- nbmw==
-X-Gm-Message-State: AOAM5335veTs6kkSJ1ovmffOITuI+RI3rr1HqOec555ku6Jra+OU3Tei
- jv9UWrYqokfrYGI6TTqG2/xpztecpJIEqc0wQ2w=
-X-Google-Smtp-Source: ABdhPJybcu9h85IqWYf6kpVHcY6V9+vKNW0TPkFgDDHtcE3VGB1lI//PDdyU6IfBnFrnA8kjcdZbq18kSe9guJq/a7E=
-X-Received: by 2002:a02:1a06:: with SMTP id 6mr21248521jai.8.1593479393502;
- Mon, 29 Jun 2020 18:09:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jq4gc-0000nB-QI; Mon, 29 Jun 2020 21:03:46 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:58900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jq4gZ-0003pP-P8; Mon, 29 Jun 2020 21:03:45 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7906874594E;
+ Tue, 30 Jun 2020 03:03:39 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 37B3C745712; Tue, 30 Jun 2020 03:03:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 330107456F8;
+ Tue, 30 Jun 2020 03:03:38 +0200 (CEST)
+Date: Tue, 30 Jun 2020 03:03:38 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/ppc/ppc4xx: Only accept (combination of) pow2 DDR sizes
+In-Reply-To: <20200629200256.2240-1-f4bug@amsat.org>
+Message-ID: <alpine.BSF.2.22.395.2006300250390.32453@zero.eik.bme.hu>
+References: <20200629200256.2240-1-f4bug@amsat.org>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
- <20200617213415.22417-4-dmitry.fomichev@wdc.com>
-In-Reply-To: <20200617213415.22417-4-dmitry.fomichev@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 29 Jun 2020 18:00:11 -0700
-Message-ID: <CAKmqyKPc1J+D5Yih0SamWD40GrVhyV75ogG5D5W8dv9ywaA3=g@mail.gmail.com>
-Subject: Re: [PATCH v2 03/18] hw/block/nvme: Clean up unused AER definitions
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-1747750601-1593479018=:32453"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,114 +58,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Keith Busch <kbusch@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsky@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 17, 2020 at 2:48 PM Dmitry Fomichev <dmitry.fomichev@wdc.com> wrote:
->
-> Removed unused struct NvmeAerResult and SMART-related async event
-> codes. All other event codes are now categorized by their type.
-> This avoids having to define the same values in a single enum,
-> NvmeAsyncEventRequest, that is now removed.
->
-> Later commits in this series will define additional values in some
-> of these enums. No functional change.
->
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--3866299591-1747750601-1593479018=:32453
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Alistair
-
+On Mon, 29 Jun 2020, Philippe Mathieu-Daudé wrote:
+> Use popcount instruction to count the number of bits set in
+> the RAM size. Allow at most 1 bit for each bank. This avoid
+> using invalid hardware configurations.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/block/nvme.h      |  1 -
->  include/block/nvme.h | 43 ++++++++++++++++++++++---------------------
->  2 files changed, 22 insertions(+), 22 deletions(-)
+> hw/ppc/ppc4xx_devs.c | 9 +++++++++
+> 1 file changed, 9 insertions(+)
 >
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 0460cc0e62..4f0dac39ae 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -13,7 +13,6 @@ typedef struct NvmeParams {
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index f1651e04d9..c2484a5695 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -687,6 +687,15 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+>     int i;
+>     int j;
 >
->  typedef struct NvmeAsyncEvent {
->      QSIMPLEQ_ENTRY(NvmeAsyncEvent) entry;
-> -    NvmeAerResult result;
->  } NvmeAsyncEvent;
+> +    if (ctpop64(size_left) > nr_banks) {
+> +        if (nr_banks) {
+> +            error_report("RAM size must be a power of 2");
+> +        } else {
+> +            error_report("RAM size must be the combination of %d powers of 2",
+> +                         nr_banks);
+> +        }
+> +        exit(1);
+
+What is this supposed to fix? Is it a good idea to exit() from a helper? I 
+don't think so because the board code should be in control in my opinion 
+to decide what it can work with or what it cannot handle and wants to 
+abort. So maybe it's better to return error in some way and let board code 
+handle it. (We already exit from this function but that was added in 
+commit a0258e4afa1 when the size fix up was removed due to memdev. That 
+exit uses EXIT_FAILURE constant.)
+
+Regards,
+BALATON Zoltan
+
+> +    }
+>     for (i = 0; i < nr_banks; i++) {
+>         for (j = 0; sdram_bank_sizes[j] != 0; j++) {
+>             bank_size = sdram_bank_sizes[j];
 >
->  enum NvmeRequestFlags {
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 9c3a04dcd7..3099df99eb 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -553,28 +553,30 @@ typedef struct NvmeDsmRange {
->      uint64_t    slba;
->  } NvmeDsmRange;
->
-> -enum NvmeAsyncEventRequest {
-> -    NVME_AER_TYPE_ERROR                     = 0,
-> -    NVME_AER_TYPE_SMART                     = 1,
-> -    NVME_AER_TYPE_IO_SPECIFIC               = 6,
-> -    NVME_AER_TYPE_VENDOR_SPECIFIC           = 7,
-> -    NVME_AER_INFO_ERR_INVALID_SQ            = 0,
-> -    NVME_AER_INFO_ERR_INVALID_DB            = 1,
-> -    NVME_AER_INFO_ERR_DIAG_FAIL             = 2,
-> -    NVME_AER_INFO_ERR_PERS_INTERNAL_ERR     = 3,
-> -    NVME_AER_INFO_ERR_TRANS_INTERNAL_ERR    = 4,
-> -    NVME_AER_INFO_ERR_FW_IMG_LOAD_ERR       = 5,
-> -    NVME_AER_INFO_SMART_RELIABILITY         = 0,
-> -    NVME_AER_INFO_SMART_TEMP_THRESH         = 1,
-> -    NVME_AER_INFO_SMART_SPARE_THRESH        = 2,
-> +enum NvmeAsyncEventType {
-> +    NVME_AER_TYPE_ERROR                     = 0x00,
-> +    NVME_AER_TYPE_SMART                     = 0x01,
-> +    NVME_AER_TYPE_NOTICE                    = 0x02,
-> +    NVME_AER_TYPE_CMDSET_SPECIFIC           = 0x06,
-> +    NVME_AER_TYPE_VENDOR_SPECIFIC           = 0x07,
->  };
->
-> -typedef struct NvmeAerResult {
-> -    uint8_t event_type;
-> -    uint8_t event_info;
-> -    uint8_t log_page;
-> -    uint8_t resv;
-> -} NvmeAerResult;
-> +enum NvmeAsyncErrorInfo {
-> +    NVME_AER_ERR_INVALID_SQ                 = 0x00,
-> +    NVME_AER_ERR_INVALID_DB                 = 0x01,
-> +    NVME_AER_ERR_DIAG_FAIL                  = 0x02,
-> +    NVME_AER_ERR_PERS_INTERNAL_ERR          = 0x03,
-> +    NVME_AER_ERR_TRANS_INTERNAL_ERR         = 0x04,
-> +    NVME_AER_ERR_FW_IMG_LOAD_ERR            = 0x05,
-> +};
-> +
-> +enum NvmeAsyncNoticeInfo {
-> +    NVME_AER_NOTICE_NS_CHANGED              = 0x00,
-> +};
-> +
-> +enum NvmeAsyncEventCfg {
-> +    NVME_AEN_CFG_NS_ATTR                    = 1 << 8,
-> +};
->
->  typedef struct NvmeCqe {
->      union {
-> @@ -881,7 +883,6 @@ enum NvmeIdNsDps {
->
->  static inline void _nvme_check_size(void)
->  {
-> -    QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) != 4);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeCmd) != 64);
-> --
-> 2.21.0
->
->
+--3866299591-1747750601-1593479018=:32453--
 
