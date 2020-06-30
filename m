@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8E720F4A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:32:06 +0200 (CEST)
-Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E63420F4BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:35:37 +0200 (CEST)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFQj-0005GV-ON
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:32:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42372)
+	id 1jqFU8-0001h2-CF
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFOt-00044x-OQ
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:30:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33430
+ id 1jqFPK-0004RZ-6t
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:30:39 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43985
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFOr-0003SD-Tf
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:30:11 -0400
+ id 1jqFPG-0003af-0I
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:30:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593520209;
+ s=mimecast20190719; t=1593520232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nf2jiKcgao0KRB8jp6YKGOLtoeAw61e09YX+V3F/S9o=;
- b=czRrxgAVWI2EqE28Wd2CEPRQYpmVxxAJ11Wr/8uNuZSaLv8u0AOl1yE6O23Wt6l/1pI+/P
- VSES7lYI1uPEUg+r/jUgBgT74cKbyBROzhXtiuKvmuEalpkIVaDL+J/ZXW+7W2ZzRl7ZPt
- Lt9hZWM8WWWWrmIf7SIx9EjHF17yEAc=
+ bh=g4NkpeznYcI4d0ovDvVCdOnMDUdG0xhZ5rvfXRRKl4I=;
+ b=WgDpkxyWNT+zMvcXRi51BqKMlAqzp9ivNaQdiYg2PDvDC5rtVBQJG6DP1+EfmdGtciooTC
+ jLw47qyuxqR7bmpsawWFlBZNlLNq+AymYjj02VPCKijMvBI7qySB+FhP7uPlpyB0LmN9zz
+ wm/YsEaY648g3flETXWH2J8gCwEsEcs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-TGVF1GlwNBaNpnmwuv3oog-1; Tue, 30 Jun 2020 08:30:05 -0400
-X-MC-Unique: TGVF1GlwNBaNpnmwuv3oog-1
+ us-mta-257-3GazydatNPOP6g-SXHwttw-1; Tue, 30 Jun 2020 08:30:22 -0400
+X-MC-Unique: 3GazydatNPOP6g-SXHwttw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8E5F104ECFE;
- Tue, 30 Jun 2020 12:29:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D39DB39;
+ Tue, 30 Jun 2020 12:30:19 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32D335C66E;
- Tue, 30 Jun 2020 12:29:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C17835C241;
+ Tue, 30 Jun 2020 12:30:00 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 2/9] pci-host: add pcie-msi read method
-Date: Tue, 30 Jun 2020 17:57:03 +0530
-Message-Id: <20200630122710.1119158-3-ppandit@redhat.com>
+Subject: [PATCH v3 3/9] vfio: add quirk device write method
+Date: Tue, 30 Jun 2020 17:57:04 +0530
+Message-Id: <20200630122710.1119158-4-ppandit@redhat.com>
 In-Reply-To: <20200630122710.1119158-1-ppandit@redhat.com>
 References: <20200630122710.1119158-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -93,53 +93,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Add pcie-msi mmio read method to avoid NULL pointer dereference
-issue.
+Add vfio quirk device mmio write method to avoid NULL pointer
+dereference issue.
 
 Reported-by: Lei Sun <slei.casper@gmail.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/pci-host/designware.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/vfio/pci-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 Update v3: Add Reviewed-by: ...
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09400.html
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09406.html
 
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 8492c18991..82262bdfdf 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index d304c81148..cc6d5dbc23 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -14,6 +14,7 @@
+ #include "config-devices.h"
+ #include "exec/memop.h"
+ #include "qemu/units.h"
 +#include "qemu/log.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
-@@ -63,6 +64,13 @@ designware_pcie_root_to_host(DesignwarePCIERoot *root)
-     return DESIGNWARE_PCIE_HOST(bus->parent);
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+@@ -264,8 +265,15 @@ static uint64_t vfio_ati_3c3_quirk_read(void *opaque,
+     return data;
  }
  
-+static uint64_t designware_pcie_root_msi_read(void *opaque, hwaddr addr,
-+                                              unsigned size)
++static void vfio_ati_3c3_quirk_write(void *opaque, hwaddr addr,
++                                        uint64_t data, unsigned size)
 +{
-+    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
-+    return 0;
++    qemu_log_mask(LOG_GUEST_ERROR, "%s not implemented\n", __func__);
 +}
 +
- static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
-                                            uint64_t val, unsigned len)
- {
-@@ -77,6 +85,7 @@ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
- }
- 
- static const MemoryRegionOps designware_pci_host_msi_ops = {
-+    .read = designware_pcie_root_msi_read,
-     .write = designware_pcie_root_msi_write,
+ static const MemoryRegionOps vfio_ati_3c3_quirk = {
+     .read = vfio_ati_3c3_quirk_read,
++    .write = vfio_ati_3c3_quirk_write,
      .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
+ };
+ 
 -- 
 2.26.2
 
