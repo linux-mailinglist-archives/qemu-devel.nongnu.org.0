@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4E320F7AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:54:45 +0200 (CEST)
-Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F54C20F7B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 16:56:21 +0200 (CEST)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqHem-00047s-N6
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
+	id 1jqHgJ-0006wZ-Vp
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 10:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqHct-0000TV-Ea
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:52:47 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40471)
+ id 1jqHcu-0000XO-Ra
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:52:48 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqHcr-0002U5-V3
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:52:47 -0400
-Received: by mail-ej1-x641.google.com with SMTP id o18so16511520eje.7
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 07:52:45 -0700 (PDT)
+ id 1jqHct-0002UH-6t
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 10:52:48 -0400
+Received: by mail-ej1-x643.google.com with SMTP id rk21so20967759ejb.2
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 07:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TakACgpmN29DQ1JWs/1VSOQ1s/5rYVVO7B6tdCzInUU=;
- b=EKI1u9S4EBWzEy5MueWfeTKGdD5ZYLr8eCgyE32/7IE5e/AZDXYDg8rU70eaEKlLvx
- NPsTV7joVA/zHQl0XuRO56fhzHeA5XOSKH6rFwuOKnz33GK/XOCozd+BDc6/C5htQXEq
- qTXNtZ5DVahxWZJ+p80+C/JXwEE5xqt+yWLMc7asS0yLvZGMDrUgHeGwV4zkh+tXSNtv
- zht/nAc6RMRlfjlEngYsVqXrnBDluIvowfUcHgpZo81JRRTCxJgu2ZKhJ3gOOGZOOCyz
- FRxQRIG9YWeRV46lPSyq1XLv86yh9E7uT/6PvtA/rc6DvMrKtPSDDTEZd/8mVkiCwOD9
- i27Q==
+ bh=eR9kP7Fz+9gQhaNg+BX9SC6Oil6Qv/iwmZJA+m/P2z8=;
+ b=IM0VIel6TLMIbnilKQNCq4GpNnsYnQ82Q7PxyiiTSGVg47BXqTyELVHldTJu9KZno0
+ Y1K/fvRaxrL7WtiQK0efSuTsdjEC2b28V8Fdt+g29FLqlDbhvhu/wm2Lo3Ni/3BJzDbg
+ hbNtrYoAKsR8rLrQdWxcbAHKo3zmMYuTtQCpFlYJ4SbD3xgITx6h0cfiOicplr34Emjr
+ IW8++ef9FATKI4ptQUcNItTEjkMDs1blP08XPZJKxxIjzhLxN1g7ymobamcjfWiEsJVp
+ 4rdW5vr4nQS6BspglmyZwFwRqwaCkUlbph9RZ7vDCSVNhVV6C23xPQYw+FmMjDxF/kN9
+ p/5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TakACgpmN29DQ1JWs/1VSOQ1s/5rYVVO7B6tdCzInUU=;
- b=sWtklX1hRVubl5sF4PnoGBGixVxuKs7cr2H7b8yOgYeZKlaS+8w9AT4UMPxRlmUWtt
- +qTpmAbm3hT5dsPHKqLejYy29d0esqHzB7SlXB0BKcp7gUXJt62hwfQ8c8s5cHJd8ugT
- 5KyGgxNr6ZFeVv4hGSBfW9zPJv372NQHC5ydKxmPaAvqk66U31EspVM0NYoNzGAUtha2
- lz8YYItVypTnULtpa6AFcORJAL+bsHZzTPXvUJSPS3DqiZmrcAb/uiBDKNZiLVZRxrR2
- 8L3vTP6WG0dR1iGl5mPcrlAUuIi6OvXXHnpQOsKe48RscFppIohzHdrQpsJcTI+tC/Yr
- Sz0g==
-X-Gm-Message-State: AOAM533jjhKZXFs8nitlnI6zfWjT/BddkZ3ZN9+TjhiZI0CR7Mqs+aAK
- CZNk3nOt1bl+41OqKROEXdE=
-X-Google-Smtp-Source: ABdhPJwdbi7yRKtak+Y65S2GSQ6LgCMdhdPPOl6ilArvFqUGANMiPeKgZbibhfUPEvEniZo3toXIAQ==
-X-Received: by 2002:a17:906:8401:: with SMTP id
- n1mr18395959ejx.479.1593528764491; 
- Tue, 30 Jun 2020 07:52:44 -0700 (PDT)
+ bh=eR9kP7Fz+9gQhaNg+BX9SC6Oil6Qv/iwmZJA+m/P2z8=;
+ b=pA4F7wbXKobEQW+W5g4aL4etl7ionjfWcxZde48PKdyn7/QQ4iSrDzdz6SMpGfiSd7
+ IRzjmGfwoI8pn0l/0X3C1xPF6fZqpAzsdnhVwKUbsitg7aJnfejeeAv6fbeBVBYgYfMN
+ GGQMRJPzqpPGlH4ki4MepXGQigp2ELYdEx5FIZxdbEQFkhUQru9APaBVlngQlIbrlKGN
+ BVRDw9We0GdePBdxoY9fzze1i2hl1tVbcFZGRWpz8okIOPo1DgmHEQqNWP9FqYLZKMcX
+ R1exZTM9Ogc4HJ6ei3rYpAH98sKz+92YQEqI1477b8iyI7UElXo5FKlj8BPBy4wMm9tH
+ 9T7Q==
+X-Gm-Message-State: AOAM533YZARuKy7TeTCs18EJKnv/Pt5XS772DL03JKA0KPbTzRxZhQym
+ jKxGClI+2pLQ19hR/epMRNU=
+X-Google-Smtp-Source: ABdhPJz0l1FpXALqfLJPKtaGdB5u40cuqgm4dPaanc+7JJ+HKznRm1eb43W+9b50iK49+2RSzbPS4A==
+X-Received: by 2002:a17:906:33ca:: with SMTP id
+ w10mr10996175eja.171.1593528765911; 
+ Tue, 30 Jun 2020 07:52:45 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p9sm2144569ejd.50.2020.06.30.07.52.43
+ by smtp.gmail.com with ESMTPSA id p9sm2144569ejd.50.2020.06.30.07.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 07:52:43 -0700 (PDT)
+ Tue, 30 Jun 2020 07:52:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Aurelien Jarno <aurelien@aurel32.net>, Yunqiang Su <ysu@wavecomp.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] hw/mips/malta: Verify malta-strict machine uses
- correct DIMM sizes
-Date: Tue, 30 Jun 2020 16:52:35 +0200
-Message-Id: <20200630145236.27529-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/6] hw/mips/malta: Introduce the 'malta-unleashed' 64-bit
+ machine
+Date: Tue, 30 Jun 2020 16:52:36 +0200
+Message-Id: <20200630145236.27529-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200630145236.27529-1-f4bug@amsat.org>
 References: <20200630145236.27529-1-f4bug@amsat.org>
@@ -67,8 +67,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -77,7 +77,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,64 +91,84 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Ximin Luo <infinity0@debian.org>, debian-mips@lists.debian.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Jonathan Jackson <jnthjackson@gmail.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
+ Martin Quinson <mquinson@debian.org>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The machine has 4 DIMM slots. Each DIMM must be a power of 2.
-Add a check the total RAM is a good combination of DIMMs.
+Introduce the 'malta-unleashed' machine. This machine does not
+model any existing hardware (as the default 'malta' neither model
+a real hardware). The purpose of this machine is to allow user
+of the current 'malta' machine to use more RAM, as it has been
+reported to be useful for build farms.
 
+References:
+- https://www.mail-archive.com/debian-mips@lists.debian.org/msg10912.html
+- https://alioth-lists.debian.net/pipermail/pkg-rust-maintainers/2019-January/004844.html
+- https://www.mail-archive.com/qemu-devel@nongnu.org/msg691406.html
+
+Cc: debian-mips@lists.debian.org
+Cc: Ximin Luo <infinity0@debian.org>
+Cc: Martin Quinson <mquinson@debian.org>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Jonathan Jackson <jnthjackson@gmail.com>
+Suggested-by: Yunqiang Su <ysu@wavecomp.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+This patch is RFC because an upstream QEMU maintainer disagree
+with this approach, but I'm sending it so interested folks in
+the community (Debian or other) can test it.
+
+Previous discussion on Jiaxun Yang's patch:
+https://patchwork.kernel.org/patch/11416915/
+---
+ hw/mips/malta.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 209237d066..63c1d5ea5f 100644
+index 63c1d5ea5f..1695994493 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -71,6 +71,8 @@
- 
- #define MAX_IDE_BUS         2
- 
-+#define DIMM_SLOTS_COUNT    4
-+
- #define TYPE_MALTA_MACHINE       MACHINE_TYPE_NAME("malta-base")
- #define MALTA_MACHINE_CLASS(klass) \
-      OBJECT_CLASS_CHECK(MaltaMachineClass, (klass), TYPE_MALTA_MACHINE)
-@@ -82,6 +84,7 @@ typedef struct MaltaMachineClass {
-     MachineClass parent_obj;
-     /* Public */
-     ram_addr_t max_ramsize;
-+    bool verify_dimm_sizes;
- } MaltaMachineClass;
- 
- typedef struct {
-@@ -1260,6 +1263,12 @@ void mips_malta_init(MachineState *machine)
-     /* create CPU */
-     mips_create_cpu(machine, s, &cbus_irq, &i8259_irq);
- 
-+    if (mmc->verify_dimm_sizes && ctpop64(ram_size) > DIMM_SLOTS_COUNT) {
-+        error_report("RAM size must be the combination of %d powers of 2",
-+                     DIMM_SLOTS_COUNT);
-+        exit(1);
-+    }
-+
-     /*
-      * The GT-64120A north bridge accepts at most 256 MiB per SCS for
-      * address decoding, so we have a maximum of 1 GiB. We deliberately
-@@ -1493,6 +1502,7 @@ static void malta_machine_strict_class_init(ObjectClass *oc, void *data)
- #endif
-     mc->default_ram_size = 32 * MiB;
-     mmc->max_ramsize = 256 * MiB; /* 32 MByte PC100 SDRAM DIMMs x 4 slots */
-+    mmc->verify_dimm_sizes = true;
+@@ -1505,6 +1505,20 @@ static void malta_machine_strict_class_init(ObjectClass *oc, void *data)
+     mmc->verify_dimm_sizes = true;
  };
  
++#ifdef TARGET_MIPS64
++static void malta_machine_unleashed_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    MaltaMachineClass *mmc = MALTA_MACHINE_CLASS(oc);
++
++    mc->desc = "MIPS Malta Core LV (physically unlimited)";
++    mc->block_default_type = IF_IDE;
++    mc->max_cpus = 16;
++    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("20Kc");
++    mmc->max_ramsize = 3 * GiB;
++}
++#endif /* TARGET_MIPS64 */
++
  static const TypeInfo malta_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("malta"),
+@@ -1516,6 +1530,13 @@ static const TypeInfo malta_machine_types[] = {
+         .parent        = TYPE_MALTA_MACHINE,
+         .class_init    = malta_machine_strict_class_init,
+     },
++#ifdef TARGET_MIPS64
++    {
++        .name          = MACHINE_TYPE_NAME("malta-unleashed"),
++        .parent        = TYPE_MALTA_MACHINE,
++        .class_init    = malta_machine_unleashed_class_init,
++    },
++#endif /* TARGET_MIPS64 */
+     {
+         .name          = TYPE_MALTA_MACHINE,
+         .parent        = TYPE_MACHINE,
 -- 
 2.21.3
 
