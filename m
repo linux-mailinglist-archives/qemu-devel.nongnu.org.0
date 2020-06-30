@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EC420F49F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:31:04 +0200 (CEST)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CAF20F4AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:33:38 +0200 (CEST)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFPj-00046V-Sg
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:31:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1jqFSD-0006ny-BT
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:33:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFOM-0003c9-0U
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:29:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57514
+ id 1jqFOZ-0003iT-36
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:29:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58585
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jqFOK-0003Lr-CW
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:29:37 -0400
+ id 1jqFOX-0003Mv-DT
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593520175;
+ s=mimecast20190719; t=1593520188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qUnq+5GZ9xwCAFtpDMIsDBMX1qgmSY9o4mcNiNUP51Y=;
- b=SpyFMVb9LnXstO1Am12RIz0l+mzxJjRKnRyYStP8RIHnl2tilT245HzSE11WW5dp8Pu2ln
- Bf6lRI1vmAIibUfxXh6xy2rSfgUrHhbmcPG/jsL8xOr6ah810+JGpadltykH4Y2TdzaSbh
- ALoJDairBW71NdZCSZ1qUrKkUC6QCiY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XuyDT1FR6CPgrj6UFGbDIJzcFEvpWD2/ACGuDBbcpME=;
+ b=ecZHSQaviIs+p6pwML8GRvUyQElZTpbR7nd5kTPmt4SSSkxUW6OSvC1B9qo+CXTOsygjDt
+ aSlr6x4ZAHPGNEMHe497EkKxWmc//yeaOkbgt6VVaEPc5iLvmWq/rTs+JR/i+BmXKUY4o+
+ gTMOS9wwe7GK86hgkcVYtQ/4xaGGSjk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-FEn-QtqaNkWZkDIxLvhiUw-1; Tue, 30 Jun 2020 08:29:30 -0400
-X-MC-Unique: FEn-QtqaNkWZkDIxLvhiUw-1
+ us-mta-232-CdThLe7wMXapr4JFvRmtHA-1; Tue, 30 Jun 2020 08:29:46 -0400
+X-MC-Unique: CdThLe7wMXapr4JFvRmtHA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FD2E80183C;
- Tue, 30 Jun 2020 12:29:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD42C800597;
+ Tue, 30 Jun 2020 12:29:44 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4194618211;
- Tue, 30 Jun 2020 12:29:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D38C2CF79;
+ Tue, 30 Jun 2020 12:29:29 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 0/9] memory: assert and define MemoryRegionOps callbacks
-Date: Tue, 30 Jun 2020 17:57:01 +0530
-Message-Id: <20200630122710.1119158-1-ppandit@redhat.com>
+Subject: [PATCH v3 1/9] hw/pci-host: add pci-intack write method
+Date: Tue, 30 Jun 2020 17:57:02 +0530
+Message-Id: <20200630122710.1119158-2-ppandit@redhat.com>
+In-Reply-To: <20200630122710.1119158-1-ppandit@redhat.com>
+References: <20200630122710.1119158-1-ppandit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -90,39 +93,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Hello,
+Add pci-intack mmio write method to avoid NULL pointer dereference
+issue.
 
-* This series asserts that MemoryRegionOps objects define read/write
-  callback methods. Thus avoids potential NULL pointer dereference.
-  ex. -> https://git.qemu.org/?p=qemu.git;a=commit;h=bb15013ef34617eb1344f5276292cadd326c21b2
+Reported-by: Lei Sun <slei.casper@gmail.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/pci-host/prep.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-* Also adds various undefined MemoryRegionOps read/write functions
-  to avoid potential assert failure.
+Update v3: Add Reviewed-by: ...
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09395.html
 
-Thank you.
---
-Prasad J Pandit (9):
-  hw/pci-host: add pci-intack write method
-  pci-host: add pcie-msi read method
-  vfio: add quirk device write method
-  prep: add ppc-parity write method
-  nvram: add nrf51_soc flash read method
-  spapr_pci: add spapr msi read method
-  tz-ppc: add dummy read/write methods
-  imx7-ccm: add digprog mmio write method
-  memory: assert MemoryRegionOps callbacks are defined
-
- hw/misc/imx7_ccm.c       |  7 +++++++
- hw/misc/tz-ppc.c         | 14 ++++++++++++++
- hw/nvram/nrf51_nvm.c     |  5 +++++
- hw/pci-host/designware.c |  9 +++++++++
- hw/pci-host/prep.c       |  8 ++++++++
- hw/ppc/prep_systemio.c   |  8 ++++++++
- hw/ppc/spapr_pci.c       | 13 +++++++++++--
- hw/vfio/pci-quirks.c     |  8 ++++++++
- memory.c                 | 10 +++++++++-
- 9 files changed, 79 insertions(+), 3 deletions(-)
-
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index 367e408b91..3c8ff6af03 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/units.h"
++#include "qemu/log.h"
+ #include "qapi/error.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+@@ -119,8 +120,15 @@ static uint64_t raven_intack_read(void *opaque, hwaddr addr,
+     return pic_read_irq(isa_pic);
+ }
+ 
++static void raven_intack_write(void *opaque, hwaddr addr,
++                                        uint64_t data, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++}
++
+ static const MemoryRegionOps raven_intack_ops = {
+     .read = raven_intack_read,
++    .write = raven_intack_write,
+     .valid = {
+         .max_access_size = 1,
+     },
 -- 
 2.26.2
 
