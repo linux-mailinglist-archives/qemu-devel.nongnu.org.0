@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3112A20F623
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:48:22 +0200 (CEST)
-Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C6120F610
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 15:46:10 +0200 (CEST)
+Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqGcX-0007ik-4v
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1jqGaP-00038m-HB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 09:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jqGTy-0001Ia-Ro
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:39:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60957
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jqGTx-0006Kl-CC
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 09:39:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593524368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BshmLbkCegvWQdOrab3Q23b6T16SbqzgLcrY5ZDWofo=;
- b=TcPjXnniUnZJ33tHWmA3dPUViBWL7tbXLNiUhp+0FZuKAdWjCIg7V/6epToeNwE4d9sze6
- BwjC04kAJCDIpX51rIP43DaiL9mGfm6jWjQBIOwzyDBggas6W+UJMvfySvfHx5QYpGQBJ6
- zYNs2Ngs3kg9iB294APZ8XDXjgE6uBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-fxhnA3w1Mg6DgPEn1ZgnZw-1; Tue, 30 Jun 2020 09:39:24 -0400
-X-MC-Unique: fxhnA3w1Mg6DgPEn1ZgnZw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB03C800D5C;
- Tue, 30 Jun 2020 13:39:22 +0000 (UTC)
-Received: from titinator (ovpn-114-115.ams2.redhat.com [10.36.114.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 252647FE9C;
- Tue, 30 Jun 2020 13:39:11 +0000 (UTC)
-References: <20200626164307.3327380-1-dinechin@redhat.com>
- <20200626164307.3327380-2-dinechin@redhat.com>
- <20200630052756-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.5.2; emacs 26.3
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 01/10] modules: Provide macros making it easier to
- identify module exports
-In-reply-to: <20200630052756-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqGU3-0001PN-Qj; Tue, 30 Jun 2020 09:39:35 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqGU2-0006M4-Au; Tue, 30 Jun 2020 09:39:35 -0400
+Received: by mail-ej1-x644.google.com with SMTP id n26so6701545ejx.0;
+ Tue, 30 Jun 2020 06:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Fnu31sUM9zvsS3/TiKLe1dt5ChbOeregKhQ/Q0EDdI0=;
+ b=cjZeWm3XxwXcdIgHHZvN1S3ciN6jvmmiHbXGpTxazXZTTzzOkIAvvXFmrNvKKdCPsD
+ agAkjVqsjVrm60Mmex0AW9QexaHl2+k+R0rTN3GaYBOgXvw/gYhfG+XJFx3niXMNbs+8
+ o30kYoE4XUrBkp1GsgQp5+0HhxssrhfSDjjHgsTp8z6DrE0P7/SChoCYvoIai96ZbuyR
+ jviJc3mzrblEppdq5G8o/Cvje+XjUS8iBPmr9IMbcwOyqZ+QS6TplwbZJsVAErsqmgGv
+ a7LkZVoq/8Zs1Dl2Ye7j1kq1YHMZwK5FxaIY98mNZzsr5h7EIXsXx8jz/TXIeFDDyN+U
+ +edg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Fnu31sUM9zvsS3/TiKLe1dt5ChbOeregKhQ/Q0EDdI0=;
+ b=Hk/1P1Ff4d1AB8LX5Rh9NIQsOWG3oJQufmw7qIudL+flPQafx4UR7SSeEWA+0rZhho
+ SHgNEaSOd9TXq5yfDC9IQ9p2XUOM61/ZcFfg7Pepl8hlcMFvRF666ButaCv+emz7BHpa
+ HWmVdf512E3icYtiiC+i5dYn5yQGZPcH5KLsgdPb9wgazr6Js2Je35nnyv0i/uBj3gwp
+ NPQSSXUM0qASjxFkTdbW6bTy+M5VuuiAiKnqhM68Qq2IpAjWf+rka9E0QLcwD/dOYa8E
+ gFUhXOWs4LG+Wca6onF8F6+oXDHwt/V5M8Hj83JawQgPduNzN7tmo8mYvZOIsbJh6H5R
+ SPTQ==
+X-Gm-Message-State: AOAM530/4hYRiVWqEojNvSUNw1qur3FnFPvOr7TgQJb/nynu+o7W2bWj
+ 1/k1qK6rCIhkuoLprlTSDSnjlR56jqY=
+X-Google-Smtp-Source: ABdhPJxydxn/pCahXiVYXGFb8g/rl44wVsJY/xzM1Q1QUAY3XF8vpvgIm5VWMqbDsYmsidvDAJDZ/g==
+X-Received: by 2002:a17:906:c40d:: with SMTP id
+ u13mr17642770ejz.519.1593524371803; 
+ Tue, 30 Jun 2020 06:39:31 -0700 (PDT)
+Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id p18sm2099172ejm.55.2020.06.30.06.39.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 06:39:31 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 16/17] hw/sd/sdcard: Display offset in read/write_data()
+ trace events
 Date: Tue, 30 Jun 2020 15:39:10 +0200
-Message-ID: <lybll0d669.fsf@redhat.com>
+Message-Id: <20200630133912.9428-17-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200630133912.9428-1-f4bug@amsat.org>
+References: <20200630133912.9428-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,92 +87,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Mar?= =?utf-8?Q?c-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Having 'base address' and 'relative offset' displayed
+separately is more helpful than the absolute address.
 
-On 2020-06-30 at 11:38 CEST, Michael S. Tsirkin wrote...
-> On Fri, Jun 26, 2020 at 06:42:58PM +0200, Christophe de Dinechin wrote:
->> In order to facilitate the move of large chunks of functionality to
->> load modules, it is simpler to create a wrapper with the same name
->> that simply relays the implementation. For efficiency, this is
->> typically done using inline functions in the header for the
->> corresponding functionality. In that case, we rename the actual
->> implementation by appending _implementation to its name. This makes it
->> easier to select which function you want to put a breakpoint on.
->>
->> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
->> ---
->>  include/qemu/module.h | 24 ++++++++++++++++++++++++
->>  1 file changed, 24 insertions(+)
->>
->> diff --git a/include/qemu/module.h b/include/qemu/module.h
->> index 011ae1ae76..1922a0293c 100644
->> --- a/include/qemu/module.h
->> +++ b/include/qemu/module.h
->> @@ -39,6 +39,30 @@ static void __attribute__((constructor)) do_qemu_init_ ## function(void)    \
->>  }
->>  #endif
->>
->> +#ifdef CONFIG_MODULES
->> +/* Identify which functions are replaced by a callback stub */
->> +#ifdef MODULE_STUBS
->> +#define MODIFACE(Ret,Name,Args)                                         \
->> +    Ret (*Name)Args;                                                    \
->> +    extern Ret Name##_implementation Args
->> +#else /* !MODULE_STUBS */
->> +#define MODIFACE(Ret,Name,Args)                                         \
->> +    extern Ret (*Name)Args;                                             \
->> +    extern Ret Name##_implementation Args
->> +#endif /* MODULE_STUBS */
->> +
->> +#define MODIMPL(Ret,Name,Args)                                          \
->> +    static void __attribute__((constructor)) Name##_register(void)      \
->> +    {                                                                   \
->> +        Name = Name##_implementation;                                   \
->> +    }                                                                   \
->> +    Ret Name##_implementation Args
->> +#else /* !CONFIG_MODULES */
->> +/* When not using a module, such functions are called directly */
->> +#define MODIFACE(Ret,Name,Args)         Ret Name Args
->> +#define MODIMPL(Ret,Name,Args)          Ret Name Args
->> +#endif /* CONFIG_MODULES */
->> +
->>  typedef enum {
->>      MODULE_INIT_MIGRATION,
->>      MODULE_INIT_BLOCK,
->
-> Hmm that's quite a bit of overhead for each call across modules.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sd/sd.c         | 8 ++++----
+ hw/sd/trace-events | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Do you mean runtime overhead, i.e. the difference between
-foo(x) and (*foo)(x)?
-
-
-> Can't code patching be used somehow?
-
-I've considered it, but this seems like a bit of a hammer for half a dozen
-calls that are mostly init, so not performance sensitive.
-
-In the old times, ld.so used to do that for you. All you had to do was to
-mark one symbol as weak. Apparently for security reasons, that feature was
-dropped several years ago. At least, that put call patching where it
-belonged, i.e. in the loader.
-
->
->
->> --
->> 2.26.2
-
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index eb549a52e1..304fa4143a 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1855,8 +1855,8 @@ void sd_write_data(SDState *sd, uint8_t value)
+         return;
+ 
+     trace_sdcard_write_data(sd->proto_name,
+-                            sd_current_cmd_name(sd),
+-                            sd->current_cmd, value);
++                            sd_current_cmd_name(sd), sd->current_cmd,
++                            sd->data_start, sd->data_offset, value);
+     switch (sd->current_cmd) {
+     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
+         sd->data[sd->data_offset ++] = value;
+@@ -2009,8 +2009,8 @@ uint8_t sd_read_data(SDState *sd)
+     io_len = (sd->ocr & (1 << 30)) ? HWBLOCK_SIZE : sd->blk_len;
+ 
+     trace_sdcard_read_data(sd->proto_name,
+-                           sd_current_cmd_name(sd),
+-                           sd->current_cmd, io_len);
++                           sd_current_cmd_name(sd), sd->current_cmd,
++                           sd->data_start, sd->data_offset, io_len);
+     switch (sd->current_cmd) {
+     case 6:	/* CMD6:   SWITCH_FUNCTION */
+         ret = sd->data[sd->data_offset ++];
+diff --git a/hw/sd/trace-events b/hw/sd/trace-events
+index d0cd7c6ec4..946923223b 100644
+--- a/hw/sd/trace-events
++++ b/hw/sd/trace-events
+@@ -51,8 +51,8 @@ sdcard_lock(void) ""
+ sdcard_unlock(void) ""
+ sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+ sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+-sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
+-sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint32_t length) "%s %20s/ CMD%02d len %" PRIu32
++sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, uint8_t value) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " val 0x%02x"
++sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint64_t address, uint32_t offset, uint32_t length) "%s %20s/ CMD%02d addr 0x%" PRIx64 " ofs 0x%" PRIx32 " len %" PRIu32
+ sdcard_set_voltage(uint16_t millivolts) "%u mV"
+ 
+ # milkymist-memcard.c
+-- 
+2.21.3
 
 
