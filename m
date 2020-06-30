@@ -2,86 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AD120F4D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:38:16 +0200 (CEST)
-Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C646020F4DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 14:40:12 +0200 (CEST)
+Received: from localhost ([::1]:44744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqFWh-0006Qa-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1jqFYZ-0000ia-Qe
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 08:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqFSS-00005y-BF
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:33:52 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22348
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqFT6-0001WT-IT
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:34:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59802
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqFSQ-0004Af-Lr
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:33:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqFT4-0004Dt-PG
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 08:34:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593520428;
+ s=mimecast20190719; t=1593520470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GxySVg17QxVsCAX2jHPs4jI3V5adW/FHNLz9nV4ubTQ=;
- b=cx7HYaR5saR64FSHrdAbfjympjrEgLp++u5ZKvSs4fVna9vtpZwD7tVrNghrhMRSlUU2pp
- bM/p3dhECL5MAHEW3NylcJ7V1WGDZcqy2sGqFGf1L/OVpjjtL+WgiNMf3kvz40Kcapq3KA
- NAmvchNRsdPg3bfzYNCsJwO31SMmV9Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-X7JGm7bwMYuf7_WWZ72XZA-1; Tue, 30 Jun 2020 08:33:46 -0400
-X-MC-Unique: X7JGm7bwMYuf7_WWZ72XZA-1
-Received: by mail-wm1-f72.google.com with SMTP id s134so20767175wme.6
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 05:33:46 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=IjMJuEgYsSN0eOpc2ZLoRi3yLlgvU7cc2ZvlJtTYZGI=;
+ b=EF6BIFCK8vNQpa0yZALZGvwype3Ffzdx6QZtD3Qpup6nX8vkvKN977plaLBd52WwFocegg
+ 6fJzGPUxm99rRqWBrgGlp5suFEJQiq0fbgWutKEE+l9ksl2wzbGTV1sFDm0GzJThHtwz0n
+ 2xjhBN/gYl/0LSvTlY3SqVMLc0AtF2k=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-Q9Dr6A9XNVy8k-F39hDbtw-1; Tue, 30 Jun 2020 08:34:28 -0400
+X-MC-Unique: Q9Dr6A9XNVy8k-F39hDbtw-1
+Received: by mail-ed1-f71.google.com with SMTP id y92so12277385eda.12
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 05:34:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GxySVg17QxVsCAX2jHPs4jI3V5adW/FHNLz9nV4ubTQ=;
- b=JsDcpUmbEt0ywEylhVWCqiLn1BncwjkJE4OBCwKl+r7jC0A/I6eGyuZufy+M2a0Rq1
- n/L46tYLg2GkZ6TIPovNkoodCF8BVilX/k2cpnCNTwxUKLX19PeVtSdD9D56qAxfWrO0
- WExs8gRFM9MfA84/llxKLVfLoTNVPPajmMyit4rj4wEmGghQYerAzioI29ZgvF8bsEnA
- dxqW2QzIc0B6XlrYP9kg9C/d/ApmV5UyWGah+gFcGpcULmGGZF0glPUpOHfQmtWxIyEB
- k2oLm6COU+D0IWh3oi/CFnQtQVmUjD8BJMl+eklMKGMokEqtzNA05eRo/xmj8XUwr31N
- SdHQ==
-X-Gm-Message-State: AOAM533Verqs/QQEpRbMIo+M8hD4PznuxIMrkkpBAEr50s2dzw6Ty4Sc
- EpYsoiSvl+nOip/U9xROUpfKQRwAFkQK9Ue6SARhF5h4j9Ur22oBjZbogzpxKi8pKFzeJkemzAX
- 06VALZFp/zZOXrqk=
-X-Received: by 2002:a5d:504b:: with SMTP id h11mr21218868wrt.160.1593520424438; 
- Tue, 30 Jun 2020 05:33:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvz9jtL/aDK72Vo5NRs/bosAfzIV1iXr6gYv43gO2aPaX+2h+CVP2M+Sbx6ZAZga3g6EFbMw==
-X-Received: by 2002:a5d:504b:: with SMTP id h11mr21218855wrt.160.1593520424202; 
- Tue, 30 Jun 2020 05:33:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b0e5:c632:a580:8b9a?
- ([2001:b07:6468:f312:b0e5:c632:a580:8b9a])
- by smtp.gmail.com with ESMTPSA id y7sm3509416wrt.11.2020.06.30.05.33.43
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=IjMJuEgYsSN0eOpc2ZLoRi3yLlgvU7cc2ZvlJtTYZGI=;
+ b=M4gJcgZMs13WW/CiFu411McHsghtyiYDrxKQKuRKAzJ1/GmfVT7g6lOEMR57TP7TV7
+ 4B9fDsFmP9Os645Yl6pJ1eMpDVy/ROfVSkUGlVEXvSokRTylvJxii7eug/9fxqOdu6R9
+ Bwns5uCPgLW3AbwbAZ+9ZJuZZTl/7cT4MRssbDLPA2UpeNHNPYOf/u0olHLbTPPGdMzR
+ gDbZTdyFzfCXgbVksdU8+NNq/fblbV8XM8Kadls7gO3VXzWH8VY/yPunGIU9KJEA0pty
+ pFw7KPWFisLWru9Bi+TMVQMBoFm2LmCPa/aI45GYnCbDIr2XhUNM6MAK0cQAWOS+6wyq
+ UZKg==
+X-Gm-Message-State: AOAM530zOCPondDi8a8/2La80Y9/U1yfJJF3V6JERrtBGeGoXvGViOQA
+ nLG/z5XuwdkAoLMk0evkEN6wLKcEF1z72kvFuR/7cmanumqwt8ZPAKL7xlaRFvFBPFZfcfdTou9
+ wW5W4gzVctETjcTE=
+X-Received: by 2002:a05:6402:cb9:: with SMTP id
+ cn25mr10668448edb.247.1593520467390; 
+ Tue, 30 Jun 2020 05:34:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/fGJM+FT4Irhtqe/T0LJwdC2tcpm5EpPctLncpdS2BYUb+wHDH9s3d2EZDOa+wPFJluCqig==
+X-Received: by 2002:a05:6402:cb9:: with SMTP id
+ cn25mr10668432edb.247.1593520467218; 
+ Tue, 30 Jun 2020 05:34:27 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id d2sm2744011edk.4.2020.06.30.05.34.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Jun 2020 05:33:43 -0700 (PDT)
-Subject: Re: [PATCH v2 4/9] i386: hvf: Implement CPU kick
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200630102824.77604-1-r.bolshakov@yadro.com>
- <20200630102824.77604-5-r.bolshakov@yadro.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d75c6bd1-b588-796b-e238-21ff41fce60d@redhat.com>
-Date: Tue, 30 Jun 2020 14:33:42 +0200
+ Tue, 30 Jun 2020 05:34:26 -0700 (PDT)
+Subject: Re: [PATCH v3 7/9] tz-ppc: add dummy read/write methods
+To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20200630122710.1119158-1-ppandit@redhat.com>
+ <20200630122710.1119158-8-ppandit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <ca90d458-cb57-8ed2-91f3-fbcb63c7cd1b@redhat.com>
+Date: Tue, 30 Jun 2020 14:34:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200630102824.77604-5-r.bolshakov@yadro.com>
+In-Reply-To: <20200630122710.1119158-8-ppandit@redhat.com>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 01:11:03
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 03:55:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -102,75 +125,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Lei Sun <slei.casper@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/06/20 12:28, Roman Bolshakov wrote:
-> @@ -966,6 +964,20 @@ int hvf_vcpu_exec(CPUState *cpu)
->      return ret;
+On 6/30/20 2:27 PM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+> 
+> Add tz-ppc-dummy mmio read/write methods to avoid assert failure
+> during initialisation.
+> 
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  hw/misc/tz-ppc.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> Update v3: use g_assert_not_reached()
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09451.html
+> 
+> diff --git a/hw/misc/tz-ppc.c b/hw/misc/tz-ppc.c
+> index 6431257b52..36495c68e7 100644
+> --- a/hw/misc/tz-ppc.c
+> +++ b/hw/misc/tz-ppc.c
+> @@ -196,7 +196,21 @@ static bool tz_ppc_dummy_accepts(void *opaque, hwaddr addr,
+>      g_assert_not_reached();
 >  }
 >  
-> +void hvf_vcpu_kick(CPUState *cpu)
+> +static uint64_t tz_ppc_dummy_read(void *opaque, hwaddr addr, unsigned size)
 > +{
-> +    X86CPU *x86_cpu = X86_CPU(cpu);
-> +    CPUX86State *env = &x86_cpu->env;
-> +    hv_return_t err;
-> +
-> +    atomic_set(&env->hvf_deadline, 0);
-> +    err = hv_vcpu_interrupt(&cpu->hvf_fd, 1);
-> +    if (err) {
-> +        fprintf(stderr, "qemu:%s error %#x\n", __func__, err);
-> +        exit(1);
-> +    }
-
-Can a signal interrupt hv_vcpu_run?  If so you actually don't need
-hv_vcpu_interrupt at all.  You can also require the preemption time, all
-processor that support HVF have it, but never set it by default.  The
-deadline can be left at 0 all the time; instead, you toggle the bit in
-the pin-based controls.  In the signal handler you do:
-
-	if (atomic_xchg(&env->hvf_in_guest, false)) {
-		wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
-		      rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
-			| VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
-	}
-
-In the main loop you do:
-
-	atomic_set(&env->hvf_guest_mode, true);
-	smp_mb();
-	hv_vcpu_run(...);
-	atomic_set(&env->hvf_guest_mode, false);
-
-and in the preemption timer vmexit handler:
-	
-		wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
-		      rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
-			& ~VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
-
-I'll leave out this patch in the meanwhile.
-
-Paolo
-
+> +    g_assert_not_reached();
 > +}
 > +
->  bool hvf_allowed;
+> +static void tz_ppc_dummy_write(void *opaque, hwaddr addr,
+> +                                        uint64_t data, unsigned size)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +
+>  static const MemoryRegionOps tz_ppc_dummy_ops = {
+> +    /* define r/w methods to avoid assert failure in memory_region_init_io */
+> +    .read = tz_ppc_dummy_read,
+> +    .write = tz_ppc_dummy_write,
+>      .valid.accepts = tz_ppc_dummy_accepts,
+>  };
 >  
->  static int hvf_accel_init(MachineState *ms)
-> diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
-> index 42de7ebc3a..6615365023 100644
-> --- a/target/i386/hvf/vmcs.h
-> +++ b/target/i386/hvf/vmcs.h
-> @@ -349,6 +349,7 @@
->  #define VMCS_PIN_BASED_CTLS_EXTINT            (1 << 0)
->  #define VMCS_PIN_BASED_CTLS_NMI               (1 << 3)
->  #define VMCS_PIN_BASED_CTLS_VNMI              (1 << 5)
-> +#define VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER (1 << 6)
->  
->  #define VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING (1 << 2)
->  #define VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET (1 << 3)
 > 
 
 
