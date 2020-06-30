@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E9820F32B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:54:50 +0200 (CEST)
-Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10A920F334
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 12:55:59 +0200 (CEST)
+Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqDub-0000CZ-U2
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
+	id 1jqDvj-0001Zi-0u
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 06:55:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqDtk-0007me-Ec
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:53:56 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:46002)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqDuh-00010j-BV
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:54:55 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqDti-0004kz-Ra
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:53:56 -0400
-Received: by mail-ej1-f66.google.com with SMTP id a1so20028236ejg.12
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:53:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jqDuf-0004z8-Ed
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 06:54:55 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z15so8372334wrl.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 03:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=hFfzvXq347UavI0eMhGthPMJIUoF8CLcuEDmGIIAse8=;
+ b=i+yOz/lwC4PxGIIjLepgs50PDKza8zkbJgmCveioYjPaqLPoiBz4PZXU2s2PP3BeLI
+ RAf8+u4hnC0VaSszPfD+zqkd3y+2hz5gekBuTtOZ2rV4bAiqxPmySzLh8v0knjQNQAh1
+ wKq/LyTArSpgU5Z3ynKilpE0Gth4Li9s5RqUZ2xkmD3vzlKSZ9oGZz2yc7OQjypcXV9e
+ DmgevES3I+9P9SWgO/huM3pHs8HxzaI3MAQo9shIsNXv34hqiMqj0mEpO8CRWRt9+3LF
+ IGQHSh3p7r8GmdMRIKp5cARZwOFE5efozP49XjG4/yK/zATR/st0HnITJ4gXZ+JgNEnV
+ JijQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qvZmXmCzoJs8e++lQW8aPezqDVriYPEc5XJQep48QVA=;
- b=FRBtvsda0aO384iBU/+L0CryfS8PTadeIb+MKsviuXRj5vhZnNjXl7NHRzTNygRFWP
- piUAQFuTl4V3ZBACdSevk9wXZwY+gcY0+yI2bn52l7bKv0zjaISEibOJjc/upfZnoq5T
- +xnfw+0TLMJDPMW9LEDACC2jn1KJeKbCeFFI+shPpGZ2gdOLvlKXUMFcpmitWUURjrQ5
- WEdbi9tUHjKWGGHCM9070yFrhZp/fIhUa6BqfmVPvdTS06czUOnXp9dKJXaaAddWNt7q
- QtgbS/uGNJ4r4BlfiHcct5SuLiWGSOx74A9HWNcIjv3rqPBwka0kzAXFpVNTVadzJYYJ
- uaPw==
-X-Gm-Message-State: AOAM5319AmWmKrSB/2+pKFxfX1AQ16LBPaaxjgUlFEioNudBZjxou8ja
- IGRNjd0qXwWWoDqNWiPzDXAw2apBHkxlUpq+be4=
-X-Google-Smtp-Source: ABdhPJxMdoxqnd4cmnUer1/VNLf0xnrDXr+n9RjZ7bmTtR804NVMdtFoGhBPoqf/AXmILIfNmlorMAPUZOhIZJNhb1U=
-X-Received: by 2002:a17:906:a1c7:: with SMTP id
- bx7mr12167864ejb.388.1593514433347; 
- Tue, 30 Jun 2020 03:53:53 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=hFfzvXq347UavI0eMhGthPMJIUoF8CLcuEDmGIIAse8=;
+ b=S54WQLtKJmiN0WxyKLEHdokkc9ohGjFIp89loPDtYLL2U1Gh2yB9Kq80WxzI0+mLDg
+ c2dmsyTYeLkQWiNF7lLsY3vJWMYEx4IUio6UdKcblKrs4ymUD5NfE81pdOqSr8fotz2X
+ S2EPA1DDSqREE6/PUfVCMZ6wPiDL21qM/Ex5XOVNCaXP/sOIHNxHOlq6iLc1XyjPjMsT
+ tHnhJA9bKsnYCc7TKKaJZmQvVJNNCLrKF4M36RDx5l2aYNYdc5khxQAmp9Xma5BwBJke
+ /z/NT38iKiUEdrpkpROCgl1xjXI0CBum7FUE01TyrFo1sU6RoprogmJXZbyQi6J3sOSC
+ WAsQ==
+X-Gm-Message-State: AOAM5302mFs4xjJkjoRPKHTx96y+FLbT0yMDeCi0Cq/OBQZHi3QLwEax
+ YRhnSEiPB5+NDG0yzw6H5HEM6p/Ps2B495A0L/s=
+X-Google-Smtp-Source: ABdhPJxTQ4tm9S+e8/2KZ5pKdeDqHVT/Po7y6SngHiS2HRLvJzmjQxkZzbwTNRbJm5oirrtIU5VQCtnbXx+PxKi0Qf8=
+X-Received: by 2002:adf:a283:: with SMTP id s3mr19922216wra.147.1593514491850; 
+ Tue, 30 Jun 2020 03:54:51 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a1c:b407:0:0:0:0:0 with HTTP; Tue, 30 Jun 2020 03:54:51
+ -0700 (PDT)
+In-Reply-To: <da6c2f55-b8b7-3492-37b3-d24a25106d72@amsat.org>
 References: <20200630081322.19146-1-f4bug@amsat.org>
  <CAHiYmc6coeBBOvCAs+=Ccw2aXfw0m3gTdSM1Pc8AQvJ4QNBhow@mail.gmail.com>
  <da6c2f55-b8b7-3492-37b3-d24a25106d72@amsat.org>
-In-Reply-To: <da6c2f55-b8b7-3492-37b3-d24a25106d72@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 30 Jun 2020 12:53:42 +0200
-Message-ID: <CAAdtpL7MObRjk77ZFsNF4Xoghdj33mwufZ9s3L8fAC3XxkJCqA@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 30 Jun 2020 12:54:51 +0200
+Message-ID: <CAHiYmc6gzvEAk6oNFzQHc9DrsZ6xfWZFKr6+FHVfus-jjcyp7Q@mail.gmail.com>
 Subject: Re: [PATCH 0/7] hw/mips/malta: Rework to allow more than 2GB of RAM
  on 64-bit
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.218.66;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f66.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 06:53:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000003b327d05a94b0112"
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,9 +92,14 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 12:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
+--0000000000003b327d05a94b0112
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 30. =D1=98=D1=83=D0=BD 2020., Philipp=
+e Mathieu-Daud=C3=A9 <f4bug@amsat.org> =D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+
 > On 6/30/20 12:48 PM, Aleksandar Markovic wrote:
 > >
 > >
@@ -100,12 +114,12 @@ lippe Mathieu-Daud=C3=A9 <f4bug@amsat.org
 > >     https://patchwork.kernel.org/patch/11416915/
 > >     <https://patchwork.kernel.org/patch/11416915/>
 > >
-> >     - Rename the current machine as 'malta-virt' (keeping 'malta' alias=
-ed)
+> >     - Rename the current machine as 'malta-virt' (keeping 'malta'
+> aliased)
 > >       Suggestions for better names are welcome, maybe 'malta-unreal' or
 > >       'malta-unleashed' instead?
-> >     - Add 'malta-phys' which respects hardware restrictions (on RAM so =
-far)
+> >     - Add 'malta-phys' which respects hardware restrictions (on RAM so
+> far)
 > >     - Unleash 'malta-virt' to allow more than 2GB on 64-bit
 > >
 > >     Philippe Mathieu-Daud=C3=A9 (7):
@@ -117,8 +131,8 @@ far)
 > >       hw/mips/malta: Verify malta-phys machine uses correct DIMM sizes
 > >       hw/mips/malta: Allow more than 2GB on 64-bit malta-virt
 > >
-> >      hw/mips/malta.c | 121 +++++++++++++++++++++++++++++++++++++++-----=
-----
+> >      hw/mips/malta.c | 121 ++++++++++++++++++++++++++++++
+> +++++++++---------
 > >      1 file changed, 99 insertions(+), 22 deletions(-)
 > >
 > >     --
@@ -139,13 +153,13 @@ far)
 > imaginary one (in the discussion you said QEMU should respect
 > real hardware, which I agree).
 >
+>
+Redo the series, and we can discuss, of course.
+
+
 > >
 > > The good thing about this series is that one can apply it dowstream, if
 > > one finds it useful. However, it is not suitable for upstreaming
-
-IOW, what is missing to have this series (except the last patch)
-accepted upstream?
-
 > >
 > > Regards,
 > > Aleksandar
@@ -154,4 +168,105 @@ accepted upstream?
 > >
 > >     2.21.3
 > >
+>
+
+--0000000000003b327d05a94b0112
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 30. =D1=98=D1=83=D0=BD 2020.,=
+ Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@a=
+msat.org</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
+=D0=BB=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">On 6/30/20 12:48 PM, Aleksa=
+ndar Markovic wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; =D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 30. =D1=98=D1=83=D0=BD 2020., Ph=
+ilippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsa=
+t.org</a><br>
+&gt; &lt;mailto:<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;&=
+gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<b=
+r>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hi,<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Following Jiaxun Yang&#39;s patch and discussion:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://patchwork.kernel.org/patch/11416=
+915/" target=3D"_blank">https://patchwork.kernel.org/<wbr>patch/11416915/</=
+a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://patchwork.kernel.org/patch/1=
+1416915/" target=3D"_blank">https://patchwork.kernel.org/<wbr>patch/1141691=
+5/</a>&gt;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Rename the current machine as &#39;malta-virt&#39=
+; (keeping &#39;malta&#39; aliased)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 Suggestions for better names are welcome, ma=
+ybe &#39;malta-unreal&#39; or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 &#39;malta-unleashed&#39; instead?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Add &#39;malta-phys&#39; which respects hardware =
+restrictions (on RAM so far)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0- Unleash &#39;malta-virt&#39; to allow more than 2=
+GB on 64-bit<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Philippe Mathieu-Daud=C3=A9 (7):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Trivial code movement<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Register the machine as a Typ=
+eInfo<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Rename &#39;malta&#39; machin=
+e as &#39;malta-virt&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Introduce MaltaMachineClass::=
+max_ramsize<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Introduce the &#39;malta-phys=
+&#39; machine<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Verify malta-phys machine use=
+s correct DIMM sizes<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/mips/malta: Allow more than 2GB on 64-bit=
+ malta-virt<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/mips/malta.c | 121 +++++++++++++++++++++++=
++++++++<wbr>+++++++++---------<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A01 file changed, 99 insertions(+), 22 deletion=
+s(-)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0--=C2=A0<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Thank you, Philippe, for providing this series.<br>
+&gt; <br>
+&gt; However, in previous discussion on the patch you mention above,=C2=A0I=
+<br>
+&gt; already expressed serious=C2=A0reservations on the=C2=A0approach taken=
+ in that<br>
+&gt; patch. These reservations stay today too.<br>
+&gt; <br>
+&gt; There is nothing qualitatively different between the original patch an=
+d<br>
+&gt; this series. Naming and related stuff are just cosmetic issues.<br>
+<br>
+OK, what about considering all patches except the last one?<br>
+So we can run firmware on a real Malta board, not the QEMU<br>
+imaginary one (in the discussion you said QEMU should respect<br>
+real hardware, which I agree).<br>
+<br></blockquote><div><br></div><div>Redo the series, and we can discuss, o=
+f course.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+&gt; <br>
+&gt; The good thing about this series is that one can apply it dowstream, i=
+f<br>
+&gt; one finds it useful. However, it is not suitable for upstreaming=C2=A0=
+<br>
+&gt; <br>
+&gt; Regards,<br>
+&gt; Aleksandar<br>
+&gt; <br>
+&gt; =C2=A0<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A02.21.3<br>
+&gt; <br>
+</blockquote>
+
+--0000000000003b327d05a94b0112--
 
