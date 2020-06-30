@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6046620F83E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:27:39 +0200 (CEST)
-Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641B320F851
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jun 2020 17:30:29 +0200 (CEST)
+Received: from localhost ([::1]:55490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqIAc-0003vZ-CF
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
+	id 1jqIDM-0007m7-Cc
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 11:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqI8s-0002OC-69
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:50 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37634)
+ id 1jqI8z-0002UT-3D
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:57 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:45929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jqI8q-0000Hl-Kn
- for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:49 -0400
-Received: by mail-ej1-x643.google.com with SMTP id lx13so2408969ejb.4
- for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:25:48 -0700 (PDT)
+ id 1jqI8v-0000L8-9u
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 11:25:56 -0400
+Received: by mail-ed1-x542.google.com with SMTP id d16so9973388edz.12
+ for <qemu-devel@nongnu.org>; Tue, 30 Jun 2020 08:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=upNPHIrMVxywp/ZU0zAWsGAEn/MYe/LdlqvxdOHWF20=;
- b=dZp8w2UqXcH0XG1YEgXrIW8aF6sJyFJSL3f3zbsYf2e84NgvczXk4smWJq8n8RTAnO
- 4n6ER8QhErArU+8Ng4l7P/dMtt4R7rTTS420wS9jxZPZYdBdW2yoVn7Dl5cHA44b/eDK
- dX09AV76vB8/WWHp+CQuN3KyPVh/+IJlkT3iyO8emeDtN3rDneca625aZMuzTd47Z5JJ
- S2fgSSe89CNP2DtYP0QqM8+FYirCSmwqvxkotQ2pL3G5kUeeHVpp73CJ3Nr5wUMuZGEe
- 3QSaTX5JPTGIMGLy83UmU6Q0l0fyrAEJ5sStZeqemB+5kbCSLSBgr+mKiRxYuhW9yFNk
- oOmA==
+ bh=TLroeih9NBidBGSg3FuKZ7ZAT7w/rCVSOE3rWqHtmeM=;
+ b=e/oUX8PAqiaPwvLB5cvaxo3/vqvR+E3kbLPdscOKN1oV+gsLH736RMUnhFT2ERYOHj
+ MfImHnGe1hyNARDkz8RU1wa6xyMGWwf2dIvNgABHqiRpfIRilRwuLOcqdGayTjJSAZol
+ n3eDy1gM3INqsG/Aft7SRf1IqtNQ1Z/oPtF+ETfjzbTH70SqZD53Q2+y8I5mH4mBGzEf
+ 2Ron1kJTZ/bStdP+S/ztV4TzNjSZVPCHprfK0Jq7wT1Tcj2CE7vPPXqD6vlmsdrOqHqE
+ 1xjnRqQkNWZ4p2E+7grGb5yFD7e1gAL/iJhb3LlGHrhMLz+6UN1EP1mqibP9fCuTv3in
+ PUAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=upNPHIrMVxywp/ZU0zAWsGAEn/MYe/LdlqvxdOHWF20=;
- b=ObFfKD+boDOVGiLJJuTaZlzBiclqNtHuorJyWkq2lWJfiel1J7oDBTWwsAwC/D7q3Y
- 8jlBUzjR4Kifncgx7rD37Zvy1Fetx47s1kiBORU5/lTgnn1iZnOB41zccMJGLYslKEQd
- nz+uRmb95P7ZwmnuSjkCclSsTCuFqVoatFUSvN42zj/aEYr9hP1o2xVYgrqXW4joaCnk
- yezA+nloIQCRb/pNW61hK4MSS0RRiGvb37LhpQg1aiBggJ+fj5Bfua7xPTlpCd3jRZDp
- VHEuVIp4r0Td8d2t3wKsrT7JLQ70xsrYJ7ATzRAx0s48Ngyd79i2wP9PFPw1s+qp+6yK
- QPPQ==
-X-Gm-Message-State: AOAM533lXUTuipgldQGFYhznqEbcKOQ+J4Z8Zy59jL6xdZ5u1WuIyIqq
- 6eKVY4b7cflwp+Lf5lQoP8kHsWNO
-X-Google-Smtp-Source: ABdhPJy7cKhp9OFlgLgefCndZmJc3VFMDja3U9nT2ZQt7kNlHUAsOXmXI5OrWJvbDlR3A5d2f9SwSw==
-X-Received: by 2002:a17:906:b217:: with SMTP id
- p23mr19224854ejz.98.1593530747223; 
- Tue, 30 Jun 2020 08:25:47 -0700 (PDT)
+ bh=TLroeih9NBidBGSg3FuKZ7ZAT7w/rCVSOE3rWqHtmeM=;
+ b=BaaADASqU0qpyfYNIzYVUgxgW1z7lh6cWYg1xBY3UYUzPA6DQgYZV5EV3hNwPO230n
+ jxJcvoQcolA+J94jpRUkAP8xXHwf7rqDMAHE/G29RILPJp8D9ywCsd1eoD1kmegVl9l8
+ jFbnsv8arLqzgVaCjTC4gGXltVD4czuAlVq0sd2lQ7kKjBHZmYzNjiUNEzAiVVLD5Dhp
+ kiJY9ZElgv3i6P71o9E8jusxChHKdKb7OzlnaafUbtOCNtCCPI81c4PeGXdsrl35G/cB
+ TOkFvs7icuCSUQwWUUvFGLfP0+yCoiE9zM7azxcqCYpkOEkVfIDBIV6ZtAFByZrV81HF
+ 59UQ==
+X-Gm-Message-State: AOAM532TNa8Oafx8NxcWZIHYm0ux2AI1GSM6Dxe9FSPv5uHx/tNFbAqb
+ f5GXa45G4WsxU73jcQcNXYNShAk2
+X-Google-Smtp-Source: ABdhPJzoN2qbY23cOps0MCaj3wf4E/IBgo9c0a/YJbEI8xcKQPUuN8eCUD3SsiaX16RNHEHIPFx/RA==
+X-Received: by 2002:a50:ce45:: with SMTP id k5mr24037894edj.80.1593530751259; 
+ Tue, 30 Jun 2020 08:25:51 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.225.97])
- by smtp.gmail.com with ESMTPSA id q21sm2272398ejc.112.2020.06.30.08.25.46
+ by smtp.gmail.com with ESMTPSA id q21sm2272398ejc.112.2020.06.30.08.25.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 08:25:46 -0700 (PDT)
+ Tue, 30 Jun 2020 08:25:50 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] target/mips: Remove identical if/else branches
-Date: Tue, 30 Jun 2020 17:25:30 +0200
-Message-Id: <20200630152531.20657-2-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH 2/2] MAINTAINERS: Adjust MIPS maintainership
+Date: Tue, 30 Jun 2020 17:25:31 +0200
+Message-Id: <20200630152531.20657-3-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
 References: <20200630152531.20657-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,47 +86,71 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: aleksandar.rikalo@syrmia.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paul.burton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the segment:
+Paul Burton and Aurelien Jarno removed for not being present.
 
-      if (other_tc == other->current_tc) {
-          tccause = other->CP0_Cause;
-      } else {
-          tccause = other->CP0_Cause;
-      }
+Huacai Chen and Jiaxun Yang step in as reinforcement.
 
-Original contributor can't remember what was his intention.
-
+CC: Paul Burton <paul.burton@kernel.org>
+CC: Aurelien Jarno <aurelien@aurel32.net>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/cp0_helper.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ MAINTAINERS | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index bbf12e4a97..de64add038 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -375,16 +375,9 @@ target_ulong helper_mftc0_entryhi(CPUMIPSState *env)
- target_ulong helper_mftc0_cause(CPUMIPSState *env)
- {
-     int other_tc = env->CP0_VPEControl & (0xff << CP0VPECo_TargTC);
--    int32_t tccause;
-     CPUMIPSState *other = mips_cpu_map_tc(env, &other_tc);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5d8acf8d31..908431580c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -213,7 +213,8 @@ F: disas/microblaze.c
  
--    if (other_tc == other->current_tc) {
--        tccause = other->CP0_Cause;
--    } else {
--        tccause = other->CP0_Cause;
--    }
--
--    return tccause;
-+    return other->CP0_Cause;
- }
+ MIPS TCG CPUs
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aurelien Jarno <aurelien@aurel32.net>
++M: Huacai Chen <chenhc@lemote.com>
++R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: target/mips/
+@@ -1061,7 +1062,6 @@ F: hw/dma/rc4030.c
+ Malta
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-R: Aurelien Jarno <aurelien@aurel32.net>
+ S: Maintained
+ F: hw/isa/piix4.c
+ F: hw/acpi/piix4.c
+@@ -1080,7 +1080,6 @@ F: hw/net/mipsnet.c
  
- target_ulong helper_mftc0_status(CPUMIPSState *env)
+ R4000
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aurelien Jarno <aurelien@aurel32.net>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Obsolete
+ F: hw/mips/r4k.c
+@@ -1103,7 +1102,7 @@ S: Maintained
+ F: hw/intc/loongson_liointc.c
+ 
+ Boston
+-M: Paul Burton <pburton@wavecomp.com>
++M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/core/loader-fit.c
+@@ -2677,7 +2676,8 @@ F: disas/i386.c
+ 
+ MIPS TCG target
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aurelien Jarno <aurelien@aurel32.net>
++M: Huacai Chen <chenhc@lemote.com>
++R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: tcg/mips/
 -- 
 2.20.1
 
