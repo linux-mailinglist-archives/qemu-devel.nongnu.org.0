@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31C5210EFB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:20:36 +0200 (CEST)
-Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDFD210E8C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:09:24 +0200 (CEST)
+Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeXL-00022G-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
+	id 1jqeMV-0001P3-MM
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeI1-0003Oz-W8
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49256
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHt-0003E2-Du
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50898
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHw-0001Cz-6c
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHr-0001Aa-1e
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615879;
+ s=mimecast20190719; t=1593615874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=8c5rpM/uUzeAs95QmaeYXk7xK2+A8aAk2ZuVb9/UVi8=;
- b=PSdu4yY8WGJxYbdhAar85yGHjfuEq3NiPexARF45F97zBhV1KbG+cK+BXka0206gRxvGli
- aMJFs6ckuKFfUjPk8Ezc2olnTFv8zaCznLHNTj8lTJ0cNNT2JcKl7wcp0TX4fid6mxmuwy
- WyL/bTfX74BCysSnpTuHUzQV9nCIxR0=
+ references:references; bh=Gwk0p8dpwxIxSohyl8AcvPZ5pK0Qgk7UcXoftMHGXH4=;
+ b=VVV9Hs44DboFpzrWJnz+Nsd3Z2Jaz5R8Jf6NUfqOUEQvFX733b+5WLFGdMejRKWGY0NRk0
+ IE0p6x0hEd7lpM3qZ8Na/pECJGZ82v5ajjhLZ0grtGhD0fcIwAB/mndlse3OeEBC30aare
+ t486L3CTtTtDlkdmrn9vO8phHOLFC0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-6oR8ddD8Ms26A-hh5GNbKQ-1; Wed, 01 Jul 2020 11:04:37 -0400
-X-MC-Unique: 6oR8ddD8Ms26A-hh5GNbKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-34-ULn6gkb8MsaEQwDy8UCWew-1; Wed, 01 Jul 2020 11:04:32 -0400
+X-MC-Unique: ULn6gkb8MsaEQwDy8UCWew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17A73802ED5;
- Wed,  1 Jul 2020 15:04:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E585107ACF2;
+ Wed,  1 Jul 2020 15:04:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD13390352;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D76625BAC3;
  Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 93A6931E85; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
+ id 9D0A831E88; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/13] sm501: Convert debug printfs to traces
-Date: Wed,  1 Jul 2020 17:04:20 +0200
-Message-Id: <20200701150425.13739-9-kraxel@redhat.com>
+Subject: [PULL 09/13] sm501: Fix and optimize overlap check
+Date: Wed,  1 Jul 2020 17:04:21 +0200
+Message-Id: <20200701150425.13739-10-kraxel@redhat.com>
 In-Reply-To: <20200701150425.13739-1-kraxel@redhat.com>
 References: <20200701150425.13739-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,218 +84,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
+When doing reverse blit we need to check if source and dest overlap
+but it is not trivial due to possible different base and pitch of
+source and dest. Do rectangle overlap if base and pitch match,
+otherwise just check if memory area containing the rects overlaps so
+rects could possibly overlap.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <20200624164737.A941374633D@zero.eik.bme.hu>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: caf97bf0c84a440896ddf020e84c312fa5c15076.1592686588.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/sm501.c      | 50 +++++++++++------------------------------
- hw/display/trace-events | 12 ++++++++++
- 2 files changed, 25 insertions(+), 37 deletions(-)
+ hw/display/sm501.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 7e4c042d5229..2db347dcbc1c 100644
+index 2db347dcbc1c..9cccc68c35e5 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -39,15 +39,7 @@
- #include "qemu/range.h"
- #include "ui/pixel_ops.h"
- #include "qemu/bswap.h"
--
--/*#define DEBUG_SM501*/
--/*#define DEBUG_BITBLT*/
--
--#ifdef DEBUG_SM501
--#define SM501_DPRINTF(fmt, ...) printf(fmt, ## __VA_ARGS__)
--#else
--#define SM501_DPRINTF(fmt, ...) do {} while (0)
--#endif
-+#include "trace.h"
+@@ -690,6 +690,7 @@ static void sm501_2d_operation(SM501State *s)
+     unsigned int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
+     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
++    bool overlap = false;
  
- #define MMIO_BASE_OFFSET 0x3e00000
- #define MMIO_SIZE 0x200000
-@@ -871,7 +863,6 @@ static uint64_t sm501_system_config_read(void *opaque, hwaddr addr,
- {
-     SM501State *s = (SM501State *)opaque;
-     uint32_t ret = 0;
--    SM501_DPRINTF("sm501 system config regs : read addr=%x\n", (int)addr);
- 
-     switch (addr) {
-     case SM501_SYSTEM_CONTROL:
-@@ -923,7 +914,7 @@ static uint64_t sm501_system_config_read(void *opaque, hwaddr addr,
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented system config"
-                       "register read. addr=%" HWADDR_PRIx "\n", addr);
-     }
--
-+    trace_sm501_system_config_read(addr, ret);
-     return ret;
- }
- 
-@@ -931,9 +922,8 @@ static void sm501_system_config_write(void *opaque, hwaddr addr,
-                                       uint64_t value, unsigned size)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 system config regs : write addr=%x, val=%x\n",
--                  (uint32_t)addr, (uint32_t)value);
- 
-+    trace_sm501_system_config_write((uint32_t)addr, (uint32_t)value);
-     switch (addr) {
-     case SM501_SYSTEM_CONTROL:
-         s->system_control &= 0x10DB0000;
-@@ -1019,9 +1009,7 @@ static uint64_t sm501_i2c_read(void *opaque, hwaddr addr, unsigned size)
-         qemu_log_mask(LOG_UNIMP, "sm501 i2c : not implemented register read."
-                       " addr=0x%" HWADDR_PRIx "\n", addr);
-     }
--
--    SM501_DPRINTF("sm501 i2c regs : read addr=%" HWADDR_PRIx " val=%x\n",
--                  addr, ret);
-+    trace_sm501_i2c_read((uint32_t)addr, ret);
-     return ret;
- }
- 
-@@ -1029,9 +1017,8 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
-                             unsigned size)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 i2c regs : write addr=%" HWADDR_PRIx
--                  " val=%" PRIx64 "\n", addr, value);
- 
-+    trace_sm501_i2c_write((uint32_t)addr, (uint32_t)value);
-     switch (addr) {
-     case SM501_I2C_BYTE_COUNT:
-         s->i2c_byte_count = value & 0xf;
-@@ -1045,25 +1032,19 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
-                 s->i2c_status |= (res ? SM501_I2C_STATUS_ERROR : 0);
-                 if (!res) {
-                     int i;
--                    SM501_DPRINTF("sm501 i2c : transferring %d bytes to 0x%x\n",
--                                  s->i2c_byte_count + 1, s->i2c_addr >> 1);
-                     for (i = 0; i <= s->i2c_byte_count; i++) {
-                         res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
-                                             !(s->i2c_addr & 1));
-                         if (res) {
--                            SM501_DPRINTF("sm501 i2c : transfer failed"
--                                          " i=%d, res=%d\n", i, res);
-                             s->i2c_status |= SM501_I2C_STATUS_ERROR;
-                             return;
-                         }
-                     }
-                     if (i) {
--                        SM501_DPRINTF("sm501 i2c : transferred %d bytes\n", i);
-                         s->i2c_status = SM501_I2C_STATUS_COMPLETE;
-                     }
-                 }
-             } else {
--                SM501_DPRINTF("sm501 i2c : end transfer\n");
-                 i2c_end_transfer(s->i2c_bus);
-                 s->i2c_status &= ~SM501_I2C_STATUS_ERROR;
+     if ((s->twoD_stretch >> 16) & 0xF) {
+         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
+@@ -784,16 +785,21 @@ static void sm501_2d_operation(SM501State *s)
+                          ldn_he_p(&s->local_mem[src_base + si], bypp));
+                 break;
              }
-@@ -1103,7 +1084,8 @@ static const MemoryRegionOps sm501_i2c_ops = {
- static uint32_t sm501_palette_read(void *opaque, hwaddr addr)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 palette read addr=%x\n", (int)addr);
-+
-+    trace_sm501_palette_read((uint32_t)addr);
+-            /* Check for overlaps, this could be made more exact */
+-            uint32_t sb, se, db, de;
+-            sb = src_base + src_x + src_y * (width + src_pitch);
+-            se = sb + width + height * (width + src_pitch);
+-            db = dst_base + dst_x + dst_y * (width + dst_pitch);
+-            de = db + width + height * (width + dst_pitch);
+-            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+-                /* regions may overlap: copy via temporary */
+-                int llb = width * bypp;
+-                int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
++            /* If reverse blit do simple check for overlaps */
++            if (rtl && src_base == dst_base && src_pitch == dst_pitch) {
++                overlap = (src_x < dst_x + width && src_x + width > dst_x &&
++                           src_y < dst_y + height && src_y + height > dst_y);
++            } else if (rtl) {
++                unsigned int sb, se, db, de;
++                sb = src_base + (src_x + src_y * src_pitch) * bypp;
++                se = sb + (width + (height - 1) * src_pitch) * bypp;
++                db = dst_base + (dst_x + dst_y * dst_pitch) * bypp;
++                de = db + (width + (height - 1) * dst_pitch) * bypp;
++                overlap = (db < se && sb < de);
++            }
++            if (overlap) {
++                /* pixman can't do reverse blit: copy via temporary */
++                int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
+                 uint32_t *tmp = tmp_buf;
  
-     /* TODO : consider BYTE/WORD access */
-     /* TODO : consider endian */
-@@ -1116,8 +1098,8 @@ static void sm501_palette_write(void *opaque, hwaddr addr,
-                                 uint32_t value)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 palette write addr=%x, val=%x\n",
--                  (int)addr, value);
-+
-+    trace_sm501_palette_write((uint32_t)addr, value);
- 
-     /* TODO : consider BYTE/WORD access */
-     /* TODO : consider endian */
-@@ -1132,7 +1114,6 @@ static uint64_t sm501_disp_ctrl_read(void *opaque, hwaddr addr,
- {
-     SM501State *s = (SM501State *)opaque;
-     uint32_t ret = 0;
--    SM501_DPRINTF("sm501 disp ctrl regs : read addr=%x\n", (int)addr);
- 
-     switch (addr) {
- 
-@@ -1237,7 +1218,7 @@ static uint64_t sm501_disp_ctrl_read(void *opaque, hwaddr addr,
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
-                       "read. addr=%" HWADDR_PRIx "\n", addr);
-     }
--
-+    trace_sm501_disp_ctrl_read((uint32_t)addr, ret);
-     return ret;
- }
- 
-@@ -1245,9 +1226,8 @@ static void sm501_disp_ctrl_write(void *opaque, hwaddr addr,
-                                   uint64_t value, unsigned size)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 disp ctrl regs : write addr=%x, val=%x\n",
--                  (unsigned)addr, (unsigned)value);
- 
-+    trace_sm501_disp_ctrl_write((uint32_t)addr, (uint32_t)value);
-     switch (addr) {
-     case SM501_DC_PANEL_CONTROL:
-         s->dc_panel_control = value & 0x0FFF73FF;
-@@ -1392,7 +1372,6 @@ static uint64_t sm501_2d_engine_read(void *opaque, hwaddr addr,
- {
-     SM501State *s = (SM501State *)opaque;
-     uint32_t ret = 0;
--    SM501_DPRINTF("sm501 2d engine regs : read addr=%x\n", (int)addr);
- 
-     switch (addr) {
-     case SM501_2D_SOURCE:
-@@ -1462,7 +1441,7 @@ static uint64_t sm501_2d_engine_read(void *opaque, hwaddr addr,
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
-                       "read. addr=%" HWADDR_PRIx "\n", addr);
-     }
--
-+    trace_sm501_2d_engine_read((uint32_t)addr, ret);
-     return ret;
- }
- 
-@@ -1470,9 +1449,8 @@ static void sm501_2d_engine_write(void *opaque, hwaddr addr,
-                                   uint64_t value, unsigned size)
- {
-     SM501State *s = (SM501State *)opaque;
--    SM501_DPRINTF("sm501 2d engine regs : write addr=%x, val=%x\n",
--                  (unsigned)addr, (unsigned)value);
- 
-+    trace_sm501_2d_engine_write((uint32_t)addr, (uint32_t)value);
-     switch (addr) {
-     case SM501_2D_SOURCE:
-         s->twoD_source = value;
-@@ -1830,8 +1808,6 @@ static void sm501_init(SM501State *s, DeviceState *dev,
-                        uint32_t local_mem_bytes)
- {
-     s->local_mem_size_index = get_local_mem_size_index(local_mem_bytes);
--    SM501_DPRINTF("sm501 local mem size=%x. index=%d\n", get_local_mem_size(s),
--                  s->local_mem_size_index);
- 
-     /* local memory */
-     memory_region_init_ram(&s->local_mem_region, OBJECT(dev), "sm501.local",
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 72d4c9812c69..970d6bac5dcf 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -161,3 +161,15 @@ cg3_write(uint32_t addr, uint32_t val, unsigned size) "write addr:0x%06"PRIx32"
- # dpcd.c
- dpcd_read(uint32_t addr, uint8_t val) "read addr:0x%"PRIx32" val:0x%02x"
- dpcd_write(uint32_t addr, uint8_t val) "write addr:0x%"PRIx32" val:0x%02x"
-+
-+# sm501.c
-+sm501_system_config_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_system_config_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_i2c_read(uint32_t addr, uint8_t val) "addr=0x%x, val=0x%x"
-+sm501_i2c_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_palette_read(uint32_t addr) "addr=0x%x"
-+sm501_palette_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_disp_ctrl_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_disp_ctrl_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_2d_engine_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
-+sm501_2d_engine_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+                 if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
 -- 
 2.18.4
 
