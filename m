@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAEB210DA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:24:18 +0200 (CEST)
-Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E54210DB3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:27:51 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqder-0006Q2-51
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
+	id 1jqdiI-0002cW-RG
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqdcd-0003O9-39
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:21:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50377
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jqdfv-0000Lx-NC
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:25:23 -0400
+Resent-Date: Wed, 01 Jul 2020 10:25:23 -0400
+Resent-Message-Id: <E1jqdfv-0000Lx-NC@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqdcb-0001UR-Br
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:21:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593613316;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SJmnnOG9GG3BCeo8BnGqxBYs797f1abmxEEKMrx26C0=;
- b=O0m+3LSbKq5uo8UWyw6zyDxX2baJkqUb5yWZnV2Vuq/5zqU4KNKX8GEymmpbbHsVMzXHF8
- ZRPc9SGfmGEbrUDuJl+i1DQlmjBu0Rz4PaDriqq2DPsU+tC5ufGO4BHlW3A94H8WOa5PtX
- yN965XsiL8faxLRr+iuCLrrOOqx8qHU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-nrnstg4RPJunhRN-WCSuCg-1; Wed, 01 Jul 2020 10:21:54 -0400
-X-MC-Unique: nrnstg4RPJunhRN-WCSuCg-1
-Received: by mail-wr1-f70.google.com with SMTP id s16so7819311wrv.1
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:21:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SJmnnOG9GG3BCeo8BnGqxBYs797f1abmxEEKMrx26C0=;
- b=e30ditEmOj0lpekhEBfCLhPTB6iYUPS8WE3KQ12lc8uOvD4lLzveNlK48IhpY4s9N0
- BIU+9q+aYTpdOgQdfvSd6Kq5hgL3MywdQeo99KRxN2sZQbrKRg0wqsahe6b4PTaRGWdf
- hS4fm/D1wUBaEBW7r13jNFXCgq7mmmdDEULeBHdwCVoKpnYoqHxzJgT/yMrivPA/gGaS
- rV8i6YrX6L3Twb3JDxBkqfM+anYdh5kaEoVIFCBfn7+Y5r/8NqA4WO9ZlNet/BFnZvdc
- yTlxrNPpkGpPkIyhQ3cxTfBdjVoqLnIDdhxlFirzQOb4jyhQmRj8OI9hgSO5SATjKpTD
- dObA==
-X-Gm-Message-State: AOAM533hIF03Tz4zC8mh93BM797gLGLY5Ia5bap3LxxBpHK/oig8SUBA
- jWfA4nbf2u5aRmCPoQVn6T0xjYo5MNl00/gfaywu2UZn4J6XClffZvDl26DY7Qjpm3Q2srIQYr3
- zbUWBW7Co5czdHUQ=
-X-Received: by 2002:adf:9bc1:: with SMTP id e1mr26919750wrc.253.1593613313348; 
- Wed, 01 Jul 2020 07:21:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxauVoKZf0WWTPGJsQhoVmG3PCnLF1aG+240I7UEfPiIbG/+z6/m5YTrLEyoACxFleS5M6lQ==
-X-Received: by 2002:adf:9bc1:: with SMTP id e1mr26919727wrc.253.1593613313065; 
- Wed, 01 Jul 2020 07:21:53 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1142:70d6:6b9b:3cd1?
- ([2001:b07:6468:f312:1142:70d6:6b9b:3cd1])
- by smtp.gmail.com with ESMTPSA id k126sm7826976wme.17.2020.07.01.07.21.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 07:21:52 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: Correct the warning message of Intel PT
-To: Luwei Kang <luwei.kang@intel.com>, qemu-devel@nongnu.org
-References: <1593499113-4768-1-git-send-email-luwei.kang@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4292eab0-9a6b-80f8-2b90-4e2d9c4214a4@redhat.com>
-Date: Wed, 1 Jul 2020 16:21:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jqdfq-0001vV-Rq
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:25:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593613497; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LIkcve+xUVCn37GggvN9jSDd+KUSHdYIrqi6vmIS6NhA8Hdbe0kO3rkYSyFQ4DvEUIWfjlWyODm1cOK72j9taZdz414oNsFCphc+e58IMPRIgh1Oxwno27s+/ak/NdWX9FLtxuZT8lg4kKp8Rh8vMLU259wh5QtAymu7TC9u30s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593613497;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=MeQna3sOE1bogK1HrISvyaAEkB/Nc3QquUT6aUSm1oA=; 
+ b=bWMAHkdXA6BsJs04prFSWhBrAy9HzgOey1I1U8NsH7NOH1XT0FMt4PCXkcgEQb8u1XEEaySxH8u+WnzU7HS7NkSZIJxJGpPFJw9tOKpWNpuzeYuC8nSLhyoOmVkY9Bfdqx5kUm7pj964ka1quKqwweJ6WnbE08wSO55gk/yTvGE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593613492399878.0960906124783;
+ Wed, 1 Jul 2020 07:24:52 -0700 (PDT)
+Message-ID: <159361349123.26405.13886207944377670259@d1fd068a5071>
+Subject: Re: [PATCH v2] tests: disassemble-aml.sh: generate AML in readable
+ format
+In-Reply-To: <20200701121349.50523-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1593499113-4768-1-git-send-email-luwei.kang@intel.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mst@redhat.com
+Date: Wed, 1 Jul 2020 07:24:52 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:25:14
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,41 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, rth@twiddle.net
+Reply-To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/06/20 08:38, Luwei Kang wrote:
-> The CPUID level need to be set to 0x14 manually on old
-> machine-type if Intel PT is enabled in guest. E.g. the
-> CPUID[0].EAX(level)=7 and CPUID[7].EBX[25](intel-pt)=1 when the
-> Qemu with "-machine pc-i440fx-3.1 -cpu qemu64,+intel-pt" parameter.
-> 
-> This patch corrects the warning message of the previous
-> submission(ddc2fc9).
-> 
-> Signed-off-by: Luwei Kang <luwei.kang@intel.com>
-> ---
->  target/i386/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 90ffc5f..a0e39d1 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6375,7 +6375,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
->              } else if (cpu->env.cpuid_min_level < 0x14) {
->                  mark_unavailable_features(cpu, FEAT_7_0_EBX,
->                      CPUID_7_0_EBX_INTEL_PT,
-> -                    "Intel PT need CPUID leaf 0x14, please set by \"-cpu ...,+intel-pt,level=0x14\"");
-> +                    "Intel PT need CPUID leaf 0x14, please set by \"-cpu ...,+intel-pt,min-level=0x14\"");
->              }
->          }
->  
-> 
-
-Queued, thanks.
-
-Paolo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMTEyMTM0OS41MDUy
+My0xLW1zdEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjJdIHRlc3RzOiBkaXNhc3NlbWJsZS1hbWwuc2g6IGdl
+bmVyYXRlIEFNTCBpbiByZWFkYWJsZSBmb3JtYXQKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIw
+MjAwNzAxMTIxMzQ5LjUwNTIzLTEtbXN0QHJlZGhhdC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJ
+TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
+dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
+IFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
+cWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwNzAxMTIxMzQ5LjUwNTIzLTEt
+bXN0QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMDcwMTEyMTM0OS41MDUyMy0xLW1zdEByZWRo
+YXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYWI1NDIzMiB0ZXN0czogZGlz
+YXNzZW1ibGUtYW1sLnNoOiBnZW5lcmF0ZSBBTUwgaW4gcmVhZGFibGUgZm9ybWF0Cgo9PT0gT1VU
+UFVUIEJFR0lOID09PQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNjogCm5ldyBmaWxlIG1vZGUgMTAwNzU1
+CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzA6IEZJTEU6IHRlc3RzL2RhdGEv
+YWNwaS9kaXNhc3NlbWxlLWFtbC5zaDoxMDoKKyAgICAgICAgZWNobyAiVXNhZ2U6IC4vdGVzdHMv
+ZGF0YS9hY3BpL2Rpc2Fzc2VtbGUtYW1sLnNoIFstbyA8b3V0cHV0LWRpcmVjdG9yeT5dIgoKRVJS
+T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM4MTogRklMRTogdGVzdHMvZGF0YS9hY3BpL3Jl
+YnVpbGQtZXhwZWN0ZWQtYW1sLnNoOjM5OgorZWNobyAiWW91IGNhbiB1c2UgJHtTUkNfUEFUSH0v
+dGVzdHMvZGF0YS9hY3BpL2Rpc2Fzc2VtbGUtYW1sLnNoIHRvIGRpc2Fzc2VtYmxlIHRoZW0gdG8g
+QVNMLiIKCnRvdGFsOiAxIGVycm9ycywgMiB3YXJuaW5ncywgNTkgbGluZXMgY2hlY2tlZAoKQ29t
+bWl0IGFiNTQyMzI5M2RhMiAodGVzdHM6IGRpc2Fzc2VtYmxlLWFtbC5zaDogZ2VuZXJhdGUgQU1M
+IGluIHJlYWRhYmxlIGZvcm1hdCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
+VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
+ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MDExMjEzNDku
+NTA1MjMtMS1tc3RAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
+LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
+Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
+ZGhhdC5jb20=
 
