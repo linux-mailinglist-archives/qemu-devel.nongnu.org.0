@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955C0210F20
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:27:16 +0200 (CEST)
-Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97681210EE8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:17:47 +0200 (CEST)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqedn-0008No-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52442)
+	id 1jqeUc-0006v3-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:17:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqeRp-0003S5-05
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:14:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49666
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeSS-0004cM-I4
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:15:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52671
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqeRm-0002nO-Ak
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:14:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeSQ-0002tI-PE
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:15:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593616489;
+ s=mimecast20190719; t=1593616530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fTDIjcY8W3zr9BSp6L1ugq05qWwbERXKD+GKnkcf6ok=;
- b=XJLSdZqw84X5+Ft6H3B1d493Bpnb3jtR9pgz+KZRLDgzh/O+kUSWJ0N2VnhWAjk71HKVHG
- tRLQrLSk6/KmdVKfy6Q4KEb3sjeQMSDbd9I8fRMvTa/IWyRqMp9P5fadnObdVFVslYs3vb
- /i1BhIVuU9UyajIuY5+s6BF+8MZc8F8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-7BaJaqvUN_ip-PWOi6-LfA-1; Wed, 01 Jul 2020 11:14:47 -0400
-X-MC-Unique: 7BaJaqvUN_ip-PWOi6-LfA-1
-Received: by mail-wr1-f69.google.com with SMTP id h28so21039523wrc.18
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:14:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fTDIjcY8W3zr9BSp6L1ugq05qWwbERXKD+GKnkcf6ok=;
- b=IxlzeHymRxmup30mgboieymbUp5TOATlTYVzNcRA9S98ub+v6x61+H3ZM559LwOzEH
- tvuT2kFVIBD0Sdv5zAGEv5U7QFTf5kih26qiFSZVWHq/mkGcgxnKuUF1Yt0+hoAyywk6
- llP2OF3/25Nnii+SDv3Pc5biTcy0ntcgyctXGCtU2S57JgsJkN7t9tfCyyv4ucKoE2z2
- 4kdREb/jfCrcp5QBfgGfsG0E+lznd8lVOPXEpeXwTl7gz1JHFIWzjv2JXHm9LPDTMIos
- gKKw7MxAZpAHJLaqfg+XegU8awRrpx0W7aAJm7nfGYXr4A3j3+2JSh7rADhIosq5yZ7V
- weBQ==
-X-Gm-Message-State: AOAM5339VvavUcEWHRw2M6PFicGaILpa6GW0nzuMwXoUVEYdvyNScFj+
- 58xhqYkyw5HgCK++fVgTkF+EfWuKhHvus1xv+TFk4dNNkaVgjbsryXj7Itur/0NSpnro26Bzhum
- NeqkWqNlO2HG73E8=
-X-Received: by 2002:a5d:69c5:: with SMTP id s5mr27121373wrw.197.1593616486381; 
- Wed, 01 Jul 2020 08:14:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFaXMG4GChkUCCK155lvEU1vPxIuAdZzyoo6H9SHUlvI3HfbagazJnapbBCuD8PrsyGkrxww==
-X-Received: by 2002:a5d:69c5:: with SMTP id s5mr27121358wrw.197.1593616486135; 
- Wed, 01 Jul 2020 08:14:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9d66:2ca3:22cf:9fa9?
- ([2001:b07:6468:f312:9d66:2ca3:22cf:9fa9])
- by smtp.gmail.com with ESMTPSA id k126sm8002057wme.17.2020.07.01.08.14.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 08:14:45 -0700 (PDT)
-Subject: Re: [PATCH v2] chardev/tcp: fix error message double free error
-To: lichun@ruijie.com.cn, armbru@redhat.com
-References: <20200621213017.17978-1-lichun@ruijie.com.cn>
- <87zh8jbtpd.fsf@dusky.pond.sub.org>
- <309b915a-9ddc-95a7-f579-7cf66a7c0253@redhat.com>
- <EEB2AE3E67807845A92E2350C6F5E02E0131DC6F73@FZEX3.ruijie.com.cn>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c32fe799-a4bd-d334-1764-db64a1a69794@redhat.com>
-Date: Wed, 1 Jul 2020 17:14:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=Tl2XnPJhS4+sRYXg4BsVbGG87M/IQqFEuKR51vK0lWY=;
+ b=iN2ZAaqhf+QSt/QgtngZMlJPXdU+Rk5k2hZ9Jt6rZQIZG0R3bGWb52mXnPDxK1FgEarcN5
+ AEjg6cm1SSbbvabVYahNUzuGDJwj6N6Na3n1lRYsNL1/n4XqSNf5+9w4Sa3JkUcrHjT2WE
+ R+GAYZQnM9PUz5RWVTcfqwae7CVWge8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-332-DwMczyXOPxyt0U8eAXwVXw-1; Wed, 01 Jul 2020 11:15:28 -0400
+X-MC-Unique: DwMczyXOPxyt0U8eAXwVXw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 171FD18FE86F;
+ Wed,  1 Jul 2020 15:15:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B289773FCF;
+ Wed,  1 Jul 2020 15:15:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9BC1A16E16; Wed,  1 Jul 2020 17:15:24 +0200 (CEST)
+Date: Wed, 1 Jul 2020 17:15:24 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATC 7/9] Skipping drm build, unsupported
+Message-ID: <20200701151524.wogl4ihbdevgf4bt@sirius.home.kraxel.org>
+References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
+ <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
+ <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
+ <CAFEAcA8jkzf8+d5AyAVH2HJ544TyHsM4xP5tpWsKiJbJtWMjKw@mail.gmail.com>
+ <20200630165356.2ka2ltwmrfjb5msn@sirius.home.kraxel.org>
+ <3eb3c266-1a83-9f40-4760-1ab2578ae5d6@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <EEB2AE3E67807845A92E2350C6F5E02E0131DC6F73@FZEX3.ruijie.com.cn>
-Content-Language: en-US
+In-Reply-To: <3eb3c266-1a83-9f40-4760-1ab2578ae5d6@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -104,55 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, 706701795@qq.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, David CARLIER <devnexen@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/07/20 17:12, lichun@ruijie.com.cn wrote:
->> On 01/07/20 09:06, Markus Armbruster wrote:
->>> lichun <lichun@ruijie.com.cn> writes:
->>>
->>>> Signed-off-by: lichun <lichun@ruijie.com.cn>
->>>> ---
->>>>   chardev/char-socket.c | 3 ++-
->>>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->>>> index afebeec5c3..569d54c144 100644
->>>> --- a/chardev/char-socket.c
->>>> +++ b/chardev/char-socket.c
->>>> @@ -142,6 +142,8 @@ static void check_report_connect_error(Chardev *chr,
->>>>                             "Unable to connect character device %s: ",
->>>>                             chr->label);
->>>>           s->connect_err_reported = true;
->>>> +    } else {
->>>> +        error_free(err);
->>>>       }
->>>>       qemu_chr_socket_restart_timer(chr);
->>>>   }
->>>> @@ -1086,7 +1088,6 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
->>>>       if (qio_task_propagate_error(task, &err)) {
->>>>           tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
->>>>           check_report_connect_error(chr, err);
->>>> -        error_free(err);
->>>>           goto cleanup;
->>>>       }
->>>
->>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->>>
->>> and queued, thanks!
->>>
->>
->> Can you please add a note to the commit message?
->>
->>     Errors are already freed by error_report_err, so we only need to call
->>     error_free when that function is not called.
->>   
->> and Cc qemu-stable?  Or I can queue it too since it's chardev stuff. 
-> Ok,  I'll post v3.
+> > Ah, that is the problem.  Yes, DT_CHR is an non-posix optimization which
+> > allows to get the file type directly, without another round-trip to the
+> > kernel.  If that isn't available you can stat() the file and check
+> > ((st_mode & S_IFMT) == S_IFCHR) instead.
+> 
+> Even when d_type and DT_CHR is available, there are filesystems where the
+> Linux kernel reports d_type of DT_UNKNOWN, and where you are best having
+> that code also falling back to an fstat().
 
-No need for that, thanks!  (My message was for Markus).
+Given this isn't perforance critical at all it is probably simplest to
+avoid non-portable d_type altogether and just to the fstat
+unconditionally.
 
-Paolo
+David, does that work for haiku?
+
+take care,
+  Gerd
+
+diff --git a/util/drm.c b/util/drm.c
+index a23ff2453826..a1d3520d00f2 100644
+--- a/util/drm.c
++++ b/util/drm.c
+@@ -24,6 +24,7 @@ int qemu_drm_rendernode_open(const char *rendernode)
+ {
+     DIR *dir;
+     struct dirent *e;
++    struct stat st;
+     int r, fd;
+     char *p;
+ 
+@@ -38,10 +39,6 @@ int qemu_drm_rendernode_open(const char *rendernode)
+ 
+     fd = -1;
+     while ((e = readdir(dir))) {
+-        if (e->d_type != DT_CHR) {
+-            continue;
+-        }
+-
+         if (strncmp(e->d_name, "renderD", 7)) {
+             continue;
+         }
+@@ -53,6 +50,12 @@ int qemu_drm_rendernode_open(const char *rendernode)
+             g_free(p);
+             continue;
+         }
++        fstat(r, &st);
++        if ((st.st_mode & S_IFMT) != S_IFCHR) {
++            close(r);
++            g_free(p);
++            continue;
++        }
+         fd = r;
+         g_free(p);
+         break;
 
 
