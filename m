@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FE5210ECD
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:14:06 +0200 (CEST)
-Received: from localhost ([::1]:48468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB014210E8A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:08:52 +0200 (CEST)
+Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeR2-0000EG-UN
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
+	id 1jqeLz-0000Ff-V1
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHx-0003JT-7v
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:41 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23706
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHv-0003H9-Tg
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:39 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30942
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHu-0001C1-94
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:40 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHr-0001B3-WB
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615877;
+ s=mimecast20190719; t=1593615875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=11vTNjprUDxxF42ZXFtBkVL+ye/l4xtYd5YtU/dXpDI=;
- b=XTDEn4nivQe5/JV5q/6cbfowRX7zxu9T+y4+pnRK9FAaigfdXbizWATKhSHu0kvEUtbUk5
- CZIC/Gz3DuvjPiLNNFPXdjUF2qVVL6ziuI/mKuGLeiCiazINa/MkZqFzepb3oY9X0vOro1
- 7aUaTOosbRjP1vH3r1XAsWBAKT7xwxg=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CMMY4ntotcJNv/ps9VLMCDdsbnxdrxIMISGsXdUIB3Q=;
+ b=giK0wgnT6YOzu2b3S0TYVksGG9yS03FbhPBGogi2fiaJhduJwY1ymyMX2+1STqls9twjK6
+ G79c0JBuLAqOuKDPQ+ZvjvVF2Q5FepHQREUNq/En2RiCzcQXl/nRM2PQFECBlaVZA4hKn/
+ d0xgTCiSwazH9oWRYXpw/Lgk5ZNx1fQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-C8k0ieCYOUG2oLstJRqdow-1; Wed, 01 Jul 2020 11:04:35 -0400
-X-MC-Unique: C8k0ieCYOUG2oLstJRqdow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-411-hpnL3qV5M-aZt-LxWeh-Ng-1; Wed, 01 Jul 2020 11:04:32 -0400
+X-MC-Unique: hpnL3qV5M-aZt-LxWeh-Ng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DD49800D5C;
- Wed,  1 Jul 2020 15:04:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80297BAF;
+ Wed,  1 Jul 2020 15:04:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D25E7BEAC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F6210013C0;
  Wed,  1 Jul 2020 15:04:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BC24431E93; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
+ id C554631E9E; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] ati-vga: Add dummy MEM_SDRAM_MODE_REG
-Date: Wed,  1 Jul 2020 17:04:24 +0200
-Message-Id: <20200701150425.13739-13-kraxel@redhat.com>
+Subject: [PULL 13/13] configure: vgabios cleanups
+Date: Wed,  1 Jul 2020 17:04:25 +0200
+Message-Id: <20200701150425.13739-14-kraxel@redhat.com>
 In-Reply-To: <20200701150425.13739-1-kraxel@redhat.com>
 References: <20200701150425.13739-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
@@ -65,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +86,48 @@ Cc: qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+Commit 91b8eba9ec3f ("vgabios: remove submodule and build rules.")
+removed the vgabios submodule, but left some traces in the configure
+script.  Remove them.
 
-Radeon chips have an SDRAM mode reg that is accessed by some drivers.
-We don't emulate the memory controller but provide some default value
-to prevent drivers getting unexpected 0.
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: cc1324b9ef06beb8ae233ddc77dedd8bab9b8624.1592737958.git.balaton@eik.bme.hu
+Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200622131240.9624-1-kraxel@redhat.com
 ---
- hw/display/ati_regs.h | 1 +
- hw/display/ati.c      | 5 +++++
- hw/display/ati_dbg.c  | 1 +
- 3 files changed, 7 insertions(+)
+ configure | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
-index ebd37ee30d3f..d6282b2ef210 100644
---- a/hw/display/ati_regs.h
-+++ b/hw/display/ati_regs.h
-@@ -60,6 +60,7 @@
- #define MC_FB_LOCATION                          0x0148
- #define MC_AGP_LOCATION                         0x014C
- #define MC_STATUS                               0x0150
-+#define MEM_SDRAM_MODE_REG                      0x0158
- #define MEM_POWER_MISC                          0x015c
- #define AGP_BASE                                0x0170
- #define AGP_CNTL                                0x0174
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 95fc443cac83..4c3ad8f47b0d 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -361,6 +361,11 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
-     case MC_STATUS:
-         val = 5;
-         break;
-+    case MEM_SDRAM_MODE_REG:
-+        if (s->dev_id != PCI_DEVICE_ID_ATI_RAGE128_PF) {
-+            val = BIT(28) | BIT(20);
-+        }
-+        break;
-     case RBBM_STATUS:
-     case GUI_STAT:
-         val = 64; /* free CMDFIFO entries */
-diff --git a/hw/display/ati_dbg.c b/hw/display/ati_dbg.c
-index 0ebbd36f1477..bd0ecd48c7a7 100644
---- a/hw/display/ati_dbg.c
-+++ b/hw/display/ati_dbg.c
-@@ -42,6 +42,7 @@ static struct ati_regdesc ati_reg_names[] = {
-     {"MC_FB_LOCATION", 0x0148},
-     {"MC_AGP_LOCATION", 0x014C},
-     {"MC_STATUS", 0x0150},
-+    {"MEM_SDRAM_MODE_REG", 0x0158},
-     {"MEM_POWER_MISC", 0x015c},
-     {"AGP_BASE", 0x0170},
-     {"AGP_CNTL", 0x0174},
+diff --git a/configure b/configure
+index 4a22dcd5631d..8a65240d4a8a 100755
+--- a/configure
++++ b/configure
+@@ -8486,14 +8486,14 @@ DIRS="tests tests/tcg tests/tcg/lm32 tests/qapi-schema tests/qtest/libqos"
+ DIRS="$DIRS tests/qtest tests/qemu-iotests tests/vm tests/fp tests/qgraph"
+ DIRS="$DIRS docs docs/interop fsdev scsi"
+ DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
+-DIRS="$DIRS roms/seabios roms/vgabios"
++DIRS="$DIRS roms/seabios"
+ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
+ LINKS="$LINKS tests/plugin/Makefile"
+ LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+-LINKS="$LINKS roms/seabios/Makefile roms/vgabios/Makefile"
++LINKS="$LINKS roms/seabios/Makefile"
+ LINKS="$LINKS pc-bios/qemu-icon.bmp"
+ LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
+ LINKS="$LINKS tests/acceptance tests/data"
+@@ -8526,7 +8526,7 @@ export target_list source_path use_containers
+ $source_path/tests/tcg/configure.sh)
+ 
+ # temporary config to build submodules
+-for rom in seabios vgabios ; do
++for rom in seabios; do
+     config_mak=roms/$rom/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
 -- 
 2.18.4
 
