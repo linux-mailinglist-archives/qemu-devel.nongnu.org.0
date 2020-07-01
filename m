@@ -2,90 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78FA210F3E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:28:49 +0200 (CEST)
-Received: from localhost ([::1]:58390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E224210F09
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:24:00 +0200 (CEST)
+Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqefI-0001Qr-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
+	id 1jqead-0004j4-5u
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqeXs-0002xp-CV
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:21:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33137
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqeXq-0004Bw-7Q
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:21:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593616865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3Z8UT5vSj2pQ4GzIt6e3dNiiN0wVzPrBzTl5msxzeko=;
- b=FUdDaHAptk0oj3KAB3O7dQDfjbbWT207QJ/DP3njIeD9soNMs/NAS3ckA24R2WI3aClOHB
- 98rg9Wtz6WJsyeW0GTqvlx6R9jcLsrewTXIt7ywNr3zjmx5w1xLKjbpRL39z7Ir+VfkidG
- lVIFmE1Nv5o1TNXna97OwZvaQlcInqI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-NgPjv5PjMNuaShWJ1sJIaQ-1; Wed, 01 Jul 2020 11:20:56 -0400
-X-MC-Unique: NgPjv5PjMNuaShWJ1sJIaQ-1
-Received: by mail-wr1-f72.google.com with SMTP id i12so21069755wrx.11
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:20:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3Z8UT5vSj2pQ4GzIt6e3dNiiN0wVzPrBzTl5msxzeko=;
- b=VAMSJp/5avUlcgZA6nLQNFETymLiNX4BQI6fyZHBIVIqubGGXhg0oc031vMT/TM0kw
- SDSlAL/7YZ9u9dhYtJD6fDK375ZFODFwgXFZGmaUKTA0Y6WJMcgm5BeNiyebpomLz2Ee
- 0b5x8vLMQfqHzR4ZvG2I6Astyj0SbnqYWMiucdjfI0HyaBgyAreQe7656O1ehIeFtsPa
- vKPEx8kD9qloTC15uB0X0TKYadb9j3+HCl8yxlYAxnzP5nZhNDPHv5os4LGcZ1F4fOoc
- SbNe6WZoz+RX3pLN6GUDzfzqHTkT/Xg6Xo2B0kkpCc0JO9Y7KaNw+9vYk3wWOSZ8JXtk
- Nuow==
-X-Gm-Message-State: AOAM5306JBafK5oWbWDTBcm4RngpAoG3mqRM1aMNfj2IDGSUiLU3GL3O
- Pj4d0zz6uPZfGTdpwXOvy5ya/qU1Ud0UGJdP+thS/f7amiGojThb41HXTDbNJ3nX2t2azywD9/4
- O5Pb5jLai9pELR/8=
-X-Received: by 2002:a1c:6788:: with SMTP id
- b130mr28037275wmc.100.1593616855659; 
- Wed, 01 Jul 2020 08:20:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsFkH37qn8s18wOU+ttqmUOj0jBQh4pSgJx4/AyoZICav/pKkclQxjjRRhi40LztVmLLvIQw==
-X-Received: by 2002:a1c:6788:: with SMTP id
- b130mr28037240wmc.100.1593616855455; 
- Wed, 01 Jul 2020 08:20:55 -0700 (PDT)
-Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
- by smtp.gmail.com with ESMTPSA id
- 138sm1749480wmb.1.2020.07.01.08.20.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 08:20:54 -0700 (PDT)
-Date: Wed, 1 Jul 2020 11:20:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 13/13] vhost-vdpa: introduce vhost-vdpa net client
-Message-ID: <20200701112022-mutt-send-email-mst@kernel.org>
-References: <20200701092449.17451-1-lulu@redhat.com>
- <20200701092449.17451-14-lulu@redhat.com>
- <dc1c8668-54b7-4b9f-cf0f-a0479339fa7d@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jqeZ0-0003nV-My; Wed, 01 Jul 2020 11:22:19 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jqeYx-0004HQ-3O; Wed, 01 Jul 2020 11:22:18 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.3766654|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0130619-0.00109256-0.985846;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03275; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=8; RT=8; SR=0; TI=SMTPD_---.Hvum7gd_1593616921; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Hvum7gd_1593616921)
+ by smtp.aliyun-inc.com(10.147.41.120);
+ Wed, 01 Jul 2020 23:22:02 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 1/1] tcg/tcg-op: nonatomic_op should work with smaller memop
+Date: Wed,  1 Jul 2020 23:21:56 +0800
+Message-Id: <20200701152156.1147-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <dc1c8668-54b7-4b9f-cf0f-a0479339fa7d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 11:22:02
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,63 +55,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- hanand@xilinx.com, rob.miller@broadcom.com, saugatm@xilinx.com,
- Cindy Lu <lulu@redhat.com>, armbru@redhat.com, hch@infradead.org,
- eperezma@redhat.com, jgg@mellanox.com, mhabets@solarflare.com,
- shahafs@mellanox.com, kevin.tian@intel.com, parav@mellanox.com,
- vmireyno@marvell.com, cunming.liang@intel.com, gdawar@xilinx.com,
- jiri@mellanox.com, xiao.w.wang@intel.com, stefanha@redhat.com,
- zhihong.wang@intel.com, Tiwei Bie <tiwei.bie@intel.com>, aadam@redhat.com,
- rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 01, 2020 at 09:28:27AM -0500, Eric Blake wrote:
-> On 7/1/20 4:24 AM, Cindy Lu wrote:
-> > This patch set introduces a new net client type: vhost-vdpa.
-> > vhost-vdpa net client will set up a vDPA device which is specified
-> > by a "vhostdev" parameter.
-> > 
-> > Signed-off-by: Lingshan Zhu <lingshan.zhu@intel.com>
-> > Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > ---
-> 
-> > +++ b/qapi/net.json
-> 
-> >   ##
-> >   # @NetClientDriver:
-> >   #
-> >   # Available netdev drivers.
-> >   #
-> > -# Since: 2.7
-> > +# Since: 5.1
-> 
-> This should be:
-> 
-> # Since 2.7
-> # @vhost-vdpa since 5.1
-> 
-> since the enum itself is still available in older releases, it is only the
-> new member that was introduced in this series.
-> 
-> >   ##
-> >   { 'enum': 'NetClientDriver',
-> >     'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> > -            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
-> > +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
-> 
+Reserve MO_SIGN in load and extend another operator val according to memop.
+Thus, we can call tcg_gen_atomic_*_tl with a smaller memop.
 
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ tcg/tcg-op.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Thanks! I will fix it up when applying.
-Ack with that fixed?
-
-
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index e60b74fb82..9a0870cb18 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -3189,7 +3189,8 @@ static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
+ 
+     memop = tcg_canonicalize_memop(memop, 0, 0);
+ 
+-    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
++    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
++    tcg_gen_ext_i32(val, val, memop);
+     gen(t2, t1, val);
+     tcg_gen_qemu_st_i32(t2, addr, idx, memop);
+ 
+@@ -3232,7 +3233,8 @@ static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
+ 
+     memop = tcg_canonicalize_memop(memop, 1, 0);
+ 
+-    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
++    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
++    tcg_gen_ext_i64(val, val, memop);
+     gen(t2, t1, val);
+     tcg_gen_qemu_st_i64(t2, addr, idx, memop);
+ 
+-- 
+2.23.0
 
 
