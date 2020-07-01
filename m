@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEC42111EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:29:55 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96958211171
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:01:14 +0200 (CEST)
+Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqgYU-00034h-5I
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59494)
+	id 1jqg6j-0008Te-Ko
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:01:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqgXh-0002bS-Ds; Wed, 01 Jul 2020 13:29:05 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:45691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqgXf-0002wR-DD; Wed, 01 Jul 2020 13:29:05 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07437483|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.0270799-9.17707e-05-0.972828;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01l07381; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=8; SR=0; TI=SMTPD_---.HvxtnRt_1593624536; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HvxtnRt_1593624536)
- by smtp.aliyun-inc.com(10.147.44.129);
- Thu, 02 Jul 2020 01:28:56 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v12 61/61] target/riscv: configure and turn on vector
- extension from command line
-Date: Wed,  1 Jul 2020 23:25:49 +0800
-Message-Id: <20200701152549.1218-62-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200701152549.1218-1-zhiwei_liu@c-sky.com>
-References: <20200701152549.1218-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jqg2V-0003E5-NL
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:56:51 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jqg2T-0006D7-TP
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:56:51 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id h22so11289968pjf.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 09:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lrbOuw8wmrLaMoNbXCjk0t8awozGHEsmEarRx+CDXgI=;
+ b=N8ecaIvuxoEkPcNx0xw6sc+yWFKAbe7xcifByzf3rGIdtmVIqmvvuEwstPq2/39Wju
+ A0MJ/7fzDz25rnRuPH0BBiz6m+P20VrtcI+NGf4FhXdeLTHoW+9pUrKpe98HdKswqxa4
+ FpWPLabQl5wzEAe/Am8zcF9Y/1Zkh+/IkQqGUYc76rjczu0p03dUqILl2CFoh5wD6PJD
+ ojEleMynnAEMLbOHWs7k1AwNlG8ROABvc5EVsX98MIZzB93/8K+7B5mAhx9uukvtpzq6
+ XtUu/TK9i2R5fR5arsEWP8fNjU1CxwLqTgHGg2EHV3klsFyu5HF0OcU+l/VDaUT2IP3m
+ jt6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lrbOuw8wmrLaMoNbXCjk0t8awozGHEsmEarRx+CDXgI=;
+ b=MVYnXYajd+cJ65RY4C+d5XAoEFm6HOFdZQ7ydCNZCLVqmK+0Iq05vPM7YGae4kWaTy
+ zI8Z6gFvy6Rk4pt3ixEFEpU15FSryekyzXVI+ShIuw+Wt9wVUtXWn8VilpFkTM30ijBc
+ yve1UqnuLwZIt4SxAFCQvxh49V8R7DE/F7NS9zwUaCUmSY8LPMUuwaQsO6L791wdLgQ9
+ QsutYSmX47RDgja0Tq29cb1BJwm7Kar9K03Tl7qRfjrFeia5mKEMgp2/0/mly8KZchMG
+ 2YS+vR/P4T12w/h0phvpH5yxEZHc7bn2n4z6IFPGYcQyrbjWm5prgdQByBT1fmS3HcGz
+ n2eg==
+X-Gm-Message-State: AOAM532xPOIl5igylN1Z0OLeNxRAC7t/QlCKOD52jfXzesQ8/9Uvg1xg
+ CCdOySgUO7JCFwFkaM4Nk2TA1OhWuKs=
+X-Google-Smtp-Source: ABdhPJx1wIfKW0CxviKuZhEcR7cEd97qhrvafH/KeNrRJmVPothUsJn2Ct1nyS/dfvrYVwhB7nqAOw==
+X-Received: by 2002:a17:90a:2a09:: with SMTP id
+ i9mr14029827pjd.50.1593622607859; 
+ Wed, 01 Jul 2020 09:56:47 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id s1sm5814930pjp.14.2020.07.01.09.56.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 09:56:47 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Fix do_nonatomic_op_* vs signed operations
+Date: Wed,  1 Jul 2020 09:56:46 -0700
+Message-Id: <20200701165646.1901320-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 11:22:02
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,124 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
- palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Alistair.Francis@wdc.com, zhiwei_liu@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-   "-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+The smin/smax/umin/umax operations require the operands to be
+properly sign extended.  Do not drop the MO_SIGN bit from the
+load, and additionally extend the val input.
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
-
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- target/riscv/cpu.h |  4 +++-
- 2 files changed, 46 insertions(+), 1 deletion(-)
+ tcg/tcg-op.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d525cfb687..228b9bdb5d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -430,6 +430,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index e60b74fb82..4b8a473fad 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -3189,8 +3189,9 @@ static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
  
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -469,10 +508,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0ad51c6580..eef20ca6e5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -92,7 +92,7 @@ typedef struct CPURISCVState CPURISCVState;
+     memop = tcg_canonicalize_memop(memop, 0, 0);
  
- #include "pmp.h"
+-    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
+-    gen(t2, t1, val);
++    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
++    tcg_gen_ext_i32(t2, val, memop);
++    gen(t2, t1, t2);
+     tcg_gen_qemu_st_i32(t2, addr, idx, memop);
  
--#define RV_VLEN_MAX 512
-+#define RV_VLEN_MAX 256
+     tcg_gen_ext_i32(ret, (new_val ? t2 : t1), memop);
+@@ -3232,8 +3233,9 @@ static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
  
- FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
-@@ -279,12 +279,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
+     memop = tcg_canonicalize_memop(memop, 1, 0);
  
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
+-    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
+-    gen(t2, t1, val);
++    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
++    tcg_gen_ext_i64(t2, val, memop);
++    gen(t2, t1, t2);
+     tcg_gen_qemu_st_i64(t2, addr, idx, memop);
+ 
+     tcg_gen_ext_i64(ret, (new_val ? t2 : t1), memop);
 -- 
-2.23.0
+2.25.1
 
 
