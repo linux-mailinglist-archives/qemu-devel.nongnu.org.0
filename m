@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC6C21108E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:27:21 +0200 (CEST)
-Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DEE211097
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:29:07 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfZw-0004Bg-2r
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
+	id 1jqfbe-0007m0-Fa
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqfYh-0002Dv-BU
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:26:03 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38287)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jqfZ7-00030y-9A; Wed, 01 Jul 2020 12:26:29 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:37260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqfYf-0000zc-83
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:26:02 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id k5so1680186pjg.3
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 09:26:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UGNrzErWTkxLmxh9La29txsfoELABioK+bURfbuipYc=;
- b=O3sAgADuI/RxrjEPNfGgyBTUdGGiZrxKmETcCu9GWWHtcDLDaKbbM3KQ/QOWZe1sWd
- bsYq+J2alsxPsH1ZgR401lhK6UMh4+RkQTcLyqVE8NZnJkM+rx1VnvwrnAMbOhn5sTOJ
- tiSEA3M/9PceWiN1JTh+fLtpW7R0eyyDsDusASBzxCs2kfEdiglyVyqOt1u8RSYhskB5
- ejWnMpn8rYPHlVFGOrX26lH8ppT870SFMhW+6kPYUufkJF+oGturUoBaIE5Ftfz4A/Cq
- Wb5aI39y51fzWymNftPbtGe1TvJdl2T09O0+/zEwnoN5kKhiRFGqhO61iT2kZf6n9ACj
- AIbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UGNrzErWTkxLmxh9La29txsfoELABioK+bURfbuipYc=;
- b=LZzdnLrPXmbN4Hpk6sx8iZvl7BCsCpr+tN4b8FdM2RzqiECy5YAHa8i7phdRYJbWQ1
- zmxCxgbXxifQpDzsalohRsvb+5tWsbqYnX+zmq29BMmmfCDZ5CFdcKTxeMg0nr55mdcA
- HVnqqy0IZnjWbLrvcg156aIRBsi5VlgxSWzFweR+PdyKLnLGaACg72NYA3mbRVzLex2D
- EixjsyEZn4rrCQzcPcHeL7aampEekbH7O52FSREHXkafvPzRFTy3BAECYULePta9lK//
- P2/pEed8K7sC/7KnJX+QCqy1Lj2y9kz4H1qaTFmcT0PpaOCpbTI3pBmlQ1punAkeksvi
- AHJg==
-X-Gm-Message-State: AOAM532AAJuPOSwzQlIlo7IFSfYXJtDP+NqRFpe7yufe6N1v3N5hZWOR
- OxLoVnBr0xhrU8+tkgPaQ/cWKA==
-X-Google-Smtp-Source: ABdhPJx+z+EJIFVR/baB9YaOob+BFc5dm+P1Csy9xgERRxWIW7FcTAJ5jDbkY65DThADASlZR3Vb0g==
-X-Received: by 2002:a17:902:8488:: with SMTP id
- c8mr22658413plo.49.1593620759155; 
- Wed, 01 Jul 2020 09:25:59 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s6sm5984163pfd.20.2020.07.01.09.25.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 09:25:58 -0700 (PDT)
-Subject: Re: [PATCH 1/1] tcg/tcg-op: nonatomic_op should work with smaller
- memop
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200701152156.1147-1-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e828263f-e592-d787-b4cd-44c41a41e7f3@linaro.org>
-Date: Wed, 1 Jul 2020 09:25:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jqfZ3-00010J-AH; Wed, 01 Jul 2020 12:26:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=HVQcCvlJZVUxJGZT8wJUTkWih5ydhK9u2rICirn7H2A=; 
+ b=YQ4GLCpp7lA/6u90W3qrb6rAi4QXVyRZhOxtVZq1tbD1KcLnry/WYww60K4GW1/OIMR54+RqIN3355RhImEqJ3Ob8shuiqjo8J/ohIhnhP6ZUH3GLHrjGFLev3DIwZcAri36fZcrt0I0V7679woC6ll3/ABPachxreB9BwHZ56i3wpu5lZdItD4uJE+1a3hV8qhvxx1yIZAK+2cnSIoQvOeYgi3W8CqYr/dD5v/MP1uxam+UbKahna0WOOBwGHEdfg9NKy02gbRjI6KA8iyKIN3uTB4n3Mnxwpxgavi3LeHQWrDvRDb3oiXIrLPaUARDwJAd+dlTFfrWCgMuKbTpcQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jqfYf-0000le-KB; Wed, 01 Jul 2020 18:26:01 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jqfYf-0005PC-7j; Wed, 01 Jul 2020 18:26:01 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v9 14/34] qcow2: Add QCow2SubclusterType and
+ qcow2_get_subcluster_type()
+In-Reply-To: <fae77394-92fd-d170-0ae6-051c0a024d04@redhat.com>
+References: <cover.1593342067.git.berto@igalia.com>
+ <6ee75696d3eaed56b46e91fe242fdfab51feb066.1593342067.git.berto@igalia.com>
+ <fae77394-92fd-d170-0ae6-051c0a024d04@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 01 Jul 2020 18:26:01 +0200
+Message-ID: <w51mu4jurqe.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200701152156.1147-1-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 12:26:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,24 +64,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com,
- wxy194768@alibaba-inc.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/20 8:21 AM, LIU Zhiwei wrote:
-> -    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
-> +    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
-> +    tcg_gen_ext_i32(val, val, memop);
->      gen(t2, t1, val);
+On Wed 01 Jul 2020 02:52:14 PM CEST, Max Reitz wrote:
+>>      if (l2_entry & QCOW_OFLAG_COMPRESSED) {
+>>          return QCOW2_CLUSTER_COMPRESSED;
+>> -    } else if (l2_entry & QCOW_OFLAG_ZERO) {
+>> +    } else if ((l2_entry & QCOW_OFLAG_ZERO) && !has_subclusters(s)) {
+>
+> OK, so now qcow2_get_cluster_type() reports zero clusters to be normal
+> or unallocated clusters when there are subclusters.  Seems weird to
+> me, because zero clusters are invalid clusters then.
 
-I was just about to post a simiar patch.
-The difference with mine is that I do not modify val:
+I'm actually hesitant about this.
 
--    gen(t2, t1, val);
-+    tcg_gen_ext_i32(t2, val, memop);
-+    gen(t2, t1, t2);
+In extended L2 entries QCOW_OFLAG_ZERO does not have any meaning so
+technically it doesn't need to be checked any more than the other
+reserved bits (1 to 8).
 
+The reason why we would want to check it is, of course, because that bit
+does have a meaning in regular L2 entries.
 
-r~
+But that bit is ignored in images with subclusters so the only reason
+why we would check it is to report corruption, not because we need to
+know its value.
+
+It's true that we do check it in v2 images, although in that case the
+entries are otherwise identical and there is a way to convert between
+both types.
+
+> I preferred just reporting them as zero clusters and letting the
+> caller deal with it, because it does mean an error in the image and so
+> it should be reported.
+
+Another alternative would be to add QCOW2_CLUSTER_INVALID and we could
+even include there other cases like unaligned offsets and things like
+that. But that would also affect the code that repairs corrupted images.
+
+Berto
 
