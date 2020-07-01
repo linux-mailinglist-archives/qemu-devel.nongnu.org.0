@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A95C210CB5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:51:41 +0200 (CEST)
-Received: from localhost ([::1]:46914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6B4210C66
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:38:55 +0200 (CEST)
+Received: from localhost ([::1]:35030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqd9I-00067F-GK
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
+	id 1jqcww-000887-6D
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1jqaOc-000535-MD
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:55:18 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1jqaOZ-0002Uy-TJ
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:55:18 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id b92so10882774pjc.4
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 03:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LlJqlZJa7ZWuVtTSYOwar8XRwVNpJmGU+/htF3nvuQo=;
- b=dypFHAYmqjU0uE3H4VXv6wlJ6MuJlodOMcGBJJbZLDhC+V9MqP0QH3d33BU0Zs2+Ky
- 2qc2Bf1Mfhy2UHwGaqPinTDYaN1wORuH+u5YSqj93rAA4ygxWDH4yPQzzv82fXzLa3+/
- cCRHXfBLuyT/OIh/tFdZdKon+wXV91ErNUW78gRCLn9gFJAXVQnCLqxMarGq/Fu2p9hm
- 7tW+q+3QR5LkCJcA8onPPqJSoKjI/y4xITdvMokqERC2WwJag8HwpNeghpPdvWfLdbpU
- T4I8gdgIJgXsd5Bt1MD/75UongA0wC2az53Xfml6iIjAwfLui8YtqdOnAsSfisjMJJHI
- qO8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LlJqlZJa7ZWuVtTSYOwar8XRwVNpJmGU+/htF3nvuQo=;
- b=XkfTfdse62tLmlAg3E3LBRtFI5tja6Zn1rWAjnQPAXCQXtKV3RdmQT/dltogMitmZR
- KEm3HECcE9c+DWAnyLeqd6SGKTNIaa2CA1VavCBNXl8y7b0weLsXD6ZB8a/pUbDMpROy
- NEIQsvlaAOaTFX1SmY2yIdBJYnfLO+kN2s+1bGs23EiLvbUi9J3HgEGGRV1m8Dqb6cRe
- KdEa6RkRAeIx4nZugqHEAMvzC3hgUpcUJag/efTxB9fwYHC8QMFYRN2FYcymBv7zxXiE
- eRAnn1f6gqgnrzcFZQTmEQ/FwOhkiEeS/I3ZYlA/oIVz67wJIZDA9pi4tYxv7DOyekee
- UDCw==
-X-Gm-Message-State: AOAM531BhdzlkxVNwOmsBD5aOUkGD18iKXB2kuyQ/ck+/fW5/hsT9Oav
- M8VYaA4KPRhwsGVmimxgNnMX
-X-Google-Smtp-Source: ABdhPJymDfvAJB3tXTh8DLtXb3+5/vZH0sAivmtzJBYc1gP8KykZLoJr8mu2kYvTi/NeYRxhFo3C6w==
-X-Received: by 2002:a17:90b:f97:: with SMTP id
- ft23mr24007872pjb.21.1593600914613; 
- Wed, 01 Jul 2020 03:55:14 -0700 (PDT)
-Received: from localhost ([103.136.221.66])
- by smtp.gmail.com with ESMTPSA id hg13sm4736522pjb.21.2020.07.01.03.55.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 03:55:14 -0700 (PDT)
-From: Xie Yongji <xieyongji@bytedance.com>
-To: pbonzini@redhat.com,
-	kwolf@redhat.com,
-	mreitz@redhat.com
-Subject: [PATCH 2/2] iscsi: return -EIO when sense fields are meaningless
-Date: Wed,  1 Jul 2020 18:54:44 +0800
-Message-Id: <20200701105444.3226-2-xieyongji@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200701105444.3226-1-xieyongji@bytedance.com>
-References: <20200701105444.3226-1-xieyongji@bytedance.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqcw0-0007eV-MJ
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:37:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56245
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqcvy-0002vD-Kl
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:37:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593610673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Wt4fvwe5YusF+7K+gK0NwmKJ9KyLocLxyeng9HNWMLA=;
+ b=B7nKjx4rKwnyfC1njKr22n6yKrrXTNolpqtqRCEGTAuDtcuKGrC5Y2mMmavagfjpmALLRj
+ RQ+STbaouyV+Yx6qVNAXrInsDMhgXOv4hVyHkWHVOC0qboWRKOFt2NFmcCLYBAnbmS4tEc
+ PQJEkEzIyOfYyO+S2qW5m1sdnkexAdo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-sijMzKqENXybHMavRLcoPw-1; Wed, 01 Jul 2020 09:37:51 -0400
+X-MC-Unique: sijMzKqENXybHMavRLcoPw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC2B980183C;
+ Wed,  1 Jul 2020 13:37:49 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-108.ams2.redhat.com
+ [10.36.113.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D91EF5DA27;
+ Wed,  1 Jul 2020 13:37:47 +0000 (UTC)
+Subject: Re: [PATCH v9 15/34] qcow2: Add qcow2_get_subcluster_range_type()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1593342067.git.berto@igalia.com>
+ <fcdea8c2c9c1e5cd4573854268e151350d2af0fb.1593342067.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <36bfab7d-12f5-42b7-113a-30ca44c7d857@redhat.com>
+Date: Wed, 1 Jul 2020 15:37:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <fcdea8c2c9c1e5cd4573854268e151350d2af0fb.1593342067.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="qfcmNRPoB8iIlBUsAiCJxmIqVjfkPUqhl"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 01 Jul 2020 09:50:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,37 +107,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyongji@bytedance.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- elohimes@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an I/O request failed, now we only return correct
-value on scsi check condition. We should also have a
-default errno such as -EIO in other case.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qfcmNRPoB8iIlBUsAiCJxmIqVjfkPUqhl
+Content-Type: multipart/mixed; boundary="KvgHvqbq5aHvoqf8eceGk5UMIlpRVVuMr"
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
----
- block/iscsi.c | 2 ++
- 1 file changed, 2 insertions(+)
+--KvgHvqbq5aHvoqf8eceGk5UMIlpRVVuMr
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 2964c9f8d2..387ed872ef 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -241,9 +241,11 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
- 
-     iTask->status = status;
-     iTask->do_retry = 0;
-+    iTask->err_code = 0;
-     iTask->task = task;
- 
-     if (status != SCSI_STATUS_GOOD) {
-+        iTask->err_code = -EIO;
-         if (iTask->retries++ < ISCSI_CMD_RETRIES) {
-             if (status == SCSI_STATUS_BUSY ||
-                 status == SCSI_STATUS_TIMEOUT ||
--- 
-2.11.0
+On 28.06.20 13:02, Alberto Garcia wrote:
+> There are situations in which we want to know how many contiguous
+> subclusters of the same type there are in a given cluster. This can be
+> done by simply iterating over the subclusters and repeatedly calling
+> qcow2_get_subcluster_type() for each one of them.
+>=20
+> However once we determined the type of a subcluster we can check the
+> rest efficiently by counting the number of adjacent ones (or zeroes)
+> in the bitmap. This is what this function does.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/qcow2-cluster.c | 51 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--KvgHvqbq5aHvoqf8eceGk5UMIlpRVVuMr--
+
+--qfcmNRPoB8iIlBUsAiCJxmIqVjfkPUqhl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl78kaoACgkQ9AfbAGHV
+z0BMrwf+MNlzrv/AThyYsoLlslwv+fHWtIeaubhuqYRTCx2L02AlYoWrqCNYM7wE
+AciytnSEX3bCZo+lF0Cz/DtTmWMU2rbChYPQgOse7G5Er5RMleAQ1kzBkqR60WbX
+Q/ziFQpwgp6Ow1JPf5B3dNt4PFPpwj0waoJ+P/eFfC+/cpurDj843klzyVbGZ5Sd
+LYzCTaARU7TTqntKUpQ4nq0UqI5S0T2aIpW4Nk1McgTQhuEoCAEC2X8JTwZv3Mex
+C/1cVwqwUloYdiMbt29fTuja/C8NfEoEi8NxB4cja7LeLuOE4bzEqmIxT2DuZFhQ
+4vXWOT/h/4B80gX3s3QqXlVvRGFQQg==
+=moof
+-----END PGP SIGNATURE-----
+
+--qfcmNRPoB8iIlBUsAiCJxmIqVjfkPUqhl--
 
 
