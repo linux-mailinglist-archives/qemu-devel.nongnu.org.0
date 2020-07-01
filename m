@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECD1210E50
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:04:09 +0200 (CEST)
-Received: from localhost ([::1]:41072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC58210E5E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:06:21 +0200 (CEST)
+Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeHQ-0001Gu-Lh
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:04:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
+	id 1jqeJY-0004TJ-Kg
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeER-0006tC-0n
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:01:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31570
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeFI-00087f-W6
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:01:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49427
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeEO-00005R-Va
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:01:02 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeFG-0000G4-5Y
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:01:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615659;
+ s=mimecast20190719; t=1593615713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mFdUgkeC8YnD8kkrGxCMNpjjQq34bFTRWXlPBd6ksmI=;
- b=etYEWdE2sXPuK26xGKW2+mI04P95Zpj7vul03O+zTReOyi4j7A1Wrlgdxut8Clqw1A7wwG
- eTwmxfrZVvYvfXysNVF2n+hLv3BbtaxAtegnPAFosJCqIRvMbaoU95mFw267VJeY11SCSP
- nbkj14dlfKs7YwYAYdOXLDPQ1zVirCw=
+ bh=XzbLkXteyuQZL5K9PSglBcLVAXDEYwEjIyRzePzP4dY=;
+ b=LlTM9TxKv6gdNYT5ZnYcw8GuB20ZPm1nsOqt3ITfPXwQ8aVjgwCI8k6MIreVpx0K4Sshex
+ 8Zlrn3bjJLstNTe1DOSWSIQ2rBlMnA8ii/FWZyWpd1nI16umB6FC86tALMqR3z1INX00Jy
+ KSdXDvNrALe4X93HlqMvzzq0gbUpDiM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-5-fup-igPpSA2XTFtG6TKg-1; Wed, 01 Jul 2020 11:00:56 -0400
-X-MC-Unique: 5-fup-igPpSA2XTFtG6TKg-1
+ us-mta-238-4NxCAqIDO8eDBT3rVHYz-A-1; Wed, 01 Jul 2020 11:01:49 -0400
+X-MC-Unique: 4NxCAqIDO8eDBT3rVHYz-A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B2E880183C;
- Wed,  1 Jul 2020 15:00:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44D0C107BF09;
+ Wed,  1 Jul 2020 15:01:33 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-19.pek2.redhat.com [10.72.12.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 327D073FE1;
- Wed,  1 Jul 2020 15:00:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2BEF73FD2;
+ Wed,  1 Jul 2020 15:00:59 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v4 11/14] vhost: implement vhost_force_iommu method
-Date: Wed,  1 Jul 2020 22:55:35 +0800
-Message-Id: <20200701145538.22333-12-lulu@redhat.com>
+Subject: [PATCH v4 12/14] vhost_net: introduce set_config & get_config
+Date: Wed,  1 Jul 2020 22:55:36 +0800
+Message-Id: <20200701145538.22333-13-lulu@redhat.com>
 In-Reply-To: <20200701145538.22333-1-lulu@redhat.com>
 References: <20200701145538.22333-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,29 +91,75 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use the vhost_force_iommu callback to force enable feature bit VIRTIO_F_IOMMU_PLATFORM
+This patch introduces set_config & get_config  method which allows
+vhost_net set/get the config to backend
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/vhost.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/net/vhost_net-stub.c | 11 +++++++++++
+ hw/net/vhost_net.c      | 10 ++++++++++
+ include/net/vhost_net.h |  5 +++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1e083a8976..1a1384e7a6 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -810,6 +810,11 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
-     if (!vhost_dev_has_iommu(dev)) {
-         features &= ~(0x1ULL << VIRTIO_F_IOMMU_PLATFORM);
-     }
-+    if (dev->vhost_ops->vhost_force_iommu) {
-+        if (dev->vhost_ops->vhost_force_iommu(dev) == true) {
-+            features |= 0x1ULL << VIRTIO_F_IOMMU_PLATFORM;
-+       }
-+    }
-     r = dev->vhost_ops->vhost_set_features(dev, features);
-     if (r < 0) {
-         VHOST_OPS_DEBUG("vhost_set_features failed");
+diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
+index aac0e98228..a7f4252630 100644
+--- a/hw/net/vhost_net-stub.c
++++ b/hw/net/vhost_net-stub.c
+@@ -52,6 +52,17 @@ uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
+     return features;
+ }
+ 
++int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
++                         uint32_t config_len)
++{
++    return 0;
++}
++int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags)
++{
++    return 0;
++}
++
+ void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
+ {
+ }
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 4096d64aaf..4561665f6b 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -110,6 +110,16 @@ uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
+     return vhost_get_features(&net->dev, vhost_net_get_feature_bits(net),
+             features);
+ }
++int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
++                         uint32_t config_len)
++{
++    return vhost_dev_get_config(&net->dev, config, config_len);
++}
++int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags)
++{
++    return vhost_dev_set_config(&net->dev, data, offset, size, flags);
++}
+ 
+ void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
+ {
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 77e47398c4..172b0051d8 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -28,6 +28,11 @@ void vhost_net_cleanup(VHostNetState *net);
+ uint64_t vhost_net_get_features(VHostNetState *net, uint64_t features);
+ void vhost_net_ack_features(VHostNetState *net, uint64_t features);
+ 
++int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
++                         uint32_t config_len);
++
++int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
++                         uint32_t offset, uint32_t size, uint32_t flags);
+ bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
+ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
+                               int idx, bool mask);
 -- 
 2.21.1
 
