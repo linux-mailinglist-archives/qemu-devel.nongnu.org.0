@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A191B210EC2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:12:28 +0200 (CEST)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38024210EED
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:18:25 +0200 (CEST)
+Received: from localhost ([::1]:35092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqePT-0006VG-LM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49990)
+	id 1jqeVD-0007lr-UN
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHy-0003L9-Ew
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36215
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHz-0003NJ-AV
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54156
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHt-0001Bw-T1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHu-0001CE-IM
  for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593615877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=s9lpJ0X/aEDgG6zO8jjDhK3MgGP15i17mBr3cXrA6fE=;
- b=I7KlvTlClNa4RFeN8dF3WvG/xpA78pC1zTBhJ5G0SLPhMOjiDRZTNWP95wUJgMSlIqiin0
- Of5+7SIMRQlypbqSF36XgBX9l0rd6O0QlcBCp11/5r+PwnlRBoF318ZcwTKaPMe+F3YdGA
- Jir0/uGbLNCdBOhBgtUZJXJ10drvnH4=
+ references:references; bh=253AYkQqIOJliwnkH5Yrery8nHxm/AbhJzsuSYZY1J8=;
+ b=U5WcaGWERvPuA3+M6yV3drTzoP6Fv1eiuirTYGxRuwv1vN4scOUokDpsS/U9u2ULRrEPBq
+ 0tTqUdJXc5Q2G1A7SIoyhpl8tuYI1RTrPt4pM9N3e5xN50tNVB6O6Bz25kY2qhpfR5B6V1
+ 7616DhAHlva0l++oLpG2UNwly+7a9PQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-XcFhm0bFNd6yRB7GfXDEPw-1; Wed, 01 Jul 2020 11:04:33 -0400
-X-MC-Unique: XcFhm0bFNd6yRB7GfXDEPw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-496-Ur1hck2lMRqGOnn5_rX6eg-1; Wed, 01 Jul 2020 11:04:34 -0400
+X-MC-Unique: Ur1hck2lMRqGOnn5_rX6eg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D886B7BAD;
- Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9DFB107ACCA;
+ Wed,  1 Jul 2020 15:04:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B72610013C0;
- Wed,  1 Jul 2020 15:04:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9ED515DA27;
+ Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6B9AA45BD; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
+ id 74D721FCF5; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] sm501: Introduce variable for commonly used value for
- better readability
-Date: Wed,  1 Jul 2020 17:04:16 +0200
-Message-Id: <20200701150425.13739-5-kraxel@redhat.com>
+Subject: [PULL 05/13] sm501: Optimise 1 pixel 2d ops
+Date: Wed,  1 Jul 2020 17:04:17 +0200
+Message-Id: <20200701150425.13739-6-kraxel@redhat.com>
 In-Reply-To: <20200701150425.13739-1-kraxel@redhat.com>
 References: <20200701150425.13739-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,131 +84,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The bytes per pixel value can be calculated from format but it's used
-freqently enough (and will be used more in subseqent patches) so store
-it in a variable for better readabilty. Also drop some unneded 0x
-prefix around where new variable is defined.
+Some guests do 1x1 blits which is faster to do directly than calling a
+function for it so avoid overhead in this case.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: b9ea5ef2d68583db9f3fb73a2b859abbd7c044a8.1592686588.git.balaton@eik.bme.hu
+Message-id: 7cccc302d7b4c5c313bad7681ac4686417143c3e.1592686588.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/sm501.c | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ hw/display/sm501.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index ad5a62bfab1b..3ced2c42db3a 100644
+index 3ced2c42db3a..2098e6981014 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -684,10 +684,11 @@ static void sm501_2d_operation(SM501State *s)
- {
-     int cmd = (s->twoD_control >> 16) & 0x1F;
-     int rtl = s->twoD_control & BIT(27);
--    int format = (s->twoD_stretch >> 20) & 0x3;
--    int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
-+    int format = (s->twoD_stretch >> 20) & 3;
-+    int bypp = 1 << format; /* bytes per pixel */
-+    int rop_mode = (s->twoD_control >> 15) & 1; /* 1 for rop2, else rop3 */
-     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
--    int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
-+    int rop2_source_is_pattern = (s->twoD_control >> 14) & 1;
-     int rop = s->twoD_control & 0xFF;
-     unsigned int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
-     unsigned int dst_y = s->twoD_destination & 0xFFFF;
-@@ -724,8 +725,8 @@ static void sm501_2d_operation(SM501State *s)
-     }
- 
-     if (dst_base >= get_local_mem_size(s) ||
--        dst_base + (dst_x + width + (dst_y + height) * dst_pitch) *
--        (1 << format) >= get_local_mem_size(s)) {
-+        dst_base + (dst_x + width + (dst_y + height) * dst_pitch) * bypp >=
-+        get_local_mem_size(s)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "sm501: 2D op dest is outside vram.\n");
-         return;
-     }
-@@ -750,8 +751,8 @@ static void sm501_2d_operation(SM501State *s)
-         }
- 
-         if (src_base >= get_local_mem_size(s) ||
--            src_base + (src_x + width + (src_y + height) * src_pitch) *
--            (1 << format) >= get_local_mem_size(s)) {
-+            src_base + (src_x + width + (src_y + height) * src_pitch) * bypp >=
-+            get_local_mem_size(s)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "sm501: 2D op src is outside vram.\n");
-             return;
-@@ -763,8 +764,8 @@ static void sm501_2d_operation(SM501State *s)
-             uint8_t *d = s->local_mem + dst_base;
- 
-             for (y = 0; y < height; y++) {
--                i = (dst_x + (dst_y + y) * dst_pitch) * (1 << format);
--                for (x = 0; x < width; x++, i += (1 << format)) {
-+                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-+                for (x = 0; x < width; x++, i += bypp) {
-                     switch (format) {
-                     case 0:
-                         d[i] = ~d[i];
-@@ -801,7 +802,7 @@ static void sm501_2d_operation(SM501State *s)
-             de = db + width + height * (width + dst_pitch);
-             if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
-                 /* regions may overlap: copy via temporary */
--                int llb = width * (1 << format);
-+                int llb = width * bypp;
-                 int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
-                 uint32_t *tmp = tmp_buf;
- 
-@@ -809,13 +810,13 @@ static void sm501_2d_operation(SM501State *s)
-                     tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
-                 }
-                 pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
--                           src_pitch * (1 << format) / sizeof(uint32_t),
--                           tmp_stride, 8 * (1 << format), 8 * (1 << format),
-+                           src_pitch * bypp / sizeof(uint32_t),
-+                           tmp_stride, 8 * bypp, 8 * bypp,
-                            src_x, src_y, 0, 0, width, height);
-                 pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
-                            tmp_stride,
--                           dst_pitch * (1 << format) / sizeof(uint32_t),
--                           8 * (1 << format), 8 * (1 << format),
-+                           dst_pitch * bypp / sizeof(uint32_t),
-+                           8 * bypp, 8 * bypp,
-                            0, 0, dst_x, dst_y, width, height);
-                 if (tmp != tmp_buf) {
-                     g_free(tmp);
-@@ -823,9 +824,9 @@ static void sm501_2d_operation(SM501State *s)
-             } else {
-                 pixman_blt((uint32_t *)&s->local_mem[src_base],
-                            (uint32_t *)&s->local_mem[dst_base],
--                           src_pitch * (1 << format) / sizeof(uint32_t),
--                           dst_pitch * (1 << format) / sizeof(uint32_t),
--                           8 * (1 << format), 8 * (1 << format),
-+                           src_pitch * bypp / sizeof(uint32_t),
-+                           dst_pitch * bypp / sizeof(uint32_t),
-+                           8 * bypp, 8 * bypp,
-                            src_x, src_y, dst_x, dst_y, width, height);
+@@ -794,6 +794,14 @@ static void sm501_2d_operation(SM501State *s)
+                 src_x == dst_x && src_y == dst_y) {
+                 break;
              }
-         }
-@@ -842,8 +843,8 @@ static void sm501_2d_operation(SM501State *s)
++            /* Some clients also do 1 pixel blits, avoid overhead for these */
++            if (width == 1 && height == 1) {
++                unsigned int si = (src_x + src_y * src_pitch) * bypp;
++                unsigned int di = (dst_x + dst_y * dst_pitch) * bypp;
++                stn_he_p(&s->local_mem[dst_base + di], bypp,
++                         ldn_he_p(&s->local_mem[src_base + si], bypp));
++                break;
++            }
+             /* Check for overlaps, this could be made more exact */
+             uint32_t sb, se, db, de;
+             sb = src_base + src_x + src_y * (width + src_pitch);
+@@ -842,9 +850,14 @@ static void sm501_2d_operation(SM501State *s)
+             color = cpu_to_le16(color);
          }
  
-         pixman_fill((uint32_t *)&s->local_mem[dst_base],
--                    dst_pitch * (1 << format) / sizeof(uint32_t),
--                    8 * (1 << format), dst_x, dst_y, width, height, color);
-+                    dst_pitch * bypp / sizeof(uint32_t),
-+                    8 * bypp, dst_x, dst_y, width, height, color);
+-        pixman_fill((uint32_t *)&s->local_mem[dst_base],
+-                    dst_pitch * bypp / sizeof(uint32_t),
+-                    8 * bypp, dst_x, dst_y, width, height, color);
++        if (width == 1 && height == 1) {
++            unsigned int i = (dst_x + dst_y * dst_pitch) * bypp;
++            stn_he_p(&s->local_mem[dst_base + i], bypp, color);
++        } else {
++            pixman_fill((uint32_t *)&s->local_mem[dst_base],
++                        dst_pitch * bypp / sizeof(uint32_t),
++                        8 * bypp, dst_x, dst_y, width, height, color);
++        }
          break;
      }
      default:
-@@ -855,7 +856,7 @@ static void sm501_2d_operation(SM501State *s)
-     if (dst_base >= get_fb_addr(s, crt) &&
-         dst_base <= get_fb_addr(s, crt) + fb_len) {
-         int dst_len = MIN(fb_len, ((dst_y + height - 1) * dst_pitch +
--                          dst_x + width) * (1 << format));
-+                          dst_x + width) * bypp);
-         if (dst_len) {
-             memory_region_set_dirty(&s->local_mem_region, dst_base, dst_len);
-         }
 -- 
 2.18.4
 
