@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3ED4210FC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:53:01 +0200 (CEST)
-Received: from localhost ([::1]:54322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2444B210FDF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:56:45 +0200 (CEST)
+Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqf2i-0001xz-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34064)
+	id 1jqf6K-00082l-2a
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqf1Y-0000aZ-Ls
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:51:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47948
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqf1X-0001kO-8I
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:51:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593618706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wc8LNqtAUumxszmyRPO6oz14eb5DpQckn5jm2wR3ybE=;
- b=FvFM1duMB4KrNa7NNwLBVUXAv1siEro2gW6z3wVYARUxjl6UCXijigHaC2/DOXtvlOTiuJ
- 65q2Ha8HQw6wtufgjXthdwSODQDtDMsSgHPqdWsoqmud9G+TTIJd1mq9CcZKDHWjKNPek3
- srmseUWKHwUFnk5s6nti6RDE8KR96Bw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-tCkEYBicN_ehJ1bx2aoadA-1; Wed, 01 Jul 2020 11:51:41 -0400
-X-MC-Unique: tCkEYBicN_ehJ1bx2aoadA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6A48015CE;
- Wed,  1 Jul 2020 15:51:40 +0000 (UTC)
-Received: from localhost (ovpn-113-121.ams2.redhat.com [10.36.113.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0DFF71662;
- Wed,  1 Jul 2020 15:51:39 +0000 (UTC)
-Date: Wed, 1 Jul 2020 16:51:38 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 08/12] block/nvme: Replace qemu_try_blockalign(bs) by
- qemu_try_memalign(pg_sz)
-Message-ID: <20200701155138.GR126613@stefanha-x1.localdomain>
-References: <20200630191318.30021-1-philmd@redhat.com>
- <20200630191318.30021-9-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqf4l-0006Bm-Mv
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:55:08 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqf4j-0002pt-QO
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:55:07 -0400
+Received: by mail-ej1-x642.google.com with SMTP id w16so25359533ejj.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=66IoJJYbx2eqPTYwnGocI9DHSH178FfXyaJnef75iLs=;
+ b=XvkeTcznqFK9b8x7rgHaJHJ4WMkgroSCDY16WmAMdwwIvgfcXwecCypW1UAEImh9UN
+ t7dMM/hCTPsQCF/L8EPo1b8fMEqTAdc2X/6n0NbC1hi/UamxisFlevziGrIazi0RC1GT
+ 5pGGUmx3joQfyuSDxPO75O1r78m+QOL3KfFHrHI7et2bHN8W7U0EVcfe4JkxTPdx56Rd
+ iPkbBp4KwREmKuGiqOXlcOSHMoTXbdknLQHF5uBfLEojj5v+RCPANAP4vg99C83AW6eW
+ +xsGx/Xb7kAz8aeC2QPTEE0Yi+Ma2z7DwG8enYbSapB7LgK3euMdx37bIHvUoMyXKrOs
+ w0vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=66IoJJYbx2eqPTYwnGocI9DHSH178FfXyaJnef75iLs=;
+ b=JIT50XNoxArz9dBQPXE5w+zv0hoONrz3mS7eF4EYqkNI35m75nhgwpGtjZHFUX0n3Z
+ 3/gtZ0DnVQ0qX9AExDrkH4lXEXlYL+vzcaMSP4KsLl8GMkNguMXd6hk2plUD/n7KMEZJ
+ j3HaD9sK7DCnoBmYdNaAJ9ybQC79eNoPSm7zyo08stwbBYvowmuuJeP1PaWfmx46tghy
+ lxFryecB6sKkTDh9HSDbJHLz0pmtFo8kT4dFEVW1Nnuj3ev6eCu41oGVwBle7yw58K8A
+ +VCZMPU/Qa4M96s9yJj1/n1mFY8M+jmgcQ8C4aNRd1kGgOsQCIFYxu2nfYnZgbWsfXEI
+ M4+Q==
+X-Gm-Message-State: AOAM533gk/bNc9Acte8Yy50zycyPpWnPTq+zrnyefulXH4KKAyTCzWrK
+ lQR1Y+Ch/Re64tRGpLMcBRU=
+X-Google-Smtp-Source: ABdhPJxdKAiM84LQ/qJSX3Oq2iWvwJoz58yh3fapcIZYkLP0kDj5ZqmU4y0Q8/IHvkKAyiRxGVedSw==
+X-Received: by 2002:a17:906:5912:: with SMTP id
+ h18mr23310104ejq.259.1593618903881; 
+ Wed, 01 Jul 2020 08:55:03 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id bc23sm6568300edb.90.2020.07.01.08.55.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 08:55:03 -0700 (PDT)
+Subject: Re: [PATCH v4 27/40] tests/acceptance: fix dtb path for
+ machine_rx_gdbsim
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200701135652.1366-1-alex.bennee@linaro.org>
+ <20200701135652.1366-28-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4db591b4-4db6-380e-15ec-8ff142c60854@amsat.org>
+Date: Wed, 1 Jul 2020 17:55:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200630191318.30021-9-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="teKjxxMjPsACTz/N"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200701135652.1366-28-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
+ Cleber Rosa <crosa@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---teKjxxMjPsACTz/N
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 30, 2020 at 09:13:14PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> qemu_try_blockalign() is a generic API that call back to the
-> block driver to return its page alignment. As we call from
-> within the very same driver, we already know to page alignment
-> stored in our state. Remove indirections and use the value from
-> BDRVNVMeState.
-> This change is required to later remove the BlockDriverState
-> argument, to make nvme_init_queue() per hardware, and not per
-> block driver.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+On 7/1/20 3:56 PM, Alex Bennée wrote:
+> The old path doesn't exist but the rx-virt.dtb file has the same
+> checksum so lets use that.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  block/nvme.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  tests/acceptance/machine_rx_gdbsim.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
+> index a44f2c87da0..bff63e421d5 100644
+> --- a/tests/acceptance/machine_rx_gdbsim.py
+> +++ b/tests/acceptance/machine_rx_gdbsim.py
+> @@ -50,7 +50,7 @@ class RxGdbSimMachine(Test):
+>          :avocado: tags=machine:gdbsim-r5f562n7
+>          :avocado: tags=endian:little
+>          """
+> -        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb')
+> +        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-virt.dtb')
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Or:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg718316.html
 
---teKjxxMjPsACTz/N
-Content-Type: application/pgp-signature; name="signature.asc"
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl78sQoACgkQnKSrs4Gr
-c8iyRwgArQ637WVcJvvGsDfQFBx84WajJLEWRp8GQuA7h97B/XdrKoMb0/DA6kiC
-gRVLfzmyNZk6rxmxIwbjrisOB1slPVntMJmCDBMIkiG19zsajKLkvIeH6lS1FwH0
-VLwukE173bsdhPsz1U+OuOcstJlPW1KsNIN+A1V5sLPjbHmgqsIeXM+stStIysF3
-TuZft7ro8Z/HWMkJxf/2DA1A7VsZuosYoTsHMA8adkuZ2bn+KLTTTtFUiCjJ5b71
-kGdjZ4bUwe6BiWXboxSpQI8/sG6Kdw4GNVXApvjjiDedUdZoc6VGNc5GSHDS4S/x
-sXBkK++C+OYrmjEw051DTn2LQVg4IQ==
-=4hs6
------END PGP SIGNATURE-----
-
---teKjxxMjPsACTz/N--
-
+>          dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
+>          dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
+>          kernel_url = ('http://acc.dl.osdn.jp/users/23/23845/zImage')
+> 
 
