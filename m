@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A0E211047
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:09:23 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3268421102F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:06:28 +0200 (CEST)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfIY-0001IX-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
+	id 1jqfFj-0003lv-56
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqfAP-0006BM-2T
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:00:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44498)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqf9R-00054V-Qg
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:59:58 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqfAH-0004Q8-Fy
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:00:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqfAC-00050n-0P
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 16:00:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 013042E80BA
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 16:00:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqf9P-0003oV-VI
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:59:57 -0400
+Received: by mail-ej1-x641.google.com with SMTP id lx13so6714943ejb.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vWyTOJ0gJZqQnb+e8CIRNzlbT2jRcTwfWDz7YwtpvWs=;
+ b=bAK0A8YCuOq8UqHHlFQ4a3CNPGv2GRvKVjBD2OnKn5RC7iTxT3D6in3IDkkCa7HikL
+ q7SRqmJFwbuoZNc2Wfez2hdUMRW++eP2lX9lUt67HwBOOLbmc0pK4cVLnSVTBX/ycam1
+ n82AZgjIYBn8+r8kj3Db4E8faVjdTqYWjCb+d0ZRB5+0trFNZD3sSReRAMXP54NNq94l
+ /WCQWwXCJgS9UIvQ4i68zvVh4LP3EZDiPvmgWHWk2kwLd/erMOl1yhBEovQWFMRPm9lR
+ ZECRlApX4PMez2l2LCF/pgmVd2XHYoXrbH1BbXjtqQ8DT1IqlF/ASqyY3LwvdSFrxjSI
+ bQMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vWyTOJ0gJZqQnb+e8CIRNzlbT2jRcTwfWDz7YwtpvWs=;
+ b=mxmXJotho1IOPBEyOxN1v0dRnVg04HF3tga6aTRA/pqXz6Cfxnx2NC7XDojVXuTDBn
+ 75hw5CqFtuIu30fMLUwVzx6gLKIKl2men7Mn0EQfVwxeqKk6lJpTtwCJztMKwwq8kotQ
+ +sVYuCU44Y3lJ3wphdN34y1LnrlJMnpA34CJqGOaEJx+4CERL//cRsvOLJyouAxd44/B
+ deLDIyFhxAXmpnXe/ibXzk6dhQJNOqSeH69e5+ITC9di6Z8JH77KC8waJNNqmalOp5TY
+ PKCTAT/Mj3aN1AtX0HhMTAtPH8octTEyU8ZqG+plW6PqX1xiRmFaX+vxARYZZ/eXbmOC
+ 5wzw==
+X-Gm-Message-State: AOAM531xzrZgH73GFI7S6QZAphS+jEDEaTU4Arv9MQ5cmKAZDZo9m1e+
+ EzhL5f7qUX9zvgAGskihgQq0MAwwiKw=
+X-Google-Smtp-Source: ABdhPJzteFYRquKFGOF2nccI46jihi8SafeCPZUv1X7/0r8K4gDWEdUJWkaC6vN6zw6HoPe6DDnypw==
+X-Received: by 2002:a17:906:9244:: with SMTP id
+ c4mr23174804ejx.60.1593619194218; 
+ Wed, 01 Jul 2020 08:59:54 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id c9sm6600121edv.8.2020.07.01.08.59.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 08:59:53 -0700 (PDT)
+Subject: Re: [PATCH v4 39/40] testing: add check-build target
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200701135652.1366-1-alex.bennee@linaro.org>
+ <20200701135652.1366-40-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0cd46360-19ff-6ca3-46f7-7e3712a971e4@amsat.org>
+Date: Wed, 1 Jul 2020 17:59:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2020 15:51:08 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878645@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr ajbennee philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
- <20200701135652.1366-2-alex.bennee@linaro.org>
-Message-Id: <85314d31-813a-8c20-7522-5186d5f31884@redhat.com>
-Subject: [Bug 1878645] Re: [PATCH v4 01/40] hw/isa: check for current_cpu
- before generating IRQ
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 15e541885a0d22a6de98670860074508997d6935
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:05:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200701135652.1366-40-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,139 +92,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/20 3:56 PM, Alex Benn=C3=A9e wrote:
-> It's possible to trigger this function from qtest/monitor at which
-> point current_cpu won't point at the right place. Check it and
-> fall back to first_cpu if it's NULL.
-> =
-
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Bug 1878645 <1878645@bugs.launchpad.net>
+On 7/1/20 3:56 PM, Alex Bennée wrote:
+> If we want to continue to split build and check phase it seems like a
+> good idea to allow building of the tests during our multi-threaded
+> build phase.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  hw/isa/lpc_ich9.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
+>  .gitlab-ci.yml         |  5 ++++-
+>  tests/Makefile.include | 17 +++++++++++++----
+>  2 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 83e38ea19f3..b0e5417146b 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -36,7 +36,7 @@ include:
+>      - make -j"$JOBS"
+>      - if test -n "$MAKE_CHECK_ARGS";
+>        then
+> -        make $MAKE_CHECK_ARGS ;
+> +        make -j"$JOBS" $MAKE_CHECK_ARGS ;
+>        fi
+>  
+>  .native_test_job_template: &native_test_job_definition
+> @@ -60,6 +60,7 @@ build-system-ubuntu-main:
+>      TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
+>        moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
+>        riscv64-softmmu sparc-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+>        - build
+> @@ -90,6 +91,7 @@ build-system-fedora-alt:
+>      TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+>        riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
+>        xtensa-softmmu nios2-softmmu or1k-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+>        - build
+> @@ -124,6 +126,7 @@ build-system-fedora-disabled:
+>        --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+>        --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+>      TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
+> +    MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+>        - build
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index c316e0d6647..94b1cc8302e 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -22,6 +22,8 @@ endif
+>  	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+>  	@echo " $(MAKE) check-clean          Clean the tests and related data"
+>  	@echo
+> +	@echo "The following are useful for CI builds"
+> +	@echo " $(MAKE) check-build          Build most test binaris"
 
-> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> index cd6e169d47a..791c878eb0b 100644
-> --- a/hw/isa/lpc_ich9.c
-> +++ b/hw/isa/lpc_ich9.c
-> @@ -439,7 +439,7 @@ static void ich9_apm_ctrl_changed(uint32_t val, void =
-*arg)
->                  cpu_interrupt(cs, CPU_INTERRUPT_SMI);
->              }
->          } else {
-> -            cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
-> +            cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_INT=
-ERRUPT_SMI);
+Typo "binaries".
 
-I'm not sure this change anything, as first_cpu is NULL when using
-qtest accelerator or none-machine, see 508b4ecc39 ("gdbstub.c: fix
-GDB connection segfault caused by empty machines").
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
->          }
->      }
->  }
->
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878645
-
-Title:
-  null-ptr dereference in ich9_apm_ctrl_changed
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input which triggers a NULL pointer dereference=
- in
-  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
-is bug
-  is specific to QTest?
-
-  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
-  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D23862=3D=3DHint: address points to the zero page.
-      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
-mu/accel/tcg/tcg-all.c:57:21
-      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
-ude/hw/core/cpu.h:872:5
-      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
-emu/hw/isa/lpc_ich9.c:442:13
-      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
-hw/isa/apm.c:50:13
-      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/memory.c:483:5
-      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/memory.c:544:18
-      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/memory.c:1476:16
-      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3137:23
-      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
-c.c:3177:14
-      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
-u/exec.c:3268:18
-      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
-:60:5
-      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
-qemu/qtest.c:392:13
-      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/qtest.c:710:9
-      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
-c:722:5
-      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/chardev/char.c:183:9
-      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
-/chardev/char.c:195:9
-      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
-ev/char-fd.c:68:9
-      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/io/channel-watch.c:84:12
-      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0xc9c819)
-
-  =
-
-  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
-qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
-  outl 0xcf8 0x8400f841
-  outl 0xcfc 0xaa215d6d
-  outl 0x6d30 0x2ef8ffbe
-  outb 0xb2 0x20
-  EOF
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
+>  	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
+>  	@echo
+>  	@echo
+> @@ -649,6 +651,10 @@ $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(c
+>  	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
+>  	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
+>  
+> +build-qtest: $(patsubst %, %-softmmu/all, $(QTEST_TARGETS)) $(check-qtest-y)
+> +
+> +build-unit: $(check-unit-y)
+> +
+>  check-unit: $(check-unit-y)
+>  	$(call do_test_human, $^)
+>  
+> @@ -680,7 +686,6 @@ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check
+>  FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
+>  
+>  # the build dir is created by configure
+> -.PHONY: $(FP_TEST_BIN)
+>  $(FP_TEST_BIN): config-host.h $(test-util-obj-y)
+>  	$(call quiet-command, \
+>  	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
+> @@ -814,9 +819,10 @@ check-softfloat-ops: $(SF_MATH_RULES)
+>  
+>  .PHONY: check-softfloat
+>  ifeq ($(CONFIG_TCG),y)
+> -check-softfloat: check-softfloat-conv check-softfloat-compare check-softfloat-ops
+> +build-softfloat: $(FP_TEST_BIN)
+> +check-softfloat: build-softfloat check-softfloat-conv check-softfloat-compare check-softfloat-ops
+>  else
+> -check-softfloat:
+> +build-softfloat check-softfloat:
+>  	$(call quiet-command, /bin/true, "FLOAT TEST", \
+>  		"SKIPPED for non-TCG builds")
+>  endif
+> @@ -955,7 +961,8 @@ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+>  ifeq ($(CONFIG_TOOLS),y)
+>  check-block: $(patsubst %,check-%, $(check-block-y))
+>  endif
+> -check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
+> +check-build: build-unit build-softfloat build-qtest
+> +
+>  check-clean:
+>  	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
+>  	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y:%=tests/qtest/%$(EXESUF))) $(check-qtest-generic-y:%=tests/qtest/%$(EXESUF)))
+> @@ -963,6 +970,8 @@ check-clean:
+>  	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
+>  	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
+>  
+> +check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
+> +
+>  clean: check-clean
+>  
+>  # Build the help program automatically
+> 
 
