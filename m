@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82136210D51
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:15:16 +0200 (CEST)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB33210D0C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:05:21 +0200 (CEST)
+Received: from localhost ([::1]:56174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdW7-000898-G8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:15:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
+	id 1jqdMW-0006Vy-14
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdL3-0005Gq-JP
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:49 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38324)
+ id 1jqdEu-0002cC-Vt
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdL1-0006rj-PD
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:49 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z13so23992230wrw.5
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:47 -0700 (PDT)
+ id 1jqdEj-0005tW-4e
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:28 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h5so23947241wrc.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bOvcEoh+VzOuY+elSS3lw/PZUPV6sZX2V0ial7PUh0E=;
- b=JLKoQ3J7EBzWdb5NlzmrWWeO78CTnNVWr4J48TDyFnHQfFxMZA1595KxZQ5TvdYkwe
- AF5BOrrIKv/AvkujT9R4iglkeSsBtGVDRLN9GG4SBIH2HMXR5q8R5uKyY/yljUWufzM4
- KBZgw6lWw43Vjm2TO9fgVjbrHVjfct3DRXIr/WpdIK4RyaGxgaxYva8PIYV1lYwvsYN6
- CJZWeVESJQMgNzQXeYZ9Lf2C8pUpMmW5C0iEro0Zk+sieCM5wPh9hHxLfCzOx8ObZxGu
- CKgt+lU62fcWBwc+/v0jRdAHz/F/krp+L4vNSzx6tZCSi7P+uBeDRv0EbBL5MMhfg0tH
- 0o6g==
+ bh=hCA6Fp1zjl/YcdAD2qr1JaESX1/DMtcBS8XPo6xk3BI=;
+ b=evcPGZDx6VcoAplJ+O3WTf/V0gdN7LFhhqY+tWhKnSlyof1wl3pDaslalzqlh2Dtf3
+ NUPMVrksla/BXss5p/QiJWzXEtzlOS997usukFS6idwW1PXEdmyPgT4c3a7PqDl0bHl/
+ M01tgp2ktTtRsnjkOIip6Nsm80ZaKTcy+Wzv2ZW8ve4fWbbMMBWqxq6axU7AEsV9SdUg
+ PEoDKzZWFXYOkAa2BjbCAMoCTUm/SKAk2uhIDtP7KXQIg9ZfNOsNKjBJv2d/pIj5mHvQ
+ K+zO0Z+WVPBC/696VzTC0KyCT5CgzKrOO2fJUpeF1b+KUmh9cVkwKtV+GOKuEZxhNQxh
+ cFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bOvcEoh+VzOuY+elSS3lw/PZUPV6sZX2V0ial7PUh0E=;
- b=PXmglf1bzT8jATo2Dw69VeNWNatY1m1fm9syP8Qvhaew87Kuuf5UdEv7JQbL5ZipYo
- JTN8H1L/LZEDYPNGwPDySLICRIkKHYbxVXoN9ywpV1ythwUrY7YOJbYqa+fk8HneM1NT
- g52Um1dTAXIlrwUQaoK9Y2nB+iHIHKXOduEcol4y/8ejKVAVHyvY2o+GG7foXRZipI6I
- IDXMuSUahB65zVgPw12XqZtxc5vOZzF1wzcWj3KTtQ/RB0lgJfhmA7KrZiTbiXJRJmKE
- XFEzYqFIgijMnm1WI+FLpHltOUuTJkavLfYsJD+A5aQzRM2hPTMnueu8MKqiNueNBabc
- VAzg==
-X-Gm-Message-State: AOAM530aFn6KNbdqtzUOuFyy5CN7tMxuMq02z1DbGyto0fgGFffPQleG
- pAyOzdjf4AeL7F0j13tK0z37Yw==
-X-Google-Smtp-Source: ABdhPJxOoR/XFhgphdxyxCtusDFNe1OYvicCOfzFzhgDLu/xTpyj22tAtN1HgZSZ7OQ7w9kuk9VW0Q==
-X-Received: by 2002:adf:f608:: with SMTP id t8mr27476592wrp.308.1593612226358; 
- Wed, 01 Jul 2020 07:03:46 -0700 (PDT)
+ bh=hCA6Fp1zjl/YcdAD2qr1JaESX1/DMtcBS8XPo6xk3BI=;
+ b=m2+jBrbvfjpLHDN3h/qqsKqCHUmpYVcacrpLBOCqF8RPqKQxo7rb7q5sjSAFo/Gj4D
+ bWbjVnsHXoYcP4lxcvwjVAOfTs0vVvEjb0GqCedSYUbNY0BEmB6zrH2U+/UQb8jqgfXg
+ qZtKRzGKRCfcQi/6kNhJYCtPukFVI9Jm1GIvtYANQPmksqzYeMiVsKI2gReVuA43tnSs
+ iqlj1GbuDGXhFGaSo/w24m6F5sd0FLtMTMNGfp/m8vMHDRRsH8AqTfI9WoQ8l1PbWSge
+ IspLvILWWbJ/Hb3IHsaeDXjE42cena/cTNIsuSfkdM6IhpWHGeNOJEbBAKgrozggizBC
+ rHUQ==
+X-Gm-Message-State: AOAM531ZxbbEgWxlYGU5e23TfhHESey+mjW2R4af6ByQgLwBJEpmECbY
+ E6Z9sc12WOBM/JmaZI6xRGNlSw==
+X-Google-Smtp-Source: ABdhPJxqgGVcfXz/iXjs/wbts7Lh6N2/8Y1sAaQWeDpU1J/HgXNYgEIKNN8zJ8Z7cWUia4GkyyJ2wA==
+X-Received: by 2002:adf:8b5a:: with SMTP id v26mr26527074wra.165.1593611835351; 
+ Wed, 01 Jul 2020 06:57:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z132sm7330352wmb.21.2020.07.01.07.03.36
+ by smtp.gmail.com with ESMTPSA id y20sm7266415wmi.8.2020.07.01.06.57.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:03:41 -0700 (PDT)
+ Wed, 01 Jul 2020 06:57:05 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 818EC1FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 973331FFBE;
  Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 36/40] gitlab: split build-disabled into two phases
-Date: Wed,  1 Jul 2020 14:56:48 +0100
-Message-Id: <20200701135652.1366-37-alex.bennee@linaro.org>
+Subject: [PATCH  v4 37/40] gitlab: limit re-builds of the containers
+Date: Wed,  1 Jul 2020 14:56:49 +0100
+Message-Id: <20200701135652.1366-38-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,60 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we run check-qtest in "SLOW" mode this can timeout so split into
-two jobs.
+Most of the time we are just rebuilding the same things. We can skip
+this although currently there is no mechanism for picking up new
+distro releases.
+
+Rather than try to be too fine grained allow any change to trigger all
+the images being rebuilt.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 ---
 v4
-  - rename :->-
+  - try and include branches
+  - use rules instead
 ---
- .gitlab-ci.yml | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ .gitlab-ci.d/containers.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 13e9531724d..83e38ea19f3 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -113,7 +113,7 @@ acceptance-system-fedora-alt:
-     MAKE_CHECK_ARGS: check-acceptance
-   <<: *post_acceptance
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index a7621c4204c..ea350eacff7 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -17,6 +17,12 @@
+     - docker push "$TAG"
+   after_script:
+     - docker logout
++  rules:
++    - changes:
++      - .gitlab-ci.d/containers.yml
++      - tests/docker/*
++    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
++    - if: '$CI_COMMIT_REF_NAME == "testing/next"'
  
--build-disabled:
-+build-system-fedora-disabled:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
-@@ -124,6 +124,17 @@ build-disabled:
-       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
-       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
-     TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
-+  artifacts:
-+    paths:
-+      - build
-+
-+qtest-system-fedora-disabled:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-fedora-disabled
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-     MAKE_CHECK_ARGS: check-qtest SPEED=slow
- 
- build-tcg-disabled:
+ amd64-centos7-container:
+   <<: *container_job_definition
 -- 
 2.20.1
 
