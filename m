@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A70F210D57
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:17:20 +0200 (CEST)
-Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BD1210CFC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:01:10 +0200 (CEST)
+Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdY7-0003La-5j
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
+	id 1jqdIT-0007Vr-GS
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqdMv-0000CG-Uq
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:05:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50612)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqdES-00028H-CS
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:00 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqdMt-0007NQ-Ml
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:05:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqdMr-0007xW-KP
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 14:05:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5F5652E810C
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 14:05:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2020 13:56:13 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1878645@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqdEQ-0005oP-MT
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:00 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h5so23945925wrc.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KLxxBVgESg8+q++r/+fvnKLfCmcpFTynVpvVjZzQTYc=;
+ b=fGXJWryQ2lB2psc9eeFMRSIN3DKGiQetKXI7zlHAk6i90uos8tgDmFBc3E2OOmEc7w
+ m+ogh+EBgA1bYyzlxWR4aZlFLHcUNvdDlpMpQs/Z1p/W6cIsNFR6dcX+mj9ilrCHkTtB
+ l8xb4VoyPkZC1SVe8n10Y4y8bIaPOXsn+htsf5NruypcjVGvxf6idP3wWN7GD3nj3ZPs
+ sBntT076sltLoBv8pAfsxcLosKg6tCnvHBPvgxRv9PalLwS1ioTbJpTLkrOrVk27VpPT
+ 8U/wg/AaGzO815ER6H+NqhaPhRCjzk43k+03egQpvTupMgMkLzbDN2LQowvagd5+Au5L
+ UQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KLxxBVgESg8+q++r/+fvnKLfCmcpFTynVpvVjZzQTYc=;
+ b=OvU02tgZblIcuAV2iobvr2+sS633RHUVV5rgNK6OxnH2UOdL7kDm3g9j8N1EkB9TOI
+ Lb/KGLQUTMBpHUduF4IvW8n+RbLWaNK6AjMTgRS7ZP8ZBcC4K+rw+gXIGOMi8bu3ode1
+ IcVe7bz4YVEZXrrtyZChvi41TUVr95vDPNlRURWTQ+f8iBKSST+Hg4p8wRYZnvt5YzEm
+ /ac+aPi6F7AYGdw2HNmPk8jw15bsB20SirpJ0HlFEvuYOruzPCglKZseqTqBcO+hHdIw
+ 21okgcvc/GWCEpC/frSVyX1h7i23jqWhdOo6nHE0dW1rewXFkDwnugwx+u8+94sqCBzl
+ UV3w==
+X-Gm-Message-State: AOAM532bGmXrF+TbBxUXeuyol2vzY3HIE4FhTEuqQt9dV4ZblQyQgYWk
+ VoX4CBuiuAkqQl5Q+vijNg1Lcg==
+X-Google-Smtp-Source: ABdhPJxNFvD93CDJv9jpFM+fRtRLAjhfL+HLRwR7w9yda627AY2LRi5zK6K7WOynVOs4rtNns7hoZw==
+X-Received: by 2002:a5d:4bd2:: with SMTP id l18mr26230996wrt.119.1593611817031; 
+ Wed, 01 Jul 2020 06:56:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v24sm9082410wrd.92.2020.07.01.06.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 06:56:53 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0D3341FF8C;
+ Wed,  1 Jul 2020 14:56:53 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr ajbennee
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
-Message-Id: <20200701135652.1366-2-alex.bennee@linaro.org>
-Subject: [Bug 1878645] [PATCH v4 01/40] hw/isa: check for current_cpu before
- generating IRQ
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: dc822307de9697f8acafb9e26b54289a9b2a2bd7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:05:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Subject: [PATCH v4 02/40] iotests: Fix 051 output after qdev_init_nofail()
+ removal
+Date: Wed,  1 Jul 2020 14:56:14 +0100
+Message-Id: <20200701135652.1366-3-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
+References: <20200701135652.1366-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,133 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
+Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ John Snow <jsnow@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's possible to trigger this function from qtest/monitor at which
-point current_cpu won't point at the right place. Check it and
-fall back to first_cpu if it's NULL.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Bug 1878645 <1878645@bugs.launchpad.net>
+Commit 96927c744 replaced qdev_init_nofail() call by
+isa_realize_and_unref() which has a different error
+message. Update the test output accordingly.
+
+Gitlab CI error after merging b77b5b3dc7:
+https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
+
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200616154949.6586-1-philmd@redhat.com>
 ---
- hw/isa/lpc_ich9.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/051.pc.out | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index cd6e169d47a..791c878eb0b 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -439,7 +439,7 @@ static void ich9_apm_ctrl_changed(uint32_t val, void *a=
-rg)
-                 cpu_interrupt(cs, CPU_INTERRUPT_SMI);
-             }
-         } else {
--            cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
-+            cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_INTER=
-RUPT_SMI);
-         }
-     }
- }
--- =
-
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index 0ea80d35f0e..da8ad871876 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ 
+ Testing: -drive if=ide
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs media, but drive is empty
++(qemu) QEMU_PROG: Device needs media, but drive is empty
+ 
+ Testing: -drive if=virtio
+ QEMU X.Y.Z monitor - type 'help' for more information
+@@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ 
+ Testing: -drive file=TEST_DIR/t.qcow2,if=ide,readonly=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is read-only
++(qemu) QEMU_PROG: Block node is read-only
+ 
+ Testing: -drive file=TEST_DIR/t.qcow2,if=virtio,readonly=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+-- 
 2.20.1
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878645
-
-Title:
-  null-ptr dereference in ich9_apm_ctrl_changed
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input which triggers a NULL pointer dereference=
- in
-  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
-is bug
-  is specific to QTest?
-
-  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
-  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D23862=3D=3DHint: address points to the zero page.
-      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
-mu/accel/tcg/tcg-all.c:57:21
-      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
-ude/hw/core/cpu.h:872:5
-      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
-emu/hw/isa/lpc_ich9.c:442:13
-      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
-hw/isa/apm.c:50:13
-      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/memory.c:483:5
-      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/memory.c:544:18
-      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/memory.c:1476:16
-      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3137:23
-      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
-c.c:3177:14
-      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
-u/exec.c:3268:18
-      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
-:60:5
-      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
-qemu/qtest.c:392:13
-      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/qtest.c:710:9
-      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
-c:722:5
-      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/chardev/char.c:183:9
-      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
-/chardev/char.c:195:9
-      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
-ev/char-fd.c:68:9
-      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/io/channel-watch.c:84:12
-      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0xc9c819)
-
-  =
-
-  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
-qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
-  outl 0xcf8 0x8400f841
-  outl 0xcfc 0xaa215d6d
-  outl 0x6d30 0x2ef8ffbe
-  outb 0xb2 0x20
-  EOF
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
 
