@@ -2,79 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975FE210A05
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 13:07:03 +0200 (CEST)
-Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75B8210A20
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 13:11:56 +0200 (CEST)
+Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqaZy-0004ms-Kt
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 07:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47776)
+	id 1jqaeh-0007yN-Ir
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 07:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqaZ5-0003vW-01
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:06:07 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqaZ1-0004h9-Ec
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:06:06 -0400
-Received: by mail-wr1-x436.google.com with SMTP id j4so20901870wrp.10
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 04:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SLsZUay/IDOdgyI8te1i7CAz4RVRgyY9sbQxBoCW40s=;
- b=o7IHosNLhIDFGGys30qsRgADVzvZ3cN6hg8F1utEaJwl7JlHcIK+hBmcTgMMhJ9ppo
- HenZXMHWpAGB6RqzILpXk9RbV8LfXijECXakUy28HOw7+CJQOTM8qv8uzKTvhF5SXd2K
- OgN7vs1vvxBQ2MnB7e5w+r8iBud2Lz/FRS14DSCPwwFCvb2IHS2/W/z+jj8X3j3ixThm
- nKBuv/whmPoKgizdNhizUGrUoSyiqOzFUl1h7X/oSQOwMiwXVhS9Mz7o/Pi93Ss7ugD/
- K0zDsk/Lf+OwW3VWjB6W/cY9ivf6IsedGVkqlkrquD0ICiz3tMn1ZpgCbXvjQKmrYJol
- 68ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=SLsZUay/IDOdgyI8te1i7CAz4RVRgyY9sbQxBoCW40s=;
- b=DLp8AksMHMoV+adFuxk1mcPV5nPmphzOsU5aHQApLu4qNOxIpqxMIlG+ZHBKsRW3Od
- vmd08SEFI0duFlMtvzZfO4bGi27iL9hgymbZRJu6W0cXkhJ6tBSTVRpxm1Zc8Z+eA21Q
- D09FhXu7Bft7D/D2PYKjtU2uUCNfKbM2tM9+7xdxjZRmgKTRDpcyoTl/3vdboEHBTRb5
- s9OQ4cyo1PUy56Nz6PgI849LL147fytOGO0noVsZU0sItmBG7A8j5ZQSCCsdYxdRlfMk
- G7WH9TpFfTl316W9cWURTW5Sl4bcSLSHVJ4PbKKd3MdOd49hIlTkj/Nb1ek1ua9gM70i
- Zchw==
-X-Gm-Message-State: AOAM533XqXfIPL28ecwBe3Vr4C5e56KWCg5mbW19zIpt7hbxTZgVE13D
- ttNkHZDcZfaN5Zeev/YFQsfS9A==
-X-Google-Smtp-Source: ABdhPJyZ28hPsCEmXjzPUnbpDGSUdTW/N0dl2oFZA+7WBQMjldX+SaFECCSFKAnz4qcSduT2fLpAsQ==
-X-Received: by 2002:adf:8444:: with SMTP id 62mr25045437wrf.278.1593601561284; 
- Wed, 01 Jul 2020 04:06:01 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p29sm6891737wmi.43.2020.07.01.04.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 04:05:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DE90F1FF7E;
- Wed,  1 Jul 2020 12:05:58 +0100 (BST)
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: Race with atexit functions in system emulation
-Date: Wed, 01 Jul 2020 12:05:58 +0100
-Message-ID: <87v9j7qyuh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jqadq-0007Lb-0P; Wed, 01 Jul 2020 07:11:02 -0400
+Received: from mail-eopbgr30101.outbound.protection.outlook.com
+ ([40.107.3.101]:53890 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jqadl-0005IU-MY; Wed, 01 Jul 2020 07:11:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D2ne7nqoTMTn+IexQyr0fMxmRnLgme1Q2tcl6ZZOCJz692GzP0gi+bAFyfXR0KghkDwysIqhui6qIm5wGXiFbosg9AW7BPEPLnZmrMNuAnH+iMKEcS5MkBUdKOv8PL73a8w7Smnft05S83UUmAzHm4UIdMOPXhB65MYzG4F+z+1StPG2LdNxlNXiMuqaFwuG9kKfT8ZJP3HXHioElQEUj4UfNWp0bLWIh5/OH56KRhKvE1s8dLcn0s6EwiRe/aCHfROS3hDUf9Af5wrCRqkH1SOshBKfXPNCdYR9MFRJ/4NvFDyTSlFADmIVYtsbOOdppwJUL5Xjg9Ap1uhCwoGrHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A+V8RzAcsR1noaK4d3PizPfTE6qOMfufO6SJ6K8f2Pk=;
+ b=c+6EKUHgOs0DQ9kb1ctlLohymH8ulXEs+lAFkodYEPCUJO9vrsI3Z9RZPjWff3TSI1CUwtPvXVgDH5TXh1Xp63lN/RB+/AKt6gdCVpwQEayKYA4PEw1dHMgTY1L222zzjA6L1xGwt6BfJrXd50C4kacBztVE02E9T76hJTGBDrAl52NPi4k5KJhTEBpWbH58Pf1kCfOR/tiI/C0kvPjVFC1Cr7MzCDMAZqlU71kvTTYPW2hazUPLrR55L/yP7oSw8kBuKCF2b+ry2Gl4zdoktcvSqn5g4EJHcrVi/vZlloiIcHyjb1qmGjYGYf00wjsp/cPsv2+bx20fEQBmx2WP6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A+V8RzAcsR1noaK4d3PizPfTE6qOMfufO6SJ6K8f2Pk=;
+ b=T8yb8LOZdIlTxxCK8IPs48GWMcqBJGXsPoe73Zh5+nz614FJhXjwGWHYNZH/MHHy9VG22Y0X55vQFH6bJLqkdrq8CjQ8e8SYtAv0/gYoDUf2yhKLbdZX+uOxDTAfmXKc7iJLMNU9r6Ku+Vvo7oan3p+oYWhIo4ozPJ91N+Fq5RM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4852.eurprd08.prod.outlook.com (2603:10a6:20b:cc::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Wed, 1 Jul
+ 2020 11:10:53 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Wed, 1 Jul 2020
+ 11:10:53 +0000
+Subject: Re: [PATCH 1/4] migration: Prevent memleak by ...params_test_apply
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200630084552.46362-1-mreitz@redhat.com>
+ <20200630084552.46362-2-mreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <c2a03349-4213-a784-7aac-f5e84201d553@virtuozzo.com>
+Date: Wed, 1 Jul 2020 14:10:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+In-Reply-To: <20200630084552.46362-2-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR07CA0013.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.28) by
+ AM0PR07CA0013.eurprd07.prod.outlook.com (2603:10a6:208:ac::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.8 via Frontend Transport; Wed, 1 Jul 2020 11:10:52 +0000
+X-Originating-IP: [185.215.60.28]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10951fc7-d197-4360-ce57-08d81daf6b39
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4852:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4852B4A86499F352AFC039FCC16C0@AM6PR08MB4852.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-Forefront-PRVS: 04519BA941
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lrlxvVyblhJa65dSYudZPH84pyl8OpsAVgqgfeEU7i0KiSjmlu9nAXMJc5NOnBAvkCdC8z3iaF/R/kHIR5q7Jh4miF2Y9IlgVoLDRwlc5O7KCK8hr6h43psAuLaop4itqAV+lRsSXVpFbN+GKLX+GyIGtwtV28l3VtcD6MWBpRoCO75cCDOYbWBcgMyMzVBP9V22GC3yJAB4ZGTcVtkOz5SxhEH4A43k7fa3qyrbuHcW3DoqLzO0MTORSLQZDpfw77bEjQMN3GDl/EEyHzbgHqeoXJ8TNNlwh69GRZJagzZE4w3hmhSvqUcFuHO2IJLgxiZfzGGDzpJI9mzNqkOzyMTpiJJHTsAmA5z+fIopnRYygULRucPm5fOqnrIfSRZx
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(366004)(39840400004)(6486002)(16576012)(956004)(2616005)(66556008)(86362001)(66476007)(5660300002)(31696002)(316002)(66946007)(4744005)(31686004)(52116002)(54906003)(8676002)(2906002)(36756003)(16526019)(186003)(4326008)(8936002)(26005)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: BKymsgo+dn1C6pXuXH6a0CpSJZWToa4oIO+Wi+cLeZLGkpKCXfJO8LBuf091T7cLurGiK0GWtyHrY5fNr2zeXGFyEW1TIWAAqUa835Ea142Oxki5mySJG+d6jhccnx0xsHgv5RMYCmiOKUps1MedZLOJ+/hVoxK4CJ2pYYlXVQQyECqowmrARSp9gxYprEJ8Pp2E/92JCxJSEPqe4sZKKtdVGjbIPXEBt8HTASbDCvBBg7L4vuZ2JKJw1M2KPDnGEcO7Woq8RimrrkC/h1YGxQTkUyhU4BL1xxKFt+QHee09MbAF6gacaXi30tNxiihek8tqElX9p/Ie8gRD71EXY0hKfoNlWD71cCVSJ8XsYiKgEUCTB91rhZcpkF7HYj7k/P70MMWuIzIXkK6WE7ZQoGv7ZDZrVKWUKe1GqIdg643dNZx6K7WKcA+QaqvR/3NAOLzL0gqrd1kyHM7fuwbXi2lJuBzeYXwiSh9qdOP8zoM=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10951fc7-d197-4360-ce57-08d81daf6b39
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 11:10:53.1145 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: awBFP9fN8pJLsHrsay9x8DibDsuJxG6N8DQM/2jSANp+dmKaRH02zGh0LjTEopwhaOAUfrB3lerxotg8YwVGxKCdzn4MZ0y9G/zG5HNjZ5I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4852
+Received-SPF: pass client-ip=40.107.3.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 07:10:54
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,65 +117,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+30.06.2020 11:45, Max Reitz wrote:
+> The created structure is not really a proper QAPI object, so we cannot
+> and will not free its members.  Strings therein should therefore not be
+> duplicated, or we will leak them.
+> 
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-While running some TSAN tests I ran into the following race condition:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  WARNING: ThreadSanitizer: data race (pid=3D1605)
-    Write of size 4 at 0x55c437814d98 by thread T2 (mutexes: write M619):
-      #0 replay_finish /home/alex.bennee/lsrc/qemu.git/replay/replay.c:393:=
-17 (qemu-system-aarch64+0xc55116)
-      #1 at_exit_wrapper() <null> (qemu-system-aarch64+0x368988)
-      #2 handle_semihosting /home/alex.bennee/lsrc/qemu.git/target/arm/help=
-er.c:9740:25 (qemu-system-aarch64+0x5e75b0)
-      #3 arm_cpu_do_interrupt /home/alex.bennee/lsrc/qemu.git/target/arm/he=
-lper.c:9788:9 (qemu-system-aarch64+0x5e75b0)
-      #4 cpu_handle_exception /home/alex.bennee/lsrc/qemu.git/accel/tcg/cpu=
--exec.c:504:13 (qemu-system-aarch64+0x4a4690)
-      #5 cpu_exec /home/alex.bennee/lsrc/qemu.git/accel/tcg/cpu-exec.c:712:=
-13 (qemu-system-aarch64+0x4a4690)
-      #6 tcg_cpu_exec /home/alex.bennee/lsrc/qemu.git/cpus.c:1452:11 (qemu-=
-system-aarch64+0x441157)
-      #7 qemu_tcg_rr_cpu_thread_fn /home/alex.bennee/lsrc/qemu.git/cpus.c:1=
-554:21 (qemu-system-aarch64+0x441157)
-      #8 qemu_thread_start /home/alex.bennee/lsrc/qemu.git/util/qemu-thread=
--posix.c:521:9 (qemu-system-aarch64+0xe38bd0)
-
-    Previous read of size 4 at 0x55c437814d98 by main thread:
-      #0 replay_mutex_lock /home/alex.bennee/lsrc/qemu.git/replay/replay-in=
-ternal.c:217:9 (qemu-system-aarch64+0xc55c03)
-      #1 os_host_main_loop_wait /home/alex.bennee/lsrc/qemu.git/util/main-l=
-oop.c:239:5 (qemu-system-aarch64+0xe5af4f)
-      #2 main_loop_wait /home/alex.bennee/lsrc/qemu.git/util/main-loop.c:51=
-8:11 (qemu-system-aarch64+0xe5af4f)
-      #3 qemu_main_loop /home/alex.bennee/lsrc/qemu.git/softmmu/vl.c:1664:9=
- (qemu-system-aarch64+0x5ce806)
-      #4 main /home/alex.bennee/lsrc/qemu.git/softmmu/main.c:49:5 (qemu-sys=
-tem-aarch64+0xdbf8b7)
-
-    Location is global 'replay_mode' of size 4 at 0x55c437814d98 (qemu-syst=
-em-aarch64+0x0000021a9d98)
-
-Basically we have a clash between semihosting wanting to do an exit,
-which is useful for reporting status and the fact that we have atexit()
-handlers to clean up that clash with the main loop accessing the mutex
-while we go. Ultimately I think this is harmless as we are shutting down
-anyway but I was wondering how we would clean something like this up?
-
-Should we maybe defer the exit to once the main loop has been exited
-with a some sort of vmstop? Or could we have an atexit handler that
-kills the main thread?
-
-I should point out that linux-user has a fairly heavy preexit_cleanup
-function to do this sort of tidying up. atexit() is also fairly heavily
-used for other devices in system emulation.
-
-Ideas?
-
---=20
-Alex Benn=C3=A9e
+-- 
+Best regards,
+Vladimir
 
