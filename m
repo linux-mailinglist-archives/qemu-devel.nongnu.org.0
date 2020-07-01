@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985B7210AB4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 14:03:40 +0200 (CEST)
-Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160DF210AB3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 14:03:29 +0200 (CEST)
+Received: from localhost ([::1]:54970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqbSl-0000nr-Jn
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 08:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57854)
+	id 1jqbSa-0000TN-44
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 08:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqbQo-0007fS-9b
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 08:01:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23433
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqbRG-0007wP-KA
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 08:02:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20815
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqbQl-0004Sw-Ap
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 08:01:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqbRD-0004VQ-BW
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 08:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593604894;
+ s=mimecast20190719; t=1593604921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qs7JbkDGKjYWUNWfZ77nlkbjqxZUKGmgzHqWdlflHmo=;
- b=U4KW5SK5vSJJxZc5lt8WyuxdqcJ6T7okfLM8+lSwq3jJFEoKT8hrceYdgWIZE+9Hu22Tog
- CXyuYvMJLoG6961DUmvnnRXbeuJYbXJwD5UBNSiZwvIP6PM124QbY9yYSVR5ENxsNFhEJC
- m1PLfotxw3385TOgpFcGY+zn8EYYksI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-CrZwBaEoM4S7TLv0tmhMRA-1; Wed, 01 Jul 2020 08:01:32 -0400
-X-MC-Unique: CrZwBaEoM4S7TLv0tmhMRA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D66ACC7440;
- Wed,  1 Jul 2020 12:01:30 +0000 (UTC)
-Received: from gondolin (ovpn-113-61.ams2.redhat.com [10.36.113.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B92337BEA3;
- Wed,  1 Jul 2020 12:01:28 +0000 (UTC)
-Date: Wed, 1 Jul 2020 14:01:06 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 0/2] two atomic_cmpxchg() related fixes
-Message-ID: <20200701140106.004a3da2.cohuck@redhat.com>
-In-Reply-To: <20200616045035.51641-1-pasic@linux.ibm.com>
-References: <20200616045035.51641-1-pasic@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=upttUj7UH7Jl5jYNi0LTgfL6ldsPtfhQGw7sDxV+vlA=;
+ b=PeqAR/fo2HToCWE32qIp59QklpNFFlilTItmLfQSzw17WoSq8nm9I0ayD4AG+kW5F/hOzw
+ h5pQLsdxMJqaYH1BbBdoz++J8TGOnqlGwXltojbK0i1s5Q+9HzxFKH7aX6B9+HrCOPHOpw
+ LIlpveQbCCbP08+brzoXB4dEVitBhxk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-C9ysPKbpPI2H86TPXvV53A-1; Wed, 01 Jul 2020 08:02:00 -0400
+X-MC-Unique: C9ysPKbpPI2H86TPXvV53A-1
+Received: by mail-wm1-f72.google.com with SMTP id q20so13094180wme.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 05:01:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=upttUj7UH7Jl5jYNi0LTgfL6ldsPtfhQGw7sDxV+vlA=;
+ b=ShcX2bF0gKilQ9DQX3t9e/9ZRP0Wbpe/nbZ5rqcv3IwrcHd3hqT72usRjrGF5QxirQ
+ OMdwTndI8QSQmg1k99se35eebLQuBLpKNJuypdbAS3zjFjvF4dU9aZOIP/cHLrZ10JS9
+ X4BeqZ5oGhtPyIQMDSTuRHFHWhLSoSwS+EE1QpHlF8Ln02tSkehK5GsYrsUvH4J0b1kA
+ iuRAyIZH+LUNsyAVHoTwAlG2jfdvdiw9bnyOHQjCMmzSDBGtY+bfQRKeLTDwSHoGhnxy
+ Ia/kYy3qdhRltWUhKAn0oALAe7Kj1+zjb20VR+Cq2qY6HvmMEL8pNK14bO03NOM7zdO7
+ rfQw==
+X-Gm-Message-State: AOAM532bSZ3h4TW2Z+7jaLbyWEaUcWe5MmOHZXQMzES4GQCLUMHq2CKp
+ ZdD9izJjUriXsRYXKmX5vOHZSNOdzKcmRpQYLQMUQFjW28l+GgCUff+/LCt/RTqMKlMjuR5AKL5
+ +S5ycZpEzl+SCdi8=
+X-Received: by 2002:a1c:5f45:: with SMTP id t66mr27819969wmb.144.1593604918703; 
+ Wed, 01 Jul 2020 05:01:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8evmIeEBwEbco9M+GUS4o4gTU6FaL4mEumz0IEAIqoi21t2HGkaK7uZ3V9CE9GERQLKApHg==
+X-Received: by 2002:a1c:5f45:: with SMTP id t66mr27819939wmb.144.1593604918365; 
+ Wed, 01 Jul 2020 05:01:58 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ u23sm7551973wru.94.2020.07.01.05.01.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 05:01:57 -0700 (PDT)
+Date: Wed, 1 Jul 2020 08:01:55 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Subject: Re: [PATCH] acpi: Fix access to PM1 control and status registers
+Message-ID: <20200701075914-mutt-send-email-mst@kernel.org>
+References: <20200701110549.148522-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200701110549.148522-1-anthony.perard@citrix.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,33 +94,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jun 2020 06:50:33 +0200
-Halil Pasic <pasic@linux.ibm.com> wrote:
+On Wed, Jul 01, 2020 at 12:05:49PM +0100, Anthony PERARD wrote:
+> The ACPI spec state that "Accesses to PM1 control registers are
+> accessed through byte and word accesses." (In section 4.7.3.2.1 PM1
+> Control Registers of my old spec copy rev 4.0a).
+> 
+> With commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching
+> sizes in memory_region_access_valid""), it wasn't possible anymore to
+> access the pm1_cnt register by reading a single byte, and that is use
+> by at least a Xen firmware called "hvmloader".
+> 
+> Also, take care of the PM1 Status Registers which also have "Accesses
+> to the PM1 status registers are done through byte or word accesses"
+> (In section 4.7.3.1.1 PM1 Status Registers).
+> 
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
-> The story short: compiler can generate code that does two
-> distinct fetches of *ind_addr for old and _old. If that happens we can
-> not figure out if we had the desired xchg or not.
-> 
-> Halil Pasic (2):
->   virtio-ccw: fix virtio_set_ind_atomic
->   s390x/pci: fix set_ind_atomic
-> 
->  hw/s390x/s390-pci-bus.c | 16 +++++++++-------
->  hw/s390x/virtio-ccw.c   | 18 ++++++++++--------
->  2 files changed, 19 insertions(+), 15 deletions(-)
-> 
-> 
-> base-commit: 7d3660e79830a069f1848bb4fa1cdf8f666424fb
 
-Have we managed to reach any kind of agreement on this? (A v2?)
+Can't we set impl.min_access_size to convert byte accesses
+to word accesses?
 
-We can still get in fixes post-softfreeze, of course.
+> ---
+>  hw/acpi/core.c | 46 +++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 37 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 45cbed49abdd..31974e2f91bf 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -394,9 +394,17 @@ uint16_t acpi_pm1_evt_get_sts(ACPIREGS *ar)
+>      return ar->pm1.evt.sts;
+>  }
+>  
+> -static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
+> +static void acpi_pm1_evt_write_sts(ACPIREGS *ar, hwaddr addr, uint16_t val,
+> +                                   unsigned width)
+>  {
+>      uint16_t pm1_sts = acpi_pm1_evt_get_sts(ar);
+> +    if (width == 1) {
+> +        if (addr == 0) {
+> +            val |= pm1_sts & 0xff00;
+> +        } else if (addr == 1) {
+> +            val = (val << BITS_PER_BYTE) | (pm1_sts & 0xff);
+> +        }
+> +    }
+>      if (pm1_sts & val & ACPI_BITMASK_TIMER_STATUS) {
+>          /* if TMRSTS is reset, then compute the new overflow time */
+>          acpi_pm_tmr_calc_overflow_time(ar);
+> @@ -404,8 +412,16 @@ static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
+>      ar->pm1.evt.sts &= ~val;
+>  }
+>  
+> -static void acpi_pm1_evt_write_en(ACPIREGS *ar, uint16_t val)
+> +static void acpi_pm1_evt_write_en(ACPIREGS *ar, hwaddr addr, uint16_t val,
+> +                                  unsigned width)
+>  {
+> +    if (width == 1) {
+> +        if (addr == 0) {
+> +            val |= ar->pm1.evt.en & 0xff00;
+> +        } else if (addr == 1) {
+> +            val = (val << BITS_PER_BYTE) | (ar->pm1.evt.en & 0xff);
+> +        }
+> +    }
+>      ar->pm1.evt.en = val;
+>      qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_RTC,
+>                                val & ACPI_BITMASK_RT_CLOCK_ENABLE);
+> @@ -434,9 +450,11 @@ static uint64_t acpi_pm_evt_read(void *opaque, hwaddr addr, unsigned width)
+>      ACPIREGS *ar = opaque;
+>      switch (addr) {
+>      case 0:
+> -        return acpi_pm1_evt_get_sts(ar);
+> +    case 1:
+> +        return acpi_pm1_evt_get_sts(ar) >> (addr * BITS_PER_BYTE);
+>      case 2:
+> -        return ar->pm1.evt.en;
+> +    case 3:
+> +        return ar->pm1.evt.en >> ((addr - 2) * BITS_PER_BYTE);
+>      default:
+>          return 0;
+>      }
+> @@ -448,11 +466,13 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+>      ACPIREGS *ar = opaque;
+>      switch (addr) {
+>      case 0:
+> -        acpi_pm1_evt_write_sts(ar, val);
+> +    case 1:
+> +        acpi_pm1_evt_write_sts(ar, addr, val, width);
+>          ar->pm1.evt.update_sci(ar);
+>          break;
+>      case 2:
+> -        acpi_pm1_evt_write_en(ar, val);
+> +    case 3:
+> +        acpi_pm1_evt_write_en(ar, addr - 2, val, width);
+>          ar->pm1.evt.update_sci(ar);
+>          break;
+>      }
+> @@ -461,7 +481,7 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+>  static const MemoryRegionOps acpi_pm_evt_ops = {
+>      .read = acpi_pm_evt_read,
+>      .write = acpi_pm_evt_write,
+> -    .valid.min_access_size = 2,
+> +    .valid.min_access_size = 1,
+>      .valid.max_access_size = 2,
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
+> @@ -590,19 +610,27 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
+>  static uint64_t acpi_pm_cnt_read(void *opaque, hwaddr addr, unsigned width)
+>  {
+>      ACPIREGS *ar = opaque;
+> -    return ar->pm1.cnt.cnt;
+> +    return ar->pm1.cnt.cnt >> (addr * BITS_PER_BYTE);
+>  }
+>  
+>  static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
+>                                unsigned width)
+>  {
+> +    ACPIREGS *ar = opaque;
+> +    if (width == 1) {
+> +        if (addr == 0) {
+> +            val |= ar->pm1.cnt.cnt & 0xff00;
+> +        } else if (addr == 1) {
+> +            val = (val << BITS_PER_BYTE) | (ar->pm1.cnt.cnt & 0xff);
+> +        }
+> +    }
+>      acpi_pm1_cnt_write(opaque, val);
+>  }
+>  
+>  static const MemoryRegionOps acpi_pm_cnt_ops = {
+>      .read = acpi_pm_cnt_read,
+>      .write = acpi_pm_cnt_write,
+> -    .valid.min_access_size = 2,
+> +    .valid.min_access_size = 1,
+>      .valid.max_access_size = 2,
+>      .endianness = DEVICE_LITTLE_ENDIAN,
+>  };
+> -- 
+> Anthony PERARD
 
 
