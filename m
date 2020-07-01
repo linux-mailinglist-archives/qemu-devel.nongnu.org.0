@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483692100F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 02:20:51 +0200 (CEST)
-Received: from localhost ([::1]:33882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C230210100
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 02:32:42 +0200 (CEST)
+Received: from localhost ([::1]:37970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqQUc-0006mg-9G
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 20:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
+	id 1jqQg5-0001Hv-El
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jun 2020 20:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqQTW-0005st-3u; Tue, 30 Jun 2020 20:19:42 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:53794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqQTU-0003zO-Ed; Tue, 30 Jun 2020 20:19:41 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.2041745|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.00808008-0.000167859-0.991752;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=5; RT=5; SR=0; TI=SMTPD_---.HvS7zEv_1593562775; 
-Received: from 30.225.208.18(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HvS7zEv_1593562775)
- by smtp.aliyun-inc.com(10.147.40.44); Wed, 01 Jul 2020 08:19:35 +0800
-Subject: Re: [PATCH v1 2/3] hw/riscv: Allow 64 bit access to SiFive CLINT
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1593547870.git.alistair.francis@wdc.com>
- <122b78825b077e4dfd39b444d3a46fe894a7804c.1593547870.git.alistair.francis@wdc.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <619512b4-9252-5a32-0ed1-994d69b1b6ba@c-sky.com>
-Date: Wed, 1 Jul 2020 08:19:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqQeR-0000Fl-JH
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 20:31:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqQeO-0005nD-0Y
+ for qemu-devel@nongnu.org; Tue, 30 Jun 2020 20:30:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jqQeH-0003Q9-PL
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 00:30:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 818A42E811B
+ for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 00:30:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <122b78825b077e4dfd39b444d3a46fe894a7804c.1593547870.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 20:17:36
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Jul 2020 00:21:27 -0000
+From: costinel <1869006@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson costinel dgilbert-h hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: costinel (costinel)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <159356288768.1452.15206670327010504351.malone@chaenomeles.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 02aec4f07a965c28fa1db33a7ef65e21d3e755d4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 20:30:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,39 +73,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@dabbelt.com
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I am experiencing the same behaviour for x86_64 guest on x86_64 host to
+which I'm attempting to efi boot (not hotplug) with a pcie gpu
+passthrough
 
+This discussion (https://www.spinics.net/lists/iommu/msg40613.html)
+suggests a change in drivers/iommu/intel-iommu.c but it appears that in
+the kernel I tried, the change it is already implemented (linux-
+image-5.4.0-39-generic)
 
-On 2020/7/1 4:12, Alistair Francis wrote:
-> Commit 5d971f9e672507210e77d020d89e0e89165c8fc9
-> "memory: Revert "memory: accept mismatching sizes in
-> memory_region_access_valid"" broke most RISC-V boards as they do 64 bit
-> accesses to the CLINT and QEMU would trigger a fault. Fix this failure
-> by allowing 8 byte accesses.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   hw/riscv/sifive_clint.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-> index b11ffa0edc..669c21adc2 100644
-> --- a/hw/riscv/sifive_clint.c
-> +++ b/hw/riscv/sifive_clint.c
-> @@ -181,7 +181,7 @@ static const MemoryRegionOps sifive_clint_ops = {
->       .endianness = DEVICE_LITTLE_ENDIAN,
->       .valid = {
->           .min_access_size = 4,
-> -        .max_access_size = 4
-> +        .max_access_size = 8
->       }
->   };
->   
+hardware is a hp microserver gen8 with conrep physical slot excluded in
+bios (https://www.jimmdenton.com/proliant-intel-dpdk/) and the kernel is
+rebuild with rmrr patch (https://forum.proxmox.com/threads/compile-
+proxmox-ve-with-patched-intel-iommu-driver-to-remove-rmrr-check.36374/)
 
-Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+also an user complains that on the same hardware it used to work with
+kernel 5.3 + rmrr patch (https://forum.level1techs.com/t/looking-for-
+vfio-wizards-to-troubleshoot-error-vfio-dma-map-22/153539) but it
+stopped working on the 5.4 kernel.
 
+is this the same issue I'm observing? my qemu complains with the similar
+message:
 
+ -device vfio-pci,host=3D07:00.0,id=3Dhostdev0,bus=3Dpci.4,addr=3D0x0:
+vfio_dma_map(0x556eb57939f0, 0xc0000, 0x3ff40000, 0x7f6fc7ec0000) =3D -22
+(Invalid argument)
+
+/sys/kernel/iommu_groups/1/reserved_regions shows:
+
+0x00000000000e8000  0x00000000000e8fff direct
+0x00000000000f4000 0x00000000000f4fff direct
+0x00000000d5f7e000 0x00000000d5f94fff direct
+0x00000000fee00000 0x00000000feefffff msi
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869006
+
+Title:
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
+
+Status in QEMU:
+  New
+
+Bug description:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
+
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
+
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  =
+
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
