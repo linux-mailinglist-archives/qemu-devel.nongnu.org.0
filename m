@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C9C210824
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:30:24 +0200 (CEST)
-Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD60210826
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:31:01 +0200 (CEST)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqZ4R-0006JA-CW
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
+	id 1jqZ52-00076a-8F
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:31:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqZ34-0004s5-SA
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:28:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53006
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqZ3S-0005hr-Cq
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:29:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59126
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqZ33-0005P4-6J
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:28:58 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqZ3Q-0005Rc-Lc
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:29:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593595736;
+ s=mimecast20190719; t=1593595759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wucbBw00c2V1/vl8huKUxgbZY/HPysQg4R/6AvM6MCw=;
- b=gzZ57H36eGt71XHxQcntfF5tFpmkpELzfHfhiVYGEjCIwzbMaUJ4jMg2UNIlTBTHmp61tG
- GydM4llKk+QS9gl8T3NQH5/GmLM+3WsXBJkBr3Gi6Y7XqqVazoMqCT1kxpMIf8AzhrZka3
- LW0pbDabYMdkVeVVCawvjXIsduq0Y4o=
+ bh=OVOMfM+qrBIZg0i/kq0OO3CC+fK4QzA2HrNfy0J9imU=;
+ b=Sjocm7g1c0A59BsAgDFo095afP5vhb47h2TPOVQvTDpKFvedbgpXxKVfjy+rvpIWMe9pKD
+ A98ywBNoF6e2K9h5PgywvW/GI9dQfdqG/2Q0+fnqGQcYxseQMVwoUbpQ15pz62ShW4wFD3
+ Ldn42sg7Ahq5gVyo877q7ZnqrGkuwyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-F5AoMBHmPK6_koTaF0qujw-1; Wed, 01 Jul 2020 05:28:55 -0400
-X-MC-Unique: F5AoMBHmPK6_koTaF0qujw-1
+ us-mta-321-8dSDFjXjNXCSfmD9p8dSKA-1; Wed, 01 Jul 2020 05:29:18 -0400
+X-MC-Unique: 8dSDFjXjNXCSfmD9p8dSKA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B05B118FE872;
- Wed,  1 Jul 2020 09:28:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0BCA80058A;
+ Wed,  1 Jul 2020 09:29:15 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-19.pek2.redhat.com [10.72.12.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 259C7100164D;
- Wed,  1 Jul 2020 09:28:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B98DE105958A;
+ Wed,  1 Jul 2020 09:28:55 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v3 07/13] vhost: implement vhost_dev_start method
-Date: Wed,  1 Jul 2020 17:24:43 +0800
-Message-Id: <20200701092449.17451-8-lulu@redhat.com>
+Subject: [PATCH v3 08/13] vhost: introduce new VhostOps vhost_vq_get_addr
+Date: Wed,  1 Jul 2020 17:24:44 +0800
+Message-Id: <20200701092449.17451-9-lulu@redhat.com>
 In-Reply-To: <20200701092449.17451-1-lulu@redhat.com>
 References: <20200701092449.17451-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,41 +91,45 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use the vhost_dev_start callback to send the status to backend
+This patch introduces new VhostOps vhost_vq_get_addr_op callback to get
+the vring addr from the backend
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/vhost.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ include/hw/virtio/vhost-backend.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 10304b583e..32809e54b5 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1685,7 +1685,12 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-             goto fail_log;
-         }
-     }
--
-+    if (hdev->vhost_ops->vhost_dev_start) {
-+        r = hdev->vhost_ops->vhost_dev_start(hdev, true);
-+        if (r) {
-+            goto fail_log;
-+        }
-+    }
-     if (vhost_dev_has_iommu(hdev) &&
-         hdev->vhost_ops->vhost_set_iotlb_callback) {
-             hdev->vhost_ops->vhost_set_iotlb_callback(hdev, true);
-@@ -1723,6 +1728,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index b80f344cd6..fa84abac97 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -34,6 +34,7 @@ struct vhost_vring_state;
+ struct vhost_vring_addr;
+ struct vhost_scsi_target;
+ struct vhost_iotlb_msg;
++struct vhost_virtqueue;
  
-+    if (hdev->vhost_ops->vhost_dev_start) {
-+        hdev->vhost_ops->vhost_dev_start(hdev, false);
-+    }
-     for (i = 0; i < hdev->nvqs; ++i) {
-         vhost_virtqueue_stop(hdev,
-                              vdev,
+ typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque);
+ typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
+@@ -113,6 +114,10 @@ typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
+                                         struct vhost_inflight *inflight);
+ 
+ typedef int (*vhost_dev_start_op)(struct vhost_dev *dev, bool started);
++
++typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
++                    struct vhost_vring_addr *addr,
++                    struct vhost_virtqueue *vq);
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -154,6 +159,7 @@ typedef struct VhostOps {
+     vhost_get_inflight_fd_op vhost_get_inflight_fd;
+     vhost_set_inflight_fd_op vhost_set_inflight_fd;
+     vhost_dev_start_op vhost_dev_start;
++    vhost_vq_get_addr_op  vhost_vq_get_addr;
+ } VhostOps;
+ 
+ extern const VhostOps user_ops;
 -- 
 2.21.1
 
