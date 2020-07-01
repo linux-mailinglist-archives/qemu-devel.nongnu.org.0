@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE4E211048
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:09:24 +0200 (CEST)
-Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE53211054
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:13:47 +0200 (CEST)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfIZ-0001Fh-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38202)
+	id 1jqfMo-0000HP-Cg
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqfEm-0003I0-2P
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:05:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47900
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqfIh-0002kB-Oh
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:09:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35754
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqfEk-00059p-5k
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:05:27 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqfIb-0005kq-QD
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:09:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593619521;
+ s=mimecast20190719; t=1593619764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+tPm7pZQtbkc+TLx9EruR4ZuSRLTcspRf/petci9Sp8=;
- b=KqAxI1jQSVthktUb1KlZvU9A6Ohx2QdpzaEpNiA/PB7kxaz7AJpekRmLtXgI1+Zd8H+cNE
- mwJDeKBfeAhyEP6DaKHhVWk7ULmj5fa5awnL51PoGr3A1zsbhweEQHhYzrxqLMq+63WFtU
- VnVhKx57qQxMCvEFQvoqccmPkvQFNLg=
+ bh=SaX4PzBLMh2sV67u3LvcgIJHlW7iqHLXaKWN6OT15pc=;
+ b=Te5Zh5/88Nj0I2PLjeMq+fgm4yN6Z4mqvJaJQLkc66UZ/ByMvu4+C7weZT+fLw7dJLDgt1
+ Zim/tC70aIs/8y8P41xGUyQFkMTKgGF8bbCv1TpmyUS/ucyHKHG86EOf2sroITk9Qm3Pdj
+ JyhBAV/H4xwEuF7TsTnxunEVoFKkuEc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-nggvQkw4Nj60adt4E1akYg-1; Wed, 01 Jul 2020 12:05:19 -0400
-X-MC-Unique: nggvQkw4Nj60adt4E1akYg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-80-XFtC70awMqOFZsHojpu0iA-1; Wed, 01 Jul 2020 12:09:22 -0400
+X-MC-Unique: XFtC70awMqOFZsHojpu0iA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A89C912E521;
- Wed,  1 Jul 2020 16:05:18 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3CE72B4CA;
- Wed,  1 Jul 2020 16:05:16 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] block: switch to use qemu_open_err for improved errors
-Date: Wed,  1 Jul 2020 17:05:09 +0100
-Message-Id: <20200701160509.1523847-4-berrange@redhat.com>
-In-Reply-To: <20200701160509.1523847-1-berrange@redhat.com>
-References: <20200701160509.1523847-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0EDEA0BEE;
+ Wed,  1 Jul 2020 16:09:15 +0000 (UTC)
+Received: from localhost (ovpn-113-121.ams2.redhat.com [10.36.113.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BA55CF921;
+ Wed,  1 Jul 2020 16:09:08 +0000 (UTC)
+Date: Wed, 1 Jul 2020 17:09:06 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 3/3] trace: Example of "centralized" recorder tracing
+Message-ID: <20200701160906.GT126613@stefanha-x1.localdomain>
+References: <20200626162706.3304357-1-dinechin@redhat.com>
+ <20200626162706.3304357-4-dinechin@redhat.com>
+ <20200630124136.GM1370404@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200630124136.GM1370404@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Nx8xdmI2KD3LNVVP"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,86 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, P J P <ppandit@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently at startup if using cache=none on a filesystem lacking
-O_DIRECT such as tmpfs, at startup QEMU prints
+--Nx8xdmI2KD3LNVVP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: file system may not support O_DIRECT
-qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Could not open '/tmp/foo.img': Invalid argument
+On Tue, Jun 30, 2020 at 01:41:36PM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Jun 26, 2020 at 06:27:06PM +0200, Christophe de Dinechin wrote:
+> IMHO the whole point of having the pluggable trace backend impls, is
+> precisely that we don't have to add multiple different calls in the
+> code. A single trace_qemu_mutex_unlock() is supposed to work with
+> any backend.
 
-while at QMP level the hint is missing, so QEMU reports just
+I think an exception is okay when the other trace backends do not offer
+equivalent functionality.
 
-  "error": {
-      "class": "GenericError",
-      "desc": "Could not open '/tmp/foo.img': Invalid argument"
-  }
+Who knows if anyone other than Christophe will use this functionality,
+but it doesn't cost much to allow it.
 
-which is close to useless for the end user trying to figure out what
-they did wrong
+Stefan
 
-With this change at startup QEMU prints
+--Nx8xdmI2KD3LNVVP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-qemu-system-x86_64: -drive file=/tmp/foo.img,cache=none: Unable to open '/tmp/foo.img' flags 0x4000: filesystem does not support O_DIRECT
+-----BEGIN PGP SIGNATURE-----
 
-while at the QMP level QEMU reports a massively more informative
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl78tSIACgkQnKSrs4Gr
+c8j/GQgAgNy/SWFiJbP6myrwfWhGl88K9kXdSPztNHnBEi0UUFEId5jlymb5+fi8
+7mAPWb0T5BDhro0wIbW4vnGFNj+i4htDBCdwY5nFEj7b24LW8gd/buyOWFqtM7GI
+l4k12yroc0piasmO/suVbkLxakln7u9K5t+BBdt1qc9BuBS3QwD/ZFuZMCoZq4v5
+Mmqr6QB4GZoXuQHQREL7Kw4TMj0+I7noUQN8ZjzdS7W8GTbTTBmiNa35tgw8fJk6
+7rdI7lT/wk+NGXmO0OLOuJkc18cZDWvObz6ZX1tkXMz6Zia2piDT4Ud594YNuGjG
+Q3/zOj6AjuyG+DedLosKmJnzQtcgGg==
+=owWv
+-----END PGP SIGNATURE-----
 
-  "error": {
-     "class": "GenericError",
-     "desc": "Unable to open '/tmp/foo.img' flags 0x4002: filesystem does not support O_DIRECT"
-  }
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- block/file-posix.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 3ab8f5a0fa..2865b789fb 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -574,11 +574,10 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     raw_parse_flags(bdrv_flags, &s->open_flags, false);
- 
-     s->fd = -1;
--    fd = qemu_open(filename, s->open_flags, 0644);
-+    fd = qemu_open_err(filename, s->open_flags, errp, 0644);
-     ret = fd < 0 ? -errno : 0;
- 
-     if (ret < 0) {
--        error_setg_file_open(errp, -ret, filename);
-         if (ret == -EROFS) {
-             ret = -EACCES;
-         }
-@@ -970,9 +969,8 @@ static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
-         ret = raw_normalize_devicepath(&normalized_filename, errp);
-         if (ret >= 0) {
-             assert(!(*open_flags & O_CREAT));
--            fd = qemu_open(normalized_filename, *open_flags);
-+            fd = qemu_open_err(normalized_filename, *open_flags, errp);
-             if (fd == -1) {
--                error_setg_errno(errp, errno, "Could not reopen file");
-                 return -1;
-             }
-         }
-@@ -2324,10 +2322,10 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     }
- 
-     /* Create file */
--    fd = qemu_open(file_opts->filename, O_RDWR | O_CREAT | O_BINARY, 0644);
-+    fd = qemu_open_err(file_opts->filename, O_RDWR | O_CREAT | O_BINARY,
-+                       errp, 0644);
-     if (fd < 0) {
-         result = -errno;
--        error_setg_errno(errp, -result, "Could not create file");
-         goto out;
-     }
- 
--- 
-2.26.2
+--Nx8xdmI2KD3LNVVP--
 
 
