@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF1210DB7
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:29:21 +0200 (CEST)
-Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772C5210D28
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:09:23 +0200 (CEST)
+Received: from localhost ([::1]:46876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdjk-0004yv-6u
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
+	id 1jqdQQ-00061B-F3
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdUS-0006ZI-Gz
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:32 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51098)
+ id 1jqdKt-0004sS-7x
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:39 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdUQ-0000A3-Iz
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:32 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id l17so22608870wmj.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:13:30 -0700 (PDT)
+ id 1jqdKr-0006pi-5g
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:38 -0400
+Received: by mail-wm1-x343.google.com with SMTP id j18so22556029wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PJhXUCcF3c2PKDCFsCiaqFOmEKen6xlVm+g2tj8AYP8=;
- b=WlXD7kXTRinT7Nh0YWHeQjdrlpdwKW9wzLMBsuVgwCFPxDtx1THdoOTNvTmAoW+c6m
- uYX2DworzFB9U7oVOrQ5bZu/kk0jTpqeRG7JBe7DE/knr06Xsrkv2A0L9ScJBO5MlI15
- lGSIC6xnmIbMnPU9xnPt75lKLKFq+ZGYKLd70I7hwLVAyrh+ayuuJApL9t1NHDahY86u
- WS8pRCPL2nweFC9Dudd7htNV63Rqg6Wzi6rBU/KLBJHWDRB4BVH98zbWvpxe2sRUNFq7
- iRPw9m9424drJk2mcxRc/Q05+vbJY5uVby4UWKglAzKnmElti4YcRCcLWi5bHCPXqRRj
- 2mnw==
+ bh=JbHSSp+OWWoLJx/9MSaLrM42pM2ZJc5nMwUPC3QEVGo=;
+ b=tmWLG9Z8Nyx4I30963cbylorfLynCpuEmbskKfJHBstLR7tyDiobK0hzmaonbkljfR
+ TfLmfJyMQ7Ds6eO4E+ae0OO+8xJaHzijIcvU/eN5hQwiC9d/buZjSb7PPqzlXX6fJnMa
+ u7kTntpc8abytSyn1bdvgd8HUPSQmkhaEB/RZSVJ9rWghdPbOjiWnX+s5zk+w1lvLKy6
+ A8Sx0oua6oTp0bEgv0DO4dhAm19o5EgKkIrPpcZ434l12ZZVeVH+JKGSzoH5HjKIcKwZ
+ dm4PRsdrht4MouRLBSoEEAc0fQzRHJzOoicr7QkSGiubvfWTcO3cWzTreH/i2DG1RgWa
+ o+yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PJhXUCcF3c2PKDCFsCiaqFOmEKen6xlVm+g2tj8AYP8=;
- b=Rczy8EKcJWQ3jfdihvPk5Gtwg3/A4CuOu6w7A0dgjH15LnTBOkhiciU2gxmffjh2dQ
- uodOmVSuRQ+x1whc0FroZykB2RsByh/FsOMERJISiOfqds5mG/Jf/Tjjo2xt8j9OL2Ka
- mjZ5zwsHdZUCKpgjXakkAN4eLwJbbOdK8R0jxMoncrlTYX5KiVsL5XROz5A1bEDtJL6w
- hvv+SSb/iQ83hUsqPj53JdOUVjb7rw3MBwdu7b58CbkDADREoqNo+Bs7TkIT2BN/Ustt
- 06lLygxMNWLMwqxULHUfvaubE0DJMtDhY9+o4KYK5hjTe2x3WSOAC4IdxZdOGoyjfDXQ
- RrEA==
-X-Gm-Message-State: AOAM533xafsfMpSs5cu5MysSi8rrItPf/QgDGExFRh+BsAO13vAFs1ag
- dVVLaKJwpjeQ79zRD1w9R+ynag==
-X-Google-Smtp-Source: ABdhPJyFeqTgxTB7qpx/e9QfQREZkFwCuxVWJNm1e0sXeL3mMBqdGOtfwzVYJABhr67ua3awDjP+9A==
-X-Received: by 2002:a1c:4408:: with SMTP id r8mr26979777wma.100.1593612808833; 
- Wed, 01 Jul 2020 07:13:28 -0700 (PDT)
+ bh=JbHSSp+OWWoLJx/9MSaLrM42pM2ZJc5nMwUPC3QEVGo=;
+ b=TNBAHZS1LFjx0bGPeGlmbjijGyanQYCO9phu0UMMAxLej4/KpwQqBtLiLoNKn6ycRU
+ SgO/RXFPuZ1oKP4m0uibtf3On6o+ymdbPesrinU22aPfUdVRoZjpRqe7HS+Z+0QVT2nC
+ j+3SJJmjD9DEpdkS13Dx4akUvTxIv3dwAuzY8MGb8IBIpxgNYDW1MiC8RMMxUYJg5s6x
+ 9oOXh9Tvzn7kA4StRUKHFXYQM/Hiq64UtIKy4Xw7HxBKlQkh/O99VwKxn+9GmQ00sp1I
+ Livp5UdAKkk7nnvEWIg+LaDzSyUWtac6T2rctBaPpHgQ7zdxXJhr9IajvPzUyr7MZnxu
+ Ro5Q==
+X-Gm-Message-State: AOAM531OuzCNhXB9mRVonXAJ49yxrQE1OrhKOsy4Cc4cCUV0HTYZf0Pe
+ W6S/PZDRJ4c7OTc47tL3qr6P4A==
+X-Google-Smtp-Source: ABdhPJzpq2YPcXx5UiCx7YW0y5EOgZMWah4n/t/t9sexghkbsSjgG1zWvWRXqdltGKvqJiSsG+dHHQ==
+X-Received: by 2002:a1c:6308:: with SMTP id x8mr28002337wmb.92.1593612215706; 
+ Wed, 01 Jul 2020 07:03:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w2sm7835430wrs.77.2020.07.01.07.13.27
+ by smtp.gmail.com with ESMTPSA id t2sm7243554wma.43.2020.07.01.07.03.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:13:27 -0700 (PDT)
+ Wed, 01 Jul 2020 07:03:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27B561FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 3EE5B1FFBA;
  Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 32/40] tests/docker: add a linux-user testing focused image
-Date: Wed,  1 Jul 2020 14:56:44 +0100
-Message-Id: <20200701135652.1366-33-alex.bennee@linaro.org>
+Subject: [PATCH v4 33/40] linux-user/elfload: use MAP_FIXED_NOREPLACE in
+ pgb_reserved_va
+Date: Wed,  1 Jul 2020 14:56:45 +0100
+Message-Id: <20200701135652.1366-34-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,116 +91,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ Riku Voipio <riku.voipio@iki.fi>, richard.henderson@linaro.org,
+ f4bug@amsat.org, Laurent Vivier <laurent@vivier.eu>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We happily use all the cross images for both cross-building QEMU as
-well as building the linux-user tests. However calling docker from
-within docker seems not to work. As we can build in Debian anyway why
-not include an image that has all the compilers available for
-non-docker invocation.
+Given we assert the requested address matches what we asked we should
+also make that clear in the mmap flags. Otherwise we see failures in
+the GitLab environment for some currently unknown but allowable
+reason. We use MAP_FIXED_NOREPLACE if we can so we don't just clobber
+an existing mapping. Also include the strerror string for a bit more
+info on failure.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.d/containers.yml                   |  7 +++
- tests/docker/Makefile.include                 |  1 +
- .../dockerfiles/debian-all-test-cross.docker  | 53 +++++++++++++++++++
- 3 files changed, 61 insertions(+)
- create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index f353359fd8b..a7621c4204c 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -64,6 +64,13 @@ amd64-debian-cross-container:
-   variables:
-     NAME: debian-amd64-cross
+---
+v4
+  - use MAP_FIXED_NOREPLACE instead
+  - also dump strerror
+---
+ linux-user/elfload.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index b5cb21384a1..7e7f642332d 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2294,7 +2294,7 @@ static void pgb_dynamic(const char *image_name, long align)
+ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+                             abi_ulong guest_hiaddr, long align)
+ {
+-    const int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
++    int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
+     void *addr, *test;
  
-+amd64-debian-user-cross-container:
-+  <<: *container_job_definition
-+  stage: containers-layer2
-+  needs: ['amd64-debian10-container']
-+  variables:
-+    NAME: debian-all-test-cross
-+
- amd64-debian-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 977d8ff6e40..8406d039858 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -134,6 +134,7 @@ docker-image-travis: NOUSER=1
+     if (guest_hiaddr > reserved_va) {
+@@ -2307,15 +2307,19 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+     /* Widen the "image" to the entire reserved address space. */
+     pgb_static(image_name, 0, reserved_va, align);
  
- # Specialist build images, sometimes very limited tools
- docker-image-debian-tricore-cross: docker-image-debian9
-+docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
- 
- # These images may be good enough for building tests but not for test builds
-diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-new file mode 100644
-index 00000000000..dedcea58b46
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-@@ -0,0 +1,53 @@
-+#
-+# Docker all cross-compiler target (tests only)
-+#
-+# While the normal cross builds take care to setup proper multiarch
-+# build environments which can cross build QEMU this just installs the
-+# basic compilers for as many targets as possible. We shall use this
-+# to build and run linux-user tests on GitLab
-+#
-+FROM qemu/debian10
++#ifdef MAP_FIXED_NOREPLACE
++    flags |= MAP_FIXED_NOREPLACE;
++#endif
 +
-+# What we need to build QEMU itself
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy qemu
-+
-+# Add the foreign architecture we want and install dependencies
-+RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-+        apt install -y --no-install-recommends \
-+        gcc-aarch64-linux-gnu \
-+        libc6-dev-arm64-cross \
-+        gcc-alpha-linux-gnu \
-+        libc6.1-dev-alpha-cross \
-+        gcc-arm-linux-gnueabihf \
-+        libc6-dev-armhf-cross \
-+        gcc-hppa-linux-gnu \
-+        libc6-dev-hppa-cross \
-+        gcc-m68k-linux-gnu \
-+        libc6-dev-m68k-cross \
-+        gcc-mips-linux-gnu \
-+        libc6-dev-mips-cross \
-+        gcc-mips64-linux-gnuabi64 \
-+        libc6-dev-mips64-cross \
-+        gcc-mips64el-linux-gnuabi64 \
-+        libc6-dev-mips64el-cross \
-+        gcc-mipsel-linux-gnu \
-+        libc6-dev-mipsel-cross \
-+        gcc-powerpc-linux-gnu \
-+        libc6-dev-powerpc-cross \
-+        gcc-powerpc64-linux-gnu \
-+        libc6-dev-ppc64-cross \
-+        gcc-powerpc64le-linux-gnu \
-+        libc6-dev-ppc64el-cross \
-+        gcc-riscv64-linux-gnu \
-+        libc6-dev-riscv64-cross \
-+        gcc-s390x-linux-gnu \
-+        libc6-dev-s390x-cross \
-+        gcc-sh4-linux-gnu \
-+        libc6-dev-sh4-cross \
-+        gcc-sparc64-linux-gnu \
-+        libc6-dev-sparc64-cross
-+
-+ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs --disable-tools
-+ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
+     /* Reserve the memory on the host. */
+     assert(guest_base != 0);
+     test = g2h(0);
+     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+     if (addr == MAP_FAILED) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space for use as guest address space (check your "
++                     "space (%s) for use as guest address space (check your "
+                      "virtual memory ulimit setting or reserve less "
+-                     "using -R option)", reserved_va);
++                     "using -R option)", reserved_va, strerror(errno));
+         exit(EXIT_FAILURE);
+     }
+     assert(addr == test);
 -- 
 2.20.1
 
