@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204D0210EFA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:19:59 +0200 (CEST)
-Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955C0210F20
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:27:16 +0200 (CEST)
+Received: from localhost ([::1]:54962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeWk-0000ne-5h
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1jqedn-0008No-MQ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqeQ5-0008Si-9j
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:13:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28732
- helo=us-smtp-1.mimecast.com)
+ id 1jqeRp-0003S5-05
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:14:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49666
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqeQ1-0002W2-AQ
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:13:04 -0400
+ id 1jqeRm-0002nO-Ak
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:14:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593616380;
+ s=mimecast20190719; t=1593616489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UXjetnE/4auCi05IAhccqrJrQFrn07HqOefzcAprKzc=;
- b=c7n/9+E27P/ctAQyioARKS3BRObtRUobTJSio4jLwHiWG9DGoumyPE+cEd0KyQ1tF7O9YN
- dhKLJi7e3FuUszw0qe13bmUPN1zjvn/s+1M/XIfAYmAsc7df8hxWqY3q/XMFXekmyF8kl0
- bz0NcaGUjJMjRLvbpjOpBZM7YKC+HBo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-w8MHqt6GP7SdjEKE77CRWQ-1; Wed, 01 Jul 2020 11:12:56 -0400
-X-MC-Unique: w8MHqt6GP7SdjEKE77CRWQ-1
-Received: by mail-wr1-f72.google.com with SMTP id y16so21053200wrr.20
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:12:56 -0700 (PDT)
+ bh=fTDIjcY8W3zr9BSp6L1ugq05qWwbERXKD+GKnkcf6ok=;
+ b=XJLSdZqw84X5+Ft6H3B1d493Bpnb3jtR9pgz+KZRLDgzh/O+kUSWJ0N2VnhWAjk71HKVHG
+ tRLQrLSk6/KmdVKfy6Q4KEb3sjeQMSDbd9I8fRMvTa/IWyRqMp9P5fadnObdVFVslYs3vb
+ /i1BhIVuU9UyajIuY5+s6BF+8MZc8F8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-7BaJaqvUN_ip-PWOi6-LfA-1; Wed, 01 Jul 2020 11:14:47 -0400
+X-MC-Unique: 7BaJaqvUN_ip-PWOi6-LfA-1
+Received: by mail-wr1-f69.google.com with SMTP id h28so21039523wrc.18
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:14:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UXjetnE/4auCi05IAhccqrJrQFrn07HqOefzcAprKzc=;
- b=AF14KZtiyWOKBIPYd7+hSS6oUSvIcYlxRTyr9BVp5Eb8Ae9Mbilx05yb1Ic/uJVvsq
- n1pwtS8TjrcqjPwYhUTotaRg917N7TFmKtup2acvPCLuT93B4PFA1Cu9YHh5tQtZ61sv
- boMVXNEfBBGbss0BobaY01G44RdZen4aCS73EbGuQfjvoRvKI7JF2/5NFisEA4a4zbdg
- V68p4gSYibRWPBDiSfbkX8a9w7N4X07HP9JDx5CijFxEXlZkkbENH6zwO1+1ATHdR8ua
- LTpqpwguX16+GJB0nL6VI8uD+x1y91mZFRbSIfA7qcx/D/mldLTOHKSaPe9ksP1tmx3y
- H+DQ==
-X-Gm-Message-State: AOAM533Ck61rI1YzslJy+sXwEmKy2mKo5CR8GorK16Lnvr+VLFUolOQU
- ObFhUZ+xKbNozMsMFHuCGfweDg/3J3FzQNB47+GiLNOwSW9qknsypOtgir269UWn72O2wg8Z2nv
- R75f6357Ke9YZvUA=
-X-Received: by 2002:a7b:cd09:: with SMTP id f9mr28486736wmj.160.1593616375494; 
- Wed, 01 Jul 2020 08:12:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8tjHbMHs2T6am9y+HVBHMnhCTOsnfIT7wTvsWAipmcwmTs2dg2pBFMMv8lHrdBikW8j3sBQ==
-X-Received: by 2002:a7b:cd09:: with SMTP id f9mr28486711wmj.160.1593616375260; 
- Wed, 01 Jul 2020 08:12:55 -0700 (PDT)
+ bh=fTDIjcY8W3zr9BSp6L1ugq05qWwbERXKD+GKnkcf6ok=;
+ b=IxlzeHymRxmup30mgboieymbUp5TOATlTYVzNcRA9S98ub+v6x61+H3ZM559LwOzEH
+ tvuT2kFVIBD0Sdv5zAGEv5U7QFTf5kih26qiFSZVWHq/mkGcgxnKuUF1Yt0+hoAyywk6
+ llP2OF3/25Nnii+SDv3Pc5biTcy0ntcgyctXGCtU2S57JgsJkN7t9tfCyyv4ucKoE2z2
+ 4kdREb/jfCrcp5QBfgGfsG0E+lznd8lVOPXEpeXwTl7gz1JHFIWzjv2JXHm9LPDTMIos
+ gKKw7MxAZpAHJLaqfg+XegU8awRrpx0W7aAJm7nfGYXr4A3j3+2JSh7rADhIosq5yZ7V
+ weBQ==
+X-Gm-Message-State: AOAM5339VvavUcEWHRw2M6PFicGaILpa6GW0nzuMwXoUVEYdvyNScFj+
+ 58xhqYkyw5HgCK++fVgTkF+EfWuKhHvus1xv+TFk4dNNkaVgjbsryXj7Itur/0NSpnro26Bzhum
+ NeqkWqNlO2HG73E8=
+X-Received: by 2002:a5d:69c5:: with SMTP id s5mr27121373wrw.197.1593616486381; 
+ Wed, 01 Jul 2020 08:14:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFaXMG4GChkUCCK155lvEU1vPxIuAdZzyoo6H9SHUlvI3HfbagazJnapbBCuD8PrsyGkrxww==
+X-Received: by 2002:a5d:69c5:: with SMTP id s5mr27121358wrw.197.1593616486135; 
+ Wed, 01 Jul 2020 08:14:46 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:9d66:2ca3:22cf:9fa9?
  ([2001:b07:6468:f312:9d66:2ca3:22cf:9fa9])
- by smtp.gmail.com with ESMTPSA id g144sm40672231wme.2.2020.07.01.08.12.54
+ by smtp.gmail.com with ESMTPSA id k126sm8002057wme.17.2020.07.01.08.14.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 08:12:54 -0700 (PDT)
-Subject: Re: [PATCH] scripts/get_maintainer: Use .ignoredmailmap to ignore
- invalid emails
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200629172716.20781-1-f4bug@amsat.org>
- <8616bdd8-34a9-f737-aa9d-f11d735cc0fe@redhat.com>
- <caee1217-867e-f2b3-68c6-3b3e87e926a9@amsat.org>
+ Wed, 01 Jul 2020 08:14:45 -0700 (PDT)
+Subject: Re: [PATCH v2] chardev/tcp: fix error message double free error
+To: lichun@ruijie.com.cn, armbru@redhat.com
+References: <20200621213017.17978-1-lichun@ruijie.com.cn>
+ <87zh8jbtpd.fsf@dusky.pond.sub.org>
+ <309b915a-9ddc-95a7-f579-7cf66a7c0253@redhat.com>
+ <EEB2AE3E67807845A92E2350C6F5E02E0131DC6F73@FZEX3.ruijie.com.cn>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <70e3b721-4515-352a-1f9a-0638ee19b784@redhat.com>
-Date: Wed, 1 Jul 2020 17:12:53 +0200
+Message-ID: <c32fe799-a4bd-d334-1764-db64a1a69794@redhat.com>
+Date: Wed, 1 Jul 2020 17:14:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <caee1217-867e-f2b3-68c6-3b3e87e926a9@amsat.org>
+In-Reply-To: <EEB2AE3E67807845A92E2350C6F5E02E0131DC6F73@FZEX3.ruijie.com.cn>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
@@ -82,9 +81,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,33 +104,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, 706701795@qq.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/07/20 17:07, Philippe Mathieu-Daudé wrote:
-> $ cat .ignoredmailmap
-> #
-> # From man git-shortlog the forms are:
-> #
-> #  Proper Name <commit@email.xx>
-> #  <proper@email.xx>
-> #
-> Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
-> Caio Carrara <ccarrara@redhat.com>
-> Yongbok Kim <yongbok.kim@mips.com>
-> James Hogan <james.hogan@mips.com>
-> Paul Burton <pburton@wavecomp.com>
-> Alexander Graf <agraf@suse.de>
-> Roy Franz <roy.franz@linaro.org>
-> Dmitry Solodkiy <d.solodkiy@samsung.com>
-> Evgeny Voevodin <e.voevodin@samsung.com>
-> Serge Hallyn <serge.hallyn@ubuntu.com>
-> Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-> 
+On 01/07/20 17:12, lichun@ruijie.com.cn wrote:
+>> On 01/07/20 09:06, Markus Armbruster wrote:
+>>> lichun <lichun@ruijie.com.cn> writes:
+>>>
+>>>> Signed-off-by: lichun <lichun@ruijie.com.cn>
+>>>> ---
+>>>>   chardev/char-socket.c | 3 ++-
+>>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>>>> index afebeec5c3..569d54c144 100644
+>>>> --- a/chardev/char-socket.c
+>>>> +++ b/chardev/char-socket.c
+>>>> @@ -142,6 +142,8 @@ static void check_report_connect_error(Chardev *chr,
+>>>>                             "Unable to connect character device %s: ",
+>>>>                             chr->label);
+>>>>           s->connect_err_reported = true;
+>>>> +    } else {
+>>>> +        error_free(err);
+>>>>       }
+>>>>       qemu_chr_socket_restart_timer(chr);
+>>>>   }
+>>>> @@ -1086,7 +1088,6 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
+>>>>       if (qio_task_propagate_error(task, &err)) {
+>>>>           tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
+>>>>           check_report_connect_error(chr, err);
+>>>> -        error_free(err);
+>>>>           goto cleanup;
+>>>>       }
+>>>
+>>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>>
+>>> and queued, thanks!
+>>>
+>>
+>> Can you please add a note to the commit message?
+>>
+>>     Errors are already freed by error_report_err, so we only need to call
+>>     error_free when that function is not called.
+>>   
+>> and Cc qemu-stable?  Or I can queue it too since it's chardev stuff. 
+> Ok,  I'll post v3.
 
-For at least Paul Burton, Pavel Dovgalyuk and Alex Graf we should just
-use .mailmap, anyway I think the concept of the patch is okay.
+No need for that, thanks!  (My message was for Markus).
 
 Paolo
 
