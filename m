@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA1021123B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:55:41 +0200 (CEST)
-Received: from localhost ([::1]:33106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C843021124D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 20:04:29 +0200 (CEST)
+Received: from localhost ([::1]:44248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqgxQ-0003ZO-6D
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37616)
+	id 1jqh5w-0004iL-Dd
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 14:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqgwV-0002yQ-CS
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:54:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32841
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqh4f-00045w-Hj
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:03:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41996
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqgwS-0007Cq-Sa
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:54:42 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqh4d-0000Ml-5V
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:03:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593626079;
+ s=mimecast20190719; t=1593626586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kF+8m07BX3QpxKMxa4T6CTC41Noz2xPVueqJb6b5lc8=;
- b=VdOj8hFdLEg8K7PaDpZqaaDM3jIABvC4kpTQQJFWvzsYetKQHFOGyvLUsSg/Z35cfCUhHm
- Q1U9rIxAxFJ9nFHWWT1+cJ1hlZPRKWh1oB318lqcRFuJv8cAq/Bn3XRL5DCSdd1l/7h1ww
- zM4BYkG1V0J5ogu1p6IaREx71PH+4kA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-3xRh3jY-P4Oxd2IN1KtR-w-1; Wed, 01 Jul 2020 13:54:36 -0400
-X-MC-Unique: 3xRh3jY-P4Oxd2IN1KtR-w-1
-Received: by mail-ed1-f69.google.com with SMTP id v8so15442445edj.4
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 10:54:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kF+8m07BX3QpxKMxa4T6CTC41Noz2xPVueqJb6b5lc8=;
- b=Ls2tkV2lYFeMg/KcdSlIrBqdKdZc7VdmCTywvo4Kcp8wUYt5ZAb1B6ns8z+SLK1Lvy
- inkNwHvQaMcC0dMCxwDXAP6fZ0LsG5nyAfKFcdAuIa8+m/b5UXw4BwEXQE6/53hqoxCT
- 9EA2d7wWlizpyHVppke1tLbpnqeEBc1Z1DkoWsXyMgoEs4N2FofRNdfvoF9hoNgL19lX
- BIus9aHW2OZVhb4OzAQRXDCU0HPhZR+9lUnfYoW6/Y8w5c4Sq3gGt3f1z8K+Tvo4Q2bS
- JZ9vOEiovU7ihHKQ3kDZEZl3D/u/AWtjlwEQtVzcGKjWAzCdNVG732izOQpPQ6YpW1iz
- yOOQ==
-X-Gm-Message-State: AOAM532SjtJ3UWosRh7qqzcEmP5cLxFZSXeufgAM2oD2De7Kk7Vd9n8K
- FXV7g47KYTF8ec+ph9ZRv5r4Nwufg2m6//nqJl79w3l211UBrvqb/1+2qrz0jg6hcB/HbvTryBR
- Q+VOrVv1XrAF4U8k=
-X-Received: by 2002:a05:6402:706:: with SMTP id
- w6mr29640641edx.326.1593626074722; 
- Wed, 01 Jul 2020 10:54:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7kNoL+04TjzjHwf06iCYJfm7RLqllZCfZ+F9wUzLpVmvoghZvkgj5DCbRWgxG9PBN7nd6eA==
-X-Received: by 2002:a05:6402:706:: with SMTP id
- w6mr29640623edx.326.1593626074520; 
- Wed, 01 Jul 2020 10:54:34 -0700 (PDT)
-Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id s7sm6494753edr.57.2020.07.01.10.54.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 10:54:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ to:to:cc:cc:content-type:content-type;
+ bh=rZjV98Q4tintM65GVVrOAXnUsfXFn5cWwaXEhXfiDPU=;
+ b=H4BtTF5YympgwmiqT0U3KPmSvslEECt0DJMbgxY7+0o+vOikYYP4mAeCTxDpOrmdhA1c/C
+ mi2wGb5v3Ur8p3bzEOMKrfm+RCm43WSU9uOJoR3R1Vzu8Eg98EhKz298LwP+kRYky9zZMt
+ UzFRBvT1nM6/iSAp+S+7bpDBz0jQYZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-8hKQFJUcMF2sylEGNTvk4A-1; Wed, 01 Jul 2020 14:03:04 -0400
+X-MC-Unique: 8hKQFJUcMF2sylEGNTvk4A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E9DA107B7C5
+ for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 18:03:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5338E5C220;
+ Wed,  1 Jul 2020 18:03:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7B1CC16E16; Wed,  1 Jul 2020 20:03:02 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] cpus: Move CPU code from exec.c to cpus.c
-Date: Wed,  1 Jul 2020 19:54:32 +0200
-Message-Id: <20200701175432.18892-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-MIME-Version: 1.0
+Subject: [PATCH] util/drm: make portable
+Date: Wed,  1 Jul 2020 20:03:02 +0200
+Message-Id: <20200701180302.14821-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -96,99 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code was introduced with SMP support in commit 6a00d60127,
-later commit 296af7c952 moved CPU parts to cpus.c but forgot this
-code. Move now and simplify ifdef'ry.
+Given this isn't perforance critical at all lets avoid the non-portable
+d_type and use fstat instead to check whenever the file is a chardev.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- cpus.c | 18 ++++++++++++++++++
- exec.c | 22 ----------------------
- 2 files changed, 18 insertions(+), 22 deletions(-)
+ util/drm.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/cpus.c b/cpus.c
-index 41d1c5099f..472686cbbc 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -92,6 +92,11 @@ static unsigned int throttle_percentage;
- #define CPU_THROTTLE_PCT_MAX 99
- #define CPU_THROTTLE_TIMESLICE_NS 10000000
- 
-+CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
-+
-+/* current CPU in the current thread. It is only valid inside cpu_exec() */
-+__thread CPUState *current_cpu;
-+
- bool cpu_is_stopped(CPUState *cpu)
+diff --git a/util/drm.c b/util/drm.c
+index a23ff2453826..6ba87f34f4ee 100644
+--- a/util/drm.c
++++ b/util/drm.c
+@@ -24,7 +24,8 @@ int qemu_drm_rendernode_open(const char *rendernode)
  {
-     return cpu->stopped || !runstate_is_running();
-@@ -134,6 +139,19 @@ static bool all_cpu_threads_idle(void)
-     return true;
- }
+     DIR *dir;
+     struct dirent *e;
+-    int r, fd;
++    struct stat st;
++    int r, fd, ret;
+     char *p;
  
-+CPUState *qemu_get_cpu(int index)
-+{
-+    CPUState *cpu;
-+
-+    CPU_FOREACH(cpu) {
-+        if (cpu->cpu_index == index) {
-+            return cpu;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
- /***********************************************************/
- /* guest cycle counter */
+     if (rendernode) {
+@@ -38,10 +39,6 @@ int qemu_drm_rendernode_open(const char *rendernode)
  
-diff --git a/exec.c b/exec.c
-index 21926dc9c7..997b7db15f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -98,12 +98,6 @@ AddressSpace address_space_memory;
- static MemoryRegion io_mem_unassigned;
- #endif
- 
--CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
--
--/* current CPU in the current thread. It is only valid inside
--   cpu_exec() */
--__thread CPUState *current_cpu;
--
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
- 
-@@ -832,22 +826,6 @@ const VMStateDescription vmstate_cpu_common = {
-     }
- };
- 
--#endif
--
--CPUState *qemu_get_cpu(int index)
--{
--    CPUState *cpu;
--
--    CPU_FOREACH(cpu) {
--        if (cpu->cpu_index == index) {
--            return cpu;
+     fd = -1;
+     while ((e = readdir(dir))) {
+-        if (e->d_type != DT_CHR) {
+-            continue;
 -        }
--    }
 -
--    return NULL;
--}
--
--#if !defined(CONFIG_USER_ONLY)
- void cpu_address_space_init(CPUState *cpu, int asidx,
-                             const char *prefix, MemoryRegion *mr)
- {
+         if (strncmp(e->d_name, "renderD", 7)) {
+             continue;
+         }
+@@ -53,6 +50,16 @@ int qemu_drm_rendernode_open(const char *rendernode)
+             g_free(p);
+             continue;
+         }
++
++        /* prefer fstat() over checking e->d_type == DT_CHR for
++         * portability reasons */
++        ret = fstat(r, &st);
++        if (ret < 0 || (st.st_mode & S_IFMT) != S_IFCHR) {
++            close(r);
++            g_free(p);
++            continue;
++        }
++
+         fd = r;
+         g_free(p);
+         break;
 -- 
-2.21.3
+2.18.4
 
 
