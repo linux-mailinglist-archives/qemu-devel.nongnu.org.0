@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF69210E89
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:08:51 +0200 (CEST)
-Received: from localhost ([::1]:57744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C36E210ECC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:13:53 +0200 (CEST)
+Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeLy-0000CV-91
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:08:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1jqeQq-00088h-8M
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHt-0003Df-4U
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54432
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHv-0003G3-CN
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:39 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60323
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHq-0001AX-SQ
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHr-0001B8-VS
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615874;
+ s=mimecast20190719; t=1593615875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o8Cqh+HphbjUac1JtCJY2sQJPe5CO2XSD8Gqj9m0lnM=;
- b=dLUbWaAwHv7HK/N+Z7rjyqnbmuzN5giOrDF3AX+YyNCkBvUc81vbpwJg79J/TiwjKOM+SJ
- oyhlhQuTOurG0ornS49CKvZxktSO66UqtIg7EL11R9uAcSQ5JUOENRZItWdqcHQb+4rnq0
- 9c1Sy0IzSh5HpHzd3CsYnFn7FlVELBU=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=a5h2HmNadxFaYgfpo+s2gFMHb1YNvcR9sTX4oIM7oFQ=;
+ b=PpsWYji3W3twC2WbxrEyKWIt2KzbdmUuTEO3IBXT6yB/HvOTtbp6btQyLcgsKeETCSDt4I
+ Ankx32Mf5HpUH5apakOc4teeDiJVgmpFtxUCQZEM3jGNAljqsYdQ5ovR8BFngwKZ4p/TgT
+ Jiz1mDlw4IIDa3yuwmSP5+uwLc6WirU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-NEJGlMDpPTuTf8ONoHnk_w-1; Wed, 01 Jul 2020 11:04:32 -0400
-X-MC-Unique: NEJGlMDpPTuTf8ONoHnk_w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-45-Tg91MYIDM_iRZeTw3PnVXg-1; Wed, 01 Jul 2020 11:04:32 -0400
+X-MC-Unique: Tg91MYIDM_iRZeTw3PnVXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09E2C107B768;
- Wed,  1 Jul 2020 15:04:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F204F9105EA;
+ Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A836E5C1B0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A59AD10013C1;
  Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7E90131E3F; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
+ id 87A4B31E77; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/13] sm501: Use stn_he_p/ldn_he_p instead of switch/case
-Date: Wed,  1 Jul 2020 17:04:18 +0200
-Message-Id: <20200701150425.13739-7-kraxel@redhat.com>
+Subject: [PULL 07/13] sm501: Do not allow guest to set invalid format
+Date: Wed,  1 Jul 2020 17:04:19 +0200
+Message-Id: <20200701150425.13739-8-kraxel@redhat.com>
 In-Reply-To: <20200701150425.13739-1-kraxel@redhat.com>
 References: <20200701150425.13739-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,41 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Instead of open coding op with different sizes using a switch and type
-casting it can be written more compactly using stn_he_p/ldn_he_p.
+Prevent guest setting invalid format value that might trip checks in
+sm501_2d_operation().
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: e2f649cb286f0735a10ec87c1b36a7ae081acb61.1592686588.git.balaton@eik.bme.hu
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 26d4fa9b8ce81e2723e98d592ccba7550042752c.1592686588.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/sm501.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ hw/display/sm501.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 2098e6981014..6349f31e6491 100644
+index 6349f31e6491..7e4c042d5229 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -766,17 +766,7 @@ static void sm501_2d_operation(SM501State *s)
-             for (y = 0; y < height; y++) {
-                 i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-                 for (x = 0; x < width; x++, i += bypp) {
--                    switch (format) {
--                    case 0:
--                        d[i] = ~d[i];
--                        break;
--                    case 1:
--                        *(uint16_t *)&d[i] = ~*(uint16_t *)&d[i];
--                        break;
--                    case 2:
--                        *(uint32_t *)&d[i] = ~*(uint32_t *)&d[i];
--                        break;
--                    }
-+                    stn_he_p(&d[i], bypp, ~ldn_he_p(&d[i], bypp));
-                 }
-             }
-         } else {
+@@ -1503,6 +1503,9 @@ static void sm501_2d_engine_write(void *opaque, hwaddr addr,
+         s->twoD_background = value;
+         break;
+     case SM501_2D_STRETCH:
++        if (((value >> 20) & 3) == 3) {
++            value &= ~BIT(20);
++        }
+         s->twoD_stretch = value;
+         break;
+     case SM501_2D_COLOR_COMPARE:
 -- 
 2.18.4
 
