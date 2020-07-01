@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B8D2108B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:55:10 +0200 (CEST)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8852108F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:10:24 +0200 (CEST)
+Received: from localhost ([::1]:53236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqZSP-0002zx-Lp
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
+	id 1jqZh9-0007yw-GR
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqZRj-0002VG-JC
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:54:27 -0400
-Resent-Date: Wed, 01 Jul 2020 05:54:27 -0400
-Resent-Message-Id: <E1jqZRj-0002VG-JC@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqZRg-0001G7-I8
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:54:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593597236; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MB6iX1r3bc08MfgHkHoI2ORyForRgputtpVrAIDXZ/U1YObRFP8hl7X+AaUObTHjISo5jbyY32PFp2b9mNWjhJeYkjxU9zUkWnHAVVoMyuY3UebFTHyDybgVTq/xquCW2wfIkYAZh2o9+1UASw/uafUMR77+rghkW5KffFrvNW0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593597236;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=gHKhh8QfaZ5WyxI9K+cK9HibxQzOmWCq7MxHn0Id9XY=; 
- b=FWVyU8KRENgDf6+0vFRY8BOtJkR09MO7ONz7g0E0NgaMGxKsEE6GewHhYnmbYxbRkqz+chCLNqgMfrLQYENUmd8VKxB9J3KiWenBCNTXhCzzGx95Bc3HZfYYErEYg7/pwrNiKybtEPvaxQ0+w0RAN2H95Afx3FFwuiZd0GGc+/0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593597234419992.6330243285137;
- Wed, 1 Jul 2020 02:53:54 -0700 (PDT)
-Message-ID: <159359723131.26405.13534157972316101442@d1fd068a5071>
-Subject: Re: [PATCH v3 00/13]  vDPA support in qemu
-In-Reply-To: <20200701092449.17451-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jqZgN-0007WJ-CA
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:09:35 -0400
+Received: from 8.mo69.mail-out.ovh.net ([46.105.56.233]:52657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jqZgK-0003nW-Dx
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:09:35 -0400
+Received: from player732.ha.ovh.net (unknown [10.110.208.44])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id C18839760F
+ for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 12:09:29 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player732.ha.ovh.net (Postfix) with ESMTPSA id B038113D1F084;
+ Wed,  1 Jul 2020 10:09:25 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0026d2cc685-e630-413e-ae59-51a83fd6ed82,EF6FC975B06A46128E02C0B478BB3EF643A8B18B)
+ smtp.auth=groug@kaod.org
+Date: Wed, 1 Jul 2020 12:09:24 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v6 4/5] 9pfs: T_readdir latency optimization
+Message-ID: <20200701120924.617532a3@bahia.lan>
+In-Reply-To: <4716485.3Xd2u1jlTO@silver>
+References: <cover.1587309014.git.qemu_oss@crudebyte.com>
+ <33906767.5Uf7ihArhA@silver> <20200630183957.38b63719@bahia.lan>
+ <4716485.3Xd2u1jlTO@silver>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lulu@redhat.com
-Date: Wed, 1 Jul 2020 02:53:54 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 05:54:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 6978609100792699200
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrtddvgddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.56.233; envelope-from=groug@kaod.org;
+ helo=8.mo69.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 06:09:30
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,53 +66,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: rdunlap@infradead.org, mst@redhat.com, mhabets@solarflare.com,
- qemu-devel@nongnu.org, rob.miller@broadcom.com, saugatm@xilinx.com,
- lulu@redhat.com, armbru@redhat.com, hch@infradead.org, eperezma@redhat.com,
- jgg@mellanox.com, jasowang@redhat.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
- maxime.coquelin@redhat.com, aadam@redhat.com, cohuck@redhat.com,
- hanand@xilinx.com, lingshan.zhu@intel.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMTA5MjQ0OS4xNzQ1
-MS0xLWx1bHVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
-bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
-IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
-Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
-TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgaW90ZXN0LXFjb3cy
-OiAwMzkKQnJva2VuIHBpcGUKL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0
-LmM6MTc1OiBraWxsX3FlbXUoKSBkZXRlY3RlZCBRRU1VIGRlYXRoIGZyb20gc2lnbmFsIDExIChT
-ZWdtZW50YXRpb24gZmF1bHQpIChjb3JlIGR1bXBlZCkKRVJST1IgLSB0b28gZmV3IHRlc3RzIHJ1
-biAoZXhwZWN0ZWQgNCwgZ290IDEpCm1ha2U6ICoqKiBbY2hlY2stcXRlc3QteDg2XzY0XSBFcnJv
-ciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCnFlbXUtc3lzdGVt
-LWFhcmNoNjQ6IC1hY2NlbCBrdm06IGludmFsaWQgYWNjZWxlcmF0b3Iga3ZtCnFlbXUtc3lzdGVt
-LWFhcmNoNjQ6IGZhbGxpbmcgYmFjayB0byB0Y2cKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNz
-RXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFu
-ZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5p
-bnN0YW5jZS51dWlkPTYzZTgwYTYxYjlhOTQ5ODc4ZTcxOWViY2M2MmUxNjViJywgJy11JywgJzEw
-MDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUn
-LCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdW
-PScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1l
-JywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5j
-YWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90
-bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXZyaXdrYXQ1L3NyYy9kb2NrZXItc3JjLjIwMjAtMDctMDEt
-MDUuMzguMDEuMjM3MjY6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFy
-L3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3Rh
-dHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTYzZTgw
-YTYxYjlhOTQ5ODc4ZTcxOWViY2M2MmUxNjViCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJy
-b3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
-dG1wLXZyaXdrYXQ1L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9z
-N10gRXJyb3IgMgoKcmVhbCAgICAxNW01MS4xNTlzCnVzZXIgICAgMG05LjA3MHMKCgpUaGUgZnVs
-bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzAxMDky
-NDQ5LjE3NDUxLTEtbHVsdUByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Tue, 30 Jun 2020 20:00:08 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> On Dienstag, 30. Juni 2020 18:39:57 CEST Greg Kurz wrote:
+> > On Tue, 30 Jun 2020 17:16:40 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Montag, 29. Juni 2020 18:39:02 CEST Greg Kurz wrote:
+> > > > On Wed, 03 Jun 2020 19:16:08 +0200
+> > > > 
+> > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > > On Sonntag, 19. April 2020 17:06:17 CEST Christian Schoenebeck wrote:
+> > > > > > Make top half really top half and bottom half really bottom half:
+> > > > > > 
+> > > > > > Each T_readdir request handling is hopping between threads (main
+> > > > > > I/O thread and background I/O driver threads) several times for
+> > > > > > every individual directory entry, which sums up to huge latencies
+> > > > > > for handling just a single T_readdir request.
+> > > > > > 
+> > > > > > Instead of doing that, collect now all required directory entries
+> > > > > > (including all potentially required stat buffers for each entry) in
+> > > > > > one rush on a background I/O thread from fs driver by calling the
+> > > > > > previously added function v9fs_co_readdir_many() instead of
+> > > > > > v9fs_co_readdir(), then assemble the entire resulting network
+> > > > > > response message for the readdir request on main I/O thread. The
+> > > > > > fs driver is still aborting the directory entry retrieval loop
+> > > > > > (on the background I/O thread inside of v9fs_co_readdir_many())
+> > > > > > as soon as it would exceed the client's requested maximum R_readdir
+> > > > > > response size. So this will not introduce a performance penalty on
+> > > > > > another end.
+> > > > > > 
+> > > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > > > ---
+> > > > > > 
+> > > > > >  hw/9pfs/9p.c | 122
+> > > > > >  +++++++++++++++++++++++----------------------------
+> > > > > >  1 file changed, 55 insertions(+), 67 deletions(-)
+> > > > > 
+> > > > > Ping. Anybody?
+> > > > > 
+> > > > > I would like to roll out this patch set soon and this is the only
+> > > > > patch in
+> > > > > this series missing a review yet.
+> > > > 
+> > > > Hi Christian,
+> > > 
+> > > Hi Greg,
+> > > 
+> > > > Sorry for getting back to this only now :-\
+> > > > 
+> > > > So I still have some concerns about the locking of the directory stream
+> > > > pointer a fid. It was initially introduced to avoid concurrent accesses
+> > > > by multiple threads to the corresponding internal glibc object, as
+> > > > recommended in the readdir(3) manual page. Now, this patch considerably
+> > > > extends the critical section to also contain calls to telldir() and all
+> > > > the _many_ readdir()... so I'm not sure exactly what's the purpose of
+> > > > that mutex right now. Please provide more details.
+> > > 
+> > > The intention of this lock is to prevent concurrent r/w (i.e. telldir()/
+> > > readdir()) of the dir stream position by two or more active readdir
+> > > requests handled in parallel, provided that they would use the same FID.
+> > > Due to the latter requirement for this to become relevant, we already
+> > > agreed that this is not something that would usually happen with a Linux
+> > > 9p client, but there is nothing from protocol point of view that would
+> > > prohibit this to be done by a client, so the resulting undefined
+> > > behaviour should be prevented, which this lock does.
+> > 
+> > Makes sense. The dir stream position is no different from glibc's internal
+> > dirent in that respect: it shouldn't be used by concurrent threads.
+> 
+> Exactly, it is a conceptual issue per se in general, independent of whether 
+> glibc is used and independent of the fs driver.
+> 
+> > > What's your precise concern?
+> > 
+> > My overall concern is still the same. The patches are big and I've
+> > been away for too long, so I need some more discussion to reassemble
+> > my thoughts and the puzzle :)
+> 
+> Np, if you have questions, just come along.
+> 
+> > But now that I'm starting to understand why it's a good thing to
+> > extend the critical section, I realize it should be extended
+> > even more: we also have calls to seekdir() and rewindir() in
+> > v9fs_readdir() and friends that could _theoretically_ cause the
+> > very same kind of undefined behavior you're mentioning.
+> 
+> You are talking about the "old" code now. Yes, it is wrong and I did not 
+
+No I'm talking about code that isn't changed by this series:
+
+    if (initial_offset == 0) {
+        v9fs_co_rewinddir(pdu, fidp);
+    } else {
+        v9fs_co_seekdir(pdu, fidp, initial_offset);
+    }
+    count = v9fs_do_readdir(pdu, fidp, max_count);
+
+Leaving these outside the critical section seems to negate
+your arguments... please clarify.
+
+> bother to fix the "old" implementation, since this optimized readdir 
+> implementation fixed this issue as well in one rush, but also note ...
+> 
+> > I think the change is important enough that it deserves its
+> > own patch. I expect that moving the locking to the top-level
+> > handler might also simplify the existing code, and thus your
+> > series as well.
+> 
+> ... please reconsider if you really want to open that box. The "old" readdir 
+> implementation on main thread is inherently wrong, and handling the lock there 
+> and error pathes is extremely cumbersome and error prone.
+> 
+
+There are indeed several issues with the current readdir:
+
+1) potential inconsistency on concurrent Treaddir requests
+
+2) excessive dispatching to worker threads
+
+So we agreed that 1) should never happen with a regular linux
+client (we could even dump the lock actually) but we want to
+make it clear in the code anyway that actions on the directory
+stream are serialized.
+
+2) basically means moving some logic from the frontend to the
+backend, ie. called from v9fs_co_run_in_worker(). This implies
+that a very long request (ie. one that would span on many calls
+to readdir()) cannot be interrupted by the client anymore, as
+opposed to what we have now BTW.
+
+I tend to think that addressing both issues in one "rush" is
+as much "error prone".
+
+> Also: it does not make sense to move locking on this series from fs driver 
+> back to main I/O thread. Atomicity must retain on driver side, not on top 
+> half.
+> 
+
+Then the whole seekdir/rewinddir/telldir/readdir sequence should
+be called with a single v9fs_co_run_in_worker() invocation, in
+which case the locking could just be something like:
+
+int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+                                      struct V9fsDirEnt **entries,
+                                      int32_t maxsize, bool dostat)
+{
+    int err = 0;
+
+    if (v9fs_request_cancelled(pdu)) {
+        return -EINTR;
+    }
+
+    v9fs_readdir_lock(&fidp->fs.dir);
+
+    v9fs_co_run_in_worker({
+        err = do_readdir_many(pdu, fidp, entries, maxsize, dostat);
+    });
+
+    v9fs_readdir_unlock(&fidp->fs.dir);
+    return err;
+}
+
+This would technically leave the locking in the main I/O thread,
+but it isn't conceptually different from locking at the beginning
+of do_readdir_lock() and unlocking before returning. My concern
+is that I don't know how coroutine mutexes behave with multiple
+worker threads...
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
+
+Cheers,
+
+--
+Greg
 
