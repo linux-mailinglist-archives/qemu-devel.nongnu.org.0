@@ -2,95 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F8C210486
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 09:11:53 +0200 (CEST)
-Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBA7210471
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 09:05:02 +0200 (CEST)
+Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqWuO-0001vC-F7
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 03:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48398)
+	id 1jqWnk-0006SV-OP
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 03:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqWtd-0001SX-BS
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:11:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43442)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1jqWmh-00061T-Lj
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:03:55 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:41506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqWtZ-0008IR-RB
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:11:05 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqWtW-0006h2-BV
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:10:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 452682E810B
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 07:10:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1jqWme-00072w-S1
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:03:55 -0400
+Received: by mail-ed1-x543.google.com with SMTP id e22so18595541edq.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 00:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=6eNZuzFNJ6OxbyFGv/sTyrbXRJOgNAq4o3gC0+HLpag=;
+ b=UAoPm0YKD/s7r6iPfz/T0PuEhqOaM4+nyi4tMmyeXBtD9suQ2kjadh3JuiLeOe4eHP
+ cyhesJE195NEHpLjShWKGowwJ2vFh9NDRWQgUT0BOvk7KdBczKx8k+qTYqp0X9p0Z0K4
+ 0FnjU6d71yidlpIGI+FHodFAj4jEQR75u/8Sa1hZPgcvfRPmZ3YEOhFwlJCbVJiyLhD8
+ DR5ywCRQB021jF6sxzXcVOBKC4sn6d3B50DgGWdNU1ppEIvCEKWFrfDD9AtLaSCZREJM
+ hwZsxh+Wgg2SJEPcE2oYiNXvfs9b3wvVtt2+uqVAeJ6XDju0Kpexs3neZwdAbxVEPuom
+ zsAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=6eNZuzFNJ6OxbyFGv/sTyrbXRJOgNAq4o3gC0+HLpag=;
+ b=f7D29beGB3fRVq4oGOmsW8ZW91gsoxYlML7PE692RPeMfuBucwkjzbeaJ2BTjszSy3
+ iso06sRsuk8n90AeK6ksMn0DOYpW0yGv7OOKm7iTigfl1v4oEMRDTE2iJvWOhoLmfTUC
+ 0gzmVfSjrrfeg+Vi8bWNDRJgM9KzzyqYwZBuuqeHUHgZSaCRwhvT7iDDcvvfwQ0PXym4
+ M8iutwdUq5OdjOZhzjAJSdHrY6lrn2Fwan2wbm/IorKo5gkU+jt7fq5svFFE8lMvsCkR
+ WOt6dHIQy3L+i80EvAsjlMTeyQzVz3oaRHVHo/nsIV6QmKiLKWRpoWgpnTEY+Fv1HeqU
+ tqxw==
+X-Gm-Message-State: AOAM533hZ5ICNsggjvoC7eGi4v7UadPmZtHuBQmihNHdMVK7s7F5Y0g0
+ 99NX3BYtLJYnsQqqfwPt+uY=
+X-Google-Smtp-Source: ABdhPJz4LIGFdOnkn9jdZqEhUBlzB6LaMc2aOiaq72jXKhCB/fO/5680G+Tj706S1ohuE+kvZnnySA==
+X-Received: by 2002:a05:6402:1ca6:: with SMTP id
+ cz6mr9805142edb.171.1593587031355; 
+ Wed, 01 Jul 2020 00:03:51 -0700 (PDT)
+Received: from CBGR90WXYV0 (54-240-197-238.amazon.com. [54.240.197.238])
+ by smtp.gmail.com with ESMTPSA id z1sm3961362eji.92.2020.07.01.00.03.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 01 Jul 2020 00:03:50 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
+ <xen-devel@lists.xenproject.org>, <qemu-devel@nongnu.org>
+References: <20200624121841.17971-1-paul@xen.org>
+ <20200624121841.17971-3-paul@xen.org>
+ <33e594dd-dbfa-7c57-1cf5-0852e8fc8e1d@redhat.com>
+ <000701d64ef5$6568f660$303ae320$@xen.org>
+ <9e591254-d215-d5af-38d2-fd5b65f84a43@redhat.com>
+In-Reply-To: <9e591254-d215-d5af-38d2-fd5b65f84a43@redhat.com>
+Subject: RE: [PATCH 2/2] xen: cleanup unrealized flash devices
+Date: Wed, 1 Jul 2020 08:03:49 +0100
+Message-ID: <000801d64f75$c604f570$520ee050$@xen.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2020 07:01:49 -0000
-From: Ike Panhc <1805256@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=kunpeng920; status=Triaged; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04; status=Triaged;
- importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
- status=Triaged; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
- component=main; status=Triaged; importance=Medium;
- assignee=rafaeldtinoco@ubuntu.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Fix Released; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Tags: ikeradar patch qemu-img verification-done-bionic
- verification-done-eoan verification-done-focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
- jan-glauber-i janitor jnsnow kongzizaixian lizhengui paelzer philmd
- rafaeldtinoco sil2100 ubuntu-sru-bot ying-fang
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Ike Panhc (ikepanhc)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <159358690995.3512.1371170453660956578.malone@wampee.canonical.com>
-Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
- Aarch64 when converting images
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 005ef6299d667890384811ac53e85cc199b92307
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 03:10:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJSqy6H9p+wwq7WTKLIQgTsJ4xkIwGyH0+lAvluRd8CNjldPAM3wS46p6jIZ4A=
+Content-Language: en-gb
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=xadimgnik@gmail.com; helo=mail-ed1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,208 +97,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Reply-To: paul@xen.org
+Cc: 'Eduardo Habkost' <ehabkost@redhat.com>,
+ 'Jason Andryuk' <jandryuk@gmail.com>, 'Paul Durrant' <pdurrant@amazon.com>,
+ "'Michael S. Tsirkin'" <mst@redhat.com>, 'Paolo Bonzini' <pbonzini@redhat.com>,
+ 'Richard Henderson' <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Re-open for bionic due to regression found
+> -----Original Message-----
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Sent: 30 June 2020 18:27
+> To: paul@xen.org; xen-devel@lists.xenproject.org; =
+qemu-devel@nongnu.org
+> Cc: 'Eduardo Habkost' <ehabkost@redhat.com>; 'Michael S. Tsirkin' =
+<mst@redhat.com>; 'Paul Durrant'
+> <pdurrant@amazon.com>; 'Jason Andryuk' <jandryuk@gmail.com>; 'Paolo =
+Bonzini' <pbonzini@redhat.com>;
+> 'Richard Henderson' <rth@twiddle.net>
+> Subject: Re: [PATCH 2/2] xen: cleanup unrealized flash devices
+>=20
+> On 6/30/20 5:44 PM, Paul Durrant wrote:
+> >> -----Original Message-----
+> >> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> Sent: 30 June 2020 16:26
+> >> To: Paul Durrant <paul@xen.org>; xen-devel@lists.xenproject.org; =
+qemu-devel@nongnu.org
+> >> Cc: Eduardo Habkost <ehabkost@redhat.com>; Michael S. Tsirkin =
+<mst@redhat.com>; Paul Durrant
+> >> <pdurrant@amazon.com>; Jason Andryuk <jandryuk@gmail.com>; Paolo =
+Bonzini <pbonzini@redhat.com>;
+> >> Richard Henderson <rth@twiddle.net>
+> >> Subject: Re: [PATCH 2/2] xen: cleanup unrealized flash devices
+> >>
+> >> On 6/24/20 2:18 PM, Paul Durrant wrote:
+> >>> From: Paul Durrant <pdurrant@amazon.com>
+> >>>
+> >>> The generic pc_machine_initfn() calls pc_system_flash_create() =
+which creates
+> >>> 'system.flash0' and 'system.flash1' devices. These devices are =
+then realized
+> >>> by pc_system_flash_map() which is called from =
+pc_system_firmware_init() which
+> >>> itself is called via pc_memory_init(). The latter however is not =
+called when
+> >>> xen_enable() is true and hence the following assertion fails:
+> >>>
+> >>> qemu-system-i386: hw/core/qdev.c:439: =
+qdev_assert_realized_properly:
+> >>> Assertion `dev->realized' failed
+> >>>
+> >>> These flash devices are unneeded when using Xen so this patch =
+avoids the
+> >>> assertion by simply removing them using =
+pc_system_flash_cleanup_unused().
+> >>>
+> >>> Reported-by: Jason Andryuk <jandryuk@gmail.com>
+> >>> Fixes: ebc29e1beab0 ("pc: Support firmware configuration with =
+-blockdev")
+> >>> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+> >>> Tested-by: Jason Andryuk <jandryuk@gmail.com>
+> >>> ---
+> >>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >>> Cc: Richard Henderson <rth@twiddle.net>
+> >>> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> >>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> >>> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> >>> ---
+> >>>  hw/i386/pc_piix.c    | 9 ++++++---
+> >>>  hw/i386/pc_sysfw.c   | 2 +-
+> >>>  include/hw/i386/pc.h | 1 +
+> >>>  3 files changed, 8 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> >>> index 1497d0e4ae..977d40afb8 100644
+> >>> --- a/hw/i386/pc_piix.c
+> >>> +++ b/hw/i386/pc_piix.c
+> >>> @@ -186,9 +186,12 @@ static void pc_init1(MachineState *machine,
+> >>>      if (!xen_enabled()) {
+> >>>          pc_memory_init(pcms, system_memory,
+> >>>                         rom_memory, &ram_memory);
+> >>> -    } else if (machine->kernel_filename !=3D NULL) {
+> >>> -        /* For xen HVM direct kernel boot, load linux here */
+> >>> -        xen_load_linux(pcms);
+> >>> +    } else {
+> >>> +        pc_system_flash_cleanup_unused(pcms);
+> >>
+> >> TIL pc_system_flash_cleanup_unused().
+> >>
+> >> What about restricting at the source?
+> >>
+> >
+> > And leave the devices in place? They are not relevant for Xen, so =
+why not clean up?
+>=20
+> No, I meant to not create them in the first place, instead of
+> create+destroy.
+>=20
+> Anyway what you did works, so I don't have any problem.
 
-** Changed in: kunpeng920/ubuntu-18.04
-       Status: Fix Released =3D> Triaged
+IIUC Jason originally tried restricting creation but encountered a =
+problem because xen_enabled() would always return false at that point, =
+because machine creation occurs before accelerators are initialized.
 
-** Changed in: kunpeng920/ubuntu-18.04-hwe
-       Status: Fix Released =3D> Triaged
+  Paul
 
-** Changed in: kunpeng920
-       Status: Fix Released =3D> Triaged
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> >
+> >   Paul
+> >
+> >> -- >8 --
+> >> --- a/hw/i386/pc.c
+> >> +++ b/hw/i386/pc.c
+> >> @@ -1004,24 +1004,26 @@ void pc_memory_init(PCMachineState *pcms,
+> >>                                      &machine->device_memory->mr);
+> >>      }
+> >>
+> >> -    /* Initialize PC system firmware */
+> >> -    pc_system_firmware_init(pcms, rom_memory);
+> >> -
+> >> -    option_rom_mr =3D g_malloc(sizeof(*option_rom_mr));
+> >> -    memory_region_init_ram(option_rom_mr, NULL, "pc.rom", =
+PC_ROM_SIZE,
+> >> -                           &error_fatal);
+> >> -    if (pcmc->pci_enabled) {
+> >> -        memory_region_set_readonly(option_rom_mr, true);
+> >> -    }
+> >> -    memory_region_add_subregion_overlap(rom_memory,
+> >> -                                        PC_ROM_MIN_VGA,
+> >> -                                        option_rom_mr,
+> >> -                                        1);
+> >> -
+> >>      fw_cfg =3D fw_cfg_arch_create(machine,
+> >>                                  x86ms->boot_cpus, =
+x86ms->apic_id_limit);
+> >>
+> >> -    rom_set_fw(fw_cfg);
+> >> +    /* Initialize PC system firmware */
+> >> +    if (!xen_enabled()) {
+> >> +        pc_system_firmware_init(pcms, rom_memory);
+> >> +
+> >> +        option_rom_mr =3D g_malloc(sizeof(*option_rom_mr));
+> >> +        memory_region_init_ram(option_rom_mr, NULL, "pc.rom", =
+PC_ROM_SIZE,
+> >> +                               &error_fatal);
+> >> +        if (pcmc->pci_enabled) {
+> >> +            memory_region_set_readonly(option_rom_mr, true);
+> >> +        }
+> >> +        memory_region_add_subregion_overlap(rom_memory,
+> >> +                                            PC_ROM_MIN_VGA,
+> >> +                                            option_rom_mr,
+> >> +                                            1);
+> >> +
+> >> +        rom_set_fw(fw_cfg);
+> >> +    }
+> >>
+> >>      if (pcmc->has_reserved_memory && machine->device_memory->base) =
+{
+> >>          uint64_t *val =3D g_malloc(sizeof(*val));
+> >> ---
+> >>
+> >>> +        if (machine->kernel_filename !=3D NULL) {
+> >>> +            /* For xen HVM direct kernel boot, load linux here */
+> >>> +            xen_load_linux(pcms);
+> >>> +        }
+> >>>      }
+> >>>
+> >>>      gsi_state =3D pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+> >>> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+> >>> index ec2a3b3e7e..0ff47a4b59 100644
+> >>> --- a/hw/i386/pc_sysfw.c
+> >>> +++ b/hw/i386/pc_sysfw.c
+> >>> @@ -108,7 +108,7 @@ void pc_system_flash_create(PCMachineState =
+*pcms)
+> >>>      }
+> >>>  }
+> >>>
+> >>> -static void pc_system_flash_cleanup_unused(PCMachineState *pcms)
+> >>> +void pc_system_flash_cleanup_unused(PCMachineState *pcms)
+> >>>  {
+> >>>      char *prop_name;
+> >>>      int i;
+> >>> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> >>> index e6135c34d6..497f2b7ab7 100644
+> >>> --- a/include/hw/i386/pc.h
+> >>> +++ b/include/hw/i386/pc.h
+> >>> @@ -187,6 +187,7 @@ int cmos_get_fd_drive_type(FloppyDriveType =
+fd0);
+> >>>
+> >>>  /* pc_sysfw.c */
+> >>>  void pc_system_flash_create(PCMachineState *pcms);
+> >>> +void pc_system_flash_cleanup_unused(PCMachineState *pcms);
+> >>>  void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion =
+*rom_memory);
+> >>>
+> >>>  /* acpi-build.c */
+> >>>
+> >
+> >
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
-
-Title:
-  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
-  converting images
-
-Status in kunpeng920:
-  Triaged
-Status in kunpeng920 ubuntu-18.04 series:
-  Triaged
-Status in kunpeng920 ubuntu-18.04-hwe series:
-  Triaged
-Status in kunpeng920 ubuntu-19.10 series:
-  Fix Released
-Status in kunpeng920 ubuntu-20.04 series:
-  Fix Released
-Status in kunpeng920 upstream-kernel series:
-  Invalid
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Bionic:
-  Triaged
-Status in qemu source package in Eoan:
-  Fix Released
-Status in qemu source package in Focal:
-  Fix Released
-
-Bug description:
-  [Impact]
-
-  * QEMU locking primitives might face a race condition in QEMU Async
-  I/O bottom halves scheduling. This leads to a dead lock making either
-  QEMU or one of its tools to hang indefinitely.
-
-  [Test Case]
-
-  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs in Aarch64.
-
-  [Regression Potential]
-
-  * This is a change to a core part of QEMU: The AIO scheduling. It
-  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
-  the QEMU AIO code is responsible to schedule QEMU coroutines or event
-  listeners callbacks.
-
-  * There was a long discussion upstream about primitives and Aarch64.
-  After quite sometime Paolo released this patch and it solves the
-  issue. Tested platforms were: amd64 and aarch64 based on his commit
-  log.
-
-  * Christian suggests that this fix stay little longer in -proposed to
-  make sure it won't cause any regressions.
-
-  * dannf suggests we also check for performance regressions; e.g. how
-  long it takes to convert a cloud image on high-core systems.
-
-  [Other Info]
-
-  =C2=A0* Original Description bellow:
-
-  Command:
-
-  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs.
-
-  ----
-
-  Workaround:
-
-  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
-
-  ----
-
-  (gdb) thread 1
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf1ad81c in __GI_ppoll
-  #1 0x0000aaaaaabcf73c in ppoll
-  #2 qemu_poll_ns
-  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
-  #4 main_loop_wait
-  ...
-
-  (gdb) thread 2
-  ...
-  (gdb) bt
-  #0 syscall ()
-  #1 0x0000aaaaaabd41cc in qemu_futex_wait
-  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
-  #3 0x0000aaaaaabed05c in call_rcu_thread
-  #4 0x0000aaaaaabd34c8 in qemu_thread_start
-  #5 0x0000ffffbf25c880 in start_thread
-  #6 0x0000ffffbf1b6b9c in thread_start ()
-
-  (gdb) thread 3
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
-  #1 0x0000ffffbf2671b4 in __sigwait
-  #2 0x0000aaaaaabd1ddc in sigwait_compat
-  #3 0x0000aaaaaabd34c8 in qemu_thread_start
-  #4 0x0000ffffbf25c880 in start_thread
-  #5 0x0000ffffbf1b6b9c in thread_start
-
-  ----
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
-  ./disk01.ext4.qcow2 ./output.qcow2
-
-  [New Thread 0xffffbec5ad90 (LWP 72839)]
-  [New Thread 0xffffbe459d90 (LWP 72840)]
-  [New Thread 0xffffbdb57d90 (LWP 72841)]
-  [New Thread 0xffffacac9d90 (LWP 72859)]
-  [New Thread 0xffffa7ffed90 (LWP 72860)]
-  [New Thread 0xffffa77fdd90 (LWP 72861)]
-  [New Thread 0xffffa6ffcd90 (LWP 72862)]
-  [New Thread 0xffffa67fbd90 (LWP 72863)]
-  [New Thread 0xffffa5ffad90 (LWP 72864)]
-
-  [Thread 0xffffa5ffad90 (LWP 72864) exited]
-  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
-  [Thread 0xffffa77fdd90 (LWP 72861) exited]
-  [Thread 0xffffbdb57d90 (LWP 72841) exited]
-  [Thread 0xffffa67fbd90 (LWP 72863) exited]
-  [Thread 0xffffacac9d90 (LWP 72859) exited]
-  [Thread 0xffffa7ffed90 (LWP 72860) exited]
-
-  <HUNG w/ 3 threads in the stack trace showed before>
-  """
-
-  All the tasks left are blocked in a system call, so no task left to call
-  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
-  thread #1 (doing poll() in a pipe with thread #2).
-
-  Those 7 threads exit before disk conversion is complete (sometimes in
-  the beginning, sometimes at the end).
-
-  ----
-
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
-
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
-
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
-
-  Once hung, attaching gdb gives the following backtrace:
-
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
-igmask=3D0xffffc123b950)
-  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
-linux-gnu/bits/poll2.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
-c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
