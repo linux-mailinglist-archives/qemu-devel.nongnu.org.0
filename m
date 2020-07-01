@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97681210EE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:17:47 +0200 (CEST)
-Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78FA210F3E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:28:49 +0200 (CEST)
+Received: from localhost ([::1]:58390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeUc-0006v3-Lg
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
+	id 1jqefI-0001Qr-Pg
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeSS-0004cM-I4
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:15:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52671
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqeXs-0002xp-CV
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:21:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33137
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeSQ-0002tI-PE
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:15:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqeXq-0004Bw-7Q
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:21:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593616530;
+ s=mimecast20190719; t=1593616865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Tl2XnPJhS4+sRYXg4BsVbGG87M/IQqFEuKR51vK0lWY=;
- b=iN2ZAaqhf+QSt/QgtngZMlJPXdU+Rk5k2hZ9Jt6rZQIZG0R3bGWb52mXnPDxK1FgEarcN5
- AEjg6cm1SSbbvabVYahNUzuGDJwj6N6Na3n1lRYsNL1/n4XqSNf5+9w4Sa3JkUcrHjT2WE
- R+GAYZQnM9PUz5RWVTcfqwae7CVWge8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-DwMczyXOPxyt0U8eAXwVXw-1; Wed, 01 Jul 2020 11:15:28 -0400
-X-MC-Unique: DwMczyXOPxyt0U8eAXwVXw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 171FD18FE86F;
- Wed,  1 Jul 2020 15:15:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
- [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B289773FCF;
- Wed,  1 Jul 2020 15:15:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9BC1A16E16; Wed,  1 Jul 2020 17:15:24 +0200 (CEST)
-Date: Wed, 1 Jul 2020 17:15:24 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
+ bh=3Z8UT5vSj2pQ4GzIt6e3dNiiN0wVzPrBzTl5msxzeko=;
+ b=FUdDaHAptk0oj3KAB3O7dQDfjbbWT207QJ/DP3njIeD9soNMs/NAS3ckA24R2WI3aClOHB
+ 98rg9Wtz6WJsyeW0GTqvlx6R9jcLsrewTXIt7ywNr3zjmx5w1xLKjbpRL39z7Ir+VfkidG
+ lVIFmE1Nv5o1TNXna97OwZvaQlcInqI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-NgPjv5PjMNuaShWJ1sJIaQ-1; Wed, 01 Jul 2020 11:20:56 -0400
+X-MC-Unique: NgPjv5PjMNuaShWJ1sJIaQ-1
+Received: by mail-wr1-f72.google.com with SMTP id i12so21069755wrx.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:20:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3Z8UT5vSj2pQ4GzIt6e3dNiiN0wVzPrBzTl5msxzeko=;
+ b=VAMSJp/5avUlcgZA6nLQNFETymLiNX4BQI6fyZHBIVIqubGGXhg0oc031vMT/TM0kw
+ SDSlAL/7YZ9u9dhYtJD6fDK375ZFODFwgXFZGmaUKTA0Y6WJMcgm5BeNiyebpomLz2Ee
+ 0b5x8vLMQfqHzR4ZvG2I6Astyj0SbnqYWMiucdjfI0HyaBgyAreQe7656O1ehIeFtsPa
+ vKPEx8kD9qloTC15uB0X0TKYadb9j3+HCl8yxlYAxnzP5nZhNDPHv5os4LGcZ1F4fOoc
+ SbNe6WZoz+RX3pLN6GUDzfzqHTkT/Xg6Xo2B0kkpCc0JO9Y7KaNw+9vYk3wWOSZ8JXtk
+ Nuow==
+X-Gm-Message-State: AOAM5306JBafK5oWbWDTBcm4RngpAoG3mqRM1aMNfj2IDGSUiLU3GL3O
+ Pj4d0zz6uPZfGTdpwXOvy5ya/qU1Ud0UGJdP+thS/f7amiGojThb41HXTDbNJ3nX2t2azywD9/4
+ O5Pb5jLai9pELR/8=
+X-Received: by 2002:a1c:6788:: with SMTP id
+ b130mr28037275wmc.100.1593616855659; 
+ Wed, 01 Jul 2020 08:20:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsFkH37qn8s18wOU+ttqmUOj0jBQh4pSgJx4/AyoZICav/pKkclQxjjRRhi40LztVmLLvIQw==
+X-Received: by 2002:a1c:6788:: with SMTP id
+ b130mr28037240wmc.100.1593616855455; 
+ Wed, 01 Jul 2020 08:20:55 -0700 (PDT)
+Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
+ by smtp.gmail.com with ESMTPSA id
+ 138sm1749480wmb.1.2020.07.01.08.20.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 08:20:54 -0700 (PDT)
+Date: Wed, 1 Jul 2020 11:20:50 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATC 7/9] Skipping drm build, unsupported
-Message-ID: <20200701151524.wogl4ihbdevgf4bt@sirius.home.kraxel.org>
-References: <CA+XhMqzjjrfxXeSENBQuHzTe4TRMWV5GOdqPkD3bo17T3ufR1A@mail.gmail.com>
- <1058ccbd-b4bb-9413-abc5-ae89076a58e1@redhat.com>
- <20200630082301.6vybzwmg4pviuwob@sirius.home.kraxel.org>
- <CAFEAcA8jkzf8+d5AyAVH2HJ544TyHsM4xP5tpWsKiJbJtWMjKw@mail.gmail.com>
- <20200630165356.2ka2ltwmrfjb5msn@sirius.home.kraxel.org>
- <3eb3c266-1a83-9f40-4760-1ab2578ae5d6@redhat.com>
+Subject: Re: [PATCH v3 13/13] vhost-vdpa: introduce vhost-vdpa net client
+Message-ID: <20200701112022-mutt-send-email-mst@kernel.org>
+References: <20200701092449.17451-1-lulu@redhat.com>
+ <20200701092449.17451-14-lulu@redhat.com>
+ <dc1c8668-54b7-4b9f-cf0f-a0479339fa7d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3eb3c266-1a83-9f40-4760-1ab2578ae5d6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <dc1c8668-54b7-4b9f-cf0f-a0479339fa7d@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,66 +98,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, David CARLIER <devnexen@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: cohuck@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
+ hanand@xilinx.com, rob.miller@broadcom.com, saugatm@xilinx.com,
+ Cindy Lu <lulu@redhat.com>, armbru@redhat.com, hch@infradead.org,
+ eperezma@redhat.com, jgg@mellanox.com, mhabets@solarflare.com,
+ shahafs@mellanox.com, kevin.tian@intel.com, parav@mellanox.com,
+ vmireyno@marvell.com, cunming.liang@intel.com, gdawar@xilinx.com,
+ jiri@mellanox.com, xiao.w.wang@intel.com, stefanha@redhat.com,
+ zhihong.wang@intel.com, Tiwei Bie <tiwei.bie@intel.com>, aadam@redhat.com,
+ rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > Ah, that is the problem.  Yes, DT_CHR is an non-posix optimization which
-> > allows to get the file type directly, without another round-trip to the
-> > kernel.  If that isn't available you can stat() the file and check
-> > ((st_mode & S_IFMT) == S_IFCHR) instead.
+On Wed, Jul 01, 2020 at 09:28:27AM -0500, Eric Blake wrote:
+> On 7/1/20 4:24 AM, Cindy Lu wrote:
+> > This patch set introduces a new net client type: vhost-vdpa.
+> > vhost-vdpa net client will set up a vDPA device which is specified
+> > by a "vhostdev" parameter.
+> > 
+> > Signed-off-by: Lingshan Zhu <lingshan.zhu@intel.com>
+> > Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > ---
 > 
-> Even when d_type and DT_CHR is available, there are filesystems where the
-> Linux kernel reports d_type of DT_UNKNOWN, and where you are best having
-> that code also falling back to an fstat().
+> > +++ b/qapi/net.json
+> 
+> >   ##
+> >   # @NetClientDriver:
+> >   #
+> >   # Available netdev drivers.
+> >   #
+> > -# Since: 2.7
+> > +# Since: 5.1
+> 
+> This should be:
+> 
+> # Since 2.7
+> # @vhost-vdpa since 5.1
+> 
+> since the enum itself is still available in older releases, it is only the
+> new member that was introduced in this series.
+> 
+> >   ##
+> >   { 'enum': 'NetClientDriver',
+> >     'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> > -            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
+> > +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+> 
 
-Given this isn't perforance critical at all it is probably simplest to
-avoid non-portable d_type altogether and just to the fstat
-unconditionally.
 
-David, does that work for haiku?
+Thanks! I will fix it up when applying.
+Ack with that fixed?
 
-take care,
-  Gerd
 
-diff --git a/util/drm.c b/util/drm.c
-index a23ff2453826..a1d3520d00f2 100644
---- a/util/drm.c
-+++ b/util/drm.c
-@@ -24,6 +24,7 @@ int qemu_drm_rendernode_open(const char *rendernode)
- {
-     DIR *dir;
-     struct dirent *e;
-+    struct stat st;
-     int r, fd;
-     char *p;
- 
-@@ -38,10 +39,6 @@ int qemu_drm_rendernode_open(const char *rendernode)
- 
-     fd = -1;
-     while ((e = readdir(dir))) {
--        if (e->d_type != DT_CHR) {
--            continue;
--        }
--
-         if (strncmp(e->d_name, "renderD", 7)) {
-             continue;
-         }
-@@ -53,6 +50,12 @@ int qemu_drm_rendernode_open(const char *rendernode)
-             g_free(p);
-             continue;
-         }
-+        fstat(r, &st);
-+        if ((st.st_mode & S_IFMT) != S_IFCHR) {
-+            close(r);
-+            g_free(p);
-+            continue;
-+        }
-         fd = r;
-         g_free(p);
-         break;
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
 
 
