@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDC2211092
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:27:37 +0200 (CEST)
-Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A0E211047
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:09:23 +0200 (CEST)
+Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfaC-00056Y-HA
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44270)
+	id 1jqfIY-0001IX-Mv
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqfXQ-0008Rd-Vz; Wed, 01 Jul 2020 12:24:45 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:45323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jqfXO-0000bt-2x; Wed, 01 Jul 2020 12:24:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.144939-0.000344041-0.854717;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03268; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=8; SR=0; TI=SMTPD_---.HvwI0Rt_1593620671; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HvwI0Rt_1593620671)
- by smtp.aliyun-inc.com(10.147.42.22); Thu, 02 Jul 2020 00:24:31 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v12 29/61] target/riscv: vector narrowing fixed-point clip
- instructions
-Date: Wed,  1 Jul 2020 23:25:17 +0800
-Message-Id: <20200701152549.1218-30-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200701152549.1218-1-zhiwei_liu@c-sky.com>
-References: <20200701152549.1218-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqfAP-0006BM-2T
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqfAH-0004Q8-Fy
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:00:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jqfAC-00050n-0P
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 16:00:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 013042E80BA
+ for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 16:00:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 11:22:02
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Jul 2020 15:51:08 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878645@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr ajbennee philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
+ <20200701135652.1366-2-alex.bennee@linaro.org>
+Message-Id: <85314d31-813a-8c20-7522-5186d5f31884@redhat.com>
+Subject: [Bug 1878645] Re: [PATCH v4 01/40] hw/isa: check for current_cpu
+ before generating IRQ
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 15e541885a0d22a6de98670860074508997d6935
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:05:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,240 +74,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
- palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/helper.h                   |  13 +++
- target/riscv/insn32.decode              |   6 +
- target/riscv/insn_trans/trans_rvv.inc.c |   8 ++
- target/riscv/vector_helper.c            | 141 ++++++++++++++++++++++++
- 4 files changed, 168 insertions(+)
+On 7/1/20 3:56 PM, Alex Benn=C3=A9e wrote:
+> It's possible to trigger this function from qtest/monitor at which
+> point current_cpu won't point at the right place. Check it and
+> fall back to first_cpu if it's NULL.
+> =
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 78438f1ad6..5fa4330200 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -790,3 +790,16 @@ DEF_HELPER_6(vssra_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vssra_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-+
-+DEF_HELPER_6(vnclip_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclipu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vnclip_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 7d5dfeb5c7..78e6da6205 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -439,6 +439,12 @@ vssrl_vi        101010 . ..... ..... 011 ..... 1010111 @r_vm
- vssra_vv        101011 . ..... ..... 000 ..... 1010111 @r_vm
- vssra_vx        101011 . ..... ..... 100 ..... 1010111 @r_vm
- vssra_vi        101011 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclipu_vv      101110 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclipu_vx      101110 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclipu_vi      101110 . ..... ..... 011 ..... 1010111 @r_vm
-+vnclip_vv       101111 . ..... ..... 000 ..... 1010111 @r_vm
-+vnclip_vx       101111 . ..... ..... 100 ..... 1010111 @r_vm
-+vnclip_vi       101111 . ..... ..... 011 ..... 1010111 @r_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 31be40f4ba..b9d29f4051 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1775,3 +1775,11 @@ GEN_OPIVX_TRANS(vssrl_vx,  opivx_check)
- GEN_OPIVX_TRANS(vssra_vx,  opivx_check)
- GEN_OPIVI_TRANS(vssrl_vi, 1, vssrl_vx, opivx_check)
- GEN_OPIVI_TRANS(vssra_vi, 0, vssra_vx, opivx_check)
-+
-+/* Vector Narrowing Fixed-Point Clip Instructions */
-+GEN_OPIVV_NARROW_TRANS(vnclipu_vv)
-+GEN_OPIVV_NARROW_TRANS(vnclip_vv)
-+GEN_OPIVX_NARROW_TRANS(vnclipu_vx)
-+GEN_OPIVX_NARROW_TRANS(vnclip_vx)
-+GEN_OPIVI_NARROW_TRANS(vnclipu_vi, 1, vnclipu_vx)
-+GEN_OPIVI_NARROW_TRANS(vnclip_vi, 1, vnclip_vx)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index acd44599ba..d7c51daca7 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -875,6 +875,12 @@ GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
- #define WOP_SSU_B int16_t, int8_t, uint8_t, int16_t, uint16_t
- #define WOP_SSU_H int32_t, int16_t, uint16_t, int32_t, uint32_t
- #define WOP_SSU_W int64_t, int32_t, uint32_t, int64_t, uint64_t
-+#define NOP_SSS_B int8_t, int8_t, int16_t, int8_t, int16_t
-+#define NOP_SSS_H int16_t, int16_t, int32_t, int16_t, int32_t
-+#define NOP_SSS_W int32_t, int32_t, int64_t, int32_t, int64_t
-+#define NOP_UUU_B uint8_t, uint8_t, uint16_t, uint8_t, uint16_t
-+#define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
-+#define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
- 
- /* operation of two vector elements */
- typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
-@@ -3009,6 +3015,7 @@ vssra64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-     res   = (a >> shift)  + round;
-     return res;
- }
-+
- RVVCALL(OPIVV2_RM, vssra_vv_b, OP_SSS_B, H1, H1, H1, vssra8)
- RVVCALL(OPIVV2_RM, vssra_vv_h, OP_SSS_H, H2, H2, H2, vssra16)
- RVVCALL(OPIVV2_RM, vssra_vv_w, OP_SSS_W, H4, H4, H4, vssra32)
-@@ -3026,3 +3033,137 @@ GEN_VEXT_VX_RM(vssra_vx_b, 1, 1, clearb)
- GEN_VEXT_VX_RM(vssra_vx_h, 2, 2, clearh)
- GEN_VEXT_VX_RM(vssra_vx_w, 4, 4, clearl)
- GEN_VEXT_VX_RM(vssra_vx_d, 8, 8, clearq)
-+
-+/* Vector Narrowing Fixed-Point Clip Instructions */
-+static inline int8_t
-+vnclip8(CPURISCVState *env, int vxrm, int16_t a, int8_t b)
-+{
-+    uint8_t round, shift = b & 0xf;
-+    int16_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT8_MAX) {
-+        env->vxsat = 0x1;
-+        return INT8_MAX;
-+    } else if (res < INT8_MIN) {
-+        env->vxsat = 0x1;
-+        return INT8_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline int16_t
-+vnclip16(CPURISCVState *env, int vxrm, int32_t a, int16_t b)
-+{
-+    uint8_t round, shift = b & 0x1f;
-+    int32_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT16_MAX) {
-+        env->vxsat = 0x1;
-+        return INT16_MAX;
-+    } else if (res < INT16_MIN) {
-+        env->vxsat = 0x1;
-+        return INT16_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline int32_t
-+vnclip32(CPURISCVState *env, int vxrm, int64_t a, int32_t b)
-+{
-+    uint8_t round, shift = b & 0x3f;
-+    int64_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > INT32_MAX) {
-+        env->vxsat = 0x1;
-+        return INT32_MAX;
-+    } else if (res < INT32_MIN) {
-+        env->vxsat = 0x1;
-+        return INT32_MIN;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+RVVCALL(OPIVV2_RM, vnclip_vv_b, NOP_SSS_B, H1, H2, H1, vnclip8)
-+RVVCALL(OPIVV2_RM, vnclip_vv_h, NOP_SSS_H, H2, H4, H2, vnclip16)
-+RVVCALL(OPIVV2_RM, vnclip_vv_w, NOP_SSS_W, H4, H8, H4, vnclip32)
-+GEN_VEXT_VV_RM(vnclip_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vnclip_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vnclip_vv_w, 4, 4, clearl)
-+
-+RVVCALL(OPIVX2_RM, vnclip_vx_b, NOP_SSS_B, H1, H2, vnclip8)
-+RVVCALL(OPIVX2_RM, vnclip_vx_h, NOP_SSS_H, H2, H4, vnclip16)
-+RVVCALL(OPIVX2_RM, vnclip_vx_w, NOP_SSS_W, H4, H8, vnclip32)
-+GEN_VEXT_VX_RM(vnclip_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vnclip_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vnclip_vx_w, 4, 4, clearl)
-+
-+static inline uint8_t
-+vnclipu8(CPURISCVState *env, int vxrm, uint16_t a, uint8_t b)
-+{
-+    uint8_t round, shift = b & 0xf;
-+    uint16_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT8_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT8_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline uint16_t
-+vnclipu16(CPURISCVState *env, int vxrm, uint32_t a, uint16_t b)
-+{
-+    uint8_t round, shift = b & 0x1f;
-+    uint32_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT16_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT16_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+static inline uint32_t
-+vnclipu32(CPURISCVState *env, int vxrm, uint64_t a, uint32_t b)
-+{
-+    uint8_t round, shift = b & 0x3f;
-+    int64_t res;
-+
-+    round = get_round(vxrm, a, shift);
-+    res   = (a >> shift)  + round;
-+    if (res > UINT32_MAX) {
-+        env->vxsat = 0x1;
-+        return UINT32_MAX;
-+    } else {
-+        return res;
-+    }
-+}
-+
-+RVVCALL(OPIVV2_RM, vnclipu_vv_b, NOP_UUU_B, H1, H2, H1, vnclipu8)
-+RVVCALL(OPIVV2_RM, vnclipu_vv_h, NOP_UUU_H, H2, H4, H2, vnclipu16)
-+RVVCALL(OPIVV2_RM, vnclipu_vv_w, NOP_UUU_W, H4, H8, H4, vnclipu32)
-+GEN_VEXT_VV_RM(vnclipu_vv_b, 1, 1, clearb)
-+GEN_VEXT_VV_RM(vnclipu_vv_h, 2, 2, clearh)
-+GEN_VEXT_VV_RM(vnclipu_vv_w, 4, 4, clearl)
-+
-+RVVCALL(OPIVX2_RM, vnclipu_vx_b, NOP_UUU_B, H1, H2, vnclipu8)
-+RVVCALL(OPIVX2_RM, vnclipu_vx_h, NOP_UUU_H, H2, H4, vnclipu16)
-+RVVCALL(OPIVX2_RM, vnclipu_vx_w, NOP_UUU_W, H4, H8, vnclipu32)
-+GEN_VEXT_VX_RM(vnclipu_vx_b, 1, 1, clearb)
-+GEN_VEXT_VX_RM(vnclipu_vx_h, 2, 2, clearh)
-+GEN_VEXT_VX_RM(vnclipu_vx_w, 4, 4, clearl)
--- 
-2.23.0
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Bug 1878645 <1878645@bugs.launchpad.net>
+> ---
+>  hw/isa/lpc_ich9.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> =
 
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index cd6e169d47a..791c878eb0b 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -439,7 +439,7 @@ static void ich9_apm_ctrl_changed(uint32_t val, void =
+*arg)
+>                  cpu_interrupt(cs, CPU_INTERRUPT_SMI);
+>              }
+>          } else {
+> -            cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
+> +            cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_INT=
+ERRUPT_SMI);
+
+I'm not sure this change anything, as first_cpu is NULL when using
+qtest accelerator or none-machine, see 508b4ecc39 ("gdbstub.c: fix
+GDB connection segfault caused by empty machines").
+
+>          }
+>      }
+>  }
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878645
+
+Title:
+  null-ptr dereference in ich9_apm_ctrl_changed
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input which triggers a NULL pointer dereference=
+ in
+  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
+is bug
+  is specific to QTest?
+
+  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
+00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
+  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D23862=3D=3DHint: address points to the zero page.
+      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
+mu/accel/tcg/tcg-all.c:57:21
+      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
+ude/hw/core/cpu.h:872:5
+      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
+emu/hw/isa/lpc_ich9.c:442:13
+      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
+hw/isa/apm.c:50:13
+      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/memory.c:544:18
+      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/memory.c:1476:16
+      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
+/qemu/exec.c:3137:23
+      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
+c.c:3177:14
+      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
+u/exec.c:3268:18
+      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
+:60:5
+      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
+qemu/qtest.c:392:13
+      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/qtest.c:710:9
+      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
+c:722:5
+      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/chardev/char.c:183:9
+      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
+/chardev/char.c:195:9
+      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/io/channel-watch.c:84:12
+      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0xc9c819)
+
+  =
+
+  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
+qtest commands:
+
+  cat << EOF | ./qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0
+  outl 0xcf8 0x8400f841
+  outl 0xcfc 0xaa215d6d
+  outl 0x6d30 0x2ef8ffbe
+  outb 0xb2 0x20
+  EOF
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
 
