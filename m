@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40265210973
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:33:32 +0200 (CEST)
-Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D3A21097C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:35:21 +0200 (CEST)
+Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqa3W-0006Et-QX
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
+	id 1jqa5I-0008SO-4G
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:35:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqa2D-0005Tl-1Q
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:09 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqa2A-0007Nf-Nc
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:08 -0400
-Received: by mail-ed1-x543.google.com with SMTP id d16so12504860edz.12
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 03:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KyhPov47WKPLBsVHD+fob7WgLaC6KVjEyZ9mGoZmCUk=;
- b=ESORqC4w1x/M1uz88oYyXPuX/dLgJVcXO3m7up4MblgZwyIAQhGUH8HUMyiHa453dk
- ISGZglSoM/5i3v0wsFKsQF7XpBZsQeomU/RI6bvWuMrGSG6bWX6HxOp0BI/vcXWlGKCq
- lOcTRXLYPmBRINbsW6Czuu0doVR+4E4ulINBJui+lsRs2iciojZnz2xl95a7j1DPCgwV
- es+pHCkBRI1PDsMDy80cg2Vp9/jDcyU0IQ0/sdPkIHn0L8pdhyRYjWRwY4dxiNP8lSPg
- ifkYUV3zdR15q9OkUst6GTknuRx7WMj1juqxFbvKgFAU6CYM2wtWbM3XMmexX2g5pphu
- VMNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KyhPov47WKPLBsVHD+fob7WgLaC6KVjEyZ9mGoZmCUk=;
- b=j/qt/A4n428xsZq9WrFG9+i+XnOeX56jSAvgkKV/Iuz/sSKb4OxNBxLUA1xqOQ/35P
- mBg0pktsvapeZOegvzHgWlb1u1lvMgWG3BBKC3tMIx+WgYONYFZDiLyEQtQjvXvpkwHu
- LFMRLYarqoAMn5xOMqxj+taksdja+PNTHC+VxA/pXvLkWJ5twxmDS0KKbki8kkM2BF3x
- zoFL6qqsxITaZsov0RgP9PXu/cKsfhRZsa3datjTzTTuaoxtWkft6yfM2ci3hdx1LwhM
- BW8xUfAS7/MBPpDFYNwAPnOPNdk8r3OJSPDPcWWmFRFrkyqqlS8MG5MUb21WZhLOGu5e
- qDqg==
-X-Gm-Message-State: AOAM533M7+GsUp+ZB9F1QaWh8n/lFSzEHqLwxP8TMwWkETTU6u/O3C2l
- DYJLIz4QorqjJviWyBIGU5kbvhMffr4=
-X-Google-Smtp-Source: ABdhPJzlZkPHBeNQu8zjuwHZaoi49JnoQhzlaWNKh1vuZEeDbDMfsUV3Qdw+Ih2R3KtZN+uSGFYPfw==
-X-Received: by 2002:a50:aacc:: with SMTP id r12mr28055591edc.219.1593599523750; 
- Wed, 01 Jul 2020 03:32:03 -0700 (PDT)
-Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id y7sm4213209ejd.73.2020.07.01.03.32.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 03:32:02 -0700 (PDT)
-Subject: Re: [PULL 6/6] MAINTAINERS: Add 'Performance Tools and Tests'
- subsection
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1593287503-25197-1-git-send-email-aleksandar.qemu.devel@gmail.com>
- <1593287503-25197-7-git-send-email-aleksandar.qemu.devel@gmail.com>
- <97eb7447-0453-2e2c-4003-a4de338ee11f@amsat.org>
- <CAHiYmc5XoQyCqVxNnWJ70HQPsD=RzTEFZ_aNn4KR+u2nDENZkA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b24fbc43-9979-5db2-ff17-64fb3afd572b@amsat.org>
-Date: Wed, 1 Jul 2020 12:32:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jqa4J-0007VD-M6
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:34:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31018
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jqa4H-0007gD-M3
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:34:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593599656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1flWIfsVfHGlYSsmvroLYoQVT/BSFlSG8Jvg589B+EI=;
+ b=D/CyPqHLQ0Twydf7KjXvECX8Nd6zbIjynhWWJ9V6hs3qsltKlbMoaiCUiQtCInIhkAppQa
+ OOEO2LV1+vYuG+4QopLGnfH56ycxij1jFKiymjnyUaeCl6Xw6rgMMWlbtKhLEbOxXVTCGG
+ vQ3X/ybChk/KJS3iovU4Qk/x1E+i7jo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-9vzl-czTN2i805TtQCtISA-1; Wed, 01 Jul 2020 06:34:14 -0400
+X-MC-Unique: 9vzl-czTN2i805TtQCtISA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A4E6800D5C;
+ Wed,  1 Jul 2020 10:34:12 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-248.ams2.redhat.com [10.36.113.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BE4410013C1;
+ Wed,  1 Jul 2020 10:34:09 +0000 (UTC)
+Date: Wed, 1 Jul 2020 12:34:07 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: nvme emulation merge process (was: Re: [PATCH 00/10] hw/block/nvme:
+ namespace types and zoned namespaces)
+Message-ID: <20200701103407.GA11634@linux.fritz.box>
+References: <20200630100139.1483002-1-its@irrelevant.dk>
+ <20200630125932.GA553472@localhost.localdomain>
+ <c10b18a8-44f3-7dab-b9bb-7d017f210934@redhat.com>
+ <20200630154228.GB1987534@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200630203630.am3a3bc5ze5m2r3k@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc5XoQyCqVxNnWJ70HQPsD=RzTEFZ_aNn4KR+u2nDENZkA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20200630203630.am3a3bc5ze5m2r3k@apples.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,132 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 12:28 PM, Aleksandar Markovic wrote:
-> понедељак, 29. јун 2020., Philippe Mathieu-Daudé <f4bug@amsat.org
-> <mailto:f4bug@amsat.org>> је написао/ла:
+Am 30.06.2020 um 22:36 hat Klaus Jensen geschrieben:
+> On Jun 30 08:42, Keith Busch wrote:
+> > On Tue, Jun 30, 2020 at 04:09:46PM +0200, Philippe Mathieu-Daudé wrote:
+> > > What I see doable for the following days is:
+> > > - hw/block/nvme: Fix I/O BAR structure [3]
+> > > - hw/block/nvme: handle transient dma errors
+> > > - hw/block/nvme: bump to v1.3
+> > 
+> > 
+> > These look like sensible patches to rebase future work on, IMO. The 1.3
+> > updates had been prepared a while ago, at least.
 > 
->     On 6/27/20 9:51 PM, Aleksandar Markovic wrote:
->     > This commit creates a new 'Miscellaneous' section which hosts a new
->     > 'Performance Tools and Tests' subsection. This subsection will contain
->     > the the performance scripts and benchmarks written as a part of the
->     > 'TCG Continuous Benchmarking' project. Also, it will be a placeholder
->     > for follow-ups to this project, if any.
->     >
->     > Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com
->     <mailto:ahmedkhaledkaraman@gmail.com>>
->     > Reviewed-by: Alex Bennée <alex.bennee@linaro.org
->     <mailto:alex.bennee@linaro.org>>
->     > Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com
->     <mailto:aleksandar.qemu.devel@gmail.com>>
->     > Signed-off-by: Aleksandar Markovic
->     <aleksandar.qemu.devel@gmail.com
->     <mailto:aleksandar.qemu.devel@gmail.com>>
->     > Message-Id: <20200626164546.22102-4-ahmedkhaledkaraman@gmail.com
->     <mailto:20200626164546.22102-4-ahmedkhaledkaraman@gmail.com>>
->     > ---
->     >  MAINTAINERS | 10 ++++++++--
->     >  1 file changed, 8 insertions(+), 2 deletions(-)
->     >
->     > diff --git a/MAINTAINERS b/MAINTAINERS
->     > index fe925ea..dec252f 100644
->     > --- a/MAINTAINERS
->     > +++ b/MAINTAINERS
->     > @@ -1096,11 +1096,10 @@ F: hw/isa/vt82c686.c
->     >  F: hw/pci-host/bonito.c
->     >  F: include/hw/isa/vt82c686.h
->     > 
->     > -Loongson-3 Virtual Platform
->     > +Loongson-3 virtual platforms
->     >  M: Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>>
->     >  R: Jiaxun Yang <jiaxun.yang@flygoat.com
->     <mailto:jiaxun.yang@flygoat.com>>
->     >  S: Maintained
->     > -F: hw/mips/loongson3_virt.c
-> 
->     Ah, now I see, here you unlist the uncommited file.
-> 
-> 
-> This file/machine, for multiple reasons, will not be accepted in 5.1.
+> I think Philippe's "hw/block/nvme: Fix I/O BAR structure" series is a
+> no-brainer. It just needs to get in asap.
 
-Ah, so that confirms we have to revert commit c012e0b1f9 ("hw/intc: Add
-Loongson LIOINTC support"). Can you send a patch please?
+I think we need to talk about how nvme patches are supposed to get
+merged. I'm not familiar with the hardware nor the code, so the model
+was that I just blindly merge patches that Keith has reviewed/acked,
+just to spare him the work to prepare a pull request. But obviously, we
+started doing things this way when there was a lot less activity around
+the nvme emulation.
 
-> The end user will not be able to see, let alone use the machine in
-> question in 5.1. This is on purpose.
-> 
-> This will give enough development time to Huacai to implement missing
-> bits and pieces, and to possibly improve the whole idea during 5.2
-> development cycle.
+If we find that this doesn't scale any more, maybe we need to change
+something. Depending on how much time Keith can spend on review in the
+near future and how much control he wants to keep over the development,
+I could imagine adding Klaus to MAINTAINERS, either as a co-maintainer
+or as a reviewer. Then I could rely on reviews/acks from either of you
+for merging series.
 
-Sounds reasonable.
+Of course, the patches don't necessarily have to go through my tree
+either if this only serves to complicate things these days. If sending
+separate pull requests directly to Peter would make things easier, I
+certainly wouldn't object.
 
-> 
-> Even though the support that Huacai introduced in 5.1 is, for many
-> reasons, not completed, and even though Huacai and I had at times
-> opposing views and fierce discussions and disagreements - I salute and
-> support his work, and consider it, by far, the best and the most
-> important contribution to QEMU for MIPS in years.
-> 
->  
-> 
->     It might be easier to manage sending 2 different pull requests,
->     on for MIPS and one for the performance tools.
-> 
->     >  F: hw/intc/loongson_liointc.c
->     > 
->     >  Boston
->     > @@ -3026,3 +3025,10 @@ M: Peter Maydell <peter.maydell@linaro.org
->     <mailto:peter.maydell@linaro.org>>
->     >  S: Maintained
->     >  F: docs/conf.py
->     >  F: docs/*/conf.py
->     > +
->     > +Miscellaneous
->     > +-------------
->     > +Performance Tools and Tests
->     > +M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com
->     <mailto:ahmedkhaledkaraman@gmail.com>>
-> 
->     Aleksandar, don't you want to be listed here with Ahmed?
-> 
-> 
-> Of course not. The project is student's. The mentor just helps and leads
-> the student. The fruits of the project belong to the community and to
-> the student - and not to the mentor.
-> 
-> If you were the mentor, my impression is that you would leave your name
-> in MAINTAINERS whenever you see the slightest opportunity (I remember an
-> occasion where you were saying "I worked six hours on this" and then
-> proposing yourself as the maitainer for a particular segment (??)).
+Kevin
 
-'??' means you are not sure? Please link reference to discussions.
-I volunteered to help maintaining areas when nobody were doing anything,
-if that forces others to step in because they are more qualified, I'm
-glad I did it. See for example the Renesas ports have qualified
-maintainers!
-
-> I
-> don't have such approach, and I oppose your approach, and I appeal to
-> you to control your apetite for maintainership.
-
-I am not looking for more maintenance, I'm looking to cover abandonned
-areas I use. I have been taught by the do-ocracy principle. I'v not been
-dropped in as replacement for someone else position, only trying to keep
-things unmodified, scared a minimal change would break.
-
-> 
-> Regards,
-> Aleksandar
-> 
->  
-> 
->     > +S: Maintained
->     > +F: scripts/performance/
->     >
-> 
 
