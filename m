@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59ED2210D2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:10:34 +0200 (CEST)
-Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1384C210D42
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:12:32 +0200 (CEST)
+Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdRZ-0008GG-CY
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
+	id 1jqdTT-0003OF-1X
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqdG0-0004rG-Rw
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23312
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdGM-0005DV-O1
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:58 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55665
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jqdFz-0005zZ-4h
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:36 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdGJ-00060d-Dy
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593611914;
+ s=mimecast20190719; t=1593611934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QrIOMOmIcQInM0zOXDMWR1ys83jNQzl68Lwey36atNs=;
- b=Znzhp+c87M/sLrDXWQNgXLceHb1iGVYGGQYMi0RHsZyLRRpe87Ev05laFJxBVKLVXtSA3F
- 3za++6rXlr9RTt2ge9gAJovYxv2Ak7EvPys+kscc+lg0wl0qBzVl3fEqy36ysVwotQcMJr
- V30IokLVhePDLKkb0kjifJrwm+HnzVg=
+ bh=tgYA0EHWFAwvu5qD3dGgus0fxbYOJdihA03XD/r08Xo=;
+ b=XTOfXM2k3WTWcvGucfvJMBjNExEhSfZ2gdO//ZyHuSDXrTZDfZF5VLDeMVQUeLJ9tVKFsW
+ DcVb4snNqP126FuTfLSzeyOyqHJ4HOK6wVQU2zgWXG2iGArpU3zx6J+beGK/jKI8z69vW9
+ 7yzBtx523hoiGWkkUlGmcwiB6Ed4L3k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-AbH0u8VePca7krFRcpZcjA-1; Wed, 01 Jul 2020 09:58:32 -0400
-X-MC-Unique: AbH0u8VePca7krFRcpZcjA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-271-ptOgUm01MtS4JP0IBOdWag-1; Wed, 01 Jul 2020 09:58:53 -0400
+X-MC-Unique: ptOgUm01MtS4JP0IBOdWag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97BAC80183C
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 13:58:31 +0000 (UTC)
-Received: from gondolin (ovpn-113-61.ams2.redhat.com [10.36.113.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2B824F6A4;
- Wed,  1 Jul 2020 13:58:21 +0000 (UTC)
-Date: Wed, 1 Jul 2020 15:58:19 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH RFC] virtio-fs: force virtio 1.x usage
-Message-ID: <20200701155819.55c64224.cohuck@redhat.com>
-In-Reply-To: <20200630074918-mutt-send-email-mst@kernel.org>
-References: <20200629102758.421552-1-cohuck@redhat.com>
- <20200629104948-mutt-send-email-mst@kernel.org>
- <20200629173933.35cea40f.cohuck@redhat.com>
- <20200629114515-mutt-send-email-mst@kernel.org>
- <20200630113527.7b27f34f.cohuck@redhat.com>
- <20200630064227-mutt-send-email-mst@kernel.org>
- <20200630133043.2be1d209.cohuck@redhat.com>
- <20200630074918-mutt-send-email-mst@kernel.org>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11030107B7CB;
+ Wed,  1 Jul 2020 13:58:52 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C210819C79;
+ Wed,  1 Jul 2020 13:58:51 +0000 (UTC)
+Subject: Re: [PATCH 1/9] Enabling BSD symbols
+To: David CARLIER <devnexen@gmail.com>, QEMU Trivial
+ <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+References: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <23df1820-03c8-1810-4315-b533b2c1e09b@redhat.com>
+Date: Wed, 1 Jul 2020 08:58:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,60 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 09:02:31 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 6/29/20 4:48 PM, David CARLIER wrote:
+>>From 5c6022f21289eb6e78e93d584c766db82165dced Mon Sep 17 00:00:00 2001
+> From: David Carlier <devnexen@gmail.com>
+> Date: Mon, 29 Jun 2020 22:13:35 +0000
+> Subject: [PATCH 1/9] Enabling BSD symbols.
 
-> On Tue, Jun 30, 2020 at 01:30:43PM +0200, Cornelia Huck wrote:
-> > On Tue, 30 Jun 2020 06:45:42 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > On Tue, Jun 30, 2020 at 11:35:27AM +0200, Cornelia Huck wrote:  
+Suggestion for the title:
 
-> > > > First, I noticed that virtio-iommu does not force virtio-1, either; I
-> > > > think it should? Eric?
-> > > > 
-> > > > Then, there's the mechanism using different names for transitional and
-> > > > non-transitional devices. Devices that support both usually define both
-> > > > names (with disable_legacy and disable_modern set appropriately) and a
-> > > > base name (where the properties can be set manually for the desired
-> > > > effect). Most virtio-1 only devices set neither the non-transitional
-> > > > nor the transitional name and rely on virtio_pci_force_virtio_1() to
-> > > > disable legacy support. But there are outliers:
-> > > > 
-> > > > * this device: it has only a non-transitional name
-> > > >   ("vhost-user-fs-pci"), which means we automatically get the correct
-> > > >   configuration; in order to define a transitional/legacy device, you
-> > > >   would need to use the base name "vhost-user-fs-pci-base" explicitly,
-> > > >   and it's unlikely that someone has been doing that.
-> > > > * virtio-iommu (which I *think* is a virtio-1 only device): it defines
-> > > >   the full set of transitional, non-transitional, and base names.
-> > > > 
-> > > > How should we proceed?
-> > > > * With this patch here, we can fence off the very unlikely possibility
-> > > >   of somebody configuring a non-modern virtio-fs device for pci. We
-> > > >   probably should do it, but I don't think we need compat handling.
-> > > > * For virtio-iommu, we should get an agreement what the desired state
-> > > >   is. If it really should be modern only, we need compat handling, as
-> > > >   the device had been added in 5.0. (And we need to figure out how to
-> > > >   apply that compat handling.)    
-> > > 
-> > > 
-> > > Well I know it's not really used on x86 yet, so no problem there.
-> > > 
-> > > Which machines are actually affected?  
-> > 
-> > I'd suspect ARM, but breaking even a subset is not nice.  
+build: Enable BSD symbols for Haiku
+
+Rationale for that suggestion: most commits start with a category (here, 
+'build:' is a nice catch-all, since you are improving the build for a 
+given platform).  We tend to avoid trailing '.' in the subject.  And 
+mentioning which platform is affected is useful for someone browsing 
+one-line summaries to know the scope of theh change.
+
+Also, this message (and the rest of the series) came through as a 
+top-level thread, rather than in-reply-to the 0/9 message.  That makes 
+it harder to track the changes as a group.
+
 > 
-> OK so MMIO does not have transitional at all right?
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> ---
+>   configure | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 4a22dcd563..d81931ba5e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -903,8 +903,8 @@ SunOS)
+>   ;;
+>   Haiku)
+>     haiku="yes"
+> -  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
+> -  LIBS="-lposix_error_mapper -lnetwork $LIBS"
+> +  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
+> +  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
+>   ;;
+>   Linux)
+>     audio_drv_list="try-pa oss"
+> --
+> 2.26.0
+> 
 
-IIRC, yes.
-
-But I think there are ARM machines that use virtio-pci as well, right?
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
