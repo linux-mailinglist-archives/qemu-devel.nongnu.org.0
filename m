@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2444B210FDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:56:45 +0200 (CEST)
-Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EB1210FE2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:58:06 +0200 (CEST)
+Received: from localhost ([::1]:44856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqf6K-00082l-2a
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:56:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
+	id 1jqf7d-0002RO-Sl
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqf4l-0006Bm-Mv
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:55:08 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38239)
+ id 1jqf6N-00012w-Rb
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:56:47 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:41145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqf4j-0002pt-QO
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:55:07 -0400
-Received: by mail-ej1-x642.google.com with SMTP id w16so25359533ejj.5
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:55:05 -0700 (PDT)
+ id 1jqf6M-0003Nb-9Y
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:56:47 -0400
+Received: by mail-ed1-x543.google.com with SMTP id e22so20376313edq.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=66IoJJYbx2eqPTYwnGocI9DHSH178FfXyaJnef75iLs=;
- b=XvkeTcznqFK9b8x7rgHaJHJ4WMkgroSCDY16WmAMdwwIvgfcXwecCypW1UAEImh9UN
- t7dMM/hCTPsQCF/L8EPo1b8fMEqTAdc2X/6n0NbC1hi/UamxisFlevziGrIazi0RC1GT
- 5pGGUmx3joQfyuSDxPO75O1r78m+QOL3KfFHrHI7et2bHN8W7U0EVcfe4JkxTPdx56Rd
- iPkbBp4KwREmKuGiqOXlcOSHMoTXbdknLQHF5uBfLEojj5v+RCPANAP4vg99C83AW6eW
- +xsGx/Xb7kAz8aeC2QPTEE0Yi+Ma2z7DwG8enYbSapB7LgK3euMdx37bIHvUoMyXKrOs
- w0vQ==
+ bh=V5ulsk4xTWYO2ZTxAP7/b0Gc5JzWT50htbiSo62wLjg=;
+ b=Rd/btaiwa1Mt337yPcYWmirxAOZn0SOXv7uqk0ehyZqlyF937wb0KXku1kQaos1F0S
+ nDVBC4usktrT5II0Ruw3RLTD6yZkPOMnhmz7m+RoYfWi1QFZapZySt8Lc/7zLmup/Shw
+ sZCNPjXvHoe6yha9R9F2ycKF+NYvn3ireEK0cI4piLbYdhnjQocrd6AxUgg0T3v0GvMn
+ J3VVSo2fpK3SFo5qnQDdppZvdimO2L5IsKdSVZux3RdLQ/fnQYZrxeTrkgo3drApwmeR
+ rW1Nnvwx2gSbbFMXeT1Rfq6yBRO/KU9Rzh5H4owx2dvYl5JWh6rdrtLjcadX8iRDhTlo
+ VOZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=66IoJJYbx2eqPTYwnGocI9DHSH178FfXyaJnef75iLs=;
- b=JIT50XNoxArz9dBQPXE5w+zv0hoONrz3mS7eF4EYqkNI35m75nhgwpGtjZHFUX0n3Z
- 3/gtZ0DnVQ0qX9AExDrkH4lXEXlYL+vzcaMSP4KsLl8GMkNguMXd6hk2plUD/n7KMEZJ
- j3HaD9sK7DCnoBmYdNaAJ9ybQC79eNoPSm7zyo08stwbBYvowmuuJeP1PaWfmx46tghy
- lxFryecB6sKkTDh9HSDbJHLz0pmtFo8kT4dFEVW1Nnuj3ev6eCu41oGVwBle7yw58K8A
- +VCZMPU/Qa4M96s9yJj1/n1mFY8M+jmgcQ8C4aNRd1kGgOsQCIFYxu2nfYnZgbWsfXEI
- M4+Q==
-X-Gm-Message-State: AOAM533gk/bNc9Acte8Yy50zycyPpWnPTq+zrnyefulXH4KKAyTCzWrK
- lQR1Y+Ch/Re64tRGpLMcBRU=
-X-Google-Smtp-Source: ABdhPJxdKAiM84LQ/qJSX3Oq2iWvwJoz58yh3fapcIZYkLP0kDj5ZqmU4y0Q8/IHvkKAyiRxGVedSw==
-X-Received: by 2002:a17:906:5912:: with SMTP id
- h18mr23310104ejq.259.1593618903881; 
- Wed, 01 Jul 2020 08:55:03 -0700 (PDT)
+ bh=V5ulsk4xTWYO2ZTxAP7/b0Gc5JzWT50htbiSo62wLjg=;
+ b=r1o9CjlleP6PvUZKmdJJuuf6ffYajwjWnfokAK7KtTiHp4YsGh1N/dKg/hnU1+Dl9w
+ BZQ2y0CSrjnwkJAyiL2nmuEWwc/aDZNsIOyZVCMjMw8kyM/4v3vIn9n8ib40fuW7jod4
+ HvJ2W6rnhnT7rH6DF7PEKm8Eve2bAmlTwXGxw88vG0tKcU+vpNbH6E3B77KH4cUbtV3W
+ 6X2GWeRPjOwhoyCD/fYJT7cZCBnW5ZiweTvDPJD5Zn+lqy3P9cx3LgQCbW0y3b7ED7pR
+ PxoeQyefT/gslHofoZh810oNhmVTvafAsMJwXVS7EmplH/wb902QPPT4CqlFyHSyMkB4
+ mq7A==
+X-Gm-Message-State: AOAM530eBxa53dWncAyJAPXsPpHaKhc1et/jtEAuUDbE+pm91/gBF18/
+ a5PThXirekiZw26QGF1N2nw=
+X-Google-Smtp-Source: ABdhPJwuihzXtT53bM+9x+Ix52It38pcYnBVAHZN249FDMLztYhBmvAPJyhuxgEQeIIT0YracGcMiA==
+X-Received: by 2002:aa7:c504:: with SMTP id o4mr29210073edq.311.1593619004793; 
+ Wed, 01 Jul 2020 08:56:44 -0700 (PDT)
 Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id bc23sm6568300edb.90.2020.07.01.08.55.02
+ by smtp.gmail.com with ESMTPSA id oz7sm4809777ejb.96.2020.07.01.08.56.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 08:55:03 -0700 (PDT)
-Subject: Re: [PATCH v4 27/40] tests/acceptance: fix dtb path for
- machine_rx_gdbsim
+ Wed, 01 Jul 2020 08:56:44 -0700 (PDT)
+Subject: Re: [PATCH v4 28/40] tests/acceptance: skip multicore mips_malta
+ tests on GitLab
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
- <20200701135652.1366-28-alex.bennee@linaro.org>
+ <20200701135652.1366-29-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4db591b4-4db6-380e-15ec-8ff142c60854@amsat.org>
-Date: Wed, 1 Jul 2020 17:55:01 +0200
+Message-ID: <2c5aab2c-5001-9d1a-d3f7-8afed1c4af1b@amsat.org>
+Date: Wed, 1 Jul 2020 17:56:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200701135652.1366-28-alex.bennee@linaro.org>
+In-Reply-To: <20200701135652.1366-29-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -80,7 +79,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,42 +92,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
+Cc: fam@euphon.net, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ berrange@redhat.com,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  richard.henderson@linaro.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
  Cleber Rosa <crosa@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/1/20 3:56 PM, Alex Bennée wrote:
-> The old path doesn't exist but the rx-virt.dtb file has the same
-> checksum so lets use that.
+> For some reason these tests fail all the time on GitLab. I can
+> re-create the hang around 3% of the time locally but it doesn't seem
+> to be MTTCG related. For now skipIf on GITLAB_CI.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 > ---
->  tests/acceptance/machine_rx_gdbsim.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/acceptance/machine_mips_malta.py | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
-> index a44f2c87da0..bff63e421d5 100644
-> --- a/tests/acceptance/machine_rx_gdbsim.py
-> +++ b/tests/acceptance/machine_rx_gdbsim.py
-> @@ -50,7 +50,7 @@ class RxGdbSimMachine(Test):
->          :avocado: tags=machine:gdbsim-r5f562n7
->          :avocado: tags=endian:little
+> diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
+> index 92b4f28a112..7c9a4ee4d2d 100644
+> --- a/tests/acceptance/machine_mips_malta.py
+> +++ b/tests/acceptance/machine_mips_malta.py
+> @@ -15,6 +15,7 @@ from avocado import skipUnless
+>  from avocado_qemu import Test
+>  from avocado_qemu import wait_for_console_pattern
+>  from avocado.utils import archive
+> +from avocado import skipIf
+>  
+>  
+>  NUMPY_AVAILABLE = True
+> @@ -99,6 +100,7 @@ class MaltaMachineFramebuffer(Test):
 >          """
-> -        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb')
-> +        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-virt.dtb')
+>          self.do_test_i6400_framebuffer_logo(1)
+>  
 
-Or:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg718316.html
+So the test works using a single core...
+Good we have a test to figure the bug!
 
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
->          dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
->          dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
->          kernel_url = ('http://acc.dl.osdn.jp/users/23/23845/zImage')
+> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>      def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+>          """
+>          :avocado: tags=arch:mips64el
+> @@ -108,6 +110,7 @@ class MaltaMachineFramebuffer(Test):
+>          """
+>          self.do_test_i6400_framebuffer_logo(7)
+>  
+> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>      def test_mips_malta_i6400_framebuffer_logo_8cores(self):
+>          """
+>          :avocado: tags=arch:mips64el
 > 
 
