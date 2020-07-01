@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F425210D48
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:13:08 +0200 (CEST)
-Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74127210D9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:21:23 +0200 (CEST)
+Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdU3-0004is-0i
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
+	id 1jqdc2-0000r3-GD
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdKy-00056C-Tq
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:44 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40161)
+ id 1jqdL6-0005Nw-Qv
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:52 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdKx-0006qf-4V
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:44 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f139so23386622wmf.5
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:42 -0700 (PDT)
+ id 1jqdL4-0006s6-LO
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:52 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id f18so15927678wrs.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6WtCLGQRv0MjUdUMAEZUN6efvnmj6vJqFczlhuv8qdY=;
- b=QqQwjLi6YMb46gu33K/TpzYfCNGIN43MXqPRXDIsa6R/ZiLe5p7ZJ/vE/Rg4yh3uVf
- Cbr2pw1JMakjN0l5veMvTSXzn+ueigEJCXFYJuxCpHVfvVJBTlql2K/MjcPcCVd0XCfT
- YAmpJ7VzFAwJO+LUR2w9LUeSO1AcuZGrBH33b7AxyyWg7EJ8PYyudr6kponaGkxAsGVX
- /xhXR8Vz+CUBRDxdTeh+/diUwy82SpCRlZ9ZdRhRHDDLH1Nt32JiYjsksqsSWoUCx55V
- WBvKSE9OJMANPshS8ZsltJnsXVCwcoSTtIRh2xY96mFDM717lqKc9q2ob1FdNLkVSPlX
- nU+Q==
+ bh=6iI9/w6QPP17yFAS2LeQCOWZjjok/LI3j4IGGgPNwkk=;
+ b=oQrjkOJZ5sjTJa4s+xN7BoTtY6doSPVbV6LoG3Sn0CaYY3ZhEGylBntFSml1Q6vWBR
+ O173JsW/NqnAleGq+rG4qnqhp3G1UECM0/MtVbayvof2qaMJHel/MeRE0HQ3MoXE89vi
+ bgXyMtzlI1aDJDmlQGYtZJgaGqI5EUq3zxueaY/EmoeklqCapD6xMMwWBzEsJyDkNLfH
+ oz1Od1l16EHZoyHkX5wFqdpmc8bF7TTueEEdgOkJzR0YskrXsQUIgWJwGc6MF9oVh1kP
+ 9NKc6cYme4ysyeoWBHfT+06yZXv+OsPTeaxXiE+qVedFZ2emJiftQOrSlfUobuApILcV
+ TNqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6WtCLGQRv0MjUdUMAEZUN6efvnmj6vJqFczlhuv8qdY=;
- b=pdZosqypbE0bWMQ4+bGaCELH+o/+Qsz2T35aw4EQ4cTvizBw+wQV/ZSzq2HbzK6pTq
- iJV7EdBkDu3ki1t3rr9lUTodvsTL70p8d3V5jF/6MYXDA383x1j+LlkinyNLStVfhZcN
- fdCGd11dspSxPDvJoy4aU8BtRxS2LasI1Gy/fXI4XP4/QYaskRnpicMisY8UegC3ouae
- ZkW+2ZhQANvXxuI1qvCxWk5mzzfgFuUfBNi/ck1rQwp2H6eFIbS2S77MS2DuP+kxts2c
- L5VGFLPTD3d//GfwcCfGj7sAKlRVXtYzr0tW7sHzLvuYEHks879xn+8DroACGbKGsNYv
- JR4A==
-X-Gm-Message-State: AOAM531IGyPl7kZ8G58ghPU5u+4/jmN4w9uL7rT+6rsgIL6pOb/EdsgS
- mcDrW2G+Wv5AQvirPjGUGsqo4Q==
-X-Google-Smtp-Source: ABdhPJynAIgvGZh5lgT1dMB8QfCCj85+On1CbrvPE/MxzF0iEtzU0TFBEZLfQNsO6io9jXBsYOK7Hg==
-X-Received: by 2002:a1c:4408:: with SMTP id r8mr26937260wma.100.1593612221643; 
- Wed, 01 Jul 2020 07:03:41 -0700 (PDT)
+ bh=6iI9/w6QPP17yFAS2LeQCOWZjjok/LI3j4IGGgPNwkk=;
+ b=S7r/EmkfWMj1G8t3H1P3lL7pQ7uZjNAZGzVLd/9ATYVsgiDJJF4TqvaRMGQ12pa4Pu
+ dZ97YLekuv/QLzAwSNqn+DBF3lRTRQQL4RPv3fRLSpl0U2yNXqiO1iVXBHzukC0qOZV5
+ cflz3Ky0OnZ+sjlWHr2b9mC0Q0DZgQpaJtxqM+pjWTqT5xNuLnYQPiLzJW8Ap1UGYsyu
+ zETaZh7C37scEdOjzB/UfZL9s4UlpzSKjMhLF0+0htMiWbRsrlh7E8F1/JvhAgRulFV5
+ 0oINFGRh6u+3AGUpkCxgxkNKny9igo47OGeEN6RTBS8e/a7XDEvTA9efoJxFf8g2zvH7
+ zjxQ==
+X-Gm-Message-State: AOAM532B1TcF4U/YXF9GTkvANkcIiq5FZKezrLQwijmOYVXMmBPyjh1i
+ ggbsacgbj1MmyXqLc8rFOTeMDg==
+X-Google-Smtp-Source: ABdhPJzo+2E66bebCacQpLqEVRwCdFlWKPj9Viso6JbXz+iCA2+cf2yD5+q03uYqI6rItVE0xMp4fQ==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr28673953wrm.40.1593612229115; 
+ Wed, 01 Jul 2020 07:03:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m4sm7346717wmi.48.2020.07.01.07.03.31
+ by smtp.gmail.com with ESMTPSA id q1sm7406724wro.82.2020.07.01.07.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:03:33 -0700 (PDT)
+ Wed, 01 Jul 2020 07:03:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ABF9A1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id C60E01FFC0;
  Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 38/40] containers.yml: build with docker.py tooling
-Date: Wed,  1 Jul 2020 14:56:50 +0100
-Message-Id: <20200701135652.1366-39-alex.bennee@linaro.org>
+Subject: [PATCH  v4 39/40] testing: add check-build target
+Date: Wed,  1 Jul 2020 14:56:51 +0100
+Message-Id: <20200701135652.1366-40-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +88,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of building the docker files directly use the same docker.py
-scripting as we do for building locally. This should help ensure we
-use the exact same steps and allow us to cache properly when building
-locally.
-
-To get this working you have to have a fairly recent docker binary
-otherwise you will see the error message:
-
- => ERROR importing cache manifest from registry.gitlab....
-
-So far docker 19.03.12 works (from the docker apt repos) but 18.09.1,
-build 4c52b90 which is packaged in Debian Buster fails.
+If we want to continue to split build and check phase it seems like a
+good idea to allow building of the tests during our multi-threaded
+build phase.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .gitlab-ci.d/containers.yml | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ .gitlab-ci.yml         |  5 ++++-
+ tests/Makefile.include | 17 +++++++++++++----
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index ea350eacff7..b1e39cfd9ac 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -6,14 +6,17 @@
-   before_script:
-     - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-     - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-+    - apk add python3
-     - docker info
-     - docker login registry.gitlab.com -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-   script:
-+    - echo "TAG:$TAG"
-+    - echo "COMMON_TAG:$COMMON_TAG"
-     - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
--    - sed -i -e "s,FROM qemu/,FROM $CI_REGISTRY_IMAGE/qemu/," tests/docker/dockerfiles/$NAME.docker
--    - DOCKER_BUILDKIT=1 docker build --cache-from "$TAG" --cache-from "$COMMON_TAG" --tag "$TAG"
--                                     --build-arg BUILDKIT_INLINE_CACHE=1
--                                     -f "tests/docker/dockerfiles/$NAME.docker" tests/docker/dockerfiles
-+    - ./tests/docker/docker.py --engine docker build
-+          -t "qemu:$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-+          -r $CI_REGISTRY_IMAGE
-+    - docker tag "qemu:$NAME" "$TAG"
-     - docker push "$TAG"
-   after_script:
-     - docker logout
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 83e38ea19f3..b0e5417146b 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -36,7 +36,7 @@ include:
+     - make -j"$JOBS"
+     - if test -n "$MAKE_CHECK_ARGS";
+       then
+-        make $MAKE_CHECK_ARGS ;
++        make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
+ 
+ .native_test_job_template: &native_test_job_definition
+@@ -60,6 +60,7 @@ build-system-ubuntu-main:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
+       riscv64-softmmu sparc-softmmu
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+@@ -90,6 +91,7 @@ build-system-fedora-alt:
+     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
+       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
+       xtensa-softmmu nios2-softmmu or1k-softmmu
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+@@ -124,6 +126,7 @@ build-system-fedora-disabled:
+       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+     TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
++    MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+       - build
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c316e0d6647..94b1cc8302e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -22,6 +22,8 @@ endif
+ 	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+ 	@echo " $(MAKE) check-clean          Clean the tests and related data"
+ 	@echo
++	@echo "The following are useful for CI builds"
++	@echo " $(MAKE) check-build          Build most test binaris"
+ 	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
+ 	@echo
+ 	@echo
+@@ -649,6 +651,10 @@ $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(c
+ 	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
+ 	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
+ 
++build-qtest: $(patsubst %, %-softmmu/all, $(QTEST_TARGETS)) $(check-qtest-y)
++
++build-unit: $(check-unit-y)
++
+ check-unit: $(check-unit-y)
+ 	$(call do_test_human, $^)
+ 
+@@ -680,7 +686,6 @@ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check
+ FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
+ 
+ # the build dir is created by configure
+-.PHONY: $(FP_TEST_BIN)
+ $(FP_TEST_BIN): config-host.h $(test-util-obj-y)
+ 	$(call quiet-command, \
+ 	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
+@@ -814,9 +819,10 @@ check-softfloat-ops: $(SF_MATH_RULES)
+ 
+ .PHONY: check-softfloat
+ ifeq ($(CONFIG_TCG),y)
+-check-softfloat: check-softfloat-conv check-softfloat-compare check-softfloat-ops
++build-softfloat: $(FP_TEST_BIN)
++check-softfloat: build-softfloat check-softfloat-conv check-softfloat-compare check-softfloat-ops
+ else
+-check-softfloat:
++build-softfloat check-softfloat:
+ 	$(call quiet-command, /bin/true, "FLOAT TEST", \
+ 		"SKIPPED for non-TCG builds")
+ endif
+@@ -955,7 +961,8 @@ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+ ifeq ($(CONFIG_TOOLS),y)
+ check-block: $(patsubst %,check-%, $(check-block-y))
+ endif
+-check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++check-build: build-unit build-softfloat build-qtest
++
+ check-clean:
+ 	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
+ 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y:%=tests/qtest/%$(EXESUF))) $(check-qtest-generic-y:%=tests/qtest/%$(EXESUF)))
+@@ -963,6 +970,8 @@ check-clean:
+ 	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
+ 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
+ 
++check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++
+ clean: check-clean
+ 
+ # Build the help program automatically
 -- 
 2.20.1
 
