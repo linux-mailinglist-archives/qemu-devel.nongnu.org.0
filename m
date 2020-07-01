@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43512210A04
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 13:06:56 +0200 (CEST)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E9F210A16
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 13:07:54 +0200 (CEST)
+Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqaZr-0004ZE-0k
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 07:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
+	id 1jqaan-00062D-HA
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 07:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jqaYx-0003pR-DC
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:05:59 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:40779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jqaYv-0004fj-8X
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:05:59 -0400
-Received: by mail-lf1-x143.google.com with SMTP id o4so13340350lfi.7
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 04:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ul3Mejwtnhwim295U6CFh/9tYqhduECwVzEkwxj06HU=;
- b=emai636tU5Mgyyhb85MRaQ0dIq7cYYextm3j9zmtzRF7tQ9yEYFfQBxB5L6cIM1CKB
- CrDyauyZfWlHE1vYN4lrLFuqQPPPOrhhSsUXIsTdJaNfUv5EQR9jssaej1FETlv4mrAz
- qtggYJAC4tZVsqpvfKibGkZ6rbhRDTyCg3mPcusW7rsE72X/pvOvff/yYDlDDN/LQckV
- hbrBcf4mlcvNgv2UwhnBRviCFTEdYnXbSNc20JqC+06DX6joVT1M4uoXQ+l4t4OiVxMC
- 4M21m8MtVl/9cNzETF0iio2nBD1wsTaTWb3kHPoV9LvpznvWOwZQTPzbWw6VVU0ymw+v
- Mk7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ul3Mejwtnhwim295U6CFh/9tYqhduECwVzEkwxj06HU=;
- b=PjSHeVzktD+xQFbZIcNf15vRg2Q6HtXuEkedB0735poBWgcNo7uGecvx6rIIvtpj2n
- 7G+JTTlrgjMvSqsf4bG14Osxlnu2sXbL0yKbxMsTfWMQwj8iesIpGxpWHFaDO4no5huA
- EuDDijiPzf6nRtbw8sf67NcARRaUWCMaNVhBu7UXFVHdYcOvWmcvweCcv0A5A9VqOUGz
- Q6giFDLeYrVU4uk6wfc7t7i9h03XPHtyAUeAoHJGJyIXwnN6ePKm2vpebHJ3LYWUaaYs
- QqUoo4EdTZ6DeOOVOuNPRr4lHrpVxnsW4iD7mGcImAqC75mVhJpIUPoDaVp3fByn4s8M
- LVvg==
-X-Gm-Message-State: AOAM531d4oHIkTcjk2EhFZjHBSxDrtyf6sqhFUeTnIqe9q1w5k3hCdyH
- wxovwNyNyCUGmmrR0mgX0GDv2eBgIjHCwnBIDk8=
-X-Google-Smtp-Source: ABdhPJw6oxXmJtp4B0wgayOtSob88b6fYDPY3iPUFtrJear8QnwcjqHW+5RRqYENzN2nhB1WGw7E51X/mHrAE/ji1xc=
-X-Received: by 2002:ac2:5a50:: with SMTP id r16mr15333211lfn.170.1593601554894; 
- Wed, 01 Jul 2020 04:05:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1jqaZ6-0003xO-Qf
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:06:08 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:29827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1jqaZ4-0004hH-4l
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 07:06:08 -0400
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: O9QW0YFfOy/Q8znWGSQyuQdD4h7Q1vNcBI3M2+mjz9GEaC7kFJVVDmpxhYneOT9S47gxJiQleo
+ PrCokCKxRoaWButroNqmg9QXKqtyRm2isR7CGli4k57BFDK6r2OYK/eCN3U0B3Xmd2p9RGuBzz
+ P3NuV9pqLTiKNzacmENIeijRLdch6KFftsg/vd8hwvH8qRf+QfUk6TKDh9EAef0BKEUinOAVCO
+ lgcn2sa6Uq7togA1Y5GT//NNLssbHDu30Rd4Bq4xdQX6RzDHsv9UMs7goO6RZ2OrnB3yE9ovUI
+ t0A=
+X-SBRS: 2.7
+X-MesageID: 21375916
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.75,300,1589256000"; d="scan'208";a="21375916"
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] acpi: Fix access to PM1 control and status registers
+Date: Wed, 1 Jul 2020 12:05:49 +0100
+Message-ID: <20200701110549.148522-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
- <20200630164653.24880-3-aleksandar.qemu.devel@gmail.com>
- <1fdab6eb-9258-7df1-75ea-b4717a9c2b87@amsat.org>
- <3ae1ef05-8caa-b5ce-a1ce-9670fc0a7cd3@amsat.org>
- <009f6fed-f043-cce3-f2c8-9aefd70d9601@amsat.org>
-In-Reply-To: <009f6fed-f043-cce3-f2c8-9aefd70d9601@amsat.org>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Wed, 1 Jul 2020 19:05:43 +0800
-Message-ID: <CABDp7VoRWPft-aXi5OfreUQ0AzoRWe+cg8wySHwmbf8wADg=JA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] MAINTAINERS: Adjust MIPS maintainership
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 07:06:03
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,221 +63,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- qemu-level <qemu-devel@nongnu.org>, Paul Burton <paulburton@kernel.org>
+Cc: Anthony PERARD <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe and Alexandar,
+The ACPI spec state that "Accesses to PM1 control registers are
+accessed through byte and word accesses." (In section 4.7.3.2.1 PM1
+Control Registers of my old spec copy rev 4.0a).
 
-On Wed, Jul 1, 2020 at 4:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> On 7/1/20 10:00 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 6/30/20 7:19 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> On 6/30/20 6:46 PM, Aleksandar Markovic wrote:
-> >>> Paul Burton and Aurelien Jarno removed for not being present.
-> >>>
-> >>> Huacai Chen and Jiaxun Yang step in as new energy.
-> >>>
-> >>> CC: Paul Burton <paulburton@kernel.org>
-> >>> CC: Aurelien Jarno <aurelien@aurel32.net>
-> >>> Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> ---
-> >>>  MAINTAINERS | 15 ++++++++++-----
-> >>>  1 file changed, 10 insertions(+), 5 deletions(-)
-> >>>
-> >>> diff --git a/MAINTAINERS b/MAINTAINERS
-> >>> index 5d8acf8d31..7fc16e21c9 100644
-> >>> --- a/MAINTAINERS
-> >>> +++ b/MAINTAINERS
-> >>> @@ -213,7 +213,8 @@ F: disas/microblaze.c
-> >>>
-> >>>  MIPS TCG CPUs
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> -R: Aurelien Jarno <aurelien@aurel32.net>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >>> +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >>>  S: Maintained
-> >>>  F: target/mips/
-> >>> @@ -377,6 +378,7 @@ F: target/arm/kvm.c
-> >>>
-> >>>  MIPS KVM CPUs
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >>>  S: Odd Fixes
-> >>>  F: target/mips/kvm.c
-> >>>
-> >>> @@ -1052,6 +1054,7 @@ MIPS Machines
-> >>>  -------------
-> >>>  Jazz
-> >>>  M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >
-> > Hmm this is the Jazz hobbyist machine, Huacai are you sure this
-> > the correct section you want to be?
-> >
-> > Anyway Herv=C3=A9 Poussineau has to ack that, Aleksandar, it would
-> > be easier if you split this as a separate patch.
-> >
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >>>  S: Maintained
-> >>>  F: hw/mips/jazz.c
-> >>> @@ -1060,8 +1063,8 @@ F: hw/dma/rc4030.c
-> >>>
-> >>>  Malta
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >>>  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>> -R: Aurelien Jarno <aurelien@aurel32.net>
-> >
-> > Last time Aurelien commented on the Malta machine, was on March 23,
-> > 3 months ago, then there hasn't been Malta patches. As a reviewer
-> > he is present and provides valuable feedback, why are you kicking
-> > him out? See:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg691406.html
-> >
-> > Huacai, has Jiangsu Lemote Tech Co., Ltd real interest to paid
-> > employees to maintain the Malta board?
-I think I can review TCG part and maintain KVM part currently, but
-can't maintain Jazz/Malta/Mipssim/R4k/Boston (maybe possible in
-future, but not now).
+With commit 5d971f9e6725 ("memory: Revert "memory: accept mismatching
+sizes in memory_region_access_valid""), it wasn't possible anymore to
+access the pm1_cnt register by reading a single byte, and that is use
+by at least a Xen firmware called "hvmloader".
 
-Thanks,
-Huacai
-> >
-> >>>  S: Maintained
-> >>>  F: hw/isa/piix4.c
-> >>>  F: hw/acpi/piix4.c
-> >>> @@ -1073,6 +1076,7 @@ F: tests/acceptance/machine_mips_malta.py
-> >>>
-> >>>  Mipssim
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >>>  S: Odd Fixes
-> >
-> > Now that you have 2 maintainers, you can raise the status to Maintained=
-.
-> >
-> >>>  F: hw/mips/mipssim.c
-> >>> @@ -1080,7 +1084,6 @@ F: hw/net/mipsnet.c
-> >>>
-> >>>  R4000
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> -R: Aurelien Jarno <aurelien@aurel32.net>
-> >
-> > I'm sure Aurelien will agree with this part. But let's wait
-> > for his feedback.
-> >
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >>>  S: Obsolete
-> >>>  F: hw/mips/r4k.c
-> >>> @@ -1103,7 +1106,8 @@ S: Maintained
-> >>>  F: hw/intc/loongson_liointc.c
-> >>>
-> >>>  Boston
-> >>> -M: Paul Burton <pburton@wavecomp.com>
-> >>> +M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>
-> >> Missing in the patch description that you are taking this
-> >> machine over.
-> >
-> > After some rest I remember Paul said he'd come back on QEMU,
-> > so it doesn't look right to kick him out that way.
-> >
-> > Also in this thread you said you never saw a Boston board:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg691778.html
-> >
-> > Paul might welcome you as a co-maintainer, but I rather keep
-> > him for his expertise.
->
-> Looking in archives, on Oct 20 2019 Paul said "it would be a pain
-> to me if the boston machine bitrotted or anything" and he planned
-> to find time to improve "the CM & MT ASE emulation".
->
-> This was before Feb 19 2020 when he announced "[his] time with MIPS
-> the company has reached its end": https://lkml.org/lkml/2020/2/19/984
->
-> Still this change requires an Ack from him.
->
-> >
-> >>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >
-> > Huacai, similarly does Jiangsu Lemote Tech Co., Ltd have real
-> > interest in time to provide developers to maintain the Boston
-> > machine?
-> >
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >>>  S: Maintained
-> >>>  F: hw/core/loader-fit.c
-> >>> @@ -2677,7 +2681,8 @@ F: disas/i386.c
-> >>>
-> >>>  MIPS TCG target
-> >>>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >>> -R: Aurelien Jarno <aurelien@aurel32.net>
-> >>> +M: Huacai Chen <chenhc@lemote.com>
-> >
-> > $ git log --author=3D'Huacai Chen <chenhc@lemote.com>' tcg/mips/ | wc -=
-l
-> > 0
-> >
-> > $ git log --grep=3D'Reviewed-by: Huacai Chen <chenhc@lemote.com>'
-> > tcg/mips/ | wc -l
-> > 0
-> >
-> > git log --grep=3D'Acked-by: Huacai Chen <chenhc@lemote.com>' tcg/mips/ =
-| wc -l
-> > 0
-> >
-> >>> +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >
-> > $ git log --grep=3D'Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>'
-> > tcg/mips/ | wc -l
-> > 0
-> >
-> > $ git log --grep=3D'Acked-by: Jiaxun Yang <jiaxun.yang@flygoat.com>'
-> > tcg/mips/ | wc -l
-> > 0
-> >
-> > I think you are confusing sections, Since Huacai and Jiaxun never showe=
-d
-> > interest in the TCG target code, how can they become maintainers?
-> >
-> >>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >
-> > $ git log --grep=3D'Reviewed-by: Aleksandar Rikalo' tcg/mips/ | wc -l
-> > 0
-> > $ git log --grep=3D'Acked-by: Aleksandar Rikalo' tcg/mips/ | wc -l
-> > 0
-> >
-> > Apparently Aleksandar Rikalo can be "removed for not being present."
-> >
-> > OTOH FWIW:
-> > $ git log --author=3D'Philippe Mathieu-Daud=C3=A9' tcg/mips/ | wc -l
-> > 25
-> > $ git log --grep=3D'Reviewed-by: Philippe Mathieu-Daud=C3=A9' tcg/mips/=
- | wc -l
-> > 99
-> >
-> > So for this section changes:
-> > NAcked-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
-> > The rest is conditional of Paul Burton and Aurelien Jarno Ack-by.
-> >
-> >>>  S: Maintained
-> >>>  F: tcg/mips/
-> >>>
-> >>
-> >>
-> >
->
+Also, take care of the PM1 Status Registers which also have "Accesses
+to the PM1 status registers are done through byte or word accesses"
+(In section 4.7.3.1.1 PM1 Status Registers).
 
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ hw/acpi/core.c | 46 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 37 insertions(+), 9 deletions(-)
 
---=20
-Huacai Chen
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 45cbed49abdd..31974e2f91bf 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -394,9 +394,17 @@ uint16_t acpi_pm1_evt_get_sts(ACPIREGS *ar)
+     return ar->pm1.evt.sts;
+ }
+ 
+-static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
++static void acpi_pm1_evt_write_sts(ACPIREGS *ar, hwaddr addr, uint16_t val,
++                                   unsigned width)
+ {
+     uint16_t pm1_sts = acpi_pm1_evt_get_sts(ar);
++    if (width == 1) {
++        if (addr == 0) {
++            val |= pm1_sts & 0xff00;
++        } else if (addr == 1) {
++            val = (val << BITS_PER_BYTE) | (pm1_sts & 0xff);
++        }
++    }
+     if (pm1_sts & val & ACPI_BITMASK_TIMER_STATUS) {
+         /* if TMRSTS is reset, then compute the new overflow time */
+         acpi_pm_tmr_calc_overflow_time(ar);
+@@ -404,8 +412,16 @@ static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
+     ar->pm1.evt.sts &= ~val;
+ }
+ 
+-static void acpi_pm1_evt_write_en(ACPIREGS *ar, uint16_t val)
++static void acpi_pm1_evt_write_en(ACPIREGS *ar, hwaddr addr, uint16_t val,
++                                  unsigned width)
+ {
++    if (width == 1) {
++        if (addr == 0) {
++            val |= ar->pm1.evt.en & 0xff00;
++        } else if (addr == 1) {
++            val = (val << BITS_PER_BYTE) | (ar->pm1.evt.en & 0xff);
++        }
++    }
+     ar->pm1.evt.en = val;
+     qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_RTC,
+                               val & ACPI_BITMASK_RT_CLOCK_ENABLE);
+@@ -434,9 +450,11 @@ static uint64_t acpi_pm_evt_read(void *opaque, hwaddr addr, unsigned width)
+     ACPIREGS *ar = opaque;
+     switch (addr) {
+     case 0:
+-        return acpi_pm1_evt_get_sts(ar);
++    case 1:
++        return acpi_pm1_evt_get_sts(ar) >> (addr * BITS_PER_BYTE);
+     case 2:
+-        return ar->pm1.evt.en;
++    case 3:
++        return ar->pm1.evt.en >> ((addr - 2) * BITS_PER_BYTE);
+     default:
+         return 0;
+     }
+@@ -448,11 +466,13 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+     ACPIREGS *ar = opaque;
+     switch (addr) {
+     case 0:
+-        acpi_pm1_evt_write_sts(ar, val);
++    case 1:
++        acpi_pm1_evt_write_sts(ar, addr, val, width);
+         ar->pm1.evt.update_sci(ar);
+         break;
+     case 2:
+-        acpi_pm1_evt_write_en(ar, val);
++    case 3:
++        acpi_pm1_evt_write_en(ar, addr - 2, val, width);
+         ar->pm1.evt.update_sci(ar);
+         break;
+     }
+@@ -461,7 +481,7 @@ static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
+ static const MemoryRegionOps acpi_pm_evt_ops = {
+     .read = acpi_pm_evt_read,
+     .write = acpi_pm_evt_write,
+-    .valid.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+@@ -590,19 +610,27 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
+ static uint64_t acpi_pm_cnt_read(void *opaque, hwaddr addr, unsigned width)
+ {
+     ACPIREGS *ar = opaque;
+-    return ar->pm1.cnt.cnt;
++    return ar->pm1.cnt.cnt >> (addr * BITS_PER_BYTE);
+ }
+ 
+ static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
+                               unsigned width)
+ {
++    ACPIREGS *ar = opaque;
++    if (width == 1) {
++        if (addr == 0) {
++            val |= ar->pm1.cnt.cnt & 0xff00;
++        } else if (addr == 1) {
++            val = (val << BITS_PER_BYTE) | (ar->pm1.cnt.cnt & 0xff);
++        }
++    }
+     acpi_pm1_cnt_write(opaque, val);
+ }
+ 
+ static const MemoryRegionOps acpi_pm_cnt_ops = {
+     .read = acpi_pm_cnt_read,
+     .write = acpi_pm_cnt_write,
+-    .valid.min_access_size = 2,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 2,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+-- 
+Anthony PERARD
+
 
