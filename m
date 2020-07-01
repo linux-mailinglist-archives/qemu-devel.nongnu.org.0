@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE864210E91
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:11:05 +0200 (CEST)
-Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DD2210E88
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:08:49 +0200 (CEST)
+Received: from localhost ([::1]:57594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeO3-0003yP-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:10:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49582)
+	id 1jqeLw-00008I-QI
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeHY-0002jk-5U
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:16 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48106
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqeHV-00013Z-T6
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615853;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=33u0EOHLLC7S82HsuHdhucLSgDXGZsdfSoTPfO54t8g=;
- b=jOC9Geh9aOs7a/nQ5s/t77B1VeAEbtmJNC9WL+emv1srPmjV6rNBxkflVyvAyGbgtZ45Wb
- wZz5P8xmaLgtjZuxvL7tM4k97v5pNjGrZCcmcOY4ZsmSnt1JilgobjANlDDBVa6FEsVS5i
- 3zWAWwBND6oe0OlsmY57Xa4gLBpUuWY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-HoRSuRQwM7qo-ifnv4DwHA-1; Wed, 01 Jul 2020 11:04:11 -0400
-X-MC-Unique: HoRSuRQwM7qo-ifnv4DwHA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F281119200CA;
- Wed,  1 Jul 2020 15:02:45 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-12-19.pek2.redhat.com [10.72.12.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A58E73FC5;
- Wed,  1 Jul 2020 15:02:26 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
- jasowang@redhat.com
-Subject: [PATCH v4 14/14] vhost-vdpa: introduce vhost-vdpa net client
-Date: Wed,  1 Jul 2020 22:55:38 +0800
-Message-Id: <20200701145538.22333-15-lulu@redhat.com>
-In-Reply-To: <20200701145538.22333-1-lulu@redhat.com>
-References: <20200701145538.22333-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1jqeDc-0005z7-7A
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:00:13 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1jqeDa-00087Z-1f
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:00:11 -0400
+Received: by mail-lj1-x244.google.com with SMTP id f8so15136208ljc.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yc+eL/IAj3nyAMuFv8crrvZ6GHVlDHU/rqByUyGib/E=;
+ b=OndfuD5dzixU+MzAMVK8Yj8EEwL2yPyBwDT+uPo/gRYAU2InINZMBbtCuYDiGk3rWB
+ pxLCtBiGJ+Vb+/9+gkKx4T8xRkLcggmR96lmJsS/azur8SXDNSyC5ly1X+HuLk5hTzaE
+ XYt04Pz1g+WwshfUyDiRsEfLTLp3U7ZoM9t/ZJnD4nt19UYMzUFjvYgH4x918UbrysWt
+ AfGVnDJMcwUvOCclU+8s/VK5ssj/iPgGDQtT1HjM4jyPE1TGUHOOmHM2S5gW7go5xVYb
+ ZsBuDmT5n9h6RPSZcGAVR8TQsrlBUWj6Ui37KflR6diWlc1G7Th/v7t4Wf0+nQIkjJpc
+ XWwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yc+eL/IAj3nyAMuFv8crrvZ6GHVlDHU/rqByUyGib/E=;
+ b=h2LYJmEel9KbB3zyc/3Wl+JO6v9CvwWjjeAhAIZjMm7mn8N4MlG8RwbgT0oAuiTP3B
+ 63BtmSw2j4lfot4XuZBeSbanFliweNVLNXgIgFYHVJdWgkfPQakqqVHPMywkeCDwHC4y
+ ggRM7uM3Idf89Vc6n3S4lN7rvw+jCdIeLV/DqzNQdORZh6jT2nLERb6vdCAwiPF2uGb1
+ 8weJb5QvokjEUlDfSIll6DdH9vIW0NQaYQlxRnCOOWvDYFr0rLhq8GKIm8fGuWH3XnXd
+ 6E0KnXuNPluiDkznlcjS4Q/7B5Hrwtq53ipAHTFTD7rsUjtSLTrMOudWvq6HDj+8+ybm
+ 9CCg==
+X-Gm-Message-State: AOAM530rZLkAof7zc9NdfRg5VxcVC2E0JLU1cPRkT0Hx840aa6XXUn+w
+ 7RNJJoqzzj9aiWxGV3f+OQGAN0eprHUqY4EOz0c=
+X-Google-Smtp-Source: ABdhPJzcrloggdF14PhUb1enOgtTkLl6rNS/f0POjqGOcm0QyU99xMr65irW/PqhXVMC+WtSHbmRzyrHzmFUtxdLZXA=
+X-Received: by 2002:a2e:978b:: with SMTP id y11mr12896639lji.399.1593615608018; 
+ Wed, 01 Jul 2020 08:00:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200624121841.17971-1-paul@xen.org>
+ <20200624121841.17971-3-paul@xen.org>
+ <33e594dd-dbfa-7c57-1cf5-0852e8fc8e1d@redhat.com>
+ <000701d64ef5$6568f660$303ae320$@xen.org>
+ <9e591254-d215-d5af-38d2-fd5b65f84a43@redhat.com>
+ <000801d64f75$c604f570$520ee050$@xen.org>
+ <CAKf6xpvNTVqK263pdSARyoWnzP8g9SRoSqvhnLLwyYadjR1ChQ@mail.gmail.com>
+ <07cc67e9-aeaa-1947-43db-c00716bead01@redhat.com>
+ <5c00f6a5-3f86-258e-999f-956eef825d14@redhat.com>
+In-Reply-To: <5c00f6a5-3f86-258e-999f-956eef825d14@redhat.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Wed, 1 Jul 2020 10:59:56 -0400
+Message-ID: <CAKf6xpuiQBhvChwfikaLd4tvKVUn3oo88wbsMVw7P11ehV-EYQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] xen: cleanup unrealized flash devices
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=jandryuk@gmail.com; helo=mail-lj1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,392 +88,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, lulu@redhat.com, hanand@xilinx.com, hch@infradead.org,
- eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
- Tiwei Bie <tiwei.bie@intel.com>, aadam@redhat.com, rdunlap@infradead.org,
- maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paul Durrant <pdurrant@amazon.com>,
+ Paul Durrant <paul@xen.org>, QEMU <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ xen-devel <xen-devel@lists.xenproject.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set introduces a new net client type: vhost-vdpa.
-vhost-vdpa net client will set up a vDPA device which is specified
-by a "vhostdev" parameter.
+On Wed, Jul 1, 2020 at 8:55 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> On 7/1/20 2:40 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 7/1/20 2:25 PM, Jason Andryuk wrote:
+> >> On Wed, Jul 1, 2020 at 3:03 AM Paul Durrant <xadimgnik@gmail.com> wrot=
+e:
+> >>>
+> >>>> -----Original Message-----
+> >>>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>> Sent: 30 June 2020 18:27
+> >>>> To: paul@xen.org; xen-devel@lists.xenproject.org; qemu-devel@nongnu.=
+org
+> >>>> Cc: 'Eduardo Habkost' <ehabkost@redhat.com>; 'Michael S. Tsirkin' <m=
+st@redhat.com>; 'Paul Durrant'
+> >>>> <pdurrant@amazon.com>; 'Jason Andryuk' <jandryuk@gmail.com>; 'Paolo =
+Bonzini' <pbonzini@redhat.com>;
+> >>>> 'Richard Henderson' <rth@twiddle.net>
+> >>>> Subject: Re: [PATCH 2/2] xen: cleanup unrealized flash devices
+> >>>>
+> >>>> On 6/30/20 5:44 PM, Paul Durrant wrote:
+> >>>>>> -----Original Message-----
+> >>>>>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>>>> Sent: 30 June 2020 16:26
+> >>>>>> To: Paul Durrant <paul@xen.org>; xen-devel@lists.xenproject.org; q=
+emu-devel@nongnu.org
+> >>>>>> Cc: Eduardo Habkost <ehabkost@redhat.com>; Michael S. Tsirkin <mst=
+@redhat.com>; Paul Durrant
+> >>>>>> <pdurrant@amazon.com>; Jason Andryuk <jandryuk@gmail.com>; Paolo B=
+onzini <pbonzini@redhat.com>;
+> >>>>>> Richard Henderson <rth@twiddle.net>
+> >>>>>> Subject: Re: [PATCH 2/2] xen: cleanup unrealized flash devices
+> >>>>>>
+> >>>>>> On 6/24/20 2:18 PM, Paul Durrant wrote:
+> >>>>>>> From: Paul Durrant <pdurrant@amazon.com>
+> >>>>>>>
+> >>>>>>> The generic pc_machine_initfn() calls pc_system_flash_create() wh=
+ich creates
+> >>>>>>> 'system.flash0' and 'system.flash1' devices. These devices are th=
+en realized
+> >>>>>>> by pc_system_flash_map() which is called from pc_system_firmware_=
+init() which
+> >>>>>>> itself is called via pc_memory_init(). The latter however is not =
+called when
+> >>>>>>> xen_enable() is true and hence the following assertion fails:
+> >>>>>>>
+> >>>>>>> qemu-system-i386: hw/core/qdev.c:439: qdev_assert_realized_proper=
+ly:
+> >>>>>>> Assertion `dev->realized' failed
+> >>>>>>>
+> >>>>>>> These flash devices are unneeded when using Xen so this patch avo=
+ids the
+> >>>>>>> assertion by simply removing them using pc_system_flash_cleanup_u=
+nused().
+> >>>>>>>
+> >>>>>>> Reported-by: Jason Andryuk <jandryuk@gmail.com>
+> >>>>>>> Fixes: ebc29e1beab0 ("pc: Support firmware configuration with -bl=
+ockdev")
+> >>>>>>> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
+> >>>>>>> Tested-by: Jason Andryuk <jandryuk@gmail.com>
+> >>>>>>> ---
+> >>>>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >>>>>>> Cc: Richard Henderson <rth@twiddle.net>
+> >>>>>>> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> >>>>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> >>>>>>> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> >>>>>>> ---
+> >>>>>>>  hw/i386/pc_piix.c    | 9 ++++++---
+> >>>>>>>  hw/i386/pc_sysfw.c   | 2 +-
+> >>>>>>>  include/hw/i386/pc.h | 1 +
+> >>>>>>>  3 files changed, 8 insertions(+), 4 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> >>>>>>> index 1497d0e4ae..977d40afb8 100644
+> >>>>>>> --- a/hw/i386/pc_piix.c
+> >>>>>>> +++ b/hw/i386/pc_piix.c
+> >>>>>>> @@ -186,9 +186,12 @@ static void pc_init1(MachineState *machine,
+> >>>>>>>      if (!xen_enabled()) {
+> >>>>>>>          pc_memory_init(pcms, system_memory,
+> >>>>>>>                         rom_memory, &ram_memory);
+> >>>>>>> -    } else if (machine->kernel_filename !=3D NULL) {
+> >>>>>>> -        /* For xen HVM direct kernel boot, load linux here */
+> >>>>>>> -        xen_load_linux(pcms);
+> >>>>>>> +    } else {
+> >>>>>>> +        pc_system_flash_cleanup_unused(pcms);
+> >>>>>>
+> >>>>>> TIL pc_system_flash_cleanup_unused().
+> >>>>>>
+> >>>>>> What about restricting at the source?
+> >>>>>>
+> >>>>>
+> >>>>> And leave the devices in place? They are not relevant for Xen, so w=
+hy not clean up?
+> >>>>
+> >>>> No, I meant to not create them in the first place, instead of
+> >>>> create+destroy.
+> >>>>
+> >>>> Anyway what you did works, so I don't have any problem.
+> >>>
+> >>> IIUC Jason originally tried restricting creation but encountered a pr=
+oblem because xen_enabled() would always return false at that point, becaus=
+e machine creation occurs before accelerators are initialized.
+> >>
+> >> Correct.  Quoting my previous email:
+> >> """
+> >> Removing the call to pc_system_flash_create() from pc_machine_initfn()
+> >> lets QEMU startup and run a Xen HVM again.  xen_enabled() doesn't work
+> >> there since accelerators have not been initialized yes, I guess?
+> >
+> > Ah, I missed that. You pointed at the bug here :)
+> >
+> > I think pc_system_flash_create() shouldn't be called in init() but
+> > realize().
+>
+> Hmm this is a MachineClass, not qdev, so no realize().
+>
+> In softmmu/vl.c we have:
+>
+> 4152     configure_accelerators(argv[0]);
+> ....
+> 4327     if (!xen_enabled()) { // so xen_enable() is working
+> 4328         /* On 32-bit hosts, QEMU is limited by virtual address space=
+ */
+> 4329         if (ram_size > (2047 << 20) && HOST_LONG_BITS =3D=3D 32) {
+> 4330             error_report("at most 2047 MB RAM can be simulated");
+> 4331             exit(1);
+> 4332         }
+> 4333     }
+> ....
+> 4348     machine_run_board_init(current_machine);
+>
+> which calls in hw/core/machine.c:
+>
+> 1089 void machine_run_board_init(MachineState *machine)
+> 1090 {
+> 1091     MachineClass *machine_class =3D MACHINE_GET_CLASS(machine);
+> ....
+> 1138     machine_class->init(machine);
+> 1139 }
+>
+>          -> pc_machine_class_init()
+>
+> This should come after:
+>
+>          -> pc_machine_initfn()
+>
+>             -> pc_system_flash_create(pcms)
 
-Signed-off-by: Lingshan Zhu <lingshan.zhu@intel.com>
-Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
-Signed-off-by: Cindy Lu <lulu@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- include/net/vhost-vdpa.h |  22 ++++
- net/Makefile.objs        |   2 +-
- net/clients.h            |   2 +
- net/net.c                |   3 +
- net/vhost-vdpa.c         | 228 +++++++++++++++++++++++++++++++++++++++
- qapi/net.json            |  28 ++++-
- 6 files changed, 282 insertions(+), 3 deletions(-)
- create mode 100644 include/net/vhost-vdpa.h
- create mode 100644 net/vhost-vdpa.c
+Sorry, I'm not following the flow you want.
 
-diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
-new file mode 100644
-index 0000000000..45e34b7cfc
---- /dev/null
-+++ b/include/net/vhost-vdpa.h
-@@ -0,0 +1,22 @@
-+/*
-+ * vhost-vdpa.h
-+ *
-+ * Copyright(c) 2017-2018 Intel Corporation.
-+ * Copyright(c) 2020 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef VHOST_VDPA_H
-+#define VHOST_VDPA_H
-+
-+#define TYPE_VHOST_VDPA "vhost-vdpa"
-+
-+struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
-+uint64_t vhost_vdpa_get_acked_features(NetClientState *nc);
-+
-+extern const int vdpa_feature_bits[];
-+
-+#endif /* VHOST_VDPA_H */
-diff --git a/net/Makefile.objs b/net/Makefile.objs
-index c5d076d19c..5ab45545db 100644
---- a/net/Makefile.objs
-+++ b/net/Makefile.objs
-@@ -26,7 +26,7 @@ tap-obj-$(CONFIG_SOLARIS) = tap-solaris.o
- tap-obj-y ?= tap-stub.o
- common-obj-$(CONFIG_POSIX) += tap.o $(tap-obj-y)
- common-obj-$(CONFIG_WIN32) += tap-win32.o
--
-+common-obj-$(CONFIG_VHOST_NET_VDPA) += vhost-vdpa.o
- vde.o-libs = $(VDE_LIBS)
- 
- common-obj-$(CONFIG_CAN_BUS) += can/
-diff --git a/net/clients.h b/net/clients.h
-index a6ef267e19..92f9b59aed 100644
---- a/net/clients.h
-+++ b/net/clients.h
-@@ -61,4 +61,6 @@ int net_init_netmap(const Netdev *netdev, const char *name,
- int net_init_vhost_user(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp);
- 
-+int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-+                        NetClientState *peer, Error **errp);
- #endif /* QEMU_NET_CLIENTS_H */
-diff --git a/net/net.c b/net/net.c
-index 9099a327dd..94dc546fb2 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -966,6 +966,9 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
- #ifdef CONFIG_VHOST_NET_USER
-         [NET_CLIENT_DRIVER_VHOST_USER] = net_init_vhost_user,
- #endif
-+#ifdef CONFIG_VHOST_NET_VDPA
-+        [NET_CLIENT_DRIVER_VHOST_VDPA] = net_init_vhost_vdpa,
-+#endif
- #ifdef CONFIG_L2TPV3
-         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
- #endif
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-new file mode 100644
-index 0000000000..bc0e0d2d35
---- /dev/null
-+++ b/net/vhost-vdpa.c
-@@ -0,0 +1,228 @@
-+/*
-+ * vhost-vdpa.c
-+ *
-+ * Copyright(c) 2017-2018 Intel Corporation.
-+ * Copyright(c) 2020 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "clients.h"
-+#include "net/vhost_net.h"
-+#include "net/vhost-vdpa.h"
-+#include "hw/virtio/vhost-vdpa.h"
-+#include "qemu/config-file.h"
-+#include "qemu/error-report.h"
-+#include "qemu/option.h"
-+#include "qapi/error.h"
-+#include <sys/ioctl.h>
-+#include <err.h>
-+#include "standard-headers/linux/virtio_net.h"
-+#include "monitor/monitor.h"
-+#include "hw/virtio/vhost.h"
-+
-+/* Todo:need to add the multiqueue support here */
-+typedef struct VhostVDPAState {
-+    NetClientState nc;
-+    struct vhost_vdpa vhost_vdpa;
-+    VHostNetState *vhost_net;
-+    uint64_t acked_features;
-+    bool started;
-+} VhostVDPAState;
-+
-+const int vdpa_feature_bits[] = {
-+    VIRTIO_F_NOTIFY_ON_EMPTY,
-+    VIRTIO_RING_F_INDIRECT_DESC,
-+    VIRTIO_RING_F_EVENT_IDX,
-+    VIRTIO_F_ANY_LAYOUT,
-+    VIRTIO_F_VERSION_1,
-+    VIRTIO_NET_F_CSUM,
-+    VIRTIO_NET_F_GUEST_CSUM,
-+    VIRTIO_NET_F_GSO,
-+    VIRTIO_NET_F_GUEST_TSO4,
-+    VIRTIO_NET_F_GUEST_TSO6,
-+    VIRTIO_NET_F_GUEST_ECN,
-+    VIRTIO_NET_F_GUEST_UFO,
-+    VIRTIO_NET_F_HOST_TSO4,
-+    VIRTIO_NET_F_HOST_TSO6,
-+    VIRTIO_NET_F_HOST_ECN,
-+    VIRTIO_NET_F_HOST_UFO,
-+    VIRTIO_NET_F_MRG_RXBUF,
-+    VIRTIO_NET_F_MTU,
-+    VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_PACKED,
-+    VIRTIO_NET_F_GUEST_ANNOUNCE,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
-+VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-+{
-+    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    return s->vhost_net;
-+}
-+
-+uint64_t vhost_vdpa_get_acked_features(NetClientState *nc)
-+{
-+    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    s->acked_features = vhost_net_get_acked_features(s->vhost_net);
-+
-+    return s->acked_features;
-+}
-+
-+static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
-+{
-+    uint32_t device_id;
-+    int ret;
-+    struct vhost_dev *hdev;
-+
-+    hdev = (struct vhost_dev *)&net->dev;
-+    ret = hdev->vhost_ops->vhost_get_device_id(hdev, &device_id);
-+    if (device_id != VIRTIO_ID_NET) {
-+        return -ENOTSUP;
-+    }
-+    return ret;
-+}
-+
-+static void vhost_vdpa_del(NetClientState *ncs)
-+{
-+    VhostVDPAState *s;
-+    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    s = DO_UPCAST(VhostVDPAState, nc, ncs);
-+    if (s->vhost_net) {
-+        vhost_net_cleanup(s->vhost_net);
-+    }
-+}
-+
-+static int vhost_vdpa_add(NetClientState *ncs, void *be)
-+{
-+    VhostNetOptions options;
-+    struct vhost_net *net = NULL;
-+    VhostVDPAState *s;
-+    int ret;
-+
-+    options.backend_type = VHOST_BACKEND_TYPE_VDPA;
-+    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    s = DO_UPCAST(VhostVDPAState, nc, ncs);
-+    options.net_backend = ncs;
-+    options.opaque      = be;
-+    options.busyloop_timeout = 0;
-+
-+    net = vhost_net_init(&options);
-+    if (!net) {
-+        error_report("failed to init vhost_net for queue");
-+        goto err;
-+    }
-+    if (s->vhost_net) {
-+        vhost_net_cleanup(s->vhost_net);
-+        g_free(s->vhost_net);
-+    }
-+    s->vhost_net = net;
-+    ret = vhost_vdpa_net_check_device_id(net);
-+    if (ret) {
-+        goto err;
-+    }
-+    return 0;
-+err:
-+    if (net) {
-+        vhost_net_cleanup(net);
-+    }
-+    vhost_vdpa_del(ncs);
-+    return -1;
-+}
-+
-+static void vhost_vdpa_cleanup(NetClientState *nc)
-+{
-+    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+
-+    if (s->vhost_net) {
-+        vhost_net_cleanup(s->vhost_net);
-+        g_free(s->vhost_net);
-+        s->vhost_net = NULL;
-+    }
-+}
-+
-+static bool vhost_vdpa_has_vnet_hdr(NetClientState *nc)
-+{
-+    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+
-+    return true;
-+}
-+
-+static bool vhost_vdpa_has_ufo(NetClientState *nc)
-+{
-+    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    uint64_t features = 0;
-+    features |= (1ULL << VIRTIO_NET_F_HOST_UFO);
-+    features = vhost_net_get_features(s->vhost_net, features);
-+    return !!(features & (1ULL << VIRTIO_NET_F_HOST_UFO));
-+
-+}
-+
-+static NetClientInfo net_vhost_vdpa_info = {
-+        .type = NET_CLIENT_DRIVER_VHOST_VDPA,
-+        .size = sizeof(VhostVDPAState),
-+        .cleanup = vhost_vdpa_cleanup,
-+        .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
-+        .has_ufo = vhost_vdpa_has_ufo,
-+};
-+
-+static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-+                               const char *name, const char *vhostdev)
-+{
-+    NetClientState *nc = NULL;
-+    VhostVDPAState *s;
-+    int vdpa_device_fd = -1;
-+    int ret = 0;
-+    assert(name);
-+    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
-+    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-+    nc->queue_index = 0;
-+    s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    vdpa_device_fd = qemu_open(vhostdev, O_RDWR);
-+    if (vdpa_device_fd == -1) {
-+        return -errno;
-+    }
-+    s->vhost_vdpa.device_fd = vdpa_device_fd;
-+    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-+    assert(s->vhost_net);
-+    return ret;
-+}
-+
-+static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    const char *name = opaque;
-+    const char *driver, *netdev;
-+
-+    driver = qemu_opt_get(opts, "driver");
-+    netdev = qemu_opt_get(opts, "netdev");
-+    if (!driver || !netdev) {
-+        return 0;
-+    }
-+    if (strcmp(netdev, name) == 0 &&
-+        !g_str_has_prefix(driver, "virtio-net-")) {
-+        error_setg(errp, "vhost-vdpa requires frontend driver virtio-net-*");
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-+                        NetClientState *peer, Error **errp)
-+{
-+    const NetdevVhostVDPAOptions *opts;
-+
-+    assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-+    opts = &netdev->u.vhost_vdpa;
-+    /* verify net frontend */
-+    if (qemu_opts_foreach(qemu_find_opts("device"), net_vhost_check_net,
-+                          (char *)name, errp)) {
-+        return -1;
-+    }
-+    return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, opts->vhostdev);
-+}
-diff --git a/qapi/net.json b/qapi/net.json
-index 9244c9af56..558d520a2f 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -428,16 +428,39 @@
-     '*vhostforce':    'bool',
-     '*queues':        'int' } }
- 
-+##
-+# @NetdevVhostVDPAOptions:
-+#
-+# Vhost-vdpa network backend
-+#
-+# vDPA device is a device that uses a datapath which complies with the virtio
-+# specifications with a vendor specific control path.
-+#
-+# @vhostdev: path of vhost-vdpa device
-+#            (default:'/dev/vhost-vdpa-0')
-+#
-+# @queues: number of queues to be created for multiqueue vhost-vdpa
-+#          (default: 1)
-+#
-+# Since: 5.1
-+##
-+{ 'struct': 'NetdevVhostVDPAOptions',
-+  'data': {
-+    '*vhostdev':     'str',
-+    '*queues':       'int' } }
-+
- ##
- # @NetClientDriver:
- #
- # Available netdev drivers.
- #
- # Since: 2.7
-+#
-+# @vhost-vdpa since 5.1
- ##
- { 'enum': 'NetClientDriver',
-   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
--            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
-+            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
- 
- ##
- # @Netdev:
-@@ -465,7 +488,8 @@
-     'bridge':   'NetdevBridgeOptions',
-     'hubport':  'NetdevHubPortOptions',
-     'netmap':   'NetdevNetmapOptions',
--    'vhost-user': 'NetdevVhostUserOptions' } }
-+    'vhost-user': 'NetdevVhostUserOptions',
-+    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
- 
- ##
- # @NetFilterDirection:
--- 
-2.21.1
+The xen_enabled() call in vl.c may always fail.  Or at least in most
+common Xen usage.  Xen HVMs are started with machine xenfv and don't
+specify an accelerator.  You need to process the xenfv default machine
+opts to process "accel=3Dxen".  Actually, I don't know how the
+accelerator initialization works, but xen_accel_class_init() needs to
+be called to set `ac->allowed =3D &xen_allowed`.  xen_allowed is the
+return value of xen_enabled() and the accelerator initialization must
+toggle it.
 
+Regards,
+Jason
 
