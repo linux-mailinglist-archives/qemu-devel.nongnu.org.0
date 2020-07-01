@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790DB210803
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:26:46 +0200 (CEST)
-Received: from localhost ([::1]:37946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8202107E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:21:45 +0200 (CEST)
+Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqZ0v-0000Bi-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53048)
+	id 1jqYw4-0006OW-8f
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqYzu-0007mh-5G
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqYzr-0004uk-Nt
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqYzp-0005fR-LB
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 09:25:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9A6D32E810B
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 09:25:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqYvK-0005yc-Mf
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:20:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35402
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jqYvI-0004Lv-Ob
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:20:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593595256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OlOFRuSq3+rLzmQ9V5jb2pmpsxiAfibzoK1UDuxv31Y=;
+ b=Yw1CEOpWKVy8hSItDuMjX9b2Ed4UAi92oVJtBgKGcBLgFUn4ZC5PpM343GODdfv1QEYLQj
+ vh1jLAes+XwCQHLEsfGCgMTkIcd2z/w+DBqYjdyxgofznXH8nCrQgFSk2szkR/rl7Erv87
+ BN9EwXKnz+aCSrjTDiaBOa9yXiV1kM0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-uVtjcA6SMPCR1vmlBYfLvg-1; Wed, 01 Jul 2020 05:20:51 -0400
+X-MC-Unique: uVtjcA6SMPCR1vmlBYfLvg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC3B1052509;
+ Wed,  1 Jul 2020 09:20:45 +0000 (UTC)
+Received: from localhost (ovpn-113-121.ams2.redhat.com [10.36.113.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16DD27AC60;
+ Wed,  1 Jul 2020 09:20:44 +0000 (UTC)
+Date: Wed, 1 Jul 2020 10:20:43 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: elena.ufimtseva@oracle.com
+Subject: Re: [PATCH v7 12/21] multi-process: Connect Proxy Object with device
+ in the remote process
+Message-ID: <20200701092043.GE126613@stefanha-x1.localdomain>
+References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
+ <20f42fce1b701586a23c9abdb3b53d080845e94a.1593273671.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2020 09:19:18 -0000
-From: santhosh kumar <1885889@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: santhoshht
-X-Launchpad-Bug-Reporter: santhosh kumar (santhoshht)
-X-Launchpad-Bug-Modifier: santhosh kumar (santhoshht)
-Message-Id: <159359515867.16429.1432427219999923792.malonedeb@soybean.canonical.com>
-Subject: [Bug 1885889] [NEW] ERROR: core-image-minimal-1.0-r0 do_rootfs: The
- postinstall intercept hook 'update_font_cache' failed, 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 24138920f4ebb8db5434a9b25b97927f287234a6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 03:10:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20f42fce1b701586a23c9abdb3b53d080845e94a.1593273671.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/2994txjAzEdQwm5"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,134 +83,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885889 <1885889@bugs.launchpad.net>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+--/2994txjAzEdQwm5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Sat, Jun 27, 2020 at 10:09:34AM -0700, elena.ufimtseva@oracle.com wrote:
+> From: Jagannathan Raman <jag.raman@oracle.com>
+>=20
+> Send a message to the remote process to connect PCI device with the
+> corresponding Proxy object in QEMU
 
-I am trying to build bitbake core-image-minimal getting following error.
+I thought the protocol was simplified to a 1:1 device:socket model, but
+this patch seems to implement an N:1 model?
 
-santhosh@santhosh-VirtualBox:~/Denverton/Source/BSP/poky/build$ bitbake cor=
-e-image-minimal
-Loading cache: 100% |######################################################=
-#########################################| Time: 0:00:00
-Loaded 1370 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+In a 1:1 model the CONNECT_DEV message is not necessary because each
+socket is already associated with a specific remote device (e.g. qemu -M
+remote -object mplink,dev=3Dlsi-scsi-1,sockpath=3D/tmp/lsi-scsi-1.sock).
+Connecting to the socket already indicates which device we are talking
+to.
 
-Build Configuration:
-BB_VERSION           =3D "1.44.0"
-BUILD_SYS            =3D "x86_64-linux"
-NATIVELSBSTRING      =3D "universal"
-TARGET_SYS           =3D "x86_64-poky-linux"
-MACHINE              =3D "ddsmdnv"
-DISTRO               =3D "poky"
-DISTRO_VERSION       =3D "3.0.2"
-TUNE_FEATURES        =3D "m64 corei7"
-TARGET_FPU           =3D ""
-meta                 =
+The N:1 model will work but it's more complex. There is a main socket
+that is used for CONNECT_DEV (anything else?) and we need to worry about
+the lifecycle of the per-device sockets that are passed over the main
+socket.
 
-meta-poky            =
+> @@ -50,3 +58,34 @@ gboolean mpqemu_process_msg(QIOChannel *ioc, GIOCondit=
+ion cond,
+> =20
+>      return TRUE;
+>  }
+> +
+> +static void process_connect_dev_msg(MPQemuMsg *msg, QIOChannel *com,
+> +                                    Error **errp)
+> +{
+> +    char *devid =3D (char *)msg->data2;
+> +    QIOChannel *dioc =3D NULL;
+> +    DeviceState *dev =3D NULL;
+> +    MPQemuMsg ret =3D { 0 };
+> +    int rc =3D 0;
+> +
+> +    g_assert(devid && (devid[msg->size - 1] =3D=3D '\0'));
 
-meta-ddsmdnv         =3D "DDSM_Denverton_PHASE_1_FDJ_Release:471fec241d3a1a=
-4b70ad58135fe229eab2b6a196"
+Asserts are not suitable for external input validation since a failure
+aborts the program and lets the client cause a denial-of-service. When
+there are multiple clients, one misbehaved client shouldn't be able to
+kill the server. Please validate devid using an if statement and set
+errp on failure.
 
-Initialising tasks: 100% |#################################################=
-#########################################| Time: 0:00:05
-Sstate summary: Wanted 413 Found 0 Missed 413 Current 937 (0% match, 69% co=
-mplete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-ERROR: core-image-minimal-1.0-r0 do_rootfs: The postinstall intercept hook =
-'update_font_cache' failed, details in /home/santhosh/Denverton/Source/BSP/=
-poky/build/tmp/work/ddsmdnv-poky-linux/core-image-minimal/1.0-r0/temp/log.d=
-o_rootfs
-ERROR: Logfile of failure stored in: /home/santhosh/Denverton/Source/BSP/po=
-ky/build/tmp/work/ddsmdnv-poky-linux/core-image-minimal/1.0-r0/temp/log.do_=
-rootfs.9682
-ERROR: Task (/home/santhosh/Denverton/Source/BSP/poky/meta-ddsmdnv/recipes-=
-core/images/core-image-minimal.bb:do_rootfs) failed with exit code '1'
+Can msg->size be 0? If yes, this code accesses before the beginning of
+the buffer.
 
+> +
+> +    dev =3D qdev_find_recursive(sysbus_get_default(), devid);
+> +    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+> +        rc =3D 0xff;
+> +        goto exit;
+> +    }
+> +
+> +    dioc =3D qio_channel_new_fd(msg->fds[0], errp);
 
-Could you please help me on how to fix this issue.
+Missing error handling if qio_channel_new_fd() fails. We need to
+close(msg->fds[0]) ourselves in this case.
 
-Thank you.
+> +
+> +    qio_channel_add_watch(dioc, G_IO_IN | G_IO_HUP, mpqemu_process_msg,
+> +                          (void *)dev, NULL);
+> +
+> +exit:
+> +    ret.cmd =3D RET_MSG;
+> +    ret.bytestream =3D 0;
+> +    ret.data1.u64 =3D rc;
+> +    ret.size =3D sizeof(ret.data1);
+> +
+> +    mpqemu_msg_send(&ret, com);
+> +}
+> diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
+> index 6d62399c52..16649ed0ec 100644
+> --- a/hw/pci/proxy.c
+> +++ b/hw/pci/proxy.c
+> @@ -15,10 +15,38 @@
+>  #include "io/channel-util.h"
+>  #include "hw/qdev-properties.h"
+>  #include "monitor/monitor.h"
+> +#include "io/mpqemu-link.h"
+> =20
+>  static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
+>  {
+> +    DeviceState *dev =3D DEVICE(pdev);
+> +    MPQemuMsg msg =3D { 0 };
+> +    int fds[2];
+> +    Error *local_err =3D NULL;
+> +
+>      pdev->com =3D qio_channel_new_fd(fd, errp);
+> +
+> +    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fds)) {
+> +        error_setg(errp, "Failed to create proxy channel with fd %d", fd=
+);
+> +        return;
 
-Santhosh
+pdev->com needs to be cleaned up.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+> index 5887c8c6c0..54df3b254e 100644
+> --- a/io/mpqemu-link.c
+> +++ b/io/mpqemu-link.c
+> @@ -234,6 +234,14 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+>              return false;
+>          }
+>          break;
+> +    case CONNECT_DEV:
+> +        if ((msg->num_fds !=3D 1) ||
+> +            (msg->fds[0] =3D=3D -1) ||
+> +            (msg->fds[0] =3D=3D -1) ||
 
--- =
+This line is duplicated.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885889
+--/2994txjAzEdQwm5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Title:
-  ERROR: core-image-minimal-1.0-r0 do_rootfs: The postinstall intercept
-  hook 'update_font_cache' failed,
+-----BEGIN PGP SIGNATURE-----
 
-Status in QEMU:
-  New
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl78VWsACgkQnKSrs4Gr
+c8jD9wf/RkF+SFT8rfgpVQD5USkqhC0KFybyxRni1l1YPXvGpTs/i44GEDGKdCeI
+jT6QHEsZyHA2R94mz2FCP9UQDZW8b+atQ2jgrCpmSCD9Ww1WhPglyT779yDRHlF3
+B1PWhQaK1DXmLbhQdKtxD0j+wB+kFWb4yZHJ6h1wmAtPhclpjrUjU14rBqFUFNYD
+EVuzJ94uQcQxIUoLc9dcYCSZ1X6rv9Fw8o6Y/wRHSU5D88rrst7i16dyhi9SoII+
+GBnVTRqh6f4gmCY0i8OQroBA/70nSQtVZKpaO8cprQt37twUK5k+UFwbz+NWTNyk
+4gg46PB6+ZuCWZ2uX56BYx6vYuzDFg==
+=RvrS
+-----END PGP SIGNATURE-----
 
-Bug description:
-  Hello,
+--/2994txjAzEdQwm5--
 
-  I am trying to build bitbake core-image-minimal getting following
-  error.
-
-  santhosh@santhosh-VirtualBox:~/Denverton/Source/BSP/poky/build$ bitbake c=
-ore-image-minimal
-  Loading cache: 100% |####################################################=
-###########################################| Time: 0:00:00
-  Loaded 1370 entries from dependency cache.
-  NOTE: Resolving any missing task queue dependencies
-
-  Build Configuration:
-  BB_VERSION           =3D "1.44.0"
-  BUILD_SYS            =3D "x86_64-linux"
-  NATIVELSBSTRING      =3D "universal"
-  TARGET_SYS           =3D "x86_64-poky-linux"
-  MACHINE              =3D "ddsmdnv"
-  DISTRO               =3D "poky"
-  DISTRO_VERSION       =3D "3.0.2"
-  TUNE_FEATURES        =3D "m64 corei7"
-  TARGET_FPU           =3D ""
-  meta                 =
-
-  meta-poky            =
-
-  meta-ddsmdnv         =3D "DDSM_Denverton_PHASE_1_FDJ_Release:471fec241d3a=
-1a4b70ad58135fe229eab2b6a196"
-
-  Initialising tasks: 100% |###############################################=
-###########################################| Time: 0:00:05
-  Sstate summary: Wanted 413 Found 0 Missed 413 Current 937 (0% match, 69% =
-complete)
-  NOTE: Executing Tasks
-  NOTE: Setscene tasks completed
-  ERROR: core-image-minimal-1.0-r0 do_rootfs: The postinstall intercept hoo=
-k 'update_font_cache' failed, details in /home/santhosh/Denverton/Source/BS=
-P/poky/build/tmp/work/ddsmdnv-poky-linux/core-image-minimal/1.0-r0/temp/log=
-.do_rootfs
-  ERROR: Logfile of failure stored in: /home/santhosh/Denverton/Source/BSP/=
-poky/build/tmp/work/ddsmdnv-poky-linux/core-image-minimal/1.0-r0/temp/log.d=
-o_rootfs.9682
-  ERROR: Task (/home/santhosh/Denverton/Source/BSP/poky/meta-ddsmdnv/recipe=
-s-core/images/core-image-minimal.bb:do_rootfs) failed with exit code '1'
-
-  =
-
-  Could you please help me on how to fix this issue.
-
-  Thank you.
-
-  Santhosh
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885889/+subscriptions
 
