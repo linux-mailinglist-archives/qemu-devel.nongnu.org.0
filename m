@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509D62112C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 20:31:05 +0200 (CEST)
-Received: from localhost ([::1]:46660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97342112CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 20:31:55 +0200 (CEST)
+Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqhVg-0004AI-A8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 14:31:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45340)
+	id 1jqhWU-00052K-PP
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 14:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqhUA-0003fU-2P
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:29:30 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:35220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jqhU8-0004Va-DZ
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:29:29 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id f16so993855pjt.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 11:29:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=SGGGhmdBRttWqp65C+GvmngAI4GTDFyswA+RF0iIQ6o=;
- b=Q8MlOkPasCUSUqOj5VgZ7s4pcZUt282r2MU2TpDwaiCc64LS/2NYs/ptbIU0CTnAVx
- lWKLTPRm7Ci7JiD0qTKIX+u0hmL2yw100ew56yRJE4zCo63RNX0IgK0nx3/KOsUCYOUV
- L29Eb3zPMa9+GudwidxSznQAmd+kZBoNq+Yy1K3m5VcnC6tu5S9gTFOPvW6tAAA7AesS
- g0dkWzHbXyr+vEIAgaLCI6tou/uUuUxxg6YbS5p6HFf92GDpsG6e/Yx2HxS9Z5uoS9Xx
- YVw41k6wBGN92fSamYWy9sAeHs0G0KTQtTn2fysbOEPv4cN0XCSoQjP2huFYaZ7m8NZp
- ZXjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SGGGhmdBRttWqp65C+GvmngAI4GTDFyswA+RF0iIQ6o=;
- b=TC0bJNbo7Q0QMvHYj9n1sxAJu/3mCYsokbzcR/o/aZWMDK5IC0VTyIQeW1NVWljHp4
- 7oSTKuDJ95O/UEUCW8wrD+xR+30QhmKbEoqwOHISHpV6B3QNv48iS48M2z4ckbrobGbf
- uFcky2238SNomm5KP1mdjBjSbw6jdvXd8osyOyc08bDz9WBhvBKf8YvoSv8qpTHZo9fj
- ITZ4iDMDW1KTT/LtPqU5nshqPEApM+lcgqkxlxtce0cDWyuzXTXgx4bCXAZqqvlHigD6
- WCO+wvGQyfp+NxWh7KHgFoI1dr7VDeYemUQQolsyAqipczJqDvbT37DRDpvIuAYm8G1N
- l50Q==
-X-Gm-Message-State: AOAM531Pg0i2dhD91Y663fVi4VQkUofzQ154Lm19d+QrF3XhF5A8Et78
- 3XJO/lp6cZZx4clxZ94zgJ1hmGIZUlY=
-X-Google-Smtp-Source: ABdhPJyn+CJ6tl5+HzPqRqprx73DFnXPBEBSlSgVzdgkCP3u4PJp+F3od1Xs2f+lhc4xuIHkNwL3Ig==
-X-Received: by 2002:a17:902:8b8a:: with SMTP id
- ay10mr23400435plb.235.1593628166189; 
- Wed, 01 Jul 2020 11:29:26 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id b4sm5786673pjn.38.2020.07.01.11.29.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 11:29:25 -0700 (PDT)
-Subject: Re: [PATCH] target-i386: remove gen_io_end
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20200626104419.15504-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c2415ac1-94eb-31d2-847b-3759fc9c12aa@linaro.org>
-Date: Wed, 1 Jul 2020 11:29:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqhUh-00040A-1w
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:30:03 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59929
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqhUf-0004YU-94
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 14:30:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593628200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zL5HienbHk90xBb0wlS4RRrQDNVLKnTemskxwEs9gkU=;
+ b=gg6jW7iyqGbjJEc6rylVdgKGvjdwbRReLlYR243t0eREuqRuEiCXuAepcUInCdmoGdLKYF
+ lWwHxvbiO7gWOKEur2lCpUcNwggs5RwqrMT7JCXlXBgJr0bJ6+cWhb4wm9hPmbJSc+JspS
+ U4zKRBKx+tvNJ+em5OwDd9JWQgbWvh0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-D8Ud0ZuvMriMVile5QVr7Q-1; Wed, 01 Jul 2020 14:29:58 -0400
+X-MC-Unique: D8Ud0ZuvMriMVile5QVr7Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AA5A800C60;
+ Wed,  1 Jul 2020 18:29:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4BBF612BA;
+ Wed,  1 Jul 2020 18:29:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 11AA916E16; Wed,  1 Jul 2020 20:29:56 +0200 (CEST)
+Date: Wed, 1 Jul 2020 20:29:56 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paul Zimmerman <pauldzim@gmail.com>
+Subject: Re: [PATCH v6 0/7] dwc-hsotg (aka dwc2) USB host controller emulation
+Message-ID: <20200701182956.upx7jq3av2u2lleh@sirius.home.kraxel.org>
+References: <20200520235349.21215-1-pauldzim@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626104419.15504-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200520235349.21215-1-pauldzim@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,20 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/20 3:44 AM, Paolo Bonzini wrote:
-> Force the end of a translation block after an I/O instruction in
-> icount mode.  For consistency, all CF_USE_ICOUNT code is kept in
-> disas_insn instead of having it in gen_ins and gen_outs.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  target/i386/translate.c | 22 +++++++++-------------
->  1 file changed, 9 insertions(+), 13 deletions(-)
+  Hi,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> This patch series adds emulation for the dwc-hsotg USB controller,
+> which is used on the Raspberry Pi 3 and earlier, as well as a number
+> of other development boards. The main benefit for Raspberry Pi is that
+> this enables networking on these boards, since the network adapter is
+> attached via USB.
 
-r~
+Doesn't apply cleanly to master.  Either some conflict due to other rpi3
+changes merged meanwhile, or a dependency on unmerged patches.  Can you
+check and resend?
+
+thanks,
+  Gerd
+
 
