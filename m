@@ -2,62 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E54210DB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:27:51 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C5F210DB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:28:58 +0200 (CEST)
+Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdiI-0002cW-RG
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38700)
+	id 1jqdjN-0004O8-7B
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqdfv-0000Lx-NC
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:25:23 -0400
-Resent-Date: Wed, 01 Jul 2020 10:25:23 -0400
-Resent-Message-Id: <E1jqdfv-0000Lx-NC@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21377)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqdgW-0001rK-Rj
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:26:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21055
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqdfq-0001vV-Rq
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:25:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593613497; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LIkcve+xUVCn37GggvN9jSDd+KUSHdYIrqi6vmIS6NhA8Hdbe0kO3rkYSyFQ4DvEUIWfjlWyODm1cOK72j9taZdz414oNsFCphc+e58IMPRIgh1Oxwno27s+/ak/NdWX9FLtxuZT8lg4kKp8Rh8vMLU259wh5QtAymu7TC9u30s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593613497;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=MeQna3sOE1bogK1HrISvyaAEkB/Nc3QquUT6aUSm1oA=; 
- b=bWMAHkdXA6BsJs04prFSWhBrAy9HzgOey1I1U8NsH7NOH1XT0FMt4PCXkcgEQb8u1XEEaySxH8u+WnzU7HS7NkSZIJxJGpPFJw9tOKpWNpuzeYuC8nSLhyoOmVkY9Bfdqx5kUm7pj964ka1quKqwweJ6WnbE08wSO55gk/yTvGE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593613492399878.0960906124783;
- Wed, 1 Jul 2020 07:24:52 -0700 (PDT)
-Message-ID: <159361349123.26405.13886207944377670259@d1fd068a5071>
-Subject: Re: [PATCH v2] tests: disassemble-aml.sh: generate AML in readable
- format
-In-Reply-To: <20200701121349.50523-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqdgU-0002An-UB
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:26:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593613558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t5HcXnEsZH1QefsX1QuZ3AuaKWbFdGteqhsXfdg5MN0=;
+ b=LmLCbLbG/003PlQWLIgOMNdqIEKmPwrdEuC5v/xejfhDKvb+XjerK2AkMmNaLDd4I0aLQf
+ kpAKl2rQBqAF/dsPYwafS92RQlnXwv4dBklpBrmFHB8eJ8LiYiifJw/ehb0b2+bKQePsWt
+ xDnUdioQ3v6sE8QA5d94HB2UErw8yXI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-XQmBWqUgMW6QuXzxzgTFWw-1; Wed, 01 Jul 2020 10:25:52 -0400
+X-MC-Unique: XQmBWqUgMW6QuXzxzgTFWw-1
+Received: by mail-wm1-f70.google.com with SMTP id g187so23676997wme.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:25:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t5HcXnEsZH1QefsX1QuZ3AuaKWbFdGteqhsXfdg5MN0=;
+ b=eKcB03Om97QxkTJLMc6hS8yGILvQc+L+tMzQq0zhjoxQm7ub/UqosMDxqp1hJJ5DZ9
+ 24h3acQSdZYkoBTlPCWh3jStn87KB2DM6N0lIguLvJFwd6Bqg3vz7+TfhhsNtzTk23/C
+ lIUku4SCqI29eJXvUktxXT6oyZOLRGMQ/KwFiN+CibeiPjCDkvVL1f6JRBmz92kBS75j
+ od7ilzk+AIewF/1Yzt3f8ksn39yZz2Ckio4u5WQRDGFGTCx5Q3agUvpE7CoOZ1Go3Eww
+ 5guzkiXbKS+Q5/LQSS6tUOkDV/fqH5oXDLdP/gJC2gq2cpo8ePp29moY2aXfl6q8VYki
+ mYtA==
+X-Gm-Message-State: AOAM530Fw9xlRkSGEJfGR7jliTTIsXWsLrbwFJb59pE++YEclDr8JVZq
+ xRthi3wunGXbOoIa+WjXw+TE4wVQbE3cfgqmcUlrz2bLzLLsYmqlO6Ckse5490ThO2s8dcNg79u
+ gU74EurcVjQKrJeM=
+X-Received: by 2002:adf:8444:: with SMTP id 62mr25784752wrf.278.1593613551557; 
+ Wed, 01 Jul 2020 07:25:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXz3UDVoujeKZYrNR5UUnOEBFQTmCz3ZJ4dxZna76kJys9sIEdy/NzLM41sMqbe4itldoEnA==
+X-Received: by 2002:adf:8444:: with SMTP id 62mr25784728wrf.278.1593613551256; 
+ Wed, 01 Jul 2020 07:25:51 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:1142:70d6:6b9b:3cd1?
+ ([2001:b07:6468:f312:1142:70d6:6b9b:3cd1])
+ by smtp.gmail.com with ESMTPSA id t2sm7307442wma.43.2020.07.01.07.25.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 07:25:50 -0700 (PDT)
+Subject: Re: [PATCH] scripts/get_maintainer: Use .ignoredmailmap to ignore
+ invalid emails
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200629172716.20781-1-f4bug@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8616bdd8-34a9-f737-aa9d-f11d735cc0fe@redhat.com>
+Date: Wed, 1 Jul 2020 16:25:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mst@redhat.com
-Date: Wed, 1 Jul 2020 07:24:52 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:25:14
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200629172716.20781-1-f4bug@amsat.org>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,43 +103,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMTEyMTM0OS41MDUy
-My0xLW1zdEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggdjJdIHRlc3RzOiBkaXNhc3NlbWJsZS1hbWwuc2g6IGdl
-bmVyYXRlIEFNTCBpbiByZWFkYWJsZSBmb3JtYXQKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIw
-MjAwNzAxMTIxMzQ5LjUwNTIzLTEtbXN0QHJlZGhhdC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJ
-TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
-dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
-IFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
-cWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwNzAxMTIxMzQ5LjUwNTIzLTEt
-bXN0QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMDcwMTEyMTM0OS41MDUyMy0xLW1zdEByZWRo
-YXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYWI1NDIzMiB0ZXN0czogZGlz
-YXNzZW1ibGUtYW1sLnNoOiBnZW5lcmF0ZSBBTUwgaW4gcmVhZGFibGUgZm9ybWF0Cgo9PT0gT1VU
-UFVUIEJFR0lOID09PQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
-b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNjogCm5ldyBmaWxlIG1vZGUgMTAwNzU1
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzA6IEZJTEU6IHRlc3RzL2RhdGEv
-YWNwaS9kaXNhc3NlbWxlLWFtbC5zaDoxMDoKKyAgICAgICAgZWNobyAiVXNhZ2U6IC4vdGVzdHMv
-ZGF0YS9hY3BpL2Rpc2Fzc2VtbGUtYW1sLnNoIFstbyA8b3V0cHV0LWRpcmVjdG9yeT5dIgoKRVJS
-T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM4MTogRklMRTogdGVzdHMvZGF0YS9hY3BpL3Jl
-YnVpbGQtZXhwZWN0ZWQtYW1sLnNoOjM5OgorZWNobyAiWW91IGNhbiB1c2UgJHtTUkNfUEFUSH0v
-dGVzdHMvZGF0YS9hY3BpL2Rpc2Fzc2VtbGUtYW1sLnNoIHRvIGRpc2Fzc2VtYmxlIHRoZW0gdG8g
-QVNMLiIKCnRvdGFsOiAxIGVycm9ycywgMiB3YXJuaW5ncywgNTkgbGluZXMgY2hlY2tlZAoKQ29t
-bWl0IGFiNTQyMzI5M2RhMiAodGVzdHM6IGRpc2Fzc2VtYmxlLWFtbC5zaDogZ2VuZXJhdGUgQU1M
-IGluIHJlYWRhYmxlIGZvcm1hdCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MDExMjEzNDku
-NTA1MjMtMS1tc3RAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
-LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
-Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
-ZGhhdC5jb20=
+On 29/06/20 19:27, Philippe Mathieu-Daudé wrote:
+> Sometime emails get rejected and 'bounce'. It might take time
+> between we report that, a patch is posted, reviewed, merged...
+> 
+> To reduce time spent looking at bouncing emails in one mailbox,
+> add the feature to simply ignore broken email addresses. The
+> format is similar to the '.mailmap' file. Add an email address
+> in your local '.ignoredmailmap. and get_maintainer.pl won't
+> list it anymore.
+> 
+> This is particularly useful when git-send-email is used with
+> the --cc-cmd argument, like suggested in QEMU wiki:
+> https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Do you have such a list already?
+
+Paolo
+
+> ---
+>  scripts/get_maintainer.pl | 50 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+> index 271f5ff42a..7f7a4ff3ef 100755
+> --- a/scripts/get_maintainer.pl
+> +++ b/scripts/get_maintainer.pl
+> @@ -38,6 +38,7 @@
+>  my $interactive = 0;
+>  my $email_remove_duplicates = 1;
+>  my $email_use_mailmap = 1;
+> +my $email_use_ignoredmailmap = 1;
+>  my $output_multiline = 1;
+>  my $output_separator = ", ";
+>  my $output_roles = 0;
+> @@ -365,6 +366,51 @@ sub read_mailmap {
+>      close($mailmap_file);
+>  }
+>  
+> +my $ignoredmailmap;
+> +
+> +read_ignoredmailmap();
+> +
+> +sub read_ignoredmailmap {
+> +    $ignoredmailmap = {
+> +	names => {},
+> +	addresses => {}
+> +    };
+> +
+> +    return if (!$email_use_ignoredmailmap || !(-f "${lk_path}.ignoredmailmap"));
+> +
+> +    open(my $ignoredmailmap_file, '<', "${lk_path}.ignoredmailmap")
+> +	or warn "$P: Can't open .ignoredmailmap: $!\n";
+> +
+> +    while (<$ignoredmailmap_file>) {
+> +	s/#.*$//; #strip comments
+> +	s/^\s+|\s+$//g; #trim
+> +
+> +	next if (/^\s*$/); #skip empty lines
+> +	#entries have one of the following formats:
+> +	# name1 <mail1>
+> +	# <mail1>
+> +
+> +	if (/^([^<]+)<([^>]+)>$/) {
+> +	    my $real_name = $1;
+> +	    my $address = $2;
+> +
+> +	    $real_name =~ s/\s+$//;
+> +	    ($real_name, $address) = parse_email("$real_name <$address>");
+> +	    $ignoredmailmap->{$address} = 1;
+> +	} elsif (/^(.+)<([^>]+)>\s*<([^>]+)>$/) {
+> +	    my $real_name = $1;
+> +	    my $real_address = $2;
+> +	    my $wrong_address = $3;
+> +
+> +	    $real_name =~ s/\s+$//;
+> +	    ($real_name, $real_address) =
+> +		parse_email("$real_name <$real_address>");
+> +	    $ignoredmailmap->{$real_address} = 1;
+> +	}
+> +    }
+> +    close($ignoredmailmap_file);
+> +}
+> +
+>  ## use the filenames on the command line or find the filenames in the patchfiles
+>  
+>  my @files = ();
+> @@ -1074,6 +1120,10 @@ sub push_email_address {
+>      if ($address eq "") {
+>  	return 0;
+>      }
+> +    if (exists $ignoredmailmap->{$address}) {
+> +        #warn("Ignoring address: '" . $address . "'\n");
+> +        return 0;
+> +    }
+>  
+>      if (!$email_remove_duplicates) {
+>  	push(@email_to, [format_email($name, $address, $email_usename), $role]);
+> 
+
 
