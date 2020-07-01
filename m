@@ -2,153 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD352111D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:21:52 +0200 (CEST)
-Received: from localhost ([::1]:35468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781122111E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:27:44 +0200 (CEST)
+Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqgQh-0004NT-6f
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
+	id 1jqgWN-0001JQ-GR
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jqgO0-0002h6-JG
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:19:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56487
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jqgNx-0001DI-DA
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:19:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593623939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Vuhng+ng8OGgUDWUWw/nSDmDIYlcrZvKu6fGh35ZuGw=;
- b=YNuk49oQCO8SBCHpaIWDPByA7ar1e2ErGb00pbkka2iPazSItSKIn+zFyYxxRxva3Zbv2o
- dfzS/ZDsQYbuSXXaALLDRjBqZeWR9nGyip9Q1TSD9bp7jTSRyX1sETPtZa7CkUyb8Kudum
- sG3UG0/YeH6X8d8CsoQA9Id9LNL5O+o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-kJ17j_LZN6OiU0qCHAM94g-1; Wed, 01 Jul 2020 13:18:52 -0400
-X-MC-Unique: kJ17j_LZN6OiU0qCHAM94g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5CA51B18BC3;
- Wed,  1 Jul 2020 17:18:51 +0000 (UTC)
-Received: from [10.10.119.184] (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D059660BE1;
- Wed,  1 Jul 2020 17:18:47 +0000 (UTC)
-Subject: Re: [PATCH v4 00/16] python: add mypy support to python/qemu
-From: John Snow <jsnow@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20200626204133.14500-1-jsnow@redhat.com>
- <f7c36cc7-e05c-65cc-b6be-9da8d136b295@redhat.com>
- <1adf70db-e9d4-a5ab-d28b-f57956877956@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <37df2b7e-0f3d-0789-606a-7f077e28d974@redhat.com>
-Date: Wed, 1 Jul 2020 13:18:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jqgVS-0000gA-GP; Wed, 01 Jul 2020 13:26:46 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:50130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jqgVO-0002Tb-Sl; Wed, 01 Jul 2020 13:26:45 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 6BB85BF64B;
+ Wed,  1 Jul 2020 17:26:39 +0000 (UTC)
+Date: Wed, 1 Jul 2020 19:26:35 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH v2 17/18] hw/block/nvme: Use zone metadata file for
+ persistence
+Message-ID: <20200701172635.iqfw53xlq2uufb6c@apples.localdomain>
+References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
+ <20200617213415.22417-18-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <1adf70db-e9d4-a5ab-d28b-f57956877956@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- WEIRD_PORT=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+In-Reply-To: <20200617213415.22417-18-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 12:11:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -161,134 +54,662 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Maxim Levitsky <mlevitsky@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Jun 18 06:34, Dmitry Fomichev wrote:
+> A ZNS drive that is emulated by this driver is currently initialized
+> with all zones Empty upon startup. However, actual ZNS SSDs save the
+> state and condition of all zones in their internal NVRAM in the event
+> of power loss. When such a drive is powered up again, it closes or
+> finishes all zones that were open at the moment of shutdown. Besides
+> that, the write pointer position as well as the state and condition
+> of all zones is preserved across power-downs.
+> 
+> This commit adds the capability to have a persistent zone metadata
+> to the driver. The new optional driver property, "zone_file",
+> is introduced. If added to the command line, this property specifies
+> the name of the file that stores the zone metadata. If "zone_file" is
+> omitted, the driver will initialize with all zones empty, the same as
+> before.
+> 
+> If zone metadata is configured to be persistent, then zone descriptor
+> extensions also persist across controller shutdowns.
+> 
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
+Stefan, before I review this in depth, can you comment on if mmap'ing a
+file from a device model and issuing regular msync's is an acceptable
+approach to storing state persistently across QEMU invocations?
 
-On 6/29/20 10:30 AM, John Snow wrote:
+I could not find any examples of this in hw/, so I am unsure. I
+implemented something like this using an additional blockdev on the
+device and doing blk_aio's, but just mmaping a file seems much simpler,
+but at the cost of portability? On the other hand, I can't find any
+examples of using an additional blockdev either.
+
+Can you shed any light on the preferred approach?
+
+> ---
+>  hw/block/nvme.c | 371 +++++++++++++++++++++++++++++++++++++++++++++---
+>  hw/block/nvme.h |  38 +++++
+>  2 files changed, 388 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 14d5f1d155..63e7a6352e 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -69,6 +69,8 @@
+>      } while (0)
+>  
+>  static void nvme_process_sq(void *opaque);
+> +static void nvme_sync_zone_file(NvmeCtrl *n, NvmeNamespace *ns,
+> +    NvmeZone *zone, int len);
+>  
+>  /*
+>   * Add a zone to the tail of a zone list.
+> @@ -90,6 +92,7 @@ static void nvme_add_zone_tail(NvmeCtrl *n, NvmeNamespace *ns, NvmeZoneList *zl,
+>          zl->tail = idx;
+>      }
+>      zl->size++;
+> +    nvme_set_zone_meta_dirty(n, ns, true);
+>  }
+>  
+>  /*
+> @@ -106,12 +109,15 @@ static void nvme_remove_zone(NvmeCtrl *n, NvmeNamespace *ns, NvmeZoneList *zl,
+>      if (zl->size == 0) {
+>          zl->head = NVME_ZONE_LIST_NIL;
+>          zl->tail = NVME_ZONE_LIST_NIL;
+> +        nvme_set_zone_meta_dirty(n, ns, true);
+>      } else if (idx == zl->head) {
+>          zl->head = zone->next;
+>          ns->zone_array[zl->head].prev = NVME_ZONE_LIST_NIL;
+> +        nvme_set_zone_meta_dirty(n, ns, true);
+>      } else if (idx == zl->tail) {
+>          zl->tail = zone->prev;
+>          ns->zone_array[zl->tail].next = NVME_ZONE_LIST_NIL;
+> +        nvme_set_zone_meta_dirty(n, ns, true);
+>      } else {
+>          ns->zone_array[zone->next].prev = zone->prev;
+>          ns->zone_array[zone->prev].next = zone->next;
+> @@ -138,6 +144,7 @@ static NvmeZone *nvme_remove_zone_head(NvmeCtrl *n, NvmeNamespace *ns,
+>              ns->zone_array[zl->head].prev = NVME_ZONE_LIST_NIL;
+>          }
+>          zone->prev = zone->next = 0;
+> +        nvme_set_zone_meta_dirty(n, ns, true);
+>      }
+>  
+>      return zone;
+> @@ -476,6 +483,7 @@ static void nvme_assign_zone_state(NvmeCtrl *n, NvmeNamespace *ns,
+>      case NVME_ZONE_STATE_READ_ONLY:
+>          zone->tstamp = 0;
+>      }
+> +    nvme_sync_zone_file(n, ns, zone, sizeof(NvmeZone));
+>  }
+>  
+>  static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+> @@ -2976,9 +2984,114 @@ static const MemoryRegionOps nvme_cmb_ops = {
+>      },
+>  };
+>  
+> -static int nvme_init_zone_meta(NvmeCtrl *n, NvmeNamespace *ns,
+> +static int nvme_validate_zone_file(NvmeCtrl *n, NvmeNamespace *ns,
+>      uint64_t capacity)
+>  {
+> +    NvmeZoneMeta *meta = ns->zone_meta;
+> +    NvmeZone *zone = ns->zone_array;
+> +    uint64_t start = 0, zone_size = n->params.zone_size;
+> +    int i, n_imp_open = 0, n_exp_open = 0, n_closed = 0, n_full = 0;
+> +
+> +    if (meta->magic != NVME_ZONE_META_MAGIC) {
+> +        return 1;
+> +    }
+> +    if (meta->version != NVME_ZONE_META_VER) {
+> +        return 2;
+> +    }
+> +    if (meta->zone_size != zone_size) {
+> +        return 3;
+> +    }
+> +    if (meta->zone_capacity != n->params.zone_capacity) {
+> +        return 4;
+> +    }
+> +    if (meta->nr_offline_zones != n->params.nr_offline_zones) {
+> +        return 5;
+> +    }
+> +    if (meta->nr_rdonly_zones != n->params.nr_rdonly_zones) {
+> +        return 6;
+> +    }
+> +    if (meta->lba_size != n->conf.logical_block_size) {
+> +        return 7;
+> +    }
+> +    if (meta->zd_extension_size != n->params.zd_extension_size) {
+> +        return 8;
+> +    }
+> +
+> +    for (i = 0; i < n->num_zones; i++, zone++) {
+> +        if (start + zone_size > capacity) {
+> +            zone_size = capacity - start;
+> +        }
+> +        if (zone->d.zt != NVME_ZONE_TYPE_SEQ_WRITE) {
+> +            return 9;
+> +        }
+> +        if (zone->d.zcap != n->params.zone_capacity) {
+> +            return 10;
+> +        }
+> +        if (zone->d.zslba != start) {
+> +            return 11;
+> +        }
+> +        switch (nvme_get_zone_state(zone)) {
+> +        case NVME_ZONE_STATE_EMPTY:
+> +        case NVME_ZONE_STATE_OFFLINE:
+> +        case NVME_ZONE_STATE_READ_ONLY:
+> +            if (zone->d.wp != start) {
+> +                return 12;
+> +            }
+> +            break;
+> +        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+> +            if (zone->d.wp < start ||
+> +                zone->d.wp >= zone->d.zslba + zone->d.zcap) {
+> +                return 13;
+> +            }
+> +            n_imp_open++;
+> +            break;
+> +        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+> +            if (zone->d.wp < start ||
+> +                zone->d.wp >= zone->d.zslba + zone->d.zcap) {
+> +                return 13;
+> +            }
+> +            n_exp_open++;
+> +            break;
+> +        case NVME_ZONE_STATE_CLOSED:
+> +            if (zone->d.wp < start ||
+> +                zone->d.wp >= zone->d.zslba + zone->d.zcap) {
+> +                return 13;
+> +            }
+> +            n_closed++;
+> +            break;
+> +        case NVME_ZONE_STATE_FULL:
+> +            if (zone->d.wp != zone->d.zslba + zone->d.zcap) {
+> +                return 14;
+> +            }
+> +            n_full++;
+> +            break;
+> +        default:
+> +            return 15;
+> +        }
+> +
+> +        start += zone_size;
+> +    }
+> +
+> +    if (n_imp_open != nvme_zone_list_size(ns->exp_open_zones)) {
+> +        return 16;
+> +    }
+> +    if (n_exp_open != nvme_zone_list_size(ns->imp_open_zones)) {
+> +        return 17;
+> +    }
+> +    if (n_closed != nvme_zone_list_size(ns->closed_zones)) {
+> +        return 18;
+> +    }
+> +    if (n_full != nvme_zone_list_size(ns->full_zones)) {
+> +        return 19;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int nvme_init_zone_file(NvmeCtrl *n, NvmeNamespace *ns,
+> +    uint64_t capacity)
+> +{
+> +    NvmeZoneMeta *meta = ns->zone_meta;
+>      NvmeZone *zone;
+>      Error *err;
+>      uint64_t start = 0, zone_size = n->params.zone_size;
+> @@ -2986,18 +3099,33 @@ static int nvme_init_zone_meta(NvmeCtrl *n, NvmeNamespace *ns,
+>      int i;
+>      uint16_t zs;
+>  
+> -    ns->zone_array = g_malloc0(n->zone_array_size);
+> -    ns->exp_open_zones = g_malloc0(sizeof(NvmeZoneList));
+> -    ns->imp_open_zones = g_malloc0(sizeof(NvmeZoneList));
+> -    ns->closed_zones = g_malloc0(sizeof(NvmeZoneList));
+> -    ns->full_zones = g_malloc0(sizeof(NvmeZoneList));
+> -    ns->zd_extensions = g_malloc0(n->params.zd_extension_size * n->num_zones);
+> +    if (n->params.zone_file) {
+> +        meta->magic = NVME_ZONE_META_MAGIC;
+> +        meta->version = NVME_ZONE_META_VER;
+> +        meta->zone_size = zone_size;
+> +        meta->zone_capacity = n->params.zone_capacity;
+> +        meta->lba_size = n->conf.logical_block_size;
+> +        meta->nr_offline_zones = n->params.nr_offline_zones;
+> +        meta->nr_rdonly_zones = n->params.nr_rdonly_zones;
+> +        meta->zd_extension_size = n->params.zd_extension_size;
+> +    } else {
+> +        ns->zone_array = g_malloc0(n->zone_array_size);
+> +        ns->exp_open_zones = g_malloc0(sizeof(NvmeZoneList));
+> +        ns->imp_open_zones = g_malloc0(sizeof(NvmeZoneList));
+> +        ns->closed_zones = g_malloc0(sizeof(NvmeZoneList));
+> +        ns->full_zones = g_malloc0(sizeof(NvmeZoneList));
+> +        ns->zd_extensions =
+> +            g_malloc0(n->params.zd_extension_size * n->num_zones);
+> +    }
+>      zone = ns->zone_array;
+>  
+>      nvme_init_zone_list(ns->exp_open_zones);
+>      nvme_init_zone_list(ns->imp_open_zones);
+>      nvme_init_zone_list(ns->closed_zones);
+>      nvme_init_zone_list(ns->full_zones);
+> +    if (n->params.zone_file) {
+> +        nvme_set_zone_meta_dirty(n, ns, true);
+> +    }
+>  
+>      for (i = 0; i < n->num_zones; i++, zone++) {
+>          if (start + zone_size > capacity) {
+> @@ -3048,7 +3176,189 @@ static int nvme_init_zone_meta(NvmeCtrl *n, NvmeNamespace *ns,
+>      return 0;
+>  }
+>  
+> -static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
+> +static int nvme_open_zone_file(NvmeCtrl *n, bool *init_meta)
+> +{
+> +    struct stat statbuf;
+> +    size_t fsize;
+> +    int ret;
+> +
+> +    ret = stat(n->params.zone_file, &statbuf);
+> +    if (ret && errno == ENOENT) {
+> +        *init_meta = true;
+> +    } else if (!S_ISREG(statbuf.st_mode)) {
+> +        fprintf(stderr, "%s is not a regular file\n", strerror(errno));
+> +        return -1;
+> +    }
+> +
+> +    n->zone_file_fd = open(n->params.zone_file,
+> +                           O_RDWR | O_LARGEFILE | O_BINARY | O_CREAT, 644);
+> +    if (n->zone_file_fd < 0) {
+> +            fprintf(stderr, "failed to create zone file %s, err %s\n",
+> +                    n->params.zone_file, strerror(errno));
+> +            return -1;
+> +    }
+> +
+> +    fsize = n->meta_size * n->num_namespaces;
+> +
+> +    if (stat(n->params.zone_file, &statbuf)) {
+> +        fprintf(stderr, "can't stat zone file %s, err %s\n",
+> +                n->params.zone_file, strerror(errno));
+> +        return -1;
+> +    }
+> +    if (statbuf.st_size != fsize) {
+> +        ret = ftruncate(n->zone_file_fd, fsize);
+> +        if (ret < 0) {
+> +            fprintf(stderr, "can't truncate zone file %s, err %s\n",
+> +                    n->params.zone_file, strerror(errno));
+> +            return -1;
+> +        }
+> +        *init_meta = true;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int nvme_map_zone_file(NvmeCtrl *n, NvmeNamespace *ns, bool *init_meta)
+> +{
+> +    off_t meta_ofs = n->meta_size * (ns->nsid - 1);
+> +
+> +    ns->zone_meta = mmap(0, n->meta_size, PROT_READ | PROT_WRITE,
+> +                         MAP_SHARED, n->zone_file_fd, meta_ofs);
+> +    if (ns->zone_meta == MAP_FAILED) {
+> +        fprintf(stderr, "failed to map zone file %s, ofs %lu, err %s\n",
+> +                n->params.zone_file, meta_ofs, strerror(errno));
+> +        return -1;
+> +    }
+> +
+> +    ns->zone_array = (NvmeZone *)(ns->zone_meta + 1);
+> +    ns->exp_open_zones = &ns->zone_meta->exp_open_zones;
+> +    ns->imp_open_zones = &ns->zone_meta->imp_open_zones;
+> +    ns->closed_zones = &ns->zone_meta->closed_zones;
+> +    ns->full_zones = &ns->zone_meta->full_zones;
+> +
+> +    if (n->params.zd_extension_size) {
+> +        ns->zd_extensions = (uint8_t *)(ns->zone_meta + 1);
+> +        ns->zd_extensions += n->zone_array_size;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void nvme_sync_zone_file(NvmeCtrl *n, NvmeNamespace *ns,
+> +    NvmeZone *zone, int len)
+> +{
+> +    uintptr_t addr, zd = (uintptr_t)zone;
+> +
+> +    addr = zd & qemu_real_host_page_mask;
+> +    len += zd - addr;
+> +    if (msync((void *)addr, len, MS_ASYNC) < 0)
+> +        fprintf(stderr, "msync: failed to sync zone descriptors, file %s\n",
+> +                strerror(errno));
+> +
+> +    if (nvme_zone_meta_dirty(n, ns)) {
+> +        nvme_set_zone_meta_dirty(n, ns, false);
+> +        if (msync(ns->zone_meta, sizeof(NvmeZoneMeta), MS_ASYNC) < 0)
+> +            fprintf(stderr, "msync: failed to sync zone meta, file %s\n",
+> +                    strerror(errno));
+> +    }
+> +}
+> +
+> +/*
+> + * Close or finish all the zones that might be still open after power-down.
+> + */
+> +static void nvme_prepare_zones(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    NvmeZone *zone;
+> +    uint32_t set_state;
+> +    int i;
+> +
+> +    assert(!ns->nr_active_zones);
+> +    assert(!ns->nr_open_zones);
+> +
+> +    zone = ns->zone_array;
+> +    for (i = 0; i < n->num_zones; i++, zone++) {
+> +        zone->flags = 0;
+> +        zone->tstamp = 0;
+> +
+> +        switch (nvme_get_zone_state(zone)) {
+> +        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+> +        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+> +            break;
+> +        case NVME_ZONE_STATE_CLOSED:
+> +            nvme_aor_inc_active(n, ns);
+> +            /* pass through */
+> +        default:
+> +            continue;
+> +        }
+> +
+> +        if (zone->d.za & NVME_ZA_ZD_EXT_VALID) {
+> +            set_state = NVME_ZONE_STATE_CLOSED;
+> +        } else if (zone->d.wp == zone->d.zslba) {
+> +            set_state = NVME_ZONE_STATE_EMPTY;
+> +        } else if (n->params.max_active_zones == 0 ||
+> +                   ns->nr_active_zones < n->params.max_active_zones) {
+> +            set_state = NVME_ZONE_STATE_CLOSED;
+> +        } else {
+> +            set_state = NVME_ZONE_STATE_FULL;
+> +        }
+> +
+> +        switch (set_state) {
+> +        case NVME_ZONE_STATE_CLOSED:
+> +            trace_pci_nvme_power_on_close(nvme_get_zone_state(zone),
+> +                                          zone->d.zslba);
+> +            nvme_aor_inc_active(n, ns);
+> +            nvme_add_zone_tail(n, ns, ns->closed_zones, zone);
+> +        break;
+> +        case NVME_ZONE_STATE_EMPTY:
+> +            trace_pci_nvme_power_on_reset(nvme_get_zone_state(zone),
+> +                                          zone->d.zslba);
+> +        break;
+> +        case NVME_ZONE_STATE_FULL:
+> +            trace_pci_nvme_power_on_full(nvme_get_zone_state(zone),
+> +                                         zone->d.zslba);
+> +            zone->d.wp = nvme_zone_wr_boundary(zone);
+> +        }
+> +
+> +        nvme_set_zone_state(zone, set_state);
+> +    }
+> +}
+> +
+> +static int nvme_load_zone_meta(NvmeCtrl *n, NvmeNamespace *ns,
+> +    uint64_t capacity, bool init_meta)
+> +{
+> +    int ret = 0;
+> +
+> +    if (n->params.zone_file) {
+> +        ret = nvme_map_zone_file(n, ns, &init_meta);
+> +        trace_pci_nvme_mapped_zone_file(n->params.zone_file, ret);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +
+> +        if (!init_meta) {
+> +            ret = nvme_validate_zone_file(n, ns, capacity);
+> +            if (ret) {
+> +                trace_pci_nvme_err_zone_file_invalid(ret);
+> +                init_meta = true;
+> +            }
+> +        }
+> +    } else {
+> +        init_meta = true;
+> +    }
+> +
+> +    if (init_meta) {
+> +        ret = nvme_init_zone_file(n, ns, capacity);
+> +    } else {
+> +        nvme_prepare_zones(n, ns);
+> +    }
+> +    if (!ret && n->params.zone_file) {
+> +        nvme_sync_zone_file(n, ns, ns->zone_array, n->zone_array_size);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void nvme_zoned_init_ctrl(NvmeCtrl *n, bool *init_meta, Error **errp)
+>  {
+>      uint64_t zone_size = 0, capacity;
+>      uint32_t nz;
+> @@ -3084,6 +3394,9 @@ static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
+>      nz = DIV_ROUND_UP(capacity, zone_size);
+>      n->num_zones = nz;
+>      n->zone_array_size = sizeof(NvmeZone) * nz;
+> +    n->meta_size = sizeof(NvmeZoneMeta) + n->zone_array_size +
+> +                          nz * n->params.zd_extension_size;
+> +    n->meta_size = ROUND_UP(n->meta_size, qemu_real_host_page_size);
+>  
+>      n->params.rzr_delay_usec *= SCALE_MS;
+>      n->params.rrl_usec *= SCALE_MS;
+> @@ -3119,6 +3432,13 @@ static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
+>          }
+>      }
+>  
+> +    if (n->params.zone_file) {
+> +        if (nvme_open_zone_file(n, init_meta) < 0) {
+> +            error_setg(errp, "cannot open zone metadata file");
+> +            return;
+> +        }
+> +    }
+> +
+>      if (n->params.zone_async_events) {
+>          n->ae_cfg |= NVME_AEN_CFG_ZONE_DESCR_CHNGD_NOTICES;
+>      }
+> @@ -3127,13 +3447,14 @@ static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
+>  }
+>  
+>  static int nvme_zoned_init_ns(NvmeCtrl *n, NvmeNamespace *ns, int lba_index,
+> -    Error **errp)
+> +    bool init_meta, Error **errp)
+>  {
+>      int ret;
+>  
+> -    ret = nvme_init_zone_meta(n, ns, n->num_zones * n->params.zone_size);
+> +    ret = nvme_load_zone_meta(n, ns, n->num_zones * n->params.zone_size,
+> +                              init_meta);
+>      if (ret) {
+> -        error_setg(errp, "could not init zone metadata");
+> +        error_setg(errp, "could not load/init zone metadata");
+>          return -1;
+>      }
+>  
+> @@ -3164,15 +3485,20 @@ static void nvme_zoned_clear(NvmeCtrl *n)
+>  {
+>      int i;
+>  
+> +    if (n->params.zone_file)  {
+> +        close(n->zone_file_fd);
+> +    }
+>      for (i = 0; i < n->num_namespaces; i++) {
+>          NvmeNamespace *ns = &n->namespaces[i];
+>          g_free(ns->id_ns_zoned);
+> -        g_free(ns->zone_array);
+> -        g_free(ns->exp_open_zones);
+> -        g_free(ns->imp_open_zones);
+> -        g_free(ns->closed_zones);
+> -        g_free(ns->full_zones);
+> -        g_free(ns->zd_extensions);
+> +        if (!n->params.zone_file) {
+> +            g_free(ns->zone_array);
+> +            g_free(ns->exp_open_zones);
+> +            g_free(ns->imp_open_zones);
+> +            g_free(ns->closed_zones);
+> +            g_free(ns->full_zones);
+> +            g_free(ns->zd_extensions);
+> +        }
+>      }
+>  }
+>  
+> @@ -3258,7 +3584,8 @@ static void nvme_init_blk(NvmeCtrl *n, Error **errp)
+>      n->ns_size = bs_size;
+>  }
+>  
+> -static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+> +static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, bool init_meta,
+> +    Error **errp)
+>  {
+>      NvmeIdNs *id_ns = &ns->id_ns;
+>      int lba_index;
+> @@ -3272,7 +3599,7 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+>      if (n->params.zoned) {
+>          ns->csi = NVME_CSI_ZONED;
+>          id_ns->ncap = cpu_to_le64(n->params.zone_capacity * n->num_zones);
+> -        if (nvme_zoned_init_ns(n, ns, lba_index, errp) != 0) {
+> +        if (nvme_zoned_init_ns(n, ns, lba_index, init_meta, errp) != 0) {
+>              return;
+>          }
+>      } else {
+> @@ -3429,6 +3756,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      NvmeCtrl *n = NVME(pci_dev);
+>      NvmeNamespace *ns;
+>      Error *local_err = NULL;
+> +    bool init_meta = false;
+>  
+>      int i;
+>  
+> @@ -3452,7 +3780,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      }
+>  
+>      if (n->params.zoned) {
+> -        nvme_zoned_init_ctrl(n, &local_err);
+> +        nvme_zoned_init_ctrl(n, &init_meta, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+>              return;
+> @@ -3463,7 +3791,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      ns = n->namespaces;
+>      for (i = 0; i < n->num_namespaces; i++, ns++) {
+>          ns->nsid = i + 1;
+> -        nvme_init_namespace(n, ns, &local_err);
+> +        nvme_init_namespace(n, ns, init_meta, &local_err);
+>          if (local_err) {
+>              error_propagate(errp, local_err);
+>              return;
+> @@ -3506,6 +3834,7 @@ static Property nvme_props[] = {
+>      DEFINE_PROP_UINT64("zone_size", NvmeCtrl, params.zone_size, 512),
+>      DEFINE_PROP_UINT64("zone_capacity", NvmeCtrl, params.zone_capacity, 512),
+>      DEFINE_PROP_UINT32("zone_append_max_size", NvmeCtrl, params.zamds_bs, 0),
+> +    DEFINE_PROP_STRING("zone_file", NvmeCtrl, params.zone_file),
+>      DEFINE_PROP_UINT32("zone_descr_ext_size", NvmeCtrl,
+>                         params.zd_extension_size, 0),
+>      DEFINE_PROP_INT32("max_active", NvmeCtrl, params.max_active_zones, 0),
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index 900fc54809..5e9a3a62f7 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -14,6 +14,7 @@ typedef struct NvmeParams {
+>      uint16_t msix_qsize;
+>      uint32_t cmb_size_mb;
+>  
+> +    char        *zone_file;
+>      bool        zoned;
+>      bool        cross_zone_read;
+>      bool        zone_async_events;
+> @@ -114,6 +115,27 @@ typedef struct NvmeZoneList {
+>      uint8_t         rsvd12[4];
+>  } NvmeZoneList;
+>  
+> +#define NVME_ZONE_META_MAGIC 0x3aebaa70
+> +#define NVME_ZONE_META_VER  1
+> +
+> +typedef struct NvmeZoneMeta {
+> +    uint32_t        magic;
+> +    uint32_t        version;
+> +    uint64_t        zone_size;
+> +    uint64_t        zone_capacity;
+> +    uint32_t        nr_offline_zones;
+> +    uint32_t        nr_rdonly_zones;
+> +    uint32_t        lba_size;
+> +    uint32_t        rsvd40;
+> +    NvmeZoneList    exp_open_zones;
+> +    NvmeZoneList    imp_open_zones;
+> +    NvmeZoneList    closed_zones;
+> +    NvmeZoneList    full_zones;
+> +    uint8_t         zd_extension_size;
+> +    uint8_t         dirty;
+> +    uint8_t         rsvd594[3990];
+> +} NvmeZoneMeta;
+> +
+>  typedef struct NvmeNamespace {
+>      NvmeIdNs        id_ns;
+>      uint32_t        nsid;
+> @@ -122,6 +144,7 @@ typedef struct NvmeNamespace {
+>  
+>      NvmeIdNsZoned   *id_ns_zoned;
+>      NvmeZone        *zone_array;
+> +    NvmeZoneMeta    *zone_meta;
+>      NvmeZoneList    *exp_open_zones;
+>      NvmeZoneList    *imp_open_zones;
+>      NvmeZoneList    *closed_zones;
+> @@ -174,6 +197,7 @@ typedef struct NvmeCtrl {
+>  
+>      int             zone_file_fd;
+>      uint32_t        num_zones;
+> +    size_t          meta_size;
+>      uint64_t        zone_size_bs;
+>      uint64_t        zone_array_size;
+>      uint8_t         zamds;
+> @@ -282,6 +306,19 @@ static inline NvmeZone *nvme_next_zone_in_list(NvmeNamespace *ns, NvmeZone *z,
+>      return &ns->zone_array[z->next];
+>  }
+>  
+> +static inline bool nvme_zone_meta_dirty(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    return n->params.zone_file ? ns->zone_meta->dirty : false;
+> +}
+> +
+> +static inline void nvme_set_zone_meta_dirty(NvmeCtrl *n, NvmeNamespace *ns,
+> +    bool yesno)
+> +{
+> +    if (n->params.zone_file) {
+> +        ns->zone_meta->dirty = yesno;
+> +    }
+> +}
+> +
+>  static inline int nvme_ilog2(uint64_t i)
+>  {
+>      int log = -1;
+> @@ -295,6 +332,7 @@ static inline int nvme_ilog2(uint64_t i)
+>  
+>  static inline void _hw_nvme_check_size(void)
+>  {
+> +    QEMU_BUILD_BUG_ON(sizeof(NvmeZoneMeta) != 4096);
+>      QEMU_BUILD_BUG_ON(sizeof(NvmeZoneList) != 16);
+>      QEMU_BUILD_BUG_ON(sizeof(NvmeZone) != 88);
+>  }
+> -- 
+> 2.21.0
 > 
 > 
-> On 6/29/20 4:26 AM, Philippe Mathieu-Daudé wrote:
->> +Cleber/Wainer.
->>
->> On 6/26/20 10:41 PM, John Snow wrote:
->>> Based-on: 20200626202350.11060-1-jsnow@redhat.com
->>>
->>> This series modifies the python/qemu library to comply with mypy --strict.
->>> This requires my "refactor shutdown" patch as a pre-requisite.
->>>
->>> v4:
->>> 001/16:[----] [--] 'python/qmp.py: Define common types'
->>> 002/16:[----] [--] 'iotests.py: use qemu.qmp type aliases'
->>> 003/16:[----] [--] 'python/qmp.py: re-absorb MonitorResponseError'
->>> 004/16:[----] [--] 'python/qmp.py: Do not return None from cmd_obj'
->>> 005/16:[----] [--] 'python/qmp.py: add casts to JSON deserialization'
->>> 006/16:[----] [--] 'python/qmp.py: add QMPProtocolError'
->>> 007/16:[----] [--] 'python/machine.py: Fix monitor address typing'
->>> 008/16:[----] [--] 'python/machine.py: reorder __init__'
->>> 009/16:[----] [--] 'python/machine.py: Don't modify state in _base_args()'
->>> 010/16:[----] [--] 'python/machine.py: Handle None events in events_wait'
->>> 011/16:[----] [--] 'python/machine.py: use qmp.command'
->>> 012/16:[0010] [FC] 'python/machine.py: Add _qmp access shim'
->>> 013/16:[----] [-C] 'python/machine.py: fix _popen access'
->>> 014/16:[----] [--] 'python/qemu: make 'args' style arguments immutable'
->>> 015/16:[----] [--] 'iotests.py: Adjust HMP kwargs typing'
->>> 016/16:[----] [-C] 'python/qemu: Add mypy type annotations'
->>>
->>>  - Rebased on "refactor shutdown" v4
->>>  - Fixed _qmp access for scripts that disable QMP
->>
->> See:
->>
->> https://travis-ci.org/github/philmd/qemu/jobs/702507625#L5439
->>
->> / # uname -a
->> Linux buildroot 4.5.0-2-4kc-malta #1 Debian 4.5.5-1 (2016-05-29) mips
->> GNU/Linux
->> / # reboot
->> / # reboot: Restarting system
->>>>> {'execute': 'quit'}
->> qemu received signal 9; command: "mips-softmmu/qemu-system-mips -display
->> none -vga none -chardev
->> socket,id=mon,path=/tmp/tmpcojsc5u3/qemu-14540-monitor.sock -mon
->> chardev=mon,mode=control -machine malta -chardev
->> socket,id=console,path=/tmp/tmpcojsc5u3/qemu-14540-console.sock,server,nowait
->> -serial chardev:console -kernel
->> /tmp/avocado_xgmck2k5/avocado_job_83wkzs2f/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpio/boot/vmlinux-4.5.0-2-4kc-malta
->> -initrd
->> /tmp/avocado_xgmck2k5/avocado_job_83wkzs2f/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpiorootfs.cpio
->> -append printk.time=0 console=ttyS0 console=tty rdinit=/sbin/init
->> noreboot -no-reboot"
->>
->> Reproduced traceback from:
->> /home/travis/build/philmd/qemu/build/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:886
->> Traceback (most recent call last):
->>   File
->> "/home/travis/build/philmd/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
->> line 195, in tearDown
->>     vm.shutdown()
->>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
->> 457, in shutdown
->>     self._do_shutdown(has_quit)
->>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
->> 434, in _do_shutdown
->>     self._soft_shutdown(has_quit, timeout)
->>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
->> 414, in _soft_shutdown
->>     self._qmp.cmd('quit')
->>   File "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 271, in cmd
->>     return self.cmd_obj(qmp_cmd)
->>   File "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 249, in
->> cmd_obj
->>     self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
->> BrokenPipeError: [Errno 32] Broken pipe
->>
-> 
-> Might be racing between QMP going away and Python not being aware that
-> the process has closed yet. It's the only explanation I have left.
-> 
-> I wish I could reproduce this, though. When I submit jobs to Travis I am
-> not seeing these failures.
-> 
-> I'll see what I can do, but at this point I'll not re-send the patch
-> series until I can conclusively fix your build testing.
-> 
-> --js
-> 
-
-OK, this is a very big mea culpa. There are two problems.
-
-1. I should catch ConnectionReset and not ConnectionResetError; one is a
-catch-all for socket problems and the other is a very specific errno
-that does not include BrokenPipeError.
-
-2. Even if I do, it can still race, actually. QEMU might be in the
-middle of shutting down, but has already lost the control channel.
-
-Solving the second problem as the interface is currently designed is
-hard. You can wait, but then if the wait failed, you need to re-raise
-the control channel error instead of the wait failure. IOW, you need to
-wait in order to learn if the control channel error is "important" or not.
-
-So, the architecture of this is starting to look wrong; _soft_shutdown
-should keep clarity of purpose. Either it was able to to a nice, soft
-shutdown -- or it wasn't.
-
-I'm starting to think that the real problem is that machine.py shouldn't
-try to hide connection errors on shutdown at all if we expected to be
-able to issue a quit command.
-
-Changing my mind rapidly that the right thing to do is to actually just
-fix the test to understand that it should not try to issue a shutdown
-command, but instead issue a wait command; and removing the race
-condition from machine.py by simply reporting *all* shutdown errors.
-
-(If callers expect shutdown errors, they can -- and should -- catch
-those exceptions as desired!)
-
---js
-
 
