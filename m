@@ -2,45 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5F12110C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:34:09 +0200 (CEST)
-Received: from localhost ([::1]:45950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61132110E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:41:33 +0200 (CEST)
+Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfgW-0005Bc-21
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1jqfng-0003Af-NH
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqff7-00040r-ST; Wed, 01 Jul 2020 12:32:42 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqff5-0002Dy-1x; Wed, 01 Jul 2020 12:32:41 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 34B6EBF64B;
- Wed,  1 Jul 2020 16:32:36 +0000 (UTC)
-Date: Wed, 1 Jul 2020 18:32:32 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v2 15/18] hw/block/nvme: Support Zone Descriptor Extensions
-Message-ID: <20200701163232.wt42opdib4pk3hlf@apples.localdomain>
-References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
- <20200617213415.22417-16-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqfmi-0002Ww-Lc
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:40:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33283
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqfmD-0003LP-HJ
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:40:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593621599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1iX5MYB000v7uy97zKOGY26aZHx+xJ5dItP/i4ClzRY=;
+ b=a5zavMR2FLuSS4kknhVMrhio2OlLvypycXgq9B4BclPLsiS/tSnilNpk4n9ige7Me1Q3wI
+ h271smMhbQ0ZPpGUsSlnf+ctJyBdIBV+MGaRPdUxP4XLT4aYCDAndcS1up9Ou+NbvuX0Z2
+ Y+26fPNe/EBLeKJIZeV1ijN12XXS2gs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-o9o2fiS7N4W_xByzZzzpOA-1; Wed, 01 Jul 2020 12:39:54 -0400
+X-MC-Unique: o9o2fiS7N4W_xByzZzzpOA-1
+Received: by mail-ed1-f71.google.com with SMTP id y4so10178315edv.17
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 09:39:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1iX5MYB000v7uy97zKOGY26aZHx+xJ5dItP/i4ClzRY=;
+ b=gNLeN+bPeD6YdBc/hwkAyI1iCoMyEpoRbQGbzyEx7pDFj9Lg8OdhYefL15er2cRIRz
+ 1WpVBsNCAmPIzShlGL+qVCIm0TgynzyxV9YT82sKkdNrhg9vgXejsrtDVggWnO7Ay1AH
+ WbX2UstHHHbl1LxbAMb255dRAIPCSh1nZH3M5YDpq+yltXyNMVdjtCOGHCT9cLqgJRsk
+ TgHrrc0CaAJKcFdGhY+S0wNCHVm7phJ1hZbn391UJZbHmzIccW2yw7j3C/WWHC3V3Uu5
+ kEM7a3A3e5SioBm2ecwvMU8N7wVaPYcLG2MuPTJFHKLNTcnb8lBDafR85rI4Nd4ZrjIY
+ YdoA==
+X-Gm-Message-State: AOAM5319oZb4q3jab/6rpm6lUZTfHcS/2ELxr3x4ZGbWKO8pOzq/UYUF
+ /omEdQG4zLHWbYKOE+5DQgKSEpJ3hhli5kjXjdYRMj+BGAMCULsa71YtUf2a0Y7/2oEehX1pmY6
+ b2BiYHf2LhZbNZbBAXH+wlZDC9vHjfHQ=
+X-Received: by 2002:aa7:d04e:: with SMTP id n14mr5363704edo.161.1593621593128; 
+ Wed, 01 Jul 2020 09:39:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8lkm1+qg9FjjFIuxP2ZnQvOf+qUuUpTeUU42XlXKcxjGqC2Jxl0qx3UQC+iIJaRHXF5xQn9HUyEvY8WUYjAk=
+X-Received: by 2002:aa7:d04e:: with SMTP id n14mr5363682edo.161.1593621592913; 
+ Wed, 01 Jul 2020 09:39:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200617213415.22417-16-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 12:11:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200624160608.383931-1-pbonzini@redhat.com>
+ <20200701162841.GG3608@work-vm>
+In-Reply-To: <20200701162841.GG3608@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 1 Jul 2020 18:39:40 +0200
+Message-ID: <CABgObfZjrBe+87Lhyw_Zyyuyun3VBpHa1RuzovmvthrU-Ea-pQ@mail.gmail.com>
+Subject: Re: [PATCH] KVM: add support for AMD nested live migration
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000f3cc3605a963f0f9"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,242 +92,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsky@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 18 06:34, Dmitry Fomichev wrote:
-> Zone Descriptor Extension is a label that can be assigned to a zone.
-> It can be set to an Empty zone and it stays assigned until the zone
-> is reset.
-> 
-> This commit adds a new optional property, "zone_descr_ext_size", to
-> the driver. Its value must be a multiple of 64 bytes. If this value
-> is non-zero, it becomes possible to assign extensions of that size
-> to any Empty zones. The default value for this property is 0,
-> therefore setting extensions is disabled by default.
-> 
-> Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+--000000000000f3cc3605a963f0f9
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Il mer 1 lug 2020, 18:28 Dr. David Alan Gilbert <dgilbert@redhat.com> ha
+scritto:
 
-> ---
->  hw/block/nvme.c | 76 ++++++++++++++++++++++++++++++++++++++++++++++---
->  hw/block/nvme.h |  8 ++++++
->  2 files changed, 80 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index b9135a6b1f..eb41081627 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1360,6 +1360,26 @@ static bool nvme_cond_offline_all(uint8_t state)
->      return state == NVME_ZONE_STATE_READ_ONLY;
->  }
->  
-> +static uint16_t nvme_set_zd_ext(NvmeCtrl *n, NvmeNamespace *ns,
-> +    NvmeZone *zone, uint8_t state)
-> +{
-> +    uint16_t status;
-> +
-> +    if (state == NVME_ZONE_STATE_EMPTY) {
-> +        nvme_auto_transition_zone(n, ns, false, true);
-> +        status = nvme_aor_check(n, ns, 1, 0);
-> +        if (status != NVME_SUCCESS) {
-> +            return status;
-> +        }
-> +        nvme_aor_inc_active(n, ns);
-> +        zone->d.za |= NVME_ZA_ZD_EXT_VALID;
-> +        nvme_assign_zone_state(n, ns, zone, NVME_ZONE_STATE_CLOSED);
-> +        return NVME_SUCCESS;
-> +    }
-> +
-> +    return NVME_ZONE_INVAL_TRANSITION;
-> +}
-> +
->  static uint16_t name_do_zone_op(NvmeCtrl *n, NvmeNamespace *ns,
->      NvmeZone *zone, uint8_t state, bool all,
->      uint16_t (*op_hndlr)(NvmeCtrl *, NvmeNamespace *, NvmeZone *,
-> @@ -1388,13 +1408,16 @@ static uint16_t name_do_zone_op(NvmeCtrl *n, NvmeNamespace *ns,
->  static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeNamespace *ns,
->      NvmeCmd *cmd, NvmeRequest *req)
->  {
-> +    NvmeRwCmd *rw;
->      uint32_t dw13 = le32_to_cpu(cmd->cdw13);
-> +    uint64_t prp1, prp2;
->      uint64_t slba = 0;
->      uint64_t zone_idx = 0;
->      uint16_t status;
->      uint8_t action, state;
->      bool all;
->      NvmeZone *zone;
-> +    uint8_t *zd_ext;
->  
->      action = dw13 & 0xff;
->      all = dw13 & 0x100;
-> @@ -1449,7 +1472,25 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeNamespace *ns,
->  
->      case NVME_ZONE_ACTION_SET_ZD_EXT:
->          trace_pci_nvme_set_descriptor_extension(slba, zone_idx);
-> -        return NVME_INVALID_FIELD | NVME_DNR;
-> +        if (all || !n->params.zd_extension_size) {
-> +            return NVME_INVALID_FIELD | NVME_DNR;
-> +        }
-> +        zd_ext = nvme_get_zd_extension(n, ns, zone_idx);
-> +        rw = (NvmeRwCmd *)cmd;
-> +        prp1 = le64_to_cpu(rw->prp1);
-> +        prp2 = le64_to_cpu(rw->prp2);
-> +        status = nvme_dma_write_prp(n, zd_ext, n->params.zd_extension_size,
-> +                                    prp1, prp2);
-> +        if (status) {
-> +            trace_pci_nvme_err_zd_extension_map_error(zone_idx);
-> +            return status;
-> +        }
-> +
-> +        status = nvme_set_zd_ext(n, ns, zone, state);
-> +        if (status == NVME_SUCCESS) {
-> +            trace_pci_nvme_zd_extension_set(zone_idx);
-> +            return status;
-> +        }
->          break;
->  
->      default:
-> @@ -1528,7 +1569,7 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeNamespace *ns,
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
->  
-> -    if (zra == NVME_ZONE_REPORT_EXTENDED) {
-> +    if (zra == NVME_ZONE_REPORT_EXTENDED && !n->params.zd_extension_size) {
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
->  
-> @@ -1540,6 +1581,9 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeNamespace *ns,
->      partial = (dw13 >> 16) & 0x01;
->  
->      zone_entry_sz = sizeof(NvmeZoneDescr);
-> +    if (zra == NVME_ZONE_REPORT_EXTENDED) {
-> +        zone_entry_sz += n->params.zd_extension_size;
-> +    }
->  
->      max_zones = (len - sizeof(NvmeZoneReportHeader)) / zone_entry_sz;
->      buf = g_malloc0(len);
-> @@ -1571,6 +1615,14 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeNamespace *ns,
->              z->wp = cpu_to_le64(~0ULL);
->          }
->  
-> +        if (zra == NVME_ZONE_REPORT_EXTENDED) {
-> +            if (zs->d.za & NVME_ZA_ZD_EXT_VALID) {
-> +                memcpy(buf_p, nvme_get_zd_extension(n, ns, zone_index),
-> +                       n->params.zd_extension_size);
-> +            }
-> +            buf_p += n->params.zd_extension_size;
-> +        }
-> +
->          zone_index++;
->      }
->  
-> @@ -2337,7 +2389,7 @@ static uint16_t nvme_handle_changed_zone_log(NvmeCtrl *n, NvmeCmd *cmd,
->              continue;
->          }
->          num_aen_zones++;
-> -        if (zone->d.za) {
-> +        if (zone->d.za & ~NVME_ZA_ZD_EXT_VALID) {
->              trace_pci_nvme_reporting_changed_zone(zone->d.zslba, zone->d.za);
->              *zid_ptr++ = cpu_to_le64(zone->d.zslba);
->              nids++;
-> @@ -2936,6 +2988,7 @@ static int nvme_init_zone_meta(NvmeCtrl *n, NvmeNamespace *ns,
->      ns->imp_open_zones = g_malloc0(sizeof(NvmeZoneList));
->      ns->closed_zones = g_malloc0(sizeof(NvmeZoneList));
->      ns->full_zones = g_malloc0(sizeof(NvmeZoneList));
-> +    ns->zd_extensions = g_malloc0(n->params.zd_extension_size * n->num_zones);
->      zone = ns->zone_array;
->  
->      nvme_init_zone_list(ns->exp_open_zones);
-> @@ -3010,6 +3063,17 @@ static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
->      if (n->params.max_active_zones > nz) {
->          n->params.max_active_zones = nz;
->      }
-> +    if (n->params.zd_extension_size) {
-> +        if (n->params.zd_extension_size & 0x3f) {
-> +            error_setg(errp,
-> +                "zone descriptor extension size must be a multiple of 64B");
-> +            return;
-> +        }
-> +        if ((n->params.zd_extension_size >> 6) > 0xff) {
-> +            error_setg(errp, "zone descriptor extension size is too large");
-> +            return;
-> +        }
-> +    }
->  
->      if (n->params.zone_async_events) {
->          n->ae_cfg |= NVME_AEN_CFG_ZONE_DESCR_CHNGD_NOTICES;
-> @@ -3040,7 +3104,8 @@ static int nvme_zoned_init_ns(NvmeCtrl *n, NvmeNamespace *ns, int lba_index,
->      ns->id_ns_zoned->ozcs = n->params.cross_zone_read ? 0x01 : 0x00;
->  
->      ns->id_ns_zoned->lbafe[lba_index].zsze = cpu_to_le64(n->params.zone_size);
-> -    ns->id_ns_zoned->lbafe[lba_index].zdes = 0;
-> +    ns->id_ns_zoned->lbafe[lba_index].zdes =
-> +        n->params.zd_extension_size >> 6; /* Units of 64B */
->  
->      if (n->params.fill_pattern == 0) {
->          ns->id_ns.dlfeat = 0x01;
-> @@ -3063,6 +3128,7 @@ static void nvme_zoned_clear(NvmeCtrl *n)
->          g_free(ns->imp_open_zones);
->          g_free(ns->closed_zones);
->          g_free(ns->full_zones);
-> +        g_free(ns->zd_extensions);
->      }
->  }
->  
-> @@ -3396,6 +3462,8 @@ static Property nvme_props[] = {
->      DEFINE_PROP_UINT64("zone_size", NvmeCtrl, params.zone_size, 512),
->      DEFINE_PROP_UINT64("zone_capacity", NvmeCtrl, params.zone_capacity, 512),
->      DEFINE_PROP_UINT32("zone_append_max_size", NvmeCtrl, params.zamds_bs, 0),
-> +    DEFINE_PROP_UINT32("zone_descr_ext_size", NvmeCtrl,
-> +                       params.zd_extension_size, 0),
->      DEFINE_PROP_INT32("max_active", NvmeCtrl, params.max_active_zones, 0),
->      DEFINE_PROP_INT32("max_open", NvmeCtrl, params.max_open_zones, 0),
->      DEFINE_PROP_UINT64("reset_rcmnd_delay", NvmeCtrl, params.rzr_delay_usec, 0),
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index e63f7736d7..4251295917 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -24,6 +24,7 @@ typedef struct NvmeParams {
->      uint64_t    zone_capacity;
->      int32_t     max_active_zones;
->      int32_t     max_open_zones;
-> +    uint32_t    zd_extension_size;
->      uint64_t    rzr_delay_usec;
->      uint64_t    rrl_usec;
->      uint64_t    fzr_delay_usec;
-> @@ -123,6 +124,7 @@ typedef struct NvmeNamespace {
->      NvmeZoneList    *imp_open_zones;
->      NvmeZoneList    *closed_zones;
->      NvmeZoneList    *full_zones;
-> +    uint8_t         *zd_extensions;
->      int32_t         nr_open_zones;
->      int32_t         nr_active_zones;
->      bool            aen_pending;
-> @@ -221,6 +223,12 @@ static inline bool nvme_wp_is_valid(NvmeZone *zone)
->             st != NVME_ZONE_STATE_OFFLINE;
->  }
->  
-> +static inline uint8_t *nvme_get_zd_extension(NvmeCtrl *n,
-> +    NvmeNamespace *ns, uint32_t zone_idx)
-> +{
-> +    return &ns->zd_extensions[zone_idx * n->params.zd_extension_size];
-> +}
-> +
->  /*
->   * Initialize a zone list head.
->   */
-> -- 
-> 2.21.0
-> 
-> 
+>
+> > +    return (nested_state->format == KVM_STATE_NESTED_FORMAT_SVM &&
+> > +            nested_state->size > offsetof(struct kvm_nested_state,
+> data));
+>
+> How does this nested_state->size work? It looks like even if it's 1 byte
+> into 'data' we transmit a whole KVM_STATE_NESTED_SVM_VMCB_SIZE.
+>
+
+The format is documented as having either 0 or KVM_STATE_NESTED_SVM_VMCB_SIZE
+bytes (for vmx instead it can be 0, 4K or 8K).
+
+Paolo
+
+
+> Dave
+>
+> > +}
+> > +
+> > +static const VMStateDescription vmstate_svm_nested_state = {
+> > +    .name = "cpu/kvm_nested_state/svm",
+> > +    .version_id = 1,
+> > +    .minimum_version_id = 1,
+> > +    .needed = svm_nested_state_needed,
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_U64(hdr.svm.vmcb_pa, struct kvm_nested_state),
+> > +        VMSTATE_UINT8_ARRAY(data.svm[0].vmcb12,
+> > +                            struct kvm_nested_state,
+> > +                            KVM_STATE_NESTED_SVM_VMCB_SIZE),
+> > +        VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> >  static bool nested_state_needed(void *opaque)
+> >  {
+> >      X86CPU *cpu = opaque;
+> >      CPUX86State *env = &cpu->env;
+> >
+> >      return (env->nested_state &&
+> > -            vmx_nested_state_needed(env->nested_state));
+> > +            (vmx_nested_state_needed(env->nested_state) ||
+> > +             svm_nested_state_needed(env->nested_state)));
+> >  }
+> >
+> >  static int nested_state_post_load(void *opaque, int version_id)
+> > @@ -1139,6 +1166,7 @@ static const VMStateDescription
+> vmstate_kvm_nested_state = {
+> >      },
+> >      .subsections = (const VMStateDescription*[]) {
+> >          &vmstate_vmx_nested_state,
+> > +        &vmstate_svm_nested_state,
+> >          NULL
+> >      }
+> >  };
+> > --
+> > 2.26.2
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+>
+
+--000000000000f3cc3605a963f0f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Il mer 1 lug 2020, 18:28 Dr. David Alan Gilbert &lt;<a href=3D=
+"mailto:dgilbert@redhat.com">dgilbert@redhat.com</a>&gt; ha scritto:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><br>
+&gt; +=C2=A0 =C2=A0 return (nested_state-&gt;format =3D=3D KVM_STATE_NESTED=
+_FORMAT_SVM &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nested_state-&gt;size &gt; =
+offsetof(struct kvm_nested_state, data));<br>
+<br>
+How does this nested_state-&gt;size work? It looks like even if it&#39;s 1 =
+byte<br>
+into &#39;data&#39; we transmit a whole KVM_STATE_NESTED_SVM_VMCB_SIZE.<br>=
+</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">The =
+format is documented as having either 0 or=C2=A0<span style=3D"font-family:=
+sans-serif">KVM_STATE_NESTED_SVM_VMCB_SIZE bytes (for vmx instead it can be=
+ 0, 4K or 8K).</span></div><div dir=3D"auto"><span style=3D"font-family:san=
+s-serif"><br></span></div><div dir=3D"auto"><span style=3D"font-family:sans=
+-serif">Paolo</span></div><div dir=3D"auto"><span style=3D"font-family:sans=
+-serif"><br></span></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
+<br>
+Dave<br>
+<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static const VMStateDescription vmstate_svm_nested_state =3D {<br>
+&gt; +=C2=A0 =C2=A0 .name =3D &quot;cpu/kvm_nested_state/svm&quot;,<br>
+&gt; +=C2=A0 =C2=A0 .version_id =3D 1,<br>
+&gt; +=C2=A0 =C2=A0 .minimum_version_id =3D 1,<br>
+&gt; +=C2=A0 =C2=A0 .needed =3D svm_nested_state_needed,<br>
+&gt; +=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_U64(hdr.svm.vmcb_pa, struct kvm_n=
+ested_state),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT8_ARRAY(data.svm[0].vmcb12,<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct kvm_nested_state,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 KVM_STATE_NESTED_SVM_VMCB_SIZE),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +};<br>
+&gt; +<br>
+&gt;=C2=A0 static bool nested_state_needed(void *opaque)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 X86CPU *cpu =3D opaque;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 CPUX86State *env =3D &amp;cpu-&gt;env;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return (env-&gt;nested_state &amp;&amp;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vmx_nested_state_needed(env=
+-&gt;nested_state));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (vmx_nested_state_needed(en=
+v-&gt;nested_state) ||<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0svm_nested_state_need=
+ed(env-&gt;nested_state)));<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static int nested_state_post_load(void *opaque, int version_id)<=
+br>
+&gt; @@ -1139,6 +1166,7 @@ static const VMStateDescription vmstate_kvm_nest=
+ed_state =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 .subsections =3D (const VMStateDescription*[]) {<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vmstate_vmx_nested_state,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vmstate_svm_nested_state,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 };<br>
+&gt; -- <br>
+&gt; 2.26.2<br>
+&gt; <br>
+--<br>
+Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
+blank" rel=3D"noreferrer">dgilbert@redhat.com</a> / Manchester, UK<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000f3cc3605a963f0f9--
+
 
