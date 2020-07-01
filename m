@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005AE210D25
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:08:53 +0200 (CEST)
-Received: from localhost ([::1]:44760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F164210D47
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:12:55 +0200 (CEST)
+Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdPv-000591-Us
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
+	id 1jqdTp-0004Cs-VM
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdEl-0002aS-T5
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:22 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40068)
+ id 1jqdKr-0004nU-H5
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdEd-0005sZ-O4
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:19 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h5so23946823wrc.7
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:57:10 -0700 (PDT)
+ id 1jqdKl-0006om-Sz
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:37 -0400
+Received: by mail-wm1-x341.google.com with SMTP id o2so23396855wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CRf3v0aaaaR+c9GY3Mn+3wHhPs/9iLnwOOfyb/6spX0=;
- b=MnGkTs62GIjDUDCSW2mDMS1rzy4p/9jBi89tjeATcisAQ1ujXbRPaXrPocKYRXHTVY
- Lw5kl5QjotHF7SY4l4GhNcJNCYahPie+16tGklWcVZZp+qIXM0YQHpjhWOg2uKXtJYMe
- Glq3GBO/1g4JRCFxrucaLYqn5/rzbGvfssFwvBrHyeGPdCTyHbLlXD5bXCFSi0wwBIbF
- MhDojqT8BdQdS9nC6huEZox42yrGyzDOVe+TgiFkFcICMMP+ThzhapXtC3BSCZ1Ry+d3
- ZgljM+3LVEWHKBptLTbX9sx+7Zvbjns5Khgo+gslN54VFWJ+Uw7qhfMm41w9sztRfMgB
- HuTg==
+ bh=pcMZ/obXnz3i4V6AJOF1d+E1lr/wSxwpDkghVxLQofU=;
+ b=ne7BbYYUPGqQ4gOO2pqVyltzSPxSk5g3bbKAs0ix0pW/vg9x0GoLC775o5s61wPYCm
+ 3FnADJ4CIg265fOYvP5XBHO8e1Gp3jh8o59WnhRD5cdatWhd4DOkVuLiL/r+7XuTz00N
+ OVqG2acLbGWq2N9EqTCfkG3Cffr/YcnZHhLZLvrdOSSUWRkG0AsNiQlepRWVhQupEKLs
+ Xf2jwOprYTAyrwF8VTM/+NPmRIiQbliz8wfyjIS5fQn7GeiryTmBt7RxEHOFuJv5Hi+J
+ +PGfnnxQTIsCkqJZdBX2zbWpfi1ySxk01UyjXXSTu6SDtBey5H9BV0FwrdjHR66kACiN
+ Y3zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CRf3v0aaaaR+c9GY3Mn+3wHhPs/9iLnwOOfyb/6spX0=;
- b=H91Gi3qiSk4grg3etdK6K2l7gDyf5rHAwY/Q+vaFywJO8BjDcvsQTXpWlB+vYkCQPS
- zueD278sJJ1FE6P360STcZdrlZOUIU33UBQcFaaCwdvlLs72+NcauUbIIEoS0Kj+uRPG
- /gCT8FAVY64ihdATlPUCcWX5BL1N7O+vgIL9RgJTdDSaSf4wGW1yxrfRmeqANDKOLBMx
- O4jEvrxmIJKX7NeqTzT8Ac0U61MntxGthncs5DvXlu3iHHYl8Ks1nc/UwB1Rt8YQnX1o
- hVyPATdKGtu8HZBCP8skF4QqrmkUTmwEQvi4nEX9ZkkEI+5Pa73hmOvbTaHs5eDf9Dbg
- /6BA==
-X-Gm-Message-State: AOAM531gs4jgBLcYigLKoRl8/jTB5GaVBZnhBeRd/JvqCamoXsEm6M1r
- 7pTk/KazMAQK4mvlSQbIATYFiw==
-X-Google-Smtp-Source: ABdhPJxBt3KFGN2tOV18EukzPGM9QJhlDQwC7//Rdgrd3PG7+gzcO9MZiPTc1Vv7EJf6q7CLrx+gIQ==
-X-Received: by 2002:adf:f842:: with SMTP id d2mr29114629wrq.55.1593611829478; 
- Wed, 01 Jul 2020 06:57:09 -0700 (PDT)
+ bh=pcMZ/obXnz3i4V6AJOF1d+E1lr/wSxwpDkghVxLQofU=;
+ b=MTLKXQn9ZioXiHPTWao8j3FdFmhQID1hZmfNBbvb9Qc7eQN+7kE5Xq6S/Vg2s6TPfv
+ o/5aEN3GGGic138ZjgSzSHfKc2Wd/FFSfqvaIP+VrQeeU6qtH9wy45V5BD/+6HAbzF9d
+ hJYVqInCEx9ZniU+uK1xfgANmi0CVJBWJsni5SQTtrO/qIu5of7v1gSjpSm7k4Qfco5l
+ fOiAFmds2qJ5hOD3xxD0imx9Hu7OOZFkIpHcmBfx3OIcRcTB1DI5UhyohXPOOAi/dmCD
+ b20EF0NhhTGMWVidQRRwKFz3bEDiwZ2lAxK4Tpo2bWAilVgHR+HVROg2XojHPd7rVgNf
+ QOgw==
+X-Gm-Message-State: AOAM533k/4tJeSB14vn399P3Wf/Xwh119nuyu2pwgrrZCySwSMNcu1Ed
+ /L9NK/pm4CAPEF/4xp7R8wASWQ==
+X-Google-Smtp-Source: ABdhPJx4K/Xk1QxnzMQQ9ReB8d4wistJ4M5aLjQjBNtZgI0VgVK+Uj/YJ4xB2J8Ob6QKQbUBP/kC7Q==
+X-Received: by 2002:a1c:6308:: with SMTP id x8mr28001926wmb.92.1593612210468; 
+ Wed, 01 Jul 2020 07:03:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f12sm7656081wrj.48.2020.07.01.06.57.00
+ by smtp.gmail.com with ESMTPSA id u2sm6878069wml.16.2020.07.01.07.03.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 06:57:02 -0700 (PDT)
+ Wed, 01 Jul 2020 07:03:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88B051FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id 9FF731FFB3;
  Wed,  1 Jul 2020 14:56:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/40] tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
-Date: Wed,  1 Jul 2020 14:56:38 +0100
-Message-Id: <20200701135652.1366-27-alex.bennee@linaro.org>
+Subject: [PATCH v4 27/40] tests/acceptance: fix dtb path for machine_rx_gdbsim
+Date: Wed,  1 Jul 2020 14:56:39 +0100
+Message-Id: <20200701135652.1366-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,44 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  Cleber Rosa <crosa@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the test takes more the 900 seconds on GitLab and then times
-out. Running on Travis seems to be OK.
+The old path doesn't exist but the rx-virt.dtb file has the same
+checksum so lets use that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/acceptance/boot_linux.py | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/acceptance/machine_rx_gdbsim.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 3aa57e88b0b..0055dc7cee7 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -20,6 +20,7 @@ from avocado.utils import network
- from avocado.utils import vmimage
- from avocado.utils import datadrainer
- from avocado.utils.path import find_command
-+from avocado import skipIf
- 
- ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
- KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
-@@ -220,6 +221,7 @@ class BootLinuxS390X(BootLinux):
- 
-     chksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
- 
-+    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_s390_ccw_virtio_tcg(self):
+diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
+index a44f2c87da0..bff63e421d5 100644
+--- a/tests/acceptance/machine_rx_gdbsim.py
++++ b/tests/acceptance/machine_rx_gdbsim.py
+@@ -50,7 +50,7 @@ class RxGdbSimMachine(Test):
+         :avocado: tags=machine:gdbsim-r5f562n7
+         :avocado: tags=endian:little
          """
-         :avocado: tags=machine:s390-ccw-virtio
+-        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb')
++        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-virt.dtb')
+         dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
+         dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
+         kernel_url = ('http://acc.dl.osdn.jp/users/23/23845/zImage')
 -- 
 2.20.1
 
