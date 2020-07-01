@@ -2,57 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B744211560
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 23:50:35 +0200 (CEST)
-Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6702115BE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 00:17:52 +0200 (CEST)
+Received: from localhost ([::1]:41856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqkck-00024V-GA
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 17:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1jql39-0005Jg-0P
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 18:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jqka4-0000QT-9E; Wed, 01 Jul 2020 17:47:48 -0400
-Received: from mga04.intel.com ([192.55.52.120]:61625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jqka0-0004w1-MZ; Wed, 01 Jul 2020 17:47:47 -0400
-IronPort-SDR: LUpSX9JNe4s7l5n/pSbzeR6Z9rLDRQyG3YVuZ6WuEOVGEehQ7daIb6fIwmQ1mKUBe5Of176vIF
- gMHZ/ySppEiA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="144226811"
-X-IronPort-AV: E=Sophos;i="5.75,301,1589266800"; d="scan'208";a="144226811"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2020 14:47:34 -0700
-IronPort-SDR: 5Oik8vDkElfcD6/rNeIWcot4sWh4309NRORparE4oxOCD2wQs3X8rAxk2rQRO9H1EpDcl96Rpq
- S8cgO/bLxhQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,301,1589266800"; d="scan'208";a="481447151"
-Received: from unknown (HELO localhost.ch.intel.com) ([10.2.61.79])
- by fmsmga006.fm.intel.com with ESMTP; 01 Jul 2020 14:47:33 -0700
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-To: kbusch@kernel.org,
-	kwolf@redhat.com,
-	mreitz@redhat.com
-Subject: [PATCH v4 2/2] nvme: allow cmb and pmr to be enabled on same device
-Date: Wed,  1 Jul 2020 14:48:58 -0700
-Message-Id: <20200701214858.28515-3-andrzej.jakowski@linux.intel.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200701214858.28515-1-andrzej.jakowski@linux.intel.com>
-References: <20200701214858.28515-1-andrzej.jakowski@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1jql20-0004kn-7n; Wed, 01 Jul 2020 18:16:41 -0400
+Received: from mail.csgraf.de ([188.138.100.120]:47266
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1jql1x-0007Ms-AV; Wed, 01 Jul 2020 18:16:39 -0400
+Received: from macbook.alex.local (x4d024519.dyn.telefonica.de [77.2.69.25])
+ by csgraf.de (Postfix) with ESMTPSA id 3CE65390039A;
+ Thu,  2 Jul 2020 00:16:34 +0200 (CEST)
+Subject: Re: [PATCH] target/arm: Treat unknown SMC calls as NOP
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200701200848.26746-1-agraf@csgraf.de>
+ <CAFEAcA9S5v0LHMNc4fu9JGUzecbg8DsogZuCEv_aGNqVxRAcDQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <60440cb5-bd18-2928-afcf-974766222dd7@csgraf.de>
+Date: Thu, 2 Jul 2020 00:16:33 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga04.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 17:47:32
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA9S5v0LHMNc4fu9JGUzecbg8DsogZuCEv_aGNqVxRAcDQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 18:16:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,209 +55,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So far it was not possible to have CMB and PMR emulated on the same
-device, because BAR2 was used exclusively either of PMR or CMB. This
-patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
 
-Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
----
- hw/block/nvme.c      | 101 +++++++++++++++++++++++++++++--------------
- hw/block/nvme.h      |   1 +
- include/block/nvme.h |   4 +-
- 3 files changed, 72 insertions(+), 34 deletions(-)
+On 01.07.20 22:47, Peter Maydell wrote:
+> On Wed, 1 Jul 2020 at 21:08, Alexander Graf <agraf@csgraf.de> wrote:
+>> We currently treat unknown SMC calls as UNDEF. This behavior is different
+>> from KVM, which treats them as NOP.
+>>
+>> Unfortunately, the UNDEF exception breaks running Windows for ARM in QEMU,
+>> as that probes an OEM SMCCC call on boot, but does not expect to receive
+>> an UNDEF exception as response.
+>>
+>> So instead, let's follow the KVM path and ignore SMC calls that we don't
+>> handle. This fixes booting the Windows 10 for ARM preview in TCG for me.
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> +    if (cs->exception_index == EXCP_SMC &&
+>> +        !arm_feature(env, ARM_FEATURE_EL3) &&
+>> +        cpu->psci_conduit != QEMU_PSCI_CONDUIT_SMC) {
+> This condition says: "we got an SMC, and this CPU doesn't
+> have EL3, and we're not imitating real EL3 firmware".
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 9f11f3e9da..f5156bcfe5 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -22,12 +22,12 @@
-  *              [pmrdev=<mem_backend_file_id>,] \
-  *              max_ioqpairs=<N[optional]>
-  *
-- * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-- * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-+ * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
-+ * to be resident in BAR4 at certain offset - this is because BAR4 is also
-+ * used for storing MSI-X table that is available at offset 0 in BAR4.
-  *
-- * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
-- * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
-- * both provided.
-+ * pmrdev is assumed to be resident in BAR2/BAR3. When configured it consumes
-+ * whole BAR2/BAR3 exclusively.
-  * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
-  * For example:
-  * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
-@@ -57,8 +57,8 @@
- #define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
--#define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
-+#define NVME_MSIX_BIR 4
- 
- #define NVME_GUEST_ERR(trace, fmt, ...) \
-     do { \
-@@ -1395,7 +1395,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         return;
-     }
- 
--    if (!n->params.cmb_size_mb && n->pmrdev) {
-+    if (n->pmrdev) {
-         if (host_memory_backend_is_mapped(n->pmrdev)) {
-             char *path = object_get_canonical_path_component(OBJECT(n->pmrdev));
-             error_setg(errp, "can't use already busy memdev: %s", path);
-@@ -1453,33 +1453,70 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-     id_ns->nuse = id_ns->ncap;
- }
- 
--static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-+static void nvme_bar4_init(PCIDevice *pci_dev, Error **errp)
- {
--    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
--    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
--
--    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
--    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
--    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
--    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
--    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
--
--    n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
--                          "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
-+    NvmeCtrl *n = NVME(pci_dev);
-+    int status;
-+    uint64_t bar_size, cmb_offset = 0;
-+    uint32_t msix_vectors;
-+    uint32_t nvme_pba_offset;
-+    uint32_t cmb_size_units;
-+
-+    msix_vectors = n->params.max_ioqpairs + 1;
-+    nvme_pba_offset = PCI_MSIX_ENTRY_SIZE * msix_vectors;
-+    bar_size = nvme_pba_offset + QEMU_ALIGN_UP(msix_vectors, 64) / 8;
-+
-+    if (n->params.cmb_size_mb) {
-+        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-+        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
-+        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-+        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-+        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-+        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
-+        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+
-+        cmb_size_units = NVME_CMBSZ_GETSIZEUNITS(n->bar.cmbsz);
-+        cmb_offset = QEMU_ALIGN_UP(bar_size, cmb_size_units);
-+
-+        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_MSIX_BIR);
-+        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, cmb_offset / cmb_size_units);
-+
-+        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+
-+        bar_size += cmb_offset;
-+        bar_size += NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
-+    }
-+
-+    bar_size = pow2ceil(bar_size);
-+
-+    /* Create memory region for BAR4, then overlap cmb, msix and pba
-+     * tables on top of it.*/
-+    memory_region_init(&n->bar4, OBJECT(n), "nvme-bar4", bar_size);
-+
-+    if (n->params.cmb_size_mb) {
-+        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-+                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+
-+        memory_region_add_subregion(&n->bar4, cmb_offset, &n->ctrl_mem);
-+    }
-+
-+    status = msix_init(pci_dev, n->params.msix_qsize,
-+                       &n->bar4, NVME_MSIX_BIR, 0,
-+                       &n->bar4, NVME_MSIX_BIR, nvme_pba_offset,
-+                       0, errp);
-+
-+    if (status) {
-+        return;
-+    }
-+
-+    pci_register_bar(pci_dev, NVME_MSIX_BIR,
-                      PCI_BASE_ADDRESS_SPACE_MEMORY |
-                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
--                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->bar4);
- }
- 
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    /* Controller Capabilities register */
--    NVME_CAP_SET_PMRS(n->bar.cap, 1);
--
-     /* PMR Capabities register */
-     n->bar.pmrcap = 0;
-     NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
-@@ -1537,13 +1574,10 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-                           n->reg_size);
-     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-                      PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
--    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
--        return;
--    }
- 
--    if (n->params.cmb_size_mb) {
--        nvme_init_cmb(n, pci_dev);
--    } else if (n->pmrdev) {
-+    nvme_bar4_init(pci_dev, errp);
-+
-+    if (n->pmrdev) {
-         nvme_init_pmr(n, pci_dev);
-     }
- }
-@@ -1583,6 +1617,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_CSS(n->bar.cap, 1);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
-     NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_PMRS(n->bar.cap, n->pmrdev ? 1 : 0);
- 
-     n->bar.vs = 0x00010200;
-     n->bar.intmc = n->bar.intms = 0;
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1d30c0bca2..b2b9d727a5 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -81,6 +81,7 @@ typedef struct NvmeCtrl {
-     PCIDevice    parent_obj;
-     MemoryRegion iomem;
-     MemoryRegion ctrl_mem;
-+    MemoryRegion bar4;
-     NvmeBar      bar;
-     BlockConf    conf;
-     NvmeParams   params;
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 14cf398dfa..76d15bdf9f 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -216,9 +216,11 @@ enum NvmeCmbszMask {
-     (cmbsz |= (uint64_t)(val & CMBSZ_SZU_MASK) << CMBSZ_SZU_SHIFT)
- #define NVME_CMBSZ_SET_SZ(cmbsz, val)    \
-     (cmbsz |= (uint64_t)(val & CMBSZ_SZ_MASK) << CMBSZ_SZ_SHIFT)
-+#define NVME_CMBSZ_GETSIZEUNITS(cmbsz) \
-+    (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz)))
- 
- #define NVME_CMBSZ_GETSIZE(cmbsz) \
--    (NVME_CMBSZ_SZ(cmbsz) * (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz))))
-+    (NVME_CMBSZ_SZ(cmbsz) * NVME_CMBSZ_GETSIZEUNITS(cmbsz))
- 
- enum NvmePmrcapShift {
-     PMRCAP_RDS_SHIFT      = 3,
--- 
-2.21.1
+
+I like to think of it as "This CPU exposes an environment that looks
+like KVM, so it implements HVC calls (EL2) and is responsible for
+handling SMC calls as well.
+
+The main difference between the two semantics is that in yours, you
+don't have EL3. In mine, there is an EL3, but it's virtualized by the
+same layer that implements EL2.
+
+
+> The architecturally correct behaviour here (since we don't
+> implement nested-virt yet, which might allow it to trap
+> to guest EL2) is to UNDEF, as far as I can see from a quick
+> look at the AArch64.CheckForSMCUndefOrTrap().
+>
+> I'm not sure why KVM makes these NOP; if I'm right about the
+> architectural behaviour then making them NOP would be a KVM bug.
+>
+> If Windows makes an SMC call on boot that seems like a guest
+> bug: it would crash on a real CPU without EL2/EL3 as well.
+
+
+I don't think there can be a real SBBR compatible CPU without EL2/EL3,
+because PSCI is a base requirement. That means either SMC calls succeed
+(Windows running in EL2) or SMC calls are trapped into EL2 and it's up
+to the hypervisor to decide what to do with them.
+
+
+>
+>       *  Conduit SMC, valid call  Trap to EL2         PSCI Call
+>       *  Conduit SMC, inval call  Trap to EL2         Undef insn
+> -     *  Conduit not SMC          Undef insn          Undef insn
+> +     *  Conduit not SMC          nop                 nop
+>
+> The line in this table that your commit message says you're
+> fixing is "Conduit SMC, inval call"; the line your code
+> change affects is "Conduit not SMC", which is not the same
+> thing. (I'd have to look at the PSCI spec to see what it
+> requires for SMCs that aren't valid PSCI calls.)
+
+
+The patch fixes the default environment, which is "Conduit HVC, PSCI
+over HVC implemented by QEMU". If the patch description wasn't clear,
+I'm happy to reword it :).
+
+
+Alex
+
 
 
