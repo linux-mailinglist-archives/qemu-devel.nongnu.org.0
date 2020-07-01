@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7545221147C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 22:36:38 +0200 (CEST)
-Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E226721148A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 22:49:02 +0200 (CEST)
+Received: from localhost ([::1]:34930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqjTB-0004NR-3i
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 16:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47868)
+	id 1jqjfB-0000Li-C9
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 16:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jqjRw-0003fY-6U
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:35:20 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37972)
+ id 1jqjdc-0008Ew-2t
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:47:24 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jqjRt-0002OW-Jh
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:35:19 -0400
-Received: by mail-oi1-x241.google.com with SMTP id r8so21748518oij.5
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 13:35:17 -0700 (PDT)
+ id 1jqjdZ-0000lu-2X
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:47:23 -0400
+Received: by mail-ot1-x341.google.com with SMTP id t18so9676995otq.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 13:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=y3cGLXL+oLjgwDn0qa1trwMqOTe9T9HabjmNfVDkYxY=;
- b=R1KN1LQ7K81NccCyQSFwnG8nKNgiWST4BrkCE21nmqr3exQ9dB+k7dqS06k0k+FBld
- BeOR6s6YdGfGKWIZqMpCWbA+sUewaFpaFbciZ7+ssWs/jiOxTw76vt5BOlmOWZqkJ67W
- ecJyPTB4Gj2fnTuXazIMyVHQ6nepFpdWFwsScrN2e/0LptGAelTJH8k8H9MghZ+dMxgF
- g7OYmsa63mfH66l1KbpLXnhj7/1UzI4YQ59KHp0F2vHhB74GaVDSt9yIdVODTSvwv5wx
- GiGFcAViGfwd2qD1WNTJNBz8b7msJeLY7KnADYzbHkNPEYtS4T6t68PBzknoUUSM/R3E
- fa2A==
+ :cc; bh=NS99qhyL/fdn4mBR75hJsxF0sNVyQqI7PaTGFtqZkfA=;
+ b=B+jY0ppJQkHbJxcziqEhjiUqZmmFJgHsUhPYe45EHt+08bM0N1zgvNCCf46Y/tJAIu
+ G4JvY9uGrW3W+XBDXdruy5rVALEZHeWvgQvsQUnTRucgzkkN9Gc7eGviQkWJBmDdg48G
+ xhv1QUdKQn+UD1RPlprqIKuQZbze5HC4YnfiAHdArk1OWOz6eCxZ+URFhwbyMi12lUxc
+ OQwP70/2HWXR0NXW6HNJ1vTLF5yD7y55Sup+XIw6/KHVH+eryh9FSwTcCusA7rjooEeC
+ SkjVR2rXNrtQLicl+43So0KO9hkyqIrAR9Qx4bYzPXdZpzlVMTQceHW9KvIx9FLpPOcW
+ 5kpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y3cGLXL+oLjgwDn0qa1trwMqOTe9T9HabjmNfVDkYxY=;
- b=PqsNJpOMygAIs+o8iYeXorjXI/5otFYkpLyXYdhGdO2JWPq+NYpebX4uFkf0u6jipU
- sYrdHGFUuG+Xv9WvSpDP8w/I8YjK/emcsfX7z+FLZ00+P7F2bGKHUWFmpVDzt9wFKn6W
- qujoEf2t5L4zNZXesTfYNhu0K5kjolKKAo3sUJVC5A830OUaYijU/wTCUYXafoXGejTt
- 23XRqmW0UXD/yocqpHP1qY6uvmlXlzGe+oQiYFUV/a2olQI7nNUZWuxI3hQ9IowUKKg5
- BEhwbPeXxLk/M7YxjJlKnHcRJ2s5Yk8Lsn8HDM/18ETOeHiY29Z2SvqKoc443pnNRCq3
- zA0A==
-X-Gm-Message-State: AOAM5332gzDWKb+jUHaYI7TTm8CqZyv36QuSN6eDCZuzJz3/ArE5IamI
- dgT3+s0iW6k0kIgenRkBmCPI0oyWF+RpdeBhnZCrng==
-X-Google-Smtp-Source: ABdhPJzcyRWl2qed5Id9yUGEsyjF66UoDTyXkb48ygI1grlFQoidIroGQtKrx08maSf/PJvOlnr3QKjEZ6emcDSC0LI=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr15392872oix.48.1593635715971; 
- Wed, 01 Jul 2020 13:35:15 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=NS99qhyL/fdn4mBR75hJsxF0sNVyQqI7PaTGFtqZkfA=;
+ b=W5NOh17Unz2jGYB2nzm1KV6Y9ZW6VOU5vuo4VHvRMBZX2i6ZiayXNisKSfa2tY6KiY
+ GcUAk95B6jcg39T0yJJJAcz2RS0W94KMLGO5yb5aFHZRlpnQvYOxUqCJhi++NgP+JdZt
+ h6VlMe+lFJ9j1rXPFOGjmoQY7rKiB0MqYYmWKH6EN2YrguimteAXA245lP17neAWf5RH
+ 6VnhbDN+JT0GRl4FgNHbPs0PsJr4m8aLhFBmL+IL6HSkQgqBmyVI20BPzWZs/gWSUp/5
+ wlJ7TQb9Xv6Fszkhkp1YVjHLrVLr3kROu4V0Ofjrx+xvZC22isTG7q2gYLkdiCs1jE1W
+ YUUQ==
+X-Gm-Message-State: AOAM532viKSbhdZeishJz+Xj6XUCTSpLxUOLZM8aBAWJVpQMXZXGuIVo
+ o0xpA0rLM/kPAkWjr5EubtXH0Rza0K7yZtQ5RLdvpw==
+X-Google-Smtp-Source: ABdhPJwaN8ZebAef5emBG204pfVdkXZqfjiPamo/sGFafI237deS+C9vAj+UbJs84M/rQxjTRESXSny+yF78fazKevE=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr16178878oto.135.1593636439510; 
+ Wed, 01 Jul 2020 13:47:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200701182100.26930-1-philmd@redhat.com>
-In-Reply-To: <20200701182100.26930-1-philmd@redhat.com>
+References: <20200701200848.26746-1-agraf@csgraf.de>
+In-Reply-To: <20200701200848.26746-1-agraf@csgraf.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 1 Jul 2020 21:35:04 +0100
-Message-ID: <CAFEAcA8ZKEVySwDAQ+x9xA9bosOs5q20CZLZjBvkXj_d6ZVBuA@mail.gmail.com>
-Subject: Re: [RFC PATCH] cpus: Initialize current_cpu with the first vCPU
- created
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Wed, 1 Jul 2020 21:47:08 +0100
+Message-ID: <CAFEAcA9S5v0LHMNc4fu9JGUzecbg8DsogZuCEv_aGNqVxRAcDQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Treat unknown SMC calls as NOP
+To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,69 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1878645 <1878645@bugs.launchpad.net>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: qemu-arm <qemu-arm@nongnu.org>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 Jul 2020 at 19:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
+On Wed, 1 Jul 2020 at 21:08, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> We can run I/O access with the 'i' or 'o' HMP commands in the
-> monitor. These commands are expected to run on a vCPU. The
-> monitor is not a vCPU thread. To avoid crashing, initialize
-> the 'current_cpu' variable with the first vCPU created. The
-> command executed on the monitor will end using it.
-
+> We currently treat unknown SMC calls as UNDEF. This behavior is different
+> from KVM, which treats them as NOP.
 >
-> RFC because I believe the correct fix is to NOT use current_cpu
-> out of cpus.c, at least use qemu_get_cpu(0) to get the first vCPU.
+> Unfortunately, the UNDEF exception breaks running Windows for ARM in QEMU,
+> as that probes an OEM SMCCC call on boot, but does not expect to receive
+> an UNDEF exception as response.
+>
+> So instead, let's follow the KVM path and ignore SMC calls that we don't
+> handle. This fixes booting the Windows 10 for ARM preview in TCG for me.
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
-Yes, I agree -- I don't think this is the correct fix.
-current_cpu is documented as "only valid inside cpu_exec()",
-ie if you're actually on a vcpu thread you can use it, but if
-you're not on a CPU thread, like the monitor, you need to
-say which vCPU you want to affect. For the monitor, that
-would be the current "default cpu" as set by the "cpu"
-command (cf monitor_set_cpu()). The bug here will be that
-somewhere along the line we are probably missing plumbing
-sufficient to pass down "which CPU do we want".
+> +    if (cs->exception_index == EXCP_SMC &&
+> +        !arm_feature(env, ARM_FEATURE_EL3) &&
+> +        cpu->psci_conduit != QEMU_PSCI_CONDUIT_SMC) {
 
-https://bugs.launchpad.net/qemu/+bug/1602247 is a bug of
-a similar nature -- if the gdbstub does a memory access
-we know which CPU we're trying to do that memory access as,
-but it doesn't get plumbed through and so in the Arm GIC
-register read/write function that looks at current_cpu
-we get a segfault.
+This condition says: "we got an SMC, and this CPU doesn't
+have EL3, and we're not imitating real EL3 firmware".
+The architecturally correct behaviour here (since we don't
+implement nested-virt yet, which might allow it to trap
+to guest EL2) is to UNDEF, as far as I can see from a quick
+look at the AArch64.CheckForSMCUndefOrTrap().
 
-One way to fix this would be to do something akin to how
-real hardware works -- encode into the MemTxAttrs an
-indication of what the transaction master was (eg the
-CPU number for CPUs); then the handful of devices that
-care about which CPU was doing the transaction can use
-that, rather than directly looking at current_cpu, and
-when gdbstub or monitor perform an access that should
-act like it's from a particular CPU they can indicate
-that by supplying appropriate transaction attributes.
-That would potentially be quite a bit of work though
-(but I think it would be a neat design if we want to
-try to fix this kind of "segfault if the user prods
-a device via the monitor" bug).
+I'm not sure why KVM makes these NOP; if I'm right about the
+architectural behaviour then making them NOP would be a KVM bug.
 
-+    if (!current_cpu) {
-+        current_cpu =3D cpu;
-+    }
+If Windows makes an SMC call on boot that seems like a guest
+bug: it would crash on a real CPU without EL2/EL3 as well.
 
-Some more specific issues with this -- current_cpu is
-a thread-local variable, so this will set that for
-whatever thread happens to make this call, which
-might or might not be the one that ends up handling
-the monitor command. Also some code assumes that
-current_cpu is non-NULL only if this is a vCPU thread,
-eg sigbus_handler().
+      *  Conduit SMC, valid call  Trap to EL2         PSCI Call
+      *  Conduit SMC, inval call  Trap to EL2         Undef insn
+-     *  Conduit not SMC          Undef insn          Undef insn
++     *  Conduit not SMC          nop                 nop
+
+The line in this table that your commit message says you're
+fixing is "Conduit SMC, inval call"; the line your code
+change affects is "Conduit not SMC", which is not the same
+thing. (I'd have to look at the PSCI spec to see what it
+requires for SMCs that aren't valid PSCI calls.)
 
 thanks
 -- PMM
