@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1384C210D42
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:12:32 +0200 (CEST)
-Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA0C210D9C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:21:29 +0200 (CEST)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdTT-0003OF-1X
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
+	id 1jqdc8-00018S-R5
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdGM-0005DV-O1
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:58 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55665
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqdNt-0002By-8l
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:06:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49945
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdGJ-00060d-Dy
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:58:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqdNq-0007Uz-4Z
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:06:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593611934;
+ s=mimecast20190719; t=1593612401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tgYA0EHWFAwvu5qD3dGgus0fxbYOJdihA03XD/r08Xo=;
- b=XTOfXM2k3WTWcvGucfvJMBjNExEhSfZ2gdO//ZyHuSDXrTZDfZF5VLDeMVQUeLJ9tVKFsW
- DcVb4snNqP126FuTfLSzeyOyqHJ4HOK6wVQU2zgWXG2iGArpU3zx6J+beGK/jKI8z69vW9
- 7yzBtx523hoiGWkkUlGmcwiB6Ed4L3k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-ptOgUm01MtS4JP0IBOdWag-1; Wed, 01 Jul 2020 09:58:53 -0400
-X-MC-Unique: ptOgUm01MtS4JP0IBOdWag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11030107B7CB;
- Wed,  1 Jul 2020 13:58:52 +0000 (UTC)
-Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C210819C79;
- Wed,  1 Jul 2020 13:58:51 +0000 (UTC)
-Subject: Re: [PATCH 1/9] Enabling BSD symbols
-To: David CARLIER <devnexen@gmail.com>, QEMU Trivial
- <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
-References: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <23df1820-03c8-1810-4315-b533b2c1e09b@redhat.com>
-Date: Wed, 1 Jul 2020 08:58:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IdL0+cqpCKbYkoB0YZEy9wwctaF1+C6EUzgg6BzqkYw=;
+ b=GdcUdgYyCZlxb2agqfUx+/2jkwcAFHxrM40uB5CywZAvER7acXzfNjIHWn8FlbVyTCcu7d
+ OmG6mKxJGIXqRHyJ/WiNj3NdnixATYn60X9Y6oyED3BqYUa6Ahad5RdzKozEh73+oLHSCD
+ sq5Bmjxo3tfkRuJoGTY0TlJYp+Zmhz0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-wWo8QloiOKWvqwj8rAY95Q-1; Wed, 01 Jul 2020 10:06:39 -0400
+X-MC-Unique: wWo8QloiOKWvqwj8rAY95Q-1
+Received: by mail-ed1-f70.google.com with SMTP id j15so16744546edq.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:06:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IdL0+cqpCKbYkoB0YZEy9wwctaF1+C6EUzgg6BzqkYw=;
+ b=md272GDNl8VDVk+p7KUINYsYPF/NTAGjZlri1zRMXsWRyFoGwMLBNwNJTDSItNuWK2
+ v41niRWGadxBnxnSDm/xITVj+qFlOdqk19XW9KWM5H4tUarEXhmxViJ16/TnqOceQSHN
+ kQoqH9UXROTbpL2VSUF3UIedtyM7DjXv6oGVqbcBVTrSLFYuCQGYKvcptH03JMeIFBa6
+ IJ0F/kWVeSH2Xv9aNhVcgORJxDCxu0hVbBfClU8zJWDT1exIGC48iXc1TOPlM6Ro8kJG
+ S/W95RjBk9ig/O/IeKiwu3OCwAbEO/84z30ugDR+3cCZhU/+3Vjzf09n2Yy3Nu03M/+y
+ T/1Q==
+X-Gm-Message-State: AOAM53207jb1rxXSr0gQMtW1wkkgaHDerNufHVtDuq02TY4BhgMEnutv
+ n5uBGK+kjXhNFRZd/rijeT2Ay2JBY/AxillnvqnI/gTtZIf1GSttI4fm8Y6KZ4cfiGbANaDYdQv
+ 1ya6Pq8DgPB7hMsA=
+X-Received: by 2002:a50:aacc:: with SMTP id r12mr29162469edc.219.1593612397834; 
+ Wed, 01 Jul 2020 07:06:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYiK+cJTVSG/SsYKLXwurq1hZ+IbN/aXiLGQVwm5Wao0Cz6tMOXHZ+eyqDENfWjFwkF5VDKg==
+X-Received: by 2002:a50:aacc:: with SMTP id r12mr29162369edc.219.1593612397203; 
+ Wed, 01 Jul 2020 07:06:37 -0700 (PDT)
+Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id mf24sm4673653ejb.58.2020.07.01.07.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 07:06:36 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Cover "block/nvme.h" file
+Date: Wed,  1 Jul 2020 16:06:34 +0200
+Message-Id: <20200701140634.25994-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,57 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/20 4:48 PM, David CARLIER wrote:
->>From 5c6022f21289eb6e78e93d584c766db82165dced Mon Sep 17 00:00:00 2001
-> From: David Carlier <devnexen@gmail.com>
-> Date: Mon, 29 Jun 2020 22:13:35 +0000
-> Subject: [PATCH 1/9] Enabling BSD symbols.
+The "block/nvme.h" header is shared by both the NVMe block
+driver and the NVMe emulated device. Add the 'F:' entry on
+both sections, so all maintainers/reviewers are notified
+when it is changed.
 
-Suggestion for the title:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+Cc: Fam Zheng <fam@euphon.net>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>
+Cc: Niklas Cassel <Niklas.Cassel@wdc.com>
+Cc: Klaus Jensen <its@irrelevant.dk>
+Cc: Klaus Jensen <k.jensen@samsung.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-build: Enable BSD symbols for Haiku
-
-Rationale for that suggestion: most commits start with a category (here, 
-'build:' is a nice catch-all, since you are improving the build for a 
-given platform).  We tend to avoid trailing '.' in the subject.  And 
-mentioning which platform is affected is useful for someone browsing 
-one-line summaries to know the scope of theh change.
-
-Also, this message (and the rest of the series) came through as a 
-top-level thread, rather than in-reply-to the 0/9 message.  That makes 
-it harder to track the changes as a group.
-
-> 
-> Signed-off-by: David Carlier <devnexen@gmail.com>
-> ---
->   configure | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 4a22dcd563..d81931ba5e 100755
-> --- a/configure
-> +++ b/configure
-> @@ -903,8 +903,8 @@ SunOS)
->   ;;
->   Haiku)
->     haiku="yes"
-> -  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
-> -  LIBS="-lposix_error_mapper -lnetwork $LIBS"
-> +  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
-> +  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
->   ;;
->   Linux)
->     audio_drv_list="try-pa oss"
-> --
-> 2.26.0
-> 
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dec252f38b..9995cdc805 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1795,6 +1795,7 @@ M: Keith Busch <kbusch@kernel.org>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: hw/block/nvme*
++F: include/block/nvme.h
+ F: tests/qtest/nvme-test.c
+ 
+ megasas
+@@ -2804,6 +2805,7 @@ M: Fam Zheng <fam@euphon.net>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/nvme*
++F: include/block/nvme.h
+ 
+ Bootdevice
+ M: Gonglei <arei.gonglei@huawei.com>
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.3
 
 
