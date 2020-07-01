@@ -2,99 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB6D210CCC
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:56:16 +0200 (CEST)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D2A210CF1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:59:00 +0200 (CEST)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdDe-0001YJ-DZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58140)
+	id 1jqdGN-0003so-Th
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqdCp-000107-8n
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:55:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34835
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqdCm-0005NR-V8
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:55:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593611716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f+cELoPVfNkoNY2uAWaw9tV+p7EI3b3Ln3Uock2F5dw=;
- b=DTCTFD6KzxHodIrLBLe+0SCNXpXS3BEIij8lmkBS4BknPa6zmUbvi2dwxJ1Bp2+pkfesUw
- M8RPUBI1MwkgNmOmMeZSUsPJw6CcqxguNlW+FsLJuzLFOcfJ2vH/BLbN+LgRTO3kKV5hCL
- c8TOpMW33dfoRANjYgfcUq4m32re8ik=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-qARYgREDPF-4_e6i9eO-Xg-1; Wed, 01 Jul 2020 09:55:12 -0400
-X-MC-Unique: qARYgREDPF-4_e6i9eO-Xg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EB47107ACF9;
- Wed,  1 Jul 2020 13:55:10 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-108.ams2.redhat.com
- [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5B675BAC8;
- Wed,  1 Jul 2020 13:55:08 +0000 (UTC)
-Subject: Re: [PATCH v9 16/34] qcow2: Add qcow2_cluster_is_allocated()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1593342067.git.berto@igalia.com>
- <f5c08e1d6637acd9c744c3b82a284ca6172f2196.1593342067.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <94f1d007-b0e1-41ce-c7ab-89619a971db2@redhat.com>
-Date: Wed, 1 Jul 2020 15:55:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqdEQ-00027W-TY
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:56:58 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jqdEO-0005nv-HQ
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:56:58 -0400
+Received: by mail-wm1-x344.google.com with SMTP id l2so21873072wmf.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vB/KPgb5Uja+xNxDseE5L9RGmWnM9PawUYrgpjYGHU4=;
+ b=LgaZbsP/Km2kB5luPgDEIBVg/P+sxrYCxJq84YIKvDYMXVQa9eraHJvoBLa556MP6f
+ xWrA2rNdHNUqBD7IfDOmbLNsz1jzFNVID2be1+L0s3j+wGPxjuMXxDrNo+fyReqVXB74
+ oRPCEej1tUlt4UgLsU52JyR5Xpy7sbdHWSaJ/Jlw2TVWzvuFAxHB7VbUg85PmsRGp25l
+ YnXvvpHUvHkbufcqPzcSEMFvi4SJxKdYJLYgegI0zjkMoUMVKVaDx9+2nuss92SDlmQH
+ qsW/16RWGK+j4FRuMwAa8p/Me+rdd76jOGmwvGCM+MAkgtr/axvG1JepjQVHrbLkpk5b
+ Kp4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vB/KPgb5Uja+xNxDseE5L9RGmWnM9PawUYrgpjYGHU4=;
+ b=kvCjlfJFYVltmPijTS8wJTDbCTN3SQtatj16sVEqTBX9mkEVmGo6dHBTdfJrA9z4Ol
+ qGc5Omq5muy12VhnlmCu56ZbdtPg45XGbjnOJw+/6TthmyqnX72ecEDSri6cgmK6qJN2
+ CBWJPKPGs1Tg/WcP11jZwQKbzBULjElri8inVRdCfzxlWoOvstefoIkZHGfvwghePt/Y
+ Oe9IvSCX46+QjggVmfbVVX1rGXN/GFNDmJFka639nr759SSD887AAz2JTQsjiHEvqJEl
+ R04swwfmT/9L6zNmPRN70mK6ZWTfTy++0dcNIojYkYoMyIptLZoIYl6dPEuUhIl5FUVK
+ 07RA==
+X-Gm-Message-State: AOAM533B5cXjjnur97X3vJbyVrb7GzALQrHDFeYRBEavGRRIwI43NQZY
+ YKPlVaFhuif6+rZlc8QKMymqyDSMmWc=
+X-Google-Smtp-Source: ABdhPJwzPKZqJRsb0XbplVtL9rFeuDi5bdIHAoS8LVp3AHLCZizBvsvcx1vJ2ATQWpCJ1rnPJ6a1uA==
+X-Received: by 2002:a1c:ed17:: with SMTP id l23mr26673036wmh.175.1593611814810; 
+ Wed, 01 Jul 2020 06:56:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u23sm7938956wru.94.2020.07.01.06.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 06:56:53 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D3B401FF7E;
+ Wed,  1 Jul 2020 14:56:52 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v4 00/40] testing/next (vm, gitlab, fixes)
+Date: Wed,  1 Jul 2020 14:56:12 +0100
+Message-Id: <20200701135652.1366-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <f5c08e1d6637acd9c744c3b82a284ca6172f2196.1593342067.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="g1txdfb2KOdzYyq1YqLx3IQS7D0vKbNuH"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,52 +86,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---g1txdfb2KOdzYyq1YqLx3IQS7D0vKbNuH
-Content-Type: multipart/mixed; boundary="qWyZDWuJIwUd6BeCeVeYAvlnbbGpPCGCb"
+Hi,
 
---qWyZDWuJIwUd6BeCeVeYAvlnbbGpPCGCb
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This is the next iteration of my testing/next queue. It has grown by a
+further 9 patches. The last iteration was:
 
-On 28.06.20 13:02, Alberto Garcia wrote:
-> This helper function tells us if a cluster is allocated (that is,
-> there is an associated host offset for it).
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/qcow2.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+  https://patchew.org/QEMU/20200626181357.26211-1-alex.bennee@linaro.org/
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+I've ironed out the final problems with GitLab failures through a
+combination of fixes for linux-user and applying skipIf for
+problematic acceptance tests. The MIPS malta failures can be
+reproduced locally but at nowhere near the rate of the CI system which
+seems to fail every time. The other failure:
 
+  linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16
 
---qWyZDWuJIwUd6BeCeVeYAvlnbbGpPCGCb--
+is a bit of a mystery. It works fine in the same container when run
+locally. Obviously with all this churn I didn't get to cut the PR I
+was planning so it will be cut from this version.
 
---g1txdfb2KOdzYyq1YqLx3IQS7D0vKbNuH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+The following need review:
 
------BEGIN PGP SIGNATURE-----
+  - shippable: pull images from registry instead of building
+  - testing: add check-build target
+  - containers.yml: build with docker.py tooling
+  - linux-user/elfload: use MAP_FIXED_NOREPLACE in pgb_reserved_va
+  - tests/tcg: add more default compilers to configure.sh
+  - tests/acceptance: skip LinuxInitrd 2gib with v4.16 on GitLab
+  - tests/acceptance: skip multicore mips_malta tests on GitLab
+  - tests/acceptance: fix dtb path for machine_rx_gdbsim
+  - tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
+  - tests/docker: add --registry support to tooling
+  - gitlab: build containers with buildkit and metadata
+  - hw/isa: check for current_cpu before generating IRQ
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl78lbsACgkQ9AfbAGHV
-z0DJoggAqSD6EBoTCPLmQH9C7pqMo2pAyMj4g1qSMIGHLL47pI1v9ClnOSWWI75p
-326DCi3030Iai1+JMhJMXPymrug5iVQMW+Cm1gTbW+k/ggSjE7svrLk/urWHEWtB
-iOsvzxCQdJLIeo4FMq7iVRjzg1AD8ZZ0kYPXKNGuAStQ110V4ke+KhAApRRiauQc
-W86pfz+jdGuxhOydIyXlOBVvIQJgf/pHrt2wwurNkl9XBdSRnwWa9mbPK1dmffSn
-WL/NdCzhJSmCrT762fOlgcozwOIroCKP01qs7bHe67H9ad8TT1sGlLcz6faGp000
-9f9cbzlsFXzGQ6kgyIoW+eGUvdjTTg==
-=E7Za
------END PGP SIGNATURE-----
+Alex Bennée (24):
+  hw/isa: check for current_cpu before generating IRQ
+  tests/vm: switch from optsparse to argparse
+  tests/vm: allow us to take advantage of MTTCG
+  tests/docker: check for an parameters not empty string
+  tests/docker: change tag naming scheme of our images
+  .gitignore: un-ignore .gitlab-ci.d
+  gitlab: build containers with buildkit and metadata
+  tests/docker: add --registry support to tooling
+  tests/docker: add packages needed for check-acceptance
+  tests/acceptance: skip s390x_ccw_vrtio_tcg on GitLab
+  tests/acceptance: fix dtb path for machine_rx_gdbsim
+  tests/acceptance: skip multicore mips_malta tests on GitLab
+  tests/acceptance: skip LinuxInitrd 2gib with v4.16 on GitLab
+  gitlab: add acceptance testing to system builds
+  tests/tcg: add more default compilers to configure.sh
+  tests/docker: add a linux-user testing focused image
+  linux-user/elfload: use MAP_FIXED_NOREPLACE in pgb_reserved_va
+  gitlab: enable check-tcg for linux-user tests
+  gitlab: add avocado asset caching
+  gitlab: split build-disabled into two phases
+  gitlab: limit re-builds of the containers
+  containers.yml: build with docker.py tooling
+  testing: add check-build target
+  shippable: pull images from registry instead of building
 
---g1txdfb2KOdzYyq1YqLx3IQS7D0vKbNuH--
+Daniel P. Berrangé (3):
+  gitlab: introduce explicit "container" and "build" stages
+  gitlab: build all container images during CI
+  gitlab: convert jobs to use custom built containers
+
+David Edmondson (1):
+  crypto/linux_keyring: fix 'secret_keyring' configure test
+
+Philippe Mathieu-Daudé (1):
+  iotests: Fix 051 output after qdev_init_nofail() removal
+
+Robert Foley (10):
+  util/coroutine: Cleanup start_switch_fiber_ for TSAN.
+  tests/vm: pass args through to BaseVM's __init__
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: Add common Ubuntu python module
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
+  tests/vm: change scripts to use self._config
+  python/qemu: Add ConsoleSocket for optional use in QEMUMachine
+  tests/vm: Add workaround to consume console
+
+Thomas Huth (1):
+  gitlab-ci: Fix the change rules after moving the YML files
+
+ configure                                     |  31 +-
+ hw/isa/lpc_ich9.c                             |   2 +-
+ linux-user/elfload.c                          |  10 +-
+ util/coroutine-ucontext.c                     |  52 ++-
+ .gitignore                                    |   1 +
+ .gitlab-ci.d/containers.yml                   | 263 +++++++++++++
+ .gitlab-ci.d/edk2.yml                         |   5 +-
+ .gitlab-ci.d/opensbi.yml                      |   5 +-
+ .gitlab-ci.yml                                | 281 ++++++++------
+ .shippable.yml                                |   8 +-
+ .travis.yml                                   |  23 --
+ python/qemu/console_socket.py                 | 110 ++++++
+ python/qemu/machine.py                        |  23 +-
+ tests/Makefile.include                        |  19 +-
+ tests/acceptance/boot_linux.py                |   2 +
+ tests/acceptance/linux_initrd.py              |   3 +
+ tests/acceptance/machine_mips_malta.py        |   3 +
+ tests/acceptance/machine_rx_gdbsim.py         |   2 +-
+ tests/docker/Makefile.include                 |  17 +-
+ tests/docker/common.rc                        |   2 +-
+ tests/docker/docker.py                        |  46 ++-
+ .../dockerfiles/debian-all-test-cross.docker  |  53 +++
+ .../dockerfiles/debian-alpha-cross.docker     |   2 +-
+ .../dockerfiles/debian-amd64-cross.docker     |   2 +-
+ tests/docker/dockerfiles/debian-amd64.docker  |   2 +-
+ .../dockerfiles/debian-arm64-cross.docker     |   2 +-
+ .../debian-arm64-test-cross.docker            |   2 +-
+ .../dockerfiles/debian-armel-cross.docker     |   2 +-
+ .../dockerfiles/debian-armhf-cross.docker     |   2 +-
+ .../dockerfiles/debian-hppa-cross.docker      |   2 +-
+ .../dockerfiles/debian-m68k-cross.docker      |   2 +-
+ .../dockerfiles/debian-mips-cross.docker      |   2 +-
+ .../dockerfiles/debian-mips64-cross.docker    |   2 +-
+ .../dockerfiles/debian-mips64el-cross.docker  |   2 +-
+ .../dockerfiles/debian-mipsel-cross.docker    |   2 +-
+ .../dockerfiles/debian-powerpc-cross.docker   |   2 +-
+ .../dockerfiles/debian-ppc64-cross.docker     |   2 +-
+ .../dockerfiles/debian-ppc64el-cross.docker   |   2 +-
+ .../dockerfiles/debian-riscv64-cross.docker   |   2 +-
+ .../dockerfiles/debian-s390x-cross.docker     |   2 +-
+ .../dockerfiles/debian-sh4-cross.docker       |   2 +-
+ .../dockerfiles/debian-sparc64-cross.docker   |   2 +-
+ .../dockerfiles/debian-tricore-cross.docker   |   2 +-
+ .../dockerfiles/debian-win32-cross.docker     |   2 +-
+ .../dockerfiles/debian-win64-cross.docker     |   2 +-
+ tests/docker/dockerfiles/debian9-mxe.docker   |   2 +-
+ tests/docker/dockerfiles/fedora.docker        |   7 +
+ tests/docker/dockerfiles/ubuntu2004.docker    |  10 +-
+ tests/qemu-iotests/051.pc.out                 |   4 +-
+ tests/tcg/Makefile.qemu                       |   4 +-
+ tests/tcg/configure.sh                        |  19 +-
+ tests/vm/Makefile.include                     |  22 ++
+ tests/vm/aarch64vm.py                         | 106 ++++++
+ tests/vm/basevm.py                            | 344 +++++++++++++-----
+ tests/vm/centos-8-aarch64.ks                  |  51 +++
+ tests/vm/centos.aarch64                       | 227 ++++++++++++
+ tests/vm/conf_example_aarch64.yml             |  51 +++
+ tests/vm/conf_example_x86.yml                 |  50 +++
+ tests/vm/fedora                               |  17 +-
+ tests/vm/freebsd                              |  16 +-
+ tests/vm/netbsd                               |  19 +-
+ tests/vm/openbsd                              |  17 +-
+ tests/vm/ubuntu.aarch64                       |  68 ++++
+ tests/vm/ubuntu.i386                          |  46 +--
+ tests/vm/ubuntuvm.py                          |  60 +++
+ 65 files changed, 1771 insertions(+), 376 deletions(-)
+ create mode 100644 .gitlab-ci.d/containers.yml
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+ create mode 100644 tests/vm/ubuntuvm.py
+
+-- 
+2.20.1
 
 
