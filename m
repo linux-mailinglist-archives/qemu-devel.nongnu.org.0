@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ADC210974
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:33:45 +0200 (CEST)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40265210973
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:33:32 +0200 (CEST)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqa3k-0006Nn-7R
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39692)
+	id 1jqa3W-0006Et-QX
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqa2L-0005W2-DI
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57026
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jqa2G-0007Nw-Py
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593599530;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ckz/4MqaYBfHbh7VUUPjZPuWccPfEW7i5XC6f8rK+lU=;
- b=ZAuEfuhIXXM5PCg178ctb4QJSUrTZuep0sGro4e/fFg0nb4NiWuw3/p4Jyk6hzjSRFmi+O
- 3jyEi0/nvuQt6x2AsPl08RX8rYbgI397jsQa51A2cdsZK0xzJCbvUe01qgR+fAdlV3Zf9f
- L8v5aLrg9jlyl6+Bla50v+La3CMBokA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-2n1FlNaDOHagankTnNgBIQ-1; Wed, 01 Jul 2020 06:32:00 -0400
-X-MC-Unique: 2n1FlNaDOHagankTnNgBIQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 888B0188360B
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 10:31:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8489671662;
- Wed,  1 Jul 2020 10:31:58 +0000 (UTC)
-Date: Wed, 1 Jul 2020 11:31:55 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v10 0/5] fw_cfg: Add FW_CFG_DATA_GENERATOR; crypto: Add
- tls-cipher-suites
-Message-ID: <20200701103155.GE1427561@redhat.com>
-References: <20200623172726.21040-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqa2D-0005Tl-1Q
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:09 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqa2A-0007Nf-Nc
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 06:32:08 -0400
+Received: by mail-ed1-x543.google.com with SMTP id d16so12504860edz.12
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 03:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KyhPov47WKPLBsVHD+fob7WgLaC6KVjEyZ9mGoZmCUk=;
+ b=ESORqC4w1x/M1uz88oYyXPuX/dLgJVcXO3m7up4MblgZwyIAQhGUH8HUMyiHa453dk
+ ISGZglSoM/5i3v0wsFKsQF7XpBZsQeomU/RI6bvWuMrGSG6bWX6HxOp0BI/vcXWlGKCq
+ lOcTRXLYPmBRINbsW6Czuu0doVR+4E4ulINBJui+lsRs2iciojZnz2xl95a7j1DPCgwV
+ es+pHCkBRI1PDsMDy80cg2Vp9/jDcyU0IQ0/sdPkIHn0L8pdhyRYjWRwY4dxiNP8lSPg
+ ifkYUV3zdR15q9OkUst6GTknuRx7WMj1juqxFbvKgFAU6CYM2wtWbM3XMmexX2g5pphu
+ VMNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KyhPov47WKPLBsVHD+fob7WgLaC6KVjEyZ9mGoZmCUk=;
+ b=j/qt/A4n428xsZq9WrFG9+i+XnOeX56jSAvgkKV/Iuz/sSKb4OxNBxLUA1xqOQ/35P
+ mBg0pktsvapeZOegvzHgWlb1u1lvMgWG3BBKC3tMIx+WgYONYFZDiLyEQtQjvXvpkwHu
+ LFMRLYarqoAMn5xOMqxj+taksdja+PNTHC+VxA/pXvLkWJ5twxmDS0KKbki8kkM2BF3x
+ zoFL6qqsxITaZsov0RgP9PXu/cKsfhRZsa3datjTzTTuaoxtWkft6yfM2ci3hdx1LwhM
+ BW8xUfAS7/MBPpDFYNwAPnOPNdk8r3OJSPDPcWWmFRFrkyqqlS8MG5MUb21WZhLOGu5e
+ qDqg==
+X-Gm-Message-State: AOAM533M7+GsUp+ZB9F1QaWh8n/lFSzEHqLwxP8TMwWkETTU6u/O3C2l
+ DYJLIz4QorqjJviWyBIGU5kbvhMffr4=
+X-Google-Smtp-Source: ABdhPJzlZkPHBeNQu8zjuwHZaoi49JnoQhzlaWNKh1vuZEeDbDMfsUV3Qdw+Ih2R3KtZN+uSGFYPfw==
+X-Received: by 2002:a50:aacc:: with SMTP id r12mr28055591edc.219.1593599523750; 
+ Wed, 01 Jul 2020 03:32:03 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id y7sm4213209ejd.73.2020.07.01.03.32.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 03:32:02 -0700 (PDT)
+Subject: Re: [PULL 6/6] MAINTAINERS: Add 'Performance Tools and Tests'
+ subsection
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1593287503-25197-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+ <1593287503-25197-7-git-send-email-aleksandar.qemu.devel@gmail.com>
+ <97eb7447-0453-2e2c-4003-a4de338ee11f@amsat.org>
+ <CAHiYmc5XoQyCqVxNnWJ70HQPsD=RzTEFZ_aNn4KR+u2nDENZkA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b24fbc43-9979-5db2-ff17-64fb3afd572b@amsat.org>
+Date: Wed, 1 Jul 2020 12:32:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200623172726.21040-1-philmd@redhat.com>
-User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAHiYmc5XoQyCqVxNnWJ70HQPsD=RzTEFZ_aNn4KR+u2nDENZkA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,45 +93,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 23, 2020 at 07:27:21PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi,
+On 6/29/20 12:28 PM, Aleksandar Markovic wrote:
+> понедељак, 29. јун 2020., Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> је написао/ла:
 > 
-> This series has 3 parts:
+>     On 6/27/20 9:51 PM, Aleksandar Markovic wrote:
+>     > This commit creates a new 'Miscellaneous' section which hosts a new
+>     > 'Performance Tools and Tests' subsection. This subsection will contain
+>     > the the performance scripts and benchmarks written as a part of the
+>     > 'TCG Continuous Benchmarking' project. Also, it will be a placeholder
+>     > for follow-ups to this project, if any.
+>     >
+>     > Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com
+>     <mailto:ahmedkhaledkaraman@gmail.com>>
+>     > Reviewed-by: Alex Bennée <alex.bennee@linaro.org
+>     <mailto:alex.bennee@linaro.org>>
+>     > Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com
+>     <mailto:aleksandar.qemu.devel@gmail.com>>
+>     > Signed-off-by: Aleksandar Markovic
+>     <aleksandar.qemu.devel@gmail.com
+>     <mailto:aleksandar.qemu.devel@gmail.com>>
+>     > Message-Id: <20200626164546.22102-4-ahmedkhaledkaraman@gmail.com
+>     <mailto:20200626164546.22102-4-ahmedkhaledkaraman@gmail.com>>
+>     > ---
+>     >  MAINTAINERS | 10 ++++++++--
+>     >  1 file changed, 8 insertions(+), 2 deletions(-)
+>     >
+>     > diff --git a/MAINTAINERS b/MAINTAINERS
+>     > index fe925ea..dec252f 100644
+>     > --- a/MAINTAINERS
+>     > +++ b/MAINTAINERS
+>     > @@ -1096,11 +1096,10 @@ F: hw/isa/vt82c686.c
+>     >  F: hw/pci-host/bonito.c
+>     >  F: include/hw/isa/vt82c686.h
+>     > 
+>     > -Loongson-3 Virtual Platform
+>     > +Loongson-3 virtual platforms
+>     >  M: Huacai Chen <chenhc@lemote.com <mailto:chenhc@lemote.com>>
+>     >  R: Jiaxun Yang <jiaxun.yang@flygoat.com
+>     <mailto:jiaxun.yang@flygoat.com>>
+>     >  S: Maintained
+>     > -F: hw/mips/loongson3_virt.c
 > 
-> - First we add the tls-cipher-suites object
+>     Ah, now I see, here you unlist the uncommited file.
 > 
-> - We add the ability to QOM objects to produce data
->   consumable by the fw_cfg device,
 > 
-> - Then we let the tls-cipher-suites object implement
->   the FW_CFG_DATA_GENERATOR interface.
+> This file/machine, for multiple reasons, will not be accepted in 5.1.
+
+Ah, so that confirms we have to revert commit c012e0b1f9 ("hw/intc: Add
+Loongson LIOINTC support"). Can you send a patch please?
+
+> The end user will not be able to see, let alone use the machine in
+> question in 5.1. This is on purpose.
 > 
-> This is required by EDK2 'HTTPS Boot' feature [*] to tell
-> the guest which TLS ciphers it can use.
+> This will give enough development time to Huacai to implement missing
+> bits and pieces, and to possibly improve the whole idea during 5.2
+> development cycle.
 
-On my crypto side, the series is ready to merge.
+Sounds reasonable.
 
-The code is split 50/50 between crypto subsystem and firmware
-subsystem, so the question is who wants to merge it ?
+> 
+> Even though the support that Huacai introduced in 5.1 is, for many
+> reasons, not completed, and even though Huacai and I had at times
+> opposing views and fierce discussions and disagreements - I salute and
+> support his work, and consider it, by far, the best and the most
+> important contribution to QEMU for MIPS in years.
+> 
+>  
+> 
+>     It might be easier to manage sending 2 different pull requests,
+>     on for MIPS and one for the performance tools.
+> 
+>     >  F: hw/intc/loongson_liointc.c
+>     > 
+>     >  Boston
+>     > @@ -3026,3 +3025,10 @@ M: Peter Maydell <peter.maydell@linaro.org
+>     <mailto:peter.maydell@linaro.org>>
+>     >  S: Maintained
+>     >  F: docs/conf.py
+>     >  F: docs/*/conf.py
+>     > +
+>     > +Miscellaneous
+>     > +-------------
+>     > +Performance Tools and Tests
+>     > +M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com
+>     <mailto:ahmedkhaledkaraman@gmail.com>>
+> 
+>     Aleksandar, don't you want to be listed here with Ahmed?
+> 
+> 
+> Of course not. The project is student's. The mentor just helps and leads
+> the student. The fruits of the project belong to the community and to
+> the student - and not to the mentor.
+> 
+> If you were the mentor, my impression is that you would leave your name
+> in MAINTAINERS whenever you see the slightest opportunity (I remember an
+> occasion where you were saying "I worked six hours on this" and then
+> proposing yourself as the maitainer for a particular segment (??)).
 
-If Laszlo wants to merge it, then consider the whole series
-to have   Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+'??' means you are not sure? Please link reference to discussions.
+I volunteered to help maintaining areas when nobody were doing anything,
+if that forces others to step in because they are more qualified, I'm
+glad I did it. See for example the Renesas ports have qualified
+maintainers!
 
-If Laszlo wants me to merge it, then I'll just wait for him
-to give his Ack.
+> I
+> don't have such approach, and I oppose your approach, and I appeal to
+> you to control your apetite for maintainership.
 
-Soft-freeze is fast approaching in less than a week...
+I am not looking for more maintenance, I'm looking to cover abandonned
+areas I use. I have been taught by the do-ocracy principle. I'v not been
+dropped in as replacement for someone else position, only trying to keep
+things unmodified, scared a minimal change would break.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> 
+> Regards,
+> Aleksandar
+> 
+>  
+> 
+>     > +S: Maintained
+>     > +F: scripts/performance/
+>     >
+> 
 
