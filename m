@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899BE2109C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:55:01 +0200 (CEST)
-Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBCE2109C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 12:55:44 +0200 (CEST)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqaOK-0003Uv-I4
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:55:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
+	id 1jqaP0-0004dA-Ur
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 06:55:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jqaN6-0001x5-Vi; Wed, 01 Jul 2020 06:53:44 -0400
-Received: from mail-eopbgr10133.outbound.protection.outlook.com
- ([40.107.1.133]:2638 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ id 1jqaN8-00020c-Ud; Wed, 01 Jul 2020 06:53:46 -0400
+Received: from mail-eopbgr10106.outbound.protection.outlook.com
+ ([40.107.1.106]:9187 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jqaN3-0002JK-Pr; Wed, 01 Jul 2020 06:53:43 -0400
+ id 1jqaN7-0002Jl-B9; Wed, 01 Jul 2020 06:53:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=njJvstTH23u+nd8WEFK3BwCjwkuu2/6zv1jiVOKNTZ+UIJRP38Mk5QfVioPkwKL9dsMzlxhbZdcvnd+xJnFP4pdt7A9nu5Oxi0L04ScANhwxnHw1aUDfzLYkHdIqBbywzzNJsbB6c8MkpZIQ1NVDCwMR8M1MINEMb2Q1pYj+EUvADEtqApMmYcrOa2u0jdipwRagpxWg9SAhbmIxT6ebl6sHpdra2mJ0GoMI7VoWW9MTStJ6prO3BvlCqm1c1Sp+0uiCCU5/ZE+e9T7L9GM6VIr40DUXVeVfckt4LxpkWHZSu5u/pM6Ga8sUBjZhv6at3RsjmS/pXSzgW2ONit5PgA==
+ b=a8Bql5/4iQ6r+LWOA4iO0w+ro6MjVAt/kEUhoK/KmL9oONbZ12z3TiBsy2/VoQQr9lQGguDOo2EtUXqWjxZqTXcdXxDUO8OWzLgFhkldkrNjhdq7omQGNk7tTZLGumO2/TsTffl3WrZZNeMrD/3YMfW2CPgBArVIKWJ1FW90EqzQGC30RGAExtEG4Oe4bdwBtXiHZpM9RR2pLRAklqEvCwh57hWcHS5C5B5sIZ/EzFjLjUghKUOSh10RhwmCzn2scDpMICedMEI1dIdSBkMqNiJ6xpquADL3z7tBQGNWMPn1ZCoO6NB/On74uvWphV6rD4uhybkRNkXdXJSuTwij3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lmx+C4JP5BH+Fjs6iw+DM/L1aZkkWlPCMvT87d14boE=;
- b=kHFHO9+hM5yhDQsbs6IIjzP2JBWmVKaU8dUxDwAPXz+PqwqQ62O6Qj4LPEWXKa9MkbNfFpTGrx0sKavnQ2ko0tTqBLPclPRIeK0Frr5dp9iQjxD5qXLZAkYLwPlfVk74gsxxYNDFLXkvbt4PDvNqE25kpYNQkt6JLhWny1B4Wd/5YncXkLkYePGgz9DWknY+Yh6hpcDsRxDo65z2vwQdxlvWWdvExNKwOxX4gpcx3exnZwwXWVHkC2khdn9WAjq/1DhrLWV3aH971C9Zsma65cm5vobzbdphX0KI8K0kbU2QINVOGJW0snGsVfEJYYZJvX1zZY735juwBfau47AJ2g==
+ bh=n6G1dRBHL0pLEdzQ/5RUVCtUO777notCFjPwcfqsYyo=;
+ b=IxTG3qTkeNbC4rT9Fw9hbxEUIX4sV4xUz2ZddPHfDvHMG/KtgabxRvFo6L0usIWrbXwVqezxK6FwKgKKmbvpozkKjPPP1dU1diShLM1bB6y2oTZw5H3BexvvXlC6zRUiFfJwpU+dli6k2ASpmlnupYjxJ0A0dxOobULkgkBKv3ZPwfuETldDwqgEwWdTNtPvI3AfFmG05mxPLuaXSFoQb/fw7aC12IrdGGz0KgCOmBtc7QGhm/MBOeG85+1ypSNAfMQB20sSXwT2vucTJxCYDEpQ2ZURIMTVZIclLqRzktIr4+uLK8yzRs0pxJN6F/FyIurKAUvlJ4uwFd+wyMm8pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lmx+C4JP5BH+Fjs6iw+DM/L1aZkkWlPCMvT87d14boE=;
- b=gxqZjies90KFONL+PzvjWQw16BejKcQ+x6i1mhd63LQon6IBPwu1D1pMFId44iR97T2LsqpPVhhRiikmHmvrOn2mRkC4zjufiqEI63voqY1sjfr3y8ZOaV3GXWPDXLrzvkiC+lCRyjUElybXpXwnX2e7gssc4j3m7A3LXpxTv8M=
+ bh=n6G1dRBHL0pLEdzQ/5RUVCtUO777notCFjPwcfqsYyo=;
+ b=AdYyR47F2jdozjTXjiumxiYE1kQfzO7xEsI5+OPWxgfrtTPa/+wZFOG3ZiVWUGzFzK2/pYtBL2goEPfGZekdsfksj7Sd+DBckhq+5SBffG9APzgkTmmGGeyAuTw+DKhoXO3sHy5qwBYvI3sBu/nmW+yxBo7WKld2Jx6rx9rozdY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4850.eurprd08.prod.outlook.com (2603:10a6:20b:d2::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Wed, 1 Jul
- 2020 10:53:38 +0000
+ 2020 10:53:39 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Wed, 1 Jul 2020
- 10:53:38 +0000
+ 10:53:39 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/5] Fix crash due to NBD export leak
-Date: Wed,  1 Jul 2020 13:53:26 +0300
-Message-Id: <20200701105331.121670-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 1/5] iotests: QemuIoInteractive: use qemu_io_args_no_fmt
+Date: Wed,  1 Jul 2020 13:53:27 +0300
+Message-Id: <20200701105331.121670-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200701105331.121670-1-vsementsov@virtuozzo.com>
+References: <20200701105331.121670-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain
 X-ClientProxiedBy: AM0P190CA0004.EURP190.PROD.OUTLOOK.COM
  (2603:10a6:208:190::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
@@ -59,39 +61,39 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.28) by
  AM0P190CA0004.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.20 via Frontend Transport; Wed, 1 Jul 2020 10:53:37 +0000
+ 15.20.3153.20 via Frontend Transport; Wed, 1 Jul 2020 10:53:38 +0000
 X-Mailer: git-send-email 2.18.0
 X-Originating-IP: [185.215.60.28]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae362955-112c-4835-5055-08d81dad0263
+X-MS-Office365-Filtering-Correlation-Id: 0d4e6549-91fb-48f3-a20f-08d81dad02db
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4850:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4850EE72029524C0FB4234EAC16C0@AM6PR08MB4850.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:312;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4850291C4EFE8CF598D20966C16C0@AM6PR08MB4850.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:530;
 X-Forefront-PRVS: 04519BA941
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qNsSBJYrLk0yU6+qo+AebIdg9VmkbO62chFVaLEUkBBApIryGdqTxtytD/5fF0v8YJBjEPvfQHmnHUyIWBEuLXgWwonSdCVT1Yh8rjds7+cMkq4MfSvlvQNrWgwxdJPO3NVmYUOZaPq3F1YTNNJuoEG594VYh3Wuz2oEYOzPX7zqz+wUK3b5EO0bfZQhH/jxN+xvke0ETsBvz8XAB+9zmD/izeZlJkIawhaA/eN+2PiK6AoM5AqqnzEghm4MIgWoXLzcrWBaCHib0vUODROGVh/Flh3c7K4ZKRxNNzXRT+K1nUvBoJPg2qVMgshJKhU7sJjC50F34OUVBSPEabNclw==
+X-Microsoft-Antispam-Message-Info: KPz+yvYR7HBBt+GpgHxau4RovWGBoKuU0c35+gGzls4KIkME2pjPZWBB34djGHyghwvBExzOLVeccTLYCN7IIYEMK2biQg1tqnWLenntEbvD/gK4etXkyU9DJbcGmSHy3AuQmEVbeIgXJoUFPTyEz0kOlMFr6fHHQQUxQ5zuKcsldISPd1a7OT5CDZLNRUALxi1GAcFZtUF3KUMzPm5hjy7CH+B8AjYcyIDOuRzK6aG37PWotEGFkByINaYeWBKZL8QiP5zYP2MDzQrSNCjbVPl2H9pfxsRFSE6r7GtvI024k6t7Ck9Y5o069+AoIl7Vy3XLk1hk+JhAdHuLiYLv8w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(366004)(39840400004)(376002)(346002)(396003)(2906002)(83380400001)(956004)(316002)(2616005)(6512007)(6916009)(107886003)(6666004)(66946007)(66556008)(4326008)(5660300002)(66476007)(86362001)(4744005)(1076003)(478600001)(186003)(6506007)(36756003)(52116002)(8936002)(26005)(16526019)(6486002)(8676002);
+ SFS:(6029001)(4636009)(136003)(366004)(39840400004)(376002)(346002)(396003)(2906002)(83380400001)(956004)(316002)(2616005)(6512007)(6916009)(107886003)(6666004)(66946007)(66556008)(4326008)(5660300002)(66476007)(86362001)(4744005)(1076003)(478600001)(186003)(6506007)(36756003)(52116002)(8936002)(26005)(16526019)(6486002)(8676002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: vyAhQnsztysRHuBEdj78WrOHfpQuToXNyHINMPtNVWdHg/YGoYG0l63nR2uh4bhdlKiYtBpbxG3dRujbKU71gt92mWH66aS64kztRVqz8/xglBUgTdKAN0py1Aw4eadb9kH2VGyvx6lWBX8TIH/ga9LVt6yCEnPrgsYVgwxldI7y2F1cPE4qIWHdV6PJHSWqf/9IV+Qsmapc0m5W9eY0ZEcntA2jqILznP1fjoOjDo3LKwNGA0498xSRQ4W7CyQ9Ef+3iMMqQbK7YMArXa1j1ajc+ywloBIcYiSMjHG2nm7kCI3RWKRKS+txv/CFj7mx3ZsZTLkPQ9EM8CAzv+NZslQQPxpHir2Sz/UlFBnoUfKTLsUGW3g2jHsG7WSGU8+UiPnLuAcJIxi+bizQAXM0CoB7T/0ZtGv0CJEfQwdfDL5QSJu34yOEBjqTVT82DlW5a6EjXSRTwlya3CswS0boEzVGkcH8uPlCOm5samSE0e4=
+X-MS-Exchange-AntiSpam-MessageData: hprFzC+PiB3y93Kbx66HoTjI34VF8rSDWXV91NJZu5Ijl2Wq81e0R2o6P8u7bAxVUOJ5tgF7CCF7fA7CeKE+c+1OPwLskSvzU/H/sFEjFmlevOzt5GXELl1rSKZy2fkO0lEa/UxFgGCjv4/QMFmUXO8uncOH13y+HC3IDCRgn4zRUvPK3OJFi6oR09Lzgh7Uh8mx8hotqpjok+7Tped0GD9TwuuAGsxLttQltfm01s2kduAP8RWz99k6saq16aANcrzb/XzBt/2piqp9bOrglLAJ+LFqKP3plqBLz+6WtrXWW4wQc1T/TvqMhESpsJ4yF6Rm8CZhbxR3rjeD/GnxpOjCpTFuiDSlYOrLYTgjvg05LJG8zIQSt1FqggG1YPcsMOcM+ddTCL0aXXorNtvgfRdfGPDYMv2/b1CCMxyXqJ/cf9+y/qchE8xNaZS3btfx40i2x1vZIGbouk26V9EYXol4Wy/3q+AZMzKxdTSLMyI=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae362955-112c-4835-5055-08d81dad0263
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d4e6549-91fb-48f3-a20f-08d81dad02db
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 10:53:38.1009 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2020 10:53:38.9292 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mDHJJY4BqYuXWcbn/lf2Mie924pGNBBNDhDt8qNkRpveUwXATGfSd+MM3bIMHGwFbwwRDuj8gkVKoY1b4GVWBBDjXNGDtKzdzMuCQ1QBGUk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NWfjh0QoAlFcruazSNwntKxM7IJJFbZ4fAGRIB9C6YCp/3h/YaJPD3YaBszkZygo8nSz+2lUkTORsmwH+KDWnLwnzI/CcjNpRLvxeXH+95o=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4850
-Received-SPF: pass client-ip=40.107.1.133;
+Received-SPF: pass client-ip=40.107.1.106;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 06:53:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 06:53:43
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -118,35 +120,30 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+The only user (iotest 205) of QemuIoInteractive provides -f argument,
+so it's a bit inefficient to use qemu_io_args, which contains -f too.
+And we are going to add one more test, which wants to specify -f by
+hand. Let's use qemu_io_args_no_fmt.
 
-We've faced crash bug, which is reproducing on master branch as well.
-The case is described in 03, where fix is suggested.
-New iotest in 05 crashes without that fix.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ tests/qemu-iotests/iotests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2:
-01: reword commit msg, add Eric's r-b
-02: fix type in commit msg, add Eric's r-b
-03: rewrite
-v1:04 split into 04 (iotests.py improvement) and 05(new test)
-
-
-Vladimir Sementsov-Ogievskiy (5):
-  iotests: QemuIoInteractive: use qemu_io_args_no_fmt
-  iotests.py: QemuIoInteractive: print output on failure
-  nbd: make nbd_export_close_all() synchronous
-  iotests.py: filter_testfiles(): filter SOCK_DIR too
-  iotests: test shutdown when bitmap is exported through NBD
-
- nbd/server.c                  |  8 +++++
- tests/qemu-iotests/299        | 65 +++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/299.out    | 10 ++++++
- tests/qemu-iotests/group      |  1 +
- tests/qemu-iotests/iotests.py | 15 +++++---
- 5 files changed, 95 insertions(+), 4 deletions(-)
- create mode 100644 tests/qemu-iotests/299
- create mode 100644 tests/qemu-iotests/299.out
-
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5ea4c4df8b..efe9958f5e 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -211,7 +211,7 @@ def get_virtio_scsi_device():
+ 
+ class QemuIoInteractive:
+     def __init__(self, *args):
+-        self.args = qemu_io_args + list(args)
++        self.args = qemu_io_args_no_fmt + list(args)
+         self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT,
 -- 
 2.18.0
 
