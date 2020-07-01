@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C5F210DB6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:28:58 +0200 (CEST)
-Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65199210DB9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:30:05 +0200 (CEST)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdjN-0004O8-7B
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39026)
+	id 1jqdkS-00060u-AX
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqdgW-0001rK-Rj
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:26:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21055
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdjD-0004kT-AN
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:28:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45859
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jqdgU-0002An-UB
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:26:00 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jqdjB-0002mq-Ml
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:28:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593613558;
+ s=mimecast20190719; t=1593613725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t5HcXnEsZH1QefsX1QuZ3AuaKWbFdGteqhsXfdg5MN0=;
- b=LmLCbLbG/003PlQWLIgOMNdqIEKmPwrdEuC5v/xejfhDKvb+XjerK2AkMmNaLDd4I0aLQf
- kpAKl2rQBqAF/dsPYwafS92RQlnXwv4dBklpBrmFHB8eJ8LiYiifJw/ehb0b2+bKQePsWt
- xDnUdioQ3v6sE8QA5d94HB2UErw8yXI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-XQmBWqUgMW6QuXzxzgTFWw-1; Wed, 01 Jul 2020 10:25:52 -0400
-X-MC-Unique: XQmBWqUgMW6QuXzxzgTFWw-1
-Received: by mail-wm1-f70.google.com with SMTP id g187so23676997wme.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:25:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=t5HcXnEsZH1QefsX1QuZ3AuaKWbFdGteqhsXfdg5MN0=;
- b=eKcB03Om97QxkTJLMc6hS8yGILvQc+L+tMzQq0zhjoxQm7ub/UqosMDxqp1hJJ5DZ9
- 24h3acQSdZYkoBTlPCWh3jStn87KB2DM6N0lIguLvJFwd6Bqg3vz7+TfhhsNtzTk23/C
- lIUku4SCqI29eJXvUktxXT6oyZOLRGMQ/KwFiN+CibeiPjCDkvVL1f6JRBmz92kBS75j
- od7ilzk+AIewF/1Yzt3f8ksn39yZz2Ckio4u5WQRDGFGTCx5Q3agUvpE7CoOZ1Go3Eww
- 5guzkiXbKS+Q5/LQSS6tUOkDV/fqH5oXDLdP/gJC2gq2cpo8ePp29moY2aXfl6q8VYki
- mYtA==
-X-Gm-Message-State: AOAM530Fw9xlRkSGEJfGR7jliTTIsXWsLrbwFJb59pE++YEclDr8JVZq
- xRthi3wunGXbOoIa+WjXw+TE4wVQbE3cfgqmcUlrz2bLzLLsYmqlO6Ckse5490ThO2s8dcNg79u
- gU74EurcVjQKrJeM=
-X-Received: by 2002:adf:8444:: with SMTP id 62mr25784752wrf.278.1593613551557; 
- Wed, 01 Jul 2020 07:25:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXz3UDVoujeKZYrNR5UUnOEBFQTmCz3ZJ4dxZna76kJys9sIEdy/NzLM41sMqbe4itldoEnA==
-X-Received: by 2002:adf:8444:: with SMTP id 62mr25784728wrf.278.1593613551256; 
- Wed, 01 Jul 2020 07:25:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1142:70d6:6b9b:3cd1?
- ([2001:b07:6468:f312:1142:70d6:6b9b:3cd1])
- by smtp.gmail.com with ESMTPSA id t2sm7307442wma.43.2020.07.01.07.25.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 07:25:50 -0700 (PDT)
-Subject: Re: [PATCH] scripts/get_maintainer: Use .ignoredmailmap to ignore
- invalid emails
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200629172716.20781-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8616bdd8-34a9-f737-aa9d-f11d735cc0fe@redhat.com>
-Date: Wed, 1 Jul 2020 16:25:50 +0200
+ bh=zPU7EqFwV9rCrW2HV352NLHunw95kH1TtnN75ZIAk84=;
+ b=Fwnsk58a/YBVrMVh9Ic5RCzsz8C8cu6LbTh+47mqeRgrEqw8GMOyRWsDtHSGJEWE35AZom
+ S4HgX5TjFti3lg8YHJWKRd/KghcsEAHTzoEsH6dqzAHpxYXuHtzyrIuiapIS8NnIof/YUh
+ wosmzqzL7u/aos/IrBbmPl/EkNxQVCw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-tlNCgW0uORCzz2sNF6GX-Q-1; Wed, 01 Jul 2020 10:28:41 -0400
+X-MC-Unique: tlNCgW0uORCzz2sNF6GX-Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FDAD10059A9;
+ Wed,  1 Jul 2020 14:28:38 +0000 (UTC)
+Received: from [10.3.114.107] (ovpn-114-107.phx2.redhat.com [10.3.114.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51F1271662;
+ Wed,  1 Jul 2020 14:28:28 +0000 (UTC)
+Subject: Re: [PATCH v3 13/13] vhost-vdpa: introduce vhost-vdpa net client
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
+ cohuck@redhat.com, jasowang@redhat.com
+References: <20200701092449.17451-1-lulu@redhat.com>
+ <20200701092449.17451-14-lulu@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <dc1c8668-54b7-4b9f-cf0f-a0479339fa7d@redhat.com>
+Date: Wed, 1 Jul 2020 09:28:27 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200629172716.20781-1-f4bug@amsat.org>
+In-Reply-To: <20200701092449.17451-14-lulu@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -103,109 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>
+Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
+ saugatm@xilinx.com, hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com,
+ jgg@mellanox.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
+ gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
+ stefanha@redhat.com, zhihong.wang@intel.com, Tiwei Bie <tiwei.bie@intel.com>,
+ aadam@redhat.com, rdunlap@infradead.org, maxime.coquelin@redhat.com,
+ lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/20 19:27, Philippe Mathieu-Daudé wrote:
-> Sometime emails get rejected and 'bounce'. It might take time
-> between we report that, a patch is posted, reviewed, merged...
+On 7/1/20 4:24 AM, Cindy Lu wrote:
+> This patch set introduces a new net client type: vhost-vdpa.
+> vhost-vdpa net client will set up a vDPA device which is specified
+> by a "vhostdev" parameter.
 > 
-> To reduce time spent looking at bouncing emails in one mailbox,
-> add the feature to simply ignore broken email addresses. The
-> format is similar to the '.mailmap' file. Add an email address
-> in your local '.ignoredmailmap. and get_maintainer.pl won't
-> list it anymore.
-> 
-> This is particularly useful when git-send-email is used with
-> the --cc-cmd argument, like suggested in QEMU wiki:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Do you have such a list already?
-
-Paolo
-
+> Signed-off-by: Lingshan Zhu <lingshan.zhu@intel.com>
+> Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
 > ---
->  scripts/get_maintainer.pl | 50 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-> index 271f5ff42a..7f7a4ff3ef 100755
-> --- a/scripts/get_maintainer.pl
-> +++ b/scripts/get_maintainer.pl
-> @@ -38,6 +38,7 @@
->  my $interactive = 0;
->  my $email_remove_duplicates = 1;
->  my $email_use_mailmap = 1;
-> +my $email_use_ignoredmailmap = 1;
->  my $output_multiline = 1;
->  my $output_separator = ", ";
->  my $output_roles = 0;
-> @@ -365,6 +366,51 @@ sub read_mailmap {
->      close($mailmap_file);
->  }
->  
-> +my $ignoredmailmap;
-> +
-> +read_ignoredmailmap();
-> +
-> +sub read_ignoredmailmap {
-> +    $ignoredmailmap = {
-> +	names => {},
-> +	addresses => {}
-> +    };
-> +
-> +    return if (!$email_use_ignoredmailmap || !(-f "${lk_path}.ignoredmailmap"));
-> +
-> +    open(my $ignoredmailmap_file, '<', "${lk_path}.ignoredmailmap")
-> +	or warn "$P: Can't open .ignoredmailmap: $!\n";
-> +
-> +    while (<$ignoredmailmap_file>) {
-> +	s/#.*$//; #strip comments
-> +	s/^\s+|\s+$//g; #trim
-> +
-> +	next if (/^\s*$/); #skip empty lines
-> +	#entries have one of the following formats:
-> +	# name1 <mail1>
-> +	# <mail1>
-> +
-> +	if (/^([^<]+)<([^>]+)>$/) {
-> +	    my $real_name = $1;
-> +	    my $address = $2;
-> +
-> +	    $real_name =~ s/\s+$//;
-> +	    ($real_name, $address) = parse_email("$real_name <$address>");
-> +	    $ignoredmailmap->{$address} = 1;
-> +	} elsif (/^(.+)<([^>]+)>\s*<([^>]+)>$/) {
-> +	    my $real_name = $1;
-> +	    my $real_address = $2;
-> +	    my $wrong_address = $3;
-> +
-> +	    $real_name =~ s/\s+$//;
-> +	    ($real_name, $real_address) =
-> +		parse_email("$real_name <$real_address>");
-> +	    $ignoredmailmap->{$real_address} = 1;
-> +	}
-> +    }
-> +    close($ignoredmailmap_file);
-> +}
-> +
->  ## use the filenames on the command line or find the filenames in the patchfiles
->  
->  my @files = ();
-> @@ -1074,6 +1120,10 @@ sub push_email_address {
->      if ($address eq "") {
->  	return 0;
->      }
-> +    if (exists $ignoredmailmap->{$address}) {
-> +        #warn("Ignoring address: '" . $address . "'\n");
-> +        return 0;
-> +    }
->  
->      if (!$email_remove_duplicates) {
->  	push(@email_to, [format_email($name, $address, $email_usename), $role]);
-> 
+
+> +++ b/qapi/net.json
+
+>   ##
+>   # @NetClientDriver:
+>   #
+>   # Available netdev drivers.
+>   #
+> -# Since: 2.7
+> +# Since: 5.1
+
+This should be:
+
+# Since 2.7
+# @vhost-vdpa since 5.1
+
+since the enum itself is still available in older releases, it is only 
+the new member that was introduced in this series.
+
+>   ##
+>   { 'enum': 'NetClientDriver',
+>     'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
+> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+>   
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
