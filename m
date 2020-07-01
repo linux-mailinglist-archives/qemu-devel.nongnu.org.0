@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDF7210D76
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:19:24 +0200 (CEST)
-Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF1210DB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:29:21 +0200 (CEST)
+Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqda7-0005uE-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
+	id 1jqdjk-0004yv-6u
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdKu-0004vC-Ch
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:40 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46564)
+ id 1jqdUS-0006ZI-Gz
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:32 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdKs-0006pr-I7
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:40 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r12so23922929wrj.13
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:38 -0700 (PDT)
+ id 1jqdUQ-0000A3-Iz
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:32 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id l17so22608870wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N4xihvXcT2NbzYDWewm5rzgOgSrnKR9VT35cRtylW1A=;
- b=Lvnp7rCBZEi2ZVXPmakSupr3ajkJx4IwkPB3NMdJpvA7i42BUswJd8i4vyaTD/lKNA
- oWzx/5fSn23i3Mv0DdyOG7y0hF5zmmCcoXn5iIJlFRAjmnNN2Uc570IU1APL31h3eQhz
- ewtSa/6Is4V6CjlL9kcGcqwlGTJ62mLwGfNkUey/GUeHmN6+fb8A6Zf/UFXNlBKtxBth
- a5R6q4jjCAdSd1nPMBZvc9RCuiN2nguwgwgnNy7dLa/ngNpOxprEKub4yb+gBnqd5mm7
- 8EM7UIZyAT7ptN3q9SJ324ZvLyCNOMA0RK2rZPvwYAWBVWrQq+JqwBTCzin8GARLWXjN
- Kj+A==
+ bh=PJhXUCcF3c2PKDCFsCiaqFOmEKen6xlVm+g2tj8AYP8=;
+ b=WlXD7kXTRinT7Nh0YWHeQjdrlpdwKW9wzLMBsuVgwCFPxDtx1THdoOTNvTmAoW+c6m
+ uYX2DworzFB9U7oVOrQ5bZu/kk0jTpqeRG7JBe7DE/knr06Xsrkv2A0L9ScJBO5MlI15
+ lGSIC6xnmIbMnPU9xnPt75lKLKFq+ZGYKLd70I7hwLVAyrh+ayuuJApL9t1NHDahY86u
+ WS8pRCPL2nweFC9Dudd7htNV63Rqg6Wzi6rBU/KLBJHWDRB4BVH98zbWvpxe2sRUNFq7
+ iRPw9m9424drJk2mcxRc/Q05+vbJY5uVby4UWKglAzKnmElti4YcRCcLWi5bHCPXqRRj
+ 2mnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N4xihvXcT2NbzYDWewm5rzgOgSrnKR9VT35cRtylW1A=;
- b=jAGM2IyUbbGVFYjZETJZTgKI3w3MmwcIk8tV7/kLfFADax0OgCWxwkTcLbijBfuhwa
- VXw/k5sX0wbw3pzbEYlmlV9Udrw3P6FI7YAeWQUTpojlq5I87qywX943KZgma4lcEsvQ
- nvv2LkV5XbnuHPrMYIlwq10t5jVtEQfUf4+7Qd7RMdRIh46bcOZz26lHVqF6MwCKdhhM
- dcHUo0vdRPzT8V1Sezg899Sq9OCbo9u0mkH7Od9zdVLRJVRY77apODxAFsq2jk7IDzBW
- 2A0Brr4odkxMAsWMLuNjoYl/MScKiYtdoz5iNH6FOcuM0MQFsvwJ3uPw+GOmekWdNvKp
- mb4A==
-X-Gm-Message-State: AOAM533D+/JV6/U6WTabLGX+NDSGSBv2CMNVm4OAsWrUYjvUNAorXNZw
- uo/9ffMzwphcMCjTUbBSP/ATGw==
-X-Google-Smtp-Source: ABdhPJy/uyiQRdWHo5dbqsWmFUE2baMjQVzvs+VT6fs0/ROophzv15G0h9IFjCMnm14pfQOtcDtkcA==
-X-Received: by 2002:a5d:60d1:: with SMTP id x17mr26690700wrt.293.1593612217099; 
- Wed, 01 Jul 2020 07:03:37 -0700 (PDT)
+ bh=PJhXUCcF3c2PKDCFsCiaqFOmEKen6xlVm+g2tj8AYP8=;
+ b=Rczy8EKcJWQ3jfdihvPk5Gtwg3/A4CuOu6w7A0dgjH15LnTBOkhiciU2gxmffjh2dQ
+ uodOmVSuRQ+x1whc0FroZykB2RsByh/FsOMERJISiOfqds5mG/Jf/Tjjo2xt8j9OL2Ka
+ mjZ5zwsHdZUCKpgjXakkAN4eLwJbbOdK8R0jxMoncrlTYX5KiVsL5XROz5A1bEDtJL6w
+ hvv+SSb/iQ83hUsqPj53JdOUVjb7rw3MBwdu7b58CbkDADREoqNo+Bs7TkIT2BN/Ustt
+ 06lLygxMNWLMwqxULHUfvaubE0DJMtDhY9+o4KYK5hjTe2x3WSOAC4IdxZdOGoyjfDXQ
+ RrEA==
+X-Gm-Message-State: AOAM533xafsfMpSs5cu5MysSi8rrItPf/QgDGExFRh+BsAO13vAFs1ag
+ dVVLaKJwpjeQ79zRD1w9R+ynag==
+X-Google-Smtp-Source: ABdhPJyFeqTgxTB7qpx/e9QfQREZkFwCuxVWJNm1e0sXeL3mMBqdGOtfwzVYJABhr67ua3awDjP+9A==
+X-Received: by 2002:a1c:4408:: with SMTP id r8mr26979777wma.100.1593612808833; 
+ Wed, 01 Jul 2020 07:13:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k14sm7323389wrn.76.2020.07.01.07.03.29
+ by smtp.gmail.com with ESMTPSA id w2sm7835430wrs.77.2020.07.01.07.13.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:03:33 -0700 (PDT)
+ Wed, 01 Jul 2020 07:13:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E0D81FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 27B561FF8F;
  Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 31/40] tests/tcg: add more default compilers to configure.sh
-Date: Wed,  1 Jul 2020 14:56:43 +0100
-Message-Id: <20200701135652.1366-32-alex.bennee@linaro.org>
+Subject: [PATCH v4 32/40] tests/docker: add a linux-user testing focused image
+Date: Wed,  1 Jul 2020 14:56:44 +0100
+Message-Id: <20200701135652.1366-33-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,59 +90,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were missing a bunch of compilers which we could use if they were
-locally installed. The defaults are based on Debian as they seem to be
-the best distro for well distributed cross-build compilers.
+We happily use all the cross images for both cross-building QEMU as
+well as building the linux-user tests. However calling docker from
+within docker seems not to work. As we can build in Debian anyway why
+not include an image that has all the compilers available for
+non-docker invocation.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/tcg/configure.sh | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ .gitlab-ci.d/containers.yml                   |  7 +++
+ tests/docker/Makefile.include                 |  1 +
+ .../dockerfiles/debian-all-test-cross.docker  | 53 +++++++++++++++++++
+ 3 files changed, 61 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/debian-all-test-cross.docker
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 2326f978562..37e49736ca4 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -46,20 +46,29 @@ fi
- : ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
- : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
- : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
-+: $(cross_cc_alpha="alpha-linux-gnu-gcc")
- : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
- : ${cross_cc_cflags_armeb="-mbig-endian"}
-+: ${cross_cc_hppa="hppa-linux-gnu-gcc"}
- : ${cross_cc_i386="i386-pc-linux-gnu-gcc"}
- : ${cross_cc_cflags_i386="-m32"}
--: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
--: ${cross_cc_cflags_x86_64="-m64"}
-+: ${cross_cc_m68k="m68k-linux-gnu-gcc"}
-+: $(cross_cc_mips64el="mips64el-linux-gnuabi64-gcc")
-+: $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
-+: $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
-+: $(cross_cc_mips="mips-linux-gnu-gcc")
- : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
- : ${cross_cc_cflags_ppc="-m32"}
--: ${cross_cc_ppc64="powerpc-linux-gnu-gcc"}
--: ${cross_cc_cflags_ppc64="-m64"}
-+: ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
- : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
--: ${cross_cc_cflags_s390x="-m64"}
-+: $(cross_cc_riscv64="riscv64-linux-gnu-gcc")
-+: ${cross_cc_s390x="s390x-linux-gnu-gcc"}
-+: $(cross_cc_sh4="sh4-linux-gnu-gcc")
- : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
-+: ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
- : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
-+: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
-+: ${cross_cc_cflags_x86_64="-m64"}
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index f353359fd8b..a7621c4204c 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -64,6 +64,13 @@ amd64-debian-cross-container:
+   variables:
+     NAME: debian-amd64-cross
  
- for target in $target_list; do
-   arch=${target%%-*}
++amd64-debian-user-cross-container:
++  <<: *container_job_definition
++  stage: containers-layer2
++  needs: ['amd64-debian10-container']
++  variables:
++    NAME: debian-all-test-cross
++
+ amd64-debian-container:
+   <<: *container_job_definition
+   stage: containers-layer2
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 977d8ff6e40..8406d039858 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -134,6 +134,7 @@ docker-image-travis: NOUSER=1
+ 
+ # Specialist build images, sometimes very limited tools
+ docker-image-debian-tricore-cross: docker-image-debian9
++docker-image-debian-all-test-cross: docker-image-debian10
+ docker-image-debian-arm64-test-cross: docker-image-debian11
+ 
+ # These images may be good enough for building tests but not for test builds
+diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+new file mode 100644
+index 00000000000..dedcea58b46
+--- /dev/null
++++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+@@ -0,0 +1,53 @@
++#
++# Docker all cross-compiler target (tests only)
++#
++# While the normal cross builds take care to setup proper multiarch
++# build environments which can cross build QEMU this just installs the
++# basic compilers for as many targets as possible. We shall use this
++# to build and run linux-user tests on GitLab
++#
++FROM qemu/debian10
++
++# What we need to build QEMU itself
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt build-dep -yy qemu
++
++# Add the foreign architecture we want and install dependencies
++RUN DEBIAN_FRONTEND=noninteractive eatmydata \
++        apt install -y --no-install-recommends \
++        gcc-aarch64-linux-gnu \
++        libc6-dev-arm64-cross \
++        gcc-alpha-linux-gnu \
++        libc6.1-dev-alpha-cross \
++        gcc-arm-linux-gnueabihf \
++        libc6-dev-armhf-cross \
++        gcc-hppa-linux-gnu \
++        libc6-dev-hppa-cross \
++        gcc-m68k-linux-gnu \
++        libc6-dev-m68k-cross \
++        gcc-mips-linux-gnu \
++        libc6-dev-mips-cross \
++        gcc-mips64-linux-gnuabi64 \
++        libc6-dev-mips64-cross \
++        gcc-mips64el-linux-gnuabi64 \
++        libc6-dev-mips64el-cross \
++        gcc-mipsel-linux-gnu \
++        libc6-dev-mipsel-cross \
++        gcc-powerpc-linux-gnu \
++        libc6-dev-powerpc-cross \
++        gcc-powerpc64-linux-gnu \
++        libc6-dev-ppc64-cross \
++        gcc-powerpc64le-linux-gnu \
++        libc6-dev-ppc64el-cross \
++        gcc-riscv64-linux-gnu \
++        libc6-dev-riscv64-cross \
++        gcc-s390x-linux-gnu \
++        libc6-dev-s390x-cross \
++        gcc-sh4-linux-gnu \
++        libc6-dev-sh4-cross \
++        gcc-sparc64-linux-gnu \
++        libc6-dev-sparc64-cross
++
++ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs --disable-tools
++ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
 -- 
 2.20.1
 
