@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C12211174
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:01:31 +0200 (CEST)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78959211181
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:03:55 +0200 (CEST)
+Received: from localhost ([::1]:34614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqg70-0000eC-Ru
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:01:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
+	id 1jqg9K-0004nM-HO
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqg4g-0006BH-96; Wed, 01 Jul 2020 12:59:06 -0400
-Resent-Date: Wed, 01 Jul 2020 12:59:06 -0400
-Resent-Message-Id: <E1jqg4g-0006BH-96@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jqg4d-0006PW-LE; Wed, 01 Jul 2020 12:59:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593622737; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=jX2PM4stYKQoTd6nQ4ayt4ddVF1W7RtVSOqk5JWDFl8A0f6L14DmfSlKNCd/pQTSiMpGsh6bFVOKZSfaGH4ltHSGduJTNeRQ5Yk5UzJRN9xo8rk7sxOH4yCk0pKHNNGp0/0uCL1kqAVmWU0H96zQzUQF1PZVWD1qqdnvpszAfJA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593622737;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6OB8hnU0SOHsQMIeJr+yaGjAlUFfSKBL86MgTTEy6ik=; 
- b=UPLB9PZXgM38jNEykyadjp3jfipuLS23Z7ipB+4Hh6/9Vkh8fJCib3ZNmPPBR5ESESMgBNUbhehhTEojuJ17bOIHVTtcswfD9pRFZiDmi4tetufjxGy8eSC58r94z6Zj1uf/NtW0NHrA9wabG9kfPLvw+Tqhx40VgCXjNarSQg4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159362273512595.85980689869552;
- Wed, 1 Jul 2020 09:58:55 -0700 (PDT)
-Message-ID: <159362273389.26405.7163118057791066597@d1fd068a5071>
-Subject: Re: [PATCH 0/3] block: improve error reporting for unsupported
- O_DIRECT
-In-Reply-To: <20200701160509.1523847-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqg7M-0002Fi-6W
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:01:52 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqg7K-0006tJ-DW
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:01:51 -0400
+Received: by mail-ej1-x642.google.com with SMTP id p20so25634401ejd.13
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 10:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=whRMMTDyNSOQl3f29FETA1JbrYuaQGsndSdPZ/Zuc88=;
+ b=Kv7bVOzvTQZrNKuf4BURvPnlGg3VIlAcJ/q4EF8q35T/vmgk7pFbMqzlI2KL6Ol7Pl
+ KSPQtfwfhHCQZYPl/qCKssjOg1yu+NPEX/36ycbckkqPIRPOHpNja0Zcr7DNJWiAjTz5
+ ZA3IOKISj9XsKsbNAMN/O5ZcLMK1oT5xx8FqheikP8hhhfbHHWccGylR58LUJkyC+hUq
+ VITQwjS1a00K8B1Wz4yKs886Rx1xCOecCNiZHVPUKzGL8YpHC73rRvE8e5VxHyDC5vO+
+ wgR4COebS2bHoHFvpBaNMD6OwqwNdLNMNcqmwPJjpPq+pi81u2dD2EmfajGWM3rhxwJX
+ kNgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=whRMMTDyNSOQl3f29FETA1JbrYuaQGsndSdPZ/Zuc88=;
+ b=fDAS/Rm3lRjs1DTG7o5FbVzdrR8K1BaS1MbrXH4fGhCyZ4vJnOWO5TvTNJupyQchYU
+ sIyGOj1+Dfnc5eMsspZKYzzKypCsYj/jTAdAc1BivuhlBiMLZbZWKWPlEyrGnJN4L/75
+ JLj8tuFOELpBtOBRggBzeGmqXBkIqvfQ5QpGXlHjPC4x9NNAlcw14tclb/wPhHtctlv+
+ CBk0uzPZ2GVbRmgg5XF22umEsgBl+wSTSNlQL8qncHJt1fiTE4FfZqeCJd8RgseNRg/l
+ bume05LK+magZCzBqMjy+sHnFtHYS98JmKpCV4UMqeq9pwmo64za0J95GodAwMduilUO
+ G8RQ==
+X-Gm-Message-State: AOAM5311V4DDYuppHeMgu3rhEKVp3X8tuDk/N5PiQq3TLaOyVon2znfh
+ mi+VDU42obEkqWH+lYM7lQM=
+X-Google-Smtp-Source: ABdhPJxCTF8hUHoZHYR5ga1x1bxtqYwHsgWpJKKDf9Hf/RAss+tcnF3foyWkTibcMngXCjum6IIAPg==
+X-Received: by 2002:a17:906:abd6:: with SMTP id
+ kq22mr24894024ejb.458.1593622908619; 
+ Wed, 01 Jul 2020 10:01:48 -0700 (PDT)
+Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id q21sm4947916ejc.112.2020.07.01.10.01.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 10:01:48 -0700 (PDT)
+Subject: Re: [PATCH v4 28/40] tests/acceptance: skip multicore mips_malta
+ tests on GitLab
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200701135652.1366-1-alex.bennee@linaro.org>
+ <20200701135652.1366-29-alex.bennee@linaro.org>
+ <2c5aab2c-5001-9d1a-d3f7-8afed1c4af1b@amsat.org> <87mu4jqj7y.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0eecc9ed-f0d4-97b4-37e2-d98ec0fd9b6b@amsat.org>
+Date: Wed, 1 Jul 2020 19:01:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Wed, 1 Jul 2020 09:58:55 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 12:59:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87mu4jqj7y.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,54 +93,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, ppandit@redhat.com
+Cc: fam@euphon.net, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
+ Cleber Rosa <crosa@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMTE2MDUwOS4xNTIz
-ODQ3LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhl
-IGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5n
-IGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0
-YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0x
-IE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0x
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgorKysgL3RtcC9xZW11LXRl
-c3QvYnVpbGQvdGVzdHMvcWVtdS1pb3Rlc3RzLzIyNi5vdXQuYmFkIDIwMjAtMDctMDEgMTY6NTg6
-MTEuMzIxMDI5NzE3ICswMDAwCkBAIC02LDcgKzYsNyBAQAogcWVtdS1pbzogY2FuJ3Qgb3Blbjog
-QSByZWd1bGFyIGZpbGUgd2FzIGV4cGVjdGVkIGJ5IHRoZSAnZmlsZScgZHJpdmVyLCBidXQgc29t
-ZXRoaW5nIGVsc2Ugd2FzIGdpdmVuCiBxZW11LWlvOiB3YXJuaW5nOiBPcGVuaW5nIGEgY2hhcmFj
-dGVyIGRldmljZSBhcyBhIGZpbGUgdXNpbmcgdGhlICdmaWxlJyBkcml2ZXIgaXMgZGVwcmVjYXRl
-ZAogPT0gVGVzdGluZyBSVyA9PQotcWVtdS1pbzogY2FuJ3Qgb3BlbjogQ291bGQgbm90IG9wZW4g
-J1RFU1RfRElSL3QuSU1HRk1UJzogSXMgYSBkaXJlY3RvcnkKK3FlbXUtaW86IGNhbid0IG9wZW46
-IFVuYWJsZSB0byBvcGVuICdURVNUX0RJUi90LklNR0ZNVCcgZmxhZ3MgMHgyOiBJcyBhIGRpcmVj
-dG9yeQogcWVtdS1pbzogd2FybmluZzogT3BlbmluZyBhIGNoYXJhY3RlciBkZXZpY2UgYXMgYSBm
-aWxlIHVzaW5nIHRoZSAnZmlsZScgZHJpdmVyIGlzIGRlcHJlY2F0ZWQKIAogPT09IFRlc3Rpbmcg
-d2l0aCBkcml2ZXI6aG9zdF9kZXZpY2UgPT09CkBAIC0xNCwxMyArMTQsMTMgQEAKLS0tCk5vdCBy
-dW46IDI1OQpGYWlsdXJlczogMDYxIDA2OSAxMTEgMjI2IDI0NApGYWlsZWQgNSBvZiAxMTkgaW90
-ZXN0cwptYWtlOiAqKiogW2NoZWNrLXRlc3RzL2NoZWNrLWJsb2NrLnNoXSBFcnJvciAxClRyYWNl
-YmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2Nr
-ZXIucHkiLCBsaW5lIDY2OSwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAg
-ICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxl
-ZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAn
-LS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTY3MjI4YTcwZTc4NDRkNzBiMDdhODY0
-ZmVmNWM0NTY5JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNv
-bmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJ
-R1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICct
-ZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12
-JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2Nh
-Y2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXkycXV6cWZiL3NyYy9k
-b2NrZXItc3JjLjIwMjAtMDctMDEtMTIuNDEuMTIuMjM1Mzg6L3Zhci90bXAvcWVtdTp6LHJvJywg
-J3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVy
-bmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVt
-dS5pbnN0YW5jZS51dWlkPTY3MjI4YTcwZTc4NDRkNzBiMDdhODY0ZmVmNWM0NTY5Cm1ha2VbMV06
-ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zh
-ci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXkycXV6cWZiL3NyYycKbWFrZTogKioqIFtkb2NrZXIt
-cnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxN200MS44OTJzCnVzZXIg
-ICAgMG01Ljc5MHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMjAwNzAxMTYwNTA5LjE1MjM4NDctMS1iZXJyYW5nZUByZWRoYXQuY29tL3Rl
-c3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
-YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 7/1/20 6:43 PM, Alex Bennée wrote:
+> 
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> On 7/1/20 3:56 PM, Alex Bennée wrote:
+>>> For some reason these tests fail all the time on GitLab. I can
+>>> re-create the hang around 3% of the time locally but it doesn't seem
+>>> to be MTTCG related. For now skipIf on GITLAB_CI.
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>> ---
+>>>  tests/acceptance/machine_mips_malta.py | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
+>>> index 92b4f28a112..7c9a4ee4d2d 100644
+>>> --- a/tests/acceptance/machine_mips_malta.py
+>>> +++ b/tests/acceptance/machine_mips_malta.py
+>>> @@ -15,6 +15,7 @@ from avocado import skipUnless
+>>>  from avocado_qemu import Test
+>>>  from avocado_qemu import wait_for_console_pattern
+>>>  from avocado.utils import archive
+>>> +from avocado import skipIf
+>>>  
+>>>  
+>>>  NUMPY_AVAILABLE = True
+>>> @@ -99,6 +100,7 @@ class MaltaMachineFramebuffer(Test):
+>>>          """
+>>>          self.do_test_i6400_framebuffer_logo(1)
+>>>  
+>>
+>> So the test works using a single core...
+>> Good we have a test to figure the bug!
+> 
+> It's about a 1-3% failure rate on my big test box but hits every time on
+> CI. However I did disable MTTCG and still saw failures so I think it's a
+> more subtle breakage than just a straight race.
+
+I first thought it was a MTTCG problem, but then I realized you didn't
+disable the single core test. When using >1 core, the malta uses a
+different device, the CPS for Coherent Processing System. It contains
+a Inter-Thread Communication Unit and a Global Interrupt Controller.
+There might be a I/O locking problem. In particular, some of these
+devices access the &cpu->env (the ITU is more of micro-architecture).
+
+This is why I was excited by your finding :) We might have a way
+to figure it out.
+
+> 
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>>> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>>>      def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+>>>          """
+>>>          :avocado: tags=arch:mips64el
+>>> @@ -108,6 +110,7 @@ class MaltaMachineFramebuffer(Test):
+>>>          """
+>>>          self.do_test_i6400_framebuffer_logo(7)
+>>>  
+>>> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>>>      def test_mips_malta_i6400_framebuffer_logo_8cores(self):
+>>>          """
+>>>          :avocado: tags=arch:mips64el
+>>>
+> 
+> 
 
