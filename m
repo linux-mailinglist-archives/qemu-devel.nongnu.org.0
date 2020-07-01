@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8ECA210480
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 09:10:44 +0200 (CEST)
-Received: from localhost ([::1]:33098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21642104F6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 09:25:36 +0200 (CEST)
+Received: from localhost ([::1]:40816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqWtH-0000nY-NA
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 03:10:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
+	id 1jqX7f-0005KB-7X
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 03:25:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqWsX-0000Kg-Ao
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:09:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21441
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqWsV-0007zV-Ow
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 03:09:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593587394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8yV7JdTYJkQX/HOksDgrzCQHigVvkIj5zv9YwaKrry8=;
- b=fnNtJ+9FRbam4KXlQ6Sjwf2+6WZaU1HuH6hChxCD3RpjxE3jUxBzyFALmb7Smw5T7JcePm
- 3pyOIX58Ltin13xPFqF2eX5FECgaQroNIo2HcJT0FD+Bv345pUiUH6QO+7SpbA08w1T3YX
- fxXmqht9HV23vD7PWj1d0KSZIKlk6Jw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-x4sNFidUMuG5CoNty5KAew-1; Wed, 01 Jul 2020 03:09:53 -0400
-X-MC-Unique: x4sNFidUMuG5CoNty5KAew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E2788015F4;
- Wed,  1 Jul 2020 07:09:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A727F2B4B6;
- Wed,  1 Jul 2020 07:09:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3437811384A6; Wed,  1 Jul 2020 09:09:45 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/virtio/virtio-iommu-pci.c: Fix typo in error message
-References: <20200625100811.12690-1-peter.maydell@linaro.org>
-Date: Wed, 01 Jul 2020 09:09:45 +0200
-In-Reply-To: <20200625100811.12690-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Thu, 25 Jun 2020 11:08:11 +0100")
-Message-ID: <87v9j7btja.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqX6d-00047H-C1; Wed, 01 Jul 2020 03:24:31 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqX6b-0001iC-Q5; Wed, 01 Jul 2020 03:24:31 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f139so22085539wmf.5;
+ Wed, 01 Jul 2020 00:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Fc27ecj4wFvNWGxNWTtSOqkPM1LpRGm0EPEbU+wgQCQ=;
+ b=jTw+4OZtzI6euG0iEVRH94bvZJp8IHt+1vz8QUO+0ZnVU/mPafJTwSiv8HAVr4be19
+ 2xCc7o8yW6It95T3PicGMitSsNyjDAPBWktVFRUKqKNWOyrVqSn9De/jDNh6G0q/yT0A
+ TZk9XoHRyDBfOL7ehEDfgVGegcYrwk4+7+l1UwIL0YZgkMJQzof/GeZAc5WircBLH9wO
+ sAZxVX/PVL5349i2Q7Kbspby3FJmU9+mSBqlw2jjsbb5Kn80u3YNF7MnfU94DZnbj0sf
+ pdxfdcsfiEaqcD/KCq1KcZA8pi3sEnXDGW9wTy9Hhjw60md+uUQbooWbXePE4a6uR3YB
+ rjNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fc27ecj4wFvNWGxNWTtSOqkPM1LpRGm0EPEbU+wgQCQ=;
+ b=CYv1e5+zXYD+45FQUNIBiuyLOkGgvhuc/Vk9xV9872KkOkE+UDlySJMTjAC+XN9p25
+ R79jW9TFHNEyc71eMNtFrZdyr/PNjsYeCb/GZIY4pvEVQJBuTCoeA4NslzDm+SfQGdlG
+ ZfcSf3DPkGEc1aVnny/cE+D3ILCafhVd+NlC1KVXawdG+gMzayIhBpYvPBxLsG7rFP31
+ MtP3NN/FoQcxwkFqSKWYHYvE6XRmHMnL9md+BbuES5/XMMXkgMZkYWu0qkZ7SognQ3SC
+ CcxS4pLR6qPYCn5bsclwFEaRPZ3p2kJQ0hXViBsgI8RbzWTO1bRqzZnZXkuiQnhVZH2i
+ +TkA==
+X-Gm-Message-State: AOAM532IqMnsmOE3JvpgDCRKEaGwgERrvjTvmv0UoNNC+eHi9IFqtArs
+ Lq381B1D4sl7VUx9jOf1bjOxKX2t4uQ=
+X-Google-Smtp-Source: ABdhPJz491pOMLiITI3vATSKTWY2IW2+/gy4nfmbQoeB2ZnjxuOSk7oMmZ71gTCZ9ZmO73U++eJSAA==
+X-Received: by 2002:a7b:ce87:: with SMTP id q7mr26453139wmj.39.1593588267758; 
+ Wed, 01 Jul 2020 00:24:27 -0700 (PDT)
+Received: from [192.168.1.40] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id g16sm6877629wrh.91.2020.07.01.00.24.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 00:24:26 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hw/arm/tosa.c: Detabify
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200628203748.14250-1-peter.maydell@linaro.org>
+ <20200628203748.14250-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <85f66e82-8d71-1070-2a54-6567c394ed94@amsat.org>
+Date: Wed, 1 Jul 2020 09:24:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+In-Reply-To: <20200628203748.14250-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,37 +89,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> Fix a typo in an error message in virtio_iommu_pci_realize():
-> "Check you machine" should be "Check your machine".
->
-> Reported-by: Markus Armbruster <armbru@redhat.com>
+On 6/28/20 10:37 PM, Peter Maydell wrote:
+> Remove the hardcoded tabs from hw/arm/tosa.c. There aren't
+> many, but since they're all in constant #defines they're not
+> going to go away with our usual "only when we touch a function"
+> policy on reformatting.
+> 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/virtio/virtio-iommu-pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index 632533abaf7..32e3215d1df 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -48,7 +48,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->                     "%s machine fails to create iommu-map device tree bindings",
->                     mc->name);
->          error_append_hint(errp,
-> -                          "Check you machine implements a hotplug handler "
-> +                          "Check your machine implements a hotplug handler "
->                            "for the virtio-iommu-pci device\n");
->          error_append_hint(errp, "Check the guest is booted without FW or with "
->                            "-no-acpi\n");
 
-Since I have a bunch of error reporting patches to merge, I'm taking the
-liberty to queue this along with them.  Hope that's okay.  Thanks!
+No change using 'git-diff -w'.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> ---
+>  hw/arm/tosa.c | 44 ++++++++++++++++++++++----------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+> 
+> diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+> index 5dee2d76c61..06ecf1e7824 100644
+> --- a/hw/arm/tosa.c
+> +++ b/hw/arm/tosa.c
+> @@ -26,32 +26,32 @@
+>  #include "hw/sysbus.h"
+>  #include "exec/address-spaces.h"
+>  
+> -#define TOSA_RAM    0x04000000
+> -#define TOSA_ROM	0x00800000
+> +#define TOSA_RAM 0x04000000
+> +#define TOSA_ROM 0x00800000
+>  
+> -#define TOSA_GPIO_USB_IN		(5)
+> -#define TOSA_GPIO_nSD_DETECT	(9)
+> -#define TOSA_GPIO_ON_RESET		(19)
+> -#define TOSA_GPIO_CF_IRQ		(21)	/* CF slot0 Ready */
+> -#define TOSA_GPIO_CF_CD			(13)
+> -#define TOSA_GPIO_TC6393XB_INT  (15)
+> -#define TOSA_GPIO_JC_CF_IRQ		(36)	/* CF slot1 Ready */
+> +#define TOSA_GPIO_USB_IN                (5)
+> +#define TOSA_GPIO_nSD_DETECT            (9)
+> +#define TOSA_GPIO_ON_RESET              (19)
+> +#define TOSA_GPIO_CF_IRQ                (21)    /* CF slot0 Ready */
+> +#define TOSA_GPIO_CF_CD                 (13)
+> +#define TOSA_GPIO_TC6393XB_INT          (15)
+> +#define TOSA_GPIO_JC_CF_IRQ             (36)    /* CF slot1 Ready */
+>  
+> -#define TOSA_SCOOP_GPIO_BASE	1
+> -#define TOSA_GPIO_IR_POWERDWN	(TOSA_SCOOP_GPIO_BASE + 2)
+> -#define TOSA_GPIO_SD_WP			(TOSA_SCOOP_GPIO_BASE + 3)
+> -#define TOSA_GPIO_PWR_ON		(TOSA_SCOOP_GPIO_BASE + 4)
+> +#define TOSA_SCOOP_GPIO_BASE            1
+> +#define TOSA_GPIO_IR_POWERDWN           (TOSA_SCOOP_GPIO_BASE + 2)
+> +#define TOSA_GPIO_SD_WP                 (TOSA_SCOOP_GPIO_BASE + 3)
+> +#define TOSA_GPIO_PWR_ON                (TOSA_SCOOP_GPIO_BASE + 4)
+>  
+> -#define TOSA_SCOOP_JC_GPIO_BASE		1
+> -#define TOSA_GPIO_BT_LED		(TOSA_SCOOP_JC_GPIO_BASE + 0)
+> -#define TOSA_GPIO_NOTE_LED		(TOSA_SCOOP_JC_GPIO_BASE + 1)
+> -#define TOSA_GPIO_CHRG_ERR_LED		(TOSA_SCOOP_JC_GPIO_BASE + 2)
+> -#define TOSA_GPIO_TC6393XB_L3V_ON	(TOSA_SCOOP_JC_GPIO_BASE + 5)
+> -#define TOSA_GPIO_WLAN_LED		(TOSA_SCOOP_JC_GPIO_BASE + 7)
+> +#define TOSA_SCOOP_JC_GPIO_BASE         1
+> +#define TOSA_GPIO_BT_LED                (TOSA_SCOOP_JC_GPIO_BASE + 0)
+> +#define TOSA_GPIO_NOTE_LED              (TOSA_SCOOP_JC_GPIO_BASE + 1)
+> +#define TOSA_GPIO_CHRG_ERR_LED          (TOSA_SCOOP_JC_GPIO_BASE + 2)
+> +#define TOSA_GPIO_TC6393XB_L3V_ON       (TOSA_SCOOP_JC_GPIO_BASE + 5)
+> +#define TOSA_GPIO_WLAN_LED              (TOSA_SCOOP_JC_GPIO_BASE + 7)
+>  
+> -#define	DAC_BASE	0x4e
+> -#define DAC_CH1		0
+> -#define DAC_CH2		1
+> +#define DAC_BASE 0x4e
+> +#define DAC_CH1 0
+> +#define DAC_CH2 1
+>  
+>  static void tosa_microdrive_attach(PXA2xxState *cpu)
+>  {
+> 
 
 
