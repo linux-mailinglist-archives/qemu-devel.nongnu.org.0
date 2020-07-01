@@ -2,71 +2,157 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7976B2111C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:17:07 +0200 (CEST)
-Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD352111D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 19:21:52 +0200 (CEST)
+Received: from localhost ([::1]:35468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqgM6-0001Ii-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
+	id 1jqgQh-0004NT-6f
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 13:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqgKt-0000fI-KB
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:15:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jqgKr-0000o7-53
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:15:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jqgKn-0006hZ-JK
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 17:15:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 316EE2E810C
- for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 17:15:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jqgO0-0002h6-JG
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:19:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56487
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jqgNx-0001DI-DA
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 13:19:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593623939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Vuhng+ng8OGgUDWUWw/nSDmDIYlcrZvKu6fGh35ZuGw=;
+ b=YNuk49oQCO8SBCHpaIWDPByA7ar1e2ErGb00pbkka2iPazSItSKIn+zFyYxxRxva3Zbv2o
+ dfzS/ZDsQYbuSXXaALLDRjBqZeWR9nGyip9Q1TSD9bp7jTSRyX1sETPtZa7CkUyb8Kudum
+ sG3UG0/YeH6X8d8CsoQA9Id9LNL5O+o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-kJ17j_LZN6OiU0qCHAM94g-1; Wed, 01 Jul 2020 13:18:52 -0400
+X-MC-Unique: kJ17j_LZN6OiU0qCHAM94g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5CA51B18BC3;
+ Wed,  1 Jul 2020 17:18:51 +0000 (UTC)
+Received: from [10.10.119.184] (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D059660BE1;
+ Wed,  1 Jul 2020 17:18:47 +0000 (UTC)
+Subject: Re: [PATCH v4 00/16] python: add mypy support to python/qemu
+From: John Snow <jsnow@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20200626204133.14500-1-jsnow@redhat.com>
+ <f7c36cc7-e05c-65cc-b6be-9da8d136b295@redhat.com>
+ <1adf70db-e9d4-a5ab-d28b-f57956877956@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <37df2b7e-0f3d-0789-606a-7f077e28d974@redhat.com>
+Date: Wed, 1 Jul 2020 13:18:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 Jul 2020 17:09:48 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1878645@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr ajbennee philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
- <20200701135652.1366-2-alex.bennee@linaro.org>
- <85314d31-813a-8c20-7522-5186d5f31884@redhat.com> <87pn9fqjcd.fsf@linaro.org>
- <838d4d01-cd9e-d74a-5cd2-b23644172c9f@redhat.com>
-Message-Id: <87k0znqi03.fsf@linaro.org>
-Subject: [Bug 1878645] Re: [PATCH v4 01/40] hw/isa: check for current_cpu
- before generating IRQ
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 600cf9813e7d5d84894a113652dbd1508f2400f0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 10:05:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <1adf70db-e9d4-a5ab-d28b-f57956877956@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ WEIRD_PORT=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,175 +161,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> On 7/1/20 6:40 PM, Alex Benn=C3=A9e wrote:
->> =
 
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->> =
-
->>> On 7/1/20 3:56 PM, Alex Benn=C3=A9e wrote:
->>>> It's possible to trigger this function from qtest/monitor at which
->>>> point current_cpu won't point at the right place. Check it and
->>>> fall back to first_cpu if it's NULL.
->>>>
->>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>> Cc: Bug 1878645 <1878645@bugs.launchpad.net>
->>>> ---
->>>>  hw/isa/lpc_ich9.c | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
->>>> index cd6e169d47a..791c878eb0b 100644
->>>> --- a/hw/isa/lpc_ich9.c
->>>> +++ b/hw/isa/lpc_ich9.c
->>>> @@ -439,7 +439,7 @@ static void ich9_apm_ctrl_changed(uint32_t val, vo=
-id *arg)
->>>>                  cpu_interrupt(cs, CPU_INTERRUPT_SMI);
->>>>              }
->>>>          } else {
->>>> -            cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
->>>> +            cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_=
-INTERRUPT_SMI);
+On 6/29/20 10:30 AM, John Snow wrote:
+> 
+> 
+> On 6/29/20 4:26 AM, Philippe Mathieu-Daudé wrote:
+>> +Cleber/Wainer.
+>>
+>> On 6/26/20 10:41 PM, John Snow wrote:
+>>> Based-on: 20200626202350.11060-1-jsnow@redhat.com
 >>>
->>> I'm not sure this change anything, as first_cpu is NULL when using
->>> qtest accelerator or none-machine, see 508b4ecc39 ("gdbstub.c: fix
->>> GDB connection segfault caused by empty machines").
->> =
+>>> This series modifies the python/qemu library to comply with mypy --strict.
+>>> This requires my "refactor shutdown" patch as a pre-requisite.
+>>>
+>>> v4:
+>>> 001/16:[----] [--] 'python/qmp.py: Define common types'
+>>> 002/16:[----] [--] 'iotests.py: use qemu.qmp type aliases'
+>>> 003/16:[----] [--] 'python/qmp.py: re-absorb MonitorResponseError'
+>>> 004/16:[----] [--] 'python/qmp.py: Do not return None from cmd_obj'
+>>> 005/16:[----] [--] 'python/qmp.py: add casts to JSON deserialization'
+>>> 006/16:[----] [--] 'python/qmp.py: add QMPProtocolError'
+>>> 007/16:[----] [--] 'python/machine.py: Fix monitor address typing'
+>>> 008/16:[----] [--] 'python/machine.py: reorder __init__'
+>>> 009/16:[----] [--] 'python/machine.py: Don't modify state in _base_args()'
+>>> 010/16:[----] [--] 'python/machine.py: Handle None events in events_wait'
+>>> 011/16:[----] [--] 'python/machine.py: use qmp.command'
+>>> 012/16:[0010] [FC] 'python/machine.py: Add _qmp access shim'
+>>> 013/16:[----] [-C] 'python/machine.py: fix _popen access'
+>>> 014/16:[----] [--] 'python/qemu: make 'args' style arguments immutable'
+>>> 015/16:[----] [--] 'iotests.py: Adjust HMP kwargs typing'
+>>> 016/16:[----] [-C] 'python/qemu: Add mypy type annotations'
+>>>
+>>>  - Rebased on "refactor shutdown" v4
+>>>  - Fixed _qmp access for scripts that disable QMP
+>>
+>> See:
+>>
+>> https://travis-ci.org/github/philmd/qemu/jobs/702507625#L5439
+>>
+>> / # uname -a
+>> Linux buildroot 4.5.0-2-4kc-malta #1 Debian 4.5.5-1 (2016-05-29) mips
+>> GNU/Linux
+>> / # reboot
+>> / # reboot: Restarting system
+>>>>> {'execute': 'quit'}
+>> qemu received signal 9; command: "mips-softmmu/qemu-system-mips -display
+>> none -vga none -chardev
+>> socket,id=mon,path=/tmp/tmpcojsc5u3/qemu-14540-monitor.sock -mon
+>> chardev=mon,mode=control -machine malta -chardev
+>> socket,id=console,path=/tmp/tmpcojsc5u3/qemu-14540-console.sock,server,nowait
+>> -serial chardev:console -kernel
+>> /tmp/avocado_xgmck2k5/avocado_job_83wkzs2f/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpio/boot/vmlinux-4.5.0-2-4kc-malta
+>> -initrd
+>> /tmp/avocado_xgmck2k5/avocado_job_83wkzs2f/12-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_mips_malta_cpiorootfs.cpio
+>> -append printk.time=0 console=ttyS0 console=tty rdinit=/sbin/init
+>> noreboot -no-reboot"
+>>
+>> Reproduced traceback from:
+>> /home/travis/build/philmd/qemu/build/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:886
+>> Traceback (most recent call last):
+>>   File
+>> "/home/travis/build/philmd/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
+>> line 195, in tearDown
+>>     vm.shutdown()
+>>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
+>> 457, in shutdown
+>>     self._do_shutdown(has_quit)
+>>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
+>> 434, in _do_shutdown
+>>     self._soft_shutdown(has_quit, timeout)
+>>   File "/home/travis/build/philmd/qemu/python/qemu/machine.py", line
+>> 414, in _soft_shutdown
+>>     self._qmp.cmd('quit')
+>>   File "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 271, in cmd
+>>     return self.cmd_obj(qmp_cmd)
+>>   File "/home/travis/build/philmd/qemu/python/qemu/qmp.py", line 249, in
+>> cmd_obj
+>>     self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+>> BrokenPipeError: [Errno 32] Broken pipe
+>>
+> 
+> Might be racing between QMP going away and Python not being aware that
+> the process has closed yet. It's the only explanation I have left.
+> 
+> I wish I could reproduce this, though. When I submit jobs to Travis I am
+> not seeing these failures.
+> 
+> I'll see what I can do, but at this point I'll not re-send the patch
+> series until I can conclusively fix your build testing.
+> 
+> --js
+> 
 
->> Good point - anyway feel free to ignore - it shouldn't have been in this
->> series. It was just some random experimentation I was doing when looking
->> at that bug.
->
-> See commit c781a2cc42 ("hw/i386/vmport: Allow QTest use without
-> crashing") for a similar approach, but here I was thinking about
-> a more generic fix, not very intrusive:
->
-> -- >8 --
-> diff --git a/hw/isa/apm.c b/hw/isa/apm.c
-> index bce266b957..809afeb3e4 100644
-> --- a/hw/isa/apm.c
-> +++ b/hw/isa/apm.c
-> @@ -40,7 +40,7 @@ static void apm_ioport_writeb(void *opaque, hwaddr
-> addr, uint64_t val,
->      if (addr =3D=3D 0) {
->          apm->apmc =3D val;
->
-> -        if (apm->callback) {
-> +        if (apm->callback && !qtest_enabled()) {
->              (apm->callback)(val, apm->arg);
->          }
+OK, this is a very big mea culpa. There are two problems.
 
-But the other failure mode reported on the bug thread was via the
-monitor - so I'm not sure just checking for qtest catches that.
+1. I should catch ConnectionReset and not ConnectionResetError; one is a
+catch-all for socket problems and the other is a very specific errno
+that does not include BrokenPipeError.
 
->      } else {
-> ---
+2. Even if I do, it can still race, actually. QEMU might be in the
+middle of shutting down, but has already lost the control channel.
 
+Solving the second problem as the interface is currently designed is
+hard. You can wait, but then if the wait failed, you need to re-raise
+the control channel error instead of the wait failure. IOW, you need to
+wait in order to learn if the control channel error is "important" or not.
 
--- =
+So, the architecture of this is starting to look wrong; _soft_shutdown
+should keep clarity of purpose. Either it was able to to a nice, soft
+shutdown -- or it wasn't.
 
-Alex Benn=C3=A9e
+I'm starting to think that the real problem is that machine.py shouldn't
+try to hide connection errors on shutdown at all if we expected to be
+able to issue a quit command.
 
--- =
+Changing my mind rapidly that the right thing to do is to actually just
+fix the test to understand that it should not try to issue a shutdown
+command, but instead issue a wait command; and removing the race
+condition from machine.py by simply reporting *all* shutdown errors.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878645
+(If callers expect shutdown errors, they can -- and should -- catch
+those exceptions as desired!)
 
-Title:
-  null-ptr dereference in ich9_apm_ctrl_changed
+--js
 
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input which triggers a NULL pointer dereference=
- in
-  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
-is bug
-  is specific to QTest?
-
-  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
-  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D23862=3D=3DHint: address points to the zero page.
-      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
-mu/accel/tcg/tcg-all.c:57:21
-      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
-ude/hw/core/cpu.h:872:5
-      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
-emu/hw/isa/lpc_ich9.c:442:13
-      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
-hw/isa/apm.c:50:13
-      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/memory.c:483:5
-      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/memory.c:544:18
-      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/memory.c:1476:16
-      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3137:23
-      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
-c.c:3177:14
-      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
-u/exec.c:3268:18
-      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
-:60:5
-      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
-qemu/qtest.c:392:13
-      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/qtest.c:710:9
-      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
-c:722:5
-      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/chardev/char.c:183:9
-      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
-/chardev/char.c:195:9
-      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
-ev/char-fd.c:68:9
-      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/io/channel-watch.c:84:12
-      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0xc9c819)
-
-  =
-
-  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
-qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
-  outl 0xcf8 0x8400f841
-  outl 0xcfc 0xaa215d6d
-  outl 0x6d30 0x2ef8ffbe
-  outb 0xb2 0x20
-  EOF
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
 
