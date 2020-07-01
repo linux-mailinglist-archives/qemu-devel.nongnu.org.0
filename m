@@ -2,46 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC25F211087
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:25:37 +0200 (CEST)
-Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC6C21108E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 18:27:21 +0200 (CEST)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqfYG-0000XH-UE
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
+	id 1jqfZw-0004Bg-2r
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 12:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqfWA-0006ZA-SN; Wed, 01 Jul 2020 12:23:26 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jqfW7-0000DO-P3; Wed, 01 Jul 2020 12:23:26 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id AFD00BF64B;
- Wed,  1 Jul 2020 16:23:20 +0000 (UTC)
-Date: Wed, 1 Jul 2020 18:23:17 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v2 13/18] hw/block/nvme: Set Finish/Reset Zone
- Recommended attributes
-Message-ID: <20200701162317.ayl5a3ipraiu7nfo@apples.localdomain>
-References: <20200617213415.22417-1-dmitry.fomichev@wdc.com>
- <20200617213415.22417-14-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jqfYh-0002Dv-BU
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:26:03 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38287)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jqfYf-0000zc-83
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 12:26:02 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id k5so1680186pjg.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 09:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UGNrzErWTkxLmxh9La29txsfoELABioK+bURfbuipYc=;
+ b=O3sAgADuI/RxrjEPNfGgyBTUdGGiZrxKmETcCu9GWWHtcDLDaKbbM3KQ/QOWZe1sWd
+ bsYq+J2alsxPsH1ZgR401lhK6UMh4+RkQTcLyqVE8NZnJkM+rx1VnvwrnAMbOhn5sTOJ
+ tiSEA3M/9PceWiN1JTh+fLtpW7R0eyyDsDusASBzxCs2kfEdiglyVyqOt1u8RSYhskB5
+ ejWnMpn8rYPHlVFGOrX26lH8ppT870SFMhW+6kPYUufkJF+oGturUoBaIE5Ftfz4A/Cq
+ Wb5aI39y51fzWymNftPbtGe1TvJdl2T09O0+/zEwnoN5kKhiRFGqhO61iT2kZf6n9ACj
+ AIbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UGNrzErWTkxLmxh9La29txsfoELABioK+bURfbuipYc=;
+ b=LZzdnLrPXmbN4Hpk6sx8iZvl7BCsCpr+tN4b8FdM2RzqiECy5YAHa8i7phdRYJbWQ1
+ zmxCxgbXxifQpDzsalohRsvb+5tWsbqYnX+zmq29BMmmfCDZ5CFdcKTxeMg0nr55mdcA
+ HVnqqy0IZnjWbLrvcg156aIRBsi5VlgxSWzFweR+PdyKLnLGaACg72NYA3mbRVzLex2D
+ EixjsyEZn4rrCQzcPcHeL7aampEekbH7O52FSREHXkafvPzRFTy3BAECYULePta9lK//
+ P2/pEed8K7sC/7KnJX+QCqy1Lj2y9kz4H1qaTFmcT0PpaOCpbTI3pBmlQ1punAkeksvi
+ AHJg==
+X-Gm-Message-State: AOAM532AAJuPOSwzQlIlo7IFSfYXJtDP+NqRFpe7yufe6N1v3N5hZWOR
+ OxLoVnBr0xhrU8+tkgPaQ/cWKA==
+X-Google-Smtp-Source: ABdhPJx+z+EJIFVR/baB9YaOob+BFc5dm+P1Csy9xgERRxWIW7FcTAJ5jDbkY65DThADASlZR3Vb0g==
+X-Received: by 2002:a17:902:8488:: with SMTP id
+ c8mr22658413plo.49.1593620759155; 
+ Wed, 01 Jul 2020 09:25:59 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id s6sm5984163pfd.20.2020.07.01.09.25.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 09:25:58 -0700 (PDT)
+Subject: Re: [PATCH 1/1] tcg/tcg-op: nonatomic_op should work with smaller
+ memop
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20200701152156.1147-1-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e828263f-e592-d787-b4cd-44c41a41e7f3@linaro.org>
+Date: Wed, 1 Jul 2020 09:25:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200701152156.1147-1-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200617213415.22417-14-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 12:11:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,252 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsky@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 18 06:34, Dmitry Fomichev wrote:
-> Added logic to set and reset FZR and RZR zone attributes. Four new
-> driver properties are added to control the timing of setting and
-> resetting these attributes. FZR/RZR delay lasts from the zone
-> operation and until when the corresponding zone attribute is set.
-> FZR/RZR limits set the time period between setting FZR or RZR
-> attribute and resetting it simulating the internal controller action
-> on that zone.
-> 
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+On 7/1/20 8:21 AM, LIU Zhiwei wrote:
+> -    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
+> +    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
+> +    tcg_gen_ext_i32(val, val, memop);
+>      gen(t2, t1, val);
 
-Please correct me if I am wrong here, but I want to raise a question
-about the use of QEMU_CLOCK_REALTIME here. I agree that it makes sense
-that the limits are "absolute", but does this hold for emulation? In my
-view, when emulation is stopped, the world is stopped. Should we emulate
-the need for background operations in this case? I don't think so.
+I was just about to post a simiar patch.
+The difference with mine is that I do not modify val:
 
-> ---
->  hw/block/nvme.c | 99 +++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/block/nvme.h | 13 ++++++-
->  2 files changed, 111 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index a29cbfcc96..c3898448c7 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -201,6 +201,84 @@ static inline void nvme_aor_dec_active(NvmeCtrl *n, NvmeNamespace *ns)
->      assert(ns->nr_active_zones >= 0);
->  }
->  
-> +static void nvme_set_rzr(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-> +{
-> +    assert(zone->flags & NVME_ZFLAGS_SET_RZR);
-> +    zone->tstamp = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-> +    zone->flags &= ~NVME_ZFLAGS_TS_DELAY;
-> +    zone->d.za |= NVME_ZA_RESET_RECOMMENDED;
-> +    zone->flags &= ~NVME_ZFLAGS_SET_RZR;
-> +    trace_pci_nvme_zone_reset_recommended(zone->d.zslba);
-> +}
-> +
-> +static void nvme_clear_rzr(NvmeCtrl *n, NvmeNamespace *ns,
-> +    NvmeZone *zone, bool notify)
-> +{
-> +    if (n->params.rrl_usec) {
-> +        zone->flags &= ~(NVME_ZFLAGS_SET_RZR | NVME_ZFLAGS_TS_DELAY);
-> +        notify = notify && (zone->d.za & NVME_ZA_RESET_RECOMMENDED);
-> +        zone->d.za &= ~NVME_ZA_RESET_RECOMMENDED;
-> +        zone->tstamp = 0;
-> +    }
-> +}
-> +
-> +static void nvme_set_fzr(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-> +{
-> +    assert(zone->flags & NVME_ZFLAGS_SET_FZR);
-> +    zone->tstamp = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-> +    zone->flags &= ~NVME_ZFLAGS_TS_DELAY;
-> +    zone->d.za |= NVME_ZA_FINISH_RECOMMENDED;
-> +    zone->flags &= ~NVME_ZFLAGS_SET_FZR;
-> +    trace_pci_nvme_zone_finish_recommended(zone->d.zslba);
-> +}
-> +
-> +static void nvme_clear_fzr(NvmeCtrl *n, NvmeNamespace *ns,
-> +    NvmeZone *zone, bool notify)
-> +{
-> +    if (n->params.frl_usec) {
-> +        zone->flags &= ~(NVME_ZFLAGS_SET_FZR | NVME_ZFLAGS_TS_DELAY);
-> +        notify = notify && (zone->d.za & NVME_ZA_FINISH_RECOMMENDED);
-> +        zone->d.za &= ~NVME_ZA_FINISH_RECOMMENDED;
-> +        zone->tstamp = 0;
-> +    }
-> +}
-> +
-> +static void nvme_schedule_rzr(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-> +{
-> +    if (n->params.frl_usec) {
-> +        zone->flags &= ~(NVME_ZFLAGS_SET_FZR | NVME_ZFLAGS_TS_DELAY);
-> +        zone->d.za &= ~NVME_ZA_FINISH_RECOMMENDED;
-> +        zone->tstamp = 0;
-> +    }
-> +    if (n->params.rrl_usec) {
-> +        zone->flags |= NVME_ZFLAGS_SET_RZR;
-> +        if (n->params.rzr_delay_usec) {
-> +            zone->tstamp = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-> +            zone->flags |= NVME_ZFLAGS_TS_DELAY;
-> +        } else {
-> +            nvme_set_rzr(n, ns, zone);
-> +        }
-> +    }
-> +}
-> +
-> +static void nvme_schedule_fzr(NvmeCtrl *n, NvmeNamespace *ns, NvmeZone *zone)
-> +{
-> +    if (n->params.rrl_usec) {
-> +        zone->flags &= ~(NVME_ZFLAGS_SET_RZR | NVME_ZFLAGS_TS_DELAY);
-> +        zone->d.za &= ~NVME_ZA_RESET_RECOMMENDED;
-> +        zone->tstamp = 0;
-> +    }
-> +    if (n->params.frl_usec) {
-> +        zone->flags |= NVME_ZFLAGS_SET_FZR;
-> +        if (n->params.fzr_delay_usec) {
-> +            zone->tstamp = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-> +            zone->flags |= NVME_ZFLAGS_TS_DELAY;
-> +        } else {
-> +            nvme_set_fzr(n, ns, zone);
-> +        }
-> +    }
-> +}
-> +
->  static void nvme_assign_zone_state(NvmeCtrl *n, NvmeNamespace *ns,
->      NvmeZone *zone, uint8_t state)
->  {
-> @@ -208,15 +286,19 @@ static void nvme_assign_zone_state(NvmeCtrl *n, NvmeNamespace *ns,
->          switch (nvme_get_zone_state(zone)) {
->          case NVME_ZONE_STATE_EXPLICITLY_OPEN:
->              nvme_remove_zone(n, ns, ns->exp_open_zones, zone);
-> +            nvme_clear_fzr(n, ns, zone, false);
->              break;
->          case NVME_ZONE_STATE_IMPLICITLY_OPEN:
->              nvme_remove_zone(n, ns, ns->imp_open_zones, zone);
-> +            nvme_clear_fzr(n, ns, zone, false);
->              break;
->          case NVME_ZONE_STATE_CLOSED:
->              nvme_remove_zone(n, ns, ns->closed_zones, zone);
-> +            nvme_clear_fzr(n, ns, zone, false);
->              break;
->          case NVME_ZONE_STATE_FULL:
->              nvme_remove_zone(n, ns, ns->full_zones, zone);
-> +            nvme_clear_rzr(n, ns, zone, false);
->          }
->     }
->  
-> @@ -225,15 +307,19 @@ static void nvme_assign_zone_state(NvmeCtrl *n, NvmeNamespace *ns,
->      switch (state) {
->      case NVME_ZONE_STATE_EXPLICITLY_OPEN:
->          nvme_add_zone_tail(n, ns, ns->exp_open_zones, zone);
-> +        nvme_schedule_fzr(n, ns, zone);
->          break;
->      case NVME_ZONE_STATE_IMPLICITLY_OPEN:
->          nvme_add_zone_tail(n, ns, ns->imp_open_zones, zone);
-> +        nvme_schedule_fzr(n, ns, zone);
->          break;
->      case NVME_ZONE_STATE_CLOSED:
->          nvme_add_zone_tail(n, ns, ns->closed_zones, zone);
-> +        nvme_schedule_fzr(n, ns, zone);
->          break;
->      case NVME_ZONE_STATE_FULL:
->          nvme_add_zone_tail(n, ns, ns->full_zones, zone);
-> +        nvme_schedule_rzr(n, ns, zone);
->          break;
->      default:
->          zone->d.za = 0;
-> @@ -555,6 +641,7 @@ static void nvme_auto_transition_zone(NvmeCtrl *n, NvmeNamespace *ns,
->              zone->d.za &= ~(NVME_ZA_FINISH_RECOMMENDED |
->                              NVME_ZA_RESET_RECOMMENDED);
->              zone->d.za |= NVME_ZA_FINISHED_BY_CTLR;
-> +            zone->flags = 0;
->              zone->tstamp = 0;
->              trace_pci_nvme_zone_finished_by_controller(zone->d.zslba);
->          }
-> @@ -2624,6 +2711,11 @@ static void nvme_zoned_init_ctrl(NvmeCtrl *n, Error **errp)
->      n->num_zones = nz;
->      n->zone_array_size = sizeof(NvmeZone) * nz;
->  
-> +    n->params.rzr_delay_usec *= SCALE_MS;
-> +    n->params.rrl_usec *= SCALE_MS;
-> +    n->params.fzr_delay_usec *= SCALE_MS;
-> +    n->params.frl_usec *= SCALE_MS;
-> +
+-    gen(t2, t1, val);
++    tcg_gen_ext_i32(t2, val, memop);
++    gen(t2, t1, t2);
 
-I would prefer that user-given parameters are not changed like this.
-Setting defaults for various reasons are OK, but when the meaning of the
-parameter changes (like the scale), its confusing. I would suggest that
-the namespace gets the set of *_usec members and the parameters are name
-without the usec.
 
->      /* Make sure that the values of all Zoned Command Set properties are sane */
->      if (n->params.max_open_zones > nz) {
->          n->params.max_open_zones = nz;
-> @@ -2651,6 +2743,8 @@ static int nvme_zoned_init_ns(NvmeCtrl *n, NvmeNamespace *ns, int lba_index,
->      /* MAR/MOR are zeroes-based, 0xffffffff means no limit */
->      ns->id_ns_zoned->mar = cpu_to_le32(n->params.max_active_zones - 1);
->      ns->id_ns_zoned->mor = cpu_to_le32(n->params.max_open_zones - 1);
-> +    ns->id_ns_zoned->rrl = cpu_to_le32(n->params.rrl_usec / (1000 * SCALE_MS));
-> +    ns->id_ns_zoned->frl = cpu_to_le32(n->params.frl_usec / (1000 * SCALE_MS));
->      ns->id_ns_zoned->zoc = cpu_to_le16(n->params.active_excursions ? 0x2 : 0);
->      ns->id_ns_zoned->ozcs = n->params.cross_zone_read ? 0x01 : 0x00;
->  
-> @@ -3012,6 +3106,11 @@ static Property nvme_props[] = {
->      DEFINE_PROP_UINT32("zone_append_max_size", NvmeCtrl, params.zamds_bs, 0),
->      DEFINE_PROP_INT32("max_active", NvmeCtrl, params.max_active_zones, 0),
->      DEFINE_PROP_INT32("max_open", NvmeCtrl, params.max_open_zones, 0),
-> +    DEFINE_PROP_UINT64("reset_rcmnd_delay", NvmeCtrl, params.rzr_delay_usec, 0),
-> +    DEFINE_PROP_UINT64("reset_rcmnd_limit", NvmeCtrl, params.rrl_usec, 0),
-> +    DEFINE_PROP_UINT64("finish_rcmnd_delay", NvmeCtrl,
-> +                       params.fzr_delay_usec, 0),
-> +    DEFINE_PROP_UINT64("finish_rcmnd_limit", NvmeCtrl, params.frl_usec, 0),
->      DEFINE_PROP_BOOL("cross_zone_read", NvmeCtrl, params.cross_zone_read, true),
->      DEFINE_PROP_BOOL("active_excursions", NvmeCtrl, params.active_excursions,
->                       false),
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 8a0aaeb09a..be1920f1ef 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -22,6 +22,10 @@ typedef struct NvmeParams {
->      uint64_t    zone_capacity;
->      int32_t     max_active_zones;
->      int32_t     max_open_zones;
-> +    uint64_t    rzr_delay_usec;
-> +    uint64_t    rrl_usec;
-> +    uint64_t    fzr_delay_usec;
-> +    uint64_t    frl_usec;
->  } NvmeParams;
->  
->  typedef struct NvmeAsyncEvent {
-> @@ -77,12 +81,19 @@ typedef struct NvmeCQueue {
->      QTAILQ_HEAD(, NvmeRequest) req_list;
->  } NvmeCQueue;
->  
-> +enum NvmeZoneFlags {
-> +    NVME_ZFLAGS_TS_DELAY = 1 << 0,
-> +    NVME_ZFLAGS_SET_RZR  = 1 << 1,
-> +    NVME_ZFLAGS_SET_FZR  = 1 << 2,
-> +};
-> +
->  typedef struct NvmeZone {
->      NvmeZoneDescr   d;
->      uint64_t        tstamp;
-> +    uint32_t        flags;
->      uint32_t        next;
->      uint32_t        prev;
-> -    uint8_t         rsvd80[8];
-> +    uint8_t         rsvd84[4];
->  } NvmeZone;
->  
->  #define NVME_ZONE_LIST_NIL    UINT_MAX
-> -- 
-> 2.21.0
-> 
-> 
+r~
 
