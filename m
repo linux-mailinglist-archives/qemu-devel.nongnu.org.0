@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217AF21167B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 01:10:02 +0200 (CEST)
-Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B4F2116C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 01:48:56 +0200 (CEST)
+Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqlrc-0002aT-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 19:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
+	id 1jqmTH-00066P-At
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 19:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jqlqf-00024u-4M; Wed, 01 Jul 2020 19:09:01 -0400
-Received: from mga04.intel.com ([192.55.52.120]:3590)
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1jqmOY-0008Oo-VV; Wed, 01 Jul 2020 19:44:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jqlqd-0003S2-7c; Wed, 01 Jul 2020 19:09:00 -0400
-IronPort-SDR: JBBNZQc99eRWTgS6IEEzgbj34d9+YjWWMNC2y5o7T8BkoVfxX+m8Hp5g7VMhCVpPL/7aI5R044
- GPSdVh1kPsJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="144237039"
-X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; d="scan'208";a="144237039"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2020 16:08:56 -0700
-IronPort-SDR: AkxdBzDDRTyw8WTgxQWs6reFUh0RPeYjBtYl4Jmet/OnjfMP6JHe5/aHMsVJWLnOlS9BHSezjz
- dcrZ9Cv5RCWg==
-X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; d="scan'208";a="265539614"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.212.205.13])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2020 16:08:55 -0700
-Subject: Re: [PATCH v3 3/4] hw/block/nvme: Fix pmrmsc register size
-To: Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200630110429.19972-1-philmd@redhat.com>
- <20200630110429.19972-4-philmd@redhat.com>
- <45a97bae-887c-2669-439e-08ec3e75113e@linux.intel.com>
- <e19634b7-b4b6-dbb8-e49f-bf7f96b89e81@redhat.com>
- <20200630164541.tnnabrqzejaumwrr@apples.localdomain>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <9e3b7248-785a-72f0-b99b-af91740f1df7@linux.intel.com>
-Date: Wed, 1 Jul 2020 16:08:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <ljp@linux.ibm.com>)
+ id 1jqmOV-0002B6-Sn; Wed, 01 Jul 2020 19:44:02 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 061NWa8K025214; Wed, 1 Jul 2020 19:43:48 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 320wfftsmq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jul 2020 19:43:48 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 061Ne3o4029765;
+ Wed, 1 Jul 2020 23:43:47 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04dal.us.ibm.com with ESMTP id 31wwr9d12h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Jul 2020 23:43:47 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 061Nhj8340829378
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Jul 2020 23:43:45 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4D0A6E050;
+ Wed,  1 Jul 2020 23:43:45 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED9CE6E04E;
+ Wed,  1 Jul 2020 23:43:44 +0000 (GMT)
+Received: from pompom.ibm.com (unknown [9.160.126.23])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Jul 2020 23:43:44 +0000 (GMT)
+From: Lijun Pan <ljp@linux.ibm.com>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v4 00/11] Add several Power ISA 3.1 32/64-bit vector
+ instructions
+Date: Wed,  1 Jul 2020 18:43:35 -0500
+Message-Id: <20200701234344.91843-1-ljp@linux.ibm.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20200630164541.tnnabrqzejaumwrr@apples.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga04.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 17:47:32
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-01_15:2020-07-01,
+ 2020-07-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 mlxlogscore=999 cotscore=-2147483648
+ adultscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ mlxscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2007010161
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=ljp@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 19:43:54
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,80 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Lijun Pan <ljp@linux.ibm.com>, richard.henderson@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/20 9:45 AM, Klaus Jensen wrote:
-> On Jun 30 17:16, Philippe Mathieu-Daudé wrote:
->> On 6/30/20 5:10 PM, Andrzej Jakowski wrote:
->>> On 6/30/20 4:04 AM, Philippe Mathieu-Daudé wrote:
->>>> The Persistent Memory Region Controller Memory Space Control
->>>> register is 64-bit wide. See 'Figure 68: Register Definition'
->>>> of the 'NVM Express Base Specification Revision 1.4'.
->>>>
->>>> Fixes: 6cf9413229 ("introduce PMR support from NVMe 1.4 spec")
->>>> Reported-by: Klaus Jensen <k.jensen@samsung.com>
->>>> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>> Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
->>>> ---
->>>>  include/block/nvme.h | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/include/block/nvme.h b/include/block/nvme.h
->>>> index 71c5681912..82c384614a 100644
->>>> --- a/include/block/nvme.h
->>>> +++ b/include/block/nvme.h
->>>> @@ -21,7 +21,7 @@ typedef struct QEMU_PACKED NvmeBar {
->>>>      uint32_t    pmrsts;
->>>>      uint32_t    pmrebs;
->>>>      uint32_t    pmrswtp;
->>>> -    uint32_t    pmrmsc;
->>>> +    uint64_t    pmrmsc;
->>>>  } NvmeBar;
->>>>  
->>>>  enum NvmeCapShift {
->>>> -- 2.21.3
->>>
->>> This is good catch, though I wanted to highlight that this will still 
->>> need to change as this register is not aligned properly and thus not in
->>> compliance with spec.
->>
->> I was wondering the odd alignment too. So you are saying at some time
->> in the future the spec will be updated to correct the alignment?
-Yep I think so.
-So PMRMSC currently is 64-bit register that is defined at E14h offset.
-It is in conflict with spec because spec requires 64-bit registers to 
-be 64-bit aligned.
-I anticipate that changes will be needed.
+This patch series add several newly introduced 32/64-bit vector
+instructions in Power ISA 3.1. Power ISA 3.1 flag is introduced in
+this version. In v4 version, coding style issues are fixed, community
+reviews/suggestions are taken into consideration.
 
->>
->> Should we use this instead?
->>
->>       uint32_t    pmrmsc;
->>  +    uint32_t    pmrmsc_upper32; /* the spec define this, but *
->>  +                                 * only low 32-bit are used  */
->>
->> Or eventually an unnamed struct:
->>
->>  -    uint32_t    pmrmsc;
->>  +    struct {
->>  +        uint32_t pmrmsc;
->>  +        uint32_t pmrmsc_upper32; /* the spec define this, but *
->>  +                                  * only low 32-bit are used  */
->>  +    };
->>
->>>
->>> Reviewed-by Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
->>>
->>
-> 
-> I'm also not sure what you mean Andrzej. The odd alignment is exactly
-> what the spec (v1.4) says?
-> 
+Lijun Pan (11):
+  target/ppc: Introduce Power ISA 3.1 flag
+  target/ppc: Enable Power ISA 3.1
+  target/ppc: add byte-reverse br[dwh] instructions
+  target/ppc: convert vmuluwm to tcg_gen_gvec_mul
+  target/ppc: add vmulld instruction
+  Update PowerPC AT_HWCAP2 definition
+  target/ppc: add vmulld to INDEX_op_mul_vec case
+  target/ppc: add vmulh{su}w instructions
+  fix the prototype of muls64/mulu64
+  target/ppc: add vmulh{su}d instructions
+  target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
+
+ include/elf.h                       |  1 +
+ include/qemu/host-utils.h           |  4 +-
+ target/ppc/cpu.h                    |  4 +-
+ target/ppc/helper.h                 | 13 ++++-
+ target/ppc/int_helper.c             | 75 ++++++++++++++++++++++++-----
+ target/ppc/translate.c              | 43 +++++++++++++++++
+ target/ppc/translate/vmx-impl.inc.c | 26 +++++++++-
+ target/ppc/translate/vmx-ops.inc.c  | 27 +++++++++--
+ target/ppc/translate_init.inc.c     |  2 +-
+ tcg/ppc/tcg-target.h                |  2 +
+ tcg/ppc/tcg-target.inc.c            | 12 ++++-
+ 11 files changed, 184 insertions(+), 25 deletions(-)
+
+-- 
+2.23.0
 
 
