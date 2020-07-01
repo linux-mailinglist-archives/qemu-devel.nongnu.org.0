@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6286210F99
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:44:09 +0200 (CEST)
-Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA357210FA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:48:11 +0200 (CEST)
+Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeu8-0007NA-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59956)
+	id 1jqey2-0003pF-Hf
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqesi-0006ME-5V
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:42:40 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqesg-00004y-9a
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:42:39 -0400
-Received: by mail-wm1-x334.google.com with SMTP id l17so22935185wmj.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=lF0s/m5egU9LBgFAkgsYyPlZRLMynOOSvEYAt6b6VPM=;
- b=iM+p5j+ixVQCM6582fxKe2bYpgn4rmPRQroJQu7OQxRK5Se4236ZjxopRX/K4Nhj56
- iYtpP+lJxh2RWd/FtuUFE0HztanFfz6Tn6v8mJXmR+wau8ikH1Ej2+nySlTWa/lbyapU
- FFador2e/lC0Jil7AnPtcBdvOEouAhWyc4H31dMXs8zrdpqbhfjEqp1n12DtgQbhFqIx
- 5FDqbe1KtyFWYsbaB3q864JnRunSFA/Iyve9uZmiix5rSh8KIRhA9z70lBkU/rEiRVzb
- A/3oKLCKNODEIKcchMx/WxSm4cZzLxRc3lRDva2D/P0rGiVF9pcLl7BAPl67Jau8wEpS
- 2/uw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqewd-0002rO-RZ
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:46:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51013
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqewb-0000lz-2x
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:46:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593618399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9QyMu8Tnry7x/0OjVIwhRuRLkBtdZFOiyHxNZC+0maQ=;
+ b=AIcdHYEVoKsf1eYTFbrYvX0Ot1L/YrQwANY7qz/Th7NDnlQc5Q3lxhbtdYn3I0hUeAVYAG
+ Y83VnN0B6g74oFhCrYL4u0Vz2k/hiX+XjLjfRnmJLyLNT9y3UtN45OAuJFxWmHD2QVdnTJ
+ MzV8wHM7jukGY54f/nQIx/V8tJhW4c0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-O60e4mwjPi-fokwyZFrkPw-1; Wed, 01 Jul 2020 11:46:35 -0400
+X-MC-Unique: O60e4mwjPi-fokwyZFrkPw-1
+Received: by mail-ed1-f70.google.com with SMTP id x20so21439074edr.20
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:46:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=lF0s/m5egU9LBgFAkgsYyPlZRLMynOOSvEYAt6b6VPM=;
- b=Cxn5BHrSUZYM01uWgm+3x72GCdWew2dc22nx65xcat+Wb08RFe/fYtcrjAHy0/9N5z
- xQihRiWfImwDcmynEdlJOu2s/UgfA7goGDshFe+53Yai9EIvM8d2FQRLlk6XaJafhjah
- WF38ao/KxBqA5mj1D7on940DLoLy6GyCo1eZJpRgRKLPob97WbtuhXyxUGDpZzgBfUiM
- /WZczfljD+EnGBtL4RaMLUrpWAXfatj36Wpr+2qkLgSxQFhXffzzos/Us2RKMtar6qOn
- NZDtSkX9BgjayFn+E4DFMNpYU6e1ohutlNNQPXq7s83K2hJmg14kmuYb93UzpWbbMH94
- VJMw==
-X-Gm-Message-State: AOAM532TYzypm7SSaPLm4OVMfw6xZ3OcfTm0zDmOS7K2Gq/kmHMTZasD
- kvqI18N1EizOfamW0LAv3kJdtg==
-X-Google-Smtp-Source: ABdhPJzhHJQO1NKYgntlFFXJUU8P+zuvwP0XBkaX7V5uFFdjRiajnA8UIXoI4XsZgSsZdyFsfl/G1A==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr29588936wmj.117.1593618156447; 
- Wed, 01 Jul 2020 08:42:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 207sm8514294wme.13.2020.07.01.08.42.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 08:42:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 31BBC1FF7E;
- Wed,  1 Jul 2020 16:42:33 +0100 (BST)
-References: <CALTWKrVAW33jJs1Q+51wN07DDUbAqwo=o+WDCpoT=NFB6dNZ6A@mail.gmail.com>
- <878sg5svu5.fsf@linaro.org>
- <CALTWKrVx+e0oRVrvd27WeXAbAAZHVispG27cRPKwVo3HfNYbkQ@mail.gmail.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Subject: Re: [REPORT] [GSoC - TCG Continuous Benchmarking] [#2] Dissecting
- QEMU Into Three Main Parts
-In-reply-to: <CALTWKrVx+e0oRVrvd27WeXAbAAZHVispG27cRPKwVo3HfNYbkQ@mail.gmail.com>
-Date: Wed, 01 Jul 2020 16:42:33 +0100
-Message-ID: <87sgebqm1i.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9QyMu8Tnry7x/0OjVIwhRuRLkBtdZFOiyHxNZC+0maQ=;
+ b=SOLRd6RuJQcMt9mS5+05mmnTbSDXanU57AXKEpfGpAsV2ALPyp76pvWL/NoDzH+Ack
+ RkM7hOkwtHH2dFQQxdDmSLcmiXqvg0aMb+sks1HlbwIJ9u/hmbV4UvagzdqWkBhseg5w
+ s0ggRjR9HgtF2p1C5kHEBXTtdjkgEb3kVZo6TQ/G4Mqi2lMCzE82CDR7qbESAqYencen
+ OsCEXRzYhycp4VDqF5CqoslAQF4Me4olFLcLngbrYh7JDrcmxd4XrLqUvz6v0jes3X6X
+ xEnUbSlo1NIWKd3wZWJrchdBveTHZRr+iNknodkZ7PBkktDm5pYkSXr5idVzQ/CuriF1
+ Xebg==
+X-Gm-Message-State: AOAM5335H3x2qm/t8xd947kP1cYDYaYKk1nwkRoPay4l4/cXlfP/AiPd
+ eaL99DR+SwICp5kS1iKVXGT/8SHAKaLRdCIHrsrUiPAnQc93NMTUDRoXjfFJBQ/HW/WgFLK8+6J
+ NefEk9Q3Cf8/mwtM=
+X-Received: by 2002:a05:6402:1b0e:: with SMTP id
+ by14mr28853629edb.266.1593618394389; 
+ Wed, 01 Jul 2020 08:46:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDqkjTiGUKOIloYVs03WXtug1l6aSs5F6K1RuVpQ+Rsgimk5AvD8+U9MwndB401AlGe5BcGA==
+X-Received: by 2002:a05:6402:1b0e:: with SMTP id
+ by14mr28853613edb.266.1593618394211; 
+ Wed, 01 Jul 2020 08:46:34 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9d66:2ca3:22cf:9fa9?
+ ([2001:b07:6468:f312:9d66:2ca3:22cf:9fa9])
+ by smtp.gmail.com with ESMTPSA id b4sm6372902edx.96.2020.07.01.08.46.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 08:46:33 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] MAINTAINERS: Adjust MIPS maintainership
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ chen huacai <zltjiangshi@gmail.com>
+References: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
+ <20200630164653.24880-3-aleksandar.qemu.devel@gmail.com>
+ <1fdab6eb-9258-7df1-75ea-b4717a9c2b87@amsat.org>
+ <3ae1ef05-8caa-b5ce-a1ce-9670fc0a7cd3@amsat.org>
+ <009f6fed-f043-cce3-f2c8-9aefd70d9601@amsat.org>
+ <CABDp7VoRWPft-aXi5OfreUQ0AzoRWe+cg8wySHwmbf8wADg=JA@mail.gmail.com>
+ <CAHiYmc4Go4RmdOC4dBE0Z4tu0d8mciiG1VUSz4=k9t58b54MDg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <96553b01-2e8c-3c04-df7f-8aeca8ccbc7c@redhat.com>
+Date: Wed, 1 Jul 2020 17:46:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <CAHiYmc4Go4RmdOC4dBE0Z4tu0d8mciiG1VUSz4=k9t58b54MDg@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,48 +110,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 01/07/20 15:53, Aleksandar Markovic wrote:
+> Although, honestly speaking, your
+> credentials for being a maintainer are - at least - three order of
+> magnitude higher than for some other maintainer.
 
-Ahmed Karaman <ahmedkhaledkaraman@gmail.com> writes:
+Aleksandar, this is not an acceptable way to refer to other people
+contributing to QEMU.
 
-> On Mon, Jun 29, 2020 at 6:03 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->>
->> Assuming your test case is constant execution (i.e. runs the same each
->> time) you could run in through a plugins build to extract the number of
->> guest instructions, e.g.:
->>
->>   ./aarch64-linux-user/qemu-aarch64 -plugin tests/plugin/libinsn.so -d p=
-lugin ./tests/tcg/aarch64-linux-user/sha1
->>   SHA1=3D15dd99a1991e0b3826fede3deffc1feba42278e6
->>   insns: 158603512
->>
->> --
->> Alex Benn=C3=A9e
->
-> Hi Mr. Alex,
-> I've created a plugins build as you've said using "--enable-plugins" opti=
-on.
-> I've searched for "libinsn.so" plugin that you've mentioned in your
-> command but it isn't in that path.
+To date, the QEMU community has not explicitly set rules around
+acceptable behavior nor has it adopted a Code of Conduct, mostly because
+we never had to deal with serious harassment.  However, the basic
+standards for getting along with others still apply, and they were not
+respected in this case.
 
-make plugins
+Respectfully,
 
-and you should find them in tests/plugins/
+Paolo
 
->
-> Are there any other options that I should configure my build with?
-> Thanks in advance.
->
-> Regards,
-> Ahmed Karaman
-
-
---=20
-Alex Benn=C3=A9e
 
