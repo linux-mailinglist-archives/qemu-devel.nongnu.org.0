@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D347210800
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:26:20 +0200 (CEST)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4639E21080C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 11:27:41 +0200 (CEST)
+Received: from localhost ([::1]:41034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqZ0V-00082q-HD
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
+	id 1jqZ1n-0001T2-AK
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 05:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqYzc-0007Tp-Nq
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:24 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48329
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqYzx-0007qJ-4R
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26634
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqYza-0004pA-SB
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:24 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jqYzv-0004w6-GJ
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 05:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593595522;
+ s=mimecast20190719; t=1593595542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JgvH3JwWTfWXjtfSaqK7+W31duXXuMZmeoL3dGJNzxI=;
- b=YZzGcIhQchLyLcxqJ9cRJD2xxxgeOU62NyH+pFTqRkS1MFiIeTCz/nZrKOg8aMcW4HhVMp
- mKqFoKaY9QeJ09ZZc81Qg5G8txnliOKVYnt5qj8THTPIy+jwHYMNSIeVTP4xFpxyBPqB8F
- jc71zZmvofE++PQfSbyWzl6mJ+shnYU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CwDzVv8vVIGdgufhvskvFm88w8TifsKMZGwYpyVL/sY=;
+ b=IivBVm/8GtCRNbrNRj1x7iZKB/gPdwKXduw51NFYJ8gvSi3QjSbbx4sHu3v8d3GATNNmYj
+ 2LGtPFPvSTcoEndgGr3l+N4I+KpxYgchHSFkblR/oufXVfGOWh883dHxIdK8rB2NXklwSR
+ Jqc5n/2Y/iBd+gEOL+cMNJsmINkKmZc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-5oY3JlEGP8uWZIHzBrzoCQ-1; Wed, 01 Jul 2020 05:25:18 -0400
-X-MC-Unique: 5oY3JlEGP8uWZIHzBrzoCQ-1
+ us-mta-143-mZcG_0VdOXSu3icakKpuwQ-1; Wed, 01 Jul 2020 05:25:41 -0400
+X-MC-Unique: mZcG_0VdOXSu3icakKpuwQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04BD3107ACF5;
- Wed,  1 Jul 2020 09:25:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5D921083E8A;
+ Wed,  1 Jul 2020 09:25:38 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-19.pek2.redhat.com [10.72.12.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6427E104C43E;
- Wed,  1 Jul 2020 09:24:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13C0210640E2;
+ Wed,  1 Jul 2020 09:25:17 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [PATCH v3 00/13]  vDPA support in qemu
-Date: Wed,  1 Jul 2020 17:24:36 +0800
-Message-Id: <20200701092449.17451-1-lulu@redhat.com>
+Subject: [PATCH v3 01/13] net: introduce qemu_get_peer
+Date: Wed,  1 Jul 2020 17:24:37 +0800
+Message-Id: <20200701092449.17451-2-lulu@redhat.com>
+In-Reply-To: <20200701092449.17451-1-lulu@redhat.com>
+References: <20200701092449.17451-1-lulu@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -54,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:05:53
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,78 +91,45 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vDPA device is a device that uses a datapath which complies with the
-virtio specifications with vendor specific control path. vDPA devices
-can be both physically located on the hardware or emulated by software.
-This PATCH introduce the vDPA support in qemu
-TODO 
-1) vIOMMU support
-2) live migration support
-3) docs for vhost-vdpa
-4) config interrupt support 
+This is a small function that can get the peer
+from given NetClientState and queue_index
 
-Change from v1
-separate the patch of vhost_vq_get_addr
-separate the patch of vhost_dev_start
-introduce the docmation for vhost-vdpa.rst 
-other comments form last version 
-github address:
-https://github.com/lulu-github-name/qemutmp.git PATCHV2
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ include/net/net.h | 1 +
+ net/net.c         | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-Change from v2
-fix the complie problem
-separate the patch of vhost_force_iommu
-other comments form last version 
-github address:
-https://github.com/lulu-github-name/qemutmp.git PATCHV3
-
-Cindy Lu (10):
-  net: introduce qemu_get_peer
-  vhost_net: use the function qemu_get_peer
-  vhost: introduce new VhostOps vhost_dev_start
-  vhost: implement vhost_dev_start method
-  vhost: introduce new VhostOps vhost_vq_get_addr
-  vhost: implement vhost_vq_get_addr method
-  vhost: introduce new VhostOps vhost_force_iommu
-  vhost: implement vhost_force_iommu method
-  vhost-vdpa: introduce vhost-vdpa backend
-  vhost-vdpa: introduce vhost-vdpa net client
-
-Jason Wang (3):
-  virtio-bus: introduce queue_enabled method
-  virtio-pci: implement queue_enabled method
-  vhost: check the existence of vhost_set_iotlb_callback
-
- configure                         |  21 ++
- docs/interop/index.rst            |   1 +
- docs/interop/vhost-vdpa.rst       |  17 ++
- hw/net/vhost_net.c                |  35 ++-
- hw/net/virtio-net.c               |  20 ++
- hw/virtio/Makefile.objs           |   1 +
- hw/virtio/vhost-backend.c         |   6 +
- hw/virtio/vhost-vdpa.c            | 475 ++++++++++++++++++++++++++++++
- hw/virtio/vhost.c                 |  52 +++-
- hw/virtio/virtio-pci.c            |  13 +
- hw/virtio/virtio.c                |   6 +
- include/hw/virtio/vhost-backend.h |  19 +-
- include/hw/virtio/vhost-vdpa.h    |  26 ++
- include/hw/virtio/vhost.h         |   7 +
- include/hw/virtio/virtio-bus.h    |   4 +
- include/net/net.h                 |   1 +
- include/net/vhost-vdpa.h          |  22 ++
- net/Makefile.objs                 |   2 +-
- net/clients.h                     |   2 +
- net/net.c                         |  10 +
- net/vhost-vdpa.c                  | 228 ++++++++++++++
- qapi/net.json                     |  28 +-
- qemu-options.hx                   |  12 +
- 23 files changed, 978 insertions(+), 30 deletions(-)
- create mode 100644 docs/interop/vhost-vdpa.rst
- create mode 100644 hw/virtio/vhost-vdpa.c
- create mode 100644 include/hw/virtio/vhost-vdpa.h
- create mode 100644 include/net/vhost-vdpa.h
- create mode 100644 net/vhost-vdpa.c
-
+diff --git a/include/net/net.h b/include/net/net.h
+index 39085d9444..e7ef42d62b 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -176,6 +176,7 @@ void hmp_info_network(Monitor *mon, const QDict *qdict);
+ void net_socket_rs_init(SocketReadState *rs,
+                         SocketReadStateFinalize *finalize,
+                         bool vnet_hdr);
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
+ 
+ /* NIC info */
+ 
+diff --git a/net/net.c b/net/net.c
+index d1130296e1..9099a327dd 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -325,6 +325,13 @@ void *qemu_get_nic_opaque(NetClientState *nc)
+     return nic->opaque;
+ }
+ 
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
++{
++    assert(nc != NULL);
++    NetClientState *ncs = nc + queue_index;
++    return ncs->peer;
++}
++
+ static void qemu_cleanup_net_client(NetClientState *nc)
+ {
+     QTAILQ_REMOVE(&net_clients, nc, next);
 -- 
 2.21.1
 
