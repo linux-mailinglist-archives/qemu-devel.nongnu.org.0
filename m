@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2FC210CF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:59:02 +0200 (CEST)
-Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D1210CF0
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 15:58:55 +0200 (CEST)
+Received: from localhost ([::1]:58662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdGP-0003yH-Dg
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58778)
+	id 1jqdGI-0003rg-B3
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 09:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdET-00028v-2k
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:01 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42400)
+ id 1jqdER-00027u-5m
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:56:59 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdER-0005oi-Fz
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:57:00 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o11so23962721wrv.9
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:56:59 -0700 (PDT)
+ id 1jqdEP-0005oA-DV
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 09:56:58 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id q15so22525715wmj.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 06:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+TAlbHIsXZGW5UODRkH4obAQs4koVX0V9BG/gRdLybw=;
- b=y09k1vHUBlQF6ueTAew75bX5pYxYqt0PC9MgykKFtA/gJVlmKc7nDYFKeo1XfNNRPs
- 3iLZezc0+CT+/fyIz2Ohh5FF3Qh3xJdvO0O+6MbhETkDFBKFoJZrbjI9RRkwTMOfhk0r
- V3SO4T/AuhMj1XxRjcQKx67mMUO8PmZMn7xDi/zJR/rhJWCAb7SPYfP5tS1nvh8zQ65W
- 4dxM5hT9LbWkNxeaOqWIKDcDcPDlkeJ2zb/HBe1Xi9zULkpx6mbl4t6SxNHQtV0BWul5
- kRYnsAodSJA8nXSKPvR8baXcvJGKya3r+PJYMEkAM45sGklUwNIytfTbL/OpVICZTdv7
- y81Q==
+ bh=o9fzqGYWOKLSCCS48dXnjjFGr8lTIeZq2AiEKkz+F/8=;
+ b=FFktANPMP1gm56eJM7vU0gICRUYK+rOS9MRo4BtozhbdvJOnEuRaCqUB4lIc5skdkE
+ +YwdLD9Xq6absutuPfYPpaTiMIeV/KYrqreKfP0dc9mCi3+pI2SlbrY6Xg05qua5BzJA
+ kZGmjnopSBlr0PFgwWjUqv6JdsKwsNb7V/l1xt0DbX1w6SiuDGxpWf9/i/62CJY67SvL
+ aw1i6pSppiu/226mV9mrjW+FYTEkFZ8TCNV1c8avjJSbquKbdKlaoDfoSk5KRzf+MwPa
+ 841eF9hjogCuFDddcopaKgDj2YiIUN8kGdXY1pPt0j756ZR4j2HB3rKkLYrHzaJcJcTn
+ TUZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+TAlbHIsXZGW5UODRkH4obAQs4koVX0V9BG/gRdLybw=;
- b=DSR0X8SsXzOs3nuHIZFuqSKxAiELDv9yOtS2uipBRACn3msc6PHdsyIUBpyOFhbDDs
- z4cCM64a1ZY5cQ7ZntArSUT/Pt/NSKb4Yt742qkRA0593c1H0KPlsGgitxJaNhDHZFXN
- GW6nIkEH1cPIJrdrA3c35SseYOXOOpefBI54PF3DqWkYr/ha4pBknVMM0VqzV9FImFD6
- AnIj+GSU9W2VpJO/OOPTLSuH8GhbmCdDpHsDmddnd49D3rK/ZvTqF+NM55grEdWVITgq
- 31czWVPd6BacR7eCTieUunbnzFgxOOWWooCYf1ZxKrCpTIZF2NvT8VAb8YAQxhoTUOqT
- r0cw==
-X-Gm-Message-State: AOAM530tXEuDpHpuIkjGO6xdhQ+OdV0xHB7WNJtQB1yaWgFUR8yvOzLP
- JLdRYHokwJiWiNVg3jnkopEfKA==
-X-Google-Smtp-Source: ABdhPJzLiB4X3i0qDIl00ICcftlAoLeJuOPbYzJXhxSE5gi26UBKqyyzv2WvfhcZ4qeblUN6hPeyxA==
-X-Received: by 2002:a5d:4051:: with SMTP id w17mr25745216wrp.183.1593611818079; 
- Wed, 01 Jul 2020 06:56:58 -0700 (PDT)
+ bh=o9fzqGYWOKLSCCS48dXnjjFGr8lTIeZq2AiEKkz+F/8=;
+ b=ePFExLDemzLtk5bGKFdGeqyfTMaXFXARet4pSQfkk25pBnktpFqDYipBbEWNtc6UEA
+ u4ReUEAvsx2usZNe5P2yBSjvzgS+HuV2u/ay0kmRX6QHZetsN8ScfKlnVENEFmvJN2VX
+ oYXActFdjgDcW2UVkJYkXDVQRFqEfRS72JG4AFO1En3hL4M8nIOIW36/I9CU04XbFuad
+ Jd/UGnPE+f4HW3KaszXhxYXtBdpB09AyjT0lrvszvVOTad07Wl1nQN49/wfR+sFj94ZD
+ B3FJEA2vdcxaHyb79/8xw4hj9V0f4tkxM9ah3OrqHPZGIlGkAtfQS9PchYJvPzB11FxZ
+ +yRw==
+X-Gm-Message-State: AOAM530czO9RYa2bPcweq2IMupb1/ZitCSYkMx3qI4OuESAAf6ILDZRn
+ Ypyug+d514Ndi81yZsOO7m01Sw==
+X-Google-Smtp-Source: ABdhPJzqEpQASPVcD8Szo5tbPw+oR67vF5YGbqDkAI2lV7QYZN2Fx352bKUSn3V6V2myyuQmGhGYGw==
+X-Received: by 2002:a1c:7916:: with SMTP id l22mr19059046wme.115.1593611815975; 
+ Wed, 01 Jul 2020 06:56:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v18sm7914893wrv.49.2020.07.01.06.56.53
+ by smtp.gmail.com with ESMTPSA id 33sm7781948wri.16.2020.07.01.06.56.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 01 Jul 2020 06:56:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ECC7A1FF87;
- Wed,  1 Jul 2020 14:56:52 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 2264E1FF8F;
+ Wed,  1 Jul 2020 14:56:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/40] hw/isa: check for current_cpu before generating IRQ
-Date: Wed,  1 Jul 2020 14:56:13 +0100
-Message-Id: <20200701135652.1366-2-alex.bennee@linaro.org>
+Subject: [PATCH v4 03/40] crypto/linux_keyring: fix 'secret_keyring' configure
+ test
+Date: Wed,  1 Jul 2020 14:56:15 +0100
+Message-Id: <20200701135652.1366-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,36 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- Bug 1878645 <1878645@bugs.launchpad.net>, aurelien@aurel32.net
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ David Edmondson <david.edmondson@oracle.com>, cota@braap.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's possible to trigger this function from qtest/monitor at which
-point current_cpu won't point at the right place. Check it and
-fall back to first_cpu if it's NULL.
+From: David Edmondson <david.edmondson@oracle.com>
 
+The configure test for 'secret_keyring' incorrectly checked the
+'have_keyring' variable.
+
+Fixes: 54e7aac0562452e4fcab65ca5001d030eef2de15
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Bug 1878645 <1878645@bugs.launchpad.net>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200618092636.71832-1-david.edmondson@oracle.com>
 ---
- hw/isa/lpc_ich9.c | 2 +-
+ configure | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index cd6e169d47a..791c878eb0b 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -439,7 +439,7 @@ static void ich9_apm_ctrl_changed(uint32_t val, void *arg)
-                 cpu_interrupt(cs, CPU_INTERRUPT_SMI);
-             }
-         } else {
--            cpu_interrupt(current_cpu, CPU_INTERRUPT_SMI);
-+            cpu_interrupt(current_cpu ? current_cpu : first_cpu, CPU_INTERRUPT_SMI);
-         }
-     }
- }
+diff --git a/configure b/configure
+index 4a22dcd5631..65309a08dbc 100755
+--- a/configure
++++ b/configure
+@@ -6461,7 +6461,7 @@ EOF
+ fi
+ if test "$secret_keyring" != "no"
+ then
+-    if test "$have_keyring" == "yes"
++    if test "$have_keyring" = "yes"
+     then
+ 	secret_keyring=yes
+     else
 -- 
 2.20.1
 
