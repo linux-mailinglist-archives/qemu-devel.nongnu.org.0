@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAF2210E90
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:10:56 +0200 (CEST)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004FE210ECB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:13:44 +0200 (CEST)
+Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqeNz-0003qj-Kb
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
+	id 1jqeQi-0007lm-2K
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHy-0003Kt-B2
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44123
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeI3-0003PO-4R
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47083
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHu-0001C9-GO
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqeHu-0001Cf-Sq
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593615877;
+ s=mimecast20190719; t=1593615878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=poFCkMJ9GLH/8zD3IQqPm0BcWHJBKBklxLNfIpn8S+c=;
- b=Pneo5J47LL3Ts4GtsBePAjd5u9PR0taoTkl309wQjXjEtmkd1ysFfeyUASU8wy7c3YuO5v
- U7a/vkJxLOOOg30X/lzb89UA5O8sf7XTt23B3aH/ncCf85KutLnLQhXt2XVtQ5Hw8qeNEm
- MbKz9yQw/OoR9AW2F5mOoCCxkKsgc8I=
+ references:references; bh=txA6ymslC0XGGHRxaY/MDpC3WtP0iexbWYFTR8TsxKs=;
+ b=TqhinUgMzNqAAuNOmdRsPzoyVqViaJzm2wHr5HAQe6UVPKHPb3utGMFsGimdVz9p1f7AYt
+ NwOMzPeSKgWJSORYuP8t+iXqoPV/4M2mNpT7ZDqvr5eVdkhgHdbhzOqUyRo9AN6LgwAWyB
+ R3wpMG6DYQi5K4XQE1ZeW202Fdc9GWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-P6IbOCF7OSixRYHdKjGJZg-1; Wed, 01 Jul 2020 11:04:35 -0400
-X-MC-Unique: P6IbOCF7OSixRYHdKjGJZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-191-Pya_WMblMr-ifRLL38541Q-1; Wed, 01 Jul 2020 11:04:35 -0400
+X-MC-Unique: Pya_WMblMr-ifRLL38541Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16DCE802ED4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92FF11937FDD;
  Wed,  1 Jul 2020 15:04:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA2D67168D;
- Wed,  1 Jul 2020 15:04:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A70C60BE1;
+ Wed,  1 Jul 2020 15:04:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A637831E89; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
+ id AF87D31E8E; Wed,  1 Jul 2020 17:04:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] ati-vga: Support unaligned access to hardware cursor
- registers
-Date: Wed,  1 Jul 2020 17:04:22 +0200
-Message-Id: <20200701150425.13739-11-kraxel@redhat.com>
+Subject: [PULL 11/13] ati-vga: Do not assert on error
+Date: Wed,  1 Jul 2020 17:04:23 +0200
+Message-Id: <20200701150425.13739-12-kraxel@redhat.com>
 In-Reply-To: <20200701150425.13739-1-kraxel@redhat.com>
 References: <20200701150425.13739-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,151 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-This fixes horizontal mouse movement and pointer color with MacOS that
-writes these registers with access size less than 4 so previously only
-the last portion of access was effective overwriting previous partial
-writes.
+Do not abort on unsupported value just print log and continue. While
+display will likely be broken this prevents malicious guest to crash
+QEMU causing denial of service.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: ba1d5ba97f246e8807f86f1243c2bdc6497dc8f2.1592737958.git.balaton@eik.bme.hu
+Message-id: 0c13dab5d8e3b7e7479c3edbf53aeac8c09de6de.1592737958.git.balaton@eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati.c | 85 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 57 insertions(+), 28 deletions(-)
+ hw/display/ati.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 7216f7e08f87..245130d52f33 100644
+index 245130d52f33..95fc443cac83 100644
 --- a/hw/display/ati.c
 +++ b/hw/display/ati.c
-@@ -389,22 +389,28 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
-     case 0xf00 ... 0xfff:
-         val = pci_default_read_config(&s->dev, addr - 0xf00, size);
-         break;
--    case CUR_OFFSET:
--        val = s->regs.cur_offset;
-+    case CUR_OFFSET ... CUR_OFFSET + 3:
-+        val = ati_reg_read_offs(s->regs.cur_offset, addr - CUR_OFFSET, size);
-         break;
--    case CUR_HORZ_VERT_POSN:
--        val = s->regs.cur_hv_pos;
--        val |= s->regs.cur_offset & BIT(31);
-+    case CUR_HORZ_VERT_POSN ... CUR_HORZ_VERT_POSN + 3:
-+        val = ati_reg_read_offs(s->regs.cur_hv_pos,
-+                                addr - CUR_HORZ_VERT_POSN, size);
-+        if (addr + size > CUR_HORZ_VERT_POSN + 3) {
-+            val |= (s->regs.cur_offset & BIT(31)) >> (4 - size);
-+        }
-         break;
--    case CUR_HORZ_VERT_OFF:
--        val = s->regs.cur_hv_offs;
--        val |= s->regs.cur_offset & BIT(31);
-+    case CUR_HORZ_VERT_OFF ... CUR_HORZ_VERT_OFF + 3:
-+        val = ati_reg_read_offs(s->regs.cur_hv_offs,
-+                                addr - CUR_HORZ_VERT_OFF, size);
-+        if (addr + size > CUR_HORZ_VERT_OFF + 3) {
-+            val |= (s->regs.cur_offset & BIT(31)) >> (4 - size);
-+        }
-         break;
--    case CUR_CLR0:
--        val = s->regs.cur_color0;
-+    case CUR_CLR0 ... CUR_CLR0 + 3:
-+        val = ati_reg_read_offs(s->regs.cur_color0, addr - CUR_CLR0, size);
-         break;
--    case CUR_CLR1:
--        val = s->regs.cur_color1;
-+    case CUR_CLR1 ... CUR_CLR1 + 3:
-+        val = ati_reg_read_offs(s->regs.cur_color1, addr - CUR_CLR1, size);
-         break;
-     case DST_OFFSET:
-         val = s->regs.dst_offset;
-@@ -679,48 +685,71 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-     case 0xf00 ... 0xfff:
-         /* read-only copy of PCI config space so ignore writes */
-         break;
--    case CUR_OFFSET:
--        if (s->regs.cur_offset != (data & 0x87fffff0)) {
--            s->regs.cur_offset = data & 0x87fffff0;
-+    case CUR_OFFSET ... CUR_OFFSET + 3:
-+    {
-+        uint32_t t = s->regs.cur_offset;
-+
-+        ati_reg_write_offs(&t, addr - CUR_OFFSET, data, size);
-+        t &= 0x87fffff0;
-+        if (s->regs.cur_offset != t) {
-+            s->regs.cur_offset = t;
-             ati_cursor_define(s);
-         }
-         break;
--    case CUR_HORZ_VERT_POSN:
--        s->regs.cur_hv_pos = data & 0x3fff0fff;
--        if (data & BIT(31)) {
--            s->regs.cur_offset |= data & BIT(31);
-+    }
-+    case CUR_HORZ_VERT_POSN ... CUR_HORZ_VERT_POSN + 3:
-+    {
-+        uint32_t t = s->regs.cur_hv_pos | (s->regs.cur_offset & BIT(31));
-+
-+        ati_reg_write_offs(&t, addr - CUR_HORZ_VERT_POSN, data, size);
-+        s->regs.cur_hv_pos = t & 0x3fff0fff;
-+        if (t & BIT(31)) {
-+            s->regs.cur_offset |= t & BIT(31);
-         } else if (s->regs.cur_offset & BIT(31)) {
-             s->regs.cur_offset &= ~BIT(31);
-             ati_cursor_define(s);
-         }
-         if (!s->cursor_guest_mode &&
--            (s->regs.crtc_gen_cntl & CRTC2_CUR_EN) && !(data & BIT(31))) {
-+            (s->regs.crtc_gen_cntl & CRTC2_CUR_EN) && !(t & BIT(31))) {
-             dpy_mouse_set(s->vga.con, s->regs.cur_hv_pos >> 16,
-                           s->regs.cur_hv_pos & 0xffff, 1);
-         }
-         break;
-+    }
-     case CUR_HORZ_VERT_OFF:
--        s->regs.cur_hv_offs = data & 0x3f003f;
--        if (data & BIT(31)) {
--            s->regs.cur_offset |= data & BIT(31);
-+    {
-+        uint32_t t = s->regs.cur_hv_offs | (s->regs.cur_offset & BIT(31));
-+
-+        ati_reg_write_offs(&t, addr - CUR_HORZ_VERT_OFF, data, size);
-+        s->regs.cur_hv_offs = t & 0x3f003f;
-+        if (t & BIT(31)) {
-+            s->regs.cur_offset |= t & BIT(31);
-         } else if (s->regs.cur_offset & BIT(31)) {
-             s->regs.cur_offset &= ~BIT(31);
-             ati_cursor_define(s);
-         }
-         break;
--    case CUR_CLR0:
--        if (s->regs.cur_color0 != (data & 0xffffff)) {
--            s->regs.cur_color0 = data & 0xffffff;
-+    }
-+    case CUR_CLR0 ... CUR_CLR0 + 3:
-+    {
-+        uint32_t t = s->regs.cur_color0;
-+
-+        ati_reg_write_offs(&t, addr - CUR_CLR0, data, size);
-+        t &= 0xffffff;
-+        if (s->regs.cur_color0 != t) {
-+            s->regs.cur_color0 = t;
-             ati_cursor_define(s);
-         }
-         break;
--    case CUR_CLR1:
-+    }
-+    case CUR_CLR1 ... CUR_CLR1 + 3:
-         /*
-          * Update cursor unconditionally here because some clients set up
-          * other registers before actually writing cursor data to memory at
-          * offset so we would miss cursor change unless always updating here
-          */
--        s->regs.cur_color1 = data & 0xffffff;
-+        ati_reg_write_offs(&s->regs.cur_color1, addr - CUR_CLR1, data, size);
-+        s->regs.cur_color1 &= 0xffffff;
-         ati_cursor_define(s);
-         break;
-     case DST_OFFSET:
+@@ -86,8 +86,8 @@ static void ati_vga_switch_mode(ATIVGAState *s)
+                 break;
+             default:
+                 qemu_log_mask(LOG_UNIMP, "Unsupported bpp value\n");
++                return;
+             }
+-            assert(bpp != 0);
+             DPRINTF("Switching to %dx%d %d %d @ %x\n", h, v, stride, bpp, offs);
+             vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_ENABLE);
+             vbe_ioport_write_data(&s->vga, 0, VBE_DISPI_DISABLED);
 -- 
 2.18.4
 
