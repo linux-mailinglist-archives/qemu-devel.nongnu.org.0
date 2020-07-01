@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9A0210FB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:50:11 +0200 (CEST)
-Received: from localhost ([::1]:46648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7AD210FC5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 17:54:06 +0200 (CEST)
+Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqezy-0006qv-Uf
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:50:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33170)
+	id 1jqf3l-0003mI-E8
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 11:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqeyg-0005Bp-KN
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:48:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54611
+ id 1jqezC-0006EQ-1e
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:49:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30261
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqeyf-000152-3A
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:48:50 -0400
+ id 1jqezA-00017y-JI
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 11:49:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593618527;
+ s=mimecast20190719; t=1593618559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VmpYgmDpMI8Nyf433fBAgfotNyjAMlh1tbipCQhOal4=;
- b=E7yavFdOiSO1wRvvD+xJHkD/hUS1I3jwxtkLJeurXBeFjShY2vQSn8QcDvv0kT1eNfzb7j
- cRAn9HaX4x80vCnJWAT0EG7DCzYEwbhsmv6lnFN0WSTFASQXDLCeg52m12jkatAAAnagv2
- vJT1yYXEsMPCFvJD+Nrw3yJrJPO/a58=
+ bh=NLQant1KrBIZMDf7zUmnSCuITPj8QX5hg0iDvuzyH2s=;
+ b=BnBVZMNHvS+rXx5UMYFb+t9+2nm+6Ie5B6hvK8a+67BbQ4gfkHZGklKTjxRzApCdRQa5t+
+ Ee77xGGI+12+tf0WrrALrbnoTlOkNr4UAaixdYKhTIPyWPin4VjpZtlbXCCUUFe/z3gs/q
+ aYA6c6GWhcbu2cemari+nx5vD1RdJCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-l5LuqbabMJuDz5KSJbMCHw-1; Wed, 01 Jul 2020 11:48:43 -0400
-X-MC-Unique: l5LuqbabMJuDz5KSJbMCHw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-68-nnvqiiepONWo72T2dvogWw-1; Wed, 01 Jul 2020 11:49:15 -0400
+X-MC-Unique: nnvqiiepONWo72T2dvogWw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB5E64A75;
- Wed,  1 Jul 2020 15:48:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 160501B2C983;
+ Wed,  1 Jul 2020 15:48:59 +0000 (UTC)
 Received: from localhost (ovpn-113-121.ams2.redhat.com [10.36.113.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3F8079500;
- Wed,  1 Jul 2020 15:48:39 +0000 (UTC)
-Date: Wed, 1 Jul 2020 16:48:38 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DC898ACE2;
+ Wed,  1 Jul 2020 15:48:58 +0000 (UTC)
+Date: Wed, 1 Jul 2020 16:48:57 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 01/12] block/nvme: Replace magic value by SCALE_MS
- definition
-Message-ID: <20200701154838.GN126613@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 02/12] block/nvme: Avoid further processing if trace
+ event not enabled
+Message-ID: <20200701154857.GO126613@stefanha-x1.localdomain>
 References: <20200630191318.30021-1-philmd@redhat.com>
- <20200630191318.30021-2-philmd@redhat.com>
+ <20200630191318.30021-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200630191318.30021-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200630191318.30021-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NJSRbAqOy4NeGDns"
+ protocol="application/pgp-signature"; boundary="1bhFRg6vL9BT9osV"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 01:29:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/30 22:25:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,36 +89,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NJSRbAqOy4NeGDns
+--1bhFRg6vL9BT9osV
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2020 at 09:13:07PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Use self-explicit SCALE_MS definition instead of magic value.
+On Tue, Jun 30, 2020 at 09:13:08PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Avoid further processing if TRACE_NVME_SUBMIT_COMMAND_RAW is
+> not enabled. This is an untested intend of performance optimization.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  block/nvme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  block/nvme.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---NJSRbAqOy4NeGDns
+--1bhFRg6vL9BT9osV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl78sFYACgkQnKSrs4Gr
-c8jbqwf/UYQiY//6tTkg6F5k0q0q5bOYQLw5k/ZLfiS7l480etova3ZnluWXSDQ1
-urjrVQcEqR3o8tKpkG9oLG5VTSVrVOANrWyKbJtpMKG4pLzkqhjdOi3vV2b3FTKt
-UOejAUKTMR9DOgZV4RDa8ALaawljPMiwCAIJaS6jTFhbDmL4ozohedBWZNRNlfM7
-wBCqdr75OGlmrA3fZfdwnGCkHrPFJvu8uljhK7zpDwwxxCHJed3TzOBP8s3562LT
-XNnrp7ICdjPxMqMQHNprlIinmUEEcIQptnH2A0apHYR84vvY1LTlkd57tqzd9LcZ
-ZAC+OMAMTt8dYyQjmUInSzU+4MKdtg==
-=vTBH
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl78sGkACgkQnKSrs4Gr
+c8jAxQgArYh0xjCWQf3aMSvTFox352lla0p77bkLKNb4PxDvZ0JIlxyB9DzXgRh8
++bGrtS4KqyxqiEJTzKMAId4Adbu85UvAXuCd7Eny9aB0+gy05UceG2ixWeJdDoLT
+PzA+UFv4KHvR3KJivDaMV/WXRHc5wPXIcqiXbSEMI02V88qip1sL2P4wv3UVChBQ
+7+vhp4ChC/phi6jkVjgePUb1Vk3jfxAaczVDvNI3Pynkz3AurzyFPuAtVIXSxDco
+8jDEY7F1++ZkDwSM+p3cKd4Id1eqcVhGoR4mtMGcloLEN/TcBtR9OkDP2T2yf88t
+nvWPAiQX0lYdXIjAGAkUd5gpTL/wvA==
+=eFBI
 -----END PGP SIGNATURE-----
 
---NJSRbAqOy4NeGDns--
+--1bhFRg6vL9BT9osV--
 
 
