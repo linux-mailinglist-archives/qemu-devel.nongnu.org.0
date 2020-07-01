@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE422105A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 10:03:46 +0200 (CEST)
-Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8505B2105F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 10:16:58 +0200 (CEST)
+Received: from localhost ([::1]:42530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqXib-0007LP-NF
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 04:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
+	id 1jqXvN-0005sC-JD
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 04:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqXhl-0006q8-Ua
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 04:02:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33161
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqXh2-0007fx-6h
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 04:02:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593590526;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aWw33BeuuKAUTzS6nM0K3WNFFDsLnygx3g0egqRr9+M=;
- b=dO1xnBDPJK95DmfzUZcxyl//HDj97xa1XaDMjA25hYkR53W8GeBV1MZrcMHbKuWMFAWJp5
- 74rBCJKKydh85ZwD1TR7h6dWKptfFtzaBSKRShbCVoyxVH0UHxnAqCSs0+bSVaKJwWfoWT
- 7tgrmT8ua8SaWqrCSjF2s5EOH1lqdsg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-UyvsBWLzNGSooMZE8tzT8A-1; Wed, 01 Jul 2020 04:02:05 -0400
-X-MC-Unique: UyvsBWLzNGSooMZE8tzT8A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08A0D185B387;
- Wed,  1 Jul 2020 08:02:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D3C42B6CF;
- Wed,  1 Jul 2020 08:02:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A11411384A6; Wed,  1 Jul 2020 10:02:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 10/46] qemu-option: Check return value instead of @err
- where convenient
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-11-armbru@redhat.com>
- <f8e32618-ff39-d505-9d49-1eddf71d364e@virtuozzo.com>
-Date: Wed, 01 Jul 2020 10:02:02 +0200
-In-Reply-To: <f8e32618-ff39-d505-9d49-1eddf71d364e@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Mon, 29 Jun 2020 12:11:42 +0300")
-Message-ID: <87v9j7br45.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqXuG-0004y6-Ea
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 04:15:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqXuD-0001KX-TB
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 04:15:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jqXuB-0005YZ-Hy
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 08:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5AB522E8114
+ for <qemu-devel@nongnu.org>; Wed,  1 Jul 2020 08:15:43 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 00:56:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 01 Jul 2020 08:05:17 -0000
+From: Thomas Huth <1885719@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dcb314 th-huth
+X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159352074602.16310.7520706958589320059.malonedeb@soybean.canonical.com>
+Message-Id: <159359071734.1124.11664834306382716322.malone@chaenomeles.canonical.com>
+Subject: [Bug 1885719] Re: qemu/target/nios2/helper.c:261:20:
+ style:inconclusive: Found duplicate branches for 'if' and 'else'
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fe7982c0b871ac4712bc09a5cef8e5ea47011a47
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/01 03:10:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,219 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com
+Reply-To: Bug 1885719 <1885719@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+Which version of QEMU did you use here? Apparently it was an older
+version, since that code has been removed more than a year ago already:
 
-> 24.06.2020 19:43, Markus Armbruster wrote:
->> Convert uses like
->>
->>      opts = qemu_opts_create(..., &err);
->>      if (err) {
->>          ...
->>      }
->>
->> to
->>
->>      opts = qemu_opts_create(..., &err);
->>      if (!opts) {
->>          ...
->>      }
->>
->> Eliminate error_propagate() that are now unnecessary.  Delete @err
->> that are now unused.
->>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   block/parallels.c  |  4 ++--
->>   blockdev.c         |  5 ++---
->>   qdev-monitor.c     |  6 ++----
->>   util/qemu-config.c | 10 ++++------
->>   util/qemu-option.c | 12 ++++--------
->>   5 files changed, 14 insertions(+), 23 deletions(-)
->>
->> diff --git a/block/parallels.c b/block/parallels.c
->> index 860dbb80a2..b15c9ac28d 100644
->> --- a/block/parallels.c
->> +++ b/block/parallels.c
->> @@ -823,8 +823,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
->>           }
->>       }
->>   -    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0,
->> &local_err);
->> -    if (local_err != NULL) {
->> +    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
->> +    if (!opts) {
->>           goto fail_options;
->>       }
->
-> Honestly, I don't like this hunk. as already complicated code (crossing gotos) becomes more
-> complicated (add one more pattern to fail_options path: no-op error_propagate).
->
-> At least, we'll need a follow-up patch, refactoring parallels_open() to drop "fail_options"
-> label completely.
+ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D0137c93ff8cbcebf
 
-For what it's worth, this is how it looks at the end of the series:
-
-    static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-                              Error **errp)
-    {
-        BDRVParallelsState *s = bs->opaque;
-        ParallelsHeader ph;
-        int ret, size, i;
-        QemuOpts *opts = NULL;
-        Error *local_err = NULL;
-        char *buf;
-
-        bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                   BDRV_CHILD_IMAGE, false, errp);
-        if (!bs->file) {
-            return -EINVAL;
-        }
-
-        ret = bdrv_pread(bs->file, 0, &ph, sizeof(ph));
-        if (ret < 0) {
-            goto fail;
-        }
-
-        bs->total_sectors = le64_to_cpu(ph.nb_sectors);
-
-        if (le32_to_cpu(ph.version) != HEADER_VERSION) {
-            goto fail_format;
-        }
-        if (!memcmp(ph.magic, HEADER_MAGIC, 16)) {
-            s->off_multiplier = 1;
-            bs->total_sectors = 0xffffffff & bs->total_sectors;
-        } else if (!memcmp(ph.magic, HEADER_MAGIC2, 16)) {
-            s->off_multiplier = le32_to_cpu(ph.tracks);
-        } else {
-            goto fail_format;
-        }
-
-        s->tracks = le32_to_cpu(ph.tracks);
-        if (s->tracks == 0) {
-            error_setg(errp, "Invalid image: Zero sectors per track");
-            ret = -EINVAL;
-            goto fail;
-        }
-        if (s->tracks > INT32_MAX/513) {
-            error_setg(errp, "Invalid image: Too big cluster");
-            ret = -EFBIG;
-            goto fail;
-        }
-
-        s->bat_size = le32_to_cpu(ph.bat_entries);
-        if (s->bat_size > INT_MAX / sizeof(uint32_t)) {
-            error_setg(errp, "Catalog too large");
-            ret = -EFBIG;
-            goto fail;
-        }
-
-        size = bat_entry_off(s->bat_size);
-        s->header_size = ROUND_UP(size, bdrv_opt_mem_align(bs->file->bs));
-        s->header = qemu_try_blockalign(bs->file->bs, s->header_size);
-        if (s->header == NULL) {
-            ret = -ENOMEM;
-            goto fail;
-        }
-        s->data_end = le32_to_cpu(ph.data_off);
-        if (s->data_end == 0) {
-            s->data_end = ROUND_UP(bat_entry_off(s->bat_size), BDRV_SECTOR_SIZE);
-        }
-        if (s->data_end < s->header_size) {
-            /* there is not enough unused space to fit to block align between BAT
-               and actual data. We can't avoid read-modify-write... */
-            s->header_size = size;
-        }
-
-        ret = bdrv_pread(bs->file, 0, s->header, s->header_size);
-        if (ret < 0) {
-            goto fail;
-        }
-        s->bat_bitmap = (uint32_t *)(s->header + 1);
-
-        for (i = 0; i < s->bat_size; i++) {
-            int64_t off = bat2sect(s, i);
-            if (off >= s->data_end) {
-                s->data_end = off + s->tracks;
-            }
-        }
-
-        if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
-            /* Image was not closed correctly. The check is mandatory */
-            s->header_unclean = true;
-            if ((flags & BDRV_O_RDWR) && !(flags & BDRV_O_CHECK)) {
-                error_setg(errp, "parallels: Image was not closed correctly; "
-                           "cannot be opened read/write");
-                ret = -EACCES;
-                goto fail;
-            }
-        }
-
-        opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
-        if (!opts) {
-            goto fail_options;
-        }
-
-        if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-            goto fail_options;
-        }
-
-        s->prealloc_size =
-            qemu_opt_get_size_del(opts, PARALLELS_OPT_PREALLOC_SIZE, 0);
-        s->prealloc_size = MAX(s->tracks, s->prealloc_size >> BDRV_SECTOR_BITS);
-        buf = qemu_opt_get_del(opts, PARALLELS_OPT_PREALLOC_MODE);
-        /* prealloc_mode can be downgraded later during allocate_clusters */
-        s->prealloc_mode = qapi_enum_parse(&prealloc_mode_lookup, buf,
-                                           PRL_PREALLOC_MODE_FALLOCATE,
-                                           &local_err);
-        g_free(buf);
-        if (local_err != NULL) {
-            error_propagate(errp, local_err);
-            goto fail_options;
-        }
-
-        if ((flags & BDRV_O_RDWR) && !(flags & BDRV_O_INACTIVE)) {
-            s->header->inuse = cpu_to_le32(HEADER_INUSE_MAGIC);
-            ret = parallels_update_header(bs);
-            if (ret < 0) {
-                goto fail;
-            }
-        }
-
-        s->bat_dirty_block = 4 * qemu_real_host_page_size;
-        s->bat_dirty_bmap =
-            bitmap_new(DIV_ROUND_UP(s->header_size, s->bat_dirty_block));
-
-        /* Disable migration until bdrv_invalidate_cache method is added */
-        error_setg(&s->migration_blocker, "The Parallels format used by node '%s' "
-                   "does not support live migration",
-                   bdrv_get_device_or_node_name(bs));
-        ret = migrate_add_blocker(s->migration_blocker, errp);
-        if (ret < 0) {
-            error_free(s->migration_blocker);
-            goto fail;
-        }
-        qemu_co_mutex_init(&s->lock);
-        return 0;
-
-    fail_format:
-        error_setg(errp, "Image not in Parallels format");
-    fail_options:
-        ret = -EINVAL;
-    fail:
-        qemu_vfree(s->header);
-        return ret;
-    }
-
-Care to suggest further improvements?
-
-> Still, it should work and the rest is fine, so:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
+Please make sure to use the latest release of QEMU when reporting bugs.
 Thanks!
 
+** Changed in: qemu
+       Status: New =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885719
+
+Title:
+  qemu/target/nios2/helper.c:261:20: style:inconclusive: Found duplicate
+  branches for 'if' and 'else'
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Source code is
+
+              } else if (address >=3D 0x80000000) {
+                  /* Kernel virtual page */
+                  return cpu_nios2_handle_virtual_page(cs, address, rw, mmu=
+_idx);
+              } else {
+                  /* User virtual page */
+                  return cpu_nios2_handle_virtual_page(cs, address, rw, mmu=
+_idx);
+              }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885719/+subscriptions
 
