@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300C3211427
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 22:16:06 +0200 (CEST)
-Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6847211430
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 22:18:06 +0200 (CEST)
+Received: from localhost ([::1]:43214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqj9H-0001Hf-I7
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 16:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50158)
+	id 1jqjBF-0003Rj-Oj
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 16:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aurelien@aurel32.net>)
- id 1jqj5R-0000dm-5V
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:12:05 -0400
-Received: from hall.aurel32.net ([2001:bc8:30d7:100::1]:41248)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jqj8y-00020h-QE
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:15:44 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43956
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aurelien@aurel32.net>)
- id 1jqj5O-0004cC-7c
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:12:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=aurel32.net
- ; s=202004.hall;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:Reply-To:
- Subject:Content-ID:Content-Description:X-Debbugs-Cc;
- bh=uw4vr6KNXc+8ZmzWIde82j3SQf80rHhnY30F7CltHHI=; b=f/LNV2ydWYE1nww5MqizQOgkSG
- AAOBXKs24/V4JziY/i49C7sPXS4YdZe3aXMRzFWoN/jtZGmqgpwnrkqiihKzb0keY3kCGXRxB1rFw
- 6ZrgUTmbeSNaSPvAtzRPmJhRxIKDLsXcntn69cWnq4ZX/O2a10p/mA6niQcjYkX9HaJ+DkJRIFq+u
- eKFIxP5eUI4WiZXoFQ4i7B79a/UotxOX8+rTOv+kATkVihkH1dI9OBj+HJSJujXoEPQEZwLEZr/AF
- 2krhXOctDCeMuuYqbyUJf+3IlUt8N/QcOZPlge6uGwXgtYI7Yi64R6SVyJZXJwo0gBudK98NWWvI2
- I/Y5dH9Q==;
-Received: from [2a01:e35:2fdd:a4e1:fe91:fc89:bc43:b814] (helo=ohm.rr44.fr)
- by hall.aurel32.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <aurelien@aurel32.net>)
- id 1jqj5K-00042t-R7; Wed, 01 Jul 2020 22:11:58 +0200
-Received: from aurel32 by ohm.rr44.fr with local (Exim 4.94)
- (envelope-from <aurelien@aurel32.net>)
- id 1jqj5J-004bw4-AP; Wed, 01 Jul 2020 22:11:57 +0200
-Date: Wed, 1 Jul 2020 22:11:57 +0200
-From: Aurelien Jarno <aurelien@aurel32.net>
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: Re: [PATCH v2 2/2] MAINTAINERS: Adjust MIPS maintainership
-Message-ID: <20200701201157.GA1093783@aurel32.net>
-References: <20200630164653.24880-1-aleksandar.qemu.devel@gmail.com>
- <20200630164653.24880-3-aleksandar.qemu.devel@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jqj8w-0006kX-Nj
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 16:15:44 -0400
+Received: from host86-182-221-233.range86-182.btcentralplus.com
+ ([86.182.221.233] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jqj8u-0005jj-HG; Wed, 01 Jul 2020 21:15:46 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Wed,  1 Jul 2020 21:15:29 +0100
+Message-Id: <20200701201531.13828-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200630164653.24880-3-aleksandar.qemu.devel@gmail.com>
-User-Agent: Mutt/1.14.0 (2020-05-02)
-Received-SPF: none client-ip=2001:bc8:30d7:100::1;
- envelope-from=aurelien@aurel32.net; helo=hall.aurel32.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.182.221.233
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v4 0/2] target/m68k: fix physical address translation in
+ m68k_cpu_get_phys_page_debug()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,137 +63,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, qemu-devel@nongnu.org,
- Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
+The first patch in the series fixes the original bug, whilst the second patch
+implements the suggestion by Philippe to consolidate the translation offset
+logic into get_physical_address() itself now that all callers are identical.
 
-I know you have sent a v3 of this patch in the meantime, but I would
-still like to comment on it.
-
-First of all I confirm, that I do not have time to contribute to QEMU
-anymore and that I said I would like to resign from QEMU maintainership.
-We discussed that in person in Lyon back in October. I am happy to see
-that people are interested to take the maintainership.
-
-It happens that I known Huacai Chen from the time he was upstreaming the
-Loongson 3 support to the kernel, I have been testing and reviewing his
-patches. I also know Jiaxun Yang from the #debian-mips IRC channel. I
-know that they are both very competent and have a good knowledge of the
-open source world. I therefore agree that they are good additions to
-maintain and/or review the MIPS part of QEMU.
-
-All that said, they have been contributing only relatively recently to
-QEMU, and only to some areas. While I do support adding them to those
-areas, I wonder for example why adding them to the MIPS TCG target or
-to the Jazz board. That's probably something that should be done in a
-second step if they have an interest in doing so.
-
-I am fully aware that you posted a v3, that fixes exactly that after you
-got pointed out. However, I am still concerned by the way things
-happened.
-
-Regards,
-Aurelien
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-On 2020-06-30 18:46, Aleksandar Markovic wrote:
-> Paul Burton and Aurelien Jarno removed for not being present.
->=20
-> Huacai Chen and Jiaxun Yang step in as new energy.
->=20
-> CC: Paul Burton <paulburton@kernel.org>
-> CC: Aurelien Jarno <aurelien@aurel32.net>
-> Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> ---
->  MAINTAINERS | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5d8acf8d31..7fc16e21c9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -213,7 +213,8 @@ F: disas/microblaze.c
-> =20
->  MIPS TCG CPUs
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> -R: Aurelien Jarno <aurelien@aurel32.net>
-> +M: Huacai Chen <chenhc@lemote.com>
-> +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Maintained
->  F: target/mips/
-> @@ -377,6 +378,7 @@ F: target/arm/kvm.c
-> =20
->  MIPS KVM CPUs
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> +M: Huacai Chen <chenhc@lemote.com>
->  S: Odd Fixes
->  F: target/mips/kvm.c
-> =20
-> @@ -1052,6 +1054,7 @@ MIPS Machines
->  -------------
->  Jazz
->  M: Herv=E9 Poussineau <hpoussin@reactos.org>
-> +M: Huacai Chen <chenhc@lemote.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Maintained
->  F: hw/mips/jazz.c
-> @@ -1060,8 +1063,8 @@ F: hw/dma/rc4030.c
-> =20
->  Malta
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> +M: Huacai Chen <chenhc@lemote.com>
->  M: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> -R: Aurelien Jarno <aurelien@aurel32.net>
->  S: Maintained
->  F: hw/isa/piix4.c
->  F: hw/acpi/piix4.c
-> @@ -1073,6 +1076,7 @@ F: tests/acceptance/machine_mips_malta.py
-> =20
->  Mipssim
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> +M: Huacai Chen <chenhc@lemote.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Odd Fixes
->  F: hw/mips/mipssim.c
-> @@ -1080,7 +1084,6 @@ F: hw/net/mipsnet.c
-> =20
->  R4000
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> -R: Aurelien Jarno <aurelien@aurel32.net>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Obsolete
->  F: hw/mips/r4k.c
-> @@ -1103,7 +1106,8 @@ S: Maintained
->  F: hw/intc/loongson_liointc.c
-> =20
->  Boston
-> -M: Paul Burton <pburton@wavecomp.com>
-> +M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> +M: Huacai Chen <chenhc@lemote.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Maintained
->  F: hw/core/loader-fit.c
-> @@ -2677,7 +2681,8 @@ F: disas/i386.c
-> =20
->  MIPS TCG target
->  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> -R: Aurelien Jarno <aurelien@aurel32.net>
-> +M: Huacai Chen <chenhc@lemote.com>
-> +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->  S: Maintained
->  F: tcg/mips/
-> --=20
-> 2.20.1
->=20
->=20
->=20
+v4:
+- Remove extra TARGET_PAGE_MASK when calculating translated address since whilst it was
+  required when being done by the caller, it is already handled in get_physical_address()
 
---=20
-Aurelien Jarno                          GPG: 4096R/1DDD8C9B
-aurelien@aurel32.net                 http://www.aurel32.net
+v3:
+- Fix Transparent Translation as indicated by Laurent
+- Always apply TARGET_PAGE_MASK to tlb_set_page() parameters
+
+v2:
+- Add R-B tags from Philippe and Laurent
+- Add patch 2 to consolidate the translation offset logic into get_physical_address()
+
+Mark Cave-Ayland (2):
+  target/m68k: fix physical address translation in
+    m68k_cpu_get_phys_page_debug()
+  target/m68k: consolidate physical translation offset into
+    get_physical_address()
+
+ target/m68k/helper.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+-- 
+2.20.1
+
 
