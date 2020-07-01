@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F14210DA0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:23:05 +0200 (CEST)
-Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDF7210D76
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:19:24 +0200 (CEST)
+Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqddg-0004PV-2j
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
+	id 1jqda7-0005uE-Gr
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdUc-0006fo-WC
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:43 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43463)
+ id 1jqdKu-0004vC-Ch
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:40 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdUU-0000AL-49
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:13:42 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id j4so21585306wrp.10
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:13:32 -0700 (PDT)
+ id 1jqdKs-0006pr-I7
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:40 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r12so23922929wrj.13
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t/NgCflCaACrU2hH35R4Vs2GHYuFdBrnkv6dSybnyMQ=;
- b=MSJJw2bLx/9i7JS5RuFfF0n43/7SO1e6waD5U2tWqIbhrzHFvcOfbIMUzucGK2vPSZ
- W4/X/OaAfnyI2VDiJbSnycXepzyMODc+mMRoRqM8rntDCmztWTnk1wtpBc9Mzz+dKnSU
- O3vXQ6Y9/+XJdfsEGfLhbAQI5wT8uGP5NtIKM0LPyZ9SlfDn01jchfB0ntwr0uR1z5Fi
- aLrpAkNZgneJPRuJwGxk+J9fPVew8a2XJQactegqD2tYObC9E2JdtDdQmbuz0VDnGVCM
- ED8bO4rHeS7EBpUYS5G9oERr+uP4ir83HawJ0FueGfRlt/PyZPryTByMGuaIdX/wZeY6
- /Q+A==
+ bh=N4xihvXcT2NbzYDWewm5rzgOgSrnKR9VT35cRtylW1A=;
+ b=Lvnp7rCBZEi2ZVXPmakSupr3ajkJx4IwkPB3NMdJpvA7i42BUswJd8i4vyaTD/lKNA
+ oWzx/5fSn23i3Mv0DdyOG7y0hF5zmmCcoXn5iIJlFRAjmnNN2Uc570IU1APL31h3eQhz
+ ewtSa/6Is4V6CjlL9kcGcqwlGTJ62mLwGfNkUey/GUeHmN6+fb8A6Zf/UFXNlBKtxBth
+ a5R6q4jjCAdSd1nPMBZvc9RCuiN2nguwgwgnNy7dLa/ngNpOxprEKub4yb+gBnqd5mm7
+ 8EM7UIZyAT7ptN3q9SJ324ZvLyCNOMA0RK2rZPvwYAWBVWrQq+JqwBTCzin8GARLWXjN
+ Kj+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t/NgCflCaACrU2hH35R4Vs2GHYuFdBrnkv6dSybnyMQ=;
- b=H6qJ/zvioa/rNKnxNaOeDHzKG5CD6pOOp4AsjXruC8TpIhRbsnZfAZzASeGmVyVK1Z
- IZV5eJpJ1EwBXNMSY1/jP8uMy0HZAe+HX+eLBXoCfdMcf0e+iFKdMkb+5xSE+5VoeO5P
- GhmGIVUP6NgvR7sr1/a7fwFxZopbUlfuaUGzYT55vCpmvlCc3I+SJFOKn+EeEYM/hE01
- G71QjUqUgv7BOCFnU5iZXOmhCdz/IyuqwwCqZF5ewyxSesk/mbVbSqOwJt+w3nRu0Yxq
- Dy0zds1GPIUmP5bSyESJZg1IhC+lBxX/WtHo2EhdM+DLsLd0Qt30C2YLzFoxbLlR9JoD
- lTAQ==
-X-Gm-Message-State: AOAM5313yEah2nMtBed/azNmSMXsaoaowg8UqaWK2V4DRjWwlqC5+AfP
- FSDmyK32UJAzVxGag87lWDVsOw==
-X-Google-Smtp-Source: ABdhPJycEGW7OXlqkTQGgKWjYPcLOil4KhOzwX0tZFdz6Hbax0kn5LRmOhLHw4Iq0F0iQFz+MUD8jQ==
-X-Received: by 2002:adf:fe46:: with SMTP id m6mr25602424wrs.192.1593612811344; 
- Wed, 01 Jul 2020 07:13:31 -0700 (PDT)
+ bh=N4xihvXcT2NbzYDWewm5rzgOgSrnKR9VT35cRtylW1A=;
+ b=jAGM2IyUbbGVFYjZETJZTgKI3w3MmwcIk8tV7/kLfFADax0OgCWxwkTcLbijBfuhwa
+ VXw/k5sX0wbw3pzbEYlmlV9Udrw3P6FI7YAeWQUTpojlq5I87qywX943KZgma4lcEsvQ
+ nvv2LkV5XbnuHPrMYIlwq10t5jVtEQfUf4+7Qd7RMdRIh46bcOZz26lHVqF6MwCKdhhM
+ dcHUo0vdRPzT8V1Sezg899Sq9OCbo9u0mkH7Od9zdVLRJVRY77apODxAFsq2jk7IDzBW
+ 2A0Brr4odkxMAsWMLuNjoYl/MScKiYtdoz5iNH6FOcuM0MQFsvwJ3uPw+GOmekWdNvKp
+ mb4A==
+X-Gm-Message-State: AOAM533D+/JV6/U6WTabLGX+NDSGSBv2CMNVm4OAsWrUYjvUNAorXNZw
+ uo/9ffMzwphcMCjTUbBSP/ATGw==
+X-Google-Smtp-Source: ABdhPJy/uyiQRdWHo5dbqsWmFUE2baMjQVzvs+VT6fs0/ROophzv15G0h9IFjCMnm14pfQOtcDtkcA==
+X-Received: by 2002:a5d:60d1:: with SMTP id x17mr26690700wrt.293.1593612217099; 
+ Wed, 01 Jul 2020 07:03:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 59sm7871261wrj.37.2020.07.01.07.13.27
+ by smtp.gmail.com with ESMTPSA id k14sm7323389wrn.76.2020.07.01.07.03.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:13:27 -0700 (PDT)
+ Wed, 01 Jul 2020 07:03:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EAACA1FFB7;
- Wed,  1 Jul 2020 14:56:55 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0E0D81FFB8;
+ Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 30/40] gitlab: add acceptance testing to system builds
-Date: Wed,  1 Jul 2020 14:56:42 +0100
-Message-Id: <20200701135652.1366-31-alex.bennee@linaro.org>
+Subject: [PATCH v4 31/40] tests/tcg: add more default compilers to configure.sh
+Date: Wed,  1 Jul 2020 14:56:43 +0100
+Message-Id: <20200701135652.1366-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -74,8 +74,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,198 +88,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of migrating things from Travis to GitLab add the acceptance
-tests. To do this:
-
-  - rename system1 to system-ubuntu-main
-  - rename system2 to system-fedora-misc
-  - split into build/check/acceptance
-  - remove -j from check stages
-  - use artifacts to save build stage
-  - add post acceptance template and use
+We were missing a bunch of compilers which we could use if they were
+locally installed. The defaults are based on Debian as they seem to be
+the best distro for well distributed cross-build compilers.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200622143204.12921-16-alex.bennee@linaro.org>
-
 ---
-v2
-  - updated with danp's docker changes
-  - use needs instead of dependancies
-  - touch all the build files to prevent rebuild
-v4
-  - fix misnamed check stage
-  - don't use : in stage names
-  - restore *post_acceptance post_script
-  - don't failfast on GITLAB_CI
----
- .gitlab-ci.yml         | 69 ++++++++++++++++++++++++++++++++++++++++--
- .travis.yml            | 23 --------------
- tests/Makefile.include |  2 +-
- 3 files changed, 67 insertions(+), 27 deletions(-)
+ tests/tcg/configure.sh | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a7abc55a5c6..93baf98232d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -1,8 +1,12 @@
-+# Currently we have two build stages after our containers are built:
-+#  - build (for traditional build and test or first stage build)
-+#  - test (for test stages, using build artefacts from a build stage)
- stages:
-   - containers
-   - containers-layer2
-   - containers-layer3
-   - build
-+  - test
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 2326f978562..37e49736ca4 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -46,20 +46,29 @@ fi
+ : ${cross_cc_aarch64="aarch64-linux-gnu-gcc"}
+ : ${cross_cc_aarch64_be="$cross_cc_aarch64"}
+ : ${cross_cc_cflags_aarch64_be="-mbig-endian"}
++: $(cross_cc_alpha="alpha-linux-gnu-gcc")
+ : ${cross_cc_arm="arm-linux-gnueabihf-gcc"}
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
++: ${cross_cc_hppa="hppa-linux-gnu-gcc"}
+ : ${cross_cc_i386="i386-pc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
+-: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
+-: ${cross_cc_cflags_x86_64="-m64"}
++: ${cross_cc_m68k="m68k-linux-gnu-gcc"}
++: $(cross_cc_mips64el="mips64el-linux-gnuabi64-gcc")
++: $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
++: $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
++: $(cross_cc_mips="mips-linux-gnu-gcc")
+ : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc="-m32"}
+-: ${cross_cc_ppc64="powerpc-linux-gnu-gcc"}
+-: ${cross_cc_cflags_ppc64="-m64"}
++: ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
+ : ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
+-: ${cross_cc_cflags_s390x="-m64"}
++: $(cross_cc_riscv64="riscv64-linux-gnu-gcc")
++: ${cross_cc_s390x="s390x-linux-gnu-gcc"}
++: $(cross_cc_sh4="sh4-linux-gnu-gcc")
+ : ${cross_cc_cflags_sparc="-m32 -mv8plus -mcpu=ultrasparc"}
++: ${cross_cc_sparc64="sparc64-linux-gnu-gcc"}
+ : ${cross_cc_cflags_sparc64="-m64 -mcpu=ultrasparc"}
++: ${cross_cc_x86_64="x86_64-pc-linux-gnu-gcc"}
++: ${cross_cc_cflags_x86_64="-m64"}
  
- include:
-   - local: '/.gitlab-ci.d/edk2.yml'
-@@ -24,26 +28,85 @@ include:
-         ../configure --enable-werror $CONFIGURE_ARGS ;
-       fi
-     - make -j"$JOBS"
--    - make -j"$JOBS" $MAKE_CHECK_ARGS
-+    - if test -n "$MAKE_CHECK_ARGS";
-+      then
-+        make $MAKE_CHECK_ARGS ;
-+      fi
-+
-+.native_test_job_template: &native_test_job_definition
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  script:
-+    - cd build
-+    - find . -type f -exec touch {} +
-+    - make $MAKE_CHECK_ARGS
-+
-+.post_acceptance_template: &post_acceptance
-+  after_script:
-+    - cd build
-+    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
-+    - du -chs $HOME/avocado/data/cache
- 
--build-system1:
-+build-system-ubuntu-main:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: ubuntu2004
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
-       riscv64-softmmu sparc-softmmu
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-system-ubuntu-main:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-ubuntu-main
-+      artifacts: true
-+  variables:
-+    IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check
- 
--build-system2:
-+acceptance-system-ubuntu-main:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-ubuntu-main
-+      artifacts: true
-+  variables:
-+    IMAGE: ubuntu2004
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *post_acceptance
-+
-+build-system-fedora-alt:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
-     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
-       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
-       xtensa-softmmu nios2-softmmu or1k-softmmu
-+  artifacts:
-+    paths:
-+      - build
-+
-+check-system-fedora-alt:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-fedora-alt
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-     MAKE_CHECK_ARGS: check
- 
-+acceptance-system-fedora-alt:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-fedora-alt
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *post_acceptance
-+
- build-disabled:
-   <<: *native_build_job_definition
-   variables:
-diff --git a/.travis.yml b/.travis.yml
-index 74158f741b1..c24dfbe377f 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -289,29 +289,6 @@ jobs:
-       python: 3.6
- 
- 
--    # Acceptance (Functional) tests
--    - name: "GCC check-acceptance"
--      dist: bionic
--      env:
--        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
--        - TEST_CMD="make check-acceptance"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
--      after_script:
--        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
--        - du -chs $HOME/avocado/data/cache
--      addons:
--        apt:
--          packages:
--            - python3-pil
--            - python3-pip
--            - python3-numpy
--            - python3-opencv
--            - python3-venv
--            - rpm2cpio
--            - tesseract-ocr
--            - tesseract-ocr-eng
--
--
-     # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
-       addons:
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3f4448a20bc..c316e0d6647 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -944,7 +944,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
-             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
-             $(AVOCADO_TAGS) \
--            --failfast=on tests/acceptance, \
-+            $(if $(GITLAB_CI),,--failfast=on) tests/acceptance, \
-             "AVOCADO", "tests/acceptance")
- 
- # Consolidated targets
+ for target in $target_list; do
+   arch=${target%%-*}
 -- 
 2.20.1
 
