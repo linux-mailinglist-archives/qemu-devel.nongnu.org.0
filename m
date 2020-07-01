@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74127210D9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:21:23 +0200 (CEST)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D3D210D54
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Jul 2020 16:16:46 +0200 (CEST)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqdc2-0000r3-GD
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
+	id 1jqdXZ-0001zq-Pf
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jul 2020 10:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdL6-0005Nw-Qv
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:52 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33272)
+ id 1jqdKw-0004zv-Cg
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:42 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqdL4-0006s6-LO
- for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:52 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id f18so15927678wrs.0
- for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:50 -0700 (PDT)
+ id 1jqdKu-0006qO-Lf
+ for qemu-devel@nongnu.org; Wed, 01 Jul 2020 10:03:42 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id q5so23978914wru.6
+ for <qemu-devel@nongnu.org>; Wed, 01 Jul 2020 07:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6iI9/w6QPP17yFAS2LeQCOWZjjok/LI3j4IGGgPNwkk=;
- b=oQrjkOJZ5sjTJa4s+xN7BoTtY6doSPVbV6LoG3Sn0CaYY3ZhEGylBntFSml1Q6vWBR
- O173JsW/NqnAleGq+rG4qnqhp3G1UECM0/MtVbayvof2qaMJHel/MeRE0HQ3MoXE89vi
- bgXyMtzlI1aDJDmlQGYtZJgaGqI5EUq3zxueaY/EmoeklqCapD6xMMwWBzEsJyDkNLfH
- oz1Od1l16EHZoyHkX5wFqdpmc8bF7TTueEEdgOkJzR0YskrXsQUIgWJwGc6MF9oVh1kP
- 9NKc6cYme4ysyeoWBHfT+06yZXv+OsPTeaxXiE+qVedFZ2emJiftQOrSlfUobuApILcV
- TNqA==
+ bh=Z8+7R3MmmcndzfMXwtKjgL5/CCMc+Xc8nupS/X00rus=;
+ b=qcjQf1DSHf79VcNlRR59uY0ST5iwrQh3WQ6BFifR02+48pLWqNbg8erPyCVsT/LXlT
+ k37ZGL40+YiMavb3iCMaMvSdZSbRaM1Pfd9hpnbTj5hHvyUZxaiA7cRG/A3Y3AEXR71e
+ e2akNGhBuooZCCe87GhxAleMaa0GBhMb6ITMIdo+Z9zXcLboVWti66+mT4l1K7G+Jsh+
+ N0ky+g9AlWneZeHzxPs5l09jgG2WEN5ds4LdE4KIJDALsvpePamBPSJA4ppAjD29ZATN
+ FfHyeV42A3JIvPaCnJohPy5aw7U0tBcyLy2oq1yD7dXTiSg+GMUWrTxPu4qTdGMMX/Rt
+ bQmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6iI9/w6QPP17yFAS2LeQCOWZjjok/LI3j4IGGgPNwkk=;
- b=S7r/EmkfWMj1G8t3H1P3lL7pQ7uZjNAZGzVLd/9ATYVsgiDJJF4TqvaRMGQ12pa4Pu
- dZ97YLekuv/QLzAwSNqn+DBF3lRTRQQL4RPv3fRLSpl0U2yNXqiO1iVXBHzukC0qOZV5
- cflz3Ky0OnZ+sjlWHr2b9mC0Q0DZgQpaJtxqM+pjWTqT5xNuLnYQPiLzJW8Ap1UGYsyu
- zETaZh7C37scEdOjzB/UfZL9s4UlpzSKjMhLF0+0htMiWbRsrlh7E8F1/JvhAgRulFV5
- 0oINFGRh6u+3AGUpkCxgxkNKny9igo47OGeEN6RTBS8e/a7XDEvTA9efoJxFf8g2zvH7
- zjxQ==
-X-Gm-Message-State: AOAM532B1TcF4U/YXF9GTkvANkcIiq5FZKezrLQwijmOYVXMmBPyjh1i
- ggbsacgbj1MmyXqLc8rFOTeMDg==
-X-Google-Smtp-Source: ABdhPJzo+2E66bebCacQpLqEVRwCdFlWKPj9Viso6JbXz+iCA2+cf2yD5+q03uYqI6rItVE0xMp4fQ==
-X-Received: by 2002:adf:e6c8:: with SMTP id y8mr28673953wrm.40.1593612229115; 
- Wed, 01 Jul 2020 07:03:49 -0700 (PDT)
+ bh=Z8+7R3MmmcndzfMXwtKjgL5/CCMc+Xc8nupS/X00rus=;
+ b=PNzbw7nU3J/a/pdhPlE4jvLji/SRhy43OvFDHgVZnpwQeRMcp/wcYnL8GWWZDVHPzU
+ IK09FLlnlVKnjYy0gP9L64XYIhILOvG0FSBk7hxwQKVz0y/r+9Xfgyf2cGbnpFJqy9cm
+ /27yuatkidVbGvMRnQygqd3ZgPnoCXMSNwrTPDRcocNtKQz3/pxJqCPltl/8Iw1FASBr
+ 4jR44sLEJxkNAckB0jPmCzIS8FZFXOf5ztzgh7SNng1yixpY6Ae3vsEe41v9UepIM5Ki
+ dyo3/0S8+P9JX0H/zHC4/EYS6JC7U2qKQ2dApJASy8dpCgy8m2Cpc0tsf1aS+SUgY12h
+ hfcQ==
+X-Gm-Message-State: AOAM530UAioYOA3g/5cvi974ReS7twWHglwNzWVe0G2C834Tib/1TlRC
+ a6ClvZwXpxwQFetapZ+HOjV9YXyJFME=
+X-Google-Smtp-Source: ABdhPJxBBDzsOwevk0Blb7sUS5zkujXCGF6JFkm7rEZZZXY75a2rZwDz/Jg5vIJosSNhAzjEsvGbIw==
+X-Received: by 2002:a5d:60d0:: with SMTP id x16mr27639775wrt.5.1593612219261; 
+ Wed, 01 Jul 2020 07:03:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q1sm7406724wro.82.2020.07.01.07.03.34
+ by smtp.gmail.com with ESMTPSA id p14sm8261263wrj.14.2020.07.01.07.03.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 07:03:41 -0700 (PDT)
+ Wed, 01 Jul 2020 07:03:33 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C60E01FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id DBCE31FFC1;
  Wed,  1 Jul 2020 14:56:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 39/40] testing: add check-build target
-Date: Wed,  1 Jul 2020 14:56:51 +0100
-Message-Id: <20200701135652.1366-40-alex.bennee@linaro.org>
+Subject: [PATCH v4 40/40] shippable: pull images from registry instead of
+ building
+Date: Wed,  1 Jul 2020 14:56:52 +0100
+Message-Id: <20200701135652.1366-41-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200701135652.1366-1-alex.bennee@linaro.org>
 References: <20200701135652.1366-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,127 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to continue to split build and check phase it seems like a
-good idea to allow building of the tests during our multi-threaded
-build phase.
+Now we have a source for registry images pull from there rather than
+re-building every time on shippable.
+
+[AJB: change to upstream when we merge PR]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .gitlab-ci.yml         |  5 ++++-
- tests/Makefile.include | 17 +++++++++++++----
- 2 files changed, 17 insertions(+), 5 deletions(-)
+ .shippable.yml | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 83e38ea19f3..b0e5417146b 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -36,7 +36,7 @@ include:
-     - make -j"$JOBS"
-     - if test -n "$MAKE_CHECK_ARGS";
-       then
--        make $MAKE_CHECK_ARGS ;
-+        make -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
- 
- .native_test_job_template: &native_test_job_definition
-@@ -60,6 +60,7 @@ build-system-ubuntu-main:
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu lm32-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu m68k-softmmu ppc-softmmu
-       riscv64-softmmu sparc-softmmu
-+    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     paths:
-       - build
-@@ -90,6 +91,7 @@ build-system-fedora-alt:
-     TARGETS: tricore-softmmu unicore32-softmmu microblaze-softmmu mips-softmmu
-       riscv32-softmmu s390x-softmmu sh4-softmmu sparc64-softmmu x86_64-softmmu
-       xtensa-softmmu nios2-softmmu or1k-softmmu
-+    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     paths:
-       - build
-@@ -124,6 +126,7 @@ build-system-fedora-disabled:
-       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
-       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
-     TARGETS: i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user
-+    MAKE_CHECK_ARGS: check-build
-   artifacts:
-     paths:
-       - build
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index c316e0d6647..94b1cc8302e 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -22,6 +22,8 @@ endif
- 	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
- 	@echo " $(MAKE) check-clean          Clean the tests and related data"
- 	@echo
-+	@echo "The following are useful for CI builds"
-+	@echo " $(MAKE) check-build          Build most test binaris"
- 	@echo " $(MAKE) get-vm-images        Downloads all images used by acceptance tests, according to configured targets (~350 MB each, 1.5 GB max)"
- 	@echo
- 	@echo
-@@ -649,6 +651,10 @@ $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(c
- 	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
- 	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
- 
-+build-qtest: $(patsubst %, %-softmmu/all, $(QTEST_TARGETS)) $(check-qtest-y)
-+
-+build-unit: $(check-unit-y)
-+
- check-unit: $(check-unit-y)
- 	$(call do_test_human, $^)
- 
-@@ -680,7 +686,6 @@ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check
- FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
- 
- # the build dir is created by configure
--.PHONY: $(FP_TEST_BIN)
- $(FP_TEST_BIN): config-host.h $(test-util-obj-y)
- 	$(call quiet-command, \
- 	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
-@@ -814,9 +819,10 @@ check-softfloat-ops: $(SF_MATH_RULES)
- 
- .PHONY: check-softfloat
- ifeq ($(CONFIG_TCG),y)
--check-softfloat: check-softfloat-conv check-softfloat-compare check-softfloat-ops
-+build-softfloat: $(FP_TEST_BIN)
-+check-softfloat: build-softfloat check-softfloat-conv check-softfloat-compare check-softfloat-ops
- else
--check-softfloat:
-+build-softfloat check-softfloat:
- 	$(call quiet-command, /bin/true, "FLOAT TEST", \
- 		"SKIPPED for non-TCG builds")
- endif
-@@ -955,7 +961,8 @@ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- ifeq ($(CONFIG_TOOLS),y)
- check-block: $(patsubst %,check-%, $(check-block-y))
- endif
--check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
-+check-build: build-unit build-softfloat build-qtest
-+
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o tests/*/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y:%=tests/qtest/%$(EXESUF))) $(check-qtest-generic-y:%=tests/qtest/%$(EXESUF)))
-@@ -963,6 +970,8 @@ check-clean:
- 	rm -f tests/qtest/dbus-vmstate1-gen-timestamp
- 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
- 
-+check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
-+
- clean: check-clean
- 
- # Build the help program automatically
+diff --git a/.shippable.yml b/.shippable.yml
+index 81905727d14..eb8b68610a2 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -26,12 +26,10 @@ env:
+     - IMAGE=debian-ppc64el-cross
+       TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
+ build:
+-  pre_ci:
+-    - make docker-image-${IMAGE} V=1
+   pre_ci_boot:
+-    image_name: qemu/${IMAGE}
++    image_name: registry.gitlab.com/stsquad/qemu/qemu/${IMAGE}
+     image_tag: latest
+-    pull: false
++    pull: true
+     options: "-e HOME=/root"
+   ci:
+     - unset CC
 -- 
 2.20.1
 
