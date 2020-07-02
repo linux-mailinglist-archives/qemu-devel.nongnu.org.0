@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F72D21292F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:19:48 +0200 (CEST)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E18212955
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:27:24 +0200 (CEST)
+Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1wB-0001VW-Af
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
+	id 1jr23W-0003it-TM
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jr1qU-0000ep-Ae
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:13:55 -0400
-Received: from elasmtp-galgo.atl.sa.earthlink.net ([209.86.89.61]:50478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jr1qQ-0003SZ-QD
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:13:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
- s=dk12062016; t=1593706430; bh=xfUkqzdPljSkrRaXTIXJ15+rsgN98TJ6rD0K
- 85e76CA=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
- To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:
- X-Originating-IP; b=NzAaETpyJReMLNLLV7XhxXOE8Hcrx0imJh7L3vRXJNfw0j
- V7N69tuuc7som7oHY8kf22lgtmFEqrqebxC4BdAB/wJfOS6CnICyUZK02r/idOi+56u
- 790gHrFjC8PMuGfjOzdkxFre5791bat/kt5UHsblCheJismZbe0gul+52IHwvA1ZrzC
- 6hJ0ap8UYHTPGWo771paWcTizrqWmVFKGBWY43yeT5rRQSZxEWzytNWM529kHvUX7Q5
- DU10vXTXx/vWnvzCnIEDHlcAmx8Pp5oboKVZTNSJlY4gdpvo52Nn1Ww+Tl8JqsdVSFl
- +TBZUisr7sXgkG3pkn+Rfdsd9r5w==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
- s=dk12062016; d=mindspring.com;
- b=J0i7l7MdlZPtBeTK7Ar/zqT6J855q6c380gNTm0fjnchFLEt+hKQ5s87saB4iUJjXBYC+Gi8qGpYHhQJWGq53YybIAcJIC9HrUcHO4jAds0UYKP2hDlon+9u92PsJ3U1cs/N1k8RPMJX2kgqLj2H9x4Bv1ocwmJw8GX/OXZ0Czw+pRvCTxwduEzzXLmOv+jRZuxSPNvvR5eze2CGDum1e4RDyADBSQudvpfods5AxsP8mPs/GaXstnSVJMRCP5MYMejec+VFGpvcnFM+a+UscPxhU7sl3qJ1kvzvgTayuhcC/d5apFsqZW3ZWhEq29COxmqx2r2PYHbSPk4venyNVQ==;
- h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:X-Originating-IP;
-Received: from [8.9.81.230] (helo=[192.168.0.78])
- by elasmtp-galgo.atl.sa.earthlink.net with esmtpa (Exim 4)
- (envelope-from <denber@mindspring.com>)
- id 1jr1qP-000B7a-0d; Thu, 02 Jul 2020 12:13:49 -0400
-Message-ID: <5EFE07BC.6040407@mindspring.com>
-Date: Thu, 02 Jul 2020 12:13:48 -0400
-From: Michele Denber <denber@mindspring.com>
-User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
- rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr228-0002MB-SY
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:25:56 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33216
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr226-0006ut-M4
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:25:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593707152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iaaBAmgMSZWyhtw9WBZaealMz6QoOJi9OhRRSpSuyYA=;
+ b=EkwMS/h3AzB4nGpJsNTOf/2Ll0+F+xuEOh5IxXVGXUX5Osc1IxWMyRpL20atiZr/JGvG3/
+ A2t1SaCBzmBIoRUeh6egaqccs5Ip6Sq4Qvz9pWrXZKn+XGb6aUoUHLIklDMRL++Crs9ivC
+ f9jar5ht9a+j6X8PY3CPRWA4A9yq6nY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-9Ro8-FtHN1i2wxnvaSpeLw-1; Thu, 02 Jul 2020 12:25:50 -0400
+X-MC-Unique: 9Ro8-FtHN1i2wxnvaSpeLw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A53310059B1;
+ Thu,  2 Jul 2020 16:25:49 +0000 (UTC)
+Received: from [10.3.112.202] (ovpn-112-202.phx2.redhat.com [10.3.112.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E07CB51C50;
+ Thu,  2 Jul 2020 16:25:47 +0000 (UTC)
+Subject: Re: [PATCH v2 13/44] qemu-option: Use returned bool to check for
+ failure
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200702155000.3455325-1-armbru@redhat.com>
+ <20200702155000.3455325-14-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <04f626d0-f540-d213-9eeb-6d5b41a351ac@redhat.com>
+Date: Thu, 2 Jul 2020 11:25:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] configure / util: Auto-detect the availability of
- openpty()
-References: <20200702143955.678-1-thuth@redhat.com>
-In-Reply-To: <20200702143955.678-1-thuth@redhat.com>
-Content-Type: multipart/alternative;
- boundary="------------050604020603080105070303"
-X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca5e96715abca0cfe096f5023fa2f8edf0d350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 8.9.81.230
-Received-SPF: pass client-ip=209.86.89.61; envelope-from=denber@mindspring.com;
- helo=elasmtp-galgo.atl.sa.earthlink.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 12:13:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+In-Reply-To: <20200702155000.3455325-14-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -75,200 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Tribble <peter.tribble@gmail.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------050604020603080105070303
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-
-On 07/02/20 10:39, Thomas Huth wrote:
-> Recent versions of Solaris (v11.4) now feature an openpty() function,
-> too, causing a build failure since we ship our own implementation of
-> openpty() for Solaris in util/qemu-openpty.c so far. Since there are
-> now both variants available in the wild, with and without this function,
-> let's introduce a proper HAVE_OPENPTY define for this to fix the build
-> failure.
->
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
+On 7/2/20 10:49 AM, Markus Armbruster wrote:
+> The previous commit enables conversion of
+> 
+>      foo(..., &err);
+>      if (err) {
+>          ...
+>      }
+> 
+> to
+> 
+>      if (!foo(..., &err)) {
+>          ...
+>      }
+> 
+> for QemuOpts functions that now return true / false on success /
+> error.  Coccinelle script:
+> 
+>      @@
+>      identifier fun = {opts_do_parse, parse_option_bool, parse_option_number, parse_option_size, qemu_opt_parse, qemu_opt_rename, qemu_opt_set, qemu_opt_set_bool, qemu_opt_set_number, qemu_opts_absorb_qdict, qemu_opts_do_parse, qemu_opts_from_qdict_entry, qemu_opts_set, qemu_opts_validate};
+>      expression list args, args2;
+>      typedef Error;
+>      Error *err;
+>      @@
+>      -    fun(args, &err, args2);
+>      -    if (err)
+>      +    if (!fun(args, &err, args2))
+>           {
+>               ...
+>           }
+> 
+> A few line breaks tidied up manually.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   Note: Untested, since I do not have a VM with Solaris. Michele,
->   Peter, I'd really appreciate a "Tested-by:" from you here. Thanks!
-Sorry, I was off on another project (doing my taxes).  Is this patch 
-missing something?  It looks like there should be more.  The last line is
 
-static void cfmakeraw (struct termios *termios_p) {
+Similar results to the script in 3/44.
 
-with no matching "}".
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-			- Michele
-
->
->   configure           | 9 ++++++++-
->   util/qemu-openpty.c | 4 +++-
->   2 files changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/configure b/configure
-> index 4a22dcd563..0b5fd30fc4 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5134,10 +5134,14 @@ extern int openpty(int *am, int *as, char *name, void *termp, void *winp);
->   int main(void) { return openpty(0, 0, 0, 0, 0); }
->   EOF
->
-> -if ! compile_prog "" "" ; then
-> +have_openpty="no"
-> +if compile_prog "" "" ; then
-> +  have_openpty="yes"
-> +else
->     if compile_prog "" "-lutil" ; then
->       libs_softmmu="-lutil $libs_softmmu"
->       libs_tools="-lutil $libs_tools"
-> +    have_openpty="yes"
->     fi
->   fi
->
-> @@ -7380,6 +7384,9 @@ fi
->   if test "$have_broken_size_max" = "yes" ; then
->       echo "HAVE_BROKEN_SIZE_MAX=y">>  $config_host_mak
->   fi
-> +if test "$have_openpty" = "yes" ; then
-> +    echo "HAVE_OPENPTY=y">>  $config_host_mak
-> +fi
->
->   # Work around a system header bug with some kernel/XFS header
->   # versions where they both try to define 'struct fsxattr':
-> diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
-> index 2e8b43bdf5..14e5c8ae8f 100644
-> --- a/util/qemu-openpty.c
-> +++ b/util/qemu-openpty.c
-> @@ -52,7 +52,8 @@
->   #endif
->
->   #ifdef __sun__
-> -/* Once Solaris has openpty(), this is going to be removed. */
-> +
-> +#if !defined(HAVE_OPENPTY)
->   static int openpty(int *amaster, int *aslave, char *name,
->                      struct termios *termp, struct winsize *winp)
->   {
-> @@ -93,6 +94,7 @@ err:
->           close(mfd);
->           return -1;
->   }
-> +#endif
->
->   static void cfmakeraw (struct termios *termios_p)
->   {
-
---------------050604020603080105070303
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <br>
-    On 07/02/20 10:39, Thomas Huth wrote:
-    <blockquote cite="mid:20200702143955.678-1-thuth@redhat.com"
-      type="cite">
-      <pre wrap="">Recent versions of Solaris (v11.4) now feature an openpty() function,
-too, causing a build failure since we ship our own implementation of
-openpty() for Solaris in util/qemu-openpty.c so far. Since there are
-now both variants available in the wild, with and without this function,
-let's introduce a proper HAVE_OPENPTY define for this to fix the build
-failure.
-
-Signed-off-by: Thomas Huth <a class="moz-txt-link-rfc2396E" href="mailto:thuth@redhat.com">&lt;thuth@redhat.com&gt;</a>
----
- Note: Untested, since I do not have a VM with Solaris. Michele,
- Peter, I'd really appreciate a "Tested-by:" from you here. Thanks!</pre>
-    </blockquote>
-    Sorry, I was off on another project (doing my taxes).&nbsp; Is this patch
-    missing something?&nbsp; It looks like there should be more.&nbsp; The last
-    line is <br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">static void
-        cfmakeraw (struct termios *termios_p) {</font></small><br>
-    <br>
-    with no matching "}".&nbsp; <br>
-    <pre wrap=""><big><font face="Helvetica, Arial, sans-serif">
-			- Michele</font></big>
-
-</pre>
-    <blockquote cite="mid:20200702143955.678-1-thuth@redhat.com"
-      type="cite">
-      <pre wrap="">
-
- configure           | 9 ++++++++-
- util/qemu-openpty.c | 4 +++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/configure b/configure
-index 4a22dcd563..0b5fd30fc4 100755
---- a/configure
-+++ b/configure
-@@ -5134,10 +5134,14 @@ extern int openpty(int *am, int *as, char *name, void *termp, void *winp);
- int main(void) { return openpty(0, 0, 0, 0, 0); }
- EOF
- 
--if ! compile_prog "" "" ; then
-+have_openpty="no"
-+if compile_prog "" "" ; then
-+  have_openpty="yes"
-+else
-   if compile_prog "" "-lutil" ; then
-     libs_softmmu="-lutil $libs_softmmu"
-     libs_tools="-lutil $libs_tools"
-+    have_openpty="yes"
-   fi
- fi
- 
-@@ -7380,6 +7384,9 @@ fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" &gt;&gt; $config_host_mak
- fi
-+if test "$have_openpty" = "yes" ; then
-+    echo "HAVE_OPENPTY=y" &gt;&gt; $config_host_mak
-+fi
- 
- # Work around a system header bug with some kernel/XFS header
- # versions where they both try to define 'struct fsxattr':
-diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
-index 2e8b43bdf5..14e5c8ae8f 100644
---- a/util/qemu-openpty.c
-+++ b/util/qemu-openpty.c
-@@ -52,7 +52,8 @@
- #endif
- 
- #ifdef __sun__
--/* Once Solaris has openpty(), this is going to be removed. */
-+
-+#if !defined(HAVE_OPENPTY)
- static int openpty(int *amaster, int *aslave, char *name,
-                    struct termios *termp, struct winsize *winp)
- {
-@@ -93,6 +94,7 @@ err:
-         close(mfd);
-         return -1;
- }
-+#endif
- 
- static void cfmakeraw (struct termios *termios_p)
- {
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------050604020603080105070303--
 
