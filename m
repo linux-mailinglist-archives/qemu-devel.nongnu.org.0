@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE742128D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:59:14 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C572128CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:57:17 +0200 (CEST)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1cH-0006R0-NL
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
+	id 1jr1aO-0002Cu-JV
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tj-0008MZ-G3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24071
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tm-0008Qm-0d
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:26 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53051
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TY-0004r5-4D
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TY-0004qO-2t
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593705010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PHPrf4CoEIah77RobW83ZCh8oZf0jzMGgZFjhqN1hME=;
- b=gmI7qkWHsHLksTgM3HQYFqThoBWV6ayP/nMutR9u/mGrPft8fIlO4CkBOBnfYVrCMgeA93
- u/kmItnhxpFkVhTrYhNhmX/UvkbN8zaL6VFFx6cyA9X3VmMFI+P5hysPD68/cnjWkKVTaC
- HtwhkHcet21zxmHyweLtheFkPTzqdx0=
+ bh=7NOE60j2QgUo6Kq6ScNTmZ4kfjzZraVmBVHXQBwe5Uc=;
+ b=LmMLSMr4iBgWkxoIs8rixFXPAoiYLqiWa5tge6TOPlnEnlLPCz9YyCMPcbdph0Ni/5vGXS
+ b/eW+ZuSj/5zAB2yStWDiyqEd54HyhKUc+6z8KIADevQKle0DKLDnGVi3+Iw2OVK15yvzJ
+ pPvW1pGsDe3FTCWOBtq/A5fAKaXpd2A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-g4nFTp9sOyCC_2ZzecDRjQ-1; Thu, 02 Jul 2020 11:50:07 -0400
-X-MC-Unique: g4nFTp9sOyCC_2ZzecDRjQ-1
+ us-mta-83-d2cYXeWgNzSsBVCH-8AxKQ-1; Thu, 02 Jul 2020 11:50:07 -0400
+X-MC-Unique: d2cYXeWgNzSsBVCH-8AxKQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11F2E80183C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A58931054F8F;
  Thu,  2 Jul 2020 15:50:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D00EC5DC1E;
- Thu,  2 Jul 2020 15:50:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B7477611F;
+ Thu,  2 Jul 2020 15:50:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D713211358DB; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
+ id E4B681135220; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/44] s390x/pci: Fix harmless mistake in zpci's property
- fid's setter
-Date: Thu,  2 Jul 2020 17:49:36 +0200
-Message-Id: <20200702155000.3455325-21-armbru@redhat.com>
+Subject: [PATCH v2 23/44] qom: Crash more nicely on object_property_get_link()
+ failure
+Date: Thu,  2 Jul 2020 17:49:39 +0200
+Message-Id: <20200702155000.3455325-24-armbru@redhat.com>
 In-Reply-To: <20200702155000.3455325-1-armbru@redhat.com>
 References: <20200702155000.3455325-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -60,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,40 +84,102 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- pbonzini@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>
+ ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390_pci_set_fid() sets zpci->fid_defined to true even when
-visit_type_uint32() failed.  Reproducer: "-device zpci,fid=junk".
-Harmless in practice, because qdev_device_add() then fails, throwing
-away @zpci.  Fix it anyway.
+Pass &error_abort instead of NULL where the returned value is
+dereferenced or asserted to be non-null.  Drop a now redundant
+assertion.
 
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/s390-pci-bus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/core/platform-bus.c     | 6 +++---
+ hw/ppc/spapr_drc.c         | 3 ++-
+ hw/ppc/spapr_hcall.c       | 3 ++-
+ hw/ppc/spapr_pci_nvlink2.c | 3 ++-
+ ui/vnc.c                   | 2 +-
+ 5 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 0517901024..07e1e4d7a3 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -1267,7 +1267,9 @@ static void s390_pci_set_fid(Object *obj, Visitor *v, const char *name,
-         return;
+diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
+index d494e5cec1..5037ca265e 100644
+--- a/hw/core/platform-bus.c
++++ b/hw/core/platform-bus.c
+@@ -22,6 +22,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/platform-bus.h"
+ #include "hw/qdev-properties.h"
++#include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ 
+@@ -63,9 +64,8 @@ hwaddr platform_bus_get_mmio_addr(PlatformBusDevice *pbus, SysBusDevice *sbdev,
+         return -1;
      }
  
--    visit_type_uint32(v, name, ptr, errp);
-+    if (!visit_type_uint32(v, name, ptr, errp)) {
-+        return;
-+    }
-     zpci->fid_defined = true;
- }
+-    parent_mr = object_property_get_link(OBJECT(sbdev_mr), "container", NULL);
+-
+-    assert(parent_mr);
++    parent_mr = object_property_get_link(OBJECT(sbdev_mr), "container",
++                                         &error_abort);
+     if (parent_mr != pbus_mr_obj) {
+         /* MMIO region is not mapped on platform bus */
+         return -1;
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index d10193f39e..1f18b79348 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -870,7 +870,8 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
+             continue;
+         }
  
+-        obj = object_property_get_link(root_container, prop->name, NULL);
++        obj = object_property_get_link(root_container, prop->name,
++                                       &error_abort);
+         drc = SPAPR_DR_CONNECTOR(obj);
+         drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+ 
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 0f54988f2e..c1d01228c6 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1655,7 +1655,8 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
+             continue;
+         }
+         drc = SPAPR_DR_CONNECTOR(object_property_get_link(drc_container,
+-                                                          prop->name, NULL));
++                                                          prop->name,
++                                                          &error_abort));
+ 
+         if (spapr_drc_transient(drc)) {
+             spapr_drc_reset(drc);
+diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+index 8332d5694e..dd8cd6db96 100644
+--- a/hw/ppc/spapr_pci_nvlink2.c
++++ b/hw/ppc/spapr_pci_nvlink2.c
+@@ -358,7 +358,8 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
+     for (i = 0; i < sphb->nvgpus->num; ++i) {
+         SpaprPhbPciNvGpuSlot *nvslot = &sphb->nvgpus->slots[i];
+         Object *nv_mrobj = object_property_get_link(OBJECT(nvslot->gpdev),
+-                                                    "nvlink2-mr[0]", NULL);
++                                                    "nvlink2-mr[0]",
++                                                    &error_abort);
+         uint32_t associativity[] = {
+             cpu_to_be32(0x4),
+             SPAPR_GPU_NUMA_ID,
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 527ad25124..f006aa1afd 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -568,7 +568,7 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
+                        &info->vencrypt, &info->has_vencrypt);
+         if (vd->dcl.con) {
+             dev = DEVICE(object_property_get_link(OBJECT(vd->dcl.con),
+-                                                  "device", NULL));
++                                                  "device", &error_abort));
+             info->has_display = true;
+             info->display = g_strdup(dev->id);
+         }
 -- 
 2.26.2
 
