@@ -2,100 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47E421225A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:32:47 +0200 (CEST)
-Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EA4212285
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:46:14 +0200 (CEST)
+Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxSP-0005ZZ-QN
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:32:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
+	id 1jqxfQ-00059z-TD
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqxQQ-0003Je-SJ
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:30:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31290
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqxQN-0001AZ-E3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:30:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593689438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xdTj48wOCCSQvdOMkIxAXeO3zn0KZTpuVZBy3piIOM4=;
- b=bTCJ6QMZbjqhaekYG5Kom1Q/4QxoCGF90B+muCq4KMpfm2F+k11jlQ20jJp2a/ycZ+iQRw
- byaD5TeceBhoF6z32p4zl6QvKqs78a6qNuSbTeRfSglE2crYYYIt92ISFmn7txtxdqi9Hk
- ao96CQj7hZTwKZhMpatoJciSr2Tt0KM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-P0idx3HuO4Wxm0wd9gNuKg-1; Thu, 02 Jul 2020 07:30:31 -0400
-X-MC-Unique: P0idx3HuO4Wxm0wd9gNuKg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC1A18FF660;
- Thu,  2 Jul 2020 11:30:30 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-196.ams2.redhat.com
- [10.36.113.196])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 51BFD5C1D0;
- Thu,  2 Jul 2020 11:30:28 +0000 (UTC)
-Subject: Re: [PATCH v9 20/34] qcow2: Add subcluster support to
- calculate_l2_meta()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1593342067.git.berto@igalia.com>
- <12ee527c0e8a80694fd249a38f106927062e3b44.1593342067.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f863b949-16e0-d89a-f672-46760ddc172a@redhat.com>
-Date: Thu, 2 Jul 2020 13:30:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jqxda-0003xH-30
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:44:18 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:57759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jqxdX-0005Ap-Fx
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:44:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=zLquVldDscfwLaJthVfyrjtjhlvEdCOhcfdS025nTCE=; b=GEP8tN32v0skyYwGWDhlePUgXA
+ tcOi5XjHgUE3M2U1q7Zse4zlKc45UZsFpRjdS0szalAJIw1q5mgUy3qpjyN7FP6//u28C3tl48nnV
+ AWnMyHtSo0fhBEo3oom/O3kMqL5T/SUVxwlCAV9jj9EwX+2nXQXezmhV8ogja2M7/1DQ9QB3rdv1v
+ 1LsYovTJhntX+4oUs2ufrPv1O5F24B1jRiY6Z82HHepMG8OshVcgjokGmlWHvKVJ1OR5ftc/RHWqn
+ iGWK9HBq7Q6Hoya5hnPC6UOqrAS04FRhDuhzV+vSmwPaF2A87+qhBbKH4ZLvjDsBnXinig2hY5CzR
+ tjNM0s7T1JgzwTGHbtRpQ1pEpANr3RTYF5PXKv+/xUbo0MGmAKUjiNDmKsFVpuo/b2xk0h+CrlY9q
+ VyH/xAO+KxCGLFQ/0bc3Z99FLdF+vvAtDU3FFZBBljSCVnf3b3ATRuF1WRm/6rKW0PdwaZmUXItpY
+ Pr+nav05y31lA+LkO61Qj90az/v6NTFFDeAweyRAR+TwFVxXKGDLK2MZH5l2mGrwOLLOSyFfSSMNs
+ ctUyvBRvpTBTD0CiSz7PSXTPac02sj1iEGkcxhE57JhmiavbyQmkhFsG+8/kC4/9eQWxhrdbOQK39
+ b8K0NFIRAWAiYfyQJJ8j9ChuD6l+iqb/Y0vISIw34=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v6 4/5] 9pfs: T_readdir latency optimization
+Date: Thu, 02 Jul 2020 13:43:11 +0200
+Message-ID: <1814766.vrYqd63b1M@silver>
+In-Reply-To: <20200701171240.5374ebc1@bahia.lan>
+References: <cover.1587309014.git.qemu_oss@crudebyte.com>
+ <3956126.q4pgddXim5@silver> <20200701171240.5374ebc1@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <12ee527c0e8a80694fd249a38f106927062e3b44.1593342067.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Yd6xTUyvZ53jQcO7GWf6YoygiWLMpyOdN"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 07:44:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,77 +67,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Yd6xTUyvZ53jQcO7GWf6YoygiWLMpyOdN
-Content-Type: multipart/mixed; boundary="69Wq9Jg3hXZ3vSoF0Uy7d6GdN0yP0iXES"
+On Mittwoch, 1. Juli 2020 17:12:40 CEST Greg Kurz wrote:
+> On Wed, 01 Jul 2020 13:47:12 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Mittwoch, 1. Juli 2020 12:09:24 CEST Greg Kurz wrote:
+> > > No I'm talking about code that isn't changed by this series:
+> > >     if (initial_offset == 0) {
+> > >     
+> > >         v9fs_co_rewinddir(pdu, fidp);
+> > >     
+> > >     } else {
+> > >     
+> > >         v9fs_co_seekdir(pdu, fidp, initial_offset);
+> > >     
+> > >     }
+> > >     count = v9fs_do_readdir(pdu, fidp, max_count);
+> > > 
+> > > Leaving these outside the critical section seems to negate
+> > > your arguments... please clarify.
+> > 
+> > Yeah, I admit I have neglected this issue, as concurrent readdir requests
+> > with same FID always was some kind of theoretical issue. But yes, you are
+> > right,
+> It's perfectly fine to miss things, that's what reviews are made for :)
+> 
+> > that should be addressed by
+> > 
+> > 1. entirely removing the rewinddir/seekdir code here
+> > 
+> > 2. passing initial_offset to v9fs_do_readdir(), which in turn would
+> > 
+> >    pass it to readdir_many()
+> > 
+> > 3. readdir_many() would handle rewinddir/seekdir exclusively in its
+> > crticial> 
+> >    section.
+> 
+> Sounds good. v7 ?
 
---69Wq9Jg3hXZ3vSoF0Uy7d6GdN0yP0iXES
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Sure, that's not the problem, I can repost this handled appropriately of 
+course.
 
-On 28.06.20 13:02, Alberto Garcia wrote:
-> If an image has subclusters then there are more copy-on-write
-> scenarios that we need to consider. Let's say we have a write request
-> from the middle of subcluster #3 until the end of the cluster:
->=20
-> 1) If we are writing to a newly allocated cluster then we need
->    copy-on-write. The previous contents of subclusters #0 to #3 must
->    be copied to the new cluster. We can optimize this process by
->    skipping all leading unallocated or zero subclusters (the status of
->    those skipped subclusters will be reflected in the new L2 bitmap).
->=20
-> 2) If we are overwriting an existing cluster:
->=20
->    2.1) If subcluster #3 is unallocated or has the all-zeroes bit set
->         then we need copy-on-write (on subcluster #3 only).
->=20
->    2.2) If subcluster #3 was already allocated then there is no need
->         for any copy-on-write. However we still need to update the L2
->         bitmap to reflect possible changes in the allocation status of
->         subclusters #4 to #31. Because of this, this function checks
->         if all the overwritten subclusters are already allocated and
->         in this case it returns without creating a new QCowL2Meta
->         structure.
->=20
-> After all these changes l2meta_cow_start() and l2meta_cow_end()
-> are not necessarily cluster-aligned anymore. We need to update the
-> calculation of old_start and old_end in handle_dependencies() to
-> guarantee that no two requests try to write on the same cluster.
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/qcow2-cluster.c | 163 +++++++++++++++++++++++++++++++++---------
->  1 file changed, 131 insertions(+), 32 deletions(-)
+But would you please finalize your picture of this patch set first? I would 
+really (try) to finally nail this thing with the next version.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+> > > There are indeed several issues with the current readdir:
+> > > 
+> > > 1) potential inconsistency on concurrent Treaddir requests
+> > > 
+> > > 2) excessive dispatching to worker threads
+> > > 
+> > > So we agreed that 1) should never happen with a regular linux
+> > > client (we could even dump the lock actually) but we want to
+> > > make it clear in the code anyway that actions on the directory
+> > > stream are serialized.
+> > 
+> > My point is you are trying to fix a merely thereotical issue on code
+> > that's
+> > conceptually, inherently wrong and dead end code at first place. Top half
+> > code
+> I'm not trying to fix anything. We already have locking in place to
+> deal with this theoretical issue and it interferes with your changes.
+> I don't care that much if a silly guest shoots itself in the foot
+> actually, so it'll be fine with me if you just dump the lock, as
+> long as it doesn't cause QEMU to hang or crash.
 
+Ah ok, I got you as if you wanted to fix more details on the old readdir code, 
+which would be a clear blocker for this patch set to proceed. Good then.
 
---69Wq9Jg3hXZ3vSoF0Uy7d6GdN0yP0iXES--
+> > should always be designed to be as thin as possible. The old readdir code
+> > though is the complete opposite.
+> 
+> It isn't readdir only, most requests span over multiple v9fs_co_*() calls...
 
---Yd6xTUyvZ53jQcO7GWf6YoygiWLMpyOdN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Right, I know! And that's actually my root motivation to finally bring this 
+patch set forward, since I am very aware that this patch set is just a small 
+brick in the overall procecss of fixing similarly affected code portions. So 
+yes, that's my plan to fix them with upcoming patch sets, too.
 
------BEGIN PGP SIGNATURE-----
+Having said that, could we probably try to make future reviews a bit more 
+efficient at certain aspects? For instance it would help a lot if the patch 
+set was reviewed entirely, and not stopped at the very first issue spotted and 
+then suspended to ++version, as this creates large latencies in the overall 
+review process?
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl79xVIACgkQ9AfbAGHV
-z0DSgwf+PNuM4Tl3mJzA6pCnIY8WReX1F0lg8bTVqL485E9rYen1TCTqO1oludGD
-KnSmED2QUERPCHalSUF6bN3CAu3OPvr1iHVNAkNQV0mV6MYNZBi03+Iyn+4YBFCx
-ccyAP+MtWsRDujAT5XE70Yr7/cqtAyjR2Vmh0rsHXKdMPH967Q+Xt7Sb4yK0SUEm
-QDRB8SXBXBAgRH7UdkRD8ErvYREuTdKA9BfkPxGR1Ec1+LyoU6o8zQlx/1t4ziXR
-qINGTzsAY3y3YN38I9OiUKwemNM/TSTyPRMdklI3DJtkl5UYjRv1yfwNKvNUm0Na
-qT5/GjHxH0lXmvA4nIppWisxCUMHsA==
-=4Dci
------END PGP SIGNATURE-----
+And likewise it would also help if review is prioritized on relevant behaviour 
+aspects (concept, design) first before arguing about code style details like 
+variable names or other details invisible to users.
 
---Yd6xTUyvZ53jQcO7GWf6YoygiWLMpyOdN--
+And finally: compromises. As man power on 9p is very limited, it would make 
+sense to limit patch sets at a certain extent and agree to postpone certain 
+non-critical issues to subsequent patches (or sets of), otherwise a patch set 
+will grow and grow and it will take ages to get forward.
+
+> > > 2) basically means moving some logic from the frontend to the
+> > > backend, ie. called from v9fs_co_run_in_worker(). This implies
+> > > that a very long request (ie. one that would span on many calls
+> > > to readdir()) cannot be interrupted by the client anymore, as
+> > > opposed to what we have now BTW.
+> 
+> ... most likely to allow clients to interrupt a long request with a
+> Tflush. Have you considered this aspect in your changes ?
+
+In this particular patch set, no, as for readdir this should not be an issue 
+in practice for anybody. After this patch set is applied, even on huge 
+directories, the fs driver's duration for readdir would barely be measurable. 
+In fact the server's latency would always be much higher, yet.
+
+But also for the upcoming, planned patch sets (i.e. other request types): That 
+would be an example where I would ask you to lower you expectations a bit and 
+that we could agree to postpone such an aspect to a subsequent, separate patch 
+(or set of).
+
+> > 3) Complexity of old readdir code is so much bigger compared to the new
+> > one
+> > 
+> >    such that probability of additional issues is also significantly
+> >    higher.
+> > > 
+> > > I tend to think that addressing both issues in one "rush" is
+> > > as much "error prone".
+> > 
+> > No it's not. The optimized readdir implementation is quantifyable,
+> > significantly less complex than the old implementation (i.e. significantly
+> > smaller amount of branches and error pathes, determenistic clear
+> > separation of thread's task assignments which includes much smaller
+> > amount of thread hops). Less complexity and increased determinism
+> > consequently means reduced chance of misbehaviours. So that's not a
+> > subjective, but rather a quantifyable, proven statement.
+> > 
+> > You can't switch from the old (wrong) concept to the new concept without
+> > some minimum amount of changes, which yes are not small, but I don't see
+> > any way to make the change set smaller without yet introducing new
+> > negative side effects.
+> > 
+> > I am now using words that I heard from your side before: please be
+> > realistic. Currently man power on 9p code is extremely limited to put it
+> > mildly. Yes, we could spend time on fixing this (theoretical) issue on
+> > the old readdir could. But what would it buy? Due to the limited man
+> > power we can only move forward with compromises; in this case you are
+> > fighting for code that's DOA. The only thing that you achieve by still
+> > sticking to the old readdir code is you are preventing that we move
+> > forward at all. Remember: I originally sent this patch almost 7 months
+> > ago.
+> > 
+> > > > Also: it does not make sense to move locking on this series from fs
+> > > > driver
+> > > > back to main I/O thread. Atomicity must retain on driver side, not on
+> > > > top
+> > > > half.
+> > > 
+> > > Then the whole seekdir/rewinddir/telldir/readdir sequence should
+> > > be called with a single v9fs_co_run_in_worker() invocation, in
+> > > which case the locking could just be something like:
+> > > 
+> > > int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+> > > 
+> > >                                       struct V9fsDirEnt **entries,
+> > >                                       int32_t maxsize, bool dostat)
+> > > 
+> > > {
+> > > 
+> > >     int err = 0;
+> > >     
+> > >     if (v9fs_request_cancelled(pdu)) {
+> > >     
+> > >         return -EINTR;
+> > >     
+> > >     }
+> > >     
+> > >     v9fs_readdir_lock(&fidp->fs.dir);
+> > >     
+> > >     v9fs_co_run_in_worker({
+> > >     
+> > >         err = do_readdir_many(pdu, fidp, entries, maxsize, dostat);
+> > >     
+> > >     });
+> > >     
+> > >     v9fs_readdir_unlock(&fidp->fs.dir);
+> > >     return err;
+> > > 
+> > > }
+> > 
+> > That's exactly what should be prevented. The lock must be on driver thread
+> > side, not on main thread side. The goal is to reduce the time slice of
+> > individual locks. If the lock is on main thread, the time slice of a lock
+> > (even on huge directories with thousands of entries) is multiple factors
+> > larger than if the lock is on driver thread side. So that's not just few
+> > percent or so, it is huge.
+> 
+> Sorry I don't get it...  In a contention-less situation, which is the
+> case we really care for, qemu_co_mutex_lock() has no overhead.
+
+Yes, it only kicks in if there is concurrency.
+
+> > > This would technically leave the locking in the main I/O thread,
+> > > but it isn't conceptually different from locking at the beginning
+> > > of do_readdir_lock() and unlocking before returning. My concern
+> > > is that I don't know how coroutine mutexes behave with multiple
+> > > worker threads...
+> > 
+> > Well, your Mutex -> CoMutex change was intended to fix a deadlock with the
+> > old readdir implementation. That deadlock could not happen with the new
+> > readdir implementation, which suggests that it probably makes sense to
+> > revert this change (i.e. CoMutex -> Mutex) for this new implementation.
+> 
+> No we can't because it is also used with 9p2000.u, that you said you
+> don't want to fix.
+
+Yes and no, I did not say I don't want to fix readdir for 9p2000.u at all. 
+What I said was I want to prioritize and concentrate on the most relevant 
+issues first. 9p2000.L is the most commonly used protocol variant, so I would 
+like to fix the most severe (e.g. performance) issues for 9p2000.L first 
+before spending time on 9p2000.u which is AFAICS barely used in comparison, 
+which I personally don't use at all, and which I am hence not testing in the 
+same degree and cannot serve with the same quality as 9p2000.L right now.
+
+Plus if there are really users caring for 9p2000.u, I can gladly assist them 
+to address these issues for 9p2000.u as well, provided that they help at least 
+with testing the required 9p2000.u changes.
+
+Back to the actual topic: so what do we do about the mutex then? CoMutex for 
+9p2000.u and Mutex for 9p2000.L? I know you find that ugly, but it would just 
+be a transitional measure.
+
+Best regards,
+Christian Schoenebeck
+
 
 
