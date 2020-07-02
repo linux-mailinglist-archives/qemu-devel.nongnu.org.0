@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E139D212E38
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:51:32 +0200 (CEST)
-Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D498B212E41
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:53:21 +0200 (CEST)
+Received: from localhost ([::1]:43996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr6B8-0007QS-D8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54530)
+	id 1jr6Cu-00027k-U4
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr693-0004Ca-2J
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44803
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr699-0004R6-J1
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27381
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr690-0003X7-7Y
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:20 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr694-0003Y4-9k
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593722957;
+ s=mimecast20190719; t=1593722961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=iZ8q6BNQD71G/ReGAtp/ZouIvCh6XyxiS1/Hett2Vw4=;
- b=dBC1cvxucaRCOutwDPUTpQSysJt58hYiPPjk+zVNV/sOqvEv3iZxeidqMxyihnooZ3+YAC
- HTui2NS5khdlSzSJLm+lAWyq5XHfnx5WiU9E1UeE4JXN4vFOrBATH2hb/yGgwMajjqMo+0
- ExSahQnL4Osvn1G90nZF4yvhq7DkMq0=
+ references:references; bh=3qmo/QC1Uo41VjKsHy5G+USrNARFiKstgjsHC8RmoEs=;
+ b=YzapxhKwdDkrRVPYDk6vThvhwC4mrBs8JbeCgV5Y2L4cX1BhTUvm57T9nM4j71EfRI4x3/
+ a/3UOBl+S7MF1MagYTj3vIj1elVPaIL6by6s5AwdyjUzxa3nznAl5EK1/FqvsOcBDiZuAq
+ 0TikevZa/PPS2KDxSAUU5rDswQ60KEI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-t2U6IrGlPBGVrhw3hxrHkg-1; Thu, 02 Jul 2020 16:49:14 -0400
-X-MC-Unique: t2U6IrGlPBGVrhw3hxrHkg-1
+ us-mta-236-U2UQ2T7fP0CZmI8OqfOBmA-1; Thu, 02 Jul 2020 16:49:20 -0400
+X-MC-Unique: U2UQ2T7fP0CZmI8OqfOBmA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAE2080183C;
- Thu,  2 Jul 2020 20:49:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA05A1932483;
+ Thu,  2 Jul 2020 20:49:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BB685C1C5;
- Thu,  2 Jul 2020 20:49:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E1755C1C5;
+ Thu,  2 Jul 2020 20:49:14 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E7BEA31E62; Thu,  2 Jul 2020 22:48:59 +0200 (CEST)
+ id 175AF31E93; Thu,  2 Jul 2020 22:49:00 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/21] acpi: ged: add control regs
-Date: Thu,  2 Jul 2020 22:48:42 +0200
-Message-Id: <20200702204859.9876-5-kraxel@redhat.com>
+Subject: [PATCH v4 07/21] microvm: make virtio irq base runtime configurable
+Date: Thu,  2 Jul 2020 22:48:45 +0200
+Message-Id: <20200702204859.9876-8-kraxel@redhat.com>
 In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
 References: <20200702204859.9876-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
@@ -55,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,108 +88,86 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add control regs (sleep, reset) for hw-reduced acpi.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- include/hw/acpi/generic_event_device.h |  7 ++++
- hw/acpi/generic_event_device.c         | 44 ++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+ include/hw/i386/microvm.h |  2 +-
+ hw/i386/microvm.c         | 11 +++++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
-index 90a9180db572..474c92198080 100644
---- a/include/hw/acpi/generic_event_device.h
-+++ b/include/hw/acpi/generic_event_device.h
-@@ -72,6 +72,12 @@
- #define ACPI_GED_EVT_SEL_OFFSET    0x0
- #define ACPI_GED_EVT_SEL_LEN       0x4
+diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+index fd34b78e0d2a..03e735723726 100644
+--- a/include/hw/i386/microvm.h
++++ b/include/hw/i386/microvm.h
+@@ -27,7 +27,6 @@
  
-+#define ACPI_GED_REG_SLEEP_CTL     0x00
-+#define ACPI_GED_REG_SLEEP_STS     0x01
-+#define ACPI_GED_REG_RESET         0x02
-+#define   ACPI_GED_RESET_VALUE     0x42
-+#define ACPI_GED_REG_COUNT         0x03
-+
- #define GED_DEVICE      "GED"
- #define AML_GED_EVT_REG "EREG"
- #define AML_GED_EVT_SEL "ESEL"
-@@ -87,6 +93,7 @@
+ /* Platform virtio definitions */
+ #define VIRTIO_MMIO_BASE      0xfeb00000
+-#define VIRTIO_IRQ_BASE       5
+ #define VIRTIO_NUM_TRANSPORTS 8
+ #define VIRTIO_CMDLINE_MAXLEN 64
  
- typedef struct GEDState {
-     MemoryRegion evt;
-+    MemoryRegion regs;
-     uint32_t     sel;
- } GEDState;
+@@ -57,6 +56,7 @@ typedef struct {
+     bool auto_kernel_cmdline;
  
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index b8abdefa1c77..491df80a5cc7 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -20,6 +20,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qemu/error-report.h"
-+#include "sysemu/runstate.h"
+     /* Machine state */
++    uint32_t virtio_irq_base;
+     bool kernel_cmdline_fixed;
+ } MicrovmMachineState;
  
- static const uint32_t ged_supported_events[] = {
-     ACPI_GED_MEM_HOTPLUG_EVT,
-@@ -176,6 +177,45 @@ static const MemoryRegionOps ged_evt_ops = {
-     },
- };
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 1300c396947b..ab6ee6c67b1a 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -121,10 +121,11 @@ static void microvm_devices_init(MicrovmMachineState *mms)
  
-+static uint64_t ged_regs_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    return 0;
-+}
-+
-+static void ged_regs_write(void *opaque, hwaddr addr, uint64_t data,
-+                           unsigned int size)
-+{
-+    bool slp_en;
-+    int slp_typ;
-+
-+    switch (addr) {
-+    case ACPI_GED_REG_SLEEP_CTL:
-+        slp_typ = (data >> 2) & 0x07;
-+        slp_en  = (data >> 5) & 0x01;
-+        if (slp_en && slp_typ == 5) {
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        }
-+        return;
-+    case ACPI_GED_REG_SLEEP_STS:
-+        return;
-+    case ACPI_GED_REG_RESET:
-+        if (data == ACPI_GED_RESET_VALUE) {
-+            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        }
-+        return;
-+    }
-+}
-+
-+static const MemoryRegionOps ged_regs_ops = {
-+    .read = ged_regs_read,
-+    .write = ged_regs_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
- static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
-                                     DeviceState *dev, Error **errp)
- {
-@@ -332,6 +372,10 @@ static void acpi_ged_initfn(Object *obj)
-      sysbus_init_mmio(sbd, &s->container_memhp);
-      acpi_memory_hotplug_init(&s->container_memhp, OBJECT(dev),
-                               &s->memhp_state, 0);
-+
-+    memory_region_init_io(&ged_st->regs, obj, &ged_regs_ops, ged_st,
-+                          TYPE_ACPI_GED "-regs", ACPI_GED_REG_COUNT);
-+    sysbus_init_mmio(sbd, &ged_st->regs);
+     kvmclock_create();
+ 
++    mms->virtio_irq_base = 5;
+     for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
+         sysbus_create_simple("virtio-mmio",
+                              VIRTIO_MMIO_BASE + i * 512,
+-                             x86ms->gsi[VIRTIO_IRQ_BASE + i]);
++                             x86ms->gsi[mms->virtio_irq_base + i]);
+     }
+ 
+     /* Optional and legacy devices */
+@@ -227,7 +228,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     x86ms->ioapic_as = &address_space_memory;
  }
  
- static void acpi_ged_class_init(ObjectClass *class, void *data)
+-static gchar *microvm_get_mmio_cmdline(gchar *name)
++static gchar *microvm_get_mmio_cmdline(gchar *name, uint32_t virtio_irq_base)
+ {
+     gchar *cmdline;
+     gchar *separator;
+@@ -247,7 +248,7 @@ static gchar *microvm_get_mmio_cmdline(gchar *name)
+     ret = g_snprintf(cmdline, VIRTIO_CMDLINE_MAXLEN,
+                      " virtio_mmio.device=512@0x%lx:%ld",
+                      VIRTIO_MMIO_BASE + index * 512,
+-                     VIRTIO_IRQ_BASE + index);
++                     virtio_irq_base + index);
+     if (ret < 0 || ret >= VIRTIO_CMDLINE_MAXLEN) {
+         g_free(cmdline);
+         return NULL;
+@@ -259,6 +260,7 @@ static gchar *microvm_get_mmio_cmdline(gchar *name)
+ static void microvm_fix_kernel_cmdline(MachineState *machine)
+ {
+     X86MachineState *x86ms = X86_MACHINE(machine);
++    MicrovmMachineState *mms = MICROVM_MACHINE(machine);
+     BusState *bus;
+     BusChild *kid;
+     char *cmdline;
+@@ -282,7 +284,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
+             BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
+ 
+             if (!QTAILQ_EMPTY(&mmio_bus->children)) {
+-                gchar *mmio_cmdline = microvm_get_mmio_cmdline(mmio_bus->name);
++                gchar *mmio_cmdline = microvm_get_mmio_cmdline
++                    (mmio_bus->name, mms->virtio_irq_base);
+                 if (mmio_cmdline) {
+                     char *newcmd = g_strjoin(NULL, cmdline, mmio_cmdline, NULL);
+                     g_free(mmio_cmdline);
 -- 
 2.18.4
 
