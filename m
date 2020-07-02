@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73D3212ABD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:03:28 +0200 (CEST)
-Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FD3212AED
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:11:07 +0200 (CEST)
+Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2cR-0000Si-Me
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
+	id 1jr2jq-0002DQ-4E
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2Aq-0006uO-QD
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:34:56 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44883)
+ id 1jr2Au-000738-5h
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:00 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2Ao-0000Az-Hi
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:34:56 -0400
+ id 1jr2Ar-0000BG-EK
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:34:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707694; x=1625243694;
+ t=1593707697; x=1625243697;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Nht9iyie5hUYDHGdQBvfft0oYNHogNWeH8Y5eO2+JbY=;
- b=UmId49QfZsgUQVfD/5BHA/dCLbdfp9hTsIv/Yj3fYFHdmEvlktvtC+4p
- 4wh37/S87xpPY9h3scUy5BsQNdeaN6EArq7X9oySr5/iBezmBpSD1nWdm
- 4YkaSrxtNuyuQVQ9fxLlGfSX/7CibFNtT6uZZmdNpcNCG55La5RCd5a6P
- 0JaJes2Rw3HqccvdNW3pHQprmpbXur605K0ZK9sIrBgCsC0HaMIXWqATy
- qqecsYT5ndmTSkbEPNbNcCbkGCVYJLJKsE7rQA6efZJPKo18NIuGvktwn
- P41KdTREeZatzraaBJmm6xazsZGYk2pbebRFMHsIe/FfdPaMriepwo1q4 A==;
-IronPort-SDR: wKrVukooZMUJyP+olDRocUfKVYMwTgJR0vNVgUiujyXvYaWREoQLtq/TJejLmpMFONp6/esRAd
- 00Kp/NpSDLPzmLdBPbOh5muGVJ3E3xGH6ean2r8u/WicGkch/yR6C30qUI2f0YYiOnJUBAFcOA
- 6y9EZVvDhLhSZrUqKJv91HfQaV4z3REWtV9vIc1OlFuW+enkJZCYbUViTz44iC34eVJCuAhWcn
- t8CT/YjTLH16attHzlCyZs6F807q+5aaBjyM9qulunjFlx+W4FJR0++1L+jf9yWIKMhixgjYg1
- LQ4=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498549"
+ bh=RCa4xejBSpLdNFeVGXL4jC7B93Wrbo3TOvUFEgTe1Bg=;
+ b=OhasFKu5n43CNbueozdfXbLK4agcdajBeOkxLHRtWW3qqLSf+ZnSlRJB
+ xY9AidC4sUG5qXwjATYgxdk9hqRxd8DV6l4gMlFb5hHbzua5GlDKCAdrt
+ Tr4ayPZxfJxaBcHQOxxSTzgPaf7gSohXIS6dIDHow9TXgpKCIhYfY9viC
+ c9ILbv4D/BTPbS/mOpvKMK6NuyF4sBTh11x0uqhalioP3CzvhIdHkbWC5
+ 1+UYds2gtxroe/PV3IO1wtvCqgfVUA142j7VLMi1x8+YJmQ8oA+vFGA18
+ xYPfbViqssyE+ec/KluRry+7YiwDK9/vf9lf78NLxgp0HO6kcNNJPXgpI w==;
+IronPort-SDR: iqsDJh02uMosv3FZkF0KagPQDv/aP/EnYdK34FbDkxH5q0tOO+gcZhPn3KmyQeAfAcnKP9Sx5O
+ Epw2n8p+UtrwseTZ+Q+aonsH6Py6bDeb6jkE7F/1Ew8Zgr5dGuBHGfF/rvijheU5t5g/FjfyV7
+ 5v02SODRlehJZD7r4MzAfySh3q0TLci+MZfCiECR0ASBi0KJ9whmcF5qcDNGEyj5x/g4dXodFQ
+ 7ryBr/TY3t5VTYxaDAdwBHDX0wZhedC+5xvqCm7v76sLVT7cSAQz4a8lmk3xZ9pnnayp4uB8zC
+ sJs=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498555"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:34 +0800
-IronPort-SDR: JweNh0ouxioI9jMeMCIkpRpqxQgHCCZ8YA6zm0JCcq0H4ehCbiH/6j8FuGb2WwpcwyaTxjCZb8
- Qa7uI+ZplCIHgZjE5mAXid17PpdfSGMyE=
+IronPort-SDR: ZEtKaCCorWbypdwYaQX6szZwE0yoOFYe0OZuyUpcBirTSsXR4aDeaf50FVTRv9gTogaKV3R9rj
+ myZLcdAEiOy7tDeTxA+Y79WuFunupeRKE=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 09:21:49 -0700
-IronPort-SDR: GdeVkSE9Jh/r60hfZNchox1oFfTTEMemmqs9jqddujHZPiQOSRi5RIxjAJXk5Jcjyyx6C+FnIb
- RUCGENMACCJQ==
+ 02 Jul 2020 09:21:50 -0700
+IronPort-SDR: 9z/1W6ekGUCwumCKxgHrXBXr8d37e31ILP/mUrY2SBOjComzLTVCGO3OzKhir7DP+gXshzxVBy
+ rDMuLAWSJIdA==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:33 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:34 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 52/64] target/riscv: vector mask-register logical
- instructions
-Date: Thu,  2 Jul 2020 09:23:42 -0700
-Message-Id: <20200702162354.928528-53-alistair.francis@wdc.com>
+Subject: [PULL v2 55/64] target/riscv: set-X-first mask bit
+Date: Thu,  2 Jul 2020 09:23:45 -0700
+Message-Id: <20200702162354.928528-56-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -99,142 +98,148 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-50-zhiwei_liu@c-sky.com>
+Message-Id: <20200701152549.1218-53-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |  9 ++++++
- target/riscv/insn32.decode              |  8 +++++
- target/riscv/insn_trans/trans_rvv.inc.c | 35 ++++++++++++++++++++++
- target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
- 4 files changed, 92 insertions(+)
+ target/riscv/helper.h                   |  4 ++
+ target/riscv/insn32.decode              |  3 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 28 +++++++++++
+ target/riscv/vector_helper.c            | 63 +++++++++++++++++++++++++
+ 4 files changed, 98 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 217f09a55c..292279f0c5 100644
+index 28aeb74f43..0f9012be7e 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1092,3 +1092,12 @@ DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+@@ -1105,3 +1105,7 @@ DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
  
- DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_4(vmfirst_m, tl, ptr, ptr, env, i32)
 +
-+DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmandnot_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmxor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vmsbf_m, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vmsif_m, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vmsof_m, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 2668d483a7..c71cbef182 100644
+index a0f3315dbc..fab4a0b7e2 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -547,6 +547,14 @@ vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
- # Vector widening ordered and unordered float reduction sum
- vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
-+vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
-+vmandnot_mm     011000 - ..... ..... 010 ..... 1010111 @r
-+vmxor_mm        011011 - ..... ..... 010 ..... 1010111 @r
-+vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
-+vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
-+vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
-+vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
+@@ -557,6 +557,9 @@ vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
+ vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
+ vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
+ vmfirst_m       010101 . ..... ----- 010 ..... 1010111 @r2_vm
++vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
++vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
++vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index b78829be36..e2954aa99a 100644
+index 01c32a3278..33ffe5dc1a 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2354,3 +2354,38 @@ GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
- 
- /* Vector Widening Floating-Point Reduction Instructions */
- GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
+@@ -2453,3 +2453,31 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
+     }
+     return false;
+ }
 +
-+/*
-+ *** Vector Mask Operations
-+ */
-+
-+/* Vector Mask-Register Logical Instructions */
-+#define GEN_MM_TRANS(NAME)                                         \
-+static bool trans_##NAME(DisasContext *s, arg_r *a)                \
++/* vmsbf.m set-before-first mask bit */
++/* vmsif.m set-includ-first mask bit */
++/* vmsof.m set-only-first mask bit */
++#define GEN_M_TRANS(NAME)                                          \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
 +{                                                                  \
 +    if (vext_check_isa_ill(s)) {                                   \
 +        uint32_t data = 0;                                         \
-+        gen_helper_gvec_4_ptr *fn = gen_helper_##NAME;             \
++        gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
 +        TCGLabel *over = gen_new_label();                          \
 +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
 +                                                                   \
 +        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
++        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
 +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-+                           vreg_ofs(s, a->rs1),                    \
-+                           vreg_ofs(s, a->rs2), cpu_env, 0,        \
-+                           s->vlen / 8, data, fn);                 \
++        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
++                           vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
++                           cpu_env, 0, s->vlen / 8, data, fn);     \
 +        gen_set_label(over);                                       \
 +        return true;                                               \
 +    }                                                              \
 +    return false;                                                  \
 +}
 +
-+GEN_MM_TRANS(vmand_mm)
-+GEN_MM_TRANS(vmnand_mm)
-+GEN_MM_TRANS(vmandnot_mm)
-+GEN_MM_TRANS(vmxor_mm)
-+GEN_MM_TRANS(vmor_mm)
-+GEN_MM_TRANS(vmnor_mm)
-+GEN_MM_TRANS(vmornot_mm)
-+GEN_MM_TRANS(vmxnor_mm)
++GEN_M_TRANS(vmsbf_m)
++GEN_M_TRANS(vmsif_m)
++GEN_M_TRANS(vmsof_m)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 3ebf2482b8..ca44e733e8 100644
+index e0ec02cda3..a58809a3cd 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4502,3 +4502,43 @@ void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
-     *((uint64_t *)vd) = s1;
-     clearq(vd, 1, sizeof(uint64_t), tot);
+@@ -4581,3 +4581,66 @@ target_ulong HELPER(vmfirst_m)(void *v0, void *vs2, CPURISCVState *env,
+     }
+     return -1LL;
  }
 +
-+/*
-+ *** Vector Mask Operations
-+ */
-+/* Vector Mask-Register Logical Instructions */
-+#define GEN_VEXT_MASK_VV(NAME, OP)                        \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-+                  void *vs2, CPURISCVState *env,          \
-+                  uint32_t desc)                          \
-+{                                                         \
-+    uint32_t mlen = vext_mlen(desc);                      \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;   \
-+    uint32_t vl = env->vl;                                \
-+    uint32_t i;                                           \
-+    int a, b;                                             \
-+                                                          \
-+    for (i = 0; i < vl; i++) {                            \
-+        a = vext_elem_mask(vs1, mlen, i);                 \
-+        b = vext_elem_mask(vs2, mlen, i);                 \
-+        vext_set_elem_mask(vd, mlen, i, OP(b, a));        \
-+    }                                                     \
-+    for (; i < vlmax; i++) {                              \
-+        vext_set_elem_mask(vd, mlen, i, 0);               \
-+    }                                                     \
++enum set_mask_type {
++    ONLY_FIRST = 1,
++    INCLUDE_FIRST,
++    BEFORE_FIRST,
++};
++
++static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
++                   uint32_t desc, enum set_mask_type type)
++{
++    uint32_t mlen = vext_mlen(desc);
++    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;
++    uint32_t vm = vext_vm(desc);
++    uint32_t vl = env->vl;
++    int i;
++    bool first_mask_bit = false;
++
++    for (i = 0; i < vl; i++) {
++        if (!vm && !vext_elem_mask(v0, mlen, i)) {
++            continue;
++        }
++        /* write a zero to all following active elements */
++        if (first_mask_bit) {
++            vext_set_elem_mask(vd, mlen, i, 0);
++            continue;
++        }
++        if (vext_elem_mask(vs2, mlen, i)) {
++            first_mask_bit = true;
++            if (type == BEFORE_FIRST) {
++                vext_set_elem_mask(vd, mlen, i, 0);
++            } else {
++                vext_set_elem_mask(vd, mlen, i, 1);
++            }
++        } else {
++            if (type == ONLY_FIRST) {
++                vext_set_elem_mask(vd, mlen, i, 0);
++            } else {
++                vext_set_elem_mask(vd, mlen, i, 1);
++            }
++        }
++    }
++    for (; i < vlmax; i++) {
++        vext_set_elem_mask(vd, mlen, i, 0);
++    }
 +}
 +
-+#define DO_NAND(N, M)  (!(N & M))
-+#define DO_ANDNOT(N, M)  (N & !M)
-+#define DO_NOR(N, M)  (!(N | M))
-+#define DO_ORNOT(N, M)  (N | !M)
-+#define DO_XNOR(N, M)  (!(N ^ M))
++void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
++                     uint32_t desc)
++{
++    vmsetm(vd, v0, vs2, env, desc, BEFORE_FIRST);
++}
 +
-+GEN_VEXT_MASK_VV(vmand_mm, DO_AND)
-+GEN_VEXT_MASK_VV(vmnand_mm, DO_NAND)
-+GEN_VEXT_MASK_VV(vmandnot_mm, DO_ANDNOT)
-+GEN_VEXT_MASK_VV(vmxor_mm, DO_XOR)
-+GEN_VEXT_MASK_VV(vmor_mm, DO_OR)
-+GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
-+GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
-+GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
++void HELPER(vmsif_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
++                     uint32_t desc)
++{
++    vmsetm(vd, v0, vs2, env, desc, INCLUDE_FIRST);
++}
++
++void HELPER(vmsof_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
++                     uint32_t desc)
++{
++    vmsetm(vd, v0, vs2, env, desc, ONLY_FIRST);
++}
 -- 
 2.27.0
 
