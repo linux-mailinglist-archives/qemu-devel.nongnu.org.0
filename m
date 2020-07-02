@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8851F212B62
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:40:45 +0200 (CEST)
-Received: from localhost ([::1]:39338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21506212B64
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:41:19 +0200 (CEST)
+Received: from localhost ([::1]:42056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3CW-0005gM-Iy
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
+	id 1jr3D4-0006vV-48
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:41:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AG-0003p8-Lm; Thu, 02 Jul 2020 13:38:26 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45553)
+ id 1jr3AI-0003pT-H5; Thu, 02 Jul 2020 13:38:27 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AE-00073y-Tl; Thu, 02 Jul 2020 13:38:24 -0400
-Received: by mail-ej1-x644.google.com with SMTP id a1so30708413ejg.12;
- Thu, 02 Jul 2020 10:38:21 -0700 (PDT)
+ id 1jr3AF-00075m-Ec; Thu, 02 Jul 2020 13:38:25 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id e22so24820942edq.8;
+ Thu, 02 Jul 2020 10:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hVuELmh2NIASA91T3RMpAA0z5YbUxZtHzawDfWJCcQY=;
- b=KXAn1F4f3Vgo6aSb7IeGH7cYRQYkUSbFSuki75+Calk3Qur683abzvCxshCb8bCAbZ
- uST/fCRFq0DfUvRxC9I0QGJF+nDSILVmOqMONsMWeQovqbBnHSATvn5yU2uyNCbyGhwE
- 2sWdtk2eqhHIvALJu6NpPG6SwN4YyFUA6y7tKRD5l7iJam2y93lXZqQPSp43HfjVmKxU
- TOS1j5hiU9DcqcQrcqn/0sXfucAsGFkZrygh3aiRNOgliedsIRNDuUKjDOkQbpQq1Jl3
- cLSqAR+12UbCnXRlNpID3QmNL3cKsTZSjl/3NphscrUKcsNusWnpCeZN02XEwUeSBhJv
- b+ZQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/YBfnM+q5yg3eJUDbnFRtNTO7sPPipwkfjylWcljCLs=;
+ b=AJV/y7cjKqOnfafA/QgbQZv0bRoQlP64KHdjoFil1PL+orwscBlzMssawH7gtRpLK8
+ HShAYA5rYm4QyGYdse53V3iY6nv2XXvEBQjwtqJnCOwTuLnApfJExYrEXwfZH9mnyDxC
+ C4xj05ijL1e3fd6D9kb9N26W6xcc2crWnBWNjQVKRjL0BYrfI1PaRJr4A47rwz10YhzB
+ OBvY/9P1TnMPiXySZFz0mym6Y0z/Q35Pk3RPN+Ia5Mq8c+r8cuAAMG7+BJ6yseN19KDN
+ XXx0AKEXyE65y+rSbJng1yXJnhCzk9zDHFLZT3UgiHZAmGERbKk/fkVug40HvniMuhG5
+ XGKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hVuELmh2NIASA91T3RMpAA0z5YbUxZtHzawDfWJCcQY=;
- b=e4SL+0YBETehkZmK+iuvnbjCNS8fOgBBTL/uBsQKyQKDLZi8hYMuxq8JanNibXHkO4
- eR1VBy3gN7HXrjA1yuEZbqGfQmgC9JM9bwc8nwiw1LKu+zLtQWJ8JsT9EdUfqwQFhIYt
- +sebxcP7M3+DCTJQJDEDVR7XRN7B2EabEu8hOhU8DWiP3p/uEFhBMbMBdx0ajOCIBl40
- 7CYkHHXXYtx3GFMOGnBq8i1uih1AqH59mR77YOqZoDFHQuZxkAYlYDk5kwQ6QexZVvt3
- c3MUSsWAHl/CtZCCh2mpje3ZdEPFg0YEkO57d0XEeDPVxxw6REJXTR3xVuWK8gMx1h6A
- dDlg==
-X-Gm-Message-State: AOAM531o/0031DqUSx8A37iIJ+Dzy/VGN+OWvHWjCmyce3P9k8txRQAp
- CZ+Hi1ryu5ndj30eITVs6qidqfFWBIs=
-X-Google-Smtp-Source: ABdhPJwGKH/VsyyM1pMlvach7uOkVVYradx8rZX2kwz4ciMv5O8H1rEWdRHwdh6P+j4IIDJwPQTZaQ==
-X-Received: by 2002:a17:906:4c48:: with SMTP id
- d8mr27031877ejw.331.1593711500187; 
- Thu, 02 Jul 2020 10:38:20 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=/YBfnM+q5yg3eJUDbnFRtNTO7sPPipwkfjylWcljCLs=;
+ b=berzzdbz79cFYDXtp2bFBqYE/hzWHra6Ql5tquWTgZiET0CX1Bsk2pz0QeCx0r3FH/
+ wrCQujVQoiE4kQatf8pCtsOHCSYPx83vNPZWFXLWLahG1kPIdXyIeCEWuuzyWVrAmQWQ
+ znYpxDMqjjKqjh2h+wiLpnTuiMqFCLP/5IBYAIctBFArXe5rOyhtdeJVyoC5n1vFFQoQ
+ DzEm4zN1w+9yBP6+M6JbPOkNWUV6QDDgssTgQBsIrYklaZCrczJziNGXQqsZ/xiTC17n
+ ZrCjHj4OtJ2QPdh2hk3Yve2KMzdLunUKgStiGqibBL2dagWa/OCl3MklKwbhfhlZdPR4
+ EORw==
+X-Gm-Message-State: AOAM530Hdg+Kz3ptPmpMDmhbJLp2f5qt7xjCVtHYLWDwSgO+9Z1BPGr+
+ JQxXiwSmCXiZsyTrDOtoV1a0AwEtfMI=
+X-Google-Smtp-Source: ABdhPJycV5lbcI/X/2qt1Cyrq0OCBLZN6W5bwrEKspbSukQzxktH3YpTDL2ywY09vTC1izais4FpMw==
+X-Received: by 2002:a05:6402:1c8f:: with SMTP id
+ cy15mr36153680edb.308.1593711501349; 
+ Thu, 02 Jul 2020 10:38:21 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.19
+ by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 10:38:19 -0700 (PDT)
+ Thu, 02 Jul 2020 10:38:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/19] mailmap: Add more entries to sanitize 'git log'
- output
-Date: Thu,  2 Jul 2020 19:37:59 +0200
-Message-Id: <20200702173818.14651-1-f4bug@amsat.org>
+Subject: [PATCH v3 01/19] .mailmap: Update Alexander Graf email address
+Date: Thu,  2 Jul 2020 19:38:00 +0200
+Message-Id: <20200702173818.14651-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200702173818.14651-1-f4bug@amsat.org>
+References: <20200702173818.14651-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -85,56 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
+Cc: qemu-trivial@nongnu.org, Alexander Graf <agraf@csgraf.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of these developers have the Signed-off-by tag properly
-written, but not the author/committer name. Fix this.
-Also we incorrectly wrote Arei Gonglei name, update and reorder.
+Update Alexander Graf email address to avoid emails bouncing.
 
-The committer name/email is displayed when using:
+Suggested-by: Alexander Graf <agraf@csgraf.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-  $ git log --format=fuller
-
-(which can be set in git-config setting format.pretty=fuller).
-
-Example of commits with miswritten committer email:
-  3b08098b40 76349f5ba8 eb83c2030a 572992eefa 0d4abda8f7
-
-Note: git-log does not use this file by default until you specify
-the --use-mailmap flag:
-
-  $ git log --use-mailmap
-
-Since v3:
-- Split 1 patch per developer, Cc'ing each developer (lvivier)
-
-Philippe Mathieu-Daudé (19):
-  .mailmap: Update Alexander Graf email address
-  .mailmap: Update Paul Burton email address
-  .mailmap: Display Andreas Faerber name with diaeresis
-  .mailmap: Display correct email address for Arei Gonglei
-  .mailmap: Display correctly Chen Fan name
-  .mailmap: Display correct email address for Christoph Hellwig
-  .mailmap: Display Disheng Su name correctly
-  .mailmap: Display Hiroyuki Obinata name correctly
-  .mailmap: Display correct email address for Jean-Christophe Dubois
-  .mailmap: Display Jia Lina name correctly
-  .mailmap: Display Lili Huang name correctly
-  .mailmap: Display Marek Dolata name properly
-  .mailmap: Display correct email address for Michael S. Tsirkin
-  .mailmap: Display correct email address for Michael Tokarev
-  .mailmap: Display correct email address for Peter Maydell
-  .mailmap: Display correct email address for Richard Henderson
-  .mailmap: Display correct email address for Stefan Berger
-  .mailmap: Display correct email address for Stefan Weil
-  .mailmap: Display Ying Fang name correctly
-
- .mailmap | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
-
+diff --git a/.mailmap b/.mailmap
+index 926cac6bb8..e46e6c7302 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -44,6 +44,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgte
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
++Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+ Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
 -- 
 2.21.3
 
