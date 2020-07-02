@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7FF212195
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 12:52:36 +0200 (CEST)
-Received: from localhost ([::1]:34476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28582121A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 12:58:46 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqwpX-0003lg-Be
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 06:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47212)
+	id 1jqwvV-0006Se-QA
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 06:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1jqwoa-0002vL-E0
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:51:36 -0400
-Received: from smtpbguseast2.qq.com ([54.204.34.130]:50443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <climber.cui@qq.com>)
- id 1jqwoW-000146-SB
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:51:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1593687063; bh=UgR1qsr5a1/GjUuOMfYWOlCvinvspKpA6t0LrMNp7Os=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=lEtwNucdO61o+RqfPZfiP92YRuJyPt9DuFIFHES+vnFSzG0SbanH+d1+J3o6XvX0x
- 0zU6fhb9rZWjhHjWtwni+TbzbcXzrziwP3vPkscrb4jk9uHjeUiXL+1Ikf5Z44mqux
- C84Ftsyk85HxO9yH8VNZ3N76JsYknTfnnqMUdZK4=
-X-QQ-FEAT: 5GknEzJPEhs00Kz91JzoG6DMXf9fHNMYxWh8s3S7Lt+ZmdqrKVyj9JFFiCKyS
- 4nzPlM2QncA+Yl12wMJchA9QD3eNHrReBfWFFOexBZx5Xgjpw9NEZ3Ktz+Jotnc/hr4PUMa
- YR5RYJT9hmz2Nm/JzT3o72a6sw1q5ooDEnnV9ttFnnEJpkEZuDfeKpKEzYvNCwXA+QtBIZ5
- 7BWyXe49VPoY8GjuxHYJEbkJkt2pH4k7VBaCEOT1Euhvo8DR9xgAOEA5tUtNK73VtOaJ2KC
- LjLZOBRmQBxaMya79JmI6NtQ53vnPibnWYEg==
-X-QQ-SSF: 00000000000000F000000000000000D
-X-QQ-XMAILINFO: OVlNM/hkMvEtgGfE1qH78uEQxLFmOyH+F8lZh2UQCZldcf6j1+Dk+3IpwE8ucV
- h8NmMxEv5n90undbURlimlz8mLaEQMZDd+77hfZ7j16qCF6GBWmN5oz4Z4s56kjcKdhEnU8mmfG5Z
- ychf0jZIx5Kbt+gOEP62XIDfBIIMkLEa4UdM/ptQB/Z4DiXS92igIyu2qb/7W/uw+eyYf6/tb0ksg
- 65VfQY/MRtzN2yBpHSzeYYepYTlWvsWgXBbxpENI7qun2UtS5dOU0UflkU7w9yOZmHm/0KHSjMbhk
- faPS7593lP8BnvLEo3kvZIuhFaGOjj3H+j0/0TueZ35lMXikO1h+NDLc9BDLg3Vo4aob9pc5MINKD
- x0LFpoQWXFbrrIC72VPY/pkLqFoakWQP9CrdvouEtUNFUPCfZjNhFwZYpIHCqdi/yCrNLmKQhv2Ma
- EZvue0xn8azokNQbejab4rNPmGySxugcrAWYsvSp6pB69UZDxFE9nW6f0gBr7uNWrW3VQAa0wSjay
- y8HWcoLuOl6vtsIujFsngQlCX9W7Y/dxV7zsleZy/H7RKLH+sH6LU0ugq5jyvJho5Zq5BrFUd7vkC
- L4z9qz1ZOQGVpPhsuh7uVeEuP+LP67kuVbe3VNzM6NbR8+9zTDlTjhSXDpZJzym/wJJoLq9DBa1vQ
- BqzGlxx3K3hB0hAsV7Gy5RO/9pw7ZvHcB1mjb0fgMCFHDrY7I=
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 124.64.174.244
-X-QQ-STYLE: 
-X-QQ-mid: webmail725t1593687061t5867578
-From: "=?gb18030?B?Y2FzbWFj?=" <climber.cui@qq.com>
-To: "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>,
- "=?gb18030?B?cWVtdS1kaXNjdXNz?=" <qemu-discuss@nongnu.org>
-Subject: How to build QEMU plugin on Windows with mingw
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_5EFDBC15_1159AF78_6B0CFA90"
-Content-Transfer-Encoding: 8Bit
-Date: Thu, 2 Jul 2020 18:51:01 +0800
-X-Priority: 3
-Message-ID: <tencent_C34E4DA8E7DFB4642F5BEA7C3878C3A7CB09@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Thu, 02 Jul 2020 18:51:03 +0800 (CST)
-Feedback-ID: webmail:qq.com:bgforeign:bgforeign11
-X-QQ-Bgrelay: 1
-Received-SPF: pass client-ip=54.204.34.130; envelope-from=climber.cui@qq.com;
- helo=smtpbguseast2.qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 06:51:27
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: 35
-X-Spam_score: 3.5
-X-Spam_bar: +++
-X-Spam_report: (3.5 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jqwuc-00063B-Nb
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:57:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45250
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jqwuZ-0006Tv-S1
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:57:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593687466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2SIcKgGaawDaQ/7agoENxmtGPMex1JZHuuWtBE2g5rk=;
+ b=aCE6oFwLY3prLz1L/q6dlJQaZAkzNMGL455pB+y1skg8BNy5fhb2kxxfZsEKp0EGBYgC8E
+ Wo3/8mLMTSEKKf16PLu44Y73Bkb2+tUNOgSWweTVWA58xjVwqeYa+rXR1tyaUL8lz6Co+i
+ YjoqPxuV1/kV+CnLrdy7cqFHDd5T0WI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-LzTx9yeFN4enA1kqMreuAQ-1; Thu, 02 Jul 2020 06:57:40 -0400
+X-MC-Unique: LzTx9yeFN4enA1kqMreuAQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 912D6107ACCD
+ for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 10:57:39 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-177.ams2.redhat.com
+ [10.36.113.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A0CC10023A7;
+ Thu,  2 Jul 2020 10:57:38 +0000 (UTC)
+Subject: Re: [PATCH v10 1/5] crypto: Add tls-cipher-suites object
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200623172726.21040-1-philmd@redhat.com>
+ <20200623172726.21040-2-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <735af131-8ed5-ca21-219c-80f4ac84fd30@redhat.com>
+Date: Thu, 2 Jul 2020 12:57:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20200623172726.21040-2-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, FROM_EXCESS_BASE64=0.001, HTML_MESSAGE=0.001,
- MIME_CHARSET_FARAWAY=2.45, MSGID_FROM_MTA_HEADER=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,212 +85,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?gb18030?B?Y290YQ==?= <cota@braap.org>,
- =?gb18030?B?QWxleCBCZW5uqKZl?= <alex.bennee@linaro.org>,
- =?gb18030?B?cnRo?= <rth@twiddle.net>
+Cc: "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+On 06/23/20 19:27, Philippe Mathieu-Daudé wrote:
+> On the host OS, various aspects of TLS operation are configurable.
+> In particular it is possible for the sysadmin to control the TLS
+> cipher/protocol algorithms that applications are permitted to use.
+> 
+> * Any given crypto library has a built-in default priority list
+>   defined by the distro maintainer of the library package (or by
+>   upstream).
+> 
+> * The "crypto-policies" RPM (or equivalent host OS package)
+>   provides a config file such as "/etc/crypto-policies/config",
+>   where the sysadmin can set a high level (library-independent)
+>   policy.
+> 
+>   The "update-crypto-policies --set" command (or equivalent) is
+>   used to translate the global policy to individual library
+>   representations, producing files such as
+>   "/etc/crypto-policies/back-ends/*.config". The generated files,
+>   if present, are loaded by the various crypto libraries to
+>   override their own built-in defaults.
+> 
+>   For example, the GNUTLS library may read
+>   "/etc/crypto-policies/back-ends/gnutls.config".
+> 
+> * A management application (or the QEMU user) may overide the
+>   system-wide crypto-policies config via their own config, if
+>   they need to diverge from the former.
+> 
+> Thus the priority order is "QEMU user config" > "crypto-policies
+> system config" > "library built-in config".
+> 
+> Introduce the "tls-cipher-suites" object for exposing the ordered
+> list of permitted TLS cipher suites from the host side to the
+> guest firmware, via fw_cfg. The list is represented as an array
+> of bytes.
+> 
+> The priority at which the host-side policy is retrieved is given
+> by the "priority" property of the new object type. For example,
+> "priority=@SYSTEM" may be used to refer to
+> "/etc/crypto-policies/back-ends/gnutls.config" (given that QEMU
+> uses GNUTLS).
+> 
+> The firmware uses the IANA_TLS_CIPHER array for configuring
+> guest-side TLS, for example in UEFI HTTPS Boot.
+> 
+> [Description from Daniel P. Berrangé, edited by Laszlo Ersek.]
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v10: rewrote logic (danpb)
+> ---
+>  include/crypto/tls-cipher-suites.h |  39 ++++++++++
+>  crypto/tls-cipher-suites.c         | 115 +++++++++++++++++++++++++++++
+>  crypto/Makefile.objs               |   1 +
+>  crypto/trace-events                |   5 ++
+>  qemu-options.hx                    |  19 +++++
+>  5 files changed, 179 insertions(+)
+>  create mode 100644 include/crypto/tls-cipher-suites.h
+>  create mode 100644 crypto/tls-cipher-suites.c
+> 
+> diff --git a/include/crypto/tls-cipher-suites.h b/include/crypto/tls-cipher-suites.h
+> new file mode 100644
+> index 0000000000..1be7917233
+> --- /dev/null
+> +++ b/include/crypto/tls-cipher-suites.h
+> @@ -0,0 +1,39 @@
+> +/*
+> + * QEMU TLS Cipher Suites Registry (RFC8447)
+> + *
+> + * Copyright (c) 2019 Red Hat, Inc.
+> + *
+> + * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef QCRYPTO_TLSCIPHERSUITES_H
+> +#define QCRYPTO_TLSCIPHERSUITES_H
+> +
+> +#include "qom/object.h"
+> +#include "crypto/tlscreds.h"
+> +
+> +#define TYPE_QCRYPTO_TLS_CIPHER_SUITES "tls-cipher-suites"
+> +#define QCRYPTO_TLS_CIPHER_SUITES(obj) \
+> +    OBJECT_CHECK(QCryptoTLSCipherSuites, (obj), TYPE_QCRYPTO_TLS_CIPHER_SUITES)
+> +
+> +typedef struct QCryptoTLSCipherSuites {
+> +    /* <private> */
+> +    QCryptoTLSCreds parent_obj;
+> +    /* <public> */
+> +} QCryptoTLSCipherSuites;
+> +
+> +/**
+> +  * qcrypto_tls_cipher_suites_get_data:
+> +  * @obj: pointer to a TLS cipher suites object
+> +  * @errp: pointer to a NULL-initialized error object
+> +  *
+> +  * Returns: reference to a byte array containing the data.
+> +  * The caller should release the reference when no longer
+> +  * required.
+> +  */
+> +GByteArray *qcrypto_tls_cipher_suites_get_data(QCryptoTLSCipherSuites *obj,
+> +                                               Error **errp);
+> +
+> +#endif /* QCRYPTO_TLSCIPHERSUITES_H */
+> diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
+> new file mode 100644
+> index 0000000000..5b403f86c9
+> --- /dev/null
+> +++ b/crypto/tls-cipher-suites.c
+> @@ -0,0 +1,115 @@
+> +/*
+> + * QEMU TLS Cipher Suites
+> + *
+> + * Copyright (c) 2019 Red Hat, Inc.
+> + *
+> + * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qom/object_interfaces.h"
+> +#include "crypto/tlscreds.h"
+> +#include "crypto/tls-cipher-suites.h"
+> +#include "trace.h"
+> +
+> +/*
+> + * IANA registered TLS ciphers:
+> + * https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
+> + */
+> +typedef struct {
+> +    uint8_t data[2];
+> +} QEMU_PACKED IANA_TLS_CIPHER;
+> +
+> +GByteArray *qcrypto_tls_cipher_suites_get_data(QCryptoTLSCipherSuites *obj,
+> +                                               Error **errp)
+> +{
+> +    QCryptoTLSCreds *creds = QCRYPTO_TLS_CREDS(obj);
+> +    gnutls_priority_t pcache;
+> +    GByteArray *byte_array;
+> +    const char *err;
+> +    size_t i;
+> +    int ret;
+> +
+> +    trace_qcrypto_tls_cipher_suite_priority(creds->priority);
+> +    ret = gnutls_priority_init(&pcache, creds->priority, &err);
+> +    if (ret < 0) {
+> +        error_setg(errp, "Syntax error using priority '%s': %s",
+> +                   creds->priority, gnutls_strerror(ret));
+> +        return NULL;
+> +    }
+> +
+> +    byte_array = g_byte_array_new();
+> +
+> +    for (i = 0;; i++) {
+> +        int ret;
+> +        unsigned idx;
+> +        const char *name;
+> +        IANA_TLS_CIPHER cipher;
+> +        gnutls_protocol_t protocol;
+> +        const char *version;
+> +
+> +        ret = gnutls_priority_get_cipher_suite_index(pcache, i, &idx);
+> +        if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
+> +            break;
+> +        }
+> +        if (ret == GNUTLS_E_UNKNOWN_CIPHER_SUITE) {
+> +            continue;
+> +        }
+> +
+> +        name = gnutls_cipher_suite_info(idx, (unsigned char *)&cipher,
+> +                                        NULL, NULL, NULL, &protocol);
+> +        if (name == NULL) {
+> +            continue;
+> +        }
+> +
+> +        version = gnutls_protocol_get_name(protocol);
+> +        g_byte_array_append(byte_array, cipher.data, 2);
+> +        trace_qcrypto_tls_cipher_suite_info(cipher.data[0],
+> +                                            cipher.data[1],
+> +                                            version, name);
+> +    }
+> +    trace_qcrypto_tls_cipher_suite_count(byte_array->len);
+> +    gnutls_priority_deinit(pcache);
+> +
+> +    return byte_array;
+> +}
+> +
+> +static void qcrypto_tls_cipher_suites_complete(UserCreatable *uc,
+> +                                               Error **errp)
+> +{
+> +    QCryptoTLSCreds *creds = QCRYPTO_TLS_CREDS(uc);
+> +
+> +    if (!creds->priority) {
+> +        error_setg(errp, "'priority' property is not set");
+> +        return;
+> +    }
+> +}
+> +
+> +static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
+> +{
+> +    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
+> +
+> +    ucc->complete = qcrypto_tls_cipher_suites_complete;
+> +}
+> +
+> +static const TypeInfo qcrypto_tls_cipher_suites_info = {
+> +    .parent = TYPE_QCRYPTO_TLS_CREDS,
+> +    .name = TYPE_QCRYPTO_TLS_CIPHER_SUITES,
+> +    .instance_size = sizeof(QCryptoTLSCreds),
+> +    .class_size = sizeof(QCryptoTLSCredsClass),
+> +    .class_init = qcrypto_tls_cipher_suites_class_init,
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { TYPE_USER_CREATABLE },
+> +        { }
+> +    }
+> +};
+> +
+> +static void qcrypto_tls_cipher_suites_register_types(void)
+> +{
+> +    type_register_static(&qcrypto_tls_cipher_suites_info);
+> +}
+> +
+> +type_init(qcrypto_tls_cipher_suites_register_types);
+> diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+> index 707c02ad37..f1965b1a68 100644
+> --- a/crypto/Makefile.objs
+> +++ b/crypto/Makefile.objs
+> @@ -13,6 +13,7 @@ crypto-obj-y += cipher.o
+>  crypto-obj-$(CONFIG_AF_ALG) += afalg.o
+>  crypto-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
+>  crypto-obj-$(CONFIG_AF_ALG) += hash-afalg.o
+> +crypto-obj-$(CONFIG_GNUTLS) += tls-cipher-suites.o
+>  crypto-obj-y += tlscreds.o
+>  crypto-obj-y += tlscredsanon.o
+>  crypto-obj-y += tlscredspsk.o
+> diff --git a/crypto/trace-events b/crypto/trace-events
+> index 9e594d30e8..798b6067ab 100644
+> --- a/crypto/trace-events
+> +++ b/crypto/trace-events
+> @@ -21,3 +21,8 @@ qcrypto_tls_creds_x509_load_cert_list(void *creds, const char *file) "TLS creds
+>  # tlssession.c
+>  qcrypto_tls_session_new(void *session, void *creds, const char *hostname, const char *authzid, int endpoint) "TLS session new session=%p creds=%p hostname=%s authzid=%s endpoint=%d"
+>  qcrypto_tls_session_check_creds(void *session, const char *status) "TLS session check creds session=%p status=%s"
+> +
+> +# tls-cipher-suites.c
+> +qcrypto_tls_cipher_suite_priority(const char *name) "priority: %s"
+> +qcrypto_tls_cipher_suite_info(uint8_t data0, uint8_t data1, const char *version, const char *name) "data=[0x%02x,0x%02x] version=%s name=%s"
+> +qcrypto_tls_cipher_suite_count(unsigned count) "count: %u"
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 93bde2bbc8..4f519f35fd 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4566,6 +4566,25 @@ SRST
+>          string as described at
+>          https://gnutls.org/manual/html_node/Priority-Strings.html.
+>  
+> +    ``-object tls-cipher-suites,id=id,priority=priority``
+> +        Creates a TLS cipher suites object, which can be used to control
+> +        the TLS cipher/protocol algorithms that applications are permitted
+> +        to use.
+> +
+> +        The ``id`` parameter is a unique ID which frontends will use to
+> +        access the ordered list of permitted TLS cipher suites from the
+> +        host.
+> +
+> +        The ``priority`` parameter allows to override the global default
+> +        priority used by gnutls. This can be useful if the system
+> +        administrator needs to use a weaker set of crypto priorities for
+> +        QEMU without potentially forcing the weakness onto all
+> +        applications. Or conversely if one wants wants a stronger
+> +        default for QEMU than for all other applications, they can do
+> +        this through this parameter. Its format is a gnutls priority
+> +        string as described at
+> +        https://gnutls.org/manual/html_node/Priority-Strings.html.
+> +
+>      ``-object filter-buffer,id=id,netdev=netdevid,interval=t[,queue=all|rx|tx][,status=on|off][,position=head|tail|id=<id>][,insert=behind|before]``
+>          Interval t can't be 0, this filter batches the packet delivery:
+>          all packets arriving in a given interval on netdev netdevid are
+> 
 
-------=_NextPart_5EFDBC15_1159AF78_6B0CFA90
-Content-Type: text/plain;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
-
-SGkgYWxsLA0KJm5ic3A7Jm5ic3A7IEkgd2FudCB0byBidWlsZCBRRU1VIDQuMi4wIHdpdGgg
-dGhlIHBsdWdpbiBtb2R1bGUgb24gV2luZG93cyA3IHdpdGggTWluZ3csIGJ1dCB0aGUgYnVp
-bGRpbmcgcHJvY2VzcyBmYWlsZC4mbmJzcDsgDQombmJzcDsmbmJzcDsgVGhlIHN0ZXAgSSBm
-b2xsb3cgaXMgbGlzdGVkIGJlbG93Og0KMS4gY3JlYXRlICJkc3BfYnVpbGQiIGRpcmV0b3J5
-IHVuZGVyIHNvdXJjZSBmaWxlIGZvbGRlciANCg0KDQoyLiAgIGNoYW5nZSBkaXJlY3Rvcnkg
-dG8gZHNwX2J1aWxkICwgYW5kIHJ1biAuLi9jb25maWd1cmUgIC0tdGFyZ2V0LWxpc3Q9ZHNw
-LXNvZnRtbXUgLS1jcm9zcy1wcmVmaXg9eDg2XzY0LXc2NC1taW5ndzMyLSAgLS1lbmFibGUt
-Z3RrIC0tZW5hYmxlLXNkbCAtLWVuYWJsZS1kZWJ1ZyAtLWVuYWJsZS1wbHVnaW5zDQozLiBi
-dWlsZCBxZW11IHByb2plY3QgDQo0LiBydW5uaW5nICJtYWtlIC1DIHRlc3RzL3BsdWdpbiIs
-IHllaWxkcyBlcnJvcjombmJzcDsgDQombmJzcDsgJm5ic3A7Q0MmbmJzcDsgJm5ic3A7ICZu
-YnNwOyBiYi5vDQombmJzcDtEOi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3Fl
-bXVfdGlkc3BfYzN4L3Rlc3RzL3BsdWdpbi9iYi5jOjE3OjI0OiAgZXJyb3I6IHZhcmlhYmxl
-ICdxZW11X3BsdWdpbl92ZXJzaW9uJyBkZWZpbml0aW9uIGlzIG1hcmtlZCBkbGxpbXBvcnQN
-CiZuYnNwOyAmbmJzcDsxNyB8IFFFTVVfUExVR0lOX0VYUE9SVCBpbnQgcWVtdV9wbHVnaW5f
-dmVyc2lvbiA9IFFFTVVfUExVR0lOX1ZFUlNJT047DQombmJzcDsgJm5ic3A7ICZuYnNwOyB8
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgXn5+fn5+fn5+fn5+fn5+fn5+fg0KJm5i
-c3A7RDovZW11X2RldmwvcWVtdV9zcmMvcWVtdS1zci1kc3AtYS9xZW11X3RpZHNwX2MzeC90
-ZXN0cy9wbHVnaW4vYmIuYzoxNzoyNDogIHdhcm5pbmc6ICdxZW11X3BsdWdpbl92ZXJzaW9u
-JyByZWRlY2xhcmVkIHdpdGhvdXQgZGxsaW1wb3J0IGF0dHJpYnV0ZTogIHByZXZpb3VzIGRs
-bGltcG9ydCBpZ25vcmVkIFstV2F0dHJpYnV0ZXNdDQoNCg0KNS4gJm5ic3A7IEkgbW9kaWZp
-ZWQgdGhlIFFFTVVfQ0ZMQUdTIGFuZCB0aGUgY29tcGlsYXRpb24gY29tbWFuZCBhcmd1bWVu
-dHMoJChDQykgLi4pIGluJm5ic3A7IHRoZSZuYnNwOyBtYWtlZmlsZSA6DQoNCg0KCQlCVUlM
-RF9ESVIgOj0gJChDVVJESVIpLy4uLy4uDQoNCg0KCQlpbmNsdWRlICQoQlVJTERfRElSKS9j
-b25maWctaG9zdC5tYWsNCgkJaW5jbHVkZSAkKFNSQ19QQVRIKS9ydWxlcy5tYWsNCg0KDQoJ
-CSQoY2FsbCBzZXQtdnBhdGgsICQoU1JDX1BBVEgpL3Rlc3RzL3BsdWdpbikNCg0KDQoJCU5B
-TUVTIDo9DQoJCU5BTUVTICs9IGJiDQoJCU5BTUVTICs9IGVtcHR5DQoJCU5BTUVTICs9IGlu
-c24NCgkJTkFNRVMgKz0gbWVtDQoJCU5BTUVTICs9IGhvdGJsb2Nrcw0KCQlOQU1FUyArPSBo
-b3d2ZWMNCgkJTkFNRVMgKz0gaG90cGFnZXMNCg0KDQoJCVNPTkFNRVMgOj0gJChhZGRzdWZm
-aXggLnNvLCQoYWRkcHJlZml4IGxpYiwkKE5BTUVTKSkpDQoNCg0KCQlRRU1VX0NGTEFHUyAr
-PSAtZlBJQwkgLURCVUlMRElOR19ETEwmbmJzcDsgCQkjYWRkZWQmbmJzcDsgLURCVUlMRElO
-R19ETEwgDQoJCVFFTVVfQ0ZMQUdTICs9IC1JJChTUkNfUEFUSCkvaW5jbHVkZS9xZW11DQoN
-Cg0KCQlhbGw6ICQoU09OQU1FUykNCg0KDQoJCWxpYiUuc286ICUubw0KCQkJJChDQykgLWZQ
-SUMgLXNoYXJlZCAtbyAkQCAkXiAkKExJQlMpIA0KCQkJIyBvcmlnaW5hbCBjb21tYW5kIDog
-JChDQykgLXNoYXJlZCAtV2wsLXNvbmFtZSwkQCAtbyAkQCAkXiAkKExETElCUykNCg0KDQo2
-LiZuYnNwOyBFeGVjdXRpbmcgbWFrZSB5ZWlsZHM6DQoNCg0KbWFrZTogZW50ZXImbmJzcDsg
-Jm5ic3A7obAvZC9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3FlbXVfdGlkc3Bf
-YzN4L2J1aWxkX2RzcC90ZXN0cy9wbHVnaW6hsQ0KJm5ic3A7IENDJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgYmIubw0KeDg2XzY0LXc2NC1taW5ndzMyLWdjYyAtZlBJQyAtc2hhcmVkIC1vIGxp
-YmJiLnNvIGJiLm8mbmJzcDsgLUwgL2MvbXN5czY0L21pbmd3NjQvbGliLyAtbGdsaWItMi4w
-DQpDOi9tc3lzNjQvbWluZ3c2NC9iaW4vLi4vbGliL2djYy94ODZfNjQtdzY0LW1pbmd3MzIv
-MTAuMS4wLy4uLy4uLy4uLy4uL3g4Nl82NC13NjQtbWluZ3czMi9iaW4vbGQuZXhlOiAgYmIu
-bzogaW4gZnVuY3Rpb24gYHBsdWdpbl9leGl0JzoNCkQ6L2VtdV9kZXZsL3FlbXVfc3JjL3Fl
-bXUtc3ItZHNwLWEvcWVtdV90aWRzcF9jM3gvdGVzdHMvcGx1Z2luL2JiLmM6Mjg6IHVuZGVm
-aW5lZCByZWZlcmVuY2UgdG8gYHFlbXVfcGx1Z2luX291dHMnDQpDOi9tc3lzNjQvbWluZ3c2
-NC9iaW4vLi4vbGliL2djYy94ODZfNjQtdzY0LW1pbmd3MzIvMTAuMS4wLy4uLy4uLy4uLy4u
-L3g4Nl82NC13NjQtbWluZ3czMi9iaW4vbGQuZXhlOiAgRDovZW11X2RldmwvcWVtdV9zcmMv
-cWVtdS1zci1kc3AtYS9xZW11X3RpZHNwX2MzeC90ZXN0cy9wbHVnaW4vYmIuYzoyOTogIHVu
-ZGVmaW5lZCByZWZlcmVuY2UgdG8gYF9fc3RhY2tfY2hrX2ZhaWwnDQpDOi9tc3lzNjQvbWlu
-Z3c2NC9iaW4vLi4vbGliL2djYy94ODZfNjQtdzY0LW1pbmd3MzIvMTAuMS4wLy4uLy4uLy4u
-Ly4uL3g4Nl82NC13NjQtbWluZ3czMi9iaW4vbGQuZXhlOiAgYmIubzogaW4gZnVuY3Rpb24g
-YHZjcHVfdGJfdHJhbnMnOg0KRDovZW11X2RldmwvcWVtdV9zcmMvcWVtdS1zci1kc3AtYS9x
-ZW11X3RpZHNwX2MzeC90ZXN0cy9wbHVnaW4vYmIuYzo0MTogdW5kZWZpbmVkIHJlZmVyZW5j
-ZSB0byBgcWVtdV9wbHVnaW5fdGJfbl9pbnNucycNCkM6L21zeXM2NC9taW5ndzY0L2Jpbi8u
-Li9saWIvZ2NjL3g4Nl82NC13NjQtbWluZ3czMi8xMC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0
-LXc2NC1taW5ndzMyL2Jpbi9sZC5leGU6ICBEOi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNy
-LWRzcC1hL3FlbXVfdGlkc3BfYzN4L3Rlc3RzL3BsdWdpbi9iYi5jOjQ0OiAgdW5kZWZpbmVk
-IHJlZmVyZW5jZSB0byBgcWVtdV9wbHVnaW5fcmVnaXN0ZXJfdmNwdV90Yl9leGVjX2lubGlu
-ZScNCkM6L21zeXM2NC9taW5ndzY0L2Jpbi8uLi9saWIvZ2NjL3g4Nl82NC13NjQtbWluZ3cz
-Mi8xMC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0LXc2NC1taW5ndzMyL2Jpbi9sZC5leGU6ICBE
-Oi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3FlbXVfdGlkc3BfYzN4L3Rlc3Rz
-L3BsdWdpbi9iYi5jOjQ2OiAgdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcWVtdV9wbHVnaW5f
-cmVnaXN0ZXJfdmNwdV90Yl9leGVjX2lubGluZScNCkM6L21zeXM2NC9taW5ndzY0L2Jpbi8u
-Li9saWIvZ2NjL3g4Nl82NC13NjQtbWluZ3czMi8xMC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0
-LXc2NC1taW5ndzMyL2Jpbi9sZC5leGU6ICBEOi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNy
-LWRzcC1hL3FlbXVfdGlkc3BfYzN4L3Rlc3RzL3BsdWdpbi9iYi5jOjQ5OiAgdW5kZWZpbmVk
-IHJlZmVyZW5jZSB0byBgcWVtdV9wbHVnaW5fcmVnaXN0ZXJfdmNwdV90Yl9leGVjX2NiJw0K
-QzovbXN5czY0L21pbmd3NjQvYmluLy4uL2xpYi9nY2MveDg2XzY0LXc2NC1taW5ndzMyLzEw
-LjEuMC8uLi8uLi8uLi8uLi94ODZfNjQtdzY0LW1pbmd3MzIvYmluL2xkLmV4ZTogIGJiLm86
-IGluIGZ1bmN0aW9uIGBxZW11X3BsdWdpbl9pbnN0YWxsJzoNCkQ6L2VtdV9kZXZsL3FlbXVf
-c3JjL3FlbXUtc3ItZHNwLWEvcWVtdV90aWRzcF9jM3gvdGVzdHMvcGx1Z2luL2JiLmM6NjM6
-ICB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBxZW11X3BsdWdpbl9yZWdpc3Rlcl92Y3B1X3Ri
-X3RyYW5zX2NiJw0KY29sbGVjdDIuZXhlOiBlcnJvcjogbGQgcmV0dXJuZWQgMSBleGl0IHN0
-YXR1cw0KDQoNCiZuYnNwOyAgJm5ic3A7SXQgaXMgbGlua2VyIGVycm9yLCBidXQgSSBoYXZl
-IG5vIGlkZWEgd2hhdCBnb2VzIHdyb25nLiBNeSAgY29sbGVndWUgY2FuIGJ1aWxkIHBsdWdp
-bnMgb24gVWJ1bnR1IHdpdGhvdXQgYW55ICBwcm9ibGVtLiZuYnNwOyBBbnkgYWR2aXNlIHRv
-IGJ1aWxkIFBsdWdpbnMgb24gV2luZG93cyA/IA0KJm5ic3A7ICZuYnNwO1RoYW5rcy4NCnJl
-Z2FyZHMsDQp4aWFvbGVp
-
-------=_NextPart_5EFDBC15_1159AF78_6B0CFA90
-Content-Type: text/html;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
-
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj5IaSBhbGwsPC9kaXY+PGRpdj4mbmJzcDsmbmJzcDsgSSB3
-YW50IHRvIGJ1aWxkIFFFTVUgNC4yLjAgd2l0aCB0aGUgcGx1Z2luIG1vZHVsZSBvbiBXaW5k
-b3dzIDcgd2l0aCBNaW5ndywgYnV0IHRoZSBidWlsZGluZyBwcm9jZXNzIGZhaWxkLjxkaXY+
-Jm5ic3A7IDwvZGl2PjxkaXY+Jm5ic3A7Jm5ic3A7IFRoZSBzdGVwIEkgZm9sbG93IGlzIGxp
-c3RlZCBiZWxvdzo8L2Rpdj48ZGl2PjEuIGNyZWF0ZSAiZHNwX2J1aWxkIiBkaXJldG9yeSB1
-bmRlciBzb3VyY2UgZmlsZSBmb2xkZXIgPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj4yLiAK
-IGNoYW5nZSBkaXJlY3RvcnkgdG8gZHNwX2J1aWxkICwgYW5kIHJ1biAuLi9jb25maWd1cmUg
-Ci0tdGFyZ2V0LWxpc3Q9ZHNwLXNvZnRtbXUgLS1jcm9zcy1wcmVmaXg9eDg2XzY0LXc2NC1t
-aW5ndzMyLSAKLS1lbmFibGUtZ3RrIC0tZW5hYmxlLXNkbCAtLWVuYWJsZS1kZWJ1ZyAtLWVu
-YWJsZS1wbHVnaW5zPC9kaXY+PGRpdj4zLiBidWlsZCBxZW11IHByb2plY3QgPC9kaXY+PGRp
-dj40LiBydW5uaW5nICJtYWtlIC1DIHRlc3RzL3BsdWdpbiIsIHllaWxkcyBlcnJvcjombmJz
-cDsgPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7Q0MmbmJzcDsgJm5ic3A7ICZuYnNwOyBiYi5v
-PC9kaXY+PGRpdj4mbmJzcDtEOi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3Fl
-bXVfdGlkc3BfYzN4L3Rlc3RzL3BsdWdpbi9iYi5jOjE3OjI0OgogZXJyb3I6IHZhcmlhYmxl
-ICdxZW11X3BsdWdpbl92ZXJzaW9uJyBkZWZpbml0aW9uIGlzIG1hcmtlZCBkbGxpbXBvcnQ8
-L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsxNyB8IFFFTVVfUExVR0lOX0VYUE9SVCBpbnQgcWVt
-dV9wbHVnaW5fdmVyc2lvbiA9IFFFTVVfUExVR0lOX1ZFUlNJT047PC9kaXY+PGRpdj4mbmJz
-cDsgJm5ic3A7ICZuYnNwOyB8Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgXn5+fn5+
-fn5+fn5+fn5+fn5+fjwvZGl2PjxkaXY+Jm5ic3A7RDovZW11X2RldmwvcWVtdV9zcmMvcWVt
-dS1zci1kc3AtYS9xZW11X3RpZHNwX2MzeC90ZXN0cy9wbHVnaW4vYmIuYzoxNzoyNDoKIHdh
-cm5pbmc6ICdxZW11X3BsdWdpbl92ZXJzaW9uJyByZWRlY2xhcmVkIHdpdGhvdXQgZGxsaW1w
-b3J0IGF0dHJpYnV0ZTogCnByZXZpb3VzIGRsbGltcG9ydCBpZ25vcmVkIFstV2F0dHJpYnV0
-ZXNdPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj41LiAmbmJzcDsgSSBtb2RpZmllZCB0aGUg
-PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+PC9zcGFuPlFFTVVfQ0ZMQUdTIGFuZCB0
-aGUgY29tcGlsYXRpb24gY29tbWFuZCBhcmd1bWVudHMoJChDQykgLi4pIGluJm5ic3A7IHRo
-ZSZuYnNwOyBtYWtlZmlsZSA6PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48c3BhbiBzdHls
-ZT0id2hpdGUtc3BhY2U6cHJlIj4JCTwvc3Bhbj5CVUlMRF9ESVIgOj0gJChDVVJESVIpLy4u
-Ly4uPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6
-cHJlIj4JCTwvc3Bhbj5pbmNsdWRlICQoQlVJTERfRElSKS9jb25maWctaG9zdC5tYWs8L2Rp
-dj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgkJPC9zcGFuPmluY2x1ZGUg
-JChTUkNfUEFUSCkvcnVsZXMubWFrPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48c3BhbiBz
-dHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JCTwvc3Bhbj4kKGNhbGwgc2V0LXZwYXRoLCAkKFNS
-Q19QQVRIKS90ZXN0cy9wbHVnaW4pPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48c3BhbiBz
-dHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JCTwvc3Bhbj5OQU1FUyA6PTwvZGl2PjxkaXY+PHNw
-YW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8L3NwYW4+TkFNRVMgKz0gYmI8L2Rpdj48
-ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgkJPC9zcGFuPk5BTUVTICs9IGVt
-cHR5PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JCTwvc3Bhbj5O
-QU1FUyArPSBpbnNuPC9kaXY+PGRpdj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4J
-CTwvc3Bhbj5OQU1FUyArPSBtZW08L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFj
-ZTpwcmUiPgkJPC9zcGFuPk5BTUVTICs9IGhvdGJsb2NrczwvZGl2PjxkaXY+PHNwYW4gc3R5
-bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8L3NwYW4+TkFNRVMgKz0gaG93dmVjPC9kaXY+PGRp
-dj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JCTwvc3Bhbj5OQU1FUyArPSBob3Rw
-YWdlczwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNl
-OnByZSI+CQk8L3NwYW4+U09OQU1FUyA6PSAkKGFkZHN1ZmZpeCAuc28sJChhZGRwcmVmaXgg
-bGliLCQoTkFNRVMpKSk8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3
-aGl0ZS1zcGFjZTpwcmUiPgkJPC9zcGFuPlFFTVVfQ0ZMQUdTICs9IC1mUElDPHNwYW4gc3R5
-bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj4gLURCVUlMRElOR19ETEwmbmJzcDsgPHNw
-YW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8L3NwYW4+I2FkZGVkJm5ic3A7IC1EQlVJ
-TERJTkdfRExMIDwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8
-L3NwYW4+UUVNVV9DRkxBR1MgKz0gLUkkKFNSQ19QQVRIKS9pbmNsdWRlL3FlbXU8L2Rpdj48
-ZGl2Pjxicj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgkJPC9z
-cGFuPmFsbDogJChTT05BTUVTKTwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PHNwYW4gc3R5
-bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8L3NwYW4+bGliJS5zbzogJS5vPC9kaXY+PGRpdj48
-c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JCQk8L3NwYW4+JChDQykgLWZQSUMgLXNo
-YXJlZCAtbyAkQCAkXiAkKExJQlMpIDwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNw
-YWNlOnByZSI+CQkJPC9zcGFuPiMgb3JpZ2luYWwgY29tbWFuZCA6ICQoQ0MpIC1zaGFyZWQg
-LVdsLC1zb25hbWUsJEAgLW8gJEAgJF4gJChMRExJQlMpPC9kaXY+PGRpdj48YnI+PC9kaXY+
-PGRpdj42LiZuYnNwOyBFeGVjdXRpbmcgbWFrZSB5ZWlsZHM6PC9kaXY+PGRpdj48YnI+PC9k
-aXY+PGRpdj5tYWtlOiBlbnRlciZuYnNwOyAmbmJzcDuhsC9kL2VtdV9kZXZsL3FlbXVfc3Jj
-L3FlbXUtc3ItZHNwLWEvcWVtdV90aWRzcF9jM3gvYnVpbGRfZHNwL3Rlc3RzL3BsdWdpbqGx
-PC9kaXY+PGRpdj4mbmJzcDsgQ0MmbmJzcDsgJm5ic3A7ICZuYnNwOyBiYi5vPC9kaXY+PGRp
-dj54ODZfNjQtdzY0LW1pbmd3MzItZ2NjIC1mUElDIC1zaGFyZWQgLW8gbGliYmIuc28gYmIu
-byZuYnNwOyAtTCAvYy9tc3lzNjQvbWluZ3c2NC9saWIvIC1sZ2xpYi0yLjA8L2Rpdj48ZGl2
-PkM6L21zeXM2NC9taW5ndzY0L2Jpbi8uLi9saWIvZ2NjL3g4Nl82NC13NjQtbWluZ3czMi8x
-MC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0LXc2NC1taW5ndzMyL2Jpbi9sZC5leGU6CiBiYi5v
-OiBpbiBmdW5jdGlvbiBgcGx1Z2luX2V4aXQnOjwvZGl2PjxkaXY+RDovZW11X2RldmwvcWVt
-dV9zcmMvcWVtdS1zci1kc3AtYS9xZW11X3RpZHNwX2MzeC90ZXN0cy9wbHVnaW4vYmIuYzoy
-ODogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcWVtdV9wbHVnaW5fb3V0cyc8L2Rpdj48ZGl2
-PkM6L21zeXM2NC9taW5ndzY0L2Jpbi8uLi9saWIvZ2NjL3g4Nl82NC13NjQtbWluZ3czMi8x
-MC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0LXc2NC1taW5ndzMyL2Jpbi9sZC5leGU6CiBEOi9l
-bXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3FlbXVfdGlkc3BfYzN4L3Rlc3RzL3Bs
-dWdpbi9iYi5jOjI5OgogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgX19zdGFja19jaGtfZmFp
-bCc8L2Rpdj48ZGl2PkM6L21zeXM2NC9taW5ndzY0L2Jpbi8uLi9saWIvZ2NjL3g4Nl82NC13
-NjQtbWluZ3czMi8xMC4xLjAvLi4vLi4vLi4vLi4veDg2XzY0LXc2NC1taW5ndzMyL2Jpbi9s
-ZC5leGU6CiBiYi5vOiBpbiBmdW5jdGlvbiBgdmNwdV90Yl90cmFucyc6PC9kaXY+PGRpdj5E
-Oi9lbXVfZGV2bC9xZW11X3NyYy9xZW11LXNyLWRzcC1hL3FlbXVfdGlkc3BfYzN4L3Rlc3Rz
-L3BsdWdpbi9iYi5jOjQxOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBxZW11X3BsdWdpbl90
-Yl9uX2luc25zJzwvZGl2PjxkaXY+QzovbXN5czY0L21pbmd3NjQvYmluLy4uL2xpYi9nY2Mv
-eDg2XzY0LXc2NC1taW5ndzMyLzEwLjEuMC8uLi8uLi8uLi8uLi94ODZfNjQtdzY0LW1pbmd3
-MzIvYmluL2xkLmV4ZToKIEQ6L2VtdV9kZXZsL3FlbXVfc3JjL3FlbXUtc3ItZHNwLWEvcWVt
-dV90aWRzcF9jM3gvdGVzdHMvcGx1Z2luL2JiLmM6NDQ6CiB1bmRlZmluZWQgcmVmZXJlbmNl
-IHRvIGBxZW11X3BsdWdpbl9yZWdpc3Rlcl92Y3B1X3RiX2V4ZWNfaW5saW5lJzwvZGl2Pjxk
-aXY+QzovbXN5czY0L21pbmd3NjQvYmluLy4uL2xpYi9nY2MveDg2XzY0LXc2NC1taW5ndzMy
-LzEwLjEuMC8uLi8uLi8uLi8uLi94ODZfNjQtdzY0LW1pbmd3MzIvYmluL2xkLmV4ZToKIEQ6
-L2VtdV9kZXZsL3FlbXVfc3JjL3FlbXUtc3ItZHNwLWEvcWVtdV90aWRzcF9jM3gvdGVzdHMv
-cGx1Z2luL2JiLmM6NDY6CiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBxZW11X3BsdWdpbl9y
-ZWdpc3Rlcl92Y3B1X3RiX2V4ZWNfaW5saW5lJzwvZGl2PjxkaXY+QzovbXN5czY0L21pbmd3
-NjQvYmluLy4uL2xpYi9nY2MveDg2XzY0LXc2NC1taW5ndzMyLzEwLjEuMC8uLi8uLi8uLi8u
-Li94ODZfNjQtdzY0LW1pbmd3MzIvYmluL2xkLmV4ZToKIEQ6L2VtdV9kZXZsL3FlbXVfc3Jj
-L3FlbXUtc3ItZHNwLWEvcWVtdV90aWRzcF9jM3gvdGVzdHMvcGx1Z2luL2JiLmM6NDk6CiB1
-bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBxZW11X3BsdWdpbl9yZWdpc3Rlcl92Y3B1X3RiX2V4
-ZWNfY2InPC9kaXY+PGRpdj5DOi9tc3lzNjQvbWluZ3c2NC9iaW4vLi4vbGliL2djYy94ODZf
-NjQtdzY0LW1pbmd3MzIvMTAuMS4wLy4uLy4uLy4uLy4uL3g4Nl82NC13NjQtbWluZ3czMi9i
-aW4vbGQuZXhlOgogYmIubzogaW4gZnVuY3Rpb24gYHFlbXVfcGx1Z2luX2luc3RhbGwnOjwv
-ZGl2PjxkaXY+RDovZW11X2RldmwvcWVtdV9zcmMvcWVtdS1zci1kc3AtYS9xZW11X3RpZHNw
-X2MzeC90ZXN0cy9wbHVnaW4vYmIuYzo2MzoKIHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHFl
-bXVfcGx1Z2luX3JlZ2lzdGVyX3ZjcHVfdGJfdHJhbnNfY2InPC9kaXY+PGRpdj5jb2xsZWN0
-Mi5leGU6IGVycm9yOiBsZCByZXR1cm5lZCAxIGV4aXQgc3RhdHVzPC9kaXY+PGRpdj48YnI+
-PC9kaXY+PGRpdj4mbmJzcDsKICZuYnNwO0l0IGlzIGxpbmtlciBlcnJvciwgYnV0IEkgaGF2
-ZSBubyBpZGVhIHdoYXQgZ29lcyB3cm9uZy4gTXkKIGNvbGxlZ3VlIGNhbiBidWlsZCBwbHVn
-aW5zIG9uIFVidW50dSB3aXRob3V0IGFueSAKcHJvYmxlbS4mbmJzcDsgQW55IGFkdmlzZSB0
-byBidWlsZCBQbHVnaW5zIG9uIFdpbmRvd3MgPyA8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDtU
-aGFua3MuPC9kaXY+PGRpdj5yZWdhcmRzLDwvZGl2PjxkaXY+eGlhb2xlaTwvZGl2PjwvZGl2
-Pg==
-
-------=_NextPart_5EFDBC15_1159AF78_6B0CFA90--
-
-
+Acked-by: Laszlo Ersek <lersek@redhat.com>
 
 
