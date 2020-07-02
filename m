@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CC32121D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:11:09 +0200 (CEST)
-Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0C62121E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:13:24 +0200 (CEST)
+Received: from localhost ([::1]:41612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqx7U-0008IF-C0
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
+	id 1jqx9f-0004Ii-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx65-0006WD-Rg
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21249
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx67-0006Wt-Ib
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44288
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx63-0000yz-Og
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx64-0000zA-0m
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688178;
+ s=mimecast20190719; t=1593688179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7y70w8ASzGEut7aQ+ENKOL+NyKSh+4QL5MCusQcZ28w=;
- b=PKD4jz32u4EcG213h+lSaMvThxSNx9nt6lr9Jk9mJyVJe5V+awittBSDkNrpK1vDKQDnB+
- w4uNzOQuT6HnGSWV6G3sRIUO3cHY4hkfcXauYe6Ns9TFUhQpgjvmPtq/mqQ7wtceVa+65v
- +fPCVoIIgTF4EPOPvUUoNG6K/qlfIi8=
+ bh=dpYV5C/OrltnmVtArFJm+dAqW38KH5rj7f1yXBlrwZ8=;
+ b=bJNkUoJEgbH++oW51P6ntpuV+KGmdij30pHn7xr9UpJgMqGTzYvUTP9x46dkxAiYOPaRKT
+ hfyIKmWwR5v8dWy3neimiWfSj0QPalXWaPw7aw6EbB9oyzRNZfgfmgkvLOhlPUyQBqHdax
+ bfIMV5zHE/gOw9lh/ndvq+I6OL44PqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-PAjrrNkVNIe_CMlKsphVyw-1; Thu, 02 Jul 2020 07:09:34 -0400
-X-MC-Unique: PAjrrNkVNIe_CMlKsphVyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-62-ebXZxobmNAqPt1UgPx4iWw-1; Thu, 02 Jul 2020 07:09:37 -0400
+X-MC-Unique: ebXZxobmNAqPt1UgPx4iWw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53B50800C60;
- Thu,  2 Jul 2020 11:09:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48232186A200;
+ Thu,  2 Jul 2020 11:09:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0600D6109F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AEE42B4BA;
  Thu,  2 Jul 2020 11:09:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8534911384D4; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
+ id 87B8A113846D; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/28] chardev/tcp: Fix error message double free error
-Date: Thu,  2 Jul 2020 13:09:04 +0200
-Message-Id: <20200702110931.2953148-2-armbru@redhat.com>
+Subject: [PULL 02/28] hw/virtio/virtio-iommu-pci.c: Fix typo in error message
+Date: Thu,  2 Jul 2020 13:09:05 +0200
+Message-Id: <20200702110931.2953148-3-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -82,46 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lichun <lichun@ruijie.com.cn>, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lichun <lichun@ruijie.com.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Errors are already freed by error_report_err, so we only need to call
-error_free when that function is not called.
+Fix a typo in an error message in virtio_iommu_pci_realize():
+"Check you machine" should be "Check your machine".
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: lichun <lichun@ruijie.com.cn>
-Message-Id: <20200621213017.17978-1-lichun@ruijie.com.cn>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message improved, cc: qemu-stable]
+Reported-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200625100811.12690-1-peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- chardev/char-socket.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-iommu-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index afebeec5c3..569d54c144 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -142,6 +142,8 @@ static void check_report_connect_error(Chardev *chr,
-                           "Unable to connect character device %s: ",
-                           chr->label);
-         s->connect_err_reported = true;
-+    } else {
-+        error_free(err);
-     }
-     qemu_chr_socket_restart_timer(chr);
- }
-@@ -1086,7 +1088,6 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
-     if (qio_task_propagate_error(task, &err)) {
-         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
-         check_report_connect_error(chr, err);
--        error_free(err);
-         goto cleanup;
-     }
- 
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 632533abaf..32e3215d1d 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -48,7 +48,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+                    "%s machine fails to create iommu-map device tree bindings",
+                    mc->name);
+         error_append_hint(errp,
+-                          "Check you machine implements a hotplug handler "
++                          "Check your machine implements a hotplug handler "
+                           "for the virtio-iommu-pci device\n");
+         error_append_hint(errp, "Check the guest is booted without FW or with "
+                           "-no-acpi\n");
 -- 
 2.26.2
 
