@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AFF2124CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:35:59 +0200 (CEST)
-Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456AC2124C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:34:27 +0200 (CEST)
+Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzNe-0006Fg-7r
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35260)
+	id 1jqzM9-0002qK-My
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzE4-0005Cs-Dx
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:04 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25906
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDt-0004vy-2z
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26367
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDt-0007HP-Cy
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDi-0007AN-RR
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696352;
+ s=mimecast20190719; t=1593696342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=V7UuhwSz9UfjrUY4yf3wJyAWOufYbskQbAnShV3hIaw=;
- b=jHRt165XCBkdHlS4nDHkiXfK3VqBSbmSOD1zutz9G6KAjyc1fmj9DC0uh83NH6NsVk0SjI
- mD3jvaMGld/Cj5WU/IFdWCJaIBC0poXwFL29golSALFrUuf95YnxAYQmK9KowKoYzkQRlv
- QXMyIdRBwC8P9VX0jLX3Fnj1iaWQ0Ho=
+ references:references; bh=cjFwi5b14nC6S9DRumOMSA9QVtJeL4uece5oCZRvzj8=;
+ b=Xw7TZoFMh4A8lXbtxzRY1u06BRrFe0i27ewNSI2626fzJsdSSmohKZCfVR7QihPlEwmXx0
+ 0YcZaeFt+1lqhn96Yw3njVhXyf1Kv9OaZIFUqIQA97NGXhmeV+Efn3mFQ3XyES5kO1Fsh+
+ e++Irv4oO+UKmYqEYHuFZu5k6fW6ak4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-USQ9shKoORGPA_GAvag87w-1; Thu, 02 Jul 2020 09:25:49 -0400
-X-MC-Unique: USQ9shKoORGPA_GAvag87w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-449-9aSe1cDfNvWIMK3jwyG8Cw-1; Thu, 02 Jul 2020 09:25:38 -0400
+X-MC-Unique: 9aSe1cDfNvWIMK3jwyG8Cw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B170580058A;
- Thu,  2 Jul 2020 13:25:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7644A0BD7;
+ Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F17E779233;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89AEC73FD4;
  Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B358731EE8; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
+ id C8A8731EFE; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/20] audio: rework pcspk_init()
-Date: Thu,  2 Jul 2020 15:25:20 +0200
-Message-Id: <20200702132525.6849-16-kraxel@redhat.com>
+Subject: [PATCH v5 17/20] audio: deprecate -soundhw pcspk
+Date: Thu,  2 Jul 2020 15:25:22 +0200
+Message-Id: <20200702132525.6849-18-kraxel@redhat.com>
 In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
 References: <20200702132525.6849-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,80 +89,99 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of creating and returning the pc speaker accept it as argument.
-That allows to rework the initialization workflow in followup patches.
+Add deprecation message to the audio init function.
+
+Factor out audio initialization and call that from
+both audio init and realize, so setting the audiodev
+property is enough to properly initialize pcspk.
+
+Add a property alias to the machine type to set the
+audio device, so pcspk can be initialized using:
+"-machine pcspk-audiodev=<name>"
+
+Using "-global isa-pcspk.audiodev=<name>" works too but
+is not recommended.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/audio/pcspk.h | 6 +-----
- hw/i386/pc.c             | 2 +-
- hw/isa/i82378.c          | 2 +-
- hw/mips/jazz.c           | 2 +-
- 4 files changed, 4 insertions(+), 8 deletions(-)
+ hw/audio/pcspk.c | 24 +++++++++++++++++++++---
+ hw/i386/pc.c     |  2 ++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
-index 7e7f5f49dcb0..8b485602675f 100644
---- a/include/hw/audio/pcspk.h
-+++ b/include/hw/audio/pcspk.h
-@@ -31,18 +31,14 @@
- 
- #define TYPE_PC_SPEAKER "isa-pcspk"
- 
--static inline ISADevice *pcspk_init(ISABus *bus, ISADevice *pit)
-+static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
- {
-     DeviceState *dev;
--    ISADevice *isadev;
- 
--    isadev = isa_new(TYPE_PC_SPEAKER);
-     dev = DEVICE(isadev);
-     qdev_prop_set_uint32(dev, "iobase", 0x61);
-     object_property_set_link(OBJECT(dev), OBJECT(pit), "pit", NULL);
-     isa_realize_and_unref(isadev, bus, &error_fatal);
--
--    return isadev;
+diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+index c37a3878612e..4c7e339ac2b5 100644
+--- a/hw/audio/pcspk.c
++++ b/hw/audio/pcspk.c
+@@ -28,6 +28,7 @@
+ #include "audio/audio.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
++#include "qemu/error-report.h"
+ #include "hw/timer/i8254.h"
+ #include "migration/vmstate.h"
+ #include "hw/audio/pcspk.h"
+@@ -112,11 +113,15 @@ static void pcspk_callback(void *opaque, int free)
+     }
  }
  
- #endif /* HW_PCSPK_H */
+-static int pcspk_audio_init(ISABus *bus)
++static int pcspk_audio_init(PCSpkState *s)
+ {
+-    PCSpkState *s = pcspk_state;
+     struct audsettings as = {PCSPK_SAMPLE_RATE, 1, AUDIO_FORMAT_U8, 0};
+ 
++    if (s->voice) {
++        /* already initialized */
++        return 0;
++    }
++
+     AUD_register_card(s_spk, &s->card);
+ 
+     s->voice = AUD_open_out(&s->card, s->voice, s_spk, s, pcspk_callback, &as);
+@@ -185,6 +190,10 @@ static void pcspk_realizefn(DeviceState *dev, Error **errp)
+ 
+     isa_register_ioport(isadev, &s->ioport, s->iobase);
+ 
++    if (s->card.state) {
++        pcspk_audio_init(s);
++    }
++
+     pcspk_state = s;
+ }
+ 
+@@ -236,9 +245,18 @@ static const TypeInfo pcspk_info = {
+     .class_init     = pcspk_class_initfn,
+ };
+ 
++static int pcspk_audio_init_soundhw(ISABus *bus)
++{
++    PCSpkState *s = pcspk_state;
++
++    warn_report("'-soundhw pcspk' is deprecated, "
++                "please set a backend using '-machine pcspk-audiodev=<name>' instead");
++    return pcspk_audio_init(s);
++}
++
+ static void pcspk_register(void)
+ {
+     type_register_static(&pcspk_info);
+-    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init);
++    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw);
+ }
+ type_init(pcspk_register)
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 407c782b5d42..4fc1b7048b28 100644
+index 88785f9dcc70..c45e7bfd864b 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -1219,7 +1219,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-             /* connect PIT to output control line of the HPET */
-             qdev_connect_gpio_out(hpet, 0, qdev_get_gpio_in(DEVICE(pit), 0));
-         }
--        pcspk_init(isa_bus, pit);
-+        pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
-     }
+@@ -1892,6 +1892,8 @@ static void pc_machine_initfn(Object *obj)
  
-     i8257_dma_init(isa_bus, 0);
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index d9e6c7fa0096..75a2da288157 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -102,7 +102,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     pit = i8254_pit_init(isabus, 0x40, 0, NULL);
+     pc_system_flash_create(pcms);
+     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
++    object_property_add_alias(OBJECT(pcms), "pcspk-audiodev",
++                              OBJECT(pcms->pcspk), "audiodev");
+ }
  
-     /* speaker */
--    pcspk_init(isabus, pit);
-+    pcspk_init(isa_new(TYPE_PC_SPEAKER), isabus, pit);
- 
-     /* 2 82C37 (dma) */
-     isa_create_simple(isabus, "i82374");
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index c3b0da60ccc1..0002bff69590 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -250,7 +250,7 @@ static void mips_jazz_init(MachineState *machine,
-     isa_bus_irqs(isa_bus, i8259);
-     i8257_dma_init(isa_bus, 0);
-     pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
--    pcspk_init(isa_bus, pit);
-+    pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
- 
-     /* Video card */
-     switch (jazz_model) {
+ static void pc_machine_reset(MachineState *machine)
 -- 
 2.18.4
 
