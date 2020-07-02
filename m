@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3308A212E4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:58:08 +0200 (CEST)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E142212E54
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:59:04 +0200 (CEST)
+Received: from localhost ([::1]:37140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr6HX-0001lU-8O
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54736)
+	id 1jr6IR-0003W2-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr69C-0004Yf-9D
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60614
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr69F-0004hm-Ae
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42949
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr695-0003Yk-Ij
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:29 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr695-0003Yn-Lk
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593722962;
+ s=mimecast20190719; t=1593722963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=xZdFqrgR1JarvVVCRgTMEg19qCkFtkK1L1XpMKaNaII=;
- b=gVFdHAW/nFqVMWlChAhpvUawnR7COWREC9KcjPsjxDhIr79rN3uy6GDxLVmMEV7GNaE5Qw
- rlnDfvrvHtdmVnoT7oia5sEoVip5IFeIlkKvhF+5uVzDV+PLiLpgQvsG3BGZyg3QyeM3a+
- D3nrqmAKkPIai0epm6tbcrV25s/6Mh0=
+ references:references; bh=Jc3CkjMTS6eJgOpPYjcQtTYta9twaD8HtlqKoRcWa3g=;
+ b=JvIugqFGHXbxpRAoq0asALCIX2XNUcCBgfzZMy/F+HnxZkr5rxBCdS61efGZteatfZ+sL4
+ Si/aGKFViNtD2i/TBOxSv4GVi2DhqY3Pmf0z7JYnKLCQI7lwH7296YoU+MW1ur6U40Bn04
+ I2INYePjgYeqlessSJThwrCe7ZafVxI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-pX-5G8-8OBKPnYjH9Yr78A-1; Thu, 02 Jul 2020 16:49:19 -0400
-X-MC-Unique: pX-5G8-8OBKPnYjH9Yr78A-1
+ us-mta-141-uJKbw7bFPWmuxLNoM8rbQA-1; Thu, 02 Jul 2020 16:49:19 -0400
+X-MC-Unique: uJKbw7bFPWmuxLNoM8rbQA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DCAE800C64;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C693107ACF2;
  Thu,  2 Jul 2020 20:49:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2E211A925;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A81361A928;
  Thu,  2 Jul 2020 20:49:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A0C2931F09; Thu,  2 Jul 2020 22:49:00 +0200 (CEST)
+ id A9D4131F0A; Thu,  2 Jul 2020 22:49:00 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/21] tests/acpi: allow override blkdev
-Date: Thu,  2 Jul 2020 22:48:57 +0200
-Message-Id: <20200702204859.9876-20-kraxel@redhat.com>
+Subject: [PATCH v4 20/21] tests/acpi: add microvm test
+Date: Thu,  2 Jul 2020 22:48:58 +0200
+Message-Id: <20200702204859.9876-21-kraxel@redhat.com>
 In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
 References: <20200702204859.9876-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -88,38 +88,44 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-microvm needs virtio-blk instead of ide.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index c315156858f4..24b715dce780 100644
+index 24b715dce780..b5b98d5c0742 100644
 --- a/tests/qtest/bios-tables-test.c
 +++ b/tests/qtest/bios-tables-test.c
-@@ -72,6 +72,7 @@ typedef struct {
-     const char *variant;
-     const char *uefi_fl1;
-     const char *uefi_fl2;
-+    const char *blkdev;
-     const char *cd;
-     const uint64_t ram_start;
-     const uint64_t scan_len;
-@@ -635,9 +636,10 @@ static void test_acpi_one(const char *params, test_data *data)
-         args = g_strdup_printf("-machine %s,kernel-irqchip=off %s -accel tcg "
-             "-net none -display none %s "
-             "-drive id=hd0,if=none,file=%s,format=raw "
--            "-device ide-hd,drive=hd0 ",
-+            "-device %s,drive=hd0 ",
-              data->machine, data->tcg_only ? "" : "-accel kvm",
--             params ? params : "", disk);
-+             params ? params : "", disk,
-+             data->blkdev ?: "ide-hd");
-     }
+@@ -1007,6 +1007,20 @@ static void test_acpi_virt_tcg_memhp(void)
  
-     data->qts = qtest_init(args);
+ }
+ 
++static void test_acpi_microvm_tcg(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = "microvm";
++    data.required_struct_types = base_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
++    data.blkdev = "virtio-blk-device";
++    test_acpi_one(" -machine microvm,acpi=on,rtc=off",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_virt_tcg_numamem(void)
+ {
+     test_data data = {
+@@ -1118,6 +1132,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
++        qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
 -- 
 2.18.4
 
