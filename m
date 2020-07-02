@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8939F212B79
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:47:42 +0200 (CEST)
-Received: from localhost ([::1]:39626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2C5212B80
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:49:32 +0200 (CEST)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3JF-0001mG-HS
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49558)
+	id 1jr3L1-0005XE-A0
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3Ab-00041F-IO; Thu, 02 Jul 2020 13:38:45 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:39372)
+ id 1jr3Ab-000418-Gb; Thu, 02 Jul 2020 13:38:45 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:34151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AW-0007N8-1b; Thu, 02 Jul 2020 13:38:45 -0400
-Received: by mail-ed1-x543.google.com with SMTP id d18so19187455edv.6;
- Thu, 02 Jul 2020 10:38:37 -0700 (PDT)
+ id 1jr3AW-0007Of-1F; Thu, 02 Jul 2020 13:38:45 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id a8so23642654edy.1;
+ Thu, 02 Jul 2020 10:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l6wuKz2C8HP67deoIdZIR1YuTZFXJvtoU6qcCbCDPz0=;
- b=oJ6wg1AgtkrqK7KVpfODrvTY8YIDPRTLJ60W6mW9Uguad6Ig3ZjDICBDkGoi7nKRCc
- Ro1BcIKbb+fvmGUclbtaPrcYlX3Cmvbr90RjMuis7P7qHAb2UKXGpgWW+qZjuuTzNQof
- 2BwcVrzl1LiXrPR2Hxv+/UTLgK5nyq+pxyKKpZC//2LR/t5afeuEVMQqyBud48c2czsl
- TWaLYY3TE352sn0A1THxCRZ+g9fWml1U67qeW2/EjUiWnww9C8iHsc29M8nfRypJgwTw
- sL1n/HsEL6h/Ygr9pOKwqk9HdGl2ApRJ4go4eB9UVnaV5e4l7avafdqCC+IShqmLqJ5R
- sAVw==
+ bh=x+alTzY1GOz+kv+Wjlp3+EqQ38OLVjfJxlmuRS8PUdk=;
+ b=B9QaYg+VEngQm85Xtqh0zAcwIPDt4cl/Iw9q1QiO6mZvWqwc8VyVrVKxa6/3oJmy1m
+ RXBSSxB/FzI2HawtbYvb7fGJzjJM6OAZyMRw1gtwcMilS3/6wH3PtiTQdBD7Hx5uZcGN
+ pKNiUsHk7u7JmdN4+mh3hG0cZCuYGjjURxvLApvAbhyF7hABfeRHEwZAaOCM64zy5LZd
+ RMcXtVmxg6PwsOeOKTMhBpiyd4Yu3nrok9nT9CNja9fB8hjjN/zWeM8AcnPZkdzmuBlX
+ kMzrBapXPr5bApr2ogdjrxkVmeqAmCNCftr1wREyqq908YG5y1ZLy//V5omZwv3cFvKB
+ Je4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l6wuKz2C8HP67deoIdZIR1YuTZFXJvtoU6qcCbCDPz0=;
- b=OEHrfhkoyzs1cgDtyT1OK4cXQs/rL9BT1YiVN0M8bqTmHtgHu0e3f5q6rg9a/gRupz
- W2yOXhoMw+RSdO+BTGTeeMeHpm38CUZtJo/ii7f+Xdz41OfJgnIoY+5UNk8doFU71+NY
- u5/q+TfldHGs96wKwJS3EhJOK+MKvcBDfTscyaffQwPiBoBlV+f8me9Nna2LOQYnssh2
- v8KzgoKaoVY5SfOqOI/+YgxydKSmsZuexeALi8nvu9TZJNnHj33wLFBCEl+ckAGHFA29
- xn6o+Puxfo5z16Dg0icJ+kKBoCeLFTpPRt4NzN4vEds3POFiy0FKFGxOFdlmeEIIfazK
- o1ww==
-X-Gm-Message-State: AOAM531Z9uxR3uKo7ML9tZs70lFvzwCb+AfCoHyWeE9iegNwi/8x8yHe
- gKxU3f/5K48AkVbKKY4HTPvvVFcss2Q=
-X-Google-Smtp-Source: ABdhPJypmdlZlAIoz7X8Mg/fTz6Xe/gBYgAvBmCqARRXYqYlP2zWzhvE7WDRG8JgsC3biTtmqcgDpQ==
-X-Received: by 2002:a50:fd07:: with SMTP id i7mr1973816eds.221.1593711516709; 
- Thu, 02 Jul 2020 10:38:36 -0700 (PDT)
+ bh=x+alTzY1GOz+kv+Wjlp3+EqQ38OLVjfJxlmuRS8PUdk=;
+ b=bEDi/m7O1G+GFB9ApnKcHAg6U1Egd3gmx1/KPYw2CuN/fuABa79PYBrUZjSGWM2stX
+ sRzU/KXjklcQvvKprlHM3ILM/bKbhc2oz3AOC7h/1Jr3/w3dNmXdur8CPKxxnFq1krLp
+ SNQSz56fHwDTWibAmOjyMa/9cfax5WVE+KicuqEVkEz95LzewWdKnDMAEzfb1gF/KlE6
+ ribzPTzV0xAcbbe6PvtuPO+IRxnQtWoPwXjORGjb8zN7XDG3gk4Mi8LaAcjodHBXNncV
+ ytHk4l7z03vWjKO5TB7yGAeUczRzRy2b/IGgX90or8Od+WotI0iQU+Z3jlaDafr6JbfD
+ ksCg==
+X-Gm-Message-State: AOAM53273dmfpw2HSXk4ZRZ2AUVsDAadKlUSgA3xXWPE+FcU7Jmdlkuy
+ gB5QUCAD9BpNavUGnOdYDfFUqwN0I6A=
+X-Google-Smtp-Source: ABdhPJyjZegCn0dV0s+KuThoVRn/tp8tbruO9IhUcbBcG8Txm4z0llbnevu0ucpWQKhVVSOyfcDfBA==
+X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr35178107edr.164.1593711517944; 
+ Thu, 02 Jul 2020 10:38:37 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.35
+ by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 10:38:36 -0700 (PDT)
+ Thu, 02 Jul 2020 10:38:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/19] .mailmap: Display correct email address for Michael
- Tokarev
-Date: Thu,  2 Jul 2020 19:38:13 +0200
-Message-Id: <20200702173818.14651-15-f4bug@amsat.org>
+Subject: [PATCH v3 15/19] .mailmap: Display correct email address for Peter
+ Maydell
+Date: Thu,  2 Jul 2020 19:38:14 +0200
+Message-Id: <20200702173818.14651-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200702173818.14651-1-f4bug@amsat.org>
 References: <20200702173818.14651-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,33 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix Michael Tokarev email address in the following commits:
+Fix Peter Maydell email address in the following commit:
 
-  $ git log --committer=mjt@gandalf --oneline
-  eb83c2030a hw/net/e1000e: Fix compiler warning
-  5ce747cfac target-m68k: fix get_mac_extf helper
-  3224e8786f timer/cpus: fix some typos and update some comments
-  04ecbb7834 timer.h: fix inconsistency between comment and function prototype
-  083b96e221 timer.h: fix typo
-  e2f310ec38 maint: Ignore generated version file
-  32945472ce Document that curses usually needs -k option too
-  deff0ddb86 trace-event: display "%d" instead of "0x%d"
-  8223f345b9 linux-user, trivial: display "0x%x" instead of "0x%d"
-  8928473699 pic: fix typo in error message: KVM_GET_IRQCHIP -> KVM_SET_IRQCHIP
-  a337f295de sparc: Use g_memdup() instead of g_new0() + memcpy()
-  bc82585a8f vl: remove unnecessary duplicate call to tpm_cleanup
-  39cba610a7 arm: spelling fix: mismatch
-  0aadb5a15f hw/dma/omap: spelling fix: endianness
-  270a4b6739 hw/bt/hci: spelling fix: endianness
-  37e3645ad3 docs: Fix description of the leaky bucket algorithm in throttle.txt
+  $ git log --format=fuller --committer='petmay01@cam-vm-266.(none)'
+  commit 0d4abda8f7328c8911c1d020bb6961650eaf7801
+  Author:     Peter Maydell <peter.maydell@linaro.org>
+  AuthorDate: Fri Jul 20 13:34:49 2012 +0100
+  Commit:     Peter Maydell <petmay01@cam-vm-266.(none)>
+  CommitDate: Fri Jul 20 13:34:49 2012 +0100
 
-Cc: Michael Tokarev <mjt@tls.msk.ru>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -120,17 +109,17 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/.mailmap b/.mailmap
-index eaed43a178..9bc80771e0 100644
+index 9bc80771e0..2fa882d239 100644
 --- a/.mailmap
 +++ b/.mailmap
-@@ -131,6 +131,7 @@ Marek Dolata <mkdolata@us.ibm.com>
- Michael Avdienko <whitearchey@gmail.com>
- Michael S. Tsirkin <mst@redhat.com>
- Michael S. Tsirkin <mst@redhat.com> <mst@robin.(none)>
-+Michael Tokarev <mjt@tls.msk.ru> <mjt@gandalf>
- Munkyu Im <munkyu.im@samsung.com>
- Nicholas Bellinger <nab@linux-iscsi.org>
- Nicholas Thomas <nick@bytemark.co.uk>
+@@ -144,6 +144,7 @@ Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
+ Peter Crosthwaite <crosthwaite.peter@gmail.com>
+ Peter Crosthwaite <peter.crosthwaite@petalogix.com>
+ Peter Crosthwaite <peter.crosthwaite@xilinx.com>
++Peter Maydell <peter.maydell@linaro.org> <petmay01@cam-vm-266.(none)>
+ Prasad J Pandit <pjp@fedoraproject.org>
+ Prasad J Pandit <ppandit@redhat.com>
+ Qiao Nuohan <qiaonuohan@cn.fujitsu.com>
 -- 
 2.21.3
 
