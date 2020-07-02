@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C062212B3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:28:27 +0200 (CEST)
-Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BFE212B09
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:16:53 +0200 (CEST)
+Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr30c-0007Cc-8G
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
+	id 1jr2pQ-0000Jm-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jr2m4-0004lq-0I
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:13:24 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40401)
+ id 1jr2mU-0005XN-8J
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:13:50 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:55266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jr2m2-0001rx-54
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:13:23 -0400
-Received: by mail-pg1-x544.google.com with SMTP id e18so13764977pgn.7
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 10:13:21 -0700 (PDT)
+ id 1jr2mQ-0001vQ-Q2
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:13:49 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id u8so12408772pje.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 10:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vC0Rst6l0gRSvlXEnfoi0RT+AdeMCVLvWZ4rDaU0gkA=;
- b=Kw3x6yD7n86BecEqz6XDOrq5Anqwv5mn+jV7XI2tssMwywz1GD3Gi6KOqgt1Z1478i
- +Ae+T/LVt0ULVKfBusisW4KPQ5b9sWg9EWo0oC77MRr9A42bQCY7jIF6hV4l4JaYSdaC
- WQFqqJ7avfbSLKxQUU11sS113mSPnWVZsup4p2gLc58ikAroeqPNQQI57GkZjF3LUvXQ
- XtNMeI9Rf2EI3d2SwCHU+LjiNa5L1bz/ZVOGxTECWhp3rB3H8w38xnswLvMktz0CbcXR
- gLu3xAqh18T6inCLLvADqw2XZ51O72CcBJBFOjm4q1gPgqGXFSwhyg/l10AyCsMxvGre
- sPYQ==
+ bh=07nJVMkiG7AtfkY5LtU7B6xMAKxLM2cvT3Tmdjs4RXM=;
+ b=RJJjcHBYvCzvsQDc2YI4iY8QIMd6CEP3rn1W/fXUIGHcRmVVHSYXW8w1lQ8uoAl/4I
+ L99Qo4/DQYoerRiuk6K27NX96R1/o2lgI7gwrsha3s52hQA4B/xoZLc+qrg3ZDlrlHOn
+ kPBkn/GQdGbtHML8fkS1oOXTNZ57KjOO8ahWt1oDWVl02B/ysDIDbyIBfgvyoEjGqvUV
+ 3OOTEXtxlwbH4S6Ru3WCzmamCmUyn8+G9IT4UW03wHEQDXqqX7GiWbo0jZO+x4nHrz82
+ InH4Re6MpmWhlfn27tuONdx1t74SnVGAzgiGrayLwIKcz3uMDGuuQ1VH9tXXFIODFaJ0
+ Y55A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vC0Rst6l0gRSvlXEnfoi0RT+AdeMCVLvWZ4rDaU0gkA=;
- b=ro2tdemKkwb51tnYdWpe1vZsANOHCrNm7kVEp6iWS0ZWvJu7gbN4aU2HGtipbTg9D9
- xoZKFkyTF4hiGek/sQzALT5V6Rl3gkR22MOFeIFoCAelyesJ8R545wTfpRgh6bYjOhkv
- 7maZ35wxDyOvJ/LxvTFTfTTJuNq5bWpi0Cx9x3qngfyoA8n5mwNkn6fzSBwaJxfts9m+
- AER1zupbApOQtv6SYOwL75VRrmJGdzEF9ZdtggFAtSFwUE5qf6SqajNlUgC0y3K1+/ZD
- QbtP0jRrGQ9AIEkcSiHfjhCJepM/yU5JaxAxpOjFWoDEcX4B0beT9J9NBubVOMxOVlD/
- alpQ==
-X-Gm-Message-State: AOAM5331Kl6Kkh5jMWHmyHsFuPHcZFXQGVMxjoi5lo+7paLCZhVwNT9D
- qRcnGestg8zrZ1pDIM4CLWM7xA==
-X-Google-Smtp-Source: ABdhPJy2nlVqWAl3IVyAGf2VhUgyWCoDiMdOjfDiDrlnaCDu4PtZ39OFSCxhYF4GLPi8jWC0QReGkg==
-X-Received: by 2002:a63:7a57:: with SMTP id j23mr10125777pgn.408.1593709999908; 
- Thu, 02 Jul 2020 10:13:19 -0700 (PDT)
+ bh=07nJVMkiG7AtfkY5LtU7B6xMAKxLM2cvT3Tmdjs4RXM=;
+ b=bmZ5lAtBWjwbOODXp+qI7b/ijG3FR9N0NQX0XOifewcTfyStBqTpUtNOdddwCvrzr5
+ dXVMHzg3058t9/nPvqeQYaKCU7ODv5TKWBdWb1xDHYCa6c1hKHeDCbcFPY5TZPQcxpfd
+ iImsjcdwNCc8wxepYgfYeT0up/odgWJ8v9yLyRPMsZqLxOUKlIeuzjdMt21WQ/xIeRBp
+ uFefrW3+GdS9V8C1PNBXGv7asOdFTO/GG+fK2woe4O16FcmjhWg+zgucsbdjpTNFUpNd
+ FwPqTiJjfnFIwOUn/+SR4UFAG77+9JQk1kI4PHZ+wQcogQNw1td0576tkFvS40//DVJS
+ zGXA==
+X-Gm-Message-State: AOAM530+kCpeD1FVGI45ZiwLMzOyoiM/vfMPaPf955r58Q3eu8JRtTLO
+ MF0T/ij9CfRDLy+Rnk54dpT9kg==
+X-Google-Smtp-Source: ABdhPJzmMZrhv4LAOKmBF9xqMwGkfJArhZOZk+1dHDVbMcY/tV2I5mNn/VVi9tFtz9FTgDIxiLT36A==
+X-Received: by 2002:a17:90b:4c0b:: with SMTP id
+ na11mr33788479pjb.176.1593710025493; 
+ Thu, 02 Jul 2020 10:13:45 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s22sm9093803pfm.164.2020.07.02.10.13.18
+ by smtp.gmail.com with ESMTPSA id t137sm9745346pgc.32.2020.07.02.10.13.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jul 2020 10:13:19 -0700 (PDT)
-Subject: Re: [PATCH 1/6] target/riscv: move gen_nanbox_fpr to translate.c
+ Thu, 02 Jul 2020 10:13:44 -0700 (PDT)
+Subject: Re: [PATCH 4/6] target/riscv: check before allocating TCG temps
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20200626205917.4545-1-zhiwei_liu@c-sky.com>
- <20200626205917.4545-2-zhiwei_liu@c-sky.com>
+ <20200626205917.4545-5-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3dd8d7b9-446b-264a-9ac6-4cdee4bd53c7@linaro.org>
-Date: Thu, 2 Jul 2020 10:13:17 -0700
+Message-ID: <f28923c9-937e-37fb-1402-86736177aa52@linaro.org>
+Date: Thu, 2 Jul 2020 10:13:42 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200626205917.4545-2-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200626205917.4545-5-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,16 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/26/20 1:59 PM, LIU Zhiwei wrote:
-> As this function will be used by fcvt.d.s in trans_rvd.inc.c,
-> make it a visible function for RVF and RVD.
-> 
 > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->  target/riscv/insn_trans/trans_rvf.inc.c | 14 --------------
->  target/riscv/translate.c                | 14 ++++++++++++++
->  2 files changed, 14 insertions(+), 14 deletions(-)
+>  target/riscv/insn_trans/trans_rvd.inc.c | 8 ++++----
+>  target/riscv/insn_trans/trans_rvf.inc.c | 8 ++++----
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
