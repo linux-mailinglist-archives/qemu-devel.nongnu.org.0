@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDF02124A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:28:01 +0200 (CEST)
-Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549542124AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:29:34 +0200 (CEST)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzFw-0008LQ-4D
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1jqzHR-0002j7-Aw
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDj-0004mz-K9
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26553
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDs-0004u1-AB
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52805
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDg-000770-Gg
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDi-00079n-Hh
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696339;
+ s=mimecast20190719; t=1593696341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3B7D73osJV34ZpW7kqXjjaJizObZ2jBdfEs5A5DbAn0=;
- b=gFzjfq57tKwG8dWGN5V4ZydsuClzi28PQ6bSsKpR/YhO/SmzGzh4bnxV1baP5SFNzcc90V
- pK++OIiWMzDWFxu6P3WSzUOdj4EFMEOk183098Qguwu095iXFueIjYUScFMNy4+VAeFgGT
- 1fuklZrmyqsy8uL3TfQ9PWLf6wKfIxw=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=1Vv9AT621ICkypcsTO25i0HBy7rRbjf8YKBPKUfrZtM=;
+ b=Ae7LaSgRny2Iv0sCW5yMCF63NUxwFXt9gFrE5EgoFmmAh28R3ANQ9tOaW5I22Oks6e3Gmo
+ JE9C48F3pxWVwe0hLeTacSWMgbRn+v2JnP+2ckpg6egRC/tEJKUy8VS332pDGILrv7IpeT
+ zQDz/TT/I188D91D+JOSEhinS+LAgd8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-2VMOCDPFMga6D8VFOZf_hw-1; Thu, 02 Jul 2020 09:25:37 -0400
-X-MC-Unique: 2VMOCDPFMga6D8VFOZf_hw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-377-qUsDk2PXNXuP8Ywkc5dmQQ-1; Thu, 02 Jul 2020 09:25:40 -0400
+X-MC-Unique: qUsDk2PXNXuP8Ywkc5dmQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2744F80572F;
- Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA3B1107ACCA;
+ Thu,  2 Jul 2020 13:25:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F25110013D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FFDF17D75;
  Thu,  2 Jul 2020 13:25:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2737031E88; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
+ id 3C05931E8E; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/20] stubs: add pci_create_simple
-Date: Thu,  2 Jul 2020 15:25:07 +0200
-Message-Id: <20200702132525.6849-3-kraxel@redhat.com>
+Subject: [PATCH v5 04/20] audio: deprecate -soundhw ac97
+Date: Thu,  2 Jul 2020 15:25:09 +0200
+Message-Id: <20200702132525.6849-5-kraxel@redhat.com>
 In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
 References: <20200702132525.6849-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,42 +89,54 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Needed for -soundhw cleanup.
+Switch to deprecated_register_soundhw().  Remove the now obsolete init
+function.  Add an alias so both ac97 and AC97 are working with -device.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- stubs/pci-bus.c     | 7 +++++++
- stubs/Makefile.objs | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 stubs/pci-bus.c
+ hw/audio/ac97.c | 9 ++-------
+ qdev-monitor.c  | 1 +
+ 2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/stubs/pci-bus.c b/stubs/pci-bus.c
-new file mode 100644
-index 000000000000..a8932fa93250
---- /dev/null
-+++ b/stubs/pci-bus.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+
-+PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
-+{
-+    g_assert_not_reached();
-+}
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index ff0411d21f22..918e46bdc1ca 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -13,6 +13,7 @@ stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
- stub-obj-y += monitor-core.o
- stub-obj-y += notify-event.o
-+stub-obj-y += pci-bus.o
- stub-obj-y += qmp_memory_device.o
- stub-obj-y += qtest.o
- stub-obj-y += ramfb.o
+diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+index 8a9b9924c495..38522cf0ba44 100644
+--- a/hw/audio/ac97.c
++++ b/hw/audio/ac97.c
+@@ -1393,12 +1393,6 @@ static void ac97_exit(PCIDevice *dev)
+     AUD_remove_card(&s->card);
+ }
+ 
+-static int ac97_init (PCIBus *bus)
+-{
+-    pci_create_simple(bus, -1, TYPE_AC97);
+-    return 0;
+-}
+-
+ static Property ac97_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(AC97LinkState, card),
+     DEFINE_PROP_END_OF_LIST (),
+@@ -1436,7 +1430,8 @@ static const TypeInfo ac97_info = {
+ static void ac97_register_types (void)
+ {
+     type_register_static (&ac97_info);
+-    pci_register_soundhw("ac97", "Intel 82801AA AC97 Audio", ac97_init);
++    deprecated_register_soundhw("ac97", "Intel 82801AA AC97 Audio",
++                                0, TYPE_AC97);
+ }
+ 
+ type_init (ac97_register_types)
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 22da107484c5..105d9792ecdf 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -53,6 +53,7 @@ typedef struct QDevAlias
+ 
+ /* Please keep this table sorted by typename. */
+ static const QDevAlias qdev_alias_table[] = {
++    { "AC97", "ac97" }, /* -soundhw name */
+     { "e1000", "e1000-82540em" },
+     { "ich9-ahci", "ahci" },
+     { "lsi53c895a", "lsi" },
 -- 
 2.18.4
 
