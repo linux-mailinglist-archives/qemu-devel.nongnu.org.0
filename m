@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC21C212888
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:52:02 +0200 (CEST)
-Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7AB212884
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:51:38 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1VJ-0002WL-Qr
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
+	id 1jr1Uv-0001wG-7w
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TX-00087e-8C
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20147
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TS-0004nB-Mb
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TV-000871-KH
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42585
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1TS-0004n1-Jo
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593705005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dx5Y7PWTvGj3BPRlRkn6NwM+uD1KfBEFLRNWsyi80bA=;
- b=JThVTWvyutZebLULS2gAgKyDGs6fziHB29UmCMrni7HEcNmy/JsjYyzZVFBnU+Qfi+um1y
- nzkGrjSi0N/b0ogIMidIK66nQZSyWBB5IEqE8C6f3Ww4vLXvlfUdNaJxWCB4i8SZ3a1vH5
- gurc0IR91DvsuiQvJt7bKS6rFRJ1zi4=
+ bh=M8cw22vatWmA9dwy9+IQxHU69x76cFz2gBF/mTHvovw=;
+ b=jWEO1AdYrvt48EeK65nO3w0Lna6BMEL4we3djwcN45Mq4TGfhpUjIvF7qDctOzU7PKo5eH
+ jF6vU+YwoA40k/d6AmJgTKSjWIetEwYYmSslKy0mbq5RxMk/DBgE+k/r9fPVSfmMMP04q6
+ loLrYGA3y72T+REXQa4sLcra9xo01Sw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-UlTfaUUuM76BC1Z5t0jSsA-1; Thu, 02 Jul 2020 11:50:03 -0400
-X-MC-Unique: UlTfaUUuM76BC1Z5t0jSsA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-169-rtpO5ILlOLeru3QI9oivXg-1; Thu, 02 Jul 2020 11:50:03 -0400
+X-MC-Unique: rtpO5ILlOLeru3QI9oivXg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CD408015F6;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EAD6107ACF5;
  Thu,  2 Jul 2020 15:50:02 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15C877922F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1826D73FF2;
  Thu,  2 Jul 2020 15:50:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7429A11385EB; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
+ id 7B54C11385F1; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/44] error: Improve examples in error.h's big comment
-Date: Thu,  2 Jul 2020 17:49:17 +0200
-Message-Id: <20200702155000.3455325-2-armbru@redhat.com>
+Subject: [PATCH v2 02/44] error: Document Error API usage rules
+Date: Thu,  2 Jul 2020 17:49:18 +0200
+Message-Id: <20200702155000.3455325-3-armbru@redhat.com>
 In-Reply-To: <20200702155000.3455325-1-armbru@redhat.com>
 References: <20200702155000.3455325-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,65 +88,88 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Show errp instead of &err where &err is actually unusual.  Add a
-missing declaration.  Add a second error pileup example.
+This merely codifies existing practice, with one exception: the rule
+advising against returning void, where existing practice is mixed.
+
+When the Error API was created, we adopted the (unwritten) rule to
+return void when the function returns no useful value on success,
+unlike GError, which recommends to return true on success and false on
+error then.
+
+When a function returns a distinct error value, say false, a checked
+call that passes the error up looks like
+
+    if (!frobnicate(..., errp)) {
+        handle the error...
+    }
+
+When it returns void, we need
+
+    Error *err = NULL;
+
+    frobnicate(..., &err);
+    if (err) {
+        handle the error...
+        error_propagate(errp, err);
+    }
+
+Not only is this more verbose, it also creates an Error object even
+when @errp is null, &error_abort or &error_fatal.
+
+People got tired of the additional boilerplate, and started to ignore
+the unwritten rule.  The result is confusion among developers about
+the preferred usage.
+
+The written rule will hopefully reduce the confusion.
+
+The remainder of this series will update a substantial amount of code
+to honor the rule.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- include/qapi/error.h | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ include/qapi/error.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/include/qapi/error.h b/include/qapi/error.h
-index ad5b6e896d..3e64324b7a 100644
+index 3e64324b7a..5ceb3ace06 100644
 --- a/include/qapi/error.h
 +++ b/include/qapi/error.h
-@@ -16,15 +16,15 @@
+@@ -15,6 +15,32 @@
+ /*
   * Error reporting system loosely patterned after Glib's GError.
   *
-  * Create an error:
-- *     error_setg(&err, "situation normal, all fouled up");
-+ *     error_setg(errp, "situation normal, all fouled up");
-  *
-  * Create an error and add additional explanation:
-- *     error_setg(&err, "invalid quark");
-- *     error_append_hint(&err, "Valid quarks are up, down, strange, "
-+ *     error_setg(errp, "invalid quark");
-+ *     error_append_hint(errp, "Valid quarks are up, down, strange, "
-  *                       "charm, top, bottom.\n");
-  *
-  * Do *not* contract this to
-- *     error_setg(&err, "invalid quark\n"
-+ *     error_setg(errp, "invalid quark\n" // WRONG!
-  *                "Valid quarks are up, down, strange, charm, top, bottom.");
-  *
-  * Report an error to the current monitor if we have one, else stderr:
-@@ -108,12 +108,23 @@
-  *     }
-  *
-  * Do *not* "optimize" this to
-+ *     Error *err = NULL;
-  *     foo(arg, &err);
-  *     bar(arg, &err); // WRONG!
-  *     if (err) {
-  *         handle the error...
-  *     }
-  * because this may pass a non-null err to bar().
++ * Rules:
 + *
-+ * Likewise, do *not*
-+ *     Error *err = NULL;
-+ *     if (cond1) {
-+ *         error_setg(&err, ...);
-+ *     }
-+ *     if (cond2) {
-+ *         error_setg(&err, ...); // WRONG!
-+ *     }
-+ * because this may pass a non-null err to error_setg().
-  */
- 
- #ifndef ERROR_H
++ * - Functions that use Error to report errors have an Error **errp
++ *   parameter.  It should be the last parameter, except for functions
++ *   taking variable arguments.
++ *
++ * - You may pass NULL to not receive the error, &error_abort to abort
++ *   on error, &error_fatal to exit(1) on error, or a pointer to a
++ *   variable containing NULL to receive the error.
++ *
++ * - The value of @errp should not affect control flow.
++ *
++ * - On success, the function should not use @errp.  On failure, it
++ *   should set a new error, e.g. with error_setg(errp, ...), or
++ *   propagate an existing one, e.g. with error_propagate(errp, ...).
++ *
++ * - Whenever practical, also return a value that indicates success /
++ *   failure.  This can make the error checking more concise, and can
++ *   avoid useless error object creation and destruction.  Note that
++ *   we still have many functions returning void.  We recommend
++ *   • bool-valued functions return true on success / false on failure,
++ *   • pointer-valued functions return non-null / null pointer, and
++ *   • integer-valued functions return non-negative / negative.
++ *
++ * How to:
++ *
+  * Create an error:
+  *     error_setg(errp, "situation normal, all fouled up");
+  *
 -- 
 2.26.2
 
