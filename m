@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1432124C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:34:23 +0200 (CEST)
-Received: from localhost ([::1]:33872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3542124D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:36:24 +0200 (CEST)
+Received: from localhost ([::1]:44028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzM6-0002jr-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35050)
+	id 1jqzO3-000784-Vl
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:36:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDu-0004xX-LV
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47967
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDv-0004z1-Tb
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56752
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDj-0007AV-7m
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDj-0007At-E1
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593696342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=e90sVaiY0y2bJO1wUVMH2JGLJEwOGOs++Ldelaxq98E=;
- b=BYxPSdhsNrdf4pvkfDtwtCt8hGdc/XrDu9SEUCmJHVlm2gn5PWZrThGgio8TKmzhAwTUmJ
- /jHA7YIt4BnL6tD3SdE2epIo4sjnmwQ2FQGwc/tw3n6OlCOzxpKoI90El4QYz65SCM6wAH
- XfT2/BQgIa6j15O45bIetECuxgGRIPg=
+ references:references; bh=m0C1OEqGZ+n+wODoEHo4mIYM2MWWK4ZfK8U6dnhFblY=;
+ b=GulC0TAf2BN0n5rkCADjH8PJgGhNW4wfxXfyIsqP2Poz07LvpxURLpK9130gpIrjKuxAaI
+ S9Funv2aoT0PNNinCaApEetztGzbvwq5dO1OIfaKeVVo8qKoUGuhkECrsYis+h6hcwfXPO
+ K1ol39+rXhEsCGOnAl1yfv1Nan+Fiow=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-_oBI-E2wOsahSLUD4TaIDg-1; Thu, 02 Jul 2020 09:25:38 -0400
-X-MC-Unique: _oBI-E2wOsahSLUD4TaIDg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-237-eq25pT_0NVOrlqYnGTtuvw-1; Thu, 02 Jul 2020 09:25:38 -0400
+X-MC-Unique: eq25pT_0NVOrlqYnGTtuvw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16065805F06;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7704780183C;
  Thu,  2 Jul 2020 13:25:37 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACC0A73FE8;
- Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 295F410013D2;
+ Thu,  2 Jul 2020 13:25:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DA2DC31F09; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
+ id E4AC731F0A; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/20] pcspk: update docs/system/target-i386-desc.rst.inc
-Date: Thu,  2 Jul 2020 15:25:24 +0200
-Message-Id: <20200702132525.6849-20-kraxel@redhat.com>
+Subject: [PATCH v5 20/20] audio: set default value for pcspk.iobase property
+Date: Thu,  2 Jul 2020 15:25:25 +0200
+Message-Id: <20200702132525.6849-21-kraxel@redhat.com>
 In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
 References: <20200702132525.6849-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +89,44 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add PC speaker with config hints.
+Allows dropping the explicit qdev_prop_set_uint32 call in pcspk_init.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/target-i386-desc.rst.inc | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ include/hw/audio/pcspk.h | 6 +-----
+ hw/audio/pcspk.c         | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/target-i386-desc.rst.inc b/docs/system/target-i386-desc.rst.inc
-index 47a169e0ae2a..7d1fffacbea3 100644
---- a/docs/system/target-i386-desc.rst.inc
-+++ b/docs/system/target-i386-desc.rst.inc
-@@ -31,6 +31,8 @@ The QEMU PC System emulator simulates the following peripherals:
+diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
+index 8b485602675f..06cba00b8376 100644
+--- a/include/hw/audio/pcspk.h
++++ b/include/hw/audio/pcspk.h
+@@ -33,11 +33,7 @@
  
- -  CS4231A compatible sound card
+ static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
+ {
+-    DeviceState *dev;
+-
+-    dev = DEVICE(isadev);
+-    qdev_prop_set_uint32(dev, "iobase", 0x61);
+-    object_property_set_link(OBJECT(dev), OBJECT(pit), "pit", NULL);
++    object_property_set_link(OBJECT(isadev), OBJECT(pit), "pit", NULL);
+     isa_realize_and_unref(isadev, bus, &error_fatal);
+ }
  
-+-  PC speaker
-+
- -  PCI UHCI, OHCI, EHCI or XHCI USB controller and a virtual USB-1.1
-    hub.
+diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+index 4c7e339ac2b5..ea539e7605a8 100644
+--- a/hw/audio/pcspk.c
++++ b/hw/audio/pcspk.c
+@@ -219,7 +219,7 @@ static const VMStateDescription vmstate_spk = {
  
-@@ -49,7 +51,7 @@ must be told to not have parallel ports to have working GUS.
- 
- .. parsed-literal::
- 
--   |qemu_system_x86| dos.img -soundhw gus -parallel none
-+   |qemu_system_x86| dos.img -device gus -parallel none
- 
- Alternatively:
- 
-@@ -60,3 +62,12 @@ Alternatively:
- Or some other unclaimed IRQ.
- 
- CS4231A is the chip used in Windows Sound System and GUSMAX products
-+
-+The PC speaker audio device can be configured using the pcspk-audiodev
-+machine property, i.e.
-+
-+.. parsed-literal::
-+
-+   |qemu_system_x86| some.img \
-+   -audiodev <backend>,id=<name> \
-+   -machine pcspk-audiodev=<name>
+ static Property pcspk_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(PCSpkState, card),
+-    DEFINE_PROP_UINT32("iobase", PCSpkState, iobase,  -1),
++    DEFINE_PROP_UINT32("iobase", PCSpkState, iobase,  0x61),
+     DEFINE_PROP_BOOL("migrate", PCSpkState, migrate,  true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 -- 
 2.18.4
 
