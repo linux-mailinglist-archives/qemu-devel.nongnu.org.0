@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E432129DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:39:29 +0200 (CEST)
-Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1692129BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:38:25 +0200 (CEST)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2FE-0007av-81
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
+	id 1jr2EC-0005qI-2i
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29o-00048f-CR
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:52 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44864)
+ id 1jr29a-0003Z5-6t
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:38 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29l-00008e-KM
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:52 -0400
+ id 1jr29Y-00008W-DA
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707629; x=1625243629;
+ t=1593707616; x=1625243616;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VqCLOdpWLjW3UVkT28adIjoxd87YQskxgxcfATZZN/c=;
- b=ivIAu3BYO84kulbASSiIy0d4xqIrnUtazEwCptKTwyICqGE4ttzrdEoB
- a+SotRugA5/2e2U0qWNYvUEF3LA3FnkW9VLSLKZBs857Sfen9AcAkO2Qr
- 3Z2kUd2LkfBqsIE1sPoOIO9pMaKZBXThZsVA5J6fkTWxcomujckOFePbx
- TEXfDyE7VA4z7z//vWXO0sermKm8hKI4yJc7CKaKE70dptMv08kr8l/K/
- xR/5f/EvaHa9p0CDXiJ/jnsCp9Dz7C7ydgvHEQp7k6slH+8dUMNrX2rtS
- viUb6RY/eT3EqHWsz5iNBQpklDJ6YS0b7HkEKYGIqVh9Wd/ADsEaB0xso w==;
-IronPort-SDR: FKMIPQ+2eC1ab0ekGzx1fW/5PdduN8uzDCi68x5USv8gHXJiSkuAZ7tQxygJH6t7GYUK6eDYxE
- 8KEAq0rx0WTSnyYWZ4BPE8Wc3somm5V71V//Gm2eaL4mUEtds/L/3Ukf0BIz/wpRZIpWcOuWHd
- Csy9RIWvoPvZ5MgBart5Yn1KCsleRsh/zv91Dgyf5ZGhxabeShXnb/w9gGjL05fZ0pONh4n/9i
- iQPAzrHrQ0Eqq5zhAUQvwxkClgwhwVtUAPGX0/40P7fYcsD2UQc4/9e86gye1IO0jdlw2GfqMP
- wLk=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498465"
+ bh=pYE94VblWtm89FUXM5cLogTgc0Cw9nQ6R1YC89Ho/TA=;
+ b=fTRxUzz/dxe0SLzia5GlVeMBRtDbie6aAP8EN+8gZYUi0H+4c+LhT0bF
+ GjA4Jbq1ZEZK9xShLKeYS+mv/TxcAEBKIqeqbTsw+v25yUaRkvPkD7shN
+ HJf/vFnthOXwUrMPl09nTEOLDU3LZs712I1NEQGyIEfMf2fZ9yHWOr9FO
+ 7Ez2xjS3ZGOsfFcZEUSAXJbL612U2Bf0tojMC311s2MDG3Jwxou9A7fpZ
+ XS32f5C8ahIXJBg5H0We4PQyQNjC026HnMDaIDmBr/aKvpm90XXoq+y5b
+ OA1SUoN7TvS9SuSfmFx8M6MSC7upbCAbJE/+DuObz64ag71IjNtrub4jo A==;
+IronPort-SDR: EQZHyq0OLGd6CZKZT4pLiGZFOfGkNHEHqIxRxYnnLHEyqttl+YpUQukQa4Xn1dj0f19nItUzHn
+ OeTHyvsKP7Qw3UCbnBCPMUBpCR2Pm6su4U7R790o9mg8x+NwlqTlO7RJAUiuqNc59JMj0JcB2u
+ USjgqocJQrygR21psDTcGm0CefxXOIHEH7yY7r3Xz+nMNcFh7bDmKZJY16JXAKMXdl+AJOK0VK
+ 77xI6IrlqREuaBKoqhr60KB+hO6SfyLeINe2NF7Eywiz1c3rWD1FZGCTlsrC9L5iwKyjZou/Gn
+ Q2k=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498466"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:20 +0800
-IronPort-SDR: MbhZj/X6S3zst7hC7Qmm3EPuKBNflQXMUVj2u8p0oc5LYdHsdif9zk/zGGxftwl+v61Hh7AMbZ
- 0Qp7J5V24aBRsvK0hjqIYhwnLZL8nkQKw=
+IronPort-SDR: QOVOGA8GZ4a6G2JgqqEoIllW0B+wqVlc9bkHE1U8qOSrPEE+f+aST8y99oQMN27m2NTZhDpk2x
+ lnrj0VHXXN1rtaQ6Xpf9cW8azIvR8wE/M=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jul 2020 09:21:35 -0700
-IronPort-SDR: wg6V2wA7dSJBh5/lV4a3BN/HsI0/SJeDeJWwBTtpP/DdCJwzRXip4TyPvIle/9OyAuCU5L8OFU
- ZR0MYPYOkYjw==
+IronPort-SDR: YZ9gausMzTq5swpE1KymhMHiQlcHJnU7MehbyBtaOjoo3qWqxq1nuBu+hczJ6KeLlZ3LbbDG7D
+ Q4CXJWzbyVjw==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
@@ -56,10 +56,10 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 04/64] target/riscv: add vector extension field in
- CPURISCVState
-Date: Thu,  2 Jul 2020 09:22:54 -0700
-Message-Id: <20200702162354.928528-5-alistair.francis@wdc.com>
+Subject: [PULL v2 05/64] target/riscv: implementation-defined constant
+ parameters
+Date: Thu,  2 Jul 2020 09:22:55 -0700
+Message-Id: <20200702162354.928528-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -96,75 +96,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The 32 vector registers will be viewed as a continuous memory block.
-It avoids the convension between element index and (regno, offset).
-Thus elements can be directly accessed by offset from the first vector
-base address.
+vlen is the vector register length in bits.
+elen is the max element size in bits.
+vext_spec is the vector specification version, default value is v0.7.1.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-2-zhiwei_liu@c-sky.com>
+Message-Id: <20200701152549.1218-3-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h       | 12 ++++++++++++
- target/riscv/translate.c |  3 ++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h | 5 +++++
+ target/riscv/cpu.c | 7 +++++++
+ 2 files changed, 12 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 80569f0d44..0018a79fa3 100644
+index 0018a79fa3..302e0859a0 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -59,6 +59,7 @@
- #define RVA RV('A')
- #define RVF RV('F')
- #define RVD RV('D')
-+#define RVV RV('V')
- #define RVC RV('C')
- #define RVS RV('S')
- #define RVU RV('U')
-@@ -88,9 +89,20 @@ typedef struct CPURISCVState CPURISCVState;
+@@ -78,6 +78,8 @@ enum {
+ #define PRIV_VERSION_1_10_0 0x00011000
+ #define PRIV_VERSION_1_11_0 0x00011100
  
- #include "pmp.h"
++#define VEXT_VERSION_0_07_1 0x00000701
++
+ #define TRANSLATE_PMP_FAIL 2
+ #define TRANSLATE_FAIL 1
+ #define TRANSLATE_SUCCESS 0
+@@ -113,6 +115,7 @@ struct CPURISCVState {
+     target_ulong guest_phys_fault_addr;
  
-+#define RV_VLEN_MAX 512
-+
- struct CPURISCVState {
-     target_ulong gpr[32];
-     uint64_t fpr[32]; /* assume both F and D extensions */
-+
-+    /* vector coprocessor state. */
-+    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
-+    target_ulong vxrm;
-+    target_ulong vxsat;
-+    target_ulong vl;
-+    target_ulong vstart;
-+    target_ulong vtype;
-+
-     target_ulong pc;
-     target_ulong load_res;
-     target_ulong load_val;
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index ce71ca7a92..b269f15920 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -32,7 +32,7 @@
- #include "instmap.h"
+     target_ulong priv_ver;
++    target_ulong vext_ver;
+     target_ulong misa;
+     target_ulong misa_mask;
  
- /* global register indices */
--static TCGv cpu_gpr[32], cpu_pc;
-+static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
- static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
- static TCGv load_res;
- static TCGv load_val;
-@@ -887,6 +887,7 @@ void riscv_translate_init(void)
+@@ -275,6 +278,8 @@ typedef struct RISCVCPU {
+ 
+         char *priv_spec;
+         char *user_spec;
++        uint16_t vlen;
++        uint16_t elen;
+         bool mmu;
+         bool pmp;
+     } cfg;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 391a0b9eec..d525cfb687 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -106,6 +106,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
+ }
+ 
++static void set_vext_version(CPURISCVState *env, int vext_ver)
++{
++    env->vext_ver = vext_ver;
++}
++
+ static void set_feature(CPURISCVState *env, int feature)
+ {
+     env->features |= (1ULL << feature);
+@@ -334,6 +339,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+     int priv_version = PRIV_VERSION_1_11_0;
++    int vext_version = VEXT_VERSION_0_07_1;
+     target_ulong target_misa = 0;
+     Error *local_err = NULL;
+ 
+@@ -357,6 +363,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
      }
  
-     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, pc), "pc");
-+    cpu_vl = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, vl), "vl");
-     load_res = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_res),
-                              "load_res");
-     load_val = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_val),
+     set_priv_version(env, priv_version);
++    set_vext_version(env, vext_version);
+ 
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
 -- 
 2.27.0
 
