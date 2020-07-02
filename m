@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA8D2128F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:05:57 +0200 (CEST)
-Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E9021291B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:12:34 +0200 (CEST)
+Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1im-0000Ag-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:05:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
+	id 1jr1pB-00051Z-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1U6-0000vR-KF
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58304
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1U3-0000mG-KS
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22279
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tg-0004rK-BC
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:46 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tf-0004rZ-TH
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593705010;
+ s=mimecast20190719; t=1593705011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2jsSwk8vh+inZZItyupqm9ldSmr0W9r5KON8Yzfkf70=;
- b=Oi31MZLOe5YcP6LhQz2y2upZ0Co2GvcrD14+2bXF7GnJ9g/7n2Y5tJjO94P28BZ+FYDt7p
- a4Nxi9qZ05lh0DhYH1hstVgDj/Qh5g1kWs7SFwnR3YPd//3QZ1fyG7cNE7Qomat4Phgabb
- YAOXGIuU92IPX7iVa9MRsz0oWEoysZ8=
+ bh=3ZbcF4CKKmOMd9yVAiIYK+v6LOZA1ZMgccQRpRxx6tE=;
+ b=IsAADgQm2DqvAGhDXi+JWBkTASa/VU118gkREmg9zHLK/q4GGlTaoodq2WRBY6sL8DOXpz
+ 3+/hwfvcG28KYq44pX0hvGAGysL2Se0l4Jcmx8R0eiO0tD2W0p69pw3+WZWn1HclIa6FZJ
+ XUwhpcwUcsjDkiY2b5W6CNj98OVkkoM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-Y7w2y81uNEWjsJEyloKH9A-1; Thu, 02 Jul 2020 11:50:09 -0400
-X-MC-Unique: Y7w2y81uNEWjsJEyloKH9A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-264-hyprgMJuO8u8g97fMRaOog-1; Thu, 02 Jul 2020 11:50:07 -0400
+X-MC-Unique: hyprgMJuO8u8g97fMRaOog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13B8818FE875;
- Thu,  2 Jul 2020 15:50:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 374618015FA;
+ Thu,  2 Jul 2020 15:50:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA58B18A56;
- Thu,  2 Jul 2020 15:50:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0279177899;
+ Thu,  2 Jul 2020 15:50:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D28EE11358D7; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
+ id DB97911358DE; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/44] block/parallels: Simplify parallels_open() after
- previous commit
-Date: Thu,  2 Jul 2020 17:49:35 +0200
-Message-Id: <20200702155000.3455325-20-armbru@redhat.com>
+Subject: [PATCH v2 21/44] qom: Use error_reportf_err() instead of g_printerr()
+ in examples
+Date: Thu,  2 Jul 2020 17:49:37 +0200
+Message-Id: <20200702155000.3455325-22-armbru@redhat.com>
 In-Reply-To: <20200702155000.3455325-1-armbru@redhat.com>
 References: <20200702155000.3455325-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,38 +91,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/parallels.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ include/qom/object.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 32d0ecd398..e0ec819550 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -843,6 +843,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-                                        &local_err);
-     g_free(buf);
-     if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-         goto fail_options;
-     }
- 
-@@ -873,15 +874,11 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
- 
- fail_format:
-     error_setg(errp, "Image not in Parallels format");
-+fail_options:
-     ret = -EINVAL;
- fail:
-     qemu_vfree(s->header);
-     return ret;
--
--fail_options:
--    error_propagate(errp, local_err);
--    ret = -EINVAL;
--    goto fail;
- }
- 
- 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 94a61ccc3f..b70edd8cd9 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -671,8 +671,7 @@ Object *object_new(const char *typename);
+  *                               NULL);
+  *
+  *   if (!obj) {
+- *     g_printerr("Cannot create memory backend: %s\n",
+- *                error_get_pretty(err));
++ *     error_reportf_err(err, "Cannot create memory backend: ");
+  *   }
+  *   </programlisting>
+  * </example>
+@@ -739,8 +738,7 @@ void object_apply_compat_props(Object *obj);
+  *                          NULL);
+  *
+  *   if (!obj) {
+- *     g_printerr("Cannot set properties: %s\n",
+- *                error_get_pretty(err));
++ *     error_reportf_err(err, "Cannot set properties: ");
+  *   }
+  *   </programlisting>
+  * </example>
 -- 
 2.26.2
 
