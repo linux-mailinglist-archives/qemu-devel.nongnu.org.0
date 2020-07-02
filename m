@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89F8212903
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:08:02 +0200 (CEST)
-Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA8D2128F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:05:57 +0200 (CEST)
+Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1kn-0004fS-LT
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50176)
+	id 1jr1im-0000Ag-Cx
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tx-0000XT-UM
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51312
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1U6-0000vR-KF
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58304
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tf-0004qz-5D
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tg-0004rK-BC
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593705010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zVG7VoUjkJhozxgY3TQCtccuURNWMA+C2y5XufrHC2M=;
- b=PAZVQ/8PuW+4eWMf/5ic59nm72CG6B2FFZH988EmBqOhNkYwYaQ2Vk2nbNR09NTl5c8KnQ
- ET4LN1Ka1rapXFCeuqAW+thJz8A7fX4k7FrBB6gGBaKNQCHAR0P8x5eIAqE32pn63CzCZR
- dDQOWQrR2Wmye9wO7UwTphI32q4vjuw=
+ bh=2jsSwk8vh+inZZItyupqm9ldSmr0W9r5KON8Yzfkf70=;
+ b=Oi31MZLOe5YcP6LhQz2y2upZ0Co2GvcrD14+2bXF7GnJ9g/7n2Y5tJjO94P28BZ+FYDt7p
+ a4Nxi9qZ05lh0DhYH1hstVgDj/Qh5g1kWs7SFwnR3YPd//3QZ1fyG7cNE7Qomat4Phgabb
+ YAOXGIuU92IPX7iVa9MRsz0oWEoysZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390--kdpv1YzPt2ZBovwgNEK9w-1; Thu, 02 Jul 2020 11:50:06 -0400
-X-MC-Unique: -kdpv1YzPt2ZBovwgNEK9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-316-Y7w2y81uNEWjsJEyloKH9A-1; Thu, 02 Jul 2020 11:50:09 -0400
+X-MC-Unique: Y7w2y81uNEWjsJEyloKH9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFF7A107ACF5;
- Thu,  2 Jul 2020 15:50:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13B8818FE875;
+ Thu,  2 Jul 2020 15:50:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73FFE2B5B7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA58B18A56;
  Thu,  2 Jul 2020 15:50:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CE06E11358D1; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
+ id D28EE11358D7; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/44] qapi: Use returned bool to check for failure,
- manual part
-Date: Thu,  2 Jul 2020 17:49:34 +0200
-Message-Id: <20200702155000.3455325-19-armbru@redhat.com>
+Subject: [PATCH v2 19/44] block/parallels: Simplify parallels_open() after
+ previous commit
+Date: Thu,  2 Jul 2020 17:49:35 +0200
+Message-Id: <20200702155000.3455325-20-armbru@redhat.com>
 In-Reply-To: <20200702155000.3455325-1-armbru@redhat.com>
 References: <20200702155000.3455325-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,259 +88,41 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous commit used Coccinelle to convert from checking the Error
-object to checking the return value.  Convert a few more manually.
-Also tweak control flow in places to conform to the conventional "if
-error bail out" pattern.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- accel/kvm/kvm-all.c       | 50 ++++++++++++++++++---------------------
- block/throttle-groups.c   |  5 ++--
- bootdevice.c              |  4 ++--
- hw/core/qdev-properties.c | 12 +++++-----
- hw/ide/qdev.c             |  4 ++--
- hw/mem/nvdimm.c           |  9 +++----
- hw/net/ne2000-isa.c       |  4 ++--
- hw/usb/dev-storage.c      |  4 ++--
- net/net.c                 |  8 ++-----
- 9 files changed, 44 insertions(+), 56 deletions(-)
+ block/parallels.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 397669231d..83f03b2018 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3128,37 +3128,33 @@ static void kvm_set_kernel_irqchip(Object *obj, Visitor *v,
-                                    const char *name, void *opaque,
-                                    Error **errp)
- {
--    Error *err = NULL;
-     KVMState *s = KVM_STATE(obj);
-     OnOffSplit mode;
- 
--    visit_type_OnOffSplit(v, name, &mode, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!visit_type_OnOffSplit(v, name, &mode, errp)) {
-         return;
--    } else {
--        switch (mode) {
--        case ON_OFF_SPLIT_ON:
--            s->kernel_irqchip_allowed = true;
--            s->kernel_irqchip_required = true;
--            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
--            break;
--        case ON_OFF_SPLIT_OFF:
--            s->kernel_irqchip_allowed = false;
--            s->kernel_irqchip_required = false;
--            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
--            break;
--        case ON_OFF_SPLIT_SPLIT:
--            s->kernel_irqchip_allowed = true;
--            s->kernel_irqchip_required = true;
--            s->kernel_irqchip_split = ON_OFF_AUTO_ON;
--            break;
--        default:
--            /* The value was checked in visit_type_OnOffSplit() above. If
--             * we get here, then something is wrong in QEMU.
--             */
--            abort();
--        }
-+    }
-+    switch (mode) {
-+    case ON_OFF_SPLIT_ON:
-+        s->kernel_irqchip_allowed = true;
-+        s->kernel_irqchip_required = true;
-+        s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
-+        break;
-+    case ON_OFF_SPLIT_OFF:
-+        s->kernel_irqchip_allowed = false;
-+        s->kernel_irqchip_required = false;
-+        s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
-+        break;
-+    case ON_OFF_SPLIT_SPLIT:
-+        s->kernel_irqchip_allowed = true;
-+        s->kernel_irqchip_required = true;
-+        s->kernel_irqchip_split = ON_OFF_AUTO_ON;
-+        break;
-+    default:
-+        /* The value was checked in visit_type_OnOffSplit() above. If
-+         * we get here, then something is wrong in QEMU.
-+         */
-+        abort();
-     }
- }
- 
-diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-index bb242fde1a..e411051160 100644
---- a/block/throttle-groups.c
-+++ b/block/throttle-groups.c
-@@ -895,8 +895,8 @@ static void throttle_group_set_limits(Object *obj, Visitor *v,
-     ThrottleLimits *argp;
-     Error *local_err = NULL;
- 
--    if (!visit_type_ThrottleLimits(v, name, &argp, &local_err)) {
--        goto ret;
-+    if (!visit_type_ThrottleLimits(v, name, &argp, errp)) {
-+        return;
-     }
-     qemu_mutex_lock(&tg->lock);
-     throttle_get_config(&tg->ts, &cfg);
-@@ -908,7 +908,6 @@ static void throttle_group_set_limits(Object *obj, Visitor *v,
- 
- unlock:
-     qemu_mutex_unlock(&tg->lock);
--ret:
-     qapi_free_ThrottleLimits(argp);
-     error_propagate(errp, local_err);
-     return;
-diff --git a/bootdevice.c b/bootdevice.c
-index fb09d3c668..769f40c77d 100644
---- a/bootdevice.c
-+++ b/bootdevice.c
-@@ -297,8 +297,8 @@ static void device_set_bootindex(Object *obj, Visitor *v, const char *name,
-     int32_t boot_index;
-     Error *local_err = NULL;
- 
--    if (!visit_type_int32(v, name, &boot_index, &local_err)) {
--        goto out;
-+    if (!visit_type_int32(v, name, &boot_index, errp)) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
-     check_boot_index(boot_index, &local_err);
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index c1a0f910d8..e4dd9ff6b2 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -672,15 +672,15 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
-     if (!visit_type_str(v, name, &str, &local_err)) {
-         error_free(local_err);
-         local_err = NULL;
--        visit_type_int32(v, name, &value, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--        } else if (value < -1 || value > 255) {
-+        if (!visit_type_int32(v, name, &value, errp)) {
-+            return;
-+        }
-+        if (value < -1 || value > 255) {
-             error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                        name ? name : "null", "pci_devfn");
--        } else {
--            *ptr = value;
-+            return;
-         }
-+        *ptr = value;
-         return;
+diff --git a/block/parallels.c b/block/parallels.c
+index 32d0ecd398..e0ec819550 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -843,6 +843,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+                                        &local_err);
+     g_free(buf);
+     if (local_err != NULL) {
++        error_propagate(errp, local_err);
+         goto fail_options;
      }
  
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 358f10a92e..ba8b0d7f02 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -245,8 +245,8 @@ static void ide_dev_set_bootindex(Object *obj, Visitor *v, const char *name,
-     int32_t boot_index;
-     Error *local_err = NULL;
+@@ -873,15 +874,11 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
  
--    if (!visit_type_int32(v, name, &boot_index, &local_err)) {
--        goto out;
-+    if (!visit_type_int32(v, name, &boot_index, errp)) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
-     check_boot_index(boot_index, &local_err);
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index ec92ffd415..1fa976c56c 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -85,21 +85,18 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
-                                   void *opaque, Error **errp)
- {
-     NVDIMMDevice *nvdimm = NVDIMM(obj);
--    Error *local_err = NULL;
-     char *value;
- 
--    if (!visit_type_str(v, name, &value, &local_err)) {
--        goto out;
-+    if (!visit_type_str(v, name, &value, errp)) {
-+        return;
-     }
- 
-     if (qemu_uuid_parse(value, &nvdimm->uuid) != 0) {
-         error_setg(errp, "Property '%s.%s' has invalid value",
-                    object_get_typename(obj), name);
-     }
--    g_free(value);
- 
--out:
--    error_propagate(errp, local_err);
-+    g_free(value);
- }
- 
- 
-diff --git a/hw/net/ne2000-isa.c b/hw/net/ne2000-isa.c
-index 765bcd1f0b..0594abd93a 100644
---- a/hw/net/ne2000-isa.c
-+++ b/hw/net/ne2000-isa.c
-@@ -113,8 +113,8 @@ static void isa_ne2000_set_bootindex(Object *obj, Visitor *v,
-     int32_t boot_index;
-     Error *local_err = NULL;
- 
--    if (!visit_type_int32(v, name, &boot_index, &local_err)) {
--        goto out;
-+    if (!visit_type_int32(v, name, &boot_index, errp)) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
-     check_boot_index(boot_index, &local_err);
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index 1c3bd2578c..721665191e 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -736,8 +736,8 @@ static void usb_msd_set_bootindex(Object *obj, Visitor *v, const char *name,
-     int32_t boot_index;
-     Error *local_err = NULL;
- 
--    if (!visit_type_int32(v, name, &boot_index, &local_err)) {
--        goto out;
-+    if (!visit_type_int32(v, name, &boot_index, errp)) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
-     check_boot_index(boot_index, &local_err);
-diff --git a/net/net.c b/net/net.c
-index d1130296e1..e1f45d3b36 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1052,7 +1052,6 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
- {
-     gchar **substrings = NULL;
-     Netdev *object = NULL;
--    Error *err = NULL;
-     int ret = -1;
-     Visitor *v = opts_visitor_new(opts);
- 
-@@ -1100,16 +1099,13 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
-         qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i", idx++));
-     }
- 
--    visit_type_Netdev(v, NULL, &object, &err);
--
--    if (!err) {
--        ret = net_client_init1(object, is_netdev, &err);
-+    if (visit_type_Netdev(v, NULL, &object, errp)) {
-+        ret = net_client_init1(object, is_netdev, errp);
-     }
- 
-     qapi_free_Netdev(object);
- 
- out:
--    error_propagate(errp, err);
-     g_strfreev(substrings);
-     visit_free(v);
+ fail_format:
+     error_setg(errp, "Image not in Parallels format");
++fail_options:
+     ret = -EINVAL;
+ fail:
+     qemu_vfree(s->header);
      return ret;
+-
+-fail_options:
+-    error_propagate(errp, local_err);
+-    ret = -EINVAL;
+-    goto fail;
+ }
+ 
+ 
 -- 
 2.26.2
 
