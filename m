@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D5A212E72
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 23:03:00 +0200 (CEST)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B82212E91
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 23:15:02 +0200 (CEST)
+Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr6MF-0002Ev-Ak
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 17:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
+	id 1jr6Xt-0005AY-Dr
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 17:15:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jr6KB-0000R0-Rj
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 17:00:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jr6K9-0005Ux-B3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 17:00:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jr6K6-0007mk-I0
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 21:00:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 797E22E8105
- for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 21:00:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jr6WP-0003vI-KO; Thu, 02 Jul 2020 17:13:29 -0400
+Resent-Date: Thu, 02 Jul 2020 17:13:29 -0400
+Resent-Message-Id: <E1jr6WP-0003vI-KO@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jr6WN-0000uk-39; Thu, 02 Jul 2020 17:13:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593724387; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=e5of3gC/cxZ/hXkIEGBtZ8e7hqdoDdaAXbm2DAQ9XJztt3n7QaLrBVD+9MTuBL5kulZB/dYq3jAIovEW61si058Wl4z6qwoPNopI+n0wnrzm00sjRIaH95aZX61+cnAioEcZjyolCRe6juwGDI/VxFqkqR3qkZCrxJ2x27dY5m0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593724387;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=w+a8Pw91I1UOZ5GxctLrNvWgmp5OSU2mmYF720iIRxI=; 
+ b=hkOQx5lj7Rthv4bC6rDZbXXSOWZx1ExlFpvplZsQpRQAxgVdyHyye3VH1bFuewAf5LL/jg4Aw+IGw3V9l+M5plu4j3Z84zK4RUgxC5sJJcx+CQmZkhQOYfILWBZP0V+n4St1X0IdWAh6sljVAaKuxTQtT5mYRFldb4N8dtf2Qwo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com
+ with SMTPS id 1593724384195666.5795675517; Thu, 2 Jul 2020 14:13:04 -0700 (PDT)
+Message-ID: <159372438232.6600.12918627416292361124@d1fd068a5071>
+Subject: Re: [PATCH v4 00/21] microvm: add acpi support
+In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jul 2020 20:50:41 -0000
-From: Langston <1886097@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0
-X-Launchpad-Bug-Reporter: Langston (langston0)
-X-Launchpad-Bug-Modifier: Langston (langston0)
-Message-Id: <159372304166.1717.6838286421660212766.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1886097] [NEW] Error in user-mode calculation of ELF program's
- brk
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0a7b469dcc9633fadc6668fb960911ab79dead0d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 16:30:48
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Thu, 2 Jul 2020 14:13:04 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:03:03
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,131 +67,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886097 <1886097@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ ehabkost@redhat.com, slp@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, kraxel@redhat.com,
+ imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-There's a discrepancy between the way QEMU user-mode and Linux calculate
-the initial program break for statically-linked binaries. I have a
-binary with the following segments:
-
-  Program Headers:
-    Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-    EXIDX          0x065a14 0x00075a14 0x00075a14 0x00588 0x00588 R   0x4
-    PHDR           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1000
-    LOAD           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1000
-    LOAD           0x000000 0x00010000 0x00010000 0x65fa0 0x65fa0 R E 0x100=
-00
-    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
-00
-    NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-    TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-    GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-    GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-    LOAD           0x07e000 0x00089000 0x00089000 0x03ff4 0x03ff4 R E 0x1000
-    LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1000
-
-The call to set_brk in Linux's binfmt_elf.c receives these arguments:
-
-  set_brk(0xa3160, 0xa3160, 1)
-  =
-
-Whereas in QEMU, info->brk gets set to 0x88f00. When the binary is run in Q=
-EMU, it crashes on the second call to brk, whereas it runs fine on real ARM=
- hardware. I think the trouble is that the program break is set to an addre=
-ss lower than the virtual address of a LOAD segment (the program headers, i=
-n this case).
-
-I believe that this discrepancy arises because in QEMU, info->brk is
-only incremented when the LOAD segment in question has PROT_WRITE. For
-this binary, the LOAD segment with write permissions and the highest
-virtual address is
-
-  LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x10000
-    =
-
-which overlaps with the TLS segment:
-
-    TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-    =
-
-However, the Linux kernel puts the program break after the loadable segment=
- with the highest virtual address, regardless of flags. So I think the fix =
-is for QEMU to do the same.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886097
-
-Title:
-  Error in user-mode calculation of ELF program's brk
-
-Status in QEMU:
-  New
-
-Bug description:
-  There's a discrepancy between the way QEMU user-mode and Linux
-  calculate the initial program break for statically-linked binaries. I
-  have a binary with the following segments:
-
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065a14 0x00075a14 0x00075a14 0x00588 0x00588 R   0x4
-      PHDR           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65fa0 0x65fa0 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03ff4 0x03ff4 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
-
-  The call to set_brk in Linux's binfmt_elf.c receives these arguments:
-
-    set_brk(0xa3160, 0xa3160, 1)
-    =
-
-  Whereas in QEMU, info->brk gets set to 0x88f00. When the binary is run in=
- QEMU, it crashes on the second call to brk, whereas it runs fine on real A=
-RM hardware. I think the trouble is that the program break is set to an add=
-ress lower than the virtual address of a LOAD segment (the program headers,=
- in this case).
-
-  I believe that this discrepancy arises because in QEMU, info->brk is
-  only incremented when the LOAD segment in question has PROT_WRITE. For
-  this binary, the LOAD segment with write permissions and the highest
-  virtual address is
-
-    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
-00
-      =
-
-  which overlaps with the TLS segment:
-
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      =
-
-  However, the Linux kernel puts the program break after the loadable segme=
-nt with the highest virtual address, regardless of flags. So I think the fi=
-x is for QEMU to do the same.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886097/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMjIwNDg1OS45ODc2
+LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2NCAwMC8yMV0gbWljcm92bTogYWRkIGFjcGkgc3Vw
+cG9ydApUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA3MDIyMDQ4NTkuOTg3Ni0xLWtyYXhl
+bEByZWRoYXQuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
+ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
+YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBo
+dHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAg
+ICAgcGF0Y2hldy8yMDIwMDcwMjIwNDg1OS45ODc2LTEta3JheGVsQHJlZGhhdC5jb20gLT4gcGF0
+Y2hldy8yMDIwMDcwMjIwNDg1OS45ODc2LTEta3JheGVsQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0Jwo2ZDVlYjk0IHRlc3RzL2FjcGk6IHVwZGF0ZSBleHBlY3RlZCBk
+YXRhIGZpbGVzIGZvciBtaWNyb3ZtCmJjNDU3OTEgdGVzdHMvYWNwaTogYWRkIG1pY3Jvdm0gdGVz
+dApjNGIxZTEyIHRlc3RzL2FjcGk6IGFsbG93IG92ZXJyaWRlIGJsa2RldgphZmI0NGYyIHRlc3Rz
+L2FjcGk6IGFsbG93IG1pY3Jvdm0gdGVzdCBkYXRhIHVwZGF0ZXMuCmVmMzU2YmQgdGVzdHMvYWNw
+aTogY2xlYXIgYmlvcy10YWJsZXMtdGVzdC1hbGxvd2VkLWRpZmYuaApiODBhYTcwIG1pY3Jvdm06
+IHdpcmUgdXAgaG90cGx1Zwo4ZjgwZDc2IHg4NjogbW92ZSBjcHUgcGx1ZyBmcm9tIHBjIHRvIHg4
+NgplM2Q2ODlkIHg4NjogbW92ZSBhY3BpX2RldiBmcm9tIHBjL21pY3Jvdm0KMmNhNTEzZSB4ODY6
+IGNvbnN0aWZ5IHg4Nl9tYWNoaW5lX2lzXypfZW5hYmxlZApkZmYzMjg2IG1pY3Jvdm0vYWNwaTog
+ZGlzYWJsZSB2aXJ0aW8tbW1pbyBjbWRsaW5lIGhhY2sKZWUyYjMwZiBtaWNyb3ZtL2FjcGk6IHVz
+ZSBzZWFiaW9zIHdpdGggYWNwaT1vbgplYzBmZWZhIG1pY3Jvdm0vYWNwaTogdXNlIEdTSSAxNi0y
+MyBmb3IgdmlydGlvCjM1YTU1OTUgbWljcm92bS9hY3BpOiBhZGQgYWNwaV9kc2R0X2FkZF92aXJ0
+aW8oKSBmb3IgeDg2CmVmNTJmMzggbWljcm92bS9hY3BpOiBhZGQgbWluaW1hbCBhY3BpIHN1cHBv
+cnQKOWM1YzFhMyBtaWNyb3ZtOiBtYWtlIHZpcnRpbyBpcnEgYmFzZSBydW50aW1lIGNvbmZpZ3Vy
+YWJsZQpkZmJiYTk1IGFjcGk6IG1vdmUgYWNwaV9kc2R0X2FkZF9wb3dlcl9idXR0b24oKSB0byBn
+ZWQKOTM1MDMxNCBhY3BpOiBnZWQ6IGFkZCB4ODYgZGV2aWNlIHZhcmlhbnQuCjdlN2NiYWEgYWNw
+aTogZ2VkOiBhZGQgY29udHJvbCByZWdzCjBkNmQyZGQgc2VhYmlvczogYWRkIGJpb3MtbWljcm92
+bS5iaW4gYmluYXJ5CmY4NDc0MDEgc2VhYmlvczogYWRkIG1pY3Jvdm0gY29uZmlnLCB1cGRhdGUg
+YnVpbGQgcnVsZXMKMWFhNGU3NiBtaWNyb3ZtOiBuYW1lIHFib290IGJpbmFyeSBxYm9vdC5yb20K
+Cj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjEgQ2hlY2tpbmcgY29tbWl0IDFhYTRlNzY3ODU2ZSAo
+bWljcm92bTogbmFtZSBxYm9vdCBiaW5hcnkgcWJvb3Qucm9tKQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMz
+NjogCnJlbmFtZSBmcm9tIHBjLWJpb3MvYmlvcy1taWNyb3ZtLmJpbgoKdG90YWw6IDAgZXJyb3Jz
+LCAxIHdhcm5pbmdzLCAzNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzIxIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjIvMjEgQ2hlY2tpbmcgY29tbWl0IGY4NDc0MDE4M2I3YyAoc2VhYmlvczog
+YWRkIG1pY3Jvdm0gY29uZmlnLCB1cGRhdGUgYnVpbGQgcnVsZXMpCldBUk5JTkc6IGFkZGVkLCBt
+b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
+IzI5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
+MzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoz
+LzIxIENoZWNraW5nIGNvbW1pdCAwZDZkMmRkYzM4MTUgKHNlYWJpb3M6IGFkZCBiaW9zLW1pY3Jv
+dm0uYmluIGJpbmFyeSkKNC8yMSBDaGVja2luZyBjb21taXQgN2U3Y2JhYTFjZjJhIChhY3BpOiBn
+ZWQ6IGFkZCBjb250cm9sIHJlZ3MpCjUvMjEgQ2hlY2tpbmcgY29tbWl0IDkzNTAzMTRhOGM2MiAo
+YWNwaTogZ2VkOiBhZGQgeDg2IGRldmljZSB2YXJpYW50LikKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjU6
+IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1MSBs
+aW5lcyBjaGVja2VkCgpQYXRjaCA1LzIxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvMjEg
+Q2hlY2tpbmcgY29tbWl0IGRmYmJhOTU2ZDFiYyAoYWNwaTogbW92ZSBhY3BpX2RzZHRfYWRkX3Bv
+d2VyX2J1dHRvbigpIHRvIGdlZCkKNy8yMSBDaGVja2luZyBjb21taXQgOWM1YzFhMzRlZmM3ICht
+aWNyb3ZtOiBtYWtlIHZpcnRpbyBpcnEgYmFzZSBydW50aW1lIGNvbmZpZ3VyYWJsZSkKOC8yMSBD
+aGVja2luZyBjb21taXQgZWY1MmYzOGVmYjExIChtaWNyb3ZtL2FjcGk6IGFkZCBtaW5pbWFsIGFj
+cGkgc3VwcG9ydCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9l
+cyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzQ6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxp
+bmUKIzM5OiBGSUxFOiBody9pMzg2L2FjcGktbWljcm92bS5jOjE6CisvKiBTdXBwb3J0IGZvciBn
+ZW5lcmF0aW5nIEFDUEkgdGFibGVzIGFuZCBwYXNzaW5nIHRoZW0gdG8gR3Vlc3RzCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTUw
+OiBGSUxFOiBody9pMzg2L2FjcGktbWljcm92bS5jOjExMjoKKyAgICB0YWJsZV9vZmZzZXRzID0g
+Z19hcnJheV9uZXcoZmFsc2UsIHRydWUgLyogY2xlYXIgKi8sCgpXQVJOSU5HOiBCbG9jayBjb21t
+ZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTU0OiBGSUxFOiBody9p
+Mzg2L2FjcGktbWljcm92bS5jOjExNjoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNjQg
+LyogRW5zdXJlIEZBQ1MgaXMgYWxpZ25lZCAqLywKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
+ZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNTU6IEZJTEU6IGh3L2kzODYvYWNw
+aS1taWNyb3ZtLmM6MTE3OgorICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYWxzZSAvKiBo
+aWdoIG1lbW9yeSAqLyk7Cgp0b3RhbDogMCBlcnJvcnMsIDUgd2FybmluZ3MsIDI5NyBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA4LzIxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjkvMjEgQ2hlY2tp
+bmcgY29tbWl0IDM1YTU1OTU2YzM2NSAobWljcm92bS9hY3BpOiBhZGQgYWNwaV9kc2R0X2FkZF92
+aXJ0aW8oKSBmb3IgeDg2KQoxMC8yMSBDaGVja2luZyBjb21taXQgZWMwZmVmYTkzNTFkIChtaWNy
+b3ZtL2FjcGk6IHVzZSBHU0kgMTYtMjMgZm9yIHZpcnRpbykKMTEvMjEgQ2hlY2tpbmcgY29tbWl0
+IGVlMmIzMGYxZDgyOSAobWljcm92bS9hY3BpOiB1c2Ugc2VhYmlvcyB3aXRoIGFjcGk9b24pCjEy
+LzIxIENoZWNraW5nIGNvbW1pdCBkZmYzMjg2YmY0YTQgKG1pY3Jvdm0vYWNwaTogZGlzYWJsZSB2
+aXJ0aW8tbW1pbyBjbWRsaW5lIGhhY2spCjEzLzIxIENoZWNraW5nIGNvbW1pdCAyY2E1MTNlYTU0
+MDcgKHg4NjogY29uc3RpZnkgeDg2X21hY2hpbmVfaXNfKl9lbmFibGVkKQoxNC8yMSBDaGVja2lu
+ZyBjb21taXQgZTNkNjg5ZDkzZWUwICh4ODY6IG1vdmUgYWNwaV9kZXYgZnJvbSBwYy9taWNyb3Zt
+KQoxNS8yMSBDaGVja2luZyBjb21taXQgOGY4MGQ3NjhkZWE0ICh4ODY6IG1vdmUgY3B1IHBsdWcg
+ZnJvbSBwYyB0byB4ODYpCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFy
+ZW50aGVzaXMgJygnCiMzNDQ6IEZJTEU6IGh3L2kzODYveDg2LmM6MTg3OgorICAgIGlmKCFvYmpl
+Y3RfZHluYW1pY19jYXN0KE9CSkVDVChjcHUpLCBtcy0+Y3B1X3R5cGUpKSB7CgpXQVJOSU5HOiBC
+bG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNDMxOiBG
+SUxFOiBody9pMzg2L3g4Ni5jOjI3NDoKKyAgICAvKiBpZiAnYWRkcmVzcycgcHJvcGVydGllcyBz
+b2NrZXQtaWQvY29yZS1pZC90aHJlYWQtaWQgYXJlIG5vdCBzZXQsIHNldCB0aGVtCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNDM0
+OiBGSUxFOiBody9pMzg2L3g4Ni5jOjI3NzoKKyAgICAvKiBUT0RPOiBtb3ZlIHNvY2tldF9pZC9j
+b3JlX2lkL3RocmVhZF9pZCBjaGVja3MgaW50byB4ODZfY3B1X3JlYWxpemVmbigpCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzQz
+NjogRklMRTogaHcvaTM4Ni94ODYuYzoyNzk6CisgICAgICogQ1BVU3RhdGU6Om5yX2NvcmVzIGFu
+ZCBDUFVTdGF0ZTo6bnJfdGhyZWFkcyBmaWVsZHMgaW5zdGVhZCBvZiBnbG9iYWxzICovCgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQoj
+NDg0OiBGSUxFOiBody9pMzg2L3g4Ni5jOjMyNzoKKyAgICAgICAgLyogSWYgdGhlIG51bWJlciBv
+ZiBDUFVzIGNhbid0IGJlIHJlcHJlc2VudGVkIGluIDggYml0cywgdGhlCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNTAyOiBGSUxF
+OiBody9pMzg2L3g4Ni5jOjM0NToKKy8qIHJldHVybnMgcG9pbnRlciB0byBDUFVBcmNoSWQgZGVz
+Y3JpcHRvciB0aGF0IG1hdGNoZXMgQ1BVJ3MgYXBpY19pZAoKdG90YWw6IDEgZXJyb3JzLCA1IHdh
+cm5pbmdzLCA1MzMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTUvMjEgaGFzIHN0eWxlIHByb2JsZW1z
+LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
+dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
+VEFJTkVSUy4KCjE2LzIxIENoZWNraW5nIGNvbW1pdCBiODBhYTcwZTM3NGYgKG1pY3Jvdm06IHdp
+cmUgdXAgaG90cGx1ZykKMTcvMjEgQ2hlY2tpbmcgY29tbWl0IGVmMzU2YmQxZmI0NyAodGVzdHMv
+YWNwaTogY2xlYXIgYmlvcy10YWJsZXMtdGVzdC1hbGxvd2VkLWRpZmYuaCkKMTgvMjEgQ2hlY2tp
+bmcgY29tbWl0IGFmYjQ0ZjJkODUwYiAodGVzdHMvYWNwaTogYWxsb3cgbWljcm92bSB0ZXN0IGRh
+dGEgdXBkYXRlcy4pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzEzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
+CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOC8y
+MSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
+b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
+ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOS8yMSBDaGVja2luZyBjb21taXQgYzRiMWUx
+MjVmYzBlICh0ZXN0cy9hY3BpOiBhbGxvdyBvdmVycmlkZSBibGtkZXYpCjIwLzIxIENoZWNraW5n
+IGNvbW1pdCBiYzQ1NzkxNGNiOWMgKHRlc3RzL2FjcGk6IGFkZCBtaWNyb3ZtIHRlc3QpCjIxLzIx
+IENoZWNraW5nIGNvbW1pdCA2ZDVlYjk0NjlhOTcgKHRlc3RzL2FjcGk6IHVwZGF0ZSBleHBlY3Rl
+ZCBkYXRhIGZpbGVzIGZvciBtaWNyb3ZtKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
+ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcwMjIwNDg1OS45ODc2LTEta3JheGVsQHJlZGhhdC5j
+b20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
+YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
+ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
