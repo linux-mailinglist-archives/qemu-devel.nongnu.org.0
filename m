@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257F021220A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:20:43 +0200 (CEST)
-Received: from localhost ([::1]:39962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C31F5212225
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:24:30 +0200 (CEST)
+Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxGk-0007N0-4L
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52806)
+	id 1jqxKP-0006MT-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6L-00074J-7t
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58529
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6K-00072e-ON
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33722
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-00012J-Ph
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-00012M-P3
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593688185;
@@ -24,44 +24,44 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t1GR0ixVD9uqNsP4kZ/FaDMRsVEiVQaiQWTM3B/0mq4=;
- b=HNKbQ94kTKFWEKjAd4JpXdU1RhR9OF8Uf0ducwcXVKlvmHF5tHOxEBdDEdpqb+vn9wcVpK
- 68bdzHd9mj5GFOwA1Azl10Y9dKX/3tq+Gg2bQboZpt1YllBrr1XQHT7piV3SFgkfS/R4+Y
- XcmXvjssGocRaohcDBqpkFxCtmYqpV0=
+ bh=uas3PeA/1eIG0i3Ut0IsXO+OgvTsxFM2A6B+Jkzvi8E=;
+ b=ecIAkJ5dtjsnV45jvagvxim6EOhwxsEW9AwscE29yeMBIu/e1BlqlQXjMpUpsT5oUsTcKf
+ mr7Rzjwiq8R0gSVlnA5LsQpaO2ESVWuzw5fPFu2kIJkb5YWgfu0/NrH5yBaorQ3T4cmpKM
+ N/UK/Q/uhTo2ClFLfMv2BdPl249iUS4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-ls6xfXuDNDufZbrCZ5Ti9A-1; Thu, 02 Jul 2020 07:09:40 -0400
-X-MC-Unique: ls6xfXuDNDufZbrCZ5Ti9A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-255-WKGrGU64Mk6lofSGMqiw8g-1; Thu, 02 Jul 2020 07:09:40 -0400
+X-MC-Unique: WKGrGU64Mk6lofSGMqiw8g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74E0D80183C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 520D8107ACCA;
  Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20E8760CD3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2412410027AC;
  Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3AF211138485; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
+ id 45DFC1138486; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/28] aspeed: Fix realize error API violation
-Date: Thu,  2 Jul 2020 13:09:28 +0200
-Message-Id: <20200702110931.2953148-26-armbru@redhat.com>
+Subject: [PULL 26/28] hw/arm/armsse: Fix armsse_realize() error API violation
+Date: Thu,  2 Jul 2020 13:09:29 +0200
+Message-Id: <20200702110931.2953148-27-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,10 +82,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,73 +93,44 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-aspeed_soc_ast2600_realize() and aspeed_soc_realize() are wrong that
-way: they pass &err to object_property_set_int() and
-object_property_set_bool() without checking it, and then to
-sysbus_realize().  Harmless, because the former can't actually fail
+armsse_realize() is wrong that way: it passes &err to
+object_property_set_int() multiple times without checking it, and then
+to sysbus_realize().  Harmless, because the former can't actually fail
 here.
 
 Fix by passing &error_abort instead.
 
-Cc: "Cédric Le Goater" <clg@kaod.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Joel Stanley <joel@jms.id.au>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-24-armbru@redhat.com>
+Message-Id: <20200630090351.1247703-25-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/aspeed_ast2600.c | 5 +++--
- hw/arm/aspeed_soc.c     | 5 +++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/arm/armsse.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 4efac02e2b..59a7a1370b 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -383,7 +383,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < sc->spis_num; i++) {
-         object_property_set_link(OBJECT(&s->spi[i]), OBJECT(s->dram_mr),
-                                  "dram", &error_abort);
--        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
-+        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs",
-+                                &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-@@ -434,7 +435,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     /* Net */
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
--                                 &err);
-+                                 &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 03b91bade6..311458aa76 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -333,7 +333,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* SPI */
-     for (i = 0; i < sc->spis_num; i++) {
--        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
-+        object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs",
-+                                &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-@@ -384,7 +385,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     /* Net */
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
--                                 &err);
-+                                 &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index a851652b39..2fbd970b4f 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -990,13 +990,13 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysinfo), 0, 0x40020000);
+     /* System control registers */
+     object_property_set_int(OBJECT(&s->sysctl), info->sys_version,
+-                            "SYS_VERSION", &err);
++                            "SYS_VERSION", &error_abort);
+     object_property_set_int(OBJECT(&s->sysctl), info->cpuwait_rst,
+-                            "CPUWAIT_RST", &err);
++                            "CPUWAIT_RST", &error_abort);
+     object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
+-                            "INITSVTOR0_RST", &err);
++                            "INITSVTOR0_RST", &error_abort);
+     object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
+-                            "INITSVTOR1_RST", &err);
++                            "INITSVTOR1_RST", &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->sysctl), &err);
+     if (err) {
+         error_propagate(errp, err);
 -- 
 2.26.2
 
