@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D8E212BE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 20:06:49 +0200 (CEST)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B37212BEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 20:07:57 +0200 (CEST)
+Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3bk-0003Ry-Ay
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 14:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55972)
+	id 1jr3cq-0004ON-DI
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 14:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr3XV-0007sA-4D
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 14:02:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28662
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr3bx-0003wZ-Vz
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 14:07:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46976
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr3XT-0004sT-Ab
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 14:02:24 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr3bv-0005wN-VB
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 14:07:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593712942;
+ s=mimecast20190719; t=1593713218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FH13+T4SqJQVOHhM1HQAJZY1S4b2ABkvFWnofpmrYww=;
- b=SoPZb6/OLJy1IVyA3kgVR9O6pdaSqL9zSBZKsSR3kHjaxRHdeMVpZHJMUyqhIjgBm6HPtu
- qCG7g8QOaeZO2VfJ8SZ2Qy/x8kwAw+7JaNlOK5u54HCqLgHHsePdE1Bas2hvc9Ojwt+GlL
- Ol1F0xIcipi8uqlnsiCZy1Pz+KoRg/s=
+ bh=cfYHqJAZOT6eVg4OasYslhkmhaOwcE6CkZsCGWHsqIo=;
+ b=MG4OSjNw8iRqBvpLTbUKDt00IOWzG86mMoi9HBo5QGW5sSf9gm0sa9bGxTExGa/ZO7NpXk
+ rWnynAygPncrxjYYP55Hb5LcXicTpy+Z24ZZFFtoqc+0A6jKKD6zGBHTzY4T0ZoCcXFKOf
+ MNnhaGWN/Z4R40nWjjXr+fgeRiVmuzM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-JzynlPZ2M-iNKpkC0rMdlQ-1; Thu, 02 Jul 2020 14:02:15 -0400
-X-MC-Unique: JzynlPZ2M-iNKpkC0rMdlQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-170-mH66x2NLObm74jppuyiSzQ-1; Thu, 02 Jul 2020 14:06:57 -0400
+X-MC-Unique: mH66x2NLObm74jppuyiSzQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62566804001;
- Thu,  2 Jul 2020 18:02:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEB8064AD6;
+ Thu,  2 Jul 2020 18:06:55 +0000 (UTC)
 Received: from [10.3.112.202] (ovpn-112-202.phx2.redhat.com [10.3.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C61AC7925C;
- Thu,  2 Jul 2020 18:02:13 +0000 (UTC)
-Subject: Re: [PATCH v2 34/44] error: Eliminate error_propagate() with
- Coccinelle, part 1
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E2BC77899;
+ Thu,  2 Jul 2020 18:06:55 +0000 (UTC)
+Subject: Re: [PATCH v2 35/44] error: Eliminate error_propagate() with
+ Coccinelle, part 2
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200702155000.3455325-1-armbru@redhat.com>
- <20200702155000.3455325-35-armbru@redhat.com>
+ <20200702155000.3455325-36-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <051702cf-dbc9-67ca-2ff2-3cf8d9eb9ed3@redhat.com>
-Date: Thu, 2 Jul 2020 13:02:13 -0500
+Message-ID: <cb3ec58e-8eb3-510b-92a3-71f6e19151bf@redhat.com>
+Date: Thu, 2 Jul 2020 13:06:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200702155000.3455325-35-armbru@redhat.com>
+In-Reply-To: <20200702155000.3455325-36-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -72,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,67 +93,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/2/20 10:49 AM, Markus Armbruster wrote:
 > When all we do with an Error we receive into a local variable is
 > propagating to somewhere else, we can just as well receive it there
-> right away.  Convert
+> right away.  The previous commit did that with a Coccinelle script I
+> consider fairly trustworthy.  This commit uses the same script with
+> the matching of return taken out, i.e. we convert
 > 
 >      if (!foo(..., &err)) {
->          ...
->          error_propagate(errp, err);
->          ...
->          return ...
+> 	...
+> 	error_propagate(errp, err);
+> 	...
 >      }
 > 
 > to
 > 
 >      if (!foo(..., errp)) {
->          ...
->          ...
->          return ...
+> 	...
+> 	...
 >      }
 > 
-
+> This is unsound: @err could still be read between afterwards.  I don't
+> know how to express "no read of @err without an intervening write" in
+> Coccinelle.  Instead, I manually double-checked for uses of @err.
 > 
-> Not exactly elegant, I'm afraid.
-
-True, but it is still reasonable enough to use.
-
-> 
-> The "when != goto lbl;" is necessary to avoid transforming
-
-spelled "when != lbl:" above in rule1 and rule2
-
-> 
->           if (fun(args, &err)) {
->               goto out
->           }
->           ...
->       out:
->           error_propagate(errp, err);
-> 
-> even though other paths to label out still need the error_propagate().
-> For an actual example, see sclp_realize().
-> 
-> Without the "when strict", Coccinelle transforms vfio_msix_setup(),
-> incorrectly.  I don't know what exactly "when strict" does, only that
-> it helps here.
-> 
-> The match of return is narrower than what I want, but I can't figure
-> out how to express "return where the operand doesn't use @err".  For
-> an example where it's too narrow, see vfio_intx_enable().
-> 
-> Silently fails to convert hw/arm/armsse.c, because Coccinelle gets
-> confused by ARMSSE being used both as typedef and function-like macro
-> there.  Converted manually.
-> 
-> Line breaks tidied up manually.  One nested declaration of @local_err
-> deleted manually.  Preexisting unwanted blank line dropped in
-> hw/riscv/sifive_e.c.
+> Suboptimal line breaks tweaked manually.  qdev_realize() simplified
+> further to placate scripts/checkpatch.pl.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
+>   block.c              |  6 ++----
+>   block/blkdebug.c     |  7 ++-----
+>   block/blklogwrites.c |  3 +--
+>   block/blkverify.c    |  3 +--
+>   block/crypto.c       |  4 +---
+>   block/file-posix.c   |  6 ++----
+>   block/file-win32.c   |  6 ++----
+>   block/gluster.c      |  4 +---
+>   block/iscsi.c        |  3 +--
+>   block/nbd.c          |  8 ++------
+>   block/qcow2.c        | 13 ++++---------
+>   block/raw-format.c   |  4 +---
+>   block/sheepdog.c     |  8 ++------
+>   block/ssh.c          |  4 +---
+>   block/throttle.c     |  4 +---
+>   block/vmdk.c         |  4 +---
+>   block/vpc.c          |  3 +--
+>   block/vvfat.c        |  3 +--
+>   blockdev.c           |  3 +--
+>   hw/intc/xics.c       |  4 +---
+>   hw/vfio/pci.c        |  3 +--
+>   net/tap.c            |  3 +--
+>   qom/object.c         |  4 +---
+>   23 files changed, 32 insertions(+), 78 deletions(-)
 
->   114 files changed, 376 insertions(+), 884 deletions(-)
-
-Big, but sane.  Picks up the spots I noticed in 33/44, and then some ;)
+Small enough to review each instance.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
