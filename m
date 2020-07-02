@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD1C2122A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:52:35 +0200 (CEST)
-Received: from localhost ([::1]:60664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663792122BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:55:45 +0200 (CEST)
+Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxla-000167-Mo
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:52:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
+	id 1jqxoe-0007f9-Df
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkI-0007lB-V0
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33616
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkK-0007n9-2Z
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:16 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36223
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkG-0007QF-NF
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkH-0007QZ-Ly
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593690672;
+ s=mimecast20190719; t=1593690673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=GtBZqkHbFJv9m3cBXUQPUXtofkfkE+NEPjAUFSnOd0w=;
- b=ClxYUNfv63bdv6aDJ6lzl63ixVvYfs9dULPUlkOi1TwU3ZIIXEmGX6uSb1znmedVA+l1s8
- vtu7Ss8X+ED8/DlFvUhSVy8xiMrAAYc4yWDxoWsq4fJcEzAM1V5M47Ta5+Ms+EjP25/pfs
- YmEoDQ53qGjaZcA6imPHP19lZYu5BoE=
+ references:references; bh=G0VCxaHbmkAYHRcbmzPgbufzvo9fZue2ro4Xn2Yl48k=;
+ b=DHXMiL5k/7/jtplbo8g/dmnya41SZfACpOtqEGhivjjhHAwFRRlTRARC4SxxPnHSUotSyx
+ lJunSOi7Qov8YpvkLZJiCBLheas02Rl1rNlYveKJR48X8EWzgIxxQ4lyBsjBHWMBlLjyVa
+ ZlCoJZhOvkWdovGM4CFhK7LnXUbv4Hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-pt6F-Dm_PzOzKC-_KKO5og-1; Thu, 02 Jul 2020 07:51:09 -0400
-X-MC-Unique: pt6F-Dm_PzOzKC-_KKO5og-1
+ us-mta-26-BDyhdEION1-L7r_HGPUBeg-1; Thu, 02 Jul 2020 07:51:11 -0400
+X-MC-Unique: BDyhdEION1-L7r_HGPUBeg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 432DE64A75;
- Thu,  2 Jul 2020 11:51:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C97F186A201;
+ Thu,  2 Jul 2020 11:51:10 +0000 (UTC)
 Received: from thuth.com (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0ECB610F2;
- Thu,  2 Jul 2020 11:51:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A25C160CD3;
+ Thu,  2 Jul 2020 11:51:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL SUBSYSTEM s390x 08/11] pc-bios: s390x: Use ebcdic2ascii table
-Date: Thu,  2 Jul 2020 13:50:42 +0200
-Message-Id: <20200702115045.6171-9-thuth@redhat.com>
+Subject: [PULL SUBSYSTEM s390x 09/11] pc-bios: s390x: Make u32 ptr check
+ explicit
+Date: Thu,  2 Jul 2020 13:50:43 +0200
+Message-Id: <20200702115045.6171-10-thuth@redhat.com>
 In-Reply-To: <20200702115045.6171-1-thuth@redhat.com>
 References: <20200702115045.6171-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -53,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,33 +84,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Why should we do conversion of a ebcdic value if we have a handy table
-where we could look up the ascii value instead?
+Let's make it a bit more clear that we check the full 64 bits to fit
+into the 32 we return.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200624075226.92728-10-frankja@linux.ibm.com>
+Message-Id: <20200624075226.92728-11-frankja@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/bootmap.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ pc-bios/s390-ccw/helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index d13b7cbd15..97205674e5 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -328,9 +328,7 @@ static void print_eckd_ldl_msg(ECKD_IPL_mode_t mode)
-         msg[0] = '2';
-         break;
-     default:
--        msg[0] = vlbl->LDL_version;
--        msg[0] &= 0x0f; /* convert EBCDIC   */
--        msg[0] |= 0x30; /* to ASCII (digit) */
-+        msg[0] = ebc2asc[vlbl->LDL_version];
-         msg[1] = '?';
-         break;
-     }
+diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
+index 32a453b634..dfcfea0ff0 100644
+--- a/pc-bios/s390-ccw/helper.h
++++ b/pc-bios/s390-ccw/helper.h
+@@ -19,7 +19,7 @@
+ /* Avoids compiler warnings when casting a pointer to a u32 */
+ static inline uint32_t ptr2u32(void *ptr)
+ {
+-    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
++    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
+     return (uint32_t)(uint64_t)ptr;
+ }
+ 
 -- 
 2.18.1
 
