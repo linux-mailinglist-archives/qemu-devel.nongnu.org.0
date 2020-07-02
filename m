@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9D6212518
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:47:30 +0200 (CEST)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF4D21252D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:48:44 +0200 (CEST)
+Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzYn-0008Vt-Gz
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
+	id 1jqzZz-0002P8-8S
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqzOx-0001Xa-7k
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:19 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36755)
+ id 1jqzP0-0001iR-CV
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jqzOv-0004Id-CV
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:18 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 17so27961511wmo.1
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 06:37:16 -0700 (PDT)
+ id 1jqzOy-0004J5-Ea
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:22 -0400
+Received: by mail-wm1-x344.google.com with SMTP id o2so27994064wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 06:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n8hLW2GDwAPKTyInaARed9CzonkKW3ufXz4O6Cmf1SY=;
- b=OOonw/QQLs4OEKwDHjCcElde1OKaOpPojTMwONk+AdyGjE7bQqn25T3jqc/X0C9edq
- Rcv0f7KYmM6RN+1F00f1dXOQFVm6kUQ8QjcMiycuTRMqwHVvUefvQoCrjj71zcAio5Wc
- bT3iBhswpk1Q9lYFFVcqJE9ZC5mqClBimjVjdS4HFQw5AKXtSzIqOV29C3QxvDL4nWNI
- +/cCZsI/DYUglYEcjtQiF1uhoPIj8pvY4gdSoVwDnR60QWKj4M4948rnRl2Xw6v2aEWM
- hZg3Rwu/fQ0HroNsrzTdylhdgNfEjMzBvNM4GBb6jV+imGy6HxhZRiuv6N2kU+/5JIja
- l4/g==
+ bh=9vFSSsaVq2Fwgo9NyRjo6NBdMt3DH9lnuPKcUS1H1FU=;
+ b=KkSAd3FeIssL4fIV4bS8h1ztnGQnJRsEQdsvkaiWfnrdjlRCe8g4xgxY+1h/I0GgxN
+ 4jw2SMBzjn3SanXveod1tbvlRnuPDJ+TXkLItNizcXjc5EuYraecLJGrPuNktNt+Vjrw
+ Mx4WSZpKIwqnRIwBdwhXJQyQM2aYw39IxTb0P4Z+itoJLJ8ICy25djUZicqB+fr1HJYJ
+ EEaUFhlulnVTrcocM4MTernx0m/Gi240jMWCdeDPBd6jrNUJae/7GhKx7p48dLJ3wqwH
+ 4iqc88oRQaUStss/dEvqd3WZfzwi0/wDXLSU4EMKWeu3JXXKpYUAAPCTReLoqQT+g9tM
+ vLuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n8hLW2GDwAPKTyInaARed9CzonkKW3ufXz4O6Cmf1SY=;
- b=jiihW52Z8yXUYT503B+23q1BO+nVljw1FXqt29GsXFcSOBJ0DMn23RWqLf2vbFVa1U
- lQkYDFgJ1i36B+5t6YB+2xvmD40aFIVvp6119J/lnIKPMjRtBSrNyfEHTS3OJjM3oRoL
- AIcsqVlPKHwWcjV4hVzkboAULqyXUIIF5mei3ZMJqF8/fvaEATfKT8F2dvU8tCTuL49J
- dEQUviTUk74cVtULOnTFMopeUSEDSeO7w3w+PRKWSrMrHWIC6Dp+ZdqnAbq5a3EE9TKL
- YsPzZXwOvdMsvVUoYyqjhBtvXNOPv4sL94w5DXKErOJD2IUL8/6MIdTggdzEHyVnkAZi
- Gpig==
-X-Gm-Message-State: AOAM533x140rtkVYv0WF9ozBFbbjkR89UiVjZCc3XX9ztda8MeMRi5C4
- ICjy1T/UGXXgboWubsc3DG8jd4r5zlo=
-X-Google-Smtp-Source: ABdhPJw0AeTNrezLThErHSGSh8D4IZ1TfLhQ5B1OMaoccF/FZM5srzT14vrw/gAooP7lnti1zp4REg==
-X-Received: by 2002:a1c:7f82:: with SMTP id
- a124mr29787304wmd.132.1593697035796; 
- Thu, 02 Jul 2020 06:37:15 -0700 (PDT)
+ bh=9vFSSsaVq2Fwgo9NyRjo6NBdMt3DH9lnuPKcUS1H1FU=;
+ b=mCUYU78lDcP/7f3kmv+DxcUN777AM/I3gHVg+ov+uaLhgV9s01ZZrx5460xYnlDEeC
+ qQzA5C+/VNViErXxfTZXtKAItRsZg/P195MzR4FtBcDeuzjakAS4peDIb4ob2wbO/DZh
+ ALJgp0Z2v/5Oc6pHjCXoIhMVfOSUEZ6oOKGySQvJZCF5ni0+pyxQTnjrTeBNn0gWgpNj
+ DCIKuw89fODY348J5JmjhdhP5bDnqgR9wzr+84KjwO7lpuowZusl+8eNHLtUMSZHVG7H
+ kCVxeQCfU/3sxjrGdIyY1ArAa8T71/b5bf2Bgbx3NZVo3M8l9DN6RzOc3KnkUo3C82xM
+ s7eQ==
+X-Gm-Message-State: AOAM5328RxmLkDFNkSf71Oznpi/Vo3ds2Txgv1W1K+woVvUPKYVEaNci
+ 1tRT54xz3t7/9R3LQmGrN7MGAmzBan4=
+X-Google-Smtp-Source: ABdhPJxwd6EpsOIt6KirTy4HYnnLfs2RNgBb2bkio1XAkByMARSxTjB5Vfzc9xybO5ZHha/uZPPTqA==
+X-Received: by 2002:a1c:4d11:: with SMTP id o17mr31020309wmh.134.1593697038759; 
+ Thu, 02 Jul 2020 06:37:18 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id p17sm10190511wma.47.2020.07.02.06.37.13
+ by smtp.gmail.com with ESMTPSA id p17sm10190511wma.47.2020.07.02.06.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 06:37:15 -0700 (PDT)
+ Thu, 02 Jul 2020 06:37:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] MAINTAINERS: Adjust MIPS maintainership (remove Aurelien
- Jarno)
-Date: Thu,  2 Jul 2020 15:36:59 +0200
-Message-Id: <20200702133701.25237-4-f4bug@amsat.org>
+Subject: [PATCH 4/5] MAINTAINERS: Adjust MIPS maintainership (remove Paul
+ Burton)
+Date: Thu,  2 Jul 2020 15:37:00 +0200
+Message-Id: <20200702133701.25237-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200702133701.25237-1-f4bug@amsat.org>
 References: <20200702133701.25237-1-f4bug@amsat.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -101,7 +100,6 @@ Cc: Paul Wise <pabs@debian.org>, James Hogan <jhogan@kernel.org>,
  Mirko Vogt <mirko-openwrt@nanl.de>, Huacai Chen <chenhc@lemote.com>,
  Artyom Tarasenko <atar4qemu@gmail.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Ulises Vitulli <dererk@debian.org>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
  Stefan Weil <sw@weilnetz.de>, "Maciej W . Rozycki" <macro@wdc.com>,
  John Crispin <john@phrozen.org>, Lichao Liu <liulichao@loongson.cn>,
@@ -115,28 +113,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
-Aurelien Jarno removed for not being present.
+Paul Burton removed for not being present.
 
 Aleksandar Markovic comment:
 
-  A polite email was sent [less than 12 hours ago (Peter Maydell
-  was Cc:ed and can confirm)] to him with question whether he
-  intend to actively participate, but there was no response.
+  A polite email was sent [2 days ago] to him with question
+  whether he intend to actively participate, but there was no
+  response.
 
-Aurelien Jarno response [*]:
+Paul Burton response [*]:
 
-  QEMU used to be a fun ride, but it happens that interactions are
-  now hurtful, especially on the MIPS side. It's time for me to
-  leave this community and say goodbye.
+  It was 2 days ago, not 2 months :)
+  I'm fine with being removed though - I no longer have access
+  to modern MIPS CPUs or Boston hardware, and wouldn't currently
+  have time to spend on them if I did.
 
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718781.html
+Aleksandar Rikalo becomes the new maintainer of the Boston board.
 
-Acked-by: Aurelien Jarno <aurelien@aurel32.net>
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
+
+Cc: Paul Burton <paulburton@kernel.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Acked-by: Paul Burton <paulburton@kernel.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Message-Id: <20200701182559.28841-3-aleksandar.qemu.devel@gmail.com>
-[PMD: Split patch in 3, added Aurelien response]
+[PMD: Split patch in 3, added Paul response]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
+This patch still requires Ack-by from Aleksandar Rikalo
+
+Cc: Aurelien Jarno <aurelien@aurel32.net>
 Cc: Ralf Baechle <ralf@linux-mips.org>
 Cc: Stefan Weil <sw@weilnetz.de>
 Cc: Hervé Poussineau <hpoussin@reactos.org>
@@ -144,7 +150,6 @@ Cc: Lichao Liu <liulichao@loongson.cn>
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 Cc: James Hogan <jhogan@kernel.org>
-Cc: Paul Burton <paulburton@kernel.org>
 Cc: Florian Fainelli <f.fainelli@gmail.com>
 Cc: Jonas Gorski <jonas.gorski@gmail.com>
 Cc: John Crispin <john@phrozen.org>
@@ -164,49 +169,25 @@ Cc: Mart Raudsepp <leio@gentoo.org>
 Cc: Chris Wedgwood <cw@f00f.org>
 Cc: Maciej W. Rozycki <macro@wdc.com>
 Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Ulises Vitulli <dererk@debian.org>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
- MAINTAINERS | 4 ----
- 1 file changed, 4 deletions(-)
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f463b83d7a..53404a746e 100644
+index 53404a746e..64f54c553c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -213,7 +213,6 @@ F: disas/microblaze.c
- 
- MIPS TCG CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+@@ -1099,8 +1099,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
  S: Maintained
- F: target/mips/
-@@ -1061,7 +1060,6 @@ F: hw/dma/rc4030.c
- Malta
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
--R: Aurelien Jarno <aurelien@aurel32.net>
- S: Maintained
- F: hw/isa/piix4.c
- F: hw/acpi/piix4.c
-@@ -1080,7 +1078,6 @@ F: hw/net/mipsnet.c
  
- R4000
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Obsolete
- F: hw/mips/r4k.c
-@@ -2676,7 +2673,6 @@ F: disas/i386.c
- 
- MIPS TCG target
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ Boston
+-M: Paul Burton <pburton@wavecomp.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
++M: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
  S: Maintained
- F: tcg/mips/
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
 -- 
 2.21.3
 
