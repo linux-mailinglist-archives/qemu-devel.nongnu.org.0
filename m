@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D78212232
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:26:03 +0200 (CEST)
-Received: from localhost ([::1]:36514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2508212214
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:21:14 +0200 (CEST)
+Received: from localhost ([::1]:41612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxLu-0001OQ-Bb
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
+	id 1jqxHF-000867-Ov
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6M-00076w-63
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46399
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6C-0006hp-FU
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20103
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-00012U-Tx
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx65-0000zL-S7
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688185;
+ s=mimecast20190719; t=1593688179;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BkOgvLG5t8mGkrvuFRAmq6oLyRCLu82G6LXUz3O7dFU=;
- b=Ub/rQ7/VKW1FxvJtMEPNZoSNymKfsF/iSLEezIcG9VMzDSllx5oTfysV1XFC8hWHwxBGZM
- xtzP3uABF/dFm+51ddSJSJvC41EEKqG4J9fL3borYSxHTbEpEy2oiS/tNzN483nBS3zi2s
- 2u2bPStjjswrZ/6PxLSo4YUj90Updms=
+ bh=uHcP0f7ZpleXMEE0lcmqe+2U9q2Y/FkkWcKatfFP3ZY=;
+ b=Vh/wxVU/4DLBu5a8AFU63Ex3TvmZDAZzq2vpyvsREMxvb5d/OVAkJtxhmgS/1o8iJW10Qh
+ 8ljEdAl3yJJnaCkNbyrrHC7t7yJf48XK78DZbhgDyXAHTKNAAiu0NikltevCxdg2Yy5Xst
+ xLvXsXxdfAb65X61XETEtPNemMJcRos=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-y48yAovSMY2H84TWJLbtRQ-1; Thu, 02 Jul 2020 07:09:41 -0400
-X-MC-Unique: y48yAovSMY2H84TWJLbtRQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-201-GMrHurjyNK61EKoL9DTUcA-1; Thu, 02 Jul 2020 07:09:37 -0400
+X-MC-Unique: GMrHurjyNK61EKoL9DTUcA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9050EBFC1;
- Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7EC4186A201;
+ Thu,  2 Jul 2020 11:09:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AAC8E6111F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ACBC73FDF;
  Thu,  2 Jul 2020 11:09:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B75D01138475; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
+ id BE3D51138476; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/28] spapr: Plug minor memory leak in spapr_machine_init()
-Date: Thu,  2 Jul 2020 13:09:12 +0200
-Message-Id: <20200702110931.2953148-10-armbru@redhat.com>
+Subject: [PULL 10/28] qga: Plug unlikely memory leak in guest-set-memory-blocks
+Date: Thu,  2 Jul 2020 13:09:13 +0200
+Message-Id: <20200702110931.2953148-11-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,40 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <dgibson@redhat.com>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_machine_init() leaks an Error object when
-kvmppc_check_papr_resize_hpt() fails and spapr->resize_hpt is
-SPAPR_RESIZE_HPT_DISABLED, i.e. when the host doesn't support hash
-page table resizing, and the user didn't ask for it.  As harmless as
-memory leaks can possibly be.  Plug it.
+transfer_memory_block() leaks an Error object when reading file
+/sys/devices/system/memory/memory<INDEX>/state fails with errno other
+than ENOENT, and @sys2memblk is false, i.e. when the state file exists
+but cannot be read (seems quite unlikely), and this is
+guest-set-memory-blocks, not guest-get-memory-blocks.
 
-Fixes: 30f4b05bd090564181554d0890605eb2c143e4ea
-Cc: David Gibson <dgibson@redhat.com>
-Cc: qemu-ppc@nongnu.org
+Plug the leak.
+
+Fixes: bd240fca42d5f072fb758a71720d9de9990ac553
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20200630090351.1247703-8-armbru@redhat.com>
+Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Message-Id: <20200630090351.1247703-9-armbru@redhat.com>
 ---
- hw/ppc/spapr.c | 1 +
+ qga/commands-posix.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4c185bcc13..44fd578ea9 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2731,6 +2731,7 @@ static void spapr_machine_init(MachineState *machine)
-         error_report_err(resize_hpt_err);
-         exit(1);
-     }
-+    error_free(resize_hpt_err);
- 
-     spapr->rma_size = spapr_rma_size(spapr, &error_fatal);
- 
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index ae1348dc8f..cdbeb59dcc 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2421,6 +2421,7 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
+             if (sys2memblk) {
+                 error_propagate(errp, local_err);
+             } else {
++                error_free(local_err);
+                 result->response =
+                     GUEST_MEMORY_BLOCK_RESPONSE_TYPE_OPERATION_FAILED;
+             }
 -- 
 2.26.2
 
