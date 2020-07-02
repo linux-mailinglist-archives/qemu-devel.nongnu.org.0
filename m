@@ -2,109 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB378212254
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:31:38 +0200 (CEST)
-Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0457A212251
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:30:48 +0200 (CEST)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxRJ-0003e3-HR
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57048)
+	id 1jqxQV-0002An-0x
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:30:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jqxKT-0007dC-9d; Thu, 02 Jul 2020 07:24:33 -0400
-Received: from mail-vi1eur05on2091.outbound.protection.outlook.com
- ([40.107.21.91]:28609 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jqxKP-0006Sq-Eg; Thu, 02 Jul 2020 07:24:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YgSLxvEaJlMEAs53Z/AGozYaZzpStHyn0fyKhm/nOwixx1imERMhMD/VZ81GTfEdxGTDEp6HNY+dne4443o+2bpbAE8VYWJx7XucSYsLrWqZ8eyQA8mMkLcc2zp4VIExi67qbfin9Qly4JAkktM75x6Ayblay8rqdZwK9LXq5+3J4fqr3U5N0GWBLYglTYJ9QNIUSro+irpWEQhv4on48ys84Vf2I5xGzkll43VtZ95znqtBpbh8TPIQIkYI63+v2UfvSzoNZjwB6GdFgMdOhln0LJkYt4wCeb7u1K6OVK9S+h0MlnCEa5H9t9Tte021Sc5GfKjBz535DUlCqGQsFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WsgHCVMYP4fglyeSKlHxylLAwoW5DaL7a1FAeG1/tbM=;
- b=HEXIMuV7o+IQV8kTz44ZyuxhTFYzbXzvN1LDpehWykWOtxDytYDyaOqxms6eDrrSkcFJqFKBICji60fPnBkeByV37YY5iJQmXRMGrK45LI585j9n/ZnxbA5n/yAwpA2zPrRUHApBNNQO4cEaeqBB4xUM7KepXtn0C7r9MluDK1klXONKH5bID2BVG5+sMxZtuPSihUQCnlisjSalt5zBnl9G2zt0LJaKd1tYZb88dv62Vy+YxVHhhcnBeXvUCS1esJzMErMkprayvAFJWqooJEgV9QkihyafB+yq7Fpt0ziNIv87tgRZhSCJ5IagxOu/xC/adnP1gQkexy/wSGeonw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WsgHCVMYP4fglyeSKlHxylLAwoW5DaL7a1FAeG1/tbM=;
- b=YAgiWZvtUNsb1O5YdC7ZiHupDawu7ODgQokJakzpI/JSeDkNlCuMskXeSI9zTj3f8St9xjOPWWJWWO8SsAhKXMhcRjWaRSSZqe0+6aFznozPubMK1WNgO6Kv1me1KzcaTBBxM7hzad/XhRzrYoFmCXKQY80zEpGNbmEwIjZ29lQ=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4788.eurprd08.prod.outlook.com (2603:10a6:20b:c4::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Thu, 2 Jul
- 2020 11:24:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Thu, 2 Jul 2020
- 11:24:25 +0000
-Subject: Re: [PATCH 0/4] migration: Add block-bitmap-mapping parameter
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200630084552.46362-1-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <b4ac8f7c-ebe9-6fa8-9b03-b12b457a3e5c@virtuozzo.com>
-Date: Thu, 2 Jul 2020 14:24:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200630084552.46362-1-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR01CA0123.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqxO1-0006d7-Lo
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:28:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42705
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jqxNz-0007oX-SU
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:28:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593689290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7/TrKNlxOU6seaS4tH1CrUjegFyYhUFRccpA01OeEqw=;
+ b=I13p8uw0nPtRpm6MxwoKBQS3LvPWzmbtT2XAs7D7dQCZl11ZR/TkkXwT5jBPpiuIHzOUAn
+ zjTKpb1hii8rR+9gCUXvehEDzNFQhcNEBs7IuOSmMlG0yq4dolXBT086UinaQ/FPdQjTTe
+ v4Ule3CD3gBL5As0beJKTbbfoZBzhec=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-NOrBtrYWMne29H4lRDKWkQ-1; Thu, 02 Jul 2020 07:28:09 -0400
+X-MC-Unique: NOrBtrYWMne29H4lRDKWkQ-1
+Received: by mail-wr1-f71.google.com with SMTP id j16so19850491wrw.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 04:28:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7/TrKNlxOU6seaS4tH1CrUjegFyYhUFRccpA01OeEqw=;
+ b=IdK9yaMKpl+yQmBlIB3rpT7jGL/FLlhzfpBmjv61s48wuEIAslMPPAyFM/KeBM5H9D
+ dX1/h6qw9ILmMWn7OUF0qOmHrBVL+hlKmYE5/eLBzjB1iO3d2D5ZbRgcdV+wRMdrxIt7
+ ZdR/Jt5yKQlyy2y2b+M7dfttP6uOvG+5iFFLkgFCHLiI3uxLAJ354osnFBrIwOYII4aM
+ rv0uyoqIdhWbGfs3Oq5eMIne3jWwxvw+uHzR32K8zakiEQI7pxy4hU3MNTCcwS1lzFXB
+ 8vwul9aonk8ik0ra6PVXJi2GOyBc+wof3ZGu9pHKCvD2GNugJwNWiDe64DFWhsI8mZwb
+ 3D5g==
+X-Gm-Message-State: AOAM530RwoFqq5xmheS3SAOWXchTKtk7nuashYtXBCqnRrKomEmoNZgf
+ 6tlKJh8786XSZ7AcqoU9ER/LmTJ/zL58Ei8W0Iw5ldeeXCLCfQTKZAWlpfW7PLjVBjDSmLciGXW
+ f/Ivlbec2mJfhQLc=
+X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr31730524wru.399.1593689288250; 
+ Thu, 02 Jul 2020 04:28:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyckNeyTtCSP2ffKGv/S4CtCGrcVT1jD8kO9x+goiZxNPVg3GuLQkgpA4aX/mI3rG1zrGiNUg==
+X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr31730501wru.399.1593689288029; 
+ Thu, 02 Jul 2020 04:28:08 -0700 (PDT)
+Received: from redhat.com ([93.157.82.4])
+ by smtp.gmail.com with ESMTPSA id p4sm11072565wrx.63.2020.07.02.04.28.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 04:28:07 -0700 (PDT)
+Date: Thu, 2 Jul 2020 07:28:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v7 0/5] VIRTIO-IOMMU probe request support and MSI bypass
+ on ARM
+Message-ID: <20200702072655-mutt-send-email-mst@kernel.org>
+References: <20200629070404.10969-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.54) by
- AM0PR01CA0123.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20 via Frontend
- Transport; Thu, 2 Jul 2020 11:24:24 +0000
-X-Originating-IP: [185.215.60.54]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1df4ab4d-c577-4c06-8e74-08d81e7a79c2
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4788:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4788E2B969B39E630994A7DAC16D0@AM6PR08MB4788.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-Forefront-PRVS: 0452022BE1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vyMxUtd9etgBFF+HLzUq2//bB36gxlM3etKcZTwb7iEeDckzEzi97/RtzyrgBMErvTL65on2WAKG7A1jtWBXzDDwbX3d2erIwWiAyzq76tTuT7x9U52PIG4wvsFAfvIOWWaLb+d05H+GgDJ/ngeLEq/Kk/2rQOelUOCCiakeSu2I09mTXjOJQJGjfGGximjIaRNG8OIlWwaoxoPm3lwq5TtFQ8s0izBvKOb/nzjUvrw9M8xYeMnDPfbwdJ+CiDeUPJ+wq1Lkj/f8TMb786CNlbmRuMQ5ghT3Jltm4eGMLCOoz8QCeTtPE+z8goJFBoCXgSdPVwhvCpQw9jBCfAId3LcJiJr3rXWEpVcxkipw6DQkWzrrER+4GSHmUDVBWiJ0Gxe1Jwt8VEWNr3SilIKFoQxTaSd9N515i9suvEvpgWjMPdgHDBZUOXfk1Kfx8cSKYMqzA6xQQYESSKLAFVrEOQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(136003)(39840400004)(366004)(376002)(346002)(54906003)(6486002)(16526019)(4326008)(5660300002)(83380400001)(52116002)(956004)(2616005)(26005)(31696002)(86362001)(2906002)(478600001)(66556008)(66476007)(186003)(16576012)(316002)(66946007)(8936002)(966005)(36756003)(8676002)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: xduqggVdJ71zNBlxK9FMv72oKWVZRfLWIAmwE2D6uiV/ON8nekHnKZZD0Fgmsfx5dD71znIUzaLy5DR/1GvF3hOK8yGTHx5+X6kT3IaavQNWXQadkP9wDvm47t7if7lrAfSAIR1EQ92lZovk/sYkEm+9BohuXNWW1G8jkHEZ+qpdP17Oc9cY4AqIMHlek9Wc6PmKNKCwxm9mZVFYeobMWF+Dq3rySvAHSuuCxBXM5/uLj6DO02Iw9sBx4rWx/72sb6tfsrLPMXcgz6BzpTOFuw9CuzIqHT6262LM/QLA76W5SBKx84fFtV9VW8QhYKX0UgZhcp+btSOu2enoFusKJueyKcUI21dZqPZTClEmZ004BgIwLxFpZsQXqFIUzp0pTS+kjRwRbSPDgEiMGv1U4wg59RTvHGQc/QYnCkYFT8h3TXM7f0qYgTsyDFcq0B51A8XCtY9HHfBkxutwiPMigOliJpdy2CTNK/firJHSmY0=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df4ab4d-c577-4c06-8e74-08d81e7a79c2
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 11:24:25.1836 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DO28S7QqsP/uk4geq3wtJsl6EA7MzWfOXPoTFrtB9o6iJfnr2dKVlH4Ypihd8J80gHrNh4qJYCuI/IFpmo77HRFFn18DSLbdqnkeGnkS/Ws=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4788
-Received-SPF: pass client-ip=40.107.21.91;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 07:24:26
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200629070404.10969-1-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,62 +95,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, armbru@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmm, seems, you didn't use scripts/get_maintainer.pl, as neither Eric nor John are in Cc. Add them.
-
-30.06.2020 11:45, Max Reitz wrote:
-> RFC v1: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00912.html
-> RFC v2: https://lists.nongnu.org/archive/html/qemu-block/2020-05/msg00915.html
+On Mon, Jun 29, 2020 at 09:03:59AM +0200, Eric Auger wrote:
+> By default the virtio-iommu translates MSI transactions. This
+> behavior is inherited from ARM SMMU. However the virt machine
+> code knows where the MSI doorbells are, so we can easily
+> declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+> setting the guest iommu subsystem will not need to map MSIs.
+> This setup will simplify the VFIO integration.
 > 
-> Branch: https://github.com/XanClic/qemu.git migration-bitmap-mapping-v1
-> Branch: https://git.xanclic.moe/XanClic/qemu.git migration-bitmap-mapping-v1
+> In this series, the ITS or GICV2M doorbells are declared as
+> HW MSI regions to be bypassed by the VIRTIO-IOMMU.
 > 
-> 
-> Hi,
-> 
-> This new migration parameter allows mapping block node names and bitmap
-> names to aliases for the purpose of block dirty bitmap migration.
-> 
-> This way, management tools can use different node names on the source
-> and destination and pass the mapping of how bitmaps are to be
-> transferred to qemu (on the source, the destination, or even both with
-> arbitrary aliases in the migration stream).
-> 
-> v1 (as opposed to the RFC):
-> - Added an iotest
-> - Allow mapping of not only node names, but also of bitmap names to
->    aliases
-> - Make this a migration parameter instead of adding a whole new QMP
->    command
-> - Added patch 1 for good measure
-> 
-> 
-> Max Reitz (4):
->    migration: Prevent memleak by ...params_test_apply
->    migration: Add block-bitmap-mapping parameter
->    iotests.py: Add wait_for_runstate()
->    iotests: Test node/bitmap aliases during migration
-> 
->   qapi/migration.json            |  83 +++++-
->   migration/migration.h          |   3 +
->   migration/block-dirty-bitmap.c | 372 +++++++++++++++++++++----
->   migration/migration.c          |  33 ++-
->   tests/qemu-iotests/300         | 487 +++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/300.out     |   5 +
->   tests/qemu-iotests/group       |   1 +
->   tests/qemu-iotests/iotests.py  |   4 +
->   8 files changed, 931 insertions(+), 57 deletions(-)
->   create mode 100755 tests/qemu-iotests/300
->   create mode 100644 tests/qemu-iotests/300.out
-> 
+> This also paves the way to the x86 integration where the MSI
+> region, [0xFEE00000,0xFEEFFFFF], will be exposed by the q35
+> machine.  However this will be handled in a separate series
+> when not-DT support gets resolved.
 
 
--- 
-Best regards,
-Vladimir
+virtio things:
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+
+ARM tree makes sense for this, right?
+
+
+> Best Regards
+> 
+> Eric
+> 
+> This series can be found at:
+> https://github.com/eauger/qemu/tree/v5.0.0-virtio-iommu-msi-bypass-v7
+> 
+> History:
+> 
+> v6 -> v7:
+> - fix the hint message
+> - put the assert again on probe request
+> 
+> v5 -> v6:
+> - do not hardcode start/end addresses of doorbells
+> - check reserved region type on realize()
+> 
+> v4 -> v5:
+> - Take into account some additional comments from Markus:
+>   - reserved region type becomes an unsigned + some comment/desc
+>     rewording
+>   - assert if the type is not RESERVED or MSI
+> 
+> v3 -> v4:
+> - collected Jean and markus's R-bs
+> - tool into account all Markus' comments in [1/5] (except removal of
+>   goto)
+> - use ':' as delimitor instead of commas
+> - add example in 4/5 commit message as suggested by Markus
+> 
+> v2 -> v3:
+> - Introduce VIRT_MSI_CTRL_NONE in VirtMSIControllerType
+> - do not fill the remainder of the probe buffer
+> 
+> v1 -> v2:
+> - check which MSI controller is in use and advertise the
+>   corresponding MSI doorbell
+> - managed for both ITS and GICv2M
+> - various fixes spotted by Peter and Jean-Philippe, see
+>   individual logs
+> 
+> v1: Most of those patches were respinned from
+>   [PATCH for-5.0 v11 00/20] VIRTIO-IOMMU device
+>   except the last one which is new
+> 
+> 
+> Eric Auger (5):
+>   qdev: Introduce DEFINE_PROP_RESERVED_REGION
+>   virtio-iommu: Implement RESV_MEM probe request
+>   virtio-iommu: Handle reserved regions in the translation process
+>   virtio-iommu-pci: Add array of Interval properties
+>   hw/arm/virt: Let the virtio-iommu bypass MSIs
+> 
+>  include/exec/memory.h            |   6 ++
+>  include/hw/arm/virt.h            |   7 ++
+>  include/hw/qdev-properties.h     |   3 +
+>  include/hw/virtio/virtio-iommu.h |   2 +
+>  include/qemu/typedefs.h          |   1 +
+>  hw/arm/virt.c                    |  30 ++++++++
+>  hw/core/qdev-properties.c        |  89 ++++++++++++++++++++++++
+>  hw/virtio/virtio-iommu-pci.c     |  11 +++
+>  hw/virtio/virtio-iommu.c         | 114 +++++++++++++++++++++++++++++--
+>  hw/virtio/trace-events           |   1 +
+>  10 files changed, 260 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.20.1
+
 
