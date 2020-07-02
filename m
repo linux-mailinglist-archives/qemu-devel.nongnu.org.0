@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C125212ACB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:05:17 +0200 (CEST)
-Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01665212AFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:13:11 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2eC-0002Fv-6G
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34494)
+	id 1jr2lq-00047P-3E
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2Az-0007KI-N7
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:05 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44861)
+ id 1jr2B3-0007Vt-7H
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:09 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2Ax-00008W-J5
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:05 -0400
+ id 1jr2B1-0000Az-1j
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707703; x=1625243703;
+ t=1593707707; x=1625243707;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dDV/yHkrwFn/9rABPcF1aNzRfax0gE0wIAinS/zJxug=;
- b=Y4A+UXOex2/zRJdbtTXmI2SAT+4QCqGd3MrAlFyNMtpVf1OF5pAGbdIE
- udCJ+4ZWI1+Sx5g2UcNr2hVIj6agIX4cS/6OgJKrc4jZBAp0T+jdl5PXZ
- tuqhkyS1QDAg5L3ikA7RZjlTaCYbJl7J1+g3SNwZ/liyTNAyKHG4nNwTO
- g7TiOJggWCUa2UXOqLSDH5ukuwqCh8z3o/sLzpMpDD15kIkpa0yh1Mhwx
- bIO90kyeVDMXR0mrpZwqawUMIC7Fl2nuFeWdFNxA5AiyDX7GP4XtmHdch
- Ef1aodU28XCI7Kr4qRAouXt0JuY/Ha7gjUgQWzI8wS8IChcXjT7f07BTE g==;
-IronPort-SDR: cWhI41dEgmLJvpheiu9i9hTJZdWnX/4nUREr1pzuxU4Pi7/HxKWcq1ouGAMLMaW60+kWVctoKY
- Va6DX6tGqPOyvk7/pjvM0KDtc5DcQCjljuQWEWpx8osmlhgSgV2lHta1FLv5nX4lOLvqOa5cuf
- C+0E2xLvccYcbzpYSnmwoIm6re6BfY+8UwXSOG/JE6vF8X8mQdWdqPCBxpquV+ZSA+UkscgtC5
- 5inXeEzde+RDl6dB15IL3w/R50f72ER/pBx+qNbINnJjPvE4LRVjb5+VWjeP7X4pn7AtWJvenQ
- AXI=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498563"
+ bh=XIrl3Uuj9xY0opM8Q9Cnd1OyyTHdzNgiHpQaOfMaY6c=;
+ b=oYZ02HnUHl1a6Bjyp9w1tb0EOWeOBcTy23T2nvagO543zNA9o2j8B2bR
+ +ZPrQcyka4lqEmNOCuojJAL24nVnbrKwf17a0eBe2IeeC9PqhK/jcMFuG
+ 78ZM5nGuE5xnbZPSV7QtTu9cSaoCKPAB2TJijTNi2erGQXzHcCEVGrqBL
+ arZKM/6NMO+cM8hExD/LiP2Q5VvOfoQZjYLRMAk9CaRzGXBSQ2nAw8Omf
+ QBqJmZWN6DKRkpdSQWcttDzYEiSdbmH83ZNrJvWPWyW44s+mJIlRTMvlj
+ nYe9jWS4BxtiVwLV+b+C3/2tYCSlSorbkrkvswCwZlg24M9N8oIupIhx2 g==;
+IronPort-SDR: RpOYGPTkuG8q86bjVU1fOstmP8iOs2qD/z2qyDNL1WpS1ux2pgMQzGuI07c74prEihi+vd4w91
+ 1cRFrZR5GD9SDs45GSbG1BYMEwZ84j+JV6z6A20qmPfIhRnqUpLYnfBFmiTSSeHJeMjUIhjtAl
+ 8g9G1Navy+OcuIvW7+MT6ZzK7tL1XLaaq9hZ7EJcfs6C9pkySZ8W21T6+VJKi2dF4WNxZh5qVB
+ WIiAlNDxjEbglWtbeB6woR4vRUqS+P3KM/KcsGo5s2VQwWCcI8tn83e8jcqyulVNw8JFgui5DQ
+ lDQ=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498568"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:35 +0800
-IronPort-SDR: jOxtBBVfkjKKYHYC2fNmuxjdHPG/Wlb4UaoUfyqommyTnY+Ch3fQ9ay762pITNIb93/DcS3B6J
- pZBCDs6LVqR8fNEdOTPHAjWroFyGvq/qk=
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:36 +0800
+IronPort-SDR: DyJPGnAoXPRb2r6/FVlj4+oaZcA685iO+I3IVtQYlqoxdnSQ+uemus19mxPhwHaM5q99FeO4l9
+ K4ixj9RnfaJUgkZqrZQbQB+w68ZDJhCQA=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 09:21:50 -0700
-IronPort-SDR: /Xd1e/qUBOHtRI+I7d03IWcGvVAgSamOOasrMfcXcjJJpZDVvYfDw9tEPyBI+yCUp4kAKcCY/8
- Z3I8NGosCqwQ==
+ 02 Jul 2020 09:21:51 -0700
+IronPort-SDR: J5mGMbwxa8FMY7qOOSelHrVUp7qJDfXhObZjjqLQto46PhdTel1TxJU1bt/Ldhtavz4DciDwBa
+ o4BBkSOBdzDg==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:35 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:36 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 58/64] target/riscv: integer extract instruction
-Date: Thu,  2 Jul 2020 09:23:48 -0700
-Message-Id: <20200702162354.928528-59-alistair.francis@wdc.com>
+Subject: [PULL v2 60/64] target/riscv: floating-point scalar move instructions
+Date: Thu,  2 Jul 2020 09:23:50 -0700
+Message-Id: <20200702162354.928528-61-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -98,148 +98,90 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-56-zhiwei_liu@c-sky.com>
+Message-Id: <20200701152549.1218-58-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |   1 +
- target/riscv/insn_trans/trans_rvv.inc.c | 116 ++++++++++++++++++++++++
- 2 files changed, 117 insertions(+)
+ target/riscv/insn32.decode              |  3 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 49 +++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 6f2e2df7d3..c4496cd010 100644
+index e06c0ffc22..17288a3c95 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -563,6 +563,7 @@ vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
- vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
- viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
+@@ -72,6 +72,7 @@
+ @r2_vm   ...... vm:1 ..... ..... ... ..... ....... &rmr %rs2 %rd
+ @r1_vm   ...... vm:1 ..... ..... ... ..... ....... %rd
+ @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
++@r2rd    .......   ..... ..... ... ..... ....... %rs2 %rd
+ @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
+ @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
+ @r_vm_0  ...... . ..... ..... ... ..... .......    &rmrr vm=0 %rs2 %rs1 %rd
+@@ -565,6 +566,8 @@ viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
  vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
-+vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+ vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+ vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
++vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
++vfmv_s_f        001101 1 00000 ..... 101 ..... 1010111 @r2
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index e94d149d3b..cfbbd88dbf 100644
+index b10b89daa9..7af16ce0a8 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2533,3 +2533,119 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
+@@ -2709,3 +2709,52 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
      }
      return false;
  }
 +
-+/*
-+ *** Vector Permutation Instructions
-+ */
-+
-+/* Integer Extract Instruction */
-+
-+static void load_element(TCGv_i64 dest, TCGv_ptr base,
-+                         int ofs, int sew)
++/* Floating-Point Scalar Move Instructions */
++static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
 +{
-+    switch (sew) {
-+    case MO_8:
-+        tcg_gen_ld8u_i64(dest, base, ofs);
-+        break;
-+    case MO_16:
-+        tcg_gen_ld16u_i64(dest, base, ofs);
-+        break;
-+    case MO_32:
-+        tcg_gen_ld32u_i64(dest, base, ofs);
-+        break;
-+    case MO_64:
-+        tcg_gen_ld_i64(dest, base, ofs);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+        break;
++    if (!s->vill && has_ext(s, RVF) &&
++        (s->mstatus_fs != 0) && (s->sew != 0)) {
++        unsigned int len = 8 << s->sew;
++
++        vec_element_loadi(s, cpu_fpr[a->rd], a->rs2, 0);
++        if (len < 64) {
++            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
++                            MAKE_64BIT_MASK(len, 64 - len));
++        }
++
++        mark_fs_dirty(s);
++        return true;
 +    }
++    return false;
 +}
 +
-+/* offset of the idx element with base regsiter r */
-+static uint32_t endian_ofs(DisasContext *s, int r, int idx)
++/* vfmv.s.f vd, rs1 # vd[0] = rs1 (vs2=0) */
++static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
 +{
-+#ifdef HOST_WORDS_BIGENDIAN
-+    return vreg_ofs(s, r) + ((idx ^ (7 >> s->sew)) << s->sew);
-+#else
-+    return vreg_ofs(s, r) + (idx << s->sew);
-+#endif
-+}
++    if (!s->vill && has_ext(s, RVF) && (s->sew != 0)) {
++        TCGv_i64 t1;
++        /* The instructions ignore LMUL and vector register group. */
++        uint32_t vlmax = s->vlen >> 3;
 +
-+/* adjust the index according to the endian */
-+static void endian_adjust(TCGv_i32 ofs, int sew)
-+{
-+#ifdef HOST_WORDS_BIGENDIAN
-+    tcg_gen_xori_i32(ofs, ofs, 7 >> sew);
-+#endif
-+}
++        /* if vl == 0, skip vector register write back */
++        TCGLabel *over = gen_new_label();
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
 +
-+/* Load idx >= VLMAX ? 0 : vreg[idx] */
-+static void vec_element_loadx(DisasContext *s, TCGv_i64 dest,
-+                              int vreg, TCGv idx, int vlmax)
-+{
-+    TCGv_i32 ofs = tcg_temp_new_i32();
-+    TCGv_ptr base = tcg_temp_new_ptr();
-+    TCGv_i64 t_idx = tcg_temp_new_i64();
-+    TCGv_i64 t_vlmax, t_zero;
++        /* zeroed all elements */
++        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), vlmax, vlmax, 0);
 +
-+    /*
-+     * Mask the index to the length so that we do
-+     * not produce an out-of-range load.
-+     */
-+    tcg_gen_trunc_tl_i32(ofs, idx);
-+    tcg_gen_andi_i32(ofs, ofs, vlmax - 1);
-+
-+    /* Convert the index to an offset. */
-+    endian_adjust(ofs, s->sew);
-+    tcg_gen_shli_i32(ofs, ofs, s->sew);
-+
-+    /* Convert the index to a pointer. */
-+    tcg_gen_ext_i32_ptr(base, ofs);
-+    tcg_gen_add_ptr(base, base, cpu_env);
-+
-+    /* Perform the load. */
-+    load_element(dest, base,
-+                 vreg_ofs(s, vreg), s->sew);
-+    tcg_temp_free_ptr(base);
-+    tcg_temp_free_i32(ofs);
-+
-+    /* Flush out-of-range indexing to zero.  */
-+    t_vlmax = tcg_const_i64(vlmax);
-+    t_zero = tcg_const_i64(0);
-+    tcg_gen_extu_tl_i64(t_idx, idx);
-+
-+    tcg_gen_movcond_i64(TCG_COND_LTU, dest, t_idx,
-+                        t_vlmax, dest, t_zero);
-+
-+    tcg_temp_free_i64(t_vlmax);
-+    tcg_temp_free_i64(t_zero);
-+    tcg_temp_free_i64(t_idx);
-+}
-+
-+static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
-+                              int vreg, int idx)
-+{
-+    load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew);
-+}
-+
-+static bool trans_vext_x_v(DisasContext *s, arg_r *a)
-+{
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv dest = tcg_temp_new();
-+
-+    if (a->rs1 == 0) {
-+        /* Special case vmv.x.s rd, vs2. */
-+        vec_element_loadi(s, tmp, a->rs2, 0);
-+    } else {
-+        /* This instruction ignores LMUL and vector register groups */
-+        int vlmax = s->vlen >> (3 + s->sew);
-+        vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
++        /* NaN-box f[rs1] as necessary for SEW */
++        t1 = tcg_temp_new_i64();
++        if (s->sew == MO_64 && !has_ext(s, RVD)) {
++            tcg_gen_ori_i64(t1, cpu_fpr[a->rs1], MAKE_64BIT_MASK(32, 32));
++        } else {
++            tcg_gen_mov_i64(t1, cpu_fpr[a->rs1]);
++        }
++        vec_element_storei(s, a->rd, 0, t1);
++        tcg_temp_free_i64(t1);
++        gen_set_label(over);
++        return true;
 +    }
-+    tcg_gen_trunc_i64_tl(dest, tmp);
-+    gen_set_gpr(a->rd, dest);
-+
-+    tcg_temp_free(dest);
-+    tcg_temp_free_i64(tmp);
-+    return true;
++    return false;
 +}
 -- 
 2.27.0
