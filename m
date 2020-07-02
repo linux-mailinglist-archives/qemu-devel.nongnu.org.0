@@ -2,108 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87873212B0D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:18:51 +0200 (CEST)
-Received: from localhost ([::1]:42332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D036212B2A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:25:26 +0200 (CEST)
+Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2rK-0003SN-ID
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44056)
+	id 1jr2xh-00031A-3Y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr2ov-0000fG-2w
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:16:21 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:56317)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jr2wQ-0001oF-SS
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:24:07 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:36209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr2or-0002WT-5F
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:16:20 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MJV9M-1jXK4l1PKK-00Jool; Thu, 02 Jul 2020 19:16:07 +0200
-To: Filip Bozuta <Filip.Bozuta@syrmia.com>, qemu-devel@nongnu.org
-References: <20200626213937.20333-1-Filip.Bozuta@syrmia.com>
- <20200626213937.20333-3-Filip.Bozuta@syrmia.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH 2/3] linux-user: Add strace support for printing arguments
- of syscalls used to lock and unlock memory
-Message-ID: <f43ce09a-0f88-e0d0-f798-22680d6fbd2c@vivier.eu>
-Date: Thu, 2 Jul 2020 19:16:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jr2wO-0003XD-Fn
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:24:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=noqrcHnElbnc1ITBkAEW9OJn0u3aj8lhMULqMbSVTDc=; b=dwAo23Gx11GPkpP0VJyc1suUT1
+ /m94buCS8CqLkBtGjBXZerOuofhbcguMeB7KnPrG/GDWt4COIUBq3ca1yveWdcM74r16ME7nXQpQR
+ /8yEoqwJykjGY0N/7TyJwyCgLRQZn6ILOv+0PwHXS76yjfgMOlVmtHeRZUY5Bq2uRGQxvuNwQlVpj
+ /dx8JyDF6+ECp/hlCP9QcQPk0fr59KgmU0068jnj5TQtDU59df7vJwFFpUj+7fywQfj+7071BCDrR
+ PgrruAJXSlY5kp1u6GmkApL+ZxTh42S5cr7mxilmxDSPZg+1/VjL7/VY8b5lCHLzm1xcH29+o6JlN
+ aQUPLhC17B3Pny5Auqgd0KWujLBkNwA1zNVHTlebIhN7Du8K7HODFc77TGjTftBGxOATZFYSL0zAg
+ JeIY8l37nxxPZu+FbZ0rinCWB1hXdnTjhNK024TEMKnXflbs/aOVwmRL00DGFzoVzo3eKNsCCVp/D
+ LHJjK6t8Euws2tOMyD3ltJDh0UZFHpWapO+32MUM62yA5i+oulMqv/aAI6cFjD9d4jymSk9bMnc7K
+ 4TNcRm8GAyzPvCV2poPuAnL7ctX+sQqzJFb8hbon2nCTcuKtZ6uQSkghHmbMS1hh9LX9pA+riN7Qi
+ 5cXJAmi1agI5RT/rLn+vmM+n/j44esNpNzVURZrUA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v6 4/5] 9pfs: T_readdir latency optimization
+Date: Thu, 02 Jul 2020 19:23:35 +0200
+Message-ID: <5261112.usFQB0EGfy@silver>
+In-Reply-To: <20200702173500.27f2b0a5@bahia.lan>
+References: <cover.1587309014.git.qemu_oss@crudebyte.com>
+ <1814766.vrYqd63b1M@silver> <20200702173500.27f2b0a5@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20200626213937.20333-3-Filip.Bozuta@syrmia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:B15IM4Df5PNwVAY7musHDOR+lQtU/Roik3kvbrHFTCdR5vzlvc7
- IiHz+5g//jzSor/cE0qvDqltCQaK2XhaBXQPP+3obfiB3SOscKEfziuAq9nHLYklASuevUW
- ZeUGxnq1SlLUDNy7zLWwMvzd1AuG34Xm5GO5+enZpl/0zoMqI6S9LnkjAVHUEJs0ZJU+fe8
- PnVwwfJ+acY7KvaSTDKnQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fEo08Lk9R8E=:HBksmhFRRXzeRN2vsPdfci
- WghO0C7shTXXTes5GK0pC673+Ka7A8knXc6D4QI9GAzbal8AAcMwAFJFkqkBfNyyXoOUXsjSt
- KQ/7yKgmbWSwBRGmElSulFEeBj28grdXFVSuGkcH7GqTdrcxBlWARVVhibvXl1/b3jBKIVwcH
- mVjOMWZJY51Qza86vKvD1CowsVbjBj/FsYf8cEWEBXTnuwezU1pW2EwAPe6QOGGNt7Oaz34oi
- J6c2un9nQ2p/V4fx6Pd1kLXslVm9cqUCLglFS8tIZEiH7EURWuK00yBYl9Sw2kLcS+9bX9CeZ
- SbgjjH0MtURrygFPv8FzqCUuEIxFvDB7SQuv50P1rDMLIf2J066gqFg08QbersFZhZx+v/WdF
- R0HGK3apaTByR0zOEudk9+LEnvNiRY8UkkTSLblEiOKQNUBl61b2hM/YFGmsZA8yXdh7IvpE8
- P8F5GqQD1wWJ1M0UmnpB2CYIY/mPWj/1VXvTvQCIuG0DZIp+9F8BiXQSUISheLxPCWbbDXaR/
- 28fshAPy1Vp8aRHls4fZnKBdR5raPyR5CM+VfauQ55jeFCEK3B4266+ee0ZpA2FYvdQnsjV5t
- +EWnm1sAsw6mUa1w4uDaulY1Zb3A944V95BSm48zUV1oFmScixYeRa8M7k9IdXzAqijnpbSou
- J/1ETqoUNeuVUQKnghZsa7Lvvb/9mFxSQmKjS3OyJWsdGF+nYu2oK2QxcSUpSCSJLl2h3ttVG
- Rh1i/u1Sekmzzba7nOSv4IWQWyrURm4DEfDeWwBGwiHHlGj6vXpWxhsyxIMtkp5MPPDLbwnZz
- Sf14kVy5uiTrMc0rw/7jfz0kLKzuaALMAbl+PCqkgA0bbsEDLDgho8KixB4cdK3lLhQkAcI
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 13:16:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 13:24:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,124 +67,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/06/2020 à 23:39, Filip Bozuta a écrit :
-> This patch implements strace argument printing functionality for following syscalls:
+On Donnerstag, 2. Juli 2020 17:35:00 CEST Greg Kurz wrote:
+> > > It isn't readdir only, most requests span over multiple v9fs_co_*()
+> > > calls...> 
+> > Right, I know! And that's actually my root motivation to finally bring
+> > this
+> > patch set forward, since I am very aware that this patch set is just a
+> > small brick in the overall procecss of fixing similarly affected code
+> > portions. So yes, that's my plan to fix them with upcoming patch sets,
+> > too.
+> > 
+> > Having said that, could we probably try to make future reviews a bit more
+> > efficient at certain aspects? For instance it would help a lot if the
+> > patch
+> > set was reviewed entirely, and not stopped at the very first issue spotted
+> > and then suspended to ++version, as this creates large latencies in the
+> > overall review process?
 > 
->     * mlock, munlock, mlockall, munlockall - lock and unlock memory
-> 
->        int mlock(const void *addr, size_t len)
->        int munlock(const void *addr, size_t len)
->        int mlockall(int flags)
->        int munlockall(void)
->        man page: https://man7.org/linux/man-pages/man2/mlock.2.html
-> 
-> Implementation notes:
-> 
->     Syscall mlockall() takes an argument that is composed of predefined values
->     which represent flags that determine the type of locking operation that is
->     to be performed. For that reason, a printing function "print_mlockall" was
->     stated in file "strace.list". This printing function uses an already existing
->     function "print_flags()" to print the "flags" argument.  These flags are stated
->     inside an array "mlockall_flags" that contains values of type "struct flags".
->     These values are instantiated using an existing macro "FLAG_GENERIC()".
->     The other syscalls have only primitive argument types, so the
->     rest of the implementation was handled by stating an appropriate
->     printing format in file "strace.list". Syscall mlock2() is not implemented in
->     "syscall.c" and thus it's argument printing is not implemented in this patch.
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-> ---
->  linux-user/strace.c    | 21 +++++++++++++++++++++
->  linux-user/strace.list |  8 ++++----
->  2 files changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index dccfbc46e9..1fc4404310 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -1161,6 +1161,15 @@ UNUSED static struct flags falloc_flags[] = {
->  #endif
->  };
->  
-> +UNUSED static struct flags mlockall_flags[] = {
-> +    FLAG_GENERIC(MCL_CURRENT),
+> Review of 9pfs is a best effort thing... I usually stop reviewing when I'm
+> fed up or when all the time I could reasonably invest is elapsed. Breaking
+> down the series in smaller patches is the usual improvement for that.
 
-I think you should use FLAG_TARGET() rather than FLAG_GENERIC().
-perhaps we should also rename them from TARGET_MLOCKALL_MCL_XXX to
-TARGET_MCL_XXX?
+No need to defend, you do these things voluntarily. I am glad that you spend 
+time on this project at all. I would appreciate though if we could reduce the 
+overall time for a patch set a bit, and my suggestion trying to walk through 
+an entire set before re-posting a new version might indeed bring an 
+improvement without anybody having to invest more time, but rather less.
 
-> +    FLAG_GENERIC(MCL_FUTURE),
-> +#ifdef MCL_ONFAULT
-> +    FLAG_GENERIC(MCL_ONFAULT),
-> +#endif
-
-perhaps it is worth to update syscall.c target_to_host_mlockall_arg()
-with this new flag?
-
-> +    FLAG_END,
-> +};
-> +
->  /*
->   * print_xxx utility functions.  These are used to print syscall
->   * parameters in certain format.  All of these have parameter
-> @@ -1939,6 +1948,18 @@ print_truncate(const struct syscallname *name,
->  #define print_truncate64     print_truncate
->  #endif
->  
-> +#ifdef TARGET_NR_mlockall
-> +static void
-> +print_mlockall(const struct syscallname *name,
-> +    abi_long arg0, abi_long arg1, abi_long arg2,
-> +    abi_long arg3, abi_long arg4, abi_long arg5)
-> +{
-> +    print_syscall_prologue(name);
-> +    print_flags(mlockall_flags, arg0, 1);
-> +    print_syscall_epilogue(name);
-> +}
-> +#endif
-> +
->  #if defined(TARGET_NR_socket)
->  static void
->  print_socket(const struct syscallname *name,
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 3b77b22daf..822b6be49c 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -567,13 +567,13 @@
->  { TARGET_NR_mknodat, "mknodat" , NULL, print_mknodat, NULL },
->  #endif
->  #ifdef TARGET_NR_mlock
-> -{ TARGET_NR_mlock, "mlock" , NULL, NULL, NULL },
-> +{ TARGET_NR_mlock, "mlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_mlock2
->  { TARGET_NR_mlock2, "mlock2" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_mlockall
-> -{ TARGET_NR_mlockall, "mlockall" , NULL, NULL, NULL },
-> +{ TARGET_NR_mlockall, "mlockall" , NULL, print_mlockall, NULL },
->  #endif
->  #ifdef TARGET_NR_mmap
->  { TARGET_NR_mmap, "mmap" , NULL, print_mmap, print_syscall_ret_addr },
-> @@ -636,10 +636,10 @@
->  { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_munlock
-> -{ TARGET_NR_munlock, "munlock" , NULL, NULL, NULL },
-> +{ TARGET_NR_munlock, "munlock" , "%s(%p," TARGET_FMT_lu ")", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_munlockall
-> -{ TARGET_NR_munlockall, "munlockall" , NULL, NULL, NULL },
-> +{ TARGET_NR_munlockall, "munlockall" , "%s()", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_munmap
->  { TARGET_NR_munmap, "munmap" , NULL, print_munmap, NULL },
+> > And likewise it would also help if review is prioritized on relevant
+> > behaviour aspects (concept, design) first before arguing about code style
+> > details like variable names or other details invisible to users.
 > 
+> I don't remember questioning the overall concept behind these changes
+> because it looks reasonable enough (even if I would appreciate to be
+> able to verify them with a working reproducer).
 
-Thanks,
-Laurent
+What exactly do you mean here with working reproducer?
+
+> Even if it is invisible to the users, coding style or how a series is
+> broken down in patches is important for developers.
+
+Dedication for detail beyond a certain fine graded level is luxury, and for 
+that reason it is designated for projects which clearly can afford it. On 
+(sub)projects with low activity and high latency (like this one) it easily 
+leads to frustration, which is obviously contra productive.
+
+I don't say don't care about code style, details et al., but caring a bit less 
+on reviews would not hurt, so to say. A bit of (invisible) tolerance avoids 
+friction and stagnancy.
+
+> > And finally: compromises. As man power on 9p is very limited, it would
+> > make
+> > sense to limit patch sets at a certain extent and agree to postpone
+> > certain
+> > non-critical issues to subsequent patches (or sets of), otherwise a patch
+> > set will grow and grow and it will take ages to get forward.
+> 
+> FWIW this patchset was more than 10 patches and now it is only 5 :)
+
+Hey, no misleading number crunching please. ;-) Three dropped patches were 
+never intended to be merged, they were pure benchmarks.
+
+> The good news is that you'll soon be able to merge things by yourself.
+> I'll help you when I can but I won't be the gating factor anymore.
+> 
+> Hurrah !
+
+Yep, I'll do my best to pursue your work, I appreciate what you did and that 
+you still volunteer to help!
+
+> > > > > 2) basically means moving some logic from the frontend to the
+> > > > > backend, ie. called from v9fs_co_run_in_worker(). This implies
+> > > > > that a very long request (ie. one that would span on many calls
+> > > > > to readdir()) cannot be interrupted by the client anymore, as
+> > > > > opposed to what we have now BTW.
+> > > 
+> > > ... most likely to allow clients to interrupt a long request with a
+> > > Tflush. Have you considered this aspect in your changes ?
+> > 
+> > In this particular patch set, no, as for readdir this should not be an
+> > issue in practice for anybody. After this patch set is applied, even on
+> > huge directories, the fs driver's duration for readdir would barely be
+> > measurable. In fact the server's latency would always be much higher,
+> > yet.
+> 
+> Reproducer ? Numbers ? ;)
+
+Well, you have already seen and run the benchmark in this series yourself. You 
+can easily hit several hundred ms server latency, which is very hard to top 
+with any fs driver reading a directory. Ok, maybe with a tape drive you could, 
+but that's pretty much it. :) With a 'normal' system the fs driver would 
+rather block for something between <1ms .. 8ms, i.e. fs driver completes 
+before it would be able to actually see a flush request.
+
+But to make it also clear: it would not bite with the new design either. If 
+someone really would see a necessity to abort readdir requests, that would be 
+possible without huge changes.
+
+> > > > > Then the whole seekdir/rewinddir/telldir/readdir sequence should
+> > > > > be called with a single v9fs_co_run_in_worker() invocation, in
+> > > > > which case the locking could just be something like:
+> > > > > 
+> > > > > int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState
+> > > > > *fidp,
+> > > > > 
+> > > > >                                       struct V9fsDirEnt **entries,
+> > > > >                                       int32_t maxsize, bool dostat)
+> > > > > 
+> > > > > {
+> > > > > 
+> > > > >     int err = 0;
+> > > > >     
+> > > > >     if (v9fs_request_cancelled(pdu)) {
+> > > > >     
+> > > > >         return -EINTR;
+> > > > >     
+> > > > >     }
+> > > > >     
+> > > > >     v9fs_readdir_lock(&fidp->fs.dir);
+> > > > >     
+> > > > >     v9fs_co_run_in_worker({
+> > > > >     
+> > > > >         err = do_readdir_many(pdu, fidp, entries, maxsize, dostat);
+> > > > >     
+> > > > >     });
+> > > > >     
+> > > > >     v9fs_readdir_unlock(&fidp->fs.dir);
+> > > > >     return err;
+> > > > > 
+> > > > > }
+> > > > 
+> > > > That's exactly what should be prevented. The lock must be on driver
+> > > > thread
+> > > > side, not on main thread side. The goal is to reduce the time slice of
+> > > > individual locks. If the lock is on main thread, the time slice of a
+> > > > lock
+> > > > (even on huge directories with thousands of entries) is multiple
+> > > > factors
+> > > > larger than if the lock is on driver thread side. So that's not just
+> > > > few
+> > > > percent or so, it is huge.
+> > > 
+> > > Sorry I don't get it...  In a contention-less situation, which is the
+> > > case we really care for, qemu_co_mutex_lock() has no overhead.
+> > 
+> > Yes, it only kicks in if there is concurrency.
+> 
+> And we don't care to preserve performance for silly clients, do we ?
+
+We don't necessarily need to preserve performance for them, that's right. But 
+it is already handled appropriately for them, so destroying it (i.e. slowing 
+them down) only makes sense if there is a good reason for that.
+
+> > > > > This would technically leave the locking in the main I/O thread,
+> > > > > but it isn't conceptually different from locking at the beginning
+> > > > > of do_readdir_lock() and unlocking before returning. My concern
+> > > > > is that I don't know how coroutine mutexes behave with multiple
+> > > > > worker threads...
+> > > > 
+> > > > Well, your Mutex -> CoMutex change was intended to fix a deadlock with
+> > > > the
+> > > > old readdir implementation. That deadlock could not happen with the
+> > > > new
+> > > > readdir implementation, which suggests that it probably makes sense to
+> > > > revert this change (i.e. CoMutex -> Mutex) for this new
+> > > > implementation.
+> > > 
+> > > No we can't because it is also used with 9p2000.u, that you said you
+> > > don't want to fix.
+> > 
+> > Yes and no, I did not say I don't want to fix readdir for 9p2000.u at all.
+> > What I said was I want to prioritize and concentrate on the most relevant
+> > issues first. 9p2000.L is the most commonly used protocol variant, so I
+> > would like to fix the most severe (e.g. performance) issues for 9p2000.L
+> > first before spending time on 9p2000.u which is AFAICS barely used in
+> > comparison, which I personally don't use at all, and which I am hence not
+> > testing in the same degree and cannot serve with the same quality as
+> > 9p2000.L right now.
+> > 
+> > Plus if there are really users caring for 9p2000.u, I can gladly assist
+> > them to address these issues for 9p2000.u as well, provided that they
+> > help at least with testing the required 9p2000.u changes.
+> 
+> I would personally do the opposite... again ;)
+> 
+> Like you say we essentially care for 9p2000.L and we only do limited
+> support for 9p2000.u. If we have a change that we really want for
+> 9p2000.L but it has an impact on 9p2000.u because of shared code,
+> it is fine to do the changes anyway, including changes to the 9p2000.u
+> specific code. Very basic testing of 9p2000.u (mount/ls or find/umount)
+> or maybe running pjd-fstest is enough IMHO. If we break someone's setup
+> and he complains, then we can ask him to test a fix before we merge it.
+
+Well, so you want to handle the relevant 9p2000.u readdir optimizations by 
+yourself, and you would send it as follow-up patch set (after this set is 
+through), including test cases?
+
+> > Back to the actual topic: so what do we do about the mutex then? CoMutex
+> > for 9p2000.u and Mutex for 9p2000.L? I know you find that ugly, but it
+> > would just be a transitional measure.
+> 
+> That would ruin my day...
+> 
+> More seriously, the recent fix for a deadlock condition that was present
+> for years proves that nobody seems to be using silly clients with QEMU.
+> So I think we should just dump the lock and add a one-time warning in
+> the top level handlers when we detect a duplicate readdir request on
+> the same fid. This should be a very simple patch (I can take care of
+> it right away).
+
+Looks like we have a consensus! Then I wait for your patch removing the lock, 
+and for your feedback whether or not you see anything else in this patch set?
+
+> > Best regards,
+> > Christian Schoenebeck
+> 
+> Cheers,
+> 
+> --
+> Greg
+
+Best regards,
+Christian Schoenebeck
+
+
 
