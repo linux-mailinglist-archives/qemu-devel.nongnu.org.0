@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FD72122B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:53:59 +0200 (CEST)
-Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299E92122C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:57:56 +0200 (CEST)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxmw-0004GM-3g
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
+	id 1jqxql-0001pn-4o
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk8-0007Qr-2m
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59698
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkA-0007Yn-Sb
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31809
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk6-0007M2-6d
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk8-0007Mr-37
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593690661;
+ s=mimecast20190719; t=1593690663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=1kNKMTUYWgp1CVwm24TcK7wY4liOhj6TnRuH9/lTlgo=;
- b=CDL3BHkpt6hSHSXCANj8D/rNX34kzIhlIcYoTkNtmIXR33SyiH920xapHfUEs397FTclrZ
- bY/sBN3u78YypQ8KkBEbLrtaNiYw4y808oZ8jHDOz/KblSQGkXLdkQOTQT1FMX/FMYveUA
- lBBOC6knelsufVpqCUot6B2tk6DeZ/c=
+ references:references; bh=VG0svflMGCYKdjl1nfOsKNim2IDeoAw/rNa1GCUj8tI=;
+ b=W/OIViaSYcijfrCrH2Sw1m8sGH6sQ5Wpf2EDy1bMzqy24s6GGtHK/9Gies5DGNrqqL1r/a
+ KWeCkL46a9A6Vj9o7VR1N20kEHfa9bQs1ZOyDFOqm0EX2mg0D6srYCvErUdci3dgAFgcAy
+ 8rYWuTv1fQFFakmR8AXxjrzYIOGuiM0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-_wuYbiPcM2KyjmnHJkWPCA-1; Thu, 02 Jul 2020 07:50:59 -0400
-X-MC-Unique: _wuYbiPcM2KyjmnHJkWPCA-1
+ us-mta-512-lj4LYaw9PpqCsIfh7XaCzw-1; Thu, 02 Jul 2020 07:51:01 -0400
+X-MC-Unique: lj4LYaw9PpqCsIfh7XaCzw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 533BC107ACCD;
- Thu,  2 Jul 2020 11:50:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D42E186A200;
+ Thu,  2 Jul 2020 11:51:00 +0000 (UTC)
 Received: from thuth.com (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8C709F43;
- Thu,  2 Jul 2020 11:50:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B32DF60CD3;
+ Thu,  2 Jul 2020 11:50:58 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL SUBSYSTEM s390x 05/11] pc-bios: s390x: Rename PSW_MASK_ZMODE to
- PSW_MASK_64
-Date: Thu,  2 Jul 2020 13:50:39 +0200
-Message-Id: <20200702115045.6171-6-thuth@redhat.com>
+Subject: [PULL SUBSYSTEM s390x 06/11] pc-bios: s390x: Use PSW masks where
+ possible and introduce PSW_MASK_SHORT_ADDR
+Date: Thu,  2 Jul 2020 13:50:40 +0200
+Message-Id: <20200702115045.6171-7-thuth@redhat.com>
 In-Reply-To: <20200702115045.6171-1-thuth@redhat.com>
 References: <20200702115045.6171-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,30 +84,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-This constant enables 64 bit addressing, not the ESAME architecture,
-so it shouldn't be named ZMODE.
+Let's move some of the PSW mask defines into s390-arch.h and use them
+in jump2ipl.c. Also let's introduce a new constant for the address
+mask of 8 byte (short) PSWs.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200624075226.92728-7-frankja@linux.ibm.com>
+Message-Id: <20200624075226.92728-8-frankja@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/s390-arch.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ pc-bios/s390-ccw/jump2ipl.c  | 10 ++++------
+ pc-bios/s390-ccw/s390-arch.h |  2 ++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+index 4eba2510b0..767012bf0c 100644
+--- a/pc-bios/s390-ccw/jump2ipl.c
++++ b/pc-bios/s390-ccw/jump2ipl.c
+@@ -8,12 +8,10 @@
+ 
+ #include "libc.h"
+ #include "s390-ccw.h"
++#include "s390-arch.h"
+ 
+ #define KERN_IMAGE_START 0x010000UL
+-#define PSW_MASK_64 0x0000000100000000ULL
+-#define PSW_MASK_32 0x0000000080000000ULL
+-#define PSW_MASK_SHORTPSW 0x0008000000000000ULL
+-#define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_32 | PSW_MASK_64)
++#define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
+ 
+ typedef struct ResetInfo {
+     uint64_t ipl_psw;
+@@ -54,7 +52,7 @@ void jump_to_IPL_code(uint64_t address)
+ 
+     current->ipl_psw = (uint64_t) &jump_to_IPL_2;
+     current->ipl_psw |= RESET_PSW_MASK;
+-    current->ipl_continue = address & 0x7fffffff;
++    current->ipl_continue = address & PSW_MASK_SHORT_ADDR;
+ 
+     debug_print_int("set IPL addr to", current->ipl_continue);
+ 
+@@ -86,7 +84,7 @@ void jump_to_low_kernel(void)
+ 
+     /* Trying to get PSW at zero address */
+     if (*((uint64_t *)0) & RESET_PSW_MASK) {
+-        jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
++        jump_to_IPL_code((*((uint64_t *)0)) & PSW_MASK_SHORT_ADDR);
+     }
+ 
+     /* No other option left, so use the Linux kernel start address */
 diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
-index 5f36361c02..73852029d4 100644
+index 73852029d4..6da44d4436 100644
 --- a/pc-bios/s390-ccw/s390-arch.h
 +++ b/pc-bios/s390-ccw/s390-arch.h
-@@ -29,7 +29,7 @@ _Static_assert(sizeof(struct PSWLegacy) == 8, "PSWLegacy size incorrect");
+@@ -26,9 +26,11 @@ _Static_assert(sizeof(struct PSWLegacy) == 8, "PSWLegacy size incorrect");
+ 
+ /* s390 psw bit masks */
+ #define PSW_MASK_IOINT      0x0200000000000000ULL
++#define PSW_MASK_SHORTPSW   0x0008000000000000ULL
  #define PSW_MASK_WAIT       0x0002000000000000ULL
  #define PSW_MASK_EAMODE     0x0000000100000000ULL
  #define PSW_MASK_BAMODE     0x0000000080000000ULL
--#define PSW_MASK_ZMODE      (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
-+#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
++#define PSW_MASK_SHORT_ADDR 0x000000007fffffffULL
+ #define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
  
  /* Low core mapping */
- typedef struct LowCore {
 -- 
 2.18.1
 
