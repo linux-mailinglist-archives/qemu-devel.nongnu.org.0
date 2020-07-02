@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A66E212204
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:19:08 +0200 (CEST)
-Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA4521221A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:22:43 +0200 (CEST)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxFD-0004T6-1s
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52546)
+	id 1jqxIg-0002hm-O7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6B-0006et-Dy
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25716
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6M-00078O-Qd
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28555
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx66-000105-O0
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6A-00012n-1M
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688182;
+ s=mimecast20190719; t=1593688185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I3f15NwU7tiSTFKwk/EUek4sQEp1X4yxw/TojcF4Pb0=;
- b=RDs6YUrblZaSBSOdvi57p3FdmgwIE7gTnN+kDkT1W9wSB022JQLA1A4k4CFf4P3Uriv4AG
- RxL1TFULNAiaSeecN+dJnTkg/lakqwI71YfIequ177rdR4/nShF23zWtO4oP7Hu30xkJ06
- zp6dJQ7L5VYojr85Z0IBxm4+gJdhIh0=
+ bh=ButK3prZ+cWQ+tqdqRhbbnFa20a91mKSRG/nTX+kx68=;
+ b=YEUGXKQUm4b8QSnfbIFRE0pdv0VGXBTQgMXPfiWO+NpByLxGRBxjim1CokKsJi3KRpImcR
+ +2P1By0/PU2PMEq+UJJdVcbQlc61lGDqll2ncN9sxz9zfBD9BN6N82/blfdvJ2CUfyV8ET
+ ll3LVxcMTQSY/pMJbBCI0JVIMdDk7qg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-P5R0lg9JONaOsSSSP8Gzbg-1; Thu, 02 Jul 2020 07:09:40 -0400
-X-MC-Unique: P5R0lg9JONaOsSSSP8Gzbg-1
+ us-mta-482-WsHgd7weN1u2brAc4nriiQ-1; Thu, 02 Jul 2020 07:09:39 -0400
+X-MC-Unique: WsHgd7weN1u2brAc4nriiQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76666804004;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FD8B8015F6;
  Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11D5A6109F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E87360CD3;
  Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1554D1138480; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
+ id 1C6621138481; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/28] riscv_hart: Fix riscv_harts_realize() error API
- violations
-Date: Thu,  2 Jul 2020 13:09:23 +0200
-Message-Id: <20200702110931.2953148-21-armbru@redhat.com>
+Subject: [PULL 21/28] mips/cps: Fix mips_cps_realize() error API violations
+Date: Thu,  2 Jul 2020 13:09:24 +0200
+Message-Id: <20200702110931.2953148-22-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -83,10 +82,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,62 +94,84 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-riscv_harts_realize() is wrong that way: it passes @errp to
-riscv_hart_realize() in a loop.  I can't tell offhand whether this can
-fail.
+mips_cps_realize() is wrong that way: it passes &err to multiple
+object_property_set_FOO() without checking for failure, and then to
+sysbus_realize().  Harmless, because the object_property_set_FOO()
+can't actually fail here.
 
-Fix by checking for failure in each iteration.
+Fix by passing &error_abort instead.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Cc: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-riscv@nongnu.org
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200630090351.1247703-19-armbru@redhat.com>
+Message-Id: <20200630090351.1247703-20-armbru@redhat.com>
 ---
- hw/riscv/riscv_hart.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ hw/mips/cps.c | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index e26c382259..f59fe52f0f 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -40,19 +40,13 @@ static void riscv_harts_cpu_reset(void *opaque)
-     cpu_reset(CPU(cpu));
- }
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 5382bc86f7..0d7f3cf673 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -100,10 +100,12 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     /* Inter-Thread Communication Unit */
+     if (itu_present) {
+         object_initialize_child(OBJECT(dev), "itu", &s->itu, TYPE_MIPS_ITU);
+-        object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
+-        object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &err);
++        object_property_set_int(OBJECT(&s->itu), 16, "num-fifo",
++                                &error_abort);
++        object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores",
++                                &error_abort);
+         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
+-                                 &err);
++                                 &error_abort);
+         if (saar_present) {
+             s->itu.saar = &env->CP0_SAAR;
+         }
+@@ -119,8 +121,10 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
  
--static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
-+static bool riscv_hart_realize(RISCVHartArrayState *s, int idx,
-                                char *cpu_type, Error **errp)
- {
--    Error *err = NULL;
--
-     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx], cpu_type);
-     s->harts[idx].env.mhartid = s->hartid_base + idx;
-     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
--    qdev_realize(DEVICE(&s->harts[idx]), NULL, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    return qdev_realize(DEVICE(&s->harts[idx]), NULL, errp);
- }
+     /* Cluster Power Controller */
+     object_initialize_child(OBJECT(dev), "cpc", &s->cpc, TYPE_MIPS_CPC);
+-    object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
+-    object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err);
++    object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp",
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running",
++                            &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpc), &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+@@ -132,8 +136,10 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
  
- static void riscv_harts_realize(DeviceState *dev, Error **errp)
-@@ -63,7 +57,9 @@ static void riscv_harts_realize(DeviceState *dev, Error **errp)
-     s->harts = g_new0(RISCVCPU, s->num_harts);
+     /* Global Interrupt Controller */
+     object_initialize_child(OBJECT(dev), "gic", &s->gic, TYPE_MIPS_GIC);
+-    object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
+-    object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
++    object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp",
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->gic), 128, "num-irq",
++                            &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->gic), &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+@@ -147,9 +153,12 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     gcr_base = env->CP0_CMGCRBase << 4;
  
-     for (n = 0; n < s->num_harts; n++) {
--        riscv_hart_realize(s, n, s->cpu_type, errp);
-+        if (!riscv_hart_realize(s, n, s->cpu_type, errp)) {
-+            return;
-+        }
-     }
- }
- 
+     object_initialize_child(OBJECT(dev), "gcr", &s->gcr, TYPE_MIPS_GCR);
+-    object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
+-    object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
+-    object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
++    object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp",
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev",
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base",
++                            &error_abort);
+     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic",
+                              &error_abort);
+     object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc",
 -- 
 2.26.2
 
