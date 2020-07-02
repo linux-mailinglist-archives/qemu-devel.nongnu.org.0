@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31F5212225
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:24:30 +0200 (CEST)
-Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7C5212239
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:26:24 +0200 (CEST)
+Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxKP-0006MT-Qc
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52778)
+	id 1jqxMF-00027M-OT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6K-00072e-ON
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33722
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6J-0006zA-GA
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30347
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-00012M-P3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx68-00011O-8x
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688185;
+ s=mimecast20190719; t=1593688183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uas3PeA/1eIG0i3Ut0IsXO+OgvTsxFM2A6B+Jkzvi8E=;
- b=ecIAkJ5dtjsnV45jvagvxim6EOhwxsEW9AwscE29yeMBIu/e1BlqlQXjMpUpsT5oUsTcKf
- mr7Rzjwiq8R0gSVlnA5LsQpaO2ESVWuzw5fPFu2kIJkb5YWgfu0/NrH5yBaorQ3T4cmpKM
- N/UK/Q/uhTo2ClFLfMv2BdPl249iUS4=
+ bh=FKPSUjRRwthP4rZxyZNbMUp9PqJDx4lkfSn3R+EIYpM=;
+ b=Y10VyYb8ddQ36dBHX9+OTrVNI5JpuxtA4WGLuIYPHRpcoqg6e2uf6vD79LDORWIw9gTGSA
+ UO/ea8tT+yrAtKDlsGGwzmEWJH62F6MI7GnzLR6mN1vNTc+FeheQVxsX64ZVqWdqvoT+Yn
+ gy2WjsIldYpKIfz2U92E3XKxP5QAjFw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-WKGrGU64Mk6lofSGMqiw8g-1; Thu, 02 Jul 2020 07:09:40 -0400
-X-MC-Unique: WKGrGU64Mk6lofSGMqiw8g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-103-Rr61AxxhMmOQmmb_Y9Gf-w-1; Thu, 02 Jul 2020 07:09:41 -0400
+X-MC-Unique: Rr61AxxhMmOQmmb_Y9Gf-w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 520D8107ACCA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B373DBFC3;
  Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2412410027AC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3372379229;
  Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 45DFC1138486; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
+ id 4C3751138487; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/28] hw/arm/armsse: Fix armsse_realize() error API violation
-Date: Thu,  2 Jul 2020 13:09:29 +0200
-Message-Id: <20200702110931.2953148-27-armbru@redhat.com>
+Subject: [PULL 27/28] arm/{bcm2835, fsl-imx25,
+ fsl-imx6}: Fix realize error API violations
+Date: Thu,  2 Jul 2020 13:09:30 +0200
+Message-Id: <20200702110931.2953148-28-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,8 +83,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,44 +97,103 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-armsse_realize() is wrong that way: it passes &err to
-object_property_set_int() multiple times without checking it, and then
-to sysbus_realize().  Harmless, because the former can't actually fail
-here.
+bcm2835_peripherals_realize(), fsl_imx25_realize() and
+fsl_imx6_realize() are wrong that way: they pass &err to
+object_property_set_uint() and object_property_set_bool() without
+checking it, and then to sysbus_realize().  Harmless, because the
+former can't actually fail here.
 
 Fix by passing &error_abort instead.
 
 Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-25-armbru@redhat.com>
+Message-Id: <20200630090351.1247703-26-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/armsse.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/arm/bcm2835_peripherals.c | 12 ++++--------
+ hw/arm/fsl-imx25.c           | 12 +++++-------
+ hw/arm/fsl-imx6.c            | 12 +++++-------
+ 3 files changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index a851652b39..2fbd970b4f 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -990,13 +990,13 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysinfo), 0, 0x40020000);
-     /* System control registers */
-     object_property_set_int(OBJECT(&s->sysctl), info->sys_version,
--                            "SYS_VERSION", &err);
-+                            "SYS_VERSION", &error_abort);
-     object_property_set_int(OBJECT(&s->sysctl), info->cpuwait_rst,
--                            "CPUWAIT_RST", &err);
-+                            "CPUWAIT_RST", &error_abort);
-     object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
--                            "INITSVTOR0_RST", &err);
-+                            "INITSVTOR0_RST", &error_abort);
-     object_property_set_int(OBJECT(&s->sysctl), s->init_svtor,
--                            "INITSVTOR1_RST", &err);
-+                            "INITSVTOR1_RST", &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->sysctl), &err);
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 1e975d7eec..7ffdf62067 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -283,16 +283,12 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+      * For the exact details please refer to the Arasan documentation:
+      *   SD3.0_Host_AHB_eMMC4.4_Usersguide_ver5.9_jan11_10.pdf
+      */
+-    object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version", &err);
++    object_property_set_uint(OBJECT(&s->sdhci), 3, "sd-spec-version",
++                             &error_abort);
+     object_property_set_uint(OBJECT(&s->sdhci), BCM2835_SDHC_CAPAREG, "capareg",
+-                             &err);
++                             &error_abort);
+     object_property_set_bool(OBJECT(&s->sdhci), true, "pending-insert-quirk",
+-                             &err);
+-    if (err) {
+-        error_propagate(errp, err);
+-        return;
+-    }
+-
++                             &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), &err);
      if (err) {
          error_propagate(errp, err);
+diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
+index f32f9bce0f..7ab5c98fbe 100644
+--- a/hw/arm/fsl-imx25.c
++++ b/hw/arm/fsl-imx25.c
+@@ -260,15 +260,13 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
+         };
+ 
+         object_property_set_uint(OBJECT(&s->esdhc[i]), 2, "sd-spec-version",
+-                                 &err);
++                                 &error_abort);
+         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX25_ESDHC_CAPABILITIES,
+-                                 "capareg", &err);
++                                 "capareg",
++                                 &error_abort);
+         object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
+-                                 "vendor", &err);
+-        if (err) {
+-            error_propagate(errp, err);
+-            return;
+-        }
++                                 "vendor",
++                                 &error_abort);
+         sysbus_realize(SYS_BUS_DEVICE(&s->esdhc[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
+index d4bc4fae93..4ae3c3efc2 100644
+--- a/hw/arm/fsl-imx6.c
++++ b/hw/arm/fsl-imx6.c
+@@ -336,15 +336,13 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
+ 
+         /* UHS-I SDIO3.0 SDR104 1.8V ADMA */
+         object_property_set_uint(OBJECT(&s->esdhc[i]), 3, "sd-spec-version",
+-                                 &err);
++                                 &error_abort);
+         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX6_ESDHC_CAPABILITIES,
+-                                 "capareg", &err);
++                                 "capareg",
++                                 &error_abort);
+         object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
+-                                 "vendor", &err);
+-        if (err) {
+-            error_propagate(errp, err);
+-            return;
+-        }
++                                 "vendor",
++                                 &error_abort);
+         sysbus_realize(SYS_BUS_DEVICE(&s->esdhc[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
 -- 
 2.26.2
 
