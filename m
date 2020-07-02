@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0411C2129DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:40:29 +0200 (CEST)
-Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198C22129BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:38:28 +0200 (CEST)
+Received: from localhost ([::1]:37698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2GB-00011f-U0
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33514)
+	id 1jr2EF-0005zD-3a
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29b-0003bO-Cf
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:39 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44864)
+ id 1jr29c-0003eR-KU
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:40 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29Z-00008e-8q
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:39 -0400
+ id 1jr29Z-00009X-Dx
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1593707617; x=1625243617;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6FduJjRKLBB1ju5wKSVHJ1TuQdzggW09bNB5uiXQaGI=;
- b=SBr3VUuoBgB3TahtALSe9YsUFzUXEoz64NUvaGiSuup8LcSXjT6eGb6E
- N8f/c+ooMnTMzaSz6IZZ7535MdYWVJkw9icqq0HpqqebqhUnbniydbfwX
- O2LyNAYa2RIhGkO1rwHEsYf8JPMiM9r5NRs2hoE+RvxJEMAehwS6CgIFS
- p2mSItgX3QrQbI6DExu+gOw488EjP7D+awdxzDbAQJddHOyr8WCpaAJX2
- 6IZJa/Luh534jOdbMVPhV2L9W3scqx4+2T28XnUxxPY9Jemippcbtb4KX
- V79r28dylICLiWTkfjMLi5N/vIMtqhQ1nFaWNEJ06BpKy8YFcSS7y/da1 Q==;
-IronPort-SDR: UanUJOaaaVXCEsNmhbVNVRS8GunOCB3On1gZDpwpU2WSJdRETcp8wJAZHzhyczbeqODuR3pnCP
- 36kdArQUvK4/9qCaJNASBd5PJC1WXSdbbTDVr0iK2AuVvsfaIYvRGC/0UuYc7XvKGGqC8u2tpG
- iRO+mmv/rB0JRypZORH6msIu0AYxgbV5mQPlNNnSbR4giQagmdOIwNhrvoJljDU4NVIKmKwYtT
- xrbIri+fQrSu/tX4qpVZO0JgjEecWqZXknuvs37ArXtRFMrrYfCetR0KuQXnyhxVunZVeGTqJO
- bjw=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498467"
+ bh=dLhnWcabZr2dofwjuTUseFmYUznHh9TIzlrK/4kXv84=;
+ b=orMjoYt2n2B0ss+w3gIBsAmX3uMR/Feroij4p38MUYDQmPLskbh+S1cD
+ L9fK/qPUPu/ld+3oCbwdNNm1Zlj7gJXZzZE+xyo/57QUqwf3ij11pt9UH
+ 7ORDs4Izc6IdKu2YJybVHZqqBjPXSWqoFI4kjTjv4RTa+QeK0zeRtInG5
+ ++nJya5Eu9rf55iR1JYTTaWzMHVrCp1U9roBD1+UNOHwhODlB8dKsASbS
+ mzpL+6evHHyqXZbcY9GVIqI7M60wGGfwzsDEg/mIKSWAsikNTfSNF4BBc
+ r5lgVo8CmD1ObN+mEPro5j7f4NnfeAqyYnEUilxoglUJsjjkeUWXx6DpS g==;
+IronPort-SDR: NjNNWty46P4ZKM7b/6c0lFhzmcOUMqBwX62xSoF6gYhXRhkqNTQjbCtziws8LvrMk4D2mkMegK
+ urKmqjvkZgqjz9ClJXwUL1ikkqi3as96boHSH8gVNogEJWtdB5obziVtGNiUYQ/4P9/oJvkPWR
+ EBUhIXVIuLfoCLHfhWB9M8sSzxVd1MrSr2d1T0DOsCXRt7PQYWeoKK1mxW3xgA0EXG9wiN2UJi
+ MB5FHgK4ihtwx+/iH2dldr7P9U/X2JyiZxkRBuSiyzb0UZbUrO6fdQGqVH1KAAnHBD4Q+OSWrl
+ nnM=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498468"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:21 +0800
-IronPort-SDR: nqxQYnzrOcEkuCy/kXAx1k5VggFESVUXCU7WwpR8xlYKGRRpvgHR3kz28QwWqNdycDpD4AesFO
- 30COZsLaRCpYYQ46OzQ+NrSsydHZNyOGo=
+IronPort-SDR: A8TM0HZ19DVPy81kyqtsHTwfUrDGzChm0An6Aov95IBUZY6Dw5fxw5bLgRFWseiI4D63Ft8yA1
+ PANZP8HV7Yhm+JyK1UDvnGbkdDA8Ksj8Q=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jul 2020 09:21:36 -0700
-IronPort-SDR: Dwq7LgCx3YfB0Fdho3WYCbvtvsrDRuuQpLPz1NrUnaIvfhna8h4zqim/k9MgIGXY7T1rVYiPLM
- +YVDSUamYRMA==
+IronPort-SDR: jy7vi7T4R9wI2e5ROneGuErc57BQ71b8otRm7zUuAdggM2R6RDEUxNO4cgd3M+iK6YklKEtNKw
+ HtuNExiyJpow==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:20 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:21 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 06/64] target/riscv: support vector extension csr
-Date: Thu,  2 Jul 2020 09:22:56 -0700
-Message-Id: <20200702162354.928528-7-alistair.francis@wdc.com>
+Subject: [PULL v2 07/64] target/riscv: add vector configure instruction
+Date: Thu,  2 Jul 2020 09:22:57 -0700
+Message-Id: <20200702162354.928528-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -95,170 +95,365 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-The v0.7.1 specification does not define vector status within mstatus.
-A future revision will define the privileged portion of the vector status.
+vsetvl and vsetvli are two configure instructions for vl, vtype. TB flags
+should update after configure instructions. The (ill, lmul, sew ) of vtype
+and the bit of (VSTART == 0 && VL == VLMAX) will be placed within tb_flags.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-4-zhiwei_liu@c-sky.com>
+Message-Id: <20200701152549.1218-5-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 15 +++++++++
- target/riscv/csr.c      | 75 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 89 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h                      | 63 +++++++++++++++++---
+ target/riscv/helper.h                   |  3 +
+ target/riscv/insn32.decode              |  5 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 79 +++++++++++++++++++++++++
+ target/riscv/translate.c                | 17 +++++-
+ target/riscv/vector_helper.c            | 53 +++++++++++++++++
+ target/riscv/Makefile.objs              |  2 +-
+ 7 files changed, 210 insertions(+), 12 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+ create mode 100644 target/riscv/vector_helper.c
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 7f64ee1174..8117e8b5a7 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -29,6 +29,14 @@
- #define FSR_NXA             (FPEXC_NX << FSR_AEXC_SHIFT)
- #define FSR_AEXC            (FSR_NVA | FSR_OFA | FSR_UFA | FSR_DZA | FSR_NXA)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 302e0859a0..0ad51c6580 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -21,6 +21,7 @@
+ #define RISCV_CPU_H
  
-+/* Vector Fixed-Point round model */
-+#define FSR_VXRM_SHIFT      9
-+#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
-+
-+/* Vector Fixed-Point saturation flag */
-+#define FSR_VXSAT_SHIFT     8
-+#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
-+
- /* Control and Status Registers */
+ #include "hw/core/cpu.h"
++#include "hw/registerfields.h"
+ #include "exec/cpu-defs.h"
+ #include "fpu/softfloat-types.h"
  
- /* User Trap Setup */
-@@ -48,6 +56,13 @@
- #define CSR_FRM             0x002
- #define CSR_FCSR            0x003
+@@ -93,6 +94,12 @@ typedef struct CPURISCVState CPURISCVState;
  
-+/* User Vector CSRs */
-+#define CSR_VSTART          0x008
-+#define CSR_VXSAT           0x009
-+#define CSR_VXRM            0x00a
-+#define CSR_VL              0xc20
-+#define CSR_VTYPE           0xc21
+ #define RV_VLEN_MAX 512
+ 
++FIELD(VTYPE, VLMUL, 0, 2)
++FIELD(VTYPE, VSEW, 2, 3)
++FIELD(VTYPE, VEDIV, 5, 2)
++FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 9)
++FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 2, 1)
 +
- /* User Timers and Counters */
- #define CSR_CYCLE           0xc00
- #define CSR_TIME            0xc01
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 383be0a955..ac01c835e1 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -46,6 +46,10 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
- static int fs(CPURISCVState *env, int csrno)
+ struct CPURISCVState {
+     target_ulong gpr[32];
+     uint64_t fpr[32]; /* assume both F and D extensions */
+@@ -352,19 +359,62 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+ #define TB_FLAGS_MMU_MASK   3
+ #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+ 
++typedef CPURISCVState CPUArchState;
++typedef RISCVCPU ArchCPU;
++#include "exec/cpu-all.h"
++
++FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
++FIELD(TB_FLAGS, LMUL, 3, 2)
++FIELD(TB_FLAGS, SEW, 5, 3)
++FIELD(TB_FLAGS, VILL, 8, 1)
++
++/*
++ * A simplification for VLMAX
++ * = (1 << LMUL) * VLEN / (8 * (1 << SEW))
++ * = (VLEN << LMUL) / (8 << SEW)
++ * = (VLEN << LMUL) >> (SEW + 3)
++ * = VLEN >> (SEW + 3 - LMUL)
++ */
++static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
++{
++    uint8_t sew, lmul;
++
++    sew = FIELD_EX64(vtype, VTYPE, VSEW);
++    lmul = FIELD_EX64(vtype, VTYPE, VLMUL);
++    return cpu->cfg.vlen >> (sew + 3 - lmul);
++}
++
+ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+-                                        target_ulong *cs_base, uint32_t *flags)
++                                        target_ulong *cs_base, uint32_t *pflags)
  {
- #if !defined(CONFIG_USER_ONLY)
-+    /* loose check condition for fcsr in vector extension */
-+    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
-+        return 0;
++    uint32_t flags = 0;
++
+     *pc = env->pc;
+     *cs_base = 0;
++
++    if (riscv_has_ext(env, RVV)) {
++        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
++        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
++                    FIELD_EX64(env->vtype, VTYPE, VILL));
++        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
++                    FIELD_EX64(env->vtype, VTYPE, VSEW));
++        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
++                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
++        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
++    } else {
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
 +    }
-     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-         return -1;
++
+ #ifdef CONFIG_USER_ONLY
+-    *flags = TB_FLAGS_MSTATUS_FS;
++    flags |= TB_FLAGS_MSTATUS_FS;
+ #else
+-    *flags = cpu_mmu_index(env, 0);
++    flags |= cpu_mmu_index(env, 0);
+     if (riscv_cpu_fp_enabled(env)) {
+-        *flags |= env->mstatus & MSTATUS_FS;
++        flags |= env->mstatus & MSTATUS_FS;
      }
-@@ -53,6 +57,14 @@ static int fs(CPURISCVState *env, int csrno)
-     return 0;
+ #endif
++    *pflags = flags;
  }
  
-+static int vs(CPURISCVState *env, int csrno)
+ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+@@ -405,9 +455,4 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
+ 
+ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
+ 
+-typedef CPURISCVState CPUArchState;
+-typedef RISCVCPU ArchCPU;
+-
+-#include "exec/cpu-all.h"
+-
+ #endif /* RISCV_CPU_H */
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index b36be978d5..8e81ff440b 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -81,3 +81,6 @@ DEF_HELPER_1(tlb_flush, void, env)
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_1(hyp_tlb_flush, void, env)
+ #endif
++
++/* Vector functions */
++DEF_HELPER_3(vsetvl, tl, env, tl, tl)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 4c8d1215ce..1916cf331d 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -62,6 +62,7 @@
+ @r_rm    .......   ..... ..... ... ..... ....... %rs2 %rs1 %rm %rd
+ @r2_rm   .......   ..... ..... ... ..... ....... %rs1 %rm %rd
+ @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
++@r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
+ 
+ @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
+ @hfence_vvma ....... ..... .....   ... ..... ....... %rs2 %rs1
+@@ -209,3 +210,7 @@ fcvt_d_wu  1101001  00001 ..... ... ..... 1010011 @r2_rm
+ # *** RV32H Base Instruction Set ***
+ hfence_gvma 0110001  .....  ..... 000 00000 1110011 @hfence_gvma
+ hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
++
++# *** RV32V Extension ***
++vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
++vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+new file mode 100644
+index 0000000000..c82fdf013e
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -0,0 +1,79 @@
++/*
++ * RISC-V translation routines for the RVV Standard Extension.
++ *
++ * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
 +{
-+    if (env->misa & RVV) {
++    TCGv s1, s2, dst;
++
++    if (!has_ext(ctx, RVV)) {
++        return false;
++    }
++
++    s2 = tcg_temp_new();
++    dst = tcg_temp_new();
++
++    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
++    if (a->rs1 == 0) {
++        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
++        s1 = tcg_const_tl(RV_VLEN_MAX);
++    } else {
++        s1 = tcg_temp_new();
++        gen_get_gpr(s1, a->rs1);
++    }
++    gen_get_gpr(s2, a->rs2);
++    gen_helper_vsetvl(dst, cpu_env, s1, s2);
++    gen_set_gpr(a->rd, dst);
++    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
++    lookup_and_goto_ptr(ctx);
++    ctx->base.is_jmp = DISAS_NORETURN;
++
++    tcg_temp_free(s1);
++    tcg_temp_free(s2);
++    tcg_temp_free(dst);
++    return true;
++}
++
++static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
++{
++    TCGv s1, s2, dst;
++
++    if (!has_ext(ctx, RVV)) {
++        return false;
++    }
++
++    s2 = tcg_const_tl(a->zimm);
++    dst = tcg_temp_new();
++
++    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
++    if (a->rs1 == 0) {
++        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
++        s1 = tcg_const_tl(RV_VLEN_MAX);
++    } else {
++        s1 = tcg_temp_new();
++        gen_get_gpr(s1, a->rs1);
++    }
++    gen_helper_vsetvl(dst, cpu_env, s1, s2);
++    gen_set_gpr(a->rd, dst);
++    gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
++    ctx->base.is_jmp = DISAS_NORETURN;
++
++    tcg_temp_free(s1);
++    tcg_temp_free(s2);
++    tcg_temp_free(dst);
++    return true;
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index b269f15920..cacb9b9cd3 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -56,6 +56,12 @@ typedef struct DisasContext {
+        to reset this known value.  */
+     int frm;
+     bool ext_ifencei;
++    /* vector extension */
++    bool vill;
++    uint8_t lmul;
++    uint8_t sew;
++    uint16_t vlen;
++    bool vl_eq_vlmax;
+ } DisasContext;
+ 
+ #ifdef TARGET_RISCV64
+@@ -712,6 +718,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+ #include "insn_trans/trans_rvf.inc.c"
+ #include "insn_trans/trans_rvd.inc.c"
+ #include "insn_trans/trans_rvh.inc.c"
++#include "insn_trans/trans_rvv.inc.c"
+ #include "insn_trans/trans_privileged.inc.c"
+ 
+ /* Include the auto-generated decoder for 16 bit insn */
+@@ -746,10 +753,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPURISCVState *env = cs->env_ptr;
+     RISCVCPU *cpu = RISCV_CPU(cs);
++    uint32_t tb_flags = ctx->base.tb->flags;
+ 
+     ctx->pc_succ_insn = ctx->base.pc_first;
+-    ctx->mem_idx = ctx->base.tb->flags & TB_FLAGS_MMU_MASK;
+-    ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
++    ctx->mem_idx = tb_flags & TB_FLAGS_MMU_MASK;
++    ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+     ctx->priv_ver = env->priv_ver;
+ #if !defined(CONFIG_USER_ONLY)
+     if (riscv_has_ext(env, RVH)) {
+@@ -773,6 +781,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->misa = env->misa;
+     ctx->frm = -1;  /* unknown rounding mode */
+     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
++    ctx->vlen = cpu->cfg.vlen;
++    ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
++    ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
++    ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
++    ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+ }
+ 
+ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+new file mode 100644
+index 0000000000..40ed0d55e7
+--- /dev/null
++++ b/target/riscv/vector_helper.c
+@@ -0,0 +1,53 @@
++/*
++ * RISC-V Vector Extension Helpers for QEMU.
++ *
++ * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include <math.h>
++
++target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
++                            target_ulong s2)
++{
++    int vlmax, vl;
++    RISCVCPU *cpu = env_archcpu(env);
++    uint16_t sew = 8 << FIELD_EX64(s2, VTYPE, VSEW);
++    uint8_t ediv = FIELD_EX64(s2, VTYPE, VEDIV);
++    bool vill = FIELD_EX64(s2, VTYPE, VILL);
++    target_ulong reserved = FIELD_EX64(s2, VTYPE, RESERVED);
++
++    if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
++        /* only set vill bit. */
++        env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
++        env->vl = 0;
++        env->vstart = 0;
 +        return 0;
 +    }
-+    return -1;
-+}
 +
- static int ctr(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-@@ -154,6 +166,10 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
- #endif
-     *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-         | (env->frm << FSR_RD_SHIFT);
-+    if (vs(env, csrno) >= 0) {
-+        *val |= (env->vxrm << FSR_VXRM_SHIFT)
-+                | (env->vxsat << FSR_VXSAT_SHIFT);
++    vlmax = vext_get_vlmax(cpu, s2);
++    if (s1 <= vlmax) {
++        vl = s1;
++    } else {
++        vl = vlmax;
 +    }
-     return 0;
- }
++    env->vl = vl;
++    env->vtype = s2;
++    env->vstart = 0;
++    return vl;
++}
+diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
+index ff651f69f6..ff38df6219 100644
+--- a/target/riscv/Makefile.objs
++++ b/target/riscv/Makefile.objs
+@@ -1,4 +1,4 @@
+-obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o gdbstub.o
++obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o vector_helper.o gdbstub.o
+ obj-$(CONFIG_SOFTMMU) += pmp.o
  
-@@ -166,10 +182,62 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
-     env->mstatus |= MSTATUS_FS;
- #endif
-     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-+    if (vs(env, csrno) >= 0) {
-+        env->vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
-+        env->vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
-+    }
-     riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
-     return 0;
- }
- 
-+static int read_vtype(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vtype;
-+    return 0;
-+}
-+
-+static int read_vl(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vl;
-+    return 0;
-+}
-+
-+static int read_vxrm(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxrm;
-+    return 0;
-+}
-+
-+static int write_vxrm(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxrm = val;
-+    return 0;
-+}
-+
-+static int read_vxsat(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxsat;
-+    return 0;
-+}
-+
-+static int write_vxsat(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxsat = val;
-+    return 0;
-+}
-+
-+static int read_vstart(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vstart;
-+    return 0;
-+}
-+
-+static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vstart = val;
-+    return 0;
-+}
-+
- /* User Timers and Counters */
- static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
- {
-@@ -1183,7 +1251,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
-     [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
-     [CSR_FCSR] =                { fs,   read_fcsr,        write_fcsr        },
--
-+    /* Vector CSRs */
-+    [CSR_VSTART] =              { vs,   read_vstart,      write_vstart      },
-+    [CSR_VXSAT] =               { vs,   read_vxsat,       write_vxsat       },
-+    [CSR_VXRM] =                { vs,   read_vxrm,        write_vxrm        },
-+    [CSR_VL] =                  { vs,   read_vl                             },
-+    [CSR_VTYPE] =               { vs,   read_vtype                          },
-     /* User Timers and Counters */
-     [CSR_CYCLE] =               { ctr,  read_instret                        },
-     [CSR_INSTRET] =             { ctr,  read_instret                        },
+ ifeq ($(CONFIG_SOFTMMU),y)
 -- 
 2.27.0
 
