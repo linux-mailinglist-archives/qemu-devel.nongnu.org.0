@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFAD212E35
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:51:21 +0200 (CEST)
-Received: from localhost ([::1]:35746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C480212E60
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 23:01:10 +0200 (CEST)
+Received: from localhost ([::1]:44082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr6Ay-00072x-Ej
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
+	id 1jr6KS-00075o-O5
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 17:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr698-0004P2-Ti
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:26 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34686
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr69I-0004s1-Ch
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53210
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr694-0003Y6-8n
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr69B-0003aF-Pr
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593722961;
+ s=mimecast20190719; t=1593722969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=MNTlxHdwoZD1i7fR0/VxIsjSfZdUtlBEEDJL/FTCXj8=;
- b=NtCiRz1HmWgycH9bfp1YO3tbsgb5spIME+RUQa90ew2RiVsH+yYqhssIzqrOqpDzlPvA1S
- sRt2cwbPQjptBDlsHF957zzBVVtX1aR6yWRdBVYYLNIUu3p/HejrtpDCX8XC7cZWgPJC82
- a2JZhJcXut6Gi8WSL16e7eai5g4IR3k=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+D/ug5/o/j1UfsayiPE69auBjRpMax1pAYi57HqCtt4=;
+ b=YcxK1uxa/BTvZsqo5bpu+gJ9L4XklYXAdKd6e8ghW7T+vyKzPprMVdTSb/mPmNs4OwTW60
+ V/iJnsJxBogAZIX24qhUwPTJL5XP3RHoG2yy6/ywGGFoUyeLtCJFCOh0DoDNu629glFBgF
+ s9SRU47uZ86bK7SkTG/vzk2PLBkrEZE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-GxZjK5W8P_SgcZHHIHy8qQ-1; Thu, 02 Jul 2020 16:49:20 -0400
-X-MC-Unique: GxZjK5W8P_SgcZHHIHy8qQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-235-rq0YC5JDPPGhUyqfUmyPGw-1; Thu, 02 Jul 2020 16:49:15 -0400
+X-MC-Unique: rq0YC5JDPPGhUyqfUmyPGw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3EC88018A4;
- Thu,  2 Jul 2020 20:49:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1534107ACCA;
+ Thu,  2 Jul 2020 20:49:13 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50A981A928;
- Thu,  2 Jul 2020 20:49:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3629371678;
+ Thu,  2 Jul 2020 20:49:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B2D3231F14; Thu,  2 Jul 2020 22:49:00 +0200 (CEST)
+ id BEE25EB2; Thu,  2 Jul 2020 22:48:59 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 21/21] tests/acpi: update expected data files for microvm
-Date: Thu,  2 Jul 2020 22:48:59 +0200
-Message-Id: <20200702204859.9876-22-kraxel@redhat.com>
-In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
-References: <20200702204859.9876-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Subject: [PATCH v4 00/21] microvm: add acpi support
+Date: Thu,  2 Jul 2020 22:48:38 +0200
+Message-Id: <20200702204859.9876-1-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -65,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,58 +89,110 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also clear tests/qtest/bios-tables-test-allowed-diff.h
+I know that not supporting ACPI in microvm is intentional.  If you still
+don't want ACPI this is perfectly fine, you can use the usual -no-acpi
+switch to toggle ACPI support.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+These are the advantages you are going to loose then:
+
+  (1) virtio-mmio device discovery without command line hacks (tweaking
+      the command line is a problem when not using direct kernel boot).
+  (2) Better IO-APIC support, we can use IRQ lines 16-23.
+  (3) ACPI power button (aka powerdown request) works.
+  (4) machine poweroff (aka S5 state) works.
+
+Together with seabios patches for virtio-mmio support this allows to
+boot standard fedora images (cloud, coreos, workstation live) with the
+microvm machine type.
+
+git branch for testing (including updated seabios):
+	https://git.kraxel.org/cgit/qemu/log/?h=sirius/microvm
+
+changes in v2:
+  * some acpi cleanups are an separate patch series now.
+  * switched to hw reduced acpi & generic event device.
+  * misc fixes here and there.
+
+changes in v3:
+  * depeds on "[PATCH v6 00/16] acpi: i386 tweaks" series.
+  * renamed qboot to qboot.bin
+  * updated seabios to master branch snapshot.
+    - this version boots fine with rtc=off
+  * generic event device tweaks (Igor's comments).
+  * make SMP work.
+  * add RfC patches to turn off acpi by default for microvm.
+  * misc fixes here and there.
+
+changes in v4
+  * rebase to latest master
+    - this also depends on the pending seabios update
+  * drop some patches which got cherry-picked.
+  * wire up cpu hotplug (also does coldplug cpu init).
+  * add microvm acpi test case.
+  * dropped RfC patches to turn off acpi by default for microvm.
+  * misc fixes here and there.
+
+take care,
+  Gerd
+
+Gerd Hoffmann (21):
+  microvm: name qboot binary qboot.rom
+  seabios: add microvm config, update build rules
+  seabios: add bios-microvm.bin binary
+  acpi: ged: add control regs
+  acpi: ged: add x86 device variant.
+  acpi: move acpi_dsdt_add_power_button() to ged
+  microvm: make virtio irq base runtime configurable
+  microvm/acpi: add minimal acpi support
+  microvm/acpi: add acpi_dsdt_add_virtio() for x86
+  microvm/acpi: use GSI 16-23 for virtio
+  microvm/acpi: use seabios with acpi=on
+  microvm/acpi: disable virtio-mmio cmdline hack
+  x86: constify x86_machine_is_*_enabled
+  x86: move acpi_dev from pc/microvm
+  x86: move cpu plug from pc to x86
+  microvm: wire up hotplug
+  tests/acpi: clear bios-tables-test-allowed-diff.h
+  tests/acpi: allow microvm test data updates.
+  tests/acpi: allow override blkdev
+  tests/acpi: add microvm test
+  tests/acpi: update expected data files for microvm
+
+ hw/i386/acpi-microvm.h                      |   8 +
+ include/hw/acpi/generic_event_device.h      |  12 +
+ include/hw/i386/microvm.h                   |  10 +-
+ include/hw/i386/pc.h                        |   1 -
+ include/hw/i386/x86.h                       |  11 +-
+ tests/qtest/bios-tables-test-allowed-diff.h |  18 --
+ hw/acpi/generic_event_device.c              |  52 ++++
+ hw/arm/virt-acpi-build.c                    |   8 -
+ hw/i386/acpi-build.c                        |   2 +-
+ hw/i386/acpi-microvm.c                      | 234 ++++++++++++++++++
+ hw/i386/generic_event_device_x86.c          |  36 +++
+ hw/i386/microvm.c                           | 105 +++++++-
+ hw/i386/pc.c                                | 260 ++------------------
+ hw/i386/pc_piix.c                           |   2 +-
+ hw/i386/pc_q35.c                            |   2 +-
+ hw/i386/x86.c                               | 226 ++++++++++++++++-
+ tests/qtest/bios-tables-test.c              |  21 +-
+ hw/i386/Kconfig                             |   1 +
+ hw/i386/Makefile.objs                       |   2 +
+ pc-bios/bios-microvm.bin                    | Bin 65536 -> 131072 bytes
+ pc-bios/qboot.rom                           | Bin 0 -> 65536 bytes
+ roms/Makefile                               |  11 +-
+ roms/config.seabios-microvm                 |  26 ++
  tests/data/acpi/microvm/APIC                | Bin 0 -> 70 bytes
  tests/data/acpi/microvm/DSDT                | Bin 0 -> 365 bytes
  tests/data/acpi/microvm/FACP                | Bin 0 -> 268 bytes
- 4 files changed, 3 deletions(-)
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 97c3fa621b7f..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC",
--"tests/data/acpi/microvm/DSDT",
--"tests/data/acpi/microvm/FACP",
-diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7472c7e830b6c7139720e93dd544d4441556661d 100644
-GIT binary patch
-literal 70
-zcmZ<^@N{-#U|?Xp?&R<65v<@85#a0y6k`O6f!H9Lf#JbFFwFr}2jnsGfW!{`1CcCj
-H|A7Jk<Z=uF
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b7297dfe9a34bede2ad0d65281f0bc7497bbd358 100644
-GIT binary patch
-literal 365
-zcmX9(%WA?v6uqN~#;dW@2S^JA=?9e2B3&nwF$SVZGd>C_j6YE5wz#n_gs%GoenLN`
-zpW{k;$86@Fd(Irrxsi_M?+m~-VJ0WKAHL=?B917q*iIf_8y%W*_c&h3v1cYp<iDut
-zLI^Pg&**u8ZO_O;U;2nK<1Tku=M&1^P-fG?`F|()bD3urNkp$TTvP^*e$0;bV;#H)
-z4%U-4VilPxB#?O`#NdfS$mx?n$mVph{oQ~%Yf(EgZB?OS=l~o}=#*b=yGo^1+P}Fs
-zYB_Ix*kyg-Kbtky0BievRfM=LcefT)Vfic<QphTciiFOx5YLsC&Wen#9aSPWsf7&a
-j65Hhtd;1nJ=>DFd20*<S>z#XX{ze8pGFMFpU84R0a<feV
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..e52b16d24ac4f7b95a7d11a5f2ad801c0cb87147 100644
-GIT binary patch
-literal 268
-zcmZ>BbPnKQWME*eb@F%i2v%^42yk`-iUEZfKx`0ARlp*^z`()4z{IrRAIMxM1_r8I
-SLD0QG`x&72gWSRhWdi`;u?ztK
-
-literal 0
-HcmV?d00001
+ 26 files changed, 761 insertions(+), 287 deletions(-)
+ create mode 100644 hw/i386/acpi-microvm.h
+ create mode 100644 hw/i386/acpi-microvm.c
+ create mode 100644 hw/i386/generic_event_device_x86.c
+ create mode 100644 pc-bios/qboot.rom
+ create mode 100644 roms/config.seabios-microvm
+ create mode 100644 tests/data/acpi/microvm/APIC
+ create mode 100644 tests/data/acpi/microvm/DSDT
+ create mode 100644 tests/data/acpi/microvm/FACP
 
 -- 
 2.18.4
