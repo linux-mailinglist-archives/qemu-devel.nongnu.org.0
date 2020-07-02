@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C94212A91
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:56:27 +0200 (CEST)
-Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9593212A96
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:58:13 +0200 (CEST)
+Received: from localhost ([::1]:34004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2Ve-0005ho-Qd
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34480)
+	id 1jr2XM-0008Nk-Ns
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2Av-00077P-KO
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:01 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44879)
+ id 1jr2B1-0007RA-P0
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:07 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2At-0000Ah-1J
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:01 -0400
+ id 1jr2Az-00008e-Pg
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707699; x=1625243699;
+ t=1593707705; x=1625243705;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6Ynlm94Zc+VFzL93voN7Gbl80eTnrXSvwDT3htX/+BU=;
- b=Zn2VmjReifz9mh7G0RIBIUt7r4FCp3gbIwJ1MkPPnPwBhxeqn/cvanbm
- rClSmKM7fUA6YSIaxLS4ksuSIEI/gzAZQFcdqhOvBLqD4ifhcHwzfAI15
- 5SdKctP2LVONk+333NMVmOXiGEvvSgamGjWtE89n3MNpl9ljuMWXzgl5y
- SR1bn7dL2NfuelgxoMfqn7Z4guEf4wRWkgQJG9bnRHi8zwWU5/CmaWlrT
- EoJOw9HgaBLnsjzgKfUuuvDPG3nc9QehN7RbHfz17ufOxsYR5w4B/g+DH
- 7OjrmCNU9jN/yihtQGWWC6p/za6y54ENCSqivfmtPxVDPHmyy6xoaUnAS A==;
-IronPort-SDR: dhPNzo22te8ZM42nBfhW/82rGRnsjMUjsk0CBDvJfHX4+ORM6y1NnEJWWuaeOcZVyhTfRZScw+
- alDX63nQU49G9eCgCDX2ES3F9ODN2+QSxxKx5KH/BFXoq7ki2fP1PNaOlAsyi6bNSFjKUS+q7z
- U59d+1+GkFqQkpZx0tA5HJaK3izdN2MUCLdeYUyAIG0YoP0rxfaNKnTtm7T+VSNYeerKIOhqMN
- MF0mOUMvRI68ed4ydG39TdGCFM6SjGBL+CPQBs3LA0vq1g2cug4r7GX7o3oFDzZlQf7Q8Msgny
- JoY=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498560"
+ bh=x0sCW/GSWSkqSg+PBCbX4cSJGm6OKYpy7N4TrvM8cf8=;
+ b=a9tMeK2qfNwKWr0RTm5uVRAj1Ycg4zVmwWdK7nvK/+yb3QDKvOaGh7e8
+ SIWCOYZlqSe515UfPsrIpLyXrbYs+HrNO5/TqB64KMdjjyHZiX+wZ/qIM
+ 8nYcMW8MozJwk0inf2au9jfRz8B+xm/M6ZuEo/9K5KD5kHco1ykDm1XR5
+ dd1XSQ3fDjvGBI2jFTjCJxa4+94fp//DhB1nWvLKj1xMLXCK/z3dMHZgy
+ EGGR8Atya5I2+ZJHOlgDMioUacye3s5MKgp+FLpISAFKUidPBQxdCScmg
+ jULDtrYq/lFATT61W4IqytzU0GtvL2oiWRDh6TlOJzcrftdIBLhsfKFu8 w==;
+IronPort-SDR: oAcHxK8orLwT8YIhYeMHas5yum8nvrlSZOUJijIEQ5ceWnPWLnOM6q7xde7nrvYTRODbebrOmH
+ YVO3QaVZdj86KFDArf5sZGOumRS8HCrfjvyJZOXQk7kmb4LGFSkkGCKpOQlnOxiktkT1t/e9WA
+ SXa42bcOdXHjh4H4Q4wLGSnkvLtyxtZ0gsQX5wxOvwwmwKbB77nRzFgCCty3RHoNliHylh7sDN
+ S+n5w7MQtm+1eCZzhZaUUaQiKEVBv304IybsjyivXTCIBi3Zyd04Bs5oiaPWARcI9RuuvUEz4O
+ WsU=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498566"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:35 +0800
-IronPort-SDR: BOyex8aqGFkfUYtI4rLRaHUGCMizrivundEJFSJn7apjsYz8TdHfNpWvhwciFYYHnPefcIA3ri
- r1BeEh9GUJS9UUiZ2gq2/PFFKeu7N74OM=
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:36 +0800
+IronPort-SDR: DiBXLotPpKDs4PGSDeUSNoEixndMKZKigtc4s+UCDiLQf6q6NQzeWT+EMgjuxuzHNhwszSsRfk
+ pbwY3m1rdi3560uFX74HRgQPHSoBg3Hck=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 09:21:50 -0700
-IronPort-SDR: 5Fu2XOAsE6+Qs6VpbjXnD/4goTnA8uTYfKE8TOI/IvzOyGY58uQGyCfLBYpyXQugirQDjtz0Wf
- FgjRbutATv/Q==
+ 02 Jul 2020 09:21:51 -0700
+IronPort-SDR: WG+Xmnr7LK6d38Rv6pgHcfWUfMi3G3pddpOtX7QBh4USDf0zLWGOY8kH4P5bQ3IM72B6BWvke5
+ gpca/NXhoXfg==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
@@ -56,9 +56,9 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 57/64] target/riscv: vector element index instruction
-Date: Thu,  2 Jul 2020 09:23:47 -0700
-Message-Id: <20200702162354.928528-58-alistair.francis@wdc.com>
+Subject: [PULL v2 59/64] target/riscv: integer scalar move instruction
+Date: Thu,  2 Jul 2020 09:23:49 -0700
+Message-Id: <20200702162354.928528-60-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -98,113 +98,109 @@ From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-55-zhiwei_liu@c-sky.com>
+Message-Id: <20200701152549.1218-57-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |  5 +++++
- target/riscv/insn32.decode              |  2 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 25 +++++++++++++++++++++++++
- target/riscv/vector_helper.c            | 24 ++++++++++++++++++++++++
- 4 files changed, 56 insertions(+)
+ target/riscv/internals.h                |  6 +++
+ target/riscv/insn32.decode              |  1 +
+ target/riscv/insn_trans/trans_rvv.inc.c | 60 +++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 91db396979..c6695ea7a8 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1114,3 +1114,8 @@ DEF_HELPER_5(viota_m_b, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(viota_m_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(viota_m_w, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(viota_m_d, void, ptr, ptr, ptr, env, i32)
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index f3cea478f7..37d33820ad 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -32,4 +32,10 @@ FIELD(VDATA, WD, 11, 1)
+ target_ulong fclass_h(uint64_t frs1);
+ target_ulong fclass_s(uint64_t frs1);
+ target_ulong fclass_d(uint64_t frs1);
 +
-+DEF_HELPER_4(vid_v_b, void, ptr, ptr, env, i32)
-+DEF_HELPER_4(vid_v_h, void, ptr, ptr, env, i32)
-+DEF_HELPER_4(vid_v_w, void, ptr, ptr, env, i32)
-+DEF_HELPER_4(vid_v_d, void, ptr, ptr, env, i32)
++#define SEW8  0
++#define SEW16 1
++#define SEW32 2
++#define SEW64 3
++
+ #endif
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 415523573d..6f2e2df7d3 100644
+index c4496cd010..e06c0ffc22 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -70,6 +70,7 @@
- @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
- @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
- @r2_vm   ...... vm:1 ..... ..... ... ..... ....... &rmr %rs2 %rd
-+@r1_vm   ...... vm:1 ..... ..... ... ..... ....... %rd
- @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
- @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
- @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=1 %rs2 %rs1 %rd
-@@ -561,6 +562,7 @@ vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
- vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
- vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
+@@ -564,6 +564,7 @@ vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
  viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
-+vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
+ vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
++vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 4dc893fa70..e94d149d3b 100644
+index cfbbd88dbf..b10b89daa9 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2508,3 +2508,28 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
-     }
-     return false;
+@@ -2649,3 +2649,63 @@ static bool trans_vext_x_v(DisasContext *s, arg_r *a)
+     tcg_temp_free_i64(tmp);
+     return true;
  }
 +
-+/* Vector Element Index Instruction */
-+static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
-+{
-+    if (vext_check_isa_ill(s) &&
-+        vext_check_reg(s, a->rd, false) &&
-+        vext_check_overlap_mask(s, a->rd, a->vm, false)) {
-+        uint32_t data = 0;
-+        TCGLabel *over = gen_new_label();
-+        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++/* Integer Scalar Move Instruction */
 +
-+        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+        static gen_helper_gvec_2_ptr * const fns[4] = {
-+            gen_helper_vid_v_b, gen_helper_vid_v_h,
-+            gen_helper_vid_v_w, gen_helper_vid_v_d,
-+        };
-+        tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-+                           cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
++static void store_element(TCGv_i64 val, TCGv_ptr base,
++                          int ofs, int sew)
++{
++    switch (sew) {
++    case MO_8:
++        tcg_gen_st8_i64(val, base, ofs);
++        break;
++    case MO_16:
++        tcg_gen_st16_i64(val, base, ofs);
++        break;
++    case MO_32:
++        tcg_gen_st32_i64(val, base, ofs);
++        break;
++    case MO_64:
++        tcg_gen_st_i64(val, base, ofs);
++        break;
++    default:
++        g_assert_not_reached();
++        break;
++    }
++}
++
++/*
++ * Store vreg[idx] = val.
++ * The index must be in range of VLMAX.
++ */
++static void vec_element_storei(DisasContext *s, int vreg,
++                               int idx, TCGv_i64 val)
++{
++    store_element(val, cpu_env, endian_ofs(s, vreg, idx), s->sew);
++}
++
++/* vmv.s.x vd, rs1 # vd[0] = rs1 */
++static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
++{
++    if (vext_check_isa_ill(s)) {
++        /* This instruction ignores LMUL and vector register groups */
++        int maxsz = s->vlen >> 3;
++        TCGv_i64 t1;
++        TCGLabel *over = gen_new_label();
++
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), maxsz, maxsz, 0);
++        if (a->rs1 == 0) {
++            goto done;
++        }
++
++        t1 = tcg_temp_new_i64();
++        tcg_gen_extu_tl_i64(t1, cpu_gpr[a->rs1]);
++        vec_element_storei(s, a->rd, 0, t1);
++        tcg_temp_free_i64(t1);
++    done:
 +        gen_set_label(over);
 +        return true;
 +    }
 +    return false;
 +}
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index e0e6299e64..0fa899b6ff 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4673,3 +4673,27 @@ GEN_VEXT_VIOTA_M(viota_m_b, uint8_t, H1, clearb)
- GEN_VEXT_VIOTA_M(viota_m_h, uint16_t, H2, clearh)
- GEN_VEXT_VIOTA_M(viota_m_w, uint32_t, H4, clearl)
- GEN_VEXT_VIOTA_M(viota_m_d, uint64_t, H8, clearq)
-+
-+/* Vector Element Index Instruction */
-+#define GEN_VEXT_VID_V(NAME, ETYPE, H, CLEAR_FN)                          \
-+void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
-+{                                                                         \
-+    uint32_t mlen = vext_mlen(desc);                                      \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vm = vext_vm(desc);                                          \
-+    uint32_t vl = env->vl;                                                \
-+    int i;                                                                \
-+                                                                          \
-+    for (i = 0; i < vl; i++) {                                            \
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+            continue;                                                     \
-+        }                                                                 \
-+        *((ETYPE *)vd + H(i)) = i;                                        \
-+    }                                                                     \
-+    CLEAR_FN(vd, vl, vl * sizeof(ETYPE), vlmax * sizeof(ETYPE));          \
-+}
-+
-+GEN_VEXT_VID_V(vid_v_b, uint8_t, H1, clearb)
-+GEN_VEXT_VID_V(vid_v_h, uint16_t, H2, clearh)
-+GEN_VEXT_VID_V(vid_v_w, uint32_t, H4, clearl)
-+GEN_VEXT_VID_V(vid_v_d, uint64_t, H8, clearq)
 -- 
 2.27.0
 
