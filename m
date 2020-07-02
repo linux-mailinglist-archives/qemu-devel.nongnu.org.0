@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54EC2122B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:53:57 +0200 (CEST)
-Received: from localhost ([::1]:39642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60112122C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:55:47 +0200 (CEST)
+Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxmu-0004E2-SV
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35522)
+	id 1jqxog-0007lO-T2
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk7-0007Pr-L3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52812
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk8-0007Qx-4B
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38782
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk4-0007Lg-NH
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk6-0007M7-C2
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593690659;
+ s=mimecast20190719; t=1593690661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=/XIjG5c3khxH1hP8r0HZDMB8iYmrs6jUUZPjgl6JOMU=;
- b=FqCNNYS8Z2DSvwwO2LkE0KDOxiNyxA7nhPZX6hZZB2MLIvIKNO7jaK5H5vRWVgYSfAqG+J
- hlFVGdcezIKd6foqq5W6EkDCf2qhOHP7gQO6tEumSWHXRc28EcuViuTh1XjwgOZDYzoR7W
- Y3iomIC9mEQMt5xv9AK/S6SDQiTFauk=
+ references:references; bh=0BAIl6nai0gSJHmOym1naJcR8DW6dsk0soRaomMZy6w=;
+ b=Oe+6AUf/1bisIOiCrXFTpwkm2ucRpF08/XMx4fPUosCFzbcvtjLyZZiKQ8yMm+xXiLLLT2
+ 5crzSJklQOL5gysTJHHL3psAQZkJtpBB5EUiHA7MJmaBbH1Gm39IGPT45vAE3OI4NeWNEr
+ jPoalJxVH0GfVepb+wytduLneoeF+Is=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-IglBbmRhNWWaTE98DV2XpQ-1; Thu, 02 Jul 2020 07:50:55 -0400
-X-MC-Unique: IglBbmRhNWWaTE98DV2XpQ-1
+ us-mta-475-xSukrcNiNX-_wO9Jx14wqg-1; Thu, 02 Jul 2020 07:50:57 -0400
+X-MC-Unique: xSukrcNiNX-_wO9Jx14wqg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09D161261;
- Thu,  2 Jul 2020 11:50:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A76680058A;
+ Thu,  2 Jul 2020 11:50:56 +0000 (UTC)
 Received: from thuth.com (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31C4E60CD3;
- Thu,  2 Jul 2020 11:50:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B8CE610F2;
+ Thu,  2 Jul 2020 11:50:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL SUBSYSTEM s390x 03/11] pc-bios: s390x: Move sleep and yield to
- helper.h
-Date: Thu,  2 Jul 2020 13:50:37 +0200
-Message-Id: <20200702115045.6171-4-thuth@redhat.com>
+Subject: [PULL SUBSYSTEM s390x 04/11] pc-bios: s390x: Get rid of magic offsets
+ into the lowcore
+Date: Thu,  2 Jul 2020 13:50:38 +0200
+Message-Id: <20200702115045.6171-5-thuth@redhat.com>
 In-Reply-To: <20200702115045.6171-1-thuth@redhat.com>
 References: <20200702115045.6171-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,109 +84,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-They are definitely helper functions.
+If we have a lowcore struct that has members for offsets that we want
+to touch, why not use it?
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200624075226.92728-4-frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200624075226.92728-5-frankja@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/helper.h      | 17 +++++++++++++++++
- pc-bios/s390-ccw/s390-ccw.h    | 18 ------------------
- pc-bios/s390-ccw/virtio-net.c  |  1 +
- pc-bios/s390-ccw/virtio-scsi.c |  1 +
- 4 files changed, 19 insertions(+), 18 deletions(-)
+ pc-bios/s390-ccw/cio.h  | 17 +++++++++++------
+ pc-bios/s390-ccw/main.c |  8 +++-----
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 78d5bc7442..32a453b634 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -14,6 +14,7 @@
- #define S390_CCW_HELPER_H
+diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
+index aaa432dedd..1e5d4e92e1 100644
+--- a/pc-bios/s390-ccw/cio.h
++++ b/pc-bios/s390-ccw/cio.h
+@@ -122,12 +122,17 @@ typedef struct schib {
+ } __attribute__ ((packed, aligned(4))) Schib;
  
- #include "s390-ccw.h"
-+#include "s390-time.h"
+ typedef struct subchannel_id {
+-        __u32 cssid:8;
+-        __u32:4;
+-        __u32 m:1;
+-        __u32 ssid:2;
+-        __u32 one:1;
+-        __u32 sch_no:16;
++    union {
++        struct {
++            __u16 cssid:8;
++            __u16 reserved:4;
++            __u16 m:1;
++            __u16 ssid:2;
++            __u16 one:1;
++        };
++        __u16 sch_id;
++    };
++    __u16 sch_no;
+ } __attribute__ ((packed, aligned(4))) SubChannelId;
  
- /* Avoids compiler warnings when casting a pointer to a u32 */
- static inline uint32_t ptr2u32(void *ptr)
-@@ -28,4 +29,20 @@ static inline void *u32toptr(uint32_t n)
-     return (void *)(uint64_t)n;
+ struct chsc_header {
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 4e65b411e1..8b912454c9 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -36,11 +36,9 @@ LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
+  */
+ void write_subsystem_identification(void)
+ {
+-    SubChannelId *schid = (SubChannelId *) 184;
+-    uint32_t *zeroes = (uint32_t *) 188;
+-
+-    *schid = blk_schid;
+-    *zeroes = 0;
++    lowcore->subchannel_id = blk_schid.sch_id;
++    lowcore->subchannel_nr = blk_schid.sch_no;
++    lowcore->io_int_parm = 0;
  }
  
-+static inline void yield(void)
-+{
-+    asm volatile ("diag 0,0,0x44"
-+                  : :
-+                  : "memory", "cc");
-+}
-+
-+static inline void sleep(unsigned int seconds)
-+{
-+    ulong target = get_time_seconds() + seconds;
-+
-+    while (get_time_seconds() < target) {
-+        yield();
-+    }
-+}
-+
- #endif
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index fae1de363f..c5820e43ae 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -142,26 +142,8 @@ static inline void debug_print_addr(const char *desc, void *p)
- #define KVM_S390_VIRTIO_SET_STATUS      2
- #define KVM_S390_VIRTIO_CCW_NOTIFY      3
- 
--static inline void yield(void)
--{
--    asm volatile ("diag 0,0,0x44"
--                  : :
--                  : "memory", "cc");
--}
--
- #define MAX_SECTOR_SIZE 4096
- 
--#include "s390-time.h"
--
--static inline void sleep(unsigned int seconds)
--{
--    ulong target = get_time_seconds() + seconds;
--
--    while (get_time_seconds() < target) {
--        yield();
--    }
--}
--
- static inline void IPL_assert(bool term, const char *message)
- {
-     if (!term) {
-diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
-index a13f3b6fb9..2fcb0a58c5 100644
---- a/pc-bios/s390-ccw/virtio-net.c
-+++ b/pc-bios/s390-ccw/virtio-net.c
-@@ -20,6 +20,7 @@
- #include "s390-ccw.h"
- #include "virtio.h"
- #include "s390-time.h"
-+#include "helper.h"
- 
- #ifndef DEBUG_VIRTIO_NET
- #define DEBUG_VIRTIO_NET 0
-diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-scsi.c
-index 7bf0be4ffa..eddfb8a7ad 100644
---- a/pc-bios/s390-ccw/virtio-scsi.c
-+++ b/pc-bios/s390-ccw/virtio-scsi.c
-@@ -15,6 +15,7 @@
- #include "scsi.h"
- #include "virtio-scsi.h"
- #include "s390-time.h"
-+#include "helper.h"
- 
- static ScsiDevice default_scsi_device;
- static VirtioScsiCmdReq req;
+ void write_iplb_location(void)
 -- 
 2.18.1
 
