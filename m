@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CBC2127E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:28:46 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08D12127E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:29:05 +0200 (CEST)
+Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr18m-00022r-Uk
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
+	id 1jr196-0002hf-T5
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17T-0000R3-Ck
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:23 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:37651)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17a-0000cB-UV
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:55779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17Q-0006I9-Le
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:23 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17X-0006JZ-Gp
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:30 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MryCb-1j33JZ1es9-00nuRY; Thu, 02 Jul 2020 17:27:16 +0200
+ id 1N2Dks-1ioQ39077W-013gBL; Thu, 02 Jul 2020 17:27:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 05/12] linux-user: Add strace support for a group of syscalls
-Date: Thu,  2 Jul 2020 17:27:03 +0200
-Message-Id: <20200702152710.84602-6-laurent@vivier.eu>
+Subject: [PULL v2 06/12] linux-user: Add strace support for printing argument
+ of syscalls used for extended attributes
+Date: Thu,  2 Jul 2020 17:27:04 +0200
+Message-Id: <20200702152710.84602-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200702152710.84602-1-laurent@vivier.eu>
 References: <20200702152710.84602-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1XMrjVSxvk9CB2IN39hZNQi6GlCjnaSIRXqvfwsk7CQsQVOLZLU
- cIMoafn1ymfoWo9hXCPjqzR4Bxvkl1aw3AM3JcqpZEuY0VWQOdDZfsnINJdLO9jGQtVp8sO
- ztP5dqIXmjhb2SligHAHN4GATatU1XgFdkvEu0x/4ucpBZAJdxjAQrozggQEVT9dI0MHAKA
- Ce34rpQM+oQan46ET3P5g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2vMUf9oL1k8=:mzPIIG0JgQsmI9yJ4CiCIO
- iiO6iRyB/zKu2nZ3TRgshIlz799xhtqW1UFFlzeTwF3Osbi+GoautBmEOrNLf4nmkvXIoAVjv
- fjunVLcKtO/YXy4umSdOd3OxwZ1wXdVJTWU9IZtkTS08xm+2BPpicWSXuCTJVpvmd/BiVnHcV
- YMTNgpWk8EGtHgOiulwMjsZet0oanhGBqHsqp92jW499/BgOCzKR7zO4nzfbnJtuOZVX+MY9N
- DKXIsGLnHn7e2J55ScDfbnUjeVaszTPYXBSjQmc1DYR8JUOgP78N2ZWMWfken8jdpdK05sbhn
- rXjXL+7z+RR4qBFPoaRcHFmm3HN2IkZOAkhfDyVKS9kzuNuUv0NvxXW7uY+4vGpOcwN03DO8P
- LLpjNR0Iw8EfRv1ddtOZcdgic9w8Wz3XvCYgkvLC8gTiIBRmroqqLjhJjNkX+nvEIy+Ji/MNB
- fdbsFR6eiGh8e1UOQ1Hq9gTvloZ1CiVB0MisYZ3YCmNjaBYxFR3zNbkm5PB9PbZw0wcdwOf3S
- vhaS5VvXZoiifK+hvEr4NJ3wpeIIS179jsWeX4F0uUcbq4w4vGVvVOMdA/R5rYwQ6dGOy8rY6
- qk4l2yaQEW4yxgeP1QbMgi6AfeZ1rLxCEiSGj2x3ssCdo3+vayPjECUo0WbLgSmxAOWAVcUs0
- ZL2qoHLLwQN0riy/CrNNK2FmYkBsN/gHTzKYBGaF2twZqsLrqbGQxaGorU3u6A8EFtVWvo/1R
- 7Pti8uehj9NccUTrlfl3zGOgzaGhqAJdz98vNcs2bvcWhOyZhR3ePN6dZTr5yDVfEh4oFquGV
- eiA4UpKX9PX/qZaq8rxEiYW0wF0/YOkjVZGk8+uedMhU1TZb3A=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:FQF7oYq3uias1Bm0UEliWmRpxfkN/XM8sOKeUbBszVOluN+bIB0
+ NPwzzkY6tY6nSs4Jkwl38uMXp8Oamk/JPvk0HXDe5oPlhuzz9ut7CHKjZsN+cTtobGQgsdl
+ jT0Q1rpaVMEP1N8o4oN4amIS6YbaB8NFoCh3iluDZFFD53CMS8CqIa3yV4ZjdhFPcpgHeSL
+ b4P84JihQcaUTb73cJnfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:j935DXDYcCU=:VwbOiCsNo7g/VypsXjfBwg
+ pBl56grbeT+IwWDB3yVi1bZKNzycpuObsAn6IoMS3eCT1IeclI+oVeRPVGZ6Rcl53Rp5rE5G1
+ 97NeWRaWxx9B4XY5GtrIJXeYb+1/MEhwcidBZvJI7lh/eklaI8kyZ5n8zKouFmhyzgWEtUEBv
+ 4nShywJnUU/ujSdltXa6rQtgCMs4FKzQuwR3CkSXbXLMFTtqHS7PpvuDPr3EtoP20KT5gegbC
+ pIXmbIX1huWHn/zUDLADw/Trd+FcNSF+9z0Oa+t3CNvuvSc+Wf35qfkNlsCPqiz4O8wcNOHkm
+ w2YYynrLA/KB2nIDh5jzYSx1mshmvSnwECUhPlSxJ7NHJFuiLwEV4ilcWgOU/oKtdiCVaPfVY
+ WvbbTwp8DRvOOW+D94pfwuwmtlHUQbJ6786gW+P6aeW55gWCK18cvcjEW44YAzH7dvItv/qf5
+ 04frXvA/Y5Q3DGqL3GaPoVvIzRUYBg2gnE/vTwHebUUBuU1Vb3s/A+snGd3h29q63c4MiuQU/
+ ZQg+x3XVL+CRmUZptUfbeFlAsnXVzRcjiD5aDO35NMvwVr9QBIjy7oE5ud5IUSzz7tY25ah9y
+ c4oobwTY2S1Dg3URxyjfN3zewEnMc5FG/nE/LugU8qU8E6fXNahgzaonLGUTNT2hJQZ//IXIk
+ V7F6ZwfArbwQg6LNRqmUhRiDDA2/AiWkQ6pOAknDz3X15tge4sN8TrVw1K8zxizx48xQpfNyR
+ jk0nC3lBNPQuBn/pl9KxUWZmPs7MfLNrOVfUQer+2FTl61GdrGbjbBvZts3sZNQTlP8DzlxMS
+ b625AAb/VRgau0pDkX8Zc1kpiBLw2U8y+Qy/rKPmmL394oqZx0=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:27:18
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:27:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,112 +80,273 @@ From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
 This patch implements strace argument printing functionality for following syscalls:
 
-    *acct - switch process accounting on or off
+    *getxattr, lgetxattr, fgetxattr - retrieve an extended attribute value
 
-        int acct(const char *filename)
-        man page: https://www.man7.org/linux/man-pages/man2/acct.2.html
+        ssize_t getxattr(const char *path, const char *name, void *value, size_t size)
+        ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size)
+        ssize_t fgetxattr(int fd, const char *name, void *value, size_t size)
+        man page: https://www.man7.org/linux/man-pages/man2/getxattr.2.html
 
-    *fsync, fdatasync - synchronize a file's in-core state with storage device
+    *listxattr, llistxattr, flistxattr - list extended attribute names
 
-        int fsync(int fd)
-        int fdatasync(int fd)
-        man page: https://www.man7.org/linux/man-pages/man2/fsync.2.html
+        ssize_t listxattr(const char *path, char *list, size_t size)
+        ssize_t llistxattr(const char *path, char *list, size_t size)
+        ssize_t flistxattr(int fd, char *list, size_t size)
+        man page: https://www.man7.org/linux/man-pages/man2/listxattr.2.html
 
-    *listen - listen for connections on a socket
+    *removexattr, lremovexattr, fremovexattr - remove an extended attribute
 
-        int listen(int sockfd, int backlog)
-        man page: https://www.man7.org/linux/man-pages/man2/listen.2.html
+         int removexattr(const char *path, const char *name)
+         int lremovexattr(const char *path, const char *name)
+         int fremovexattr(int fd, const char *name)
+         man page: https://www.man7.org/linux/man-pages/man2/removexattr.2.html
 
 Implementation notes:
 
-    Syscall acct() takes string as its only argument and thus a separate
-    print function "print_acct" is stated in file "strace.list". This
-    function is defined and implemented in "strace.c" by using an
-    existing function used to print string arguments: "print_string()".
-    All the other syscalls have only primitive argument types, so the
-    rest of the implementation was handled by stating an appropriate
-    printing format in file "strace.list".
+    All of the syscalls have strings as argument types and thus a separate
+    printing function was stated in file "strace.list" for every one of them.
+    All of these printing functions were defined in "strace.c" using existing
+    printing functions for appropriate argument types:
+       "print_string()" - for (const char*) type
+       "print_pointer()" - for (char*) and (void *) type
+       "print_raw_param()" for (int) and (size_t) type
+    Syscalls "getxattr()" and "lgetxattr()" have the same number and type of
+    arguments and thus their print functions ("print_getxattr", "print_lgetxattr")
+    share a same definition. The same statement applies to syscalls "listxattr()"
+    and "llistxattr()".
+    Function "print_syscall_ret_listxattr()" was added to print the returned list
+    of extended attributes for syscalls "print_listxattr(), print_llistxattr() and
+    print_flistxattr()".
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-3-filip.bozuta@syrmia.com>
+Message-Id: <20200619123331.17387-4-filip.bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 13 ++++++++++++-
- linux-user/strace.list |  8 ++++----
- 2 files changed, 16 insertions(+), 5 deletions(-)
+ linux-user/strace.c    | 121 +++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  21 ++++---
+ 2 files changed, 133 insertions(+), 9 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 62117e8555f6..123e022c35bf 100644
+index 123e022c35bf..760020132b5a 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1357,6 +1357,18 @@ print_access(const struct syscallname *name,
+@@ -826,6 +826,40 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
  }
  #endif
  
-+#ifdef TARGET_NR_acct
++#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
++ || defined(TARGGET_NR_flistxattr)
 +static void
-+print_acct(const struct syscallname *name,
++print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
++                            abi_long arg0, abi_long arg1, abi_long arg2,
++                            abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_err(ret);
++
++    if (ret >= 0) {
++        qemu_log(TARGET_ABI_FMT_ld, ret);
++        qemu_log(" (list = ");
++        if (arg1 != 0) {
++            abi_long attr = arg1;
++            while (ret) {
++                if (attr != arg1) {
++                    qemu_log(",");
++                }
++                print_string(attr, 1);
++                ret -= target_strlen(attr) + 1;
++                attr += target_strlen(attr) + 1;
++            }
++        } else {
++            qemu_log("NULL");
++        }
++        qemu_log(")");
++    }
++
++    qemu_log("\n");
++}
++#define print_syscall_ret_llistxattr     print_syscall_ret_listxattr
++#define print_syscall_ret_flistxattr     print_syscall_ret_listxattr
++#endif
++
+ UNUSED static struct flags access_flags[] = {
+     FLAG_GENERIC(F_OK),
+     FLAG_GENERIC(R_OK),
+@@ -1633,6 +1667,93 @@ print_fcntl(const struct syscallname *name,
+ #define print_fcntl64   print_fcntl
+ #endif
+ 
++#ifdef TARGET_NR_fgetxattr
++static void
++print_fgetxattr(const struct syscallname *name,
 +    abi_long arg0, abi_long arg1, abi_long arg2,
 +    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg0, 1);
++    print_raw_param("%d", arg0, 0);
++    print_string(arg1, 0);
++    print_pointer(arg2, 0);
++    print_raw_param(TARGET_FMT_lu, arg3, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
- #ifdef TARGET_NR_brk
- static void
- print_brk(const struct syscallname *name,
-@@ -1621,7 +1633,6 @@ print_fcntl(const struct syscallname *name,
- #define print_fcntl64   print_fcntl
- #endif
- 
--
++#ifdef TARGET_NR_flistxattr
++static void
++print_flistxattr(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_pointer(arg1, 0);
++    print_raw_param(TARGET_FMT_lu, arg2, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
++#if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
++static void
++print_getxattr(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 0);
++    print_string(arg1, 0);
++    print_pointer(arg2, 0);
++    print_raw_param(TARGET_FMT_lu, arg3, 1);
++    print_syscall_epilogue(name);
++}
++#define print_lgetxattr     print_getxattr
++#endif
++
++#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
++static void
++print_listxattr(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 0);
++    print_pointer(arg1, 0);
++    print_raw_param(TARGET_FMT_lu, arg2, 1);
++    print_syscall_epilogue(name);
++}
++#define print_llistxattr     print_listxattr
++#endif
++
++#if defined(TARGET_NR_fremovexattr)
++static void
++print_fremovexattr(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_string(arg1, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
++#if defined(TARGET_NR_removexattr) || defined(TARGET_NR_lremovexattr)
++static void
++print_removexattr(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_string(arg0, 0);
++    print_string(arg1, 1);
++    print_syscall_epilogue(name);
++}
++#define print_lremovexattr     print_removexattr
++#endif
++
  #ifdef TARGET_NR_futimesat
  static void
  print_futimesat(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 9281c0a75828..8a887fc16dcc 100644
+index 8a887fc16dcc..d04ad507b0fb 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -13,7 +13,7 @@
- { TARGET_NR_access, "access" , NULL, print_access, NULL },
- #endif
- #ifdef TARGET_NR_acct
--{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
-+{ TARGET_NR_acct, "acct" , NULL, print_acct, NULL },
- #endif
- #ifdef TARGET_NR_add_key
- { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
-@@ -215,7 +215,7 @@
- { TARGET_NR_fcntl64, "fcntl64" , NULL, print_fcntl64, NULL },
- #endif
- #ifdef TARGET_NR_fdatasync
--{ TARGET_NR_fdatasync, "fdatasync" , NULL, NULL, NULL },
-+{ TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+@@ -218,13 +218,14 @@
+ { TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
  #endif
  #ifdef TARGET_NR_fgetxattr
- { TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
-@@ -251,7 +251,7 @@
- { TARGET_NR_fstatfs64, "fstatfs64" , "%s(%d,%p)", NULL, NULL },
+-{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
++{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, print_fgetxattr, NULL },
  #endif
- #ifdef TARGET_NR_fsync
--{ TARGET_NR_fsync, "fsync" , NULL, NULL, NULL },
-+{ TARGET_NR_fsync, "fsync" , "%s(%d)", NULL, NULL },
+ #ifdef TARGET_NR_finit_module
+ { TARGET_NR_finit_module, "finit_module" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_ftime
- { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
-@@ -492,7 +492,7 @@
- { TARGET_NR_Linux, "Linux" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_flistxattr
+-{ TARGET_NR_flistxattr, "flistxattr" , NULL, NULL, NULL },
++{ TARGET_NR_flistxattr, "flistxattr" , NULL, print_flistxattr,
++                        print_syscall_ret_flistxattr},
  #endif
- #ifdef TARGET_NR_listen
--{ TARGET_NR_listen, "listen" , NULL, NULL, NULL },
-+{ TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
+ #ifdef TARGET_NR_flock
+ { TARGET_NR_flock, "flock" , NULL, NULL, NULL },
+@@ -233,7 +234,7 @@
+ { TARGET_NR_fork, "fork" , "%s()", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fremovexattr
+-{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, NULL, NULL },
++{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, print_fremovexattr, NULL },
+ #endif
+ #ifdef TARGET_NR_fsetxattr
+ { TARGET_NR_fsetxattr, "fsetxattr" , NULL, NULL, NULL },
+@@ -396,7 +397,7 @@
+ { TARGET_NR_getuid32, "getuid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getxattr
+-{ TARGET_NR_getxattr, "getxattr" , NULL, NULL, NULL },
++{ TARGET_NR_getxattr, "getxattr" , NULL, print_getxattr, NULL },
+ #endif
+ #ifdef TARGET_NR_getxgid
+ { TARGET_NR_getxgid, "getxgid" , NULL, NULL, NULL },
+@@ -480,7 +481,7 @@
+ { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_lgetxattr
+-{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, NULL, NULL },
++{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, print_lgetxattr, NULL },
+ #endif
+ #ifdef TARGET_NR_link
+ { TARGET_NR_link, "link" , NULL, print_link, NULL },
+@@ -495,10 +496,12 @@
+ { TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
  #endif
  #ifdef TARGET_NR_listxattr
- { TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
+-{ TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
++{ TARGET_NR_listxattr, "listxattr" , NULL, print_listxattr,
++                       print_syscall_ret_listxattr},
+ #endif
+ #ifdef TARGET_NR_llistxattr
+-{ TARGET_NR_llistxattr, "llistxattr" , NULL, NULL, NULL },
++{ TARGET_NR_llistxattr, "llistxattr" , NULL, print_llistxattr,
++                        print_syscall_ret_llistxattr},
+ #endif
+ #ifdef TARGET_NR__llseek
+ { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
+@@ -510,7 +513,7 @@
+ { TARGET_NR_lookup_dcookie, "lookup_dcookie" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_lremovexattr
+-{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
++{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
+ #endif
+ #ifdef TARGET_NR_lseek
+ { TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
+@@ -1116,7 +1119,7 @@
+ { TARGET_NR_remap_file_pages, "remap_file_pages" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_removexattr
+-{ TARGET_NR_removexattr, "removexattr" , NULL, NULL, NULL },
++{ TARGET_NR_removexattr, "removexattr" , NULL, print_removexattr, NULL },
+ #endif
+ #ifdef TARGET_NR_rename
+ { TARGET_NR_rename, "rename" , NULL, print_rename, NULL },
 -- 
 2.26.2
 
