@@ -2,114 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5E8211F47
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 10:56:58 +0200 (CEST)
-Received: from localhost ([::1]:33892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC4B211F5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 11:01:14 +0200 (CEST)
+Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqv1d-0007qh-3y
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 04:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43958)
+	id 1jqv5l-00016n-5K
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 05:01:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqv0K-0007Em-8q
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 04:55:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55038
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqv4R-0000h4-Ex
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 04:59:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57821
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqv0H-0000lg-PC
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 04:55:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jqv4P-0005rE-11
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 04:59:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593680132;
+ s=mimecast20190719; t=1593680387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Vpen+ZvudtNCHVaWv6qDCEMGRK2/5c9mtGbHmge+f10=;
- b=DWP74WJULnWImhO3UvvXn3DX0O6jBvLX/owToVoEKPddFvjrtWqYzL/ux6S4KGI+WxQBt+
- 87mPBqFdqhPoruzW2yOsodUoD9EEroMvEwJIUzz3Py0sRpu/rVKamgvS8ZRUvPK2e6/Y0P
- L1pXD4srymhb9abd89F0SIn1Wz2JSSo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-Apn3wFvEOVi9Skzq2WA24A-1; Thu, 02 Jul 2020 04:55:30 -0400
-X-MC-Unique: Apn3wFvEOVi9Skzq2WA24A-1
-Received: by mail-ej1-f71.google.com with SMTP id do21so19834711ejc.2
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 01:55:30 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=wJrIK/msXF7xBKKjccnxf+nVulw/csILNSIMFsRua3c=;
+ b=J3XTyZry2sUZg9yXJqfm/t7Xpj4F7RFDdakZ2h9wuaIqbT7ZV0qhf4dDk3/k0MwXFDx/+j
+ p0cgDt+ZzvCZTbDecKb03Rn6Lbm0WHsRfSKTnjFddH5XXxxpeaMXiLPLqZI3q8lSfkfitT
+ 1Q0iJipWqvqvaGIZrBEHZ60Jbr/aiTA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-sQ_eNTBRMsaYotfSDge5pw-1; Thu, 02 Jul 2020 04:59:46 -0400
+X-MC-Unique: sQ_eNTBRMsaYotfSDge5pw-1
+Received: by mail-wm1-f69.google.com with SMTP id b13so25585750wme.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 01:59:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Vpen+ZvudtNCHVaWv6qDCEMGRK2/5c9mtGbHmge+f10=;
- b=ELyFCMa18xYOX7DjhTqixeFIaAP+50Cnfj2a1exrJZccRxurV7JXdykai1L6Fm6Anh
- 8NTuYL//J51U/BBufIHy1F6QXEcwlifDgk+8BJ1hjRD5zBd/9xuh1P2ULiimHhprgQDB
- rp93ymtD5ZQgHYigHE94YcPK8mZyF8x441kZPjnOBPenx1aWORVUYzKyieqa6GsulLzc
- jxmx1B/EMtboCOdn9U5kWDpWjZ1hF1dFjQdd47s7vGTkeIRRQkETWBlqzjUnW/QA2Vl4
- qw+e2Nr4RbPAVvWMeIefI/gNz2VAh8fwhtBetk0LOsuq+zNNxfe+02kRFm5jutTSq1KQ
- kvOA==
-X-Gm-Message-State: AOAM532U9hrZKjyt/BZx89RjfsTbebWUJ/PDNRhHBElsi7Qorv79jroZ
- gQeiod3K9mEJ2BwGt1C+Ez8FQRuUYvE8iWFvmm7iWhw0nK8Kn2BAXV0ambOrNRo9Lsso2jgi6xt
- NSdPXt5K4lM7NmkQ=
-X-Received: by 2002:a05:6402:742:: with SMTP id
- p2mr14466950edy.135.1593680129294; 
- Thu, 02 Jul 2020 01:55:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2Szhqh7XnXwH335qcdVEPaCyUmQtev0l+z+0I64jAh3AmGBhW/PSaLpoczt8+Bjoh6cjIjA==
-X-Received: by 2002:a05:6402:742:: with SMTP id
- p2mr14466937edy.135.1593680129112; 
- Thu, 02 Jul 2020 01:55:29 -0700 (PDT)
-Received: from [192.168.1.37] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u1sm9200930edl.17.2020.07.02.01.55.27
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wJrIK/msXF7xBKKjccnxf+nVulw/csILNSIMFsRua3c=;
+ b=eUZTcgF8S6T1tbRnHv7kngD7TZVFppwsd0ERx3FtuRCd+puCQKhFSU2aNoMZE1CB2P
+ r00hjp1Yosw2MOcVBIXkRM2ZDP+cmQIo7BVranidaULp4wrYUNbOAcKv6ikEEYlJvG5N
+ G3WKlrMhxSjBYF4WDeKPSCW2c7JB34K0NhKoLF/arsZ3xJZhUtZdAlb5vwDJXmSc8guZ
+ OppKHx5eVa1Riaq+VnPF0u99PvUdFLE+UGM1hNae+FW30wCP5doszY3wksALwv7eBVsI
+ 0ZuFUEwPuxobsYSHSI68REP7/zfV3yagJ+X/q1sF9B3aY71p7r+Od8x/olIcqvrZ8nv1
+ jp9w==
+X-Gm-Message-State: AOAM5337uld5DlREfV/AJjkIWHPt1ysJza2lmLwZilihU27iJrRsaYM7
+ 9XXIlAtwbDOnqlsJfcnrHCYgtYkhHocRsgOxz7vyuaw9I9fpOC0UCtB1Smd/Fgai+grAVUT9PYC
+ u8lmYUUq9SkDFCWk=
+X-Received: by 2002:a1c:cc0d:: with SMTP id h13mr33306490wmb.168.1593680385291; 
+ Thu, 02 Jul 2020 01:59:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGKVrkvYUMrupWzfmoSSjOGbJBibXAbQlk7LdbXdq3RsbOaOv5IcnUK/o9hvnnPGxj0SwYqg==
+X-Received: by 2002:a1c:cc0d:: with SMTP id h13mr33306466wmb.168.1593680385035; 
+ Thu, 02 Jul 2020 01:59:45 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:2cad:376b:7d21:868e?
+ ([2001:b07:6468:f312:2cad:376b:7d21:868e])
+ by smtp.gmail.com with ESMTPSA id p14sm11172163wrj.14.2020.07.02.01.59.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jul 2020 01:55:28 -0700 (PDT)
-Subject: Re: [PATCH 4/5] GitLab Gating CI: introduce pipeline-status contrib
- script
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20200312193616.438922-1-crosa@redhat.com>
- <20200312193616.438922-5-crosa@redhat.com>
- <20200618114524.GA677518@redhat.com>
- <20200622142056.GA791811@localhost.localdomain>
- <20200623175908.GA955618@localhost.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <80fe3598-6a72-40aa-218a-0fbdea4e8a81@redhat.com>
-Date: Thu, 2 Jul 2020 10:55:26 +0200
+ Thu, 02 Jul 2020 01:59:44 -0700 (PDT)
+Subject: Re: [PATCH v3 20/26] x86: Fix x86_cpu_new() error handling
+To: Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20200630090351.1247703-1-armbru@redhat.com>
+ <20200630090351.1247703-21-armbru@redhat.com>
+ <87h7uq7c42.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3f549d5f-18a2-886d-193c-052865fefff3@redhat.com>
+Date: Thu, 2 Jul 2020 10:59:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200623175908.GA955618@localhost.localdomain>
+In-Reply-To: <87h7uq7c42.fsf@dusky.pond.sub.org>
 Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -130,55 +103,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Erik Skultety <eskultet@redhat.com>, Wainer Moschetta <wmoschet@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/20 7:59 PM, Cleber Rosa wrote:
-> On Mon, Jun 22, 2020 at 10:21:03AM -0400, Cleber Rosa wrote:
+On 02/07/20 06:51, Markus Armbruster wrote:
+> Igor, Paolo, you showed me the error in v2.  Could you have a look at
+> this revision?
+> 
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+>> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+>> pointer to a variable containing NULL.  Passing an argument of the
+>> latter kind twice without clearing it in between is wrong: if the
+>> first call sets an error, it no longer points to NULL for the second
+>> call.
 >>
->> The script should indeed work with the workflow you described.  I'll just
->> run a few tests, to make sure that are no caveats, and I'll let you and
->> Peter know about it.
+>> x86_cpu_new() is wrong that way: it passes &local_err to
+>> object_property_set_uint() without checking it, and then to
+>> qdev_realize().  If both fail, we'll trip error_setv()'s assertion.
+>> To assess the bug's impact, we'd need to figure out how to make both
+>> calls fail.  Too much work for ignorant me, sorry.
 >>
+>> Fix by checking for failure right away.
+>>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: Richard Henderson <rth@twiddle.net>
+>> Cc: Eduardo Habkost <ehabkost@redhat.com>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  hw/i386/x86.c | 8 +++++---
+>>  1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> index 34229b45c7..93f7371a56 100644
+>> --- a/hw/i386/x86.c
+>> +++ b/hw/i386/x86.c
+>> @@ -118,14 +118,16 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+>>  
+>>  void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+>>  {
+>> -    Object *cpu = NULL;
+>>      Error *local_err = NULL;
+>> -
+>> -    cpu = object_new(MACHINE(x86ms)->cpu_type);
+>> +    Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
+>>  
+>>      object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+>> +    if (local_err) {
+>> +        goto out;
+>> +    }
+>>      qdev_realize(DEVICE(cpu), NULL, &local_err);
+>>  
+>> +out:
+>>      object_unref(cpu);
+>>      error_propagate(errp, local_err);
+>>  }
 > 
-> FIY, I've cherry-pick just the patch with the scripts (for no reason other
-> than having some content) and pushed it to a different branch than staging:
-> 
->   https://gitlab.com/cleber.gnu/qemuci/-/commits/exp/script_shared_runners
-> 
-> Then I ran:
-> 
->   ./contrib/ci/scripts/gitlab-pipeline-status --wait --verbose -p 15173319 -c ef12b411985baab9071e5fab1851acdd07d9bec8
-> 
-> Which worked as expected.
 
-Great news!
+Yes, this looks good.  Thanks!
 
-Can you respin as a new series with this as single patch, and
-explanation in the cover about how to setup it? This is the last
-piece missing for Peter to use the effort done by Alex/Daniel/Thomas
-on the GitLab side :)
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> BTW, the commit wouldn't be necessary if I
-> was checking on a "staging" branch.  The pipeline triggered (and being
-> waited on by the script is at):
-> 
->    https://gitlab.com/cleber.gnu/qemuci/-/pipelines/159334485
-> 
-> So I believe it's now a matter of sorting out job the
-> inclusion/exclusion aspects, that is, if we start with all/some of the
-> current jobs and some or none of the jobs intended to run on the
-> s390/aarch64/x86_64 (non-shared) runners.
-> 
-> Thanks,
-> - Cleber.
-> 
+Paolo
 
 
