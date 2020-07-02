@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96030212745
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:04:16 +0200 (CEST)
-Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC41212757
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:08:49 +0200 (CEST)
+Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr0l5-0003zm-6h
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1jr0pU-0007Ma-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jr0kC-0003ME-8f
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:03:20 -0400
-Resent-Date: Thu, 02 Jul 2020 11:03:20 -0400
-Resent-Message-Id: <E1jr0kC-0003ME-8f@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jr0k3-0007qs-VD
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:03:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593702167; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=dL1HC0BxULwp2/od/EAejj6kYFmHqegRjzxov205+VtsTulqQqCdMGh5lJBWs+carfDmdbJalWpd/JK4qjEs/GANw5PRErdLQ8yiCeNtiAPfVdzf2XuFODq67b1FZGCtjXs+0Y+1rXHfxgfGdYg+tJpY2SQ1xyl+YROg+it0WYs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593702167;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=ue5DhMlLrn22ITHhBUAbq85IJlCDu+aNq5HnQVN6F50=; 
- b=U1otSV6pixtljQMD2UiFnnqT9ATwqSMNYI/w2tQXpu1vQrGsTiHtTm3Nez8VUouj/iFw7Ze06vWk4XRgQbnQmBnkrJb4PaPZtNKH48IlSomx2cRMHizzqkuZLguCoXyCzMTRXXZie5PDc8rENbrhR0WEUey3Oggcl076iTDPvqw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593702164077225.0616294548505;
- Thu, 2 Jul 2020 08:02:44 -0700 (PDT)
-Message-ID: <159370216235.5308.365872465723013188@d1fd068a5071>
-Subject: Re: [PATCH v2 0/1] Add Script for Dissecting QEMU Execution
-In-Reply-To: <20200702142942.4887-1-ahmedkhaledkaraman@gmail.com>
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jr0oc-0006pz-FD; Thu, 02 Jul 2020 11:07:54 -0400
+Received: from mga06.intel.com ([134.134.136.31]:5855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1jr0oa-0001FY-DR; Thu, 02 Jul 2020 11:07:54 -0400
+IronPort-SDR: IQ0AkU8C+nH/ZID27F3o/oazGgpqC/+mFgRGiBsTX3X4LPuZpAgLdLdiUEef1a3Q63snJorOPD
+ 8gV7rID0Fqzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="208446638"
+X-IronPort-AV: E=Sophos;i="5.75,304,1589266800"; d="scan'208";a="208446638"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2020 08:07:39 -0700
+IronPort-SDR: 2CyEMk2ROlb7lxp/dPbOkydJ6IWUt36k46ukxuiX8P7dkVDvsZ/Xg/Whm3KhOIWrVEjhWIfWbt
+ s1NrGwYh45gQ==
+X-IronPort-AV: E=Sophos;i="5.75,304,1589266800"; d="scan'208";a="482034956"
+Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
+ ([10.212.130.2])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2020 08:07:38 -0700
+Subject: Re: [PATCH v4 2/2] nvme: allow cmb and pmr to be enabled on same
+ device
+To: Klaus Jensen <its@irrelevant.dk>
+References: <20200701214858.28515-1-andrzej.jakowski@linux.intel.com>
+ <20200701214858.28515-3-andrzej.jakowski@linux.intel.com>
+ <20200702101318.rmd65uzwfpcmb24n@apples.localdomain>
+ <20200702103127.hoonqkas3bw2v7re@apples.localdomain>
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Message-ID: <8f871a0d-47f1-1c8a-fcc2-aab2638c70cf@linux.intel.com>
+Date: Thu, 2 Jul 2020 08:07:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ahmedkhaledkaraman@gmail.com
-Date: Thu, 2 Jul 2020 08:02:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:03:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200702103127.hoonqkas3bw2v7re@apples.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga06.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:07:49
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,27 +71,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ldoktor@redhat.com, ehabkost@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, ahmedkhaledkaraman@gmail.com,
- aleksandar.qemu.devel@gmail.com, crosa@redhat.com, rth@twiddle.net
+Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMjE0Mjk0Mi40ODg3
-LTEtYWhtZWRraGFsZWRrYXJhbWFuQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
-ZWQgYnVpbGQgdGVzdCBvbiBGcmVlQlNEIGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJl
-bG93LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2Ny
-aXB0IHdpbGwgYmUgaW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBv
-aW50aW5nIHRvIGEgY29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9m
-ICJiYXNlIgojIGJyYW5jaAppZiBxZW11LXN5c3RlbS14ODZfNjQgLS1oZWxwID4vZGV2L251bGwg
-Mj4mMTsgdGhlbgogIFFFTVU9cWVtdS1zeXN0ZW0teDg2XzY0CmVsaWYgL3Vzci9saWJleGVjL3Fl
-bXUta3ZtIC0taGVscCA+L2Rldi9udWxsIDI+JjE7IHRoZW4KICBRRU1VPS91c3IvbGliZXhlYy9x
-ZW11LWt2bQplbHNlCiAgZXhpdCAxCmZpCm1ha2Ugdm0tYnVpbGQtZnJlZWJzZCBKPTIxIFFFTVU9
-JFFFTVUKZXhpdCAwCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgoKCgpUaGUgZnVsbCBsb2cgaXMg
-YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNzAyMTQyOTQyLjQ4ODct
-MS1haG1lZGtoYWxlZGthcmFtYW5AZ21haWwuY29tL3Rlc3RpbmcuRnJlZUJTRC8/dHlwZT1tZXNz
-YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
-Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
-ZWxAcmVkaGF0LmNvbQ==
+On 7/2/20 3:31 AM, Klaus Jensen wrote:
+> Aight, an update here. This only happens when QEMU is run with a virtual
+> IOMMU. Otherwise, the kernel is happy.
+> 
+> With the vIOMMU, qemu also craps out a bit:
+> 
+> qemu-system-x86_64: vtd_iova_to_slpte: detected slpte permission error (iova=0xfd200000, level=0x2, slpte=0x0, write=0)
+> qemu-system-x86_64: vtd_iommu_translate: detected translation failure (dev=03:00:00, iova=0xfd200000)
+> 
+> So I think we are back in QEMU land for the bug.
+
+Can you share command line for that?
+
 
