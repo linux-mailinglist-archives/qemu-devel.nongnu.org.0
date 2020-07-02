@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E0E212DE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:31:33 +0200 (CEST)
-Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42CD212E3E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:53:02 +0200 (CEST)
+Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr5ro-00027x-9a
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44006)
+	id 1jr6Cb-0001TU-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jr5ps-0000cu-J1; Thu, 02 Jul 2020 16:29:32 -0400
-Received: from mga09.intel.com ([134.134.136.24]:61705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jr5pp-0004sS-W1; Thu, 02 Jul 2020 16:29:32 -0400
-IronPort-SDR: PZ7EC5Ty8ahbbZj6hOOUcRuYFl6ThrGtyzoh4YTT70dTh89ygOvN5T95sGZPdkMqryZgKEWVhP
- Rdoo7Qmdd0ew==
-X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="148560792"
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="148560792"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 13:29:26 -0700
-IronPort-SDR: pvqX6ntg3dWiziXvEJlbSB5y1/Q3vFV7ZRUT3mQszE6Gbr6NvEg57mCL3ScA28Bxg3AtAYpKzE
- HjidLe+afM4w==
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="426073606"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.212.130.2])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 13:29:25 -0700
-Subject: Re: nvme emulation merge process
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>
-References: <20200630100139.1483002-1-its@irrelevant.dk>
- <20200630125932.GA553472@localhost.localdomain>
- <c10b18a8-44f3-7dab-b9bb-7d017f210934@redhat.com>
- <20200630154228.GB1987534@dhcp-10-100-145-180.wdl.wdc.com>
- <20200630203630.am3a3bc5ze5m2r3k@apples.localdomain>
- <20200701103407.GA11634@linux.fritz.box>
- <20200701131820.l4gb2ewjmnm6ysmt@apples.localdomain>
- <645af679-d2a3-a744-d07c-477198879680@redhat.com>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <28258e14-843d-d736-e3b1-9bb11bf2e138@linux.intel.com>
-Date: Thu, 2 Jul 2020 13:29:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <645af679-d2a3-a744-d07c-477198879680@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga09.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 16:29:27
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr691-0004Al-SK
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27450
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr68z-0003X2-W4
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593722957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=d/4SzrO51wLCoiHfnRNqtnLD968Kuwi1FHNsO/et+5g=;
+ b=ApG6gQjj/EKZfgn3m7MmdnanCqhTogtwg1U63FmC/dMZqG0zGDFV14Y3V0oY15UF2gy87k
+ hLUEZ7OKuCY6QyVk4dn7zg47LZhpV6syOeutjW8yoYS8WLcqS9Jeok1GaHKmf+ZGzp8O8Z
+ y2+cSCiZfj/fpXTyYaAcCQZf/EJmtPY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-wwrqCUHTP7Wol-GABUN_bg-1; Thu, 02 Jul 2020 16:49:13 -0400
+X-MC-Unique: wwrqCUHTP7Wol-GABUN_bg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5395A800402;
+ Thu,  2 Jul 2020 20:49:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B33DB5C1D0;
+ Thu,  2 Jul 2020 20:49:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C8E83204AE; Thu,  2 Jul 2020 22:48:59 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 01/21] microvm: name qboot binary qboot.rom
+Date: Thu,  2 Jul 2020 22:48:39 +0200
+Message-Id: <20200702204859.9876-2-kraxel@redhat.com>
+In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
+References: <20200702204859.9876-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,127 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <Niklas.Cassel@wdc.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/20 6:57 AM, Philippe Mathieu-Daudé wrote:
-> On 7/1/20 3:18 PM, Klaus Jensen wrote:
->> On Jul  1 12:34, Kevin Wolf wrote:
->>> Am 30.06.2020 um 22:36 hat Klaus Jensen geschrieben:
->>>> On Jun 30 08:42, Keith Busch wrote:
->>>>> On Tue, Jun 30, 2020 at 04:09:46PM +0200, Philippe Mathieu-DaudÃ© wrote:
->>>>>> What I see doable for the following days is:
->>>>>> - hw/block/nvme: Fix I/O BAR structure [3]
->>>>>> - hw/block/nvme: handle transient dma errors
->>>>>> - hw/block/nvme: bump to v1.3
->>>>>
->>>>>
->>>>> These look like sensible patches to rebase future work on, IMO. The 1.3
->>>>> updates had been prepared a while ago, at least.
->>>>
->>>> I think Philippe's "hw/block/nvme: Fix I/O BAR structure" series is a
->>>> no-brainer. It just needs to get in asap.
->>>
->>> I think we need to talk about how nvme patches are supposed to get
->>> merged. I'm not familiar with the hardware nor the code, so the model
->>> was that I just blindly merge patches that Keith has reviewed/acked,
->>> just to spare him the work to prepare a pull request. But obviously, we
->>> started doing things this way when there was a lot less activity around
->>> the nvme emulation.
->>>
->>> If we find that this doesn't scale any more, maybe we need to change
->>> something.
->>
->> Honestly, I do not think the current model has worked very well for some
->> time; especially for larger series where I, for one, has felt that my
->> work was largely ignored due to a lack of designated reviewers. Things
->> only picked up when Beata, Maxim and Philippe started reviewing my
->> series - maybe out of pity or because I was bombing the list, I don't
->> know ;)
-> 
-> I have no interest in the NVMe device emulation, but one of the first
-> thing I notice when I look at the wiki the time I wanted to send my
-> first patch, is the "Return the favor" paragraph:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Return_the_favor
-> 
->  "Peer review only works if everyone chips in a bit of review time.
->   If everyone submitted more patches than they reviewed, we would
->   have a patch backlog. A good goal is to try to review at least as
->   many patches from others as what you submit. Don't worry if you
->   don't know the code base as well as a maintainer; it's perfectly
->   fine to admit when your review is weak because you are unfamiliar
->   with the code."
-> 
-> So as some reviewed my patches, I try to return the favor to the
-> community, in particular when I see someone is stuck waiting for
-> review, and the patch topic is some area I can understand.
-> 
-> I don't see that as an "out of pity" reaction.
-> 
-> Note, it is true bomb series scares reviewers. You learned it the
-> bad way. But you can see, after resending the first part of your
-> "bomb", even if it took 10 versions, the result is a great
-> improvement!
-> 
->> We've also seen good patches from Andrzej linger on the list for quite a
->> while, prompting a number of RESENDs. I only recently allocated more
->> time and upped my review game, but I hope that contributors feel that
->> stuff gets reviewed in a timely fashion by now.
->>
->> Please understand that this is in NO WAY a criticism of Keith who
->> already made it very clear to me that he did not have a lot time to
->> review, but only ack the odd patch.
->>
->>> Depending on how much time Keith can spend on review in the
->>> near future and how much control he wants to keep over the development,
->>> I could imagine adding Klaus to MAINTAINERS, either as a co-maintainer
->>> or as a reviewer. Then I could rely on reviews/acks from either of you
->>> for merging series.
->>>
->>
->> I would be happy to step up (officially) to help maintain the device
->> with Keith and review on a daily basis, and my position can support
->> this.
-> 
-> Sounds good to me, but it is up to Keith Busch to accept.
-> 
-> It would be nice to have at least one developer from WDC listed as
-> designated reviewer too.
-> 
-> Maxim is candidate for designated reviewer but I think he doesn't
-> have the time.
-> 
-> It would also nice to have Andrzej Jakowski listed, if he is interested.
+qboot isn't a bios and shouldnt be named that way.
 
-Thx! Of course I am interested in helping and I think it is actually great 
-idea to have couple of designated maintainers/reviewers as it would be easier
-for folks to receive feedback vs requesting it in polling manner :)
-And please don't get me wrong -- I'm not complaining about anything -- I
-think it is just reality that everybody is stretched out into multiple directions
-struggling to allocate time for multiple things. Having many people will
-actually increase likelihood of introducing high quality improvements.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/i386/microvm.c                       |   4 ++--
+ pc-bios/{bios-microvm.bin => qboot.rom} | Bin
+ roms/Makefile                           |   6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename pc-bios/{bios-microvm.bin => qboot.rom} (100%)
 
-Also, +1 on separate tree for nvme emulation.
-
-> 
->>
->>> Of course, the patches don't necessarily have to go through my tree
->>> either if this only serves to complicate things these days. If sending
->>> separate pull requests directly to Peter would make things easier, I
->>> certainly wouldn't object.
->>>
->>
->> I don't think there is any reason to by-pass your tree. I think the
->> volume would need to increase even further for that to make sense.
->>
-> 
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5e931975a06d..1300c396947b 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -47,7 +47,7 @@
+ #include "kvm_i386.h"
+ #include "hw/xen/start_info.h"
+ 
+-#define MICROVM_BIOS_FILENAME "bios-microvm.bin"
++#define MICROVM_QBOOT_FILENAME "qboot.rom"
+ 
+ static void microvm_set_rtc(MicrovmMachineState *mms, ISADevice *s)
+ {
+@@ -158,7 +158,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+     }
+ 
+     if (bios_name == NULL) {
+-        bios_name = MICROVM_BIOS_FILENAME;
++        bios_name = MICROVM_QBOOT_FILENAME;
+     }
+     x86_bios_rom_init(get_system_memory(), true);
+ }
+diff --git a/pc-bios/bios-microvm.bin b/pc-bios/qboot.rom
+similarity index 100%
+rename from pc-bios/bios-microvm.bin
+rename to pc-bios/qboot.rom
+diff --git a/roms/Makefile b/roms/Makefile
+index f9acf39954dc..b185c880541c 100644
+--- a/roms/Makefile
++++ b/roms/Makefile
+@@ -68,7 +68,7 @@ default help:
+ 	@echo "  opensbi64-virt     -- update OpenSBI for 64-bit virt machine"
+ 	@echo "  opensbi32-sifive_u -- update OpenSBI for 32-bit sifive_u machine"
+ 	@echo "  opensbi64-sifive_u -- update OpenSBI for 64-bit sifive_u machine"
+-	@echo "  bios-microvm       -- update bios-microvm.bin (qboot)"
++	@echo "  qboot              -- update qboot"
+ 	@echo "  clean              -- delete the files generated by the previous" \
+ 	                              "build targets"
+ 
+@@ -194,9 +194,9 @@ opensbi64-sifive_u:
+ 		PLATFORM="sifive/fu540"
+ 	cp opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ 
+-bios-microvm:
++qboot:
+ 	$(MAKE) -C qboot
+-	cp qboot/bios.bin ../pc-bios/bios-microvm.bin
++	cp qboot/bios.bin ../pc-bios/qboot.rom
+ 
+ clean:
+ 	rm -rf seabios/.config seabios/out seabios/builds
+-- 
+2.18.4
 
 
