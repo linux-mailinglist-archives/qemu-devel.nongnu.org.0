@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AB2212876
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:47:50 +0200 (CEST)
-Received: from localhost ([::1]:56558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBFA2128CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:58:04 +0200 (CEST)
+Received: from localhost ([::1]:56914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1RF-0006iJ-1w
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
+	id 1jr1b9-0003WO-Th
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jr1PN-0004xy-MV
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:45:53 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jr1PL-0003Iq-4B
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:45:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a6so29096022wrm.4
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 08:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=4jzIBdNgvLoVTU365NzNp5g263u74lsJnL9oZUAuKqU=;
- b=ErPZR74rOeNIDFT7EYaDKlkxNrKaABBQk+ogtgzwJsRnOBtaq4SpRgZownhZ7EcyPy
- pvgrcvbvAy5P2yYXD+ESs/TsZ8+fQIwl3muo6X2cscLO7QnnOsO0jvDf27nSYXXnpcO6
- u1u86ucbLb7fkLCd8QZgBoIx4TRHqDwaoI3goL8i+VxUGx0qaOT9Hf65TwuO9Zc2wiSE
- E1aTN8/nNlwmfmH5sPzlZkY3RhJ36AMkcDxQMaLYwcPORB0pZspCZv6+iFpIZ4WAhglb
- NHUO4rAyMG76LAV6nta496kexGpnX+HXB+78NZg4oKilzLubcOMjPLa3XBorhjxp0jo8
- GteQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=4jzIBdNgvLoVTU365NzNp5g263u74lsJnL9oZUAuKqU=;
- b=B/R23zNtDdAsI0zRwzWaj7H6Mt+rrGp6ECAbKF++Vq9fTwvOoUCl649oSbhr5H6TqJ
- 5YzTViLFL/ylAwPeAUYobX2DkZ/1Wec80EQ/DQ6BLmQI6d2sC4pAPKT62XjE0tcwB8pO
- YR7jqGJkM+/HKkvNMOJ2nXcDr7yeukqSFlXzN23B1IlvO8Z7VOewR1JVLr4MHQNvlBMA
- T3FrupP/LFdJnHmBSOqkC1h7fhxjootXf14iV/jeJKaKOod0SelrTB5Rztai8hi/HdOD
- WurvxOQV6/0QIkKYMRcNkaYQW4Te2OhyHszpO7UHHtmOhgtP2AVTLYWi2Btfk+9Mm9cL
- /6zg==
-X-Gm-Message-State: AOAM530Lg3Myq/Ojg86uCVpcz83IWBPQJ04eUsgGd+KBaXJgY1PXp453
- B7U1IO6BoMypNzNXn7v2C85k93Zxv0QqWn8cXQI=
-X-Google-Smtp-Source: ABdhPJxOtuiUCMsUAzGty6gDHiJssxGSYAZbpySnEoQvhfHkQ4gQ9RMF1LnLExkB8KjWhpnuPay+8f3uQy9JUKIf/qY=
-X-Received: by 2002:adf:8462:: with SMTP id 89mr31622816wrf.420.1593704749199; 
- Thu, 02 Jul 2020 08:45:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Tq-0000Cp-Qq
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24629
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jr1Td-0004uk-EW
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:50:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593705013;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GoLDYXY+WgK2ZIA26HgkQ7g6HtWYVkCCu+HZqvCl85s=;
+ b=WNV1/Z6LA6uq1n2HRLt8n3/j5CCqArMi9j5qDiQU4tNEKHJhmlaVMu32IhpZVmqtZJKSAN
+ HPdGbHQcguHYMjwpuiWoI/tAEl06kQ91GeugqgN9JkFnbh5+EXFwKZe9hN5CdFngVFrloK
+ HURtJolybQYb5D9gfggVJ1+t8XQtg5I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-TLvw9PJUM3qI4Osm1PjZRA-1; Thu, 02 Jul 2020 11:50:04 -0400
+X-MC-Unique: TLvw9PJUM3qI4Osm1PjZRA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0952D8EA2;
+ Thu,  2 Jul 2020 15:50:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 114EF2B4C5;
+ Thu,  2 Jul 2020 15:50:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6ED901138648; Thu,  2 Jul 2020 17:50:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/44] Less clumsy error checking
+Date: Thu,  2 Jul 2020 17:49:16 +0200
+Message-Id: <20200702155000.3455325-1-armbru@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a1c:b407:0:0:0:0:0 with HTTP;
- Thu, 2 Jul 2020 08:45:48 -0700 (PDT)
-In-Reply-To: <20200702142942.4887-2-ahmedkhaledkaraman@gmail.com>
-References: <20200702142942.4887-1-ahmedkhaledkaraman@gmail.com>
- <20200702142942.4887-2-ahmedkhaledkaraman@gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Thu, 2 Jul 2020 17:45:48 +0200
-Message-ID: <CAHiYmc65CbVoQrMTmK9hxjaC4ESBMQjSP8EO=HaqCKCMv9=ZKA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] scripts/performance: Add dissect.py script
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000073f51f05a9774d6e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,525 +79,395 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "crosa@redhat.com" <crosa@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000073f51f05a9774d6e
-Content-Type: text/plain; charset="UTF-8"
+When the Error API was created, we adopted the (unwritten) rule to
+return void when the function returns no useful value on success,
+unlike GError, which recommends to return true on success and false on
+error then.
 
-On Thursday, July 2, 2020, Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-wrote:
+When a function returns a distinct error value, say false, a checked
+call that passes the error up looks like
 
-> Python script that dissects QEMU execution into three main phases:
-> code generation, JIT execution and helpers execution.
->
-> Syntax:
-> dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
->                  <target executable> [<target executable options>]
->
-> [-h] - Print the script arguments help message.
->
-> Example of usage:
-> dissect.py -- qemu-arm coulomb_double-arm
->
-> Example output:
-> Total Instructions:        4,702,865,362
->
-> Code Generation:             115,819,309         2.463%
-> JIT Execution:             1,081,980,528        23.007%
-> Helpers:                   3,505,065,525        74.530%
->
-> Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-> ---
+    if (!frobnicate(..., errp)) {
+        handle the error...
+    }
 
+When it returns void, we need
 
-A very good script! Hopefully there will be some script in near future that
-will, for example, list all hepers used in the test program.
+    Error *err = NULL;
 
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+    frobnicate(..., &err);
+    if (err) {
+        handle the error...
+        error_propagate(errp, err);
+    }
 
+Not only is this more verbose, it also creates an Error object even
+when @errp is null, &error_abort or &error_fatal.
 
+People got tired of the additional boilerplate, and started to ignore
+the unwritten rule.  The result is confusion among developers about
+the preferred usage.
 
->  scripts/performance/dissect.py | 165 +++++++++++++++++++++++++++++++++
->  1 file changed, 165 insertions(+)
->  create mode 100755 scripts/performance/dissect.py
->
-> diff --git a/scripts/performance/dissect.py b/scripts/performance/dissect.
-> py
-> new file mode 100755
-> index 0000000000..8c2967d082
-> --- /dev/null
-> +++ b/scripts/performance/dissect.py
-> @@ -0,0 +1,165 @@
-> +#!/usr/bin/env python3
-> +
-> +#  Print the percentage of instructions spent in each phase of QEMU
-> +#  execution.
-> +#
-> +#  Syntax:
-> +#  dissect.py [-h] -- <qemu executable> [<qemu executable options>] \
-> +#                   <target executable> [<target executable options>]
-> +#
-> +#  [-h] - Print the script arguments help message.
-> +#
-> +#  Example of usage:
-> +#  dissect.py -- qemu-arm coulomb_double-arm
-> +#
-> +#  This file is a part of the project "TCG Continuous Benchmarking".
-> +#
-> +#  Copyright (C) 2020  Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-> +#  Copyright (C) 2020  Aleksandar Markovic <aleksandar.qemu.devel@gmail.
-> com>
-> +#
-> +#  This program is free software: you can redistribute it and/or modify
-> +#  it under the terms of the GNU General Public License as published by
-> +#  the Free Software Foundation, either version 2 of the License, or
-> +#  (at your option) any later version.
-> +#
-> +#  This program is distributed in the hope that it will be useful,
-> +#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> +#  GNU General Public License for more details.
-> +#
-> +#  You should have received a copy of the GNU General Public License
-> +#  along with this program. If not, see <https://www.gnu.org/licenses/>.
-> +
-> +import argparse
-> +import os
-> +import subprocess
-> +import sys
-> +
-> +
-> +def get_JIT_line(callgrind_data):
-> +    """
-> +    Search for the first instance of the JIT call in
-> +    the callgrind_annotate output when ran using --tree=caller
-> +    This is equivalent to the self number of instructions of JIT.
-> +
-> +    Parameters:
-> +    callgrind_data (list): callgrind_annotate output
-> +
-> +    Returns:
-> +    (int): Line number
-> +   """
-> +    line = -1
-> +    for i in range(len(callgrind_data)):
-> +        if callgrind_data[i].strip('\n') and \
-> +                callgrind_data[i].split()[-1] == "[???]":
-> +            line = i
-> +            break
-> +    if line == -1:
-> +        sys.exit("Couldn't locate the JIT call ... Exiting.")
-> +    return line
-> +
-> +
-> +def main():
-> +    # Parse the command line arguments
-> +    parser = argparse.ArgumentParser(
-> +        usage='dissect.py [-h] -- '
-> +        '<qemu executable> [<qemu executable options>] '
-> +        '<target executable> [<target executable options>]')
-> +
-> +    parser.add_argument('command', type=str, nargs='+',
-> help=argparse.SUPPRESS)
-> +
-> +    args = parser.parse_args()
-> +
-> +    # Extract the needed variables from the args
-> +    command = args.command
-> +
-> +    # Insure that valgrind is installed
-> +    check_valgrind = subprocess.run(
-> +        ["which", "valgrind"], stdout=subprocess.DEVNULL)
-> +    if check_valgrind.returncode:
-> +        sys.exit("Please install valgrind before running the script.")
-> +
-> +    # Run callgrind
-> +    callgrind = subprocess.run((["valgrind",
-> +                                 "--tool=callgrind",
-> +                                 "--callgrind-out-file=/tmp/
-> callgrind.data"]
-> +                                + command),
-> +                               stdout=subprocess.DEVNULL,
-> +                               stderr=subprocess.PIPE)
-> +    if callgrind.returncode:
-> +        sys.exit(callgrind.stderr.decode("utf-8"))
-> +
-> +    # Save callgrind_annotate output to /tmp/callgrind_annotate.out
-> +    with open("/tmp/callgrind_annotate.out", "w") as output:
-> +        callgrind_annotate = subprocess.run(
-> +            ["callgrind_annotate", "/tmp/callgrind.data",
-> "--tree=caller"],
-> +            stdout=output,
-> +            stderr=subprocess.PIPE)
-> +        if callgrind_annotate.returncode:
-> +            os.unlink('/tmp/callgrind.data')
-> +            output.close()
-> +            os.unlink('/tmp/callgrind_annotate.out')
-> +            sys.exit(callgrind_annotate.stderr.decode("utf-8"))
-> +
-> +    # Read the callgrind_annotate output to callgrind_data[]
-> +    callgrind_data = []
-> +    with open('/tmp/callgrind_annotate.out', 'r') as data:
-> +        callgrind_data = data.readlines()
-> +
-> +    # Line number with the total number of instructions
-> +    total_instructions_line_number = 20
-> +    # Get the total number of instructions
-> +    total_instructions_line_data = \
-> +        callgrind_data[total_instructions_line_number]
-> +    total_instructions = total_instructions_line_data.split()[0]
-> +    total_instructions = int(total_instructions.replace(',', ''))
-> +
-> +    # Line number with the JIT self number of instructions
-> +    JIT_self_instructions_line_number = get_JIT_line(callgrind_data)
-> +    # Get the JIT self number of instructions
-> +    JIT_self_instructions_line_data = \
-> +        callgrind_data[JIT_self_instructions_line_number]
-> +    JIT_self_instructions = JIT_self_instructions_line_data.split()[0]
-> +    JIT_self_instructions = int(JIT_self_instructions.replace(',', ''))
-> +
-> +    # Line number with the JIT self + inclusive number of instructions
-> +    # It's the line above the first JIT call when running with
-> --tree=caller
-> +    JIT_total_instructions_line_number = JIT_self_instructions_line_number
-> - 1
-> +    # Get the JIT self + inclusive number of instructions
-> +    JIT_total_instructions_line_data = \
-> +        callgrind_data[JIT_total_instructions_line_number]
-> +    JIT_total_instructions = JIT_total_instructions_line_data.split()[0]
-> +    JIT_total_instructions = int(JIT_total_instructions.replace(',', ''))
-> +
-> +    # Calculate number of instructions in helpers and code generation
-> +    helpers_instructions = JIT_total_instructions - JIT_self_instructions
-> +    code_generation_instructions = total_instructions -
-> JIT_total_instructions
-> +
-> +    # Print results (Insert commas in large numbers)
-> +    # Print total number of instructions
-> +    print('{:<20}{:>20}\n'.
-> +          format("Total Instructions:",
-> +                 format(total_instructions, ',')))
-> +    # Print code generation instructions and percentage
-> +    print('{:<20}{:>20}\t{:>6.3f}%'.
-> +          format("Code Generation:",
-> +                 format(code_generation_instructions, ","),
-> +                 (code_generation_instructions / total_instructions) *
-> 100))
-> +    # Print JIT instructions and percentage
-> +    print('{:<20}{:>20}\t{:>6.3f}%'.
-> +          format("JIT Execution:",
-> +                 format(JIT_self_instructions, ","),
-> +                 (JIT_self_instructions / total_instructions) * 100))
-> +    # Print helpers instructions and percentage
-> +    print('{:<20}{:>20}\t{:>6.3f}%'.
-> +          format("Helpers:",
-> +                 format(helpers_instructions, ","),
-> +                 (helpers_instructions/total_instructions)*100))
-> +
-> +    # Remove intermediate files
-> +    os.unlink('/tmp/callgrind.data')
-> +    os.unlink('/tmp/callgrind_annotate.out')
-> +
-> +
-> +if __name__ == "__main__":
-> +    main()
-> --
-> 2.17.1
->
->
+This series adopts the GError rule (in writing), and updates a
+substantial amount of code to honor the rule.  Cuts the number of
+error_propagate() calls nearly by half.  The diffstat speaks for
+itself.
 
---00000000000073f51f05a9774d6e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Based on my "[PULL 00/28] Error reporting patches patches for
+2020-07-02".  Also available from my public repository
+https://repo.or.cz/qemu/armbru.git on branch error-smooth.
 
-<br><br>On Thursday, July 2, 2020, Ahmed Karaman &lt;<a href=3D"mailto:ahme=
-dkhaledkaraman@gmail.com">ahmedkhaledkaraman@gmail.com</a>&gt; wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">Python script that dissects QEMU execution int=
-o three main phases:<br>
-code generation, JIT execution and helpers execution.<br>
-<br>
-Syntax:<br>
-dissect.py [-h] -- &lt;qemu executable&gt; [&lt;qemu executable options&gt;=
-] \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;target ex=
-ecutable&gt; [&lt;target executable options&gt;]<br>
-<br>
-[-h] - Print the script arguments help message.<br>
-<br>
-Example of usage:<br>
-dissect.py -- qemu-arm coulomb_double-arm<br>
-<br>
-Example output:<br>
-Total Instructions:=C2=A0 =C2=A0 =C2=A0 =C2=A0 4,702,865,362<br>
-<br>
-Code Generation:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0115,819,309=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02.463%<br>
-JIT Execution:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01,081,980,528=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 23.007%<br>
-Helpers:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A03,505,065,525=C2=A0 =C2=A0 =C2=A0 =C2=A0 74.530%<br>
-<br>
-Signed-off-by: Ahmed Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail=
-.com">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
----</blockquote><div><br></div><div>A very good script! Hopefully there wil=
-l be some script in near future that will, for example, list all hepers use=
-d in the test program.</div><div><br></div><div>Reviewed-by: Aleksandar Mar=
-kovic &lt;<a href=3D"mailto:aleksandar.qemu.devel@gmail.com">aleksandar.qem=
-u.devel@gmail.com</a>&gt;</div><div><br></div><div>=C2=A0</div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">
-=C2=A0scripts/performance/dissect.py | 165 ++++++++++++++++++++++++++++++<w=
-br>+++<br>
-=C2=A01 file changed, 165 insertions(+)<br>
-=C2=A0create mode 100755 scripts/performance/dissect.py<br>
-<br>
-diff --git a/scripts/performance/dissect.<wbr>py b/scripts/performance/diss=
-ect.<wbr>py<br>
-new file mode 100755<br>
-index 0000000000..8c2967d082<br>
---- /dev/null<br>
-+++ b/scripts/performance/dissect.<wbr>py<br>
-@@ -0,0 +1,165 @@<br>
-+#!/usr/bin/env python3<br>
-+<br>
-+#=C2=A0 Print the percentage of instructions spent in each phase of QEMU<b=
-r>
-+#=C2=A0 execution.<br>
-+#<br>
-+#=C2=A0 Syntax:<br>
-+#=C2=A0 dissect.py [-h] -- &lt;qemu executable&gt; [&lt;qemu executable op=
-tions&gt;] \<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;=
-target executable&gt; [&lt;target executable options&gt;]<br>
-+#<br>
-+#=C2=A0 [-h] - Print the script arguments help message.<br>
-+#<br>
-+#=C2=A0 Example of usage:<br>
-+#=C2=A0 dissect.py -- qemu-arm coulomb_double-arm<br>
-+#<br>
-+#=C2=A0 This file is a part of the project &quot;TCG Continuous Benchmarki=
-ng&quot;.<br>
-+#<br>
-+#=C2=A0 Copyright (C) 2020=C2=A0 Ahmed Karaman &lt;<a href=3D"mailto:ahmed=
-khaledkaraman@gmail.com">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
-+#=C2=A0 Copyright (C) 2020=C2=A0 Aleksandar Markovic &lt;<a href=3D"mailto=
-:aleksandar.qemu.devel@gmail.com">aleksandar.qemu.devel@gmail.<wbr>com</a>&=
-gt;<br>
-+#<br>
-+#=C2=A0 This program is free software: you can redistribute it and/or modi=
-fy<br>
-+#=C2=A0 it under the terms of the GNU General Public License as published =
-by<br>
-+#=C2=A0 the Free Software Foundation, either version 2 of the License, or<=
-br>
-+#=C2=A0 (at your option) any later version.<br>
-+#<br>
-+#=C2=A0 This program is distributed in the hope that it will be useful,<br=
->
-+#=C2=A0 but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+#=C2=A0 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the<br>
-+#=C2=A0 GNU General Public License for more details.<br>
-+#<br>
-+#=C2=A0 You should have received a copy of the GNU General Public License<=
-br>
-+#=C2=A0 along with this program. If not, see &lt;<a href=3D"https://www.gn=
-u.org/licenses/" target=3D"_blank">https://www.gnu.org/licenses/</a><wbr>&g=
-t;.<br>
-+<br>
-+import argparse<br>
-+import os<br>
-+import subprocess<br>
-+import sys<br>
-+<br>
-+<br>
-+def get_JIT_line(callgrind_data):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Search for the first instance of the JIT call in<br>
-+=C2=A0 =C2=A0 the callgrind_annotate output when ran using --tree=3Dcaller=
-<br>
-+=C2=A0 =C2=A0 This is equivalent to the self number of instructions of JIT=
-.<br>
-+<br>
-+=C2=A0 =C2=A0 Parameters:<br>
-+=C2=A0 =C2=A0 callgrind_data (list): callgrind_annotate output<br>
-+<br>
-+=C2=A0 =C2=A0 Returns:<br>
-+=C2=A0 =C2=A0 (int): Line number<br>
-+=C2=A0 =C2=A0&quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 line =3D -1<br>
-+=C2=A0 =C2=A0 for i in range(len(callgrind_data)):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if callgrind_data[i].strip(&#39;\n&#39;) and \=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_data[i].=
-split()[-1] =3D=3D &quot;[???]&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 line =3D i<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
-+=C2=A0 =C2=A0 if line =3D=3D -1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(&quot;Couldn&#39;t locate the JIT cal=
-l ... Exiting.&quot;)<br>
-+=C2=A0 =C2=A0 return line<br>
-+<br>
-+<br>
-+def main():<br>
-+=C2=A0 =C2=A0 # Parse the command line arguments<br>
-+=C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 usage=3D&#39;dissect.py [-h] -- &#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;&lt;qemu executable&gt; [&lt;qemu executa=
-ble options&gt;] &#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;&lt;target executable&gt; [&lt;target exe=
-cutable options&gt;]&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;command&#39;, type=3Dstr, nargs=3D&=
-#39;+&#39;, help=3Dargparse.SUPPRESS)<br>
-+<br>
-+=C2=A0 =C2=A0 args =3D parser.parse_args()<br>
-+<br>
-+=C2=A0 =C2=A0 # Extract the needed variables from the args<br>
-+=C2=A0 =C2=A0 command =3D args.command<br>
-+<br>
-+=C2=A0 =C2=A0 # Insure that valgrind is installed<br>
-+=C2=A0 =C2=A0 check_valgrind =3D subprocess.run(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [&quot;which&quot;, &quot;valgrind&quot;], std=
-out=3Dsubprocess.DEVNULL)<br>
-+=C2=A0 =C2=A0 if check_valgrind.returncode:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(&quot;Please install valgrind before =
-running the script.&quot;)<br>
-+<br>
-+=C2=A0 =C2=A0 # Run callgrind<br>
-+=C2=A0 =C2=A0 callgrind =3D subprocess.run(([&quot;valgrind&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;--tool=3Dcallgrind&quot;=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;--callgrind-out-file=3D/=
-tmp/<wbr>callgrind.data&quot;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 + command),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stdout=3Dsubprocess.DEVNULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stderr=3Dsubprocess.PIPE)<br>
-+=C2=A0 =C2=A0 if callgrind.returncode:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(callgrind.stderr.<wbr>decode(&quot;ut=
-f-8&quot;))<br>
-+<br>
-+=C2=A0 =C2=A0 # Save callgrind_annotate output to /tmp/callgrind_annotate.=
-out<br>
-+=C2=A0 =C2=A0 with open(&quot;/tmp/callgrind_annotate.<wbr>out&quot;, &quo=
-t;w&quot;) as output:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_annotate =3D subprocess.run(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [&quot;callgrind_annotate&quot;,=
- &quot;/tmp/callgrind.data&quot;, &quot;--tree=3Dcaller&quot;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout=3Doutput,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr=3Dsubprocess.PIPE)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if callgrind_annotate.returncode:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.unlink(&#39;/tmp/callgrind.<w=
-br>data&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output.close()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.unlink(&#39;/tmp/callgrind_<w=
-br>annotate.out&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sys.exit(callgrind_annotate.<wbr=
->stderr.decode(&quot;utf-8&quot;))<br>
-+<br>
-+=C2=A0 =C2=A0 # Read the callgrind_annotate output to callgrind_data[]<br>
-+=C2=A0 =C2=A0 callgrind_data =3D []<br>
-+=C2=A0 =C2=A0 with open(&#39;/tmp/callgrind_annotate.<wbr>out&#39;, &#39;r=
-&#39;) as data:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_data =3D data.readlines()<br>
-+<br>
-+=C2=A0 =C2=A0 # Line number with the total number of instructions<br>
-+=C2=A0 =C2=A0 total_instructions_line_number =3D 20<br>
-+=C2=A0 =C2=A0 # Get the total number of instructions<br>
-+=C2=A0 =C2=A0 total_instructions_line_data =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_data[total_<wbr>instructions_line_nu=
-mber]<br>
-+=C2=A0 =C2=A0 total_instructions =3D total_instructions_line_data.<wbr>spl=
-it()[0]<br>
-+=C2=A0 =C2=A0 total_instructions =3D int(total_instructions.<wbr>replace(&=
-#39;,&#39;, &#39;&#39;))<br>
-+<br>
-+=C2=A0 =C2=A0 # Line number with the JIT self number of instructions<br>
-+=C2=A0 =C2=A0 JIT_self_instructions_line_<wbr>number =3D get_JIT_line(call=
-grind_data)<br>
-+=C2=A0 =C2=A0 # Get the JIT self number of instructions<br>
-+=C2=A0 =C2=A0 JIT_self_instructions_line_<wbr>data =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_data[JIT_self_<wbr>instructions_line=
-_number]<br>
-+=C2=A0 =C2=A0 JIT_self_instructions =3D JIT_self_instructions_line_<wbr>da=
-ta.split()[0]<br>
-+=C2=A0 =C2=A0 JIT_self_instructions =3D int(JIT_self_instructions.<wbr>rep=
-lace(&#39;,&#39;, &#39;&#39;))<br>
-+<br>
-+=C2=A0 =C2=A0 # Line number with the JIT self + inclusive number of instru=
-ctions<br>
-+=C2=A0 =C2=A0 # It&#39;s the line above the first JIT call when running wi=
-th --tree=3Dcaller<br>
-+=C2=A0 =C2=A0 JIT_total_instructions_line_<wbr>number =3D JIT_self_instruc=
-tions_line_<wbr>number - 1<br>
-+=C2=A0 =C2=A0 # Get the JIT self + inclusive number of instructions<br>
-+=C2=A0 =C2=A0 JIT_total_instructions_line_<wbr>data =3D \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 callgrind_data[JIT_total_<wbr>instructions_lin=
-e_number]<br>
-+=C2=A0 =C2=A0 JIT_total_instructions =3D JIT_total_instructions_line_<wbr>=
-data.split()[0]<br>
-+=C2=A0 =C2=A0 JIT_total_instructions =3D int(JIT_total_instructions.<wbr>r=
-eplace(&#39;,&#39;, &#39;&#39;))<br>
-+<br>
-+=C2=A0 =C2=A0 # Calculate number of instructions in helpers and code gener=
-ation<br>
-+=C2=A0 =C2=A0 helpers_instructions =3D JIT_total_instructions - JIT_self_i=
-nstructions<br>
-+=C2=A0 =C2=A0 code_generation_instructions =3D total_instructions - JIT_to=
-tal_instructions<br>
-+<br>
-+=C2=A0 =C2=A0 # Print results (Insert commas in large numbers)<br>
-+=C2=A0 =C2=A0 # Print total number of instructions<br>
-+=C2=A0 =C2=A0 print(&#39;{:&lt;20}{:&gt;20}\n&#39;.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 format(&quot;Total Instructions:&quot;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format(total=
-_instructions, &#39;,&#39;)))<br>
-+=C2=A0 =C2=A0 # Print code generation instructions and percentage<br>
-+=C2=A0 =C2=A0 print(&#39;{:&lt;20}{:&gt;20}\t{:&gt;6.3f}%<wbr>&#39;.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 format(&quot;Code Generation:&quot;,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format(code_=
-generation_<wbr>instructions, &quot;,&quot;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(code_genera=
-tion_instructions / total_instructions) * 100))<br>
-+=C2=A0 =C2=A0 # Print JIT instructions and percentage<br>
-+=C2=A0 =C2=A0 print(&#39;{:&lt;20}{:&gt;20}\t{:&gt;6.3f}%<wbr>&#39;.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 format(&quot;JIT Execution:&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format(JIT_s=
-elf_instructions, &quot;,&quot;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(JIT_self_in=
-structions / total_instructions) * 100))<br>
-+=C2=A0 =C2=A0 # Print helpers instructions and percentage<br>
-+=C2=A0 =C2=A0 print(&#39;{:&lt;20}{:&gt;20}\t{:&gt;6.3f}%<wbr>&#39;.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 format(&quot;Helpers:&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0format(helpe=
-rs_instructions, &quot;,&quot;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(helpers_ins=
-tructions/total_<wbr>instructions)*100))<br>
-+<br>
-+=C2=A0 =C2=A0 # Remove intermediate files<br>
-+=C2=A0 =C2=A0 os.unlink(&#39;/tmp/callgrind.<wbr>data&#39;)<br>
-+=C2=A0 =C2=A0 os.unlink(&#39;/tmp/callgrind_<wbr>annotate.out&#39;)<br>
-+<br>
-+<br>
-+if __name__ =3D=3D &quot;__main__&quot;:<br>
-+=C2=A0 =C2=A0 main()<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote>
+Based-on: Message-Id: <20200702110931.2953148-1-armbru@redhat.com>
 
---00000000000073f51f05a9774d6e--
+v2:
+* Rebased
+* Coccinelle scripts reworked, patches sliced and diced for
+  reviewability:
+  Old PATCH 03+17+23-24+35+38-39+42 split into "Use returned bool to
+  check for failure" parts [PATCH 03+13+17-18+25+28-29+42], and
+  "Eliminate error_propagate()" parts.  The latter combined with old
+  PATCH 06-07+18-19+29+43 are now [PATCH 33-37].  The end result is
+  almost identical.  Some R-bys dropped; sorry!
+* Drop variables as they become unused [Vladimir]
+* PATCH 01: Comment typos fixed [Greg]
+* PATCH 09: Simplify further by cutting out variables [Eric]
+* PATCH 11: opt_set() renamed to opt_validate(), redundant parameter
+  dropped [Vladimir], R-by kept
+* PATCH 16: Comment typos fixed, indentation tidied up [Eric]
+* PATCH 23: Assertion dropped [Eric], incorrect hunk backed out
+* PATCH 26: Regenerated after rebase; note additional Coccinelle
+  hiccup in the commit message
+* PATCH 27: Indentation tiedied up [Eric]
+* Left for later: followup to fix nearby typos and such [Eric]
+
+Markus Armbruster (44):
+  error: Improve examples in error.h's big comment
+  error: Document Error API usage rules
+  qdev: Use returned bool to check for qdev_realize() etc. failure
+  macio: Tidy up error handling in macio_newworld_realize()
+  virtio-crypto-pci: Tidy up virtio_crypto_pci_realize()
+  qemu-option: Check return value instead of @err where convenient
+  qemu-option: Make uses of find_desc_by_name() more similar
+  qemu-option: Factor out helper find_default_by_name()
+  qemu-option: Simplify around find_default_by_name()
+  qemu-option: Factor out helper opt_create()
+  qemu-option: Replace opt_set() by cleaner opt_validate()
+  qemu-option: Make functions taking Error ** return bool, not void
+  qemu-option: Use returned bool to check for failure
+  block: Avoid error accumulation in bdrv_img_create()
+  hmp: Eliminate a variable in hmp_migrate_set_parameter()
+  qapi: Make visitor functions taking Error ** return bool, not void
+  qapi: Use returned bool to check for failure, Coccinelle part
+  qapi: Use returned bool to check for failure, manual part
+  block/parallels: Simplify parallels_open() after previous commit
+  s390x/pci: Fix harmless mistake in zpci's property fid's setter
+  qom: Use error_reportf_err() instead of g_printerr() in examples
+  qom: Rename qdev_get_type() to object_get_type()
+  qom: Crash more nicely on object_property_get_link() failure
+  qom: Don't handle impossible object_property_get_link() failure
+  qom: Use return values to check for error where that's simpler
+  qom: Put name parameter before value / visitor parameter
+  qom: Make functions taking Error ** return bool, not void
+  qom: Use returned bool to check for failure, Coccinelle part
+  qom: Use returned bool to check for failure, manual part
+  qom: Make functions taking Error ** return bool, not 0/-1
+  qdev: Make functions taking Error ** return bool, not void
+  qdev: Use returned bool to check for failure, Coccinelle part
+  error: Avoid unnecessary error_propagate() after error_setg()
+  error: Eliminate error_propagate() with Coccinelle, part 1
+  error: Eliminate error_propagate() with Coccinelle, part 2
+  error: Eliminate error_propagate() manually
+  error: Reduce unnecessary error propagation
+  qapi: Smooth another visitor error checking pattern
+  qapi: Smooth visitor error checking in generated code
+  qapi: Purge error_propagate() from QAPI core
+  error: Avoid error_propagate() after migrate_add_blocker()
+  qemu-img: Ignore Error objects where the return value suffices
+  qdev: Ignore Error objects where the return value suffices
+  hmp: Ignore Error objects where the return value suffices
+
+ docs/devel/qapi-code-gen.txt             | 103 ++++-----
+ include/hw/audio/pcspk.h                 |   2 +-
+ include/hw/qdev-properties.h             |   4 +-
+ include/qapi/clone-visitor.h             |   8 +-
+ include/qapi/error.h                     |  45 +++-
+ include/qapi/visitor-impl.h              |  26 +--
+ include/qapi/visitor.h                   | 102 +++++----
+ include/qemu/option.h                    |  16 +-
+ include/qom/object.h                     | 105 +++++----
+ include/qom/object_interfaces.h          |  12 +-
+ include/qom/qom-qobject.h                |   9 +-
+ accel/kvm/kvm-all.c                      |  55 +++--
+ accel/tcg/tcg-all.c                      |   5 +-
+ audio/audio_legacy.c                     |  15 +-
+ backends/cryptodev-vhost-user.c          |   3 +-
+ backends/cryptodev.c                     |  16 +-
+ backends/hostmem-file.c                  |  22 +-
+ backends/hostmem-memfd.c                 |  18 +-
+ backends/hostmem.c                       |  33 ++-
+ backends/rng.c                           |   2 +-
+ backends/tpm/tpm_util.c                  |   5 +-
+ block.c                                  |  21 +-
+ block/blkdebug.c                         |   9 +-
+ block/blklogwrites.c                     |   4 +-
+ block/blkverify.c                        |   4 +-
+ block/crypto.c                           |   5 +-
+ block/curl.c                             |   5 +-
+ block/file-posix.c                       |  16 +-
+ block/file-win32.c                       |   8 +-
+ block/gluster.c                          |  17 +-
+ block/iscsi.c                            |   4 +-
+ block/nbd.c                              |  10 +-
+ block/nfs.c                              |   7 +-
+ block/parallels.c                        |  29 +--
+ block/qcow.c                             |  16 +-
+ block/qcow2.c                            |  21 +-
+ block/qed.c                              |  10 +-
+ block/quorum.c                           |  19 +-
+ block/raw-format.c                       |   5 +-
+ block/rbd.c                              |   7 +-
+ block/replication.c                      |  19 +-
+ block/sheepdog.c                         |  16 +-
+ block/ssh.c                              |  11 +-
+ block/throttle-groups.c                  |  31 +--
+ block/throttle.c                         |   5 +-
+ block/vdi.c                              |  13 +-
+ block/vhdx.c                             |  15 +-
+ block/vmdk.c                             |  13 +-
+ block/vpc.c                              |  19 +-
+ block/vvfat.c                            |  10 +-
+ block/vxhs.c                             |  15 +-
+ blockdev.c                               |  40 ++--
+ bootdevice.c                             |  13 +-
+ chardev/char.c                           |   6 +-
+ contrib/ivshmem-server/main.c            |   4 +-
+ crypto/secret.c                          |   2 +-
+ crypto/secret_keyring.c                  |   2 +-
+ crypto/tlscredsanon.c                    |   2 +-
+ crypto/tlscredspsk.c                     |   2 +-
+ crypto/tlscredsx509.c                    |   2 +-
+ dump/dump.c                              |   7 +-
+ hw/acpi/core.c                           |  19 +-
+ hw/acpi/cpu_hotplug.c                    |   4 +-
+ hw/acpi/ich9.c                           |   2 +-
+ hw/acpi/piix4.c                          |   2 +-
+ hw/arm/allwinner-a10.c                   |  27 +--
+ hw/arm/armsse.c                          | 208 ++++++------------
+ hw/arm/armv7m.c                          |  47 ++---
+ hw/arm/aspeed.c                          |  24 +--
+ hw/arm/aspeed_ast2600.c                  | 124 ++++-------
+ hw/arm/aspeed_soc.c                      |  85 +++-----
+ hw/arm/bcm2835_peripherals.c             |  81 ++-----
+ hw/arm/bcm2836.c                         |  35 +--
+ hw/arm/cubieboard.c                      |  14 +-
+ hw/arm/digic.c                           |  18 +-
+ hw/arm/digic_boards.c                    |   3 +-
+ hw/arm/exynos4210.c                      |  13 +-
+ hw/arm/fsl-imx25.c                       |  58 ++---
+ hw/arm/fsl-imx31.c                       |  34 +--
+ hw/arm/fsl-imx6.c                        |  85 +++-----
+ hw/arm/fsl-imx6ul.c                      |  24 +--
+ hw/arm/fsl-imx7.c                        |  31 ++-
+ hw/arm/highbank.c                        |  12 +-
+ hw/arm/integratorcp.c                    |   2 +-
+ hw/arm/microbit.c                        |   4 +-
+ hw/arm/mps2-tz.c                         |  31 ++-
+ hw/arm/mps2.c                            |  12 +-
+ hw/arm/msf2-soc.c                        |  29 +--
+ hw/arm/musca.c                           |  18 +-
+ hw/arm/musicpal.c                        |   4 +-
+ hw/arm/nrf51_soc.c                       |  36 +---
+ hw/arm/orangepi.c                        |  13 +-
+ hw/arm/raspi.c                           |   2 +-
+ hw/arm/realview.c                        |   6 +-
+ hw/arm/sbsa-ref.c                        |  16 +-
+ hw/arm/stellaris.c                       |   4 +-
+ hw/arm/stm32f205_soc.c                   |  37 +---
+ hw/arm/stm32f405_soc.c                   |  48 ++---
+ hw/arm/versatilepb.c                     |   4 +-
+ hw/arm/vexpress.c                        |   8 +-
+ hw/arm/virt.c                            |  44 ++--
+ hw/arm/xilinx_zynq.c                     |   6 +-
+ hw/arm/xlnx-versal-virt.c                |   8 +-
+ hw/arm/xlnx-versal.c                     |  30 ++-
+ hw/arm/xlnx-zcu102.c                     |   8 +-
+ hw/arm/xlnx-zynqmp.c                     | 117 ++++------
+ hw/block/fdc.c                           |  12 +-
+ hw/block/xen-block.c                     |  30 +--
+ hw/char/serial-pci-multi.c               |   5 +-
+ hw/char/serial-pci.c                     |   5 +-
+ hw/char/serial.c                         |  10 +-
+ hw/core/bus.c                            |  12 +-
+ hw/core/cpu.c                            |   3 +-
+ hw/core/machine.c                        |   5 +-
+ hw/core/numa.c                           |  55 ++---
+ hw/core/platform-bus.c                   |   6 +-
+ hw/core/qdev-properties-system.c         |  32 +--
+ hw/core/qdev-properties.c                |  93 +++-----
+ hw/core/qdev.c                           |  16 +-
+ hw/cpu/a15mpcore.c                       |   5 +-
+ hw/cpu/a9mpcore.c                        |  21 +-
+ hw/cpu/arm11mpcore.c                     |  17 +-
+ hw/cpu/core.c                            |  10 +-
+ hw/cpu/realview_mpcore.c                 |   9 +-
+ hw/display/bcm2835_fb.c                  |   8 +-
+ hw/display/virtio-gpu-base.c             |   5 +-
+ hw/display/virtio-gpu-pci.c              |  11 +-
+ hw/display/virtio-vga.c                  |  10 +-
+ hw/dma/bcm2835_dma.c                     |   9 +-
+ hw/dma/sparc32_dma.c                     |   6 +-
+ hw/dma/xilinx_axidma.c                   |   4 +-
+ hw/gpio/aspeed_gpio.c                    |   5 +-
+ hw/gpio/bcm2835_gpio.c                   |  15 +-
+ hw/hyperv/vmbus.c                        |   5 +-
+ hw/i386/pc.c                             |  48 ++---
+ hw/i386/pc_piix.c                        |   4 +-
+ hw/i386/pc_q35.c                         |  28 +--
+ hw/i386/x86.c                            |   7 +-
+ hw/ide/qdev.c                            |   7 +-
+ hw/intc/apic_common.c                    |   5 +-
+ hw/intc/arm_gic_kvm.c                    |   4 +-
+ hw/intc/arm_gicv3_its_kvm.c              |   5 +-
+ hw/intc/arm_gicv3_kvm.c                  |   4 +-
+ hw/intc/armv7m_nvic.c                    |   9 +-
+ hw/intc/nios2_iic.c                      |   8 +-
+ hw/intc/pnv_xive.c                       |  17 +-
+ hw/intc/realview_gic.c                   |   5 +-
+ hw/intc/spapr_xive.c                     |  17 +-
+ hw/intc/xics.c                           |   9 +-
+ hw/intc/xics_kvm.c                       |   4 +-
+ hw/intc/xive.c                           |  17 +-
+ hw/isa/piix4.c                           |   5 +-
+ hw/m68k/q800.c                           |   4 +-
+ hw/mem/nvdimm.c                          |  30 +--
+ hw/mem/pc-dimm.c                         |  18 +-
+ hw/microblaze/petalogix_ml605_mmu.c      |  24 +--
+ hw/microblaze/petalogix_s3adsp1800_mmu.c |   2 +-
+ hw/microblaze/xlnx-zynqmp-pmu.c          |  39 ++--
+ hw/mips/boston.c                         |   4 +-
+ hw/mips/cps.c                            |  41 ++--
+ hw/mips/jazz.c                           |   4 +-
+ hw/mips/malta.c                          |   4 +-
+ hw/misc/aspeed_sdmc.c                    |   8 +-
+ hw/misc/bcm2835_mbox.c                   |   9 +-
+ hw/misc/bcm2835_property.c               |  17 +-
+ hw/misc/iotkit-sysctl.c                  |   2 +-
+ hw/misc/ivshmem.c                        |   4 +-
+ hw/misc/macio/cuda.c                     |   5 +-
+ hw/misc/macio/macio.c                    |  35 ++-
+ hw/misc/macio/pmu.c                      |   5 +-
+ hw/misc/pca9552.c                        |   5 +-
+ hw/misc/tmp105.c                         |   5 +-
+ hw/misc/tmp421.c                         |   5 +-
+ hw/net/ne2000-isa.c                      |   7 +-
+ hw/net/virtio-net.c                      |   7 +-
+ hw/net/xilinx_axienet.c                  |   4 +-
+ hw/pci-host/pnv_phb3.c                   |  33 ++-
+ hw/pci-host/pnv_phb4.c                   |   9 +-
+ hw/pci-host/pnv_phb4_pec.c               |   9 +-
+ hw/pci-host/prep.c                       |   4 +-
+ hw/ppc/e500.c                            |   5 +-
+ hw/ppc/mac_newworld.c                    |  10 +-
+ hw/ppc/mac_oldworld.c                    |   4 +-
+ hw/ppc/pnv.c                             | 171 +++++++--------
+ hw/ppc/pnv_core.c                        |   4 +-
+ hw/ppc/pnv_psi.c                         |  22 +-
+ hw/ppc/rs6000_mc.c                       |   9 +-
+ hw/ppc/spapr.c                           |  77 +++----
+ hw/ppc/spapr_caps.c                      |  15 +-
+ hw/ppc/spapr_cpu_core.c                  |  15 +-
+ hw/ppc/spapr_drc.c                       |  16 +-
+ hw/ppc/spapr_hcall.c                     |   3 +-
+ hw/ppc/spapr_irq.c                       |  11 +-
+ hw/ppc/spapr_pci.c                       |  16 +-
+ hw/ppc/spapr_pci_nvlink2.c               |   3 +-
+ hw/riscv/opentitan.c                     |  13 +-
+ hw/riscv/sifive_e.c                      |  10 +-
+ hw/riscv/sifive_u.c                      |  11 +-
+ hw/riscv/spike.c                         |   4 +-
+ hw/riscv/virt.c                          |   4 +-
+ hw/rx/rx-gdbsim.c                        |  12 +-
+ hw/s390x/css.c                           |   5 +-
+ hw/s390x/event-facility.c                |  13 +-
+ hw/s390x/ipl.c                           |  27 ++-
+ hw/s390x/s390-pci-bus.c                  |  14 +-
+ hw/s390x/s390-skeys.c                    |   2 +-
+ hw/s390x/s390-stattrib.c                 |   2 +-
+ hw/s390x/s390-virtio-ccw.c               |  20 +-
+ hw/s390x/sclp.c                          |  13 +-
+ hw/s390x/virtio-ccw-crypto.c             |  10 +-
+ hw/s390x/virtio-ccw-rng.c                |   8 +-
+ hw/scsi/scsi-bus.c                       |  15 +-
+ hw/scsi/vhost-scsi.c                     |   4 +-
+ hw/sd/aspeed_sdhci.c                     |  15 +-
+ hw/sd/sd.c                               |   3 +-
+ hw/sd/ssi-sd.c                           |  11 +-
+ hw/smbios/smbios.c                       |  33 +--
+ hw/sparc/sun4m.c                         |   2 +-
+ hw/sparc64/sun4u.c                       |   2 +-
+ hw/usb/bus.c                             |   7 +-
+ hw/usb/dev-storage.c                     |   9 +-
+ hw/usb/hcd-dwc2.c                        |   9 +-
+ hw/vfio/pci-quirks.c                     |   5 +-
+ hw/vfio/pci.c                            |  10 +-
+ hw/virtio/virtio-balloon.c               |  17 +-
+ hw/virtio/virtio-crypto-pci.c            |   9 +-
+ hw/virtio/virtio-iommu-pci.c             |   4 +-
+ hw/virtio/virtio-pmem-pci.c              |   2 +-
+ hw/virtio/virtio-rng-pci.c               |   8 +-
+ hw/virtio/virtio-rng.c                   |  10 +-
+ hw/xen/xen_pt_config_init.c              |   3 +-
+ iothread.c                               |  18 +-
+ linux-user/syscall.c                     |   2 +-
+ monitor/hmp-cmds.c                       |  11 +-
+ monitor/monitor.c                        |  21 +-
+ net/colo-compare.c                       |  26 +--
+ net/dump.c                               |  13 +-
+ net/filter-buffer.c                      |  13 +-
+ net/filter.c                             |   2 +-
+ net/net.c                                |  10 +-
+ net/tap.c                                |   6 +-
+ qapi/opts-visitor.c                      |  58 ++---
+ qapi/qapi-clone-visitor.c                |  67 +++---
+ qapi/qapi-dealloc-visitor.c              |  27 ++-
+ qapi/qapi-visit-core.c                   | 197 ++++++++---------
+ qapi/qobject-input-visitor.c             | 109 ++++++----
+ qapi/qobject-output-visitor.c            |  27 ++-
+ qapi/string-input-visitor.c              |  67 +++---
+ qapi/string-output-visitor.c             |  32 +--
+ qdev-monitor.c                           |  38 ++--
+ qemu-img.c                               |  23 +-
+ qga/commands-posix.c                     |   4 +-
+ qga/commands-win32.c                     |  22 +-
+ qom/object.c                             | 235 ++++++++++-----------
+ qom/object_interfaces.c                  |  30 +--
+ qom/qom-hmp-cmds.c                       |   2 +-
+ qom/qom-qmp-cmds.c                       |   2 +-
+ qom/qom-qobject.c                        |  14 +-
+ softmmu/vl.c                             |  17 +-
+ target/arm/cpu64.c                       |  15 +-
+ target/arm/monitor.c                     |   7 +-
+ target/i386/cpu.c                        |  98 +++------
+ target/ppc/compat.c                      |   5 +-
+ target/ppc/translate_init.inc.c          |   2 +-
+ target/s390x/cpu_models.c                |  17 +-
+ target/sparc/cpu.c                       |   5 +-
+ tpm.c                                    |   5 +-
+ ui/console.c                             |   4 +-
+ ui/vnc.c                                 |   2 +-
+ util/main-loop.c                         |   4 +-
+ util/qemu-config.c                       |  25 +--
+ util/qemu-option.c                       | 258 ++++++++++++-----------
+ scripts/qapi/commands.py                 |  22 +-
+ scripts/qapi/visit.py                    | 107 ++++------
+ 274 files changed, 2349 insertions(+), 3524 deletions(-)
+
+-- 
+2.26.2
+
 
