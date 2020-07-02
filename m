@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF2D2121E5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:13:24 +0200 (CEST)
-Received: from localhost ([::1]:41530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F274D212227
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:24:38 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqx9f-0004Ge-O3
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52610)
+	id 1jqxKX-0006b1-Vd
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6E-0006n4-Df
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47001
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6O-0007Cn-9b
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:10:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39709
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx67-00010I-0t
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6F-00015e-0t
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688182;
+ s=mimecast20190719; t=1593688190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8EA/CwHO1eJSEz1Eu9idfGd5hAUrTWXpEbvrQZVSQBI=;
- b=hbj9lj0Vcly5bnzoaFCNqbofwDviM4NPkJ0pxt4lJ2NOFpx9vBf04td8mcVH9OkK9+pvGx
- lDMdiEfTAYD+PgGtWio0pG33K8o+1Oh7E0OFe6tlMIf2iv2OXg20r0ZfAn4S6cikyhC9LW
- GTvqM1rJEw/cmKjEK1f/Pmols/tJfxs=
+ bh=Wn3kwFEJl/Bj3DyGSC9Ym5Af14YMAfXCNhQhIwLFw8Q=;
+ b=S/JmFm4ZZhGqteMwa9YFejBLVK+NNXw6ITtasqnRm5R9f/FuRA9drid18RMriTt0VAY2yA
+ aI4vNOlaL6cFhvB3KSvAtlx4keQDsridr9jP/VUvNSFThrAEGTIDMlvjHSCPGNgEeieKTN
+ zAzUwG0qittkpNsvV1QHBHLbKD1EEGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-CsQI5KtKNQSmXII93Hle1w-1; Thu, 02 Jul 2020 07:09:39 -0400
-X-MC-Unique: CsQI5KtKNQSmXII93Hle1w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-354-IJ9peEyVM0OsdhxIzrU8sQ-1; Thu, 02 Jul 2020 07:09:48 -0400
+X-MC-Unique: IJ9peEyVM0OsdhxIzrU8sQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 359F0107ACF2
- for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2864F8015F6;
+ Thu,  2 Jul 2020 11:09:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A91C019C66;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05A061D1;
  Thu,  2 Jul 2020 11:09:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EB2C7113847C; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
+ id F323A113847D; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/28] qdev: Drop qbus_set_hotplug_handler() parameter @errp
-Date: Thu,  2 Jul 2020 13:09:19 +0200
-Message-Id: <20200702110931.2953148-17-armbru@redhat.com>
+Subject: [PULL 17/28] hw: Fix error API violation around
+ object_property_set_link()
+Date: Thu,  2 Jul 2020 13:09:20 +0200
+Message-Id: <20200702110931.2953148-18-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,314 +83,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eric Auger <eric.auger@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qbus_set_hotplug_handler() is a simple wrapper around
-object_property_set_link().
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-object_property_set_link() fails when the property doesn't exist, is
-not settable, or its .check() method fails.  These are all programming
-errors here, so passing &error_abort to qbus_set_hotplug_handler() is
-appropriate.
+virtio_gpu_pci_base_realize(), virtio_vga_base_realize(),
+sparc32_ledma_device_realize(), sparc32_dma_realize(),
+sparc32_dma_realize() xilinx_axidma_realize(), mips_cps_realize(),
+macio_realize_ide(), xilinx_enet_realize(), and
+virtio_iommu_pci_realize() are wrong that way: they reuse the argument
+they pass to object_property_set_link() for another call.
 
-Most of its callers do.  Exceptions:
+Harmless, because object_property_set_link() can't actually fail for
+them: it fails when the property doesn't exist, is not settable, or
+its .check() method fails.  Fix by passing &error_abort instead.
 
-* pcie_cap_slot_init(), shpc_init(), spapr_phb_realize() pass NULL,
-  i.e. they ignore errors.
-
-* spapr_machine_init() passes &error_fatal.
-
-* s390_pcihost_realize(), virtio_serial_device_realize(),
-  s390_pcihost_plug() pass the error to their callers.  The latter two
-  keep going after the error, which looks wrong.
-
-Drop the @errp parameter, and instead pass &error_abort to
-object_property_set_link().
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-15-armbru@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200630090351.1247703-16-armbru@redhat.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- include/hw/qdev-core.h        |  3 +--
- hw/acpi/pcihp.c               |  3 +--
- hw/acpi/piix4.c               |  2 +-
- hw/char/virtio-serial-bus.c   |  4 ++--
- hw/core/bus.c                 |  6 +++---
- hw/pci/pcie.c                 |  2 +-
- hw/pci/shpc.c                 |  2 +-
- hw/ppc/spapr.c                |  3 +--
- hw/ppc/spapr_pci.c            |  4 ++--
- hw/s390x/ap-bridge.c          |  2 +-
- hw/s390x/css-bridge.c         |  2 +-
- hw/s390x/s390-pci-bus.c       | 14 +++-----------
- hw/scsi/virtio-scsi.c         |  4 ++--
- hw/scsi/vmw_pvscsi.c          |  2 +-
- hw/usb/dev-smartcard-reader.c |  2 +-
- 15 files changed, 22 insertions(+), 33 deletions(-)
+ hw/display/virtio-gpu-pci.c  |  2 +-
+ hw/display/virtio-vga.c      |  2 +-
+ hw/dma/sparc32_dma.c         |  6 +++---
+ hw/dma/xilinx_axidma.c       | 12 ++----------
+ hw/mips/cps.c                |  6 ++++--
+ hw/misc/macio/macio.c        |  3 ++-
+ hw/net/xilinx_axienet.c      | 12 ++----------
+ hw/virtio/virtio-iommu-pci.c |  2 +-
+ 8 files changed, 16 insertions(+), 29 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 78acdeaed6..fe78073c70 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -535,8 +535,7 @@ extern bool qdev_hot_removed;
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index b532fe8b5f..41b88b878d 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -44,7 +44,7 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     for (i = 0; i < g->conf.max_outputs; i++) {
+         object_property_set_link(OBJECT(g->scanout[i].con),
+                                  OBJECT(vpci_dev),
+-                                 "device", errp);
++                                 "device", &error_abort);
+     }
+ }
  
- char *qdev_get_dev_path(DeviceState *dev);
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 68a062ece6..67f409e106 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -154,7 +154,7 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     for (i = 0; i < g->conf.max_outputs; i++) {
+         object_property_set_link(OBJECT(g->scanout[i].con),
+                                  OBJECT(vpci_dev),
+-                                 "device", errp);
++                                 "device", &error_abort);
+     }
+ }
  
--void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp);
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index f02aca6f40..2d7dbbb92d 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -346,7 +346,7 @@ static void sparc32_ledma_device_realize(DeviceState *dev, Error **errp)
+     d = qdev_new(TYPE_LANCE);
+     object_property_add_child(OBJECT(dev), "lance", OBJECT(d));
+     qdev_set_nic_properties(d, nd);
+-    object_property_set_link(OBJECT(d), OBJECT(dev), "dma", errp);
++    object_property_set_link(OBJECT(d), OBJECT(dev), "dma", &error_abort);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(d), &error_fatal);
+ }
+ 
+@@ -379,7 +379,7 @@ static void sparc32_dma_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     espdma = qdev_new(TYPE_SPARC32_ESPDMA_DEVICE);
+-    object_property_set_link(OBJECT(espdma), iommu, "iommu", errp);
++    object_property_set_link(OBJECT(espdma), iommu, "iommu", &error_abort);
+     object_property_add_child(OBJECT(s), "espdma", OBJECT(espdma));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(espdma), &error_fatal);
+ 
+@@ -394,7 +394,7 @@ static void sparc32_dma_realize(DeviceState *dev, Error **errp)
+                                 sysbus_mmio_get_region(sbd, 0));
+ 
+     ledma = qdev_new(TYPE_SPARC32_LEDMA_DEVICE);
+-    object_property_set_link(OBJECT(ledma), iommu, "iommu", errp);
++    object_property_set_link(OBJECT(ledma), iommu, "iommu", &error_abort);
+     object_property_add_child(OBJECT(s), "ledma", OBJECT(ledma));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(ledma), &error_fatal);
+ 
+diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+index 6a9df2c4db..a069637bf2 100644
+--- a/hw/dma/xilinx_axidma.c
++++ b/hw/dma/xilinx_axidma.c
+@@ -537,7 +537,6 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
+     XilinxAXIDMAStreamSlave *ds = XILINX_AXI_DMA_DATA_STREAM(&s->rx_data_dev);
+     XilinxAXIDMAStreamSlave *cs = XILINX_AXI_DMA_CONTROL_STREAM(
+                                                             &s->rx_control_dev);
+-    Error *local_err = NULL;
+     int i;
+ 
+     object_property_add_link(OBJECT(ds), "dma", TYPE_XILINX_AXI_DMA,
+@@ -548,11 +547,8 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
+                              (Object **)&cs->dma,
+                              object_property_allow_set_link,
+                              OBJ_PROP_LINK_STRONG);
+-    object_property_set_link(OBJECT(ds), OBJECT(s), "dma", &local_err);
+-    object_property_set_link(OBJECT(cs), OBJECT(s), "dma", &local_err);
+-    if (local_err) {
+-        goto xilinx_axidma_realize_fail;
+-    }
++    object_property_set_link(OBJECT(ds), OBJECT(s), "dma", &error_abort);
++    object_property_set_link(OBJECT(cs), OBJECT(s), "dma", &error_abort);
+ 
+     for (i = 0; i < 2; i++) {
+         struct Stream *st = &s->streams[i];
+@@ -567,10 +563,6 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
+ 
+     address_space_init(&s->as,
+                        s->dma_mr ? s->dma_mr : get_system_memory(), "dma");
+-    return;
 -
-+void qbus_set_hotplug_handler(BusState *bus, Object *handler);
- void qbus_set_bus_hotplug_handler(BusState *bus);
- 
- static inline bool qbus_is_hotpluggable(BusState *bus)
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 33ea2b76ae..9e31ab2da4 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -246,8 +246,7 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-             object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
-             PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
- 
--            qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev),
--                                     &error_abort);
-+            qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
-             /* We don't have to overwrite any other hotplug handler yet */
-             assert(QLIST_EMPTY(&sec->child));
-         }
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 630ca6ec87..283422e0d3 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -506,7 +506,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
- 
-     piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
-                                    pci_get_bus(dev), s);
--    qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s), &error_abort);
-+    qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
- 
-     piix4_pm_add_propeties(s);
- }
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index 262089c0c9..f9a4428bd6 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -1056,7 +1056,7 @@ static void virtio_serial_device_realize(DeviceState *dev, Error **errp)
-     /* Spawn a new virtio-serial bus on which the ports will ride as devices */
-     qbus_create_inplace(&vser->bus, sizeof(vser->bus), TYPE_VIRTIO_SERIAL_BUS,
-                         dev, vdev->bus_name);
--    qbus_set_hotplug_handler(BUS(&vser->bus), OBJECT(vser), errp);
-+    qbus_set_hotplug_handler(BUS(&vser->bus), OBJECT(vser));
-     vser->bus.vser = vser;
-     QTAILQ_INIT(&vser->ports);
- 
-@@ -1147,7 +1147,7 @@ static void virtio_serial_device_unrealize(DeviceState *dev)
-         g_free(vser->post_load);
-     }
- 
--    qbus_set_hotplug_handler(BUS(&vser->bus), NULL, &error_abort);
-+    qbus_set_hotplug_handler(BUS(&vser->bus), NULL);
- 
-     virtio_cleanup(vdev);
- }
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 8d4e810d7f..544dd8a6fa 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -23,15 +23,15 @@
- #include "qemu/module.h"
- #include "qapi/error.h"
- 
--void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp)
-+void qbus_set_hotplug_handler(BusState *bus, Object *handler)
- {
-     object_property_set_link(OBJECT(bus), handler,
--                             QDEV_HOTPLUG_HANDLER_PROPERTY, errp);
-+                             QDEV_HOTPLUG_HANDLER_PROPERTY, &error_abort);
+-xilinx_axidma_realize_fail:
+-    error_propagate(errp, local_err);
  }
  
- void qbus_set_bus_hotplug_handler(BusState *bus)
- {
--    qbus_set_hotplug_handler(bus, OBJECT(bus), &error_abort);
-+    qbus_set_hotplug_handler(bus, OBJECT(bus));
- }
+ static void xilinx_axidma_init(Object *obj)
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index cdfab19826..5382bc86f7 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -150,8 +150,10 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+     object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
+     object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
+     object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
+-    object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic", &err);
+-    object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc", &err);
++    object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->gic.mr), "gic",
++                             &error_abort);
++    object_property_set_link(OBJECT(&s->gcr), OBJECT(&s->cpc.mr), "cpc",
++                             &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->gcr), &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 8ba7af073c..3251c79f46 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -136,7 +136,8 @@ static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+     sysbus_connect_irq(sysbus_dev, 0, irq0);
+     sysbus_connect_irq(sysbus_dev, 1, irq1);
+     qdev_prop_set_uint32(DEVICE(ide), "channel", dmaid);
+-    object_property_set_link(OBJECT(ide), OBJECT(&s->dbdma), "dbdma", errp);
++    object_property_set_link(OBJECT(ide), OBJECT(&s->dbdma), "dbdma",
++                             &error_abort);
+     macio_ide_register_dma(ide);
  
- int qbus_walk_children(BusState *bus,
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 086d0dfceb..5b48bae0f6 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -574,7 +574,7 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
-     dev->exp.hpev_notified = false;
+     qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index c2f40b8ea9..679a359f9a 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -980,7 +980,6 @@ static void xilinx_enet_realize(DeviceState *dev, Error **errp)
+     XilinxAXIEnetStreamSlave *ds = XILINX_AXI_ENET_DATA_STREAM(&s->rx_data_dev);
+     XilinxAXIEnetStreamSlave *cs = XILINX_AXI_ENET_CONTROL_STREAM(
+                                                             &s->rx_control_dev);
+-    Error *local_err = NULL;
  
-     qbus_set_hotplug_handler(BUS(pci_bridge_get_sec_bus(PCI_BRIDGE(dev))),
--                             OBJECT(dev), NULL);
-+                             OBJECT(dev));
- }
- 
- void pcie_cap_slot_reset(PCIDevice *dev)
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 99d65d5c4c..b00dce629c 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -649,7 +649,7 @@ int shpc_init(PCIDevice *d, PCIBus *sec_bus, MemoryRegion *bar,
-     shpc_cap_update_dword(d);
-     memory_region_add_subregion(bar, offset, &shpc->mmio);
- 
--    qbus_set_hotplug_handler(BUS(sec_bus), OBJECT(d), NULL);
-+    qbus_set_hotplug_handler(BUS(sec_bus), OBJECT(d));
- 
-     d->cap_present |= QEMU_PCI_CAP_SHPC;
-     return 0;
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 44fd578ea9..f6f034d039 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3033,8 +3033,7 @@ static void spapr_machine_init(MachineState *machine)
-     register_savevm_live("spapr/htab", VMSTATE_INSTANCE_ID_ANY, 1,
-                          &savevm_htab_handlers, spapr);
- 
--    qbus_set_hotplug_handler(sysbus_get_default(), OBJECT(machine),
--                             &error_fatal);
-+    qbus_set_hotplug_handler(sysbus_get_default(), OBJECT(machine));
- 
-     qemu_register_boot_set(spapr_boot_set, spapr);
- 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 329002ac04..0f00e2421f 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1719,7 +1719,7 @@ static void spapr_phb_unrealize(DeviceState *dev)
-     address_space_remove_listeners(&sphb->iommu_as);
-     address_space_destroy(&sphb->iommu_as);
- 
--    qbus_set_hotplug_handler(BUS(phb->bus), NULL, &error_abort);
-+    qbus_set_hotplug_handler(BUS(phb->bus), NULL);
-     pci_unregister_root_bus(phb->bus);
- 
-     memory_region_del_subregion(get_system_memory(), &sphb->iowindow);
-@@ -1868,7 +1868,7 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
-         bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
-     }
-     phb->bus = bus;
--    qbus_set_hotplug_handler(BUS(phb->bus), OBJECT(sphb), NULL);
-+    qbus_set_hotplug_handler(BUS(phb->bus), OBJECT(sphb));
- 
-     /*
-      * Initialize PHB address space.
-diff --git a/hw/s390x/ap-bridge.c b/hw/s390x/ap-bridge.c
-index c4e3188ad6..8bcf8ece9d 100644
---- a/hw/s390x/ap-bridge.c
-+++ b/hw/s390x/ap-bridge.c
-@@ -58,7 +58,7 @@ void s390_init_ap(void)
-     bus = qbus_create(TYPE_AP_BUS, dev, TYPE_AP_BUS);
- 
-     /* Enable hotplugging */
--    qbus_set_hotplug_handler(bus, OBJECT(dev), &error_abort);
-+    qbus_set_hotplug_handler(bus, OBJECT(dev));
-  }
- 
- static void ap_bridge_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/s390x/css-bridge.c b/hw/s390x/css-bridge.c
-index e37a54d3f2..9d793d671e 100644
---- a/hw/s390x/css-bridge.c
-+++ b/hw/s390x/css-bridge.c
-@@ -111,7 +111,7 @@ VirtualCssBus *virtual_css_bus_init(void)
-     cbus = VIRTUAL_CSS_BUS(bus);
- 
-     /* Enable hotplugging */
--    qbus_set_hotplug_handler(bus, OBJECT(dev), &error_abort);
-+    qbus_set_hotplug_handler(bus, OBJECT(dev));
- 
-     css_register_io_adapters(CSS_IO_ADAPTER_VIRTIO, true, false,
-                              0, &error_abort);
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index a13978bb37..142e52a8ff 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -751,19 +751,11 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
-     pci_setup_iommu(b, s390_pci_dma_iommu, s);
- 
-     bus = BUS(b);
--    qbus_set_hotplug_handler(bus, OBJECT(dev), &local_err);
+     object_property_add_link(OBJECT(ds), "enet", "xlnx.axi-ethernet",
+                              (Object **) &ds->enet,
+@@ -990,11 +989,8 @@ static void xilinx_enet_realize(DeviceState *dev, Error **errp)
+                              (Object **) &cs->enet,
+                              object_property_allow_set_link,
+                              OBJ_PROP_LINK_STRONG);
+-    object_property_set_link(OBJECT(ds), OBJECT(s), "enet", &local_err);
+-    object_property_set_link(OBJECT(cs), OBJECT(s), "enet", &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
+-        goto xilinx_enet_realize_fail;
 -    }
-+    qbus_set_hotplug_handler(bus, OBJECT(dev));
-     phb->bus = b;
++    object_property_set_link(OBJECT(ds), OBJECT(s), "enet", &error_abort);
++    object_property_set_link(OBJECT(cs), OBJECT(s), "enet", &error_abort);
  
-     s->bus = S390_PCI_BUS(qbus_create(TYPE_S390_PCI_BUS, dev, NULL));
--    qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
-+    qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev));
+     qemu_macaddr_default_if_unset(&s->conf.macaddr);
+     s->nic = qemu_new_nic(&net_xilinx_enet_info, &s->conf,
+@@ -1008,10 +1004,6 @@ static void xilinx_enet_realize(DeviceState *dev, Error **errp)
  
-     s->iommu_table = g_hash_table_new_full(g_int64_hash, g_int64_equal,
-                                            NULL, g_free);
-@@ -921,7 +913,7 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         pci_bridge_map_irq(pb, dev->id, s390_pci_map_irq);
-         pci_setup_iommu(&pb->sec_bus, s390_pci_dma_iommu, s);
- 
--        qbus_set_hotplug_handler(BUS(&pb->sec_bus), OBJECT(s), errp);
-+        qbus_set_hotplug_handler(BUS(&pb->sec_bus), OBJECT(s));
- 
-         if (dev->hotplugged) {
-             pci_default_write_config(pdev, PCI_PRIMARY_BUS,
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 9b72094a61..b49775269e 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -934,7 +934,7 @@ static void virtio_scsi_device_realize(DeviceState *dev, Error **errp)
-     scsi_bus_new(&s->bus, sizeof(s->bus), dev,
-                  &virtio_scsi_scsi_info, vdev->bus_name);
-     /* override default SCSI bus hotplug-handler, with virtio-scsi's one */
--    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(dev), &error_abort);
-+    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(dev));
- 
-     virtio_scsi_dataplane_setup(s, errp);
- }
-@@ -958,7 +958,7 @@ static void virtio_scsi_device_unrealize(DeviceState *dev)
- {
-     VirtIOSCSI *s = VIRTIO_SCSI(dev);
- 
--    qbus_set_hotplug_handler(BUS(&s->bus), NULL, &error_abort);
-+    qbus_set_hotplug_handler(BUS(&s->bus), NULL);
-     virtio_scsi_common_unrealize(dev);
+     s->rxmem = g_malloc(s->c_rxmem);
+     s->txmem = g_malloc(s->c_txmem);
+-    return;
+-
+-xilinx_enet_realize_fail:
+-    error_propagate(errp, local_err);
  }
  
-diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-index ec5bf9ea34..df07ab6bfb 100644
---- a/hw/scsi/vmw_pvscsi.c
-+++ b/hw/scsi/vmw_pvscsi.c
-@@ -1147,7 +1147,7 @@ pvscsi_realizefn(PCIDevice *pci_dev, Error **errp)
-     scsi_bus_new(&s->bus, sizeof(s->bus), DEVICE(pci_dev),
-                  &pvscsi_scsi_info, NULL);
-     /* override default SCSI bus hotplug-handler, with pvscsi's one */
--    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(s), &error_abort);
-+    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(s));
-     pvscsi_reset_state(s);
+ static void xilinx_enet_init(Object *obj)
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 32e3215d1d..4588361d6b 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -56,7 +56,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     }
+     object_property_set_link(OBJECT(dev),
+                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+-                             "primary-bus", errp);
++                             "primary-bus", &error_abort);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
  
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index ada18c1983..fcfe216594 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -1320,7 +1320,7 @@ static void ccid_realize(USBDevice *dev, Error **errp)
-     usb_desc_init(dev);
-     qbus_create_inplace(&s->bus, sizeof(s->bus), TYPE_CCID_BUS, DEVICE(dev),
-                         NULL);
--    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(dev), &error_abort);
-+    qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(dev));
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, CCID_INT_IN_EP);
-     s->bulk = usb_ep_get(dev, USB_TOKEN_IN, CCID_BULK_IN_EP);
-     s->card = NULL;
 -- 
 2.26.2
 
