@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144AD212217
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:22:07 +0200 (CEST)
-Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA3A2121FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:18:42 +0200 (CEST)
+Received: from localhost ([::1]:59700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxI6-0001Xf-2I
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52682)
+	id 1jqxEn-0003kl-1q
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6H-0006th-5p
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26548
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6K-000732-ST
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58624
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx67-00010t-S3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-000123-CF
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688183;
+ s=mimecast20190719; t=1593688184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=orLEs/st4z+98WKKkXWW9yD1S/2gZlu3UTgztQYfRnU=;
- b=V5/jgcJEQxENLx9q3/LE4ylREr+jD7NbvyuNDYI6OjVuIHWdtvBKWVPqanF7dP+dOr8HGV
- o1Vmvus9NTQXR0LYeq6WnkS/wDNK8QGgrwzkCPnQr8MuGEALc+YGw661obUMbv0lpwLBOk
- 8HohO2ivtE0QaWzpaT+JXWFm9QdPPeU=
+ bh=HCxxtboNDokO4Wc9tJBfsrGFpSi3z796NZHR8i56lzI=;
+ b=WIDeh3QwXe5uWhdppzJgp5zx2Nbm5koSf3pjYWzaFzqVwDcPEc6Hf4OiXOH0gn4tOxkN5H
+ Trcg0SnAf39GjnW94NEQKVlFQ/ECx6bd40wYOaRvKtuoyhysGU2lXcain9JhlJa6/yjJS7
+ iBf1ALRHoTTUghuf+pQnZTt88JOjW9U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-eJEVdWM0PKSq13EEX8PGRg-1; Thu, 02 Jul 2020 07:09:39 -0400
-X-MC-Unique: eJEVdWM0PKSq13EEX8PGRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-226-Na_dhdWNOFOC7gadiE9e5w-1; Thu, 02 Jul 2020 07:09:40 -0400
+X-MC-Unique: Na_dhdWNOFOC7gadiE9e5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67BAB10059AA;
- Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 150748015FA;
+ Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 299AB79229;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA708741B9;
  Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A83E1138483; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
+ id 322E01138484; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/28] amd_iommu: Fix amdvi_realize() error API violation
-Date: Thu,  2 Jul 2020 13:09:26 +0200
-Message-Id: <20200702110931.2953148-24-armbru@redhat.com>
+Subject: [PULL 24/28] arm/stm32f205 arm/stm32f405: Fix realize error API
+ violation
+Date: Thu,  2 Jul 2020 13:09:27 +0200
+Message-Id: <20200702110931.2953148-25-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -82,8 +83,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,45 +97,51 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-amdvi_realize() is wrong that way: it passes @errp to qdev_realize(),
-object_property_get_int(), and msi_init() without checking it.  I
-can't tell offhand whether qdev_realize() can fail here.  Fix by
-checking it for failure.  object_property_get_int() can't.  Fix by
-passing &error_abort instead.
+stm32f205_soc_realize() and stm32f405_soc_realize() are wrong that
+way: they pass &err to object_property_set_int() without checking it,
+and then to qdev_realize().  Harmless, because the former can't
+actually fail here.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Fix by passing &error_abort instead.
+
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-22-armbru@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200630090351.1247703-23-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/amd_iommu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/arm/stm32f205_soc.c | 2 +-
+ hw/arm/stm32f405_soc.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index b26d30da57..087f601666 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -1549,7 +1549,9 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+index 19487544f0..56aef686c9 100644
+--- a/hw/arm/stm32f205_soc.c
++++ b/hw/arm/stm32f205_soc.c
+@@ -154,7 +154,7 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
  
-     /* This device should take care of IOMMU PCI properties */
-     x86_iommu->type = TYPE_AMD;
--    qdev_realize(DEVICE(&s->pci), &bus->qbus, errp);
-+    if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
-+        return;
-+    }
-     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
-                                          AMDVI_CAPAB_SIZE, errp);
-     if (ret < 0) {
-@@ -1578,7 +1580,7 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
-     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
-     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
--    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", errp);
-+    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", &error_abort);
-     msi_init(&s->pci.dev, 0, 1, true, false, errp);
-     amdvi_init(s);
- }
+     /* ADC 1 to 3 */
+     object_property_set_int(OBJECT(s->adc_irqs), STM_NUM_ADCS,
+-                            "num-lines", &err);
++                            "num-lines", &error_abort);
+     qdev_realize(DEVICE(s->adc_irqs), NULL, &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+index c12d9f999d..cf9228d8e7 100644
+--- a/hw/arm/stm32f405_soc.c
++++ b/hw/arm/stm32f405_soc.c
+@@ -172,7 +172,7 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+         return;
+     }
+     object_property_set_int(OBJECT(&s->adc_irqs), STM_NUM_ADCS,
+-                            "num-lines", &err);
++                            "num-lines", &error_abort);
+     qdev_realize(DEVICE(&s->adc_irqs), NULL, &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
 -- 
 2.26.2
 
