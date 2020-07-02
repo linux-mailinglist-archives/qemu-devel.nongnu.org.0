@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EB7212978
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:30:19 +0200 (CEST)
-Received: from localhost ([::1]:38964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C1F212925
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:15:56 +0200 (CEST)
+Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr26M-0000N6-OI
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:30:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53334)
+	id 1jr1sR-0002vF-HU
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:15:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jr1e3-0001HO-Nn
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:01:03 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:46866)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jr1e1-0000Mt-8q
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:01:03 -0400
-Received: by mail-ot1-x334.google.com with SMTP id n24so22276029otr.13
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 09:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8LWQQ61iYVN3LaSHnjBJ+ICJBPwPCu0hdySRX0CRLGc=;
- b=qO0s5XiARqLIYxenEL5ipOE0yX4Qu+dOjUtgxI4KXGGKd2pwpD1p/qlyV72SMYG3h2
- JqEF87+56PK3P5pT+uaO7BSTxYKQtNojxEszJza5Fn+OYtandP/78slJ3nCFKFx01Hsj
- /7c22tsp+NKGC5W8TKs+B33n2WQdveadmBhNzcN5uPHMLzVgNhfots5rBTOD5r6Fx6GN
- Vsb2MdCxvD5K5Hh5DDDL4GOrweDeJpoTtVXITZx1m3vJVGG2cxZDodh1WJ48eVx2873M
- sXIBDUgYoUkhxCDbpSqaoR0LFizkslQ3VLjKFG+zfcvbz5/HeqmOPpmuuPlomISPa3K3
- ooIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8LWQQ61iYVN3LaSHnjBJ+ICJBPwPCu0hdySRX0CRLGc=;
- b=jsrKkJf6Ux6GEpXj+dcUjW6qNWQ5JGxW5/+RQcRuH54KnMBbUFW/M0sZK37QuDUSiE
- ha7+loLMi2Mzgl2W9h414Dq963AeXhT6YuE8IIRk85XJpmAFK0YrR91Jug12WdoEdmp7
- ai43G9fbwdQLtiWr8wK1XO3O7PRO8BwwxBdCbRTtPrB+VpIlFuePJMQANVcgNNQHKnOe
- SK/tfQvZ69LnTovy4d9ERFWEAEKX87SsHvDZkkJxuzSVr5cZsdvaDTfv55aIkQ7LcPHN
- 9DftxvEH/mHy3ZcE9FYnnm82pMy+sqmqk+49GRWzY/GUZaT8gg5pUFOi4YwP3G0iB/A4
- tiYQ==
-X-Gm-Message-State: AOAM5330a5YaT6PS09qtXyqo22f6NsXwl/wS7wXe8YpniIOj8ARpZBkq
- oKqgpu0uyVDkfYpHiCDqfSxEgjzJL/uRwZaymxN4SA==
-X-Google-Smtp-Source: ABdhPJz0fhosFupArtiHNOH/J1tucEwGQQnT+KSLNUpzyWaJfPLM1aXS7VCVyWHtKkgNZtxPw2UPyN4SB0poGnysReI=
-X-Received: by 2002:a9d:7303:: with SMTP id e3mr21010338otk.221.1593705659997; 
- Thu, 02 Jul 2020 09:00:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
+ id 1jr1k4-0004Ou-3w
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:07:16 -0400
+Received: from elasmtp-curtail.atl.sa.earthlink.net ([209.86.89.64]:38380)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
+ id 1jr1k2-0002K3-2V
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:07:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
+ s=dk12062016; t=1593706034; bh=q9EhfTTKRbL2tCcgskxr1lRe8Zd/JsyrbSmU
+ +9bWWec=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
+ To:CC:Subject:References:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:X-ELNK-Trace:X-Originating-IP; b=I7Ql+ZX
+ WMdO/6G/97wDB0Ix/g0Ny+T39COPTJaGmyXMec+x3xT2bpuwQCmUM+x9Y3EXIeNM9NO
+ PNwyTS79HO26HNxO6XC9+M8myWW5KyxnJhNxEocB2XO89tuGPrTQcNhTtGx9CcbkJPk
+ cXIGB63jydjuscKpHtoPIVNDD9pwPdFn1EKSUKRS+WtKXEdY+8FAxoG+5VnpKlwayNC
+ /P1A4LBppBHWtUiyIqRrVOBm/jlSBkUzppSknr4+KIc6ACCl24iROWIFev9+BjG47O2
+ NYNb87/jM3pbDGajOVIWFOiMWxXNp+n7CCAkZPOqxEYYPgwPzi//7rQHOaKpGtq2h9Q
+ ==
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
+ s=dk12062016; d=mindspring.com;
+ b=Vxa69QFyf1BBh2ZdurMf++0yuheArNXpyfd6bMMw0san+r+2XlmLxvuwCBaubf3F+l3DXTlkc7VJASSVtTEIuZTHhApuOqKfih9x5kFJP4nN04nXIpoSO9Hqz+SHkJUyX+heTDUQ8aTna8yer5gi8vu30MISFL23YMQA1fhlfE1nWEQ5OSHjLu888myM0cKwKw24NbU20pmw4zKNoaOv9/NuUpXpZ0GYxQSz9uX/S5cLtpNujebuwCVLLwmMvb04JeCYgwPTeThEYyO4l4co1B5g7ybc9FwZ4FtJUbB1vRkzMwPXXRKv4mXuV5Zvr5Zm33eD+YqZLYnwUIv4x4Gz4g==;
+ h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-ELNK-Trace:X-Originating-IP;
+Received: from [8.9.81.230] (helo=[192.168.0.78])
+ by elasmtp-curtail.atl.sa.earthlink.net with esmtpa (Exim 4)
+ (envelope-from <denber@mindspring.com>)
+ id 1jr1jx-0006O6-FX; Thu, 02 Jul 2020 12:07:09 -0400
+Message-ID: <5EFE062C.6080303@mindspring.com>
+Date: Thu, 02 Jul 2020 12:07:08 -0400
+From: Michele Denber <denber@mindspring.com>
+User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
+ rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
 MIME-Version: 1.0
-References: <20200702110931.2953148-1-armbru@redhat.com>
-In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Jul 2020 17:00:49 +0100
-Message-ID: <CAFEAcA-oachT7JphFSp6XwcM58VzqfSoE6VOrYTr_6PJSkXw=g@mail.gmail.com>
-Subject: Re: [PULL 00/28] Error reporting patches patches for 2020-07-02
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x334.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: =?UTF-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+Subject: Re: [PATCH] configure / util: Auto-detect the availability of
+ openpty()
+References: <20200702143955.678-1-thuth@redhat.com>
+ <20200702144650.GM1888119@redhat.com>
+In-Reply-To: <20200702144650.GM1888119@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca59609ab0370624f8f9cc07c136eb08ff1350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
+X-Originating-IP: 8.9.81.230
+Received-SPF: pass client-ip=209.86.89.64; envelope-from=denber@mindspring.com;
+ helo=elasmtp-curtail.atl.sa.earthlink.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 12:07:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,33 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Tribble <peter.tribble@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jul 2020 at 12:18, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
->
->   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-07-02
->
-> for you to fetch changes up to 9cde9caa04beac25cef32a8a9d0bd26d6b91a41a:
->
->   migration/rdma: Plug memory leaks in qemu_rdma_registration_stop() (2020-07-02 11:54:48 +0200)
->
-> ----------------------------------------------------------------
-> Error reporting patches patches for 2020-07-02
->
 
 
-Applied, thanks.
+On 07/02/20 10:46, Daniel P. Berrangé wrote:
+> On Thu, Jul 02, 2020 at 04:39:55PM +0200, Thomas Huth wrote:
+>> Recent versions of Solaris (v11.4) now feature an openpty() function,
+>> too, causing a build failure since we ship our own implementation of
+>> openpty() for Solaris in util/qemu-openpty.c so far. Since there are
+>> now both variants available in the wild, with and without this function,
+>> let's introduce a proper HAVE_OPENPTY define for this to fix the build
+>> failure.
+> 11.4 has been out since Aug 2018
+>
+> The previous verison of solaris  11.3 was from Oct 2015, with EOL
+> in Oct 2020 [1].
+>
+> Solaris isn't an officially supported platform for QEMU, but if it
+> was, then we'd probably consider it a long life distro, and thus
+> consider 11.3 to be out of scope for QEMU by now.
+>
+> IOW, instead of checking for openpty being missing, I think there's
+> a decent argument to be made that we can just assume openpty exists,
+> and delete the old solaris compat code entirely.
+Of course there are still many people (where "many" is a relative term) 
+running Solaris 10 for compatibility reasons and Solaris 10 does not 
+have openpty.  The only real reason to run 11.3 is because it still has 
+support for the Sun Ray thin client and that was removed from 11.4 
+(which is a giant pain).  So I'm stuck running Solaris 10 in an LDOM to 
+run all my old code and have Sun Ray access, and 11.4 in the control 
+domain because it's the latest thing.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+             - Michele
 
--- PMM
+
+>
+> Regards,
+> Daniel
+>
+> [1] https://en.wikipedia.org/wiki/Solaris_(operating_system)
+>
 
