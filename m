@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0E72122B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:53:54 +0200 (CEST)
-Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD1C2122A6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:52:35 +0200 (CEST)
+Received: from localhost ([::1]:60664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxmr-00046t-Fu
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
+	id 1jqxla-000167-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkG-0007hj-Rw
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:13 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46333
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkI-0007lB-V0
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33616
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkE-0007PS-I1
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:12 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxkG-0007QF-NF
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593690669;
+ s=mimecast20190719; t=1593690672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=QQL1xXAIE5gAyGjWtJORQEY4XjnpDAOEuoxG6TeQngs=;
- b=XZvr/pgyn94eS79fmOxxLPZmqbjG0SGOT5FKMBHzPBHtfPMOxL1FC8RTdMHa9sNqwRTdr/
- mkAPDlXkk65Lj9aN10SrZYSxRo9urRx/O37QF/eMnBLI5lOAQywL8LaX19HQt819CWhZGs
- /uWxFZNZ7mykrv7ydCEY1Ws9WDYLPjs=
+ references:references; bh=GtBZqkHbFJv9m3cBXUQPUXtofkfkE+NEPjAUFSnOd0w=;
+ b=ClxYUNfv63bdv6aDJ6lzl63ixVvYfs9dULPUlkOi1TwU3ZIIXEmGX6uSb1znmedVA+l1s8
+ vtu7Ss8X+ED8/DlFvUhSVy8xiMrAAYc4yWDxoWsq4fJcEzAM1V5M47Ta5+Ms+EjP25/pfs
+ YmEoDQ53qGjaZcA6imPHP19lZYu5BoE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-A5-Wa65-POmYpiY6uWPM3g-1; Thu, 02 Jul 2020 07:51:05 -0400
-X-MC-Unique: A5-Wa65-POmYpiY6uWPM3g-1
+ us-mta-270-pt6F-Dm_PzOzKC-_KKO5og-1; Thu, 02 Jul 2020 07:51:09 -0400
+X-MC-Unique: pt6F-Dm_PzOzKC-_KKO5og-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446C487950D;
- Thu,  2 Jul 2020 11:51:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 432DE64A75;
+ Thu,  2 Jul 2020 11:51:08 +0000 (UTC)
 Received: from thuth.com (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C937C60CD3;
- Thu,  2 Jul 2020 11:51:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0ECB610F2;
+ Thu,  2 Jul 2020 11:51:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL SUBSYSTEM s390x 07/11] pc-bios: s390x: Move panic() into header
- and add infinite loop
-Date: Thu,  2 Jul 2020 13:50:41 +0200
-Message-Id: <20200702115045.6171-8-thuth@redhat.com>
+Subject: [PULL SUBSYSTEM s390x 08/11] pc-bios: s390x: Use ebcdic2ascii table
+Date: Thu,  2 Jul 2020 13:50:42 +0200
+Message-Id: <20200702115045.6171-9-thuth@redhat.com>
 In-Reply-To: <20200702115045.6171-1-thuth@redhat.com>
 References: <20200702115045.6171-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -54,9 +53,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,109 +83,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-panic() was defined for the ccw and net bios, i.e. twice, so it's
-cleaner to rather put it into the header.
-
-Also let's add an infinite loop into the assembly of disabled_wait() so
-the caller doesn't need to take care of it.
+Why should we do conversion of a ebcdic value if we have a handy table
+where we could look up the ascii value instead?
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200624075226.92728-9-frankja@linux.ibm.com>
+Message-Id: <20200624075226.92728-10-frankja@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/main.c     | 7 -------
- pc-bios/s390-ccw/netmain.c  | 8 --------
- pc-bios/s390-ccw/s390-ccw.h | 9 +++++++--
- pc-bios/s390-ccw/start.S    | 5 +++--
- 4 files changed, 10 insertions(+), 19 deletions(-)
+ pc-bios/s390-ccw/bootmap.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-index 8b912454c9..146a50760b 100644
---- a/pc-bios/s390-ccw/main.c
-+++ b/pc-bios/s390-ccw/main.c
-@@ -46,13 +46,6 @@ void write_iplb_location(void)
-     lowcore->ptr_iplb = ptr2u32(&iplb);
- }
- 
--void panic(const char *string)
--{
--    sclp_print(string);
--    disabled_wait();
--    while (1) { }
--}
--
- unsigned int get_loadparm_index(void)
- {
-     return atoui(loadparm_str);
-diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c
-index f1ee63577a..056e93a818 100644
---- a/pc-bios/s390-ccw/netmain.c
-+++ b/pc-bios/s390-ccw/netmain.c
-@@ -439,14 +439,6 @@ static int net_try_direct_tftp_load(filename_ip_t *fn_ip)
-     return rc;
- }
- 
--void panic(const char *string)
--{
--    sclp_print(string);
--    for (;;) {
--        disabled_wait();
--    }
--}
--
- void write_subsystem_identification(void)
- {
-     SubChannelId *schid = (SubChannelId *) 184;
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index c5820e43ae..36b884cced 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -50,12 +50,11 @@ typedef unsigned long long __u64;
- #include "iplb.h"
- 
- /* start.s */
--void disabled_wait(void);
-+void disabled_wait(void) __attribute__ ((__noreturn__));
- void consume_sclp_int(void);
- void consume_io_int(void);
- 
- /* main.c */
--void panic(const char *string);
- void write_subsystem_identification(void);
- void write_iplb_location(void);
- extern char stack[PAGE_SIZE * 8] __attribute__((__aligned__(PAGE_SIZE)));
-@@ -91,6 +90,12 @@ bool menu_is_enabled_enum(void);
- 
- #define MAX_BOOT_ENTRIES  31
- 
-+static inline void panic(const char *string)
-+{
-+    sclp_print(string);
-+    disabled_wait();
-+}
-+
- static inline void fill_hex(char *out, unsigned char val)
- {
-     const char hex[] = "0123456789abcdef";
-diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-index aa8fceb19d..ce519300a1 100644
---- a/pc-bios/s390-ccw/start.S
-+++ b/pc-bios/s390-ccw/start.S
-@@ -47,8 +47,9 @@ memsetxc:
-  */
- 	.globl disabled_wait
- disabled_wait:
--        larl %r1,disabled_wait_psw
--        lpswe   0(%r1)
-+	larl	%r1,disabled_wait_psw
-+	lpswe	0(%r1)
-+1:	j	1b
- 
- 
- /*
+diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
+index d13b7cbd15..97205674e5 100644
+--- a/pc-bios/s390-ccw/bootmap.c
++++ b/pc-bios/s390-ccw/bootmap.c
+@@ -328,9 +328,7 @@ static void print_eckd_ldl_msg(ECKD_IPL_mode_t mode)
+         msg[0] = '2';
+         break;
+     default:
+-        msg[0] = vlbl->LDL_version;
+-        msg[0] &= 0x0f; /* convert EBCDIC   */
+-        msg[0] |= 0x30; /* to ASCII (digit) */
++        msg[0] = ebc2asc[vlbl->LDL_version];
+         msg[1] = '?';
+         break;
+     }
 -- 
 2.18.1
 
