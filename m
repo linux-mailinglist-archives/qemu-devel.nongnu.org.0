@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60112122C0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:55:47 +0200 (CEST)
-Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FD72122B6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:53:59 +0200 (CEST)
+Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxog-0007lO-T2
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
+	id 1jqxmw-0004GM-3g
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk8-0007Qx-4B
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk8-0007Qr-2m
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38782
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59698
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk6-0007M7-C2
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jqxk6-0007M2-6d
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:51:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593690661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=0BAIl6nai0gSJHmOym1naJcR8DW6dsk0soRaomMZy6w=;
- b=Oe+6AUf/1bisIOiCrXFTpwkm2ucRpF08/XMx4fPUosCFzbcvtjLyZZiKQ8yMm+xXiLLLT2
- 5crzSJklQOL5gysTJHHL3psAQZkJtpBB5EUiHA7MJmaBbH1Gm39IGPT45vAE3OI4NeWNEr
- jPoalJxVH0GfVepb+wytduLneoeF+Is=
+ references:references; bh=1kNKMTUYWgp1CVwm24TcK7wY4liOhj6TnRuH9/lTlgo=;
+ b=CDL3BHkpt6hSHSXCANj8D/rNX34kzIhlIcYoTkNtmIXR33SyiH920xapHfUEs397FTclrZ
+ bY/sBN3u78YypQ8KkBEbLrtaNiYw4y808oZ8jHDOz/KblSQGkXLdkQOTQT1FMX/FMYveUA
+ lBBOC6knelsufVpqCUot6B2tk6DeZ/c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-xSukrcNiNX-_wO9Jx14wqg-1; Thu, 02 Jul 2020 07:50:57 -0400
-X-MC-Unique: xSukrcNiNX-_wO9Jx14wqg-1
+ us-mta-50-_wuYbiPcM2KyjmnHJkWPCA-1; Thu, 02 Jul 2020 07:50:59 -0400
+X-MC-Unique: _wuYbiPcM2KyjmnHJkWPCA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A76680058A;
- Thu,  2 Jul 2020 11:50:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 533BC107ACCD;
+ Thu,  2 Jul 2020 11:50:58 +0000 (UTC)
 Received: from thuth.com (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B8CE610F2;
- Thu,  2 Jul 2020 11:50:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8C709F43;
+ Thu,  2 Jul 2020 11:50:56 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL SUBSYSTEM s390x 04/11] pc-bios: s390x: Get rid of magic offsets
- into the lowcore
-Date: Thu,  2 Jul 2020 13:50:38 +0200
-Message-Id: <20200702115045.6171-5-thuth@redhat.com>
+Subject: [PULL SUBSYSTEM s390x 05/11] pc-bios: s390x: Rename PSW_MASK_ZMODE to
+ PSW_MASK_64
+Date: Thu,  2 Jul 2020 13:50:39 +0200
+Message-Id: <20200702115045.6171-6-thuth@redhat.com>
 In-Reply-To: <20200702115045.6171-1-thuth@redhat.com>
 References: <20200702115045.6171-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,67 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-If we have a lowcore struct that has members for offsets that we want
-to touch, why not use it?
+This constant enables 64 bit addressing, not the ESAME architecture,
+so it shouldn't be named ZMODE.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200624075226.92728-5-frankja@linux.ibm.com>
+Message-Id: <20200624075226.92728-7-frankja@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/cio.h  | 17 +++++++++++------
- pc-bios/s390-ccw/main.c |  8 +++-----
- 2 files changed, 14 insertions(+), 11 deletions(-)
+ pc-bios/s390-ccw/s390-arch.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
-index aaa432dedd..1e5d4e92e1 100644
---- a/pc-bios/s390-ccw/cio.h
-+++ b/pc-bios/s390-ccw/cio.h
-@@ -122,12 +122,17 @@ typedef struct schib {
- } __attribute__ ((packed, aligned(4))) Schib;
+diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
+index 5f36361c02..73852029d4 100644
+--- a/pc-bios/s390-ccw/s390-arch.h
++++ b/pc-bios/s390-ccw/s390-arch.h
+@@ -29,7 +29,7 @@ _Static_assert(sizeof(struct PSWLegacy) == 8, "PSWLegacy size incorrect");
+ #define PSW_MASK_WAIT       0x0002000000000000ULL
+ #define PSW_MASK_EAMODE     0x0000000100000000ULL
+ #define PSW_MASK_BAMODE     0x0000000080000000ULL
+-#define PSW_MASK_ZMODE      (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
++#define PSW_MASK_64         (PSW_MASK_EAMODE | PSW_MASK_BAMODE)
  
- typedef struct subchannel_id {
--        __u32 cssid:8;
--        __u32:4;
--        __u32 m:1;
--        __u32 ssid:2;
--        __u32 one:1;
--        __u32 sch_no:16;
-+    union {
-+        struct {
-+            __u16 cssid:8;
-+            __u16 reserved:4;
-+            __u16 m:1;
-+            __u16 ssid:2;
-+            __u16 one:1;
-+        };
-+        __u16 sch_id;
-+    };
-+    __u16 sch_no;
- } __attribute__ ((packed, aligned(4))) SubChannelId;
- 
- struct chsc_header {
-diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-index 4e65b411e1..8b912454c9 100644
---- a/pc-bios/s390-ccw/main.c
-+++ b/pc-bios/s390-ccw/main.c
-@@ -36,11 +36,9 @@ LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
-  */
- void write_subsystem_identification(void)
- {
--    SubChannelId *schid = (SubChannelId *) 184;
--    uint32_t *zeroes = (uint32_t *) 188;
--
--    *schid = blk_schid;
--    *zeroes = 0;
-+    lowcore->subchannel_id = blk_schid.sch_id;
-+    lowcore->subchannel_nr = blk_schid.sch_no;
-+    lowcore->io_int_parm = 0;
- }
- 
- void write_iplb_location(void)
+ /* Low core mapping */
+ typedef struct LowCore {
 -- 
 2.18.1
 
