@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456AC2124C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:34:27 +0200 (CEST)
-Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA802124F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:39:58 +0200 (CEST)
+Received: from localhost ([::1]:60114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzM9-0002qK-My
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
+	id 1jqzRV-0005aO-0B
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDt-0004vy-2z
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26367
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzE2-000594-Vl
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29939
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDi-0007AN-RR
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDr-0007Fs-C3
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696342;
+ s=mimecast20190719; t=1593696349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=cjFwi5b14nC6S9DRumOMSA9QVtJeL4uece5oCZRvzj8=;
- b=Xw7TZoFMh4A8lXbtxzRY1u06BRrFe0i27ewNSI2626fzJsdSSmohKZCfVR7QihPlEwmXx0
- 0YcZaeFt+1lqhn96Yw3njVhXyf1Kv9OaZIFUqIQA97NGXhmeV+Efn3mFQ3XyES5kO1Fsh+
- e++Irv4oO+UKmYqEYHuFZu5k6fW6ak4=
+ references:references; bh=p5kvzk0W5AQ0lvlPi0dlHnsMniTjE2cqvxpNZwYdwYA=;
+ b=D9Xh/OScn3K7F6gVKMMn+cFvzCy7aCs3tu6LXxuaFI1jHqwIVG+I6fatTULc/Jamk1DKhk
+ wkI5aBAfnuG4oSvoeLXVTgzicmHfn1FebtnI6cz/jpXT/ELmCOphcHPMlzLO6zdSlT8mf7
+ j9d9EVSXRpRT1T7F9AI+Obuihz4c6CU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-9aSe1cDfNvWIMK3jwyG8Cw-1; Thu, 02 Jul 2020 09:25:38 -0400
-X-MC-Unique: 9aSe1cDfNvWIMK3jwyG8Cw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-158-qGcQlRMXMxGIR8VAkAZMhQ-1; Thu, 02 Jul 2020 09:25:46 -0400
+X-MC-Unique: qGcQlRMXMxGIR8VAkAZMhQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7644A0BD7;
- Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80D97A0BDB;
+ Thu,  2 Jul 2020 13:25:44 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89AEC73FD4;
- Thu,  2 Jul 2020 13:25:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 171F21A91D;
+ Thu,  2 Jul 2020 13:25:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C8A8731EFE; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
+ id D163F31F08; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 17/20] audio: deprecate -soundhw pcspk
-Date: Thu,  2 Jul 2020 15:25:22 +0200
-Message-Id: <20200702132525.6849-18-kraxel@redhat.com>
+Subject: [PATCH v5 18/20] audio: add soundhw deprecation notice
+Date: Thu,  2 Jul 2020 15:25:23 +0200
+Message-Id: <20200702132525.6849-19-kraxel@redhat.com>
 In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
 References: <20200702132525.6849-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,99 +89,31 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add deprecation message to the audio init function.
-
-Factor out audio initialization and call that from
-both audio init and realize, so setting the audiodev
-property is enough to properly initialize pcspk.
-
-Add a property alias to the machine type to set the
-audio device, so pcspk can be initialized using:
-"-machine pcspk-audiodev=<name>"
-
-Using "-global isa-pcspk.audiodev=<name>" works too but
-is not recommended.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/pcspk.c | 24 +++++++++++++++++++++---
- hw/i386/pc.c     |  2 ++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ docs/system/deprecated.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
-index c37a3878612e..4c7e339ac2b5 100644
---- a/hw/audio/pcspk.c
-+++ b/hw/audio/pcspk.c
-@@ -28,6 +28,7 @@
- #include "audio/audio.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
-+#include "qemu/error-report.h"
- #include "hw/timer/i8254.h"
- #include "migration/vmstate.h"
- #include "hw/audio/pcspk.h"
-@@ -112,11 +113,15 @@ static void pcspk_callback(void *opaque, int free)
-     }
- }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 843ae71fc618..6aa492b45006 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -82,6 +82,15 @@ should specify an ``audiodev=`` property.  Additionally, when using
+ vnc, you should specify an ``audiodev=`` propery if you plan to
+ transmit audio through the VNC protocol.
  
--static int pcspk_audio_init(ISABus *bus)
-+static int pcspk_audio_init(PCSpkState *s)
- {
--    PCSpkState *s = pcspk_state;
-     struct audsettings as = {PCSPK_SAMPLE_RATE, 1, AUDIO_FORMAT_U8, 0};
- 
-+    if (s->voice) {
-+        /* already initialized */
-+        return 0;
-+    }
++Creating sound card devices using ``-soundhw`` (since 5.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-     AUD_register_card(s_spk, &s->card);
- 
-     s->voice = AUD_open_out(&s->card, s->voice, s_spk, s, pcspk_callback, &as);
-@@ -185,6 +190,10 @@ static void pcspk_realizefn(DeviceState *dev, Error **errp)
- 
-     isa_register_ioport(isadev, &s->ioport, s->iobase);
- 
-+    if (s->card.state) {
-+        pcspk_audio_init(s);
-+    }
++Sound card devices should be created using ``-device`` instead.  The
++names are the same for most devices.  The exceptions are ``hda`` which
++needs two devices (``-device intel-hda -device hda-duplex``) and
++``pcspk`` which can be activated using ``-machine
++pcspk-audiodev=<name>``.
 +
-     pcspk_state = s;
- }
+ ``-mon ...,control=readline,pretty=on|off`` (since 4.1)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
-@@ -236,9 +245,18 @@ static const TypeInfo pcspk_info = {
-     .class_init     = pcspk_class_initfn,
- };
- 
-+static int pcspk_audio_init_soundhw(ISABus *bus)
-+{
-+    PCSpkState *s = pcspk_state;
-+
-+    warn_report("'-soundhw pcspk' is deprecated, "
-+                "please set a backend using '-machine pcspk-audiodev=<name>' instead");
-+    return pcspk_audio_init(s);
-+}
-+
- static void pcspk_register(void)
- {
-     type_register_static(&pcspk_info);
--    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init);
-+    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw);
- }
- type_init(pcspk_register)
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 88785f9dcc70..c45e7bfd864b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1892,6 +1892,8 @@ static void pc_machine_initfn(Object *obj)
- 
-     pc_system_flash_create(pcms);
-     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
-+    object_property_add_alias(OBJECT(pcms), "pcspk-audiodev",
-+                              OBJECT(pcms->pcspk), "audiodev");
- }
- 
- static void pc_machine_reset(MachineState *machine)
 -- 
 2.18.4
 
