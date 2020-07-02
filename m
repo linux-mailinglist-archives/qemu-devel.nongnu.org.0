@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF16A2124B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:30:30 +0200 (CEST)
-Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163762124CB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:35:27 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzIL-00049w-M5
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
+	id 1jqzN8-0005AY-2e
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDv-0004yn-PH
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42262
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDj-0007BM-U8
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=1XBFvhmM5shzLN1YMzs8HNjfJvha9Xy2lVgHhZwjUDk=;
- b=AX+n/Z7Ee9PCtO8dCwV8ljNanPzC+XGhvGI4LEjPIDZ9s/7Zfw7k6VvdS4/TSAzM9IVcyH
- 0lLxKtGkmYiLpvOCYSTJwSQWfXYoP0vsJc8HRiX3kLWtX9rWbvPNbndHASjYffYVAWU4XS
- o932YiFWIA87c3xGrD7Hs61sJnIedak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-VrHErzTkPhGeLGz0rtyarA-1; Thu, 02 Jul 2020 09:25:38 -0400
-X-MC-Unique: VrHErzTkPhGeLGz0rtyarA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F8C2800C64;
- Thu,  2 Jul 2020 13:25:37 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
- [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 045625DD61;
- Thu,  2 Jul 2020 13:25:37 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BDE2331EE9; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <moharaka@gmail.com>)
+ id 1jqvzj-0006gW-1x
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 05:59:03 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <moharaka@gmail.com>)
+ id 1jqvzh-0008LD-AR
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 05:59:02 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id w3so14720384wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 02:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=LA1yLVcqeSGWzEuH47s6WpsYMKByeZ+4N/1ZI4Aw5sc=;
+ b=j+lpj6SirnwzNz8WoQ3FqqxKLTje4wjScHLQpmECFcnPxtWyYZADpg5Ip3KjLoPiAr
+ p7v4wa16gzcdZpRGPbi5hGJA3qlbMf4V8kdK2Vf2uST+gfOjc2HIieny3d7sNY3qvyvk
+ TAIjupAucWLLd/kc+5Iu7/+a81ZGtsE0fINtuUt3YhS5FIKZGSu+LLL6BTu6z4ybnxuN
+ RGt9lOAEhqzgIUduijU6oUucQQG1e2kU3eJ0XbwoW78IjF0IZK0hUl/WaAHrXNHIPXlr
+ 7jkAWBlPa6OtPHYjWg1RMMtmyESHOghmIkT6CFEHRjMsDGmTAPAtRKXZ3SADmAQKln9B
+ cEFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=LA1yLVcqeSGWzEuH47s6WpsYMKByeZ+4N/1ZI4Aw5sc=;
+ b=FJyFybhxwN9bkmdfIqKyL+XvzRJt5a0LS+Hbdn7C5t3y1f3wr8g2Vy5G/NSZiIxvMo
+ w+ZkM8R2JgPkXNwB5Gel7QwzDqeb45x2AbV6DSWiUfBHX245iSAwC9Fhss4ShKpZblB1
+ E3vWHxP8jgknKRHBtJhGVjlkyjuHHArY16/0Eftn4rhgWFGkiaLxPP0Ga7Ih36VYnyc7
+ aB+mKG3dvhq92oEQ3B8nP7G5gjOQPD4yUVnQ1KMxH4h7tBSrJXZZozkhuIGfoZpAFVNf
+ NtFiYulcYTXKe3WURTs9pmgCdfi7/ciS5igZCg5934mqM4ScPv1OTgglscLbfIWxtPwY
+ IDhg==
+X-Gm-Message-State: AOAM532zOgxtbNYv9/4AmfqHyMR83BOlfTnBzqTME9h+XFqWuiGCOp2Q
+ rr3xUdRL6+Ku+uOHKCrsjFmJNWBn8EMQ9npy69jqs8ovZrM=
+X-Google-Smtp-Source: ABdhPJx0JAgoGi+img5AK48yf4DgThj5WGIk67TrvP5S0OSCQWqt1TJwIGtjYkK77e7YcGdRwhHkZW5wQ1coQmrmmzM=
+X-Received: by 2002:a1c:acc2:: with SMTP id v185mr29562858wme.81.1593683938708; 
+ Thu, 02 Jul 2020 02:58:58 -0700 (PDT)
+MIME-Version: 1.0
+From: Karaoui mohamed lamine <moharaka@gmail.com>
+Date: Thu, 2 Jul 2020 11:58:47 +0200
+Message-ID: <CAEEuMqfOGyMrF7kCSVV5w5SA1waGb+Jyn1oUGkKngS3+qqJyjA@mail.gmail.com>
+Subject: Questions regarding the usage of the QIO API
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/20] audio: create pcspk device early
-Date: Thu,  2 Jul 2020 15:25:21 +0200
-Message-Id: <20200702132525.6849-17-kraxel@redhat.com>
-In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
-References: <20200702132525.6849-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=moharaka@gmail.com; helo=mail-wm1-x32d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 02 Jul 2020 09:32:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +76,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create the pcspk device early, so it exists at
-machine type initialization time.
+Hi,
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/i386/pc.h | 1 +
- hw/i386/pc.c         | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+(Not sure if this is the right place to ask such a question. Please
+redirect me if it is the case.)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index d7690bf4290f..a802e699749a 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -33,6 +33,7 @@ struct PCMachineState {
-     PCIBus *bus;
-     I2CBus *smbus;
-     PFlashCFI01 *flash[2];
-+    ISADevice *pcspk;
- 
-     /* Configuration options: */
-     uint64_t max_ram_below_4g;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 4fc1b7048b28..88785f9dcc70 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1219,7 +1219,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-             /* connect PIT to output control line of the HPET */
-             qdev_connect_gpio_out(hpet, 0, qdev_get_gpio_in(DEVICE(pit), 0));
-         }
--        pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
-+        pcspk_init(pcms->pcspk, isa_bus, pit);
-     }
- 
-     i8257_dma_init(isa_bus, 0);
-@@ -1891,6 +1891,7 @@ static void pc_machine_initfn(Object *obj)
-     pcms->pit_enabled = true;
- 
-     pc_system_flash_create(pcms);
-+    pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
- }
- 
- static void pc_machine_reset(MachineState *machine)
--- 
-2.18.4
+I am currently debugging a problem related to the usage of the QIO
+interface (qio_channel_closee, qio_channel_add_watch, ...). Where can
+I find more information on the internal working of this queues? How
+does the "watch" work. Is there a thread in the background handling
+these operations?
 
+Regards,
+Mohamed
 
