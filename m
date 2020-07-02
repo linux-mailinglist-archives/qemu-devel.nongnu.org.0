@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33117212246
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:28:23 +0200 (CEST)
-Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E3B2121FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:18:02 +0200 (CEST)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxOA-0005Uo-7C
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52736)
+	id 1jqxE9-0002iz-43
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6J-0006zF-Hn
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54736
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6F-0006qB-Nc
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:51 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43095
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx67-00010y-TD
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx67-00010X-EK
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688183;
+ s=mimecast20190719; t=1593688182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZwvANGOzbNNqTpgRb6dUJocrod2dO2UwSzqLHqXvWeA=;
- b=MlLBwfaWzY7pJtYoWo3DbB3kOPU8tMGGTAX3eDyRjIYLxJFX5cTkga4iE34DWZO9kpb7/j
- Kp+gU7hSdnABaSMruYWSKmm7wEMAGWSv1dv8w+Np2iP9f5t6coDmiFo9T0XvXC23ittIH/
- GBOwSzB661+VokkvMekHP8GRUc5lpYY=
+ bh=NsvVleU3oj+jAVGYn+RnzLsuXjQBNE36/AcBJekuOdk=;
+ b=OQS0hJYe5MeIiKt/mjKBuecxyAjBvFfIPi+/6xu1hWAK8SQL75s4BdR0+rsu+ge6R3j0fO
+ gWwxfuIWuc+wkXIbh45xNSQn3mLI5W0QcpFKrYRhGcsSt0DqyzL+0daJn3/7NYkp82O8z/
+ SMgQa972Ihl1AUvpRhvZ8VHdU0QqhSw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-3HI81N9OMg-jyeKs7w8aaw-1; Thu, 02 Jul 2020 07:09:40 -0400
-X-MC-Unique: 3HI81N9OMg-jyeKs7w8aaw-1
+ us-mta-164-lJq9UQTIMRCSHDwVDhd5Gw-1; Thu, 02 Jul 2020 07:09:40 -0400
+X-MC-Unique: lJq9UQTIMRCSHDwVDhd5Gw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE038BFC2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 765D2186A205;
  Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F3A473FDF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11B4873FD4;
  Thu,  2 Jul 2020 11:09:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 065E8113847E; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
+ id 0DB6E113847F; Thu,  2 Jul 2020 13:09:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/28] hw/arm: Drop useless object_property_set_link() error
- handling
-Date: Thu,  2 Jul 2020 13:09:21 +0200
-Message-Id: <20200702110931.2953148-19-armbru@redhat.com>
+Subject: [PULL 19/28] riscv/sifive_u: Fix sifive_u_soc_realize() error API
+ violations
+Date: Thu,  2 Jul 2020 13:09:22 +0200
+Message-Id: <20200702110931.2953148-20-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -58,11 +58,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,251 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-object_property_set_link() fails when the property doesn't exist, is
-not settable, or its .check() method fails.  These are all programming
-errors here, so passing it &error_abort is appropriate.
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Cédric Le Goater" <clg@kaod.org>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: qemu-arm@nongnu.org
+sifive_u_soc_realize() is wrong that way: it passes &err to
+sysbus_realize() four times before checking it.  Harmless, because the
+first three can't actually fail (I think).
+
+Fix by checking for failure right away.
+
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-riscv@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200630090351.1247703-17-armbru@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20200630090351.1247703-18-armbru@redhat.com>
 ---
- hw/arm/armsse.c         | 53 ++++++++++-------------------------------
- hw/arm/armv7m.c         |  7 ++----
- hw/arm/aspeed_ast2600.c | 20 ++++------------
- hw/arm/aspeed_soc.c     | 14 ++++-------
- hw/arm/nrf51_soc.c      |  6 +----
- 5 files changed, 24 insertions(+), 76 deletions(-)
+ hw/riscv/sifive_u.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 9ddde339ec..a851652b39 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -563,16 +563,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-                                                 &s->container, -1);
-         }
-         object_property_set_link(cpuobj, OBJECT(&s->cpu_container[i]),
--                                 "memory", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
--        object_property_set_link(cpuobj, OBJECT(s), "idau", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+                                 "memory", &error_abort);
-+        object_property_set_link(cpuobj, OBJECT(s), "idau", &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(cpuobj), &err);
-         if (err) {
-             error_propagate(errp, err);
-@@ -699,11 +691,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-         object_property_set_link(OBJECT(&s->mpc[i]), OBJECT(&s->sram[i]),
--                                 "downstream", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+                                 "downstream", &error_abort);
-         sysbus_realize(SYS_BUS_DEVICE(&s->mpc[i]), &err);
-         if (err) {
-             error_propagate(errp, err);
-@@ -754,11 +742,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer0), 0,
-                        armsse_get_common_irq_in(s, 3));
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->timer0), 0);
--    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[0]", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[0]",
-+                             &error_abort);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 7d051e7c92..a1d2edfe13 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -677,11 +677,15 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+         memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
+         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
  
-     qdev_prop_set_uint32(DEVICE(&s->timer1), "pclk-frq", s->mainclk_frq);
-     sysbus_realize(SYS_BUS_DEVICE(&s->timer1), &err);
-@@ -769,12 +754,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer1), 0,
-                        armsse_get_common_irq_in(s, 4));
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->timer1), 0);
--    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[1]", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
--
-+    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[1]",
-+                             &error_abort);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->prci), &err);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
++        return;
++    }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
  
-     qdev_prop_set_uint32(DEVICE(&s->dualtimer), "pclk-frq", s->mainclk_frq);
-     sysbus_realize(SYS_BUS_DEVICE(&s->dualtimer), &err);
-@@ -785,11 +766,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->dualtimer), 0,
-                        armsse_get_common_irq_in(s, 5));
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dualtimer), 0);
--    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[2]", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr), "port[2]",
-+                             &error_abort);
+     qdev_prop_set_uint32(DEVICE(&s->gpio), "ngpio", 16);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->gpio), &err);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
++        return;
++    }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_U_GPIO].base);
  
-     if (info->has_mhus) {
-         /*
-@@ -814,12 +792,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-             port = g_strdup_printf("port[%d]", i + 3);
-             mr = sysbus_mmio_get_region(mhu_sbd, 0);
-             object_property_set_link(OBJECT(&s->apb_ppc0), OBJECT(mr),
--                                     port, &err);
-+                                     port, &error_abort);
-             g_free(port);
--            if (err) {
--                error_propagate(errp, err);
--                return;
--            }
- 
-             /*
-              * Each MHU has an irq line for each CPU:
-@@ -966,11 +940,8 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->s32ktimer), 0,
-                        armsse_get_common_irq_in(s, 2));
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->s32ktimer), 0);
--    object_property_set_link(OBJECT(&s->apb_ppc1), OBJECT(mr), "port[0]", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->apb_ppc1), OBJECT(mr), "port[0]",
-+                             &error_abort);
- 
-     sysbus_realize(SYS_BUS_DEVICE(&s->apb_ppc1), &err);
-     if (err) {
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index ce83586e03..3308211e9c 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -170,11 +170,8 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-     object_property_set_link(OBJECT(s->cpu), OBJECT(&s->container), "memory",
-                              &error_abort);
-     if (object_property_find(OBJECT(s->cpu), "idau", NULL)) {
--        object_property_set_link(OBJECT(s->cpu), s->idau, "idau", &err);
--        if (err != NULL) {
--            error_propagate(errp, err);
--            return;
--        }
-+        object_property_set_link(OBJECT(s->cpu), s->idau, "idau",
-+                                 &error_abort);
-     }
-     if (object_property_find(OBJECT(s->cpu), "init-svtor", NULL)) {
-         object_property_set_uint(OBJECT(s->cpu), s->init_svtor,
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 08b3592e36..4efac02e2b 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -341,11 +341,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     /* Pass all GPIOs to the SOC layer so they are available to the board */
+@@ -695,7 +699,9 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
      }
  
-     /* I2C */
--    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram",
-+                             &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->i2c), &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -363,11 +360,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     }
+     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", s->serial);
+-    sysbus_realize(SYS_BUS_DEVICE(&s->otp), &err);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->otp), errp)) {
++        return;
++    }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
  
-     /* FMC, The number of CS is set at the board level */
--    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram",
-+                             &error_abort);
-     object_property_set_int(OBJECT(&s->fmc), sc->memmap[ASPEED_SDRAM],
-                             "sdram-base", &err);
-     if (err) {
-@@ -388,11 +382,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     /* SPI */
-     for (i = 0; i < sc->spis_num; i++) {
-         object_property_set_link(OBJECT(&s->spi[i]), OBJECT(s->dram_mr),
--                                 "dram", &err);
--        if (err) {
--            error_propagate(errp, err);
--            return;
--        }
-+                                 "dram", &error_abort);
-         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
-         sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
-         if (err) {
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index ec21de50ce..03b91bade6 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -300,11 +300,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* I2C */
--    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram",
-+                             &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->i2c), &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -315,11 +312,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-                        aspeed_soc_get_irq(s, ASPEED_I2C));
- 
-     /* FMC, The number of CS is set at the board level */
--    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram",
-+                             &error_abort);
-     object_property_set_int(OBJECT(&s->fmc), sc->memmap[ASPEED_SDRAM],
-                             "sdram-base", &err);
-     if (err) {
-diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index 5a8961ddbb..20dd8b5897 100644
---- a/hw/arm/nrf51_soc.c
-+++ b/hw/arm/nrf51_soc.c
-@@ -66,11 +66,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
-     }
- 
-     object_property_set_link(OBJECT(&s->cpu), OBJECT(&s->container), "memory",
--            &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
-+                             &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->cpu), &err);
-     if (err) {
-         error_propagate(errp, err);
+     if (nd->used) {
 -- 
 2.26.2
 
