@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D815F212BC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 20:00:11 +0200 (CEST)
-Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5545A212BDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 20:02:30 +0200 (CEST)
+Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3VK-00033a-TX
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 14:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
+	id 1jr3XZ-00075z-Bl
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 14:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jr3TZ-0001aH-JT
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:58:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54861
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jr3TX-0003jy-NN
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:58:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593712698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m/KbAh7YIy0hQqSIXEtGCgEiFAmAOg4VajFO8j8Qfd0=;
- b=beJe3wmowNDpna3A9w75roFho74g1EKVi2qgk4XaTqQuZEhnImEWT/lYtWmmTH4fcVqxa/
- 9RSIlNUUxwf524bnMXyP53lkOYvOioW2i7GOXOmNd4V4gJQT5LWpZz8FhHgWfF1gY7LzXs
- TpwJLQmhai0td4p5PRm/wvmwt4yYeQU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-0-VGJiDFPeervNVqmd3eRQ-1; Thu, 02 Jul 2020 13:58:17 -0400
-X-MC-Unique: 0-VGJiDFPeervNVqmd3eRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5857C8031F6;
- Thu,  2 Jul 2020 17:58:16 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3D1B7554F;
- Thu,  2 Jul 2020 17:58:12 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP commands
-Date: Thu,  2 Jul 2020 18:57:50 +0100
-Message-Id: <20200702175754.2211821-3-berrange@redhat.com>
-In-Reply-To: <20200702175754.2211821-1-berrange@redhat.com>
-References: <20200702175754.2211821-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jr3W2-0005Ff-BG; Thu, 02 Jul 2020 14:00:54 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:45647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jr3Vz-0004bb-Me; Thu, 02 Jul 2020 14:00:53 -0400
+Received: by mail-il1-x142.google.com with SMTP id o3so7625675ilo.12;
+ Thu, 02 Jul 2020 11:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=87WrOvEx5pd5NM4gdmI4p9RF2+xCH4REdZ3M16qx6Pw=;
+ b=aBzP1p014gIuxPp/7BqDGvOkOP/q5jWuyHcFW79WdBIAsPS0hGW7pV/BxWPBrvNLDY
+ +HTYStVA1/QyWa3PkjE6bXIqs1oBX+KizGm57t8ihDYlujV98eb3oAR56Obg0gacPwkd
+ gLxsBCgNV6I3TZ1JkMh1pKuO4RPO1gGm4ikQB79rP2l25fj2ZaeS5X3nvYa70Hlw67iL
+ nQ+8+cRJpqNf2+K8Xuk4WK3XxEiq9g+8pe7nf0LN6eQx/nZN3OevQ0xGWE+86z9xo47u
+ e2fdn9CXllCOl1PZYRaWfzrFWgCCxTBM0NV29E+WO0JxaP3WWO5f2psE26ibsh85vNJL
+ AU9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=87WrOvEx5pd5NM4gdmI4p9RF2+xCH4REdZ3M16qx6Pw=;
+ b=sDR8ra9GgCkcWLbkaDuOJsze4S5gvdifvsYniFIXifpPxIObJ0ETxQ2tauphXqWfsy
+ 9R6BEbIz9RTZcEkWk7M7JxTguQr/taRFiWej9q5CWxZN8MYSgK9Rd9dIeI4BZOCt/Hx5
+ olUnS0Zpw5bxaGAjwJZeSfSVZzl/Kv0KLzj0WLm0ZzXcHZDa2zq0yiyt+GIRuo1ezCP9
+ gSQhBhH1Tg8Qpb1UEanMIHPG84JMV/j/Z//tVP/oTazNMBIcUuF6UEjlDzkojoy2vBAZ
+ Dw9WYDvPGb6LPgciebrpaL21DfcIa3MTm9Uhmw1nJQrC2vZXM7BMVtFHyITDI77XT4t7
+ RVbg==
+X-Gm-Message-State: AOAM533rTtchrVpRcrv0bjqVxLreW+tBTwHV5eWYxTO4SU8/lcUnS9dZ
+ lqGUFZqGflGdJO2QwabDxxd2aHxyUc0nyyTAjB8=
+X-Google-Smtp-Source: ABdhPJygNRY1HK4IGpTJ5+dyJugujaTIML9x/X4XtWtrQZxufATLBvDqxuiPTncPAWuWR+WkQsT083uVrDjTj6Z81Jw=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr14784980ilz.227.1593712849883; 
+ Thu, 02 Jul 2020 11:00:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200628142429.17111-1-peter.maydell@linaro.org>
+ <20200628142429.17111-17-peter.maydell@linaro.org>
+In-Reply-To: <20200628142429.17111-17-peter.maydell@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Jul 2020 10:51:03 -0700
+Message-ID: <CAKmqyKNa4ebaben_0eLBjR0C2f-LtCVXQk3LV4mPVPVm5+JQCg@mail.gmail.com>
+Subject: Re: [PATCH 16/17] hw/arm/spitz: Provide usual QOM macros for
+ corgi-ssp and spitz-lcdtg
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,208 +79,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-savevm, loadvm and delvm are some of the few commands that have never
-been converted to use QMP. The primary reason for this lack of
-conversion is that they block execution of the thread for as long as
-they run.
+On Sun, Jun 28, 2020 at 7:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> The QOM types "spitz-lcdtg" and "corgi-ssp" are missing the
+> usual QOM TYPE and casting macros; provide and use them.
+>
+> In particular, we can safely use the QOM cast macros instead of
+> FROM_SSI_SLAVE() because in both cases the 'ssidev' field of
+> the instance state struct is the first field in it.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Despite this downside, however, libvirt and applications using libvirt
-has used these commands for as long as QMP has existed, via the
-"human-monitor-command" passthrough command. IOW, while it is clearly
-desirable to be able to fix the blocking problem, this is not an
-immediate obstacle to real world usage.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Meanwhile there is a need for other features which involve adding new
-parameters to the commands. This is possible with HMP passthrough, but
-it provides no reliable way for apps to introspect features, so using
-QAPI modelling is highly desirable.
+Alistair
 
-This patch thus introduces trival savevm, loadvm, delvm commands
-to QMP that are functionally identical to the HMP counterpart, including
-the blocking problem.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- migration/savevm.c  | 27 ++++++++++++++++
- monitor/hmp-cmds.c  | 18 ++---------
- qapi/migration.json | 76 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 106 insertions(+), 15 deletions(-)
-
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 72dbad95ed..53586a6406 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2943,3 +2943,30 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
- 
-     return !(vmsd && vmsd->unmigratable);
- }
-+
-+void qmp_savevm(const char *tag, Error **errp)
-+{
-+    save_snapshot(tag, errp);
-+}
-+
-+void qmp_loadvm(const char *tag, Error **errp)
-+{
-+    int saved_vm_running  = runstate_is_running();
-+
-+    vm_stop(RUN_STATE_RESTORE_VM);
-+
-+    if (load_snapshot(tag, errp) == 0 && saved_vm_running) {
-+        vm_start();
-+    }
-+}
-+
-+void qmp_delvm(const char *tag, Error **errp)
-+{
-+    BlockDriverState *bs;
-+
-+    if (bdrv_all_delete_snapshot(tag, &bs, errp) < 0) {
-+        error_prepend(errp,
-+                      "deleting snapshot on device '%s': ",
-+                      bdrv_get_device_or_node_name(bs));
-+    }
-+}
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 2b0b58a336..26a5a1a701 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1089,15 +1089,9 @@ void hmp_balloon(Monitor *mon, const QDict *qdict)
- 
- void hmp_loadvm(Monitor *mon, const QDict *qdict)
- {
--    int saved_vm_running  = runstate_is_running();
--    const char *name = qdict_get_str(qdict, "name");
-     Error *err = NULL;
- 
--    vm_stop(RUN_STATE_RESTORE_VM);
--
--    if (load_snapshot(name, &err) == 0 && saved_vm_running) {
--        vm_start();
--    }
-+    qmp_loadvm(qdict_get_str(qdict, "name"), &err);
-     hmp_handle_error(mon, err);
- }
- 
-@@ -1105,21 +1099,15 @@ void hmp_savevm(Monitor *mon, const QDict *qdict)
- {
-     Error *err = NULL;
- 
--    save_snapshot(qdict_get_try_str(qdict, "name"), &err);
-+    qmp_savevm(qdict_get_try_str(qdict, "name"), &err);
-     hmp_handle_error(mon, err);
- }
- 
- void hmp_delvm(Monitor *mon, const QDict *qdict)
- {
--    BlockDriverState *bs;
-     Error *err = NULL;
--    const char *name = qdict_get_str(qdict, "name");
- 
--    if (bdrv_all_delete_snapshot(name, &bs, &err) < 0) {
--        error_prepend(&err,
--                      "deleting snapshot on device '%s': ",
--                      bdrv_get_device_name(bs));
--    }
-+    qmp_delvm(qdict_get_str(qdict, "name"), &err);
-     hmp_handle_error(mon, err);
- }
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d5000558c6..849de38fb0 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1621,3 +1621,79 @@
- ##
- { 'event': 'UNPLUG_PRIMARY',
-   'data': { 'device-id': 'str' } }
-+
-+##
-+# @savevm:
-+#
-+# Save a VM snapshot
-+#
-+# @tag: name of the snapshot to create. If it already
-+# exists it will be replaced.
-+#
-+# Note that execution of the VM will be paused during the time
-+# it takes to save the snapshot
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "savevm",
-+#      "data": {
-+#         "tag": "my-snap"
-+#      }
-+#    }
-+# <- { "return": { } }
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'savevm',
-+  'data': { 'tag': 'str' } }
-+
-+##
-+# @loadvm:
-+#
-+# Load a VM snapshot
-+#
-+# @tag: name of the snapshot to load.
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "loadvm",
-+#      "data": {
-+#         "tag": "my-snap"
-+#      }
-+#    }
-+# <- { "return": { } }
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'loadvm',
-+  'data': { 'tag': 'str' } }
-+
-+##
-+# @delvm:
-+#
-+# Delete a VM snapshot
-+#
-+# @tag: name of the snapshot to delete.
-+#
-+# Note that execution of the VM will be paused during the time
-+# it takes to delete the snapshot
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "delvm",
-+#      "data": {
-+#         "tag": "my-snap"
-+#      }
-+#    }
-+# <- { "return": { } }
-+#
-+# Since: 5.2
-+##
-+{ 'command': 'delvm',
-+  'data': { 'tag': 'str' } }
--- 
-2.26.2
-
+> ---
+>  hw/arm/spitz.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+> index 49eae3fce4e..f020aff9747 100644
+> --- a/hw/arm/spitz.c
+> +++ b/hw/arm/spitz.c
+> @@ -579,6 +579,9 @@ static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
+>  #define LCDTG_PICTRL    0x06
+>  #define LCDTG_POLCTRL   0x07
+>
+> +#define TYPE_SPITZ_LCDTG "spitz-lcdtg"
+> +#define SPITZ_LCDTG(obj) OBJECT_CHECK(SpitzLCDTG, (obj), TYPE_SPITZ_LCDTG)
+> +
+>  typedef struct {
+>      SSISlave ssidev;
+>      uint32_t bl_intensity;
+> @@ -616,7 +619,7 @@ static inline void spitz_bl_power(void *opaque, int line, int level)
+>
+>  static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+>  {
+> -    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
+> +    SpitzLCDTG *s = SPITZ_LCDTG(dev);
+>      int addr;
+>      addr = value >> 5;
+>      value &= 0x1f;
+> @@ -645,7 +648,7 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+>
+>  static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+>  {
+> -    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
+> +    SpitzLCDTG *s = SPITZ_LCDTG(ssi);
+>      DeviceState *dev = DEVICE(s);
+>
+>      s->bl_power = 0;
+> @@ -664,6 +667,9 @@ static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+>  #define SPITZ_GPIO_MAX1111_CS   20
+>  #define SPITZ_GPIO_TP_INT       11
+>
+> +#define TYPE_CORGI_SSP "corgi-ssp"
+> +#define CORGI_SSP(obj) OBJECT_CHECK(CorgiSSPState, (obj), TYPE_CORGI_SSP)
+> +
+>  /* "Demux" the signal based on current chipselect */
+>  typedef struct {
+>      SSISlave ssidev;
+> @@ -673,7 +679,7 @@ typedef struct {
+>
+>  static uint32_t corgi_ssp_transfer(SSISlave *dev, uint32_t value)
+>  {
+> -    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, dev);
+> +    CorgiSSPState *s = CORGI_SSP(dev);
+>      int i;
+>
+>      for (i = 0; i < 3; i++) {
+> @@ -702,7 +708,7 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
+>  static void corgi_ssp_realize(SSISlave *d, Error **errp)
+>  {
+>      DeviceState *dev = DEVICE(d);
+> -    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, d);
+> +    CorgiSSPState *s = CORGI_SSP(d);
+>
+>      qdev_init_gpio_in(dev, corgi_ssp_gpio_cs, 3);
+>      s->bus[0] = ssi_create_bus(dev, "ssi0");
+> @@ -714,10 +720,11 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+>  {
+>      void *bus;
+>
+> -    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
+> +    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1],
+> +                                TYPE_CORGI_SSP);
+>
+>      bus = qdev_get_child_bus(sms->mux, "ssi0");
+> -    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
+> +    sms->lcdtg = ssi_create_slave(bus, TYPE_SPITZ_LCDTG);
+>
+>      bus = qdev_get_child_bus(sms->mux, "ssi1");
+>      sms->ads7846 = ssi_create_slave(bus, "ads7846");
+> @@ -1220,7 +1227,7 @@ static void corgi_ssp_class_init(ObjectClass *klass, void *data)
+>  }
+>
+>  static const TypeInfo corgi_ssp_info = {
+> -    .name          = "corgi-ssp",
+> +    .name          = TYPE_CORGI_SSP,
+>      .parent        = TYPE_SSI_SLAVE,
+>      .instance_size = sizeof(CorgiSSPState),
+>      .class_init    = corgi_ssp_class_init,
+> @@ -1249,7 +1256,7 @@ static void spitz_lcdtg_class_init(ObjectClass *klass, void *data)
+>  }
+>
+>  static const TypeInfo spitz_lcdtg_info = {
+> -    .name          = "spitz-lcdtg",
+> +    .name          = TYPE_SPITZ_LCDTG,
+>      .parent        = TYPE_SSI_SLAVE,
+>      .instance_size = sizeof(SpitzLCDTG),
+>      .class_init    = spitz_lcdtg_class_init,
+> --
+> 2.20.1
+>
+>
 
