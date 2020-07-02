@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330B02129AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:36:45 +0200 (CEST)
-Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E432129DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:39:29 +0200 (CEST)
+Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2Ca-0001L9-5r
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
+	id 1jr2FE-0007av-81
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29Z-0003YQ-SH
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:37 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44875)
+ id 1jr29o-00048f-CR
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:52 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29X-0000AD-UF
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:37 -0400
+ id 1jr29l-00008e-KM
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707615; x=1625243615;
+ t=1593707629; x=1625243629;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=D2Vh/QRpt0AodHQ6EDxh6Wqu+PBuRVSvD9geAaTNtds=;
- b=hGESMtAxNnCVVnsWw+O54URWMiuWdt8+CzWPOmQifp+HLvsHQKXS6WGT
- Q7YQ2BzH+khaBUleohHd6hog83rzSWMXFBB2yl0RaZjBtr191JiG7q04W
- 4P9newLt/ndOaLfbqA9l/pkKY50sT/zh3fBOUNO+Ju/i6LvLKgcdgkCwR
- 79xrAA2BN8vN8VMHVn1BLE49pscKg/qAHIuBEVxiscZlwY5adhZHZA6T9
- ByIcDQOIFZz+WOCtixkpTAeamtbUJmzSCIp16Z1oP5j1pnHPwExBVDOJc
- Wq+9wNfV4kJgV3ezPuj/StKb5dnn6lhc2JpMtpY4i418yy04VQtGVAW4H A==;
-IronPort-SDR: oGYTJ7UemHNF5lBZg+rU5k8g+IswRE88ZEs/yZl+2lR7Gy/F4c0DGIXZp+UzbCd383boGPwG2S
- NM/nig4JSdNx8Wr9wZ0mcdhl195vdHCYrR4YqyPCnQtBSMjcVdK2CV/L30crvBsLM+tQButwcC
- kMW0IGxuRfTlpJRtQWem/rIn86bTXDjXEcYRQWRZv1OFTSCNlI1YLFTqO+JyEVRaN8Hc2ORoxp
- AUDY6DxXDfrRkpoRHD8nU8FZymy0Y70R7snOACCCNsFv876WpRtpuKeGsi2wbSIWjywA3n5n2L
- 14A=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498463"
+ bh=VqCLOdpWLjW3UVkT28adIjoxd87YQskxgxcfATZZN/c=;
+ b=ivIAu3BYO84kulbASSiIy0d4xqIrnUtazEwCptKTwyICqGE4ttzrdEoB
+ a+SotRugA5/2e2U0qWNYvUEF3LA3FnkW9VLSLKZBs857Sfen9AcAkO2Qr
+ 3Z2kUd2LkfBqsIE1sPoOIO9pMaKZBXThZsVA5J6fkTWxcomujckOFePbx
+ TEXfDyE7VA4z7z//vWXO0sermKm8hKI4yJc7CKaKE70dptMv08kr8l/K/
+ xR/5f/EvaHa9p0CDXiJ/jnsCp9Dz7C7ydgvHEQp7k6slH+8dUMNrX2rtS
+ viUb6RY/eT3EqHWsz5iNBQpklDJ6YS0b7HkEKYGIqVh9Wd/ADsEaB0xso w==;
+IronPort-SDR: FKMIPQ+2eC1ab0ekGzx1fW/5PdduN8uzDCi68x5USv8gHXJiSkuAZ7tQxygJH6t7GYUK6eDYxE
+ 8KEAq0rx0WTSnyYWZ4BPE8Wc3somm5V71V//Gm2eaL4mUEtds/L/3Ukf0BIz/wpRZIpWcOuWHd
+ Csy9RIWvoPvZ5MgBart5Yn1KCsleRsh/zv91Dgyf5ZGhxabeShXnb/w9gGjL05fZ0pONh4n/9i
+ iQPAzrHrQ0Eqq5zhAUQvwxkClgwhwVtUAPGX0/40P7fYcsD2UQc4/9e86gye1IO0jdlw2GfqMP
+ wLk=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498465"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:20 +0800
-IronPort-SDR: 6O0He1zUgHEun4hTFDsnyPjvPg6iIiP1IdIHMUOp39qlxo0AE163oYHSaMnm2lf67Ar2L0nNDg
- HrJqzqj0DapmJMtp2Fz79gjcelgCkyW+E=
+IronPort-SDR: MbhZj/X6S3zst7hC7Qmm3EPuKBNflQXMUVj2u8p0oc5LYdHsdif9zk/zGGxftwl+v61Hh7AMbZ
+ 0Qp7J5V24aBRsvK0hjqIYhwnLZL8nkQKw=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Jul 2020 09:21:35 -0700
-IronPort-SDR: +BtPlX/Lvl35HspGrH+u6gie+KDDcbsSigaVvfddsNkDBgXuO3cAFqVXPkmSu7vDw7gGwOffWp
- o+fyErEQ2ilg==
+IronPort-SDR: wg6V2wA7dSJBh5/lV4a3BN/HsI0/SJeDeJWwBTtpP/DdCJwzRXip4TyPvIle/9OyAuCU5L8OFU
+ ZR0MYPYOkYjw==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:19 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:20 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 03/64] hw/riscv: Allow 64 bit access to SiFive CLINT
-Date: Thu,  2 Jul 2020 09:22:53 -0700
-Message-Id: <20200702162354.928528-4-alistair.francis@wdc.com>
+Subject: [PULL v2 04/64] target/riscv: add vector extension field in
+ CPURISCVState
+Date: Thu,  2 Jul 2020 09:22:54 -0700
+Message-Id: <20200702162354.928528-5-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -88,37 +89,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 5d971f9e672507210e77d020d89e0e89165c8fc9
-"memory: Revert "memory: accept mismatching sizes in
-memory_region_access_valid"" broke most RISC-V boards as they do 64 bit
-accesses to the CLINT and QEMU would trigger a fault. Fix this failure
-by allowing 8 byte accesses.
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
+The 32 vector registers will be viewed as a continuous memory block.
+It avoids the convension between element index and (regno, offset).
+Thus elements can be directly accessed by offset from the first vector
+base address.
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200701152549.1218-2-zhiwei_liu@c-sky.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
-Message-Id: <122b78825b077e4dfd39b444d3a46fe894a7804c.1593547870.git.alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_clint.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/cpu.h       | 12 ++++++++++++
+ target/riscv/translate.c |  3 ++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-index b11ffa0edc..669c21adc2 100644
---- a/hw/riscv/sifive_clint.c
-+++ b/hw/riscv/sifive_clint.c
-@@ -181,7 +181,7 @@ static const MemoryRegionOps sifive_clint_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 4,
--        .max_access_size = 4
-+        .max_access_size = 8
-     }
- };
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 80569f0d44..0018a79fa3 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -59,6 +59,7 @@
+ #define RVA RV('A')
+ #define RVF RV('F')
+ #define RVD RV('D')
++#define RVV RV('V')
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
+@@ -88,9 +89,20 @@ typedef struct CPURISCVState CPURISCVState;
  
+ #include "pmp.h"
+ 
++#define RV_VLEN_MAX 512
++
+ struct CPURISCVState {
+     target_ulong gpr[32];
+     uint64_t fpr[32]; /* assume both F and D extensions */
++
++    /* vector coprocessor state. */
++    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
++    target_ulong vxrm;
++    target_ulong vxsat;
++    target_ulong vl;
++    target_ulong vstart;
++    target_ulong vtype;
++
+     target_ulong pc;
+     target_ulong load_res;
+     target_ulong load_val;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index ce71ca7a92..b269f15920 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -32,7 +32,7 @@
+ #include "instmap.h"
+ 
+ /* global register indices */
+-static TCGv cpu_gpr[32], cpu_pc;
++static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
+ static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+ static TCGv load_res;
+ static TCGv load_val;
+@@ -887,6 +887,7 @@ void riscv_translate_init(void)
+     }
+ 
+     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, pc), "pc");
++    cpu_vl = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, vl), "vl");
+     load_res = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_res),
+                              "load_res");
+     load_val = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_val),
 -- 
 2.27.0
 
