@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D0F212D66
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 21:53:52 +0200 (CEST)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B56E212E02
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:44:46 +0200 (CEST)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr5HL-0003rh-7I
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 15:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54442)
+	id 1jr64b-00023B-08
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jr5Gb-0003Ab-2x
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 15:53:05 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:37216)
+ (Exim 4.90_1) (envelope-from <stefanbrankovic96@gmail.com>)
+ id 1jr56U-0006n2-TY
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 15:42:38 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jr5GZ-0003jC-Bt
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 15:53:04 -0400
-Received: by mail-pl1-x644.google.com with SMTP id p1so2440338pls.4
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 12:53:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rOKKa7aCMMhz8ioS6wm1/nU52Yfx62eaw+kbiU8ypKg=;
- b=Qj3sHF8L7xFovTyTB415P8bI+AgTy/4JXLMmDp+ecCsXNNuZITjfHRQp3GDxCphrF5
- 4VOpMm/BMUieHzeEcxA9x3LU9Zkh4Q3rBrb2Q2iZQgpIWjA/HMhFQS3MR/ZQXk9r2tr5
- IWrATEijwFmV5VEnn4akdb+TLBaj1uaKU4MS0aJw8yKYXgkL8RKz7AwDibkesZn8hCbk
- AM/DDfEYg5orlfBcWUOb5ICzPTAJunWUkPr81axE7stsuW5MwxH8DC5HcUWvF6oZUfzn
- Cs4VuIPEI8+QREWmRkue/AIxyo9u4CPvywSgX3CfWaJgvMRO1b38fskklRRX2mS0vOst
- E3ng==
+ (Exim 4.90_1) (envelope-from <stefanbrankovic96@gmail.com>)
+ id 1jr56T-0001p5-FN
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 15:42:38 -0400
+Received: by mail-ej1-x643.google.com with SMTP id f12so4921754eja.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 12:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=huVk7FxdzfL0zDqPYoSR7xnTDodTmSCUmR0ti5s0N8I=;
+ b=bHsaBkJ1WS7LCVimE3WhuMLRgyeQO7PAam+PSwYczht1qlIT77GQzsUWlQvlLvnsZJ
+ 01/zVNwmNmBB7ffCzQhuZjD1dWI/B0P7ihQp+dF9UA5xePvH9Zs97FIa8xtY9NJYTFLf
+ cguPnviNcm3OMFgPsITqueT1im5Oiw0GALR0+2WYBs90hZyDQf0ETdK6VKv3j6cvsGby
+ /6f5UytWft3JdYT5AHDNfiC+ignI7TMaPXJSRPTYxiq064I55F2knE7ncZpeGL0U/HBG
+ TKQNNqvT9AILyanhsMTGCDucMVaWJfUVEOUVSzSmrSQo+L5rDMhN+qG/KizKibu3zM6n
+ b/Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rOKKa7aCMMhz8ioS6wm1/nU52Yfx62eaw+kbiU8ypKg=;
- b=ch/9Y5lXeiEA6zLZegFS8KK8al9PK3sNozR12HH6Jo61DbcA/cBVNVacgsYfR8LD0z
- V0f4imwsRHu/aNDm5ngnFawH4rLthrxFsoUinn/k/zcCpmOQdPNLqidJmfRRYFH0bH7R
- xJZQ3urrdLXbpLqhg+ZmKPEd8krdbjcrCnO+UTb0CDdSeboOnnRZE48q6hfCLDF/+Gzz
- kOThwmZcMMl5r7pQpcT5GNlV6T64UZeF5ptLywJLrA5FEmkIAimeJl+aa3GrAPofXClj
- F8Gk2AKVwHOb5ND13XaQXWP3GGMqaJ/cuvqmyXcepdlrfUBxSBDEs0O4jLjjuJXBeSly
- otPA==
-X-Gm-Message-State: AOAM5306sO9W6hPQEBIywob5RTBo5sup0qUNHp2YaubfE50jXePBUXN8
- vDdEKWasAO3xYbik/xS5slnIxA==
-X-Google-Smtp-Source: ABdhPJzusbbycFLyk1SKckwOgJaSEpmO2zdTt+NQOQqSAdZLYaxRWywDBFaCAwiYk2tgLn2LfLUMDw==
-X-Received: by 2002:a17:902:a410:: with SMTP id
- p16mr27129185plq.283.1593719581750; 
- Thu, 02 Jul 2020 12:53:01 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id w4sm9563840pfd.39.2020.07.02.12.53.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jul 2020 12:53:00 -0700 (PDT)
-Subject: Re: [PATCH] linux-user/elfload: use MAP_FIXED in pgb_reserved_va
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200630103448.22742-1-alex.bennee@linaro.org>
- <CAFEAcA_vmcPq=LhEd2d5Kxyg-3q-VjYVa906EUempkXZ0cRXUg@mail.gmail.com>
- <87y2o4r4zc.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <09e88ba9-25ff-6f03-c216-2ce9e52abf04@linaro.org>
-Date: Thu, 2 Jul 2020 12:52:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <87y2o4r4zc.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=huVk7FxdzfL0zDqPYoSR7xnTDodTmSCUmR0ti5s0N8I=;
+ b=aiVZqMmrQR/ux4OfGHZixplKJRiA4Wl4HcVj0YTteHz9ST0RQILigDRtitwUT9txgm
+ gq+Re7Tsi3tHCMBZ2ao46Dycgk9RwUnHafYd3IBKzG6zqL3qHPXaz0PigRk4r+agVz8m
+ WZNxguOm3059lbHpc38aGuUHTTkmJTuG2kTVf+AjYC2pOhzyQgSdGt4HM0qgeGbaZhyz
+ XSacNAqwNWzGyTwfk2Cs/5SCwSTTtjHAWRoDUqOE9McVL2EFZrApv5/l0h5S5VVsUgqT
+ dXWvS7FSb4w9DY3r2SpxR0hHP094veOqgmJp2pf7DC5YpnaNSnQMYv+0pNxHkuBfs5su
+ zgUQ==
+X-Gm-Message-State: AOAM530VfY787wytPECnqkAy7C1FV/5T68M6CsZUctrYY/ir9eH6wTE0
+ +M4GTD/VOMoemIKhVUccHRgzBMd42A9nBg==
+X-Google-Smtp-Source: ABdhPJys+uwprsqjIjBrT6dPV4woNtcAcGhOqj7JVYooUWBOZiWyZVmr/mbSqdRlwfYLebGVr7QMtw==
+X-Received: by 2002:a17:906:c35a:: with SMTP id
+ ci26mr13499950ejb.451.1593718955524; 
+ Thu, 02 Jul 2020 12:42:35 -0700 (PDT)
+Received: from localhost.localdomain (109-93-62-240.dynamic.isp.telekom.rs.
+ [109.93.62.240])
+ by smtp.gmail.com with ESMTPSA id u60sm10775736edc.59.2020.07.02.12.42.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 12:42:35 -0700 (PDT)
+From: Stefan Brankovic <stefanbrankovic96@gmail.com>
+X-Google-Original-From: Stefan Brankovic <stefan.brankovic@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Add Loongson 2F disassembler
+Date: Thu,  2 Jul 2020 21:42:29 +0200
+Message-Id: <20200702194230.10769-1-stefan.brankovic@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=stefanbrankovic96@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 02 Jul 2020 16:42:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,66 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
+ stefan.brankovic@syrmia.com, aleksandar.rikalo@syrmia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/20 7:41 AM, Alex Bennée wrote:
-> 
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Tue, 30 Jun 2020 at 11:36, Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> Given we assert the requested address matches what we asked we should
->>> also make that clear in the mmap flags. Otherwise we see failures in
->>> the GitLab environment for some currently unknown but allowable
->>> reason.
->>
->> Adding MAP_FIXED will mean that instead of failing if there's
->> something else already at that address, the kernel will now
->> silently blow that away in favour of the new mapping. Is
->> that definitely what we want here ?
-> 
-> Hmm maybe not.
+This patch adds disassembler for Loongson 2F instruction set.
 
-Definitely not.
+Stefan Brankovic (1):
+  disas: mips: Add Loongson 2F disassembler
 
-> But hey I just noticed that we have MAP_FIXED_NOREPLACE
-> (since Linux 4.17) which says:
-> 
->    This flag provides behavior that is similar  to  MAP_FIXED  with
->    respect   to   the   addr   enforcement,  but  differs  in  that
->    MAP_FIXED_NOREPLACE never clobbers a preexisting  mapped  range.
->    If  the  requested range would collide with an existing mapping,
->    then this call fails with  the  error  EEXIST.   This  flag  can
->    therefore  be used as a way to atomically (with respect to other
->    threads) attempt to map an address range: one thread  will  suc‐
->    ceed; all others will report failure.
-> 
->    Note   that   older   kernels   which   do   not  recognize  the
->    MAP_FIXED_NOREPLACE flag will typically (upon detecting a colli‐
->    sion  with a preexisting mapping) fall back to a "non-MAP_FIXED"
->    type of behavior: they will return an address that is  different
->    from  the  requested  address.   Therefore,  backward-compatible
->    software should check the returned address against the requested
->    address.
-> 
-> So maybe that is what we should do?
+ MAINTAINERS             |    1 +
+ configure               |    1 +
+ disas/Makefile.objs     |    1 +
+ disas/loongson2f.cpp    | 8134 +++++++++++++++++++++++++++++++++++++++
+ disas/loongson2f.h      | 2542 ++++++++++++
+ include/disas/dis-asm.h |    1 +
+ include/exec/poison.h   |    1 +
+ target/mips/cpu.c       |    4 +
+ 8 files changed, 10685 insertions(+)
+ create mode 100644 disas/loongson2f.cpp
+ create mode 100644 disas/loongson2f.h
 
-Yes, that would be better, because those are the exact semantics that we want.
- Though it would be Really Nice to know what's up with gitlab...
+-- 
+2.17.1
 
-> Now you've pointed that out I wonder if we need to fix
-> pgd_find_hole_fallback as well?
-
-Yes, that could benefit from MAP_FIXED_NOREPLACE.
-
-I do think there's a way we could streamline the 32-on-64 case.  At present we
-are groveling through /proc/self/maps, or mmaping+unmaping, and then mmaping.
-Whereas we could just mmap once and be done -- it's the 32-on-32 case that
-requires the song and dance.
-
-
-r~
 
