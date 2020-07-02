@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFDC2124D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:36:20 +0200 (CEST)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248F72124C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:34:10 +0200 (CEST)
+Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzNz-0006t8-SC
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35144)
+	id 1jqzLt-0002E9-4P
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzE0-00052Y-DV
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:00 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47434
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDy-00051U-7a
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32056
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDp-0007F0-Ve
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:00 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jqzDo-0007E4-54
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:25:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696348;
+ s=mimecast20190719; t=1593696347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=cp/2ui0tlH8lhPnT5RA7r+CowqQM6Y0K53DWdoQXRic=;
- b=MD7HBAbdmAzoqNCVEGHOM1wpUcyO+Djnn2H/jR8hgEFIfaDJZXOX3IIH3708YWzti7y3Ip
- 6Ihhdb3eCRpA6nDOeCzrOhUUbr5PonWRVDCqjdrCClKWnl443UxS2NYTiutuw7rRP+IsS5
- Rtxp3wGFocg+NKJ6MrCwCF8OTwmCxlA=
+ references:references; bh=d/a9Ntks1qykABzxoA+2KUfIStVfCwWOvIGdJEEdgOA=;
+ b=VqdUIo/ZuHixO5PIvF9D+bNT/KVoe0lAprfMTVZmSnt85x4jgzDhafgGzL57GeWVm+K3vn
+ nCsMYTQ8DkTFhTazBvtmNN+4IIhpw2jxOsiAkdx/o9yhvffgKDjL0H59/hswF6eHNwnciS
+ rp1CMyGOgFn+zWRsXdDSBOyXDJAJK4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-Z3RiuzK6ObaySm3rwp0Kdg-1; Thu, 02 Jul 2020 09:25:46 -0400
-X-MC-Unique: Z3RiuzK6ObaySm3rwp0Kdg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-512-IdcmyS39MFODuj-Jt1FUNQ-1; Thu, 02 Jul 2020 09:25:45 -0400
+X-MC-Unique: IdcmyS39MFODuj-Jt1FUNQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2221880183C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC9C805EEF;
  Thu,  2 Jul 2020 13:25:44 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAB645C1B0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C486660BE1;
  Thu,  2 Jul 2020 13:25:35 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4F79931E9E; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
+ id 6A5BD31EBE; Thu,  2 Jul 2020 15:25:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/20] audio: deprecate -soundhw adlib
-Date: Thu,  2 Jul 2020 15:25:11 +0200
-Message-Id: <20200702132525.6849-7-kraxel@redhat.com>
+Subject: [PATCH v5 09/20] audio: deprecate -soundhw sb16
+Date: Thu,  2 Jul 2020 15:25:14 +0200
+Message-Id: <20200702132525.6849-10-kraxel@redhat.com>
 In-Reply-To: <20200702132525.6849-1-kraxel@redhat.com>
 References: <20200702132525.6849-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -94,31 +94,36 @@ Remove the now obsolete init function.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/adlib.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ hw/audio/sb16.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index 7c3b67dcfb8c..65dff5b6fca4 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -319,16 +319,10 @@ static const TypeInfo adlib_info = {
-     .class_init    = adlib_class_initfn,
- };
+diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
+index df6f755a37f8..2d9e50f99b5d 100644
+--- a/hw/audio/sb16.c
++++ b/hw/audio/sb16.c
+@@ -1415,12 +1415,6 @@ static void sb16_realizefn (DeviceState *dev, Error **errp)
+     AUD_register_card ("sb16", &s->card);
+ }
  
--static int Adlib_init (ISABus *bus)
+-static int SB16_init (ISABus *bus)
 -{
--    isa_create_simple (bus, TYPE_ADLIB);
+-    isa_create_simple (bus, TYPE_SB16);
 -    return 0;
 -}
 -
- static void adlib_register_types (void)
+ static Property sb16_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(SB16State, card),
+     DEFINE_PROP_UINT32 ("version", SB16State, ver,  0x0405), /* 4.5 */
+@@ -1453,7 +1447,8 @@ static const TypeInfo sb16_info = {
+ static void sb16_register_types (void)
  {
-     type_register_static (&adlib_info);
--    isa_register_soundhw("adlib", ADLIB_DESC, Adlib_init);
-+    deprecated_register_soundhw("adlib", ADLIB_DESC, 1, TYPE_ADLIB);
+     type_register_static (&sb16_info);
+-    isa_register_soundhw("sb16", "Creative Sound Blaster 16", SB16_init);
++    deprecated_register_soundhw("sb16", "Creative Sound Blaster 16",
++                                1, TYPE_SB16);
  }
  
- type_init (adlib_register_types)
+ type_init (sb16_register_types)
 -- 
 2.18.4
 
