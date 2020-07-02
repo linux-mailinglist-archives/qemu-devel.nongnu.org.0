@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403F62124F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:41:46 +0200 (CEST)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE3C2124C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:33:52 +0200 (CEST)
+Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzTF-0008Lo-9t
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
+	id 1jqzLb-0001bN-62
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqzEb-0006VS-QU
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31618
+ id 1jqzK5-0008Jg-GB
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:32:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22233
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqzEZ-0007f2-6g
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:26:37 -0400
+ id 1jqzK3-0003Fv-2Z
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:32:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696394;
+ s=mimecast20190719; t=1593696734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UoXVmIV6ADAT6X8G0PbTREebuaqkvNoES0WPCGg+2Yw=;
- b=eJxkfouB2MjpUe0QggzhT9IQms+fxC2XKBr1JVmQ7QWNzvNgKVgXPMD2UgBltDYGIhNJwy
- cG5EIZXHPnMNjKgoFDPrvinCQQJLCx6P/iwwBvsyOtx6SSZQAW6exd75SwUwI0bZYYcpJU
- yJXg8VWzgfMc5geUPov6pJT3YqVciTo=
+ bh=KHYnzAP5FS1TP8QYjvfbRp1ZsvzHbiY2is674K7qsJg=;
+ b=L5Ds7kjdqyvk1IV/GepSL1kuKz2TWtj/YA4HSCJwgqCOiGx0v5nTRi0sD7V7pNIfCxTpK8
+ jXg9RM39Jpi9egfl4nuN5GOV1+OjlX8XL4pZ2Qx82YPMn3qTU3zggi4YOALmJsnBAfkxbM
+ r/53IX2lpp2jUjpYfN9i6nDaKUkySvw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-CbxCsSPYP1SSM3nIfDpScA-1; Thu, 02 Jul 2020 09:26:30 -0400
-X-MC-Unique: CbxCsSPYP1SSM3nIfDpScA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-311-oXKMqXtTM023SFYWqzqL0g-1; Thu, 02 Jul 2020 09:32:09 -0400
+X-MC-Unique: oXKMqXtTM023SFYWqzqL0g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F5261940920;
- Thu,  2 Jul 2020 13:26:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091C1100A8EB;
+ Thu,  2 Jul 2020 13:32:07 +0000 (UTC)
 Received: from localhost (ovpn-114-216.ams2.redhat.com [10.36.114.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3EC173FC7;
- Thu,  2 Jul 2020 13:26:22 +0000 (UTC)
-Date: Thu, 2 Jul 2020 14:26:21 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8AC1778A6;
+ Thu,  2 Jul 2020 13:32:00 +0000 (UTC)
+Date: Thu, 2 Jul 2020 14:31:59 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v7 21/21] multi-process: add configure and usage
- information
-Message-ID: <20200702132621.GE152912@stefanha-x1.localdomain>
+Subject: Re: [PATCH v7 20/21] multi-process: add the concept description to
+ docs/devel/qemu-multiprocess
+Message-ID: <20200702133159.GF152912@stefanha-x1.localdomain>
 References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
- <3624d64f8943aea7f9867c10159e15b42cac77ff.1593273671.git.elena.ufimtseva@oracle.com>
+ <0dfdf845d65ed4b3976b4bb7f884a1fa92b6f153.1593273671.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <3624d64f8943aea7f9867c10159e15b42cac77ff.1593273671.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <0dfdf845d65ed4b3976b4bb7f884a1fa92b6f153.1593273671.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Lb0e7rgc7IsuDeGj"
+ protocol="application/pgp-signature"; boundary="OzxllxdKGCiKxUZM"
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -70,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,38 +94,61 @@ Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Lb0e7rgc7IsuDeGj
+--OzxllxdKGCiKxUZM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sat, Jun 27, 2020 at 10:09:43AM -0700, elena.ufimtseva@oracle.com wrote:
-> +2) Usage
-> +--------
+On Sat, Jun 27, 2020 at 10:09:42AM -0700, elena.ufimtseva@oracle.com wrote:
+> diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
+> new file mode 100644
+> index 0000000000..406728854c
+> --- /dev/null
+> +++ b/docs/devel/multi-process.rst
+> @@ -0,0 +1,957 @@
+> +Multi-process QEMU
+> +===================
 > +
-> +Multi-process QEMU requires an orchestrator to launch. Please refer to a
-> +light-weight python based orchestrator for mpqemu in
-> +scripts/mpqemu-launcher.py to lauch QEMU in multi-process mode.
+> +QEMU is often used as the hypervisor for virtual machines running in the
+> +Oracle cloud. Since one of the advantages of cloud computing is the
+> +ability to run many VMs from different tenants in the same cloud
+> +infrastructure, a guest that compromised its hypervisor could
+> +potentially use the hypervisor's access privileges to access data it is
+> +not authorized for.
 > +
-> +Please refer to scripts/mpqemu-launcher-perf-mode.py for running the remote
-> +process in performance mode.
+> +QEMU can be susceptible to security attacks because it is a large,
+> +monolithic program that provides many features to the VMs it services.
+> +Many of these features can be configured out of QEMU, but even a reduced
+> +configuration QEMU has a large amount of code a guest can potentially
+> +attack. Separating QEMU reduces the attack surface by aiding to
+> +limit each component in the system to only access the resources that
+> +it needs to perform its job.
 
-What is performance mode?
+This document does not reflect the functionality, internals, or syntax
+implemented in this patch series closely. It can still be useful as
+background reading for someone interested in diving into the code, but
+please add a disclaimer at the top to avoid confusion:
 
---Lb0e7rgc7IsuDeGj
+  This is the design document for multi-process QEMU. It does not
+  necessarily reflect the status of the current implementation, which
+  may lack features or be considerably different from what is described
+  in this document. This document is still useful as a description of
+  the goals and general direction of this feature.
+
+--OzxllxdKGCiKxUZM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl794H0ACgkQnKSrs4Gr
-c8hLtQf/WAzYQi36lrC+a/VCb36cM3IwVDW4rRGfBBV1DvUDDUlFmIK09CFX3WbY
-fvGVjFpnZGj18QMU38j0OHHqaAlNuEe/VpBNrRdcvmZMSC01qw0Zkzs13KAbtZDF
-SwLnywZCumseimPoYfeu8YoOX/313fcbdpwQiyS4IQRqbrZTTBUDum+IJIvqMoVz
-trQdQpzb4hku72d4Dg8sTbqVMzcIu3DkDpLJ31ujuVvpI4nzg9gJC7nV3FkdHZlo
-CtfK02D1nHB94cLZRP9lGIwb0JUftso69qEU4LOGup4VQYC3ltPEzvOc9DJGRO2d
-4zWqw0VTfRCOC2jJcdfLhQevOoG6aA==
-=K8b/
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl794c8ACgkQnKSrs4Gr
+c8jmnAf/bol2YUaG6gtYV/wTvDsG5fEptA4+K8i3ieyITkR3OAprX7Owu+HNTdCP
+mDPsEwT+J7+j/QWAkpKRD7GMfqYkX7JjALueD8+YEtVRUIQuRJJpmaE1UMgs+c7N
+kt/kZ0jOvj16ex68f11PK0Gtk9BtEMBGVLx80PciXbeLB7kc7yueQs84bN9QfG2n
+RRNo3AwKGilKI/609s7DR2oy5xU1siaQrGZOKgthMiANZeN0BbhgyESbWuya6077
+U52b7TQVBnPsMvdAosEYmWqkuVs6vEISuTGtPvBw9NU1RtAYNyf8NmGNvf0i118+
+R6UREdGc2xKle0AEbIx/zojU/K9slA==
+=zMP7
 -----END PGP SIGNATURE-----
 
---Lb0e7rgc7IsuDeGj--
+--OzxllxdKGCiKxUZM--
 
 
