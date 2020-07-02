@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78BA21299C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:34:55 +0200 (CEST)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330B02129AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:36:45 +0200 (CEST)
+Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2Ao-0005OS-Td
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33450)
+	id 1jr2Ca-0001L9-5r
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29Z-0003XD-3o
+ id 1jr29Z-0003YQ-SH
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:37 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44871)
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr29W-00009X-MH
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:36 -0400
+ id 1jr29X-0000AD-UF
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:33:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707614; x=1625243614;
+ t=1593707615; x=1625243615;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F60hhPMGOm/aK/Xcvf9Qif0y1msMkdIb5SO4KW8GxzU=;
- b=h78vT4CzMdwSRmuB2RJq/XzAy3pl1jLMslwjxUQzpwggnK001utBeqGC
- JWS4PN9W/p+rGgH278RqfjC7f1rjbFShrQ5h0CofNdSOGc2NJITCqnsXi
- bFCGOpKsHcewkKqTuWcSEcApF25H+XG3xkf+Ktb1kv3cmPBPD4484nVby
- dq5wLgX8spw3uV7ry+gI0PadKimssx07Dzlmx45doOXeIhpcBiCM8Z/TG
- YmaAK6aKphChF5xBZ2kKXia1HS/ItrspKQZpOqd+IqZJ45XmeQ3uTJryB
- WK8RqyREDEBKPrM1Nize61ntE4aFoKjQYKR10JGoTmN8W6LQxYDtTfnKo Q==;
-IronPort-SDR: /nzMGJkM6GOuF5asg1r6qrVxQODxik1+2++0PAskelKb6PpKsrZLtN8iuHid6ILwQDzChQe9O/
- bIoF0Jct4+5iT3ysz5d2SiwjfUvukga5na0txLt4m31kzjtjSVY2PllAtHvy3kpCDxbkL/Xkk7
- FYXpiOJmmgrdOMRPoK4IXe7u3kJc8kpl7cpSJ7SmXpthQt1eUKEAw+VzuEWtuPdMVAhXN2T87a
- 7nspFwiyZbUX86fRcnb31M8ZptMvIVbNBHhnk8h0YIe0xIQJ3eHL6yiGW7gaXAnx+XpdNLkJT2
- /aM=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498462"
+ bh=D2Vh/QRpt0AodHQ6EDxh6Wqu+PBuRVSvD9geAaTNtds=;
+ b=hGESMtAxNnCVVnsWw+O54URWMiuWdt8+CzWPOmQifp+HLvsHQKXS6WGT
+ Q7YQ2BzH+khaBUleohHd6hog83rzSWMXFBB2yl0RaZjBtr191JiG7q04W
+ 4P9newLt/ndOaLfbqA9l/pkKY50sT/zh3fBOUNO+Ju/i6LvLKgcdgkCwR
+ 79xrAA2BN8vN8VMHVn1BLE49pscKg/qAHIuBEVxiscZlwY5adhZHZA6T9
+ ByIcDQOIFZz+WOCtixkpTAeamtbUJmzSCIp16Z1oP5j1pnHPwExBVDOJc
+ Wq+9wNfV4kJgV3ezPuj/StKb5dnn6lhc2JpMtpY4i418yy04VQtGVAW4H A==;
+IronPort-SDR: oGYTJ7UemHNF5lBZg+rU5k8g+IswRE88ZEs/yZl+2lR7Gy/F4c0DGIXZp+UzbCd383boGPwG2S
+ NM/nig4JSdNx8Wr9wZ0mcdhl195vdHCYrR4YqyPCnQtBSMjcVdK2CV/L30crvBsLM+tQButwcC
+ kMW0IGxuRfTlpJRtQWem/rIn86bTXDjXEcYRQWRZv1OFTSCNlI1YLFTqO+JyEVRaN8Hc2ORoxp
+ AUDY6DxXDfrRkpoRHD8nU8FZymy0Y70R7snOACCCNsFv876WpRtpuKeGsi2wbSIWjywA3n5n2L
+ 14A=
+X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498463"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:19 +0800
-IronPort-SDR: c9BJ18hW9vCR3ldbMRhBbPUHyMLfX/KXmylph027/0ceVGByv1fUWUuf6lZfkvO0JDuOdUVlEq
- YatS0bWFRShxQDnVii9WmAsx5L/oNBxe4=
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:20 +0800
+IronPort-SDR: 6O0He1zUgHEun4hTFDsnyPjvPg6iIiP1IdIHMUOp39qlxo0AE163oYHSaMnm2lf67Ar2L0nNDg
+ HrJqzqj0DapmJMtp2Fz79gjcelgCkyW+E=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 09:21:34 -0700
-IronPort-SDR: n65UDyVrGj5kHY49EPUfhtl3q2LTUvq88Gn/ko1UllAAhezXtuGH7luyD38jFcT38hrU0f+vcd
- ytaEQ/Kt9OEw==
+ 02 Jul 2020 09:21:35 -0700
+IronPort-SDR: +BtPlX/Lvl35HspGrH+u6gie+KDDcbsSigaVvfddsNkDBgXuO3cAFqVXPkmSu7vDw7gGwOffWp
+ o+fyErEQ2ilg==
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.58.118])
@@ -56,10 +56,9 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 02/64] riscv: plic: Add a couple of mising
- sifive_plic_update calls
-Date: Thu,  2 Jul 2020 09:22:52 -0700
-Message-Id: <20200702162354.928528-3-alistair.francis@wdc.com>
+Subject: [PULL v2 03/64] hw/riscv: Allow 64 bit access to SiFive CLINT
+Date: Thu,  2 Jul 2020 09:22:53 -0700
+Message-Id: <20200702162354.928528-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
 References: <20200702162354.928528-1-alistair.francis@wdc.com>
@@ -90,56 +89,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Jessica Clarke <jrtc27@jrtc27.com>
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jessica Clarke <jrtc27@jrtc27.com>
+Commit 5d971f9e672507210e77d020d89e0e89165c8fc9
+"memory: Revert "memory: accept mismatching sizes in
+memory_region_access_valid"" broke most RISC-V boards as they do 64 bit
+accesses to the CLINT and QEMU would trigger a fault. Fix this failure
+by allowing 8 byte accesses.
 
-Claiming an interrupt and changing the source priority both potentially
-affect whether an interrupt is pending, thus we must re-compute xEIP.
-Note that we don't put the sifive_plic_update inside sifive_plic_claim
-so that the logging of a claim (and the resulting IRQ) happens before
-the state update, making the causal effect clear, and that we drop the
-explicit call to sifive_plic_print_state when claiming since
-sifive_plic_update already does that automatically at the end for us.
-
-This can result in both spurious interrupt storms if you fail to
-complete an IRQ before enabling interrupts (and no other actions occur
-that result in a call to sifive_plic_update), but also more importantly
-lost interrupts if a disabled interrupt is pending and then becomes
-enabled.
-
-Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200618210649.22451-1-jrtc27@jrtc27.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+Message-Id: <122b78825b077e4dfd39b444d3a46fe894a7804c.1593547870.git.alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_plic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_clint.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index d91e82b8ab..c20c192034 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -255,8 +255,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
-                     plic->addr_config[addrid].hartid,
-                     mode_to_char(plic->addr_config[addrid].mode),
-                     value);
--                sifive_plic_print_state(plic);
-             }
-+            sifive_plic_update(plic);
-             return value;
-         }
+diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
+index b11ffa0edc..669c21adc2 100644
+--- a/hw/riscv/sifive_clint.c
++++ b/hw/riscv/sifive_clint.c
+@@ -181,7 +181,7 @@ static const MemoryRegionOps sifive_clint_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+-        .max_access_size = 4
++        .max_access_size = 8
      }
-@@ -287,6 +287,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
-             qemu_log("plic: write priority: irq=%d priority=%d\n",
-                 irq, plic->source_priority[irq]);
-         }
-+        sifive_plic_update(plic);
-         return;
-     } else if (addr >= plic->pending_base && /* 1 bit per source */
-                addr < plic->pending_base + (plic->num_sources >> 3))
+ };
+ 
 -- 
 2.27.0
 
