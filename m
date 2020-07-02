@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FFE212B72
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:45:14 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71FB212B74
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:45:45 +0200 (CEST)
+Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3Gr-0005pB-Ig
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:45:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
+	id 1jr3HM-0006JM-NF
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:45:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AR-0003u3-DD; Thu, 02 Jul 2020 13:38:35 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:43151)
+ id 1jr3AV-0003xZ-SV; Thu, 02 Jul 2020 13:38:41 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AO-0007Fy-0k; Thu, 02 Jul 2020 13:38:33 -0400
-Received: by mail-ej1-x642.google.com with SMTP id l12so30696224ejn.10;
- Thu, 02 Jul 2020 10:38:31 -0700 (PDT)
+ id 1jr3AR-0007Gx-En; Thu, 02 Jul 2020 13:38:36 -0400
+Received: by mail-ej1-x641.google.com with SMTP id l12so30696277ejn.10;
+ Thu, 02 Jul 2020 10:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WNmiqtIARIvtYdLd1badA4yDSJvLXn9cgd4xpxOhhEg=;
- b=k1IwIpG/wfYkwBuH8CaC04pqI0EYSadR5f4cF3SGqB9t+57K+Tn6YgZjcNSyOVvWv4
- 5JA+5OO+sqwLLeLAaIpTrbPf41CEdcznOtpLwaFRSS3ez8VjQqjZTDo5op/NW7Qbcbrf
- 0ItZ9LNAWrKwL27ZJsqqmjdOJEIsTKMDb5vHIOTHL9VEltx75s3hFAEVWIniY6Y0O10M
- CD6IBvChcK5/qRPuqZXSuFrAlZg0RrS/B4RhCodxFVqoEFvHBWN18/E0z4oJRC3WhXOo
- rdpJSKBXVpPVoxZnKY1HXHiweWvfd9X9ymBuNkfkqkRGZEe4A3fOHrvXHi2rh6OTbc8U
- 938g==
+ bh=lJEClF0ykPmA0zMPpk63shaNECrfZX7s+G5FZ1QSs2g=;
+ b=FIBd8ukicr2bdCVFgJk5zpGqcvoGIOnGJPAOlpoNG3Q76Vt2qAWpvBaN32P1/WZchD
+ VmzMGJ0H6FalfaE5v/gMks7GaGl+e0ynbmKpDOLZNZVaq7eBjGIXiAh3ZqVnFm1yTYmw
+ MGbZHr+dDQ8mPP24tr8MmZmrsvTKY3WtofYavh6/EJcVEyxubF6wBUqkj9ug2XLEzBHa
+ T5iYQgLXUqp5TXYus5I0CD+wi69JH0a0mkRHg3IFhEnbtkoYBB88Yigdfo+cyB/0h7v+
+ J9+xNNTCPmVNtmYd//5+7SpItSsTBr1rbVsDnRG+Ey2RhqEwhdlcQtHuVQafioVwnW4T
+ hasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WNmiqtIARIvtYdLd1badA4yDSJvLXn9cgd4xpxOhhEg=;
- b=joSiJ3vzjMKD9jTXkQ8dTZ4Na5+SUYwr604q+tyqUCXaRvn30b7DCbfo8mdQJ+U+zt
- OXam+hXaePcZ3CT4R32pp0j0ivlLlHiibnZcrYqhVT2mU4VJKDOownJr630Q8U9HbCFR
- a9rYj155diFhR+D0DKJL2sYzmRH2Y09zhB8rbaxAJzoi3KMj6W8ZJIwqa1u9MLzgEC8R
- CmqYr6dUFzPefaHCDPEOXfnaOmGorVc3omrwSCtKnzslNCakJPXpqUOxLzn5gxxS17Ba
- uA2pWR7XtxpBU62TzKfyIiXPhDrI0OFfmz3ejKQn9pOQZ7uTVaH2LY70HTJFMca1DhyJ
- GnAw==
-X-Gm-Message-State: AOAM5300FBtGW/mcjiwoQZqzEFdGxHJKqp2AMna1/vr+UBYYbD4XPQfT
- wCgPAhb1q58/zkUxaBFFDvtezUtStnI=
-X-Google-Smtp-Source: ABdhPJwTlnfvaXphszEPeNvJdtAI4LkrRNfcalTXqGvBDbzIP6zAd4zk3zDRoelfbZPJw6imjML+zg==
-X-Received: by 2002:a17:907:426c:: with SMTP id
- nx20mr28107530ejb.548.1593711509960; 
- Thu, 02 Jul 2020 10:38:29 -0700 (PDT)
+ bh=lJEClF0ykPmA0zMPpk63shaNECrfZX7s+G5FZ1QSs2g=;
+ b=mo1fwbCmTgIfbgCeeM6ztBiP9z10P7N/sILG9Av+tlntfIzzwz9sgDKWB+ykA2NoxF
+ 6GSOFwae2anE8jJVYVuIj3XlH+N46qpnBVGGW370QLpDCm9TDEC8yjJ1F6vJaEBehO9h
+ fBtmkS6NKsMCqnOhB0ebkNXdMR/ObRJ5OuNevoG4bwkvkT+7Ig28dXU0YQ2jBBODU6n5
+ ObneC77hWGfJi1aVjAgXSbhyRUQstHmnqOMM7yGBez5EOdzFfyg2ceE7xb99gwgDXODN
+ o5FMK8CG8Oo+2Z5MzIYA3RCqv+1947zuky5MwO0Vvq2EJLQQfvacifFG/CgJGUn4c51E
+ jacA==
+X-Gm-Message-State: AOAM5325+t0jzy04l9pgcUnCGzOlKmp5sTuEAW4uC4r5MfCMp9somzwZ
+ Eo+4Gb6qOQwwCj/tvAg7McJ57VTOhjk=
+X-Google-Smtp-Source: ABdhPJwog5FyynGEdDwbXmOHx95JP2BSH0BRlC65qTyFKMDrwX5K9oaf+r4eNaUyHXWW78QmcBmJzA==
+X-Received: by 2002:a17:906:a449:: with SMTP id
+ cb9mr9327234ejb.115.1593711511097; 
+ Thu, 02 Jul 2020 10:38:31 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.29
+ by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 10:38:29 -0700 (PDT)
+ Thu, 02 Jul 2020 10:38:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/19] .mailmap: Display Hiroyuki Obinata name correctly
-Date: Thu,  2 Jul 2020 19:38:07 +0200
-Message-Id: <20200702173818.14651-9-f4bug@amsat.org>
+Subject: [PATCH v3 09/19] .mailmap: Display correct email address for
+ Jean-Christophe Dubois
+Date: Thu,  2 Jul 2020 19:38:08 +0200
+Message-Id: <20200702173818.14651-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200702173818.14651-1-f4bug@amsat.org>
 References: <20200702173818.14651-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,18 +87,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correctly display Hiroyuki Obinata name in the following commit:
+Fix Jean-Christophe Dubois email address in the following commit:
 
- $ git log --author=hiroyuki.obinata@gmail.com --oneline
- f480f6e8c5 remove unnecessary ifdef TARGET_RISCV64
+  $ git log --author='jcd@jcd-laptop.(none)' --oneline
+  5d92886792 fix qemu_alloc/qemu_free for audio subsystem
 
-Cc: Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -105,17 +105,17 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/.mailmap b/.mailmap
-index ce0d62b60d..4e9e54368d 100644
+index 4e9e54368d..66118f3d1e 100644
 --- a/.mailmap
 +++ b/.mailmap
-@@ -98,6 +98,7 @@ Gautham R. Shenoy <ego@linux.vnet.ibm.com>
- Guang Wang <wang.guang55@zte.com.cn>
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>
- Hervé Poussineau <hpoussin@reactos.org>
-+Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
+@@ -102,6 +102,7 @@ Hiroyuki Obinata <hiroyuki.obinata@gmail.com>
  Jakub Jermář <jakub@jermar.eu>
  Jakub Jermář <jakub.jermar@kernkonzept.com>
  Jean-Christophe Dubois <jcd@tribudubois.net>
++Jean-Christophe Dubois <jcd@tribudubois.net> <jcd@jcd-laptop.(none)>
+ Jindřich Makovička <makovick@gmail.com>
+ John Arbuckle <programmingkidx@gmail.com>
+ Juha Riihimäki <juha.riihimaki@nokia.com>
 -- 
 2.21.3
 
