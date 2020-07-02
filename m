@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4C8212800
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:36:43 +0200 (CEST)
-Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816002127F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:33:15 +0200 (CEST)
+Received: from localhost ([::1]:34534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1GU-0007mv-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43708)
+	id 1jr1D8-0000pN-E8
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jr18K-0002Py-MJ
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:28:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32176
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jr18I-0006Xp-3r
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:28:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593703690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m7UIwO4hcxYoI/BNBT1BncFKmWj1KcoaB4NX7cSnyRc=;
- b=ddD1NaN628plmLFXmraZSU0oWdbqeKkw4Htn3BpNVuCXlG1TOuzlw8M2/G+bGkgpalntbS
- lWYN1QNr6cbW5ul4jn1nKmHKhNVChbnLhnOOL/LSsUJPevLB9pluZJlifW/FZ7cg8tYLuz
- MlsYHg/KIfXfLPAz8NNFQ8mQG3kKwHw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-xdqQv_LSPe6zuiwI4pkzLg-1; Thu, 02 Jul 2020 11:28:09 -0400
-X-MC-Unique: xdqQv_LSPe6zuiwI4pkzLg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77BA019253C4;
- Thu,  2 Jul 2020 15:28:07 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-112-70.ams2.redhat.com [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC26517D8F;
- Thu,  2 Jul 2020 15:28:01 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com
-Subject: [PATCH v2 9/9] hw/arm/smmuv3: Advertise SMMUv3.2 range invalidation
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17X-0000TU-AD
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:43037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17S-0006IL-Ba
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:27 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MhlbM-1jDGRk2hvc-00dlyL; Thu, 02 Jul 2020 17:27:12 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 01/12] target/sparc: Translate flushw opcode
 Date: Thu,  2 Jul 2020 17:26:59 +0200
-Message-Id: <20200702152659.8522-10-eric.auger@redhat.com>
-In-Reply-To: <20200702152659.8522-1-eric.auger@redhat.com>
-References: <20200702152659.8522-1-eric.auger@redhat.com>
+Message-Id: <20200702152710.84602-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200702152710.84602-1-laurent@vivier.eu>
+References: <20200702152710.84602-1-laurent@vivier.eu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:XAeweq2/wNjsvfr4kwoLXVH2UbpOdVUgt001l1B6y9UtnsVU7/i
+ clHAVj3H2Z9dyFpumAwADp9qufvRmKHx136MWK6JP/Stv96litmiTkk0ujU/MunwGa3YW9s
+ ILkNNe0xzuWocgcFemF73iiP+KxgObKhT5QL0gOQjKVhWu4JGf61QDoe+CePUOL1A9FRmMn
+ 3hGIDTX1VoYsnCj2Sy3Yg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:j3CxfANrJiA=:cylJceBTqCdgyPcx1AcEz1
+ 3RW6vms2WH41TLBe413qvBcpmPDavgEJp7i6rLZ2992UT8MW4VOml7PHnGu9/MKbwWzkHi8TS
+ gYy6U1XmjRusa3YQ4b15wXGxnNVW3nzUMqJu2DETzkRbkvjCSrWJJkbFPQ7aTIDNEaPh/lLsB
+ EA7RTu1xDYnhTPGZyhaIc9sJcIq9Z2cgTlq/t+hbpGMuzF/IkQwowu4i/81NcBoc51HF40J/h
+ iKK0mfaHyMo7BvPYX37UDm9DhN5yuer/RStFqMd+FBkSg4Y2qTLMZztlo+SoPEvNZeZnJWgE7
+ soWbr0jiTFCPEi6jARgVboZrLX104lRWuUCQY+Cdo4c15oY+C5kRrssPxjslfEeOU6FjAOONA
+ Ktx82zySZ47FYOX+IjbpGAXtO1zbYWpUduKtQevy9SKzJdPgwKno8Pahuuk3CAkA0Br6k7mXT
+ f4irVCWIF1zTzoA+G5yzOGD3lHqQbIuKy3G2ysA/KWQz90OjTI+Kmt2mhkJ3ifh/uhtaHf75u
+ x3/XQ08A2yZHXIaKJUXZiDHWXTWDWLWJpGnjQMCl+5+c2Nf2zATOLoI/smqmRaJJF+MNcIpE7
+ VvaxVWaYB/XkIzB72Sg0U0uVznDujf7uv5Gv3OQNr89pTlvCFemnPkGWC02M1Lf4Wsh95oiZt
+ 4GRoH/ujFlXL+P/etmTAXvW1B49HKjOwWqNdU7OG2FMjothXwhC2+Y1qHP6j47WWFy9i2RBaV
+ PuUx4wKRsDBkHtiBQunTYrfyCaDNvKgESZJfVx5PI959YhscXARZXdGSpN4SZD4yAcQY2PLic
+ 81AsmTFXJRXBCSKUuPP10P4VvbeOvpZSS9kn3jpq8J1DIPa+9U=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:27:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +68,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, robh@kernel.org, robin.murphy@arm.com,
- mst@redhat.com, zhangfei.gao@foxmail.com, shameerali.kolothum.thodi@huawei.com,
- will@kernel.org
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose the RIL bit so that the guest driver uses range
-invalidation.
+From: Giuseppe Musacchio <thatlemon@gmail.com>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The ifdef logic should unconditionally compile in the `xop == 0x2b` case
+when targeting sparc64.
+
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200625091204.3186186-2-laurent@vivier.eu>
 ---
- hw/arm/smmuv3-internal.h | 1 +
- hw/arm/smmuv3.c          | 2 ++
- 2 files changed, 3 insertions(+)
+ target/sparc/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index 5babf72f7d..4e7ec252ed 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -54,6 +54,7 @@ REG32(IDR1,                0x4)
- 
- REG32(IDR2,                0x8)
- REG32(IDR3,                0xc)
-+    FIELD(IDR3, RIL,          10, 1);
- REG32(IDR4,                0x10)
- REG32(IDR5,                0x14)
-      FIELD(IDR5, OAS,         0, 3);
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 89ab11fc36..add4ba4543 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -254,6 +254,8 @@ static void smmuv3_init_regs(SMMUv3State *s)
-     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, EVENTQS, SMMU_EVENTQS);
-     s->idr[1] = FIELD_DP32(s->idr[1], IDR1, CMDQS,   SMMU_CMDQS);
- 
-+    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
-+
-    /* 4K and 64K granule support */
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 9416a551cf46..1a4efd4ed665 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -3663,6 +3663,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+ #endif
+                 gen_store_gpr(dc, rd, cpu_tmp0);
+                 break;
++#endif
++#if defined(TARGET_SPARC64) || !defined(CONFIG_USER_ONLY)
+             } else if (xop == 0x2b) { /* rdtbr / V9 flushw */
+ #ifdef TARGET_SPARC64
+                 gen_helper_flushw(cpu_env);
 -- 
-2.21.3
+2.26.2
 
 
