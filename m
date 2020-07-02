@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35000212302
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 14:12:52 +0200 (CEST)
-Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4AB2122D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 14:01:23 +0200 (CEST)
+Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqy5D-00046z-9h
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 08:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42850)
+	id 1jqxu6-00052l-Ij
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 08:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqy4M-0003Zo-A3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 08:11:59 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:58872 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jqy4J-0007yO-M3
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 08:11:57 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id B49B34C8BA;
- Thu,  2 Jul 2020 12:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-transfer-encoding:content-type:content-type:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1593691912; x=
- 1595506313; bh=QJGG3Mova4p9pA0I2cdvpCgyiFNW6vjsFYBqOxu+XRA=; b=r
- H3a77O53Kmf0uz0cWLu8ZAafPtLmQN2XNzdS+yVYRFGE7gJN/FSlVt4NWC41tNEl
- Hq8S9aj4wXSZ91fn4hW0oZK5JznzYQh9q7tf39q2MDR1mrNvWneGeU1b5R3ScyK6
- 9rzb7v6JpRuWULUepTP+p+iIlJmgFVOkAJ1n+jxOek=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fDMJUIAW0BQq; Thu,  2 Jul 2020 15:11:52 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 826EB4C8B8;
- Thu,  2 Jul 2020 15:11:49 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 2 Jul
- 2020 15:11:49 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3] i386: hvf: Implement CPU kick
-Date: Thu, 2 Jul 2020 13:57:23 +0300
-Message-ID: <20200702105721.75333-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.26.1
+ (Exim 4.90_1) (envelope-from <mwoodpatrick@gmail.com>)
+ id 1jqxsk-0004BL-6n
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:59:58 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mwoodpatrick@gmail.com>)
+ id 1jqxsi-0001fq-Ld
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:59:57 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id t11so7593075pfq.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 04:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:references:in-reply-to:subject:date:message-id:mime-version
+ :content-transfer-encoding:thread-index:content-language;
+ bh=golg96dEpXJfAgzCstEFxGpWdvx8DIRvbEfz0uUuoIU=;
+ b=oGit0OQ+v3MOMKe1sjN5JJFJHX6WQY7mFvxNExN8CetcH7tNuqfvFXx8xrgytbCx1v
+ xLtm/bi3ADJHG1G2a9jzXTuvyrimP9fbCY6hLWfpd8lVsSwK5tUj25Gxcx0vle0wxX2n
+ RJrCk8ll3IIvoh/V7E27oex+NQaRzRZCLGWyx/x+CDtUu95K/xAHQ3kl2sORwb86tHIR
+ s41EyHnWiFUbh9XhkrG5/c6t7dRCPmI0tNs/rCLw4s5Vke/9zj7WpBKRs48PzoVt2q+Y
+ nH6805Vc86t3KTclSgHYW/i4eyi4zTm7+RRElBLtHGC+50lJCop5A6iPZ98+svsRa++V
+ PEpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:references:in-reply-to:subject:date
+ :message-id:mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=golg96dEpXJfAgzCstEFxGpWdvx8DIRvbEfz0uUuoIU=;
+ b=XocZgxAw8FcrUMKHBAnBvt0rimx9r5ErX2iCUB0QOUOlhbZ8A5HWhZMcBEfIzqzV8H
+ nEidxTTVJ6rDB3Vg9mhfCzZQfN7RCjfU/BB2OhTs94Wo9+HGR2sxxp7oUSGDXdltLKWo
+ Y1QBbyvQqxyq0OX2XuL/XqSaiS49OsDhkgNsxU6V3Vlt+6BIvBCFbiGy5O9jcSUkOFC1
+ oNXaJ5tw07E7WGmPqqnV3aHVXKuTUMasi3PfFZN6QgC4MYM53dYoC13k2FLiZyykc+y9
+ SOVCMIeN3S2F8Fw2ioTQfgsqbD66gR6RWkEYz6c78Gqv5Qw31JmaokMLHDC6ZJTsMeOG
+ tXUQ==
+X-Gm-Message-State: AOAM531rbpk4raTbbRaMs5Fu9wEk/NrRt3/0bKAEOgw5P+kKUnFDpy/O
+ 2yHdSFANB7uIJNBlju5xh48=
+X-Google-Smtp-Source: ABdhPJzeW+/LIxZSNpAChZc6gtpeX6JkIp1xVfJP/brUku5AfqF+RkZPUr1J3aB9WTJWG/QSTgzUsg==
+X-Received: by 2002:aa7:84ce:: with SMTP id x14mr23430650pfn.220.1593691194969; 
+ Thu, 02 Jul 2020 04:59:54 -0700 (PDT)
+Received: from MarksSpectreX360 ([216.228.117.191])
+ by smtp.gmail.com with ESMTPSA id z5sm8449133pfn.117.2020.07.02.04.59.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Jul 2020 04:59:54 -0700 (PDT)
+From: <mwoodpatrick@gmail.com>
+To: <qemu-devel@nongnu.org>,
+	<kvm@vger.kernel.org>
+References: <MN2PR12MB41758B8F79B8F3BBBAF6C314A06C0@MN2PR12MB4175.namprd12.prod.outlook.com>
+In-Reply-To: <MN2PR12MB41758B8F79B8F3BBBAF6C314A06C0@MN2PR12MB4175.namprd12.prod.outlook.com>
+Subject: Seeing a problem in multi cpu runs where memory mapped pcie device
+ register reads are returning incorrect values
+Date: Thu, 2 Jul 2020 04:59:52 -0700
+Message-ID: <05f901d65068$4c23be00$e46b3a00$@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 08:11:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdZP0xwDhu8cf1EMQLyhyg6esmh9lQAkw8Jg
+Content-Language: en-us
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=mwoodpatrick@gmail.com; helo=mail-pf1-x42c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,264 +91,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HVF doesn't have a CPU kick and without it it's not possible to perform
-an action on CPU thread until a VMEXIT happens. The kick is also needed
-for timely interrupt delivery.
+Background
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Existing implementation of CPU kick sends SIG_IPI (aka SIGUSR1) to vCPU
-thread, but it's different from what hv_vcpu_interrupt does. The latter
-one results in invocation of mp_cpus_kick() in XNU kernel [1].
+I have a test environment which runs QEMU 4.2 with a plugin that runs =
+two
+copies of a PCIE device simulator on a CentOS 7.5 host with an Ubuntu =
+18.04
+guest. When running with a single QEMU CPU using:
 
-mp_cpus_kick() sends an IPI through the host LAPIC to the HVF vCPU.
-And the kick interrupt leads to VM exit because "external-interrupt
-exiting” VM-execution control is enabled for HVF.
+=A0=A0=A0=A0 -cpu kvm64,+lahf_lm -M q35,kernel-irqchip=3Doff -device
+intel-iommu,intremap=3Don
 
-hv_vcpu_interrupt() would have no effect if it's delivered when vCPU is
-outside of a guest, therefore to avoid kick loss it's complemented with
-a SIG_IPI handler and zero VMX-preemption timer. If the kick happens
-outside of hv_vcpu_run(), the signal handler will re-queue the kick by
-enabling zero VMX-preemption timer for the next hv_vcpu_run().
+Our tests run fine.=20
 
-There's still a small chance of kick loss, on user-to-kernel border
-between atomic_mb_set's just before the entry to hv_vcpu_run and just
-after it.
+But when running with multiple cpu=92s:
 
-Also correct type of hvf_fd to the type of hv_vcpuid_t to avoid
-compilation warnings.
+=A0=A0=A0 -cpu kvm64,+lahf_lm -M q35,kernel-irqchip=3Doff -device
+intel-iommu,intremap=3Don -smp 2,sockets=3D1,cores=3D2
 
-1. https://opensource.apple.com/source/xnu/xnu-6153.81.5/osfmk/i386/mp.c
+Some mmio reads to the simulated devices BAR 0 registers by our device
+driver running on the guest are returning are returning incorrect =
+values.=20
 
-Cc: Cameron Esfahani <dirty@apple.com>
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
+Running QEMU under gdb I see that the read request is reaching our =
+simulated
+device correctly and that the correct result is being returned by the
+simulator. Using gdb I have tracked the return value all the way back up =
+the
+call stack and the correct value is arriving in KVM_EXIT_MMIO
+in=A0kvm_cpu_exec (qemu-4.2.0/accel/kvm/kvm-all.c:2365)=A0 but the value
+returned to the device driver which initiated the read is 0.
 
-This is a rework of a kick patch in v2 of the series
-(https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09899.html)
-based on the comments from Paolo. Unfortunately the race is still there,
-may be the race window is just a bit smaller.
+Question
+=3D=3D=3D=3D=3D=3D=3D=3D
 
-Changes since v2:
- - Reworked workaround to minimize kick loss race. Use signals to
-   interrupt vCPU thread outside of hv_vcpu_run() and turn-on/turn-off
-   VMX-preemeption timer, while timer value is always zero. v3 also
-   assumes that VMX-preemption timer control is always available on the
-   hardware that supports HVF.
-
-Changes since v1:
- - Reduced kick loss race (Paolo) and removed SIG_IPI blocking
-
- cpus.c                 | 13 +++++++----
- include/hw/core/cpu.h  |  2 +-
- include/sysemu/hvf.h   |  1 +
- target/i386/cpu.h      |  1 +
- target/i386/hvf/hvf.c  | 53 ++++++++++++++++++++++++++++++++++++++++--
- target/i386/hvf/vmcs.h |  1 +
- 6 files changed, 64 insertions(+), 7 deletions(-)
-
-diff --git a/cpus.c b/cpus.c
-index d94456ed29..6be42ff734 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1792,10 +1792,15 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
-         return;
-     }
-     cpu->thread_kicked = true;
--    err = pthread_kill(cpu->thread->thread, SIG_IPI);
--    if (err && err != ESRCH) {
--        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
--        exit(1);
-+
-+    if (hvf_enabled()) {
-+        hvf_vcpu_kick(cpu);
-+    } else {
-+        err = pthread_kill(cpu->thread->thread, SIG_IPI);
-+        if (err && err != ESRCH) {
-+            fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-+            exit(1);
-+        }
-     }
- #else /* _WIN32 */
-     if (!qemu_cpu_is_self(cpu)) {
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index b3f4b79318..288a2bd57e 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -438,7 +438,7 @@ struct CPUState {
- 
-     struct hax_vcpu_state *hax_vcpu;
- 
--    int hvf_fd;
-+    unsigned hvf_fd;
- 
-     /* track IOMMUs whose translations we've cached in the TCG TLB */
-     GArray *iommu_notifiers;
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index 6d3ee4fdb7..a1ab61403f 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -25,6 +25,7 @@ extern bool hvf_allowed;
- 
- int hvf_init_vcpu(CPUState *);
- int hvf_vcpu_exec(CPUState *);
-+void hvf_vcpu_kick(CPUState *);
- void hvf_cpu_synchronize_state(CPUState *);
- void hvf_cpu_synchronize_post_reset(CPUState *);
- void hvf_cpu_synchronize_post_init(CPUState *);
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7d77efd9e4..727c550c82 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1602,6 +1602,7 @@ typedef struct CPUX86State {
-     struct kvm_nested_state *nested_state;
- #endif
- #if defined(CONFIG_HVF)
-+    bool hvf_in_guest;
-     HVFX86LazyFlags hvf_lflags;
-     void *hvf_mmio_buf;
- #endif
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index d81f569aed..6e9b212f37 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -73,6 +73,7 @@
- #include "target/i386/cpu.h"
- 
- HVFState *hvf_state;
-+pthread_key_t hvf_cpu;
- 
- static void assert_hvf_ok(hv_return_t ret)
- {
-@@ -458,8 +459,17 @@ void hvf_vcpu_destroy(CPUState *cpu)
-     assert_hvf_ok(ret);
- }
- 
--static void dummy_signal(int sig)
-+static void hvf_handle_ipi(int sig)
- {
-+    CPUState *cpu = pthread_getspecific(hvf_cpu);
-+    X86CPU *x86_cpu = X86_CPU(cpu);
-+    CPUX86State *env = &x86_cpu->env;
-+
-+    if (!atomic_xchg(&env->hvf_in_guest, false)) {
-+        wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
-+              rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
-+                | VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
-+    }
- }
- 
- int hvf_init_vcpu(CPUState *cpu)
-@@ -474,16 +484,24 @@ int hvf_init_vcpu(CPUState *cpu)
-     struct sigaction sigact;
- 
-     memset(&sigact, 0, sizeof(sigact));
--    sigact.sa_handler = dummy_signal;
-+    sigact.sa_handler = hvf_handle_ipi;
-     sigaction(SIG_IPI, &sigact, NULL);
- 
-+    r = pthread_setspecific(hvf_cpu, cpu);
-+    if (r) {
-+        fprintf(stderr, "qemu:%s: %s", __func__, strerror(r));
-+        exit(1);
-+    }
-+
-     pthread_sigmask(SIG_BLOCK, NULL, &set);
-     sigdelset(&set, SIG_IPI);
-+    pthread_sigmask(SIG_SETMASK, &set, NULL);
- 
-     init_emu();
-     init_decoder();
- 
-     hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
-+    env->hvf_in_guest = false;
-     env->hvf_mmio_buf = g_new(char, 4096);
- 
-     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
-@@ -529,6 +547,7 @@ int hvf_init_vcpu(CPUState *cpu)
-     wvmcs(cpu->hvf_fd, VMCS_EXCEPTION_BITMAP, 0); /* Double fault */
- 
-     wvmcs(cpu->hvf_fd, VMCS_TPR_THRESHOLD, 0);
-+    wvmcs(cpu->hvf_fd, VMCS_PREEMPTION_TIMER_VALUE, 0);
- 
-     x86cpu = X86_CPU(cpu);
-     x86cpu->env.xsave_buf = qemu_memalign(4096, 4096);
-@@ -631,7 +650,9 @@ int hvf_vcpu_exec(CPUState *cpu)
-             return EXCP_HLT;
-         }
- 
-+        atomic_mb_set(&env->hvf_in_guest, true);
-         hv_return_t r  = hv_vcpu_run(cpu->hvf_fd);
-+        atomic_mb_set(&env->hvf_in_guest, false);
-         assert_hvf_ok(r);
- 
-         /* handle VMEXIT */
-@@ -774,6 +795,10 @@ int hvf_vcpu_exec(CPUState *cpu)
-             vmx_clear_nmi_window_exiting(cpu);
-             ret = EXCP_INTERRUPT;
-             break;
-+        case EXIT_REASON_VMX_PREEMPT:
-+            wvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS,
-+                  rvmcs(cpu->hvf_fd, VMCS_PIN_BASED_CTLS)
-+                    & ~VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER);
-         case EXIT_REASON_EXT_INTR:
-             /* force exit and allow io handling */
-             ret = EXCP_INTERRUPT;
-@@ -872,6 +897,22 @@ int hvf_vcpu_exec(CPUState *cpu)
-     return ret;
- }
- 
-+void hvf_vcpu_kick(CPUState *cpu)
-+{
-+    hv_return_t err;
-+
-+    err = pthread_kill(cpu->thread->thread, SIG_IPI);
-+    if (err) {
-+        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-+        exit(1);
-+    }
-+    err = hv_vcpu_interrupt(&cpu->hvf_fd, 1);
-+    if (err) {
-+        fprintf(stderr, "qemu:%s error %#x\n", __func__, err);
-+        exit(1);
-+    }
-+}
-+
- bool hvf_allowed;
- 
- static int hvf_accel_init(MachineState *ms)
-@@ -880,6 +921,14 @@ static int hvf_accel_init(MachineState *ms)
-     hv_return_t ret;
-     HVFState *s;
- 
-+    /* TODO add pthread_key_delete() */
-+    ret = pthread_key_create(&hvf_cpu, NULL);
-+    if (ret) {
-+        fprintf(stderr, "qemu:%s: %s", __func__, strerror(ret));
-+        exit(1);
-+    }
-+
-+    /* TODO add hv_vm_unmap() and hv_vm_destroy() */
-     ret = hv_vm_create(HV_VM_DEFAULT);
-     assert_hvf_ok(ret);
- 
-diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
-index 42de7ebc3a..6615365023 100644
---- a/target/i386/hvf/vmcs.h
-+++ b/target/i386/hvf/vmcs.h
-@@ -349,6 +349,7 @@
- #define VMCS_PIN_BASED_CTLS_EXTINT            (1 << 0)
- #define VMCS_PIN_BASED_CTLS_NMI               (1 << 3)
- #define VMCS_PIN_BASED_CTLS_VNMI              (1 << 5)
-+#define VMCS_PIN_BASED_CTLS_VMX_PREEMPT_TIMER (1 << 6)
- 
- #define VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING (1 << 2)
- #define VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET (1 << 3)
--- 
-2.26.1
+Is anyone else running QEMU 4.2 in multi cpu mode? Is anyone getting
+incorrect reads from memory mapped device registers =A0when running in =
+this
+mode? I would appreciate any pointers on how best to debug the flow from
+KVM_EXIT_MMIO back to the device driver running on the guest
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=20
 
 
