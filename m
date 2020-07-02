@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715422121E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:15:19 +0200 (CEST)
-Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA592121E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:15:18 +0200 (CEST)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqxBW-0007FN-EA
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52580)
+	id 1jqxBV-0007CY-Q2
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx6D-0006jB-2J
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:49 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32854
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx69-0006aX-Fg
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35777
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx66-00010C-VV
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jqx64-0000zP-Po
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:09:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593688182;
+ s=mimecast20190719; t=1593688180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7wAgi4EcDYviT7n7k+0cPhk088jvB0iy6UoqTTbuOJQ=;
- b=gxlUwEYWgnSlAH0B/ER+iPRMhXb91qjciW/6mIVgSITxQcxADsnoVc37CuL5qDR68MZbe9
- m3HjfTmpFoa7tbeiJMEIAfQqz+x2yX1lHsURt61gN0pAv3LBWx3wrllXqUYqx+zfxLleRI
- mWlEIgfmRQV5ibHVThNSX8AqS1skMTo=
+ bh=0WmegAPS8yK0/G81i8ybBh8droxWldHNyOMRW63rCPE=;
+ b=YZrVizHnxOu2+YmyzOZpbyuQB3+dIYvocMqRD+9rRP8PzEG+wjxIqhpr+h1LdjVBu5McD1
+ 5L+I5WNaqOH6I/nkhIhVunxkLms90lLmLcPliW8VU3ayhqHgtWK7w9bB3aTAq3Ab16tjgM
+ og8dN1eMn4JhbXLlEBYv1aux4K+iTio=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-GhC0su_zPI6wgAchjP2xCA-1; Thu, 02 Jul 2020 07:09:40 -0400
-X-MC-Unique: GhC0su_zPI6wgAchjP2xCA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-97-_UcSbu9JOS-JOVZAzs799g-1; Thu, 02 Jul 2020 07:09:37 -0400
+X-MC-Unique: _UcSbu9JOS-JOVZAzs799g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE729800C60
- for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 11:09:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE55180183C;
+ Thu,  2 Jul 2020 11:09:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD1D67419D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B063E79229;
  Thu,  2 Jul 2020 11:09:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D49B91138479; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
+ id DBA69113847A; Thu,  2 Jul 2020 13:09:31 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/28] vnc: Plug minor memory leak in vnc_display_open()
-Date: Thu,  2 Jul 2020 13:09:16 +0200
-Message-Id: <20200702110931.2953148-14-armbru@redhat.com>
+Subject: [PULL 14/28] aspeed: Clean up roundabout error propagation
+Date: Thu,  2 Jul 2020 13:09:17 +0200
+Message-Id: <20200702110931.2953148-15-armbru@redhat.com>
 In-Reply-To: <20200702110931.2953148-1-armbru@redhat.com>
 References: <20200702110931.2953148-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,44 +82,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vnc_display_print_local_addr() leaks the Error object when
-qio_channel_socket_get_local_address() fails.  Seems unlikely.  Called
-when we create a VNC display with vnc_display_open().  Plug the leak
-by passing NULL to ignore the error.
+Replace
 
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+        error_propagate(&err, local_err);
+        if (err) {
+            error_propagate(errp, err);
+            return;
+	}
+
+by
+
+        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+        if (err) {
+            error_propagate(errp, err);
+            return;
+	}
+
+Cc: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200630090351.1247703-12-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200630090351.1247703-13-armbru@redhat.com>
 ---
- ui/vnc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/arm/aspeed_ast2600.c | 10 ++++------
+ hw/arm/aspeed_soc.c     | 10 ++++------
+ 2 files changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 0702a76cce..527ad25124 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3274,13 +3274,12 @@ int vnc_display_pw_expire(const char *id, time_t expires)
- static void vnc_display_print_local_addr(VncDisplay *vd)
- {
-     SocketAddress *addr;
--    Error *err = NULL;
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 6da687299f..08b3592e36 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -228,7 +228,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     int i;
+     AspeedSoCState *s = ASPEED_SOC(dev);
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    Error *err = NULL, *local_err = NULL;
++    Error *err = NULL;
+     qemu_irq irq;
  
-     if (!vd->listener || !vd->listener->nsioc) {
-         return;
-     }
+     /* IO space */
+@@ -394,8 +394,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -446,11 +445,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+-           return;
++            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                         sc->memmap[ASPEED_ETH1 + i]);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 810cf9b6cc..ec21de50ce 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -218,7 +218,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     int i;
+     AspeedSoCState *s = ASPEED_SOC(dev);
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    Error *err = NULL, *local_err = NULL;
++    Error *err = NULL;
  
--    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], &err);
-+    addr = qio_channel_socket_get_local_address(vd->listener->sioc[0], NULL);
-     if (!addr) {
-         return;
-     }
+     /* IO space */
+     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM],
+@@ -340,8 +340,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     /* SPI */
+     for (i = 0; i < sc->spis_num; i++) {
+         object_property_set_int(OBJECT(&s->spi[i]), 1, "num-cs", &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->spi[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+             return;
+@@ -392,11 +391,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+-        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &local_err);
+-        error_propagate(&err, local_err);
++        sysbus_realize(SYS_BUS_DEVICE(&s->ftgmac100[i]), &err);
+         if (err) {
+             error_propagate(errp, err);
+-           return;
++            return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
+                         sc->memmap[ASPEED_ETH1 + i]);
 -- 
 2.26.2
 
