@@ -2,80 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A2F212134
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 12:27:36 +0200 (CEST)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845EB212179
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 12:44:14 +0200 (CEST)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqwRL-00043P-QL
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 06:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
+	id 1jqwhR-00066w-JT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 06:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqwQH-0003G8-0h
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:26:29 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jqwQF-0002Up-3A
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:26:28 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z15so16244851wrl.8
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 03:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=t4Nrem5qOLtin4HxB+Iu40biBZ7Tt93Ar3DJpgbiMGU=;
- b=UB4YDwmF6tQftf8JzTTbdG2yFtzFEjrlIgKzQ56Cy7UMD0BG3zPzdrdGQKXpHXYUHt
- mzq2oYJ7IhUTNfiIq4xPj/zyAf9BkUe0+HPvcRvnrSq38gwz0Es0ZgNpI7RfQ6BPEt5M
- IqbIyt24fLY50HYQbhv/BVCWVXyIJG+rLZ/W8Fo/e+p/EPmat49i8QXaCzpavwWS2n/I
- ma3DZsnqKhwBSJzXaPYVL/eFXIM6GnFneQwDRQ2FrvbQ2HVnOEgdgsfd3K0MqJ6fky6J
- WaT8ja6lekCQ+ESVyRrKAPXidHGEwsP2en276Bm9mybSOP9cQrepfVLW9RPyc8YNgiin
- RmlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=t4Nrem5qOLtin4HxB+Iu40biBZ7Tt93Ar3DJpgbiMGU=;
- b=qlfIkSDSHMuvl3LDwD2+MJ4InHP5RQL30jdjeCX9uYOAiywzskAcLMYqEBeLF39Sg+
- 0GB/fs11wOmbBdIeMxTwvPoaz7qh75XCuv3H4yz3pfuNvlpklJflaDfC2vbPo5AiF7vi
- L2hTKirobpoJeEW8ppUWMSxmhSJm8Aj0V9FbyQPn82DXBnlJVVElxHqjiSEvD8OEhj9H
- k93Tr3jbX9NizfxcpeLeGMD/3g+bLJX+mixHImIzNZ0pkYkALN5y6jWKk7MaUuyaNLtZ
- Oe+S91LO2u2CElhdDR5jYo0LZmNxL6KZk/ypUN/PskJLfWTN+ZaruHIkgJ2dmUU7WYOm
- I/Ww==
-X-Gm-Message-State: AOAM532aVBfqh32LbWWPJD294+PUodXvIgo8nux5q/gN2ImLmJK8mrso
- YCvQskVgWj83cOCoIQhyTkyX27SBy3c=
-X-Google-Smtp-Source: ABdhPJxJwC5R89CdjaDUEhk+/ilipizgnu9NW9q5LvD2iGgFcH2E4ArKV2bNo1bdBApSAdmMLmoYZw==
-X-Received: by 2002:adf:82a1:: with SMTP id 30mr33045858wrc.210.1593685584775; 
- Thu, 02 Jul 2020 03:26:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j6sm10438855wma.25.2020.07.02.03.26.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 03:26:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1B0281FF7E;
- Thu,  2 Jul 2020 11:26:23 +0100 (BST)
-References: <20200701175432.18892-1-philmd@redhat.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] cpus: Move CPU code from exec.c to cpus.c
-In-reply-to: <20200701175432.18892-1-philmd@redhat.com>
-Date: Thu, 02 Jul 2020 11:26:23 +0100
-Message-ID: <87zh8ip60g.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jqwgW-0005Ws-Mm
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:43:16 -0400
+Received: from mail-eopbgr20139.outbound.protection.outlook.com
+ ([40.107.2.139]:17190 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jqwgT-0007AN-Kj
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:43:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f04EIzhhszTrhEh2tNPTbIZZ0vNJLs5f1YHZmzSKYkDjpX/6r1rRWEttXKTfnrqHtS49/2qPc0510TBJacKTh1XCbdjMxd6fJLlx6pls7xjuIdX1QFcZFqNEGV8mjVmudr16VEfPm50CGFhMuswas32ZQaudhdJE0CnQzXAnGPnK0EyFmRF4LYF4POzJtjKe8uEPBJC/j+GFmGCVAU+Rq6wsRB5iTLeTlOpLsbrC+r4qECmlQmrN9ohrShB4MwZXHvlniBuOC1EKdYYHS/TjSfjoZwfGNkc+uOchrp4NUSrDD+H2iBnhHPhB+FiL+VbimdsbKB7UziJAwzEJbVW8hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bSTWLXdS3w6MmeryU01K+PD9fcbYcZZss6p7jn705Cw=;
+ b=nQoVrOVBf7LeTLrbjzE1fhwHMkRTExM+hqdtrL52hwGubstlCIwAU3Uhrtf7NlRUek2OqD34Z4bX2XXWAbua5HrkpMEp9LCQO3VRAHU1xRbdVM0PT3QgqGGgNaij/cpEaNasuPR8BExIUStsCcRxefL9z9X5Gu6SGS+ttw2qPQ53BlP2fFqSzkUfYgIRwbXlkJwMjWi8VWuUy5O3md8IP7QmPgOkLkYr4JwYrEj6rtjQxEps8XNMqbDnz5/wtRlhuGn5raQ2WsI0T0sNlYJP1RqoNPqtp7EMvrMWIv7qaynoXFGYPq7IFEa9A8k/5gaymkQ7ui8dn1IsAG352bzxIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bSTWLXdS3w6MmeryU01K+PD9fcbYcZZss6p7jn705Cw=;
+ b=bBhMvrGNyN02ty7Kabek19/kW/cxyxgumGtYiLa4HhYtSh55w96hSFHO/tajnE1VnXfJXpEQC9nPigz0M4yFVxgm7K5g+TN48rqCoMjFe0QjROEu1HeSjDq/cRj6rYHiBlB+kqnAYx7rGbUDwMFA36HIbPkrKY6h+IXhQVPTT/c=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR0302MB3221.eurprd03.prod.outlook.com (2603:10a6:209:16::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.24; Thu, 2 Jul
+ 2020 10:28:06 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3153.023; Thu, 2 Jul 2020
+ 10:28:06 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Fix "print_fdset()" in "strace.c" to not print ",
+ " after last value
+Date: Thu,  2 Jul 2020 12:27:49 +0200
+Message-Id: <20200702102749.22178-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: ZR0P278CA0015.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::25) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.235) by
+ ZR0P278CA0015.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:16::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.20 via Frontend Transport; Thu, 2 Jul 2020 10:28:05 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [147.91.217.235]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1d8242ee-dacd-417f-7c2c-08d81e729bda
+X-MS-TrafficTypeDiagnostic: AM6PR0302MB3221:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR0302MB3221527DB0F15E76A23EEB63EB6D0@AM6PR0302MB3221.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0452022BE1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ASnhvNaagnr1ylbZtomzyzmPqwdF5nXRnzC406tsjke12nyoaE69yem2ky63DPjmBDhNfdfMzo+F3e+IRhGNmkfEsNUsMqU5puuk1219ZZ5C8gUMkVdfIrvR8AInHFS6epAQnmIgiCx+secNVDvrOiY96XcNXabgt/Z2pbOnFDBkJJ7z3Es+u0IvY3pBu7pDrGCp3EOogMfyKgqCY/+c5LbX6qwOZBknJDCoVWZqmMnTz5KzGovNig9ZQg+J+7E4cwYFS17ZMrkR45D2RZOJdwGlTuN5CPqZp3R7SgViAiT+RWYEbvuSu7x1lMmD8TWNMQFb/YH297wF86V1ItB5b7YmaJyd4kovrKvx9GsyCiJDxDuhZzTdP7xdUdBL8oqE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(396003)(346002)(366004)(376002)(39830400003)(66556008)(66946007)(107886003)(36756003)(5660300002)(2906002)(186003)(16526019)(6512007)(86362001)(8936002)(956004)(26005)(2616005)(54906003)(69590400007)(316002)(66476007)(8676002)(6916009)(6506007)(4326008)(52116002)(6486002)(83380400001)(1076003)(508600001)(6666004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: lMlLQcqWMbDuULIUss9BRs6oT8SiXJ7hlR6XyNFo5uG4nj9N19zw4LACKcTyOjNOjpNnJTiQA7c+Hp6pXn9PHJL1z6j5JkFNHLsTiqZlKKSUGsIrhqQugzTeSlp3S3gfURNgR0aoVZ7blZ43iQmFtEFfo1G4dIDyynfvlUB5TrjCxm9rjsWU7wUmhdkX8n4vSu+JhRf1Uv0Y+FJYK6/cWcijftG+RBGJvBYxLEPXT/KiHmEf0K1geu4CNhNw0q8LvK3fdxsQRB+Xy78hpVu7yF1ay0qzcRVTxKAfuB0ZtgZ2lwAF4n31Eajlp9EzRv5KlXXrqCVqZGdgH3MDBHHc2VioSeaUf3ClCidMXBBd36dGPYo7RcrJe1fOflN6CkqFACqdsiCAj93kh3CYZQS0NvHdhmu9PbU1wnI6kctvyYNBsV8ogmSIw6Z77+MXCbXXz/Y0bydG7tZCi+B6923DQA0EdNrHrW1OgUe2+d/kbZ0=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d8242ee-dacd-417f-7c2c-08d81e729bda
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 10:28:06.5735 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Os4J+3T6fRUzoxktdDUhIKhkoL4a+cOEeSFwZB7WA+ARhoPS7RKn9iin2GMApFk9b+fX/G38U9/EZzDdDo2GsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0302MB3221
+Received-SPF: pass client-ip=40.107.2.139;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 06:43:11
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, RCVD_IN_SBL_CSS=3.335,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,22 +116,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Function "print_fdset()" in "strace.c" is used to print the file descriptor
+values in "print__newselect()" which prints arguments of syscall _newselect().
+Until changes from this patch, this function was printing "," even after the
+last value of the fd_set argument. This was changed in this patch by removing
+this unnecessary "," after the last fd value and thus improving the estetics of
+the _newselect() "-strace" print.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Implementation notes:
 
-> This code was introduced with SMP support in commit 6a00d60127,
-> later commit 296af7c952 moved CPU parts to cpus.c but forgot this
-> code. Move now and simplify ifdef'ry.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+   The printing fix was made possible by using an existing function "get_comma()"
+   which returns a "," or an empty string "" based on its argument (0 for "," and
+   other for "").
+---
+ linux-user/strace.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 6044c66954..23ca5d88c8 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -541,6 +541,7 @@ static void
+ print_fdset(int n, abi_ulong target_fds_addr)
+ {
+     int i;
++    int first = 1;
+ 
+     qemu_log("[");
+     if( target_fds_addr ) {
+@@ -555,9 +556,12 @@ print_fdset(int n, abi_ulong target_fds_addr)
+             return;
+ 
+         for (i=n; i>=0; i--) {
+-            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >> (i & (TARGET_ABI_BITS - 1))) & 1)
+-                qemu_log("%d,", i);
++            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >>
++                (i & (TARGET_ABI_BITS - 1))) & 1) {
++                qemu_log("%s%d", get_comma(first), i);
++                first = 0;
+             }
++        }
+         unlock_user(target_fds, target_fds_addr, 0);
+     }
+     qemu_log("]");
+-- 
+2.17.1
 
---=20
-Alex Benn=C3=A9e
 
