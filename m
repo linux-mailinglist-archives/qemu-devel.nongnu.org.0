@@ -2,119 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C76D212812
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:37:52 +0200 (CEST)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99AE821283F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:43:49 +0200 (CEST)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1Ha-0001RM-Vz
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43992)
+	id 1jr1NM-0001hn-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jr19B-00044m-26
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:29:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43303
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jr198-0006g6-3w
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:29:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593703745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UYGYdfE0NqxsnzzAmVx2BH8ivmxlP+PhNNOR4bGBfH8=;
- b=EAZKlO4Aso3NKIEfHmxB16OB1XG+bvmCdp3Al/Qrdn2DK38EwjT64E8bJCwIkQOhEk2mJB
- QK6Dwipkinp9rbgSyfCZzM+FRANk86UwZxx3tN1p9nGLkh0iy5UuN+Sce1bV2cGYltsgI1
- 7+CbQq20atHEapeAlmpSIcbwieGdcCY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-GdlD0zvKNZWvfvkG2QvUWA-1; Thu, 02 Jul 2020 11:29:03 -0400
-X-MC-Unique: GdlD0zvKNZWvfvkG2QvUWA-1
-Received: by mail-ej1-f70.google.com with SMTP id lg24so21821745ejb.11
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 08:29:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=UYGYdfE0NqxsnzzAmVx2BH8ivmxlP+PhNNOR4bGBfH8=;
- b=kKI1ck7ldgXvC5sv29II9GTg9op0m+YDpKy6UUCZlC4AdWMETucx4EhSL9+tSM3ndO
- sZvi8KC002vfd0oEqwHNBA4ribn4X4k8/VAgKIInQN76pCqKush1qNUXAGYWnQ2vjHe9
- ufNxnRdjy5YRZUxcUvhOMTdgO4tv1aiEaMmYh2oLXpFqC+ST8cxxtXMyUEpEK2graSsk
- Ov/3S3zVrW49Vgf6M+5L0gYSLNWG0sPJb4ORJppAaMDfGh0bTyNAKDc6Ffrk2tYfWkam
- 1ATQtTUOY2F6SR7g8jOFmKi8XCu0xW/u5JgppfkOs6lSxLTihd+njrICehM52/oaG2MB
- sTGQ==
-X-Gm-Message-State: AOAM530sLU2w1V6d3AqtSlzfoPedHkeKmPumYA+pD44XDZypLIIG8KnO
- CNLdaDBAhnwEjHwp/dmc6ld1/IAdbVYPCRyo82Wh2wtmahF7aNaChzXcniZV3VZVoIktFRFC2x1
- YjE++4Ca23Bm1lCM=
-X-Received: by 2002:a17:906:456:: with SMTP id
- e22mr22615680eja.178.1593703742532; 
- Thu, 02 Jul 2020 08:29:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXXOVAz9eOuM27sb6MmAKu8o9f57g7t2ScUqp7tWVtFV0Ew1hff1NIKS93TyqgwRm93AwXHg==
-X-Received: by 2002:a17:906:456:: with SMTP id
- e22mr22615659eja.178.1593703742245; 
- Thu, 02 Jul 2020 08:29:02 -0700 (PDT)
-Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id d26sm7231269ejw.89.2020.07.02.08.29.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jul 2020 08:29:01 -0700 (PDT)
-Subject: Re: [PATCH v2 1/3] util: validate whether O_DIRECT is supported after
- failure
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200702125612.2176194-1-berrange@redhat.com>
- <20200702125612.2176194-2-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <8793a9e9-5ee1-bebc-d1b5-75b9f53302c2@redhat.com>
-Date: Thu, 2 Jul 2020 17:29:00 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr1AB-0005Hx-6d
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:30:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:50469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr1A8-0006oH-AU
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:30:10 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MowT0-1j1fhD2pjS-00qUEZ; Thu, 02 Jul 2020 17:30:05 +0200
+Subject: Re: [PULL v2 00/12] Linux user for 5.1 patches
+To: qemu-devel@nongnu.org
+References: <20200702152710.84602-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <7f5f7a8d-ac0b-0528-1b7d-c88c4c45486d@vivier.eu>
+Date: Thu, 2 Jul 2020 17:30:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200702125612.2176194-2-berrange@redhat.com>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200702152710.84602-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:cjZz21acT4UgOLK852nD3Ij1PJPc8j4IyIyf/XTalh8RyMLf8fJ
+ OQVyehJ9soVyy4iEU1aoj9o8GeILMGkdlXH4cBrIeebHCwc3rCqbSpV3fdP1WLcdSUhHfk3
+ NL3Vh6AGyMns3VzurBKoo95Ragbub8WnnT9EnxILytWASgqtZA4G9wZWvrA66hRJ/pHuFb9
+ y3XJTAJq23cN5AMhc8nLA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:veBTMJzZJAo=:dT2uSoQD8G/igDlcOWHVZh
+ SStiD8puEqiMsCvBfKF67Dk4t4qbo/InoFxA9tKpvVFyIfoPD8nJ0XdNlMqTPeCD+CLFXTVQb
+ 9w/C0bSdIHdovgrqcSL3hIqxgcgDJJGCuEH3gMgQApPDC7E2PDepVCVtiTJSLK67IdCDPeyCL
+ BXaOaOtOc+DN4qTFFCOIns757pQdmUBXziylGbKoDPksof51B2QXt4OK7YlXUVDcHz1S93xX/
+ ZixYoWisTzNFVg05p2Zi28Nvnng+g5y5VRpwpf7n1QRZZfuMzNX5modK/dDYC3Gf00pO0d/1S
+ dhxXhy/Gz8jd7LkgsWYwhVNWgGlliZyTQEgvqN2Wf0ZDuSXcWH11k3hlDGfZX/Lbbji8GDO9C
+ RzZGTJxgstmlEdg8XBlKoE04SuVGXrLDou0nAvvVIPX6erC44ylPegCLBcteCs2rW+sytoZgB
+ yB+4cByqZGwlpkTxO/VqWtaEK1rxkSUq2Bnsp+TqY187I4XINajBHZWqwqkSICB5rJQ2LdKKt
+ rxdziTxSDwOHdaSEJyGEaYUYB40d2reHkJxPhbWUNJaDC5NX+7ng+cdr7Sdw04h2H3ZvfMOJn
+ e2kB7xAO9lzBvgPoH2Pf1w9l/c/vcQDnevDhMeYZu3MZOfzzufR8hHEpfkTQf4FETDFA9hNxi
+ 3Llkr6KW1ASYySz3zwOGy1PM2rjTCdArfsl5HFV2qyk2Rd0tFFaENXoyM1wbxgnGZ6N8OMu9Z
+ 0V2oSGskKuqe9ny/mxL8BxVKXEEBKqPavXGlHNQ66OQZTK8Feb4pHRcSkpM8wtH+qor9Ka41U
+ WyCcehrtON2+nQ/GwmIh/pExRwkyJNPUtetwWbHH24SMdyIFWHd9b2esoYgaBI33f1+BxUF
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 10:57:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,66 +113,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- P J P <ppandit@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/20 2:56 PM, Daniel P. Berrangé wrote:
-> Currently we suggest that a filesystem may not support O_DIRECT after
-> seeing an EINVAL. Other things can cause EINVAL though, so it is better
-> to do an explicit check, and then report a definitive error message.
+Le 02/07/2020 à 17:26, Laurent Vivier a écrit :
+> The following changes since commit e7651153a8801dad6805d450ea8bef9b46c1adf5:
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  util/osdep.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-gsoc-queue-jun-27-2020' into staging (2020-06-27 22:57:36 +0100)
 > 
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 4829c07ff6..e2b7507ee2 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -332,9 +332,11 @@ int qemu_open(const char *name, int flags, ...)
->      }
->  
->  #ifdef O_CLOEXEC
-> -    ret = open(name, flags | O_CLOEXEC, mode);
-> -#else
-> +    flags |= O_CLOEXEC;
-> +#endif
->      ret = open(name, flags, mode);
-> +
-> +#ifndef O_CLOEXEC
->      if (ret >= 0) {
->          qemu_set_cloexec(ret);
->      }
-> @@ -342,8 +344,13 @@ int qemu_open(const char *name, int flags, ...)
-
-Too bad the git-diff removed 2 lines of context to add a comment instead.
-
-In case it helps other reviewers, what was stripped out of the
-context is this single line:
-
-   #endif
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
->  
->  #ifdef O_DIRECT
->      if (ret == -1 && errno == EINVAL && (flags & O_DIRECT)) {
-> -        error_report("file system may not support O_DIRECT");
-> -        errno = EINVAL; /* in case it was clobbered */
-> +        int newflags = flags & ~O_DIRECT;
-> +        ret = open(name, newflags, mode);
-> +        if (ret != -1) {
-> +            close(ret);
-> +            error_report("file system does not support O_DIRECT");
-> +            errno = EINVAL;
-> +        }
->      }
->  #endif /* O_DIRECT */
->  
+> are available in the Git repository at:
+> 
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
+> 
+> for you to fetch changes up to 89ddeec7f060a9f403aead414bb883a52f2b5024:
+> 
+>   MAINTAINERS: update linux-user maintainer (2020-07-02 16:55:16 +0200)
+> 
+> ----------------------------------------------------------------
+> linux-user pull request 2020-07-02
+> 
+> Update linux-user maintainer
+> Improve strace output for some syscalls
+> Display contents of ioctl() parameters
+> Fix sparc64 flushw operation
+> 
+> ----------------------------------------------------------------
+> 
+> Chen Gang (1):
+>   linux-user: syscall: ioctls: support DRM_IOCTL_VERSION
+> 
+> Filip Bozuta (8):
+>   linux-user: Extend strace support to enable argument printing after
+>     syscall execution
+>   linux-user: Add strace support for a group of syscalls
+>   linux-user: Add strace support for printing argument of syscalls used
+>     for extended attributes
+>   linux-user: Add strace support for printing arguments of lseek()
+>   linux-user: Add strace support for printing arguments of
+>     chown()/lchown()
+>   linux-user: Add strace support for printing arguments of fallocate()
+>   linux-user: Add thunk argument types for SIOCGSTAMP and SIOCGSTAMPNS
+>   linux-user: Add strace support for printing arguments of ioctl()
+> 
+> Giuseppe Musacchio (2):
+>   target/sparc: Translate flushw opcode
+>   linux-user/sparc64: Fix the handling of window spill trap
+> 
+> Riku Voipio (1):
+>   MAINTAINERS: update linux-user maintainer
+> 
+>  MAINTAINERS                 |   3 +-
+>  bsd-user/main.c             |   6 +-
+>  configure                   |  10 +
+>  include/exec/user/thunk.h   |   1 +
+>  linux-user/ioctls.h         |  17 +-
+>  linux-user/qemu.h           |  40 +++-
+>  linux-user/sparc/cpu_loop.c |   6 +-
+>  linux-user/strace.c         | 435 +++++++++++++++++++++++++++++++-----
+>  linux-user/strace.list      |  40 ++--
+>  linux-user/syscall.c        | 136 ++++++++---
+>  linux-user/syscall_defs.h   |  15 ++
+>  linux-user/syscall_types.h  |  33 +++
+>  target/sparc/translate.c    |   2 +
+>  thunk.c                     | 154 +++++++++++++
+>  14 files changed, 782 insertions(+), 116 deletions(-)
 > 
 
+It's not a v2: I forgot to reset my gitpublishprefix before sending my
+PR after my previous PR with a v2.
+
+Thanks,
+Laurent
 
