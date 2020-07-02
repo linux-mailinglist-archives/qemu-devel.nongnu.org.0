@@ -2,65 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D99212512
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:46:42 +0200 (CEST)
-Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B33212523
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:47:41 +0200 (CEST)
+Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzY1-0007PP-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
+	id 1jqzYy-0000IE-69
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqzSW-0008BW-05
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:41:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59567
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqzVj-0004Sv-DS
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:44:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36891
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jqzST-0001UB-B2
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:40:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jqzVg-0005XP-1c
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:44:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593697256;
+ s=mimecast20190719; t=1593697454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tAgrdSpMFwxnmyvQg1pAHnpwHWv7zoT+JVLIjvPhfiE=;
- b=FBw+i5vGSxxbzjGg9ekE9icosQfz9TMsRPG7Qm9pF+fdeFUCupuFGXLK578vzcIsnsqi2A
- UStbWnnZFigikpQT2lYQ+R8zS7WlZAlqx40kBgw+m/tQREwSNr6l2epio/YzrxdQ6e/TZF
- j5Mdy7WkUDusYhRmZHoPDbj4eSjMZeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-trPudBfjNVq2QBXYJ9NMdg-1; Thu, 02 Jul 2020 09:40:51 -0400
-X-MC-Unique: trPudBfjNVq2QBXYJ9NMdg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E130F107ACF5;
- Thu,  2 Jul 2020 13:40:49 +0000 (UTC)
-Received: from localhost (ovpn-114-216.ams2.redhat.com [10.36.114.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2A4073FD4;
- Thu,  2 Jul 2020 13:40:43 +0000 (UTC)
-Date: Thu, 2 Jul 2020 14:40:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v7 00/21] Initial support for multi-process qemu
-Message-ID: <20200702134042.GG152912@stefanha-x1.localdomain>
-References: <cover.1593273671.git.elena.ufimtseva@oracle.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DYXFNSP5QGhfFw1WXax8fa+wTwSWIKF/Vs6yd2PpBrg=;
+ b=jQlqCcB7aQPyIR5AvRAVRKeaIrn8j2HnAn7Z0ZLwqNKdUIeUvTAhSx59KMG0+OSKtR54JV
+ hygJ94IP+KXLFaHsXlEtCDrrw4L78CIAaKtOHYlyFWH54rEK7xxlZ4e7GiFyYCqO3plGFx
+ nK6tf503sUqieEBpbw+15s/VW8s7Hpo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-eqagqzvnOzOv-7E-goDsjw-1; Thu, 02 Jul 2020 09:44:11 -0400
+X-MC-Unique: eqagqzvnOzOv-7E-goDsjw-1
+Received: by mail-wr1-f69.google.com with SMTP id j16so20612118wrw.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 06:44:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=DYXFNSP5QGhfFw1WXax8fa+wTwSWIKF/Vs6yd2PpBrg=;
+ b=KIShkwbAL8BmUb7Q1PiYUcSGVzQ6JvuKlOjspGkbcQbMsNLpYfwyZGVBrVLjKIZ89i
+ cFX2Z2JaH63OQW/nbA/cJmbUxIBs4hkbaU0X1F1APJPZpgL9jizTwNO6Ecx7iqcWKGyP
+ URf7mY2shRVgz0D4/CI1FrkrmaElFaAPmMLtAKo2iD5oCPwF5r1PKbYZ8JlI5JRDERdH
+ KdadcubMsdJOExfMgwsulomqviK9K/ueUCyL9j/C8G2c8GfriF8/csEjH7J7d+3z/LrE
+ X/iqlncVL7kcnIcAcs2QboifijvC7NRPKVNE0XHuOjuKGjj+i/Phea0K1EohfajF9ZEO
+ xJxg==
+X-Gm-Message-State: AOAM532FTE8poppB/mUj/+HUrHmco3jraqQnQbc5JnN+LHmXiXcnnBYu
+ Wyie2hl1a3QG0SM1Tsq/wBBOeiAISARKn3REGKCAgSqf8pJg2oaYNvzhq/oE4kQKwpedWHBTSaC
+ TkZHL2ZkY9IYh3p0=
+X-Received: by 2002:a5d:664a:: with SMTP id f10mr31538783wrw.300.1593697450643; 
+ Thu, 02 Jul 2020 06:44:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyNIxB/EWiH83yJ1K+bjY6SRMOCxAX/g2uSyfxCEslM4TgXgOiKwT6B/rPXa4q0C1GZfJTFdQ==
+X-Received: by 2002:a5d:664a:: with SMTP id f10mr31538761wrw.300.1593697450424; 
+ Thu, 02 Jul 2020 06:44:10 -0700 (PDT)
+Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id 33sm11462260wri.16.2020.07.02.06.44.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jul 2020 06:44:09 -0700 (PDT)
+Subject: Re: [PATCH v5 11/20] pc_basic_device_init: pass PCMachineState
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200702132525.6849-1-kraxel@redhat.com>
+ <20200702132525.6849-12-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <6e2ece1b-f411-9982-bac0-4650a24634d3@redhat.com>
+Date: Thu, 2 Jul 2020 15:44:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1593273671.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200702132525.6849-12-kraxel@redhat.com>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O8XZ+2Hy8Kj8wLPZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -81,56 +123,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
- thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---O8XZ+2Hy8Kj8wLPZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/2/20 3:25 PM, Gerd Hoffmann wrote:
+> Need access to pcms for pcspk initialization.
+> Just preparation, no functional change.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/hw/i386/pc.h | 3 ++-
+>  hw/i386/pc.c         | 3 ++-
+>  hw/i386/pc_piix.c    | 2 +-
+>  hw/i386/pc_q35.c     | 2 +-
+>  4 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index dce1273c7dad..3a601dbe71da 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -160,7 +160,8 @@ void pc_memory_init(PCMachineState *pcms,
+>                      MemoryRegion **ram_memory);
+>  uint64_t pc_pci_hole64_start(void);
+>  DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
+> -void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
+> +void pc_basic_device_init(struct PCMachineState *pcms,
 
-On Sat, Jun 27, 2020 at 10:09:22AM -0700, elena.ufimtseva@oracle.com wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->=20
-> This is the v7 of the patchset.
+[Not this patch problem, simply thinking loudly]
 
-I have completed the review and left comments on the patches.
+What we should pass is a PCMachineClass pointer.
 
-I'm glad it was possible to simplify this feature. The overall approach
-makes sense to me and I see how it forms the base on which
-VFIO-over-socket and smaller remote program builds using Kconfig can be
-developed.
+I don't understand why PIT is a runtime changeable property.
 
-My main concern is that the object lifecycle has not been fully
-implemented in the proxy and remote device. Error handling is
-incomplete, resources are leaked, and hot unplug does not work. Thinking
-through the lifecycle is very important so that additional work can
-build on top of this later. I have tried to point out these issues in
-the individual patches.
-
---O8XZ+2Hy8Kj8wLPZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7949oACgkQnKSrs4Gr
-c8jr3gf/a4L69UBz0dbilcxr2i6liwxCVXZPG4oma3MTrgxsPMaC1D0RiX8WcLRD
-M9umtF1Y+A7Sd7WHC531kCytxgF/I/wnWmyPFEAHwL9m+HFqVTWsoPkc32eKXxlH
-2vkm17vFJIO63mOKqWcShUqMajwjS6FJR8wK8jVkj5QrA3YEAXEOPN8ISJ9isqO+
-37OQOoCqXkN77pBq7A0iiWKHewh+wEs1F3cUa3tYN70jQ0DHBxeQ3dxi4BTtTeBk
-srnBqAg69UjOL3KAcfC/46yCNxkch0pTIFE8/IBaQpSzsnINBoIiKlFkz9Grf1gZ
-bJk0O/dlrdihnYwFNf/XRw/0/KZHHA==
-=c7mI
------END PGP SIGNATURE-----
-
---O8XZ+2Hy8Kj8wLPZ--
+> +                          ISABus *isa_bus, qemu_irq *gsi,
+>                            ISADevice **rtc_state,
+>                            bool create_fdctrl,
+>                            bool no_vmport,
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 4af9679d039b..d89e577f6fa1 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1155,7 +1155,8 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+>      g_free(a20_line);
+>  }
+>  
+> -void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
+> +void pc_basic_device_init(struct PCMachineState *pcms,
+> +                          ISABus *isa_bus, qemu_irq *gsi,
+>                            ISADevice **rtc_state,
+>                            bool create_fdctrl,
+>                            bool no_vmport,
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 1d832b2878b1..a3b416507286 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -235,7 +235,7 @@ static void pc_init1(MachineState *machine,
+>      }
+>  
+>      /* init basic PC hardware */
+> -    pc_basic_device_init(isa_bus, x86ms->gsi, &rtc_state, true,
+> +    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
+>                           (pcms->vmport != ON_OFF_AUTO_ON), pcms->pit_enabled,
+>                           0x4);
+>  
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 047ea8db28ea..b16e22c6cccd 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -275,7 +275,7 @@ static void pc_q35_init(MachineState *machine)
+>      }
+>  
+>      /* init basic PC hardware */
+> -    pc_basic_device_init(isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
+> +    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
+>                           (pcms->vmport != ON_OFF_AUTO_ON), pcms->pit_enabled,
+>                           0xff0104);
+>  
+> 
 
 
