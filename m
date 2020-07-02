@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C262121A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:00:14 +0200 (CEST)
-Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A3B2121B9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 13:06:39 +0200 (CEST)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqwwv-0007PO-L0
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:00:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1jqx38-0004v6-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 07:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jqwv9-0006UG-PW
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:58:23 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jqwv7-0006og-Pk
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 06:58:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593687501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sE2p1aR6NJWo3+BR9eUf/plv70nEiHJc3EiMkeog0t0=;
- b=i816RooQTr4ufRhumB/6jYxQQwcrqB8BTVXOF0qFGAmB7hWaOrllxk6n1Xyhz+AYAbJUoz
- TrW3MrXUOLiUJ8rtdJir3I8HCRevI0YjVkzxODYG3ZnwdDcem+TY2hf2Ud6JPLU7nnHcSk
- R6C7BNS9RmQbQTZX8wD8+lroKdqUVtE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-cFzEC1iyNlOWn5Hkyk4x1A-1; Thu, 02 Jul 2020 06:58:19 -0400
-X-MC-Unique: cFzEC1iyNlOWn5Hkyk4x1A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C67EC1A0
- for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 10:58:18 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-177.ams2.redhat.com
- [10.36.113.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B6C177882;
- Thu,  2 Jul 2020 10:58:17 +0000 (UTC)
-Subject: Re: [PATCH v10 5/5] crypto/tls-cipher-suites: Produce fw_cfg
- consumable blob
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200623172726.21040-1-philmd@redhat.com>
- <20200623172726.21040-6-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <de17f8c3-b505-c8e7-703e-1ab4afbdcfc3@redhat.com>
-Date: Thu, 2 Jul 2020 12:58:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqx2D-0003xG-JD
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:05:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jqx2B-0000Y9-Ob
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 07:05:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jqx2A-0004HJ-27
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 11:05:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0EA642E8024
+ for <qemu-devel@nongnu.org>; Thu,  2 Jul 2020 11:05:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200623172726.21040-6-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lersek@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 02 Jul 2020 10:56:03 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878628@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158946793086.21783.444088944852561068.malonedeb@wampee.canonical.com>
+Message-Id: <159368736359.1977.13868884460589006554.malone@wampee.canonical.com>
+Subject: [Bug 1878628] Re: linux-user/mmap build failure using Clang 10
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e47d40a14d97c9592c98d47f0a3f148e761190bc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,132 +74,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>
+Reply-To: Bug 1878628 <1878628@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/23/20 19:27, Philippe Mathieu-Daudé wrote:
-> Since our format is consumable by the fw_cfg device,
-> we can implement the FW_CFG_DATA_GENERATOR interface.
-> 
-> Example of use to dump the cipher suites (if tracing enabled):
-> 
->   $ qemu-system-x86_64 -S \
->     -object tls-cipher-suites,id=mysuite1,priority=@SYSTEM \
->     -fw_cfg name=etc/path/to/ciphers,gen_id=mysuite1 \
->     -trace qcrypto\*
->   1590664444.197123:qcrypto_tls_cipher_suite_priority priority: @SYSTEM
->   1590664444.197219:qcrypto_tls_cipher_suite_info data=[0x13,0x02] version=TLS1.3 name=TLS_AES_256_GCM_SHA384
->   1590664444.197228:qcrypto_tls_cipher_suite_info data=[0x13,0x03] version=TLS1.3 name=TLS_CHACHA20_POLY1305_SHA256
->   1590664444.197233:qcrypto_tls_cipher_suite_info data=[0x13,0x01] version=TLS1.3 name=TLS_AES_128_GCM_SHA256
->   1590664444.197236:qcrypto_tls_cipher_suite_info data=[0x13,0x04] version=TLS1.3 name=TLS_AES_128_CCM_SHA256
->   1590664444.197240:qcrypto_tls_cipher_suite_info data=[0xc0,0x30] version=TLS1.2 name=TLS_ECDHE_RSA_AES_256_GCM_SHA384
->   1590664444.197245:qcrypto_tls_cipher_suite_info data=[0xcc,0xa8] version=TLS1.2 name=TLS_ECDHE_RSA_CHACHA20_POLY1305
->   1590664444.197250:qcrypto_tls_cipher_suite_info data=[0xc0,0x14] version=TLS1.0 name=TLS_ECDHE_RSA_AES_256_CBC_SHA1
->   1590664444.197254:qcrypto_tls_cipher_suite_info data=[0xc0,0x2f] version=TLS1.2 name=TLS_ECDHE_RSA_AES_128_GCM_SHA256
->   1590664444.197258:qcrypto_tls_cipher_suite_info data=[0xc0,0x13] version=TLS1.0 name=TLS_ECDHE_RSA_AES_128_CBC_SHA1
->   1590664444.197261:qcrypto_tls_cipher_suite_info data=[0xc0,0x2c] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_GCM_SHA384
->   1590664444.197266:qcrypto_tls_cipher_suite_info data=[0xcc,0xa9] version=TLS1.2 name=TLS_ECDHE_ECDSA_CHACHA20_POLY1305
->   1590664444.197270:qcrypto_tls_cipher_suite_info data=[0xc0,0xad] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_CCM
->   1590664444.197274:qcrypto_tls_cipher_suite_info data=[0xc0,0x0a] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_256_CBC_SHA1
->   1590664444.197278:qcrypto_tls_cipher_suite_info data=[0xc0,0x2b] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_GCM_SHA256
->   1590664444.197283:qcrypto_tls_cipher_suite_info data=[0xc0,0xac] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_CCM
->   1590664444.197287:qcrypto_tls_cipher_suite_info data=[0xc0,0x09] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_128_CBC_SHA1
->   1590664444.197291:qcrypto_tls_cipher_suite_info data=[0x00,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_GCM_SHA384
->   1590664444.197296:qcrypto_tls_cipher_suite_info data=[0xc0,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_CCM
->   1590664444.197300:qcrypto_tls_cipher_suite_info data=[0x00,0x35] version=TLS1.0 name=TLS_RSA_AES_256_CBC_SHA1
->   1590664444.197304:qcrypto_tls_cipher_suite_info data=[0x00,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_GCM_SHA256
->   1590664444.197308:qcrypto_tls_cipher_suite_info data=[0xc0,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_CCM
->   1590664444.197312:qcrypto_tls_cipher_suite_info data=[0x00,0x2f] version=TLS1.0 name=TLS_RSA_AES_128_CBC_SHA1
->   1590664444.197316:qcrypto_tls_cipher_suite_info data=[0x00,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_GCM_SHA384
->   1590664444.197320:qcrypto_tls_cipher_suite_info data=[0xcc,0xaa] version=TLS1.2 name=TLS_DHE_RSA_CHACHA20_POLY1305
->   1590664444.197325:qcrypto_tls_cipher_suite_info data=[0xc0,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_CCM
->   1590664444.197329:qcrypto_tls_cipher_suite_info data=[0x00,0x39] version=TLS1.0 name=TLS_DHE_RSA_AES_256_CBC_SHA1
->   1590664444.197333:qcrypto_tls_cipher_suite_info data=[0x00,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_GCM_SHA256
->   1590664444.197337:qcrypto_tls_cipher_suite_info data=[0xc0,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_CCM
->   1590664444.197341:qcrypto_tls_cipher_suite_info data=[0x00,0x33] version=TLS1.0 name=TLS_DHE_RSA_AES_128_CBC_SHA1
->   1590664444.197345:qcrypto_tls_cipher_suite_count count: 29
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v10: Removed Laszlo Acked-by due to logical changes
-> ---
->  crypto/tls-cipher-suites.c | 11 +++++++++++
->  qemu-options.hx            | 18 ++++++++++++++++++
->  2 files changed, 29 insertions(+)
-> 
-> diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
-> index 5b403f86c9..b3dba00010 100644
-> --- a/crypto/tls-cipher-suites.c
-> +++ b/crypto/tls-cipher-suites.c
-> @@ -13,6 +13,7 @@
->  #include "qom/object_interfaces.h"
->  #include "crypto/tlscreds.h"
->  #include "crypto/tls-cipher-suites.h"
-> +#include "hw/nvram/fw_cfg.h"
->  #include "trace.h"
->  
->  /*
-> @@ -88,11 +89,20 @@ static void qcrypto_tls_cipher_suites_complete(UserCreatable *uc,
->      }
->  }
->  
-> +static GByteArray *qcrypto_tls_cipher_suites_fw_cfg_gen_data(Object *obj,
-> +                                                             Error **errp)
-> +{
-> +    return qcrypto_tls_cipher_suites_get_data(QCRYPTO_TLS_CIPHER_SUITES(obj),
-> +                                              errp);
-> +}
-> +
->  static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
->  {
->      UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-> +    FWCfgDataGeneratorClass *fwgc = FW_CFG_DATA_GENERATOR_CLASS(oc);
->  
->      ucc->complete = qcrypto_tls_cipher_suites_complete;
-> +    fwgc->get_data = qcrypto_tls_cipher_suites_fw_cfg_gen_data;
->  }
->  
->  static const TypeInfo qcrypto_tls_cipher_suites_info = {
-> @@ -103,6 +113,7 @@ static const TypeInfo qcrypto_tls_cipher_suites_info = {
->      .class_init = qcrypto_tls_cipher_suites_class_init,
->      .interfaces = (InterfaceInfo[]) {
->          { TYPE_USER_CREATABLE },
-> +        { TYPE_FW_CFG_DATA_GENERATOR_INTERFACE },
->          { }
->      }
->  };
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 4f519f35fd..ce54c7359c 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -4585,6 +4585,24 @@ SRST
->          string as described at
->          https://gnutls.org/manual/html_node/Priority-Strings.html.
->  
-> +        An example of use of this object is to control UEFI HTTPS Boot.
-> +        The tls-cipher-suites object exposes the ordered list of permitted
-> +        TLS cipher suites from the host side to the guest firmware, via
-> +        fw_cfg. The list is represented as an array of IANA_TLS_CIPHER
-> +        objects. The firmware uses the IANA_TLS_CIPHER array for configuring
-> +        guest-side TLS.
-> +
-> +        In the following example, the priority at which the host-side policy
-> +        is retrieved is given by the ``priority`` property.
-> +        Given that QEMU uses GNUTLS, ``priority=@SYSTEM`` may be used to
-> +        refer to /etc/crypto-policies/back-ends/gnutls.config.
-> +
-> +        .. parsed-literal::
-> +
-> +             # |qemu_system| \
-> +                 -object tls-cipher-suites,id=mysuite0,priority=@SYSTEM \
-> +                 -fw_cfg name=etc/edk2/https/ciphers,gen_id=mysuite0
-> +
->      ``-object filter-buffer,id=id,netdev=netdevid,interval=t[,queue=all|rx|tx][,status=on|off][,position=head|tail|id=<id>][,insert=behind|before]``
->          Interval t can't be 0, this filter batches the packet delivery:
->          all packets arriving in a given interval on netdev netdevid are
-> 
+Merged as commit aabab96797a7d61989c25a7ca2b094591bbc74f9.
 
-Acked-by: Laszlo Ersek <lersek@redhat.com>
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878628
+
+Title:
+  linux-user/mmap build failure using Clang 10
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  When building with Clang 10 on Fedora 32, we get:
+
+      CC      linux-user/mmap.o
+    linux-user/mmap.c:720:49: error: result of comparison 'unsigned long' >=
+ 18446744073709551615 is always false [-Werror,-Wtautological-type-limit-co=
+mpare]
+            if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878628/+subscriptions
 
