@@ -2,99 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A22124F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:39:33 +0200 (CEST)
-Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C608A21250D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 15:44:46 +0200 (CEST)
+Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jqzR6-00051b-Cl
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:39:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37358)
+	id 1jqzW9-0004QQ-S7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 09:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqzKa-00010u-Jn
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:32:48 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22738
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jqzKY-0003N5-NW
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:32:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593696765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PLlrjy2VqgTpCA8ZLcrmp6b3o8pA+hR2nklHSBY2ELM=;
- b=Z+yk3IENfxr/denT9RsZd4Mptr1yaIpw4hbXIINxGWv4xDvFUjjQ4nBGfW/hQTFmRBykaV
- IcVH8jDBgueT1zxtw0rkW1lkK2mIPNSSMMmO6gvNIiHtwCsQVboDD7EATKHaQdOXM1CHK0
- YzVaa9x/dEzLWp3KEWKVHm0aWax0F1A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-7769TRJuPrm26LpUhxUZjw-1; Thu, 02 Jul 2020 09:32:43 -0400
-X-MC-Unique: 7769TRJuPrm26LpUhxUZjw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A631005513;
- Thu,  2 Jul 2020 13:32:42 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-196.ams2.redhat.com
- [10.36.113.196])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EECD473FD3;
- Thu,  2 Jul 2020 13:32:40 +0000 (UTC)
-Subject: Re: [PATCH v9 24/34] qcow2: Add subcluster support to
- check_refcounts_l2()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1593342067.git.berto@igalia.com>
- <8f424f702967348a6180cf4bc492d7ddede5ae57.1593342067.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d6cd3e93-0eb3-df86-c1cd-61ab1d0b1259@redhat.com>
-Date: Thu, 2 Jul 2020 15:32:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqzOp-0001Bf-6Y
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:11 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jqzOn-0004Ho-Mb
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 09:37:10 -0400
+Received: by mail-wm1-x343.google.com with SMTP id l2so26498318wmf.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 06:37:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CyrmGwoQb3BeLpvL9CDcgfen6QsTGX52M/4K4nB5w8M=;
+ b=RjUayAjVmWBalTcoc/+wqUwOhQUYbSCX0HouxxG4G2yzHoEO5FrGQ5lrnLXZMByKCk
+ WDqftqClz7LvWKXmiOMcEDeJ7hGaaiDOkeSdnz851L5qDH+miYiqLbozRcnyMKiGd/iJ
+ s5ikDk+rqAYBo1Qe6kQZmG9o4XBW7LZ9lvK2IprzkAuN05tFDrU51yX2TUdlMVLmKeNb
+ E/clbavXC2GVhpSlyj4YlRODmgwFwlmcztYad8HX1zLW0wsB6DXTrlF6WSCnE7ziZBjG
+ ie5vi9TxvwblphqRJHGOWH9FbKxrDxOfoGIRDOBNgRNXPwFTcDw3jgXNpsGXYqPv0qTc
+ D0gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CyrmGwoQb3BeLpvL9CDcgfen6QsTGX52M/4K4nB5w8M=;
+ b=CoooHjdpLCG+Z4bFGyWrgCW7cIQQBUh7q6KECO4FRvO6WoUc6cKqRxh/H/wf8eudg9
+ j49IgIyNarK+uRoGoKgAWT2ietuyvMHyLmhLEegTQtF/Z/bCZk41nsTQyjMHbnwy2Eoe
+ PuUKDQ77EpEO6gCEaXyeWCiFPaczZhhVRkg0HxGfXruemuNxT7tjwV5uchVm/+2k3f/8
+ CYCucIzLR00vVvuFAF5h+wDi7kXtfS8LtIMvCgKoJ9/59cD41AA6okVoZ74vODeht6Zh
+ /zSi1/APEY5LWkGaJVUMu1DXIP4v3BNQnfTgizgZRO9RYBIxV49QLHEIRtyzBwm4mEQ7
+ f3wQ==
+X-Gm-Message-State: AOAM532r4RdFo0UeRjTQGNgtlG8z7WBv/2Yw08Rx1Lm4crpwynmYMEqc
+ MLrESykFD4BeWYLTek1xGMkzT81AwKk=
+X-Google-Smtp-Source: ABdhPJxz177DVt1m/X7rhRn48vnS3jZFulP/aFfQV6kDeZXeXb0MNVCvKbmbvRqznuLUjldCnZ/gvA==
+X-Received: by 2002:a1c:e90a:: with SMTP id q10mr33431290wmc.140.1593697027743; 
+ Thu, 02 Jul 2020 06:37:07 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id p17sm10190511wma.47.2020.07.02.06.37.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 06:37:07 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] MIPS patches queue for 5.1 soft freeze
+Date: Thu,  2 Jul 2020 15:36:56 +0200
+Message-Id: <20200702133701.25237-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <8f424f702967348a6180cf4bc492d7ddede5ae57.1593342067.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="eqludxudOYTn668IDsor8LqDGPHaAPF7p"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,63 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, Yunqiang Su <ysu@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---eqludxudOYTn668IDsor8LqDGPHaAPF7p
-Content-Type: multipart/mixed; boundary="uDnTCDiqiWYjyZiRZYtL4My89slysICxF"
+This series contains the current MIPS patch queue:
+- Remove unused/unbuilt device (unfortunately the machine won't be
+  merged in time for the 5.1 release)
+- Trivial fix for LP bug #1885718
+- Urgent removal of inactive maintainers
+- Huacai Chen and Jiaxun Yang designated as new maintainers
 
---uDnTCDiqiWYjyZiRZYtL4My89slysICxF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+If nothing new appears, I plan to send the pull request during the
+week-end.
 
-On 28.06.20 13:02, Alberto Garcia wrote:
-> The offset field of an uncompressed cluster's L2 entry must be aligned
-> to the cluster size, otherwise it is invalid. If the cluster has no
-> data then it means that the offset points to a preallocation, so we
-> can clear the offset field without affecting the guest-visible data.
-> This is what 'qemu-img check' does when run in repair mode.
->=20
-> On traditional qcow2 images this can only happen when QCOW_OFLAG_ZERO
-> is set, and repairing such entries turns the clusters from ZERO_ALLOC
-> into ZERO_PLAIN.
->=20
-> Extended L2 entries have no ZERO_ALLOC clusters and no QCOW_OFLAG_ZERO
-> but the idea is the same: if none of the subclusters are allocated
-> then we can clear the offset field and leave the bitmap untouched.
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/qcow2-refcount.c     | 16 +++++++++++-----
->  tests/qemu-iotests/060.out |  2 +-
->  2 files changed, 12 insertions(+), 6 deletions(-)
+Regards,
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Phil.
 
+Aleksandar Markovic (4):
+  target/mips: Remove identical if/else branches
+  MAINTAINERS: Adjust MIPS maintainership (remove Aurelien Jarno)
+  MAINTAINERS: Adjust MIPS maintainership (remove Paul Burton)
+  MAINTAINERS: Adjust MIPS maintainership (Add Huacai Chen & Jiaxun
+    Yang)
 
---uDnTCDiqiWYjyZiRZYtL4My89slysICxF--
+Philippe Mathieu-Daudé (1):
+  Revert "hw/intc: Add Loongson LIOINTC support"
 
---eqludxudOYTn668IDsor8LqDGPHaAPF7p
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+ hw/intc/loongson_liointc.c | 242 -------------------------------------
+ target/mips/cp0_helper.c   |   9 +-
+ MAINTAINERS                |  12 +-
+ hw/intc/Kconfig            |   3 -
+ hw/intc/Makefile.objs      |   1 -
+ 5 files changed, 6 insertions(+), 261 deletions(-)
+ delete mode 100644 hw/intc/loongson_liointc.c
 
------BEGIN PGP SIGNATURE-----
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Paul Burton <paulburton@kernel.org>
+Cc: Huacai Chen <chenhc@lemote.com>
+Cc: Yunqiang Su <ysu@wavecomp.com>
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl794fYACgkQ9AfbAGHV
-z0BOpggAnSVkfWh1pgHMupV6a3+f+UHMg28EDAQCZpZDxbLKP5SkWHB9T9DLekpZ
-Uza8vvpv/qAOl/b++tNVHJAmyM8bij7YyDVuY/N8TnZ6CoMULtDxJ9yvNJLX89vt
-g/eV1rTLhUx7MxcjYVSKd1CQOGHmkAW/trEm+D3b1OWzZRqeV8e3YBZX/J/m0KlQ
-vG+rWkUr3jeC+HAgCaPXX6X09H68gCDfNXoYXpl4X3qrWm3URlFJSqcOg53VPlpz
-FzOQb79No6kWtA+2YhmtxyTIcfL44O1Ybbdrqo74mOxsFfx+2WwjV9IF+MFcROQf
-wCA3l8h0Lh95FO5kHflG+4KZPoZ3WQ==
-=hTvD
------END PGP SIGNATURE-----
-
---eqludxudOYTn668IDsor8LqDGPHaAPF7p--
+-- 
+2.21.3
 
 
