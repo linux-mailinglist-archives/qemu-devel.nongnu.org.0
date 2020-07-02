@@ -2,69 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C1F212925
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:15:56 +0200 (CEST)
-Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD4F21292B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 18:17:51 +0200 (CEST)
+Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1sR-0002vF-HU
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55354)
+	id 1jr1uI-0006Tt-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 12:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jr1k4-0004Ou-3w
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:07:16 -0400
-Received: from elasmtp-curtail.atl.sa.earthlink.net ([209.86.89.64]:38380)
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jr1mJ-0000p7-Rm
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:09:36 -0400
+Received: from mail-eopbgr40126.outbound.protection.outlook.com
+ ([40.107.4.126]:60803 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jr1k2-0002K3-2V
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:07:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
- s=dk12062016; t=1593706034; bh=q9EhfTTKRbL2tCcgskxr1lRe8Zd/JsyrbSmU
- +9bWWec=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
- To:CC:Subject:References:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:X-ELNK-Trace:X-Originating-IP; b=I7Ql+ZX
- WMdO/6G/97wDB0Ix/g0Ny+T39COPTJaGmyXMec+x3xT2bpuwQCmUM+x9Y3EXIeNM9NO
- PNwyTS79HO26HNxO6XC9+M8myWW5KyxnJhNxEocB2XO89tuGPrTQcNhTtGx9CcbkJPk
- cXIGB63jydjuscKpHtoPIVNDD9pwPdFn1EKSUKRS+WtKXEdY+8FAxoG+5VnpKlwayNC
- /P1A4LBppBHWtUiyIqRrVOBm/jlSBkUzppSknr4+KIc6ACCl24iROWIFev9+BjG47O2
- NYNb87/jM3pbDGajOVIWFOiMWxXNp+n7CCAkZPOqxEYYPgwPzi//7rQHOaKpGtq2h9Q
- ==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
- s=dk12062016; d=mindspring.com;
- b=Vxa69QFyf1BBh2ZdurMf++0yuheArNXpyfd6bMMw0san+r+2XlmLxvuwCBaubf3F+l3DXTlkc7VJASSVtTEIuZTHhApuOqKfih9x5kFJP4nN04nXIpoSO9Hqz+SHkJUyX+heTDUQ8aTna8yer5gi8vu30MISFL23YMQA1fhlfE1nWEQ5OSHjLu888myM0cKwKw24NbU20pmw4zKNoaOv9/NuUpXpZ0GYxQSz9uX/S5cLtpNujebuwCVLLwmMvb04JeCYgwPTeThEYyO4l4co1B5g7ybc9FwZ4FtJUbB1vRkzMwPXXRKv4mXuV5Zvr5Zm33eD+YqZLYnwUIv4x4Gz4g==;
- h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-ELNK-Trace:X-Originating-IP;
-Received: from [8.9.81.230] (helo=[192.168.0.78])
- by elasmtp-curtail.atl.sa.earthlink.net with esmtpa (Exim 4)
- (envelope-from <denber@mindspring.com>)
- id 1jr1jx-0006O6-FX; Thu, 02 Jul 2020 12:07:09 -0400
-Message-ID: <5EFE062C.6080303@mindspring.com>
-Date: Thu, 02 Jul 2020 12:07:08 -0400
-From: Michele Denber <denber@mindspring.com>
-User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
- rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
+ (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
+ id 1jr1mH-0002wL-UM
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:09:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MgO27vZbxU3OjavFZ2LPjrbGb0awPh3MZLojD18c38FMG0RldC3HO9Ht4HpyNWZ0j4RPybgD/S0Hu+tBLsGKham5U56TEJUnIhzJnAI5iV6EbWnaIYcaKaYKMUhzIwaSHTYX8suDtj/n7kQe4AvCDJBZVcEAVTFR20XnGWpcsaHSH8n41Imbkr5Y9NvslGzoBSN2Lw/wZMvseaoa8FjljKC8LoGY7m/rTyhlGXPCqJccxJaKEB22JwalBO0MbIvhkwGNv0RFjvCrz9672U/1l/EpcGmikmz0TSEmOt5Da2DBIvpxE3kJEbfEnhZwnZv9z4DzuxUCriYzuWuT2MxTLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TxVT2zMhw8C0EB4zAuIMEyoO6N8LFlkL3R0eMVYLfIg=;
+ b=KAEKUV4ntob2g3WnbIfgaGoClVWq3/cLo4/QjfVqQD2omugj0Z1pdTsj/tWhtRn3r4CZWluzEDhBQC7BeXtoWSTe4BqrAUTR5ig8nBPRABVQhQO9zRbvFQZQdtAoh5D650sCdigW40kh6pUIKHsXOTHKgVhF0nPvSiV5DKQPCRdyv42zY4IQGQ/yIVqIjKSs90kEsDSsj0HEhE7DXpNdJeq1bDOgv10U4QLOxnXOthn4eFENWaOXSLZZOs/lJCDt7lRFNwoxCLDO2Scc46sSlPNiXFu6Cn/5ftl6qBRZtC7JlsQLJeFARQM3ICd1JhRq8P/Uixceu9k1bssnjfjwpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TxVT2zMhw8C0EB4zAuIMEyoO6N8LFlkL3R0eMVYLfIg=;
+ b=dv5adF9O29eyMpBetWshZuqX3nIgHpLx+FqMQIXjvNqaIDH2xYq6tA2BGSC89cZi8bAi3KaFei2yCokelQPuxkWesbga9dm3R9zHtz+Q6K3i/hChx2GK2qPjBpUeq9Eh9XRttsKqPwoHGBAcsw9XIC5hzRP8R4JCQ92HPcpNYsw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
+ by AM6PR03MB4743.eurprd03.prod.outlook.com (2603:10a6:20b:e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Thu, 2 Jul
+ 2020 16:09:30 +0000
+Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618]) by AM6PR03MB5233.eurprd03.prod.outlook.com
+ ([fe80::98f0:b948:78a8:f618%7]) with mapi id 15.20.3153.023; Thu, 2 Jul 2020
+ 16:09:30 +0000
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: Fix "print_fdset()" in "strace.c" to not print
+ ", " after last value
+Date: Thu,  2 Jul 2020 18:09:15 +0200
+Message-Id: <20200702160915.9517-1-Filip.Bozuta@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: GV0P278CA0004.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:710:26::14) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
 MIME-Version: 1.0
-To: =?UTF-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-Subject: Re: [PATCH] configure / util: Auto-detect the availability of
- openpty()
-References: <20200702143955.678-1-thuth@redhat.com>
- <20200702144650.GM1888119@redhat.com>
-In-Reply-To: <20200702144650.GM1888119@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca59609ab0370624f8f9cc07c136eb08ff1350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 8.9.81.230
-Received-SPF: pass client-ip=209.86.89.64; envelope-from=denber@mindspring.com;
- helo=elasmtp-curtail.atl.sa.earthlink.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 12:07:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (147.91.217.235) by
+ GV0P278CA0004.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:26::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.22 via Frontend Transport; Thu, 2 Jul 2020 16:09:29 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [147.91.217.235]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a89483e2-77d0-43d1-f1e5-08d81ea24d54
+X-MS-TrafficTypeDiagnostic: AM6PR03MB4743:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR03MB4743855C32D1969E3DA7B648EB6D0@AM6PR03MB4743.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0452022BE1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0iGXIXic+jdjZDFgh/cIkNaaAERmJBq/hd7c5cn2mnOpjTLkB57HI802KbBmWtJ5qjADo5XVrZdWyINBCuwgxEM6KXq4hcJPakWpG5QVkJj2PfKqUNpc6gBFpbbBrP1M0J4FJy2SVwRv5BX768FF0PniqLaOJbe77nhqG2/jq5koJYLIfhNvkOs0biFvgEziMYRv6B6SrSw2xhj1t3IldB2BAgKVKErggNaWMSUleXZMMyfQMMSln7g5haMoeZuwA+YpO+gfMOrhc7fCZaCuNsBrAguxBsc5B0G+d0GzPz7zDzyETDS2fYewGPnN0Vq/RxGFB4lD4ZsB23YJEfelqdteRH0JTPnUBobgLHF0WSKxGDPFMqEcNBdYaa9LBB1a
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(346002)(366004)(5660300002)(4326008)(107886003)(6916009)(26005)(2616005)(16526019)(186003)(6666004)(36756003)(86362001)(6506007)(66946007)(6512007)(69590400007)(956004)(83380400001)(1076003)(8936002)(66556008)(52116002)(66476007)(2906002)(6486002)(8676002)(508600001)(54906003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: woHGyAvMB5bShHHfoOKM0Ckm63SWDO7+E3P2F6I5GNuFWzHdeoNzxb0eX3ShPFajFj6f0GNwWS5vJoc0mMxEhxIdJDriu5Cttpb3VDLqa3u7PD44y/P14BT/JdW8hG7O4tegQrL0WxR8aIiQik7nPV1FFbUIn+ve5zZfyR+1E8XHRq56imOOoKd6tpPTQRfq13XGYJLitwJBcrklMaaqq2DIzr5FZ3SZ43Rz6oBt0Z/v/99W9axKH6D0enoDUPDswlTJ04ktx+1HvbsRys8mpVDtK8tiWukNDyHsR6hkNMctpu9IJl+MmM1xCzGy+2CFg1yaQacAVO0tbVxTCHsdGDoJEsAzZCw8uKK2sl4VSObiqm8AclwqWwh6omHkQSXSpf8umBBQkJLPcLSjUZShy/aCWp3Ew02NHF6YrKzdDNrkfc/QsPA984OciOPyKaYp24tBfUf4e/WIwJnH80ZF0093Wfe5uAfLNtg4gHhXFZM=
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a89483e2-77d0-43d1-f1e5-08d81ea24d54
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR03MB5233.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 16:09:30.6721 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AO/WyjKv8PRvmvEqybzp8H2yaOYiyv2uynHlGe84vs0XYHLJZmvA6OLkPivqwk0NutVQqZHnicV5vTxe/XqLQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4743
+Received-SPF: pass client-ip=40.107.4.126;
+ envelope-from=Filip.Bozuta@syrmia.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 12:09:32
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1, RCVD_IN_SBL_CSS=3.335,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,48 +116,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Tribble <peter.tribble@gmail.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Filip Bozuta <Filip.Bozuta@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Function "print_fdset()" in "strace.c" is used to print the file descriptor
+values in "print__newselect()" which prints arguments of syscall _newselect().
+Until changes from this patch, this function was printing "," even after the
+last value of the fd_set argument. This was changed in this patch by removing
+this unnecessary "," after the last fd value and thus improving the estetics of
+the _newselect() "-strace" print.
 
+Implementation notes:
 
-On 07/02/20 10:46, Daniel P. Berrangé wrote:
-> On Thu, Jul 02, 2020 at 04:39:55PM +0200, Thomas Huth wrote:
->> Recent versions of Solaris (v11.4) now feature an openpty() function,
->> too, causing a build failure since we ship our own implementation of
->> openpty() for Solaris in util/qemu-openpty.c so far. Since there are
->> now both variants available in the wild, with and without this function,
->> let's introduce a proper HAVE_OPENPTY define for this to fix the build
->> failure.
-> 11.4 has been out since Aug 2018
->
-> The previous verison of solaris  11.3 was from Oct 2015, with EOL
-> in Oct 2020 [1].
->
-> Solaris isn't an officially supported platform for QEMU, but if it
-> was, then we'd probably consider it a long life distro, and thus
-> consider 11.3 to be out of scope for QEMU by now.
->
-> IOW, instead of checking for openpty being missing, I think there's
-> a decent argument to be made that we can just assume openpty exists,
-> and delete the old solaris compat code entirely.
-Of course there are still many people (where "many" is a relative term) 
-running Solaris 10 for compatibility reasons and Solaris 10 does not 
-have openpty.  The only real reason to run 11.3 is because it still has 
-support for the Sun Ray thin client and that was removed from 11.4 
-(which is a giant pain).  So I'm stuck running Solaris 10 in an LDOM to 
-run all my old code and have Sun Ray access, and 11.4 in the control 
-domain because it's the latest thing.
+   The printing fix was made possible by using an existing function "get_comma()"
+   which returns a "," or an empty string "" based on its argument (0 for "," and
+   other for "").
 
-             - Michele
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/strace.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 6044c66954..23ca5d88c8 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -541,6 +541,7 @@ static void
+ print_fdset(int n, abi_ulong target_fds_addr)
+ {
+     int i;
++    int first = 1;
+ 
+     qemu_log("[");
+     if( target_fds_addr ) {
+@@ -555,9 +556,12 @@ print_fdset(int n, abi_ulong target_fds_addr)
+             return;
+ 
+         for (i=n; i>=0; i--) {
+-            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >> (i & (TARGET_ABI_BITS - 1))) & 1)
+-                qemu_log("%d,", i);
++            if ((tswapal(target_fds[i / TARGET_ABI_BITS]) >>
++                (i & (TARGET_ABI_BITS - 1))) & 1) {
++                qemu_log("%s%d", get_comma(first), i);
++                first = 0;
+             }
++        }
+         unlock_user(target_fds, target_fds_addr, 0);
+     }
+     qemu_log("]");
+-- 
+2.17.1
 
->
-> Regards,
-> Daniel
->
-> [1] https://en.wikipedia.org/wiki/Solaris_(operating_system)
->
 
