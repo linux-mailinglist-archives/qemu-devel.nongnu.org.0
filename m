@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDAB2127ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:31:48 +0200 (CEST)
-Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5E02127F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:35:18 +0200 (CEST)
+Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr1Bj-0006Iq-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1jr1F7-0004bH-7v
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:35:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17c-0000gx-OG
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:36085)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17a-0000b3-H4
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:34775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17Z-0006Jy-6H
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:32 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17W-0006J4-QT
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:30 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWAjC-1jKRTc3KLi-00XdDH; Thu, 02 Jul 2020 17:27:15 +0200
+ id 1MirX2-1jC9zD2VLI-00eru1; Thu, 02 Jul 2020 17:27:15 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/12] linux-user: syscall: ioctls: support DRM_IOCTL_VERSION
-Date: Thu,  2 Jul 2020 17:27:01 +0200
-Message-Id: <20200702152710.84602-4-laurent@vivier.eu>
+Subject: [PULL v2 04/12] linux-user: Extend strace support to enable argument
+ printing after syscall execution
+Date: Thu,  2 Jul 2020 17:27:02 +0200
+Message-Id: <20200702152710.84602-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200702152710.84602-1-laurent@vivier.eu>
 References: <20200702152710.84602-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:A01o3pm6jUNrpc8TrQTyHer9BFukw6HaiLJ1ZfemwHHX+QyGSd6
- vyON53tz8te2buwjGbwjzRUjX+FIogUfRFfZbhsMhgIzQAdnRTWm5NtqpSafHUhBVLue3cH
- /P9DArNfUbbdDGlWtC6BL9EvHzbIdNP7jPNZM6yysekJ5fUylddNFNppPFq09C2/eCVEDUS
- LN2Mj7sblCchsT9eo9WzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JhWTqS+2J74=:c/h0QWwelUFwE0ogSyk0Jl
- tPEYXWiAswAUnW/x0dEybNfIRcibtidVu1P/8ia07/A5zyswlyOBlZ0xOeKut46umYYeBLpnf
- y3xfkTZuDSJnXZp31GuxTqfrurTcwQ3LpYTFxXkU9apCuzH84+hywcKA+NoGbz+wFbRJJb5zq
- NK53Zo0PIBr4CqPrgkvvKXDAlWJNwyW2sxJrSmDzKMfXvYDgr2f6z2c2m02c0vIiNi0NgTDIc
- ZBId5E3N0A9gFhRB3AoCpBFBtTAgcDgXQeg5jWwqexhrTb9USUONUbt1pTn2WHA2fRNIDxsP3
- wzWfqlOuLWI1x1rOIokO0rJ/cirs64S7nBkD3uwi/TMbBBwpoeSLPGj3Ilg+dttTe2joO662G
- hidfg7+Ckla01G5KSOE4pGC8yMyo3I9ZxIElbrv8PD4L9YA41v5mEdoR08AsNYd0y6t9M0I0n
- aB0cWQHznhqN0KrnbbMRrKlBsTba6F9SUVMZ4oAtX4TiQQLRDlZsaQrNx1V4LaZqEJrWM7W66
- D+YYoCs8FQE4yvhIk0N4XwtY6nqQLVfEI8xnBjuwpq2J2vL1YRvR8L0R7IcOQvYRE36aM/i+1
- gztLYb439Z2SEnNe+QGoi8Ct+TUa4+8fAbElbFGv86WlbZOo6uR8xBGQ+V7IfVer8mzuZEAgv
- opbEV4+yEhEiwTifrKWgXb70OEyQF9noaBK5cOraomKlYLR6yacSNuuQJHM7iA9zHjoOjtGFX
- eVwkXND2KSIXYh+uICWAkm6Km/bOfLaOr06FVNFvAENJKoM56b5viCPSUf4hrHg9mhNO/+ljW
- bJoDNooreqN9vhGywlFAnttOWsR2kgYBFsh8/EU+CH49QLDnxI=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:15Cb0Bmyj1TMZtdh8oJw7jlYQovftkTrZjQTP5G1zPpdUI+zUlV
+ +FIH/GLVJDTceprewge6lql+9YUMflGP01UFLN03vdIZ/MRW5y9bg3nZXs1n692e4JQmq67
+ YwRv3l0xIzKiPIcHPAttC8IGxuaHlQCUPfIxG8D18zPgGakh1uwQCnKSkaEWxnAjtLbYD6U
+ Ai97oCtP+DcphnROdvmcw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0eWG7K9fXnQ=:Kdt5JJYcEB2SslJkDXII4R
+ fE1I5zc15Ib9kV92LwdBbRqxjNraIesUnc7WKyqYvWF+3xBEE7suehkBqUe1Cc3rieJfd5+/c
+ rWrmV6JAH0/84xjqOXEqP+AkZRQvoNzLJkWs9DhBqs/qbSP6NszCJLZyDgSrQcgDwrOPr1nN0
+ qaJIC2b2gizgKH+l3gIggPoA0s2zTQwkt0LN12pXECH156b+jeF9eXJFJL0VQUfsEyNyxm3xK
+ ovGdvP789V6QITLyi48AxRZWDFs+eXS36ek9t56h+kydc+f75IpiJVewtMciPdY1t5HCdf035
+ GfhtcXSYk7PNMKLYQ3oozeawFiGdNoOaZY+f+yQb7lyrtRcNaequZ4ZlADYvarr0MdKXiSFgA
+ X6BlrDs2YLskwDTgC81hIwj4O1ciUqMe62QonCh9jXZQRupYtDTPkNp4h3cA/j+deQrwlgoHS
+ 8aJS5EVJpzda3cJi85Uq36toWyYldbwFREPu9e4QlkvA/Hp4zsGzRpO0vIlNHCS9xyBwEMJh/
+ 2K6NSTexku+5Dl4XK5GoNUep2mMriY1Y472WJ4PK0MsYYxc98mPzi4wQWLQQ0oItxtGuHk73a
+ abn6OUInylkwLaw6iQqqCsLkjYZxcykubbqmrnXNRvxFpq06o1w1RsPQZFOv2ON5SCJ7NBHyx
+ V+q2HTjAryl5xcmPIuQUBIlf7yH5D16/2kxLyZ5nZNMhNvMdWVx3lx+Htavwsb76iphXMXVs2
+ HyECtzkX6o+biwj67vGI1zAtfe68x2TkGT1VxWw3bherI42dspISA52bSiKedR+lDqTtG7RJZ
+ 1oaIszvn8eCLgCUGz7+3Gi5zdAy3+uKOYdvhdxdWfFL9ugLj1Y=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:27:21
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 10:57:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -68,243 +69,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Gang <chengang@emindsoft.com.cn>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Filip Bozuta <Filip.Bozuta@syrmia.com>, Riku Voipio <riku.voipio@iki.fi>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Gang <chengang@emindsoft.com.cn>
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-Another DRM_IOCTL_* commands will be done later.
+    Structure "struct syscallname" in file "strace.c" is used for "-strace"
+    to print arguments and return values of syscalls. The last field of
+    this structure "result" represents the calling function that prints the
+    return values. This field was extended in this patch so that this function
+    takes all syscalls arguments beside the return value. In this way, it enables
+    "-strace" to print arguments of syscalls that have changed after the syscall
+    execution. This extension will be useful as there are many syscalls that
+    return values inside their arguments (i.e. listxattr() that returns the list
+    of extended attributes inside the "list" argument).
 
-Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
+Implementation notes:
+
+    Since there are already three existing "print_syscall_ret*" functions inside
+    "strace.c" ("print_syscall_ret_addr()", "print_syscall_ret_adjtimex()",
+    "print_syscall_ret_newselect()"), they were changed to have all syscall arguments
+    beside the return value. This was done so that these functions don't cause build
+    errors (even though syscall arguments are not used in these functions).
+    There is code repetition in these functions for checking the return value
+    and printing the approppriate error message (this code is also located in
+    print_syscall_ret() at the end of "strace.c"). That is the reason why a
+    function "syscall_print_err()" was added for this code and put inside these
+    functions. Functions "print_newselect()" and "print_syscall_ret_newselect()"
+    were changed to use this new implemented functionality and not store the syscall
+    argument values in separate static variables.
+
+Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200605013221.22828-1-chengang@emindsoft.com.cn>
+Message-Id: <20200619123331.17387-2-filip.bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure                  | 10 ++++
- linux-user/ioctls.h        |  5 ++
- linux-user/syscall.c       | 98 ++++++++++++++++++++++++++++++++++++++
- linux-user/syscall_defs.h  | 15 ++++++
- linux-user/syscall_types.h | 11 +++++
- 5 files changed, 139 insertions(+)
+ linux-user/qemu.h    |   4 +-
+ linux-user/strace.c  | 110 ++++++++++++++++++++++---------------------
+ linux-user/syscall.c |   2 +-
+ 3 files changed, 61 insertions(+), 55 deletions(-)
 
-diff --git a/configure b/configure
-index 4a22dcd5631d..2014c72b674d 100755
---- a/configure
-+++ b/configure
-@@ -3194,6 +3194,13 @@ if ! check_include "ifaddrs.h" ; then
-   have_ifaddrs_h=no
- fi
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index ce902f5132a6..8f938b8105b3 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -383,7 +383,9 @@ int host_to_target_waitstatus(int status);
+ void print_syscall(int num,
+                    abi_long arg1, abi_long arg2, abi_long arg3,
+                    abi_long arg4, abi_long arg5, abi_long arg6);
+-void print_syscall_ret(int num, abi_long arg1);
++void print_syscall_ret(int num, abi_long ret,
++                       abi_long arg1, abi_long arg2, abi_long arg3,
++                       abi_long arg4, abi_long arg5, abi_long arg6);
+ /**
+  * print_taken_signal:
+  * @target_signum: target signal being taken
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 0d9095c674f4..62117e8555f6 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -19,7 +19,9 @@ struct syscallname {
+     void (*call)(const struct syscallname *,
+                  abi_long, abi_long, abi_long,
+                  abi_long, abi_long, abi_long);
+-    void (*result)(const struct syscallname *, abi_long);
++    void (*result)(const struct syscallname *, abi_long,
++                   abi_long, abi_long, abi_long,
++                   abi_long, abi_long, abi_long);
+ };
  
-+#########################################
-+# libdrm check
-+have_drm_h=no
-+if check_include "libdrm/drm.h" ; then
-+    have_drm_h=yes
-+fi
-+
- ##########################################
- # VTE probe
+ #ifdef __GNUC__
+@@ -631,18 +633,12 @@ print_clockid(int clockid, int last)
  
-@@ -7377,6 +7384,9 @@ fi
- if test "$have_ifaddrs_h" = "yes" ; then
-     echo "HAVE_IFADDRS_H=y" >> $config_host_mak
- fi
-+if test "$have_drm_h" = "yes" ; then
-+  echo "HAVE_DRM_H=y" >> $config_host_mak
-+fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
- fi
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 0defa1d8c18d..f2e2fa9c878b 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -574,6 +574,11 @@
-   IOCTL_SPECIAL(SIOCDELRT, IOC_W, do_ioctl_rt,
-                 MK_PTR(MK_STRUCT(STRUCT_rtentry)))
- 
-+#ifdef HAVE_DRM_H
-+  IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_version)))
-+#endif
-+
- #ifdef TARGET_TIOCSTART
-   IOCTL_IGNORE(TIOCSTART)
-   IOCTL_IGNORE(TIOCSTOP)
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 97de9fb5c92a..17ed7f8d6b59 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -112,6 +112,9 @@
- #include <linux/if_alg.h>
- #include <linux/rtc.h>
- #include <sound/asound.h>
-+#ifdef HAVE_DRM_H
-+#include <libdrm/drm.h>
-+#endif
- #include "linux_loop.h"
- #include "uname.h"
- 
-@@ -5276,6 +5279,101 @@ static abi_long do_ioctl_tiocgptpeer(const IOCTLEntry *ie, uint8_t *buf_temp,
+ /* select */
+ #ifdef TARGET_NR__newselect
+-static long newselect_arg1 = 0;
+-static long newselect_arg2 = 0;
+-static long newselect_arg3 = 0;
+-static long newselect_arg4 = 0;
+-static long newselect_arg5 = 0;
+-
+ static void
+ print_newselect(const struct syscallname *name,
+                 abi_long arg1, abi_long arg2, abi_long arg3,
+                 abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+-    qemu_log("%s(" TARGET_ABI_FMT_ld ",", name->name, arg1);
++    print_syscall_prologue(name);
+     print_fdset(arg1, arg2);
+     qemu_log(",");
+     print_fdset(arg1, arg3);
+@@ -650,14 +646,7 @@ print_newselect(const struct syscallname *name,
+     print_fdset(arg1, arg4);
+     qemu_log(",");
+     print_timeval(arg5, 1);
+-    qemu_log(")");
+-
+-    /* save for use in the return output function below */
+-    newselect_arg1=arg1;
+-    newselect_arg2=arg2;
+-    newselect_arg3=arg3;
+-    newselect_arg4=arg4;
+-    newselect_arg5=arg5;
++    print_syscall_epilogue(name);
  }
  #endif
  
-+#ifdef HAVE_DRM_H
-+
-+static void unlock_drm_version(struct drm_version *host_ver,
-+                               struct target_drm_version *target_ver,
-+                               bool copy)
-+{
-+    unlock_user(host_ver->name, target_ver->name,
-+                                copy ? host_ver->name_len : 0);
-+    unlock_user(host_ver->date, target_ver->date,
-+                                copy ? host_ver->date_len : 0);
-+    unlock_user(host_ver->desc, target_ver->desc,
-+                                copy ? host_ver->desc_len : 0);
+@@ -736,17 +725,29 @@ print_ipc(const struct syscallname *name,
+  */
+ 
+ static void
+-print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
++print_syscall_err(abi_long ret)
+ {
+     const char *errstr = NULL;
+ 
++    qemu_log(" = ");
+     if (ret < 0) {
++        qemu_log("-1 errno=%d", errno);
+         errstr = target_strerror(-ret);
++        if (errstr) {
++            qemu_log(" (%s)", errstr);
++        }
+     }
+-    if (errstr) {
+-        qemu_log(" = -1 errno=%d (%s)\n", (int)-ret, errstr);
+-    } else {
+-        qemu_log(" = 0x" TARGET_ABI_FMT_lx "\n", ret);
 +}
 +
-+static inline abi_long target_to_host_drmversion(struct drm_version *host_ver,
-+                                          struct target_drm_version *target_ver)
++static void
++print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
++                       abi_long arg0, abi_long arg1, abi_long arg2,
++                       abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    memset(host_ver, 0, sizeof(*host_ver));
++    print_syscall_err(ret);
 +
-+    __get_user(host_ver->name_len, &target_ver->name_len);
-+    if (host_ver->name_len) {
-+        host_ver->name = lock_user(VERIFY_WRITE, target_ver->name,
-+                                   target_ver->name_len, 0);
-+        if (!host_ver->name) {
-+            return -EFAULT;
-+        }
-+    }
-+
-+    __get_user(host_ver->date_len, &target_ver->date_len);
-+    if (host_ver->date_len) {
-+        host_ver->date = lock_user(VERIFY_WRITE, target_ver->date,
-+                                   target_ver->date_len, 0);
-+        if (!host_ver->date) {
-+            goto err;
-+        }
-+    }
-+
-+    __get_user(host_ver->desc_len, &target_ver->desc_len);
-+    if (host_ver->desc_len) {
-+        host_ver->desc = lock_user(VERIFY_WRITE, target_ver->desc,
-+                                   target_ver->desc_len, 0);
-+        if (!host_ver->desc) {
-+            goto err;
-+        }
-+    }
-+
-+    return 0;
-+err:
-+    unlock_drm_version(host_ver, target_ver, false);
-+    return -EFAULT;
-+}
-+
-+static inline void host_to_target_drmversion(
-+                                          struct target_drm_version *target_ver,
-+                                          struct drm_version *host_ver)
++    if (ret >= 0) {
++        qemu_log("0x" TARGET_ABI_FMT_lx "\n", ret);
+     }
+ }
+ 
+@@ -760,17 +761,25 @@ print_syscall_ret_raw(struct syscallname *name, abi_long ret)
+ 
+ #ifdef TARGET_NR__newselect
+ static void
+-print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
+-{
+-    qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
+-    print_fdset(newselect_arg1,newselect_arg2);
+-    qemu_log(",");
+-    print_fdset(newselect_arg1,newselect_arg3);
+-    qemu_log(",");
+-    print_fdset(newselect_arg1,newselect_arg4);
+-    qemu_log(",");
+-    print_timeval(newselect_arg5, 1);
+-    qemu_log(")\n");
++print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
++                            abi_long arg0, abi_long arg1, abi_long arg2,
++                            abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    __put_user(host_ver->version_major, &target_ver->version_major);
-+    __put_user(host_ver->version_minor, &target_ver->version_minor);
-+    __put_user(host_ver->version_patchlevel, &target_ver->version_patchlevel);
-+    __put_user(host_ver->name_len, &target_ver->name_len);
-+    __put_user(host_ver->date_len, &target_ver->date_len);
-+    __put_user(host_ver->desc_len, &target_ver->desc_len);
-+    unlock_drm_version(host_ver, target_ver, true);
-+}
++    print_syscall_err(ret);
 +
-+static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
-+                             int fd, int cmd, abi_long arg)
-+{
-+    struct drm_version *ver;
-+    struct target_drm_version *target_ver;
-+    abi_long ret;
-+
-+    switch (ie->host_cmd) {
-+    case DRM_IOCTL_VERSION:
-+        if (!lock_user_struct(VERIFY_WRITE, target_ver, arg, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        ver = (struct drm_version *)buf_temp;
-+        ret = target_to_host_drmversion(ver, target_ver);
-+        if (!is_error(ret)) {
-+            ret = get_errno(safe_ioctl(fd, ie->host_cmd, ver));
-+            if (is_error(ret)) {
-+                unlock_drm_version(ver, target_ver, false);
-+            } else {
-+                host_to_target_drmversion(target_ver, ver);
-+            }
-+        }
-+        unlock_user_struct(target_ver, arg, 0);
-+        return ret;
++    if (ret >= 0) {
++        qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
++        print_fdset(arg0, arg1);
++        qemu_log(",");
++        print_fdset(arg0, arg2);
++        qemu_log(",");
++        print_fdset(arg0, arg3);
++        qemu_log(",");
++        print_timeval(arg4, 1);
++        qemu_log(")");
 +    }
-+    return -TARGET_ENOSYS;
-+}
 +
-+#endif
++    qemu_log("\n");
+ }
+ #endif
+ 
+@@ -783,18 +792,13 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
+ #define TARGET_TIME_ERROR    5   /* clock not synchronized */
+ #ifdef TARGET_NR_adjtimex
+ static void
+-print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret)
++print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
++                           abi_long arg0, abi_long arg1, abi_long arg2,
++                           abi_long arg3, abi_long arg4, abi_long arg5)
+ {
+-    const char *errstr = NULL;
++    print_syscall_err(ret);
+ 
+-    qemu_log(" = ");
+-    if (ret < 0) {
+-        qemu_log("-1 errno=%d", errno);
+-        errstr = target_strerror(-ret);
+-        if (errstr) {
+-            qemu_log(" (%s)", errstr);
+-        }
+-    } else {
++    if (ret >= 0) {
+         qemu_log(TARGET_ABI_FMT_ld, ret);
+         switch (ret) {
+         case TARGET_TIME_OK:
+@@ -2847,25 +2851,25 @@ print_syscall(int num,
+ 
+ 
+ void
+-print_syscall_ret(int num, abi_long ret)
++print_syscall_ret(int num, abi_long ret,
++                  abi_long arg1, abi_long arg2, abi_long arg3,
++                  abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     int i;
+-    const char *errstr = NULL;
+ 
+     for(i=0;i<nsyscalls;i++)
+         if( scnames[i].nr == num ) {
+             if( scnames[i].result != NULL ) {
+-                scnames[i].result(&scnames[i], ret);
++                scnames[i].result(&scnames[i], ret,
++                                  arg1, arg2, arg3,
++                                  arg4, arg5, arg6);
+             } else {
+-                if (ret < 0) {
+-                    errstr = target_strerror(-ret);
+-                }
+-                if (errstr) {
+-                    qemu_log(" = -1 errno=" TARGET_ABI_FMT_ld " (%s)\n",
+-                             -ret, errstr);
+-                } else {
+-                    qemu_log(" = " TARGET_ABI_FMT_ld "\n", ret);
++                print_syscall_err(ret);
 +
- static IOCTLEntry ioctl_entries[] = {
- #define IOCTL(cmd, access, ...) \
-     { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 152ec637cba6..3c261cff0e5e 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1167,6 +1167,9 @@ struct target_rtc_pll_info {
- #define TARGET_DM_TARGET_MSG          TARGET_IOWRU(0xfd, 0x0e)
- #define TARGET_DM_DEV_SET_GEOMETRY    TARGET_IOWRU(0xfd, 0x0f)
++                if (ret >= 0) {
++                    qemu_log(TARGET_ABI_FMT_ld, ret);
+                 }
++                qemu_log("\n");
+             }
+             break;
+         }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 17ed7f8d6b59..1b971c06b270 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -12565,7 +12565,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+                       arg5, arg6, arg7, arg8);
  
-+/* drm ioctls */
-+#define TARGET_DRM_IOCTL_VERSION      TARGET_IOWRU('d', 0x00)
-+
- /* from asm/termbits.h */
+     if (unlikely(qemu_loglevel_mask(LOG_STRACE))) {
+-        print_syscall_ret(num, ret);
++        print_syscall_ret(num, ret, arg1, arg2, arg3, arg4, arg5, arg6);
+     }
  
- #define TARGET_NCC 8
-@@ -2598,6 +2601,18 @@ struct target_mq_attr {
-     abi_long mq_curmsgs;
- };
- 
-+struct target_drm_version {
-+    int version_major;
-+    int version_minor;
-+    int version_patchlevel;
-+    abi_ulong name_len;
-+    abi_ulong name;
-+    abi_ulong date_len;
-+    abi_ulong date;
-+    abi_ulong desc_len;
-+    abi_ulong desc;
-+};
-+
- #include "socket.h"
- 
- #include "errno_defs.h"
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 4e12c1661ea6..e2b0484f50e5 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -292,6 +292,17 @@ STRUCT(dm_target_versions,
- STRUCT(dm_target_msg,
-        TYPE_ULONGLONG) /* sector */
- 
-+STRUCT(drm_version,
-+       TYPE_INT, /* version_major */
-+       TYPE_INT, /* version_minor */
-+       TYPE_INT, /* version_patchlevel */
-+       TYPE_ULONG, /* name_len */
-+       TYPE_PTRVOID, /* name */
-+       TYPE_ULONG, /* date_len */
-+       TYPE_PTRVOID, /* date */
-+       TYPE_ULONG, /* desc_len */
-+       TYPE_PTRVOID) /* desc */
-+
- STRUCT(file_clone_range,
-        TYPE_LONGLONG, /* src_fd */
-        TYPE_ULONGLONG, /* src_offset */
+     record_syscall_return(cpu, num, ret);
 -- 
 2.26.2
 
