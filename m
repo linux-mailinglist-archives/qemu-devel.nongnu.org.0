@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E345212B7A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:47:44 +0200 (CEST)
-Received: from localhost ([::1]:39876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14C2212B8B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:50:15 +0200 (CEST)
+Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3JH-0001sP-J6
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49504)
+	id 1jr3Li-0007T0-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jr3Aa-00040I-CU
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:38:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46579
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jr3AV-0007P3-Li
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:38:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593711518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XWkiP2riByo+oCZwlGXBL90XYfCVObEALO4uM2yw4ao=;
- b=OOc8rr3TjHTAlUv4T1m4FRLRIDcivLsaqENbCn+J1yp/krASBeW9OIzjhT6uUYNPKB3TeL
- RrFS5DFB3OvIkhcz3yu4t7YtcuStAXIHPEx2A0JIAqCD8sDb9mRHwd4q5N6wTPQagx1PcW
- Y9vIzGztHR8aIVjMNGOQxXbkOBfCUJs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-0yTqEWzZO_u7fbaHNtXhrA-1; Thu, 02 Jul 2020 13:38:33 -0400
-X-MC-Unique: 0yTqEWzZO_u7fbaHNtXhrA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A60981940922;
- Thu,  2 Jul 2020 17:38:32 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-212.ams2.redhat.com [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A3CC101042D;
- Thu,  2 Jul 2020 17:38:31 +0000 (UTC)
-Subject: Re: [PATCH] configure / util: Auto-detect the availability of
- openpty()
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200702143955.678-1-thuth@redhat.com>
- <20200702144650.GM1888119@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c7a0d182-8df1-9ac6-4ef1-65745ebf358a@redhat.com>
-Date: Thu, 2 Jul 2020 19:38:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jr3Ae-00045E-4J
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:38:48 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jr3AZ-0007Q8-W8
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 13:38:47 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id f16so2435186pjt.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 10:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZTc72DhtseFTiRpOsQCQpjEwjywGIZnMY5O8TZHL83Q=;
+ b=LOB5MNPmUYi8BBwXJxbsg1I+TKr+o+01qQA4GyrD8xda9G1fNcXo2uW2MCB71ksTl1
+ VePVtuuZpdqIVJnQ46afTad7VUw/qp/1loywz4aUVLpHwiuQE5oTpYTeQi2O1turMw2I
+ xDzCyt8Bpu7CzSzz9pDj7AhvcwDxenBLW97AK4GkJ5fE3gXp/rRksBrpx1ydvHbmYqoM
+ E12xsYDBzIS6Y8ijfvBkS4/ua7vrTPoxM5243cy8z3vdvT1qATxWwu4/3oz9RnFMeVVy
+ tpw8sPlabP9sGuHZ1e7GnA2VFsUCa354d2M4dlSCqFxL8/LPOYQwLTAQlEq1xLtANQbj
+ Q8Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZTc72DhtseFTiRpOsQCQpjEwjywGIZnMY5O8TZHL83Q=;
+ b=oBriz7WS92QnY+IXlEqIoqeEOs5uKTC3GfNmr7FT1jwB84IFZHEWFmeVsv1wUbxs7P
+ rF5053OTrE7ENEgRigj2CYUGYZUAFtyPHtjBuSzImm2Ys1kaGBoLFUjSLCXMHY9NzNzv
+ G/B+y3EDxwhfUjUyy4DT+kQC6QZ4UxB9Q/UGCRC5BW10/RMr815O3VPbmM/94FtHF5Kc
+ 0a4l9ZUjXek/+/8NtB2dzwEi87IwhvsxRD98CkEQ2JZtpNSzAb115d2Ur0R2Z5gP0gXB
+ BwSz1K8ISdRInj2uKDCYaxu2doyjDUy7i/8ftdrRIG+6fwamcjSIZDK6JunluJo95jo6
+ W9Xw==
+X-Gm-Message-State: AOAM532sN/pxqKm4ns02ZcETI7S/xCxDF6uIlgxYmRAjnREzyHmdPtmC
+ 4+wWEiDe4ATC3kDnhS1d8YHzqw==
+X-Google-Smtp-Source: ABdhPJyuznEQWI9vns6vRPJqFvH6+czvMg2AW1yGYWejoqfNJhtl4AYd1lh5HYvf4/rvLgrwznF2hw==
+X-Received: by 2002:a17:90b:b15:: with SMTP id
+ bf21mr29960892pjb.53.1593711521203; 
+ Thu, 02 Jul 2020 10:38:41 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id l22sm8202373pjq.20.2020.07.02.10.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jul 2020 10:38:40 -0700 (PDT)
+Subject: Re: [PATCH 6/6] target/riscv: clean up fmv.w.x
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20200626205917.4545-1-zhiwei_liu@c-sky.com>
+ <20200626205917.4545-7-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bea50a30-e8ed-dc96-8b87-d70e655c8524@linaro.org>
+Date: Thu, 2 Jul 2020 10:38:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200702144650.GM1888119@redhat.com>
+In-Reply-To: <20200626205917.4545-7-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:00:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,43 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Tribble <peter.tribble@gmail.com>, qemu-devel@nongnu.org,
- Michele Denber <denber@mindspring.com>
+Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, Alistair.Francis@wdc.com,
+ ianjiang.ict@gmail.com, wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/07/2020 16.46, Daniel P. Berrangé wrote:
-> On Thu, Jul 02, 2020 at 04:39:55PM +0200, Thomas Huth wrote:
->> Recent versions of Solaris (v11.4) now feature an openpty() function,
->> too, causing a build failure since we ship our own implementation of
->> openpty() for Solaris in util/qemu-openpty.c so far. Since there are
->> now both variants available in the wild, with and without this function,
->> let's introduce a proper HAVE_OPENPTY define for this to fix the build
->> failure.
-> 
-> 11.4 has been out since Aug 2018
-> 
-> The previous verison of solaris  11.3 was from Oct 2015, with EOL
-> in Oct 2020 [1].
-> 
-> Solaris isn't an officially supported platform for QEMU, but if it
-> was, then we'd probably consider it a long life distro, and thus
-> consider 11.3 to be out of scope for QEMU by now.
-> 
-> IOW, instead of checking for openpty being missing, I think there's
-> a decent argument to be made that we can just assume openpty exists,
-> and delete the old solaris compat code entirely.
+On 6/26/20 1:59 PM, LIU Zhiwei wrote:
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/insn_trans/trans_rvf.inc.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 
-I'd normally agree, but according to Peter, illumos also does not have 
-this function yet:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg09276.html
-
-... so I think we should keep it around for a little bit longer until at 
-least the open source versions of Solaris have that function, too.
-(Maybe someone will still finally provide a VM based on one of the 
-illumos distros for our regression tests...?)
-
-  Thomas
-
+r~
 
