@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438FB212B08
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:16:14 +0200 (CEST)
-Received: from localhost ([::1]:32960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3201E212AD7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:08:35 +0200 (CEST)
+Received: from localhost ([::1]:42594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr2on-0007am-AI
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1jr2hO-0007cB-8e
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2BB-0007j0-1G
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:17 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4451fe355=alistair.francis@wdc.com>)
- id 1jr2B5-0000AD-97
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:35:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1593707711; x=1625243711;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=SfVf7r6mpAwLPCTktcQ4m4jxeV75iNOFhoFgumUd+L0=;
- b=T474NJTxFf/YPPpfnMA2QdpRdMyJRPex3pAyj/GNfUrVKUtY0p3QJ1KL
- +KOgbbDTh3+VbeFRUDdbkSz3uIFm3Sht8repb+K/PmVfEImp4JurrQVTc
- bkEDtzJTTT/cD6SdgGzhXk+/05BFkpacjySDEPpFzS3Eleq/SH2ze7Lae
- CFlIOOdgxDYuaHab60J+a3liHxFOnFAzVoNQ6RKuktm9doUJRVYqxzoEM
- LagVSXXhFLzd7g1BG2hJ8QHX+zf4EZ6iZZ2UECxlxwG0Sl6Cwbsgkw52l
- WeV2qXw+NX1poN41zOU5Blgj52GGWREnbp3OIHqt/6DnRC+Mk3596REeN A==;
-IronPort-SDR: pBhCqdjXlZ/q/+vzHrjoaq2Rxhw0niwcdt75Ms/XKk8d8gD4OmsJ7kMK5mrQyVMDmrQjO1odrE
- I1sonhv6aW9uofhWA9vLMjPzmzu0ZFQv377n+qV5nUq9LrPlMqfn8CQgE8f1lFFr32xCNdnpYu
- 0KSq9KOZBu6X57KPKABlIpIvAPsyjjndcOOEOmZIVOu1rfu5PQ6+GCFNgQITHscB44C4x01RDc
- MaIPo+CdSrnxdxbwJYvyprL/u30efZmPxymrq3wTI3fiVwrfcPc0jIYks9eX1Z4gRzGVVsLRq8
- Dcw=
-X-IronPort-AV: E=Sophos;i="5.75,304,1589212800"; d="scan'208";a="141498580"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2020 00:33:37 +0800
-IronPort-SDR: qFr3ztKl9LhQRy6IakRraAKJBzo4QQ8gHlU9nxqadIqiiSzt/TtdcNvS+nivaq6VDQ0j1/A9HP
- af5kUGjPgFo+l1vkanKvZJo1+pfMH4cMs=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 09:21:52 -0700
-IronPort-SDR: eaXIaZDBrPHxNTlrWR6DoSjiwfVQm9zaSOERHKWzdXOw/ysvUx1wgYkG5KZHVge/Bp7x5rjs4B
- W+uv676Up/Dg==
-WDCIronportException: Internal
-Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.58.118])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Jul 2020 09:33:37 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 64/64] target/riscv: configure and turn on vector extension
- from command line
-Date: Thu,  2 Jul 2020 09:23:54 -0700
-Message-Id: <20200702162354.928528-65-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200702162354.928528-1-alistair.francis@wdc.com>
-References: <20200702162354.928528-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr2Cm-0003iQ-WF
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:36:57 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37892
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jr2Cl-0001KR-EH
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 12:36:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593707814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l7gDIudEuMBbnl7i/AbRQ+CJ2A0eaU45aPIycFtnzQ0=;
+ b=i7xMS3Z4sGqdHiGNAOzDE5gUG9u/pB313j9ChRz7qABTibGD2I2qcRs/k4f8f0FjBTRK2D
+ yE52df6EzJAIWKDFQxA2m3puEudtd9G9O+c5GgtcnlG7l9QNrCOu+jSHeKlH3ZhJU2DTBl
+ MFdLD2PuWhhzry6ZsfjmnAUTaIFlbdQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-66y-W8x2PiK7fu9gx-59dg-1; Thu, 02 Jul 2020 12:36:50 -0400
+X-MC-Unique: 66y-W8x2PiK7fu9gx-59dg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1BEC39345;
+ Thu,  2 Jul 2020 16:35:58 +0000 (UTC)
+Received: from [10.3.112.202] (ovpn-112-202.phx2.redhat.com [10.3.112.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62A22619C0;
+ Thu,  2 Jul 2020 16:35:58 +0000 (UTC)
+Subject: Re: [PATCH v2 16/44] qapi: Make visitor functions taking Error **
+ return bool, not void
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200702155000.3455325-1-armbru@redhat.com>
+ <20200702155000.3455325-17-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ecee0ae5-616c-6686-5edc-1977b24206e5@redhat.com>
+Date: Thu, 2 Jul 2020 11:35:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=4451fe355=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 12:33:30
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200702155000.3455325-17-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,127 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+On 7/2/20 10:49 AM, Markus Armbruster wrote:
+> See recent commit "error: Document Error API usage rules" for
+> rationale.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-   "-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
-
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200701152549.1218-62-zhiwei_liu@c-sky.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h |  4 +++-
- target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0ad51c6580..eef20ca6e5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -92,7 +92,7 @@ typedef struct CPURISCVState CPURISCVState;
- 
- #include "pmp.h"
- 
--#define RV_VLEN_MAX 512
-+#define RV_VLEN_MAX 256
- 
- FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
-@@ -279,12 +279,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d525cfb687..228b9bdb5d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -430,6 +430,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -469,10 +508,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
