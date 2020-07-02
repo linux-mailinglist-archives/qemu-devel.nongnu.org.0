@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33122127E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:28:51 +0200 (CEST)
-Received: from localhost ([::1]:46654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE102127EC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 17:31:34 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr18s-0002Fl-O8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43172)
+	id 1jr1BS-0005fN-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 11:31:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17V-0000SC-6T
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:53833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jr17R-0006IG-Ix
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:24 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MTi9N-1jMved0xQr-00U4JY; Thu, 02 Jul 2020 17:27:18 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/12] linux-user: Add strace support for printing arguments
- of lseek()
-Date: Thu,  2 Jul 2020 17:27:05 +0200
-Message-Id: <20200702152710.84602-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200702152710.84602-1-laurent@vivier.eu>
-References: <20200702152710.84602-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jr17X-0000TP-Mo
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24007
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jr17T-0006IS-EH
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 11:27:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593703641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pNH4rf3+4G6SG1/frQNPuCp7RTYauZbpUm977EG7OfM=;
+ b=F3PsGmoVNVPc2TNIsUtPJuReJEk7bVbB1wNjNTavCANUoSNePb2ApiPXzfY01JIFThzwX6
+ 2Xl3e6Res+4hPP83D9RG6I9h8BDpIdMefSlRFqPtThGC+c9yjZPmxJVIjIyDu20oAaSWF5
+ ZkcOUI2tJ9P7QIilBW9U5cZ7mdY62GQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-X6EwhBTuN1m5OzDMNo2GIg-1; Thu, 02 Jul 2020 11:27:20 -0400
+X-MC-Unique: X6EwhBTuN1m5OzDMNo2GIg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76297A0BD8;
+ Thu,  2 Jul 2020 15:27:18 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-112-70.ams2.redhat.com [10.36.112.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A4EE5DD61;
+ Thu,  2 Jul 2020 15:27:05 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com
+Subject: [PATCH v2 0/9] SMMUv3.2 Range-based TLB Invalidation Support
+Date: Thu,  2 Jul 2020 17:26:50 +0200
+Message-Id: <20200702152659.8522-1-eric.auger@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MS247B+cncjovVzKNv2NhuUL3/8iqUyBUSgZ1hmQE++EIQRwNLx
- jPatrNpAbmjUICNEd57J0k/QUUFuj9TzuXgX5AJfBsjUieDK6M1j/XgpD/PE2uXLjFc6t64
- sVASvCdKUXeBnrJGNBhN5Lw+Vmlosbmhkf4FQKBZ7m2+xk9xbOwXnS5dDFR0zWJfNYl/Vx1
- kZDmwn/k7Xclxcouw3lag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kyeEI88sOJk=:Y2bHPOyoGrJ7VtdQhmFkzS
- inZq9SICvnStcpBuYQw2yD0iNAMIUI2p1sEKiPlZV8MCmRsNUJ3Bu/j0LCzXqcXtgAkCxa61I
- 2rmF5QRNzsoA7AL/8ZHJjWTLLVpdlAYnDOyp1csm+BNExfT+70mEnlOgQhXT/JZpdBwinRM0J
- QqQ6GDloQjkTausxe9zXZdGD1bL7yWP+Y/T05JDOaq5vd2iUiwWIu4Hq5WbfHl8KYNBwcklX9
- Lp4pEMOQrxH3Y9Csb9JXH+9hb+bnmJggUzqUwbIRKWK0l4NVAa7mIGEheyLJr/8s2GFxF/2/o
- FMf59gct92nJOGPQiQNzt+6Yu2TW/lpH10Zd1A2P+NjyBUZAAX0JEJpeGl8dOXmuy+128aTHz
- JQdYNZ1yCIi/e0/w+5Y7iR1yUKG20epHZ2RiAaPNpl1lS2ZSrMKzmtjLrY3dadydAaPF+waBJ
- amMUy5/WIG7Km7Hxf/3L22u+W+kiSiu7yFlL5G/o91jiLbWm+S5P9/bvhE/v8F2cJo4Zeew7Y
- wX2Fs32eZnSuhqcQ4N9+mCyg+/sbwdikrwtuBSvX2568mjUxvtTczyJ9Wlg7ggtJ4hOoceZ4Q
- QLwFxa/n5UD0Owv3lkHphRVFSgo8gVC1PjmaONp3U72BUR0dlYgjAwK+ATHjq8tSdR86ILWN5
- DQTf9yeZrR7XSMQqoK5Q+5nw/nDAHwSrAggmiorIZui/d15YzQ6Sg4We/YbzYjua2O/Yvnk+O
- +CxehaHRa6Ik/OlbTxHdP5aXr59fYmBew/baAQoKrZY1spZNkG8q2AAQpx5W+3mGvWoa0EgSj
- WUJ7H+878L4p64HSqjOPtWClvFZ1dwQXLOBQXSlCASaYaO/PUc=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 11:27:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:23:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,99 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Filip Bozuta <Filip.Bozuta@syrmia.com>, Riku Voipio <riku.voipio@iki.fi>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: jean-philippe@linaro.org, robh@kernel.org, robin.murphy@arm.com,
+ mst@redhat.com, zhangfei.gao@foxmail.com, shameerali.kolothum.thodi@huawei.com,
+ will@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+SMMU3.2 brings the support of range-based TLB invalidation and
+level hint. When this feature is supported, the SMMUv3 driver
+is allowed to send TLB invalidations for a range of IOVAs instead
+of using page based invalidation.
 
-This patch implements strace argument printing functionality for syscall:
+Implementing this feature in the virtual SMMUv3 device is
+mandated for DPDK on guest use case: DPDK uses hugepage
+buffers and guest sends invalidations for blocks. Without
+this feature, a guest invalidation of a block of 1GB for instance
+translates into a storm of page invalidations. Each of them
+is trapped by the VMM and cascaded downto the physical IOMMU.
+This completely stalls the execution. This integration issue
+was initially reported in [1].
 
-    *lseek - reposition read/write file offset
+Now SMMUv3.2 specifies additional parameters to NH_VA and NH_VAA
+stage 1 invalidation commands so we can support those extensions.
 
-         off_t lseek(int fd, off_t offset, int whence)
-         man page: https://www.man7.org/linux/man-pages/man2/lseek.2.html
+patches [1, 5] are cleanup patches.
+patches [6] changes the implementation of the VSMMUV3 IOTLB
+   This IOTLB is a minimalist IOTLB implementation that avoids to
+   do the page table walk in case we have an entry in the TLB.
+   Previously entries were page mappings only. Now they can be
+   blocks.
+patches [7, 9] bring support for range invalidation.
 
-Implementation notes:
+Supporting block mappings in the IOTLB look sensible in terms of
+TLB entry consumption. However looking at virtio/vhost device usage,
+without block mapping and without range invalidation (< 5.7 kernels
+it may be less performant. However for recent guest kernels
+supporting range invalidations [2], the performance should be similar.
 
-    The syscall's third argument "whence" has predefined values:
-    "SEEK_SET","SEEK_CUR","SEEK_END","SEEK_DATA","SEEK_HOLE"
-    and thus a separate printing function "print_lseek" was stated
-    in file "strace.list". This function is defined in "strace.c"
-    by using an existing function "print_raw_param()" to print
-    the first and second argument and a switch(case) statement
-    for the predefined values of the third argument.
-    Values "SEEK_DATA" and "SEEK_HOLE" are defined in kernel version 3.1.
-    That is the reason why case statements for these values are
-    enwrapped in #ifdef directive.
+Best Regards
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-5-filip.bozuta@syrmia.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/strace.c    | 31 +++++++++++++++++++++++++++++++
- linux-user/strace.list |  2 +-
- 2 files changed, 32 insertions(+), 1 deletion(-)
+Eric
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 760020132b5a..a26736516bab 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1833,6 +1833,37 @@ print__llseek(const struct syscallname *name,
- }
- #endif
- 
-+#ifdef TARGET_NR_lseek
-+static void
-+print_lseek(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
-+    switch (arg2) {
-+    case SEEK_SET:
-+        qemu_log("SEEK_SET"); break;
-+    case SEEK_CUR:
-+        qemu_log("SEEK_CUR"); break;
-+    case SEEK_END:
-+        qemu_log("SEEK_END"); break;
-+#ifdef SEEK_DATA
-+    case SEEK_DATA:
-+        qemu_log("SEEK_DATA"); break;
-+#endif
-+#ifdef SEEK_HOLE
-+    case SEEK_HOLE:
-+        qemu_log("SEEK_HOLE"); break;
-+#endif
-+    default:
-+        print_raw_param("%#x", arg2, 1);
-+    }
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #if defined(TARGET_NR_socket)
- static void
- print_socket(const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d04ad507b0fb..a4a8c61969cd 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -516,7 +516,7 @@
- { TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
- #endif
- #ifdef TARGET_NR_lseek
--{ TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
-+{ TARGET_NR_lseek, "lseek" , NULL, print_lseek, NULL },
- #endif
- #ifdef TARGET_NR_lsetxattr
- { TARGET_NR_lsetxattr, "lsetxattr" , NULL, NULL, NULL },
+This series can be found at:
+https://github.com/eauger/qemu.git
+branch: v5.0.0-smmuv3-ril-v2
+
+References:
+[1] [RFC v2 4/4] iommu/arm-smmu-v3: add CMD_TLBI_NH_VA_AM command
+for iova range invalidation
+(https://lists.linuxfoundation.org/pipermail/iommu/2017-August/023679.html
+
+[2] 5.7+ kernels featuring
+6a481a95d4c1 iommu/arm-smmu-v3: Add SMMUv3.2 range invalidation support
+
+History:
+v1 -> v2:
+- added "hw/arm/smmu: Introduce smmu_get_iotlb_key()"
+- removed "[PATCH 5/9] hw/arm/smmuv3: Store the starting level in
+  SMMUTransTableInfo"
+- Collected Peter's R-b
+- In this version the key still features TG/LVL.
+- More details in individual history logs
+
+
+Eric Auger (9):
+  hw/arm/smmu-common: Factorize some code in smmu_ptw_64()
+  hw/arm/smmu-common: Add IOTLB helpers
+  hw/arm/smmu: Introduce smmu_get_iotlb_key()
+  hw/arm/smmu: Simplify the IOTLB key format
+  hw/arm/smmu: Introduce SMMUTLBEntry for PTW and IOTLB value
+  hw/arm/smmu-common: Manage IOTLB block entries
+  hw/arm/smmuv3: Introduce smmuv3_s1_range_inval() helper
+  hw/arm/smmuv3: Get prepared for range invalidation
+  hw/arm/smmuv3: Advertise SMMUv3.2 range invalidation
+
+ hw/arm/smmu-internal.h       |  13 +++
+ hw/arm/smmuv3-internal.h     |   5 +
+ include/hw/arm/smmu-common.h |  21 ++--
+ hw/arm/smmu-common.c         | 200 +++++++++++++++++++++++------------
+ hw/arm/smmuv3.c              | 134 ++++++++++++-----------
+ hw/arm/trace-events          |  10 +-
+ 6 files changed, 235 insertions(+), 148 deletions(-)
+
 -- 
-2.26.2
+2.21.3
 
 
