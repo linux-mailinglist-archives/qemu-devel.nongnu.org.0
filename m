@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42CD212E3E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:53:02 +0200 (CEST)
-Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F50212E48
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 22:55:35 +0200 (CEST)
+Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr6Cb-0001TU-Rb
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1jr6F4-00050G-5z
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 16:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr691-0004Al-SK
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr691-0004AV-SE
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:19 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27450
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33158
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr68z-0003X2-W4
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jr68z-0003Wq-A6
  for qemu-devel@nongnu.org; Thu, 02 Jul 2020 16:49:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593722957;
+ s=mimecast20190719; t=1593722955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=d/4SzrO51wLCoiHfnRNqtnLD968Kuwi1FHNsO/et+5g=;
- b=ApG6gQjj/EKZfgn3m7MmdnanCqhTogtwg1U63FmC/dMZqG0zGDFV14Y3V0oY15UF2gy87k
- hLUEZ7OKuCY6QyVk4dn7zg47LZhpV6syOeutjW8yoYS8WLcqS9Jeok1GaHKmf+ZGzp8O8Z
- y2+cSCiZfj/fpXTyYaAcCQZf/EJmtPY=
+ references:references; bh=Wy2GQheDSeuYedKPtPUZiomVVNMUQqvM47ukFGtvX+g=;
+ b=a7gmJrXS9XlgDAFvWEvnMljDrzDROHWDD3PQ34VFuwo87vzG9iCzfZI004hTvLzA5AvgbR
+ UF/NoXypXnCUtyJHT/BLqr7ZzB/AazzyXJcYLgZq6Et6li8m9eU+z/R7ef+XNRQCLUCg9M
+ v8doGV7cn1Tc7/YED/8Vr2ulFjjc8yM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-wwrqCUHTP7Wol-GABUN_bg-1; Thu, 02 Jul 2020 16:49:13 -0400
-X-MC-Unique: wwrqCUHTP7Wol-GABUN_bg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-316-YZ0pdNNsO3KBqDbmDAFMtw-1; Thu, 02 Jul 2020 16:49:12 -0400
+X-MC-Unique: YZ0pdNNsO3KBqDbmDAFMtw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5395A800402;
- Thu,  2 Jul 2020 20:49:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1183BFC0;
+ Thu,  2 Jul 2020 20:49:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
  [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B33DB5C1D0;
- Thu,  2 Jul 2020 20:49:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21537610B0;
+ Thu,  2 Jul 2020 20:49:02 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C8E83204AE; Thu,  2 Jul 2020 22:48:59 +0200 (CEST)
+ id D36E231E58; Thu,  2 Jul 2020 22:48:59 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/21] microvm: name qboot binary qboot.rom
-Date: Thu,  2 Jul 2020 22:48:39 +0200
-Message-Id: <20200702204859.9876-2-kraxel@redhat.com>
+Subject: [PATCH v4 02/21] seabios: add microvm config, update build rules
+Date: Thu,  2 Jul 2020 22:48:40 +0200
+Message-Id: <20200702204859.9876-3-kraxel@redhat.com>
 In-Reply-To: <20200702204859.9876-1-kraxel@redhat.com>
 References: <20200702204859.9876-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 04:18:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 03:42:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,67 +88,63 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qboot isn't a bios and shouldnt be named that way.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/microvm.c                       |   4 ++--
- pc-bios/{bios-microvm.bin => qboot.rom} | Bin
- roms/Makefile                           |   6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename pc-bios/{bios-microvm.bin => qboot.rom} (100%)
+ roms/Makefile               |  5 ++++-
+ roms/config.seabios-microvm | 26 ++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 roms/config.seabios-microvm
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 5e931975a06d..1300c396947b 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -47,7 +47,7 @@
- #include "kvm_i386.h"
- #include "hw/xen/start_info.h"
- 
--#define MICROVM_BIOS_FILENAME "bios-microvm.bin"
-+#define MICROVM_QBOOT_FILENAME "qboot.rom"
- 
- static void microvm_set_rtc(MicrovmMachineState *mms, ISADevice *s)
- {
-@@ -158,7 +158,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-     }
- 
-     if (bios_name == NULL) {
--        bios_name = MICROVM_BIOS_FILENAME;
-+        bios_name = MICROVM_QBOOT_FILENAME;
-     }
-     x86_bios_rom_init(get_system_memory(), true);
- }
-diff --git a/pc-bios/bios-microvm.bin b/pc-bios/qboot.rom
-similarity index 100%
-rename from pc-bios/bios-microvm.bin
-rename to pc-bios/qboot.rom
 diff --git a/roms/Makefile b/roms/Makefile
-index f9acf39954dc..b185c880541c 100644
+index b185c880541c..1a9d14674464 100644
 --- a/roms/Makefile
 +++ b/roms/Makefile
-@@ -68,7 +68,7 @@ default help:
- 	@echo "  opensbi64-virt     -- update OpenSBI for 64-bit virt machine"
- 	@echo "  opensbi32-sifive_u -- update OpenSBI for 32-bit sifive_u machine"
- 	@echo "  opensbi64-sifive_u -- update OpenSBI for 64-bit sifive_u machine"
--	@echo "  bios-microvm       -- update bios-microvm.bin (qboot)"
-+	@echo "  qboot              -- update qboot"
+@@ -72,9 +72,12 @@ default help:
  	@echo "  clean              -- delete the files generated by the previous" \
  	                              "build targets"
  
-@@ -194,9 +194,9 @@ opensbi64-sifive_u:
- 		PLATFORM="sifive/fu540"
- 	cp opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+-bios: build-seabios-config-seabios-128k build-seabios-config-seabios-256k
++bios: build-seabios-config-seabios-128k \
++		build-seabios-config-seabios-256k \
++		build-seabios-config-seabios-microvm
+ 	cp seabios/builds/seabios-128k/bios.bin ../pc-bios/bios.bin
+ 	cp seabios/builds/seabios-256k/bios.bin ../pc-bios/bios-256k.bin
++	cp seabios/builds/seabios-microvm/bios.bin ../pc-bios/bios-microvm.bin
  
--bios-microvm:
-+qboot:
- 	$(MAKE) -C qboot
--	cp qboot/bios.bin ../pc-bios/bios-microvm.bin
-+	cp qboot/bios.bin ../pc-bios/qboot.rom
+ vgabios seavgabios: $(patsubst %,seavgabios-%,$(vgabios_variants))
  
- clean:
- 	rm -rf seabios/.config seabios/out seabios/builds
+diff --git a/roms/config.seabios-microvm b/roms/config.seabios-microvm
+new file mode 100644
+index 000000000000..a253e2edc6ec
+--- /dev/null
++++ b/roms/config.seabios-microvm
+@@ -0,0 +1,26 @@
++CONFIG_QEMU=y
++CONFIG_QEMU_HARDWARE=y
++CONFIG_PERMIT_UNALIGNED_PCIROM=y
++CONFIG_ROM_SIZE=128
++CONFIG_XEN=n
++CONFIG_BOOTSPLASH=n
++CONFIG_ATA=n
++CONFIG_AHCI=n
++CONFIG_SDCARD=n
++CONFIG_PVSCSI=n
++CONFIG_ESP_SCSI=n
++CONFIG_LSI_SCSI=n
++CONFIG_MEGASAS=n
++CONFIG_MPT_SCSI=n
++CONFIG_FLOPPY=n
++CONFIG_FLASH_FLOPPY=n
++CONFIG_NVME=n
++CONFIG_PS2PORT=n
++CONFIG_USB=n
++CONFIG_LPT=n
++CONFIG_RTC_TIMER=n
++CONFIG_USE_SMM=n
++CONFIG_PMTIMER=n
++CONFIG_TCGBIOS=n
++CONFIG_HARDWARE_IRQ=n
++CONFIG_ACPI_PARSE=y
 -- 
 2.18.4
 
