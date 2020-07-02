@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64717212B6A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:44:04 +0200 (CEST)
-Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9244212B66
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jul 2020 19:43:01 +0200 (CEST)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr3Fj-0003HF-B5
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49380)
+	id 1jr3Ei-0001O1-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 13:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AM-0003qn-6T; Thu, 02 Jul 2020 13:38:30 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:41259)
+ id 1jr3AN-0003s5-U0; Thu, 02 Jul 2020 13:38:35 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jr3AK-0007BJ-Hn; Thu, 02 Jul 2020 13:38:29 -0400
-Received: by mail-ej1-x644.google.com with SMTP id dp18so30733391ejc.8;
- Thu, 02 Jul 2020 10:38:27 -0700 (PDT)
+ id 1jr3AL-0007Db-SI; Thu, 02 Jul 2020 13:38:31 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id a1so30708789ejg.12;
+ Thu, 02 Jul 2020 10:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7julCGiGF9JJmMXluhtA9EWXD+I+RvsjAFbGDldCUJk=;
- b=BJ9gq1qNYr4uw/5mZz5Q0SCEhQqt84swdf5C2UXyJlmilA7aFOy0zqa6vp0F0BXQPM
- n037ntdmwAH18xa+QMo0fzMWXzsMEKU5MgwBYkXcbdKiQT53HFta7uarN7lRRQXp9WHg
- H051VMvoxHlQaRobVwrb8uOnbxGNQhn/PIKWiAZKzX7QHdAaL7/iuof2VEo2miInl295
- sBqZjqyNRqVbo5CCDeCI/QAlmqY4bbniIuQkqdCZLYomQeeSTZYOsRROpkbC9BEqkuPP
- A49FH09slCc259RSVFYOzUUCwxg/QCTiaWD4Oq0kNUalo2h5LteQbajPDdbRAHBaUjyQ
- deWA==
+ bh=OypgoG/QLuK2sFiqZjxGaVD1WtdhJ5ElhJHDw5WL8n0=;
+ b=pFz0hzlKIoHAUDS71csbAb20ApCn1GIsGv+K9hANTvWPFue0P6CLAR72KH8xPfNonI
+ nEwUOHrffXpbz8XFXPIzeZduu0HH4LS5gUn2ttDe5S7SNjT8WwMPju/RKhKpx6i0H310
+ J2etMpdtnBWSv1zexXaPVgUBn+oRQe75DQ2VNFd8l1fUvJLS7dw3wnVVHSjgKd+Kqp/P
+ g/W9BXwTlqVTQFJTbu+ycOPj/LLnAlimpTaimnFqKcKAAKP2qLYd7Vize02iavpuzi/g
+ lcIbuzExTN+mXG9xM9MccXCeIZj+H+hSYhY//o9M06UHFc/Xm+pOBJRztkCVwMu/gkIr
+ HFJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7julCGiGF9JJmMXluhtA9EWXD+I+RvsjAFbGDldCUJk=;
- b=f8DdYlhxS/VWCwbZQPdzuWhojuc0R4zErhp5M+LnMKXS3IOaS5OVM/Pt5zIoBAj6p2
- bpuZXb+Vs8eZ0i/ifWqpgf7U3MNVqau3Sk/STkKuEqYbiv0Pu+2ao/gCLTit0Eb/gQCP
- JY6Fo9hedBNFAVfwQYuRH1QvUb0Z+IGfNAubgqdPRFeGYXg5Wck3tZT7LPj6bWYU7VxW
- DMsBnn+B20rsqYuVgxKWOJviMn8mcNsbQ2SRrk20KcGYoIJyXUwgUCOADRDoVR8rJFwN
- XBua91qORQlTd3MBrTX0M/VZSxUCs0LEmZMkTg62DEMl4E1Y/U6aly4sOoqMYKEmgPMU
- SuIA==
-X-Gm-Message-State: AOAM531iNTpPBitLoNwrNDrX8xGRZQkXRBGOOQWI3UXDFTzQuFMfepUz
- 9HATYSHS2vuwCAKBhQ/e5PpXeOrpYj4=
-X-Google-Smtp-Source: ABdhPJwZnNwWRFKfTZzhLV8BHnHfaQ1OW0Aejrug46Oc1FH5LKP2+gYhz8fdQLR4RRRZjcTc0rqqSA==
-X-Received: by 2002:a17:907:94cf:: with SMTP id
- dn15mr30797271ejc.457.1593711506189; 
- Thu, 02 Jul 2020 10:38:26 -0700 (PDT)
+ bh=OypgoG/QLuK2sFiqZjxGaVD1WtdhJ5ElhJHDw5WL8n0=;
+ b=QLlHitxSeUe6KzLinfnC2Qnk5L0NljXuizCrDgRWsIF+W+UFZUCIqh6VclxBk9pdhf
+ BTgNSwao7HGAK+DjvgEQCX2l45tFZ5BdKAkZgb/C/pGojqGu4+teC6Ijnyal6U2CAIPP
+ 585wTF2HJ433IwffXVbo0j35MKzFkPk06HVOcm8cghPE9ZzbB19W1k3+sGoMNqKaFxI0
+ 7UbrnQ0/jErzEG/9bDORuBNrXZhJaWgSUNxux0CZCjJnw98rnxqG1uAXXw2b8GiU5bsE
+ IGBSwYU1DIy6WaWeoE336tZPsFy8UNXcxSVkCFP5TNFBjS/cjloEW1aeMrewE35YEDmd
+ +r9g==
+X-Gm-Message-State: AOAM532wQ/ta70uvTfZR/39SOcabwwKzrLesxuvyiXWcZM6eL5RVZ44G
+ nsPzVlQszfFYcnumDaLBfi6ac9OrPBc=
+X-Google-Smtp-Source: ABdhPJxvTw3ObMrutoMVNesL+6YKPbxyXZIj71ll9vdq9lNr+k8gFBxOll7UHxC4RMZtSkdZfsZQdA==
+X-Received: by 2002:a17:906:fb99:: with SMTP id
+ lr25mr28490130ejb.49.1593711507422; 
+ Thu, 02 Jul 2020 10:38:27 -0700 (PDT)
 Received: from x1w.redhat.com (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.25
+ by smtp.gmail.com with ESMTPSA id w20sm5710344eds.21.2020.07.02.10.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 10:38:25 -0700 (PDT)
+ Thu, 02 Jul 2020 10:38:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/19] .mailmap: Display correctly Chen Fan name
-Date: Thu,  2 Jul 2020 19:38:04 +0200
-Message-Id: <20200702173818.14651-6-f4bug@amsat.org>
+Subject: [PATCH v3 06/19] .mailmap: Display correct email address for
+ Christoph Hellwig
+Date: Thu,  2 Jul 2020 19:38:05 +0200
+Message-Id: <20200702173818.14651-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200702173818.14651-1-f4bug@amsat.org>
 References: <20200702173818.14651-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -86,18 +87,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Chen Fan <chen.fan.fnst@cn.fujitsu.com>,
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix Chen Fan name in the following commit:
+Fix Christoph Hellwig email address in the following commit:
 
-  $ git log --author='chenfan <chen.fan.fnst@cn.fujitsu.com>' --oneline
- 5bb4c35dca target-i386/cpu.c: Fix two error output indentation
+  $ git log --author='hch@lst.de <hch@lst.de>' --oneline
+  37d5ddd6f4 virtio-blk: revert serial number support
 
-Cc: Chen Fan <chen.fan.fnst@cn.fujitsu.com>
+Cc: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -105,17 +106,17 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/.mailmap b/.mailmap
-index dbf674066f..1d444e4fce 100644
+index 1d444e4fce..8c8bbcf2e0 100644
 --- a/.mailmap
 +++ b/.mailmap
-@@ -79,6 +79,7 @@ Brijesh Singh <brijesh.singh@amd.com>
- Brilly Wu <brillywu@viatech.com.cn>
- Cédric Vincent <cedric.vincent@st.com>
- CheneyLin <linzc@zju.edu.cn>
-+Chen Fan <chen.fan.fnst@cn.fujitsu.com>
- Chen Gang <chengang@emindsoft.com.cn>
- Chen Gang <gang.chen.5i5j@gmail.com>
+@@ -85,6 +85,7 @@ Chen Gang <gang.chen.5i5j@gmail.com>
  Chen Gang <gang.chen@sunrus.com.cn>
+ Chen Wei-Ren <chenwj@iis.sinica.edu.tw>
+ Christophe Lyon <christophe.lyon@st.com>
++Christoph Hellwig <hch@lst.de>
+ Collin L. Walling <walling@linux.ibm.com>
+ Daniel P. Berrangé <berrange@redhat.com>
+ Eduardo Otubo <otubo@redhat.com>
 -- 
 2.21.3
 
