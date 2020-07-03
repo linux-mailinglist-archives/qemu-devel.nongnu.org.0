@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F93213E02
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:05:45 +0200 (CEST)
-Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB7F213DE2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:02:50 +0200 (CEST)
+Received: from localhost ([::1]:55914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP8C-0004sl-Bz
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50082)
+	id 1jrP5N-0001Ci-24
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxD-0004p4-SZ
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:23 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34158)
+ id 1jrOxG-0004uZ-39
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:26 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxC-0005fw-3X
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:23 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id f7so30413038wrw.1
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:21 -0700 (PDT)
+ id 1jrOxE-0005gY-7u
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:25 -0400
+Received: by mail-wr1-x436.google.com with SMTP id a6so33423433wrm.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=W1X/QFKetqy4Cccjm+5hRIiHrC/Te/v1h263Fqb3yTg=;
- b=XZ6oMUt82NR/6x98+Unfy/x/28+AIltZsqU+UyGjszIwnwTGPuy5GIMT2dBi3Uh+rN
- NEvny0x3+Knlb9vM1gxD/iyyc8fYiVkUsRaza6aUst6ROCxYE/sq0Rq3QNa/zwYw6E2B
- aaLPZYhRIuVz2AU7j8yESBWliCTGMn5BVNTz2WwuzLOcvTP73JQY2bU2cP8/jBzTLmjJ
- UNr8ilwTv5tJjjWXfq3JBYfVkOK6n2Uaon+xfNseS1EOWLIZNQA7eKeKK6ZATBhQR3xz
- EfV3wTjPjlD3eSSBKV4WdcQUWg+4Iyv1NiFHVkqIv1DpKaqMUIdcK1ZvoKOKrzfQJaIq
- BuZg==
+ bh=9kAWMFDfNy8onp4hyShw/LbQqFC+n+LfYN6Nfvd1C+w=;
+ b=nxj534JXbR27vnm+DlOtxxQznGjecqPPL+NlrG23Mm/6o5KOKbK7IJyShJ6h436n49
+ 3vsB3MWMLLTvn14P5k3tMqyn1WIwkIR5XDwJxvFXykF5TLmOX2dKqXtQCXAy24CWXXPO
+ aNYE7WMOJwWEPaTeTDvlQfpt61dhcHiMGfGaV4395pKfIRrUzBmGXMrQMrttaEQmc9dT
+ 6Q1H12vVHfwx5gPLcjFZ6V6/RNu3cxTWdb70dskYtEzOLY8JCrDL9kaZdWVQwRXqhumx
+ GIzYpLUvJz3lCoosEbXRsZiE5Ow4g3L2dOiPQRpzR67hO149sndNBawIly7bw/pj+7+9
+ JCLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W1X/QFKetqy4Cccjm+5hRIiHrC/Te/v1h263Fqb3yTg=;
- b=Wv7w2hEuBRofkHcRPy6k9qTvibWmmBb1dUa6dASltmpHhlLUU4zMuUefk9GIXd6lfL
- wSR+yYWoYg/IHZg4zOhLb8GHLYwIpy2DyDSWYyzw9omi1io2irGjTBusrhmBXP/FR3LU
- Ecly6mecxbhVwG2/ZTl1XltgK0EFeqgbiCzfnWtEEIrSBi2BvZBrEa3gOP084VOE/IIO
- 5V3fMwrmLaWTiW58EAEkSa+VWKv3E0s+sIW9qSZsexgd2eLNLF89xGQ1EBjlBxhmahKT
- QDD9Y0oBxlY219xZ2PE8Ad8L270N3o04YtUrwePfR7Wk3zEx3Ui0clOQxKce0gxwIrKS
- BpBw==
-X-Gm-Message-State: AOAM530KRQFTSTl6aIVGbYfFQ7dT695NBu9CjKF1g001DQAfRvmvh+vz
- 6cN8c6G9gRUWaIsInS7pOI9ts8D+JPR9zA==
-X-Google-Smtp-Source: ABdhPJwO+ihx/pIPQgvLfymxiNriQOL1SlM4VfI1jX7aB7GeAAtBCBbCqpS3+uDeIhm7dl+APpzgoQ==
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr37058191wrl.129.1593795260370; 
- Fri, 03 Jul 2020 09:54:20 -0700 (PDT)
+ bh=9kAWMFDfNy8onp4hyShw/LbQqFC+n+LfYN6Nfvd1C+w=;
+ b=qcKm3MkVpXpFgZlJ8xSFCtj7K0a05n6GMKB3c1MA/HyRLy5BPz9VIL+RsQZTjWAr+D
+ Wn+cZDKAKHT7KKku+74tCdVPlY5Qq9ZCA4eUm6GlyvrKPuUuZdyXxSdDQq8Su4h7eAVX
+ Ik81M7pUswuYLYz00HOye2pQI2Tq8VyfJUZPZjj9W6xpCZY8/mbF+DRSWUH0SwI5tG1S
+ UeO3hdaMT6cVXGAg0g2LE8KVnW1vNrvyXu0TxtLkpkhN7mMzZWfEJVnKBD/wGemecTjm
+ 0uAONaPvYz4dDR3eECNcPjYH6t1N3DCaqZZuqYdESf2GNL7ApVqWcFAx8OF519t4174l
+ 70Xw==
+X-Gm-Message-State: AOAM530J+l0DdDiP/B/ehTEhgC5lSBh8ds3PecSXaJWsHaFEET3Dn93m
+ /mQKC4QRuREfEW4JHPeRPvooGVAhpSPm0A==
+X-Google-Smtp-Source: ABdhPJyUH4G4r+drWeKO3f19KSD/zb5+BIRBXcxmGfI9jLDJAWN60n+jMkfv32zceVZMYmiyTe+c/w==
+X-Received: by 2002:adf:fa81:: with SMTP id h1mr37889569wrr.266.1593795262550; 
+ Fri, 03 Jul 2020 09:54:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.19
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:19 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/34] tests/acpi: virt: allow DSDT acpi table changes
-Date: Fri,  3 Jul 2020 17:53:43 +0100
-Message-Id: <20200703165405.17672-13-peter.maydell@linaro.org>
+Subject: [PULL 14/34] tests/acpi: virt: update golden masters for DSDT
+Date: Fri,  3 Jul 2020 17:53:45 +0100
+Message-Id: <20200703165405.17672-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,24 +91,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
+Differences between disassembled ASL files for DSDT:
+
+@@ -5,13 +5,13 @@
+  *
+  * Disassembling to symbolic ASL+ operators
+  *
+- * Disassembly of a, Mon Jun 29 09:50:01 2020
++ * Disassembly of b, Mon Jun 29 09:50:03 2020
+  *
+  * Original Table Header:
+  *     Signature        "DSDT"
+- *     Length           0x000014BB (5307)
++ *     Length           0x00001455 (5205)
+  *     Revision         0x02
+- *     Checksum         0xD1
++ *     Checksum         0xE1
+  *     OEM ID           "BOCHS "
+  *     OEM Table ID     "BXPCDSDT"
+  *     OEM Revision     0x00000001 (1)
+@@ -45,32 +45,6 @@
+             })
+         }
+
+-        Device (FLS0)
+-        {
+-            Name (_HID, "LNRO0015")  // _HID: Hardware ID
+-            Name (_UID, Zero)  // _UID: Unique ID
+-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+-            {
+-                Memory32Fixed (ReadWrite,
+-                    0x00000000,         // Address Base
+-                    0x04000000,         // Address Length
+-                    )
+-            })
+-        }
+-
+-        Device (FLS1)
+-        {
+-            Name (_HID, "LNRO0015")  // _HID: Hardware ID
+-            Name (_UID, One)  // _UID: Unique ID
+-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+-            {
+-                Memory32Fixed (ReadWrite,
+-                    0x04000000,         // Address Base
+-                    0x04000000,         // Address Length
+-                    )
+-            })
+-        }
+-
+         Device (FWCF)
+         {
+             Name (_HID, "QEMU0002")  // _HID: Hardware ID
+
+The other two binaries have the same changes (the removal of the
+flash devices).
+
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20200629140938.17566-3-drjones@redhat.com
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Message-id: 20200629140938.17566-5-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
+ tests/data/acpi/virt/DSDT                   | Bin 5307 -> 5205 bytes
+ tests/data/acpi/virt/DSDT.memhp             | Bin 6668 -> 6566 bytes
+ tests/data/acpi/virt/DSDT.numamem           | Bin 5307 -> 5205 bytes
+ 4 files changed, 3 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf..32a401ae35f 100644
+index 32a401ae35f..dfb8523c8bf 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
+@@ -1,4 +1 @@
  /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DSDT",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/DSDT.numamem",
+-"tests/data/acpi/virt/DSDT",
+-"tests/data/acpi/virt/DSDT.memhp",
+-"tests/data/acpi/virt/DSDT.numamem",
+diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+index d6f5c617881c4247f55d4dcd06581f9693916b2f..e669508d175f1e3ddf355f8a9b0d419266cac8aa 100644
+GIT binary patch
+delta 28
+kcmdn3c~yhUCD<h-RD^+n>ET2!X{H9}iRuX(-<}f&0DgxFc>n+a
+
+delta 156
+zcmcbrv0IbNCD<iow+I6R)5VEg(oAih6V(&y4c&Z#4LIUGJY9Hw{DS-q3=B;fIO0P+
+zU4W!>P_UpN7hfAE10w?juv9WcH-WSmV$;Hiu7w4t3#`S$E!^1+q9xGPH`KtuzzAr5
+LaERl^1zUvy_;n(J
+
+diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
+index 730e95a46d2cce0af011ffc051d7342beb8f1328..4cb81f692d73526542493a0c4da9c9793cc8366e 100644
+GIT binary patch
+delta 28
+kcmeA%S!T@T66_MPOp<|tiD@F2G*jb@iRuX(-^xn@0CHUjRR910
+
+delta 156
+zcmZ2x++)J!66_MfBgMeL^l>7WG*kP$iRuaUhHgH=1|0Doo-VvTenI{Q28N~#9Py!^
+zE<n;bC|FRCi?5B7fsp|MSSlH!n?PC&v1wsM*TMqS1=eEW7Vhi@(GuwD8){%+U<5Qj
+LIK*+|0yaqism~!^
+
+diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
+index d6f5c617881c4247f55d4dcd06581f9693916b2f..e669508d175f1e3ddf355f8a9b0d419266cac8aa 100644
+GIT binary patch
+delta 28
+kcmdn3c~yhUCD<h-RD^+n>ET2!X{H9}iRuX(-<}f&0DgxFc>n+a
+
+delta 156
+zcmcbrv0IbNCD<iow+I6R)5VEg(oAih6V(&y4c&Z#4LIUGJY9Hw{DS-q3=B;fIO0P+
+zU4W!>P_UpN7hfAE10w?juv9WcH-WSmV$;Hiu7w4t3#`S$E!^1+q9xGPH`KtuzzAr5
+LaERl^1zUvy_;n(J
+
 -- 
 2.20.1
 
