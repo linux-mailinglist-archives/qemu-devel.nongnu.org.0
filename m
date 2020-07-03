@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6673213B69
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:55:57 +0200 (CEST)
-Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E013E213BA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 16:15:50 +0200 (CEST)
+Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrMAW-0000hk-T2
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
+	id 1jrMTl-0001J9-Fj
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 10:15:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM86-0006NC-IF
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:26 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM84-0000yc-4K
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:26 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k6so22667840oij.11
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6n/DStbs/HviDJef2CMucQhuRQbYKDJCyHYaau13jGk=;
- b=tZTBT0SlxB2wTmDU9Y/cOvPFvrnByRlEVrkgHXTeLH5JQ50nDLH1CVmeeEGl/gtmw4
- itKeNYi9siFOsWlLzfFMazFo2A4IbuN1ES2Ej1WC5xewGd9nMVcfafnndhNwvcB/WxHT
- Vk6YQmcKKzSxjnqSrP2EXrKietbD8wog+LxH0sCBPzadlCViJHbyodMQvD6U71gNvIx5
- 03Wgex0euekm1Kc2eyHf9bHfjZ+KnHJNidxb54SSNHrJqQDwgBh2bjy3xks4joojSFTg
- ESb6vZMkDYVmERK7OjDs0OiGXnW3wZ9WtCVhdA4Mjf93N4Y+R7znfY97gej9beZnnWCE
- j3cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6n/DStbs/HviDJef2CMucQhuRQbYKDJCyHYaau13jGk=;
- b=cWzLJ5G78atnkT12n5A4Yxluw4B8Gk9mXVNuFPNXltmKLcnhX4l4gyXtxw28UZBXRj
- zGKco2RW+okQVNzbYLGjT1wu0U3eemdVVHMOJjF7I2Rp4eX5WIG2moXL0ZnbNoL2Tz41
- rgaXjBRnXfinm6o5dvUDPOdjiuZQfKBQf/cD3vQ/kyesO57lif/GmFOO+IQ05qZFNKnR
- KoE9THGJbySWLgvGdeht3Kl5Zyd2aJ/zSkmxtSryl373zBVi+y60OzvC9q4W9RNDmnn+
- wQcrEvy8eP6xGD9CdRJzLDeP7ToRxuoRr8WlhR2V7peoqUgJcRr1mvg8lUAHffXKM3T0
- fpIg==
-X-Gm-Message-State: AOAM532X8rp9zYzHpK+qrJQ5fNsRklyI+WZ/i2THSIenaor4aDQ61h4w
- wU/9OOto3e68ZFyBP7awcQQoLQwkRjsP7UBNfuP6Vg4y9F4=
-X-Google-Smtp-Source: ABdhPJw6ZbajBPQc/43SNCgSI0eBJfJU2cjJZgAUwUPOMze6x07JLwkGDUT2wT5aLNx45ir2AfyglEP/6A6WQpBTcQA=
-X-Received: by 2002:aca:2819:: with SMTP id 25mr21203626oix.48.1593784403074; 
- Fri, 03 Jul 2020 06:53:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
-In-Reply-To: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 14:53:12 +0100
-Message-ID: <CAFEAcA8M6Cu=Fk7emJGwEqPpkqNKh8nfyncvAFLbW9hfM8srPA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] Enabling BSD symbols
-To: David CARLIER <devnexen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1jrLwE-0003hy-Ra
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:41:10 -0400
+Received: from pv50p00im-ztdg10021901.me.com ([17.58.6.55]:39313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1jrLwD-0005Fz-Cz
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:41:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1593783654;
+ bh=yfCrf8VQzypzRzrFLJxbK/OYwvm8fNHCQgeqTMOKTUQ=;
+ h=Content-Type:From:Date:Subject:Message-Id:To;
+ b=jHIaD4nz223Rf3LA1Wqt/h5XS+TfW1y60ORN435O6QmXC7NBsL+HmY3tu5WAzZIQi
+ /vQyp0SIcxRalTyyIUTUVGH9IQ7n/Igz51TZvngWmNRcZtX3X3mEQJhK4uCqZrotuM
+ FFlckzs3UnQ3HN/IRTMzVVUrP5X1odflbmXJ71GcvjuUnyfHfsFgfTZveWhefsdFY6
+ ALqkVri+PhQrnTF/P41Z2mjaF9e/lTKayI/yyYhO1QBYQOsvc2p3p9MunUl30whXAK
+ 5QAZWpEj+T1XhN1JJzX0HxlIOWJT3wT8+1sb4cZ9v9BqgxWazXiJA6o8HxHoLC3bXe
+ rAIUJJqbudBSQ==
+Received: from [192.168.50.83] (unknown [223.166.236.161])
+ by pv50p00im-ztdg10021901.me.com (Postfix) with ESMTPSA id D018788064E
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 13:40:51 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+From: =?utf-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
+Mime-Version: 1.0 (1.0)
+Date: Fri, 3 Jul 2020 21:40:40 +0800
+Subject: How the cpu_R in DisasContext is associated with register of
+ CPUArchState
+Message-Id: <6AE6C8C0-3EDF-4501-AF11-0ECFBCBBB5FB@icloud.com>
+To: qemu-devel@nongnu.org
+X-Mailer: iPhone Mail (17E262)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-03_09:2020-07-02,
+ 2020-07-03 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=432 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2004280000 definitions=main-2007030096
+Received-SPF: pass client-ip=17.58.6.55;
+ envelope-from=shen.mengjiao3@icloud.com; helo=pv50p00im-ztdg10021901.me.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 09:40:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 03 Jul 2020 10:15:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,24 +75,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 01:44, David CARLIER <devnexen@gmail.com> wrote:
->
-> From 5c6022f21289eb6e78e93d584c766db82165dced Mon Sep 17 00:00:00 2001
-> From: David Carlier <devnexen@gmail.com>
-> Date: Mon, 29 Jun 2020 22:13:35 +0000
-> Subject: [PATCH 1/9] Enabling BSD symbols.
->
-> Signed-off-by: David Carlier <devnexen@gmail.com>
-> ---
->  configure | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Because in translate stage when write cpu register by guest code, it operate=
+s totally on cpu_R of DisasContext, how to reflect it to register of CPUArch=
+State?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+thanks a lot!=
 
