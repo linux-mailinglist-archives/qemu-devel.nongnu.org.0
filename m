@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB22213888
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:19:00 +0200 (CEST)
-Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9894E213870
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:11:38 +0200 (CEST)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrImZ-0006gU-86
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:18:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1jrIfR-00035A-Kk
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbp-0004Xk-3M
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35874
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jrIdC-0007jt-QK
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:09:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41217
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbn-0005pc-6A
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jrIdA-0006XX-T5
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:09:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593770866;
+ s=mimecast20190719; t=1593770956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfVEVmjau3G6Kev/27aLeUkr71n8IWpHubQtmPsf6WQ=;
- b=Vv2Zrnq3PcgObNtwskWJDLIQWgoZebrQebTF2tXH+m5e8DOQmh3GgUlMWsYd9KGzBK4QOa
- pn3GclqVSok6AWLUzpTbMdQm/2q7tEAZ/6D7y3xp4BeO4QtT/7gMJc63OWzfMDeJ2bYqoF
- FFefD2tEhZ04JL6D1mzgebaquBOXFCY=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=OaWtRgR1S1eHUI5BGnFcbjpNfQPFMZHIivCkR3kAqEI=;
+ b=J5aiN8vLcLV+0Ihx/h6K6pvfHGZd5CYazD3/x4qFbYrw+g2dqDTt1+BRWcxD50yhGcLyLa
+ UNZlpFSnbdl/bCNykW0WGayawqFdFVMkl8oz2VKSMyi0+YMSIE1r6K89dZwaS/JRLvHl9z
+ 4QWhplPCb+o63zstZ0DyCmF+cXv65Ng=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-TEqoii_7NXytrLAvgyd-7g-1; Fri, 03 Jul 2020 06:07:44 -0400
-X-MC-Unique: TEqoii_7NXytrLAvgyd-7g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-304-HS91ShYdNEyHMmmdg4lu0w-1; Fri, 03 Jul 2020 06:09:14 -0400
+X-MC-Unique: HS91ShYdNEyHMmmdg4lu0w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5171188361A;
- Fri,  3 Jul 2020 10:07:43 +0000 (UTC)
-Received: from localhost (ovpn-113-54.ams2.redhat.com [10.36.113.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48B1B7BD56;
- Fri,  3 Jul 2020 10:07:43 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/14] s390x/pci: fix set_ind_atomic
-Date: Fri,  3 Jul 2020 12:06:50 +0200
-Message-Id: <20200703100650.621212-15-cohuck@redhat.com>
-In-Reply-To: <20200703100650.621212-1-cohuck@redhat.com>
-References: <20200703100650.621212-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A20100A68D;
+ Fri,  3 Jul 2020 10:09:12 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-87.ams2.redhat.com [10.36.112.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6260370100;
+ Fri,  3 Jul 2020 10:09:10 +0000 (UTC)
+Subject: Re: [PATCH 1/1] disas: mips: Add Loongson 2F disassembler
+To: Stefan Brankovic <stefan.brankovic@syrmia.com>,
+ Stefan Brankovic <stefanbrankovic96@gmail.com>, qemu-devel@nongnu.org
+References: <20200702194230.10769-1-stefan.brankovic@syrmia.com>
+ <20200702194230.10769-2-stefan.brankovic@syrmia.com>
+ <59e559c7-d763-cee0-8eb7-7201d6586833@redhat.com>
+ <9f3e8408-3e8c-86ca-989a-a373f9656493@syrmia.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <bbffd90c-d4f1-19ed-ec43-7c6de4cd2aaf@redhat.com>
+Date: Fri, 3 Jul 2020 12:09:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <9f3e8408-3e8c-86ca-989a-a373f9656493@syrmia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -66,7 +74,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,74 +87,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: chenhc@lemote.com, aleksandar.qemu.devel@gmail.com,
+ aleksandar.rikalo@syrmia.com, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Halil Pasic <pasic@linux.ibm.com>
+On 03/07/2020 11.49, Stefan Brankovic wrote:
+> 
+> On 3.7.20. 09:59, Thomas Huth wrote:
+>> On 02/07/2020 21.42, Stefan Brankovic wrote:
+>>> Add disassembler for Loongson 2F instruction set.
+>>>
+>>> Testing is done by comparing qemu disassembly output, obtained by
+>>> using -d in_asm command line option, with appropriate objdump output.
+>>>
+>>> Signed-off-by: Stefan Brankovic <stefan.brankovic@syrmia.com>
+>>> ---
+>>>   MAINTAINERS             |    1 +
+>>>   configure               |    1 +
+>>>   disas/Makefile.objs     |    1 +
+>>>   disas/loongson2f.cpp    | 8134 +++++++++++++++++++++++++++++++++++++++
+>>>   disas/loongson2f.h      | 2542 ++++++++++++
+>>>   include/disas/dis-asm.h |    1 +
+>>>   include/exec/poison.h   |    1 +
+>>>   target/mips/cpu.c       |    4 +
+>>>   8 files changed, 10685 insertions(+)
+>>>   create mode 100644 disas/loongson2f.cpp
+>>>   create mode 100644 disas/loongson2f.h
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 3abe3faa4e..913ed2a6d3 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -219,6 +219,7 @@ S: Maintained
+>>>   F: target/mips/
+>>>   F: default-configs/*mips*
+>>>   F: disas/*mips*
+>>> +F: disas/loongson*
+>>>   F: docs/system/cpu-models-mips.rst.inc
+>>>   F: hw/intc/mips_gic.c
+>>>   F: hw/mips/
+>>> diff --git a/configure b/configure
+>>> index 597e909b53..e163dac53e 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -8102,6 +8102,7 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+>>>       disas_config "MIPS"
+>>>       if test -n "${cxx}"; then
+>>>         disas_config "NANOMIPS"
+>>> +      disas_config "LOONGSON2F"
+>>>       fi
+>>>     ;;
+>>>     moxie*)
+>>> diff --git a/disas/Makefile.objs b/disas/Makefile.objs
+>>> index 3c1cdce026..0d5ee1e038 100644
+>>> --- a/disas/Makefile.objs
+>>> +++ b/disas/Makefile.objs
+>>> @@ -14,6 +14,7 @@ common-obj-$(CONFIG_I386_DIS) += i386.o
+>>>   common-obj-$(CONFIG_M68K_DIS) += m68k.o
+>>>   common-obj-$(CONFIG_MICROBLAZE_DIS) += microblaze.o
+>>>   common-obj-$(CONFIG_MIPS_DIS) += mips.o
+>>> +common-obj-$(CONFIG_LOONGSON2F_DIS) += loongson2f.o
+>>>   common-obj-$(CONFIG_NANOMIPS_DIS) += nanomips.o
+>>>   common-obj-$(CONFIG_NIOS2_DIS) += nios2.o
+>>>   common-obj-$(CONFIG_MOXIE_DIS) += moxie.o
+>>> diff --git a/disas/loongson2f.cpp b/disas/loongson2f.cpp
+>>> new file mode 100644
+>>> index 0000000000..a2f32dcf93
+>>> --- /dev/null
+>>> +++ b/disas/loongson2f.cpp
+>>> @@ -0,0 +1,8134 @@
+>>
+>> This file (and the header) lack a proper header comment. Which license
+>> do you want to use for this code? Who wrote the initial implementation?
+> I will add proper license comments in v2. I will use GPL2+ license.
+> Thanks for reminding. This is the initial implementation, and I am the
+> author.
+>>
+>> Also, unless you've copied the code from another project that uses
+>> C++, why did you use C++ here?
+> This is disassembler is written as a generic disassembler that can be
+> integrated into other projects. In this case, it is integrated into
+> QEMU. One of initial key requirements was that it uses C++ as its
+> language.
 
-The atomic_cmpxchg() loop is broken because we occasionally end up with
-old and _old having different values (a legit compiler can generate code
-that accessed *ind_addr again to pick up a value for _old instead of
-using the value of old that was already fetched according to the
-rules of the abstract machine). This means the underlying CS instruction
-may use a different old (_old) than the one we intended to use if
-atomic_cmpxchg() performed the xchg part.
+Ok, fair, but please mention that rationale in the commit description
+when you send v2.
 
-Let us use volatile to force the rules of the abstract machine for
-accesses to *ind_addr. Let us also rewrite the loop so, we that the
-new old is used to compute the new desired value if the xchg part
-is not performed.
-
-Fixes: 8cba80c3a0 ("s390: Add PCI bus support")
-Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20200616045035.51641-3-pasic@linux.ibm.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- hw/s390x/s390-pci-bus.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 142e52a8ffdd..736965c9287f 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -637,22 +637,24 @@ static AddressSpace *s390_pci_dma_iommu(PCIBus *bus, void *opaque, int devfn)
- 
- static uint8_t set_ind_atomic(uint64_t ind_loc, uint8_t to_be_set)
- {
--    uint8_t ind_old, ind_new;
-+    uint8_t expected, actual;
-     hwaddr len = 1;
--    uint8_t *ind_addr;
-+    /* avoid  multiple fetches */
-+    uint8_t volatile *ind_addr;
- 
-     ind_addr = cpu_physical_memory_map(ind_loc, &len, true);
-     if (!ind_addr) {
-         s390_pci_generate_error_event(ERR_EVENT_AIRERR, 0, 0, 0, 0);
-         return -1;
-     }
-+    actual = *ind_addr;
-     do {
--        ind_old = *ind_addr;
--        ind_new = ind_old | to_be_set;
--    } while (atomic_cmpxchg(ind_addr, ind_old, ind_new) != ind_old);
--    cpu_physical_memory_unmap(ind_addr, len, 1, len);
-+        expected = actual;
-+        actual = atomic_cmpxchg(ind_addr, expected, expected | to_be_set);
-+    } while (actual != expected);
-+    cpu_physical_memory_unmap((void *)ind_addr, len, 1, len);
- 
--    return ind_old;
-+    return actual;
- }
- 
- static void s390_msi_ctrl_write(void *opaque, hwaddr addr, uint64_t data,
--- 
-2.25.4
+ Thanks,
+  Thomas
 
 
