@@ -2,47 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BFA213A43
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:51:47 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C795213A18
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:30:43 +0200 (CEST)
+Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrLAQ-0007VK-2I
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
+	id 1jrKq2-0006iJ-6E
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:30:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoheyi@linux.alibaba.com>)
- id 1jrIFB-0006jK-Vo; Fri, 03 Jul 2020 05:44:29 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:26366)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jrKoi-0006CH-Se; Fri, 03 Jul 2020 08:29:20 -0400
+Received: from mail-eopbgr20122.outbound.protection.outlook.com
+ ([40.107.2.122]:3093 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guoheyi@linux.alibaba.com>)
- id 1jrIF5-0007Bp-4S; Fri, 03 Jul 2020 05:44:25 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R731e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01422; MF=guoheyi@linux.alibaba.com;
- NM=1; PH=DS; RN=8; SR=0; TI=SMTPD_---0U1ZX4ow_1593769422; 
-Received: from
- laochao-HP-ProDesk-680-G1-TWR.hz.ali.com(mailfrom:guoheyi@linux.alibaba.com
- fp:SMTPD_---0U1ZX4ow_1593769422) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 03 Jul 2020 17:43:53 +0800
-From: Heyi Guo <guoheyi@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC] virt/acpi: set PSCI flag even when psci_conduit is disabled
-Date: Fri,  3 Jul 2020 17:43:29 +0800
-Message-Id: <1593769409-13534-1-git-send-email-guoheyi@linux.alibaba.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=47.88.44.36;
- envelope-from=guoheyi@linux.alibaba.com; helo=out4436.biz.mail.alibaba.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:44:14
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -105
-X-Spam_score: -10.6
-X-Spam_bar: ----------
-X-Spam_report: (-10.6 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jrKog-0005oD-HA; Fri, 03 Jul 2020 08:29:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lkcWTAtAVxR+FgAUVIps1AtxEfNUrtRiAc0uR0WLcDa6XeV6w/Hl7V+vc+Q/qC1YYiRlIe2UTQaK6c05ICRvQ1MWV1Ll+EUkDu3xkIBKwblzzEKDF6SNVUnELuqeWKEyw4OvapoCxxDK6Sp9uGUvt1YPeR6e5IzZxCKy9CogC2osInGS3XJIS9Cz45O4I7sV9JMBbG/E3ImHoFWeSPmxLUF7MseQtv+NUDCSmPQlZmcCaovvQg3GFHEZNwH3ZexrHrkvnS0n6a/n477OZ0LBk8ufPig44MaBpgZc6piSVV0IPaMaW0wbK0/4c/x+P5DnF1VSeKjiz8vdSWIp+OOxVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NWd9OmAhnlM3vlZth+orXxW2gaokpxK3QSwrptPne3Q=;
+ b=VkRlH7Z40j5RL8XN1v/rKJqXYMpN+hnzRxA2LCAUaw2iS8wkkxUChaTjanbqhenawqeHR2SO4aRoprEWSm3MNMqhGTcdvFbAFO2VHuQE8IB4NWtgqvEkxF0zQTFdUz8koG1v8WQPSmYIS0P1j+lAd1XXW4Rm8egXjZDkAmYVc3ChdAtsCAE7gkfedQBamP+LbMFGREEWOpTsfMIlrzKxfEwpA/aqxPA4NZTfvHCW9uS+BMwIAtp232q/gO2MpbPB6V7ZFoHzHrm2oafgR42+v9tBPypMj0/5qediH8cdn1bgZrAA/kbxmLodgqbcKN5xi4iZgyCqpZEDIqEISK7lCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NWd9OmAhnlM3vlZth+orXxW2gaokpxK3QSwrptPne3Q=;
+ b=nOF+cueL6962QgZroeVVpw3A53Ji9bDkPne1u93w1i9nOYaSfDkLwm7xPRHJGg6OJF+JwJDw+AgxsjxoO32u4x1LCJiNQ46gFNGRVooCHumFn9aEJRj5KJKdq7BW5k2GpLHQjWiWOIIfdiVtEHYo7NDK8bafC1vKxoGnCAbZSVE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4914.eurprd08.prod.outlook.com (2603:10a6:20b:cf::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Fri, 3 Jul
+ 2020 12:29:14 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
+ 12:29:14 +0000
+Subject: Re: [PATCH v2 15/44] hmp: Eliminate a variable in
+ hmp_migrate_set_parameter()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200702155000.3455325-1-armbru@redhat.com>
+ <20200702155000.3455325-16-armbru@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4dfb0f8a-6260-3082-18a1-c3d82bdc6d40@virtuozzo.com>
+Date: Fri, 3 Jul 2020 15:29:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200702155000.3455325-16-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR02CA0094.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.15) by
+ AM0PR02CA0094.eurprd02.prod.outlook.com (2603:10a6:208:154::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend
+ Transport; Fri, 3 Jul 2020 12:29:13 +0000
+X-Originating-IP: [185.215.60.15]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b8a3aee2-a2b5-48e4-f0a1-08d81f4cb266
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4914:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB49148E10DF962E303850204CC16A0@AM6PR08MB4914.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:400;
+X-Forefront-PRVS: 045315E1EE
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oC6pEATcuC0fpdlW+KlAmwvtYS9x4dMZcds4U9XVRqyunZyqfGKoR72TqdGZsJPdAO9EqMf465/I+hRJNLIzhWwjzAmuQ10cr/5LWShF/J7fe/7pyo2nX9pvtp8/2Jkjp9DrSHGXsq5MCJznN1DYtZNWBPdaAoRii4+KF7jMPkwX02vro7aqd1M2vNJMtlKIvbJk90ioehb+LeieLQqj4TmQyF7eXwkmD8m7Mjue60+zJ4tTs+bTChu0amd9aA/E3r5htTTFXM/6K+ftBoNNfYWIqIkql0hFpOFU6v/zk27SQa4B+/2Wkyz+dFRn0e3XsowmQ4QkK4oisFvQ84C8JyQXWKcfIPOnCq1L97HavRZwnrs5VFxQviB2XWkzCkIg
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(136003)(39840400004)(346002)(396003)(376002)(558084003)(8936002)(16526019)(66946007)(66476007)(66556008)(31686004)(8676002)(86362001)(26005)(186003)(2616005)(52116002)(31696002)(956004)(316002)(16576012)(478600001)(6486002)(5660300002)(4326008)(36756003)(2906002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: Ma0VIGnm95drNJyr//ID+5bVD/jKhQuzZ/sadQMctwbOfH1Sxx8o4MmL+xAyRsQCqRsk0mfBY6uI/ptt3yQ9lI25M+q/X9xnZBgWF5EMFaTyLKl7/lZULFyXRByoO3bDZBHVhtoJHZSIv2dsvDB6M2Kyxs1AMki2L6cxDmvMiv502FaAwXxhfO6fDQnkeg57wk4kqsoMjtmpkjH1N7NdDhXv165JSD4dcUiSsfmqn9JWGFcxi+B6B+C/cCMOOTtQjti8l6zQ0ub2U3kRH/1LINBXgJIV7xVj7iIT6IKq5Gllu7vzhlPbfqFYOHZmC6mgIv7r4GyBfZLmw3EOGkFuAmu8dj2o5DpdbRbhCJR17t811cS8N4RA+ibLGPEqFzItng7SIUfhfKqhHt6fWeRpYYvZygtmMwjVl7W7SmLIgmfNqH5S7jXonPhQSpzzKVejl2kBZ9ngaM/mNIVXQICNldlkDxKQvNJ1ZsnPZfSfF4z67n9akG4GJvrxP5NGE2n7
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8a3aee2-a2b5-48e4-f0a1-08d81f4cb266
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 12:29:14.5594 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MNmzVlEqt2b0+PqJrAhO2ncc8eAIh4XupWyHmk4EBe/vftWPClezBbWSRcBIefNbiIh4g6d8xp6RpVb26DxCXOdxe53ep3aEBuT03YWJpDQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4914
+Received-SPF: pass client-ip=40.107.2.122;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 08:29:16
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 03 Jul 2020 08:50:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,60 +119,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, yitian.ly@alibaba-inc.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Heyi Guo <guoheyi@linux.alibaba.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vms->psci_conduit being disabled only means PSCI is not implemented by
-qemu; it doesn't mean PSCI is not supported on this virtual machine.
-Actually vms->psci_conduit is set to disabled when vms->secure and
-firmware_loaded are both set, which means we will run ARM trusted
-firmware, which will definitely provide PSCI.
+02.07.2020 18:49, Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+> Reviewed-by: Eric Blake<eblake@redhat.com>
 
-The issue can be reproduced when running qemu in TCG mode with secure
-enabled, while using ARM trusted firmware + qemu virt UEFI as firmware
-binaries, and we can see secondary cores will not be waken up.
 
-Signed-off-by: Heyi Guo <guoheyi@linux.alibaba.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
----
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
----
- hw/arm/virt-acpi-build.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 1384a2c..7622b97 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -728,13 +728,16 @@ static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
-     };
- 
-     switch (vms->psci_conduit) {
--    case QEMU_PSCI_CONDUIT_DISABLED:
--        fadt.arm_boot_arch = 0;
--        break;
-     case QEMU_PSCI_CONDUIT_HVC:
-         fadt.arm_boot_arch = ACPI_FADT_ARM_PSCI_COMPLIANT |
-                              ACPI_FADT_ARM_PSCI_USE_HVC;
-         break;
-+    /*
-+     * QEMU_PSCI_CONDUIT_DISABLED only means PSCI is not implemented by qemu,
-+     * but typically it will still be provided by secure firmware, and it should
-+     * use SMC as PSCI conduit.
-+     */
-+    case QEMU_PSCI_CONDUIT_DISABLED:
-     case QEMU_PSCI_CONDUIT_SMC:
-         fadt.arm_boot_arch = ACPI_FADT_ARM_PSCI_COMPLIANT;
-         break;
 -- 
-2.7.4
-
+Best regards,
+Vladimir
 
