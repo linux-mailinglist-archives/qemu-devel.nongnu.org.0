@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B592138BB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:42:48 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666982138E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:45:54 +0200 (CEST)
+Received: from localhost ([::1]:60040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrJ9c-0006mp-1B
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
+	id 1jrJCb-0000UG-EG
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jrJ8Q-0005WY-Qn
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:41:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48011
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jrJ8P-0005bR-2d
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:41:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593772892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w8xtmXhQAiabIvarEOyRHLrNGfyHqcQ6L2MdvIA3INM=;
- b=LqWW6TPaC86HO1t8ee5Iouvw3S+lMuzY7NaUGpdHQ00dR9JMYQHP5XUBTlUk61uFhuDH+g
- WYKVRh3drmkZg5yyfKSs1Qo63b/73/eM5E2Mxj6bVX/Tjz4XtNW7PX1wdJhUIVjqWUpLks
- lBzJNwpuVhy2uM2U47xWwYjEF2Na2wY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-nSfU31F4OtOfX8gdK4evEQ-1; Fri, 03 Jul 2020 06:41:30 -0400
-X-MC-Unique: nSfU31F4OtOfX8gdK4evEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C7DF107ACCA;
- Fri,  3 Jul 2020 10:41:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
- [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4965273FD3;
- Fri,  3 Jul 2020 10:41:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C67261138648; Fri,  3 Jul 2020 12:41:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 03/46] qdev: Smooth error checking of qdev_realize() &
- friends
-References: <20200624164344.3778251-1-armbru@redhat.com>
- <20200624164344.3778251-4-armbru@redhat.com>
- <f75c7f3b-477f-f662-5239-87a14c996aa8@virtuozzo.com>
-Date: Fri, 03 Jul 2020 12:41:27 +0200
-In-Reply-To: <f75c7f3b-477f-f662-5239-87a14c996aa8@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 25 Jun 2020 22:00:36 +0300")
-Message-ID: <87d05cq3s8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <stefanbrankovic96@gmail.com>)
+ id 1jrJB4-0007p7-2K
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:44:18 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanbrankovic96@gmail.com>)
+ id 1jrJB1-0005qd-Dg
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:44:17 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f18so24079481wrs.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 03:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Walft/krmIb88CcdozYYOZSH5JBOSdkbk+iW4cKzGzM=;
+ b=OEYBYf6J3nvxDQ+nZ2muYdYx+SgY5REdp9vSuuR72wR8kH8HAwWoZ6sCwBW8lgIRg+
+ us/hSSr6rko1Oi/uBcixauBGbYlppFVfnjOEki0JUKGOq0j5fgQgRD4+oP5fq5q93KRz
+ Pa9DlFu+XuR1HiNNOld9u5OrujlGWLkaszP/TGGtjSnD9WO44cJndkouVXs7EHo4CPMy
+ jrF40eiY+orfwZuVZjAysYot15vlGT+uat33DxF1X62epqCOLN1hiAfYOw0n8Ju43dNI
+ bV8kQvmi8xBsM7XH2yPRpjqsBecTce+fPRKWieOJDdfruEvkWbJGew/eNAfktdkTLoo1
+ 4Xxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Walft/krmIb88CcdozYYOZSH5JBOSdkbk+iW4cKzGzM=;
+ b=Draw13lpaI8+f0VYKkfaC8/y8LD7CYyMmpEQydyLJovmvbkuvtij3PBudGX1Gj35gZ
+ +lti1bkxIQbpDyjSOVpMEUAvTfIfFYzzHWNdIXi8zb64nFjpZ3cekiaoXtDhUm0fhnmV
+ MZCdl8HyERR3pF65Df3DGSJc72gLMBKkVGP9NSts0hPbqLW/5mqY2See9ioMy0Od6d+L
+ JBQhwMOH5AFgWWhNT0LlMt8XwAMdyIK4QjiKvqLlrbdQEcW7/wvl5+rufD1rH94yy5xO
+ uZYw9eGU62N98uLbRX+kAGy6gOwKyXU3RHEbgesX9fXyFGnhqlkH7Me9/NN6/23DAcNd
+ gfFg==
+X-Gm-Message-State: AOAM5339ZHsNoUzBuxdLSwmVsjiF7jrqERpHOoeyzm76RBA2xH8aQmK1
+ tr9mi7ZFX6W4aLA+2AcBsUREE/5DGix5eg==
+X-Google-Smtp-Source: ABdhPJxvxPjzvClv6w+7EFLWyKdGp3YBhqjLfkeAAg/TThE8R5O/GhbFQ3/o1RJimcelAe6mzHqgfA==
+X-Received: by 2002:adf:f14e:: with SMTP id y14mr36130609wro.151.1593773053425; 
+ Fri, 03 Jul 2020 03:44:13 -0700 (PDT)
+Received: from localhost.localdomain (109-93-62-240.dynamic.isp.telekom.rs.
+ [109.93.62.240])
+ by smtp.gmail.com with ESMTPSA id d13sm13628288wrq.89.2020.07.03.03.44.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jul 2020 03:44:12 -0700 (PDT)
+From: Stefan Brankovic <stefanbrankovic96@gmail.com>
+X-Google-Original-From: Stefan Brankovic <stefan.brankovic@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] Add Loongson 2F disassembler
+Date: Fri,  3 Jul 2020 12:44:08 +0200
+Message-Id: <20200703104409.6986-1-stefan.brankovic@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=stefanbrankovic96@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,106 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: thuth@redhat.com, aleksandar.rikalo@syrmia.com,
+ aleksandar.qemu.devel@gmail.com, stefan.brankovic@syrmia.com,
+ chenhc@lemote.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+This patch adds disassembler for Loongson 2F architecture.
 
-> 24.06.2020 19:43, Markus Armbruster wrote:
->> Convert
->>
->>      foo(..., &err);
->>      if (err) {
->>          ...
->>      }
->>
->> to
->>
->>      if (!foo(..., &err)) {
->>          ...
->>      }
->>
->> for qdev_realize(), qdev_realize_and_unref(), qbus_realize() and their
->> wrappers isa_realize_and_unref(), pci_realize_and_unref(),
->> sysbus_realize(), sysbus_realize_and_unref(), usb_realize_and_unref().
->> Coccinelle script:
->
-> Please, also mention a command to run the script
->
->>
->>      @@
->>      identifier fun = {isa_realize_and_unref, pci_realize_and_unref, qbus_realize, qdev_realize, qdev_realize_and_unref, sysbus_realize, sysbus_realize_and_unref, usb_realize_and_unref};
->>      expression list args, args2;
->>      typedef Error;
->>      Error *err;
->>      identifier errp;
->>      @@
->>      -      fun(args, &err, args2);
->>      -      if (err) {
->>      +      if (!fun(args, errp, args2)) {
->> 	       ... when != err
->>      -	   error_propagate(errp, err);
->> 	       ...
->> 	   }
->>
->>      @@
->>      identifier fun = {isa_realize_and_unref, pci_realize_and_unref, qbus_realize, qdev_realize, qdev_realize_and_unref, sysbus_realize, sysbus_realize_and_unref, usb_realize_and_unref};
->>      expression list args, args2;
->>      typedef Error;
->>      Error *err;
->>      @@
->>      -      fun(args, &err, args2);
->>      -      if (err) {
->>      +      if (!fun(args, &err, args2)) {
->> 	       ...
->> 	   }
->>
->> Fails to convert hw/arm/armsse.c, because Coccinelle gets confused by
->> ARMSSE being used both as typedef and function-like macro there.
->> Convert manually.
->>
->> Eliminate error_propagate() that are now unnecessary.  Delete @err
->> that are now unused.  Clean up whitespace.
->>
->> Signed-off-by: Markus Armbruster<armbru@redhat.com>
->> ---
-[...]
->>  65 files changed, 248 insertions(+), 768 deletions(-)
->
-> Almost all of this diff-stat may be generated by more obvious script:
->
-> @rule1@
-> identifier fun = {qdev_realize, qdev_realize_and_unref, sysbus_realize};
-> expression list args;
-> typedef Error;
-> Error *err;
-> identifier errp;
-> @@
->
-> -      fun(args, &err);
-> -      if (err)
-> +      if (!fun(args, errp))
->        {
+v2:
+Fixed coding style problems.
+Added comments related to licence and author.
 
-Funny: the placement of { makes a difference.
+Stefan Brankovic (1):
+  disas: mips: Add Loongson 2F disassembler
 
-When I use
+ MAINTAINERS             |    1 +
+ configure               |    1 +
+ disas/Makefile.objs     |    1 +
+ disas/loongson2f.cpp    | 8154 +++++++++++++++++++++++++++++++++++++++
+ disas/loongson2f.h      | 2562 ++++++++++++
+ include/disas/dis-asm.h |    1 +
+ include/exec/poison.h   |    1 +
+ target/mips/cpu.c       |    4 +
+ 8 files changed, 10725 insertions(+)
+ create mode 100644 disas/loongson2f.cpp
+ create mode 100644 disas/loongson2f.h
 
-  -      if (err) {
-  +      if (!fun(args, errp)) {
-
-out of QEMU coding style habit, I get an extra line containing only
-spaces in the output.  Easy enough to clean up with sed, but putting the
-brace in the place where Coccinelle doesn't produce such litter is
-better.
-
-> -              error_propagate(errp, err);
->            return;
->        }
->
-[...]
+-- 
+2.17.1
 
 
