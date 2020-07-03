@@ -2,43 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC8C213D96
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:31:01 +0200 (CEST)
-Received: from localhost ([::1]:52516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34810213D9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:34:10 +0200 (CEST)
+Received: from localhost ([::1]:37248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOaa-0000hK-Ag
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1jrOdd-0006Mr-72
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrOHt-0001ME-Tz; Fri, 03 Jul 2020 12:11:41 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48376 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrOHq-0002cw-Ee; Fri, 03 Jul 2020 12:11:41 -0400
-Received: from [192.168.15.23] (helo=iris.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.93)
- (envelope-from <den@openvz.org>)
- id 1jrOHg-0005Rg-43; Fri, 03 Jul 2020 19:11:28 +0300
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 7/7] block/io: improve loadvm performance
-Date: Fri,  3 Jul 2020 19:11:30 +0300
-Message-Id: <20200703161130.23772-8-den@openvz.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200703161130.23772-1-den@openvz.org>
-References: <20200703161130.23772-1-den@openvz.org>
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
- helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:11:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrOL9-0006BR-Mm
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:15:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58474
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrOL7-0003WR-LP
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:15:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593792900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=faVuA6XsjUgnJyBwKxSDHRX8cyqJtIw/ArhZE775aWQ=;
+ b=JwLr6vNe0jhBn54EJAwgZ34I7Artq9TbElyX1628TZJZ7VSa9f44MXBdWPZX7sFf3B1n5u
+ PSOWEJq79Ru23U6lNK3lHHmWiebsji32XYyIedP394+9nQXwhtGlSPO3aCeYemuHbU0fbh
+ MWkHNBg8V4Cp35yBIs+k1I3mCJswQMQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-jqg1rYizOwSwVcYv2gP3_A-1; Fri, 03 Jul 2020 12:14:56 -0400
+X-MC-Unique: jqg1rYizOwSwVcYv2gP3_A-1
+Received: by mail-wm1-f72.google.com with SMTP id 65so15818810wmd.8
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:14:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=faVuA6XsjUgnJyBwKxSDHRX8cyqJtIw/ArhZE775aWQ=;
+ b=Viu005UmRWLmpoRgdEnFreZNCygcedGWSsDX/AZPL8+smXZ9kQlsHv5QnpV8e8PvL9
+ 10nOTf3clKPUUA3PmiKbK8PlmwmtE5Tb0MpKy1TJW8tCG8ppgiBpOkXQIvWJA6js0L6p
+ jnCH6JOBcqb6tD9Kw39tqsha+RMRQfGm+c6z5K1Te3r4BXbFzD5iUSN7cbVo1RCUCK8n
+ 6b+4YrE9KxrZqi+dGZRoqN8iKshd+/CzNxmFZh8Oc90Lp1vywsVwZNm8AwP90QcC3h5n
+ lZgALzTC+Ap/KlisyoRhwz8nQQvYRoYPKajqFEs9h+Lvd4C7zvZom/kMEhepyINhGqfm
+ imvg==
+X-Gm-Message-State: AOAM530JT8pd1yC9R+B10ZDkf6r+unVQb4DR/eBQfRZnbMtfqtnaKOYm
+ R+phr+1FPE460G33nbS9NExU94jAMG8liOPt8mr3wxFBbu5y/g9FlYboW5lEZp/0PR9/cuSKdYv
+ zpd7YQhAPtCHTurg=
+X-Received: by 2002:a5d:5151:: with SMTP id u17mr6886865wrt.154.1593792895539; 
+ Fri, 03 Jul 2020 09:14:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhuPyC4UVKvR4E+wI2bduxfvSn3/zDBZUvrCJhxl+LE019hAKKbfVm6HkC2wGH76RRCbRBDA==
+X-Received: by 2002:a5d:5151:: with SMTP id u17mr6886854wrt.154.1593792895381; 
+ Fri, 03 Jul 2020 09:14:55 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id e4sm14178974wrt.97.2020.07.03.09.14.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jul 2020 09:14:54 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] MAINTAINERS: Cover the firmware JSON schema
+Date: Fri,  3 Jul 2020 18:14:53 +0200
+Message-Id: <20200703161453.8406-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,353 +94,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Juan Quintela <quintela@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch creates intermediate buffer for reading from block driver
-state and performs read-ahead to this buffer. Snapshot code performs
-reads sequentially and thus we know what offsets will be required
-and when they will become not needed.
+Add an entry to cover firmware.json (see commit 3a0adfc9bf:
+schema that describes the different uses and properties of
+virtual machine firmware).
+Cc the libvirt maintainers if it ever changes.
 
-Results are fantastic. Switch to snapshot times of 2GB Fedora 31 VM
-over NVME storage are the following:
-                original     fixed
-cached:          1.84s       1.16s
-non-cached:     12.74s       1.27s
-
-The difference over HDD would be more significant :)
-
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Max Reitz <mreitz@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-CC: Fam Zheng <fam@euphon.net>
-CC: Juan Quintela <quintela@redhat.com>
-CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/io.c                | 254 +++++++++++++++++++++++++++++++++++++-
- include/block/block_int.h |   3 +
- 2 files changed, 254 insertions(+), 3 deletions(-)
+Based on a comment from Laszlo:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg604925.html
 
-diff --git a/block/io.c b/block/io.c
-index 71a696deb7..decb850f1a 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2739,6 +2739,209 @@ static int bdrv_co_do_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
-     }
- }
+I don't think Laszlo should be the sole maintainer, not sure
+who else should be listed. Gerd and Kashyap? :)
+Can we add it 'maintained' without specific maintainer?
+---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dec252f38b..57c90201df 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2601,6 +2601,12 @@ F: include/hw/i2c/smbus_master.h
+ F: include/hw/i2c/smbus_slave.h
+ F: include/hw/i2c/smbus_eeprom.h
  
++Firmware schema specifications
++M: Laszlo Ersek <lersek@redhat.com>
++R: libvir-list@redhat.com
++S: Maintained
++F: docs/interop/firmware.json
 +
-+typedef struct BdrvLoadVMChunk {
-+    void *buf;
-+    uint64_t offset;
-+    ssize_t bytes;
-+
-+    QLIST_ENTRY(BdrvLoadVMChunk) list;
-+} BdrvLoadVMChunk;
-+
-+typedef struct BdrvLoadVMState {
-+    AioTaskPool *pool;
-+
-+    int64_t offset;
-+    int64_t last_loaded;
-+
-+    int chunk_count;
-+    QLIST_HEAD(, BdrvLoadVMChunk) chunks;
-+    QLIST_HEAD(, BdrvLoadVMChunk) loading;
-+    CoMutex lock;
-+    CoQueue waiters;
-+} BdrvLoadVMState;
-+
-+typedef struct BdrvLoadVMStateTask {
-+    AioTask task;
-+
-+    BlockDriverState *bs;
-+    BdrvLoadVMChunk *chunk;
-+} BdrvLoadVMStateTask;
-+
-+static BdrvLoadVMChunk *bdrv_co_find_loadvmstate_chunk(int64_t pos,
-+                                                       BdrvLoadVMChunk *c)
-+{
-+    for (; c != NULL; c = QLIST_NEXT(c, list)) {
-+        if (c->offset <= pos && c->offset + c->bytes > pos) {
-+            return c;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static void bdrv_free_loadvm_chunk(BdrvLoadVMChunk *c)
-+{
-+    qemu_vfree(c->buf);
-+    g_free(c);
-+}
-+
-+static coroutine_fn int bdrv_co_vmstate_load_task_entry(AioTask *task)
-+{
-+    int err = 0;
-+    BdrvLoadVMStateTask *t = container_of(task, BdrvLoadVMStateTask, task);
-+    BdrvLoadVMChunk *c = t->chunk;
-+    BdrvLoadVMState *state = t->bs->loadvm_state;
-+    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, c->buf, c->bytes);
-+
-+    bdrv_inc_in_flight(t->bs);
-+    err = t->bs->drv->bdrv_load_vmstate(t->bs, &qiov, c->offset);
-+    bdrv_dec_in_flight(t->bs);
-+
-+    qemu_co_mutex_lock(&state->lock);
-+    QLIST_REMOVE(c, list);
-+    if (err == 0) {
-+        QLIST_INSERT_HEAD(&state->chunks, c, list);
-+    } else {
-+        bdrv_free_loadvm_chunk(c);
-+    }
-+    qemu_co_mutex_unlock(&state->lock);
-+    qemu_co_queue_restart_all(&state->waiters);
-+
-+    return err;
-+}
-+
-+
-+static void bdrv_co_loadvmstate_next(BlockDriverState *bs, BdrvLoadVMChunk *c)
-+{
-+    BdrvLoadVMStateTask *t = g_new(BdrvLoadVMStateTask, 1);
-+    BdrvLoadVMState *state = bs->loadvm_state;
-+
-+    qemu_co_mutex_assert_locked(&state->lock);
-+
-+    c->offset = state->last_loaded;
-+
-+    *t = (BdrvLoadVMStateTask) {
-+        .task.func = bdrv_co_vmstate_load_task_entry,
-+        .bs = bs,
-+        .chunk = c,
-+    };
-+
-+    QLIST_INSERT_HEAD(&state->loading, t->chunk, list);
-+    state->chunk_count++;
-+    state->last_loaded += c->bytes;
-+
-+    qemu_co_mutex_unlock(&state->lock);
-+    aio_task_pool_start_task(state->pool, &t->task);
-+    qemu_co_mutex_lock(&state->lock);
-+}
-+
-+
-+static void bdrv_co_loadvmstate_start(BlockDriverState *bs)
-+{
-+    int i;
-+    size_t buf_size = MAX(bdrv_get_cluster_size(bs), 1 * MiB);
-+    BdrvLoadVMState *state = bs->loadvm_state;
-+
-+    qemu_co_mutex_lock(&state->lock);
-+    for (i = 0; i < BDRV_VMSTATE_WORKERS_MAX; i++) {
-+        BdrvLoadVMChunk *c = g_new0(BdrvLoadVMChunk, 1);
-+
-+        c->buf = qemu_blockalign(bs, buf_size);
-+        c->bytes = buf_size;
-+
-+        bdrv_co_loadvmstate_next(bs, c);
-+    }
-+    qemu_co_mutex_unlock(&state->lock);
-+}
-+
-+static int bdrv_co_do_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
-+                                   int64_t pos)
-+{
-+    BdrvLoadVMState *state = bs->loadvm_state;
-+    BdrvLoadVMChunk *c;
-+    size_t off;
-+    int64_t start_pos = pos;
-+
-+    if (state == NULL) {
-+        if (pos != 0) {
-+            goto slow_path;
-+        }
-+
-+        state = g_new(BdrvLoadVMState, 1);
-+        *state = (BdrvLoadVMState) {
-+            .pool = aio_task_pool_new(BDRV_VMSTATE_WORKERS_MAX),
-+            .chunks = QLIST_HEAD_INITIALIZER(state->chunks),
-+            .loading = QLIST_HEAD_INITIALIZER(state->loading),
-+        };
-+        qemu_co_mutex_init(&state->lock);
-+        qemu_co_queue_init(&state->waiters);
-+
-+        bs->loadvm_state = state;
-+
-+        bdrv_co_loadvmstate_start(bs);
-+    }
-+
-+    if (state->offset != pos) {
-+        goto slow_path;
-+    }
-+
-+    off = 0;
-+
-+    qemu_co_mutex_lock(&state->lock);
-+    while (off < qiov->size && aio_task_pool_status(state->pool) == 0) {
-+        c = bdrv_co_find_loadvmstate_chunk(pos, QLIST_FIRST(&state->chunks));
-+        if (c != NULL) {
-+            ssize_t chunk_off = pos - c->offset;
-+            ssize_t to_copy = MIN(qiov->size - off, c->bytes - chunk_off);
-+
-+            qemu_iovec_from_buf(qiov, off, c->buf + chunk_off, to_copy);
-+
-+            off += to_copy;
-+            pos += to_copy;
-+
-+            if (pos == c->offset + c->bytes) {
-+                state->chunk_count--;
-+                /* End of buffer, discard it from the list */
-+                QLIST_REMOVE(c, list);
-+
-+                /*
-+                 * Start loading next chunk. The slot in the pool should
-+                 * always be free for this purpose at the moment.
-+                 *
-+                 * There is a problem with the end of the stream. This code
-+                 * starts to read the data beyond the end of the saved state.
-+                 * The code in low level should be ready to such behavior but
-+                 * we will have unnecessary BDRV_VMSTATE_WORKERS_MAX chunks
-+                 * fully zeroed. This is not good, but acceptable.
-+                 */
-+                bdrv_co_loadvmstate_next(bs, c);
-+            }
-+
-+            state->offset += to_copy;
-+            continue;
-+        }
-+
-+        c = bdrv_co_find_loadvmstate_chunk(pos, QLIST_FIRST(&state->loading));
-+        if (c != NULL) {
-+            qemu_co_queue_wait(&state->waiters, &state->lock);
-+            continue;
-+        }
-+
-+        /*
-+         * This should not happen normally. This point could be reached only
-+         * if we have had some parallel requests. Fallback to slow load.
-+         */
-+        qemu_co_mutex_unlock(&state->lock);
-+
-+slow_path:
-+        return bs->drv->bdrv_load_vmstate(bs, qiov, start_pos);
-+    }
-+    qemu_co_mutex_unlock(&state->lock);
-+
-+    return aio_task_pool_status(state->pool);
-+}
-+
- static int coroutine_fn
- bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-                    bool is_read)
-@@ -2752,7 +2955,7 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-         ret = -ENOMEDIUM;
-     } else if (drv->bdrv_load_vmstate) {
-         if (is_read) {
--            ret = drv->bdrv_load_vmstate(bs, qiov, pos);
-+            ret = bdrv_co_do_load_vmstate(bs, qiov, pos);
-         } else {
-             ret = bdrv_co_do_save_vmstate(bs, qiov, pos);
-         }
-@@ -2823,13 +3026,13 @@ int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-     return bdrv_rw_vmstate(bs, qiov, pos, true);
- }
- 
--static int coroutine_fn bdrv_co_finalize_vmstate(BlockDriverState *bs)
-+static int coroutine_fn bdrv_co_finalize_save_vmstate(BlockDriverState *bs)
- {
-     int err;
-     BdrvSaveVMState *state = bs->savevm_state;
- 
-     if (bs->drv->bdrv_save_vmstate == NULL && bs->file != NULL) {
--        return bdrv_co_finalize_vmstate(bs->file->bs);
-+        return bdrv_co_finalize_save_vmstate(bs->file->bs);
-     }
-     if (state == NULL) {
-         return 0;
-@@ -2851,6 +3054,51 @@ static int coroutine_fn bdrv_co_finalize_vmstate(BlockDriverState *bs)
-     return err;
- }
- 
-+static int coroutine_fn bdrv_co_finalize_load_vmstate(BlockDriverState *bs)
-+{
-+    int err;
-+    BdrvLoadVMState *state = bs->loadvm_state;
-+    BdrvLoadVMChunk *c, *tmp;
-+
-+    if (bs->drv->bdrv_load_vmstate == NULL && bs->file != NULL) {
-+        return bdrv_co_finalize_load_vmstate(bs->file->bs);
-+    }
-+    if (state == NULL) {
-+        return 0;
-+    }
-+
-+    aio_task_pool_wait_all(state->pool);
-+    err = aio_task_pool_status(state->pool);
-+    aio_task_pool_free(state->pool);
-+
-+    QLIST_FOREACH(c, &state->loading, list) {
-+        assert(1);  /* this list must be empty as all tasks are committed */
-+    }
-+    QLIST_FOREACH_SAFE(c, &state->chunks, list, tmp) {
-+        QLIST_REMOVE(c, list);
-+        bdrv_free_loadvm_chunk(c);
-+    }
-+
-+    g_free(state);
-+
-+    bs->loadvm_state = NULL;
-+
-+    return err;
-+}
-+
-+static int coroutine_fn bdrv_co_finalize_vmstate(BlockDriverState *bs)
-+{
-+    int err1 = bdrv_co_finalize_save_vmstate(bs);
-+    int err2 = bdrv_co_finalize_load_vmstate(bs);
-+    if (err1 < 0) {
-+        return err1;
-+    }
-+    if (err2 < 0) {
-+        return err2;
-+    }
-+    return 0;
-+}
-+
- static int coroutine_fn bdrv_finalize_vmstate_co_entry(void *opaque)
- {
-     return bdrv_co_finalize_vmstate(opaque);
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f90f0e8b6a..0942578a74 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -788,6 +788,7 @@ struct BdrvChild {
- 
- 
- typedef struct BdrvSaveVMState BdrvSaveVMState;
-+typedef struct BdrvLoadVMState BdrvLoadVMState;
- 
- /*
-  * Note: the function bdrv_append() copies and swaps contents of
-@@ -955,6 +956,8 @@ struct BlockDriverState {
- 
-     /* Intermediate buffer for VM state saving from snapshot creation code */
-     BdrvSaveVMState *savevm_state;
-+    /* Intermediate buffer for VM state loading */
-+    BdrvLoadVMState *loadvm_state;
- };
- 
- struct BlockBackendRootState {
+ EDK2 Firmware
+ M: Laszlo Ersek <lersek@redhat.com>
+ M: Philippe Mathieu-Daudé <philmd@redhat.com>
 -- 
-2.17.1
+2.21.3
 
 
