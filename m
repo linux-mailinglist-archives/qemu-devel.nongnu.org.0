@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B24213869
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:09:59 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC93C213884
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:16:56 +0200 (CEST)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIdq-0008Ck-AF
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
+	id 1jrIkZ-0003yy-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbX-000434-LQ
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37334
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbZ-000472-5S
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52806
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbV-0005im-BZ
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:35 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbX-0005kB-6w
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593770852;
+ s=mimecast20190719; t=1593770854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VfPhg7++LALtQcuj4RlFd74PAl+qNjiUNKW+0vLxOck=;
- b=LI3XWahX5HUXlK/CvwZ/JgArQ6bkJoaz5Y+e7XgYaLvqd1rzMQGMf1bLqlGFu426grFxgj
- T4t4G0MKvCSsrgdj8ZaUvR0h9EAEtnDAmd7owNPilg3OexLPIEfocCIQotRTCf85cEKyqu
- LjHHM1qhDB5odawg0HVPNIlhMzrii/M=
+ bh=W2TE0dVXJuo8Nfi3+55Bh9Zs+3ZGy1eU1EaJLp9/dcI=;
+ b=QUcfO/VmAc3/k8xek/55H0Np6O1+4MHZX/PLGQv3/bmh/r+QRN8UB5n8u36v/I5gyj13sg
+ OroXx02DRk5w/BQFiQyzdakvhlzGoG+IrGiRcFe2wiJLaW1oWYXpcKidHw3jN9zQ6RQsPo
+ Ip9XOF8YJtEaOHJ+rnQLw3IfW5nbZgE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-bV-yuSaVMSmmz2Ne42cP_g-1; Fri, 03 Jul 2020 06:07:30 -0400
-X-MC-Unique: bV-yuSaVMSmmz2Ne42cP_g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-319-sA_Yr6u6OjOfX87gjxenGA-1; Fri, 03 Jul 2020 06:07:32 -0400
+X-MC-Unique: sA_Yr6u6OjOfX87gjxenGA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5782D1883612;
- Fri,  3 Jul 2020 10:07:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79AD2800C64;
+ Fri,  3 Jul 2020 10:07:31 +0000 (UTC)
 Received: from localhost (ovpn-113-54.ams2.redhat.com [10.36.113.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 882907BD56;
- Fri,  3 Jul 2020 10:07:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D12E73FE9;
+ Fri,  3 Jul 2020 10:07:30 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 09/14] pc-bios: s390x: Make u32 ptr check explicit
-Date: Fri,  3 Jul 2020 12:06:45 +0200
-Message-Id: <20200703100650.621212-10-cohuck@redhat.com>
+Subject: [PULL 10/14] pc-bios/s390-ccw: Generate and include dependency files
+ in the Makefile
+Date: Fri,  3 Jul 2020 12:06:46 +0200
+Message-Id: <20200703100650.621212-11-cohuck@redhat.com>
 In-Reply-To: <20200703100650.621212-1-cohuck@redhat.com>
 References: <20200703100650.621212-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,39 +81,83 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Janosch Frank <frankja@linux.ibm.com>
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Let's make it a bit more clear that we check the full 64 bits to fit
-into the 32 we return.
+The Makefile of the s390-ccw bios does not handle dependencies of the
+*.c files from the headers yet, so that you often have to run a "make
+clean" to get the build right when one of the headers has been changed.
+Let's make sure that we generate and include dependency files for all
+*.c files now to avoid this problem in the future.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Suggested-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200624075226.92728-11-frankja@linux.ibm.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200630142955.7662-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ pc-bios/s390-ccw/Makefile    |  3 +++
+ pc-bios/s390-ccw/netboot.mak | 13 +++++++------
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 32a453b63425..dfcfea0ff0cb 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -19,7 +19,7 @@
- /* Avoids compiler warnings when casting a pointer to a u32 */
- static inline uint32_t ptr2u32(void *ptr)
- {
--    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
-+    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
-     return (uint32_t)(uint64_t)ptr;
- }
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index a048b6b077a9..50bc8802724f 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -38,5 +38,8 @@ s390-netboot.img:
+ 	@echo "s390-netboot.img not built since roms/SLOF/ is not available."
+ endif
  
++ALL_OBJS = $(sort $(OBJECTS) $(NETOBJS) $(LIBCOBJS) $(LIBNETOBJS))
++-include $(ALL_OBJS:%.o=%.d)
++
+ clean:
+ 	rm -f *.o *.d *.img *.elf *~ *.a
+diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
+index 5eefb7c28939..577c023afe3d 100644
+--- a/pc-bios/s390-ccw/netboot.mak
++++ b/pc-bios/s390-ccw/netboot.mak
+@@ -1,8 +1,7 @@
+ 
+ SLOF_DIR := $(SRC_PATH)/roms/SLOF
+ 
+-NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o \
+-	   libnet.a libc.a
++NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o
+ 
+ LIBC_INC := -nostdinc -I$(SLOF_DIR)/lib/libc/include
+ LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
+@@ -11,15 +10,16 @@ NETLDFLAGS := $(LDFLAGS) -Ttext=0x7800000
+ 
+ $(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
+ 
+-s390-netboot.elf: $(NETOBJS)
+-	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $(NETOBJS),"BUILD","$(TARGET_DIR)$@")
++s390-netboot.elf: $(NETOBJS) libnet.a libc.a
++	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
+ 
+ s390-netboot.img: s390-netboot.elf
+ 	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
+ 
+ # libc files:
+ 
+-LIBC_CFLAGS :=  $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC)
++LIBC_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
++	      -MMD -MP -MT $@ -MF $(@:%.o=%.d)
+ 
+ CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
+ %.o : $(SLOF_DIR)/lib/libc/ctype/%.c
+@@ -52,7 +52,8 @@ libc.a: $(LIBCOBJS)
+ 
+ LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
+ 	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
+-LIBNETCFLAGS := $(QEMU_CFLAGS) $(CFLAGS) -DDHCPARCH=0x1F $(LIBC_INC) $(LIBNET_INC)
++LIBNETCFLAGS = $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
++	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
+ 
+ %.o : $(SLOF_DIR)/lib/libnet/%.c
+ 	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
 -- 
 2.25.4
 
