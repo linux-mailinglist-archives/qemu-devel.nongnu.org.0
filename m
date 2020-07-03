@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D252C21372D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:05:04 +0200 (CEST)
-Received: from localhost ([::1]:44132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA0B21372F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:05:09 +0200 (CEST)
+Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHd1-00085Z-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1jrHd6-0008H2-J4
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHbh-0006SE-KI
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:03:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34772
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHbl-0006Wi-4s
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:03:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45908
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHbe-0004MT-Rt
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:03:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHbj-0004Mx-E8
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:03:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767017;
+ s=mimecast20190719; t=1593767022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kwK+YtoN3ISvSonZG8pWmnKbUjP97LUVMTrPci50qGM=;
- b=iQeZzHuFTRtUmdliBzss1d9LfbJKxNu4WdLwHm2a7mdMPq7Dy3t5+ZtjZl365VGF/1wYIv
- UamYWX7R/vsYcmzYX1BcjAyRV9/Y2E3yF3Oqe0Mf6w1iAZrhMwK/wkdefwwXE8UMfBYfnU
- pTBXdWBtEw/5r932xy8sD661LMr5c1A=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-lPws3eSMOmOH8B9AHLZgLQ-1; Fri, 03 Jul 2020 05:03:36 -0400
-X-MC-Unique: lPws3eSMOmOH8B9AHLZgLQ-1
-Received: by mail-wr1-f70.google.com with SMTP id i12so30979719wrx.11
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:03:35 -0700 (PDT)
+ bh=AZqj3bTam91VJKMgXj5mJaby8iNVg3MqxY1e+jpggf8=;
+ b=aFlcqx/3vcke3nbIlpYeh3UhfvXWTySBbPxF5FD0CXoEFmo3+b1zQI4+EIF7DXmKhUDmS8
+ aNQFVs3UQ4OJRLnsZwdWuPk1+KWFyp8Wbqv/oqn69yg11VTtQCQzsmQMvJPqCcT6TKdPZR
+ v4FrTtbceVj7AprCG/qlvS7abhnlJ/I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-V_WzGbf8NfeAIg1YKSX-WQ-1; Fri, 03 Jul 2020 05:03:38 -0400
+X-MC-Unique: V_WzGbf8NfeAIg1YKSX-WQ-1
+Received: by mail-wm1-f72.google.com with SMTP id g6so28645033wmk.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kwK+YtoN3ISvSonZG8pWmnKbUjP97LUVMTrPci50qGM=;
- b=cMloNYdBabau0HVecCUs45tNRRkoW9076B36zPlxvLmQe/xT837lYiwzVh4k3kMgEB
- H2fpelDjbqeM5krgTVNyFmCcJfAAqDwxxvVqU5tN+E9ecKA0d+yNBWqqhG3a1npBxPZQ
- o2jnvTMZhLnah/n8HbU42VgdDm6RMUyxYF5IR5jkykh6Yba21KHrQ74+4sPTl+IT3r/X
- osb37+ab1p2TKTMxVKZT7zitsxaMiD59AI8A9U9C3sGe84uZmoJHRpxrfbqf2OX4RGHG
- dvs3KHrXbhYHGfGPDJwBRZeTA/5JHkN94CRtEDy5QZmLaBqb93krhJVvo1rqUsQUO2nn
- cHqg==
-X-Gm-Message-State: AOAM532NhbpcMAO8lR4G0NB9PH73PW/zKNCzdMCpfpuCUXcjEunmlBdk
- nu2/I25hFlSBnsO3nVL+NzhP8U5MuF/H3KawPGoclTDsGCmb1KzwkwEMhW3i+oWFq8aFsimUcde
- W4G6NeqPwZUkBrTc=
-X-Received: by 2002:a5d:4d0b:: with SMTP id z11mr6276359wrt.24.1593767014438; 
- Fri, 03 Jul 2020 02:03:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5M03g9peiqlIfmW3GR09VEhfBAjPu6TTxyZxqiajk+3z56ZUEV9yQxCmm7rqqubok8jpriw==
-X-Received: by 2002:a5d:4d0b:: with SMTP id z11mr6276346wrt.24.1593767014241; 
- Fri, 03 Jul 2020 02:03:34 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AZqj3bTam91VJKMgXj5mJaby8iNVg3MqxY1e+jpggf8=;
+ b=GYXrGfvHYRrJ8O+ITIt7UEajzRZu7LnuT/gnHROiMbQe3zUWpHxhfQ0HYjX1/E6JSf
+ nJlWKvjRmBCIeTUacD/DLLkmYdQ6jINPZ2MjuwWfyKV7GM+QtSvbU4Vm1FeR/XzVmoIv
+ Fpl82GXOLEMGo/6Yc6tAGbtSAz+TKNbKSauTwKWFEiBSaj0IcZ2di1KWf0WPC3iCMdo9
+ 2TRESfuRbwooKH2xzA6joptQEWe5hrXTbXGJPhF+MnfOTAlSkltpo0YnWonVAmay2A10
+ ScAsjZs3uDzb4P0VxrF09b7IOXU5iYRIEfT+V0kwJobh/6GykRLsfHEB/nfX9RlQfNrN
+ ZH2w==
+X-Gm-Message-State: AOAM532csp1GwMEXrzoLoOn5E0ethGfol0UPjyQmn1dw6N7iIsZ+eXDj
+ iOeY+Zgd3m5Ug4Kfjr9CFVTHwm+t5pON2W34yS34FXA0zXgKltGG8SSMvxc14UtYv7mA6vwB64/
+ i/oKWj08d4amMjhg=
+X-Received: by 2002:adf:e944:: with SMTP id m4mr36398271wrn.252.1593767017154; 
+ Fri, 03 Jul 2020 02:03:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznoot4RKu6ewktM7kVzYViOQ+YF9Kf/tp8FAaPlHR1r42c6UpGWD9YwduYyhKcX5Jl3NuvhQ==
+X-Received: by 2002:adf:e944:: with SMTP id m4mr36398265wrn.252.1593767016996; 
+ Fri, 03 Jul 2020 02:03:36 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- e8sm13586676wrp.26.2020.07.03.02.03.32
+ u65sm12684816wmg.5.2020.07.03.02.03.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:03:33 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:03:31 -0400
+ Fri, 03 Jul 2020 02:03:36 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:03:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/41] tests: disassemble-aml.sh: generate AML in readable
- format
-Message-ID: <20200703090252.368694-2-mst@redhat.com>
+Subject: [PULL 02/41] Revert "tests/migration: Reduce autoconverge initial
+ bandwidth"
+Message-ID: <20200703090252.368694-3-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -72,11 +74,12 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -84,7 +87,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,93 +100,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On systems where the IASL tool exists, we can convert
-extected ACPI tables to ASL format, which is useful
-for debugging and documentation purposes.
-This script does this for all ACPI tables under tests/data/acpi/.
+This reverts commit 6d1da867e65f ("tests/migration: Reduce autoconverge initial bandwidth")
+since that change makes unit tests much slower for all developers, while it's not
+a robust way to fix migration tests. Migration tests need to find
+a more robust way to discover a reasonable bandwidth without slowing
+things down for everyone.
 
+Fixes: 6d1da867e65f ("tests/migration: Reduce autoconverge initial bandwidth")
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/data/acpi/disassemle-aml.sh       | 52 +++++++++++++++++++++++++
- tests/data/acpi/rebuild-expected-aml.sh |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100755 tests/data/acpi/disassemle-aml.sh
+ tests/qtest/migration-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/data/acpi/disassemle-aml.sh b/tests/data/acpi/disassemle-aml.sh
-new file mode 100755
-index 0000000000..1d8a4d0301
---- /dev/null
-+++ b/tests/data/acpi/disassemle-aml.sh
-@@ -0,0 +1,52 @@
-+#!/usr/bin/bash
-+
-+outdir=
-+while getopts "o:" arg; do
-+  case ${arg} in
-+    o )
-+        outdir=$OPTARG
-+        ;;
-+    \? )
-+        echo "Usage: ./tests/data/acpi/disassemle-aml.sh [-o <output-directory>]"
-+        exit 1
-+        ;;
-+
-+  esac
-+done
-+
-+for machine in tests/data/acpi/*
-+do
-+    if [[ ! -d "$machine" ]];
-+    then
-+        continue
-+    fi
-+
-+    if [[ "${outdir}" ]];
-+    then
-+        mkdir -p "${outdir}"/${machine} || exit $?
-+    fi
-+    for aml in $machine/*
-+    do
-+        if [[ "$aml" == $machine/*.dsl ]];
-+        then
-+            continue
-+        fi
-+        if [[ "$aml" == $machine/SSDT*.* ]];
-+        then
-+            dsdt=${aml/SSDT*./DSDT.}
-+            extra="-e ${dsdt}"
-+        elif [[ "$aml" == $machine/SSDT* ]];
-+        then
-+            dsdt=${aml/SSDT*/DSDT};
-+            extra="-e ${dsdt}"
-+        else
-+            extra=""
-+        fi
-+        asl=${aml}.dsl
-+        if [[ "${outdir}" ]];
-+        then
-+            asl="${outdir}"/${machine}/${asl}
-+        fi
-+        iasl -d -p ${asl} ${extra} ${aml}
-+    done
-+done
-diff --git a/tests/data/acpi/rebuild-expected-aml.sh b/tests/data/acpi/rebuild-expected-aml.sh
-index 9cbaab1a4d..76cd797d1e 100755
---- a/tests/data/acpi/rebuild-expected-aml.sh
-+++ b/tests/data/acpi/rebuild-expected-aml.sh
-@@ -36,6 +36,7 @@ old_allowed_dif=`grep -v -e 'List of comma-separated changed AML files to ignore
- echo '/* List of comma-separated changed AML files to ignore */' > ${SRC_PATH}/tests/qtest/bios-tables-test-allowed-diff.h
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index dc3490c9fa..21ea5ba1d2 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1211,7 +1211,7 @@ static void test_migrate_auto_converge(void)
+      * without throttling.
+      */
+     migrate_set_parameter_int(from, "downtime-limit", 1);
+-    migrate_set_parameter_int(from, "max-bandwidth", 1000000); /* ~1Mb/s */
++    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
  
- echo "The files were rebuilt and can be added to git."
-+echo "You can use ${SRC_PATH}/tests/data/acpi/disassemle-aml.sh to disassemble them to ASL."
- 
- if [ -z "$old_allowed_dif" ]; then
-     echo "Note! Please do not commit expected files with source changes"
+     /* To check remaining size after precopy */
+     migrate_set_capability(from, "pause-before-switchover", true);
 -- 
 MST
 
