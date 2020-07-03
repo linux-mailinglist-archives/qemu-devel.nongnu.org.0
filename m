@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9552137C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:35:21 +0200 (CEST)
-Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EB12137CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:37:11 +0200 (CEST)
+Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrI6K-00062j-LM
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1jrI86-0001Zn-8t
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtY-0002rs-5l
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43593
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtU-0000ye-2k
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593768123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tFtSJJBUvX6PJuZeC0cgXFvmmdXZ2AJHL25InONN2Wk=;
- b=LEwRluyYYzdvLbJr+n8b8X9dc7UK/Hm+55DyDuPDeq7GFxL/V9XIt/20qHnHQXEgFCBCu4
- hh92dxOy7un+OZCxhDhVZvyqKxzud6MtyK/C4trvOoketdxZnepzITXrb3FZuulnjmTB6y
- +Xw1YX+LBsg7cJIWz/8tcL5Lfn+iuX8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-nkVBivhaO_ubOJkzxfvWiw-1; Fri, 03 Jul 2020 05:22:01 -0400
-X-MC-Unique: nkVBivhaO_ubOJkzxfvWiw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F0F0800FEA;
- Fri,  3 Jul 2020 09:22:00 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CE227AC63;
- Fri,  3 Jul 2020 09:21:59 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 7/7] iotests: Fix 051 output after qdev_init_nofail() removal
-Date: Fri,  3 Jul 2020 11:21:43 +0200
-Message-Id: <20200703092143.165594-8-kwolf@redhat.com>
-In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
-References: <20200703092143.165594-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jrI7C-0000GX-GS
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:36:14 -0400
+Received: from mga04.intel.com ([192.55.52.120]:60536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jrI79-0004m9-4I
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:36:13 -0400
+IronPort-SDR: RFpDIWwfa7jHvHGdV7CbXzTPO1jHHTd1eD1+I3veXcScR+2oHx9dyL1sP8Rn+i+mbne80pKc4h
+ S3Q6CfDwFCjQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="144644711"
+X-IronPort-AV: E=Sophos;i="5.75,307,1589266800"; d="scan'208";a="144644711"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2020 02:27:51 -0700
+IronPort-SDR: xE9yh13K0bKsngCqM06AuzhWmuYmV2zPOSuKm7i5lxM5b3jHqyMqB2ZKcmgfQCGDq3M5PZ824k
+ p++JgOKXmanA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,307,1589266800"; d="scan'208";a="278386416"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga003.jf.intel.com with ESMTP; 03 Jul 2020 02:27:51 -0700
+Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 3 Jul 2020 02:27:50 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 3 Jul 2020 17:27:48 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
+ Fri, 3 Jul 2020 17:27:48 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: RE: [PATCH V2 0/2] net/colo-compare.c: Expose "max_queue_size" to
+ users and clean up
+Thread-Topic: [PATCH V2 0/2] net/colo-compare.c: Expose "max_queue_size" to
+ users and clean up
+Thread-Index: AQHWScdKlRnAwnxk2E6+4tCs8rrEA6j1pKeA
+Date: Fri, 3 Jul 2020 09:27:48 +0000
+Message-ID: <15d75b295b7b482db3ef2428aee87a6d@intel.com>
+References: <20200624012042.29355-1-chen.zhang@intel.com>
+In-Reply-To: <20200624012042.29355-1-chen.zhang@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:27:51
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,54 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Hi Jason,
 
-Commit 96927c744 replaced qdev_init_nofail() call by
-isa_realize_and_unref() which has a different error
-message. Update the test output accordingly.
+Maybe missed this updated series?
 
-Gitlab CI error after merging b77b5b3dc7:
-https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
+Thanks
+Zhang Chen
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200616154949.6586-1-philmd@redhat.com>
-Message-Id: <20200624140446.15380-2-alex.bennee@linaro.org>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/051.pc.out | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index 0ea80d35f0..da8ad87187 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -142,7 +142,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- Testing: -drive if=ide
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Device needs media, but drive is empty
-+(qemu) QEMU_PROG: Device needs media, but drive is empty
- 
- Testing: -drive if=virtio
- QEMU X.Y.Z monitor - type 'help' for more information
-@@ -214,7 +214,7 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=ide,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) QEMU_PROG: Initialization of device ide-hd failed: Block node is read-only
-+(qemu) QEMU_PROG: Block node is read-only
- 
- Testing: -drive file=TEST_DIR/t.qcow2,if=virtio,readonly=on
- QEMU X.Y.Z monitor - type 'help' for more information
--- 
-2.25.4
+> -----Original Message-----
+> From: Zhang, Chen <chen.zhang@intel.com>
+> Sent: Wednesday, June 24, 2020 9:21 AM
+> To: Jason Wang <jasowang@redhat.com>
+> Cc: Zhang Chen <zhangckid@gmail.com>; qemu-dev <qemu-
+> devel@nongnu.org>; Zhang, Chen <chen.zhang@intel.com>
+> Subject: [PATCH V2 0/2] net/colo-compare.c: Expose "max_queue_size" to
+> users and clean up
+>=20
+> From: Zhang Chen <chen.zhang@intel.com>
+>=20
+> This series make a way to config COLO "max_queue_size" parameters
+> according to user's scenarios and environments and do some clean up for
+> descriptions.
+>=20
+> V2:
+>  - Rebase on upstream code.
+>=20
+> Zhang Chen (2):
+>   net/colo-compare.c: Expose compare "max_queue_size" to users
+>   qemu-options.hx: Clean up and fix typo for colo-compare
+>=20
+>  net/colo-compare.c | 43
+> ++++++++++++++++++++++++++++++++++++++++++-
+>  qemu-options.hx    | 33 +++++++++++++++++----------------
+>  2 files changed, 59 insertions(+), 17 deletions(-)
+>=20
+> --
+> 2.17.1
 
 
