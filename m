@@ -2,99 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5399E213B7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 16:07:42 +0200 (CEST)
-Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9894F213BB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 16:20:36 +0200 (CEST)
+Received: from localhost ([::1]:57904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrMLt-00073P-8h
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 10:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
+	id 1jrMYN-0003Oh-D1
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 10:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrML8-0006eN-I5
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:06:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38118
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrML7-00036c-0u
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:06:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593785212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HB1nmy2SkXNtXFiEqsZU8JWj17erTopZUS6Y8J2ydm0=;
- b=KqXXAlPOgqMU8ScIN5ZTKoFB43dHJA1pkv+9hSS809NrBpBEtUOmbMoVBjl/njJ5dQvTc1
- DI0qu3hepFV8DtyIjhGTsTrFVFx0XsDccUFy/9WzAWoLVf5jGAUTRCCd4MjPioiCvpyrJ2
- whCtPtXBRtrOO2oAFroHVUZlk/lKLS4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-F32ixe0vOPuNp3fGwY8PHQ-1; Fri, 03 Jul 2020 10:06:38 -0400
-X-MC-Unique: F32ixe0vOPuNp3fGwY8PHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0CAD1005510;
- Fri,  3 Jul 2020 14:06:36 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-131.ams2.redhat.com
- [10.36.113.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CCC41002382;
- Fri,  3 Jul 2020 14:06:30 +0000 (UTC)
-Subject: Re: [PATCH v3 00/10] drop unallocated_blocks_are_zero
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200528094405.145708-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <68480ac0-8186-4dd1-86c9-2789f85f3e3a@redhat.com>
-Date: Fri, 3 Jul 2020 16:06:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jrMXT-0002zY-FC
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:19:39 -0400
+Received: from 6.mo6.mail-out.ovh.net ([87.98.177.69]:38150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jrMXR-0006EO-41
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:19:39 -0400
+Received: from player755.ha.ovh.net (unknown [10.108.35.27])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 2070A21A7B8
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 16:19:33 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player755.ha.ovh.net (Postfix) with ESMTPSA id 2E569141B0A28;
+ Fri,  3 Jul 2020 14:19:25 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00285ee87f1-9781-41c0-90b7-c9be74ca3072,935498C186F5E237E8FBD9F7C25273B8E078CCF0)
+ smtp.auth=groug@kaod.org
+Date: Fri, 3 Jul 2020 16:19:24 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v3 4/4] spapr: Forbid nested KVM-HV in pre-power9 compat
+ mode
+Message-ID: <20200703161924.7131e87f@bahia.lan>
+In-Reply-To: <20200615112031.679512c3@bahia.lan>
+References: <159188280345.70166.14940592691021389043.stgit@bahia.lan>
+ <159188283391.70166.16995399489383620172.stgit@bahia.lan>
+ <20200613071804.GE5861@umbus.fritz.box>
+ <20200615112031.679512c3@bahia.lan>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200528094405.145708-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="JZLOPvGMXrHDNErfVwxNNS4JVHFdacPi5"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/N6X41hK+e6G+BDeRQSf13ls";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 4500503404297492966
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedrtdeigdejhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgefgkeduvddutdfgkeekjeelgeejffehudeuhfeltdetfedthffftdfggeeihfdvnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=87.98.177.69; envelope-from=groug@kaod.org;
+ helo=6.mo6.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 10:19:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,58 +68,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, stefanha@redhat.com, codyprime@gmail.com,
- sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, ronniesahlberg@gmail.com,
- pbonzini@redhat.com, den@openvz.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JZLOPvGMXrHDNErfVwxNNS4JVHFdacPi5
-Content-Type: multipart/mixed; boundary="6krziepSWz0fVncEJhdUhUBdzeH3Gy88d"
-
---6krziepSWz0fVncEJhdUhUBdzeH3Gy88d
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--Sig_/N6X41hK+e6G+BDeRQSf13ls
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On 28.05.20 11:43, Vladimir Sementsov-Ogievskiy wrote:
-> This is first step to block-status refactoring, and solves most simple
-> problem mentioned in my investigation of block-status described in
-> the thread "backing chain & block status & filters":
->   https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04706.html
+On Mon, 15 Jun 2020 11:20:31 +0200
+Greg Kurz <groug@kaod.org> wrote:
+
+> On Sat, 13 Jun 2020 17:18:04 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> The whole series is reviewed, let's proceed with it please!
+> > On Thu, Jun 11, 2020 at 03:40:33PM +0200, Greg Kurz wrote:
+> > > Nested KVM-HV only works on POWER9.
+> > >=20
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+> >=20
+> > Hrm.  I have mixed feelings about this.  It does bring forward an
+> > error that we'd otherwise only discover when we try to load the kvm
+> > module in the guest.
+> >=20
+> > On the other hand, it's kind of a layering violation - really it's
+> > KVM's business to report what it can and can't do, rather than having
+> > qemu anticipate it.
+> >=20
 >=20
-> v3: rebase on master
-> 02: grammar fix in commit msg, add Eric's r-b
-> 03,04,09: add Eric's r-b
-> 10: add my r-b
+> Agreed and it seems that we can probably get KVM to report that
+> already. I'll have closer look.
+>=20
 
-Thanks, applied to my block branch:
+Checking the KVM_CAP_PPC_NESTED_HV extension only reports what the host
+supports. It can't reasonably take into account that we're going to
+switch vCPUs in some compat mode later on. KVM could possibly check
+that it has a vCPU in pre-power9 compat mode when we try to enable
+the capability and fail... but it would be a layering violation all
+the same. The KVM that doesn't like pre-power9 CPUs isn't the one in
+the host, it is the one in the guest, and it's not even directly
+related to the CPU type but to the MMU mode currently in use:
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+long kvmhv_nested_init(void)
+{
+	long int ptb_order;
+	unsigned long ptcr;
+	long rc;
+
+	if (!kvmhv_on_pseries())
+		return 0;
+=3D=3D>	if (!radix_enabled())
+		return -ENODEV;
+
+We cannot know either for sure the MMU mode the guest will run in
+when we enable the nested cap during the initial machine reset.
+So it seems we cannot do anything better than denylisting well
+known broken setups, in which case QEMU seems a better fit than
+KVM.
+
+Makes sense ?
+
+> > Allowing POWER8 compat for an L2 is something we hope to have in the
+> > fairly near future.
+>=20
+> Ok but I guess we don't want to start an L2 in compat POWER8 mode
+> with cap-nested-hv=3Don, do we ?
+>=20
+> >  Allowing POWER8 compat for L1, which is what this
+> > covers, is, I'll admit, likely to never happen.
+> >=20
+> >=20
+> > > ---
+> > >  HW/ppc/spapr_caps.c |   10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > >=20
+> > > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> > > index 27cf2b38af27..dfe3b419daaa 100644
+> > > --- a/hw/ppc/spapr_caps.c
+> > > +++ b/hw/ppc/spapr_caps.c
+> > > @@ -391,6 +391,8 @@ static void cap_nested_kvm_hv_apply(SpaprMachineS=
+tate *spapr,
+> > >                                      uint8_t val, Error **errp)
+> > >  {
+> > >      ERRP_AUTO_PROPAGATE();
+> > > +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
+> > > +
+> > >      if (!val) {
+> > >          /* capability disabled by default */
+> > >          return;
+> > > @@ -400,6 +402,14 @@ static void cap_nested_kvm_hv_apply(SpaprMachine=
+State *spapr,
+> > >          error_setg(errp, "No Nested KVM-HV support in TCG");
+> > >          error_append_hint(errp, "Try appending -machine cap-nested-h=
+v=3Doff\n");
+> > >      } else if (kvm_enabled()) {
+> > > +        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
+> > > +                              spapr->max_compat_pvr)) {
+> > > +            error_setg(errp, "Nested KVM-HV only supported on POWER9=
+");
+> > > +            error_append_hint(errp,
+> > > +                              "Try appending -machine max-cpu-compat=
+=3Dpower9\n");
+> > > +            return;
+> > > +        }
+> > > +
+> > >          if (!kvmppc_has_cap_nested_kvm_hv()) {
+> > >              error_setg(errp,
+> > >                         "KVM implementation does not support Nested K=
+VM-HV");
+> > >=20
+> > >=20
+> >=20
+>=20
 
 
---6krziepSWz0fVncEJhdUhUBdzeH3Gy88d--
-
---JZLOPvGMXrHDNErfVwxNNS4JVHFdacPi5
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/N6X41hK+e6G+BDeRQSf13ls
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7/O2UACgkQ9AfbAGHV
-z0BTmggAoBvP8kBjtysvoPgwTwV2DxQtkqRsTAvj/M/3dZ0FR0nrs9WHan7fvoyz
-v9zfJYOWYOVyCWuoqtyTemLMhHrzoa6GeM/zOjO6lFPSWiVF3CogCrpTNg6/jJW3
-JmJbkftCu70zu5SHfKHdlBxT769GhkVXAQjWjAd/+XKqBMreGGxbGbSNgAiQfdmG
-Beqw5GDDNMGNbo8TjBKMvICH5y+Kf5Wxu4not4bGCzDBkyKAnzKb49PvhW6Jjd0Q
-j6sQY72nzJEkJqxFHFpzEKoXBweBSU2ZEMvpeYEakuZIOOe9T4oQOiDAI/YaPgOH
-YarCGWgsvHPwg1bRpuXqL+YeTD/FJg==
-=jhF0
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl7/PmwACgkQcdTV5YIv
+c9bqgA//TI4o3ifMlJdL5DeyP3ZeS8+uNfwN/rao/cEjXxWIv45Jy0Q6l0wF8R+3
+hulzjXL305vFbu/7jcQYmjDk8o5/xPYibc7cRkZmzX36PE2kqpAtgWZ+N66S6UU4
+A+pf+sISFqBN5FrKpSkiXHbCdpp/FnuVui28V5cZ2I9u94aHGvnJGBPexFhK/QHt
+jinV9FJtJiPFBF++QYg0yd+K5WMip2M44oCbH13XG/ae0lAFmWyXEnGyuDB15Qis
+awRUJXmrPByaxHJAWGNw6uBMjUtGjHAqXBpjJ74VSZuR56qXHLfatRCz73bQmAUe
+mjf3m/rGS4RVymhyKcO4Z2TvT0IcJw4LF+RS3kRLz3Jb6KbF+dpPC6uvm46X+SQM
+5E5C8rfcs3gFl9dD5Cm82Orzh9ndjPe7N4+3/sMZeTUoSh4QRqvoiD5S/4hLm+fY
+JlqQXuBFbDzZakhXFHXJN8XdIseJT1Rtcgg1qShDyhS+Wc+zSPO28/vsnl2Lq+lq
+7kK+6EesYhiNSIr3i60h9wMwDllBNXjoPJkqBlWAnavAT/ggpdvdlNJxJkvSyt1i
+y5xfk9kbc3r1lwRSn+OqDUw1S4BzTS0VydtXEc7iJIRi/w3JU5rKR6F3AYPAu0ev
+lzsyQJklxHWdTwv4OwA+sXg+BckuEaAqvTvOquLtNKjjLgCRi0M=
+=FkpE
 -----END PGP SIGNATURE-----
 
---JZLOPvGMXrHDNErfVwxNNS4JVHFdacPi5--
-
+--Sig_/N6X41hK+e6G+BDeRQSf13ls--
 
