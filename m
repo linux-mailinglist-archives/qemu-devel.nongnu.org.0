@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164902137AF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:29:21 +0200 (CEST)
-Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D672137AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:28:48 +0200 (CEST)
+Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrI0W-0001eZ-3m
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
+	id 1jrHzz-0008Pc-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgY-0000W2-82
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:42 -0400
+ id 1jrHgb-0000dA-2d; Fri, 03 Jul 2020 05:08:45 -0400
 Received: from mail-eopbgr140133.outbound.protection.outlook.com
  ([40.107.14.133]:62071 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgW-0005Bb-4N
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:41 -0400
+ id 1jrHgY-0005Bb-RQ; Fri, 03 Jul 2020 05:08:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lzkjAH2agEhtANXKyyOjk9gQ8j0BRi/pu+WLQvsTTJMd7XuOdxPnfnk4PY2b+jiLVFwVW4qePRagnskSap2BE29dlOmS6cX/qoRXW0Wks/Lh8abgSesZ8HJDy6+ioaVtCMRBA/ZusCKg8oVTXu/J5TxTxQ59PEzEdlWXYcCLKFR6ucbUlt4NEopyQUrr8hhKnduRpYteXC6llKDlif4vIFICYO4H4apPVMsQF++Z8B9O4X4tuMrSv0zzQdgI4zV8jQPL7bd8MPxeS/0TqHSvpjZ60MZuVPhE96E5deSLaMCRZfhTV4x3+FzJYmc4lo5LXdCwFOBOT5voj/00cIqf5w==
+ b=j6oV9TfJmKS5dlum39DSXeTi8XhooOjPpgGe3PFBePmLKfHBWvqhHVa9pVBJQ/4MUN/75DjOONWrZ2zph+nJ9teWNbMnEUlfTS5418qeTiMqnMsFKREzA7HGK0COwzgsX+CW4eE4yI8c4HWDuLQFJCf6MJ/CPZHWtzXYRyzjrI67YnbVSFPsnFxeBJDVCvjcrk27ckVedcxzZlQ8yfvdGwCGX9N7uX2Nll8o/tgrc09c00VwQtnO6NrkjS+3PPe4It9LjqwVmFqpDFwEaufJBMQDk8i6dLSmB6yWoryeFmXY3jBpgV7wL4oa7pztG4+tkyunIcP/QYyKXm3U7gstQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bNFydHd+Y+pOwXlqMZNody1rIFwi6JF50BVuuh2p5go=;
- b=JwLHGfGaxWyfU77mFXju2NlkSljt1j2QkfkmfUIbq0/gdnyNWbmWcBTQTpULz785T0OWf2akvs8kKXxn6bnngpaHlVvjBC2eox1CnOMNejaNl91UTwfA2GaEMJAMLO3/A9N1cTd8sM8cY4KZ2VQ8jN+lN4etmwL8GSD2hoADO2SAqEpd7QrJnU6ANU2U6ehbnG7B/6vaHhypnkLTa0mQdmlBSOFTcHrHr2Cb167betvpOhMIHnNQasoys3VHMsV94SLPOYEXNBKGMQ6WY6ecVUvXe3TDZi5ddCrLCMKkFsDGVtdKzDarXxNphvwJ7Sqc4mMcO/Xv5NL6R1Ewj4cVsQ==
+ bh=gROxmM85WksCQt4OE9w7dTkzc0OSiFHd0QycJQzZFRs=;
+ b=OFR2Yi8lKp+jyTnUv/eUEbImlvijpvbWu5AkyABfZ2eFMhjeEW+W7EXL9YhkotzAokHv4ucZmZFd7Ms5d5j9T7rTbVRtUTfrBoSGI7KbZcarsOsh9hv1dueLvr8j66hCi4yo4BdPGCZW1rLRhUIiACyH9zTXkUW+mddpwltmf08LnDj7lKnLwXUx0gYaE8zzFGY5Sx1MbGmxwhwckiNBCKNrehqePgIvrivYLOUntwMu1VOwGEapves3l69WHuP7uqsAtBg1y/fIf3a4LIx8RNg3br5M4duE2n26P393opr7q8V3o4Kcvq0BZwV9zG+q0wKBpC04O+lSvwcrc+rksg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bNFydHd+Y+pOwXlqMZNody1rIFwi6JF50BVuuh2p5go=;
- b=u6CFVMp55W6r7TEthhV8T/gspNhJkHoROJd9lx7w1kTfK6yy+5hEa7m8S03lNmOSsx2qbrcbaYshqxqEeY1+8amAeoF7LJ9dlVhcexbJ7Rspdjz2I3BYhRo2NGSAqDBM5aDivNewmXKJHfXdnj/77B9GUlUUuj8+OaB/SlSUi3s=
+ bh=gROxmM85WksCQt4OE9w7dTkzc0OSiFHd0QycJQzZFRs=;
+ b=WDuq4s5OzUDV97F7aq9Iui0JJ4qG1vBG1dl0g37wmj0evN7RyfE2sdXr12OZcRa7+gbfHor/WPk/ws3AvRgFP6+a8b8wA3TJsRgVs+nnioeLJng7jjHcUbADKLpHfRkrVubWrIjU3aqlrKp38DujzlsOMakrRV86p+nHJ2p55Z8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Fri, 3 Jul
- 2020 09:08:33 +0000
+ 2020 09:08:34 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
- 09:08:33 +0000
+ 09:08:34 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 3/8] SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
-Date: Fri,  3 Jul 2020 12:08:11 +0300
-Message-Id: <20200703090816.3295-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v11 4/8] pflash: introduce ERRP_AUTO_PROPAGATE
+Date: Fri,  3 Jul 2020 12:08:12 +0300
+Message-Id: <20200703090816.3295-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200703090816.3295-1-vsementsov@virtuozzo.com>
 References: <20200703090816.3295-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:17c::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
@@ -65,34 +63,34 @@ Received: from localhost.localdomain (185.215.60.15) by
  AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend
- Transport; Fri, 3 Jul 2020 09:08:32 +0000
+ Transport; Fri, 3 Jul 2020 09:08:33 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.15]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d3030cfb-5689-473b-9d47-08d81f30a91a
+X-MS-Office365-Filtering-Correlation-Id: e2a67fb6-d655-48c9-c280-08d81f30a9a0
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5448777D53C017B81F9CCABCC16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:156;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54484363028505D9E6B03FDAC16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
 X-Forefront-PRVS: 045315E1EE
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2GlEkcVS6y7u8cFdwU8EnuGtroEJZfechIiBxTrTIQtiHyRivN8f5N9dGvKMpG2w6IqujZmzCUpUAk4P+y94O9z7aZv+GA1NRdgDKVB0LOF1ICELHChhvquFK0M0rxZn5cs2NnlbewR5R/Osfnum9n2J+yAwy1JrEo/fTfJRohGUYDeUiPofhKgdkN9qbYeThuNUNJUGGcXtf/A+OTMa5gZzfjuaBnbkneiw74EUCgi1uBxPjdxQCtLq3m2x7OMQVGXfSCowEO8njl8UzF2hlNw9k9ttzyM6y3BQvmZw+lBhFmFKdEkxSk7HR+VD78upzg0CMSBSXMJGadYlMKO/uRG2H+MqdpIbQYI6fJNaLYkflf+dsXY6V6t5uOngo1wH
+X-Microsoft-Antispam-Message-Info: si0oHt09K0nIEiUSrOzaOKJ0DrQjZPCOGUOm+ZX09F3UF+Clc3FcWQhv3yYcy/o/AR03LDXdcesFGpj40who9Dc9oyS+fgXsLtAAidLDRFXwb7t3keJrneVGbCvPJwAoUNoSISsb9rawKpIbSeLWS6uZJK7WkUY6E2+/MycgsQG+4MyV46r7fumYf7ykT4OEGHV4sgAqKLiFCcOfSlVx1iocQd5KIZevI/yxMi3hc4ZjnxToV8F88FxDG4BmClaKh4VJLpSAeUQWvxBDGMYdzaGJ2LKuK2EkUdUDQvrLa2l4MMbFSplxq6RTrZvgvzSR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(69590400007)(66946007)(66476007)(66556008)(2906002)(86362001)(1076003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005);
+ SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(66946007)(66476007)(66556008)(2906002)(86362001)(1076003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: vC5M3mEwsvzwYDKJAA/zHIy2rbXGLVMW+er4c/F2HrbigU2WCLVC7elwKTmy0qUkKHq36O8lkqqLUcG8iq8NHgw/QmXGz3izN4zaojzhUxyfLfu10C5TzQUoGN/3NIfLVsW9/pIFeIs6yv9e6BHdtE8PLADI5FHwaZ4YKJ50XZ2CXHONvm6rhtEXkpHf07UbNvDlSw5na8n7biPmksb9JkU2Qk20mZ5GlypmXLSf3Vf0JA7k/X7Le3KSK1LQPpnvSkKkk09KNt83c51i+/QfLDs+K/6A9bd3gvX+OOp9pjTcObAIFeWx1bHR7tkzLZI0KhM3K5eBef4o5ziBlJJ8BnT7HJpRh1x49jUBpcAOEK5n13glGOrWrq28Cv/cht8E875gHZ08w8ImzhSA5O2SQlYZjTgLox02iSE/jNsCsXgOXieIGvfZe9xkTTLKmOYj7MmbF4SqGiWXl6l64SGdkBkHlgvrc9t66PFzWZ3OJyM=
+X-MS-Exchange-AntiSpam-MessageData: Iof8IOAxVE8Yh2hSpJ0Y0Dp9FMViDODx6bkxCfw1yYO7aD+WTWpV59xe4bYGEKt3dqsQ1hfOk9/5qPsIKyb/W/36ci/328/eOZ3QZZ2o/m3PAzbF0Z4ZhQbE0lWnhmyNLVVvb/t//vOndl3cpQNdvp1vt5Nw7GA2cm9FUlKn1u3tVqMLDW3CKyEIFUtSPcNLxKRAcgA1DQ1VADog0PiyyFVV1uIhLihXvJEitfOuxaTzHzf99O4jYqQKIa/zKB3nEIigQm8zs7AkNv75HzA03f5Lod6BJvzTymYyHwOeKEhbV5VOx4nh8j7oF2GGcR+OVI92+ib9Mo140xFLR/+a+ZIKPbZXOInhUemdRBX8mIsWEZH/0gy19554SV8WPxy0Ein+zovh3m/13jrT9eZSZYWBu17ZrBOp3uwh3P2WoK0NQCYZ1dUGjcoBuGwhHaZ5Ya9WjZPuo5YuJML9lSQ748IoXTShtZMtRkJqXd+NhtE=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3030cfb-5689-473b-9d47-08d81f30a91a
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2a67fb6-d655-48c9-c280-08d81f30a9a0
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:33.0453 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:33.8985 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I1ZfTqVvPAbyGVhxt1bj159Bc7iLA983Rc8omU9MXuBeTnlv1S/Fdcyg7o7ETG9MsORPNz+HTz5C8D91xuMJPvO09mmk/zLUuajfP5b60fM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EiUlv3aL0sB5Gt3vubAHGT/JlSDR+mLxSMakxbBfExk431pIikrxLitpWMSokFdHb3bvaCCs5if9Br6jO1GEO9fbdcMQH+K8mKJkk4Em/ao=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
 Received-SPF: pass client-ip=40.107.14.133;
  envelope-from=vsementsov@virtuozzo.com;
@@ -119,8 +117,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- groug@kaod.org, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, armbru@redhat.com, groug@kaod.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -141,7 +141,7 @@ ERRP_AUTO_PROPAGATE macro, benefits are:
 
 This commit is generated by command
 
-    sed -n '/^SD (Secure Card)$/,/^$/{s/^F: //p}' \
+    sed -n '/^Parallel NOR Flash devices$/,/^$/{s/^F: //p}' \
         MAINTAINERS | \
     xargs git ls-files | grep '\.[hc]$' | \
     xargs spatch \
@@ -152,134 +152,69 @@ This commit is generated by command
 Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/sd/sdhci-pci.c |  7 +++----
- hw/sd/sdhci.c     | 21 +++++++++------------
- hw/sd/ssi-sd.c    | 10 +++++-----
- 3 files changed, 17 insertions(+), 21 deletions(-)
+ hw/block/pflash_cfi01.c | 7 +++----
+ hw/block/pflash_cfi02.c | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/hw/sd/sdhci-pci.c b/hw/sd/sdhci-pci.c
-index 4f5977d487..38ec572fc6 100644
---- a/hw/sd/sdhci-pci.c
-+++ b/hw/sd/sdhci-pci.c
-@@ -29,13 +29,12 @@ static Property sdhci_pci_properties[] = {
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index cddc3a5a0c..859cfeae14 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -696,12 +696,12 @@ static const MemoryRegionOps pflash_cfi01_ops = {
  
- static void sdhci_pci_realize(PCIDevice *dev, Error **errp)
+ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SDHCIState *s = PCI_SDHCI(dev);
+     PFlashCFI01 *pfl = PFLASH_CFI01(dev);
+     uint64_t total_len;
+     int ret;
+     uint64_t blocks_per_device, sector_len_per_device, device_len;
+     int num_devices;
 -    Error *local_err = NULL;
  
-     sdhci_initfn(s);
--    sdhci_common_realize(s, &local_err);
+     if (pfl->sector_len == 0) {
+         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
+@@ -735,9 +735,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+         &pfl->mem, OBJECT(dev),
+         &pflash_cfi01_ops,
+         pfl,
+-        pfl->name, total_len, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    sdhci_common_realize(s, errp);
++        pfl->name, total_len, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index eb2be6529e..be1928784d 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1288,7 +1288,7 @@ static const MemoryRegionOps sdhci_mmio_ops = {
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index b40ce2335a..15035ee5ef 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -724,9 +724,9 @@ static const MemoryRegionOps pflash_cfi02_ops = {
  
- static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     switch (s->sd_spec_version) {
-     case 2 ... 3:
-@@ -1299,9 +1299,8 @@ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
-     }
-     s->version = (SDHC_HCVER_VENDOR << 8) | (s->sd_spec_version - 1);
- 
--    sdhci_check_capareg(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    sdhci_check_capareg(s, errp);
-+    if (*errp) {
-         return;
-     }
- }
-@@ -1332,11 +1331,10 @@ void sdhci_uninitfn(SDHCIState *s)
- 
- void sdhci_common_realize(SDHCIState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
--    sdhci_init_readonly_registers(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    sdhci_init_readonly_registers(s, errp);
-+    if (*errp) {
-         return;
-     }
-     s->buf_maxsz = sdhci_get_fifolen(s);
-@@ -1456,13 +1454,12 @@ static void sdhci_sysbus_finalize(Object *obj)
- 
- static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
+ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SDHCIState *s = SYSBUS_SDHCI(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     PFlashCFI02 *pfl = PFLASH_CFI02(dev);
+     int ret;
 -    Error *local_err = NULL;
  
--    sdhci_common_realize(s, &local_err);
+     if (pfl->uniform_sector_len == 0 && pfl->sector_len[0] == 0) {
+         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
+@@ -792,9 +792,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+ 
+     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+                                   &pflash_cfi02_ops, pfl, pfl->name,
+-                                  pfl->chip_len, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    sdhci_common_realize(s, errp);
++                                  pfl->chip_len, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index e0fb9f3093..43e5730b00 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -241,10 +241,10 @@ static const VMStateDescription vmstate_ssi_sd = {
- 
- static void ssi_sd_realize(SSISlave *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, d);
-     DeviceState *carddev;
-     DriveInfo *dinfo;
--    Error *err = NULL;
- 
-     qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
-                         DEVICE(d), "sd-bus");
-@@ -255,23 +255,23 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
-     carddev = qdev_new(TYPE_SD_CARD);
-     if (dinfo) {
-         if (!qdev_prop_set_drive_err(carddev, "drive",
--                                     blk_by_legacy_dinfo(dinfo), &err)) {
-+                                     blk_by_legacy_dinfo(dinfo), errp)) {
-             goto fail;
-         }
-     }
- 
--    if (!object_property_set_bool(OBJECT(carddev), "spi", true, &err)) {
-+    if (!object_property_set_bool(OBJECT(carddev), "spi", true, errp)) {
-         goto fail;
-     }
- 
--    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err)) {
-+    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), errp)) {
-         goto fail;
-     }
- 
-     return;
- 
- fail:
--    error_propagate_prepend(errp, err, "failed to init SD card: ");
-+    error_prepend(errp, "failed to init SD card: ");
- }
- 
- static void ssi_sd_reset(DeviceState *dev)
 -- 
 2.21.0
 
