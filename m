@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28668213DCF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:58:41 +0200 (CEST)
-Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7B5213DD8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:59:37 +0200 (CEST)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP1M-0003Ik-4W
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
+	id 1jrP2G-0005gy-Me
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx9-0004ei-Is
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:19 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55512)
+ id 1jrOxC-0004lh-Hp
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:22 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx7-0005fF-Mm
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:19 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id g75so32622636wme.5
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:17 -0700 (PDT)
+ id 1jrOxA-0005fj-Uh
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:22 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z13so33425843wrw.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EbbmXTpDnijCYEth67+ubP+o2i89Y7K6M4yUuCHERro=;
- b=gaoqUowTdPGRycBYt8EcKJzHkULzCCCQxEgsTXjhwYXS+0I7wWe4xqYnl2GAQt/1Be
- XFNed+B61WRxpPbIZh5OY/iHQshtUaFa76sxecG6DqmMRDoKBponEJaz4WW5BTRGY39G
- MB6EeCDN0TI6fKaLHfBnvH/qKMqX7CS1BTnBrUqQi4NXHZSlUMYsMAxUUox8UOypMy6k
- EjxDYDLPnu3lApm6hZv89yuLc93fKCj95y+QYLXx8UVjTBnphVjUkKssoyUIrc1Ax8ev
- xkDmII+HSm/sQiV+C7HQcB1YqSTcvooiRFP/+dre6vANTcbB729E1lSvl/Tdc11/VVQE
- PqUg==
+ bh=kPIFln/ZZd6iY5dygLSdbDis7siBbqefdWWfXW/oq8c=;
+ b=D1VJ+Z/b9X9wAPjRAJarSkLmuFafFb7Mns36BzzFhSdOYgJ676oripoY6GlfRqkJ8q
+ VOpZ+uQz15mj3I2I+LqoKOtIwHdFvKNxiwNylaW/3rO7u7QCQWfER7oA8pw9QIyey+Ed
+ 1SQtbPIVGNjl0ZCqyp+ZaOBvoit2Qk3y8HxrcW4t/yB31dTrwOe36atapLh34qLHvYPP
+ NsM+dfmNz5GOoKU9o77UcDWON2ldNlzPMUKNQAIqJWNr8Dx34Wu7wWf//lG0R3uCESaW
+ wc+/phlunCSIdwC1AeH/4lWFNbkNshM98w23Fv1go86xpT+1U3IvAdXzlzxa/dvaJiv/
+ 8J9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EbbmXTpDnijCYEth67+ubP+o2i89Y7K6M4yUuCHERro=;
- b=cheN3MOijJtBmkNpZqfbLbQknk+PzJebgTJWZXFa5zP/5+D9vw7V44BDj/lyc3Ktyn
- xGxaxza1bat/7O4KT1tQt//GUK5ngQWED7yIAOCIiQdnehDvU7iViK0T7TcUWIiKFtT0
- c4a1abeYmirhEj6HswpLAmAnIT0Di2mrKZdKyC5c2B+ZDwkE/wH74SHmV6fftm/AQq3G
- LvR3L3bcphOzbpyLmhLmBI3to2vGZSDLjzvyZV65YlXQ4p1+VAV15TlN0oVWojoIeLrq
- DImm9Gzi2KkuvPTJo5rC69+2QgiBXQWykR2NJvKc4QHb3txwMOlW4ojcx5cegHsYV1ch
- x0dA==
-X-Gm-Message-State: AOAM531dN72Z0pm1cS2Bs3iasL1I6kQL7iUFx73uW/QDqiEt1LqOZ34+
- kYebU9UZHv3qTMd4vRrWbpHeY2IfMl1emQ==
-X-Google-Smtp-Source: ABdhPJwF2DUjCVq4CWYu9CoUlpXTlRUhxt3kwpQzsbAP3zRKh2obKq5qzhEnBUcZEvip/B+6kRKZtQ==
-X-Received: by 2002:a05:600c:2253:: with SMTP id
- a19mr35808184wmm.136.1593795256067; 
- Fri, 03 Jul 2020 09:54:16 -0700 (PDT)
+ bh=kPIFln/ZZd6iY5dygLSdbDis7siBbqefdWWfXW/oq8c=;
+ b=Bz43f1gc9WNomHbXkU02gqSKq9ctKmDWfrf8igK8kEGS5FO9X3edfyJIX5aMUf/I0+
+ YRzooLLetHzRACW/Gv5Yj/4Wlqexc7e1NTwyzj5M4u5rmHAPfUoWA7/13RHzeRBFyG4D
+ pgGN+XQS9FwBbBhk1B+V1XuH6b5TaQJZgiGhSYvZ7ba13w5k+VIp6HwDD8wTBhWsjXSE
+ dbl7B9LSWqinKofGf2rRUZdSaQVbXZ5ArT1m+PhLzO4ejlUSASOzW7dDGDd1HqbXMmL2
+ pNu8VKw+LTXhPaZ4jEe3v0wINFJn5ZdvoC2aFQcmp0i6sx/t+y15zW6Vabcg7m43Su3c
+ K+Rg==
+X-Gm-Message-State: AOAM533CEKitdvjoyfXE2jq9JGbz+dcZ/xQPfNTqvp9WSNxuRf69a5ON
+ uCBSdU/1RrUaSbnjjJvdtdbhRCCkWimAxA==
+X-Google-Smtp-Source: ABdhPJy7iVIhm8SzibeBiyyjIgLMe8i0G76kaI8UiNoeybfkDhbFx2o83UXGLNTIV1DeoY/KcQ9xjw==
+X-Received: by 2002:adf:e850:: with SMTP id d16mr39253987wrn.426.1593795259234; 
+ Fri, 03 Jul 2020 09:54:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.15
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:15 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
-Date: Fri,  3 Jul 2020 17:53:39 +0100
-Message-Id: <20200703165405.17672-9-peter.maydell@linaro.org>
+Subject: [PULL 11/34] tests/acpi: remove stale allowed tables
+Date: Fri,  3 Jul 2020 17:53:42 +0100
+Message-Id: <20200703165405.17672-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SUBJ_WIPE_DEBT=1.004 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,112 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Andrew Jones <drjones@redhat.com>
 
-At the moment the virtio-iommu translates MSI transactions.
-This behavior is inherited from ARM SMMU. The virt machine
-code knows where the guest MSI doorbells are so we can easily
-declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
-setting the guest will not map MSIs through the IOMMU and those
-transactions will be simply bypassed.
-
-Depending on which MSI controller is in use (ITS or GICV2M),
-we declare either:
-- the ITS interrupt translation space (ITS_base + 0x10000),
-  containing the GITS_TRANSLATOR or
-- The GICV2M single frame, containing the MSI_SETSP_NS register.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20200629070404.10969-6-eric.auger@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 93dd625f8bf7 ("tests/acpi: update expected data files")
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20200629140938.17566-2-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/virt.h |  7 +++++++
- hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 31878ddc722..a18b6b397b6 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -96,6 +96,12 @@ typedef enum VirtIOMMUType {
-     VIRT_IOMMU_VIRTIO,
- } VirtIOMMUType;
- 
-+typedef enum VirtMSIControllerType {
-+    VIRT_MSI_CTRL_NONE,
-+    VIRT_MSI_CTRL_GICV2M,
-+    VIRT_MSI_CTRL_ITS,
-+} VirtMSIControllerType;
-+
- typedef enum VirtGICType {
-     VIRT_GIC_VERSION_MAX,
-     VIRT_GIC_VERSION_HOST,
-@@ -136,6 +142,7 @@ typedef struct {
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
-+    VirtMSIControllerType msi_controller;
-     uint16_t virtio_iommu_bdf;
-     struct arm_boot_info bootinfo;
-     MemMapEntry *memmap;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index af3050bc4bd..7922f3c23a5 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -600,6 +600,7 @@ static void create_its(VirtMachineState *vms)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, vms->memmap[VIRT_GIC_ITS].base);
- 
-     fdt_add_its_gic_node(vms);
-+    vms->msi_controller = VIRT_MSI_CTRL_ITS;
- }
- 
- static void create_v2m(VirtMachineState *vms)
-@@ -620,6 +621,7 @@ static void create_v2m(VirtMachineState *vms)
-     }
- 
-     fdt_add_v2m_gic_node(vms);
-+    vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
- }
- 
- static void create_gic(VirtMachineState *vms)
-@@ -2198,8 +2200,36 @@ out:
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-+    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-+
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-+        hwaddr db_start = 0, db_end = 0;
-+        char *resv_prop_str;
-+
-+        switch (vms->msi_controller) {
-+        case VIRT_MSI_CTRL_NONE:
-+            return;
-+        case VIRT_MSI_CTRL_ITS:
-+            /* GITS_TRANSLATER page */
-+            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
-+            db_end = base_memmap[VIRT_GIC_ITS].base +
-+                     base_memmap[VIRT_GIC_ITS].size - 1;
-+            break;
-+        case VIRT_MSI_CTRL_GICV2M:
-+            /* MSI_SETSPI_NS page */
-+            db_start = base_memmap[VIRT_GIC_V2M].base;
-+            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
-+            break;
-+        }
-+        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
-+                                        db_start, db_end,
-+                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
-+
-+        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-+        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-+        g_free(resv_prop_str);
-     }
- }
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 8992f1f12b7..dfb8523c8bf 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,19 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT",
+-"tests/data/acpi/pc/DSDT.acpihmat",
+-"tests/data/acpi/pc/DSDT.bridge",
+-"tests/data/acpi/pc/DSDT.cphp",
+-"tests/data/acpi/pc/DSDT.dimmpxm",
+-"tests/data/acpi/pc/DSDT.ipmikcs",
+-"tests/data/acpi/pc/DSDT.memhp",
+-"tests/data/acpi/pc/DSDT.numamem",
+-"tests/data/acpi/q35/DSDT",
+-"tests/data/acpi/q35/DSDT.acpihmat",
+-"tests/data/acpi/q35/DSDT.bridge",
+-"tests/data/acpi/q35/DSDT.cphp",
+-"tests/data/acpi/q35/DSDT.dimmpxm",
+-"tests/data/acpi/q35/DSDT.ipmibt",
+-"tests/data/acpi/q35/DSDT.memhp",
+-"tests/data/acpi/q35/DSDT.mmio64",
+-"tests/data/acpi/q35/DSDT.numamem",
+-"tests/data/acpi/q35/DSDT.tis",
 -- 
 2.20.1
 
