@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9458213C3B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:01:29 +0200 (CEST)
-Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D80213C46
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:03:44 +0200 (CEST)
+Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNBw-0000dp-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1jrNE7-00041H-5z
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrN6z-0003cc-26
+ id 1jrN6z-0003dE-8r
  for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:56:21 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43615)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrN6x-0006iJ-49
+ id 1jrN6x-0006iO-GY
  for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:56:20 -0400
-Received: by mail-wr1-x441.google.com with SMTP id j4so30572236wrp.10
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 07:56:18 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id z13so33013171wrw.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 07:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dwHxgRpIhgy32L2UboBlwqmEEDE7UdGELHgh689+HHI=;
- b=C5x2pbNoUsjYAJR/IeEcCn3nGGauTVM4zcjUv4iqxVATPZJfZlB7DIEOismAOK97mL
- e+AvFL/8koPgoouYtpOGvN36buTF1She00QXOelQaElL8lxLtc1DIwm//w8jRhOen731
- RW7MNsZbSt4Efs608EyRtZQPz6dmUHvZCgJ/wWylfLp7fRXyowVPrnFIFx3OP+Z2Pd7i
- I9etJZFEuhm5XbMwITwJXRJeCdKXanDTw2MwNVBRMpjZmBT5P6OlOj8ysiKsN9z/avxR
- SXQdTxmWkgNGT6Mr6YhcM3H+pRCNTpZkwijMvalb+vntzjGtQtDBBLBe9p0l1HnGbhGX
- n3dg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UzGMzmXLzESuVhYFo6WrRdQJb8qigTb6CLPMTcgkfaA=;
+ b=qmKRnkdVmlWnuU6c8WWAPJvhD014ix7ust4uOPrgIpO4zqB/zfN1oCwdBt44MI+CwK
+ bRr+vnDEri/khiWgqk/ornC409xPdmPFyL44hwisBjNLRWhJ56Hb7BlltcTR91cj9Qwb
+ dwpS6N1A9dfnfIMa+j3OBbBlCJnDf8tmQf+2HOvcjeZ1mbslcIGtkeCLSodW+f3SHoZD
+ DIFa3Ylz8beHIdvv2OcKFNZr4/mSY+7vYMRyJoyA9xpQbUulTN4I6jZtWlXhbxDMsNql
+ iyLK25h9iobomMCJ5ERFIHE0OhWuc8Y0ggNNtIxiWxtCY9EoGfHGMIeRkdGtA+XpEaTa
+ Q7+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dwHxgRpIhgy32L2UboBlwqmEEDE7UdGELHgh689+HHI=;
- b=t7EFmgzlm0oLaha4Oc3t/sOvCxuLHHBx9KeW2MHRrUgGxBbsvAG30hyQxjAik5d5jb
- 0Qu3WtLtLPFJHkfdsyyz00qvFcBMbnUHqWzMNcyieJc8xC/gFIeWOQ1mrQTw0v4lnSng
- z6De+iRFf2VvJ8HSRcIDjSAqcgV98xgMWyT0ZpztsFDRYw/H4uz16YO5BqB1HDgRcoAL
- sbktoP5LWOxSguslR5CaQQlCJMYyU9WkSe8i3Rh6/VToEJTzSxot0EvHUfUSkIWzMJ9E
- BtjX+nC9gt0aW3EmZqfD3tXPV1afYOdpaME6kjtv+gtxQAy/rDaQYrgq48Z87ZT8HGEZ
- IA6w==
-X-Gm-Message-State: AOAM531pecLzQ1jyZmHwO9DbblnwN7ubn6wM6DVz2sEvDFVx3oXC9gCZ
- QTUOTKHesekRaLkU6vA9f42zLRn73w06yg==
-X-Google-Smtp-Source: ABdhPJwMY0ZZkwk3JC3c0OaRzkykJQUBHVngw3R1EfPKquJWHQfoHbEizRKFInfKcuyDUHM/yJiOnA==
-X-Received: by 2002:adf:c142:: with SMTP id w2mr35234593wre.337.1593788176589; 
- Fri, 03 Jul 2020 07:56:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UzGMzmXLzESuVhYFo6WrRdQJb8qigTb6CLPMTcgkfaA=;
+ b=Bk3WIsLARFI9h5X5s9wDIYT8aVSL/aC4ube/7Rzo1wUWOSQxU/TlHpwVmxV2JQmdYz
+ Bk3MRNAdnICtPdIrddtIs+fgE5ClmkIGOWy7MpJq5gwor5vMNlOUuOj1OtKa7mMQz/8V
+ AE0cFd0/VymEs4rjy/skIYk0GgECJGGMPW/7W2Z/cHKdjB03zgiB/0mWv/gOpDRimZU6
+ IyEUEYaadWIrzhoK9kEqVqhVZ8ZqLnu+vMVo+fbD+CcTsZc4e9zqKXRNI4XHodp5SCWS
+ eNybW82WnO2Bnrj9tfaWbGF6rhu0kGwGaSxs7MxjvdH0D2qR3tM9Nn0HhgNDp+5LeiXx
+ qJrg==
+X-Gm-Message-State: AOAM530US/gC0mZ5ad15f04dn8fAcYvKtzGPVzXYudLC9fLoJs3ad8Lw
+ YTrZafI3bX2ay/2uvWk/uv1rj5uZPB4tUw==
+X-Google-Smtp-Source: ABdhPJxeRGkcYjp/QSq/m+Bns2NV/3x/kPBOMrgWjmGkIiXFqNQjz80kHU3gIpSCOL6H/xvQTFSQXw==
+X-Received: by 2002:adf:f984:: with SMTP id f4mr36843138wrr.221.1593788177757; 
+ Fri, 03 Jul 2020 07:56:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s10sm14078347wme.31.2020.07.03.07.56.15
+ by smtp.gmail.com with ESMTPSA id s10sm14078347wme.31.2020.07.03.07.56.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 07:56:16 -0700 (PDT)
+ Fri, 03 Jul 2020 07:56:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/9] Build fixes for Haiku
-Date: Fri,  3 Jul 2020 15:56:05 +0100
-Message-Id: <20200703145614.16684-1-peter.maydell@linaro.org>
+Subject: [PATCH v3 1/9] build: Enable BSD symbols for Haiku
+Date: Fri,  3 Jul 2020 15:56:06 +0100
+Message-Id: <20200703145614.16684-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200703145614.16684-1-peter.maydell@linaro.org>
+References: <20200703145614.16684-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,46 +88,34 @@ Cc: David Carlier <devnexen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset is essentially a resend of David Carlier's build fixes
-for the Haiku platform. I've taken David's patches and put them together
-into a set of emails threaded in the way our CI tools expect, as the
-easiest way to get the patchew robot to run the build tests so we can
-check they didn't accidentally break one of the BSDs. I've also put
-in the patch from Gerd that fixes the drm.c issue. I've also expanded
-on the commit messages for all the patches so that we have a record
-of why we made the changes if we need to look back at it in future.
+From: David CARLIER <devnexen@gmail.com>
 
-Assuming no issues turn up, I'll arrange to get these into master
-at some point before the 5.1 release.
+Tell Haiku to provide various BSD functions by setting BSD_SOURCE
+and linking libbsd.
 
-Thanks for reporting these problems and providing the fixes, David.
+Signed-off-by: David Carlier <devnexen@gmail.com>
+[PMM: expanded commit message]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--- PMM
-
-David CARLIER (8):
-  build: Enable BSD symbols for Haiku
-  util/qemu-openpty.c: Don't assume pty.h is glibc-only
-  build: Check that mlockall() exists
-  osdep.h: Always include <sys/signal.h> if it exists
-  osdep.h: For Haiku, define SIGIO as equivalent to SIGPOLL
-  bswap.h: Include <endian.h> on Haiku for bswap operations
-  util/compatfd.c: Only include <sys/syscall.h> if CONFIG_SIGNALFD
-  util/oslib-posix.c: Implement qemu_init_exec_dir() for Haiku
-
-Gerd Hoffmann (1):
-  util/drm: make portable by avoiding struct dirent d_type
-
- configure                   | 36 ++++++++++++++++++++++++++++++++++--
- include/qemu/bswap.h        |  2 ++
- include/qemu/osdep.h        |  6 +++++-
- hw/xen/xen-legacy-backend.c |  1 -
- os-posix.c                  |  4 ++++
- util/compatfd.c             |  2 ++
- util/drm.c                  | 19 ++++++++++++++-----
- util/oslib-posix.c          | 20 +++++++++++++++++++-
- util/qemu-openpty.c         |  2 +-
- 9 files changed, 81 insertions(+), 11 deletions(-)
-
+diff --git a/configure b/configure
+index 8a65240d4a8..c9c135b70bc 100755
+--- a/configure
++++ b/configure
+@@ -903,8 +903,8 @@ SunOS)
+ ;;
+ Haiku)
+   haiku="yes"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS $QEMU_CFLAGS"
+-  LIBS="-lposix_error_mapper -lnetwork $LIBS"
++  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -DBSD_SOURCE $QEMU_CFLAGS"
++  LIBS="-lposix_error_mapper -lnetwork -lbsd $LIBS"
+ ;;
+ Linux)
+   audio_drv_list="try-pa oss"
 -- 
 2.20.1
 
