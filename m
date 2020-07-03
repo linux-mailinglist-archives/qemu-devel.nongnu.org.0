@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732802130F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 03:21:26 +0200 (CEST)
-Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DFE2130FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 03:26:05 +0200 (CEST)
+Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrAOL-0003Q9-HH
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 21:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50846)
+	id 1jrASq-000603-BX
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 21:26:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jrAMz-0001pz-GO
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 21:20:01 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:43945)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jrAS1-0005Rp-QW; Thu, 02 Jul 2020 21:25:13 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:44862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jrAMx-0005Pp-LO
- for qemu-devel@nongnu.org; Thu, 02 Jul 2020 21:20:01 -0400
-Received: by mail-lj1-x241.google.com with SMTP id f5so18811716ljj.10
- for <qemu-devel@nongnu.org>; Thu, 02 Jul 2020 18:19:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jrAS0-00067F-1U; Thu, 02 Jul 2020 21:25:13 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id p204so10884734ybc.11;
+ Thu, 02 Jul 2020 18:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Io6xO3Ak8TgGLkJ7zYuKd7hYvKIe0WNqqOt6BTxLDN0=;
- b=I3h2PVvAUweORL4irn1Gld5Z9KknxrxUhw6pP/bFWWqIpnIsUjeAXg/WakF96l4BYO
- G8ehHsmuLod/LAWXxFKoY+oo+LLhmD/ImNzaHpGqcxIijeL/6+bJpePFaGkxnhLfT4NH
- n0pVhY53+PmM07cmI7XWC69ZTfnmzaAjLoW8RzAL/i6vhScQgqmxMGwzfS8euLPctogS
- RFTdHfJfevUoMbt4DYsTH2xzMM66X4rt4nOa0F/i9CRDBXK3eaIEflEGjeJR/ePgHQ3P
- HY+LMVvoee3ap5z0vR60AW4KpSA4t0ihYrQJi1OTtrQu1d43HllBLdZZIRrdfIK34fqW
- NCQg==
+ :cc; bh=IgVCY6njpbs+8brTd4/i59ExrVWYmfVlgdFpyCSHicQ=;
+ b=m9M+fZsvJPOIt/cpWrvS1n+MREQ3nUR+r//BWfSTq1uhOhhMCjSKicFBKnGcPSF8JF
+ yQwCWUbniJuB9JCp2oqcik5VrcazRoVJAZoBrVD/HFEeXQiU1GDtwn7P3jbbwfyOCh0z
+ PWIIKFCXKQBT9Ly4WozN7JAD9UeDk3XLcSrQxbkFFJiNczPqbKDExKBP0joRknQe9pkd
+ qxUDak9MX8NgZaUISRcrxnQhfOyvSnfNJl4h0Qi3gfdsLUm5oLimf02JExkmXYUmklzR
+ qY/fZn96ruBYDBDO8wARfVlATU7fQ/TezWmHx8kp5I0qKR4qnjIMohQzGaltQyn86HDU
+ sJYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Io6xO3Ak8TgGLkJ7zYuKd7hYvKIe0WNqqOt6BTxLDN0=;
- b=qBp8Rb7/jKOdVoyPdwRX/ykg8tNPH8TCUwNkP5ZEVmEnsDedPkIyfsc02Tesg6O7K+
- gEJB2zrnNoWRoM932lZEueOjQC5RgmyoBDomCjG1QyJ77S0rVdPFOEcGAogReYqmRL8S
- rla72vPRT3Y+l/a59RHmeyFJ+O2sbi80g6Nb/h9fWyGEN+qLVDSRFapkdlbbWy9TxWaW
- v4g/do6Y3MjqVg4mGa9M7CRYG3AzPWec8eHNE/It8ZD0c+tNjgj44QLUvvRRd77wveBH
- qwOGaIAEeaZhlhtCeyZsMvT7byKfwl7NcC5NBq9TGbVp5CrdncE8avBoPibI+BKIyeE+
- zPzA==
-X-Gm-Message-State: AOAM533HWb4ivZ/J25axBjGGCaakfELYddy3vNb55y8Cq7WMYbOYwIu9
- OFbNf/cLlgVADA9vcC2yTIuDglbEy0a2OOCmP0U=
-X-Google-Smtp-Source: ABdhPJyiN2hn8mailCMeSuS2wL6L0cW+P7D5fi4CVXf84VkvWZ5HLyXjBR/Z0AMa10XkoBmVkUeLPCbvnqgY8V466zw=
-X-Received: by 2002:a2e:9a4d:: with SMTP id k13mr17770573ljj.43.1593739196954; 
- Thu, 02 Jul 2020 18:19:56 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=IgVCY6njpbs+8brTd4/i59ExrVWYmfVlgdFpyCSHicQ=;
+ b=QMDpAdKUCj/tbza0NbhXdEYC8pJrJJA1GMyNaykXpYKmsPfxbnTCTXB3nlO747JwT+
+ 7p8bEYyjZyKc50tA7BgwaUOWeYNtl9x7F8ruEHHo4BOQm7J8zmnyUCMgbC5OPu8JQEQ5
+ eNHQMmqR6qMDzMonmoJlv1fEoua8yn/1fflbwkxOUUE0UO7cZiD/OOcKC4Wm7VHQnHS1
+ kgQ4Mzgnbj8fJmPyfHjkqG9cOv5A6LHPIgS73tO2R6JYAYgslcrikt241cqy0irckIdn
+ bESnujSZrq6gXsFt0r8KzkRXOFrVF/KIKdkAQDydm6EnxT0LoYg9EPKKI293CTMYlMzw
+ L3Xw==
+X-Gm-Message-State: AOAM532nDoxSqaKGPXhay76ODogNKUVj1NK5i0JpFJZJDANw4ik4Bcj/
+ 1WU97mR+77MhuGrQWQZu8XltrIObZSsIpghqQPk=
+X-Google-Smtp-Source: ABdhPJycpbc2If/GpgyWIbZPhpD4Wyl1HksviNoBPJcD71WCgJqvFL5VKN0mdZ130uRhLDG4gaozMvgXHq3p2TxhkSo=
+X-Received: by 2002:a25:afca:: with SMTP id d10mr51009157ybj.517.1593739510148; 
+ Thu, 02 Jul 2020 18:25:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200702133701.25237-1-f4bug@amsat.org>
- <20200702133701.25237-6-f4bug@amsat.org>
- <27bef940-48cd-1d1b-85b8-45328baa2917@flygoat.com>
-In-Reply-To: <27bef940-48cd-1d1b-85b8-45328baa2917@flygoat.com>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Fri, 3 Jul 2020 09:19:45 +0800
-Message-ID: <CABDp7VoRmPzu0R1OGaG268vi_4tHxU9LGPMstymqT2xCDSTAfA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] MAINTAINERS: Adjust MIPS maintainership (Add Huacai
- Chen & Jiaxun Yang)
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <cover.1593547870.git.alistair.francis@wdc.com>
+ <ea4f280e6f77e734c8e555e3c98d10085ce9f5b6.1593547870.git.alistair.francis@wdc.com>
+In-Reply-To: <ea4f280e6f77e734c8e555e3c98d10085ce9f5b6.1593547870.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 3 Jul 2020 09:24:59 +0800
+Message-ID: <CAEUhbmVsQX+es-xw5Omj+-dsU1Km2kKNAZa_NJ6PipE4ZAEucA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] target/riscv: Regen floating point rounding mode
+ in dynamic mode
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -69,8 +64,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,103 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yunqiang Su <syq@debian.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- qemu-level <qemu-devel@nongnu.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Lichao Liu <liulichao@loongson.cn>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Huacai Chen <chenhc@lemote.com>
+On Wed, Jul 1, 2020 at 4:23 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> When a guest specificies the the rounding mode should be dynamic 0b111
+> then we want to re-caclulate the rounding mode on each instruction. The
+> gen_helper_set_rounding_mode() function will correctly check the
+> rounding mode and handle a dynamic rounding, we just need to make sure
+> it's always called if dynamic rounding is selected.
+>
+> Fixes: 1885350 ("RISCV dynamic rounding mode is not behaving correctly")
 
-On Thu, Jul 2, 2020 at 10:23 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote=
-:
->
->
-> =E5=9C=A8 2020/7/2 =E4=B8=8B=E5=8D=889:37, Philippe Mathieu-Daud=C3=A9 =
-=E5=86=99=E9=81=93:
-> > From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >
-> > Huacai Chen steps in as new energy [1].
-> >
-> > Aurelien Jarno comment [2]:
-> >
-> >    It happens that I known Huacai Chen from the time he was
-> >    upstreaming the Loongson 3 support to the kernel, I have been
-> >    testing and reviewing his patches. I also know Jiaxun Yang from
-> >    the #debian-mips IRC channel. I know that they are both very
-> >    competent and have a good knowledge of the open source world.
-> >    I therefore agree that they are good additions to maintain and/or
-> >    review the MIPS part of QEMU.
-> >
-> > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718434.html
-> > [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718738.html
-> >
-> > Cc: Huacai Chen <chenhc@lemote.com>
-> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > Cc: Aurelien Jarno <aurelien@aurel32.net>
-> > Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > Message-Id: <20200701182559.28841-3-aleksandar.qemu.devel@gmail.com>
-> > PMD: [Split patch in 3, added Aurelien comment]
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> Acked-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->
-> I can help with reviewing relevant patches .
->
-> Thanks.
->
-> > ---
-> > Aurelien comment is probably worth an Acked-by tag.
-> >
-> > Cc: Yunqiang Su <ysu@wavecomp.com>
->
-> + Yunqiang's Debian mailbox as he no longer works for MIPS/Wave but
-> still working on Debian/MIPS.
->
-> > Cc: Lichao Liu <liulichao@loongson.cn>
-> > Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> > Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >
-> >   MAINTAINERS | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 64f54c553c..8155525077 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -213,6 +213,7 @@ F: disas/microblaze.c
-> >
-> >   MIPS TCG CPUs
-> >   M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >   R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >   S: Maintained
-> >   F: target/mips/
-> > @@ -375,6 +376,7 @@ S: Maintained
-> >   F: target/arm/kvm.c
-> >
-> >   MIPS KVM CPUs
-> > +M: Huacai Chen <chenhc@lemote.com>
-> >   M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> >   S: Odd Fixes
-> >   F: target/mips/kvm.c
-> > @@ -2672,6 +2674,8 @@ F: disas/i386.c
-> >
-> >   MIPS TCG target
-> >   M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> > +R: Huacai Chen <chenhc@lemote.com>
-> > +R: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >   R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> >   S: Maintained
-> >   F: tcg/mips/
+I can't find this commit id.
+
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
-
---=20
-Huacai Chen
+Regards,
+Bin
 
