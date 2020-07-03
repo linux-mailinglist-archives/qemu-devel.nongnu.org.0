@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70299213A28
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:38:47 +0200 (CEST)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DD7213A30
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:44:04 +0200 (CEST)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrKxq-0001CN-Go
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34636)
+	id 1jrL2x-0003GU-Gz
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrKx6-0000nI-Ss
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:38:00 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33475)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jrL2C-0002ll-2L; Fri, 03 Jul 2020 08:43:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:54186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrKx5-0007XR-4H
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:38:00 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h13so6015099otr.0
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 05:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/7pAYmGTlUQ6hQzzBgqEzRBN8gZV4BbjUNtF3tE+zAI=;
- b=DA9kkRqc5nufL3wSjxiqsz27rgDRQHDNVahefkkiX84821IjC5dYse1Xsrs+xCgbCc
- qJ223poJe+BlQrrafqy01J3tfM8H9SwfywJpbod2W6lw2AEsPOzOFy4oeZ1iiCJWGSQ0
- Ph7DDnRnvZxAbh+Tc9wbVWPriQVzBdc1fXhWbXyRhLmcCRMCFvMHRDxY6BcQZfDTnm1y
- /61Dcv9UAjMO35EQjHY4qno725w2SsvG+eBbAiWT4NMkonCjBpvm+ARs7vBGX2hXAqsk
- 0FaaepiPb35vyHlkzcnZKHBdax0OswW5HssiCNa/iRcbaCcBRAR+48JnXjmviJwuz0jE
- RzBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/7pAYmGTlUQ6hQzzBgqEzRBN8gZV4BbjUNtF3tE+zAI=;
- b=LZZdBO+awD02ZfN7Ab9EvIlicecT6sPAakBmlIDp3JJRfqiIZwgVK7/Vv69vOWqtde
- 5TX3ZGgVyEtLRLXij7FhxKkd0ouMpMD2FLPXEtBv/eQtMKMIYLszDslroA1jCkw2z1YS
- frhz5+QKCxBpRMUSgrkHlqimvxXWRsAJC2c6j6Op00PSEOZqcbbV/0WHYYBw9x4ZfGzg
- dx3R0YfmuULPbZUSRkxi/CeIXupCUCqjIKqHezIa0a1KvFDb+1snpI7PSvbImiX/SkWT
- GVYMJqvTx443kzjKf4N6qwr/ABzieCBZyxKQttpXqCoQpK8wwX4pfUId3IBUAFqDL1o9
- eLEQ==
-X-Gm-Message-State: AOAM530Ju/RRWRjp2OgEtu8wL9ZpQaBKuYTEKXMZzzkrIzmpirNQk12/
- zKvW01wtlELA7TcAQaPfLvSQJ/jyH901A8DIwqeNqA==
-X-Google-Smtp-Source: ABdhPJwFFSkuMU8x82Xyzht0x3YlCeIFoRAAI/LRmSD/AFjEpOKEplVr5wyrvBbU9P8GPGqhKupez//NnRZF+7JAbMk=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr23007380oto.135.1593779877609; 
- Fri, 03 Jul 2020 05:37:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jrL2A-0000ox-3l; Fri, 03 Jul 2020 08:43:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=IBa1nyweesRLWPZ8btXSr7T+6KqH4rXV2E011IlSqu0=; 
+ b=cccEazA4VI3APPOUaEgE33+VOF4XAnL29JFyX6C/Ckhsavn0+XZV6F32g+i/vyFlwQa2X/9ZlZQiglBam4/kiW24czwD9h4300k9iwhUhVxGEkOXd+IxebN30Y0k1BjUiWJ4cl5b+NCDu5NBwiSn3tTUZTKXAyim2e1IBolNPyAUC7hWilU5cL0WxifDpYzgEbJEHsWVcAEiJGejnJGCI4bV86yoArk3R0TZh87hCvsznILU7hORo+aCqblRliLsIZ1m9vborv5wVajUtZS95GAIQTFvwvYrVbnLEpdtBtGbEDgUVf8thX43QuL3DUFqzBNQiswdq0MLmUsLAz4azw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jrL24-000497-7Z; Fri, 03 Jul 2020 14:43:08 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jrL23-0001Bq-UI; Fri, 03 Jul 2020 14:43:07 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v9 31/34] qcow2: Add the 'extended_l2' option and the
+ QCOW2_INCOMPAT_EXTL2 bit
+In-Reply-To: <6c0edc36-8e44-61d2-e2e5-de33c4b84bde@redhat.com>
+References: <cover.1593342067.git.berto@igalia.com>
+ <d9c3047a4b19769e4167af7b4416d02bce806444.1593342067.git.berto@igalia.com>
+ <6c0edc36-8e44-61d2-e2e5-de33c4b84bde@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 03 Jul 2020 14:43:07 +0200
+Message-ID: <w51r1tswyzo.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20200702142250.21793-1-kraxel@redhat.com>
-In-Reply-To: <20200702142250.21793-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 13:37:46 +0100
-Message-ID: <CAFEAcA9bYvT_vyWQVPKhBgHRiz=Ktevv+oKdqDA-7rBRWvQeOA@mail.gmail.com>
-Subject: Re: [PULL 0/3] Seabios 20200702 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 08:43:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,33 +65,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Jul 2020 at 15:24, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu 02 Jul 2020 05:13:02 PM CEST, Max Reitz wrote:
+>> +        } else if (!strcmp(desc->name, BLOCK_OPT_EXTL2)) {
+>> +            bool extended_l2 =3D qemu_opt_get_bool(opts, BLOCK_OPT_EXTL=
+2,
+>> +                                                 has_subclusters(s));
+>> +            if (extended_l2 !=3D has_subclusters(s)) {
+>> +                error_setg(errp, "Toggling extended L2 entries "
+>> +                           "is not supported");
+>> +                return -EINVAL;
 >
-> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+> Just a note: I think ENOTSUP would fit better.
 >
->   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/seabios-20200702-pull-request
->
-> for you to fetch changes up to 563b9d0d8d944d358921a774f82a0e60527e7823:
->
->   seabios: update binaries (2020-07-02 16:21:10 +0200)
->
-> ----------------------------------------------------------------
-> seabios: update submodule to pre-1.14 master snapshot
->
+> (Then again, Maxim=E2=80=99s =E2=80=9Cblock/amend: refactor qcow2 amend o=
+ptions=E2=80=9D
+> removes all of this code anyway.)
 
+I can still change that :)
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+Berto
 
