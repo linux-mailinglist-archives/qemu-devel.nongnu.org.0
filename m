@@ -2,82 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CB213C5D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:10:24 +0200 (CEST)
-Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85293213C64
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:13:58 +0200 (CEST)
+Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNKZ-0003s4-8z
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1jrNO1-0006bd-LE
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrNJY-0003L3-OD; Fri, 03 Jul 2020 11:09:20 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrNJX-0001lF-4k; Fri, 03 Jul 2020 11:09:20 -0400
-Received: by mail-wr1-x443.google.com with SMTP id f18so24996938wrs.0;
- Fri, 03 Jul 2020 08:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JDajLwdvBFzscJh4jaahhvM3Ipcty3a/ZR6mLHqTZM4=;
- b=Jb4ohjlWeeE8Hrtl60seV4jFTTeTebJy72VO573EzUS93XBc5+AQ5IE/TrYyj42GdG
- qALiKa/7wubi0nvPBT/y1kw9SjyG2YzONYrCBaROOGhYEzwzdSmTuWI2Ru9mEZ+T5TiO
- GVw/7TmsjImBu3v86I0KyN4px0A6isVPBAe2uHjHfQPOSnfmt3K0mGKsmpBo/sbQlbRq
- tksU/rk3r4G406rdEhjpJW5KjtbSCxg0Sj9XDiCE0s1Ktmc4vw9Z8jJu8tEFQYrwgNeU
- y0X9hSLZfGZBoSw3GjxKA9s+w7w90ytCX2fMMl2zVqC3H4wV56OHUznRB6aDuXw2aqMI
- +Www==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JDajLwdvBFzscJh4jaahhvM3Ipcty3a/ZR6mLHqTZM4=;
- b=WZXpEaJOBsMNdHp1i3IHXyDtkVGAti5c8lC8jK+X8DAg90SdNG5x1zJC0JCCr70yFF
- TUZk29nXm4VTRfFjCkHn1K7tRFkAvvfKvzhc/t4vCIUVDYij77Eq4UTSgz93jwb+9nvT
- E6ilvvNe/w9ZimIDgA0iKKTqCjrxn9878A4GmoPpxdUURVRY49u+vhCm8fLl0RRwlQ5w
- FwdvLqMe0KsMwn80bsRj6pvOMuAt4bBwoi9XUlvKRmpnl1atXxEDIong7c5R8EycCoqH
- ppFRQZv7La0YbSUo1sAQAkMbFjp+iygjgE/B3CPODz0YzO4n2hDE7JU+DE7hlmpftrv9
- OWWg==
-X-Gm-Message-State: AOAM532e+1rDHWdxWFlrZ+bb5nu7yksRRcGSTKC2FJQOwyQTq39oTYAB
- 2pBbAM6SzRBHCQ6ibAlLlhLbRILulOI=
-X-Google-Smtp-Source: ABdhPJymM9ac8KeiJDwx25MDu2GRO476JZ4HWOKsnsPSRWnIES/ia1LU/lUOApYyrAVfmyzEVnKIiA==
-X-Received: by 2002:a5d:5706:: with SMTP id a6mr2500730wrv.328.1593788957015; 
- Fri, 03 Jul 2020 08:09:17 -0700 (PDT)
-Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id g14sm14037664wrm.93.2020.07.03.08.09.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jul 2020 08:09:16 -0700 (PDT)
-Subject: Re: [PATCH v7 15/17] hw/sd/sdcard: Correctly display the command name
- in trace events
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200630133912.9428-1-f4bug@amsat.org>
- <20200630133912.9428-16-f4bug@amsat.org>
- <CAFEAcA8tWKTq5qe8_JufgxhZo1X_CuCUCoO1HsEyxOSbzWDOhg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <447072b9-9e3e-7f49-2ea3-911cd1675612@amsat.org>
-Date: Fri, 3 Jul 2020 17:09:15 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jrNL6-0004jZ-JN; Fri, 03 Jul 2020 11:10:56 -0400
+Received: from mail-eopbgr70137.outbound.protection.outlook.com
+ ([40.107.7.137]:60995 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jrNL3-0002Io-Jv; Fri, 03 Jul 2020 11:10:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CbHKhm5ebrt0Vpn0Z/NJsbW9p7Ouz2RMPwQj6BNiSqqqGtGafyoLNg1DgsAJWhOt9gOWjnOvWAdl+9ic4YJcyrKqwQrVNySt99TfNkUvK6xZF4kqBr7XL0hUYn1iERPwwRV3tCdQFiT7NuMRLAplevnxUuUogbgriSks00p9COY13qBF/Jrlo6iQd0hiJXfdOar2oNJ9kbn9k1rPbeFBoOpM4rYuuDGDIW5L6CRyrHJEnzyD0MnOJjw+5UjZo9vunAhyOIPhw/hLUZt0UpKqg+quVTTKdhG1ptblc9Odvdl0JpoqqRwd+fWdDLSm1l6aaHZoTMybavMw+hFC3Bs4jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rSoRlrMuF28Jc//CJNY2yMhsW+2LzbWwmu4x5F+lJLw=;
+ b=IjYHEJHwMq1lNEczndw6FTnJmuICfR9LrzZaFxyZJgauLQr+xzLgPNEItYD428eB1VnR5ia5Y7lxbqMGfdDhwo0R3NnoszRF6gLxH1mv/O/cM2quvvvmKipMk7c/a4cJmrNhBHJyfh8tdCUoADNM0Al2yvt8CuZskztnZ7JyOFUdwsxEl+JvG9jZZTeoTGYIqPFyZlqDnY6MolG8dIdJXIkrLTfh4XXoAWvFNoQLQ+MwCFGr7wY4xPDLq2fr7GrNV4vMSDoCR/Tl3uz4A3ezQulOrOlUfrlRfOUxeGBw43vZOx74AyvHchfERAutjENsz3i1td+15vE7hcQmcH5G5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rSoRlrMuF28Jc//CJNY2yMhsW+2LzbWwmu4x5F+lJLw=;
+ b=g2KeBOXs4szMB1zknEPFAh6SKMv8Hzk0L9jzU1UNponaD+nqRwc4hrjfWMyUjS+5htD9wSp5MWvfXt3xAKPfOqXaddRmEe0YSbKzHJVZtoGbDfXQPr8nuuBwf5xXLXqkvsjYKnVhnl12Gunwsyv+GsRGl6OS4c13EhBnUNbnyDs=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2419.eurprd08.prod.outlook.com (2603:10a6:203:a1::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Fri, 3 Jul
+ 2020 15:10:48 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
+ 15:10:48 +0000
+Subject: Re: [PATCH v2 18/44] qapi: Use returned bool to check for failure,
+ manual part
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200702155000.3455325-1-armbru@redhat.com>
+ <20200702155000.3455325-19-armbru@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <ac9e71b1-5e4f-c93a-8532-2c8539372e26@virtuozzo.com>
+Date: Fri, 3 Jul 2020 18:10:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8tWKTq5qe8_JufgxhZo1X_CuCUCoO1HsEyxOSbzWDOhg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/68.10.0
+In-Reply-To: <20200702155000.3455325-19-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR07CA0080.eurprd07.prod.outlook.com
+ (2603:10a6:207:6::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.15) by
+ AM3PR07CA0080.eurprd07.prod.outlook.com (2603:10a6:207:6::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.8 via Frontend Transport; Fri, 3 Jul 2020 15:10:47 +0000
+X-Originating-IP: [185.215.60.15]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0351d4f3-95ac-4578-16d3-08d81f634488
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2419:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB241919D08D53EBEAAB423CC7C16A0@AM5PR0802MB2419.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:651;
+X-Forefront-PRVS: 045315E1EE
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mu0QimIVk5BYOFj1Nswms3Ca8D5A6bOl9xMArTFId9Ynb6aZMl+WwYffPq8ixDNR2pHl0kSeGWZ1TdiTHjfBjNPGuO/6bMmWX1buOXL4WRewRJPzuF1e/gVbWlwfXthOefUWJuSpjhyanma0Xym+aiuTWA4eiUoSKhbEyVO9H8AnTYusgbvQe4q97vl2YjP1CzDi/lEQS6pCw1rTXT4+2ZRWDeg46AmmScVMD9ueKgTLcn4BUFpN1+5nnst86X8i0xTdYlWTIvCwbhua5DZGz6LnTMndD4ewUUeVYgaQSDgl/3wK/pok4wM9HlDEN89mv5kvAGY+L8LPjwL/KsRMK091x7VbLGNE4yBKZHCQ3LfH8kkprLjygmzATmnb06gv
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(366004)(346002)(136003)(39840400004)(376002)(16526019)(956004)(52116002)(86362001)(8936002)(2616005)(478600001)(8676002)(2906002)(31696002)(26005)(5660300002)(36756003)(186003)(31686004)(4744005)(4326008)(66556008)(16576012)(316002)(6486002)(66946007)(66476007)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: zh5nDlEalmXDhGWwyfJn8nDxZE6d9GFBjvrm0EHHVVLSvbOHQE0Rp78JK0+VJ1lb6OR67l93+LgK53lWEPVmd99e9aPAoMCrAA0mLDFC738Cjcb/l1LS/uP2dHcSQq9koxyipw0A9OoPaclodQjiieivoWcAVT1RA6o48l9snOrnRa1unTjI5i5hikOSjOLhzZowkQh9yQI2pEZiAuqjfWKX0VLUf/x/7HtigfVZnh9/kkoDGaMhvMLiFEjRGuxI8JGcZ9r4gKG9TvECFuBhdliancizoGvnvzTq9pOYbl6sSBQn50Vz765QrADpnPkFm1tZfcCWDWbbRo8j9Lx7xa6pC3K003NugmGh8BM5UTHl62FnlJgFA9oDzV6auC2dNGgT+Hh91qjBmH2A0cy+aMadu9KdEkT5dz6MaEJdSuW7RJHmiQBlOorBFS/vky6W9DEn1wnHKGPr3uh3wEfiXpHHg18ucekKupfQmP7eGFev9B2TlZlJ33+k/UsutqSU
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0351d4f3-95ac-4578-16d3-08d81f634488
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 15:10:48.5983 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WSXJrYUF9VOce/UlTo5PpWn86xE4x4l632Gp5UZGivC8vCrqg55G0qZl/e8N07MHkx3MileEfIyqCsH+eb0L03zBwGLCIsXHjvBinQgFCpA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2419
+Received-SPF: pass client-ip=40.107.7.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:10:50
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,31 +118,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/20 3:28 PM, Peter Maydell wrote:
-> On Tue, 30 Jun 2020 at 14:39, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Some ACMD were incorrectly displayed. Fix by remembering if we
->> are processing a ACMD (with current_cmd_is_acmd) and add the
->> sd_current_cmd_name() helper, which display to correct name
->> regardless it is a CMD or ACMD.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+02.07.2020 18:49, Markus Armbruster wrote:
+> The previous commit used Coccinelle to convert from checking the Error
+> object to checking the return value.  Convert a few more manually.
+> Also tweak control flow in places to conform to the conventional "if
+> error bail out" pattern.
 > 
-> I think my comments on v3 of this patch still apply:
-> https://patchew.org/QEMU/20200605102230.21493-1-philmd@redhat.com/20200605102230.21493-10-philmd@redhat.com/
+> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+> Reviewed-by: Eric Blake<eblake@redhat.com>
 
-I agree with your comments. I didn't addressed them because for some
-unknown reason this mail ended tagged as spam. I'll address that now.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Thanks for reviewing the rest of this series!
-
-> 
-> thanks
-> -- PMM
-> 
+-- 
+Best regards,
+Vladimir
 
