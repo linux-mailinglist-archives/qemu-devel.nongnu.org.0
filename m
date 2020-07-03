@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03C5213887
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:18:06 +0200 (CEST)
-Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CE6213868
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:09:58 +0200 (CEST)
+Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIlh-0005lR-Ub
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
+	id 1jrIdp-000897-Ll
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:09:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbo-0004VK-3G
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43876
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbq-0004bx-JF
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30627
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbh-0005pC-TY
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:51 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jrIbn-0005q9-Aj
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:07:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593770865;
+ s=mimecast20190719; t=1593770868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QD0N/uKfSfOkfoCWH5z+rUHr3iQlE/62wTPwUfJqJ1w=;
- b=IwrBsrgvQvQwoaQmOnvVPkVGuO9ChnwQ46YaV3TLdKBrPJPmFYRkO64ILeHu+v8JfkNSzR
- q4ajrjNb5dpK4j60mNA0WIaUJvnouun7vA3g6q67M2yNfDrlSMe+8lKH/rz1Pn5kNxXBld
- Be2KruRvV8uGO80zvAlVjaH89B3ijb0=
+ bh=xB9Td40Gom2guvgy4uKWs21zVgcepHvrpo8kia4g794=;
+ b=DiznWLYcpKMDgcVVi0rZziuGpusnH8cVr0vJnYBLOX6c4+HclMdSrKIddKs45nLJcqpm2Q
+ TmEqfrPR7QVD5IOrvIgaZ+GUOXdSZSlDilFrmnLWry8ZsCvaty1/FAaHshND0WuT+HvMso
+ 0c/vKRj8BEYvPYolyGzMJAp8vG8wSk4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-QMGwU6U2NzSK-iXjSBaRjg-1; Fri, 03 Jul 2020 06:07:40 -0400
-X-MC-Unique: QMGwU6U2NzSK-iXjSBaRjg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-214-4SHSFBp1Pfyas5RK84s6cg-1; Fri, 03 Jul 2020 06:07:42 -0400
+X-MC-Unique: 4SHSFBp1Pfyas5RK84s6cg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A4071883619;
- Fri,  3 Jul 2020 10:07:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856AB56B29;
+ Fri,  3 Jul 2020 10:07:41 +0000 (UTC)
 Received: from localhost (ovpn-113-54.ams2.redhat.com [10.36.113.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3641673FEF;
- Fri,  3 Jul 2020 10:07:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F897923E;
+ Fri,  3 Jul 2020 10:07:40 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/14] target/s390x: Fix SQXBR
-Date: Fri,  3 Jul 2020 12:06:48 +0200
-Message-Id: <20200703100650.621212-13-cohuck@redhat.com>
+Subject: [PULL 13/14] virtio-ccw: fix virtio_set_ind_atomic
+Date: Fri,  3 Jul 2020 12:06:49 +0200
+Message-Id: <20200703100650.621212-14-cohuck@redhat.com>
 In-Reply-To: <20200703100650.621212-1-cohuck@redhat.com>
 References: <20200703100650.621212-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,38 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Andre Wild <Andre.Wild1@ibm.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Halil Pasic <pasic@linux.ibm.com>
 
-The output is 128-bit, and thus requires a pair of 64-bit temps.
+The atomic_cmpxchg() loop is broken because we occasionally end up with
+old and _old having different values (a legit compiler can generate code
+that accessed *ind_addr again to pick up a value for _old instead of
+using the value of old that was already fetched according to the
+rules of the abstract machine). This means the underlying CS instruction
+may use a different old (_old) than the one we intended to use if
+atomic_cmpxchg() performed the xchg part.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Buglink: https://bugs.launchpad.net/bugs/1883984
-Message-Id: <20200620042140.42070-1-richard.henderson@linaro.org>
+Let us use volatile to force the rules of the abstract machine for
+accesses to *ind_addr. Let us also rewrite the loop so, we that the
+new old is used to compute the new desired value if the xchg part
+is not performed.
+
+Fixes: 7e7494627f ("s390x/virtio-ccw: Adapter interrupt support.")
+Reported-by: Andre Wild <Andre.Wild1@ibm.com>
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-Id: <20200616045035.51641-2-pasic@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/insn-data.def | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/s390x/virtio-ccw.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 91ddaedd8475..d79ae9e3f114 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -798,7 +798,7 @@
- /* SQUARE ROOT */
-     F(0xb314, SQEBR,   RRE,   Z,   0, e2, new, e1, sqeb, 0, IF_BFP)
-     F(0xb315, SQDBR,   RRE,   Z,   0, f2, new, f1, sqdb, 0, IF_BFP)
--    F(0xb316, SQXBR,   RRE,   Z,   x2h, x2l, new, x1, sqxb, 0, IF_BFP)
-+    F(0xb316, SQXBR,   RRE,   Z,   x2h, x2l, new_P, x1, sqxb, 0, IF_BFP)
-     F(0xed14, SQEB,    RXE,   Z,   0, m2_32u, new, e1, sqeb, 0, IF_BFP)
-     F(0xed15, SQDB,    RXE,   Z,   0, m2_64, new, f1, sqdb, 0, IF_BFP)
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index c1f4bb1d331d..3c988a000b5b 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -786,9 +786,10 @@ static inline VirtioCcwDevice *to_virtio_ccw_dev_fast(DeviceState *d)
+ static uint8_t virtio_set_ind_atomic(SubchDev *sch, uint64_t ind_loc,
+                                      uint8_t to_be_set)
+ {
+-    uint8_t ind_old, ind_new;
++    uint8_t expected, actual;
+     hwaddr len = 1;
+-    uint8_t *ind_addr;
++    /* avoid  multiple fetches */
++    uint8_t volatile *ind_addr;
  
+     ind_addr = cpu_physical_memory_map(ind_loc, &len, true);
+     if (!ind_addr) {
+@@ -796,14 +797,15 @@ static uint8_t virtio_set_ind_atomic(SubchDev *sch, uint64_t ind_loc,
+                      __func__, sch->cssid, sch->ssid, sch->schid);
+         return -1;
+     }
++    actual = *ind_addr;
+     do {
+-        ind_old = *ind_addr;
+-        ind_new = ind_old | to_be_set;
+-    } while (atomic_cmpxchg(ind_addr, ind_old, ind_new) != ind_old);
+-    trace_virtio_ccw_set_ind(ind_loc, ind_old, ind_new);
+-    cpu_physical_memory_unmap(ind_addr, len, 1, len);
++        expected = actual;
++        actual = atomic_cmpxchg(ind_addr, expected, expected | to_be_set);
++    } while (actual != expected);
++    trace_virtio_ccw_set_ind(ind_loc, actual, actual | to_be_set);
++    cpu_physical_memory_unmap((void *)ind_addr, len, 1, len);
+ 
+-    return ind_old;
++    return actual;
+ }
+ 
+ static void virtio_ccw_notify(DeviceState *d, uint16_t vector)
 -- 
 2.25.4
 
