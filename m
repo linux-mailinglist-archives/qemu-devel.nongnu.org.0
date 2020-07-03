@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93404213E7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:23:13 +0200 (CEST)
-Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B7C213E86
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:24:01 +0200 (CEST)
+Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPP6-0000Jl-Hx
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56968)
+	id 1jrPPs-0001zt-2P
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:24:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jrPNr-0007tC-8R
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:21:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55954
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jrPOZ-0000RG-RP
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:22:39 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45835
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jrPNo-0003xB-VQ
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:21:54 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jrPOX-00041k-DE
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:22:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593796911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1593796956;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yD5W7hldw0yqgtkLgg0v0rYzMiddbYcM3b6hkdLcKkQ=;
- b=AGTREJRtgsvVQpn3tFOUIcJHvICiVEw5O3aj8zBDDwgqBy0cl4eL0222ap+DiaQUpcWfdd
- bimiEM/H8lB918Fi/kAlf2/pR8PnZKgSnGeYGMoH8mhG3U810L+rQzNRfv9n64OIzjfg+8
- LdPmm37rlibFgXecXkRejng1ngu3zAw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-3Dj1q91uOsqCJVIpo6I3jA-1; Fri, 03 Jul 2020 13:21:48 -0400
-X-MC-Unique: 3Dj1q91uOsqCJVIpo6I3jA-1
-Received: by mail-wr1-f71.google.com with SMTP id 89so8914432wrr.15
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 10:21:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yD5W7hldw0yqgtkLgg0v0rYzMiddbYcM3b6hkdLcKkQ=;
- b=g6Zv/gdZi+TcGVgXWNiflybr6GdYc4YziawtHcSeeC2BNZDAE/NR6Q4WZpJr7U8vQl
- C81lPY5cpEM8Tthm6K8otJBM61S4mXt02dMBVCW+KRRFrdKENZvN+NzmP9hsBHfZA8sW
- XM+r0hX660StskTtygmzzf3f92M14xuRF0LA1/ipOzYtXSX5gKrQ4xXfrd6yYyPvtr/X
- 0xjvvVzwCo1HIUwrd2B79StWpAGI6sQKV9J2W2QLgn2rMhqtvFavu0CNrPpyNaQSozjx
- hcqfwdyYbWHu7FcRHMrBFDfrBcKRunw9xud/g/H4KEhA43pTf85fnWf0yjfwbBBsFjGP
- 3uGw==
-X-Gm-Message-State: AOAM530TraB3uzDVoh2k3YCNtDm2havLXb1yN8mzhPYonwhco5MgE8/g
- 4WihyiTDVFqIG+wLrUpu9GsCxOeoZrMdLHrXbXvz14+K6KLXhWusXsFDIn6gBmAsopkU1JqMa42
- b9ToZzE2W63UWues=
-X-Received: by 2002:adf:c542:: with SMTP id s2mr10352532wrf.132.1593796906674; 
- Fri, 03 Jul 2020 10:21:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAC7AVnk+xqoRJsTXskspys23+Sj5JhxrgdeXczTzrAG/xY6frRa6+28nlPOquG9gO9NghDw==
-X-Received: by 2002:adf:c542:: with SMTP id s2mr10352511wrf.132.1593796906408; 
- Fri, 03 Jul 2020 10:21:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5cf9:fc14:deb7:51fc?
- ([2001:b07:6468:f312:5cf9:fc14:deb7:51fc])
- by smtp.gmail.com with ESMTPSA id v20sm13588230wmh.26.2020.07.03.10.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jul 2020 10:21:45 -0700 (PDT)
-Subject: Re: [PATCH 0/3] QEMU cpus.c refactoring part1
-To: Claudio Fontana <cfontana@suse.de>, Alex Bennee <alex.bennee@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>
-References: <20200629093504.3228-1-cfontana@suse.de>
- <771b3944-aa29-2926-21d3-3648900f8fea@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f37f342b-fec2-4f5f-02a3-44c3a97537ab@redhat.com>
-Date: Fri, 3 Jul 2020 19:21:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=oMLOddMKbM8xSJOMR6at8tUdRCl0ib/izdNU0GCrm/c=;
+ b=TAaELTfuLJekZRN2WvN7+f5pAhMyQI0OoZ0cWB1ShBSoEQMJNOyik2UwH5GKd0tIK9mSQw
+ X7n/PVQAbL+3mS+0bg/YnNOGMQrWffyyCa3lAiwkyzcDTpVEn25Q3FNYk5KjGZNVowEwC7
+ bzmSx8U8IrNmDLDG/6B01Tk/6moo0JQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-L9tpO6V7NFi8WVxDSUwcWA-1; Fri, 03 Jul 2020 13:22:32 -0400
+X-MC-Unique: L9tpO6V7NFi8WVxDSUwcWA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79BA3107ACF2;
+ Fri,  3 Jul 2020 17:22:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF3D47BD44;
+ Fri,  3 Jul 2020 17:22:27 +0000 (UTC)
+Date: Fri, 3 Jul 2020 18:22:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Denis V. Lunev" <den@virtuozzo.com>
+Subject: Re: [PATCH 0/6] migration: bring savevm/loadvm/delvm over to QMP
+Message-ID: <20200703172224.GT2213227@redhat.com>
+References: <20200702175754.2211821-1-berrange@redhat.com>
+ <a747fcd4-d87e-8124-a988-f3ae678c856e@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <771b3944-aa29-2926-21d3-3648900f8fea@suse.de>
-Content-Language: en-US
+In-Reply-To: <a747fcd4-d87e-8124-a988-f3ae678c856e@virtuozzo.com>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -103,250 +85,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/07/20 08:27, Claudio Fontana wrote:
-> Hi Alex, Markus, Paolo, 
+On Fri, Jul 03, 2020 at 08:15:44PM +0300, Denis V. Lunev wrote:
+> On 7/2/20 8:57 PM, Daniel P. Berrangé wrote:
+> > When QMP was first introduced some 10+ years ago now, the snapshot
+> > related commands (savevm/loadvm/delvm) were not converted. This was
+> > primarily because their implementation causes blocking of the thread
+> > running the monitor commands. This was (and still is) considered
+> > undesirable behaviour both in HMP and QMP.
+> >
+> > In theory someone was supposed to fix this flaw at some point in the
+> > past 10 years and bring them into the QMP world. Sadly, thus far it
+> > hasn't happened as people always had more important things to work
+> > on. Enterprise apps were much more interested in external snapshots
+> > than internal snapshots as they have many more features.
+> >
+> > Meanwhile users still want to use internal snapshots as there is
+> > a certainly simplicity in having everything self-contained in one
+> > image, even though it has limitations. Thus the apps that end up
+> > executing the savevm/loadvm/delvm via the "human-monitor-command"
+> > QMP command.
+> >
+> >
+> > IOW, the problematic blocking behaviour that was one of the reasons
+> > for not having savevm/loadvm/delvm in QMP is experienced by applications
+> > regardless. By not portting the commands to QMP due to one design flaw,
+> > we've forced apps and users to suffer from other design flaws of HMP (
+> > bad error reporting, strong type checking of args, no introspection) for
+> > an additional 10 years. This feels rather sub-optimal :-(
+> >
+> > In practice users don't appear to care strongly about the fact that these
+> > commands block the VM while they run. I might have seen one bug report
+> > about it, but it certainly isn't something that comes up as a frequent
+> > topic except among us QEMU maintainers. Users do care about having
+> > access to the snapshot feature.
+> >
+> > Where I am seeing frequent complaints is wrt the use of OVMF combined
+> > with snapshots which has some serious pain points. This is getting worse
+> > as the push to ditch legacy BIOS in favour of UEFI gain momentum both
+> > across OS vendors and mgmt apps. Solving it requires new parameters to
+> > the commands, but doing this in HMP is super unappealing.
+> >
+> >
+> >
+> > After 10 years, I think it is time for us to be a little pragmatic about
+> > our handling of snapshots commands. My desire is that libvirt should never
+> > use "human-monitor-command" under any circumstances, because of the
+> > inherant flaws in HMP as a protocol for machine consumption. If there
+> > are flaws in QMP commands that's fine. If we fix them in future, we can
+> > deprecate the current QMP commands and remove them not too long after,
+> > without being locked in forever.
+> >
+> >
+> > Thus in this series I'm proposing a direct 1-1 mapping of the existing
+> > HMP commands for savevm/loadvm/delvm into QMP as a first step. This does
+> > not solve the blocking thread problem, but it does eliminate the error
+> > reporting, type checking and introspection problems inherant to HMP.
+> > We're winning on 3 out of the 4 long term problems.
+> >
+> > If someone can suggest a easy way to fix the thread blocking problem
+> > too, I'd be interested to hear it. If it involves a major refactoring
+> > then I think user are better served by unlocking what look like easy
+> > wins today.
+> >
+> > With a QMP variant, we reasonably deal with the problems related to OVMF:
+> >
+> >  - The logic to pick which disk to store the vmstate in is not
+> >    satsifactory.
+> >
+> >    The first block driver state cannot be assumed to be the root disk
+> >    image, it might be OVMF varstore and we don't want to store vmstate
+> >    in there.
+> >
+> >  - The logic to decide which disks must be snapshotted is hardwired
+> >    to all disks which are writable
+> >
+> >    Again with OVMF there might be a writable varstore, but this can be
+> >    raw rather than qcow2 format, and thus unable to be snapshotted.
+> >    While users might wish to snapshot their varstore, in some/many/most
+> >    cases it is entirely uneccessary. Users are blocked from snapshotting
+> >    their VM though due to this varstore.
+> >
+> > These are solved by adding two parameters to the commands. The first is
+> > a block device node name that identifies the image to store vmstate in,
+> > and the second is a list of node names to exclude from snapshots.
+> >
+> > In the block code I've only dealt with node names for block devices, as
+> > IIUC, this is all that libvirt should need in the -blockdev world it now
+> > lives in. IOW, I've made not attempt to cope with people wanting to use
+> > these QMP commands in combination with -drive args.
+> >
+> > I've done some minimal work in libvirt to start to make use of the new
+> > commands to validate their functionality, but this isn't finished yet.
+> >
+> > My ultimate goal is to make the GNOME Boxes maintainer happy again by
+> > having internal snapshots work with OVMF:
+> >
+> >   https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb5e=
+> > f45c5f64048f16a6e
+> >
+> > Daniel P. Berrang=C3=A9 (6):
+> >   migration: improve error reporting of block driver state name
+> >   migration: introduce savevm, loadvm, delvm QMP commands
+> >   block: add ability to filter out blockdevs during snapshot
+> >   block: allow specifying name of block device for vmstate storage
+> >   migration: support excluding block devs in QMP snapshot commands
+> >   migration: support picking vmstate disk in QMP snapshot commands
+> >
+> >  block/monitor/block-hmp-cmds.c |  4 +-
+> >  block/snapshot.c               | 68 +++++++++++++++++++------
+> >  include/block/snapshot.h       | 21 +++++---
+> >  include/migration/snapshot.h   | 10 +++-
+> >  migration/savevm.c             | 71 +++++++++++++++++++-------
+> >  monitor/hmp-cmds.c             | 20 ++------
+> >  qapi/migration.json            | 91 ++++++++++++++++++++++++++++++++++
+> >  replay/replay-snapshot.c       |  4 +-
+> >  softmmu/vl.c                   |  2 +-
+> >  9 files changed, 228 insertions(+), 63 deletions(-)
 > 
-> maybe this could be queued in one of your queues?
+> I have tried to work in this interface in 2016. That time
+> we have struggled with the idea that this QMP interface should
+> be ready to work asynchronously.
+> 
+> Write-protect userfaultfd was merged into vanilla Linux
+> thus it is time to async savevm interface, which will also
+> bring async loadvm and some rework for state storing.
+> 
+> Thus I think that with the introduction of the QMP interface
+> we should at least run save VM not from the main
+> thread but from the background with the event at the end.
 
-Nevermind, Thunderbird was acting funny.  Queued all now.
+spawning a thread in which to invoke save_snapshot() and load_snapshot()
+is easy enough.  I'm not at all clear on what we need in the way of
+mutex locking though, to make those methods safe to run in a thread
+that isn't the main event loop.
 
-Paolo
+Even with savevm/loadvm being blocking, we could introduce a QMP event
+straight away, and document that users shouldn't assume the operation
+is complete until they see the event. That would let us make the commands
+non-blocking later with same documented semantics.
 
-> Thanks a lot,
-> 
-> Claudio
-> 
-> On 6/29/20 11:35 AM, Claudio Fontana wrote:
->> Motivation and higher level steps:
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
->>
->> Previous series: [RFC RESEND v7 0/4] QEMU cpus.c refactoring
->>
->> This series is already reviewed, and is a split of the first three patches
->> from the previous series (RFC). The forth and last of the previous series
->> will then be posted separately.
->>
->> PREVIOUS DISCUSSIONS:
->>
->> * should we reorder patches or moves inside patches to avoid code going
->>   from cpus.c to softmmu/cpus.c and then again to softmmu/somethingelse.c ?
->>   (Philippe)
->>
->> * some questions about headers in include/softmmu (Philippe)
->>
->>
->> [SPLIT into TWO series, changed from RFC to PATCH]
->> ----
->>
->> v6 -> v7:
->>
->> * rebased changes on top of Pavel Dovgalyuk changes to dma-helpers.c
->>   "icount: make dma reads deterministic"
->>
->> ----
->>
->> v5 -> v6:
->>
->> * rebased changes on top of Emilio G. Cota changes to cpus.c
->>   "cpu: convert queued work to a QSIMPLEQ"
->>
->> * keep a pointer in cpus.c instead of a copy of CpusAccel
->>   (Alex)
->>
->> ----
->>
->>
->> v4 -> v5: rebase on latest master
->>
->> * rebased changes on top of roman series to remove one of the extra states for hvf.
->>   (Is the result now functional for HVF?)
->>
->> * rebased changes on top of icount changes and fixes to icount_configure and
->>   the new shift vmstate. (Markus)
->>
->> v3 -> v4:
->>
->> * overall: added copyright headers to all files that were missing them
->>   (used copyright and license of the module the stuff was extracted from).
->>   For the new interface files, added SUSE LLC.
->>
->> * 1/4 (move softmmu only files from root):
->>
->>   MAINTAINERS: moved softmmu/cpus.c to its final location (from patch 2)
->>
->> * 2/4 (cpu-throttle):
->>
->>   MAINTAINERS (to patch 1),
->>   copyright Fabrice Bellard and license from cpus.c
->>
->> * 3/4 (cpu-timers, icount):
->>
->>   - MAINTAINERS: add cpu-timers.c and icount.c to Paolo
->>
->>   - break very long lines (patchew)
->>
->>   - add copyright SUSE LLC, GPLv2 to cpu-timers.h
->>
->>   - add copyright Fabrice Bellard and license from cpus.c to timers-state.h
->>     as it is lifted from cpus.c
->>
->>   - vl.c: in configure_accelerators bail out if icount_enabled()
->>     and !tcg_enabled() as qtest does not enable icount anymore.
->>
->> * 4/4 (accel stuff to accel):
->>
->>   - add copyright SUSE LLC to files that mostly only consist of the
->>     new interface. Add whatever copyright was in the accelerator code
->>     if instead they mostly consist of accelerator code.
->>
->>   - change a comment to mention the result of the AccelClass experiment
->>
->>   - moved qtest accelerator into accel/qtest/ , make it like the others.
->>
->>   - rename xxx-cpus-interface to xxx-cpus (remove "interface" from names)
->>
->>   - rename accel_int to cpus_accel
->>
->>   - rename CpusAccel functions from cpu_synchronize_* to synchronize_*
->>
->>
->> --------
->>
->> v2 -> v3:
->>
->> * turned into a 4 patch series, adding a first patch moving
->>   softmmu code currently in top_srcdir to softmmu/
->>
->> * cpu-throttle: moved to softmmu/
->>
->> * cpu-timers, icount:
->>
->>   - moved to softmmu/
->>
->>   - fixed assumption of qtest_enabled() => icount_enabled()
->>   causing the failure of check-qtest-arm goal, in test-arm-mptimer.c
->>
->>   Fix is in hw/core/ptimer.c,
->>
->>   where the artificial timeout rate limit should not be applied
->>   under qtest_enabled(), in a similar way to how it is not applied
->>   for icount_enabled().
->>
->> * CpuAccelInterface: no change.
->>
->>
->> --------
->>
->>
->> v1 -> v2:
->>
->> * 1/3 (cpu-throttle): provide a description in the commit message
->>
->> * 2/3 (cpu-timers, icount): in this v2 separate icount from cpu-timers,
->>   as icount is actually TCG-specific. Only build it under CONFIG_TCG.
->>
->>   To do this, qtest had to be detached from icount. To this end, a
->>   trivial global counter for qtest has been introduced.
->>
->> * 3/3 (CpuAccelInterface): provided a description.
->>
->> This is point 8) in that plan. The idea is to extract the unrelated parts
->> in cpus, and register interfaces from each single accelerator to the main
->> cpus module (cpus.c).
->>
->> While doing this RFC, I noticed some assumptions about Windows being
->> either TCG or HAX (not considering WHPX) that might need to be revisited.
->> I added a comment there.
->>
->> The thing builds successfully based on Linux cross-compilations for
->> windows/hax, windows/whpx, and I got a good build on Darwin/hvf.
->>
->> Tests run successully for tcg and kvm configurations, but did not test on
->> windows or darwin.
->>
->> Welcome your feedback and help on this,
->>
->> Claudio
->>
->> Claudio Fontana (3):
->>   softmmu: move softmmu only files from root
->>   cpu-throttle: new module, extracted from cpus.c
->>   cpu-timers, icount: new modules
->>
->>  MAINTAINERS                                  |  15 +-
->>  Makefile.target                              |   7 +-
->>  accel/qtest.c                                |   6 +-
->>  accel/tcg/cpu-exec.c                         |  43 +-
->>  accel/tcg/tcg-all.c                          |   7 +-
->>  accel/tcg/translate-all.c                    |   3 +-
->>  dma-helpers.c                                |   4 +-
->>  docs/replay.txt                              |   6 +-
->>  exec.c                                       |   4 -
->>  hw/core/ptimer.c                             |   8 +-
->>  hw/i386/x86.c                                |   1 +
->>  include/exec/cpu-all.h                       |   4 +
->>  include/exec/exec-all.h                      |   4 +-
->>  include/hw/core/cpu.h                        |  37 --
->>  include/qemu/main-loop.h                     |   5 +
->>  include/qemu/timer.h                         |  22 +-
->>  include/sysemu/cpu-throttle.h                |  68 +++
->>  include/sysemu/cpu-timers.h                  |  81 +++
->>  include/sysemu/cpus.h                        |  12 +-
->>  include/sysemu/qtest.h                       |   2 +
->>  include/sysemu/replay.h                      |   4 +-
->>  migration/migration.c                        |   1 +
->>  migration/ram.c                              |   1 +
->>  replay/replay.c                              |   6 +-
->>  softmmu/Makefile.objs                        |  13 +
->>  arch_init.c => softmmu/arch_init.c           |   0
->>  balloon.c => softmmu/balloon.c               |   0
->>  softmmu/cpu-throttle.c                       | 122 ++++
->>  softmmu/cpu-timers.c                         | 284 +++++++++
->>  cpus.c => softmmu/cpus.c                     | 839 +--------------------------
->>  softmmu/icount.c                             | 499 ++++++++++++++++
->>  ioport.c => softmmu/ioport.c                 |   0
->>  memory.c => softmmu/memory.c                 |   0
->>  memory_mapping.c => softmmu/memory_mapping.c |   0
->>  qtest.c => softmmu/qtest.c                   |  34 +-
->>  softmmu/timers-state.h                       |  69 +++
->>  softmmu/vl.c                                 |   8 +-
->>  stubs/Makefile.objs                          |   3 +-
->>  stubs/clock-warp.c                           |   4 +-
->>  stubs/cpu-get-clock.c                        |   3 +-
->>  stubs/cpu-get-icount.c                       |  21 -
->>  stubs/icount.c                               |  22 +
->>  stubs/qemu-timer-notify-cb.c                 |   8 +
->>  stubs/qtest.c                                |   5 +
->>  target/alpha/translate.c                     |   3 +-
->>  target/arm/helper.c                          |   7 +-
->>  target/riscv/csr.c                           |   8 +-
->>  tests/ptimer-test-stubs.c                    |   7 +-
->>  tests/test-timed-average.c                   |   2 +-
->>  util/main-loop.c                             |   4 +-
->>  util/qemu-timer.c                            |  12 +-
->>  51 files changed, 1343 insertions(+), 985 deletions(-)
->>  create mode 100644 include/sysemu/cpu-throttle.h
->>  create mode 100644 include/sysemu/cpu-timers.h
->>  rename arch_init.c => softmmu/arch_init.c (100%)
->>  rename balloon.c => softmmu/balloon.c (100%)
->>  create mode 100644 softmmu/cpu-throttle.c
->>  create mode 100644 softmmu/cpu-timers.c
->>  rename cpus.c => softmmu/cpus.c (59%)
->>  create mode 100644 softmmu/icount.c
->>  rename ioport.c => softmmu/ioport.c (100%)
->>  rename memory.c => softmmu/memory.c (100%)
->>  rename memory_mapping.c => softmmu/memory_mapping.c (100%)
->>  rename qtest.c => softmmu/qtest.c (95%)
->>  create mode 100644 softmmu/timers-state.h
->>  delete mode 100644 stubs/cpu-get-icount.c
->>  create mode 100644 stubs/icount.c
->>  create mode 100644 stubs/qemu-timer-notify-cb.c
->>
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
