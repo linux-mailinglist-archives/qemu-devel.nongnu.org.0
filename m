@@ -2,47 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10DC21387A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:14:50 +0200 (CEST)
-Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28C0213882
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:16:45 +0200 (CEST)
+Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIiX-00008U-PS
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57892)
+	id 1jrIkO-0003gF-SO
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrIfP-0003s3-G9; Fri, 03 Jul 2020 06:11:35 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:53548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrIfN-0006tc-OS; Fri, 03 Jul 2020 06:11:35 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 08949BF465;
- Fri,  3 Jul 2020 10:11:31 +0000 (UTC)
-Date: Fri, 3 Jul 2020 12:11:28 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 10/18] hw/block/nvme: fix missing endian conversion
-Message-ID: <20200703101128.czmz4ay6qozlzu5u@apples.localdomain>
-References: <20200703063420.2241014-1-its@irrelevant.dk>
- <20200703063420.2241014-11-its@irrelevant.dk>
- <86d5bd10-cfbd-4455-d7fe-af8d24d1b536@redhat.com>
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jrIgF-0005Lx-0w
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:12:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48924
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jrIgC-00071B-W9
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:12:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593771143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0TrP3ssKKFIZoS+4N/flBtS06O8OncHtt88NIx4qZeI=;
+ b=dQQYEjeRZPuRkZhY9dTM+08sGPkG6OSxBEu5XjePBzhR4QR4XT39rqK5Bd69mCtMzB3zHH
+ nOCZ3BLeTPKpEFu9pEEKJBTHyUlmD6PnZpsRJfWe4CeS6mrx+F11pJfOnwxBTDm62P5nlk
+ q/tHpW3vVlzKuI200ovP6/Yi2t0a+mY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-AdXJqLdBNZ6ds4_AK62ocQ-1; Fri, 03 Jul 2020 06:12:20 -0400
+X-MC-Unique: AdXJqLdBNZ6ds4_AK62ocQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D898B1005510;
+ Fri,  3 Jul 2020 10:12:17 +0000 (UTC)
+Received: from titinator (ovpn-113-254.ams2.redhat.com [10.36.113.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C60E7610C;
+ Fri,  3 Jul 2020 10:12:15 +0000 (UTC)
+References: <20200626162706.3304357-1-dinechin@redhat.com>
+ <20200626162706.3304357-4-dinechin@redhat.com>
+ <20200630124136.GM1370404@redhat.com>
+ <20200701160906.GT126613@stefanha-x1.localdomain>
+ <20200701161501.GJ1427561@redhat.com>
+ <20200702134713.GH152912@stefanha-x1.localdomain>
+User-agent: mu4e 1.5.2; emacs 26.3
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 3/3] trace: Example of "centralized" recorder tracing
+In-reply-to: <20200702134713.GH152912@stefanha-x1.localdomain>
+Message-ID: <lywo3kc3gh.fsf@redhat.com>
+Date: Fri, 03 Jul 2020 12:12:14 +0200
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86d5bd10-cfbd-4455-d7fe-af8d24d1b536@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:42:13
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,72 +87,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul  3 10:34, Philippe Mathieu-Daudé wrote:
-> On 7/3/20 8:34 AM, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> > 
-> > Fix a missing cpu_to conversion.
-> > 
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> > ---
-> >  hw/block/nvme.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index f3a5b857bc92..ba523f6768bf 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -1080,7 +1080,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >  
-> >          break;
-> >      case NVME_VOLATILE_WRITE_CACHE:
-> > -        result = blk_enable_write_cache(n->conf.blk);
-> > +        result = cpu_to_le32(blk_enable_write_cache(n->conf.blk));
-> >          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
-> >          break;
-> >      case NVME_NUMBER_OF_QUEUES:
-> > 
-> 
-> This doesn't look correct. What you probably want:
-> 
-> -- >8 --
-> 
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -815,8 +815,8 @@ static uint16_t nvme_get_feature(NvmeCtrl *n,
-> NvmeCmd *cmd, NvmeRequest *req)
->          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
->          break;
->      case NVME_NUMBER_OF_QUEUES:
-> -        result = cpu_to_le32((n->params.max_ioqpairs - 1) |
-> -                             ((n->params.max_ioqpairs - 1) << 16));
-> +        result = (n->params.max_ioqpairs - 1)
-> +                  | ((n->params.max_ioqpairs - 1) << 16);
->          trace_pci_nvme_getfeat_numq(result);
->          break;
->      case NVME_TIMESTAMP:
-> @@ -825,8 +825,8 @@ static uint16_t nvme_get_feature(NvmeCtrl *n,
-> NvmeCmd *cmd, NvmeRequest *req)
->          trace_pci_nvme_err_invalid_getfeat(dw10);
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
-> +    req->cqe.result = cpu_to_le32(result);
-> 
-> -    req->cqe.result = result;
->      return NVME_SUCCESS;
->  }
-> ---
-> 
 
-I replaced this patch with a new one earlier in the series that does
-what you suggest and then let the change trickle down to other patches
-that add feature cases.
+On 2020-07-02 at 15:47 CEST, Stefan Hajnoczi wrote...
+> On Wed, Jul 01, 2020 at 05:15:01PM +0100, Daniel P. Berrang=C3=A9 wrote:
+>> On Wed, Jul 01, 2020 at 05:09:06PM +0100, Stefan Hajnoczi wrote:
+>> > On Tue, Jun 30, 2020 at 01:41:36PM +0100, Daniel P. Berrang=C3=A9 wrot=
+e:
+>> > > On Fri, Jun 26, 2020 at 06:27:06PM +0200, Christophe de Dinechin wro=
+te:
+>> > > IMHO the whole point of having the pluggable trace backend impls, is
+>> > > precisely that we don't have to add multiple different calls in the
+>> > > code. A single trace_qemu_mutex_unlock() is supposed to work with
+>> > > any backend.
+>> >
+>> > I think an exception is okay when the other trace backends do not offe=
+r
+>> > equivalent functionality.
+>> >
+>> > Who knows if anyone other than Christophe will use this functionality,
+>> > but it doesn't cost much to allow it.
+>>
+>> This patch is just an example though, suggesting this kind of usage is
+>> expected to done in other current trace probe locations. The trace wrapp=
+er
+>> has most of the information required already including a format string,
+>> so I'd think it could be wired up to the generator so we don't add extra
+>> record() statements through the codebase.
+
+The primary purpose of the recorder is post-mortem dumps, flight recorder
+style. Tracing is only a secondary benefit. Not sure if it's worth making a
+distinction between events you want to record and those you want to trace.
+(Example: You might want to record all command line options, but almost
+never trace them)
+
+> At most it should require an
+>> extra annotation in the trace-events file to take the extra parameter
+>> for grouping, and other trace backends can ignore that.
+>
+> It's true, it may be possible to put this functionality in the
+> trace-events.
+
+Let me think more about integrating these features with other trace
+backends. See below for short-term impact.
+
+> Christophe: how does this differ from regular trace events and what
+> extra information is needed?
+
+- Grouping, as indicated above, mostly useful in practice to make selection
+  of tracing topics easy (e.g. "modules") but also for real-time graphing,
+  because typically a state change occurs in different functions, which is
+  why I used locking as an example.
+
+- Self-documentation. Right now, the recorder back-end generates rather
+  unhelpful help messages.
+
+- Trace buffer size. This is important to make post-mortem dumps usable if
+  you record infrequent events alongside much higher-rate ones. For example=
+,
+  you may want a large buffer to record info about command-line option
+  processing, the default 8 is definitely too small.
+
+- Support for %+s, which tells that a string is safe to print later (e.g. i=
+t
+  is a compile-time constant, or never ever freed).
+
+- Support for custom formats, e.g. I use %v in the XL compiler for LLVM
+  value pointers. This is a bit more advanced, but it would be neat to be
+  able to print out QOM objects using %q :-)
+
+For the short term, what about providing trace-named wrappers around these
+additional recorder features?
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
+
 
