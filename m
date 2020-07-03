@@ -2,103 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DFF213879
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:14:41 +0200 (CEST)
-Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7821387D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:15:55 +0200 (CEST)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIiO-0008Fc-2k
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58124)
+	id 1jrIja-0002ST-3b
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrIgn-0006Ju-0D
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:13:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43082
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrIi6-0000HJ-4U; Fri, 03 Jul 2020 06:14:22 -0400
+Resent-Date: Fri, 03 Jul 2020 06:14:22 -0400
+Resent-Message-Id: <E1jrIi6-0000HJ-4U@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrIgl-00074u-9a
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:13:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593771178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tjNyeWXOLKa2vKrRnnXP1fSwELFaD4aeU9xls3++Rm0=;
- b=Q4Q8OfuWmr/3iCbTI6fC3gQOzPf1DkvaDl+MtJKSbs5u/3pPN3WM8MGnw9l36GSJNLL5LT
- fCv4GyiHw+xH/DwkQlZ1yBpbUdUQJqQbtn+w0r3GWzWmoT0Ngrn2DsBqHOoVUM/U3caMvW
- FNrCZmnocwqhsHSlhh9Unk9ZSxh0izI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-l9bYoLucMZ2AEDsnPTRd6Q-1; Fri, 03 Jul 2020 06:12:56 -0400
-X-MC-Unique: l9bYoLucMZ2AEDsnPTRd6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D06B1BFE1;
- Fri,  3 Jul 2020 10:12:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-131.ams2.redhat.com
- [10.36.113.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C3F217D75;
- Fri,  3 Jul 2020 10:12:52 +0000 (UTC)
-Subject: Re: [PATCH v2 01/25] iotests: Fix 051 output after qdev_init_nofail()
- removal
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200624140446.15380-1-alex.bennee@linaro.org>
- <20200624140446.15380-2-alex.bennee@linaro.org>
- <20200703080728.GC5285@linux.fritz.box>
- <b91984af-ca2f-1cb2-905a-ba26212df208@redhat.com> <87d05cq5lu.fsf@linaro.org>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <9d82d78c-4436-170b-a497-44f45a016b39@redhat.com>
-Date: Fri, 3 Jul 2020 12:12:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrIi1-0007A6-Kl; Fri, 03 Jul 2020 06:14:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593771249; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Ne+F7/gXdOsGREPyMIGhOTK8DE5YvDkpwNhLvXiPkq4U164ZbOWr3jCiHQf0cPtofOu52FFGFuTTDcLSft6S448EYzuIUEtqQq4S3INUNByzKsJF4oXAKmVATSWmQR5HloA/SBaiaev+pvMvNhUcU00ju+4L6ZneOGdgQahc7+0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593771249;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=O+CZkMQ9CMxBaBxsxIu8fuEt3ChbD2v1qS6GeHHMTIA=; 
+ b=gdVCcPzmYYaignGccG7DOZbbwYY/JqROF5xvyA6QlZ3i4HGjen2OZosA/Le2keXqqbpjZvW83B+AVLrOhBJa2JUijFBLZ8qABZy6lN3uaj3BBp/2VR4IBjdRnHjy+9c2g8qfG7fDxRKNTE6E1c2+UMYdzKXcXgy+g2roSoklks8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593771247704719.1417020596072;
+ Fri, 3 Jul 2020 03:14:07 -0700 (PDT)
+Message-ID: <159377124646.11379.2784795370937297646@d1fd068a5071>
+Subject: Re: [PULL 0/7] Block layer patches
+In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87d05cq5lu.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Fri, 3 Jul 2020 03:14:07 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:31:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,49 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, fam@euphon.net,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- John Snow <jsnow@redhat.com>, cota@braap.org, aurelien@aurel32.net
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.07.20 12:02, Alex Bennée wrote:
-> 
-> Max Reitz <mreitz@redhat.com> writes:
-> 
->> On 03.07.20 10:07, Kevin Wolf wrote:
->>> Am 24.06.2020 um 16:04 hat Alex Bennée geschrieben:
->>>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>
->>>> Commit 96927c744 replaced qdev_init_nofail() call by
->>>> isa_realize_and_unref() which has a different error
->>>> message. Update the test output accordingly.
->>>>
->>>> Gitlab CI error after merging b77b5b3dc7:
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
->>>>
->>>> Reported-by: Thomas Huth <thuth@redhat.com>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>> Reviewed-by: John Snow <jsnow@redhat.com>
->>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>> Message-Id: <20200616154949.6586-1-philmd@redhat.com>
->>>
->>> Thanks, applied (this individual patch) to the block branch.
->>
->> Hm, I’ve already included it in my pull request from last week:
->>
->> https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg01159.html
->>
->> Unfortunately, the request got no response so far.
-> 
-> I think Peter's been on holiday this week so I guess there will be a
-> pile of PRs to process next week.
-
-It looked to me like he responded to some pull requests this week, so,
-well...  I don’t know.
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMzA5MjE0My4xNjU1
+OTQtMS1rd29sZkByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUFVMTCAwLzddIEJsb2NrIGxheWVyIHBhdGNoZXMKVHlwZTog
+c2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwNzAzMDkyMTQzLjE2NTU5NC0xLWt3b2xmQHJlZGhhdC5j
+b20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
+YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
+aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
+bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzIwMjAwNzAzMDkyMTQzLjE2NTU5NC0xLWt3b2xmQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIw
+MDcwMzA5MjE0My4xNjU1OTQtMS1rd29sZkByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKNjVlNmYxNSBpb3Rlc3RzOiBGaXggMDUxIG91dHB1dCBhZnRlciBxZGV2X2lu
+aXRfbm9mYWlsKCkgcmVtb3ZhbApjZmQ3OGNlIGlvdGVzdHMucHk6IERvIG5vdCB3YWl0KCkgYmVm
+b3JlIGNvbW11bmljYXRlKCkKMGQwYTc5OCB2dmZhdDogRml4IGFycmF5X3JlbW92ZV9zbGljZSgp
+CjU3N2M0MTEgdnZmYXQ6IENoZWNrIHRoYXQgdXBkYXRlZCBmaWxlbmFtZXMgYXJlIHZhbGlkCjAz
+OTdjNTQgcWVtdS1zdG9yYWdlLWRhZW1vbjogYWRkIG1pc3NpbmcgY2xlYW51cCBjYWxscwpmNDZm
+YzMwIHFlbXUtc3RvcmFnZS1kYWVtb246IHJlbWVtYmVyIHRvIGFkZCBxZW11X29iamVjdF9vcHRz
+CmFlZGE1MDcgcWVtdS1pbWcgY29udmVydDogRG9uJ3QgcHJlLXplcm8gaW1hZ2VzCgo9PT0gT1VU
+UFVUIEJFR0lOID09PQoxLzcgQ2hlY2tpbmcgY29tbWl0IGFlZGE1MDdkOGQ4YyAocWVtdS1pbWcg
+Y29udmVydDogRG9uJ3QgcHJlLXplcm8gaW1hZ2VzKQoyLzcgQ2hlY2tpbmcgY29tbWl0IGY0NmZj
+MzAxODc1NyAocWVtdS1zdG9yYWdlLWRhZW1vbjogcmVtZW1iZXIgdG8gYWRkIHFlbXVfb2JqZWN0
+X29wdHMpCjMvNyBDaGVja2luZyBjb21taXQgMDM5N2M1NDFhODVlIChxZW11LXN0b3JhZ2UtZGFl
+bW9uOiBhZGQgbWlzc2luZyBjbGVhbnVwIGNhbGxzKQo0LzcgQ2hlY2tpbmcgY29tbWl0IDU3N2M0
+MTFlOTI2OCAodnZmYXQ6IENoZWNrIHRoYXQgdXBkYXRlZCBmaWxlbmFtZXMgYXJlIHZhbGlkKQpF
+UlJPUjogIihmb28qKSIgc2hvdWxkIGJlICIoZm9vICopIgojMzQ6IEZJTEU6IGJsb2NrL3Z2ZmF0
+LmM6NTI2OgorICAgIGlmICghc3RyY21wKChjb25zdCBjaGFyKiluYW1lLCAiLiIpIHx8ICFzdHJj
+bXAoKGNvbnN0IGNoYXIqKW5hbWUsICIuLiIpKSB7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDQyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
+ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
+b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
+LgoKNS83IENoZWNraW5nIGNvbW1pdCAwZDBhNzk4ZGI4MTQgKHZ2ZmF0OiBGaXggYXJyYXlfcmVt
+b3ZlX3NsaWNlKCkpCjYvNyBDaGVja2luZyBjb21taXQgY2ZkNzhjZTNjZjA3IChpb3Rlc3RzLnB5
+OiBEbyBub3Qgd2FpdCgpIGJlZm9yZSBjb21tdW5pY2F0ZSgpKQo3LzcgQ2hlY2tpbmcgY29tbWl0
+IDY1ZTZmMTVhZDlhYiAoaW90ZXN0czogRml4IDA1MSBvdXRwdXQgYWZ0ZXIgcWRldl9pbml0X25v
+ZmFpbCgpIHJlbW92YWwpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
+aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
+Lm9yZy9sb2dzLzIwMjAwNzAzMDkyMTQzLjE2NTU5NC0xLWt3b2xmQHJlZGhhdC5jb20vdGVzdGlu
+Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
+YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
+ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
