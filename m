@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522C0213E27
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:06:26 +0200 (CEST)
-Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312DD213E28
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:06:27 +0200 (CEST)
+Received: from localhost ([::1]:39302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP8r-0006Xl-8t
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50320)
+	id 1jrP8s-0006dS-5y
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxS-0005OK-7A
+ id 1jrOxS-0005Q3-RI
  for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:38 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34978)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxQ-0005jD-A0
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:37 -0400
-Received: by mail-wr1-x434.google.com with SMTP id z2so11163586wrp.2
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:35 -0700 (PDT)
+ id 1jrOxR-0005ja-5x
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:38 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k6so33437882wrn.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BV5GFtOw7R1H4BotV7qt+eZkjeU8tiG6fWsBH/nC4NE=;
- b=EWWololKHeGgEes6IpwthhB0QUqEi+VEEERDOqW5NuniZEoVamTavcURzRXwo/8C8q
- wntmtgEkXZ/vwY42fEluTzXY06+/4tq/3G3adc/ouZPqtnNF4fpiLEqQAY3ehmBhOcK8
- /qSHjhyVy2vSt+kxR9h1/Wh7vL8TFNRaHpGC0e7diU2L1D9MN1P66V6uNC1SbBqkkfcg
- OGHlJXDibCgpMhpnjM5hG2Bdm6S7cnXniz0t/GjukEjnc/0MT/hMVlxp/vFw25cHCNIQ
- hwNG3ZEj/6dTL7b/AJJ+9WPrBY6MK9JgtE+ysNY5t/WpfPjT4B/qD5nBHAppns+UF6Db
- BjRQ==
+ bh=N/Piq7VUujhGlA1t1Zo+1vhhxB5erHw4tA6+anvZITQ=;
+ b=cB1QV/RYnMHCz3vyYQO44PtoTVfvt8N9Be1jvedQ6B7BRg8iEOchpandVaUQI0Pa2v
+ x6jWguYmqGxoaUSRQ33Fho1PQbsKGoMtKLnDXXkEvMEiFa+TSCKOwcrwhYfIWkVxcQO6
+ loh8El8GCKPkpGr3UjxAVPBrsc/6qQsyPbAx3RTFy8QDQqlasuR3aAOink5fg13Jt7L6
+ Vr0GHCpeYR5p/diHLDqtej3kpceWYBEz7DqdQOS1Y0ND7UlhxNEeexbul/H1wgQEjnUr
+ 0XiP+8sVtTd58bGI4/PAlTjJW5tgJHH6TJlZRodx1Nht9A5qygoyo4Czbv/t2LnnqLP9
+ MdUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BV5GFtOw7R1H4BotV7qt+eZkjeU8tiG6fWsBH/nC4NE=;
- b=ZQSyP7aPWVsdjGo0xpjKlKc+mEw2wssfDZU2yR94ULi68DP0B8CtVwJ0Hvaw4/QXGU
- 3bh9cW+LV9DED3Xz1llOUf4jZR1hpTtWaamL4y9tqutdlB+llB7XTtXWa9oGxS2al3rk
- uterkInQZYi9jEFK1Ois9qrALbOEMAJHMV/pN7JwjPBOgHF9kLoGlub5oEkRiVe3PVqv
- VNnFJla3+BOnnYj3rlTuW9jQfdUP78El3pxvlc+PnpyIYa+aCdvyLWrIAWHExfwty1Np
- WEabxSrnTtIZFlxvhJ7+7ZA/i3lYqjYM4AHHEoFsI9gAO165g6HoxZy23REbwghrx1Lx
- zFmg==
-X-Gm-Message-State: AOAM531JGo1FYAmHcbvJKTukSvvp1KLhidyv86GR84TMQAZUWLyJvt1K
- BWvOO/rSNbaYBVJ+GYqkbuoyTX0/RJRRZA==
-X-Google-Smtp-Source: ABdhPJzNa43uaFN8QDTMUqDzBR5/6l7uoRUyr4Tmtk/SE5yr8Q+mTULs/VYZSYgV4jBCeCHTxsHgzA==
-X-Received: by 2002:adf:8444:: with SMTP id 62mr35981389wrf.278.1593795274578; 
- Fri, 03 Jul 2020 09:54:34 -0700 (PDT)
+ bh=N/Piq7VUujhGlA1t1Zo+1vhhxB5erHw4tA6+anvZITQ=;
+ b=fE5FJ7hbxO9GWhRx7oLaWRBAJ8BHCS1tI2RUYat51mYQlSCyXGY7uqueuDzn3L0SJU
+ VyNI5C/velhqGHCb/F8g0jyuWOtgBWNqKH0OjtBWMyy2gaH7TbsKFnWLsaRUZR16QXjW
+ 8QV4UMtaB3M9c6wCq7jqLZelCSmTMlC/5cCW8Bsj6G+qZ2craXCE7M6dcg9339Z/63od
+ p0/cZTOqDDgjkLwGps4WsEIiZ2mU/Zg2yEi4QYj0hi/9p5XHLTmDDFx04iC+oXJCkxRl
+ Jgib10/9vzskfIVsjKonnBNFMv8aSDcuE1IBxqsHXKZ3Nb2RladX3BB8Hl3+0oVvMYC7
+ 385A==
+X-Gm-Message-State: AOAM5317MXuafGPP/vTLn5xiumS5Iv/3RFqx77/NbmE12hYKEoFWaCyZ
+ E6+4waB2FCmnLe6FlwVMdqgKBcbEE/OyNw==
+X-Google-Smtp-Source: ABdhPJzeL5mIY8Km8tEmolF/aiggQyT61TcBsHDW+tl6QTSYaEDQTX7YkX+MZkH6Qbksa9do1TAPxg==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr35950993wrp.45.1593795275627; 
+ Fri, 03 Jul 2020 09:54:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.33
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:33 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/34] ssi: Add ssi_realize_and_unref()
-Date: Fri,  3 Jul 2020 17:53:55 +0100
-Message-Id: <20200703165405.17672-25-peter.maydell@linaro.org>
+Subject: [PULL 25/34] hw/arm/spitz: Use max111x properties to set initial
+ values
+Date: Fri,  3 Jul 2020 17:53:56 +0100
+Message-Id: <20200703165405.17672-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,81 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an ssi_realize_and_unref(), for the benefit of callers
-who want to be able to create an SSI device, set QOM properties
-on it, and then do the realize-and-unref afterwards.
-
-The API works on the same principle as the recently added
-qdev_realize_and_undef(), sysbus_realize_and_undef(), etc.
+Use the new max111x qdev properties to set the initial input
+values rather than calling max111x_set_input(); this means that
+on system reset the inputs will correctly return to their initial
+values.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200628142429.17111-9-peter.maydell@linaro.org
+Message-id: 20200628142429.17111-10-peter.maydell@linaro.org
 ---
- include/hw/ssi/ssi.h | 26 ++++++++++++++++++++++++++
- hw/ssi/ssi.c         |  7 ++++++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ hw/arm/spitz.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-index 93f2b8b0beb..4be5325e654 100644
---- a/include/hw/ssi/ssi.h
-+++ b/include/hw/ssi/ssi.h
-@@ -79,6 +79,32 @@ extern const VMStateDescription vmstate_ssi_slave;
- }
+diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+index 11e413723f4..93a25edcb5b 100644
+--- a/hw/arm/spitz.c
++++ b/hw/arm/spitz.c
+@@ -731,11 +731,14 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+                           qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
  
- DeviceState *ssi_create_slave(SSIBus *bus, const char *name);
-+/**
-+ * ssi_realize_and_unref: realize and unref an SSI slave device
-+ * @dev: SSI slave device to realize
-+ * @bus: SSI bus to put it on
-+ * @errp: error pointer
-+ *
-+ * Call 'realize' on @dev, put it on the specified @bus, and drop the
-+ * reference to it. Errors are reported via @errp and by returning
-+ * false.
-+ *
-+ * This function is useful if you have created @dev via qdev_new()
-+ * (which takes a reference to the device it returns to you), so that
-+ * you can set properties on it before realizing it. If you don't need
-+ * to set properties then ssi_create_slave() is probably better (as it
-+ * does the create, init and realize in one step).
-+ *
-+ * If you are embedding the SSI slave into another QOM device and
-+ * initialized it via some variant on object_initialize_child() then
-+ * do not use this function, because that family of functions arrange
-+ * for the only reference to the child device to be held by the parent
-+ * via the child<> property, and so the reference-count-drop done here
-+ * would be incorrect.  (Instead you would want ssi_realize(), which
-+ * doesn't currently exist but would be trivial to create if we had
-+ * any code that wanted it.)
-+ */
-+bool ssi_realize_and_unref(DeviceState *dev, SSIBus *bus, Error **errp);
+     bus = qdev_get_child_bus(sms->mux, "ssi2");
+-    sms->max1111 = ssi_create_slave(bus, "max1111");
++    sms->max1111 = qdev_new("max1111");
+     max1111 = sms->max1111;
+-    max111x_set_input(sms->max1111, MAX1111_BATT_VOLT, SPITZ_BATTERY_VOLT);
+-    max111x_set_input(sms->max1111, MAX1111_BATT_TEMP, 0);
+-    max111x_set_input(sms->max1111, MAX1111_ACIN_VOLT, SPITZ_CHARGEON_ACIN);
++    qdev_prop_set_uint8(sms->max1111, "input1" /* BATT_VOLT */,
++                        SPITZ_BATTERY_VOLT);
++    qdev_prop_set_uint8(sms->max1111, "input2" /* BATT_TEMP */, 0);
++    qdev_prop_set_uint8(sms->max1111, "input3" /* ACIN_VOLT */,
++                        SPITZ_CHARGEON_ACIN);
++    ssi_realize_and_unref(sms->max1111, bus, &error_fatal);
  
- /* Master interface.  */
- SSIBus *ssi_create_bus(DeviceState *parent, const char *name);
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index 67b48c31cd6..a35d7ebb266 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -90,11 +90,16 @@ static const TypeInfo ssi_slave_info = {
-     .abstract = true,
- };
- 
-+bool ssi_realize_and_unref(DeviceState *dev, SSIBus *bus, Error **errp)
-+{
-+    return qdev_realize_and_unref(dev, &bus->parent_obj, errp);
-+}
-+
- DeviceState *ssi_create_slave(SSIBus *bus, const char *name)
- {
-     DeviceState *dev = qdev_new(name);
- 
--    qdev_realize_and_unref(dev, &bus->parent_obj, &error_fatal);
-+    ssi_realize_and_unref(dev, bus, &error_fatal);
-     return dev;
- }
- 
+     qdev_connect_gpio_out(sms->mpu->gpio, SPITZ_GPIO_LCDCON_CS,
+                         qdev_get_gpio_in(sms->mux, 0));
 -- 
 2.20.1
 
