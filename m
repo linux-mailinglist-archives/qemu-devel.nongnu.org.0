@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8F2214048
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:22:20 +0200 (CEST)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172AA21404E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:24:18 +0200 (CEST)
+Received: from localhost ([::1]:60406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrSCR-0004ve-NA
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
+	id 1jrSEL-0008FI-3A
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9a-0007y2-UE; Fri, 03 Jul 2020 16:19:23 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42106)
+ id 1jrS9c-00080f-4S; Fri, 03 Jul 2020 16:19:24 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9Z-0001Uo-DV; Fri, 03 Jul 2020 16:19:22 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o11so33963599wrv.9;
- Fri, 03 Jul 2020 13:19:20 -0700 (PDT)
+ id 1jrS9a-0001V0-O8; Fri, 03 Jul 2020 16:19:23 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a6so33946289wrm.4;
+ Fri, 03 Jul 2020 13:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q3/bGOtcr45IhcibkAs++blT0o8mxncf3Hbly4HXOsg=;
- b=b9Iosb0n0PkfEEkjyh0SBdl3DM23Rpa6htfsb047x4azmdUvRkovslNvPDmxGNLcq1
- sGQqFFzMgdJ/1vzUew7hv2mtbm/RU8Oz2sERuEteUzyora92IdaK3e0czZkJWwpB4v8u
- CS3xHJF0NhN54D+svLgATPPgadD/BMpcT5jDfk/BHiNcx7Y6K4xgb+mlKFDkOhQgb5y0
- viwgLoqvnQo3BGzpDEi9JAtHbUWGEtw/ne0nUIEeSeEOLNLaUtEzvnynnrs5sWBmWlYG
- kV9ySVrCTh/BmIVehe/KUpN+p36hMWF38Lc+lAk5VuQv6VLieMyMHBLCaP4InJlGVq7h
- sj8g==
+ bh=hDAjsWCo4muYV2UGuHt56RhWysQG9sjw6uJx4BVOBUQ=;
+ b=T5deevcTXhgqKXgllHmkBGEkLA9yEGSlNTkrTEWmGqAibvBGJXinmQw7EaBFlyTNcX
+ N0sRPe0rSHqTYpHtPhOf39NM378uLokFNzcYPeOuMcHDGluWC6EUmzK3bMaJLaqkgw3T
+ MUbCA+wfdNOV+ZOP0ifhVZ5eIO/KBWY38sKtMGjZzyt0iT08x5XxyYp6woFtAFKZrzHx
+ UcSyT4BvtjLQm70bi/4V8MeVmqsp3bPeEGbVoD1GltkmklBrJL21wcqb4TaHVhg1+gFt
+ 2pXauzM2Z6kZRn9d0fuDY5WLfJJQ3g/0H0qO/B7u2y5oUmcBSN9Z4OGGDvOZsUmFE7Ac
+ mERQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q3/bGOtcr45IhcibkAs++blT0o8mxncf3Hbly4HXOsg=;
- b=gazrO+1rRI04Ei7O4e8f1ztc7HKWAuYejwxqNdWRhvjI8SuUyJXVOQPhZmUdCyS1Hp
- C3AzRx7k/BphI+8W1n9pQ46Pb8NwyvyyguOP8SPZt1a+85p+A+Asa07dnezVGmmWVQU2
- NU/GxBqo2EZadXOjxsxff4OrHSPemgI1nS7oax0kJkPA2p72QhXzlTJ60oLtsNazh+l/
- KFwlIFsfX5vOxDSoHLWtl8bDpG2vohrA3p8B1zHnXkPZNWEZ/j0nl0NyZwq9mdF4I7YW
- sSEUEVEYsEybY4rG8fhuU6Hl8OvlAloQOKPP0289GthWFgGgSYN5zp4WgX6sEPtFPyhn
- BCxQ==
-X-Gm-Message-State: AOAM531cZWmeX43AW/XEPgk+p0e8hbuP+yHzgNqfIy3YZGm31LDwsP9Q
- iyuKmz/gy1eZpBC3bnXAz+JyZWqDU5s=
-X-Google-Smtp-Source: ABdhPJxfocojOq6wX7vnMoeA/OyrO/IXrGrbT914Pmmvx7nrcobv/IqiRbSWVHSBLmBXiJNQ9UXMEA==
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr27237873wrw.10.1593807559603; 
- Fri, 03 Jul 2020 13:19:19 -0700 (PDT)
+ bh=hDAjsWCo4muYV2UGuHt56RhWysQG9sjw6uJx4BVOBUQ=;
+ b=mnMDt4FO5AU2sfuFPbiepoF1CQhxWK+4wZXeg/+PhN+dE/o/BRyjHig4TGajz+VJA0
+ ng+ff2RuvDDyA4iQLRBVq03m+OpTsJACtWqsas4+7Bh2d+ut8pKGAsg7Txrsly6WjIsN
+ h/Rv3scdgLvlN/s4ieSAontiIPoUxg2jIFpKzC5kj6DZRZshavup1lILjOgVNIzz1xMP
+ 6Z5dL/BWW7R5B23GMdQNeEQpSW+wDnTyswXyLdBbQcYqe2yNpHgWWVWqkJPqq+DmWZzG
+ ne65Mb1nTTlGo53ruG0SsHBe+JrsAWOGkLSFn6vQk1sQ6+9ZxQpsDG/F7D0SWRamb7oh
+ MAjQ==
+X-Gm-Message-State: AOAM531ky9GF+ixjyZKF7FyxpO4hn+eNC7g8m+3up7q2NNtVllpOyY+a
+ +SUPLPPfvxWtLIjCg4EnF1h+OlLgwGA=
+X-Google-Smtp-Source: ABdhPJzRNrtwZQ56e6eQM6fJRfBWPZw8hDCvTQd2nhysuIrrXXxKO1yOwGigr8QXfyscSFSlmafmFg==
+X-Received: by 2002:a5d:474f:: with SMTP id o15mr35354909wrs.306.1593807560975; 
+ Fri, 03 Jul 2020 13:19:20 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.18
+ by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 13:19:19 -0700 (PDT)
+ Fri, 03 Jul 2020 13:19:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 04/18] hw/arm/armv7m: Mark the device with no migratable fields
-Date: Fri,  3 Jul 2020 22:18:57 +0200
-Message-Id: <20200703201911.26573-5-f4bug@amsat.org>
+Subject: [PATCH 05/18] hw/arm/aspeed_soc: Mark the device with no migratable
+ fields
+Date: Fri,  3 Jul 2020 22:18:58 +0200
+Message-Id: <20200703201911.26573-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200703201911.26573-1-f4bug@amsat.org>
 References: <20200703201911.26573-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -107,19 +108,19 @@ by using vmstate_qdev_no_state_to_migrate.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/armv7m.c | 1 +
+ hw/arm/aspeed_soc.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 3308211e9c..3f78fccc12 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -366,6 +366,7 @@ static void bitband_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->realize = bitband_realize;
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 311458aa76..b15984e4d3 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -442,6 +442,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+     dc->realize = aspeed_soc_realize;
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
+     dc->user_creatable = false;
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
-     device_class_set_props(dc, bitband_properties);
+     device_class_set_props(dc, aspeed_soc_properties);
  }
  
 -- 
