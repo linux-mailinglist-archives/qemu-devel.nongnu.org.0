@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E72B213DA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:36:07 +0200 (CEST)
-Received: from localhost ([::1]:45684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73303213DA8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:37:47 +0200 (CEST)
+Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOfW-0001ZG-2L
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:36:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
+	id 1jrOh8-0004xO-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrOVW-0000hg-5j
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:25:46 -0400
-Received: from elasmtp-galgo.atl.sa.earthlink.net ([209.86.89.61]:57476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrOVP-0006CZ-RC
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:25:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
- s=dk12062016; t=1593793539; bh=TfCbsIBXlk2jWa41rrk6IwLd6letlsQBImO5
- OVZIF/c=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
- To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:
- X-Originating-IP; b=RdmOceLdqKEWFyyvYY26Zr/pXWTv5B6LVZ/NaO2J7ux0ov
- TRoj1l6TVaQCUX+cpmYyk2ejFxI8/LC1SU1k8/xTGYute3k4ZRJ/aAYFf55EZd87tS3
- 8Otxalj5Cim5cbteWsv9+Nqt/MwWyn1TLFzawNfYEXv2KeLBaipxF0LXiCOiUYJL7XS
- 6ZW0AP+MculjuD5TXMWqLboXHa3B+HKqdnLSIpRCqN1d4ycCr4VTA25zpKwTM0qUeGl
- RNYF7hurpGdDORuySsFFkBVs6otsEuRIYSuilDOxFC0PPOK9oLmve2gF69XB+SZuSev
- m/dTzg/Cou4yg1qEAzxrLmWwmYwA==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
- s=dk12062016; d=mindspring.com;
- b=PlIfeJnDQsAH/KBuflJfcmdhK7EiHiteOB7C4vM5fiMT7AYgfRKmU8qBamPpaADap54eGFoil+AMTEuzT3SJ9oRgAbn0PxXQtv3foG1syryfB0KsM8K+KUxz27/wLj+OYWbb2WuSnXuVTsSt6BPaC06624ijwSxvZYmnKh1Wg5GjhuvTWhFczH5gzPKwdwTQ4PH+h32ca7zxKWgyqLi1qJkeh5IO/E/HaQPh9FTFxai/hH+obwLPIByK0kOOTT4tnRoeoMefyKuc4/A8nacMaXeu0XAfmUxdf4qbcar6hcxcjrQCe+AeHIthTu4q4LyZdLw6cW6CrQ0+ieohSxuqiA==;
- h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:X-Originating-IP;
-Received: from [8.9.81.230] (helo=[192.168.0.78])
- by elasmtp-galgo.atl.sa.earthlink.net with esmtpa (Exim 4)
- (envelope-from <denber@mindspring.com>)
- id 1jrOVK-0009WR-Et; Fri, 03 Jul 2020 12:25:34 -0400
-Message-ID: <5EFF5BFE.9000209@mindspring.com>
-Date: Fri, 03 Jul 2020 12:25:34 -0400
-From: Michele Denber <denber@mindspring.com>
-User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
- rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jrOWQ-0002L9-66
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:26:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47914
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jrOWO-0006Qv-HK
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593793599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yCHvlfOEuzdgAP12BR+hu1uOB7Z73C1zIKR4bkcgp0o=;
+ b=gI9UyWNmPuzA1Pzi3VLeb3eZ1eXIHFcpusp1pvaygTnGDH794YYpgxFAOCM0FjMyfTgidZ
+ uCtRzFcqc7BcalwX/zDnWaJLou0cFwNV+Fz90kIhXlRH/mFa+33zs7p1CLzfHQC/B7v5JR
+ jCjK9x8enafohEh7N2pR5MZm9RsxOzo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-6rkuh1snO5ejV4q1pBCqfw-1; Fri, 03 Jul 2020 12:26:36 -0400
+X-MC-Unique: 6rkuh1snO5ejV4q1pBCqfw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29CA718FF661;
+ Fri,  3 Jul 2020 16:26:35 +0000 (UTC)
+Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D47011002397;
+ Fri,  3 Jul 2020 16:26:32 +0000 (UTC)
+Date: Fri, 3 Jul 2020 17:26:30 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
+ commands
+Message-ID: <20200703162630.GJ6641@work-vm>
+References: <20200702175754.2211821-1-berrange@redhat.com>
+ <20200702175754.2211821-3-berrange@redhat.com>
+ <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
+ <20200702182452.GP1888119@redhat.com>
+ <20200703154933.GE6641@work-vm>
+ <20200703160235.GM2213227@redhat.com>
+ <20200703161012.GH6641@work-vm>
+ <20200703162417.GA3255981@angien.pipo.sk>
 MIME-Version: 1.0
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] configure / util: Auto-detect the availability of
- openpty()
-References: <20200702143955.678-1-thuth@redhat.com>
- <5EFE07BC.6040407@mindspring.com>
- <1e699fdc-639e-ef8a-313f-7e665cad868c@redhat.com>
- <5EFE5291.6030300@mindspring.com>
- <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
-In-Reply-To: <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
-Content-Type: multipart/alternative;
- boundary="------------010604090409010201070601"
-X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca59f1aaeab4e4575b44df35aa7777b3767350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 8.9.81.230
-Received-SPF: pass client-ip=209.86.89.61; envelope-from=denber@mindspring.com;
- helo=elasmtp-galgo.atl.sa.earthlink.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:25:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+In-Reply-To: <20200703162417.GA3255981@angien.pipo.sk>
+User-Agent: Mutt/1.14.5 (2020-06-23)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,186 +91,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Tribble <peter.tribble@gmail.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------010604090409010201070601
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+* Peter Krempa (pkrempa@redhat.com) wrote:
+> On Fri, Jul 03, 2020 at 17:10:12 +0100, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
+> > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
+> > > > > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
+> 
+> [...]
+> 
+> > > > Remind me, what was the problem with just making a block: migration
+> > > > channel, and then we can migrate to it?
+> > > 
+> > > migration only does vmstate, not disks. The current blockdev commands
+> > > are all related to external snapshots, nothing for internal snapshots
+> > > AFAIK. So we still need commands to load/save internal snapshots of
+> > > the disk data in the qcow2 files.
+> > > 
+> > > So we could look at loadvm/savevm conceptually as a syntax sugar above
+> > > a migration transport that targets disk images, and blockdev QMP command
+> > > that can do internal snapshots. Neither of these exist though and feel
+> > > like a significantly larger amount of work than using existing functionality
+> > > that is currently working.
+> > 
+> > I think that's what we should aim for; adding this wrapper isn't gaining
+> > that much without moving a bit towards that; so I would stick with the
+> > x- for now.
+> 
+> Relying on the HMP variants is IMO even worse. Error handling is
+> terrible there. I'd vote even for a straight wrapper without any logic
+> at this point. IMO it's just necessary to document that it's an
+> intermediate solution which WILL be deprecated and removed as soon as a
+> suitable replacement is in place.
+> 
+> Not doing anything is the argument we hear for multiple years now and
+> savevm/delvm/loadvm are now the only 3 commands used via the HMP wrapper
+> in libvirt.
+> 
+> Since deprecation is now a thing I think we can add a disposable
+> inteface. In the end HMP will or will not need to remain anyways and the
+> deprecation there is IMO less clear.
 
-On 07/03/20 01:11, Thomas Huth wrote:
->
-> Did you have a local modification to that file?
-Oops yes, I had changed the line
+Only if we come up with a list of what we actually need to do to
+properly fix it; I'm not suggesting we actually need to do the work, but
+we should figure out what we need to do.
 
+Dave
 
-static int openpty(int *amaster, int *aslave, char *name,
-                    struct termios *termp, struct winsize *winp)
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-to
-
-int openpty(int *amaster, int *aslave, char *name,
-                    struct termios *termp, struct winsize *winp)
-> If so, please revert it first before applying the patch (or add the 
-> "#if !defined(HAVE_OPENPTY)" now manually to see whether it works).
-
-OK - looks like that did it:
-
-root@hemlock:~/qemu-5.0.0# gpatch -p1 < configpatch.diff
-patching file configure
-Hunk #1 succeeded at 5049 (offset -85 lines).
-Hunk #2 succeeded at 7117 (offset -267 lines).
-patching file util/qemu-openpty.c
-Hunk #2 succeeded at 94 with fuzz 2.
-root@hemlock:~/qemu-5.0.0#
-
-Then
-
-root@hemlock:~/qemu-5.0.0# /opt/csw/bin/bash ./configure --cc=gcc  
---extra-cflags="-m32"
-
-succeeded with only one odd thing:
-
-./configure: line 6326: pod2man: command not found
-
-I fixed that with
-
-root@hemlock:~/qemu-5.0.0# PATH=$PATH:/usr/perl5/5.26/bin
-
-So I can confirm your patch works in Solaris 11.4.
-
-gmake then ran successfully through qemu-openpty.c  becfore stopping with:
-
-  ...
-CC      crypto/trace.o
-util/drm.c: In function \u2018qemu_drm_rendernode_open\u2019:
-util/drm.c:41:16: error: \u2018struct dirent\u2019 has no member named 
-\u2018d_type\u2019; did you mean \u2018d_name\u2019?
-          if (e->d_type != DT_CHR) {
-                 ^~~~~~
-                 d_name
-util/drm.c:41:26: error: \u2018DT_CHR\u2019 undeclared (first use in 
-this function); did you mean \u2018TH_CWR\u2019?
-          if (e->d_type != DT_CHR) {
-                           ^~~~~~
-                           TH_CWR
-util/drm.c:41:26: note: each undeclared identifier is reported only once 
-for each function it appears in
-gmake: *** [/export/home/denber/qemu-5.0.0/rules.mak:69: util/drm.o] Error 1
-
-PMM said about this:
-
-Ah, the Haiku folks just ran into exactly this issue.
-Their fix should also be good for Solaris:
-https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08800.html
-(This whole file is for using a Linux-specific feature so there's
-no point even compiling it for other OSes.)
-
-
-
-
-             - Michele
-
-
---------------010604090409010201070601
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 07/03/20 01:11, Thomas Huth wrote:
-    <blockquote
-      cite="mid:975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com"
-      type="cite"><br>
-      Did you have a local modification to that file?</blockquote>
-    Oops yes, I had changed the line<br>
-    <br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">static int
-        openpty(int *amaster, int *aslave, char *name,<br>
-                           struct termios *termp, struct winsize *winp)</font></small><br>
-    <br>
-    to<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">int openpty(int
-        *amaster, int *aslave, char *name,<br>
-                           struct termios *termp, struct winsize *winp)</font></small><br>
-    <blockquote
-      cite="mid:975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com"
-      type="cite"> If so, please revert it first before applying the
-      patch (or add the "#if !defined(HAVE_OPENPTY)" now manually to see
-      whether it works).
-      <br>
-    </blockquote>
-    <br>
-    OK - looks like that did it:<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
-        gpatch -p1 &lt; configpatch.diff<br>
-        patching file configure<br>
-        Hunk #1 succeeded at 5049 (offset -85 lines).<br>
-        Hunk #2 succeeded at 7117 (offset -267 lines).<br>
-        patching file util/qemu-openpty.c<br>
-        Hunk #2 succeeded at 94 with fuzz 2.<br>
-        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> </font></small><br>
-    <br>
-    Then<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
-        /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"</font></small><br>
-    <br>
-    succeeded with only one odd thing:<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">./configure:
-        line 6326: pod2man: command not found</font></small><br>
-    <br>
-    I fixed that with<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
-        PATH=$PATH:/usr/perl5/5.26/bin</font></small><br>
-    <br>
-    So I can confirm your patch works in Solaris 11.4.<br>
-    <br>
-    gmake then ran successfully through qemu-openpty.c  becfore stopping
-    with:<br>
-    <small><font face="Courier New, Courier, monospace"><br>
-         ...<br>
-        CC      crypto/trace.o<br>
-        util/drm.c: In function \u2018qemu_drm_rendernode_open\u2019:<br>
-        util/drm.c:41:16: error: \u2018struct dirent\u2019 has no member
-        named \u2018d_type\u2019; did you mean \u2018d_name\u2019?<br>
-                 if (e-&gt;d_type != DT_CHR) {<br>
-                        ^~~~~~<br>
-                        d_name<br>
-        util/drm.c:41:26: error: \u2018DT_CHR\u2019 undeclared (first
-        use in this function); did you mean \u2018TH_CWR\u2019?<br>
-                 if (e-&gt;d_type != DT_CHR) {<br>
-                                  ^~~~~~<br>
-                                  TH_CWR<br>
-        util/drm.c:41:26: note: each undeclared identifier is reported
-        only once for each function it appears in<br>
-        gmake: *** [/export/home/denber/qemu-5.0.0/rules.mak:69:
-        util/drm.o] Error 1</font></small><br>
-    <br>
-    PMM said about this:<br>
-    <br>
-    <pre wrap="">Ah, the Haiku folks just ran into exactly this issue.
-Their fix should also be good for Solaris:
-<a class="moz-txt-link-freetext" href="https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08800.html">https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg08800.html</a>
-(This whole file is for using a Linux-specific feature so there's
-no point even compiling it for other OSes.)</pre>
-    <br>
-    <br>
-    <br>
-                - Michele<br>
-    <br>
-  </body>
-</html>
-
---------------010604090409010201070601--
 
