@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40CD213027
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 01:34:10 +0200 (CEST)
-Received: from localhost ([::1]:51484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0432130A6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 02:53:05 +0200 (CEST)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jr8iX-0001YM-HY
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 19:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
+	id 1jr9wu-0004yq-B7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jul 2020 20:53:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jr8hk-0000wD-1G; Thu, 02 Jul 2020 19:33:20 -0400
-Received: from mga11.intel.com ([192.55.52.93]:35586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jr8hh-0007rK-Tx; Thu, 02 Jul 2020 19:33:19 -0400
-IronPort-SDR: Mzz50sRdVBGheRKhQv/GOdrLEGLHw93wSrz0x6wqn5uHVcpKUIddTHc4tJeP99xbgaVGVls0dd
- T3PRILIwAQvQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="145194087"
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="145194087"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 16:33:13 -0700
-IronPort-SDR: dz6fGZuwXOWwGxyQJKiVSfy+w8zA0tdtmmjwQCVV6jIRYhQmp/FQ8iq+f3bDEhWrMqZr+lYYqa
- EWbTYoRjZJ1Q==
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="426113027"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.212.130.2])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 16:33:12 -0700
-Subject: Re: [PATCH v4 2/2] nvme: allow cmb and pmr to be enabled on same
- device
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20200701214858.28515-1-andrzej.jakowski@linux.intel.com>
- <20200701214858.28515-3-andrzej.jakowski@linux.intel.com>
- <20200702101318.rmd65uzwfpcmb24n@apples.localdomain>
- <20200702103127.hoonqkas3bw2v7re@apples.localdomain>
- <8f871a0d-47f1-1c8a-fcc2-aab2638c70cf@linux.intel.com>
- <20200702175113.6qtnpxqimpavzx7h@apples.localdomain>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <191b39ed-0588-b5db-d352-965efd19128a@linux.intel.com>
-Date: Thu, 2 Jul 2020 16:33:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jr9uk-0002Cf-Lg
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 20:50:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jr9ug-0007QB-IE
+ for qemu-devel@nongnu.org; Thu, 02 Jul 2020 20:50:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jr9uc-0001gS-6u
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 00:50:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E0EF42E811D
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 00:50:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200702175113.6qtnpxqimpavzx7h@apples.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga11.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 19:33:14
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 Jul 2020 00:36:12 -0000
+From: costinel <1869006@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm passthrough tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson costinel dgilbert-h hrw pmaydell
+X-Launchpad-Bug-Reporter: Marcin Juszkiewicz (hrw)
+X-Launchpad-Bug-Modifier: costinel (costinel)
+References: <158514404728.11288.8869885318197124821.malonedeb@soybean.canonical.com>
+Message-Id: <159373657302.3426.5144140385853263611.malone@wampee.canonical.com>
+Subject: [Bug 1869006] Re: PCIe cards passthrough to TCG guest works on 2GB of
+ guest memory but fails on 4GB (vfio_dma_map invalid arg)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: edc29670eae8dd88aa5f9e90bfdc8ca43d2921ee
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/02 20:50:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,62 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1869006 <1869006@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/20 10:51 AM, Klaus Jensen wrote:
-> On Jul  2 08:07, Andrzej Jakowski wrote:
->> On 7/2/20 3:31 AM, Klaus Jensen wrote:
->>> Aight, an update here. This only happens when QEMU is run with a virtual
->>> IOMMU. Otherwise, the kernel is happy.
->>>
->>> With the vIOMMU, qemu also craps out a bit:
->>>
->>> qemu-system-x86_64: vtd_iova_to_slpte: detected slpte permission error (iova=0xfd200000, level=0x2, slpte=0x0, write=0)
->>> qemu-system-x86_64: vtd_iommu_translate: detected translation failure (dev=03:00:00, iova=0xfd200000)
->>>
->>> So I think we are back in QEMU land for the bug.
->>
->> Can you share command line for that?
->>
->>
-> 
-> qemu-system-x86_64 \
->   -nodefaults \
->   -display none \
->   -device intel-iommu,pt,intremap=on,device-iotlb=on \
->   -machine type=q35,accel=kvm,kernel_irqchip=split \
->   -cpu host \
->   -smp 4 \
->   -m 8G \
->   -nic user,model=virtio-net-pci,hostfwd=tcp::2222-:22 \
->   -device virtio-rng-pci \
->   -drive id=boot,file=/home/kbj/work/src/vmctl/state/pmr/boot.qcow2,format=qcow2,if=virtio,discard=on,detect-zeroes=unmap \
->   -device pcie-root-port,id=pcie_root_port1,chassis=1,slot=0 \
->   -device x3130-upstream,id=pcie_upstream1,bus=pcie_root_port1 \
->   -device xio3130-downstream,id=pcie_downstream1,bus=pcie_upstream1,chassis=1,slot=1 \
->   -drive id=nvme0n1,file=/home/kbj/work/src/vmctl/state/pmr/nvme0n1.img,format=raw,if=none,discard=on,detect-zeroes=unmap \
->   -object memory-backend-file,id=pmr,share=on,mem-path=pmr.bin,size=1M \
->   -device nvme,id=nvme0,serial=deadbeef,bus=pcie_downstream1,drive=nvme0n1,msix_qsize=1,pmrdev=pmr,cmb_size_mb=2 \
->   -pidfile /home/kbj/work/src/vmctl/run/pmr/pidfile \
->   -kernel /home/kbj/work/src/kernel/linux/arch/x86_64/boot/bzImage \
->   -append root=/dev/vda1 console=ttyS0,115200 audit=0 nokaslr \
->   -virtfs local,path=/home/kbj/work/src/kernel/linux,security_model=none,readonly,mount_tag=modules \
->   -serial mon:stdio \
->   -trace pci_nvme*
-> 
-> 
+Alex, thanks for the quick answer, but sadly I still do not fully
+understand the implications, even if I read the pdf paper on RH website
+you mention, as well as the vendor advisory at
+https://support.hpe.com/hpesc/public/docDisplay?docId=3Demr_na-c04781229
 
-I focused on reproduction and it looks to me that my patch doesn't 
-necessarily introduce regression. I run it w/ and w/o patch in both cases
-getting error while registering. Here is kernel guest log:
+When you say "qemu has no support", do you actually mean "qemu people
+are unable to help you if you break things by bypassing the in-place
+restrictions", or "qemu is designed to not work when restrictions are
+bypassed"?
 
-[   87.606482] nvme nvme0: pci function 0000:00:04.0
-[   87.635577] dev=0000000095b0a83b bar=2 size=134217728 offset=0
-[   87.636593] nvme nvme0: failed to register the CMB ret=-95
-[   87.643262] nvme nvme0: 12/0/0 default/read/poll queues
+Do I understand correctly that the BIOS can modify portions of the
+system usable RAM, so the vendor specific software tools can read those
+addresses, and if yes, does this mean is there a risk for data
+corruption if the RMRR restrictions are bypassed?
 
-Any thoughts?
+I have eventually managed to passthrough an nvidia card in the
+microserver gen8 to a windows vm using patched kernel 5.3, along with
+the vendor instructions to exclude the pcie slot aka the conrep solution
+but for it to work it still needed the "rmrr patch" aka removing the
+"return -EPERM" line below the "Device is ineligible [...]" in
+drivers/iommu/intel-iommu.c
+
+
+However applying the same modification to kernel 5.4 leads to the "VFIO_MAP=
+_DMA: -22" error.
+
+Is there other place in the kernel 5.4 source that must be modified to
+bring back the v5.3 kernel behaviour? (ie. I have a stable home windows
+vm with the gpu passthrough despite all)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1869006
+
+Title:
+  PCIe cards passthrough to TCG guest works on 2GB of guest memory but
+  fails on 4GB (vfio_dma_map invalid arg)
+
+Status in QEMU:
+  New
+
+Bug description:
+  During one meeting coworker asked "did someone tried to passthrough
+  PCIe card to other arch guest?" and I decided to check it.
+
+  Plugged SATA and USB3 controllers into spare slots on mainboard and
+  started playing. On 1GB VM instance it worked (both cold- and hot-
+  plugged). On 4GB one it did not:
+
+  B=C5=82=C4=85d podczas uruchamiania domeny: internal error: process exite=
+d while connecting to monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarc=
+h64: -device vfio-pci,host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D=
+0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 66, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1279,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.8/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: 2020-03-25T13:43:39.107524Z qemu-system-aarch64: -device vfio-pci,=
+host=3D0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: VFIO_MAP_DMA: -22
+  2020-03-25T13:43:39.107560Z qemu-system-aarch64: -device vfio-pci,host=3D=
+0000:29:00.0,id=3Dhostdev0,bus=3Dpci.3,addr=3D0x0: vfio 0000:29:00.0: faile=
+d to setup container for group 28: memory listener initialization failed: R=
+egion mach-virt.ram: vfio_dma_map(0x563169753c80, 0x40000000, 0x100000000, =
+0x7fb2a3e00000) =3D -22 (Invalid argument)
+
+  =
+
+  I played with memory and 3054 MB is maximum value possible to boot VM wit=
+h coldplugged host PCIe cards.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1869006/+subscriptions
 
