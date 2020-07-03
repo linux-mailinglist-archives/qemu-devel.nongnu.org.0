@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E0213DAC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:39:01 +0200 (CEST)
-Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA97213DA2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:36:00 +0200 (CEST)
+Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOiK-0007jj-7D
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
+	id 1jrOfP-0001N4-7G
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vincent.mc.li@gmail.com>)
- id 1jrOSt-00050j-Dq
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:23:03 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:37017)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vincent.mc.li@gmail.com>)
- id 1jrOSr-0005ei-Hz
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:23:03 -0400
-Received: by mail-pl1-x644.google.com with SMTP id p1so3548591pls.4
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=Nw2HaGEG/PrRXeswlYbS7n308ZWghxL3g2iZGsLx+eU=;
- b=lTuQnDrHXCXbySaFCrBGKvRsQ0qMiNmn4boE4wKlZPO3vOT7/Gt4hW+/8aK1+xYbL/
- UPVSTr+J337j9LgxWrxEul13DsGF4K8OXVSOSx60xlJGwTeNr3bqPQLYi7BDPAewRqnf
- 2n7mKg5F7VLt4NHinPAImPuEeO4kE5yRGfi9Cn1sBP+WtLj3Dwu7owCxJg8IMNeNojfQ
- SFYAsgZ2nBBitk90ycGEuEhXSuGqClSrBSzgmvD8aUtMDUE5uw95jF0Zq+Ts2yLP3bH/
- oHOPR0HnTeZ3GjeUKbsMy8GRXqUhlbxa3qnI0DYpjhEV2OGQqA4qtJQZOXGyrnYxPpHp
- FUCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=Nw2HaGEG/PrRXeswlYbS7n308ZWghxL3g2iZGsLx+eU=;
- b=cWyrznNqBSLo8Riltlmg0PpFtUVlXK98KBJuXkvfM3W3QfErPBwbwwfheRykEigDgm
- CW/qrCHCiDqlZVVDH1G5R5J/mEHlSsKNA81jc09HTXmzbF8GhFVscNL21gx98YPFzI1n
- D8QboJGGvzfSOStWRQCRc+pOFyY4ZbYxM+ZFZqLroT+VnFyrRBHpQaRgNS2JvmBPS+id
- lPvZ32bPbDnJeByCuY52w33FV3NRoSPCY2vcockyYqZrQtXBoYZMVklGiKmZUWTXwTZA
- EhQwALQ6xLOe9EPwKo9RuFmg7czGsXnFIJ9CbtNtoZBSjyyTZ9msoRT0bhK7A/648Cjs
- /zUg==
-X-Gm-Message-State: AOAM532Bzv8U7wUq4LJt2Oi+W0GncFJkdyFiOk1n0UbmDPXOXEd8KpSA
- 2/9aHQuQqpbpnDt6mGKyEKk=
-X-Google-Smtp-Source: ABdhPJzstVOjxf08xeFUZrYN3H+7KsJ6roAYFTbIVlAWYK1J5W4FXlYIQVlyTJCy8EwV+clXLx2h7A==
-X-Received: by 2002:a17:902:8491:: with SMTP id
- c17mr23742426plo.262.1593793379335; 
- Fri, 03 Jul 2020 09:22:59 -0700 (PDT)
-Received: from sin-l-00030390.olympus.f5net.com
- (c-71-231-121-172.hsd1.wa.comcast.net. [71.231.121.172])
- by smtp.gmail.com with ESMTPSA id a68sm11587433pje.35.2020.07.03.09.22.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:22:58 -0700 (PDT)
-From: Vincent Li <vincent.mc.li@gmail.com>
-X-Google-Original-From: Vincent Li <vli@gmail.com>
-Date: Fri, 3 Jul 2020 09:22:57 -0700 (PDT)
-X-X-Sender: vli@sea-ml-00029224.olympus.f5net.com
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: Question about virtio-net: implement RX RSS processing
-In-Reply-To: <6657ac45-383a-4654-d5d4-be76a8fcfdfa@redhat.com>
-Message-ID: <alpine.OSX.2.21.2007030921400.35758@sea-ml-00029224.olympus.f5net.com>
-References: <alpine.OSX.2.21.2007020914350.260@sea-ml-00029224.olympus.f5net.com>
- <6657ac45-383a-4654-d5d4-be76a8fcfdfa@redhat.com>
-User-Agent: Alpine 2.21 (OSX 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1jrOUI-0007VA-Mr
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:24:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27340
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1jrOUG-0005uM-I4
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:24:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593793467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MwpAli+hqkPMsAqMmQR6raQr7RVd1/GK/liBKuxiSiM=;
+ b=RVTmQzX3+i6viQJckTDNvVyE60bsjwFqiLHwqwzUwpP/uVMIYhtMnKjEjfoLk76Qo7ct/2
+ xQOSeVhNTFCTt3Yknhrj+Yr0SL9W8PDcE234FNHFnfar8TaoP9w7wDOeQWFH3u/5kU+2aA
+ S38s3XGOgvQbAn688FguONUf/sQpi4U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-FfMjii8KPHe4hbc2CNXZQQ-1; Fri, 03 Jul 2020 12:24:25 -0400
+X-MC-Unique: FfMjii8KPHe4hbc2CNXZQQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94FFB8015CB;
+ Fri,  3 Jul 2020 16:24:24 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BE9A4AC;
+ Fri,  3 Jul 2020 16:24:20 +0000 (UTC)
+Date: Fri, 3 Jul 2020 18:24:17 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
+ commands
+Message-ID: <20200703162417.GA3255981@angien.pipo.sk>
+References: <20200702175754.2211821-1-berrange@redhat.com>
+ <20200702175754.2211821-3-berrange@redhat.com>
+ <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
+ <20200702182452.GP1888119@redhat.com>
+ <20200703154933.GE6641@work-vm>
+ <20200703160235.GM2213227@redhat.com>
+ <20200703161012.GH6641@work-vm>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="0-1976117165-1593793378=:35758"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=vincent.mc.li@gmail.com; helo=mail-pl1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MALFORMED_FREEMAIL=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200703161012.GH6641@work-vm>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,174 +92,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Li <vincent.mc.li@gmail.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Jul 03, 2020 at 17:10:12 +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
+> > > > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
 
---0-1976117165-1593793378=:35758
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+[...]
 
+> > > Remind me, what was the problem with just making a block: migration
+> > > channel, and then we can migrate to it?
+> > 
+> > migration only does vmstate, not disks. The current blockdev commands
+> > are all related to external snapshots, nothing for internal snapshots
+> > AFAIK. So we still need commands to load/save internal snapshots of
+> > the disk data in the qcow2 files.
+> > 
+> > So we could look at loadvm/savevm conceptually as a syntax sugar above
+> > a migration transport that targets disk images, and blockdev QMP command
+> > that can do internal snapshots. Neither of these exist though and feel
+> > like a significantly larger amount of work than using existing functionality
+> > that is currently working.
+> 
+> I think that's what we should aim for; adding this wrapper isn't gaining
+> that much without moving a bit towards that; so I would stick with the
+> x- for now.
 
-Thank you for the answers and I will study the vhost-net patches set you 
-mentioned
+Relying on the HMP variants is IMO even worse. Error handling is
+terrible there. I'd vote even for a straight wrapper without any logic
+at this point. IMO it's just necessary to document that it's an
+intermediate solution which WILL be deprecated and removed as soon as a
+suitable replacement is in place.
 
-On Fri, 3 Jul 2020, Jason Wang wrote:
+Not doing anything is the argument we hear for multiple years now and
+savevm/delvm/loadvm are now the only 3 commands used via the HMP wrapper
+in libvirt.
 
-> 
-> On 2020/7/3 上午1:07, Vincent Li wrote:
-> > Hi,
-> > 
-> > I noticed the [PULL V2 02/33] virtio-net: implement RX RSS processing
-> > https://marc.info/?l=qemu-devel&m=159248675403246&w=2 and cloned
-> > https://github.com/jasowang/qemu.git tags/net-pull-request for testing the
-> > RX RSS feature, but I am not clear how to test this feature and see if it
-> > meets my needs.
-> 
-> 
-> Yuri may know more but I think the only driver that supports RSS is Windows
-> driver currently.
-> 
-> 
-> > 
-> > I am running F-Stack Nginx applications
-> > https://github.com/F-Stack/f-stack/tree/dev/app/nginx-1.16.1 in KVM guest,
-> > F-Stack is FreeBSD TCP/IP stack ported to support DPDK, and F-Stack set
-> > RSS mode as code below
-> > https://github.com/F-Stack/f-stack/blob/dev/lib/ff_dpdk_if.c#L605
-> > 
-> >       /* Set RSS mode */
-> >       uint64_t default_rss_hf = ETH_RSS_PROTO_MASK;
-> >       port_conf.rxmode.mq_mode = ETH_MQ_RX_RSS;
-> >       port_conf.rx_adv_conf.rss_conf.rss_hf = default_rss_hf;
-> >       if (dev_info.hash_key_size == 52) {
-> >           port_conf.rx_adv_conf.rss_conf.rss_key = default_rsskey_52bytes;
-> >           port_conf.rx_adv_conf.rss_conf.rss_key_len = 52;
-> >           use_rsskey_52bytes = 1;
-> >       } else {
-> >           port_conf.rx_adv_conf.rss_conf.rss_key = default_rsskey_40bytes;
-> >           port_conf.rx_adv_conf.rss_conf.rss_key_len = 40;
-> >       }
-> >       port_conf.rx_adv_conf.rss_conf.rss_hf &=
-> > dev_info.flow_type_rss_offloads;
-> >       if (port_conf.rx_adv_conf.rss_conf.rss_hf != ETH_RSS_PROTO_MASK) {
-> >           printf("Port %u modified RSS hash function based on hardware
-> > support,"
-> >           "requested:%#"PRIx64" configured:%#"PRIx64"\n",
-> >           port_id, default_rss_hf, port_conf.rx_adv_conf.rss_conf.rss_hf);
-> >       }
-> > 
-> > But  DPDK virtio PMD does not support RSS as below commit shows:
-> > 
-> > commit 13b3137f3b7c8f866947a9b34e06a8aec0d084f7
-> > Author: Dilshod Urazov
-> > Date:   Wed Oct 9 13:32:07 2019 +0100
-> > 
-> >      net/virtio: reject unsupported Rx multi-queue modes
-> >           This driver supports none of DCB, RSS or VMDQ modes, therefore
-> > must
-> >      check and return error if configured incorrectly.
-> >           Virtio can distribute Rx packets across multi-queue, but there is
-> >      no controls (algorithm, redirection table, hash function) except
-> >      number of Rx queues and ETH_MQ_RX_NONE is the best fit meaning
-> >      no method is enforced on how to route packets to MQs.
-> >           Fixes: c1f86306a026 ("virtio: add new driver")
-> >      Cc: stable@dpdk.org
-> >           Signed-off-by: Dilshod Urazov
-> >      Signed-off-by: Andrew Rybchenko
-> >      Reviewed-by: Maxime Coquelin
-> > 
-> > diff --git a/drivers/net/virtio/virtio_ethdev.c
-> >             b/drivers/net/virtio/virtio_ethdev.c
-> > index 0a2ed2e50..76bd40a3e 100644
-> > --- a/drivers/net/virtio/virtio_ethdev.c
-> > +++ b/drivers/net/virtio/virtio_ethdev.c
-> > @@ -2066,6 +2066,13 @@ virtio_dev_configure(struct rte_eth_dev *dev)
-> >          PMD_INIT_LOG(DEBUG, "configure");
-> >          req_features = VIRTIO_PMD_DEFAULT_GUEST_FEATURES;
-> >   +       if (rxmode->mq_mode != ETH_MQ_RX_NONE) {
-> > +               PMD_DRV_LOG(ERR,
-> > +                       "Unsupported Rx multi queue mode %d",
-> > +                       rxmode->mq_mode);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> >          if (dev->data->dev_conf.intr_conf.rxq) {
-> >                  ret = virtio_init_device(dev, hw->req_guest_features);
-> >                  if (ret < 0)
-> > 
-> > 
-> > 
-> > So the problem is I can't run F-Stack Applications in KVM/Qemu guest with
-> > multi queue/vCPU/RSS  support, this problem seems apply to DPDK TCP
-> > applications require multi queue/RSS support in KVM/Qemu guest, for
-> > example mTCP https://github.com/mtcp-stack/mtcp I tested has similar
-> > problem.
-> > 
-> > I am not clear on the picture of how everything work together for  this
-> > virtio-net RSS feature.
-> > 
-> > I have read following blogs
-> > 
-> > https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost-net
-> > https://www.redhat.com/en/blog/how-vhost-user-came-being-virtio-networking-and-dpdk
-> > 
-> > Someone told me that in order for DPDK frond end virtio PMD in guest support
-> > RSS, the backend
-> > also needs to support RSS, including vhost-net and vhost-user, it should
-> > have nothing to do with this Qemu virtio-net RSS, is that correct?  if
-> > correct, I have following questions:
-> > 
-> > 1, What is the use case for this Qemu virtio-net RSS?
-> 
-> 
-> It's just RSS as what other device can provide for steering or balancing.
-> 
-> 
-> > 2, How to test the use case?
-> 
-> 
-> Need use windows guest.
-> 
-> 
-> > 3, Are there any plan to improve vhost-net/vhost-user, DPDK virtio PMD to
-> > support RSS?
-> 
-> 
-> For vhost-net, Sameeh posted a eBPF based solution RFC[1], we need some one to
-> carry on the work. It doesn't request any extension to vhost-net thanks to the
-> steering eBPF support in tuntap.
-> 
-> For vhost-user, we need probably extend vhost-user protocols first.
-> 
-> You're welcome to contribute patches.
-> 
-> [1] https://patchwork.kernel.org/cover/10581921/
-> 
-> Thanks
-> 
-> 
-> > 
-> > For 3,  I think this is important for KVM/Qemu/OVS-DPDK/Vhost-net
-> > environment for DPDK TCP/UDP applications.
-> > 
-> > Note I have no problem running F-Stack or mTCP applications in VMware ESXi
-> > guest environment with multi queue/vCPU/RSS requirement since DPDK vmxnet3
-> > PMD support RSS and I assume VMware ESXi backend support RSS, so it looks
-> > VMware has
-> > advantage over this.
-> > 
-> > Thank you for your patience to read this email
-> > 
-> > Regards,
-> > 
-> > Vincent
-> > 
-> 
-> 
---0-1976117165-1593793378=:35758--
+Since deprecation is now a thing I think we can add a disposable
+inteface. In the end HMP will or will not need to remain anyways and the
+deprecation there is IMO less clear.
+
 
