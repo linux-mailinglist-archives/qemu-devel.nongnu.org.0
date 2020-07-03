@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B851214052
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:26:14 +0200 (CEST)
-Received: from localhost ([::1]:41594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACF1214057
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:26:43 +0200 (CEST)
+Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrSGD-0003sq-CW
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
+	id 1jrSGg-00055B-S6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9k-0008MI-Qb; Fri, 03 Jul 2020 16:19:32 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34173)
+ id 1jrS9m-0008QJ-DA; Fri, 03 Jul 2020 16:19:34 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9j-0001WH-AY; Fri, 03 Jul 2020 16:19:32 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f7so30933043wrw.1;
- Fri, 03 Jul 2020 13:19:30 -0700 (PDT)
+ id 1jrS9k-0001WS-T0; Fri, 03 Jul 2020 16:19:34 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o11so33963986wrv.9;
+ Fri, 03 Jul 2020 13:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yrLkH70WzIihdGm/NjbQjxTYMS+wbXewYaB/SgI3i5c=;
- b=DPcc4yGf1Z4stLcHhv7nxz6yIz2mqLYJJI42zmHJ2G0V+4Ygz0GVTBCkSgVPR8lWdo
- VV9BleOFs3RAgCU6TZy3GGBlgLsXtzJIB5g0tlQzZH9TOUj7bqDhab9+7QIue77z8BSL
- rcOEYulRh1uobMV2haKUFolWMT/Bf//oXSPdcz/BmybzkWtZyYwqE9JuzN9z8ejg7l5c
- nubGvp+tN6FTkqJSM1Cdth6Hr5nF5zuvq5DY0WkoGwCkykDjl8LWYJ3+X+Epee7LYhio
- fhZm/ZqMqRDCIrBzeIz7/bW1mJFnFslwngBJNEFrpa9F03aSdMR9NvKv9FsoVx/9Njy6
- ejog==
+ bh=D4fCa4+LiZFjw8a5zdhadVu1qSxsBNhcSEgYB5tz6qA=;
+ b=kpRyO2+U5mVhIxZUB9JEUUtibh23OZZ+OnsrW4Q+aCwNOa4RFHiQpQ+FE3lWGVgHYY
+ PO4CFqoBD4frTCUIyyQoWIsEJH61xssmYFwKwuG49VKLXayjcL4i3VzS119vXLs5W7B0
+ 5zZI8ldlq4eRH35bec69T2VTKQJiL4+sJDyavNyfuR9/7S0YEccvhwjEPczdImnwmGzI
+ cZPftuUnRquORnzpf00yRbIa5xfNaddR8RP9uWDdjDHlIanQAe5JxUZgAaS8edObV8n4
+ ql8hSE9JBAZryUwjpepDADzDe6+ml5xwPfYXGPNMWu2Ub1mQBbKdbWpwPZYO8HpQAG9r
+ 8U2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yrLkH70WzIihdGm/NjbQjxTYMS+wbXewYaB/SgI3i5c=;
- b=hyBg2HkICHiK+ttpEfBHUG46Ko/JvvGs3s3rNtp/9wxAmy0pS8TWcQStZm5RfeByh2
- 2xFNl/0EjfWhYygIUDitdbd0J3r7XdvxkTVlY8cuOse/31F12hqoe4O5pimXrkztq7O7
- Un+5rXDyTBj8jHeoQV7oI1lGgtQINXPXHVGSip+RDs+1x/J1M2hInc3KfNq8aF2Dn4If
- G5X5jqmc0G9eyfaCAb3T/Ef3pguiSZaPvdq3lRAVzZcNBdOOqJUyQUXokmnknubD+56k
- avrJ2mEYTLG9deAjwXGySdpcxmk5jrAlkTH1o/oMHc5DtlXOEsXaEbCe+GXhTU73IEhb
- /ZQQ==
-X-Gm-Message-State: AOAM533sJcBFh4UshAzXy9Sh9WB2ZgS276wkTs1Iik2W6vPLfxkJVejE
- YO0R9gJwgjS9ItPs4EUDB7Z6eICjbxI=
-X-Google-Smtp-Source: ABdhPJzPQkKAsw+WVIpI3SO5UKRRm5SfW2rhLL5gG2nSORaBH81Vnn3Ir3F2i9l85m7w1ZuGNxXdpA==
-X-Received: by 2002:a5d:6846:: with SMTP id o6mr38567514wrw.370.1593807569583; 
- Fri, 03 Jul 2020 13:19:29 -0700 (PDT)
+ bh=D4fCa4+LiZFjw8a5zdhadVu1qSxsBNhcSEgYB5tz6qA=;
+ b=iYIBizfaHJDuKdzATUgK1i39gkUOQDSb45oOWIyPcQQtFL7QUnTWxAE2kkN/cOBtHu
+ F6W3j8r/SmgWejnLDeez6+Guim9n3/Jtu/FgY24kz/lfQMnZvjhnJxHP/cdtK+WiYo72
+ 7KBy8iu3CDQJYjZTuQtYkrP8vNUayiitLKiEuqRkpZ9aJRS7+efJhsfHI0DJzUoqb4dw
+ FTvOdFT2aTgb8nRPPWE3U3dr522apxm5Vd6oBpfCmpeIi3q2o3AddarBTzR3HgbR9Qi7
+ b5Be2ee0OGROZKl+SinKgozHijP7k0QidqCl8Bo0Nu9BEHCHixfDWwDT82NIxN9rbrfx
+ fofA==
+X-Gm-Message-State: AOAM533cyso7QZAG5sSO0f4E7Vq/vdIrQ2hb0GBftEg0yW8DeVo9sqDq
+ 5XWS86tUn0Hb10LiXS3SBvaGIAyvoJc=
+X-Google-Smtp-Source: ABdhPJwTiAz6Aw6B0/f+/D0JD/ItV34s4KtO/vlGnUWo0q9yfD2OwX8ZrA+g/GccFxUvXrIcV9SmxQ==
+X-Received: by 2002:adf:92c4:: with SMTP id 62mr37230171wrn.290.1593807570943; 
+ Fri, 03 Jul 2020 13:19:30 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.28
+ by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 13:19:29 -0700 (PDT)
+ Fri, 03 Jul 2020 13:19:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 11/18] hw/usb/hcd-ohci: Mark the device with no migratable
+Subject: [PATCH 12/18] hw/intc/arm_gicv2m: Mark the device with no migratable
  fields
-Date: Fri,  3 Jul 2020 22:19:04 +0200
-Message-Id: <20200703201911.26573-12-f4bug@amsat.org>
+Date: Fri,  3 Jul 2020 22:19:05 +0200
+Message-Id: <20200703201911.26573-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200703201911.26573-1-f4bug@amsat.org>
 References: <20200703201911.26573-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -111,35 +111,29 @@ between static property vs runtime changeable.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-ohci.h | 2 ++
- hw/usb/hcd-ohci.c | 1 +
- 2 files changed, 3 insertions(+)
+ hw/intc/arm_gicv2m.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
-index 5c8819aedf..3bcbad1269 100644
---- a/hw/usb/hcd-ohci.h
-+++ b/hw/usb/hcd-ohci.h
-@@ -100,6 +100,8 @@ typedef struct {
-     /*< public >*/
+diff --git a/hw/intc/arm_gicv2m.c b/hw/intc/arm_gicv2m.c
+index 0b7e2b4f84..c8b066066b 100644
+--- a/hw/intc/arm_gicv2m.c
++++ b/hw/intc/arm_gicv2m.c
+@@ -54,6 +54,7 @@ typedef struct ARMGICv2mState {
+     MemoryRegion iomem;
+     qemu_irq spi[GICV2M_NUM_SPI_MAX];
  
-     OHCIState ohci;
-+
 +    /* Properties */
-     char *masterbus;
-     uint32_t num_ports;
-     uint32_t firstport;
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 1e6e85e86a..6c76f65734 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -1983,6 +1983,7 @@ static void ohci_sysbus_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
+     uint32_t base_spi;
+     uint32_t num_spi;
+ } ARMGICv2mState;
+@@ -181,6 +182,7 @@ static void gicv2m_class_init(ObjectClass *klass, void *data)
  
-     dc->realize = ohci_realize_pxa;
+     device_class_set_props(dc, gicv2m_properties);
+     dc->realize = gicv2m_realize;
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
-     set_bit(DEVICE_CATEGORY_USB, dc->categories);
-     dc->desc = "OHCI USB Controller";
-     device_class_set_props(dc, ohci_sysbus_properties);
+ }
+ 
+ static const TypeInfo gicv2m_info = {
 -- 
 2.21.3
 
