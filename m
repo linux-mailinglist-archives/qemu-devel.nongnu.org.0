@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42909213D22
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:00:20 +0200 (CEST)
-Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3E213D1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:59:44 +0200 (CEST)
+Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrO6t-0004qy-7S
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
+	id 1jrO6J-0003KD-16
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:59:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jrO5O-0002U9-Jf; Fri, 03 Jul 2020 11:58:46 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:41479)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jrO58-0002Cw-Td
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:58:30 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jrO5K-0007Q9-Ht; Fri, 03 Jul 2020 11:58:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=FLnW2yKPd876mhIBSmNOIZZESH7oUMAItbps7FGNKa4=; 
- b=rC4ldcGdwA/FNIPQReDsc2Q9Hwcn/u0Ij7wPTT8xS1X4tSMX6RcVIuSrT+R3bVvYBBkuTejlb/doDdNDEH0X1nyShfHFB52S1YaYNq3nzzRlJGLeYge64ALgacJH6SsrQqOjvWczN82E+eEXqHMC6TsR8xq8VCsD8THXNa1E3WP3dLu+piSW8myiQkYNREpKjiR1hbpQjZ5jdGfKFW18Kj7vGkxRRgFl3x9oYANhImx52KDUuaXn/lFtU8fGWqC1vEoLe9lBRNTB6VuCBF2U6hBEoINS9h5+5gedDH8d+mJctGug4+BIFHt37cl9+TA0fHAhzn89/PxKbYSFUIdrZg==;
-Received: from [81.0.49.0] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jrO5G-0001QH-Dv; Fri, 03 Jul 2020 17:58:38 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1jrO51-0007PW-P1; Fri, 03 Jul 2020 17:58:23 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 08/34] qcow2: Add dummy has_subclusters() function
-Date: Fri,  3 Jul 2020 17:57:54 +0200
-Message-Id: <2b565be71b51861555f7593d736c42c557671af9.1593791819.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1593791819.git.berto@igalia.com>
-References: <cover.1593791819.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jrO57-0007OC-92
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:58:30 -0400
+Received: by mail-ot1-x343.google.com with SMTP id h1so4824498otq.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 08:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ckKTxmUcETX8d+mfOYh4v+HrbMunSNWEFf2zmvYQePU=;
+ b=ejsavaZ5i9ZsSh1kn/1AG/8/UyQu+vGNRjxwMixPXPzxPC5uQInbKZVYvb82wvmKGP
+ /F2BVRJtzP6uWpPqmNmNJAG0vXgumY9L8zT83FiShnWv9W2QZ8lXG6evNh0Iti3c1BiP
+ OMqCbAwfCnh89zPt0OKsSi5sjxQjqFPZfwnqSVPa6QP47s3HetTpqXLVNfEKrSvdkY8x
+ GbubmoiCdBxBAX6aHEaPgBTiXpuXssjlyqKUja5bH3s7pF7T6oNfndgGsi7d0KoF+OKN
+ Cy638T9WwaNMaYc5epqOZYxwB4g9SH0XLhVrNPTQUGo8iUHjeheFSQCeCpnZM3r/pcs9
+ +/1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ckKTxmUcETX8d+mfOYh4v+HrbMunSNWEFf2zmvYQePU=;
+ b=BglT+rqr/tWjNRbhSizSl/SybN3xMMMPBzR10VtRqGTBxkOETpFR7L5Y22brDeNVYf
+ YBC2q+G3+OPih/9T6ZS3hLeQPSZaJGqBvQYvCX7u4ktvQyQSBA+0yHQHS0EVXfQzIkd5
+ psFw86Pk1dMriDHLYsxnZLr5pPMtMMgwF9B9Fb4ysPlAuugkFK3CwQrqfDCTq9YTXwLy
+ trF42JT4qVHbdAD87oZZHpxZ1lZ2A0TMFyebhTENXhbL/wBt63U/E/WXcU4RRu5sV3Cw
+ /xQpfW3xxcwttgIq6MU+qXIH2LrR+Utoe70tQl7KNMfxiWjH81cgG9ss+RCmFbFFosXV
+ 3qkw==
+X-Gm-Message-State: AOAM532653dkl0tKTQMw7b9qRJsk5GC7L2EaNVnd/gV0qei+k66CPgnK
+ HaCNKTNF0RPcjZ7tKLAMN864VP441+03jftbuN5Vhw==
+X-Google-Smtp-Source: ABdhPJy1UE8wxzXKRcr40Q2hAjYRqpGWSZbMe7RnmI8ZKHrNTfb7pMld9scA9l9rW9LzzPcGA3SynE6Km+yPXwh1wuw=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr23769839oto.135.1593791907938; 
+ Fri, 03 Jul 2020 08:58:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:21:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+References: <20200624081349.121791-1-mreitz@redhat.com>
+ <fd4e80a9-c7b1-08d0-0ae6-cf74946d6c5b@redhat.com>
+ <CAFEAcA_d81NP1iu8kNSypou-rd7aVPznix6VOEoDTog=LX7aLg@mail.gmail.com>
+ <7f84efb1-86e2-2417-af70-45f80b92e6fe@redhat.com>
+In-Reply-To: <7f84efb1-86e2-2417-af70-45f80b92e6fe@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Jul 2020 16:58:15 +0100
+Message-ID: <CAFEAcA8D=9786w3WnMEYRkU=1NzBOvZ6NhH=9XxXzw354mGHqA@mail.gmail.com>
+Subject: Re: [PULL v2 0/2] Block patches
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,47 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Derek Su <dereksu@qnap.com>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function will be used by the qcow2 code to check if an image has
-subclusters or not.
+On Fri, 3 Jul 2020 at 12:14, Max Reitz <mreitz@redhat.com> wrote:
+>
+> On 03.07.20 12:47, Peter Maydell wrote:
+> > On Fri, 3 Jul 2020 at 10:52, Max Reitz <mreitz@redhat.com> wrote:
+> >>
+> >> On 24.06.20 10:13, Max Reitz wrote:
+> >>> The following changes since commit d88d5a3806d78dcfca648c62dae9d88d3e=
+803bd2:
+> >>>
+> >>>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-hw=
+-20200622' into staging (2020-06-23 13:55:52 +0100)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>   https://github.com/XanClic/qemu.git tags/pull-block-2020-06-24
+> >>>
+> >>> for you to fetch changes up to 24b861c0386a17ea31eb824310c21118fb7be8=
+83:
+> >>>
+> >>>   iotests: don't test qcow2.py inside 291 (2020-06-24 10:00:04 +0200)
+> >>>
+> >>> ----------------------------------------------------------------
+> >>> Block patches:
+> >>> - Two iotest fixes
+> >>>
+> >>> ----------------------------------------------------------------
+> >>> This is v2, where I dropped Maxim=E2=80=99s LUKS keyslot amendment se=
+ries and my
+> >>> iotest patches, because both caused iotest failures on some test
+> >>> machines.
+> >>
+> >> Ping?
+> >>
+> >> Or should I just send another pull request that includes Maxim=E2=80=
+=99s
+> >> original series to supersede this one altogether?
+> >
+> > Sorry, your resend just fell out of my to-process queue for some
+> > reason; I can put it back in the list to process.
+>
+> That=E2=80=99d be great, thanks!
 
-At the moment this simply returns false. Once all patches needed for
-subcluster support are ready then QEMU will be able to create and
-read images with subclusters and this function will return the actual
-value.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+Applied, thanks.
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index eecbadc4cb..2064dd3d85 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -510,6 +510,12 @@ typedef enum QCow2MetadataOverlap {
- 
- #define INV_OFFSET (-1ULL)
- 
-+static inline bool has_subclusters(BDRVQcow2State *s)
-+{
-+    /* FIXME: Return false until this feature is complete */
-+    return false;
-+}
-+
- static inline uint64_t get_l2_entry(BDRVQcow2State *s, uint64_t *l2_slice,
-                                     int idx)
- {
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
+-- PMM
 
