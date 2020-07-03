@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622D4213DA0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:35:23 +0200 (CEST)
-Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267AB213DA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:37:20 +0200 (CEST)
+Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOeo-00005s-Ar
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36482)
+	id 1jrOgh-0003tb-39
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jrON9-000155-9L
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:17:07 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55792
+ id 1jrOPG-0006CX-TV
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:19:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37086
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jrON7-0004IH-7u
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:17:06 -0400
+ id 1jrOPF-0004eM-0K
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:19:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593793024;
+ s=mimecast20190719; t=1593793154;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aCxD3V2bUwJ7rSi7NJxu+jhTfXjS0kevOSYm2+EMEhc=;
- b=h+Ze1YtxGcAYkNzK2gzF6tWpZ6vmsDJkw//qMgg+GV8XZcmqS6tpHMdQjrUkdH3YQ6dYHB
- gtkmZRk641AHTdTDXIqxN/aCNpdM9PowDSG5cOAyv+PYB5msuPpBgfS9I9k8iP8faemM0r
- 2owQP3uKCCH6b03JnqRx4w4qwrxS8nU=
+ bh=9Fk6SyDxzNjz+9czjM2xdv/qjRhkmMBD8VMWbMN7ABM=;
+ b=O4LeHXjmNOMWlvlrNGScZFkWFFnWV9as5OlxEG18+3jxzOgF/Rq1tFy2wQLzS/fplFiJcb
+ 5TxfGOjGjfyKrdhRx+5gP6//aGd2whRY7FmBys3OhaVmSRGGLvUZgxgkTKC3dOP/MAGzlf
+ DYVZV8WWJu1RMAP6YXSCNiwrYKVOCI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-EXUK670FN3SNMSu8DMhvTg-1; Fri, 03 Jul 2020 12:17:02 -0400
-X-MC-Unique: EXUK670FN3SNMSu8DMhvTg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-245-Ja4w9KHuNFOxnaUtH1znPw-1; Fri, 03 Jul 2020 12:19:12 -0400
+X-MC-Unique: Ja4w9KHuNFOxnaUtH1znPw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09EC18FE868;
- Fri,  3 Jul 2020 16:17:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5501100CCC0
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 16:19:11 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A60A62DE74;
- Fri,  3 Jul 2020 16:16:57 +0000 (UTC)
-Date: Fri, 3 Jul 2020 17:16:54 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFFF119697;
+ Fri,  3 Jul 2020 16:19:01 +0000 (UTC)
+Date: Fri, 3 Jul 2020 17:18:58 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
- commands
-Message-ID: <20200703161654.GN2213227@redhat.com>
-References: <20200702175754.2211821-1-berrange@redhat.com>
- <20200702175754.2211821-3-berrange@redhat.com>
- <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
- <20200702182452.GP1888119@redhat.com>
- <20200703154933.GE6641@work-vm>
- <20200703160235.GM2213227@redhat.com>
- <20200703161012.GH6641@work-vm>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH] MAINTAINERS: Cover the firmware JSON schema
+Message-ID: <20200703161858.GO2213227@redhat.com>
+References: <20200703161453.8406-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200703161012.GH6641@work-vm>
+In-Reply-To: <20200703161453.8406-1-philmd@redhat.com>
 User-Agent: Mutt/1.14.3 (2020-06-14)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,92 +85,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 03, 2020 at 05:10:12PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
-> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
-> > > > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
-> > > > > > savevm, loadvm and delvm are some of the few commands that have never
-> > > > > > been converted to use QMP. The primary reason for this lack of
-> > > > > > conversion is that they block execution of the thread for as long as
-> > > > > > they run.
-> > > > > > 
-> > > > > > Despite this downside, however, libvirt and applications using libvirt
-> > > > > > has used these commands for as long as QMP has existed, via the
-> > > > > > "human-monitor-command" passthrough command. IOW, while it is clearly
-> > > > > > desirable to be able to fix the blocking problem, this is not an
-> > > > > > immediate obstacle to real world usage.
-> > > > > > 
-> > > > > > Meanwhile there is a need for other features which involve adding new
-> > > > > > parameters to the commands. This is possible with HMP passthrough, but
-> > > > > > it provides no reliable way for apps to introspect features, so using
-> > > > > > QAPI modelling is highly desirable.
-> > > > > > 
-> > > > > > This patch thus introduces trival savevm, loadvm, delvm commands
-> > > > > 
-> > > > > trivial
-> > > > > 
-> > > > > > to QMP that are functionally identical to the HMP counterpart, including
-> > > > > > the blocking problem.
-> > > > > 
-> > > > > Should we name them 'x-savevm', 'x-loadvm', 'x-delvm' to give ourselves room
-> > > > > to change them when we DO solve the blocking issue?  Or will the solution of
-> > > > > the blocking issue introduce new QMP commands, at which point we can add QMP
-> > > > > deprecation markers on these commands to eventually retire them?
-> > > > 
-> > > > I was in two minds about this, so I'm open to arguments either way.
-> > > > 
-> > > > The primary goal is for libvirt to consume the APIs as soon as possible,
-> > > > and generally libvirt doesn't want todo this is they are declared experimental
-> > > > via a "x-" prefix. So that pushes me away from "x-".
-> > > > 
-> > > > If we don't have an "x-" prefix and want to make changes, we can add extra
-> > > > parameters to trigger new behaviour in backwards compatible manner. Or we can
-> > > > simply deprecate these commands, deleting them 2 releases later, while adding
-> > > > completely new commands.
-> > > > 
-> > > > If we think the prposed design will definitely need incompatible changes in
-> > > > a very short time frame though, that would push towards "x-".
-> > > > 
-> > > > So IMHO the right answer largely depends on whether there is a credible
-> > > > strategy to implement the ideal non-blocking solution in a reasonable amount
-> > > > of time. I can't justify spending much time on this myself, but I'm willing
-> > > > to consider & try proposals for solving the blocking problem if they're not
-> > > > too complex / invasive.
-> > > 
-> > > Remind me, what was the problem with just making a block: migration
-> > > channel, and then we can migrate to it?
-> > 
-> > migration only does vmstate, not disks. The current blockdev commands
-> > are all related to external snapshots, nothing for internal snapshots
-> > AFAIK. So we still need commands to load/save internal snapshots of
-> > the disk data in the qcow2 files.
-> > 
-> > So we could look at loadvm/savevm conceptually as a syntax sugar above
-> > a migration transport that targets disk images, and blockdev QMP command
-> > that can do internal snapshots. Neither of these exist though and feel
-> > like a significantly larger amount of work than using existing functionality
-> > that is currently working.
+On Fri, Jul 03, 2020 at 06:14:53PM +0200, Philippe Mathieu-Daudé wrote:
+> Add an entry to cover firmware.json (see commit 3a0adfc9bf:
+> schema that describes the different uses and properties of
+> virtual machine firmware).
+> Cc the libvirt maintainers if it ever changes.
 > 
-> I think that's what we should aim for; adding this wrapper isn't gaining
-> that much without moving a bit towards that; so I would stick with the
-> x- for now.
+> Cc: Laszlo Ersek <lersek@redhat.com>
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Based on a comment from Laszlo:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg604925.html
+> 
+> I don't think Laszlo should be the sole maintainer, not sure
+> who else should be listed. Gerd and Kashyap? :)
+> Can we add it 'maintained' without specific maintainer?
+> ---
+>  MAINTAINERS | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dec252f38b..57c90201df 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2601,6 +2601,12 @@ F: include/hw/i2c/smbus_master.h
+>  F: include/hw/i2c/smbus_slave.h
+>  F: include/hw/i2c/smbus_eeprom.h
+>  
+> +Firmware schema specifications
+> +M: Laszlo Ersek <lersek@redhat.com>
+> +R: libvir-list@redhat.com
 
-The question is how much work that approach will be and whether anyone can
-realistically commit to doing that ? It looks like a much larger piece of
-work in both QEMU and libvirt side to do that. I don't want to see us stuck
-with a x-savevm for years because no one has resource to work on the perfect
-solution. If we did get a perfect solution at a point in future, we can
-still deprecate and then remove any "savevm" command we add to QMP.
+FWIW, I don't think libvirt needs to review this. Our firmware handling
+code doesn't really care what specific files exist - it just follows the
+declared logic to pick amongst whatever exists.
+
 
 Regards,
 Daniel
