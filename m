@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEAF2137C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:34:02 +0200 (CEST)
-Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD43E2137C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:35:35 +0200 (CEST)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrI53-0002z8-QW
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35884)
+	id 1jrI6Y-0006V5-N1
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtO-0002jk-Fn
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:21:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41432
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtV-0002p3-Cl
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51815
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtM-0000x2-FS
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:21:58 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtT-0000yD-WC
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593768115;
+ s=mimecast20190719; t=1593768120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+S9tTJk1IxSdz5YwHi6iSjVuasfOW43kaU5vR3AlBUY=;
- b=ODR8mKDcDIXWAqt0havc8SW3xF6jUXBDODj9mvPndDziy48yGg8u4txb3LF+I2rZvORJ4O
- lt/gh9PWZo3teaFKM45bR3/2lbMlopJxm7F9sedEwAsJul27BYq9Yjx8tUXOG1RMm/EbVZ
- dFzBjv/Ef939C4aq/fOd3yMxiR8zgGM=
+ bh=AtvVYwlc1+ydxWQZdKR7ou+wPvfLfU9yuoxoUybNOEo=;
+ b=dT6oHVtRx9wWNZleCPqjSGawhuUTrbSJpHmlRBr9VMOTMhmlnxUESZlTgwMkGdhcjZPs7O
+ NUic3wh8s0nOjJ52zmSQFfw6cp7BVj8/L1UTqcyLnj2A8uY3Esp+9R5vTzgYhEq6GqiEhX
+ dxUnfqewLI5OmnwdUUtdXhyqNBd8AjI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-AYOqNz39Mq61g2xmKglc2A-1; Fri, 03 Jul 2020 05:21:53 -0400
-X-MC-Unique: AYOqNz39Mq61g2xmKglc2A-1
+ us-mta-389-gGWpX8jtOZWUQrEghJhGmQ-1; Fri, 03 Jul 2020 05:21:56 -0400
+X-MC-Unique: gGWpX8jtOZWUQrEghJhGmQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7BB8A0BD7;
- Fri,  3 Jul 2020 09:21:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29540107ACF3;
+ Fri,  3 Jul 2020 09:21:55 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5B5C7AC63;
- Fri,  3 Jul 2020 09:21:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 350AD7AC63;
+ Fri,  3 Jul 2020 09:21:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/7] qemu-img convert: Don't pre-zero images
-Date: Fri,  3 Jul 2020 11:21:37 +0200
-Message-Id: <20200703092143.165594-2-kwolf@redhat.com>
+Subject: [PULL 3/7] qemu-storage-daemon: add missing cleanup calls
+Date: Fri,  3 Jul 2020 11:21:39 +0200
+Message-Id: <20200703092143.165594-4-kwolf@redhat.com>
 In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
 References: <20200703092143.165594-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,59 +83,34 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 5a37b60a61c, qemu-img create will pre-zero the target image
-if it isn't already zero-initialised (most importantly, for host block
-devices, but also iscsi etc.), so that writing explicit zeros wouldn't
-be necessary later.
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-This could speed up the operation significantly, in particular when the
-source image file was only sparsely populated. However, it also means
-that some block are written twice: Once when pre-zeroing them, and then
-when they are overwritten with actual data. On a full image, the
-pre-zeroing is wasted work because everything will be overwritten.
+Several components used by qemu-storage-daemon have cleanup functions
+that aren't called. Keep the "valgrind --leak-check=full" as clean as
+possible by invoking the necessary cleanup functions.
 
-In practice, write_zeroes typically turns out faster than writing
-explicit zero buffers, but slow enough that first zeroing everything and
-then overwriting parts can be a significant net loss.
-
-Meanwhile, qemu-img convert was rewritten in 690c7301600 and zero blocks
-are now written to the target using bdrv_co_pwrite_zeroes() if the
-target could be pre-zeroed. This way we already make use of the faster
-write_zeroes operation, but avoid writing any blocks twice.
-
-Remove the pre-zeroing because these days this former optimisation has
-actually turned into a pessimisation in the common case.
-
-Reported-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200622151203.35624-1-kwolf@redhat.com>
-Tested-by:  Nir Soffer <nsoffer@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200619101132.2401756-3-stefanha@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-img.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ qemu-storage-daemon.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index d7e846e607..bdb9f6aa46 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2084,15 +2084,6 @@ static int convert_do_copy(ImgConvertState *s)
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
+index a01cbd6371..7e9b0e0d3f 100644
+--- a/qemu-storage-daemon.c
++++ b/qemu-storage-daemon.c
+@@ -335,5 +335,9 @@ int main(int argc, char *argv[])
+         main_loop_wait(false);
      }
  
--    if (!s->has_zero_init && !s->target_has_backing &&
--        bdrv_can_write_zeroes_with_unmap(blk_bs(s->target)))
--    {
--        ret = blk_make_zero(s->target, BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK);
--        if (ret == 0) {
--            s->has_zero_init = true;
--        }
--    }
--
-     /* Allocate buffer for copied data. For compressed images, only one cluster
-      * can be copied at a time. */
-     if (s->compressed) {
++    monitor_cleanup();
++    qemu_chr_cleanup();
++    user_creatable_cleanup();
++
+     return EXIT_SUCCESS;
+ }
 -- 
 2.25.4
 
