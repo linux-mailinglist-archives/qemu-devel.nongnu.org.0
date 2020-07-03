@@ -2,106 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462DE21376A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:15:22 +0200 (CEST)
-Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B11213798
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:24:48 +0200 (CEST)
+Received: from localhost ([::1]:53876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHmz-0004Zq-AS
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:15:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
+	id 1jrHw7-0007G3-RC
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHfW-0006RT-Nt
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:38 -0400
-Received: from mail-eopbgr10127.outbound.protection.outlook.com
- ([40.107.1.127]:3861 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ id 1jrHgR-0000Cr-B4; Fri, 03 Jul 2020 05:08:35 -0400
+Received: from mail-eopbgr140133.outbound.protection.outlook.com
+ ([40.107.14.133]:62071 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHfT-00051B-97
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:38 -0400
+ id 1jrHgO-0005Bb-U8; Fri, 03 Jul 2020 05:08:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQdxl0VIXqdp/KwZZJNltmHs8RwkCvntv89qz9Qr1Ch6zJ+24kT54cEgPWDjZHSCHnOmzkXgsZr7ULDAUs90l0a0k/LzoZEFJ5JvayOBzDLT2GYYKp9RgJAYqmJeW3iVPv8/qZlsvwy3NPX2ZA+yd3srr3fU7psjEBmiwF4XJczwHeT175K2c/4VDXzpvGM4Ala9NdREVliKYHiGJ0jHay1p79gf4IqlEnEAmin/5p2QiBaTmP5ly9LGJ1l5FdvfIdVbtzF3DqXB6iEtl8fSzoKDvGK8YtVtXFeyAaG7HWzY3ptVHpsABx6nCrzNfjrUDCewPvQ8adBdt9/IRbRXMg==
+ b=C4AY0Ep0XMLvWjRbcvX1CzIra9cp56MtaTbTkGCacPsBPUtsXqWHjhEng5DOHajT2JfvusRniNfXriwwZa+Evf+TBAOIbYbM4QzlBugVXPx1UZF3jx/VT57NgbZ9h/jnwLp2DfAUyfxHoLeDEKdokVM8XeiLkypOEMQ0t4LekteDQNPNXqW2Nwwm8VGfGrSBfPC6JGk/q3yIVzb3PeMZtZO9ZNqBq/+w820d80QUvJu78IibQqLI2nPGc83IMiYNgwLzlQHV8MVG5EldE6gCjpbYgeSTFC7/XaP1qwRzWIUEoRorpNmvEq6N61GNFViHrbQ56w1uoXRaO9Zn4gjuNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Klt1CeyhRjNZnkIESAe9QrKs+8nA+yTs0ukPYZ/VXvs=;
- b=PZ2QV6UkLuSxDzYi1R1Do90klp75IDd8n2LNPL2zrX38R3/URMGo1PB7ug1qktp8hp74tWCvIJ7RKkEgsqnB6trEObKSdI7dHLly2bvsNmiOB91Wx+hZwx77BQzBvMK6jrDCnmd09KLoirePLoGawVQEk90/oUGSWZ1SwWJKsyDtu8o6PzRj3RuTytoik/eQXeF/688E66eAeIYPdHOOy6Y9oOiP10qkyt4Z9hv+oISNQ+fVa6+8a2N5dorvB1AnZhKux5YellBvFlmfnL4HSg2x1moZWx2kRZF6aMPuaubfUGkt0LFZ3W1eBzZV/Bar45zrNPdhklirWnarzquB+w==
+ bh=q16QWkpMwIuNHc3KdZv/XpoCCAtL9O/q/HdoKTKbv4Q=;
+ b=jgGwE0S2HBzoHY8CDSUWHqrNfdYpaYUXC+KQNWpbnKeTbn7F+G9YN+mPxqnksPbxVtejGpREGlQ/f7mdL4TEewFeDPgQZ9WwqJFSqunp/nYGSxmfw5a9PjLw5c2VFN9CJUIy1YR5MiP6h1Ypj2rLqN+E5XFYC80uCsy0IVonw8uOV3Rhc3gOH5NtxgH0BA5+GbDhdyHQvdL+P1Vx7eunhtvwAsKJAQaRPn2yCGzkNeoVaK2d5NeQOhQ7wi1OlQsq8Ju862TEmSSmtssSaIIiS6JqAAIZ7pq9GCuYJmIApR7JdRPMpzHhOrHQfQ2YF5srgPqLvIKuwgAtHagU3PTfsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Klt1CeyhRjNZnkIESAe9QrKs+8nA+yTs0ukPYZ/VXvs=;
- b=OXV3cesaMGqhUvcZUXcggQ6/GEuf8W9d2P4vmqpIRwHpXb51Q+JAaX/EMX98vKTjdTEKKCbHbtlkHZP8TaOxSSnZgXW4LMW+BqUOcrhWSBvhpuG+ODrdYjouM1thGGpi4H1ZFQiC8Q5K2TyL5svcZwY3nuEUMMphs6o3X1/WLlE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+ bh=q16QWkpMwIuNHc3KdZv/XpoCCAtL9O/q/HdoKTKbv4Q=;
+ b=LunQVUgnTaclkBF4I6nnQE+IFmN4OaxCnrkfTE3FeMAItn8A9u9KlmU/ye510QzOmG3UiyyGdumNGnZLmZ6ttTDA0uj70i4ZA9qYsOoz8m1ESgtLRMB8rUD5cdAx/BvHaqpVuNETkq1lnx5TAUOlZ85mD4+OsjdyjhC064G5zus=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Fri, 3 Jul
- 2020 09:07:32 +0000
+ 2020 09:08:29 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
- 09:07:32 +0000
-Subject: Re: Questionable aspects of QEMU Error's design
-To: Markus Armbruster <armbru@redhat.com>
-References: <87o8sblgto.fsf@dusky.pond.sub.org>
- <87blo7heag.fsf@dusky.pond.sub.org> <87blndey9c.fsf@dusky.pond.sub.org>
- <3b9d53fd-bdd0-c15b-292c-c4952fa24dfd@virtuozzo.com>
- <923ceeeb-1fc8-489e-a32d-4cebfa6eadae@virtuozzo.com>
- <87y2ptstxm.fsf@dusky.pond.sub.org> <87d05dqc97.fsf@dusky.pond.sub.org>
+ 09:08:29 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <177ccdc5-9fcb-f9f7-3eb2-7241bf76fdff@virtuozzo.com>
-Date: Fri, 3 Jul 2020 12:07:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <87d05dqc97.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+To: qemu-devel@nongnu.org
+Subject: [PATCH v11 0/8] error: auto propagated local_err part I
+Date: Fri,  3 Jul 2020 12:08:08 +0300
+Message-Id: <20200703090816.3295-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM4PR0501CA0043.eurprd05.prod.outlook.com
- (2603:10a6:200:68::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.15) by
- AM4PR0501CA0043.eurprd05.prod.outlook.com (2603:10a6:200:68::11) with
+Received: from localhost.localdomain (185.215.60.15) by
+ AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend
- Transport; Fri, 3 Jul 2020 09:07:31 +0000
+ Transport; Fri, 3 Jul 2020 09:08:28 +0000
+X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.15]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6990c207-01a2-4bc6-19e9-08d81f3084bd
+X-MS-Office365-Filtering-Correlation-Id: 1bd17e35-e055-464a-5372-08d81f30a715
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54489FA05D578F41DCD63A37C16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5448B4D9C641AAAE72A3A7E7C16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:549;
 X-Forefront-PRVS: 045315E1EE
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mPHFMa4akWzUA+kdv43DHl/gDYmXVi+VewA0iOyZG2BlpfwBSlNd/U9zi2z/1byRk06Rhod3wjIOPH7MYAFp3Mrq+l+p4A2BskOyjrVQbR5YgikDI3NRkcZE63wlmeOSYqCGrY1MtzKMhFWKJKrtpaOs7wuW8PVU3zvRPm6OmlVeRQZDSMBwsoLSPUjqg/6zExei80QjotFV6Rg77G/OkdlTrgzbwI8MWiq6jHI/jxRNgvictWJEBt870AL1DV5s8IMwHOzE9+ghH0SOXA6B/RT+LS2iW8i84srRRrEkGQyAW4VyS7c8G73pGcxOOdS5gbN+BzMPTKq1nx0yIEg0oFHLGHipM0JWORTmSPs4WDtbbVChWzFyBdTaTQRmZkh7
+X-Microsoft-Antispam-Message-Info: L04HZ2pvo4FC4jRzJH8NlD47x6lKD5S+585bh7ZI9JBj3eB4TIc0PMyV8Q8msmfKLyK7roNEiqOfxB+gnhogaDtjnXGrJ+pubtnDggQzg53VjevKWAWdjb6PoRlnxYuLicjLP9DJqaRHeEzuo+L/K2Mxoxvo/MWeJD1YiarU4e1DHgIKMpGruGudnUHzpAdoUv4R5wLu08cdATQEBIHcD1ox+D0T4i2UEepDWif3GGJTBH3JzSGkthYoOZXVkhJg8KkQsB2T/v5d/3nBhSMhHff13aYoiq+2u/nDUcHZ72Pylx0mlTVUn5kJpkzrPehqk1hBQEm8NuEG01lHb8vH3rfi0G3eM9s1Hk1p79VTTX0GeCLUyLBfL2MoT16V6Ipc8gsgx+UwwLZcyPHkBuYkzw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(66946007)(66476007)(66556008)(2906002)(86362001)(31696002)(8676002)(83380400001)(5660300002)(8936002)(186003)(36756003)(31686004)(4326008)(16526019)(6486002)(6916009)(26005)(16576012)(478600001)(956004)(52116002)(316002)(54906003)(2616005)(43740500002);
+ SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(66946007)(66476007)(66556008)(966005)(2906002)(86362001)(1076003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(7416002)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: w/D06fJ7H7dT1mMIoUOeIlxVnYwUnbDjG2+hi/xEMGYE1a43kdwrE1tVMTGj/RqnEm9eWzVmyeVuy7q6NuX3e628h92FDYJb49KVy56MtH3iRk7Rw2oQUaPxGtchUMNaxJ8w7B+nA042SeGjYClvq51URcOmxqPMVty6IWav3fhcMKMbRMN9UZyxIkGwK0hdVTtW+mRbwpyhMTDLWp5Z9DfIdKE4t6O/Q6HToEj0fsz6vMxwY/6EeFzZWxMYMQw929w1zI2wcgi0fcOf42lmB7YGaFrv5/uDNkCMptZbh3ecADuKswTWCnKNTfqi2LBXZIKUasAnoG4cTYEf4F3W/n8ULfMIb3L3ErcF+i79kwsYpiHpdSXZN4JEDILI3HaPfj5N+J7B0uJ/s8m5xM9crYCa3TcOmXt0084Fmj7Fi6VjnuWf2YtY3CXNdpZRzFijwK9xZCjgL3QnEEoaRG7Hix8OIpMbTIib3Vg+SAu3UtI=
+X-MS-Exchange-AntiSpam-MessageData: VB1dOkt/mh/DTF47kWkSm6T8zoiTIA0e7iYdoDje8lqTMTtTx33rQE1gttsV68xNybs3cKHdNWAJ4BTiEQsqW9nhOUfuY6OS8LOIKqJDeZxT6l+4NeCw7s1E8IUdCScAsCYBZghDbiw/jiTKnN6WhshK6Ohk1v3JmuLMVtSIz1DLOwrgZSnIETkkQY0SwnxZHDQAILD7IJ/epaPeWGG//Cj3ut6oX4RZnl4ECJADPm8DFK2wO8fyksb0RZiy6CgbOJV3Yuq9ZcljN895dCtn56h67nGKRbXapRZJYqqK7p2qwMPCGtjvFbqzPF6WkAiphxVswlhIN96t2GM00a+52jC+gSO9aXZU1nCXJxmne96rhnz9rDjkr65wF83kM8sVpiFrv1q4h2RiPj6AOSAi8TisjwQJPiU8aVMV+Km/WCPWbZ5u+0JHadyvMVd2zEB1inbewhjxWES8hxQ7hE+rKD+SmMU10qKuap8kzDd65yu5LBbUYPgWls+KhDfVVnWR
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6990c207-01a2-4bc6-19e9-08d81f3084bd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bd17e35-e055-464a-5372-08d81f30a715
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:07:32.0922 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:29.6213 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: grgyy7oXBz+UKYcFdUJ7RLJ8hA+BryR8jsSduCm2A/uUarwzbsuKoiFZD8VtEXvNbgktHZaH6shr1zOCHDg5tPTmcyKphm1fKCGnXdpZwsg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: tBVLwEgyFYNMa7oBcYgz6QK7YVU2CMRv33TIjpQ6dRQIAHbDNFc0aSI5YV1cFtWHwosuu19fqWa0Dv2DJmnGPKORWKMg/FqtU2LeCqcj7is=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
-Received-SPF: pass client-ip=40.107.1.127;
+Received-SPF: pass client-ip=40.107.14.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:07:33
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:08:30
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -123,50 +115,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, armbru@redhat.com,
+ Max Reitz <mreitz@redhat.com>, groug@kaod.org,
+ Stefano Stabellini <sstabellini@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.07.2020 10:38, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->>
->>> 28.04.2020 08:20, Vladimir Sementsov-Ogievskiy wrote:
->>>> 27.04.2020 18:36, Markus Armbruster wrote:
->>>>> FYI, I'm working on converting QemuOpts, QAPI visitors and QOM.  I keep
->>>>> running into bugs.  So far:
-> [...]
->>>>> I got another one coming for QOM and qdev before I can post the
->>>>> conversion.
->>>>>
->>>>> Vladimir, since the conversion will mess with error_propagate(), I'd
->>>>> like to get it in before your auto-propagation work.
->>>>>
->>>>
->>>> OK, just let me know when to regenerate the series, it's not hard.
->>>>
->>>
->>> Hi! Is all that merged? Should I resend now?
->>
->> I ran into many bugs and fell into a few rabbit holes.  I'm busy
->> finishing and flushing the patches.
-> 
-> All merged except for the final series "[PATCH v2 00/44] Less clumsy
-> error checking".  v2 has a lot of change within the series, but in
-> aggregate it's really close to v1.  This makes be optimistic it can
-> serve as a base for your auto-propagation work.  To get it into 5.1, we
-> need a respin, a re-review, and a pull request.  Time is awfully short.
-> Sorry for taking so long!  If you want to try, I can give it priority on
-> my side.
-> 
+Based-on: <20200702155000.3455325-1-armbru@redhat.com>
 
-Of course let's try)
+v11: (based-on "[PATCH v2 00/44] Less clumsy error checking")
+01: minor rebase of documentation, keep r-bs
+02: - minor comment tweaks [Markus]
+    - use explicit file name in MAINTAINERS instead of pattern
+    - add Markus's r-b
+03,07,08: rabase changes, drop r-bs
 
+
+v11 is available at
+ https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v11
+v10 is available at
+ https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v10
+
+In these series, there is no commit-per-subsystem script, each generated
+commit is generated in separate.
+
+Still, generating commands are very similar, and looks like
+
+    sed -n '/^<Subsystem name>$/,/^$/{s/^F: //p}' MAINTAINERS | \
+    xargs git ls-files | grep '\.[hc]$' | \
+    xargs spatch \
+        --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+        --macro-file scripts/cocci-macro-file.h \
+        --in-place --no-show-diff --max-width 80
+
+Note, that in each generated commit, generation command is the only
+text, indented by 8 spaces in 'git log -1' output, so, to regenerate all
+commits (for example, after rebase, or change in coccinelle script), you
+may use the following command:
+
+git rebase -x "sh -c \"git show --pretty= --name-only | xargs git checkout HEAD^ -- ; git reset; git log -1 | grep '^        ' | sh\"" HEAD~6
+
+Which will start automated interactive rebase for generated patches,
+which will stop if generated patch changed
+(you may do git commit --amend to apply updated generated changes).
+
+Note:
+  git show --pretty= --name-only   - lists files, changed in HEAD
+  git log -1 | grep '^        ' | sh   - rerun generation command of HEAD
+
+
+Check for compilation of changed .c files
+git rebase -x "sh -c \"git show --pretty= --name-only | sed -n 's/\.c$/.o/p' | xargs make -j9\"" HEAD~6
+
+Vladimir Sementsov-Ogievskiy (8):
+  error: auto propagated local_err
+  scripts: Coccinelle script to use ERRP_AUTO_PROPAGATE()
+  SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
+  pflash: introduce ERRP_AUTO_PROPAGATE
+  fw_cfg: introduce ERRP_AUTO_PROPAGATE
+  virtio-9p: introduce ERRP_AUTO_PROPAGATE
+  nbd: introduce ERRP_AUTO_PROPAGATE
+  xen: introduce ERRP_AUTO_PROPAGATE
+
+ scripts/coccinelle/auto-propagated-errp.cocci | 337 ++++++++++++++++++
+ include/block/nbd.h                           |   1 +
+ include/qapi/error.h                          | 208 +++++++++--
+ block/nbd.c                                   |   7 +-
+ hw/9pfs/9p-local.c                            |  12 +-
+ hw/9pfs/9p.c                                  |   1 +
+ hw/block/dataplane/xen-block.c                |  17 +-
+ hw/block/pflash_cfi01.c                       |   7 +-
+ hw/block/pflash_cfi02.c                       |   7 +-
+ hw/block/xen-block.c                          | 102 +++---
+ hw/nvram/fw_cfg.c                             |  14 +-
+ hw/pci-host/xen_igd_pt.c                      |   7 +-
+ hw/sd/sdhci-pci.c                             |   7 +-
+ hw/sd/sdhci.c                                 |  21 +-
+ hw/sd/ssi-sd.c                                |  10 +-
+ hw/xen/xen-backend.c                          |   7 +-
+ hw/xen/xen-bus.c                              |  92 ++---
+ hw/xen/xen-host-pci-device.c                  |  27 +-
+ hw/xen/xen_pt.c                               |  25 +-
+ hw/xen/xen_pt_config_init.c                   |  17 +-
+ nbd/client.c                                  |   5 +
+ nbd/server.c                                  |   5 +
+ MAINTAINERS                                   |   1 +
+ 23 files changed, 690 insertions(+), 247 deletions(-)
+ create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
+
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+Cc: xen-devel@lists.xenproject.org
 
 -- 
-Best regards,
-Vladimir
+2.21.0
+
 
