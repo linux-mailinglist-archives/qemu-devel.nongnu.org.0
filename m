@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD31C213D70
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:18:07 +0200 (CEST)
-Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2185E213D5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:15:15 +0200 (CEST)
+Received: from localhost ([::1]:45766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOO6-0001wL-Os
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
+	id 1jrOLF-00053U-NK
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jrO5p-0003Y0-4M; Fri, 03 Jul 2020 11:59:13 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:41724)
+ id 1jrO5s-0003hy-6x; Fri, 03 Jul 2020 11:59:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:41781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jrO5k-0007Ro-Ms; Fri, 03 Jul 2020 11:59:12 -0400
+ id 1jrO5l-0007SA-9K; Fri, 03 Jul 2020 11:59:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=aMuuCrkm6jb/Fwfen0zTLd5G0fJLNMoVelFlkz/Cs/c=; 
- b=BEIrUmBEwz8flFvlyiRYmL7oS2bS+uJxPNI4ylppYR4u0Ug+2vJ8mqsOeC5Xa+nITLHJGoc/k1n+Bdk6BbCcV2jvuuJQlHcUxNAFRtmKnCnIxjeDo5SfxJOY7VJ4eZeHW2Xw0ge8aXmI6WEnTmkRmUMCU0WjPiaq510e0TepDC3hpO/WZz3vE2owwIqSvZzUlEIxSiG8yyQwe2eJlVl9xjLXeUjWLwbCA9NlQGl4oFJfRrvWGgXh3UYgCIZ/U8Q9eZCJdMC3b2QtvFXZ5ualZs37W9g4jmbPvYBmJObeZJJ8xn/vvRxGtjy61i9RWY8S3BXfOF3Zp643bW7nY55UWA==;
+ bh=oGG1Fgq5BJpPtfkJKz5xEU3qJSWeyhX0fR6sza+6YaA=; 
+ b=SzxnbM6AUqEhC+8h6fZUN7iXYOSdnoL4UNDICBNTtA9bC3BBnNh4WUefL4/ompFZSLHg6IHCat97lZF6PpSF82wTM18B7kSVmEjleg2BVMWunyZEhqHLnevn3S0pUZEGVg6nqelKBuwKRrDwFUn/tO8/9zfZqRj5rcxRO/BF/MgFi0JRnzctkLtLBK+aH5O727x8owdmYj1FDKW4te/+lf5LepJxxwqVw4Fz1avli4tNxlept48zSpky3gIxK/S9zAknSyG/t4P4o2mB4BiQWQeXdtozlMPlnsNq0Y4fAzQJ+CdCd/uGmY077FTp4RgQMtk8k2cKhs66rMa372/pdw==;
 Received: from [81.0.49.0] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jrO5L-0001Qe-EU; Fri, 03 Jul 2020 17:58:43 +0200
+ id 1jrO5L-0001Qf-PX; Fri, 03 Jul 2020 17:58:43 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jrO52-0007QC-7P; Fri, 03 Jul 2020 17:58:24 +0200
+ id 1jrO52-0007QF-8O; Fri, 03 Jul 2020 17:58:24 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 22/34] qcow2: Add subcluster support to zero_in_l2_slice()
-Date: Fri,  3 Jul 2020 17:58:08 +0200
-Message-Id: <7063755ad1c4f0f930f6816f9f00e9b94e927351.1593791819.git.berto@igalia.com>
+Subject: [PATCH v10 23/34] qcow2: Add subcluster support to
+ discard_in_l2_slice()
+Date: Fri,  3 Jul 2020 17:58:09 +0200
+Message-Id: <3ec5e165ed2d27a5e866761088d44d511490b508.1593791819.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1593791819.git.berto@igalia.com>
 References: <cover.1593791819.git.berto@igalia.com>
@@ -68,80 +69,110 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QCOW_OFLAG_ZERO bit that indicates that a cluster reads as
-zeroes is only used in standard L2 entries. Extended L2 entries use
-individual 'all zeroes' bits for each subcluster.
+Two things need to be taken into account here:
 
-This must be taken into account when updating the L2 entry and also
-when deciding that an existing entry does not need to be updated.
+1) With full_discard == true the L2 entry must be cleared completely.
+   This also includes the L2 bitmap if the image has extended L2
+   entries.
+
+2) With full_discard == false we have to make the discarded cluster
+   read back as zeroes. With normal L2 entries this is done with the
+   QCOW_OFLAG_ZERO bit, whereas with extended L2 entries this is done
+   with the individual 'all zeroes' bits for each subcluster.
+
+   Note however that QCOW_OFLAG_ZERO is not supported in v2 qcow2
+   images so, if there is a backing file, discard cannot guarantee
+   that the image will read back as zeroes. If this is important for
+   the caller it should forbid it as qcow2_co_pdiscard() does (see
+   80f5c01183 for more details).
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 36 +++++++++++++++++++-----------------
- 1 file changed, 19 insertions(+), 17 deletions(-)
+ block/qcow2-cluster.c | 52 +++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 29 deletions(-)
 
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 492296a90f..cb07fd00a1 100644
+index cb07fd00a1..ea025dc531 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -1957,7 +1957,6 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
-     int l2_index;
-     int ret;
-     int i;
--    bool unmap = !!(flags & BDRV_REQ_MAY_UNMAP);
- 
-     ret = get_cluster_table(bs, offset, &l2_slice, &l2_index);
-     if (ret < 0) {
-@@ -1969,28 +1968,31 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+@@ -1848,11 +1848,17 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
      assert(nb_clusters <= INT_MAX);
  
      for (i = 0; i < nb_clusters; i++) {
--        uint64_t old_offset;
--        QCow2ClusterType cluster_type;
+-        uint64_t old_l2_entry;
+-
+-        old_l2_entry = get_l2_entry(s, l2_slice, l2_index + i);
 +        uint64_t old_l2_entry = get_l2_entry(s, l2_slice, l2_index + i);
 +        uint64_t old_l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
-+        QCow2ClusterType type = qcow2_get_cluster_type(bs, old_l2_entry);
-+        bool unmap = (type == QCOW2_CLUSTER_COMPRESSED) ||
-+            ((flags & BDRV_REQ_MAY_UNMAP) && qcow2_cluster_is_allocated(type));
-+        uint64_t new_l2_entry = unmap ? 0 : old_l2_entry;
++        uint64_t new_l2_entry = old_l2_entry;
 +        uint64_t new_l2_bitmap = old_l2_bitmap;
++        QCow2ClusterType cluster_type =
++            qcow2_get_cluster_type(bs, old_l2_entry);
  
--        old_offset = get_l2_entry(s, l2_slice, l2_index + i);
-+        if (has_subclusters(s)) {
-+            new_l2_bitmap = QCOW_L2_BITMAP_ALL_ZEROES;
-+        } else {
-+            new_l2_entry |= QCOW_OFLAG_ZERO;
+         /*
++         * If full_discard is true, the cluster should not read back as zeroes,
++         * but rather fall through to the backing file.
++         *
+          * If full_discard is false, make sure that a discarded area reads back
+          * as zeroes for v3 images (we cannot do it for v2 without actually
+          * writing a zero-filled buffer). We can skip the operation if the
+@@ -1861,40 +1867,28 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+          *
+          * TODO We might want to use bdrv_block_status(bs) here, but we're
+          * holding s->lock, so that doesn't work today.
+-         *
+-         * If full_discard is true, the sector should not read back as zeroes,
+-         * but rather fall through to the backing file.
+          */
+-        switch (qcow2_get_cluster_type(bs, old_l2_entry)) {
+-        case QCOW2_CLUSTER_UNALLOCATED:
+-            if (full_discard || !bs->backing) {
+-                continue;
++        if (full_discard) {
++            new_l2_entry = new_l2_bitmap = 0;
++        } else if (bs->backing || qcow2_cluster_is_allocated(cluster_type)) {
++            if (has_subclusters(s)) {
++                new_l2_entry = 0;
++                new_l2_bitmap = QCOW_L2_BITMAP_ALL_ZEROES;
++            } else {
++                new_l2_entry = s->qcow_version >= 3 ? QCOW_OFLAG_ZERO : 0;
+             }
+-            break;
 +        }
  
--        /*
--         * Minimize L2 changes if the cluster already reads back as
--         * zeroes with correct allocation.
--         */
--        cluster_type = qcow2_get_cluster_type(bs, old_offset);
--        if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN ||
--            (cluster_type == QCOW2_CLUSTER_ZERO_ALLOC && !unmap)) {
+-        case QCOW2_CLUSTER_ZERO_PLAIN:
+-            if (!full_discard) {
+-                continue;
+-            }
+-            break;
+-
+-        case QCOW2_CLUSTER_ZERO_ALLOC:
+-        case QCOW2_CLUSTER_NORMAL:
+-        case QCOW2_CLUSTER_COMPRESSED:
+-            break;
+-
+-        default:
+-            abort();
 +        if (old_l2_entry == new_l2_entry && old_l2_bitmap == new_l2_bitmap) {
-             continue;
++            continue;
          }
  
+         /* First remove L2 entries */
          qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
--        if (cluster_type == QCOW2_CLUSTER_COMPRESSED || unmap) {
+-        if (!full_discard && s->qcow_version >= 3) {
 -            set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
--            qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
 -        } else {
--            uint64_t entry = get_l2_entry(s, l2_slice, l2_index + i);
--            set_l2_entry(s, l2_slice, l2_index + i, entry | QCOW_OFLAG_ZERO);
-+        if (unmap) {
-+            qcow2_free_any_clusters(bs, old_l2_entry, 1, QCOW2_DISCARD_REQUEST);
-+        }
+-            set_l2_entry(s, l2_slice, l2_index + i, 0);
 +        set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
 +        if (has_subclusters(s)) {
 +            set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
          }
+-
+         /* Then decrease the refcount */
+         qcow2_free_any_clusters(bs, old_l2_entry, 1, type);
      }
- 
 -- 
 2.20.1
 
