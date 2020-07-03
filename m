@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D16213A1F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:32:55 +0200 (CEST)
-Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70299213A28
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 14:38:47 +0200 (CEST)
+Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrKsA-0007xY-Kx
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33616)
+	id 1jrKxq-0001CN-Go
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 08:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrKrQ-0007KX-Hy
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:32:08 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:46407)
+ id 1jrKx6-0000nI-Ss
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:38:00 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrKrP-0006X2-2H
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:32:08 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id s190so2658226ooa.13
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 05:32:06 -0700 (PDT)
+ id 1jrKx5-0007XR-4H
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 08:38:00 -0400
+Received: by mail-ot1-x342.google.com with SMTP id h13so6015099otr.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 05:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4LYj2IpcKfLEM+Tm2CvHejgXs8Z6KM3nB1VLEXqYuPc=;
- b=jR1yLgpRZKc3F/cOOmsf1j2iC9fYDfbUKqlfD/HXS92DnaItGimGbAYt4/Gj888ajm
- /mm1kxpcVS4oOr51q58Tl1fuD1fHdIhvkXiu+4ahUjTIc5A1BxRQXnlFLZavRIL0BjO9
- 3ggnV5vZnKVzrqI0Hj7OV5UYyRGKj/kNpyEz2fvTjbEF9Lw74JavilzWY6hKus+Sd2o+
- kRE0KtqBmiUhgZiDD0hhLhsv7G0hHqELjdGed5ItVE3PPdZf/57ymiBCqCOlKcIKB6Xb
- QyVt27D/tG9CcUD1w3353MQruVwW0uPvhXLIxvAXFXTemHPpy79DCXrvZdvYTUPWmK2b
- ckMQ==
+ :cc; bh=/7pAYmGTlUQ6hQzzBgqEzRBN8gZV4BbjUNtF3tE+zAI=;
+ b=DA9kkRqc5nufL3wSjxiqsz27rgDRQHDNVahefkkiX84821IjC5dYse1Xsrs+xCgbCc
+ qJ223poJe+BlQrrafqy01J3tfM8H9SwfywJpbod2W6lw2AEsPOzOFy4oeZ1iiCJWGSQ0
+ Ph7DDnRnvZxAbh+Tc9wbVWPriQVzBdc1fXhWbXyRhLmcCRMCFvMHRDxY6BcQZfDTnm1y
+ /61Dcv9UAjMO35EQjHY4qno725w2SsvG+eBbAiWT4NMkonCjBpvm+ARs7vBGX2hXAqsk
+ 0FaaepiPb35vyHlkzcnZKHBdax0OswW5HssiCNa/iRcbaCcBRAR+48JnXjmviJwuz0jE
+ RzBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4LYj2IpcKfLEM+Tm2CvHejgXs8Z6KM3nB1VLEXqYuPc=;
- b=CE2Yxiw2atbhQVVtPhbf/LcdifZAM0J+JV1yHeIFsifeGwFL3CMxPz2WikZjuuKxQh
- VVG+cGsxc8qjbCWKL1S56Z/3c2xr1ew0dFCtiI5A8NogwL+55NtEkF+DJBWssih9Prfr
- HJ92V/jfe+hznzkU8hzhEqNOmKEfxrQYNs7AKXxIRSTU35uzJ5tY9sTgKJoIY7p0B7Eq
- pB2thRVkdEU9Va2jKC+155943SOAwlY//Sn8wjkh+xBiURvXqyxI4t+Vyc9/bn8H6iVi
- u+rE+wFacoa/rJ4tbIY4Ygj5Ua0cXYKXhyJT7zdtzp5MVvZkf6IY04mdC/nVPBKpGToO
- hY/g==
-X-Gm-Message-State: AOAM532HjCffJvUup7R4IrWFzzZUmkGnrak0kHc9UurNqA+Ouxp1/Uv9
- 83/GVKd8qUdluBxsC5DdnJLxEHnzflDGoB5I/WH2jw==
-X-Google-Smtp-Source: ABdhPJwbq9EY+8+PtrwKh4Bjbv85CVhC03en5y4znuF++UslPNX11MbNuwp+fjsMGW9+iLvuG7k77PzlzzQy5kzKK34=
-X-Received: by 2002:a05:6820:172:: with SMTP id
- k18mr23415619ood.69.1593779525614; 
- Fri, 03 Jul 2020 05:32:05 -0700 (PDT)
+ bh=/7pAYmGTlUQ6hQzzBgqEzRBN8gZV4BbjUNtF3tE+zAI=;
+ b=LZZdBO+awD02ZfN7Ab9EvIlicecT6sPAakBmlIDp3JJRfqiIZwgVK7/Vv69vOWqtde
+ 5TX3ZGgVyEtLRLXij7FhxKkd0ouMpMD2FLPXEtBv/eQtMKMIYLszDslroA1jCkw2z1YS
+ frhz5+QKCxBpRMUSgrkHlqimvxXWRsAJC2c6j6Op00PSEOZqcbbV/0WHYYBw9x4ZfGzg
+ dx3R0YfmuULPbZUSRkxi/CeIXupCUCqjIKqHezIa0a1KvFDb+1snpI7PSvbImiX/SkWT
+ GVYMJqvTx443kzjKf4N6qwr/ABzieCBZyxKQttpXqCoQpK8wwX4pfUId3IBUAFqDL1o9
+ eLEQ==
+X-Gm-Message-State: AOAM530Ju/RRWRjp2OgEtu8wL9ZpQaBKuYTEKXMZzzkrIzmpirNQk12/
+ zKvW01wtlELA7TcAQaPfLvSQJ/jyH901A8DIwqeNqA==
+X-Google-Smtp-Source: ABdhPJwFFSkuMU8x82Xyzht0x3YlCeIFoRAAI/LRmSD/AFjEpOKEplVr5wyrvBbU9P8GPGqhKupez//NnRZF+7JAbMk=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr23007380oto.135.1593779877609; 
+ Fri, 03 Jul 2020 05:37:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1593296112.git.jcd@tribudubois.net>
-In-Reply-To: <cover.1593296112.git.jcd@tribudubois.net>
+References: <20200702142250.21793-1-kraxel@redhat.com>
+In-Reply-To: <20200702142250.21793-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 13:31:54 +0100
-Message-ID: <CAFEAcA9spJnH--sb9qQeFy-L0KO8T5E3gjCEO-aqaJ_SxtP=Gg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Allow to specify the PHY number to use with a
- specific i.MX FEC/ENET Ethernet device
-To: Jean-Christophe Dubois <jcd@tribudubois.net>
+Date: Fri, 3 Jul 2020 13:37:46 +0100
+Message-ID: <CAFEAcA9bYvT_vyWQVPKhBgHRiz=Ktevv+oKdqDA-7rBRWvQeOA@mail.gmail.com>
+Subject: Re: [PULL 0/3] Seabios 20200702 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,30 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Chubb <peter.chubb@nicta.com.au>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 28 Jun 2020 at 21:21, Jean-Christophe Dubois
-<jcd@tribudubois.net> wrote:
+On Thu, 2 Jul 2020 at 15:24, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> The PHY device associated to a specific i.MX Ethernet device is not
-> necessarily at address 0 on the MDIO bus.
+> The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
 >
-> This patch series adds the ability to set the PHY number on the MDIO bus
-> for any i.MX6UL based board.
+>   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
 >
-> Jean-Christophe Dubois (3):
->   Add a phy-num property to the i.MX FEC emulator
->   Add the ability to select a different PHY for each i.MX6UL FEC
->     interface
->   Select MDIO device 2 and 1 as PHY devices for i.MW6UL EVK board.
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/seabios-20200702-pull-request
+>
+> for you to fetch changes up to 563b9d0d8d944d358921a774f82a0e60527e7823:
+>
+>   seabios: update binaries (2020-07-02 16:21:10 +0200)
+>
+> ----------------------------------------------------------------
+> seabios: update submodule to pre-1.14 master snapshot
+>
 
 
+Applied, thanks.
 
-Applied to target-arm.next, thanks.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
 -- PMM
 
