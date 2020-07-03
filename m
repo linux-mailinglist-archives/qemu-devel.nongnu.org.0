@@ -2,78 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F283D213C55
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:06:43 +0200 (CEST)
-Received: from localhost ([::1]:54520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C703C213C4D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:04:39 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNH1-00026R-2P
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42702)
+	id 1jrNF0-0005s7-Pc
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrN78-00040i-QX
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:56:30 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrN77-0006lx-18
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 10:56:30 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id q5so32990804wru.6
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 07:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gk9DfX8/J7tsyEjRqdyCEtDuVKOgNFwSPI5bE1k8yEs=;
- b=FkZQs4i0PHggkH+l63CrOMoMBhq9V5ogNKc4p3ieY+RNtdv4WEm/yrsWep4uhDWDzm
- /3D6yka2A25eN0Pn4xCB2TtSO+IbsGjbiKJBXsBw02ft/ztfvb8rN7r6P/1ESRGmczW7
- iJquQ3dISjPJwwfjHwhGLBBG9GrP3M7BIGoXquH3p7s6og2ZwmN9MymKuJPQSu3OAVHU
- mUME1CWcFoNXkZkdonaAbBbWj0qTtFpwrKEPF9wPw+N7rPgmETQs/IpZnBPO+xJyIGYP
- 6YgJAAI8gmj69MYl+A8ND/jtSnW58U8ixXdJ3fh83gzkfl9CcpFNMKk8fk1vSenC6K1N
- hG7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gk9DfX8/J7tsyEjRqdyCEtDuVKOgNFwSPI5bE1k8yEs=;
- b=asmkPBIdrO4JfIvhs5hx7EHmRvQP9u6pdc1owrMrpnp/gb8RKWRz+5MNVySTyXEm6r
- ojUkjqAEwYY7Fx+oNo70Gi4tnmQt6QiptZ7agu4ttIQACxG+TjHKMkZu8eX78ZyP+LUT
- 06GRnNfiXcU8ovRUIOHVB1SJixfIa1bRkRNd+7/Mc4u+5Y5n5sUuFaw/VIwmFi7BSQpS
- C5CQKcMqB8da2hMKq3QWb63joptVOUu1M5QNRWpVl/36oelSK9r8U2wSS0NxRL8qXEoP
- ddhM+/QoOHUiclt8HdbJIcw5JLDQ/z34M419Ddsd+tYvVuxF3z56pcGoMAcipNdCG23b
- W4YA==
-X-Gm-Message-State: AOAM531pn2PnXuYTUbEBul/xSncktQTvGiaa/OtXIb7KqAgYytiJzPTC
- WVz6WD4qsmGdBeKn8WnNMcYD8qwxRNqapw==
-X-Google-Smtp-Source: ABdhPJyh0dEc+Eeo/RagW5rmlqA1a9tbCn2u3bTGfgPAV4XnR61zmqHnKRCPjz0XxmyazviqlzF4Ag==
-X-Received: by 2002:adf:ea0f:: with SMTP id q15mr7538607wrm.113.1593788187319; 
- Fri, 03 Jul 2020 07:56:27 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s10sm14078347wme.31.2020.07.03.07.56.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 07:56:26 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 9/9] util/drm: make portable by avoiding struct dirent
- d_type
-Date: Fri,  3 Jul 2020 15:56:14 +0100
-Message-Id: <20200703145614.16684-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200703145614.16684-1-peter.maydell@linaro.org>
-References: <20200703145614.16684-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrNCk-0002qz-Rb
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:02:18 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:38253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrNCi-0007j1-QB
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:02:18 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MQeI4-1jTgBW2yta-00NiVq; Fri, 03 Jul 2020 17:02:04 +0200
+Subject: Re: [PULL v2 00/12] Linux user for 5.1 patches
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200702152710.84602-1-laurent@vivier.eu>
+ <CAFEAcA_CDZqch-dB2LhTrwQ1pGi_GGn=6RE2CWM8WvLducZigw@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <8fc1ffef-e77b-40f8-5a62-fcb964a18796@vivier.eu>
+Date: Fri, 3 Jul 2020 17:02:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA_CDZqch-dB2LhTrwQ1pGi_GGn=6RE2CWM8WvLducZigw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Provags-ID: V03:K1:2UhItBtfNyQ/KUN3gOFNagsBf9rZX2Z5i4eIKz2gdvYBzA7u5VT
+ wCP1HSKcFNEd/ff3TXyewUkmaNN4aooCqrRyjtkrdXEZBcS9Q7QaZHvmzX4FIXu7MtZgFiS
+ i9yAnLjQb01Mn1mv7SpQLebzBidGw3+stVOruptMv8k5h6PVPwvtExyE1qCLpmxMQnP6RGF
+ LmrjDdIg9nUDhLQ4GCh3Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FaR9rBRyAj0=:bDF1NWxuVxo0WR6h1vIAnD
+ OmNBUJuFOd/PLhg45Cb8cYbg+MxeXNhSSHR8XpTBWbHuVb4u8D6/4FOtTei8zYFvez4qrjrt/
+ 0t0vd/5fHXRK+Bz5r62gzyDRQX1sClxw4B7fqDFNVek+q/iGWfUuDmfC2Q37/3GDQDWbRpJfz
+ Y6OdEmT933Hi6bvbBfn59w2Ffs0pFntq16sMvU1Y6+TMWx50QhGLaxoGpG/S8zR1JbELm5fEh
+ CHP36F0dmSnPzEncBmKLIZc/hzDYQfP1NyTJs0+hXKeWrueow7xWOh3VG3hrwpK7THN5nNjjv
+ jDSakYYbVv1owss9TDp1x5O52rLQIWRv/OWFyetbGfm1b9oOokjGFVolGwbhD7InE5e+P47Hl
+ ts3nYoJM/snDx3YZQsJuODj3qUawhm+wxB8a/3/amHLO1BIGT9hPES9dXpoqMLv8E62/Bcs5Q
+ oU/WYWBG3P9ItR4GFTwg40zNn36utlCTqPigzyipBww4PWd72PN9dN1oLRKjOcIwMIL5maAXm
+ zOqYdNCrc7SvOFkY10jYnYaThSJ4Szt499HimZ7F0bDDNh8w/S7HgEENP9OEj6F3/F1qjLhZB
+ JdDF8xHjfH005j45JGx740RbKE3B6eV/aH7dDNWyluOxwffdcXytz6VEtFT+j6cxFF2DLUBtx
+ T+sk74PtiLn+nDq6buAGz8X+VsCShWpVPU5CF/Hfehv4gZuk4zgageJhKXfVBtkdADZIhB/8S
+ 2Y4R4XSH9hXM3DIIkBk9ZsYwqyygpAEWLP3vMYodC/+eaCOgzKBRzCHnjk4OzyT+nDbYjkroM
+ Tc/3Tqxsf/KbZ5/rQZN0EaeC2/XkULNVSgM/AIH/wuiGsPi1vw=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:02:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,71 +114,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Carlier <devnexen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+Le 03/07/2020 à 16:23, Peter Maydell a écrit :
+> On Thu, 2 Jul 2020 at 16:31, Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> The following changes since commit e7651153a8801dad6805d450ea8bef9b46c1adf5:
+>>
+>>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-gsoc-queue-jun-27-2020' into staging (2020-06-27 22:57:36 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
+>>
+>> for you to fetch changes up to 89ddeec7f060a9f403aead414bb883a52f2b5024:
+>>
+>>   MAINTAINERS: update linux-user maintainer (2020-07-02 16:55:16 +0200)
+>>
+>> ----------------------------------------------------------------
+>> linux-user pull request 2020-07-02
+>>
+>> Update linux-user maintainer
+>> Improve strace output for some syscalls
+>> Display contents of ioctl() parameters
+>> Fix sparc64 flushw operation
+>>
+> 
+> Hi; I'm afraid this failed to build on 32-bit arm:
+> 
+> /home/peter.maydell/qemu/thunk.c: In function 'thunk_print':
+> /home/peter.maydell/qemu/thunk.c:304:51: error: expected expression
+> before ')' token
+>          qemu_log("%" PRIu32, tswap32(*(uint32_t *))arg);
+>                                                    ^
+> /home/peter.maydell/qemu/rules.mak:69: recipe for target 'thunk.o' failed
+> 
+> Looks like a misplaced close-bracket in a section of code
+> that's inside #if HOST_LONG_BITS == 32 && TARGET_ABI_BITS == 32.
 
-Given this isn't perforance critical at all lets avoid the non-portable
-d_type and use fstat instead to check whenever the file is a chardev.
+Thank you, I will fix that.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reported-by: David Carlier <devnexen@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200701180302.14821-1-kraxel@redhat.com
-[PMM: fixed comment style; tweaked subject line]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- util/drm.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/util/drm.c b/util/drm.c
-index a23ff245382..dae8ffebc81 100644
---- a/util/drm.c
-+++ b/util/drm.c
-@@ -24,7 +24,8 @@ int qemu_drm_rendernode_open(const char *rendernode)
- {
-     DIR *dir;
-     struct dirent *e;
--    int r, fd;
-+    struct stat st;
-+    int r, fd, ret;
-     char *p;
- 
-     if (rendernode) {
-@@ -38,10 +39,6 @@ int qemu_drm_rendernode_open(const char *rendernode)
- 
-     fd = -1;
-     while ((e = readdir(dir))) {
--        if (e->d_type != DT_CHR) {
--            continue;
--        }
--
-         if (strncmp(e->d_name, "renderD", 7)) {
-             continue;
-         }
-@@ -53,6 +50,18 @@ int qemu_drm_rendernode_open(const char *rendernode)
-             g_free(p);
-             continue;
-         }
-+
-+        /*
-+         * prefer fstat() over checking e->d_type == DT_CHR for
-+         * portability reasons
-+         */
-+        ret = fstat(r, &st);
-+        if (ret < 0 || (st.st_mode & S_IFMT) != S_IFCHR) {
-+            close(r);
-+            g_free(p);
-+            continue;
-+        }
-+
-         fd = r;
-         g_free(p);
-         break;
--- 
-2.20.1
-
+Laurent
 
