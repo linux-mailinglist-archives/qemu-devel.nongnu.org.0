@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED1B2137B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:30:16 +0200 (CEST)
-Received: from localhost ([::1]:55534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F6721379E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:26:37 +0200 (CEST)
+Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrI1P-0003aL-KA
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35912)
+	id 1jrHxs-0002dZ-DL
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtP-0002mE-HF
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:21:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22901
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtZ-0002sX-Ua
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21826
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtN-0000xP-Vp
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:21:59 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtU-0000yP-5V
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593768117;
+ s=mimecast20190719; t=1593768121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mgDhseqCFHPUzondXeQso6AXVU4ku95v/WJUYakn3eY=;
- b=Vo+CnunP/6OSa5VYk2wM8Q528/o8n54vIrTfk3zcOJHodArfRORypi+0IpIUzrTzIEiP0N
- lnPz5LFMTeesl2FUtfgqORSOCsNo5qsb0h1mPseO9Y3un5CCWPyrDqtWD0BaGakBBfbhVa
- cB3ZpNXQbXxCfZKuFcAj1M8RsuvArL4=
+ bh=EXHYq9VZV/tJ7a6JAX6lA4GzjQ3hJSx7GfnbUr6wp1I=;
+ b=DUEYBj63Di2wvA9cESGBI5owq2JL+R06+C9wSoCfjmfeDcgI50/saUL0QBJiTb9hEHUsop
+ h9RT4vfyb2hZh4CL91QzTI5efnmFc+DFWJ7jLKMmuqx0mn9lguKiI7u+4mPhzbPsO2/GWo
+ 7FKChyWYQwSlxIMWqV9gBbholuQnW/A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-ddL8IaueMzKFyjIPeRg8eg-1; Fri, 03 Jul 2020 05:21:54 -0400
-X-MC-Unique: ddL8IaueMzKFyjIPeRg8eg-1
+ us-mta-38-IlAGgAVWOnK8Hd-FZ5w2NA-1; Fri, 03 Jul 2020 05:21:57 -0400
+X-MC-Unique: IlAGgAVWOnK8Hd-FZ5w2NA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0E0E800C60;
- Fri,  3 Jul 2020 09:21:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65CF6107ACCD;
+ Fri,  3 Jul 2020 09:21:56 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE93F7AC63;
- Fri,  3 Jul 2020 09:21:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 732967AC71;
+ Fri,  3 Jul 2020 09:21:55 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 2/7] qemu-storage-daemon: remember to add qemu_object_opts
-Date: Fri,  3 Jul 2020 11:21:38 +0200
-Message-Id: <20200703092143.165594-3-kwolf@redhat.com>
+Subject: [PULL 4/7] vvfat: Check that updated filenames are valid
+Date: Fri,  3 Jul 2020 11:21:40 +0200
+Message-Id: <20200703092143.165594-5-kwolf@redhat.com>
 In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
 References: <20200703092143.165594-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,35 +83,72 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+FAT allows only a restricted set of characters in file names, and for
+some of the illegal characters, it's actually important that we catch
+them: If filenames can contain '/', the guest can construct filenames
+containing "../" and escape from the assigned vvfat directory. The same
+problem could arise if ".." was ever accepted as a literal filename.
 
-The --object option is supported by qemu-storage-daemon but the
-qemu_object_opts QemuOptsList wasn't being added. As a result calls to
-qemu_find_opts("object") failed with "There is no option group
-'object'".
+Fix this by adding a check that all filenames are valid in
+check_directory_consistency().
 
-This patch fixes the object-del QMP command.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200619101132.2401756-2-stefanha@redhat.com>
+Reported-by: Nathan Huckleberry <nhuck15@gmail.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200623175534.38286-2-kwolf@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-storage-daemon.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/vvfat.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index 9e7adfe3a6..a01cbd6371 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -316,6 +316,7 @@ int main(int argc, char *argv[])
+diff --git a/block/vvfat.c b/block/vvfat.c
+index c65a98e3ee..62230542e5 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -520,12 +520,31 @@ static void set_begin_of_direntry(direntry_t* direntry, uint32_t begin)
+     direntry->begin_hi = cpu_to_le16((begin >> 16) & 0xffff);
+ }
  
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_TRACE);
-+    qemu_add_opts(&qemu_object_opts);
-     qemu_add_opts(&qemu_trace_opts);
-     qcrypto_init(&error_fatal);
-     bdrv_init();
++static bool valid_filename(const unsigned char *name)
++{
++    unsigned char c;
++    if (!strcmp((const char*)name, ".") || !strcmp((const char*)name, "..")) {
++        return false;
++    }
++    for (; (c = *name); name++) {
++        if (!((c >= '0' && c <= '9') ||
++              (c >= 'A' && c <= 'Z') ||
++              (c >= 'a' && c <= 'z') ||
++              c > 127 ||
++              strchr("$%'-_@~`!(){}^#&.+,;=[]", c) != NULL))
++        {
++            return false;
++        }
++    }
++    return true;
++}
++
+ static uint8_t to_valid_short_char(gunichar c)
+ {
+     c = g_unichar_toupper(c);
+     if ((c >= '0' && c <= '9') ||
+         (c >= 'A' && c <= 'Z') ||
+-        strchr("$%'-_@~`!(){}^#&", c) != 0) {
++        strchr("$%'-_@~`!(){}^#&", c) != NULL) {
+         return c;
+     } else {
+         return 0;
+@@ -2098,6 +2117,10 @@ DLOG(fprintf(stderr, "check direntry %d:\n", i); print_direntry(direntries + i))
+             }
+             lfn.checksum = 0x100; /* cannot use long name twice */
+ 
++            if (!valid_filename(lfn.name)) {
++                fprintf(stderr, "Invalid file name\n");
++                goto fail;
++            }
+             if (path_len + 1 + lfn.len >= PATH_MAX) {
+                 fprintf(stderr, "Name too long: %s/%s\n", path, lfn.name);
+                 goto fail;
 -- 
 2.25.4
 
