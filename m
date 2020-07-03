@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28C0213882
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:16:45 +0200 (CEST)
-Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DFF213879
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:14:41 +0200 (CEST)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIkO-0003gF-SO
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:16:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58022)
+	id 1jrIiO-0008Fc-2k
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jrIgF-0005Lx-0w
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:12:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48924
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrIgn-0006Ju-0D
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:13:01 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43082
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jrIgC-00071B-W9
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:12:26 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jrIgl-00074u-9a
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:13:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593771143;
+ s=mimecast20190719; t=1593771178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0TrP3ssKKFIZoS+4N/flBtS06O8OncHtt88NIx4qZeI=;
- b=dQQYEjeRZPuRkZhY9dTM+08sGPkG6OSxBEu5XjePBzhR4QR4XT39rqK5Bd69mCtMzB3zHH
- nOCZ3BLeTPKpEFu9pEEKJBTHyUlmD6PnZpsRJfWe4CeS6mrx+F11pJfOnwxBTDm62P5nlk
- q/tHpW3vVlzKuI200ovP6/Yi2t0a+mY=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tjNyeWXOLKa2vKrRnnXP1fSwELFaD4aeU9xls3++Rm0=;
+ b=Q4Q8OfuWmr/3iCbTI6fC3gQOzPf1DkvaDl+MtJKSbs5u/3pPN3WM8MGnw9l36GSJNLL5LT
+ fCv4GyiHw+xH/DwkQlZ1yBpbUdUQJqQbtn+w0r3GWzWmoT0Ngrn2DsBqHOoVUM/U3caMvW
+ FNrCZmnocwqhsHSlhh9Unk9ZSxh0izI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-AdXJqLdBNZ6ds4_AK62ocQ-1; Fri, 03 Jul 2020 06:12:20 -0400
-X-MC-Unique: AdXJqLdBNZ6ds4_AK62ocQ-1
+ us-mta-361-l9bYoLucMZ2AEDsnPTRd6Q-1; Fri, 03 Jul 2020 06:12:56 -0400
+X-MC-Unique: l9bYoLucMZ2AEDsnPTRd6Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D898B1005510;
- Fri,  3 Jul 2020 10:12:17 +0000 (UTC)
-Received: from titinator (ovpn-113-254.ams2.redhat.com [10.36.113.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C60E7610C;
- Fri,  3 Jul 2020 10:12:15 +0000 (UTC)
-References: <20200626162706.3304357-1-dinechin@redhat.com>
- <20200626162706.3304357-4-dinechin@redhat.com>
- <20200630124136.GM1370404@redhat.com>
- <20200701160906.GT126613@stefanha-x1.localdomain>
- <20200701161501.GJ1427561@redhat.com>
- <20200702134713.GH152912@stefanha-x1.localdomain>
-User-agent: mu4e 1.5.2; emacs 26.3
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 3/3] trace: Example of "centralized" recorder tracing
-In-reply-to: <20200702134713.GH152912@stefanha-x1.localdomain>
-Message-ID: <lywo3kc3gh.fsf@redhat.com>
-Date: Fri, 03 Jul 2020 12:12:14 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D06B1BFE1;
+ Fri,  3 Jul 2020 10:12:54 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-131.ams2.redhat.com
+ [10.36.113.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C3F217D75;
+ Fri,  3 Jul 2020 10:12:52 +0000 (UTC)
+Subject: Re: [PATCH v2 01/25] iotests: Fix 051 output after qdev_init_nofail()
+ removal
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200624140446.15380-1-alex.bennee@linaro.org>
+ <20200624140446.15380-2-alex.bennee@linaro.org>
+ <20200703080728.GC5285@linux.fritz.box>
+ <b91984af-ca2f-1cb2-905a-ba26212df208@redhat.com> <87d05cq5lu.fsf@linaro.org>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9d82d78c-4436-170b-a497-44f45a016b39@redhat.com>
+Date: Fri, 3 Jul 2020 12:12:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <87d05cq5lu.fsf@linaro.org>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dinechin@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -87,86 +111,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, fam@euphon.net,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ John Snow <jsnow@redhat.com>, cota@braap.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020-07-02 at 15:47 CEST, Stefan Hajnoczi wrote...
-> On Wed, Jul 01, 2020 at 05:15:01PM +0100, Daniel P. Berrang=C3=A9 wrote:
->> On Wed, Jul 01, 2020 at 05:09:06PM +0100, Stefan Hajnoczi wrote:
->> > On Tue, Jun 30, 2020 at 01:41:36PM +0100, Daniel P. Berrang=C3=A9 wrot=
-e:
->> > > On Fri, Jun 26, 2020 at 06:27:06PM +0200, Christophe de Dinechin wro=
-te:
->> > > IMHO the whole point of having the pluggable trace backend impls, is
->> > > precisely that we don't have to add multiple different calls in the
->> > > code. A single trace_qemu_mutex_unlock() is supposed to work with
->> > > any backend.
->> >
->> > I think an exception is okay when the other trace backends do not offe=
-r
->> > equivalent functionality.
->> >
->> > Who knows if anyone other than Christophe will use this functionality,
->> > but it doesn't cost much to allow it.
+On 03.07.20 12:02, Alex Bennée wrote:
+> 
+> Max Reitz <mreitz@redhat.com> writes:
+> 
+>> On 03.07.20 10:07, Kevin Wolf wrote:
+>>> Am 24.06.2020 um 16:04 hat Alex Bennée geschrieben:
+>>>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>
+>>>> Commit 96927c744 replaced qdev_init_nofail() call by
+>>>> isa_realize_and_unref() which has a different error
+>>>> message. Update the test output accordingly.
+>>>>
+>>>> Gitlab CI error after merging b77b5b3dc7:
+>>>> https://gitlab.com/qemu-project/qemu/-/jobs/597414772#L4375
+>>>>
+>>>> Reported-by: Thomas Huth <thuth@redhat.com>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>> Reviewed-by: John Snow <jsnow@redhat.com>
+>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>> Message-Id: <20200616154949.6586-1-philmd@redhat.com>
+>>>
+>>> Thanks, applied (this individual patch) to the block branch.
 >>
->> This patch is just an example though, suggesting this kind of usage is
->> expected to done in other current trace probe locations. The trace wrapp=
-er
->> has most of the information required already including a format string,
->> so I'd think it could be wired up to the generator so we don't add extra
->> record() statements through the codebase.
+>> Hm, I’ve already included it in my pull request from last week:
+>>
+>> https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg01159.html
+>>
+>> Unfortunately, the request got no response so far.
+> 
+> I think Peter's been on holiday this week so I guess there will be a
+> pile of PRs to process next week.
 
-The primary purpose of the recorder is post-mortem dumps, flight recorder
-style. Tracing is only a secondary benefit. Not sure if it's worth making a
-distinction between events you want to record and those you want to trace.
-(Example: You might want to record all command line options, but almost
-never trace them)
-
-> At most it should require an
->> extra annotation in the trace-events file to take the extra parameter
->> for grouping, and other trace backends can ignore that.
->
-> It's true, it may be possible to put this functionality in the
-> trace-events.
-
-Let me think more about integrating these features with other trace
-backends. See below for short-term impact.
-
-> Christophe: how does this differ from regular trace events and what
-> extra information is needed?
-
-- Grouping, as indicated above, mostly useful in practice to make selection
-  of tracing topics easy (e.g. "modules") but also for real-time graphing,
-  because typically a state change occurs in different functions, which is
-  why I used locking as an example.
-
-- Self-documentation. Right now, the recorder back-end generates rather
-  unhelpful help messages.
-
-- Trace buffer size. This is important to make post-mortem dumps usable if
-  you record infrequent events alongside much higher-rate ones. For example=
-,
-  you may want a large buffer to record info about command-line option
-  processing, the default 8 is definitely too small.
-
-- Support for %+s, which tells that a string is safe to print later (e.g. i=
-t
-  is a compile-time constant, or never ever freed).
-
-- Support for custom formats, e.g. I use %v in the XL compiler for LLVM
-  value pointers. This is a bit more advanced, but it would be neat to be
-  able to print out QOM objects using %q :-)
-
-For the short term, what about providing trace-named wrappers around these
-additional recorder features?
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+It looked to me like he responded to some pull requests this week, so,
+well...  I don’t know.
 
 
