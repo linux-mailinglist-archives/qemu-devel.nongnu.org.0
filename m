@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC71213E38
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:09:54 +0200 (CEST)
-Received: from localhost ([::1]:52924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EBE213E6B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:17:52 +0200 (CEST)
+Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPCD-0003tU-M4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
+	id 1jrPJv-0000n3-C4
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxU-0005Tj-Am
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:40 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34968)
+ id 1jrOxV-0005X0-Jm
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:41 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxS-0005l1-Cn
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:39 -0400
-Received: by mail-wr1-x429.google.com with SMTP id z2so11163730wrp.2
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:37 -0700 (PDT)
+ id 1jrOxT-0005mD-Ko
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:41 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id k6so33437975wrn.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oD1qiWavKhquHomKBKPR8Lyah9vGykUE9wA4yaevKfY=;
- b=XpS9NNSOvH2yaLLeLVVJvNBc49U8pNbeQRKHCDj3hogS9UzJgvxnW5VjalzmRFAphD
- jRQdW1jz5oHV5xvqqnMl24qox9YSSWlRXeD5N+xpMgdQUr6jxsN/b4YpCEI3g0fCcPX0
- i7T70zAHn4Bl0MUT2B/1zWyLp5/3tKR5tI4KZA8AVYv4GQ8CSn1pLwnr2lYaRwgmrscn
- +LDwFLuNOQgLZ7FbR4ss0tzlyqJeyVT1gPHFKWZsD8lHmGBt7Shu9fYtyBvht3y+VENb
- rSCpW9RoJ6+HVV94NOYshY9B5dWxkxCyAhdHfbvUTg4mMWJRARDOD0tt4kSl2RnHSh2y
- 85PQ==
+ bh=UtlmxB+fyNUWPbT2HQyqJRiOYmojja7C2iCam/D7HtA=;
+ b=HJSxryxxho2hjPzV9+3cfichOP0MDserb92dcfHp69Y7P7xnA5Cuw/pl+rgDPw+qcc
+ l7xnx8NsW3Im+rXxul3IhjHan/X2irSHx4cxHHzjlOpuoG1xsqAJWWoplh0uwiVxrNPT
+ O1cERSGfFQllTENvM3nye1Jp/YwKJKQEJicKVzJ1B+Rp3NWfXZ9pBE0/JNirOT8oQyYx
+ jrJt0ZhmYxizw8yqt8tYgtvs5y1akq/1+uqvqsjoKDY1Ffn722m7v0gLC7r5e+HQPKe1
+ IxWlawjCRv09P31w9ADYVKIBJuAM6Kp5NICmUg3TvhJBXAG7RYCWRwrRpKhvPjFlodcK
+ GXQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oD1qiWavKhquHomKBKPR8Lyah9vGykUE9wA4yaevKfY=;
- b=rRsBph/ljjI98F5eTAFdNB5NL9jFaD149B/34TMm4lvYpmlWt7805vZTW56yDPysL5
- +teC/Xv2TXfbi7qTQjCbxc2wK+f9jokj9GP7MnUUMfkvkuu+nO+Xv8ddiS6Ush5Z6cL6
- lCOhnFqU8k/GsTEJc4fCBYENCQpeQ4x3m8Mr/+NHg9gD0wCAQTLjLiYqE+woM6xBl9ZL
- h6fnDqIY6maT/fr4qijFZb9km1n4wlFPfZBa8IliWmkICOAiSEs671/URBWBrmiejXOW
- AVAbPwIMYUNu/K2KQjQO7SlqUBpIJL4KoBQbZocyB2NQaKco5VUYq3BgVaoAoVBUoqnw
- TBAg==
-X-Gm-Message-State: AOAM533DaJslpPZB3TemFDw7OnpLB+jng7D9w9E7g70pdiGS3SmpLqcL
- MXhPM0uvYkqYMJ10aBn0JNNbkSRWesYxbg==
-X-Google-Smtp-Source: ABdhPJwdoAHD8s+va/3gCHeIBkpVrsAn41Tr6Lm2MM6CxCluOAOvdTmAyNlLGLpSBJ6fJ7446vWvzA==
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr26617729wrw.10.1593795276757; 
- Fri, 03 Jul 2020 09:54:36 -0700 (PDT)
+ bh=UtlmxB+fyNUWPbT2HQyqJRiOYmojja7C2iCam/D7HtA=;
+ b=obixuCdcqBkqQ6ebqmoWLl4Tlux5aIo3LhRy7uIGLeF4kyakDBjl3XlbfuwnWmPZtK
+ wbAzwhBBwOO0q+5WR8hjTzIbXgjAgOUwNV683+um1u5gU5kRcXhQOJ3EDHw77/eRPbKh
+ wOsiK7iirAQb0nWXYxraBTKoDoew4/IVCehhFIZ6dq2fuPMp7k+voA5vIRB151hsYJo0
+ i40SxHehfvtvOlo/pfg3nu6/82tsnZ6ML0K+DQBLYySu5UV1EuYdB6Shi7V8qlav00Db
+ tRV3x4TPLekanDk35sKAaSoMnZ04V+aC+Y8KvVrq+huEiejdLBh2HfD+2TSD4BJiicZT
+ Ssyw==
+X-Gm-Message-State: AOAM530f8V17CNPw5Zv828KqZv48PMYLWZAuLtThnaNCAs6FI00HGsjm
+ WZEBH3FZgyU7xzweX4C+m8E71m2QPndLJg==
+X-Google-Smtp-Source: ABdhPJx21A8II0O82BKzsjfd/VICES23PyT5qJ+R+LvpM0e34sUy3Jq3F3LoossT4sJIaTBxrkV6fQ==
+X-Received: by 2002:a5d:4b0f:: with SMTP id v15mr2686353wrq.216.1593795277823; 
+ Fri, 03 Jul 2020 09:54:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.35
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:36 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/34] hw/misc/max111x: Use GPIO lines rather than
- max111x_set_input()
-Date: Fri,  3 Jul 2020 17:53:57 +0100
-Message-Id: <20200703165405.17672-27-peter.maydell@linaro.org>
+Subject: [PULL 27/34] hw/misc/max111x: Create header file for documentation,
+ TYPE_ macros
+Date: Fri,  3 Jul 2020 17:53:58 +0100
+Message-Id: <20200703165405.17672-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,101 +90,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The max111x ADC device model allows other code to set the level on
-the 8 ADC inputs using the max111x_set_input() function.  Replace
-this with generic qdev GPIO inputs, which also allow inputs to be set
-to arbitrary values.
+Create a header file for the hw/misc/max111x device, in the
+usual modern style for QOM devices:
+ * definition of the TYPE_ constants and macros
+ * definition of the device's state struct so that it can
+   be embedded in other structs if desired
+ * documentation of the interface
 
-Using GPIO lines will make it easier for board code to wire things
-up, so that if device A wants to set the ADC input it doesn't need to
-have a direct pointer to the max111x but can just set that value on
-its output GPIO, which is then wired up by the board to the
-appropriate max111x input.
+This allows us to use TYPE_MAX_1111 in the spitz.c code rather
+than the string "max1111".
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200628142429.17111-11-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200628142429.17111-12-peter.maydell@linaro.org
 ---
- include/hw/ssi/ssi.h |  3 ---
- hw/arm/spitz.c       |  9 +++++----
- hw/misc/max111x.c    | 16 +++++++++-------
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ include/hw/misc/max111x.h | 56 +++++++++++++++++++++++++++++++++++++++
+ hw/arm/spitz.c            |  3 ++-
+ hw/misc/max111x.c         | 24 +----------------
+ MAINTAINERS               |  1 +
+ 4 files changed, 60 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/misc/max111x.h
 
-diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-index 4be5325e654..5fd411f2e4e 100644
---- a/include/hw/ssi/ssi.h
-+++ b/include/hw/ssi/ssi.h
-@@ -111,7 +111,4 @@ SSIBus *ssi_create_bus(DeviceState *parent, const char *name);
- 
- uint32_t ssi_transfer(SSIBus *bus, uint32_t val);
- 
--/* max111x.c */
--void max111x_set_input(DeviceState *dev, int line, uint8_t value);
--
- #endif
+diff --git a/include/hw/misc/max111x.h b/include/hw/misc/max111x.h
+new file mode 100644
+index 00000000000..af7f1017eff
+--- /dev/null
++++ b/include/hw/misc/max111x.h
+@@ -0,0 +1,56 @@
++/*
++ * Maxim MAX1110/1111 ADC chip emulation.
++ *
++ * Copyright (c) 2006 Openedhand Ltd.
++ * Written by Andrzej Zaborowski <balrog@zabor.org>
++ *
++ * This code is licensed under the GNU GPLv2.
++ *
++ * Contributions after 2012-01-13 are licensed under the terms of the
++ * GNU GPL, version 2 or (at your option) any later version.
++ */
++
++#ifndef HW_MISC_MAX111X_H
++#define HW_MISC_MAX111X_H
++
++#include "hw/ssi/ssi.h"
++
++/*
++ * This is a model of the Maxim MAX1110/1111 ADC chip, which for QEMU
++ * is an SSI slave device. It has either 4 (max1110) or 8 (max1111)
++ * 8-bit ADC channels.
++ *
++ * QEMU interface:
++ *  + GPIO inputs 0..3 (for max1110) or 0..7 (for max1111): set the value
++ *    of each ADC input, as an unsigned 8-bit value
++ *  + GPIO output 0: interrupt line
++ *  + Properties "input0" to "input3" (max1110) or "input0" to "input7"
++ *    (max1111): initial reset values for ADC inputs.
++ *
++ * Known bugs:
++ *  + the interrupt line is not correctly implemented, and will never
++ *    be lowered once it has been asserted.
++ */
++typedef struct {
++    SSISlave parent_obj;
++
++    qemu_irq interrupt;
++    /* Values of inputs at system reset (settable by QOM property) */
++    uint8_t reset_input[8];
++
++    uint8_t tb1, rb2, rb3;
++    int cycle;
++
++    uint8_t input[8];
++    int inputs, com;
++} MAX111xState;
++
++#define TYPE_MAX_111X "max111x"
++
++#define MAX_111X(obj) \
++    OBJECT_CHECK(MAX111xState, (obj), TYPE_MAX_111X)
++
++#define TYPE_MAX_1110 "max1110"
++#define TYPE_MAX_1111 "max1111"
++
++#endif
 diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 93a25edcb5b..fa592aad6d6 100644
+index fa592aad6d6..1400a56729d 100644
 --- a/hw/arm/spitz.c
 +++ b/hw/arm/spitz.c
-@@ -696,13 +696,14 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
+@@ -29,6 +29,7 @@
+ #include "audio/audio.h"
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
++#include "hw/misc/max111x.h"
+ #include "migration/vmstate.h"
+ #include "exec/address-spaces.h"
+ #include "cpu.h"
+@@ -732,7 +733,7 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+                           qdev_get_gpio_in(sms->mpu->gpio, SPITZ_GPIO_TP_INT));
  
- static void spitz_adc_temp_on(void *opaque, int line, int level)
- {
-+    int batt_temp;
-+
-     if (!max1111)
-         return;
- 
--    if (level)
--        max111x_set_input(max1111, MAX1111_BATT_TEMP, SPITZ_BATTERY_TEMP);
--    else
--        max111x_set_input(max1111, MAX1111_BATT_TEMP, 0);
-+    batt_temp = level ? SPITZ_BATTERY_TEMP : 0;
-+
-+    qemu_set_irq(qdev_get_gpio_in(max1111, MAX1111_BATT_TEMP), batt_temp);
- }
- 
- static void corgi_ssp_realize(SSISlave *d, Error **errp)
+     bus = qdev_get_child_bus(sms->mux, "ssi2");
+-    sms->max1111 = qdev_new("max1111");
++    sms->max1111 = qdev_new(TYPE_MAX_1111);
+     max1111 = sms->max1111;
+     qdev_prop_set_uint8(sms->max1111, "input1" /* BATT_VOLT */,
+                         SPITZ_BATTERY_VOLT);
 diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
-index abddfa3c660..3a5cb838445 100644
+index 3a5cb838445..7e6723f3435 100644
 --- a/hw/misc/max111x.c
 +++ b/hw/misc/max111x.c
-@@ -131,12 +131,21 @@ static const VMStateDescription vmstate_max111x = {
-     }
- };
+@@ -11,34 +11,12 @@
+  */
  
-+static void max111x_input_set(void *opaque, int line, int value)
-+{
-+    MAX111xState *s = MAX_111X(opaque);
-+
-+    assert(line >= 0 && line < s->inputs);
-+    s->input[line] = value;
-+}
-+
- static int max111x_init(SSISlave *d, int inputs)
- {
-     DeviceState *dev = DEVICE(d);
-     MAX111xState *s = MAX_111X(dev);
+ #include "qemu/osdep.h"
++#include "hw/misc/max111x.h"
+ #include "hw/irq.h"
+-#include "hw/ssi/ssi.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "hw/qdev-properties.h"
  
-     qdev_init_gpio_out(dev, &s->interrupt, 1);
-+    qdev_init_gpio_in(dev, max111x_input_set, inputs);
- 
-     s->inputs = inputs;
- 
-@@ -153,13 +162,6 @@ static void max1111_realize(SSISlave *dev, Error **errp)
-     max111x_init(dev, 4);
- }
- 
--void max111x_set_input(DeviceState *dev, int line, uint8_t value)
--{
--    MAX111xState *s = MAX_111X(dev);
--    assert(line >= 0 && line < s->inputs);
--    s->input[line] = value;
--}
+-typedef struct {
+-    SSISlave parent_obj;
 -
- static void max111x_reset(DeviceState *dev)
- {
-     MAX111xState *s = MAX_111X(dev);
+-    qemu_irq interrupt;
+-    /* Values of inputs at system reset (settable by QOM property) */
+-    uint8_t reset_input[8];
+-
+-    uint8_t tb1, rb2, rb3;
+-    int cycle;
+-
+-    uint8_t input[8];
+-    int inputs, com;
+-} MAX111xState;
+-
+-#define TYPE_MAX_111X "max111x"
+-
+-#define MAX_111X(obj) \
+-    OBJECT_CHECK(MAX111xState, (obj), TYPE_MAX_111X)
+-
+-#define TYPE_MAX_1110 "max1110"
+-#define TYPE_MAX_1111 "max1111"
+-
+ /* Control-byte bitfields */
+ #define CB_PD0		(1 << 0)
+ #define CB_PD1		(1 << 1)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dec252f38b1..c31c878c635 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -787,6 +787,7 @@ F: hw/gpio/max7310.c
+ F: hw/gpio/zaurus.c
+ F: hw/misc/mst_fpga.c
+ F: hw/misc/max111x.c
++F: include/hw/misc/max111x.h
+ F: include/hw/arm/pxa.h
+ F: include/hw/arm/sharpsl.h
+ F: include/hw/display/tc6393xb.h
 -- 
 2.20.1
 
