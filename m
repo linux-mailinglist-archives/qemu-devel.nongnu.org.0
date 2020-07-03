@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52ADC213E53
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:10:50 +0200 (CEST)
-Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74A5213E74
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:19:17 +0200 (CEST)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPD7-0005jx-04
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50784)
+	id 1jrPLI-0003P4-P0
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jrOy8-00071a-Pn
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:55:20 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jrOy6-00066B-HV
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:55:20 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f18so34757335wml.3
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=W8fHU1Q34qhbmf1bF38BEOB2Y1nvfjEx0sr5BNzD76M=;
- b=XxmYAKhbxIgJYjX1hA9bqWQH/mtmNcY+TEdNzFWxYNE/MA2rqFN7VH0Ki3ZlY4MTv/
- gp3+CWFdOCCp1O5UqzcUspAeJhRo5S3W4H2YOLCDQ3iHJTMs0HgYx5PQh/HMtouJrTas
- g5zt+5xvUV4GUuOr4HRUD1ykAlW/gR6G6EBuLLuMd0OebWcnAqQ3o8G792soTq9OsnC1
- /Nik6Yscroj0Db+8M5u9fbox2HJr0vtbDP7/OadTtswDmy11BOto8OmzvdD6vea7+qO9
- 5VokRavpoectvDygxf7OVv+cyGQ2OLCZI+FXbY/kXrwKx8k/k7i1wVntqm8vRklaRMet
- KJ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=W8fHU1Q34qhbmf1bF38BEOB2Y1nvfjEx0sr5BNzD76M=;
- b=q309mFTnzNg3VDF5j/imDb/kY8k2x+Uiq4BW0g0PUNbfW4J3oygEFc9sSoc+pnWdDB
- XOHq4c291t3UqGbYENNPhDPcK6qkQk75PwySaQXTyGHuh3MPRiFq+dkng6XFJUz5mB+W
- NEK/Uag/1DRcubvyshoH1WR44kH9flg+koQoaw0X6VvjjRV7aZYkBUbp0tu+1x5hvKPo
- FAzWiTwHOB/QOr4bIxOU16CBjDCQ/rm1e+f67/yJRLroMLMrnmEVIfHXWS+EZ+uqMBns
- 8wHrE/+WG2m3SlW0LCkUwAuFFDvK3xqZc6lk/jL6yU+uKaLi4onCl6AluF/8J55AYqZ7
- fGYQ==
-X-Gm-Message-State: AOAM533hvR1YxcqNZqZEvNIIkQCsXVmlUIPrmpujCJ6/4FZvHPWi73Pr
- E2uU6hIu5q7e+lw8TfMhlFxwQA==
-X-Google-Smtp-Source: ABdhPJypzM37xfqdB86VJ8IH9EgWr6Z291isKpPh02LVudAHll5kOJUfAxPTcVwJXuKu8OcV8E1Dng==
-X-Received: by 2002:a1c:cc03:: with SMTP id h3mr37172590wmb.87.1593795316962; 
- Fri, 03 Jul 2020 09:55:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e17sm14104281wrr.88.2020.07.03.09.55.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:55:15 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4943A1FF7E;
- Fri,  3 Jul 2020 17:55:15 +0100 (BST)
-References: <20200701161153.30988-1-alex.bennee@linaro.org>
- <20200701161153.30988-2-alex.bennee@linaro.org>
- <CAFEAcA810JVTTfwkf9ezR=0dkwRLxERBUSgroUV3OTy4ZGu5Dg@mail.gmail.com>
-User-agent: mu4e 1.5.3; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 1/3] docs/booting.rst: start documenting the boot
- process
-In-reply-to: <CAFEAcA810JVTTfwkf9ezR=0dkwRLxERBUSgroUV3OTy4ZGu5Dg@mail.gmail.com>
-Date: Fri, 03 Jul 2020 17:55:15 +0100
-Message-ID: <874kqopmh8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrOyp-00085S-CM; Fri, 03 Jul 2020 12:56:03 -0400
+Resent-Date: Fri, 03 Jul 2020 12:56:03 -0400
+Resent-Message-Id: <E1jrOyp-00085S-CM@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrOym-0006OC-Dj; Fri, 03 Jul 2020 12:56:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593795330; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AdBQ9mu/G51AWDU2nqZQGhPD2Bf50kCJrPjy3D3qP+H+FuUk7PaQ3enNJXrQ7WGS5GVD0lGvNmXeJ6oYVJtsfk/MLxqeNbpx4IEQggcbTQAJN0J9lkPzR9ByihItFlCUyNFymcEJO1lMwlMcfjRUxvCPxwrxIxY2h0XzxR/X63s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593795330;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=jHLUq4nklKz5CV1SvfvpkTLwdi59eJlIYmIiyx8er3I=; 
+ b=Nm+lFkrQeXmnaVFVgPmcnMnovdqXz0qnFUIOb/Rt6IE7QcRUkgHf3tqp5PtkUXn63+rsvRT/UMuzuT0H04GBGwntPenKY7aSjZjL10AYF5cBrf4o8ZDU8RMSujv5uBvDMr58Lt89+3ASfH28iLC4pHgQMp07r14VYnhDHl5qz3g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593795328871558.9702491950661;
+ Fri, 3 Jul 2020 09:55:28 -0700 (PDT)
+Message-ID: <159379532700.15570.9794737415308742510@d1fd068a5071>
+Subject: Re: [PATCH v6 0/7] block: seriously improve savevm/loadvm performance
+In-Reply-To: <20200703161130.23772-1-den@openvz.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: den@openvz.org
+Date: Fri, 3 Jul 2020 09:55:28 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:55:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,59 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, dplotnikov@virtuozzo.com, stefanha@redhat.com,
+ den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Wed, 1 Jul 2020 at 17:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->> While working on some test cases I realised there was quite a lot of
->> assumed knowledge about how things boot up. I thought it would be
->> worth gathering this together in a user facing document where we could
->> pour in the details and background to the boot process. As it's quite
->> wordy I thought it should be a separate document to the manual (which
->> can obviously reference this).
->>
->> The document follows the socratic method and leaves the reader to ask
->> themselves some questions in an effort to elucidate them about any
->> problems they may be having.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20190308211557.22589-1-alex.bennee@linaro.org>
->>
->
-> I have some typo/grammar nits below, but more significantly:
-> I don't really see why this is a bit of QEMU's documentation
-> rather than, say, a blog post.
-
-The aim was to make it an initial overview so when people ask about why
-they can't boot their systems they have considered the questions at the
-end. It does seem to be a repeating topic on the IRC channel.
-
-> It doesn't really say much
-> about QEMU in particular. It's also rather vague about
-> what guest architecture it's talking about, and they can
-> differ significantly both in the real world and in how QEMU
-> handles them.
-
-Perhaps what we really need is a shorter punchier section offering
-guidance in the manual itself? It just seemed quite a big topic which is
-why I ended up with a fairly long explanation without even getting to
-specifics.
-
-I could certainly see the document being expanded in the future with
-more concrete examples for various architectures and scenarios.
-
-> Also, why put it in interop?
-
-interop being where QEMU interfaces with other things such as kernels
-and firmwares? It seems too user focused for devel and too long for the
-manual itself.
-
---=20
-Alex Benn=C3=A9e
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMzE2MTEzMC4yMzc3
+Mi0xLWRlbkBvcGVudnoub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
+LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
+ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
+eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
+Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
+RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAtLSAgICAgICAgc25hcDAgICAgICAg
+ICAgICAgICAgICBTSVpFIHl5eXktbW0tZGQgaGg6bW06c3MgICAwMDowMDowMC4wMDAKIChxZW11
+KSBsb2Fkdm0gc25hcDAKK05vdCBhIG1pZ3JhdGlvbiBzdHJlYW0KK0Vycm9yOiBFcnJvciAtMjIg
+d2hpbGUgbG9hZGluZyBWTSBzdGF0ZQogKHFlbXUpIHF1aXQKIAogRm9ybWF0dGluZyAnVEVTVF9E
+SVIvdC5JTUdGTVQnLCBmbXQ9SU1HRk1UIHNpemU9MTM0MjE3NzI4IGJhY2tpbmdfZmlsZT1URVNU
+X0RJUi90LklNR0ZNVC5iYXNlCi0tLQpOb3QgcnVuOiAyNTkKRmFpbHVyZXM6IDI2NwpGYWlsZWQg
+MSBvZiAxMTkgaW90ZXN0cwptYWtlOiAqKiogW2NoZWNrLXRlc3RzL2NoZWNrLWJsb2NrLnNoXSBF
+cnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAg
+ICBjaGVjay1xdGVzdC1hYXJjaDY0OiB0ZXN0cy9xdGVzdC9xb3MtdGVzdApUcmFjZWJhY2sgKG1v
+c3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
+dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
+bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
+dXVpZD04MzNiNTkzMjM2YzU0OWNmYWZmMDk2NTU2NDY3MTY4YicsICctdScsICcxMDAzJywgJy0t
+c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
+VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
+LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
+SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVt
+dS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNo
+ZXctdGVzdGVyLXRtcC15NWlzeG93Zy9zcmMvZG9ja2VyLXNyYy4yMDIwLTA3LTAzLTEyLjM3LjQ5
+LjMyNTA2Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVt
+dS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
+aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD04MzNiNTkzMjM2YzU0
+OWNmYWZmMDk2NTU2NDY3MTY4YgptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
+ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC15NWlz
+eG93Zy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9y
+IDIKCnJlYWwgICAgMTdtMzguMjQ0cwp1c2VyICAgIDBtOC44MDNzCgoKVGhlIGZ1bGwgbG9nIGlz
+IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcwMzE2MTEzMC4yMzc3
+Mi0xLWRlbkBvcGVudnoub3JnL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVz
+c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
+Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
+dmVsQHJlZGhhdC5jb20=
 
