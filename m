@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43102213D8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:29:06 +0200 (CEST)
-Received: from localhost ([::1]:43956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9988C213D8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:28:16 +0200 (CEST)
+Received: from localhost ([::1]:35268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOYj-0005SI-5v
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
+	id 1jrOXv-0001Tw-Da
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrOGe-0007iS-BB
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:24 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53751
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrOGb-00024Y-75
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593792620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=82M3IIf1F9TUuEk8PwSeJmjgAuhYkUUNoC05Vds/m5k=;
- b=Oks79D9QVN5OABg7FVcdu6ZkotQjYY6NwWhZG8gE2hjV7fL+bgILpdQVGSk8OKHd2kXodq
- Idn9D4lBALMy2YgqwD/6pLkb5B2iEOgFQjo85jw50xG859ypLNk6Q3Q0zQvIxk3G3qAQ3h
- YU+7+3y0n9reHG1U+vvGKOvb7+qIIqI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-NuxhrNgjMmWf8NNWmnpoVg-1; Fri, 03 Jul 2020 12:10:18 -0400
-X-MC-Unique: NuxhrNgjMmWf8NNWmnpoVg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64B88107ACCA;
- Fri,  3 Jul 2020 16:10:17 +0000 (UTC)
-Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E9EA2DE89;
- Fri,  3 Jul 2020 16:10:14 +0000 (UTC)
-Date: Fri, 3 Jul 2020 17:10:12 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
- commands
-Message-ID: <20200703161012.GH6641@work-vm>
-References: <20200702175754.2211821-1-berrange@redhat.com>
- <20200702175754.2211821-3-berrange@redhat.com>
- <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
- <20200702182452.GP1888119@redhat.com>
- <20200703154933.GE6641@work-vm>
- <20200703160235.GM2213227@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jrOH8-0000B7-9W
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:54 -0400
+Received: from mout.web.de ([217.72.192.78]:36341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jrOH6-0002J8-0v
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1593792641;
+ bh=xpHbtpP+GgyD7bEG1RQEqMQhn4aPPVOKSm0SMKZFXpE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=NpmniK53qaArYmstgupc8mnR0h2iTRB1J9oaDe1lhpPoQz5hqCbXhchzr9v5IdDHQ
+ 6B7qkYzIPNkYY84VDD47E7NW5YfTjKYVa0TyzxCMZIYuozz5DiYpB88IOH3nyPWsR4
+ tQQeAJ590Jc66E8U0UamSVQNX491psOCqBYKei2E=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.230]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MMEvB-1jjOay25s5-0083om; Fri, 03
+ Jul 2020 18:10:41 +0200
+Date: Fri, 3 Jul 2020 18:10:31 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL V2 29/33] net/colo-compare.c: Correct ordering in
+ complete and finalize
+Message-ID: <20200703181031.4ed6fcde@luklap>
+In-Reply-To: <CAFEAcA-1K_zVHPFz31W9Tx7CmAXo=4-qQNJxrZnYT0Heg5_1NA@mail.gmail.com>
+References: <1592486508-6135-1-git-send-email-jasowang@redhat.com>
+ <1592486508-6135-30-git-send-email-jasowang@redhat.com>
+ <CAFEAcA-1K_zVHPFz31W9Tx7CmAXo=4-qQNJxrZnYT0Heg5_1NA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200703160235.GM2213227@redhat.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Content-Type: multipart/signed; boundary="Sig_/pVkttQkYty3D3Cm/INVSv_E";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:KvjfzB2AL6XnST9EZaMFxQGM9zmw8a42JkXskVtGu9G6d2/W2AB
+ tAaWjGPdXY/loyFcLAO7aq0F5ztu2a2C1ULoQKi5vjL4Oac4qv4uHJ23vsixI7iOYYBXpFM
+ V8pRHClGwPdZZK1wZ11JehW/vv7JHjTL2TGpEMVC7eJnjqFdEOwEALO/qr08N4KOgoKUjI5
+ 3huO9SZKB+fqlzo9beQDg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1Gr5VZ46A9c=:atC74PT4o4Ao5Bk+T9bFcy
+ +WPc1D3SpXmPvooHnf9ZKVSEO+svE9NKrAVnyhL8CvDxqJDtDUv7SCRR2N9nAQSFF/exJA0NY
+ TCxdQWq9OL8lxPyw7QsjV/JbJPRuOxxwSMEU6vP5kmv1/8itn9hnq3YT8SB+hR1n9TqXHpFHG
+ T0s2yMWCoLcn8lWVz4Snn90cJLdIQpt61hRy1kLotGSqDCAH197LryYToA3uCP+F22Szukm1s
+ BEvT4RtfLGwMM5SC2kJx8zsWEM5eJdp2bJyVmukF+Q8P2Tld7OfsMCkft2vRGrRaThlaxUspf
+ 79HTikyyE8S7hzj609VxFRx5PmhN3MIW1h9Pj0DG3+pDwMDFdnhxhK1nsZEQqlgzlDvhN7xdJ
+ sKmwtHA9DmGqheCNI5fj96I4n/CeCYnkC6oR4rPLDjPaOeCo/cMB+uUX1UDIQtUETCqTfZmmg
+ CxbqVd4ecurRsfOrSEknIvhzikkcTmxTUZg3s0bvRy1DV9OMzcWxmdOTfnYTqK86tGpfvzYo9
+ THNajy1Cwkp2UP84+z3hpCrz9nfztIlwwbC/O2k17+YmpfCCXJGfSkdKlFRVfg2kQerFYFLFq
+ IkRO+UyBeX9aNkJmT3n8Gq3zaG7EMXJU+/ULS+AxI4VsdECeVFCtC7jJItSlSSo4HrowFm7SO
+ RVWzq7rK9pnrGRUbGqNZ/2qDfisZRtsFZq0mGq30+tRcD5g4TaUYGMUU0xWBtAhkzf/wAF4Zi
+ A+NiSqBa6mVf0a1eToXFMam7AkseZrMang/+MOFiqtxrAca4H1UKlQ3Qcojd03MUhZyaLUFJV
+ 27tgwnD+nih9lAh3+oLTJa+oqkeygFFGHvsPuXu2uf5Kyr6YoU2Dm37uOytn6/gfM3ZXur7FI
+ RJeYaRWZpAGOicelmTQ2eMhMTgiTyYKDq7S1Z+H3iGwCGam0je8lb5XKLejc6AebPlQD86hQZ
+ Ptzs2hw92S1cKcnJL5y4b/ovkFUA4LYeB9HETsNBWDvVBaSuW+eOiQzF/W/vtT8XieYEN3feH
+ kCAIoUPfaz6T5E+CmPmWglv683Dv5LC5KKMDjAGX9lEGiEPY0RxgTmoImPhRXI5r4Zwyw/N+n
+ FwK+QDX61ZgnIhQ5vrJN+2PxTp1xTrTgXCvqR1jPWxwQuTzWeQD9vZijDshk0tIyj3dYZ//gl
+ QpH+DFVJcp0/NB0eKjm/bMaVdoYBzUiHECIb1UZdBQsnfLxZDBoizDlcMs1pYH4ZJQWusKe64
+ 6A/0/J+hakqtxUAe5
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:10:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,94 +90,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
-> > > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
-> > > > > savevm, loadvm and delvm are some of the few commands that have never
-> > > > > been converted to use QMP. The primary reason for this lack of
-> > > > > conversion is that they block execution of the thread for as long as
-> > > > > they run.
-> > > > > 
-> > > > > Despite this downside, however, libvirt and applications using libvirt
-> > > > > has used these commands for as long as QMP has existed, via the
-> > > > > "human-monitor-command" passthrough command. IOW, while it is clearly
-> > > > > desirable to be able to fix the blocking problem, this is not an
-> > > > > immediate obstacle to real world usage.
-> > > > > 
-> > > > > Meanwhile there is a need for other features which involve adding new
-> > > > > parameters to the commands. This is possible with HMP passthrough, but
-> > > > > it provides no reliable way for apps to introspect features, so using
-> > > > > QAPI modelling is highly desirable.
-> > > > > 
-> > > > > This patch thus introduces trival savevm, loadvm, delvm commands
-> > > > 
-> > > > trivial
-> > > > 
-> > > > > to QMP that are functionally identical to the HMP counterpart, including
-> > > > > the blocking problem.
-> > > > 
-> > > > Should we name them 'x-savevm', 'x-loadvm', 'x-delvm' to give ourselves room
-> > > > to change them when we DO solve the blocking issue?  Or will the solution of
-> > > > the blocking issue introduce new QMP commands, at which point we can add QMP
-> > > > deprecation markers on these commands to eventually retire them?
-> > > 
-> > > I was in two minds about this, so I'm open to arguments either way.
-> > > 
-> > > The primary goal is for libvirt to consume the APIs as soon as possible,
-> > > and generally libvirt doesn't want todo this is they are declared experimental
-> > > via a "x-" prefix. So that pushes me away from "x-".
-> > > 
-> > > If we don't have an "x-" prefix and want to make changes, we can add extra
-> > > parameters to trigger new behaviour in backwards compatible manner. Or we can
-> > > simply deprecate these commands, deleting them 2 releases later, while adding
-> > > completely new commands.
-> > > 
-> > > If we think the prposed design will definitely need incompatible changes in
-> > > a very short time frame though, that would push towards "x-".
-> > > 
-> > > So IMHO the right answer largely depends on whether there is a credible
-> > > strategy to implement the ideal non-blocking solution in a reasonable amount
-> > > of time. I can't justify spending much time on this myself, but I'm willing
-> > > to consider & try proposals for solving the blocking problem if they're not
-> > > too complex / invasive.
-> > 
-> > Remind me, what was the problem with just making a block: migration
-> > channel, and then we can migrate to it?
-> 
-> migration only does vmstate, not disks. The current blockdev commands
-> are all related to external snapshots, nothing for internal snapshots
-> AFAIK. So we still need commands to load/save internal snapshots of
-> the disk data in the qcow2 files.
-> 
-> So we could look at loadvm/savevm conceptually as a syntax sugar above
-> a migration transport that targets disk images, and blockdev QMP command
-> that can do internal snapshots. Neither of these exist though and feel
-> like a significantly larger amount of work than using existing functionality
-> that is currently working.
+--Sig_/pVkttQkYty3D3Cm/INVSv_E
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I think that's what we should aim for; adding this wrapper isn't gaining
-that much without moving a bit towards that; so I would stick with the
-x- for now.
+On Thu, 25 Jun 2020 10:30:24 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Dave
+> On Thu, 18 Jun 2020 at 14:23, Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > From: Lukas Straub <lukasstraub2@web.de>
+> >
+> > In colo_compare_complete, insert CompareState into net_compares
+> > only after everything has been initialized.
+> > In colo_compare_finalize, remove CompareState from net_compares
+> > before anything is deinitialized. =20
+>=20
+> Hi; this code-motion seems to have prompted Coverity to
+> discover a possible deref-of-NULL-pointer (cID 1429969):
+>=20
+>=20
+> > @@ -1409,6 +1397,19 @@ static void colo_compare_finalize(Object *obj)
+> >      }
+> >      qemu_mutex_unlock(&colo_compare_mutex);
+> >
+> > +    qemu_chr_fe_deinit(&s->chr_pri_in, false);
+> > +    qemu_chr_fe_deinit(&s->chr_sec_in, false);
+> > +    qemu_chr_fe_deinit(&s->chr_out, false);
+> > +    if (s->notify_dev) {
+> > +        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
+> > +    }
+> > +
+> > +    if (s->iothread) { =20
+>=20
+> Here we check s->iothread, which implies that it could be NULL...
+>=20
+> > +        colo_compare_timer_del(s);
+> > +    }
+> > +
+> > +    qemu_bh_delete(s->event_bh);
+> > +
+> >      AioContext *ctx =3D iothread_get_aio_context(s->iothread); =20
+>=20
+> ...but here we pass it to iothread_get_aio_context(), which
+> unconditionally dereferences it, so will crash if it is NULL.
+>=20
+> Either we need to avoid calling this if s->iothread is NULL,
+> or if it can't ever be NULL then the earlier NULL check was
+> pointless and can be removed.
 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I'll look into it.
 
+Regards,
+Lukas Straub
+
+>=20
+> >      aio_context_acquire(ctx);
+> >      AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
+> > --
+> > 2.5.0 =20
+>=20
+> thanks
+> -- PMM
+
+
+--Sig_/pVkttQkYty3D3Cm/INVSv_E
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7/WHcACgkQNasLKJxd
+sliSXQ//Q+0X+xL0DQH8CrTyNMnRR6z6TxtnQ2gZoCN83L0ENmH6j656yLoxPHef
+9vI1qDCVBLb4A6UpYhsizmL9xIO/7kfCSkjqvNYc9qWt7P8wHg45OOmLQJOYMvaB
+I0aDDEGcKf0SRgWbHFlVI0X6iAj5uE4h+B4gcwYoOcj9ruqSRafzeWn2xJJwV0Oe
+AvI861I6yPkC7CuJhg7+kfekuW4WsZFB2vJzDU4SU8I0IBR+0VVRZOEYuUdWOdwP
+ZKtR/F+qbGtaXms9tiDjY9mDuDnE3219Mw0sGPoh/EoyybcU9lakVzwCoVrtIkWm
+Ct4yfawcxoeLqU+zL8geunrd07swCfKpbUyNrVhi3Ucuk8gvYnmHVBEQh/NDtIA2
+9+ajRWPo18+hId35UbSmFNmepT7etjUOAocD5heHQ4boL7IcBNkiyLREmlbYk1EA
+J2G1lzmwJMRFRMQcB7YbEKDAHl03ve9coFrdSJn24K7R6jsC5RynlJ+uPLVzjaNQ
+y1+9SuQIFaGz6PMyijm1/eIZa5Q2Dh/IY3G2/GZnvKHcL4cFEwthFQgVmh7UsItF
+ELwccDdAFKltx+a+7/uZftDi/bhnb656S39Bc+0maUCPyReEG+32r3NSX4r0wJeb
+iplBoKIYlUBDs8KJIDV8vhNQ54HAgV1D7jqA8skgbIYFwJxZWeE=
+=boCE
+-----END PGP SIGNATURE-----
+
+--Sig_/pVkttQkYty3D3Cm/INVSv_E--
 
