@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB771213B6E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:56:51 +0200 (CEST)
-Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6673213B69
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:55:57 +0200 (CEST)
+Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrMBO-0002Lb-QC
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53974)
+	id 1jrMAW-0000hk-T2
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM7g-0005Xu-Ak
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:00 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34170)
+ id 1jrM86-0006NC-IF
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:26 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM7e-0000wT-CD
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:00 -0400
-Received: by mail-ot1-x342.google.com with SMTP id n5so26785922otj.1
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:52:57 -0700 (PDT)
+ id 1jrM84-0000yc-4K
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:26 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k6so22667840oij.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:53:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wpc26K4vIHW7s7G0jjwpwG5GXL2DZyAsm9Rh8wYBjkg=;
- b=OWuXsgZ6qUv8VQXPhEX+8AscWWs5PL3NntUQhLvZ4GuEpjGOlb63s6YYatjndc0M5N
- RK8Rgl7z2B3gzV3ukQIsrOUFGEgVepOfl2cGlWifOW1VoCBaCnDmQSRU50JZrHALoc25
- 2LYg1kuvjKDYl/B2wqRLBLlrneLQCTrFcuHLpIEl7zpYJzeOP1d49F3yLu3kSWMRvZRm
- iBQ5LvK0iwgRj+iMGubkwDccQtuSL85idPCrN6sak8u7F0cQ/Y6V3m1c4B3W/z5qgUy9
- eD/Mnlun6Qa1EWxwAQC+y8h55BW8ge5ougjtX3qW3IOJtMtdLXL/0AozsKh7l6hXMZ0+
- M01g==
+ :cc; bh=6n/DStbs/HviDJef2CMucQhuRQbYKDJCyHYaau13jGk=;
+ b=tZTBT0SlxB2wTmDU9Y/cOvPFvrnByRlEVrkgHXTeLH5JQ50nDLH1CVmeeEGl/gtmw4
+ itKeNYi9siFOsWlLzfFMazFo2A4IbuN1ES2Ej1WC5xewGd9nMVcfafnndhNwvcB/WxHT
+ Vk6YQmcKKzSxjnqSrP2EXrKietbD8wog+LxH0sCBPzadlCViJHbyodMQvD6U71gNvIx5
+ 03Wgex0euekm1Kc2eyHf9bHfjZ+KnHJNidxb54SSNHrJqQDwgBh2bjy3xks4joojSFTg
+ ESb6vZMkDYVmERK7OjDs0OiGXnW3wZ9WtCVhdA4Mjf93N4Y+R7znfY97gej9beZnnWCE
+ j3cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Wpc26K4vIHW7s7G0jjwpwG5GXL2DZyAsm9Rh8wYBjkg=;
- b=JWHa+mn1XzzwXwVQyWTjZnmLITCXm09IOp/fCIQN2AYoDMI4I56/vQqCjMmOSU50Gw
- YQjpFPRXZkD10rfuWtC9CcA1EINboTZWXTs5zXt9hQpEfz0eK5PIPzYDOugfinLRFhBu
- gd+J59Op/cqEAD/kucM0MydHZDRK5Ubqas3mZ6xdTQ1CUbeMlvCC1sS/YdOyHESOWRwQ
- zkNijk3H6pCJYJ3nHD/ucVx+lGs+Z0/3lagCQhaoBd5pMcHcr37ynI0pH8AvtfML5VRX
- icw60IUFxX7V7F0JYCYUDywzC07eSIPB+B2O8lpC+ID1D0AiZOHWFR2V+9pWQ+qLJ3sM
- MvIg==
-X-Gm-Message-State: AOAM533Q6MpktaWQYRsQpprtZ8lv/A9H0C6yrapQsgnV1g688ojA6qjx
- w3G6KZMZrPAW6N3KOLoKGKomihuH4gWewsM5Nsy3ZuzIj+M=
-X-Google-Smtp-Source: ABdhPJznsJBmGYE4zSd/XdE2aIPEEd/jodkGDBzTkq1kv3V+w+EKHhDpkc5o834osixtxkFltZcEcJepCtzAW9MYyc0=
-X-Received: by 2002:a05:6830:1bd3:: with SMTP id
- v19mr28478686ota.91.1593784377356; 
- Fri, 03 Jul 2020 06:52:57 -0700 (PDT)
+ bh=6n/DStbs/HviDJef2CMucQhuRQbYKDJCyHYaau13jGk=;
+ b=cWzLJ5G78atnkT12n5A4Yxluw4B8Gk9mXVNuFPNXltmKLcnhX4l4gyXtxw28UZBXRj
+ zGKco2RW+okQVNzbYLGjT1wu0U3eemdVVHMOJjF7I2Rp4eX5WIG2moXL0ZnbNoL2Tz41
+ rgaXjBRnXfinm6o5dvUDPOdjiuZQfKBQf/cD3vQ/kyesO57lif/GmFOO+IQ05qZFNKnR
+ KoE9THGJbySWLgvGdeht3Kl5Zyd2aJ/zSkmxtSryl373zBVi+y60OzvC9q4W9RNDmnn+
+ wQcrEvy8eP6xGD9CdRJzLDeP7ToRxuoRr8WlhR2V7peoqUgJcRr1mvg8lUAHffXKM3T0
+ fpIg==
+X-Gm-Message-State: AOAM532X8rp9zYzHpK+qrJQ5fNsRklyI+WZ/i2THSIenaor4aDQ61h4w
+ wU/9OOto3e68ZFyBP7awcQQoLQwkRjsP7UBNfuP6Vg4y9F4=
+X-Google-Smtp-Source: ABdhPJw6ZbajBPQc/43SNCgSI0eBJfJU2cjJZgAUwUPOMze6x07JLwkGDUT2wT5aLNx45ir2AfyglEP/6A6WQpBTcQA=
+X-Received: by 2002:aca:2819:: with SMTP id 25mr21203626oix.48.1593784403074; 
+ Fri, 03 Jul 2020 06:53:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+XhMqzmb0K5HaOBNy31rNU0F0O4kq+B6eeYCUXiJJE6ENDsYw@mail.gmail.com>
-In-Reply-To: <CA+XhMqzmb0K5HaOBNy31rNU0F0O4kq+B6eeYCUXiJJE6ENDsYw@mail.gmail.com>
+References: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
+In-Reply-To: <CA+XhMqxuYwkJLbCRZpAM7pM14CbLzx3BZ=n6FW14cg344xsFJA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 14:52:46 +0100
-Message-ID: <CAFEAcA_O0NZgjz=q8cG-wL6ZNMS6rt2kO5VwTr_KLMsh1v6BJg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] Implementing qemu_init_exec_dir.
+Date: Fri, 3 Jul 2020 14:53:12 +0100
+Message-ID: <CAFEAcA8M6Cu=Fk7emJGwEqPpkqNKh8nfyncvAFLbW9hfM8srPA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] Enabling BSD symbols
 To: David CARLIER <devnexen@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,18 +82,17 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 01:46, David CARLIER <devnexen@gmail.com> wrote:
+On Tue, 30 Jun 2020 at 01:44, David CARLIER <devnexen@gmail.com> wrote:
 >
-> From fcdb25804af98329b52a04e7a4e5191135aac4f6 Mon Sep 17 00:00:00 2001
+> From 5c6022f21289eb6e78e93d584c766db82165dced Mon Sep 17 00:00:00 2001
 > From: David Carlier <devnexen@gmail.com>
-> Date: Mon, 29 Jun 2020 22:36:03 +0000
-> Subject: [PATCH 9/9] Implementing qemu_init_exec_dir.
+> Date: Mon, 29 Jun 2020 22:13:35 +0000
+> Subject: [PATCH 1/9] Enabling BSD symbols.
 >
 > Signed-off-by: David Carlier <devnexen@gmail.com>
 > ---
->  util/oslib-posix.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
+>  configure | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
