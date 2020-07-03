@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD43E2137C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:35:35 +0200 (CEST)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 510522137BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:32:16 +0200 (CEST)
+Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrI6Y-0006V5-N1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:35:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
+	id 1jrI3L-0007HJ-8w
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:32:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtV-0002p3-Cl
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51815
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtX-0002qx-KE
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27474
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtT-0000yD-WC
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtU-0000yW-4u
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593768120;
+ s=mimecast20190719; t=1593768122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AtvVYwlc1+ydxWQZdKR7ou+wPvfLfU9yuoxoUybNOEo=;
- b=dT6oHVtRx9wWNZleCPqjSGawhuUTrbSJpHmlRBr9VMOTMhmlnxUESZlTgwMkGdhcjZPs7O
- NUic3wh8s0nOjJ52zmSQFfw6cp7BVj8/L1UTqcyLnj2A8uY3Esp+9R5vTzgYhEq6GqiEhX
- dxUnfqewLI5OmnwdUUtdXhyqNBd8AjI=
+ bh=worektGU7t2KWezXJC7Li6H7iMdOkxSQixsswdULoXw=;
+ b=dvbSdRhcnwTwynaMjh/DOjO4BUQpXpl4dZ9hnft7KVFqU9+zkbuzAbncaCwMbskML3ETJN
+ NlWLdYVryfIaKzGIklMl7/OJ5E3ucVccibhFK+Nhf64zRXAFquPSgJGYvH1qy7u2iVPbBE
+ FqErUssLld0+kOsoCgmTRV+F71rrFqk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-gGWpX8jtOZWUQrEghJhGmQ-1; Fri, 03 Jul 2020 05:21:56 -0400
-X-MC-Unique: gGWpX8jtOZWUQrEghJhGmQ-1
+ us-mta-175-zGX2GSglPDiAOfoCvhnDDw-1; Fri, 03 Jul 2020 05:21:59 -0400
+X-MC-Unique: zGX2GSglPDiAOfoCvhnDDw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29540107ACF3;
- Fri,  3 Jul 2020 09:21:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8A7F8015F9;
+ Fri,  3 Jul 2020 09:21:58 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 350AD7AC63;
- Fri,  3 Jul 2020 09:21:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7D797AC71;
+ Fri,  3 Jul 2020 09:21:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 3/7] qemu-storage-daemon: add missing cleanup calls
-Date: Fri,  3 Jul 2020 11:21:39 +0200
-Message-Id: <20200703092143.165594-4-kwolf@redhat.com>
+Subject: [PULL 6/7] iotests.py: Do not wait() before communicate()
+Date: Fri,  3 Jul 2020 11:21:42 +0200
+Message-Id: <20200703092143.165594-7-kwolf@redhat.com>
 In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
 References: <20200703092143.165594-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,34 +83,98 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Several components used by qemu-storage-daemon have cleanup functions
-that aren't called. Keep the "valgrind --leak-check=full" as clean as
-possible by invoking the necessary cleanup functions.
+Waiting on a process for which we have a pipe will stall if the process
+outputs more data than fits into the OS-provided buffer.  We must use
+communicate() before wait(), and in fact, communicate() perfectly
+replaces wait() already.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200619101132.2401756-3-stefanha@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+We have to drop the stderr=subprocess.STDOUT parameter from
+subprocess.Popen() in qemu_nbd_early_pipe(), because stderr is passed on
+to the child process, so if we do not drop this parameter, communicate()
+will hang (because the pipe is not closed).
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200630083711.40567-1-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-storage-daemon.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qemu-iotests/iotests.py | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index a01cbd6371..7e9b0e0d3f 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -335,5 +335,9 @@ int main(int argc, char *argv[])
-         main_loop_wait(false);
-     }
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5ea4c4df8b..ef739dd1e3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -146,11 +146,12 @@ def qemu_img_pipe(*args):
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+-    exitcode = subp.wait()
+-    if exitcode < 0:
++    output = subp.communicate()[0]
++    if subp.returncode < 0:
+         sys.stderr.write('qemu-img received signal %i: %s\n'
+-                         % (-exitcode, ' '.join(qemu_img_args + list(args))))
+-    return subp.communicate()[0]
++                         % (-subp.returncode,
++                            ' '.join(qemu_img_args + list(args))))
++    return output
  
-+    monitor_cleanup();
-+    qemu_chr_cleanup();
-+    user_creatable_cleanup();
-+
-     return EXIT_SUCCESS;
- }
+ def qemu_img_log(*args):
+     result = qemu_img_pipe(*args)
+@@ -177,11 +178,11 @@ def qemu_io(*args):
+     subp = subprocess.Popen(args, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+-    exitcode = subp.wait()
+-    if exitcode < 0:
++    output = subp.communicate()[0]
++    if subp.returncode < 0:
+         sys.stderr.write('qemu-io received signal %i: %s\n'
+-                         % (-exitcode, ' '.join(args)))
+-    return subp.communicate()[0]
++                         % (-subp.returncode, ' '.join(args)))
++    return output
+ 
+ def qemu_io_log(*args):
+     result = qemu_io(*args)
+@@ -257,15 +258,14 @@ def qemu_nbd_early_pipe(*args):
+        and its output in case of an error'''
+     subp = subprocess.Popen(qemu_nbd_args + ['--fork'] + list(args),
+                             stdout=subprocess.PIPE,
+-                            stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+-    exitcode = subp.wait()
+-    if exitcode < 0:
++    output = subp.communicate()[0]
++    if subp.returncode < 0:
+         sys.stderr.write('qemu-nbd received signal %i: %s\n' %
+-                         (-exitcode,
++                         (-subp.returncode,
+                           ' '.join(qemu_nbd_args + ['--fork'] + list(args))))
+ 
+-    return exitcode, subp.communicate()[0] if exitcode else ''
++    return subp.returncode, output if subp.returncode else ''
+ 
+ def qemu_nbd_popen(*args):
+     '''Run qemu-nbd in daemon mode and return the parent's exit code'''
+@@ -1062,11 +1062,11 @@ def qemu_pipe(*args):
+     subp = subprocess.Popen(args, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             universal_newlines=True)
+-    exitcode = subp.wait()
+-    if exitcode < 0:
++    output = subp.communicate()[0]
++    if subp.returncode < 0:
+         sys.stderr.write('qemu received signal %i: %s\n' %
+-                         (-exitcode, ' '.join(args)))
+-    return subp.communicate()[0]
++                         (-subp.returncode, ' '.join(args)))
++    return output
+ 
+ def supported_formats(read_only=False):
+     '''Set 'read_only' to True to check ro-whitelist
 -- 
 2.25.4
 
