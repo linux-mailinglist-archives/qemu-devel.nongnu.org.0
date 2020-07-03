@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB7F213DE2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:02:50 +0200 (CEST)
-Received: from localhost ([::1]:55914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CB8213E01
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:05:44 +0200 (CEST)
+Received: from localhost ([::1]:36158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP5N-0001Ci-24
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:02:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
+	id 1jrP8B-0004uO-UO
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:05:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxG-0004uZ-39
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:26 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36933)
+ id 1jrOxH-0004xa-9v
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:27 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxE-0005gY-7u
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a6so33423433wrm.4
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:23 -0700 (PDT)
+ id 1jrOxF-0005gj-Fj
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:27 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id w3so22288991wmi.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9kAWMFDfNy8onp4hyShw/LbQqFC+n+LfYN6Nfvd1C+w=;
- b=nxj534JXbR27vnm+DlOtxxQznGjecqPPL+NlrG23Mm/6o5KOKbK7IJyShJ6h436n49
- 3vsB3MWMLLTvn14P5k3tMqyn1WIwkIR5XDwJxvFXykF5TLmOX2dKqXtQCXAy24CWXXPO
- aNYE7WMOJwWEPaTeTDvlQfpt61dhcHiMGfGaV4395pKfIRrUzBmGXMrQMrttaEQmc9dT
- 6Q1H12vVHfwx5gPLcjFZ6V6/RNu3cxTWdb70dskYtEzOLY8JCrDL9kaZdWVQwRXqhumx
- GIzYpLUvJz3lCoosEbXRsZiE5Ow4g3L2dOiPQRpzR67hO149sndNBawIly7bw/pj+7+9
- JCLA==
+ bh=iUQU2oplSMWnXTckOnwpuiVAWqwg6rxiHqd3JFEyT8I=;
+ b=U96guFZBkr7NARRWba9BUEWURYSCfBM2X7oUjQqWA4jcfdTSNyuEWAM8YU01tHuqeZ
+ kYvyWgG7ov8Y6wTn2+4QxHge860sOttrLlz/OHAyNrcS3eHD9N3EXzfA87+y3NR9MMA1
+ 0hQwyKw5pCFSxsP8IH7hTbjN8S8f3lN1UU40bkR1vAcc9yef0tyLT+So5bx/AoD0kft5
+ 5vhh0pmR10m7KhUsStMTPJexFrzRG8bFACkAoKPsUMvmkZP3yy9b3gDdE2/QfOIRGUzw
+ gsHqaZrTa+eVtNSOeEC1IBtgn59opCj9JK0TmvjLAkl3gUIFA2kG6vbQGzNjJNEzoe9W
+ +f6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9kAWMFDfNy8onp4hyShw/LbQqFC+n+LfYN6Nfvd1C+w=;
- b=qcKm3MkVpXpFgZlJ8xSFCtj7K0a05n6GMKB3c1MA/HyRLy5BPz9VIL+RsQZTjWAr+D
- Wn+cZDKAKHT7KKku+74tCdVPlY5Qq9ZCA4eUm6GlyvrKPuUuZdyXxSdDQq8Su4h7eAVX
- Ik81M7pUswuYLYz00HOye2pQI2Tq8VyfJUZPZjj9W6xpCZY8/mbF+DRSWUH0SwI5tG1S
- UeO3hdaMT6cVXGAg0g2LE8KVnW1vNrvyXu0TxtLkpkhN7mMzZWfEJVnKBD/wGemecTjm
- 0uAONaPvYz4dDR3eECNcPjYH6t1N3DCaqZZuqYdESf2GNL7ApVqWcFAx8OF519t4174l
- 70Xw==
-X-Gm-Message-State: AOAM530J+l0DdDiP/B/ehTEhgC5lSBh8ds3PecSXaJWsHaFEET3Dn93m
- /mQKC4QRuREfEW4JHPeRPvooGVAhpSPm0A==
-X-Google-Smtp-Source: ABdhPJyUH4G4r+drWeKO3f19KSD/zb5+BIRBXcxmGfI9jLDJAWN60n+jMkfv32zceVZMYmiyTe+c/w==
-X-Received: by 2002:adf:fa81:: with SMTP id h1mr37889569wrr.266.1593795262550; 
- Fri, 03 Jul 2020 09:54:22 -0700 (PDT)
+ bh=iUQU2oplSMWnXTckOnwpuiVAWqwg6rxiHqd3JFEyT8I=;
+ b=GX+xyss67knSA0Y92mSelWm0AvJWv4kWy1SSl4RgXcTmqr85Dxz8+qDSJhtwJ2gjSd
+ 0Ze+MEY9NLdIg676yE889N0qSUB6xOUNu24t5Xhz859c2BZi7YN6cqBRWLvHKFi7lkQj
+ 88SrSLaH7R8ECX3ja4RL6sktlag0oeyki2U6VKizb71jCN5v1KN+1T/djfqntYGqBg/F
+ FnNq4jk9azdGMv9PvCP6gcNGSugL3fCUBBvuR5KNkL6cEn9ViGhnrhNp3cTatLs8c9lP
+ WfLy9jEuNtDzM2s2U+8pQ9NcoKKReStUBdAuIT8Ux9g/4KY/66KubvPr/x/8Szvhk7/8
+ 9b8w==
+X-Gm-Message-State: AOAM532lFUfpJnQ5YglonvPrRls9hrocrSMvSIK+xWbbt5nR4rdqM70i
+ PI8JxzZQYGMSNOhlS+YabVZ5MVI7Y30oAg==
+X-Google-Smtp-Source: ABdhPJyAXhsbyx4NS9f8qH3gTOQfP7XLEVn84XabyA6qyITseT9r/yaWQQdpFVNt2wXDN25DY7IlnA==
+X-Received: by 2002:a1c:2257:: with SMTP id i84mr36890908wmi.158.1593795263785; 
+ Fri, 03 Jul 2020 09:54:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.21
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:21 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/34] tests/acpi: virt: update golden masters for DSDT
-Date: Fri,  3 Jul 2020 17:53:45 +0100
-Message-Id: <20200703165405.17672-15-peter.maydell@linaro.org>
+Subject: [PULL 15/34] target/arm: Fix temp double-free in sve ldr/str
+Date: Fri,  3 Jul 2020 17:53:46 +0100
+Message-Id: <20200703165405.17672-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,120 +89,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Differences between disassembled ASL files for DSDT:
+The temp that gets assigned to clean_addr has been allocated with
+new_tmp_a64, which means that it will be freed at the end of the
+instruction.  Freeing it earlier leads to assertion failure.
 
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of a, Mon Jun 29 09:50:01 2020
-+ * Disassembly of b, Mon Jun 29 09:50:03 2020
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x000014BB (5307)
-+ *     Length           0x00001455 (5205)
-  *     Revision         0x02
-- *     Checksum         0xD1
-+ *     Checksum         0xE1
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -45,32 +45,6 @@
-             })
-         }
+The loop creates a complication, in which we allocate a new local
+temp, which does need freeing, and the final code path is shared
+between the loop and non-loop.
 
--        Device (FLS0)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x00000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
--        Device (FLS1)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, One)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x04000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
-         Device (FWCF)
-         {
-             Name (_HID, "QEMU0002")  // _HID: Hardware ID
+Fix this complication by adding new_tmp_a64_local so that the new
+local temp is freed at the end, and can be treated exactly like
+the non-loop path.
 
-The other two binaries have the same changes (the removal of the
-flash devices).
-
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-id: 20200629140938.17566-5-drjones@redhat.com
+Fixes: bba87d0a0f4
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200702175605.1987125-1-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/virt/DSDT                   | Bin 5307 -> 5205 bytes
- tests/data/acpi/virt/DSDT.memhp             | Bin 6668 -> 6566 bytes
- tests/data/acpi/virt/DSDT.numamem           | Bin 5307 -> 5205 bytes
- 4 files changed, 3 deletions(-)
+ target/arm/translate-a64.h | 1 +
+ target/arm/translate-a64.c | 6 ++++++
+ target/arm/translate-sve.c | 8 ++------
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 32a401ae35f..dfb8523c8bf 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/DSDT",
--"tests/data/acpi/virt/DSDT.memhp",
--"tests/data/acpi/virt/DSDT.numamem",
-diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index d6f5c617881c4247f55d4dcd06581f9693916b2f..e669508d175f1e3ddf355f8a9b0d419266cac8aa 100644
-GIT binary patch
-delta 28
-kcmdn3c~yhUCD<h-RD^+n>ET2!X{H9}iRuX(-<}f&0DgxFc>n+a
-
-delta 156
-zcmcbrv0IbNCD<iow+I6R)5VEg(oAih6V(&y4c&Z#4LIUGJY9Hw{DS-q3=B;fIO0P+
-zU4W!>P_UpN7hfAE10w?juv9WcH-WSmV$;Hiu7w4t3#`S$E!^1+q9xGPH`KtuzzAr5
-LaERl^1zUvy_;n(J
-
-diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
-index 730e95a46d2cce0af011ffc051d7342beb8f1328..4cb81f692d73526542493a0c4da9c9793cc8366e 100644
-GIT binary patch
-delta 28
-kcmeA%S!T@T66_MPOp<|tiD@F2G*jb@iRuX(-^xn@0CHUjRR910
-
-delta 156
-zcmZ2x++)J!66_MfBgMeL^l>7WG*kP$iRuaUhHgH=1|0Doo-VvTenI{Q28N~#9Py!^
-zE<n;bC|FRCi?5B7fsp|MSSlH!n?PC&v1wsM*TMqS1=eEW7Vhi@(GuwD8){%+U<5Qj
-LIK*+|0yaqism~!^
-
-diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
-index d6f5c617881c4247f55d4dcd06581f9693916b2f..e669508d175f1e3ddf355f8a9b0d419266cac8aa 100644
-GIT binary patch
-delta 28
-kcmdn3c~yhUCD<h-RD^+n>ET2!X{H9}iRuX(-<}f&0DgxFc>n+a
-
-delta 156
-zcmcbrv0IbNCD<iow+I6R)5VEg(oAih6V(&y4c&Z#4LIUGJY9Hw{DS-q3=B;fIO0P+
-zU4W!>P_UpN7hfAE10w?juv9WcH-WSmV$;Hiu7w4t3#`S$E!^1+q9xGPH`KtuzzAr5
-LaERl^1zUvy_;n(J
-
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 49e4865918d..647f0c74f62 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -30,6 +30,7 @@ void unallocated_encoding(DisasContext *s);
+     } while (0)
+ 
+ TCGv_i64 new_tmp_a64(DisasContext *s);
++TCGv_i64 new_tmp_a64_local(DisasContext *s);
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s);
+ TCGv_i64 cpu_reg(DisasContext *s, int reg);
+ TCGv_i64 cpu_reg_sp(DisasContext *s, int reg);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 73d753f11fb..8c0764957c8 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -461,6 +461,12 @@ TCGv_i64 new_tmp_a64(DisasContext *s)
+     return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_new_i64();
+ }
+ 
++TCGv_i64 new_tmp_a64_local(DisasContext *s)
++{
++    assert(s->tmp_a64_count < TMP_A64_MAX);
++    return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_local_new_i64();
++}
++
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s)
+ {
+     TCGv_i64 t = new_tmp_a64(s);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index f318ca265f2..08f0fd15b28 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4372,9 +4372,8 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+ 
+         /* Copy the clean address into a local temp, live across the loop. */
+         t0 = clean_addr;
+-        clean_addr = tcg_temp_local_new_i64();
++        clean_addr = new_tmp_a64_local(s);
+         tcg_gen_mov_i64(clean_addr, t0);
+-        tcg_temp_free_i64(t0);
+ 
+         gen_set_label(loop);
+ 
+@@ -4422,7 +4421,6 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+         tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
+         tcg_temp_free_i64(t0);
+     }
+-    tcg_temp_free_i64(clean_addr);
+ }
+ 
+ /* Similarly for stores.  */
+@@ -4463,9 +4461,8 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+ 
+         /* Copy the clean address into a local temp, live across the loop. */
+         t0 = clean_addr;
+-        clean_addr = tcg_temp_local_new_i64();
++        clean_addr = new_tmp_a64_local(s);
+         tcg_gen_mov_i64(clean_addr, t0);
+-        tcg_temp_free_i64(t0);
+ 
+         gen_set_label(loop);
+ 
+@@ -4509,7 +4506,6 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+         }
+         tcg_temp_free_i64(t0);
+     }
+-    tcg_temp_free_i64(clean_addr);
+ }
+ 
+ static bool trans_LDR_zri(DisasContext *s, arg_rri *a)
 -- 
 2.20.1
 
