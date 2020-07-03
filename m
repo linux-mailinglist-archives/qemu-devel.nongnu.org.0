@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00A7213DAB
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:38:30 +0200 (CEST)
-Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAC8213DAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:39:55 +0200 (CEST)
+Received: from localhost ([::1]:34876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOhp-0006IT-Op
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
+	id 1jrOjD-0000e3-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrOdd-0007YH-6c
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:34:09 -0400
-Received: from elasmtp-masked.atl.sa.earthlink.net ([209.86.89.68]:53502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrOdb-0008FQ-BU
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:34:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
- s=dk12062016; t=1593794047; bh=G0Vmuk9F1p1Qrm7HZ4G/fg4rij9zRIqoPgDi
- RkXCERU=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
- To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:
- X-Originating-IP; b=eIBfKygrvgl4D0TKS1g6jUVb2rIwgD5QfVMty+lWw+13uR
- ME4UkFGLyYC7t1jHWITS3rymV9FX8Kim5ziffzd6rNw03aKnzhb9KIV2nzW6cc5mF1i
- BNWXUOsYk9OrV1nSyLuwfEJYdNLRizPyzxeoJV/k8VIk2oXo6aKsuSiXu5m/1r0RI/N
- wxir0rGvM6H8mXdcotWcj559cyci9A0UwtKufuKd6bq6pnKTNIHyXqtiQPYln9+mB/o
- uadp7yp6daKGy24IBuZKXQ5Xv3NRVICSiZVYpuWORhBSXRjZ0H5i4+LpuqdYRDjZ849
- 2XfHfIR7kXjUs9QAv8z8DCvWX+mg==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
- s=dk12062016; d=mindspring.com;
- b=IaweK0VXj4bOvem5q029XkeWOrX9ttGnq0kFwkuhLjwJwEIIm3tKsQjHV5U2GhF7uU2dH2DMCWbCGjznSW/7VZ5nyIimhE7gWp3Q8QkTt9eAex8dZjExNESng8Mx7GEKw3WRUII9K2yD+dEd8+MqJ21+TdfVJ+8v0MAOAnEtZIy5WTxySSVEJpBL9XRspABmoG1wddTNv8GlOmt5v+FXp+MJEZY2ygkLPhYYYsvu54/DJm7B+hjSZrqS1k6C5eQK8YXhEGxWE9/seyrrWd3+19dyEpD5NiW+tldI1ISyUDAHj3ISf/Pl+t7zWWUyUV/VyZKWpVS9SAfj7ECzLwPAog==;
- h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:X-Originating-IP;
-Received: from [8.9.81.230] (helo=[192.168.0.78])
- by elasmtp-masked.atl.sa.earthlink.net with esmtpa (Exim 4)
- (envelope-from <denber@mindspring.com>)
- id 1jrOdZ-0000zF-7y; Fri, 03 Jul 2020 12:34:05 -0400
-Message-ID: <5EFF5DFC.2060006@mindspring.com>
-Date: Fri, 03 Jul 2020 12:34:04 -0400
-From: Michele Denber <denber@mindspring.com>
-User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
- rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jrOef-0000vZ-3t; Fri, 03 Jul 2020 12:35:13 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jrOed-00009x-8t; Fri, 03 Jul 2020 12:35:12 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z13so33366187wrw.5;
+ Fri, 03 Jul 2020 09:35:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=J9fEYD4ab0vzqkQT1cWscq34B3z+iFCmm3a29FrbHVU=;
+ b=r3VV2i598oUWCnEvGs2rfvD3+26DNM4PzKiY+zyAolMgbMgQwZ5LdfP5eXnLz7rVmj
+ gwwaak4kLeDxsUGMHlPRQ3uZvWHaX6uSjtlzjLdcTrcpDLYegO1QRD29GEhtpZ+EeUHP
+ 7Z5lMs5/50amTkByuO60O48DuVNe8Zt/n7qSCyypHMIzqm+wrSOGcsmkzIjXHGW8UF18
+ YAiZnf7n+5ICfLExI380eYK5hJ/etbPRd0bVwxuptAA/A9xtMMxpgtRvWdjJOt8RpMux
+ cIKUuc9QlZiXROita2ZfO0tptotdeovKbF+u8PsL3ye10rTMAz8PVzclh6P0OzFrvMB5
+ d8cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J9fEYD4ab0vzqkQT1cWscq34B3z+iFCmm3a29FrbHVU=;
+ b=bariaGZp47lXDEKLL1gTDuOeXSc+sQED/E9rb09THxK/sB8hR8x7YsrC+gXxCxx0Ok
+ QzBriY4Dcori+dYwx2cqU3eZ9ZEw0oey3OYrkcgKUco8jWjvIut4wngLEYDN9zHLLd+d
+ 6k8/5KVSOMvQCAAwlRY3GmialiwwR366U0/eKfvN/njovSTTdOkqOlEsE69MW3KIAxs5
+ Z1Ywwfo3nyIgCSaovgB4FU+AVWEg7MjsaznFRlD3EQGgfFa+NdirbTJm6nidiATG3DGo
+ JdiNL8qi7WxFH/hAYCt76yB1quWWqF4bYk7SAJ3IshkOVxFe9ZaW2cerPOcy/iNU29tN
+ eoHw==
+X-Gm-Message-State: AOAM5333HxhNmqSYxczvsHrNTB6yOK+mulyPHIRmMzW2evocPip6/6DC
+ SEXMhKvAoK1cSNHkKc79MqViwZGiayU=
+X-Google-Smtp-Source: ABdhPJxRYEXx+5ZBWW1xzThzHttU3WKvlIdTFbAE0S5bt5fsHdRtJjfMqyMr16cBN9kyiG7eqYSIJg==
+X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr3964539wru.344.1593794109399; 
+ Fri, 03 Jul 2020 09:35:09 -0700 (PDT)
+Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id u84sm13716676wmg.7.2020.07.03.09.35.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jul 2020 09:35:08 -0700 (PDT)
+Subject: Re: [PATCH v3 12/12] docs/system: Add Nuvoton machine documentation
+To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org,
+ clg@kaod.org, joel@jms.id.au
+References: <20200626235519.591734-1-hskinnemoen@google.com>
+ <20200626235519.591734-13-hskinnemoen@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <56028150-9efd-dc34-5244-2c6fa1f6b8e2@amsat.org>
+Date: Fri, 3 Jul 2020 18:35:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] configure / util: Auto-detect the availability of
- openpty()
-References: <20200702143955.678-1-thuth@redhat.com>
- <5EFE07BC.6040407@mindspring.com>
- <1e699fdc-639e-ef8a-313f-7e665cad868c@redhat.com>
- <5EFE5291.6030300@mindspring.com>
- <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
-In-Reply-To: <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
-Content-Type: multipart/alternative;
- boundary="------------080808010304010904020507"
-X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca5dcec2dc719ac7d56b732be7bc5f70f84350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 8.9.81.230
-Received-SPF: pass client-ip=209.86.89.68; envelope-from=denber@mindspring.com;
- helo=elasmtp-masked.atl.sa.earthlink.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:34:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200626235519.591734-13-hskinnemoen@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, PDS_OTHER_BAD_TLD=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Tribble <peter.tribble@gmail.com>, qemu-devel@nongnu.org
+Cc: kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------080808010304010904020507
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On 6/27/20 1:55 AM, Havard Skinnemoen wrote:
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> ---
+[...]
+> +Boot options
+> +------------
+> +
+> +The Nuvoton machines can boot from an OpenBMC firmware image, or directly into
+> +a kernel using the ``-kernel`` option. OpenBMC images for `quanta-gsj` and
+> +possibly others can be downloaded from the OpenPOWER jenkins :
+> +
+> +   https://openpower.xyz/
 
-Oops, I hit Send before I was done.  I tried  the Haiku patch:
+I can only see the build log, not the u-boot/kernel binaries.
+Can you point me to an example please?
 
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index cc5e37177a..faebc13fac 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -39,7 +39,7 @@ util-obj-y += qsp.o
-  util-obj-y += range.o
-  util-obj-y += stats64.o
-  util-obj-y += systemd.o
--util-obj-$(CONFIG_POSIX) += drm.o
-+util-obj-$(CONFIG_LINUX) += drm.o
-  util-obj-y += guest-random.o
-  util-obj-$(CONFIG_GIO) += dbus.o
-  dbus.o-cflags = $(GIO_CFLAGS)
+> +
+> +Booting a full firmware image requires a Boot ROM specified via the ``-bios``
+> +option to QEMU. The firmware image should be attached as an MTD drive. Example :
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-arm -machine quanta-gsj -nographic \
+> +      -bios npcm7xx_bootrom.bin \
+> +      -drive file=image-bmc,if=mtd,bus=0,unit=0,format=raw
+> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+> index 1bd477a293..38a9daa9b9 100644
+> --- a/docs/system/target-arm.rst
+> +++ b/docs/system/target-arm.rst
+> @@ -84,6 +84,7 @@ undocumented; you can get a complete list by running
+>     arm/aspeed
+>     arm/musicpal
+>     arm/nseries
+> +   arm/nuvoton
+>     arm/orangepi
+>     arm/palm
+>     arm/xscale
+> 
 
-but it didn't work:
-
-root@hemlock:~/qemu-5.0.0# gpatch -p1 < Makefile.objs.patch.diff
-patching file util/Makefile.objs
-Hunk #1 FAILED at 39.
-1 out of 1 hunk FAILED -- saving rejects to file util/Makefile.objs.rej
-root@hemlock:~/qemu-5.0.0# cat util/Makefile.objs.rej
---- util/Makefile.objs
-+++ util/Makefile.objs
-@@ -39,7 +39,7 @@ util-obj-y += qsp.o
-  util-obj-y += range.o
-  util-obj-y += stats64.o
-  util-obj-y += systemd.o
--util-obj-$(CONFIG_POSIX) += drm.o
-+util-obj-$(CONFIG_LINUX) += drm.o
-  util-obj-y += guest-random.o
-  util-obj-$(CONFIG_GIO) += dbus.o
-  dbus.o-cflags = $(GIO_CFLAGS)
-root@hemlock:~/qemu-5.0.0#
-
-             - Michele
-
-
-
---------------080808010304010904020507
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Oops, I hit Send before I was done.  I tried  the Haiku patch:<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">diff --git
-        a/util/Makefile.objs b/util/Makefile.objs<br>
-        index cc5e37177a..faebc13fac 100644<br>
-        --- a/util/Makefile.objs<br>
-        +++ b/util/Makefile.objs<br>
-        @@ -39,7 +39,7 @@ util-obj-y += qsp.o<br>
-         util-obj-y += range.o<br>
-         util-obj-y += stats64.o<br>
-         util-obj-y += systemd.o<br>
-        -util-obj-$(CONFIG_POSIX) += drm.o<br>
-        +util-obj-$(CONFIG_LINUX) += drm.o<br>
-         util-obj-y += guest-random.o<br>
-         util-obj-$(CONFIG_GIO) += dbus.o<br>
-         dbus.o-cflags = $(GIO_CFLAGS)</font></small><br>
-    <br>
-    but it didn't work:<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
-        gpatch -p1 &lt; Makefile.objs.patch.diff<br>
-        patching file util/Makefile.objs<br>
-        Hunk #1 FAILED at 39.<br>
-        1 out of 1 hunk FAILED -- saving rejects to file
-        util/Makefile.objs.rej<br>
-        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> cat util/Makefile.objs.rej<br>
-        --- util/Makefile.objs<br>
-        +++ util/Makefile.objs<br>
-        @@ -39,7 +39,7 @@ util-obj-y += qsp.o<br>
-         util-obj-y += range.o<br>
-         util-obj-y += stats64.o<br>
-         util-obj-y += systemd.o<br>
-        -util-obj-$(CONFIG_POSIX) += drm.o<br>
-        +util-obj-$(CONFIG_LINUX) += drm.o<br>
-         util-obj-y += guest-random.o<br>
-         util-obj-$(CONFIG_GIO) += dbus.o<br>
-         dbus.o-cflags = $(GIO_CFLAGS)<br>
-        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> </font></small><br>
-    <br>
-                - Michele<br>
-    <br>
-    <br>
-  </body>
-</html>
-
---------------080808010304010904020507--
 
