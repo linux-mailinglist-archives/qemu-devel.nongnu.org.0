@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C703E214049
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:22:26 +0200 (CEST)
-Received: from localhost ([::1]:52826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488EA214053
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:26:15 +0200 (CEST)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrSCX-0005Bl-Qi
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
+	id 1jrSGE-0003ui-AB
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9f-00088B-AY; Fri, 03 Jul 2020 16:19:27 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35692)
+ id 1jrS9g-0008Au-IW; Fri, 03 Jul 2020 16:19:28 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9d-0001VR-Mj; Fri, 03 Jul 2020 16:19:26 -0400
-Received: by mail-wm1-x331.google.com with SMTP id l2so33765615wmf.0;
- Fri, 03 Jul 2020 13:19:24 -0700 (PDT)
+ id 1jrS9f-0001Vd-4I; Fri, 03 Jul 2020 16:19:28 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id o8so33101691wmh.4;
+ Fri, 03 Jul 2020 13:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LbmmUu3oTl3Y5tkkh/O3TvS1Wej2jrXggK29/7bCPIY=;
- b=b6vLir8Mpy1ePg9hSMhI7tz2E8EdrIDjmZwBI0l8SYVQulKjyKHRYaMmhSL/xpJZv7
- 48aXdO4cQh8paBc+Uv9yZB5XfR2o2rgMyDIo9mqAZCOfC3g7uxhYeKY2A1A6toJ2Eoim
- dB3/6eN5WarW21jmMpBVHg3lXVz2eFzOjWFrNjHGNGsPJJzckhfZiBePCLlaD3RPkqtU
- bzcXWyF8u7omK+SQSUnva6EOACMThqvcU2dn4YL18hHRqSuUapQ4DHkAs+gOW7GsV9rw
- 4SwPaTUIEJ4NB6Kb5K++E31J08ZavGjWiwD4NsP2I5zYfCnWoKGY1bBildpI6Ozfm54k
- tc3Q==
+ bh=my+2I7oEcIoGWnbLn8sq/+Zy6t716yBT3j4+w3PES+4=;
+ b=jMsdntsCkNXisGBb8CWMLEwcMT5w5vt3Sf5OaNZ9pzAtgCTTUxi5pfTcmNNtU+aeYs
+ wEr4QCmswYd+71G3yezbvj1mMfMVZtHHeGtkyC7UuxeJ+LKj/cLVHMXAN+003sXUtWBh
+ dimsIGOni4BsEQsiwyDzR8GGjEo8g261ygPJxPmfelMqA2wJiLXJ+F+IYolgMxNeL0s8
+ h2savXhtsNvan343BBx6k+lcOig6zXVV+7g4WTtLu/ukI0NgwbTRzYkod3gpbONdd15q
+ CvKcbi3VOuRytEWpLnBhrTu+RR5WFS8hZDz2nwrs8bce3NicYV7C7OHlhYuxEPjQVe+u
+ 1bQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LbmmUu3oTl3Y5tkkh/O3TvS1Wej2jrXggK29/7bCPIY=;
- b=kDOd1V7BEiANhNtL+Rjw9Q1sbBG7le/BmdHq/AgLGLEjbogjahC2hg7GWpPDlWIonL
- j2aeo7Zth/gGvz2omatacRcCUo0ZzpH8z1p3MonVN5IeJ1SY582tIPzscVdYSIKard+s
- 1boPK++8/0sW08HD3AbRLWhzg+A9ztb2w5tgn120ASE0WisThIYxrHJK4x/ZneURFA8z
- COQfwUzWODL4KKR+tnGu6qyQW90B5njtmqRhvZSl64I8zsWAwRLrcCewApSUPWI3wnpC
- hTiatx/UL84Q461XybUTFV+5i/IK6SHyp/IdrC6LSXyi3Aet9Es7lBYA9nlmo3oYEHgW
- 6sSg==
-X-Gm-Message-State: AOAM532Vq4H94FE6dE7ZA4HFIF8uyaL00fLyHCUTdUclUtna0wXcQ+E3
- mrHlCWTX0xlAluTLFOrLMPz+xdFrdHU=
-X-Google-Smtp-Source: ABdhPJxdotZFm/xvg/UQHeirSOM8fYxMN0EkIp7qLlk4RnZLF5kbfISsVM8xVvyI9qATbzGRkYOdeA==
-X-Received: by 2002:a1c:5a41:: with SMTP id o62mr23588378wmb.16.1593807563814; 
- Fri, 03 Jul 2020 13:19:23 -0700 (PDT)
+ bh=my+2I7oEcIoGWnbLn8sq/+Zy6t716yBT3j4+w3PES+4=;
+ b=Rjg0Zo1APAbGgM9xgSTeSD0x8LuPXVqY0osVlRozTJn1FceAb3w5RFowJpmzQmSBMl
+ rySILM2A/3emOI2cSlGtAy5CsrmMD7eHu8OURZiCn/nIZPn1WsPgxPgvjkCwDVsd6bwp
+ eYNLUoNLlsg3vYu3RIMpFxUBSalRoOtn1akUaMJOJYLGgTV8+CDEE7pefo2COrkNFV5F
+ kVcyQD/68j6sUqrBK0SBli2+Rek3kSyHfYrbfbq7ylZtf4VMjWZzLuzd9+M5ylYRvGMe
+ RF3O5VKfAbP+GVHDYsLZsocL2ENsqSppGraqax6I5JuZLB4o+9jS3BHETN1mudAQdOzm
+ 1MbQ==
+X-Gm-Message-State: AOAM5309oHwLAMQAdJ9CsufvzuvsiJV1TTLjToDb51sM0YI0Axf9JAKT
+ 2aff12JttUQkxBnEh+6nRsqIw4Xrfp8=
+X-Google-Smtp-Source: ABdhPJxmeyPqHpEMctz7hcbDpSQ57jL1oBVn5E+qjNvJuB1N1xdseIfddj8uVI/c3QjqZcUu8RekZA==
+X-Received: by 2002:a1c:7209:: with SMTP id n9mr10149730wmc.150.1593807565301; 
+ Fri, 03 Jul 2020 13:19:25 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.22
+ by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 13:19:23 -0700 (PDT)
+ Fri, 03 Jul 2020 13:19:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 07/18] hw/arm/msf2-soc: Mark the device with no migratable
+Subject: [PATCH 08/18] hw/core/split-irq: Mark the device with no migratable
  fields
-Date: Fri,  3 Jul 2020 22:19:00 +0200
-Message-Id: <20200703201911.26573-8-f4bug@amsat.org>
+Date: Fri,  3 Jul 2020 22:19:01 +0200
+Message-Id: <20200703201911.26573-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200703201911.26573-1-f4bug@amsat.org>
 References: <20200703201911.26573-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -106,56 +106,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 This device doesn't have fields to migrate. Be explicit
 by using vmstate_qdev_no_state_to_migrate.
 
-Add a more descriptive comment to keep a clear separation
-between static property vs runtime changeable.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/msf2-soc.h | 11 ++++++-----
- hw/arm/msf2-soc.c         |  1 +
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/core/split-irq.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/arm/msf2-soc.h b/include/hw/arm/msf2-soc.h
-index c9cb214aa6..8f85ff8295 100644
---- a/include/hw/arm/msf2-soc.h
-+++ b/include/hw/arm/msf2-soc.h
-@@ -51,6 +51,12 @@ typedef struct MSF2State {
- 
-     ARMv7MState armv7m;
- 
-+    MSF2SysregState sysreg;
-+    MSSTimerState timer;
-+    MSSSpiState spi[MSF2_NUM_SPIS];
-+    MSF2EmacState emac;
-+
-+    /* Properties */
-     char *cpu_type;
-     char *part_name;
-     uint64_t envm_size;
-@@ -59,11 +65,6 @@ typedef struct MSF2State {
-     uint32_t m3clk;
-     uint8_t apb0div;
-     uint8_t apb1div;
--
--    MSF2SysregState sysreg;
--    MSSTimerState timer;
--    MSSSpiState spi[MSF2_NUM_SPIS];
--    MSF2EmacState emac;
- } MSF2State;
- 
- #endif
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 3235c76194..bcec389a01 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -245,6 +245,7 @@ static void m2sxxx_soc_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->realize = m2sxxx_soc_realize;
+diff --git a/hw/core/split-irq.c b/hw/core/split-irq.c
+index 3b90af2e8f..a7072f922c 100644
+--- a/hw/core/split-irq.c
++++ b/hw/core/split-irq.c
+@@ -71,6 +71,7 @@ static void split_irq_class_init(ObjectClass *klass, void *data)
+     /* No state to reset or migrate */
+     device_class_set_props(dc, split_irq_properties);
+     dc->realize = split_irq_realize;
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
-     device_class_set_props(dc, m2sxxx_soc_properties);
- }
  
+     /* Reason: Needs to be wired up to work */
+     dc->user_creatable = false;
 -- 
 2.21.3
 
