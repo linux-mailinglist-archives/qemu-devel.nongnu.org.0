@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06D5213DD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:59:36 +0200 (CEST)
-Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28668213DCF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:58:41 +0200 (CEST)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP2F-0005eW-Ug
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49992)
+	id 1jrP1M-0003Ik-4W
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:58:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx8-0004cO-MM
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:18 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50681)
+ id 1jrOx9-0004ei-Is
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:19 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx6-0005f3-Ri
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:18 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id l17so32636679wmj.0
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:16 -0700 (PDT)
+ id 1jrOx7-0005fF-Mm
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:19 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id g75so32622636wme.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=T17rWK5CCU0ZUANk3vqpHki4UbNYDej3t8lSuYskTdY=;
- b=LDpLqQQgCjEL9GPjFpb8U/YkdUKmHKibZZMPFcHOPyj0Qvn0oo9RuVsu9gIIE3XnPw
- /clCffpqEkE1G/XhHNJ9QWxXK/UzzayxrcYnrYtu9OnTmHqp2uUV9ovWmibpNWfZhae1
- +6wUej3mSCKeparKNsqZLOuhwqZKHd0C8Bu7FKF7PPYKwCO016qhezBrfHDgHFqshhT7
- qn5V6lxKhHGEv4O+35+y9xc3TWhZ1bXa18Fo7iUIGolZzbEsJcMcZKDpE+sBzlZrgX12
- 53rb7oDX6vH/fBsRkGt2V4pxMwzvWlEOX9XKZJEsOl6x63QY7MSSJ4/zY21xzzxb7GVT
- rcug==
+ bh=EbbmXTpDnijCYEth67+ubP+o2i89Y7K6M4yUuCHERro=;
+ b=gaoqUowTdPGRycBYt8EcKJzHkULzCCCQxEgsTXjhwYXS+0I7wWe4xqYnl2GAQt/1Be
+ XFNed+B61WRxpPbIZh5OY/iHQshtUaFa76sxecG6DqmMRDoKBponEJaz4WW5BTRGY39G
+ MB6EeCDN0TI6fKaLHfBnvH/qKMqX7CS1BTnBrUqQi4NXHZSlUMYsMAxUUox8UOypMy6k
+ EjxDYDLPnu3lApm6hZv89yuLc93fKCj95y+QYLXx8UVjTBnphVjUkKssoyUIrc1Ax8ev
+ xkDmII+HSm/sQiV+C7HQcB1YqSTcvooiRFP/+dre6vANTcbB729E1lSvl/Tdc11/VVQE
+ PqUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T17rWK5CCU0ZUANk3vqpHki4UbNYDej3t8lSuYskTdY=;
- b=iLz5FslZmzgk4//zCMQ6YcYBhbaL9cDt6mi/cAjil/T8ufNI/7OnEW/dx+nmv2LG94
- ZOGywFdFcBtfS6ofKFVQ72zVpDMTFRJBziU+/GQvUZ7Z++Fgg3K6dMs+NylwmU4D93lt
- Vydl3UL0Ksf7wi0/jBJCt1QezKmiHq7dYYOBqPoi8M6OCN8ojuDzBRSGHlFPLxioxz3g
- eHPfBzLmldxR1qK3ZFQrcghcmcjyRuJsBn1BU5uFSHq419PR0VPD2IIfcFAn1eSk54Hc
- T0dMWomfUnqQHN/nHIyYiFwPuTo9Om/klrZ8q6PxEv9vhpIdeDsMSoQP+PcMuKtTgot/
- 7P7g==
-X-Gm-Message-State: AOAM531eJ3uUoe8rvKyHuyyBFkafi06mVnTo92djW72wJH7bmkB1fzYJ
- /trXSwBwSpS9KPFAaKrinrZlaRYhm+jKbA==
-X-Google-Smtp-Source: ABdhPJw67F2scitmVzwAEFoLXMbMmj8XZnST7sLroewvmV68dc2WlN1sOvyr3Vr+ZW6xbZg1SOJLXg==
-X-Received: by 2002:a7b:c5c4:: with SMTP id n4mr36674691wmk.67.1593795255133; 
- Fri, 03 Jul 2020 09:54:15 -0700 (PDT)
+ bh=EbbmXTpDnijCYEth67+ubP+o2i89Y7K6M4yUuCHERro=;
+ b=cheN3MOijJtBmkNpZqfbLbQknk+PzJebgTJWZXFa5zP/5+D9vw7V44BDj/lyc3Ktyn
+ xGxaxza1bat/7O4KT1tQt//GUK5ngQWED7yIAOCIiQdnehDvU7iViK0T7TcUWIiKFtT0
+ c4a1abeYmirhEj6HswpLAmAnIT0Di2mrKZdKyC5c2B+ZDwkE/wH74SHmV6fftm/AQq3G
+ LvR3L3bcphOzbpyLmhLmBI3to2vGZSDLjzvyZV65YlXQ4p1+VAV15TlN0oVWojoIeLrq
+ DImm9Gzi2KkuvPTJo5rC69+2QgiBXQWykR2NJvKc4QHb3txwMOlW4ojcx5cegHsYV1ch
+ x0dA==
+X-Gm-Message-State: AOAM531dN72Z0pm1cS2Bs3iasL1I6kQL7iUFx73uW/QDqiEt1LqOZ34+
+ kYebU9UZHv3qTMd4vRrWbpHeY2IfMl1emQ==
+X-Google-Smtp-Source: ABdhPJwF2DUjCVq4CWYu9CoUlpXTlRUhxt3kwpQzsbAP3zRKh2obKq5qzhEnBUcZEvip/B+6kRKZtQ==
+X-Received: by 2002:a05:600c:2253:: with SMTP id
+ a19mr35808184wmm.136.1593795256067; 
+ Fri, 03 Jul 2020 09:54:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.14
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:14 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/34] virtio-iommu-pci: Add array of Interval properties
-Date: Fri,  3 Jul 2020 17:53:38 +0100
-Message-Id: <20200703165405.17672-8-peter.maydell@linaro.org>
+Subject: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
+Date: Fri,  3 Jul 2020 17:53:39 +0100
+Message-Id: <20200703165405.17672-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,80 +91,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-The machine may need to pass reserved regions to the
-virtio-iommu-pci device (such as the MSI window on x86
-or the MSI doorbells on ARM).
+At the moment the virtio-iommu translates MSI transactions.
+This behavior is inherited from ARM SMMU. The virt machine
+code knows where the guest MSI doorbells are so we can easily
+declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+setting the guest will not map MSIs through the IOMMU and those
+transactions will be simply bypassed.
 
-So let's add an array of Interval properties.
-
-Note: if some reserved regions are already set by the
-machine code - which should be the case in general -,
-the length of the property array is already set and
-prevents the end-user from modifying them. For example,
-attempting to use:
-
--device virtio-iommu-pci,\
- len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:1
-
-would result in the following error message:
-
-qemu-system-aarch64: -device virtio-iommu-pci,addr=0xa,
-len-reserved-regions=1,reserved-regions[0]=0xfee00000:0xfeefffff:1:
-array size property len-reserved-regions may not be set more than once
-
-Otherwise, for example, adding two reserved regions is achieved
-using the following options:
-
--device virtio-iommu-pci,addr=0xa,len-reserved-regions=2,\
- reserved-regions[0]=0xfee00000:0xfeefffff:1,\
- reserved-regions[1]=0x1000000:100ffff:1
+Depending on which MSI controller is in use (ITS or GICV2M),
+we declare either:
+- the ITS interrupt translation space (ITS_base + 0x10000),
+  containing the GITS_TRANSLATOR or
+- The GICV2M single frame, containing the MSI_SETSP_NS register.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-id: 20200629070404.10969-5-eric.auger@redhat.com
+Message-id: 20200629070404.10969-6-eric.auger@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/virtio/virtio-iommu-pci.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/hw/arm/virt.h |  7 +++++++
+ hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 4588361d6b3..592abc9279c 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -33,6 +33,9 @@ struct VirtIOIOMMUPCI {
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 31878ddc722..a18b6b397b6 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -96,6 +96,12 @@ typedef enum VirtIOMMUType {
+     VIRT_IOMMU_VIRTIO,
+ } VirtIOMMUType;
  
- static Property virtio_iommu_pci_properties[] = {
-     DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+    DEFINE_PROP_ARRAY("reserved-regions", VirtIOIOMMUPCI,
-+                      vdev.nb_reserved_regions, vdev.reserved_regions,
-+                      qdev_prop_reserved_region, ReservedRegion),
-     DEFINE_PROP_END_OF_LIST(),
- };
++typedef enum VirtMSIControllerType {
++    VIRT_MSI_CTRL_NONE,
++    VIRT_MSI_CTRL_GICV2M,
++    VIRT_MSI_CTRL_ITS,
++} VirtMSIControllerType;
++
+ typedef enum VirtGICType {
+     VIRT_GIC_VERSION_MAX,
+     VIRT_GIC_VERSION_HOST,
+@@ -136,6 +142,7 @@ typedef struct {
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
++    VirtMSIControllerType msi_controller;
+     uint16_t virtio_iommu_bdf;
+     struct arm_boot_info bootinfo;
+     MemMapEntry *memmap;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index af3050bc4bd..7922f3c23a5 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -600,6 +600,7 @@ static void create_its(VirtMachineState *vms)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, vms->memmap[VIRT_GIC_ITS].base);
  
-@@ -40,6 +43,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
- {
-     VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
-+    VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+     fdt_add_its_gic_node(vms);
++    vms->msi_controller = VIRT_MSI_CTRL_ITS;
+ }
  
-     if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
-         MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-@@ -54,6 +58,13 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-                           "-no-acpi\n");
-         return;
+ static void create_v2m(VirtMachineState *vms)
+@@ -620,6 +621,7 @@ static void create_v2m(VirtMachineState *vms)
      }
-+    for (int i = 0; i < s->nb_reserved_regions; i++) {
-+        if (s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_RESERVED &&
-+            s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_MSI) {
-+            error_setg(errp, "reserved region %d has an invalid type", i);
-+            error_append_hint(errp, "Valid values are 0 and 1\n");
+ 
+     fdt_add_v2m_gic_node(vms);
++    vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
+ }
+ 
+ static void create_gic(VirtMachineState *vms)
+@@ -2198,8 +2200,36 @@ out:
+ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                             DeviceState *dev, Error **errp)
+ {
++    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
++
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_memory_pre_plug(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
++        hwaddr db_start = 0, db_end = 0;
++        char *resv_prop_str;
++
++        switch (vms->msi_controller) {
++        case VIRT_MSI_CTRL_NONE:
++            return;
++        case VIRT_MSI_CTRL_ITS:
++            /* GITS_TRANSLATER page */
++            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
++            db_end = base_memmap[VIRT_GIC_ITS].base +
++                     base_memmap[VIRT_GIC_ITS].size - 1;
++            break;
++        case VIRT_MSI_CTRL_GICV2M:
++            /* MSI_SETSPI_NS page */
++            db_start = base_memmap[VIRT_GIC_V2M].base;
++            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
++            break;
 +        }
-+    }
-     object_property_set_link(OBJECT(dev),
-                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-                              "primary-bus", &error_abort);
++        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
++                                        db_start, db_end,
++                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
++
++        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
++        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
++        g_free(resv_prop_str);
+     }
+ }
+ 
 -- 
 2.20.1
 
