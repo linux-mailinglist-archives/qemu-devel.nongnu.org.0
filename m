@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74A5213E74
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:19:17 +0200 (CEST)
-Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424E5213E5C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:13:46 +0200 (CEST)
+Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPLI-0003P4-P0
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50960)
+	id 1jrPFx-0002Fs-B5
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jrOyp-00085S-CM; Fri, 03 Jul 2020 12:56:03 -0400
-Resent-Date: Fri, 03 Jul 2020 12:56:03 -0400
-Resent-Message-Id: <E1jrOyp-00085S-CM@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21793)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jrP1l-0005e3-1k
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:59:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56036
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jrOym-0006OC-Dj; Fri, 03 Jul 2020 12:56:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1593795330; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=AdBQ9mu/G51AWDU2nqZQGhPD2Bf50kCJrPjy3D3qP+H+FuUk7PaQ3enNJXrQ7WGS5GVD0lGvNmXeJ6oYVJtsfk/MLxqeNbpx4IEQggcbTQAJN0J9lkPzR9ByihItFlCUyNFymcEJO1lMwlMcfjRUxvCPxwrxIxY2h0XzxR/X63s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1593795330;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=jHLUq4nklKz5CV1SvfvpkTLwdi59eJlIYmIiyx8er3I=; 
- b=Nm+lFkrQeXmnaVFVgPmcnMnovdqXz0qnFUIOb/Rt6IE7QcRUkgHf3tqp5PtkUXn63+rsvRT/UMuzuT0H04GBGwntPenKY7aSjZjL10AYF5cBrf4o8ZDU8RMSujv5uBvDMr58Lt89+3ASfH28iLC4pHgQMp07r14VYnhDHl5qz3g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1593795328871558.9702491950661;
- Fri, 3 Jul 2020 09:55:28 -0700 (PDT)
-Message-ID: <159379532700.15570.9794737415308742510@d1fd068a5071>
-Subject: Re: [PATCH v6 0/7] block: seriously improve savevm/loadvm performance
-In-Reply-To: <20200703161130.23772-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jrP1i-0007LX-Cr
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:59:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593795540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qUYk77T9Xe378bEJJNF2ZyekN7ZafAoXoY+Bm9W14N8=;
+ b=Vhm2mzBmmcGLPbExCaeKIMeAm1lXZwivO32NIu5bRnrm6gljCwTSLUQCwAXN7UgLManbAB
+ tJcC75+1DOvWHQE9U0aXUM4CO2PYciV43ybViQSrfH+IlE/rj0I8wDYiYQHbHLC+r50ozB
+ M6OcrD1+04RT+ylFmgAqx3IHtFByIEM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-fSsCxR-jOy-lwGom1qj9tQ-1; Fri, 03 Jul 2020 12:58:56 -0400
+X-MC-Unique: fSsCxR-jOy-lwGom1qj9tQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3FA318FE898
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 16:58:52 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-238.ams2.redhat.com
+ [10.36.114.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D867D709E1;
+ Fri,  3 Jul 2020 16:58:45 +0000 (UTC)
+Subject: Re: [RFC PATCH] MAINTAINERS: Cover the firmware JSON schema
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200703161453.8406-1-philmd@redhat.com>
+ <20200703161858.GO2213227@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <d3b8e3f2-c565-a38e-8af6-87fd579e9045@redhat.com>
+Date: Fri, 3 Jul 2020 18:58:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: den@openvz.org
-Date: Fri, 3 Jul 2020 09:55:28 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:55:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200703161858.GO2213227@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,50 +85,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, dplotnikov@virtuozzo.com, stefanha@redhat.com,
- den@openvz.org, mreitz@redhat.com
+Cc: Kashyap Chamarthy <kchamart@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMzE2MTEzMC4yMzc3
-Mi0xLWRlbkBvcGVudnoub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
-LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
-Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
-RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAtLSAgICAgICAgc25hcDAgICAgICAg
-ICAgICAgICAgICBTSVpFIHl5eXktbW0tZGQgaGg6bW06c3MgICAwMDowMDowMC4wMDAKIChxZW11
-KSBsb2Fkdm0gc25hcDAKK05vdCBhIG1pZ3JhdGlvbiBzdHJlYW0KK0Vycm9yOiBFcnJvciAtMjIg
-d2hpbGUgbG9hZGluZyBWTSBzdGF0ZQogKHFlbXUpIHF1aXQKIAogRm9ybWF0dGluZyAnVEVTVF9E
-SVIvdC5JTUdGTVQnLCBmbXQ9SU1HRk1UIHNpemU9MTM0MjE3NzI4IGJhY2tpbmdfZmlsZT1URVNU
-X0RJUi90LklNR0ZNVC5iYXNlCi0tLQpOb3QgcnVuOiAyNTkKRmFpbHVyZXM6IDI2NwpGYWlsZWQg
-MSBvZiAxMTkgaW90ZXN0cwptYWtlOiAqKiogW2NoZWNrLXRlc3RzL2NoZWNrLWJsb2NrLnNoXSBF
-cnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAg
-ICBjaGVjay1xdGVzdC1hYXJjaDY0OiB0ZXN0cy9xdGVzdC9xb3MtdGVzdApUcmFjZWJhY2sgKG1v
-c3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
-bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
-dXVpZD04MzNiNTkzMjM2YzU0OWNmYWZmMDk2NTU2NDY3MTY4YicsICctdScsICcxMDAzJywgJy0t
-c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
-VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
-LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVt
-dS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNo
-ZXctdGVzdGVyLXRtcC15NWlzeG93Zy9zcmMvZG9ja2VyLXNyYy4yMDIwLTA3LTAzLTEyLjM3LjQ5
-LjMyNTA2Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAnL3Zhci90bXAvcWVt
-dS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
-aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD04MzNiNTkzMjM2YzU0
-OWNmYWZmMDk2NTU2NDY3MTY4YgptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
-ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC15NWlz
-eG93Zy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9y
-IDIKCnJlYWwgICAgMTdtMzguMjQ0cwp1c2VyICAgIDBtOC44MDNzCgoKVGhlIGZ1bGwgbG9nIGlz
-IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDcwMzE2MTEzMC4yMzc3
-Mi0xLWRlbkBvcGVudnoub3JnL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On 07/03/20 18:18, Daniel P. Berrangé wrote:
+> On Fri, Jul 03, 2020 at 06:14:53PM +0200, Philippe Mathieu-Daudé wrote:
+>> Add an entry to cover firmware.json (see commit 3a0adfc9bf:
+>> schema that describes the different uses and properties of
+>> virtual machine firmware).
+>> Cc the libvirt maintainers if it ever changes.
+>>
+>> Cc: Laszlo Ersek <lersek@redhat.com>
+>> Cc: Daniel P. Berrange <berrange@redhat.com>
+>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Based on a comment from Laszlo:
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg604925.html
+>>
+>> I don't think Laszlo should be the sole maintainer, not sure
+>> who else should be listed. Gerd and Kashyap? :)
+>> Can we add it 'maintained' without specific maintainer?
+>> ---
+>>  MAINTAINERS | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index dec252f38b..57c90201df 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2601,6 +2601,12 @@ F: include/hw/i2c/smbus_master.h
+>>  F: include/hw/i2c/smbus_slave.h
+>>  F: include/hw/i2c/smbus_eeprom.h
+>>  
+>> +Firmware schema specifications
+>> +M: Laszlo Ersek <lersek@redhat.com>
+>> +R: libvir-list@redhat.com
+> 
+> FWIW, I don't think libvirt needs to review this. Our firmware handling
+> code doesn't really care what specific files exist - it just follows the
+> declared logic to pick amongst whatever exists.
+
+I request that
+
+- Phil be listed please as another maintainer (so there are two people
+that can send pull requests, if a 3rd person needs to patch this file
+for whatever reason),
+
+- Dan be listed please *at least* as an "R" person; the business logic
+written up under the @Firmware element, and lots of the initial review
+comments (in particular the suggestion to mention specific QEMU command
+line switches in the schema), had come from him.
+
+If Dan is willing to be an "M", then we can collapse both of my above
+requests into one, and Phil wouldn't have to be listed (Dan could both
+review suggested changes and submit pull requests). However, I'm raising
+this only as a technical possibility; what really matters to me is that
+Dan be CC'd on suggested changes, and that someone other than me can
+submit PRs if necessary.
+
+Thanks!
+Laszlo
+
 
