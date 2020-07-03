@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CB8213E01
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:05:44 +0200 (CEST)
-Received: from localhost ([::1]:36158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03632213E2C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:07:46 +0200 (CEST)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP8B-0004uO-UO
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
+	id 1jrPA9-0000VC-0P
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxH-0004xa-9v
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:27 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39917)
+ id 1jrOxI-000510-Ae
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:28 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxF-0005gj-Fj
+ id 1jrOxG-0005gu-JR
  for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:27 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id w3so22288991wmi.4
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:25 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 17so34698628wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iUQU2oplSMWnXTckOnwpuiVAWqwg6rxiHqd3JFEyT8I=;
- b=U96guFZBkr7NARRWba9BUEWURYSCfBM2X7oUjQqWA4jcfdTSNyuEWAM8YU01tHuqeZ
- kYvyWgG7ov8Y6wTn2+4QxHge860sOttrLlz/OHAyNrcS3eHD9N3EXzfA87+y3NR9MMA1
- 0hQwyKw5pCFSxsP8IH7hTbjN8S8f3lN1UU40bkR1vAcc9yef0tyLT+So5bx/AoD0kft5
- 5vhh0pmR10m7KhUsStMTPJexFrzRG8bFACkAoKPsUMvmkZP3yy9b3gDdE2/QfOIRGUzw
- gsHqaZrTa+eVtNSOeEC1IBtgn59opCj9JK0TmvjLAkl3gUIFA2kG6vbQGzNjJNEzoe9W
- +f6A==
+ bh=K1voChlz8vWgeFf1uPl+d638S/hhQnZSLnL38yK92NY=;
+ b=JFqFd5yhxwIvKdtUhTpkpcwGeRvxuV96DqWI4jadZkqixABHBhb9fKZ82q7Lx7WX49
+ 5nOG27gnbUWGC2XauG9gXsB+zyL2Y1Qtbvkwbf8NENudkNjpI5tyL8V5ZUvAZ1FPAvAI
+ gVoMjwEEr2pHewKAhm/2feDhFNdQYGgITiJmbrAB/5eqYpp/kVbquJ8PsccISRlLUAHO
+ BT9LDzC0X46Ly1NQZTBqOjpWvNvFFXI15uHMN3Vw5z0esLVieYQlA6BFF5VRJJaaDTUb
+ cGLZLpPoPm0lWrm++xjpgBXkaSrK3BKHPsKTDzd71u/fCN5lwOYJgw8Xu1DjZBtPnrx7
+ 2bsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iUQU2oplSMWnXTckOnwpuiVAWqwg6rxiHqd3JFEyT8I=;
- b=GX+xyss67knSA0Y92mSelWm0AvJWv4kWy1SSl4RgXcTmqr85Dxz8+qDSJhtwJ2gjSd
- 0Ze+MEY9NLdIg676yE889N0qSUB6xOUNu24t5Xhz859c2BZi7YN6cqBRWLvHKFi7lkQj
- 88SrSLaH7R8ECX3ja4RL6sktlag0oeyki2U6VKizb71jCN5v1KN+1T/djfqntYGqBg/F
- FnNq4jk9azdGMv9PvCP6gcNGSugL3fCUBBvuR5KNkL6cEn9ViGhnrhNp3cTatLs8c9lP
- WfLy9jEuNtDzM2s2U+8pQ9NcoKKReStUBdAuIT8Ux9g/4KY/66KubvPr/x/8Szvhk7/8
- 9b8w==
-X-Gm-Message-State: AOAM532lFUfpJnQ5YglonvPrRls9hrocrSMvSIK+xWbbt5nR4rdqM70i
- PI8JxzZQYGMSNOhlS+YabVZ5MVI7Y30oAg==
-X-Google-Smtp-Source: ABdhPJyAXhsbyx4NS9f8qH3gTOQfP7XLEVn84XabyA6qyITseT9r/yaWQQdpFVNt2wXDN25DY7IlnA==
-X-Received: by 2002:a1c:2257:: with SMTP id i84mr36890908wmi.158.1593795263785; 
- Fri, 03 Jul 2020 09:54:23 -0700 (PDT)
+ bh=K1voChlz8vWgeFf1uPl+d638S/hhQnZSLnL38yK92NY=;
+ b=kXK7cz/b4rUEB3krrugX8aM7J1gUkypZVFYmcH1TNOu1uulY4u6efvM7op1AHsR75V
+ QyqFzBYJ+W0AR9fv/nXGiNqTaFUeqfcraNob3rNtvQywS8TAD1OXZ3W6IClLBx++UWnl
+ 9usG3T59EZL99GEks3AoRKqewGT1YZc2PGF9i0ebx5Ss19ppGgncv+CtPZRsIP7JjNCQ
+ RVAjMVifdSyN1AF1wu91vrXsh0qxZnYhcUyC/sETR0omstBSLBAZZWLycPhAaTsbczUb
+ YYE3bwJFEgjmMF9YHZVqJwE/LCFkCPqkzxdJJyiAWRBReqrn1US6cYdQ896o1QJrKC4F
+ qm3A==
+X-Gm-Message-State: AOAM532kJsaDQw04u86uxXKiwuNHU99waKuzrauWb/SFheBTkadC2eN8
+ OABNVSl35lvctRBkifQZ7Filp5y/owC4Tw==
+X-Google-Smtp-Source: ABdhPJyEUWINVaKgLi4xApsxBRR8eOeu1rfyfineSqe224BHNiluYvrtkVRBF2o/3mb8uBuER0pSTQ==
+X-Received: by 2002:a05:600c:2f17:: with SMTP id
+ r23mr35719247wmn.167.1593795264910; 
+ Fri, 03 Jul 2020 09:54:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.22
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:22 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/34] target/arm: Fix temp double-free in sve ldr/str
-Date: Fri,  3 Jul 2020 17:53:46 +0100
-Message-Id: <20200703165405.17672-16-peter.maydell@linaro.org>
+Subject: [PULL 16/34] hw/display/bcm2835_fb.c: Initialize all fields of struct
+Date: Fri,  3 Jul 2020 17:53:47 +0100
+Message-Id: <20200703165405.17672-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,102 +90,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+In bcm2835_fb_mbox_push(), Coverity complains (CID 1429989) that we
+pass a pointer to a local struct to another function without
+initializing all its fields.  This is a real bug:
+bcm2835_fb_reconfigure() copies the whole of our new BCM2385FBConfig
+struct into s->config, so any fields we don't initialize will corrupt
+the state of the device.
 
-The temp that gets assigned to clean_addr has been allocated with
-new_tmp_a64, which means that it will be freed at the end of the
-instruction.  Freeing it earlier leads to assertion failure.
+Copy the two fields which we don't want to update (pixo and alpha)
+from the existing config so we don't accidentally change them.
 
-The loop creates a complication, in which we allocate a new local
-temp, which does need freeing, and the final code path is shared
-between the loop and non-loop.
-
-Fix this complication by adding new_tmp_a64_local so that the new
-local temp is freed at the end, and can be treated exactly like
-the non-loop path.
-
-Fixes: bba87d0a0f4
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200702175605.1987125-1-richard.henderson@linaro.org
+Fixes: cfb7ba983857e40e88
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200628195436.27582-1-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.h | 1 +
- target/arm/translate-a64.c | 6 ++++++
- target/arm/translate-sve.c | 8 ++------
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ hw/display/bcm2835_fb.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 49e4865918d..647f0c74f62 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -30,6 +30,7 @@ void unallocated_encoding(DisasContext *s);
-     } while (0)
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index c6263808a27..7c0e5eef2d5 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -282,6 +282,10 @@ static void bcm2835_fb_mbox_push(BCM2835FBState *s, uint32_t value)
+     newconf.base = s->vcram_base | (value & 0xc0000000);
+     newconf.base += BCM2835_FB_OFFSET;
  
- TCGv_i64 new_tmp_a64(DisasContext *s);
-+TCGv_i64 new_tmp_a64_local(DisasContext *s);
- TCGv_i64 new_tmp_a64_zero(DisasContext *s);
- TCGv_i64 cpu_reg(DisasContext *s, int reg);
- TCGv_i64 cpu_reg_sp(DisasContext *s, int reg);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 73d753f11fb..8c0764957c8 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -461,6 +461,12 @@ TCGv_i64 new_tmp_a64(DisasContext *s)
-     return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_new_i64();
- }
- 
-+TCGv_i64 new_tmp_a64_local(DisasContext *s)
-+{
-+    assert(s->tmp_a64_count < TMP_A64_MAX);
-+    return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_local_new_i64();
-+}
++    /* Copy fields which we don't want to change from the existing config */
++    newconf.pixo = s->config.pixo;
++    newconf.alpha = s->config.alpha;
 +
- TCGv_i64 new_tmp_a64_zero(DisasContext *s)
- {
-     TCGv_i64 t = new_tmp_a64(s);
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index f318ca265f2..08f0fd15b28 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4372,9 +4372,8 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+     bcm2835_fb_validate_config(&newconf);
  
-         /* Copy the clean address into a local temp, live across the loop. */
-         t0 = clean_addr;
--        clean_addr = tcg_temp_local_new_i64();
-+        clean_addr = new_tmp_a64_local(s);
-         tcg_gen_mov_i64(clean_addr, t0);
--        tcg_temp_free_i64(t0);
- 
-         gen_set_label(loop);
- 
-@@ -4422,7 +4421,6 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
-         tcg_temp_free_i64(t0);
-     }
--    tcg_temp_free_i64(clean_addr);
- }
- 
- /* Similarly for stores.  */
-@@ -4463,9 +4461,8 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
- 
-         /* Copy the clean address into a local temp, live across the loop. */
-         t0 = clean_addr;
--        clean_addr = tcg_temp_local_new_i64();
-+        clean_addr = new_tmp_a64_local(s);
-         tcg_gen_mov_i64(clean_addr, t0);
--        tcg_temp_free_i64(t0);
- 
-         gen_set_label(loop);
- 
-@@ -4509,7 +4506,6 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         }
-         tcg_temp_free_i64(t0);
-     }
--    tcg_temp_free_i64(clean_addr);
- }
- 
- static bool trans_LDR_zri(DisasContext *s, arg_rri *a)
+     pitch = bcm2835_fb_get_pitch(&newconf);
 -- 
 2.20.1
 
