@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F089213754
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:10:49 +0200 (CEST)
-Received: from localhost ([::1]:44768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E916213784
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:20:53 +0200 (CEST)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHia-0003Jo-7N
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59904)
+	id 1jrHsK-0007ie-5v
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:20:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcR-0007xL-9R
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51245
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHey-0005NL-VG
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45569
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcO-0004Rg-VC
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHew-0004yS-Su
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767064;
+ s=mimecast20190719; t=1593767222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JOwCv9MKVFDSFgjABrGrn+AVAUp/DMrwQ11TkrNg4cg=;
- b=bnTPkkDfkwtwRhdR4z3WPw1iSYuypkf+Wng10l3I2lEOT+kOdfEeTd+y3kix5N1mXpXQDx
- qlyC1wxiPuLKu61IpuF3YpECDhB8D4JX/tT45XgfnWxrT5gswH/AcZ/Z4qRafqsiJ35A+I
- 1X/WX25AIpvD9JMKsX65o1OPOrSCMEE=
+ bh=QL569dPvFUzG3LRggM07g4Qliw+yzL9OH4YIUOzaWWE=;
+ b=AjbqJG23+1ApWn9YbYZfPMK4L6F0mRri6FNYVslDGohvikbULkwl0AfhmfAK8YwIIl/NBJ
+ 55LtFyJJfAmezvUX7YXmeGEDcbWvNdoXUzCXGiC7kC0ygCUb2/I9bRLkxm4tY8TKtXCZy+
+ DhPUBq9XaCLniKQUEsgy/tPIZxPyN10=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-GRmi2qAvPgKs8ZVYQfG6uA-1; Fri, 03 Jul 2020 05:04:22 -0400
-X-MC-Unique: GRmi2qAvPgKs8ZVYQfG6uA-1
-Received: by mail-wm1-f69.google.com with SMTP id g187so34474872wme.0
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:22 -0700 (PDT)
+ us-mta-315-o0aPy3O6Mj2Dia1w1iUxqQ-1; Fri, 03 Jul 2020 05:04:25 -0400
+X-MC-Unique: o0aPy3O6Mj2Dia1w1iUxqQ-1
+Received: by mail-wm1-f69.google.com with SMTP id s134so34552299wme.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=JOwCv9MKVFDSFgjABrGrn+AVAUp/DMrwQ11TkrNg4cg=;
- b=a9zRpiAmetJde+cjSg4AKbdbDBMqJHoMeFqvtmhUyohnKH1N/eEV4USM+gRWzrEy1w
- POca/O6rInRlQXerhqKXhk/wfnERR1DWjVAbSuBpxATlhp2qs05QHe/hXRVNdCAwPd0f
- 5rtDFdUEcV8V5dLVtp2RXmo96Xlk0yN7Ygc+fHUtadbBZZGRP8kk3dX2sfC6m0PxSUMV
- lSRdxYoS/qUoDlelLZNTIcqCC7dgmpzhAYrOzTD+zuG1wmwyQDxmfajERVNVpgmxgM/U
- GuEykTHY6EfvCCNMxo51Jw8gD5KB6qlVAIgvHkkZpdxFhUniNWQbftkKexlCRobhchRH
- uXkg==
-X-Gm-Message-State: AOAM532tDdYFlrK2FyyHJZjrh2h0J1Tv8uyv6GPDWhFQhgzbdSaZetXs
- lJiZ4yDjM9oRs1vKDUbpz6FtXbhOQjbJ14zZU+l2K19nVkVnKcx+tjubXqvwYFuwQVJcnTYUxLB
- gl5AZ8hwqnA0ZwSc=
-X-Received: by 2002:a1c:1bc4:: with SMTP id
- b187mr37826824wmb.105.1593767061152; 
- Fri, 03 Jul 2020 02:04:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQCNrOeSgCuomBHLwJ+zIIFuOCU0nGTwysyqUvOJCp70aRX3M5s90EG/CfQJcxNztXtvSteg==
-X-Received: by 2002:a1c:1bc4:: with SMTP id
- b187mr37826802wmb.105.1593767060891; 
- Fri, 03 Jul 2020 02:04:20 -0700 (PDT)
+ bh=QL569dPvFUzG3LRggM07g4Qliw+yzL9OH4YIUOzaWWE=;
+ b=hmQZJY1B8FcSsrk2JGtbZwyja/sCDG5ldkeIOe6koVUDt13JVMHFqp4/7C0BCppdro
+ q+SPL2iZvEU8oQw0uYH84EnlJTMmuE8rJSu2a/hRk8U0P6SUciAHHQTR4dW5KNKHDCSr
+ DgsUfpq3WC96635wK9FEWIIrh/TQtJxV3NNa9Ic7tiWMZksdrbmIo75q63/ly1KBLra5
+ Qb3bKIvbOsinPiIYB7lALf/KiOZMXtTByYVKjxqgQ6FFvL4ayFT+ETuRw4cXxqivv364
+ aZRbveOYQIhMlrLTbFL0vce4bGBHIaDze4Aa45tE4NSmGEyto7FSVqoU6zNxtX0u8rJR
+ ngtg==
+X-Gm-Message-State: AOAM533/3/DRHWoROzzc6byQFLulbwQqij2tErYsUbr5yTAEJe7ku7cg
+ 4wAMPb74LUkRetupny4vnuvPGQYdy6gStemzr9FHuX7N1AmzGWJ/9Ep15wn2TJMRnKVOCAeEn7X
+ yRYFdQ9fT0UhPIPU=
+X-Received: by 2002:a05:6000:1008:: with SMTP id
+ a8mr36837796wrx.416.1593767063857; 
+ Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxP1o7esVN4yIiQeE/fa9oq5EysEalIma9POx2y1Sykx8g4c9XWKz+RdLq6uRzqkdeGZ600vg==
+X-Received: by 2002:a05:6000:1008:: with SMTP id
+ a8mr36837775wrx.416.1593767063625; 
+ Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- q4sm12516783wmc.1.2020.07.03.02.04.19
+ v9sm5089346wri.3.2020.07.03.02.04.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:04:20 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:04:18 -0400
+ Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:04:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/41] pc: Support for virtio-mem-pci
-Message-ID: <20200703090252.368694-19-mst@redhat.com>
+Subject: [PULL 19/41] virtio-mem: Allow notifiers for size changes
+Message-ID: <20200703090252.368694-20-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -99,174 +99,119 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+ Igor Mammedov <imammedo@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's wire it up similar to virtio-pmem. Also disallow unplug, so it's
-harder for users to shoot themselves into the foot.
+We want to send qapi events in case the size of a virtio-mem device
+changes. This allows upper layers to always know how much memory is
+actually currently consumed via a virtio-mem device.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Unfortuantely, we have to report the id of our proxy device. Let's provide
+an easy way for our proxy device to register, so it can send the qapi
+events. Piggy-backing on the notifier infrastructure (although we'll
+only ever have one notifier registered) seems to be an easy way.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-16-david@redhat.com>
+Message-Id: <20200626072248.78761-17-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c    | 49 ++++++++++++++++++++++++++++---------------------
- hw/i386/Kconfig |  1 +
- 2 files changed, 29 insertions(+), 21 deletions(-)
+ include/hw/virtio/virtio-mem.h |  5 +++++
+ hw/virtio/virtio-mem.c         | 21 ++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 58b1425c17..576f2502f9 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -88,6 +88,7 @@
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
- #include "hw/virtio/virtio-pmem-pci.h"
-+#include "hw/virtio/virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "qapi/qmp/qerror.h"
-@@ -1637,8 +1638,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
-     numa_cpu_pre_plug(cpu_slot, dev, errp);
- }
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index 6981096f7c..b74c77cd42 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -64,6 +64,9 @@ typedef struct VirtIOMEM {
  
--static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
--                                        DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-+                                      DeviceState *dev, Error **errp)
- {
-     HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-     Error *local_err = NULL;
-@@ -1649,7 +1650,8 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
-          * order. We should never reach this point when hotplugging on x86,
-          * however, better add a safety net.
-          */
--        error_setg(errp, "virtio-pmem-pci hotplug not supported on this bus.");
-+        error_setg(errp, "hotplug of virtio based memory devices not supported"
-+                   " on this bus.");
-         return;
-     }
-     /*
-@@ -1664,8 +1666,8 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
-     error_propagate(errp, local_err);
- }
+     /* block size and alignment */
+     uint64_t block_size;
++
++    /* notifiers to notify when "size" changes */
++    NotifierList size_change_notifiers;
+ } VirtIOMEM;
  
--static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
--                                    DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-+                                  DeviceState *dev, Error **errp)
- {
-     HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-     Error *local_err = NULL;
-@@ -1685,17 +1687,17 @@ static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
-     error_propagate(errp, local_err);
- }
+ typedef struct VirtIOMEMClass {
+@@ -73,6 +76,8 @@ typedef struct VirtIOMEMClass {
+     /* public */
+     void (*fill_device_info)(const VirtIOMEM *vmen, VirtioMEMDeviceInfo *vi);
+     MemoryRegion *(*get_memory_region)(VirtIOMEM *vmem, Error **errp);
++    void (*add_size_change_notifier)(VirtIOMEM *vmem, Notifier *notifier);
++    void (*remove_size_change_notifier)(VirtIOMEM *vmem, Notifier *notifier);
+ } VirtIOMEMClass;
  
--static void pc_virtio_pmem_pci_unplug_request(HotplugHandler *hotplug_dev,
--                                              DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
-+                                            DeviceState *dev, Error **errp)
- {
--    /* We don't support virtio pmem hot unplug */
--    error_setg(errp, "virtio pmem device unplug not supported.");
-+    /* We don't support hot unplug of virtio based memory devices */
-+    error_setg(errp, "virtio based memory devices cannot be unplugged.");
- }
- 
--static void pc_virtio_pmem_pci_unplug(HotplugHandler *hotplug_dev,
--                                      DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
- {
--    /* We don't support virtio pmem hot unplug */
-+    /* We don't support hot unplug of virtio based memory devices */
- }
- 
- static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-@@ -1705,8 +1707,9 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-         pc_memory_pre_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_pre_plug(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -1717,8 +1720,9 @@ static void pc_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-         pc_memory_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_plug(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -1729,8 +1733,9 @@ static void pc_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         pc_memory_unplug_request(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_unplug_request_cb(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_unplug_request(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
+ #endif
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d8a0c974d3..2df33f9125 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -184,6 +184,7 @@ static int virtio_mem_state_change_request(VirtIOMEM *vmem, uint64_t gpa,
      } else {
-         error_setg(errp, "acpi: device unplug request for not supported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -1744,8 +1749,9 @@ static void pc_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
-         pc_memory_unplug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_unplug_cb(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_unplug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_unplug(hotplug_dev, dev, errp);
-     } else {
-         error_setg(errp, "acpi: device unplug for not supported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -1757,7 +1763,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
--        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-         return HOTPLUG_HANDLER(machine);
+         vmem->size -= size;
      }
++    notifier_list_notify(&vmem->size_change_notifiers, &vmem->size);
+     return VIRTIO_MEM_RESP_ACK;
+ }
  
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index c93f32f657..03e347b207 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -35,6 +35,7 @@ config PC
-     select ACPI_PCI
-     select ACPI_VMGENID
-     select VIRTIO_PMEM_SUPPORTED
-+    select VIRTIO_MEM_SUPPORTED
+@@ -242,7 +243,10 @@ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
+         return -EBUSY;
+     }
+     bitmap_clear(vmem->bitmap, 0, vmem->bitmap_size);
+-    vmem->size = 0;
++    if (vmem->size) {
++        vmem->size = 0;
++        notifier_list_notify(&vmem->size_change_notifiers, &vmem->size);
++    }
  
- config PC_PCI
-     bool
+     virtio_mem_resize_usable_region(vmem, vmem->requested_size, true);
+     return 0;
+@@ -561,6 +565,18 @@ static MemoryRegion *virtio_mem_get_memory_region(VirtIOMEM *vmem, Error **errp)
+     return &vmem->memdev->mr;
+ }
+ 
++static void virtio_mem_add_size_change_notifier(VirtIOMEM *vmem,
++                                                Notifier *notifier)
++{
++    notifier_list_add(&vmem->size_change_notifiers, notifier);
++}
++
++static void virtio_mem_remove_size_change_notifier(VirtIOMEM *vmem,
++                                                   Notifier *notifier)
++{
++    notifier_remove(notifier);
++}
++
+ static void virtio_mem_get_size(Object *obj, Visitor *v, const char *name,
+                                 void *opaque, Error **errp)
+ {
+@@ -668,6 +684,7 @@ static void virtio_mem_instance_init(Object *obj)
+     VirtIOMEM *vmem = VIRTIO_MEM(obj);
+ 
+     vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
++    notifier_list_init(&vmem->size_change_notifiers);
+ 
+     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
+                         NULL, NULL, NULL);
+@@ -705,6 +722,8 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
+ 
+     vmc->fill_device_info = virtio_mem_fill_device_info;
+     vmc->get_memory_region = virtio_mem_get_memory_region;
++    vmc->add_size_change_notifier = virtio_mem_add_size_change_notifier;
++    vmc->remove_size_change_notifier = virtio_mem_remove_size_change_notifier;
+ }
+ 
+ static const TypeInfo virtio_mem_info = {
 -- 
 MST
 
