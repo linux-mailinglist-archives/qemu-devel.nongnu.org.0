@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD29F2137A5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:27:24 +0200 (CEST)
-Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164902137AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:29:21 +0200 (CEST)
+Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHyd-0004im-R6
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
+	id 1jrI0W-0001eZ-3m
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgZ-0000Yf-Cb; Fri, 03 Jul 2020 05:08:43 -0400
-Received: from mail-eopbgr140101.outbound.protection.outlook.com
- ([40.107.14.101]:36097 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ id 1jrHgY-0000W2-82
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:42 -0400
+Received: from mail-eopbgr140133.outbound.protection.outlook.com
+ ([40.107.14.133]:62071 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgW-0005Dh-HZ; Fri, 03 Jul 2020 05:08:43 -0400
+ id 1jrHgW-0005Bb-4N
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Aee0vzM9qW6oADLGgvgy1bQl4F3f4D+nUPDWAKKGadm5xSQ8DvnFDlvzpSvzgjtOAfdYN2HBuXD49P4kKi1vDllWp/Wj+dNa25YVHCEKp0Y+g4KOsHXQz9Ca9DqltRa42xVJZb++tAMIl13juWdCN4in+2KuHCv3RxrbRUwLrFjel3i5T9dAgaoJyS/YSVPTULEaNIIVW9ya0iK1PfwbZQm+JRkgONMhKtW1GvXItHSjs1HcKXGAF1HfQISDXNwZXdX1dVsIDCLqjqMxt3ODc1QwuGYjk2W6cViWwAwGLTZag6Nsfnv6HFldgOgtVDOZt+onEJGnFJQa8Dc05h4mZg==
+ b=lzkjAH2agEhtANXKyyOjk9gQ8j0BRi/pu+WLQvsTTJMd7XuOdxPnfnk4PY2b+jiLVFwVW4qePRagnskSap2BE29dlOmS6cX/qoRXW0Wks/Lh8abgSesZ8HJDy6+ioaVtCMRBA/ZusCKg8oVTXu/J5TxTxQ59PEzEdlWXYcCLKFR6ucbUlt4NEopyQUrr8hhKnduRpYteXC6llKDlif4vIFICYO4H4apPVMsQF++Z8B9O4X4tuMrSv0zzQdgI4zV8jQPL7bd8MPxeS/0TqHSvpjZ60MZuVPhE96E5deSLaMCRZfhTV4x3+FzJYmc4lo5LXdCwFOBOT5voj/00cIqf5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K2Xnopx5wQ6IFxisXOfZQRZb+CUoqixGaOMagDkzs8k=;
- b=JqQpHZPZh/u2hiYquILKKIstpLXUl0S0QHhg2DTjtKpJqKNLqYfQcQVc/5O3JHP4FE5kjf9UzjsQX01JL6w6uXDtPykOWaSK2W/aOjK1MsSZ6JVDTh2sKidti6Yx2IBIqxYzZ/TI5OIkPAdQ95O9IvODFIexSmiUfFttslAoUuR6BdbRRQdqvSFyQKE4ggmgut1/69dQ18MPe8/b5KDBt8g37YSRnSIpRY356K1n/89NnOR2+ba8Iff9QkDzi76fjrik1W/7lN+gNpj9LfmZDsMqgMJJkAI8adITZZOf+NCf6NluZ1N3P04ZgBPywdjSkp/xh68QM4JCbLwqzcphOA==
+ bh=bNFydHd+Y+pOwXlqMZNody1rIFwi6JF50BVuuh2p5go=;
+ b=JwLHGfGaxWyfU77mFXju2NlkSljt1j2QkfkmfUIbq0/gdnyNWbmWcBTQTpULz785T0OWf2akvs8kKXxn6bnngpaHlVvjBC2eox1CnOMNejaNl91UTwfA2GaEMJAMLO3/A9N1cTd8sM8cY4KZ2VQ8jN+lN4etmwL8GSD2hoADO2SAqEpd7QrJnU6ANU2U6ehbnG7B/6vaHhypnkLTa0mQdmlBSOFTcHrHr2Cb167betvpOhMIHnNQasoys3VHMsV94SLPOYEXNBKGMQ6WY6ecVUvXe3TDZi5ddCrLCMKkFsDGVtdKzDarXxNphvwJ7Sqc4mMcO/Xv5NL6R1Ewj4cVsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K2Xnopx5wQ6IFxisXOfZQRZb+CUoqixGaOMagDkzs8k=;
- b=md+O+2arOUa9XoG/Yt+SyHQ94kNuuCjf3ktcvmtk1UwttBoFiX1MR52DmxiGm5ztJyVoDnHnp5hkMYr8ihdn9hn5tLX7bU/C78na6yG7kNVxHvZ7wOV7siSh2CbOpKQzhxIsGqt1vS75xU30EXGc4HhGNjAYRV5mRdbKrfvyfnA=
+ bh=bNFydHd+Y+pOwXlqMZNody1rIFwi6JF50BVuuh2p5go=;
+ b=u6CFVMp55W6r7TEthhV8T/gspNhJkHoROJd9lx7w1kTfK6yy+5hEa7m8S03lNmOSsx2qbrcbaYshqxqEeY1+8amAeoF7LJ9dlVhcexbJ7Rspdjz2I3BYhRo2NGSAqDBM5aDivNewmXKJHfXdnj/77B9GUlUUuj8+OaB/SlSUi3s=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Fri, 3 Jul
- 2020 09:08:32 +0000
+ 2020 09:08:33 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
- 09:08:32 +0000
+ 09:08:33 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 2/8] scripts: Coccinelle script to use
- ERRP_AUTO_PROPAGATE()
-Date: Fri,  3 Jul 2020 12:08:10 +0300
-Message-Id: <20200703090816.3295-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v11 3/8] SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
+Date: Fri,  3 Jul 2020 12:08:11 +0300
+Message-Id: <20200703090816.3295-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200703090816.3295-1-vsementsov@virtuozzo.com>
 References: <20200703090816.3295-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:17c::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
@@ -64,39 +65,39 @@ Received: from localhost.localdomain (185.215.60.15) by
  AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend
- Transport; Fri, 3 Jul 2020 09:08:31 +0000
+ Transport; Fri, 3 Jul 2020 09:08:32 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.15]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e38ec337-f427-4449-3adb-08d81f30a8a1
+X-MS-Office365-Filtering-Correlation-Id: d3030cfb-5689-473b-9d47-08d81f30a91a
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5448A7243A56B1F8E4E6C4A9C16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5448777D53C017B81F9CCABCC16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:156;
 X-Forefront-PRVS: 045315E1EE
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h5sY4DE22is+KkVW2xhGJgYCnSmbwjfRe54bVqenzzNLI/nvcYjnK32MjFGEld073ZqJpYt+0lBP4U/7e68ohd4pM5rxjeioAgSlMsEeg6P6Gr4kR05jds/wgG2tCK80ZTNbk0JYjCpQUr497CUBdLsl0+8rB3avOt/hjRNjrvU5CWsEGmxC/xZkIwXIKW92OqECyogUCQ++hG3wMv9QF/EI+DtIEB7qyuBJcnlty0l/6AyzBt1oBGuLXVbfDAUM2euDJzLhSW0aFxNzW2FdcDTL7JxjSLRxmKhCJ/XscBA8ShfxuykYXJsKc7j3X8VfMNUzdbW0mPuTmdLF/7huWEFZqzkUZSKhzrA2/uZ/Oc6q+qPn845/Fxq58xya8FHDNwAITBvbYg57ovtfWzUrFy8H4dZvqYAGTdRIuJ9RdJHxKx6sd9h/qAPdi19jl1SIQCjxQ7eS7nHzODZzu/s7nQ==
+X-Microsoft-Antispam-Message-Info: 2GlEkcVS6y7u8cFdwU8EnuGtroEJZfechIiBxTrTIQtiHyRivN8f5N9dGvKMpG2w6IqujZmzCUpUAk4P+y94O9z7aZv+GA1NRdgDKVB0LOF1ICELHChhvquFK0M0rxZn5cs2NnlbewR5R/Osfnum9n2J+yAwy1JrEo/fTfJRohGUYDeUiPofhKgdkN9qbYeThuNUNJUGGcXtf/A+OTMa5gZzfjuaBnbkneiw74EUCgi1uBxPjdxQCtLq3m2x7OMQVGXfSCowEO8njl8UzF2hlNw9k9ttzyM6y3BQvmZw+lBhFmFKdEkxSk7HR+VD78upzg0CMSBSXMJGadYlMKO/uRG2H+MqdpIbQYI6fJNaLYkflf+dsXY6V6t5uOngo1wH
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(66946007)(66574015)(66476007)(66556008)(2906002)(86362001)(1076003)(30864003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(7416002)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005)(2004002);
+ SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(69590400007)(66946007)(66476007)(66556008)(2906002)(86362001)(1076003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: RxI44ijiYMVR+1jW9160MkdbBj1H/rZCJSXVctIdK7dfez5j+6HHG71kztX4gQNOQpE+xeYPzFEj3ppq02ie2rMGH9RpHYNHvEpGC92hzwNXHDpOT6XUrls9H0McfBGubxUCi1KmzrVR8jibnHqkgTmpyzKWexZFhnXzlZW1d55ld4967E2UZxnNWlBgPDGuC9mIJ0qqyxJn2WoadpJjH/H8ZimcD+ZOL0bmi2SWUUoAG2/pIe3dvslu7REM/+UoWVPIKrUv0fJidSWtpHzp1NaLnEXLlI5QQ8m7LGXgfvTlD7aGjBUHdjU6p9UA2n3sh5J+gwnxjW0tdglHYtOwMC1RYYHKp+D0Tiv/GvchbeYVOXJSqPTFZZZZ7Mx+6qZ/zqkGpmgdzJS0meXnHoIe2cS6geGDoyEbADFLfl0KCITsmdL3ZEm0PxwWoBLe949oRiHExMYPd/X9AN++nNAQatFXADJ2Iu9Fe/H3Qo7tkKM=
+X-MS-Exchange-AntiSpam-MessageData: vC5M3mEwsvzwYDKJAA/zHIy2rbXGLVMW+er4c/F2HrbigU2WCLVC7elwKTmy0qUkKHq36O8lkqqLUcG8iq8NHgw/QmXGz3izN4zaojzhUxyfLfu10C5TzQUoGN/3NIfLVsW9/pIFeIs6yv9e6BHdtE8PLADI5FHwaZ4YKJ50XZ2CXHONvm6rhtEXkpHf07UbNvDlSw5na8n7biPmksb9JkU2Qk20mZ5GlypmXLSf3Vf0JA7k/X7Le3KSK1LQPpnvSkKkk09KNt83c51i+/QfLDs+K/6A9bd3gvX+OOp9pjTcObAIFeWx1bHR7tkzLZI0KhM3K5eBef4o5ziBlJJ8BnT7HJpRh1x49jUBpcAOEK5n13glGOrWrq28Cv/cht8E875gHZ08w8ImzhSA5O2SQlYZjTgLox02iSE/jNsCsXgOXieIGvfZe9xkTTLKmOYj7MmbF4SqGiWXl6l64SGdkBkHlgvrc9t66PFzWZ3OJyM=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e38ec337-f427-4449-3adb-08d81f30a8a1
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3030cfb-5689-473b-9d47-08d81f30a91a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:32.2737 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:33.0453 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mjQssyVwna8Ik+GmhHwP+KSo6lgTqmMFdjhS+XRJHNQmSpEZwtIMRm5umulFRcf4QMb5UTvZ1y+Wj9hJfPN/queTfuMcgOYx54c84P4L/FI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: I1ZfTqVvPAbyGVhxt1bj159Bc7iLA983Rc8omU9MXuBeTnlv1S/Fdcyg7o7ETG9MsORPNz+HTz5C8D91xuMJPvO09mmk/zLUuajfP5b60fM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
-Received-SPF: pass client-ip=40.107.14.101;
+Received-SPF: pass client-ip=40.107.14.133;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:08:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:08:30
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -118,425 +119,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, groug@kaod.org,
- Stefano Stabellini <sstabellini@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ groug@kaod.org, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Script adds ERRP_AUTO_PROPAGATE macro invocation where appropriate and
-does corresponding changes in code (look for details in
-include/qapi/error.h)
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp == &error_fatal
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
 
-Usage example:
-spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
- --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff \
- --max-width 80 FILES...
+If we want to check error after errp-function call, we need to
+introduce local_err and then propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatal, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
 
+This commit is generated by command
+
+    sed -n '/^SD (Secure Card)$/,/^$/{s/^F: //p}' \
+        MAINTAINERS | \
+    xargs git ls-files | grep '\.[hc]$' | \
+    xargs spatch \
+        --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+        --macro-file scripts/cocci-macro-file.h \
+        --in-place --no-show-diff --max-width 80
+
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
+ hw/sd/sdhci-pci.c |  7 +++----
+ hw/sd/sdhci.c     | 21 +++++++++------------
+ hw/sd/ssi-sd.c    | 10 +++++-----
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-Cc: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-Cc: xen-devel@lists.xenproject.org
-
- scripts/coccinelle/auto-propagated-errp.cocci | 337 ++++++++++++++++++
- include/qapi/error.h                          |   3 +
- MAINTAINERS                                   |   1 +
- 3 files changed, 341 insertions(+)
- create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
-
-diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/coccinelle/auto-propagated-errp.cocci
-new file mode 100644
-index 0000000000..c29f695adf
---- /dev/null
-+++ b/scripts/coccinelle/auto-propagated-errp.cocci
-@@ -0,0 +1,337 @@
-+// Use ERRP_AUTO_PROPAGATE (see include/qapi/error.h)
-+//
-+// Copyright (c) 2020 Virtuozzo International GmbH.
-+//
-+// This program is free software; you can redistribute it and/or
-+// modify it under the terms of the GNU General Public License as
-+// published by the Free Software Foundation; either version 2 of the
-+// License, or (at your option) any later version.
-+//
-+// This program is distributed in the hope that it will be useful,
-+// but WITHOUT ANY WARRANTY; without even the implied warranty of
-+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+// GNU General Public License for more details.
-+//
-+// You should have received a copy of the GNU General Public License
-+// along with this program.  If not, see
-+// <http://www.gnu.org/licenses/>.
-+//
-+// Usage example:
-+// spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
-+//  --macro-file scripts/cocci-macro-file.h --in-place \
-+//  --no-show-diff --max-width 80 FILES...
-+//
-+// Note: --max-width 80 is needed because coccinelle default is less
-+// than 80, and without this parameter coccinelle may reindent some
-+// lines which fit into 80 characters but not to coccinelle default,
-+// which in turn produces extra patch hunks for no reason.
-+
-+// Switch unusual Error ** parameter names to errp
-+// (this is necessary to use ERRP_AUTO_PROPAGATE).
-+//
-+// Disable optional_qualifier to skip functions with
-+// "Error *const *errp" parameter.
-+//
-+// Skip functions with "assert(_errp && *_errp)" statement, because
-+// that signals unusual semantics, and the parameter name may well
-+// serve a purpose. (like nbd_iter_channel_error()).
-+//
-+// Skip util/error.c to not touch, for example, error_propagate() and
-+// error_propagate_prepend().
-+@ depends on !(file in "util/error.c") disable optional_qualifier@
-+identifier fn;
-+identifier _errp != errp;
-+@@
-+
-+ fn(...,
-+-   Error **_errp
-++   Error **errp
-+    ,...)
-+ {
-+(
-+     ... when != assert(_errp && *_errp)
-+&
-+     <...
-+-    _errp
-++    errp
-+     ...>
-+)
-+ }
-+
-+// Add invocation of ERRP_AUTO_PROPAGATE to errp-functions where
-+// necessary
-+//
-+// Note, that without "when any" the final "..." does not mach
-+// something matched by previous pattern, i.e. the rule will not match
-+// double error_prepend in control flow like in
-+// vfio_set_irq_signaling().
-+//
-+// Note, "exists" says that we want apply rule even if it does not
-+// match on all possible control flows (otherwise, it will not match
-+// standard pattern when error_propagate() call is in if branch).
-+@ disable optional_qualifier exists@
-+identifier fn, local_err;
-+symbol errp;
-+@@
-+
-+ fn(..., Error **errp, ...)
-+ {
-++   ERRP_AUTO_PROPAGATE();
-+    ...  when != ERRP_AUTO_PROPAGATE();
-+(
-+(
-+    error_append_hint(errp, ...);
-+|
-+    error_prepend(errp, ...);
-+|
-+    error_vprepend(errp, ...);
-+)
-+    ... when any
-+|
-+    Error *local_err = NULL;
-+    ...
-+(
-+    error_propagate_prepend(errp, local_err, ...);
-+|
-+    error_propagate(errp, local_err);
-+)
-+    ...
-+)
-+ }
-+
-+// Warn when several Error * definitions are in the control flow.
-+// This rule is not chained to rule1 and less restrictive, to cover more
-+// functions to warn (even those we are not going to convert).
-+//
-+// Note, that even with one (or zero) Error * definition in the each
-+// control flow we may have several (in total) Error * definitions in
-+// the function. This case deserves attention too, but I don't see
-+// simple way to match with help of coccinelle.
-+@check1 disable optional_qualifier exists@
-+identifier fn, _errp, local_err, local_err2;
-+position p1, p2;
-+@@
-+
-+ fn(..., Error **_errp, ...)
-+ {
-+     ...
-+     Error *local_err = NULL;@p1
-+     ... when any
-+     Error *local_err2 = NULL;@p2
-+     ... when any
-+ }
-+
-+@ script:python @
-+fn << check1.fn;
-+p1 << check1.p1;
-+p2 << check1.p2;
-+@@
-+
-+print('Warning: function {} has several definitions of '
-+      'Error * local variable: at {}:{} and then at {}:{}'.format(
-+          fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
-+
-+// Warn when several propagations are in the control flow.
-+@check2 disable optional_qualifier exists@
-+identifier fn, _errp;
-+position p1, p2;
-+@@
-+
-+ fn(..., Error **_errp, ...)
-+ {
-+     ...
-+(
-+     error_propagate_prepend(_errp, ...);@p1
-+|
-+     error_propagate(_errp, ...);@p1
-+)
-+     ...
-+(
-+     error_propagate_prepend(_errp, ...);@p2
-+|
-+     error_propagate(_errp, ...);@p2
-+)
-+     ... when any
-+ }
-+
-+@ script:python @
-+fn << check2.fn;
-+p1 << check2.p1;
-+p2 << check2.p2;
-+@@
-+
-+print('Warning: function {} propagates to errp several times in '
-+      'one control flow: at {}:{} and then at {}:{}'.format(
-+          fn, p1[0].file, p1[0].line, p2[0].file, p2[0].line))
-+
-+// Match functions with propagation of local error to errp.
-+// We want to refer these functions in several following rules, but I
-+// don't know a proper way to inherit a function, not just its name
-+// (to not match another functions with same name in following rules).
-+// Not-proper way is as follows: rename errp parameter in functions
-+// header and match it in following rules. Rename it back after all
-+// transformations.
-+//
-+// The common case is a single definition of local_err with at most one
-+// error_propagate_prepend() or error_propagate() on each control-flow
-+// path. Functions with multiple definitions or propagates we want to
-+// examine manually. Rules check1 and check2 emit warnings to guide us
-+// to them.
-+//
-+// Note that we match not only this "common case", but any function,
-+// which has the "common case" on at least one control-flow path.
-+@rule1 disable optional_qualifier exists@
-+identifier fn, local_err;
-+symbol errp;
-+@@
-+
-+ fn(..., Error **
-+-    errp
-++    ____
-+    , ...)
-+ {
-+     ...
-+     Error *local_err = NULL;
-+     ...
-+(
-+     error_propagate_prepend(errp, local_err, ...);
-+|
-+     error_propagate(errp, local_err);
-+)
-+     ...
-+ }
-+
-+// Convert special case with goto separately.
-+// I tried merging this into the following rule the obvious way, but
-+// it made Coccinelle hang on block.c
-+//
-+// Note interesting thing: if we don't do it here, and try to fixup
-+// "out: }" things later after all transformations (the rule will be
-+// the same, just without error_propagate() call), coccinelle fails to
-+// match this "out: }".
-+@ disable optional_qualifier@
-+identifier rule1.fn, rule1.local_err, out;
-+symbol errp;
-+@@
-+
-+ fn(..., Error ** ____, ...)
-+ {
-+     <...
-+-    goto out;
-++    return;
-+     ...>
-+- out:
-+-    error_propagate(errp, local_err);
-+ }
-+
-+// Convert most of local_err related stuff.
-+//
-+// Note, that we inherit rule1.fn and rule1.local_err names, not
-+// objects themselves. We may match something not related to the
-+// pattern matched by rule1. For example, local_err may be defined with
-+// the same name in different blocks inside one function, and in one
-+// block follow the propagation pattern and in other block doesn't.
-+//
-+// Note also that errp-cleaning functions
-+//   error_free_errp
-+//   error_report_errp
-+//   error_reportf_errp
-+//   warn_report_errp
-+//   warn_reportf_errp
-+// are not yet implemented. They must call corresponding Error* -
-+// freeing function and then set *errp to NULL, to avoid further
-+// propagation to original errp (consider ERRP_AUTO_PROPAGATE in use).
-+// For example, error_free_errp may look like this:
-+//
-+//    void error_free_errp(Error **errp)
-+//    {
-+//        error_free(*errp);
-+//        *errp = NULL;
-+//    }
-+@ disable optional_qualifier exists@
-+identifier rule1.fn, rule1.local_err;
-+expression list args;
-+symbol errp;
-+@@
-+
-+ fn(..., Error ** ____, ...)
-+ {
-+     <...
-+(
-+-    Error *local_err = NULL;
-+|
-+
-+// Convert error clearing functions
-+(
-+-    error_free(local_err);
-++    error_free_errp(errp);
-+|
-+-    error_report_err(local_err);
-++    error_report_errp(errp);
-+|
-+-    error_reportf_err(local_err, args);
-++    error_reportf_errp(errp, args);
-+|
-+-    warn_report_err(local_err);
-++    warn_report_errp(errp);
-+|
-+-    warn_reportf_err(local_err, args);
-++    warn_reportf_errp(errp, args);
-+)
-+?-    local_err = NULL;
-+
-+|
-+-    error_propagate_prepend(errp, local_err, args);
-++    error_prepend(errp, args);
-+|
-+-    error_propagate(errp, local_err);
-+|
-+-    &local_err
-++    errp
-+)
-+     ...>
-+ }
-+
-+// Convert remaining local_err usage. For example, different kinds of
-+// error checking in if conditionals. We can't merge this into
-+// previous hunk, as this conflicts with other substitutions in it (at
-+// least with "- local_err = NULL").
-+@ disable optional_qualifier@
-+identifier rule1.fn, rule1.local_err;
-+symbol errp;
-+@@
-+
-+ fn(..., Error ** ____, ...)
-+ {
-+     <...
-+-    local_err
-++    *errp
-+     ...>
-+ }
-+
-+// Always use the same pattern for checking error
-+@ disable optional_qualifier@
-+identifier rule1.fn;
-+symbol errp;
-+@@
-+
-+ fn(..., Error ** ____, ...)
-+ {
-+     <...
-+-    *errp != NULL
-++    *errp
-+     ...>
-+ }
-+
-+// Revert temporary ___ identifier.
-+@ disable optional_qualifier@
-+identifier rule1.fn;
-+@@
-+
-+ fn(..., Error **
-+-   ____
-++   errp
-+    , ...)
-+ {
-+     ...
-+ }
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index b54aedbfd7..514cd1f5ae 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -249,6 +249,9 @@
-  *         }
-  *         ...
-  *     }
-+ *
-+ * For mass-conversion use script
-+ *   scripts/coccinelle/auto-propagated-errp.cocci
-  */
+diff --git a/hw/sd/sdhci-pci.c b/hw/sd/sdhci-pci.c
+index 4f5977d487..38ec572fc6 100644
+--- a/hw/sd/sdhci-pci.c
++++ b/hw/sd/sdhci-pci.c
+@@ -29,13 +29,12 @@ static Property sdhci_pci_properties[] = {
  
- #ifndef ERROR_H
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dec252f38b..65ce440217 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2165,6 +2165,7 @@ F: scripts/coccinelle/error-use-after-free.cocci
- F: scripts/coccinelle/error_propagate_null.cocci
- F: scripts/coccinelle/remove_local_err.cocci
- F: scripts/coccinelle/use-error_fatal.cocci
-+F: scripts/coccinelle/auto-propagated-errp.cocci
+ static void sdhci_pci_realize(PCIDevice *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SDHCIState *s = PCI_SDHCI(dev);
+-    Error *local_err = NULL;
  
- GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
+     sdhci_initfn(s);
+-    sdhci_common_realize(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_common_realize(s, errp);
++    if (*errp) {
+         return;
+     }
+ 
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index eb2be6529e..be1928784d 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1288,7 +1288,7 @@ static const MemoryRegionOps sdhci_mmio_ops = {
+ 
+ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+ 
+     switch (s->sd_spec_version) {
+     case 2 ... 3:
+@@ -1299,9 +1299,8 @@ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
+     }
+     s->version = (SDHC_HCVER_VENDOR << 8) | (s->sd_spec_version - 1);
+ 
+-    sdhci_check_capareg(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_check_capareg(s, errp);
++    if (*errp) {
+         return;
+     }
+ }
+@@ -1332,11 +1331,10 @@ void sdhci_uninitfn(SDHCIState *s)
+ 
+ void sdhci_common_realize(SDHCIState *s, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+ 
+-    sdhci_init_readonly_registers(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_init_readonly_registers(s, errp);
++    if (*errp) {
+         return;
+     }
+     s->buf_maxsz = sdhci_get_fifolen(s);
+@@ -1456,13 +1454,12 @@ static void sdhci_sysbus_finalize(Object *obj)
+ 
+ static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SDHCIState *s = SYSBUS_SDHCI(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    Error *local_err = NULL;
+ 
+-    sdhci_common_realize(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    sdhci_common_realize(s, errp);
++    if (*errp) {
+         return;
+     }
+ 
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index e0fb9f3093..43e5730b00 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -241,10 +241,10 @@ static const VMStateDescription vmstate_ssi_sd = {
+ 
+ static void ssi_sd_realize(SSISlave *d, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, d);
+     DeviceState *carddev;
+     DriveInfo *dinfo;
+-    Error *err = NULL;
+ 
+     qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
+                         DEVICE(d), "sd-bus");
+@@ -255,23 +255,23 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
+     carddev = qdev_new(TYPE_SD_CARD);
+     if (dinfo) {
+         if (!qdev_prop_set_drive_err(carddev, "drive",
+-                                     blk_by_legacy_dinfo(dinfo), &err)) {
++                                     blk_by_legacy_dinfo(dinfo), errp)) {
+             goto fail;
+         }
+     }
+ 
+-    if (!object_property_set_bool(OBJECT(carddev), "spi", true, &err)) {
++    if (!object_property_set_bool(OBJECT(carddev), "spi", true, errp)) {
+         goto fail;
+     }
+ 
+-    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err)) {
++    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), errp)) {
+         goto fail;
+     }
+ 
+     return;
+ 
+ fail:
+-    error_propagate_prepend(errp, err, "failed to init SD card: ");
++    error_prepend(errp, "failed to init SD card: ");
+ }
+ 
+ static void ssi_sd_reset(DeviceState *dev)
 -- 
 2.21.0
 
