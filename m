@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E916213784
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:20:53 +0200 (CEST)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5358621375B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:12:39 +0200 (CEST)
+Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHsK-0007ie-5v
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:20:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
+	id 1jrHkM-00074Z-1u
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHey-0005NL-VG
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45569
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcW-0008Bn-R1
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24923
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHew-0004yS-Su
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:07:04 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcU-0004SB-ML
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767222;
+ s=mimecast20190719; t=1593767069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QL569dPvFUzG3LRggM07g4Qliw+yzL9OH4YIUOzaWWE=;
- b=AjbqJG23+1ApWn9YbYZfPMK4L6F0mRri6FNYVslDGohvikbULkwl0AfhmfAK8YwIIl/NBJ
- 55LtFyJJfAmezvUX7YXmeGEDcbWvNdoXUzCXGiC7kC0ygCUb2/I9bRLkxm4tY8TKtXCZy+
- DhPUBq9XaCLniKQUEsgy/tPIZxPyN10=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-o0aPy3O6Mj2Dia1w1iUxqQ-1; Fri, 03 Jul 2020 05:04:25 -0400
-X-MC-Unique: o0aPy3O6Mj2Dia1w1iUxqQ-1
-Received: by mail-wm1-f69.google.com with SMTP id s134so34552299wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:25 -0700 (PDT)
+ bh=63AWt5cO2CoZEQSqdOKoxy7llPnRyvRbfqBM0GohP60=;
+ b=FO9Xw4sLw0MCTTo3zUG9EkqqKWY212nN+kqR35ZqjBIV06N1lTZkPJ/d2PHbQlrcwd9uFt
+ doXAZwFxo5237umaX8woY7QIHuI26kB/1P1f92bpMOOOHHXvrsvrnIKuqGfQ2/myczWdQC
+ wJbC0nc2GQUr3wD3+USVrVK84r+1eCM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-5YEFzm62NC2JWr7uttG7KQ-1; Fri, 03 Jul 2020 05:04:28 -0400
+X-MC-Unique: 5YEFzm62NC2JWr7uttG7KQ-1
+Received: by mail-wr1-f69.google.com with SMTP id b8so17077919wro.19
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=QL569dPvFUzG3LRggM07g4Qliw+yzL9OH4YIUOzaWWE=;
- b=hmQZJY1B8FcSsrk2JGtbZwyja/sCDG5ldkeIOe6koVUDt13JVMHFqp4/7C0BCppdro
- q+SPL2iZvEU8oQw0uYH84EnlJTMmuE8rJSu2a/hRk8U0P6SUciAHHQTR4dW5KNKHDCSr
- DgsUfpq3WC96635wK9FEWIIrh/TQtJxV3NNa9Ic7tiWMZksdrbmIo75q63/ly1KBLra5
- Qb3bKIvbOsinPiIYB7lALf/KiOZMXtTByYVKjxqgQ6FFvL4ayFT+ETuRw4cXxqivv364
- aZRbveOYQIhMlrLTbFL0vce4bGBHIaDze4Aa45tE4NSmGEyto7FSVqoU6zNxtX0u8rJR
- ngtg==
-X-Gm-Message-State: AOAM533/3/DRHWoROzzc6byQFLulbwQqij2tErYsUbr5yTAEJe7ku7cg
- 4wAMPb74LUkRetupny4vnuvPGQYdy6gStemzr9FHuX7N1AmzGWJ/9Ep15wn2TJMRnKVOCAeEn7X
- yRYFdQ9fT0UhPIPU=
-X-Received: by 2002:a05:6000:1008:: with SMTP id
- a8mr36837796wrx.416.1593767063857; 
- Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxP1o7esVN4yIiQeE/fa9oq5EysEalIma9POx2y1Sykx8g4c9XWKz+RdLq6uRzqkdeGZ600vg==
-X-Received: by 2002:a05:6000:1008:: with SMTP id
- a8mr36837775wrx.416.1593767063625; 
- Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
+ bh=63AWt5cO2CoZEQSqdOKoxy7llPnRyvRbfqBM0GohP60=;
+ b=kf3NWDBZPCyzsffSiAgoF3ho7mKW6M76xVsizWrQgEj6Bs595TD5FfG7HNPc3DhzEz
+ YFXxyKPOea7c8grsEaF7EvJo3Rp2TGanf75Cf/lmS89my+zLJmuijTcr0Z4DjxfvrEW5
+ sjZGHUcIXZoNS+ZEa/clSagj8mEc7gDk1kbfPsS8Mzi+sqVn2OZH3/VJHkykm3y6D0T5
+ o48lxeBe5d6O6Q9/RoNUXFpVlxPZ7zFt1X14jrxWRXmKfvIWWDVyAKZhU6zFiAIrrFD0
+ rSFPx1QJye6JFvJKWP5pEwfSZ8/SQt+Kl4THjcT7tKyohzA8lFRd8Wlfkl8qxYYsc7w6
+ i0uA==
+X-Gm-Message-State: AOAM533OCYAV0Pf/fkXSc9YkSRIushUV2s7DFfw8K1s5lsnQ/D7hJ2xe
+ GqwWag/aQa060iLiQ9Y8sPA0R9ly9RNHhQWvKNMxdMQ+u0H32BiD5ewcjIiJ1ssiRv/H8G3Htak
+ 1RJpipUlX9agyl5A=
+X-Received: by 2002:adf:f10a:: with SMTP id r10mr5333507wro.406.1593767066749; 
+ Fri, 03 Jul 2020 02:04:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCM3jERWDd1pSYkgmB/OKSNIEZKvj/eqFcNPPKvJIkoyFXnCACYot/nf5FrH14yeIWRjTfMA==
+X-Received: by 2002:adf:f10a:: with SMTP id r10mr5333479wro.406.1593767066517; 
+ Fri, 03 Jul 2020 02:04:26 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- v9sm5089346wri.3.2020.07.03.02.04.22
+ z8sm10849847wmg.39.2020.07.03.02.04.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:04:23 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:04:21 -0400
+ Fri, 03 Jul 2020 02:04:25 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:04:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/41] virtio-mem: Allow notifiers for size changes
-Message-ID: <20200703090252.368694-20-mst@redhat.com>
+Subject: [PULL 20/41] virtio-pci: Send qapi events when the virtio-mem size
+ changes
+Message-ID: <20200703090252.368694-21-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -75,9 +74,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -99,119 +98,156 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We want to send qapi events in case the size of a virtio-mem device
-changes. This allows upper layers to always know how much memory is
-actually currently consumed via a virtio-mem device.
+Let's register the notifier and trigger the qapi event with the right
+device id.
 
-Unfortuantely, we have to report the id of our proxy device. Let's provide
-an easy way for our proxy device to register, so it can send the qapi
-events. Piggy-backing on the notifier infrastructure (although we'll
-only ever have one notifier registered) seems to be an easy way.
+MEMORY_DEVICE_SIZE_CHANGE is similar to BALLOON_CHANGE, however on a
+memory device level.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Don't unregister the notifier (we neither have finalize() nor unrealize()
+for VirtIOPCIProxy, so it's not that simple to do it) - both devices are
+expected to vanish at the same time.
+
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-17-david@redhat.com>
+Message-Id: <20200626072248.78761-18-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-mem.h |  5 +++++
- hw/virtio/virtio-mem.c         | 21 ++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
+ qapi/misc.json             | 25 +++++++++++++++++++++++++
+ hw/virtio/virtio-mem-pci.h |  1 +
+ hw/virtio/virtio-mem-pci.c | 28 ++++++++++++++++++++++++++++
+ monitor/monitor.c          |  1 +
+ 4 files changed, 55 insertions(+)
 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 6981096f7c..b74c77cd42 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -64,6 +64,9 @@ typedef struct VirtIOMEM {
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 65ca3edf32..149c925246 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1434,6 +1434,31 @@
+ ##
+ { 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
  
-     /* block size and alignment */
-     uint64_t block_size;
++##
++# @MEMORY_DEVICE_SIZE_CHANGE:
++#
++# Emitted when the size of a memory device changes. Only emitted for memory
++# devices that can actually change the size (e.g., virtio-mem due to guest
++# action).
++#
++# @id: device's ID
++# @size: the new size of memory that the device provides
++#
++# Note: this event is rate-limited.
++#
++# Since: 5.1
++#
++# Example:
++#
++# <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
++#      "data": { "id": "vm0", "size": 1073741824},
++#      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
++#
++##
++{ 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
++  'data': { '*id': 'str', 'size': 'size' } }
 +
-+    /* notifiers to notify when "size" changes */
-+    NotifierList size_change_notifiers;
- } VirtIOMEM;
- 
- typedef struct VirtIOMEMClass {
-@@ -73,6 +76,8 @@ typedef struct VirtIOMEMClass {
-     /* public */
-     void (*fill_device_info)(const VirtIOMEM *vmen, VirtioMEMDeviceInfo *vi);
-     MemoryRegion *(*get_memory_region)(VirtIOMEM *vmem, Error **errp);
-+    void (*add_size_change_notifier)(VirtIOMEM *vmem, Notifier *notifier);
-+    void (*remove_size_change_notifier)(VirtIOMEM *vmem, Notifier *notifier);
- } VirtIOMEMClass;
- 
- #endif
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index d8a0c974d3..2df33f9125 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -184,6 +184,7 @@ static int virtio_mem_state_change_request(VirtIOMEM *vmem, uint64_t gpa,
-     } else {
-         vmem->size -= size;
-     }
-+    notifier_list_notify(&vmem->size_change_notifiers, &vmem->size);
-     return VIRTIO_MEM_RESP_ACK;
- }
- 
-@@ -242,7 +243,10 @@ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
-         return -EBUSY;
-     }
-     bitmap_clear(vmem->bitmap, 0, vmem->bitmap_size);
--    vmem->size = 0;
-+    if (vmem->size) {
-+        vmem->size = 0;
-+        notifier_list_notify(&vmem->size_change_notifiers, &vmem->size);
-+    }
- 
-     virtio_mem_resize_usable_region(vmem, vmem->requested_size, true);
-     return 0;
-@@ -561,6 +565,18 @@ static MemoryRegion *virtio_mem_get_memory_region(VirtIOMEM *vmem, Error **errp)
-     return &vmem->memdev->mr;
- }
- 
-+static void virtio_mem_add_size_change_notifier(VirtIOMEM *vmem,
-+                                                Notifier *notifier)
-+{
-+    notifier_list_add(&vmem->size_change_notifiers, notifier);
-+}
 +
-+static void virtio_mem_remove_size_change_notifier(VirtIOMEM *vmem,
-+                                                   Notifier *notifier)
-+{
-+    notifier_remove(notifier);
-+}
-+
- static void virtio_mem_get_size(Object *obj, Visitor *v, const char *name,
-                                 void *opaque, Error **errp)
+ ##
+ # @MEM_UNPLUG_ERROR:
+ #
+diff --git a/hw/virtio/virtio-mem-pci.h b/hw/virtio/virtio-mem-pci.h
+index 8820cd6628..b51a28b275 100644
+--- a/hw/virtio/virtio-mem-pci.h
++++ b/hw/virtio/virtio-mem-pci.h
+@@ -28,6 +28,7 @@ typedef struct VirtIOMEMPCI VirtIOMEMPCI;
+ struct VirtIOMEMPCI {
+     VirtIOPCIProxy parent_obj;
+     VirtIOMEM vdev;
++    Notifier size_change_notifier;
+ };
+ 
+ #endif /* QEMU_VIRTIO_MEM_PCI_H */
+diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+index b325303b32..1a8e854123 100644
+--- a/hw/virtio/virtio-mem-pci.c
++++ b/hw/virtio/virtio-mem-pci.c
+@@ -14,6 +14,7 @@
+ #include "virtio-mem-pci.h"
+ #include "hw/mem/memory-device.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-events-misc.h"
+ 
+ static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
  {
-@@ -668,6 +684,7 @@ static void virtio_mem_instance_init(Object *obj)
-     VirtIOMEM *vmem = VIRTIO_MEM(obj);
- 
-     vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
-+    notifier_list_init(&vmem->size_change_notifiers);
- 
-     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
-                         NULL, NULL, NULL);
-@@ -705,6 +722,8 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
- 
-     vmc->fill_device_info = virtio_mem_fill_device_info;
-     vmc->get_memory_region = virtio_mem_get_memory_region;
-+    vmc->add_size_change_notifier = virtio_mem_add_size_change_notifier;
-+    vmc->remove_size_change_notifier = virtio_mem_remove_size_change_notifier;
+@@ -74,6 +75,21 @@ static void virtio_mem_pci_fill_device_info(const MemoryDeviceState *md,
+     info->type = MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
  }
  
- static const TypeInfo virtio_mem_info = {
++static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
++{
++    VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
++                                         size_change_notifier);
++    DeviceState *dev = DEVICE(pci_mem);
++    const uint64_t * const size_p = data;
++    const char *id = NULL;
++
++    if (dev->id) {
++        id = g_strdup(dev->id);
++    }
++
++    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
++}
++
+ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -98,9 +114,21 @@ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+ static void virtio_mem_pci_instance_init(Object *obj)
+ {
+     VirtIOMEMPCI *dev = VIRTIO_MEM_PCI(obj);
++    VirtIOMEMClass *vmc;
++    VirtIOMEM *vmem;
+ 
+     virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
+                                 TYPE_VIRTIO_MEM);
++
++    dev->size_change_notifier.notify = virtio_mem_pci_size_change_notify;
++    vmem = VIRTIO_MEM(&dev->vdev);
++    vmc = VIRTIO_MEM_GET_CLASS(vmem);
++    /*
++     * We never remove the notifier again, as we expect both devices to
++     * disappear at the same time.
++     */
++    vmc->add_size_change_notifier(vmem, &dev->size_change_notifier);
++
+     object_property_add_alias(obj, VIRTIO_MEM_BLOCK_SIZE_PROP,
+                               OBJECT(&dev->vdev), VIRTIO_MEM_BLOCK_SIZE_PROP);
+     object_property_add_alias(obj, VIRTIO_MEM_SIZE_PROP, OBJECT(&dev->vdev),
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 125494410a..19dcb8fbe3 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -235,6 +235,7 @@ static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] = {
+     [QAPI_EVENT_QUORUM_REPORT_BAD] = { 1000 * SCALE_MS },
+     [QAPI_EVENT_QUORUM_FAILURE]    = { 1000 * SCALE_MS },
+     [QAPI_EVENT_VSERPORT_CHANGE]   = { 1000 * SCALE_MS },
++    [QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE] = { 1000 * SCALE_MS },
+ };
+ 
+ /*
 -- 
 MST
 
