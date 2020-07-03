@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D4A21376D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:15:36 +0200 (CEST)
-Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF0D213761
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:13:40 +0200 (CEST)
+Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHnD-00054t-9c
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
+	id 1jrHlL-0000e7-C0
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcb-0008MO-Iv
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26760
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHce-0008ST-CB
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43460
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcZ-0004Ty-Iv
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcc-0004UC-1t
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767074;
+ s=mimecast20190719; t=1593767077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zKfOMeb80edcLFenYqj0ugS/WcCDRNzf8rPuIVf+r7A=;
- b=KixL9Ry/e3Z1Roi07rrLqiPHid40S5HEUBRSoSPmz04eDnvjOAH4eL6mmJc/lvIc64w+t7
- OpGJStunmXlGABCZgLLfJqtErYkYHFAwJ794k37lFgQYrjCrs+eyWhA0SOhjWN1xYV/0Bt
- GDYhQBs3FNfocr/MIvxYoK6nd7t8LR0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-5ttbS1-mNoy-3ByITTVypA-1; Fri, 03 Jul 2020 05:04:33 -0400
-X-MC-Unique: 5ttbS1-mNoy-3ByITTVypA-1
-Received: by mail-wr1-f72.google.com with SMTP id b8so17078036wro.19
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:32 -0700 (PDT)
+ bh=hGpCgrRFdoVzKCBas1IVjEPttxJKy83HIMW4QM2zJOM=;
+ b=FZsRj5BQcKS+0IMXXTL6+DRrv/4y5G2i4tzchMoGqZa0Oef01nbr1oiIotSwAqn90jMLqN
+ NuGmAMdxgDJbfqqAZZbfPMW79+p97qsElx+jelQAPD4WT8rixrJ0cOQCshZ7oXSZVIOZF0
+ nItdqem1YHKHbp692gyd0GTBwgHDrTE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-sOrxS6zOMgKKptljnin_8w-1; Fri, 03 Jul 2020 05:04:35 -0400
+X-MC-Unique: sOrxS6zOMgKKptljnin_8w-1
+Received: by mail-wm1-f70.google.com with SMTP id g124so34477477wmg.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zKfOMeb80edcLFenYqj0ugS/WcCDRNzf8rPuIVf+r7A=;
- b=Rydwiw/06l0IaJKOOuTK0YbWIVD1j6Lt9158fL011J+HRe7pma1L7oslviDko41mRP
- uBUhPPnfEDXuGiB3DzSOObizUm26GCwnEmZZKKOb9wqEVIq6Cg7Mu5YD1KcomzGeeEWQ
- 7sraGLjQtlQ9P88pbX4UkQMIMOabHATA8CLdRJWYdRgJfo6iUn0tJbZK3X7WUbSa3YEl
- lEDbr6JEWpoKlvrZSTreEHcO4Vo2Gmbl5PQVH9xPDsu57q4AY9qF844d2ZS5Hdv4X/fn
- DED0EEbqTWE+a3UUXYfBGZ0d8MSge3afNnF9o40yyW4ZLGxITOnxqsmFbmJCpBFndt4M
- KVBg==
-X-Gm-Message-State: AOAM531Nk2ZhpIiRrrYvasfvN5iDYAN3Jhy0LUwkrSL7Vfty4AMUSIyV
- Z2yJ5poCH5YMRmSXrFSHig6aP7uPHcEWVFr8CQYwFyMg4PxPFFisqMTPCXE5LFByKvCDwSWtvvw
- 8xR+8l4bWeo6xCf0=
-X-Received: by 2002:a1c:2842:: with SMTP id o63mr20443804wmo.169.1593767071569; 
- Fri, 03 Jul 2020 02:04:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzloWGEE4QTiyiBS6m7hTJJ+iumHhz4F90o9MEyRgcBgspemvVJD3D4UJrzq1galFpln8iL7Q==
-X-Received: by 2002:a1c:2842:: with SMTP id o63mr20443789wmo.169.1593767071392; 
- Fri, 03 Jul 2020 02:04:31 -0700 (PDT)
+ bh=hGpCgrRFdoVzKCBas1IVjEPttxJKy83HIMW4QM2zJOM=;
+ b=pNUruMgfLYsQMmtswuvFUjR4l1rUOMbddjyyzh3HLrRktpiMIYp7edeH0+O9WzihDF
+ d92gAoichcpKfb+RtG6rNPQYGStF18HTaEKvmSku6n1jAduMHsoW0t8aN4rGnv1XK2um
+ Z3yJc1LAiuO0spnz700rCu/I4p+u6ZOvYWj6b7mVi54kGJWW9nnvg7vAZ9XxoziD7cz0
+ ySzVANDnt0M75aXG0tPsd9JcEHMib5PTBM04qsDEiU9F1Zw75SwtS/u+DtelTBXrUKIC
+ YeXaYGuIy4GNY0MeLZM0DBe0HyrRL7dhmocmSDWrMxX/5jgCfpZoG1tItW2zZtj8RCWh
+ pEAw==
+X-Gm-Message-State: AOAM533ilEk0zlQy6Ee9YcfwQLnIJipyUr5XGwescxAz/jsLNlQa+eIt
+ mIUaeuvBTKRKaXcmT7A6nZ1HAYUk/pZS/KyCarSrQ+dpG0FCJPDR58tFBgP2KAFzddaDV1LCFJW
+ a/xrflOwn/bbRLb4=
+X-Received: by 2002:adf:9524:: with SMTP id 33mr34231402wrs.156.1593767074016; 
+ Fri, 03 Jul 2020 02:04:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZab7vJPZc4fhDrSidyEQBsca/ETtBbyzZ2EVhu9i6l86qLJuIs+gPmFIRfZGeYkAxp1PXUA==
+X-Received: by 2002:adf:9524:: with SMTP id 33mr34231387wrs.156.1593767073813; 
+ Fri, 03 Jul 2020 02:04:33 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- w17sm14404130wra.42.2020.07.03.02.04.30
+ d10sm13687828wrx.66.2020.07.03.02.04.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:04:30 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:04:29 -0400
+ Fri, 03 Jul 2020 02:04:33 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:04:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/41] virtio-mem: Add trace events
-Message-ID: <20200703090252.368694-23-mst@redhat.com>
+Subject: [PULL 23/41] virtio-mem: Exclude unplugged memory during migration
+Message-ID: <20200703090252.368694-24-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -104,114 +104,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's add some trace events that might come in handy later.
+The content of unplugged memory is undefined and should not be migrated,
+ever. Exclude all unplugged memory during precopy using the precopy notifier
+infrastructure introduced for free page hinting in virtio-balloon.
+
+Unplugged memory is marked as "not dirty", meaning it won't be
+considered for migration.
 
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-20-david@redhat.com>
+Message-Id: <20200626072248.78761-21-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 10 +++++++++-
- hw/virtio/trace-events | 10 ++++++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ include/hw/virtio/virtio-mem.h |  3 ++
+ hw/virtio/virtio-mem.c         | 54 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 56 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index b74c77cd42..0778224964 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -67,6 +67,9 @@ typedef struct VirtIOMEM {
+ 
+     /* notifiers to notify when "size" changes */
+     NotifierList size_change_notifiers;
++
++    /* don't migrate unplugged memory */
++    NotifierWithReturn precopy_notifier;
+ } VirtIOMEM;
+ 
+ typedef struct VirtIOMEMClass {
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 6ed5409669..fdd4dbb42c 100644
+index fdd4dbb42c..bf9b414522 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -30,6 +30,7 @@
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
- #include "config-devices.h"
-+#include "trace.h"
- 
- /*
-  * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
-@@ -100,6 +101,7 @@ static void virtio_mem_send_response(VirtIOMEM *vmem, VirtQueueElement *elem,
-     VirtIODevice *vdev = VIRTIO_DEVICE(vmem);
-     VirtQueue *vq = vmem->vq;
- 
-+    trace_virtio_mem_send_response(le16_to_cpu(resp->type));
-     iov_from_buf(elem->in_sg, elem->in_num, 0, resp, sizeof(*resp));
- 
-     virtqueue_push(vq, elem, sizeof(*resp));
-@@ -195,6 +197,7 @@ static void virtio_mem_plug_request(VirtIOMEM *vmem, VirtQueueElement *elem,
-     const uint16_t nb_blocks = le16_to_cpu(req->u.plug.nb_blocks);
-     uint16_t type;
- 
-+    trace_virtio_mem_plug_request(gpa, nb_blocks);
-     type = virtio_mem_state_change_request(vmem, gpa, nb_blocks, true);
-     virtio_mem_send_response_simple(vmem, elem, type);
- }
-@@ -206,6 +209,7 @@ static void virtio_mem_unplug_request(VirtIOMEM *vmem, VirtQueueElement *elem,
-     const uint16_t nb_blocks = le16_to_cpu(req->u.unplug.nb_blocks);
-     uint16_t type;
- 
-+    trace_virtio_mem_unplug_request(gpa, nb_blocks);
-     type = virtio_mem_state_change_request(vmem, gpa, nb_blocks, false);
-     virtio_mem_send_response_simple(vmem, elem, type);
- }
-@@ -225,6 +229,7 @@ static void virtio_mem_resize_usable_region(VirtIOMEM *vmem,
-         return;
-     }
- 
-+    trace_virtio_mem_resized_usable_region(vmem->usable_region_size, newsize);
-     vmem->usable_region_size = newsize;
+@@ -62,8 +62,14 @@ static bool virtio_mem_is_busy(void)
+     /*
+      * Postcopy cannot handle concurrent discards and we don't want to migrate
+      * pages on-demand with stale content when plugging new blocks.
++     *
++     * For precopy, we don't want unplugged blocks in our migration stream, and
++     * when plugging new blocks, the page content might differ between source
++     * and destination (observable by the guest when not initializing pages
++     * after plugging them) until we're running on the destination (as we didn't
++     * migrate these blocks when they were unplugged).
+      */
+-    return migration_in_incoming_postcopy();
++    return migration_in_incoming_postcopy() || !migration_is_idle();
  }
  
-@@ -247,7 +252,7 @@ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
-         vmem->size = 0;
-         notifier_list_notify(&vmem->size_change_notifiers, &vmem->size);
-     }
--
-+    trace_virtio_mem_unplugged_all();
-     virtio_mem_resize_usable_region(vmem, vmem->requested_size, true);
-     return 0;
- }
-@@ -255,6 +260,7 @@ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
- static void virtio_mem_unplug_all_request(VirtIOMEM *vmem,
-                                           VirtQueueElement *elem)
- {
-+    trace_virtio_mem_unplug_all_request();
-     if (virtio_mem_unplug_all(vmem)) {
-         virtio_mem_send_response_simple(vmem, elem, VIRTIO_MEM_RESP_BUSY);
-     } else {
-@@ -272,6 +278,7 @@ static void virtio_mem_state_request(VirtIOMEM *vmem, VirtQueueElement *elem,
-         .type = cpu_to_le16(VIRTIO_MEM_RESP_ACK),
-     };
- 
-+    trace_virtio_mem_state_request(gpa, nb_blocks);
-     if (!virtio_mem_valid_range(vmem, gpa, size)) {
-         virtio_mem_send_response_simple(vmem, elem, VIRTIO_MEM_RESP_ERROR);
-         return;
-@@ -284,6 +291,7 @@ static void virtio_mem_state_request(VirtIOMEM *vmem, VirtQueueElement *elem,
-     } else {
-         resp.u.state.state = cpu_to_le16(VIRTIO_MEM_STATE_MIXED);
-     }
-+    trace_virtio_mem_state_response(le16_to_cpu(resp.u.state.state));
-     virtio_mem_send_response(vmem, elem, &resp);
+ static bool virtio_mem_test_bitmap(VirtIOMEM *vmem, uint64_t start_gpa,
+@@ -475,6 +481,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     host_memory_backend_set_mapped(vmem->memdev, true);
+     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
+     qemu_register_reset(virtio_mem_system_reset, vmem);
++    precopy_add_notifier(&vmem->precopy_notifier);
  }
  
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 6427a0047d..292fc15e29 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -74,3 +74,13 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
- virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
- virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
- virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
+ static void virtio_mem_device_unrealize(DeviceState *dev)
+@@ -482,6 +489,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOMEM *vmem = VIRTIO_MEM(dev);
+ 
++    precopy_remove_notifier(&vmem->precopy_notifier);
+     qemu_unregister_reset(virtio_mem_system_reset, vmem);
+     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
+     host_memory_backend_set_mapped(vmem->memdev, false);
+@@ -757,12 +765,56 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
+     vmem->block_size = value;
+ }
+ 
++static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
++{
++    void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
++    unsigned long first_zero_bit, last_zero_bit;
++    uint64_t offset, length;
 +
-+# virtio-mem.c
-+virtio_mem_send_response(uint16_t type) "type=%" PRIu16
-+virtio_mem_plug_request(uint64_t addr, uint16_t nb_blocks) "addr=0x%" PRIx64 " nb_blocks=%" PRIu16
-+virtio_mem_unplug_request(uint64_t addr, uint16_t nb_blocks) "addr=0x%" PRIx64 " nb_blocks=%" PRIu16
-+virtio_mem_unplugged_all(void) ""
-+virtio_mem_unplug_all_request(void) ""
-+virtio_mem_resized_usable_region(uint64_t old_size, uint64_t new_size) "old_size=0x%" PRIx64 "new_size=0x%" PRIx64
-+virtio_mem_state_request(uint64_t addr, uint16_t nb_blocks) "addr=0x%" PRIx64 " nb_blocks=%" PRIu16
-+virtio_mem_state_response(uint16_t state) "state=%" PRIu16
++    /*
++     * Find consecutive unplugged blocks and exclude them from migration.
++     *
++     * Note: Blocks cannot get (un)plugged during precopy, no locking needed.
++     */
++    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
++    while (first_zero_bit < vmem->bitmap_size) {
++        offset = first_zero_bit * vmem->block_size;
++        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
++                                      first_zero_bit + 1) - 1;
++        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
++
++        qemu_guest_free_page_hint(host + offset, length);
++        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
++                                            last_zero_bit + 2);
++    }
++}
++
++static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
++{
++    VirtIOMEM *vmem = container_of(n, VirtIOMEM, precopy_notifier);
++    PrecopyNotifyData *pnd = data;
++
++    switch (pnd->reason) {
++    case PRECOPY_NOTIFY_SETUP:
++        precopy_enable_free_page_optimization();
++        break;
++    case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
++        virtio_mem_precopy_exclude_unplugged(vmem);
++        break;
++    default:
++        break;
++    }
++
++    return 0;
++}
++
+ static void virtio_mem_instance_init(Object *obj)
+ {
+     VirtIOMEM *vmem = VIRTIO_MEM(obj);
+ 
+     vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
+     notifier_list_init(&vmem->size_change_notifiers);
++    vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
+ 
+     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
+                         NULL, NULL, NULL);
 -- 
 MST
 
