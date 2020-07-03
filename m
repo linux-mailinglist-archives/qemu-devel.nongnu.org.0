@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54155213B63
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:54:21 +0200 (CEST)
-Received: from localhost ([::1]:33464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB771213B6E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:56:51 +0200 (CEST)
+Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrM8y-0006TR-CG
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53802)
+	id 1jrMBO-0002Lb-QC
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM7N-0004mJ-9P
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:52:41 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40598)
+ id 1jrM7g-0005Xu-Ak
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:00 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrM7L-0000ta-OD
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:52:40 -0400
-Received: by mail-ot1-x343.google.com with SMTP id c25so9125817otf.7
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:52:39 -0700 (PDT)
+ id 1jrM7e-0000wT-CD
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:53:00 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n5so26785922otj.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QrnTEd+QEvPrsXhOfKMJN36kN5dABOeyqo4GoYHhfog=;
- b=PL2jWyzBT0zYogzk15TB9sjj+IZCLD2ZgbzefED4yt/SFgFlTYSsAN+yiX15/7PRCQ
- 3d1iSxLoVJfVxtqfw5S3c0nrVmwBcdgVC2hh6svVbjl/QUAFnu4Tyrbgx87jASVDf0Nu
- ED7ikGKRuWiFI5iPM9xc3LGNqjCd0sWQ8+0k5Mp8cSPQKpmSlYiI+tSublXwAaHFUgIc
- +bh1IXrvo08XQhglqQAVGYUQOnXUcWA+4CWzOc1lHSxQHtef7tZ2qtErArchZo2oeIzk
- ZtAXEJe0kREoVd++KQd7aH3LPfUn0MfdUNx98Zu1ceAzZ4HY6A0WPqGnucuWWwmRdtXT
- K8hA==
+ :cc; bh=Wpc26K4vIHW7s7G0jjwpwG5GXL2DZyAsm9Rh8wYBjkg=;
+ b=OWuXsgZ6qUv8VQXPhEX+8AscWWs5PL3NntUQhLvZ4GuEpjGOlb63s6YYatjndc0M5N
+ RK8Rgl7z2B3gzV3ukQIsrOUFGEgVepOfl2cGlWifOW1VoCBaCnDmQSRU50JZrHALoc25
+ 2LYg1kuvjKDYl/B2wqRLBLlrneLQCTrFcuHLpIEl7zpYJzeOP1d49F3yLu3kSWMRvZRm
+ iBQ5LvK0iwgRj+iMGubkwDccQtuSL85idPCrN6sak8u7F0cQ/Y6V3m1c4B3W/z5qgUy9
+ eD/Mnlun6Qa1EWxwAQC+y8h55BW8ge5ougjtX3qW3IOJtMtdLXL/0AozsKh7l6hXMZ0+
+ M01g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QrnTEd+QEvPrsXhOfKMJN36kN5dABOeyqo4GoYHhfog=;
- b=JGpnHzXVUNV7OpAQhb1mfIJZRuzCPALJPNKeeAHAPWKRsNFYinXmscY6ok+ecYckOu
- 47qPdU28jZeLCECT2+A8lIlDCx5DKh0v28v+bjokc3y/ldgwLNuYcBWWdKWBtIKhUxX1
- i2NpKX+kn+qtsS09IfSFjRXj5uY2jorHwUtaknkdhviK70a01dB142j6WgVEW/1ZyiWc
- hJK0lYUVchufoEoXnvkYahjxFb2T6OX37yBfJUx1VYnXCXRd5kmLzSYESWkUHhnXhnq3
- cbncYsvbvwzbY887cG09em87dtUm8ygwjhB1yZyGMkV7ujtj/iWeN7/ItG4AoPdRH+Sb
- uHgQ==
-X-Gm-Message-State: AOAM531+bYvi3lO/k3Uy4H5T9vbWEn0GvNv58j7EAJmavW5G4GY3D8RR
- 1K83vhLvQBTtq/cW47fh0pjnVerjSemenrRfJ3Vb9g==
-X-Google-Smtp-Source: ABdhPJxKv8zYmfFwXf8EJkVGU0PJLDe/BfhqZfozllUQiXiobusUmeJJhiowynu0MZNu8UTya9GkBouqvthTK6c3BNY=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr23290967oto.135.1593784358577; 
- Fri, 03 Jul 2020 06:52:38 -0700 (PDT)
+ bh=Wpc26K4vIHW7s7G0jjwpwG5GXL2DZyAsm9Rh8wYBjkg=;
+ b=JWHa+mn1XzzwXwVQyWTjZnmLITCXm09IOp/fCIQN2AYoDMI4I56/vQqCjMmOSU50Gw
+ YQjpFPRXZkD10rfuWtC9CcA1EINboTZWXTs5zXt9hQpEfz0eK5PIPzYDOugfinLRFhBu
+ gd+J59Op/cqEAD/kucM0MydHZDRK5Ubqas3mZ6xdTQ1CUbeMlvCC1sS/YdOyHESOWRwQ
+ zkNijk3H6pCJYJ3nHD/ucVx+lGs+Z0/3lagCQhaoBd5pMcHcr37ynI0pH8AvtfML5VRX
+ icw60IUFxX7V7F0JYCYUDywzC07eSIPB+B2O8lpC+ID1D0AiZOHWFR2V+9pWQ+qLJ3sM
+ MvIg==
+X-Gm-Message-State: AOAM533Q6MpktaWQYRsQpprtZ8lv/A9H0C6yrapQsgnV1g688ojA6qjx
+ w3G6KZMZrPAW6N3KOLoKGKomihuH4gWewsM5Nsy3ZuzIj+M=
+X-Google-Smtp-Source: ABdhPJznsJBmGYE4zSd/XdE2aIPEEd/jodkGDBzTkq1kv3V+w+EKHhDpkc5o834osixtxkFltZcEcJepCtzAW9MYyc0=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr28478686ota.91.1593784377356; 
+ Fri, 03 Jul 2020 06:52:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+XhMqzZaXorKXQKXRNue9bhbrE3iawtM6EHNUVjGOuSayuvAw@mail.gmail.com>
-In-Reply-To: <CA+XhMqzZaXorKXQKXRNue9bhbrE3iawtM6EHNUVjGOuSayuvAw@mail.gmail.com>
+References: <CA+XhMqzmb0K5HaOBNy31rNU0F0O4kq+B6eeYCUXiJJE6ENDsYw@mail.gmail.com>
+In-Reply-To: <CA+XhMqzmb0K5HaOBNy31rNU0F0O4kq+B6eeYCUXiJJE6ENDsYw@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 14:52:26 +0100
-Message-ID: <CAFEAcA-xqdBJS+yd5AYbhqzZEd7ZxfqpDQpXAcXE3pdZrMDVyA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] Skipping sys/syscall.h inclusion as only used in
- qemu_signalfd anyway
+Date: Fri, 3 Jul 2020 14:52:46 +0100
+Message-ID: <CAFEAcA_O0NZgjz=q8cG-wL6ZNMS6rt2kO5VwTr_KLMsh1v6BJg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] Implementing qemu_init_exec_dir.
 To: David CARLIER <devnexen@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,18 +83,18 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 01:49, David CARLIER <devnexen@gmail.com> wrote:
+On Tue, 30 Jun 2020 at 01:46, David CARLIER <devnexen@gmail.com> wrote:
 >
-> From b821b7e9bbf1f327058ee858a92c7a7ee6740e63 Mon Sep 17 00:00:00 2001
+> From fcdb25804af98329b52a04e7a4e5191135aac4f6 Mon Sep 17 00:00:00 2001
 > From: David Carlier <devnexen@gmail.com>
-> Date: Mon, 29 Jun 2020 22:20:39 +0000
-> Subject: [PATCH 8/9] Skipping sys/syscall.h inclusion as only used in
->  qemu_signalfd anyway.
+> Date: Mon, 29 Jun 2020 22:36:03 +0000
+> Subject: [PATCH 9/9] Implementing qemu_init_exec_dir.
 >
 > Signed-off-by: David Carlier <devnexen@gmail.com>
 > ---
->  util/compatfd.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  util/oslib-posix.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
