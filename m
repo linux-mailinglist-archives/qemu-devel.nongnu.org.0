@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6928E213DE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:04:00 +0200 (CEST)
-Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D9E213E2B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:07:42 +0200 (CEST)
+Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrP6V-0002ga-FY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50256)
+	id 1jrPA5-0000Rz-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxO-0005FD-SO
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:34 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45168)
+ id 1jrOxQ-0005I9-1w
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:36 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxN-0005i6-0V
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:34 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s10so33383728wrw.12
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:32 -0700 (PDT)
+ id 1jrOxO-0005iJ-68
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:35 -0400
+Received: by mail-wm1-x335.google.com with SMTP id l2so33241445wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Hph4sRVrrHIXw5YxnyUupaHI04MuhyQF4bKu2vDwcK0=;
- b=oL99wT3WaeQJXGPpANoeqAxdlnpLZCgpqgQll6LBDd+mBvqm15hVr+ulPsSd5Psy63
- U4JaazB/sN6S+Rrk72UWBiCz7iTJdrWGOuKPhK7Bv240y8+haQr1RE+DskApFsIOguVj
- YHMGDYqzXkOy+LnNFmIdwF4VRHgvKMO2a7OoVO8QJ2rDPACAitToqtmukuMSuuNgoiYR
- PMNtEal0cD3EyEzDg3DAHi57GPjXMHyGzli0Y+7ib56u53m4pgCYcbLKi2jl3OtQ7IrN
- 6Feh5uARG1gh2q25rNLp1xZjgT9dIpWeNAuuVm8qjmJWh8KS+lSXlxpzzO1Y2WdEGxfm
- nfWw==
+ bh=ZVAij/KCpWXCOhgRXrDw7xB6C1uHCslS7BtBDspLBtw=;
+ b=Xh8MW3xB9bUBnI1gzX3cmnQ7sa+uRTGG5OpR43q86k4qx0dbCVhdSlVyGow/qTqQCb
+ WGlwQ1IkRAvSzOKvMgEhesTo7LHulDlZ4zo09if4Olqx2j3lKAvFlBFthBb4XN1nYOQ/
+ fy4Dq/WU2sF9df5w3ooqN1bWRgv87sYezkSVSO/uHjIjRyNIpELHdum+uDD/tqDJTSyi
+ trD2q8y/Z7IwTJxDq+57UWXOBNIJOqlgMhJECbkI21WUwmQIreed/3Edvnf61tGVx/0W
+ 0nnIy/+4UjYn/5YUDvv4c43pmDeO6MbWx6G1UJaSwcFbCIJpXRClGLukcZHSr7B3Y6w5
+ bT7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hph4sRVrrHIXw5YxnyUupaHI04MuhyQF4bKu2vDwcK0=;
- b=OO7U4EKwsLlmOFu57rMxkMNaXpvT8pKFjBB9taYNqP0v1n9lA+Mz8rD0yb+Sslk+2U
- lzczPfFXBc8A+MFM8VPJKZ7TarZeUTMyA2KzMbUjL9DrJuHyfmS0/S1/VuWupd7iZOJI
- jzxrTTMbyjC9FxBRyW8yzEogrsED03VyF/O1hOvamKWjEtVC6blXgsT/7b+pPwcXMH9K
- DbMj5tSRsdJUO2iAjNyYpooKEBIhtc4QpDKw26b/UUscJNOZ8L+WhsUhIRxAqEnZAR4z
- dC6usn9hqIag/5jEK1HShfyFSsFvv1KfCRil4vsei6V3qkr741oIUlYwHY4XVG59Tlys
- 4KNg==
-X-Gm-Message-State: AOAM533Qse2fncZM9G+YuzsLuTQH2HiO9GV+myocT+XHhtBNrHdODAhb
- nEQct2yqDaoweHfKfx7oj62AEp3AdTg0ZA==
-X-Google-Smtp-Source: ABdhPJzOz/5W+Gye5wC3mP84fuZFcshgP1W6MNv1yktopOsEAkMVdFSOYpGInNVZAwBDsPhiYlpHGg==
-X-Received: by 2002:a5d:6803:: with SMTP id w3mr37168766wru.200.1593795271227; 
- Fri, 03 Jul 2020 09:54:31 -0700 (PDT)
+ bh=ZVAij/KCpWXCOhgRXrDw7xB6C1uHCslS7BtBDspLBtw=;
+ b=SHftWq3S25HPNt22Hd/2uFzx+RYUcA2I4ZcQKjZG0MKkBFiQI1E5QTCn/8UZ9iKAvi
+ 3qVNBlRMZ5kSImYUUf/LL4KCti597Ayq97GcQ5K0AGFXE5teZcPL4L4G+T5fmNPxZ2MB
+ Hc22d6QZyoMLsHYVzjmYnhsC+Y6xK9ijVKncIK1+Yx9zoMWbdT3p2efnaj6R/UBEMW1I
+ ZP7u99AqU181wKFPLRtf8X5+ggcoypkUtZ5ew0ttpnBwrkFvnn8r/czLtzx+p/cnl7EV
+ uJDMD4bTYm9NvUdBNIH7ekxChpygLU1OnnuVAOmbBAlAPVkSNsu9P0RK/+7bUxRoy5iG
+ G++g==
+X-Gm-Message-State: AOAM530KAKPTjewCDYGHMo1yUZE2gsWP9Q41yyIF2Pjgpjiny+IZqkB9
+ uiE3cy9yTTo1seVjwLbisyvPKnUA2RR3ng==
+X-Google-Smtp-Source: ABdhPJxI/9MfGAAzGkMIZMLDKjfnCzLVGLJcmzF62rKHAVhPstFLaXbZf2Q/O5sLn41+T/hM5bzrLg==
+X-Received: by 2002:a1c:3dc3:: with SMTP id k186mr39360530wma.66.1593795272401; 
+ Fri, 03 Jul 2020 09:54:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.30
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:30 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/34] hw/arm/spitz: Implement inbound GPIO lines for bit5 and
- power signals
-Date: Fri,  3 Jul 2020 17:53:52 +0100
-Message-Id: <20200703165405.17672-22-peter.maydell@linaro.org>
+Subject: [PULL 22/34] hw/misc/max111x: provide QOM properties for setting
+ initial values
+Date: Fri,  3 Jul 2020 17:53:53 +0100
+Message-Id: <20200703165405.17672-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,101 +90,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the Spitz board uses a nasty hack for the GPIO lines
-that pass "bit5" and "power" information to the LCD controller:
-the lcdtg realize function sets a global variable to point to
-the instance it just realized, and then the functions spitz_bl_power()
-and spitz_bl_bit5() use that to find the device they are changing
-the internal state of. There is a comment reading:
- FIXME: Implement GPIO properly and remove this hack.
-which was added in 2009.
+Add some QOM properties to the max111x ADC device to allow the
+initial values to be configured. Currently this is done by
+board code calling max111x_set_input() after it creates the
+device, which doesn't work on system reset.
 
-Implement GPIO properly and remove this hack.
+This requires us to implement a reset method for this device,
+so while we're doing that make sure we reset the other parts
+of the device state.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200628142429.17111-6-peter.maydell@linaro.org
+Message-id: 20200628142429.17111-7-peter.maydell@linaro.org
 ---
- hw/arm/spitz.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ hw/misc/max111x.c | 57 ++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 47 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index 69bc2b3fa10..11e413723f4 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -586,12 +586,9 @@ static void spitz_bl_update(SpitzLCDTG *s)
-         zaurus_printf("LCD Backlight now off\n");
- }
+diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
+index 2b87bdee5b7..d0e5534e4f5 100644
+--- a/hw/misc/max111x.c
++++ b/hw/misc/max111x.c
+@@ -15,11 +15,15 @@
+ #include "hw/ssi/ssi.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
++#include "hw/qdev-properties.h"
  
--/* FIXME: Implement GPIO properly and remove this hack.  */
--static SpitzLCDTG *spitz_lcdtg;
--
- static inline void spitz_bl_bit5(void *opaque, int line, int level)
- {
--    SpitzLCDTG *s = spitz_lcdtg;
-+    SpitzLCDTG *s = opaque;
-     int prev = s->bl_intensity;
+ typedef struct {
+     SSISlave parent_obj;
  
-     if (level)
-@@ -605,7 +602,7 @@ static inline void spitz_bl_bit5(void *opaque, int line, int level)
- 
- static inline void spitz_bl_power(void *opaque, int line, int level)
- {
--    SpitzLCDTG *s = spitz_lcdtg;
-+    SpitzLCDTG *s = opaque;
-     s->bl_power = !!level;
-     spitz_bl_update(s);
- }
-@@ -639,13 +636,16 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
-     return 0;
- }
- 
--static void spitz_lcdtg_realize(SSISlave *dev, Error **errp)
-+static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
- {
--    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
-+    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
-+    DeviceState *dev = DEVICE(s);
- 
--    spitz_lcdtg = s;
-     s->bl_power = 0;
-     s->bl_intensity = 0x20;
+     qemu_irq interrupt;
++    /* Values of inputs at system reset (settable by QOM property) */
++    uint8_t reset_input[8];
 +
-+    qdev_init_gpio_in_named(dev, spitz_bl_bit5, "bl_bit5", 1);
-+    qdev_init_gpio_in_named(dev, spitz_bl_power, "bl_power", 1);
+     uint8_t tb1, rb2, rb3;
+     int cycle;
+ 
+@@ -135,16 +139,6 @@ static int max111x_init(SSISlave *d, int inputs)
+     qdev_init_gpio_out(dev, &s->interrupt, 1);
+ 
+     s->inputs = inputs;
+-    /* TODO: add a user interface for setting these */
+-    s->input[0] = 0xf0;
+-    s->input[1] = 0xe0;
+-    s->input[2] = 0xd0;
+-    s->input[3] = 0xc0;
+-    s->input[4] = 0xb0;
+-    s->input[5] = 0xa0;
+-    s->input[6] = 0x90;
+-    s->input[7] = 0x80;
+-    s->com = 0;
+ 
+     vmstate_register(VMSTATE_IF(dev), VMSTATE_INSTANCE_ID_ANY,
+                      &vmstate_max111x, s);
+@@ -168,11 +162,50 @@ void max111x_set_input(DeviceState *dev, int line, uint8_t value)
+     s->input[line] = value;
  }
  
- /* SSP devices */
-@@ -820,15 +820,11 @@ static void spitz_out_switch(void *opaque, int line, int level)
-     case 3:
-         zaurus_printf("Orange LED %s.\n", level ? "on" : "off");
-         break;
--    case 4:
--        spitz_bl_bit5(opaque, line, level);
--        break;
--    case 5:
--        spitz_bl_power(opaque, line, level);
--        break;
-     case 6:
-         spitz_adc_temp_on(opaque, line, level);
-         break;
-+    default:
-+        g_assert_not_reached();
-     }
++static void max111x_reset(DeviceState *dev)
++{
++    MAX111xState *s = MAX_111X(dev);
++    int i;
++
++    for (i = 0; i < s->inputs; i++) {
++        s->input[i] = s->reset_input[i];
++    }
++    s->com = 0;
++    s->tb1 = 0;
++    s->rb2 = 0;
++    s->rb3 = 0;
++    s->cycle = 0;
++}
++
++static Property max1110_properties[] = {
++    /* Reset values for ADC inputs */
++    DEFINE_PROP_UINT8("input0", MAX111xState, reset_input[0], 0xf0),
++    DEFINE_PROP_UINT8("input1", MAX111xState, reset_input[1], 0xe0),
++    DEFINE_PROP_UINT8("input2", MAX111xState, reset_input[2], 0xd0),
++    DEFINE_PROP_UINT8("input3", MAX111xState, reset_input[3], 0xc0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static Property max1111_properties[] = {
++    /* Reset values for ADC inputs */
++    DEFINE_PROP_UINT8("input0", MAX111xState, reset_input[0], 0xf0),
++    DEFINE_PROP_UINT8("input1", MAX111xState, reset_input[1], 0xe0),
++    DEFINE_PROP_UINT8("input2", MAX111xState, reset_input[2], 0xd0),
++    DEFINE_PROP_UINT8("input3", MAX111xState, reset_input[3], 0xc0),
++    DEFINE_PROP_UINT8("input4", MAX111xState, reset_input[4], 0xb0),
++    DEFINE_PROP_UINT8("input5", MAX111xState, reset_input[5], 0xa0),
++    DEFINE_PROP_UINT8("input6", MAX111xState, reset_input[6], 0x90),
++    DEFINE_PROP_UINT8("input7", MAX111xState, reset_input[7], 0x80),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void max111x_class_init(ObjectClass *klass, void *data)
+ {
+     SSISlaveClass *k = SSI_SLAVE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     k->transfer = max111x_transfer;
++    dc->reset = max111x_reset;
  }
  
-@@ -858,9 +854,9 @@ static void spitz_scoop_gpio_setup(SpitzMachineState *sms)
+ static const TypeInfo max111x_info = {
+@@ -186,8 +219,10 @@ static const TypeInfo max111x_info = {
+ static void max1110_class_init(ObjectClass *klass, void *data)
+ {
+     SSISlaveClass *k = SSI_SLAVE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
  
-     if (sms->scp1) {
-         qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_CONT,
--                              outsignals[4]);
-+                              qdev_get_gpio_in_named(sms->lcdtg, "bl_bit5", 0));
-         qdev_connect_gpio_out(sms->scp1, SPITZ_SCP2_BACKLIGHT_ON,
--                              outsignals[5]);
-+                              qdev_get_gpio_in_named(sms->lcdtg, "bl_power", 0));
-     }
+     k->realize = max1110_realize;
++    device_class_set_props(dc, max1110_properties);
+ }
  
-     qdev_connect_gpio_out(sms->scp0, SPITZ_SCP_ADC_TEMP_ON, outsignals[6]);
+ static const TypeInfo max1110_info = {
+@@ -199,8 +234,10 @@ static const TypeInfo max1110_info = {
+ static void max1111_class_init(ObjectClass *klass, void *data)
+ {
+     SSISlaveClass *k = SSI_SLAVE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     k->realize = max1111_realize;
++    device_class_set_props(dc, max1111_properties);
+ }
+ 
+ static const TypeInfo max1111_info = {
 -- 
 2.20.1
 
