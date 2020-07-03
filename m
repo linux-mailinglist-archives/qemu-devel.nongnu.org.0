@@ -2,74 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D16D213AB2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:15:08 +0200 (CEST)
-Received: from localhost ([::1]:60980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC83213AB8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 15:17:52 +0200 (CEST)
+Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrLX1-0007RN-4V
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
+	id 1jrLZf-00041b-2h
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 09:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrLVF-00064h-Bl
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:13:19 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:45093)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrLVC-0007Xj-MB
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 09:13:17 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id v188so873258ooa.12
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 06:13:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EgSqWLYeZpGqWhb5mjrMupQ3jFx+d1qnxJiNpMWHGfw=;
- b=gxmouS08IdbIBAEKcVV7BB88N4ifs43Ug/0N2kVpJ9mXdz+8B7catkKdBzca8K20Ob
- Ka49xgQqkaYZwiP7j5B4GRRXYmNhovdxFV+5gbKBvppLIhgGqAvYHd+cpIwJVHNhQ458
- jHTM6OyShpE03DQ3ZXi8TwhQLeTOcH3TdpLzQtQJ7IiBEmMwsQtbQEARI/m/XiymK3Bf
- sR8Qdd8DilAyqVhsRWIzpBtDGS9spyN2HQfewSfLrcZwJh8gHPRrMGJMuZfMTu22NhU5
- 8vjbJ7I163xsKmjQritlZFvadXVbhZwoh9s83pDAz83zuvsC6dcoABS9XS0guxslT//+
- cnGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EgSqWLYeZpGqWhb5mjrMupQ3jFx+d1qnxJiNpMWHGfw=;
- b=rD5rS5Tv6xRFSaHkdtHTyAd5DMQ9JBTOPsgYYdkB/UXzwoyrUOvHUyN7RVGmW5n5Jq
- rdVn+CSe3+DlqU9qBKzSWPTFgOw6IxNrxsQ6vtK1uab6oQoYQiumSzkI+j4PI97stqZb
- 7DKU/z/OuBlsZubk4BN8QVrz3WAwHO1XRgtG9Q3zD5YUqJW2sG4UL9+XygaHR/UqkPTl
- /OjLwI/WfMMmDjHc8VXMC3LsJEGUez8cVZdRdtUexAUgHb1AbQcpspES0oEn+1KMVqnK
- XLeZ6QxX/wOHXs2yyHu5Enb6lGZb9OHmU6hmXYsuCE3mvgoE4ZQPoX8kihR7GxcuGiur
- H0HQ==
-X-Gm-Message-State: AOAM533MHPl29m2FnAQCP7ufPlD63KwOFiXU0LhovPF0Caz4EmvY8h7k
- adObBejCA+PnVDmYqYf7PgYb0SKV4+9TUVH2mh/vhKqh0Bg=
-X-Google-Smtp-Source: ABdhPJyaaXDSQz16FnpqMvFHKVvtd7YSEac2WL/YKPAghU+PXwSRAI9apc8alhZq7vKIOfdCCYxGJZUyL1CPc0q76HU=
-X-Received: by 2002:a05:6820:172:: with SMTP id
- k18mr23564025ood.69.1593781992443; 
- Fri, 03 Jul 2020 06:13:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200630133912.9428-1-f4bug@amsat.org>
- <20200630133912.9428-8-f4bug@amsat.org>
-In-Reply-To: <20200630133912.9428-8-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Jul 2020 14:13:01 +0100
-Message-ID: <CAFEAcA8x3akhiyqd6bj5QVrQdBcfpNsj2SPf3-yJDFH_zqnong@mail.gmail.com>
-Subject: Re: [PATCH v7 07/17] hw/sd/sdcard: Move sd->size initialization
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jrLW4-0006vo-9t; Fri, 03 Jul 2020 09:14:08 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60344 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jrLVv-0007eP-Tw; Fri, 03 Jul 2020 09:14:07 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jrLVj-0004Vj-Hx; Fri, 03 Jul 2020 16:13:47 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v8 00/10] iotests: Dump QCOW2 dirty bitmaps metadata
+Date: Fri,  3 Jul 2020 16:13:40 +0300
+Message-Id: <1593782030-521984-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 09:13:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,23 +48,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jun 2020 at 14:39, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Move sd->size initialization earlier to make the following
-> patches easier to review.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/sd/sd.c | 4 ++--
+Add dirty bitmap information to QCOW2 metadata dump in the qcow2_format.py.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+v8:
+  01: Hard refactoring of the v7 code in qcow2_format.py based on Vladimir's
+      review. See the thread with the message ID:
+      <1591920302-1002219-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-thanks
--- PMM
+Andrey Shinkevich (10):
+  qcow2: Fix capitalization of header extension constant.
+  qcow2_format.py: make printable data an extension class member
+  qcow2_format.py: change Qcow2BitmapExt initialization method
+  qcow2_format.py: dump bitmap flags in human readable way.
+  qcow2_format.py: Dump bitmap directory information
+  qcow2_format.py: pass cluster size to substructures
+  qcow2_format.py: Dump bitmap table serialized entries
+  qcow2.py: Introduce '-j' key to dump in JSON format
+  qcow2_format.py: collect fields to dump in JSON format
+  qcow2_format.py: support dumping metadata in JSON format
+
+ block/qcow2.c                      |   2 +-
+ docs/interop/qcow2.txt             |   2 +-
+ tests/qemu-iotests/291.out         |  90 ++++++++++++++++
+ tests/qemu-iotests/qcow2.py        |  19 +++-
+ tests/qemu-iotests/qcow2_format.py | 212 ++++++++++++++++++++++++++++++++++---
+ 5 files changed, 304 insertions(+), 21 deletions(-)
+
+-- 
+1.8.3.1
+
 
