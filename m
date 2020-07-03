@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE412213475
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 08:47:51 +0200 (CEST)
-Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C234021346A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 08:46:06 +0200 (CEST)
+Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrFUF-0000cK-0i
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 02:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54760)
+	id 1jrFSX-0006IB-T7
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 02:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrFII-00079u-0u; Fri, 03 Jul 2020 02:35:30 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:53134)
+ id 1jrFII-0007Al-LS; Fri, 03 Jul 2020 02:35:31 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:53152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrFID-000388-D6; Fri, 03 Jul 2020 02:35:29 -0400
+ id 1jrFID-00038I-SK; Fri, 03 Jul 2020 02:35:30 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 82682BF827;
+ by charlie.dont.surf (Postfix) with ESMTPSA id F0A70BF84C;
  Fri,  3 Jul 2020 06:35:03 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 17/18] hw/block/nvme: provide the mandatory subnqn field
-Date: Fri,  3 Jul 2020 08:34:19 +0200
-Message-Id: <20200703063420.2241014-18-its@irrelevant.dk>
+Subject: [PATCH v2 18/18] hw/block/nvme: bump supported version to v1.3
+Date: Fri,  3 Jul 2020 08:34:20 +0200
+Message-Id: <20200703063420.2241014-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200703063420.2241014-1-its@irrelevant.dk>
 References: <20200703063420.2241014-1-its@irrelevant.dk>
@@ -63,29 +63,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The SUBNQN field is mandatory in NVM Express 1.3.
+Bump the supported NVM Express version to v1.3.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/block/nvme.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 8138baa6fbd8..5bbb6aa0efc3 100644
+index 5bbb6aa0efc3..204032aac2c8 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2134,6 +2134,9 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES);
+@@ -57,6 +57,7 @@
+ #define NVME_MAX_IOQPAIRS 0xffff
+ #define NVME_REG_SIZE 0x1000
+ #define NVME_DB_SIZE  4
++#define NVME_SPEC_VER 0x00010300
+ #define NVME_CMB_BIR 2
+ #define NVME_PMR_BIR 2
+ #define NVME_TEMPERATURE 0x143
+@@ -2106,6 +2107,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->ieee[0] = 0x00;
+     id->ieee[1] = 0x02;
+     id->ieee[2] = 0xb3;
++    id->ver = cpu_to_le32(NVME_SPEC_VER);
+     id->oacs = cpu_to_le16(0);
  
-+    pstrcpy((char *) id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qemu:");
-+    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
-+
-     id->psd[0].mp = cpu_to_le16(0x9c4);
-     id->psd[0].enlat = cpu_to_le32(0x10);
-     id->psd[0].exlat = cpu_to_le32(0x4);
+     /*
+@@ -2151,7 +2153,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+ 
+-    n->bar.vs = 0x00010200;
++    n->bar.vs = NVME_SPEC_VER;
+     n->bar.intmc = n->bar.intms = 0;
+ }
+ 
 -- 
 2.27.0
 
