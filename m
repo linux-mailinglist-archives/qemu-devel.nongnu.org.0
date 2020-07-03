@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAF5213D91
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:30:11 +0200 (CEST)
-Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2382213D9A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:32:15 +0200 (CEST)
+Received: from localhost ([::1]:57342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOZm-0007M5-Rj
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35148)
+	id 1jrObm-0002sv-Gb
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrOHy-0001Ow-9H; Fri, 03 Jul 2020 12:11:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48372 helo=relay3.sw.ru)
+ id 1jrOI4-0001QT-So; Fri, 03 Jul 2020 12:11:53 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48374 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrOHq-0002cu-VF; Fri, 03 Jul 2020 12:11:45 -0400
+ id 1jrOHq-0002cq-W2; Fri, 03 Jul 2020 12:11:50 -0400
 Received: from [192.168.15.23] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jrOHf-0005Rg-M9; Fri, 03 Jul 2020 19:11:27 +0300
+ id 1jrOHf-0005Rg-E8; Fri, 03 Jul 2020 19:11:27 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 4/7] block/block-backend: remove always true check from
- blk_save_vmstate
-Date: Fri,  3 Jul 2020 19:11:27 +0300
-Message-Id: <20200703161130.23772-5-den@openvz.org>
+Subject: [PATCH 2/7] block/aio_task: allow start/wait task from any coroutine
+Date: Fri,  3 Jul 2020 19:11:25 +0300
+Message-Id: <20200703161130.23772-3-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200703161130.23772-1-den@openvz.org>
 References: <20200703161130.23772-1-den@openvz.org>
@@ -53,43 +52,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_save_vmstate() returns either error with negative return value or
-size. Thus this check is useless.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+Currently, aio task pool assumes that there is a main coroutine, which
+creates tasks and wait for them. Let's remove the restriction by using
+CoQueue. Code becomes clearer, interface more obvious.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Denis V. Lunev <den@openvz.org>
-Suggested-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Kevin Wolf <kwolf@redhat.com>
 CC: Max Reitz <mreitz@redhat.com>
 CC: Stefan Hajnoczi <stefanha@redhat.com>
 CC: Fam Zheng <fam@euphon.net>
 CC: Juan Quintela <quintela@redhat.com>
 CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- block/block-backend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/aio_task.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 6936b25c83..1c6e53bbde 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2188,7 +2188,7 @@ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-         return ret;
-     }
+diff --git a/block/aio_task.c b/block/aio_task.c
+index 88989fa248..cf62e5c58b 100644
+--- a/block/aio_task.c
++++ b/block/aio_task.c
+@@ -27,11 +27,10 @@
+ #include "block/aio_task.h"
  
--    if (ret == size && !blk->enable_write_cache) {
-+    if (!blk->enable_write_cache) {
-         ret = bdrv_flush(blk_bs(blk));
-     }
+ struct AioTaskPool {
+-    Coroutine *main_co;
+     int status;
+     int max_busy_tasks;
+     int busy_tasks;
+-    bool waiting;
++    CoQueue waiters;
+ };
  
+ static void coroutine_fn aio_task_co(void *opaque)
+@@ -52,31 +51,23 @@ static void coroutine_fn aio_task_co(void *opaque)
+ 
+     g_free(task);
+ 
+-    if (pool->waiting) {
+-        pool->waiting = false;
+-        aio_co_wake(pool->main_co);
+-    }
++    qemu_co_queue_restart_all(&pool->waiters);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
+ {
+     assert(pool->busy_tasks > 0);
+-    assert(qemu_coroutine_self() == pool->main_co);
+ 
+-    pool->waiting = true;
+-    qemu_coroutine_yield();
++    qemu_co_queue_wait(&pool->waiters, NULL);
+ 
+-    assert(!pool->waiting);
+     assert(pool->busy_tasks < pool->max_busy_tasks);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool)
+ {
+-    if (pool->busy_tasks < pool->max_busy_tasks) {
+-        return;
++    while (pool->busy_tasks >= pool->max_busy_tasks) {
++        aio_task_pool_wait_one(pool);
+     }
+-
+-    aio_task_pool_wait_one(pool);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool)
+@@ -98,8 +89,8 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
+ {
+     AioTaskPool *pool = g_new0(AioTaskPool, 1);
+ 
+-    pool->main_co = qemu_coroutine_self();
+     pool->max_busy_tasks = max_busy_tasks;
++    qemu_co_queue_init(&pool->waiters);
+ 
+     return pool;
+ }
 -- 
 2.17.1
 
