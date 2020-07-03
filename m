@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE5A213E54
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:10:50 +0200 (CEST)
-Received: from localhost ([::1]:56092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9589213E60
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:16:03 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPD7-0005jV-SB
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50520)
+	id 1jrPIA-0006Pi-Lm
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxe-0005sj-BG
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45169)
+ id 1jrOxb-0005mc-Q2
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:47 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOxY-0005oj-GB
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s10so33384355wrw.12
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:44 -0700 (PDT)
+ id 1jrOxZ-0005pG-Mj
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:47 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s10so33384422wrw.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VKvp3GygN6NnSayidALafcM4t4tV8T/cgZll1mJohvM=;
- b=NTyIN0ns1+eSMr4oOtscO/0nnHqmiA0KUWOeizBulFcWpsQt5nYQqVzqo9Uew0KkTR
- 5zdNGPKcvfod5SVYumuQ+mXtJTkIw7u6wqMw+yDbFhQq9aBpQsEpWeXb+2hj5aVJO2Di
- iikeml2zfcSflRtTZMs87NOSmDLwfzddKok0lFsLp3xKmdCM8NygtJvLbjXSeD6kHtc7
- PP+1OvnER8vn0EX2eEmf6DhF2fr72mtrR2T8stgTT7w0yf+MnQrP5Oaip1YNuvL19ugE
- D3OR3PXrFeswP60q5wCLXAAj98FbyXqprDaWN5cW69/8enBCHEVLBmIAD7Nc33ojGKjm
- 16gA==
+ bh=WcP1RS8FiMepwE14qHYBXQBJblwCXUsUHB2p+oUgg94=;
+ b=mLx+J7MRoxJqk0y/+oZmAvjX8UEmqG+RNxnxmpl90p6GLXLpuXqGz8Y/e+ma5PwTpo
+ xgkRHTa3oxMb2at6UhpdTed+wc7kotvIH4vN3PAH4110Mw2BTPk6itORabWN7QC18bAz
+ BeJR9mP0GLICYpJETdZcuwK/UjAVFYwLqReFlBjf0U4Y9grnUk3UJ3hUIoLAQz0+FNJz
+ I4XbwyrV1G6f64iLYmoXvoac+Ayxk+yI4ATVHqUkcNKXu1niWQi3D7eMhNkhn57+jfHm
+ ciZGo0M0tFt88+dZNsYbVnMQFxWeGy/mFLjiNm3BZjcFaAvc8m9R8IxdguS1g7wQ8+J6
+ OUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VKvp3GygN6NnSayidALafcM4t4tV8T/cgZll1mJohvM=;
- b=tyUrsYfLxDyWt8p4uTnA8PbzSKb2jMgJeg4m4cnDZDYeEsLxgjweX1Omvs+0faOqkp
- exPGIQevzdo9f3nRhaq2hE27/wirD1RzbPYGywaCXoq0owXLmQjFOTz1+F8lLVAsrsWc
- +CBgwFUrXe8iefF+jwVx4SuEmClsG5SDccDFYy3ZTU4lyoRBlLduTLtDEtCM2e+WjqY8
- 9qq6Cy70wGnjpFz9UJ7dOMeX5fCeUPe6lDt7W40vFSC+n3L1iM5xi1avsWTRW+adxY47
- dpsAoE5qkEnFEtPy2lx2qUP1uyPXXIpiNdeaVdoVBGt2u3xe/8pbIA032oHuoRToHj2f
- eQMQ==
-X-Gm-Message-State: AOAM531/EQeRoiaVg4ud760/yXRNnTJRr3KAfZcBOyCVOFP27iLVJsAl
- v99Gvv6qDCH4c0eGRfmQ79ARjBXH6Zqc3A==
-X-Google-Smtp-Source: ABdhPJzUJEN/pj5+7JN7/vRmMYXVVZ+ANSmGGqiZMogjQcw3xu/jIc8wiYX60ym1nIF2Y/gc7LeYuQ==
-X-Received: by 2002:a5d:68c7:: with SMTP id p7mr39704358wrw.16.1593795282877; 
- Fri, 03 Jul 2020 09:54:42 -0700 (PDT)
+ bh=WcP1RS8FiMepwE14qHYBXQBJblwCXUsUHB2p+oUgg94=;
+ b=OyCghysgPg9TYmauusVHji9ttxLzQ5H9AcFzMRewqFwRobhPTOWBsi7mKihWh7I6Au
+ 0TH5nFGjk/kPOnoMRm9T/I63F89i9O7by+bRJzA+S3PEWlW0+8BeYjseisW14MSOwn5U
+ I2pvteiVcmzTJYjSFNXXufoHeY4PQ7RR+LrPm3yhQb0Rv5PtaH5vsBP4kEgBXdpoPj30
+ M+8+dmJ4jkBkHZ0Zw/o9vGTv57S4iKMVaEVn9lJ3qIm6UxPyIsTZSU1AvN+GL8TroMiZ
+ 7szfFcYXNvHXK/A+enXEvjD0Xun4NsxEILp5q7LUja+myfNmGrA3bIxYX7LBa+nOaKB5
+ gKig==
+X-Gm-Message-State: AOAM530DHYU4j1KoiUgGT9u8906qKXMBamP9MW3WLgF8Gj8sSQrCqg4q
+ 12ToY71f4Qbrrj6HiIIbYzySeSVf6QTniA==
+X-Google-Smtp-Source: ABdhPJw6Qm1NNJtajlmzLpXcM2ctkBkTyJ9oKdqqMNsaDghRGEKf775iqsDwSubq9cLgOOf93Qo6rw==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr35718004wru.22.1593795284102; 
+ Fri, 03 Jul 2020 09:54:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.41
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:42 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/34] hw/arm/pxa2xx_pic: Use LOG_GUEST_ERROR for bad guest
- register accesses
-Date: Fri,  3 Jul 2020 17:54:02 +0100
-Message-Id: <20200703165405.17672-32-peter.maydell@linaro.org>
+Subject: [PULL 32/34] hw/arm/spitz: Provide usual QOM macros for corgi-ssp and
+ spitz-lcdtg
+Date: Fri,  3 Jul 2020 17:54:03 +0100
+Message-Id: <20200703165405.17672-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,68 +90,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using printf() for logging guest accesses to invalid
-register offsets in the pxa2xx PIC device, use the usual
-qemu_log_mask(LOG_GUEST_ERROR,...).
+The QOM types "spitz-lcdtg" and "corgi-ssp" are missing the
+usual QOM TYPE and casting macros; provide and use them.
 
-This was the only user of the REG_FMT macro in pxa.h, so we can
-remove that.
+In particular, we can safely use the QOM cast macros instead of
+FROM_SSI_SLAVE() because in both cases the 'ssidev' field of
+the instance state struct is the first field in it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200628142429.17111-16-peter.maydell@linaro.org
+Message-id: 20200628142429.17111-17-peter.maydell@linaro.org
 ---
- include/hw/arm/pxa.h | 1 -
- hw/arm/pxa2xx_pic.c  | 9 +++++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ hw/arm/spitz.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/arm/pxa.h b/include/hw/arm/pxa.h
-index f6dfb5c0cf0..8843e5f9107 100644
---- a/include/hw/arm/pxa.h
-+++ b/include/hw/arm/pxa.h
-@@ -184,7 +184,6 @@ struct PXA2xxI2SState {
- };
+diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+index 49eae3fce4e..f020aff9747 100644
+--- a/hw/arm/spitz.c
++++ b/hw/arm/spitz.c
+@@ -579,6 +579,9 @@ static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
+ #define LCDTG_PICTRL    0x06
+ #define LCDTG_POLCTRL   0x07
  
- # define PA_FMT			"0x%08lx"
--# define REG_FMT		"0x" TARGET_FMT_plx
++#define TYPE_SPITZ_LCDTG "spitz-lcdtg"
++#define SPITZ_LCDTG(obj) OBJECT_CHECK(SpitzLCDTG, (obj), TYPE_SPITZ_LCDTG)
++
+ typedef struct {
+     SSISlave ssidev;
+     uint32_t bl_intensity;
+@@ -616,7 +619,7 @@ static inline void spitz_bl_power(void *opaque, int line, int level)
  
- PXA2xxState *pxa270_init(MemoryRegion *address_space, unsigned int sdram_size,
-                          const char *revision);
-diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
-index 105c5e63f2f..ceee6aa48db 100644
---- a/hw/arm/pxa2xx_pic.c
-+++ b/hw/arm/pxa2xx_pic.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "qemu/log.h"
- #include "cpu.h"
- #include "hw/arm/pxa.h"
- #include "hw/sysbus.h"
-@@ -166,7 +167,9 @@ static uint64_t pxa2xx_pic_mem_read(void *opaque, hwaddr offset,
-     case ICHP:	/* Highest Priority register */
-         return pxa2xx_pic_highest(s);
-     default:
--        printf("%s: Bad register offset " REG_FMT "\n", __func__, offset);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "pxa2xx_pic_mem_read: bad register offset 0x%" HWADDR_PRIx
-+                      "\n", offset);
-         return 0;
-     }
+ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+ {
+-    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, dev);
++    SpitzLCDTG *s = SPITZ_LCDTG(dev);
+     int addr;
+     addr = value >> 5;
+     value &= 0x1f;
+@@ -645,7 +648,7 @@ static uint32_t spitz_lcdtg_transfer(SSISlave *dev, uint32_t value)
+ 
+ static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+ {
+-    SpitzLCDTG *s = FROM_SSI_SLAVE(SpitzLCDTG, ssi);
++    SpitzLCDTG *s = SPITZ_LCDTG(ssi);
+     DeviceState *dev = DEVICE(s);
+ 
+     s->bl_power = 0;
+@@ -664,6 +667,9 @@ static void spitz_lcdtg_realize(SSISlave *ssi, Error **errp)
+ #define SPITZ_GPIO_MAX1111_CS   20
+ #define SPITZ_GPIO_TP_INT       11
+ 
++#define TYPE_CORGI_SSP "corgi-ssp"
++#define CORGI_SSP(obj) OBJECT_CHECK(CorgiSSPState, (obj), TYPE_CORGI_SSP)
++
+ /* "Demux" the signal based on current chipselect */
+ typedef struct {
+     SSISlave ssidev;
+@@ -673,7 +679,7 @@ typedef struct {
+ 
+ static uint32_t corgi_ssp_transfer(SSISlave *dev, uint32_t value)
+ {
+-    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, dev);
++    CorgiSSPState *s = CORGI_SSP(dev);
+     int i;
+ 
+     for (i = 0; i < 3; i++) {
+@@ -702,7 +708,7 @@ static void corgi_ssp_gpio_cs(void *opaque, int line, int level)
+ static void corgi_ssp_realize(SSISlave *d, Error **errp)
+ {
+     DeviceState *dev = DEVICE(d);
+-    CorgiSSPState *s = FROM_SSI_SLAVE(CorgiSSPState, d);
++    CorgiSSPState *s = CORGI_SSP(d);
+ 
+     qdev_init_gpio_in(dev, corgi_ssp_gpio_cs, 3);
+     s->bus[0] = ssi_create_bus(dev, "ssi0");
+@@ -714,10 +720,11 @@ static void spitz_ssp_attach(SpitzMachineState *sms)
+ {
+     void *bus;
+ 
+-    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1], "corgi-ssp");
++    sms->mux = ssi_create_slave(sms->mpu->ssp[CORGI_SSP_PORT - 1],
++                                TYPE_CORGI_SSP);
+ 
+     bus = qdev_get_child_bus(sms->mux, "ssi0");
+-    sms->lcdtg = ssi_create_slave(bus, "spitz-lcdtg");
++    sms->lcdtg = ssi_create_slave(bus, TYPE_SPITZ_LCDTG);
+ 
+     bus = qdev_get_child_bus(sms->mux, "ssi1");
+     sms->ads7846 = ssi_create_slave(bus, "ads7846");
+@@ -1220,7 +1227,7 @@ static void corgi_ssp_class_init(ObjectClass *klass, void *data)
  }
-@@ -199,7 +202,9 @@ static void pxa2xx_pic_mem_write(void *opaque, hwaddr offset,
-         s->priority[32 + ((offset - IPR32) >> 2)] = value & 0x8000003f;
-         break;
-     default:
--        printf("%s: Bad register offset " REG_FMT "\n", __func__, offset);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "pxa2xx_pic_mem_write: bad register offset 0x%"
-+                      HWADDR_PRIx "\n", offset);
-         return;
-     }
-     pxa2xx_pic_update(opaque);
+ 
+ static const TypeInfo corgi_ssp_info = {
+-    .name          = "corgi-ssp",
++    .name          = TYPE_CORGI_SSP,
+     .parent        = TYPE_SSI_SLAVE,
+     .instance_size = sizeof(CorgiSSPState),
+     .class_init    = corgi_ssp_class_init,
+@@ -1249,7 +1256,7 @@ static void spitz_lcdtg_class_init(ObjectClass *klass, void *data)
+ }
+ 
+ static const TypeInfo spitz_lcdtg_info = {
+-    .name          = "spitz-lcdtg",
++    .name          = TYPE_SPITZ_LCDTG,
+     .parent        = TYPE_SSI_SLAVE,
+     .instance_size = sizeof(SpitzLCDTG),
+     .class_init    = spitz_lcdtg_class_init,
 -- 
 2.20.1
 
