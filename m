@@ -2,32 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A702213EAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:42:19 +0200 (CEST)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40452213E9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:37:17 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPha-0001pl-G0
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
+	id 1jrPci-0002m5-9X
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrPbJ-0000lg-GE; Fri, 03 Jul 2020 13:35:49 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42262 helo=relay3.sw.ru)
+ id 1jrPbK-0000mq-6f; Fri, 03 Jul 2020 13:35:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:42270 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrPbE-0006zB-E9; Fri, 03 Jul 2020 13:35:49 -0400
+ id 1jrPbE-0006zG-HC; Fri, 03 Jul 2020 13:35:49 -0400
 Received: from [192.168.15.23] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jrPb4-0006Ou-9Y; Fri, 03 Jul 2020 20:35:34 +0300
+ id 1jrPb4-0006Ou-DJ; Fri, 03 Jul 2020 20:35:34 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v7 0/7] block: seriously improve savevm/loadvm performance
-Date: Fri,  3 Jul 2020 20:35:31 +0300
-Message-Id: <20200703173538.29296-1-den@openvz.org>
+Subject: [PATCH 1/7] migration/savevm: respect qemu_fclose() error code in
+ save_snapshot()
+Date: Fri,  3 Jul 2020 20:35:32 +0300
+Message-Id: <20200703173538.29296-2-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200703173538.29296-1-den@openvz.org>
+References: <20200703173538.29296-1-den@openvz.org>
 Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
  helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:11:34
@@ -50,79 +53,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series do standard basic things:
-- it creates intermediate buffer for all writes from QEMU migration code
-  to QCOW2 image,
-- this buffer is sent to disk asynchronously, allowing several writes to
-  run in parallel.
+qemu_fclose() could return error, f.e. if bdrv_co_flush() will return
+the error.
 
-In general, migration code is fantastically inefficent (by observation),
-buffers are not aligned and sent with arbitrary pieces, a lot of time
-less than 100 bytes at a chunk, which results in read-modify-write
-operations with non-cached operations. It should also be noted that all
-operations are performed into unallocated image blocks, which also suffer
-due to partial writes to such new clusters.
-
-This patch series is an implementation of idea discussed in the RFC
-posted by Denis Plotnikov
-https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
-Results with this series over NVME are better than original code
-                original     rfc    this
-cached:          1.79s      2.38s   1.27s
-non-cached:      3.29s      1.31s   0.81s
-
-Changes from v6:
-- blk_load_vmstate kludges added (patchew problem fixed)
-
-Changes from v5:
-- loadvm optimizations added with Vladimir comments included
-
-Changes from v4:
-- added patch 4 with blk_save_vmstate() cleanup
-- added R-By
-- bdrv_flush_vmstate -> bdrv_finalize_vmstate
-- fixed return code of bdrv_co_do_save_vmstate
-- fixed typos in comments (Eric, thanks!)
-- fixed patchew warnings
-
-Changes from v3:
-- rebased to master
-- added patch 3 which removes aio_task_pool_wait_one()
-- added R-By to patch 1
-- patch 4 is rewritten via bdrv_run_co
-- error path in blk_save_vmstate() is rewritten to call bdrv_flush_vmstate
-  unconditionally
-- added some comments
-- fixes initialization in bdrv_co_vmstate_save_task_entry as suggested
-
-Changes from v2:
-- code moved from QCOW2 level to generic block level
-- created bdrv_flush_vmstate helper to fix 022, 029 tests
-- added recursive for bs->file in bdrv_co_flush_vmstate (fix 267)
-- fixed blk_save_vmstate helper
-- fixed coroutine wait as Vladimir suggested with waiting fixes from me
-
-Changes from v1:
-- patchew warning fixed
-- fixed validation that only 1 waiter is allowed in patch 1
+This validation will become more important once we will start waiting of
+asynchronous IO operations, started from bdrv_write_vmstate(), which are
+coming soon.
 
 Signed-off-by: Denis V. Lunev <den@openvz.org>
+Reviewed-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Kevin Wolf <kwolf@redhat.com>
 CC: Max Reitz <mreitz@redhat.com>
 CC: Stefan Hajnoczi <stefanha@redhat.com>
 CC: Fam Zheng <fam@euphon.net>
 CC: Juan Quintela <quintela@redhat.com>
-CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+---
+ migration/savevm.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/migration/savevm.c b/migration/savevm.c
+index b979ea6e7f..da3dead4e9 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2628,7 +2628,7 @@ int save_snapshot(const char *name, Error **errp)
+ {
+     BlockDriverState *bs, *bs1;
+     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
+-    int ret = -1;
++    int ret = -1, ret2;
+     QEMUFile *f;
+     int saved_vm_running;
+     uint64_t vm_state_size;
+@@ -2712,10 +2712,14 @@ int save_snapshot(const char *name, Error **errp)
+     }
+     ret = qemu_savevm_state(f, errp);
+     vm_state_size = qemu_ftell(f);
+-    qemu_fclose(f);
++    ret2 = qemu_fclose(f);
+     if (ret < 0) {
+         goto the_end;
+     }
++    if (ret2 < 0) {
++        ret = ret2;
++        goto the_end;
++    }
+ 
+     /* The bdrv_all_create_snapshot() call that follows acquires the AioContext
+      * for itself.  BDRV_POLL_WHILE() does not support nested locking because
+-- 
+2.17.1
 
 
