@@ -2,67 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262AF213C9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:33:39 +0200 (CEST)
-Received: from localhost ([::1]:53572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBD6213CA6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:35:03 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNh4-0005Dr-6A
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
+	id 1jrNiQ-0006zL-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrNbl-000768-Nr
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:28:09 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58093
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrNcl-0000eA-Hf
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:29:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40728
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrNbg-0006eC-AV
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:28:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrNcj-0006p0-Sj
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593790082;
+ s=mimecast20190719; t=1593790149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TgBnNY+2WV0e8/kWUtIYyrE1baZDFHlj+IejXzvllD8=;
- b=hTRRcDqRvigdy4xjIfg+9/iiVOQiWLbtvfu0zDkzC9Ag7zzMvHwXyW9JGldGQsUrmtIYJW
- 4phqq4VaPe0/e7Y3hDImOo9Uqo95wCuGv7DVXyFFBOU18gsglQzh9i6E4l4BklPfaA/Tta
- U/vadCUA9TjBawbsoXA40/zhnicnSus=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-4XdK1vOXN52AiGmc0iux8A-1; Fri, 03 Jul 2020 11:28:00 -0400
-X-MC-Unique: 4XdK1vOXN52AiGmc0iux8A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAE7B800C60;
- Fri,  3 Jul 2020 15:27:59 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-207.ams2.redhat.com
- [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF3F42DE72;
- Fri,  3 Jul 2020 15:27:58 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, quintela@redhat.com, zhukeqian1@huawei.com,
- stefanha@redhat.com
-Subject: [PULL 5/5] migration: Count new_dirty instead of real_dirty
-Date: Fri,  3 Jul 2020 16:27:48 +0100
-Message-Id: <20200703152748.277255-6-dgilbert@redhat.com>
-In-Reply-To: <20200703152748.277255-1-dgilbert@redhat.com>
-References: <20200703152748.277255-1-dgilbert@redhat.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=LOB0SWEuMVyGY4su8Kj1BvaONtT+bGp5fFHzTY7W+ks=;
+ b=OVlfRVBlUrPiKJ6bYG7cwq/1XTY4gNU88Vjq2DMaqriLkzm51aKk7tD+fG0VW8G2j1Lxpa
+ 25SMBPUvDayzSI11FZRBGkY625qKgU0nKW/rCkZGa4D/Oof5YJB75qLYPDPzx66TFbhNT4
+ LmDklCxVA/mfd4zZXpJyzQgZPAx+1gM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-ldl8eqaDPqaIJTsyCKuggg-1; Fri, 03 Jul 2020 11:29:07 -0400
+X-MC-Unique: ldl8eqaDPqaIJTsyCKuggg-1
+Received: by mail-wm1-f71.google.com with SMTP id o13so35408505wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 08:29:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=LOB0SWEuMVyGY4su8Kj1BvaONtT+bGp5fFHzTY7W+ks=;
+ b=giLC8wXxRWj1BpHjAfpT5SEV+fYlHNgfQdg8My1tzf8UPh57DdrXHhuLWpL7CoSOHN
+ ON+KRNJE6iXvKxWcMZ80i6+6oDiNfH4egja2cXJFgZEK9ws/o4zlX/uPwwgWx4c4chkM
+ aUL9ZauO0lWAnc6IGP+NJRRdk3K8fjjRmp78eh92cc8rig5n6kfTxKWWYSZSjTItxlAE
+ Uy6nn1HNbe3+4lK67ZAOT7Tw97MKNKHoYdeVRiVRnHBVEaHoQLdDV1YeCxpEYN6ed61I
+ D2Qx6tMgwUTyzLYRwt5TONGL2dPZFcs2eRlGdY2meb0Ov4k8ENq9/4Q9HD8v7KJHdPbY
+ FMkA==
+X-Gm-Message-State: AOAM533/UvTP8r0jnLOX7LzYZyKE7Idfgv6NlLdumE84U0bPoHGZVySW
+ DJj3CDwn/lpZPZ35vuk7pnzza4ScgYqz8FnZoXIsJGXaR6O2aQpQHpQd+V8tYuslDqQUrcO8LQy
+ QQmg5CfASgwS8IyY=
+X-Received: by 2002:adf:e2c9:: with SMTP id d9mr37004153wrj.227.1593790146757; 
+ Fri, 03 Jul 2020 08:29:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwwqqFCXkNU5EL4shCPl+cvnlxqswnUQzjo8ouZMyuNQtVv6wUp6tFeIYV9CzQjR3byAXIm+Q==
+X-Received: by 2002:adf:e2c9:: with SMTP id d9mr37004140wrj.227.1593790146558; 
+ Fri, 03 Jul 2020 08:29:06 -0700 (PDT)
+Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id 14sm13383766wmk.19.2020.07.03.08.29.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jul 2020 08:29:06 -0700 (PDT)
+Subject: Re: [PATCH v3 7/9] util/compatfd.c: Only include <sys/syscall.h> if
+ CONFIG_SIGNALFD
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200703145614.16684-1-peter.maydell@linaro.org>
+ <20200703145614.16684-8-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <4da522b2-1843-cd51-6c91-8b9e7402050b@redhat.com>
+Date: Fri, 3 Jul 2020 17:29:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200703145614.16684-8-peter.maydell@linaro.org>
+Content-Language: en-US
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,77 +124,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Carlier <devnexen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keqian Zhu <zhukeqian1@huawei.com>
+On 7/3/20 4:56 PM, Peter Maydell wrote:
+> From: David CARLIER <devnexen@gmail.com>
+> 
+> util/compatfd.c includes <sys/syscall.h> so that the CONFIG_SIGNALFD
+> code can use SYS_signalfd. Guard the #include with CONFIG_SIGNALFD
+> to avoid portability issues on hosts like Haiku which do not
+> provide that header file.
+> 
+> Signed-off-by: David Carlier <devnexen@gmail.com>
+> [PMM: Expanded commit message]
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  util/compatfd.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/util/compatfd.c b/util/compatfd.c
+> index c296f55d148..ee47dd80897 100644
+> --- a/util/compatfd.c
+> +++ b/util/compatfd.c
+> @@ -16,7 +16,9 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/thread.h"
+>  
+> +#if defined(CONFIG_SIGNALFD)
 
-real_dirty_pages becomes equal to total ram size after dirty log sync
-in ram_init_bitmaps, the reason is that the bitmap of ramblock is
-initialized to be all set, so old path counts them as "real dirty" at
-beginning.
+Most of the code base guards <sys/syscall.h> with '#ifdef CONFIG_LINUX',
+bsd-user/strace.c is the BSD exception.
 
-This causes wrong dirty rate and false positive throttling.
+CONFIG_SIGNALFD guards SYS_signalfd.
 
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-Message-Id: <20200622032037.31112-1-zhukeqian1@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- include/exec/ram_addr.h | 5 +----
- migration/ram.c         | 8 +++++---
- 2 files changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 7b5c24e928..3ef729a23c 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -442,8 +442,7 @@ static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t start,
- static inline
- uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-                                                ram_addr_t start,
--                                               ram_addr_t length,
--                                               uint64_t *real_dirty_pages)
-+                                               ram_addr_t length)
- {
-     ram_addr_t addr;
-     unsigned long word = BIT_WORD((start + rb->offset) >> TARGET_PAGE_BITS);
-@@ -469,7 +468,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-             if (src[idx][offset]) {
-                 unsigned long bits = atomic_xchg(&src[idx][offset], 0);
-                 unsigned long new_dirty;
--                *real_dirty_pages += ctpopl(bits);
-                 new_dirty = ~dest[k];
-                 dest[k] |= bits;
-                 new_dirty &= bits;
-@@ -502,7 +500,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-                         start + addr + offset,
-                         TARGET_PAGE_SIZE,
-                         DIRTY_MEMORY_MIGRATION)) {
--                *real_dirty_pages += 1;
-                 long k = (start + addr) >> TARGET_PAGE_BITS;
-                 if (!test_and_set_bit(k, dest)) {
-                     num_dirty++;
-diff --git a/migration/ram.c b/migration/ram.c
-index 069b6e30bc..5554a7d2d8 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -859,9 +859,11 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
- /* Called with RCU critical section */
- static void ramblock_sync_dirty_bitmap(RAMState *rs, RAMBlock *rb)
- {
--    rs->migration_dirty_pages +=
--        cpu_physical_memory_sync_dirty_bitmap(rb, 0, rb->used_length,
--                                              &rs->num_dirty_pages_period);
-+    uint64_t new_dirty_pages =
-+        cpu_physical_memory_sync_dirty_bitmap(rb, 0, rb->used_length);
-+
-+    rs->migration_dirty_pages += new_dirty_pages;
-+    rs->num_dirty_pages_period += new_dirty_pages;
- }
- 
- /**
--- 
-2.26.2
+>  #include <sys/syscall.h>
+> +#endif
+>  
+>  struct sigfd_compat_info
+>  {
+> 
 
 
