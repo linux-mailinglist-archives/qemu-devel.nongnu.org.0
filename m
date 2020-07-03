@@ -2,50 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6581A213876
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:13:02 +0200 (CEST)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6978621388E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:19:56 +0200 (CEST)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrIgn-0005Rw-AY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57594)
+	id 1jrInT-0007c0-Gg
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrIe3-0001T4-Ij; Fri, 03 Jul 2020 06:10:11 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:53536)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrIe1-0006be-8q; Fri, 03 Jul 2020 06:10:11 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 5D064BF465;
- Fri,  3 Jul 2020 10:10:06 +0000 (UTC)
-Date: Fri, 3 Jul 2020 12:10:03 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 11/18] hw/block/nvme: add remaining mandatory
- controller parameters
-Message-ID: <20200703101003.iirx66jjnauvk7a3@apples.localdomain>
-References: <20200703063420.2241014-1-its@irrelevant.dk>
- <20200703063420.2241014-12-its@irrelevant.dk>
- <e2cbec3f-896e-fa17-2aac-2c82e0d6df60@redhat.com>
- <20200703084626.xib465ie3vvladip@apples.localdomain>
- <05eda6c8-b6fc-b034-a76d-dc563427ed35@redhat.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jrIex-00033D-EF
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:11:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38913
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jrIev-0006sk-KF
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:11:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593771064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yEfcz2rK/9fRwPpahCFA4sEVsqZNupDgbZ7kPoWO4ww=;
+ b=Ax2vgehUl/X+3MOFEt01KsdLGEKPQg1/koBwyK7DUhmgH7uHo8t1W/+itaeo8eLnYMKxGO
+ 2vTEZsl9dDcAh1b/kdBomdL/ppTcLRZQAC0m74ybJx2oSe46O+5RhT/BfGN3Wz78HHGaTD
+ JnStVtzBHo0Yh+iLR2L8Qamy3SW4tek=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-Q8EWv4lDPpCDOXnvYGgr8Q-1; Fri, 03 Jul 2020 06:11:03 -0400
+X-MC-Unique: Q8EWv4lDPpCDOXnvYGgr8Q-1
+Received: by mail-wr1-f69.google.com with SMTP id w4so29220509wrm.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 03:11:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yEfcz2rK/9fRwPpahCFA4sEVsqZNupDgbZ7kPoWO4ww=;
+ b=ESE7QiC+NbNbr4YY6DpV1od/lS5JCQ9P17IsLm1UmeRSDoXdVK9iUoRraCPszXL1gs
+ m4a8ZyVzhmgNPz3DkN69u6wierjX60WUHDG1Rd5bEEUoIM22SEiXhZP+ZU/cOuhfrZ0U
+ YT9QLCLq/uSxtujtFBD5r6IhGfqXjRolUdKxv2OTEzXpIoRVQi1WKmgs14FUKcqrDnbC
+ /Hp3aOqIsDLUsDAb1AcvH9Onnc2dLyqcfAzk0DGZoI+1BDFUsV0RO5kGqJpt0inDj3++
+ mI4Y6NpvoF60lFAaVedCuWdW+4UOFGIuyffbIDS56Qi7EQpgNYZpWeyrsfUXqKdxFnaf
+ x7qA==
+X-Gm-Message-State: AOAM531iizG/xaFpowO3ISFF7Tg/6iTMnPkE9kKeh/ZE9D019bYAdjWi
+ sUctxm0M/KLGSsT8LokPdUPEt1x2/lhRK7OHAFweplNlBmwwkradIf+Z4qMJqEi8szUT7cNZ+4g
+ qE7lL+Pjy3IrBLgg=
+X-Received: by 2002:a5d:6a04:: with SMTP id m4mr35222865wru.418.1593771060429; 
+ Fri, 03 Jul 2020 03:11:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3pMwcCLTvn3yRt2pvWu0uPy9saUnGu03QqxhMq05Zgf2dmwgLY5CExssbUh7ZjaFRA9aajA==
+X-Received: by 2002:a5d:6a04:: with SMTP id m4mr35222847wru.418.1593771060218; 
+ Fri, 03 Jul 2020 03:11:00 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:b520:5163:43e4:be52?
+ ([2001:b07:6468:f312:b520:5163:43e4:be52])
+ by smtp.gmail.com with ESMTPSA id i67sm11258436wma.12.2020.07.03.03.10.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jul 2020 03:10:59 -0700 (PDT)
+Subject: Re: [RFC v2 0/1] memory: Delete assertion in
+ memory_region_unregister_iommu_notifier
+To: Eugenio Perez Martin <eperezma@redhat.com>
+References: <20200626064122.9252-1-eperezma@redhat.com>
+ <52d97ca5-7dbd-3178-64d6-509a8f096f0b@redhat.com>
+ <CAJaqyWe3QoCQ7=pe7mCpa548kLRDdhhfLydtbgzX7nkSkJ6img@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <19ad73ce-8e21-5ec2-f88f-6ec183bc1b6b@redhat.com>
+Date: Fri, 3 Jul 2020 12:10:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <CAJaqyWe3QoCQ7=pe7mCpa548kLRDdhhfLydtbgzX7nkSkJ6img@mail.gmail.com>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <05eda6c8-b6fc-b034-a76d-dc563427ed35@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:42:13
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,159 +104,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Avi Kivity <avi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul  3 11:21, Philippe Mathieu-Daudé wrote:
-> On 7/3/20 10:46 AM, Klaus Jensen wrote:
-> > On Jul  3 10:31, Philippe Mathieu-Daudé wrote:
-> >> On 7/3/20 8:34 AM, Klaus Jensen wrote:
-> >>> From: Klaus Jensen <k.jensen@samsung.com>
-> >>>
-> >>> Add support for any remaining mandatory controller operating parameters
-> >>> (features).
-> >>>
-> >>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> >>> Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> >>> ---
-> >>>  hw/block/nvme.c       | 39 +++++++++++++++++++++++++++++++++------
-> >>>  hw/block/nvme.h       | 18 ++++++++++++++++++
-> >>>  hw/block/trace-events |  2 ++
-> >>>  include/block/nvme.h  |  7 +++++++
-> >>>  4 files changed, 60 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> >>> index ba523f6768bf..affb9a967534 100644
-> >>> --- a/hw/block/nvme.c
-> >>> +++ b/hw/block/nvme.c
-> >>> @@ -1056,8 +1056,16 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >>>      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> >>>      uint32_t dw11 = le32_to_cpu(cmd->cdw11);
-> >>>      uint32_t result;
-> >>> +    uint8_t fid = NVME_GETSETFEAT_FID(dw10);
-> >>> +    uint16_t iv;
-> >>>  
-> >>> -    switch (dw10) {
-> >>> +    trace_pci_nvme_getfeat(nvme_cid(req), fid, dw11);
-> >>> +
-> >>> +    if (!nvme_feature_support[fid]) {
-> >>> +        return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +    }
-> >>> +
-> >>> +    switch (fid) {
-> >>>      case NVME_TEMPERATURE_THRESHOLD:
-> >>>          result = 0;
-> >>>  
-> >>> @@ -1088,14 +1096,27 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >>>                               ((n->params.max_ioqpairs - 1) << 16));
-> >>>          trace_pci_nvme_getfeat_numq(result);
-> >>>          break;
-> >>> +    case NVME_INTERRUPT_VECTOR_CONF:
-> >>> +        iv = dw11 & 0xffff;
-> >>> +        if (iv >= n->params.max_ioqpairs + 1) {
-> >>> +            return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +        }
-> >>> +
-> >>> +        result = iv;
-> >>> +        if (iv == n->admin_cq.vector) {
-> >>> +            result |= NVME_INTVC_NOCOALESCING;
-> >>> +        }
-> >>> +
-> >>> +        result = cpu_to_le32(result);
-> >>> +        break;
-> >>>      case NVME_ASYNCHRONOUS_EVENT_CONF:
-> >>>          result = cpu_to_le32(n->features.async_config);
-> >>>          break;
-> >>>      case NVME_TIMESTAMP:
-> >>>          return nvme_get_feature_timestamp(n, cmd);
-> >>>      default:
-> >>> -        trace_pci_nvme_err_invalid_getfeat(dw10);
-> >>> -        return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +        result = cpu_to_le32(nvme_feature_default[fid]);
-> >>
-> >> So here we expect uninitialized fid entries to return 0, right?
-> >>
-> > 
-> > Yes, if defaults are not 0 (like NVME_ARBITRATION), it is explicitly set.
-> > 
-> >>> +        break;
-> >>>      }
-> >>>  
-> >>>      req->cqe.result = result;
-> >>> @@ -1124,8 +1145,15 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >>>  {
-> >>>      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> >>>      uint32_t dw11 = le32_to_cpu(cmd->cdw11);
-> >>> +    uint8_t fid = NVME_GETSETFEAT_FID(dw10);
-> >>>  
-> >>> -    switch (dw10) {
-> >>> +    trace_pci_nvme_setfeat(nvme_cid(req), fid, dw11);
-> >>> +
-> >>> +    if (!nvme_feature_support[fid]) {
-> >>> +        return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +    }
-> >>> +
-> >>> +    switch (fid) {
-> >>>      case NVME_TEMPERATURE_THRESHOLD:
-> >>>          if (NVME_TEMP_TMPSEL(dw11) != NVME_TEMP_TMPSEL_COMPOSITE) {
-> >>>              break;
-> >>> @@ -1172,8 +1200,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> >>>      case NVME_TIMESTAMP:
-> >>>          return nvme_set_feature_timestamp(n, cmd);
-> >>>      default:
-> >>> -        trace_pci_nvme_err_invalid_setfeat(dw10);
-> >>> -        return NVME_INVALID_FIELD | NVME_DNR;
-> >>> +        return NVME_FEAT_NOT_CHANGEABLE | NVME_DNR;
-> >>>      }
-> >>>      return NVME_SUCCESS;
-> >>>  }
-> >>> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> >>> index f8940435f9ef..8ad1e3c89cee 100644
-> >>> --- a/hw/block/nvme.h
-> >>> +++ b/hw/block/nvme.h
-> >>> @@ -87,6 +87,24 @@ typedef struct NvmeFeatureVal {
-> >>>      uint32_t    async_config;
-> >>>  } NvmeFeatureVal;
-> 
-> What do you think about adding:
-> 
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -804,7 +804,8 @@ enum NvmeFeatureIds {
->      NVME_WRITE_ATOMICITY            = 0xa,
->      NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
->      NVME_TIMESTAMP                  = 0xe,
-> -    NVME_SOFTWARE_PROGRESS_MARKER   = 0x80
-> +    NVME_SOFTWARE_PROGRESS_MARKER   = 0x80,
-> +    NVME_FEATURE_ID_COUNT           = 0x100
->  };
-> 
+On 03/07/20 09:39, Eugenio Perez Martin wrote:
+> #4  0x0000555555888171 in memory_region_notify_one
+> (notifier=0x7ffde0487fa8, entry=0x7ffde5dfe200) at
+> /home/qemu/memory.c:1918
+> 1918        assert(entry->iova >= notifier->start && entry_end <=
+> notifier->end);
+> (gdb) p *entry
+> $1 = {target_as = 0x555556f6c050, iova = 0, translated_addr = 0,
+> addr_mask = 18446744073709551615, perm = IOMMU_NONE}
 
-I can definitely go with that. I added it as NVME_FID_MAX.
+Oh, I see now.  I am worried that an IOMMU notifier could interpret the
+IOMMUTLBEntry incorrectly if there is only partial overlap.  There are
+various possibilities:
 
-> >>>  
-> >>> +static const uint32_t nvme_feature_default[0x100] = {
-> 
-> Why uint32_t and not uint16_t?
-> 
+1) create another IOMMUTLBEntry like
 
-The feature values are by definition 32 bits wide, so even though the
-defaults here do not require it, I think uin32_t should be used.
+	hwaddr offset = notifier->start > entry->iova ? notifier->start -
+entry->iova : 0;
+	IOMMUTLBEntry partial = {
+	    .target_as = entry->target_as,
+	    .iova = entry->iova + offset,
+	    .translated_addr = entry->translated_addr + offset,
+	    .addr_mask = MIN(entry->addr_mask, notifier->end - notifier->start),
+	    .perm = entry->perm
+	};
 
-> With the previously suggested enum you can now replace 0x100
-> by NVME_FEATURE_ID_COUNT.
-> 
-> >>> +    [NVME_ARBITRATION]           = NVME_ARB_AB_NOLIMIT,
-> >>> +};
-> >>> +
-> >>> +static const bool nvme_feature_support[0x100] = {
-> 
-> Ditto NVME_FEATURE_ID_COUNT.
-> 
+The addr_mask however would not be a mask if the notifier is not
+naturally aligned
 
-Fixed!
+2) pass the offset/size pair (computed as above) as extra arguments to
+the IOMMUNotify function
+
+3) add a function to compute the offset/size and call it in the notifier
+
+You choose. :)
+
+Paolo
+
 
