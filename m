@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40452213E9E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:37:17 +0200 (CEST)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2346F213EA2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:38:25 +0200 (CEST)
+Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPci-0002m5-9X
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
+	id 1jrPdo-0005MO-6Z
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrPbK-0000mq-6f; Fri, 03 Jul 2020 13:35:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42270 helo=relay3.sw.ru)
+ id 1jrPbI-0000k5-9x; Fri, 03 Jul 2020 13:35:48 -0400
+Received: from relay.sw.ru ([185.231.240.75]:42266 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1jrPbE-0006zG-HC; Fri, 03 Jul 2020 13:35:49 -0400
+ id 1jrPbE-0006zD-DZ; Fri, 03 Jul 2020 13:35:48 -0400
 Received: from [192.168.15.23] (helo=iris.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <den@openvz.org>)
- id 1jrPb4-0006Ou-DJ; Fri, 03 Jul 2020 20:35:34 +0300
+ id 1jrPb4-0006Ou-HP; Fri, 03 Jul 2020 20:35:34 +0300
 From: "Denis V. Lunev" <den@openvz.org>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/7] migration/savevm: respect qemu_fclose() error code in
- save_snapshot()
-Date: Fri,  3 Jul 2020 20:35:32 +0300
-Message-Id: <20200703173538.29296-2-den@openvz.org>
+Subject: [PATCH 2/7] block/aio_task: allow start/wait task from any coroutine
+Date: Fri,  3 Jul 2020 20:35:33 +0300
+Message-Id: <20200703173538.29296-3-den@openvz.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200703173538.29296-1-den@openvz.org>
 References: <20200703173538.29296-1-den@openvz.org>
@@ -53,61 +52,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Juan Quintela <quintela@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_fclose() could return error, f.e. if bdrv_co_flush() will return
-the error.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This validation will become more important once we will start waiting of
-asynchronous IO operations, started from bdrv_write_vmstate(), which are
-coming soon.
+Currently, aio task pool assumes that there is a main coroutine, which
+creates tasks and wait for them. Let's remove the restriction by using
+CoQueue. Code becomes clearer, interface more obvious.
 
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Denis V. Lunev <den@openvz.org>
-Reviewed-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Kevin Wolf <kwolf@redhat.com>
 CC: Max Reitz <mreitz@redhat.com>
 CC: Stefan Hajnoczi <stefanha@redhat.com>
 CC: Fam Zheng <fam@euphon.net>
 CC: Juan Quintela <quintela@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- migration/savevm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ block/aio_task.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index b979ea6e7f..da3dead4e9 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2628,7 +2628,7 @@ int save_snapshot(const char *name, Error **errp)
- {
-     BlockDriverState *bs, *bs1;
-     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
--    int ret = -1;
-+    int ret = -1, ret2;
-     QEMUFile *f;
-     int saved_vm_running;
-     uint64_t vm_state_size;
-@@ -2712,10 +2712,14 @@ int save_snapshot(const char *name, Error **errp)
-     }
-     ret = qemu_savevm_state(f, errp);
-     vm_state_size = qemu_ftell(f);
--    qemu_fclose(f);
-+    ret2 = qemu_fclose(f);
-     if (ret < 0) {
-         goto the_end;
-     }
-+    if (ret2 < 0) {
-+        ret = ret2;
-+        goto the_end;
-+    }
+diff --git a/block/aio_task.c b/block/aio_task.c
+index 88989fa248..cf62e5c58b 100644
+--- a/block/aio_task.c
++++ b/block/aio_task.c
+@@ -27,11 +27,10 @@
+ #include "block/aio_task.h"
  
-     /* The bdrv_all_create_snapshot() call that follows acquires the AioContext
-      * for itself.  BDRV_POLL_WHILE() does not support nested locking because
+ struct AioTaskPool {
+-    Coroutine *main_co;
+     int status;
+     int max_busy_tasks;
+     int busy_tasks;
+-    bool waiting;
++    CoQueue waiters;
+ };
+ 
+ static void coroutine_fn aio_task_co(void *opaque)
+@@ -52,31 +51,23 @@ static void coroutine_fn aio_task_co(void *opaque)
+ 
+     g_free(task);
+ 
+-    if (pool->waiting) {
+-        pool->waiting = false;
+-        aio_co_wake(pool->main_co);
+-    }
++    qemu_co_queue_restart_all(&pool->waiters);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
+ {
+     assert(pool->busy_tasks > 0);
+-    assert(qemu_coroutine_self() == pool->main_co);
+ 
+-    pool->waiting = true;
+-    qemu_coroutine_yield();
++    qemu_co_queue_wait(&pool->waiters, NULL);
+ 
+-    assert(!pool->waiting);
+     assert(pool->busy_tasks < pool->max_busy_tasks);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool)
+ {
+-    if (pool->busy_tasks < pool->max_busy_tasks) {
+-        return;
++    while (pool->busy_tasks >= pool->max_busy_tasks) {
++        aio_task_pool_wait_one(pool);
+     }
+-
+-    aio_task_pool_wait_one(pool);
+ }
+ 
+ void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool)
+@@ -98,8 +89,8 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
+ {
+     AioTaskPool *pool = g_new0(AioTaskPool, 1);
+ 
+-    pool->main_co = qemu_coroutine_self();
+     pool->max_busy_tasks = max_busy_tasks;
++    qemu_co_queue_init(&pool->waiters);
+ 
+     return pool;
+ }
 -- 
 2.17.1
 
