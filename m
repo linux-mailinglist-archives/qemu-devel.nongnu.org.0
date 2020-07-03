@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24895213DC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:55:34 +0200 (CEST)
-Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56151213DCC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:58:08 +0200 (CEST)
+Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOyL-0006Aq-4S
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
+	id 1jrP0p-0001n2-C9
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx2-0004Rk-57
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:12 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46057)
+ id 1jrOx3-0004S6-DI
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:13 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jrOx0-0005dm-Ca
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:11 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s10so33382521wrw.12
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:09 -0700 (PDT)
+ id 1jrOx1-0005dq-Nn
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:54:13 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id j4so30986269wrp.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:54:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=I7r9/QjL8RuKBxpXMjuZlnSwNbq823MwcTI3Yaf9uyQ=;
- b=QqMnKaq2Lr9LgyPgpIG3mRvCf2u2bWUfVV8lhIgkYVYjD8y+nsM/lZzrdcp7ijiAvh
- im/ExmavNO6GM10W5yzPttOQHQkE81eD3xSoH+Y4lds0HSlx9sqaS8i4eE3FD8YKYZs3
- tR2kWzDvODxosMFVZ1qZQB7QXjFX2lw9ZAZvwf5B7nOojT6gMQaKUlJv6Giwx+45TZ15
- djsSZcuY7wv0IYUfTKOeOlTX2LAWR55QcsLLM2ZRmITz8XgE5FrS66q1wU052/IlOf/7
- JmXjUuLnklCOrC2IhN3JGxktLqQtAApOcOAjajyNTRnmUunrF2T+zMGFSuAOcdLChBAU
- 7nJQ==
+ bh=V7NsJejd61OpIth+3pGg1pvBG9TXuRoNl2pNDC28re4=;
+ b=dOawTcEUOANfu1qkRi1pyjIWUyRD9xe1ObNVFhhbxKA/VNye68sEpIm0WhMLGcMsq/
+ xKCP2Z+HgJA4E18ejo6avqO2MedLGxzpgTuaxSP6hxkaDJbeB4tXbEcJZb6ufiWtbzqo
+ 7JJnlrdoaPLX7pfNrQQFqoQRHx2XAZgVkNUY83lVfNo3xhYf//2aQRYqdK4WFGZrWPj7
+ 2SCnGfqDCXVX13FpF0QvHwfJEhoWlgK8uXk7XTat0WaPrfPoQ+QMYgd5UzSFat6Az9lN
+ AwvcaW/GlONsR5tBU/1Hddy3SUUvHd662YJWP3zpiq31DZC5G2c9LRKb5mJD4W9edI3T
+ gDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I7r9/QjL8RuKBxpXMjuZlnSwNbq823MwcTI3Yaf9uyQ=;
- b=eSVFdjNrRntoiNIuzwOKwLjGmXXIboz8DjERkhxLWCRJecgJIbtKATxlVg79ejcsdY
- YPNtJ1it11J35NNlaWHSv4Z198PLHTjiyWkZbM74i0xdHOyvKAhhALTyfK724RG36pNw
- vZHg7ooZTUvPL5j64zhg9/ijzA4Uhooomhq3JWV3DXwsVheMPv5JyQOvsUn4JfmSyerZ
- qCby22CFu5UNGbbIAMdCuuWClnWlUBtu9vHk4wIu/6QSM6cB4sBr8HWTbSvyPpiZltKh
- 2yByHKIuojHk7EqzcdTfhKdhK5sydW6lDFmLXL6eW/D6LEfCH1TA8xaTsnQZEti2WKP2
- jVOw==
-X-Gm-Message-State: AOAM531v9oUAhLRep+hGsIQWeHeHrxUYjxo2v4qwcfEYL0IIh/NGjca/
- Kda0i1MJ1REAbm9rCwloXE4Rkb6sMkalzQ==
-X-Google-Smtp-Source: ABdhPJzceQIGujK+Bymfs+Rd0kjP+elfIua6Aard7si9DwwOFxn6c1Qmn9KRZ8PGRw8dAq80WFMsDA==
-X-Received: by 2002:adf:a3d0:: with SMTP id m16mr1823354wrb.232.1593795248424; 
- Fri, 03 Jul 2020 09:54:08 -0700 (PDT)
+ bh=V7NsJejd61OpIth+3pGg1pvBG9TXuRoNl2pNDC28re4=;
+ b=APPrQA+bwfOOOCyYldOIaMRwe5kq0A000BlCdpRuIjCJ0R4LaIVl31r72vyfsFYzsh
+ a8d2/VmICcTOaglhwC3B/bCVHa5DR19ooeSnFuWz5WlE0iMOLbGsMcJprQ6kSmyn/069
+ pqV9nORQ/HokRvGRhpWaE6J1zTN8ZQeQXtY/YVhJR+FTVZEEtQUQeelBMph2yc0XNI0L
+ Gzhx9PJzVtCXNY71Hl7s9QruJ1WsYfUDbCtxCSAl5COq7Dka4dVXa+ZwKDxeEa0I3TTD
+ nWu00AEY1b9nPSeL+jk5UOSQQr0b196Z6/lOyJPHJSVaQJDX31DZ+69KkFLG/5321iJb
+ Ew0g==
+X-Gm-Message-State: AOAM5301zgdO+MnAWceavt6cSevPxIwO7UdggbQ+9z/lQ9H89Kf+VyJV
+ rv4Nlfra1gjl7YhYzFjGBJQtWqJgfeRzGg==
+X-Google-Smtp-Source: ABdhPJyVcUoDyECklhCvHVvkq5FBfv2kbLP5yXdMmtKj4GMoh+vBqDhMZZSwLZhG+Gjtdyk90QY/Tw==
+X-Received: by 2002:a5d:68cc:: with SMTP id p12mr37212242wrw.111.1593795249550; 
+ Fri, 03 Jul 2020 09:54:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.07
+ by smtp.gmail.com with ESMTPSA id j15sm5574224wrx.69.2020.07.03.09.54.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 09:54:07 -0700 (PDT)
+ Fri, 03 Jul 2020 09:54:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/34] Add a phy-num property to the i.MX FEC emulator
-Date: Fri,  3 Jul 2020 17:53:32 +0100
-Message-Id: <20200703165405.17672-2-peter.maydell@linaro.org>
+Subject: [PULL 02/34] Add the ability to select a different PHY for each
+ i.MX6UL FEC interface
+Date: Fri,  3 Jul 2020 17:53:33 +0100
+Message-Id: <20200703165405.17672-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 References: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,8 +72,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,120 +91,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 
-We need a solution to use an Ethernet PHY that is not the first device
-on the MDIO bus (device 0 on MDIO bus).
-
-As an example with the i.MX6UL the NXP SOC has 2 Ethernet devices but
-only one MDIO bus on which the 2 related PHY are connected but at unique
-addresses.
+Add properties to the i.MX6UL processor to be able to select a
+particular PHY on the MDIO bus for each FEC device.
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-Message-id: a1a5c0e139d1c763194b8020573dcb6025daeefa.1593296112.git.jcd@tribudubois.net
+Message-id: ea1d604198b6b73ea6521676e45bacfc597aba53.1593296112.git.jcd@tribudubois.net
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/net/imx_fec.h |  1 +
- hw/net/imx_fec.c         | 24 +++++++++++++++++-------
- hw/net/trace-events      |  4 ++--
- 3 files changed, 20 insertions(+), 9 deletions(-)
+ include/hw/arm/fsl-imx6ul.h |  2 ++
+ hw/arm/fsl-imx6ul.c         | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/include/hw/net/imx_fec.h b/include/hw/net/imx_fec.h
-index 7b3faa40194..9f03034b893 100644
---- a/include/hw/net/imx_fec.h
-+++ b/include/hw/net/imx_fec.h
-@@ -268,6 +268,7 @@ typedef struct IMXFECState {
-     uint32_t phy_advertise;
-     uint32_t phy_int;
-     uint32_t phy_int_mask;
-+    uint32_t phy_num;
- 
-     bool is_fec;
- 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index eefedc252de..2c148040414 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -280,12 +280,16 @@ static void imx_phy_reset(IMXFECState *s)
- static uint32_t imx_phy_read(IMXFECState *s, int reg)
- {
-     uint32_t val;
-+    uint32_t phy = reg / 32;
- 
--    if (reg > 31) {
--        /* we only advertise one phy */
-+    if (phy != s->phy_num) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
-+                      TYPE_IMX_FEC, __func__, phy);
-         return 0;
-     }
- 
-+    reg %= 32;
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 37c89cc5f92..fcbaf3dc861 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -87,6 +87,8 @@ typedef struct FslIMX6ULState {
+     MemoryRegion       caam;
+     MemoryRegion       ocram;
+     MemoryRegion       ocram_alias;
 +
-     switch (reg) {
-     case 0:     /* Basic Control */
-         val = s->phy_control;
-@@ -331,20 +335,25 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
-         break;
-     }
++    uint32_t           phy_num[FSL_IMX6UL_NUM_ETHS];
+ } FslIMX6ULState;
  
--    trace_imx_phy_read(val, reg);
-+    trace_imx_phy_read(val, phy, reg);
+ enum FslIMX6ULMemoryMap {
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index 6446034711e..51b2f256ec8 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -427,6 +427,9 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+             FSL_IMX6UL_ENET2_TIMER_IRQ,
+         };
  
-     return val;
++        object_property_set_uint(OBJECT(&s->eth[i]),
++                                 s->phy_num[i],
++                                 "phy-num", &error_abort);
+         object_property_set_uint(OBJECT(&s->eth[i]),
+                                  FSL_IMX6UL_ETH_NUM_TX_RINGS,
+                                  "tx-ring-num", &error_abort);
+@@ -607,10 +610,17 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+                                 FSL_IMX6UL_OCRAM_ALIAS_ADDR, &s->ocram_alias);
  }
  
- static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
++static Property fsl_imx6ul_properties[] = {
++    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX6ULState, phy_num[0], 0),
++    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX6ULState, phy_num[1], 1),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void fsl_imx6ul_class_init(ObjectClass *oc, void *data)
  {
--    trace_imx_phy_write(val, reg);
-+    uint32_t phy = reg / 32;
+     DeviceClass *dc = DEVICE_CLASS(oc);
  
--    if (reg > 31) {
--        /* we only advertise one phy */
-+    if (phy != s->phy_num) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
-+                      TYPE_IMX_FEC, __func__, phy);
-         return;
-     }
- 
-+    reg %= 32;
-+
-+    trace_imx_phy_write(val, phy, reg);
-+
-     switch (reg) {
-     case 0:     /* Basic Control */
-         if (val & 0x8000) {
-@@ -926,7 +935,7 @@ static void imx_eth_write(void *opaque, hwaddr offset, uint64_t value,
-                                                        extract32(value,
-                                                                  18, 10)));
-         } else {
--            /* This a write operation */
-+            /* This is a write operation */
-             imx_phy_write(s, extract32(value, 18, 10), extract32(value, 0, 16));
-         }
-         /* raise the interrupt as the PHY operation is done */
-@@ -1315,6 +1324,7 @@ static void imx_eth_realize(DeviceState *dev, Error **errp)
- static Property imx_eth_properties[] = {
-     DEFINE_NIC_PROPERTIES(IMXFECState, conf),
-     DEFINE_PROP_UINT32("tx-ring-num", IMXFECState, tx_ring_num, 1),
-+    DEFINE_PROP_UINT32("phy-num", IMXFECState, phy_num, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index e6875c4c0f6..5db45456d92 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -413,8 +413,8 @@ i82596_set_multicast(uint16_t count) "Added %d multicast entries"
- i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
- 
- # imx_fec.c
--imx_phy_read(uint32_t val, int reg) "0x%04"PRIx32" <= reg[%d]"
--imx_phy_write(uint32_t val, int reg) "0x%04"PRIx32" => reg[%d]"
-+imx_phy_read(uint32_t val, int phy, int reg) "0x%04"PRIx32" <= phy[%d].reg[%d]"
-+imx_phy_write(uint32_t val, int phy, int reg) "0x%04"PRIx32" => phy[%d].reg[%d]"
- imx_phy_update_link(const char *s) "%s"
- imx_phy_reset(void) ""
- imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
++    device_class_set_props(dc, fsl_imx6ul_properties);
+     dc->realize = fsl_imx6ul_realize;
+     dc->desc = "i.MX6UL SOC";
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
 -- 
 2.20.1
 
