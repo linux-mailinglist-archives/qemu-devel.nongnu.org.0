@@ -2,44 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C234021346A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 08:46:06 +0200 (CEST)
-Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B9821347B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 08:49:54 +0200 (CEST)
+Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrFSX-0006IB-T7
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 02:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
+	id 1jrFWD-00031e-T6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 02:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrFII-0007Al-LS; Fri, 03 Jul 2020 02:35:31 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:53152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jrFID-00038I-SK; Fri, 03 Jul 2020 02:35:30 -0400
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id F0A70BF84C;
- Fri,  3 Jul 2020 06:35:03 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 18/18] hw/block/nvme: bump supported version to v1.3
-Date: Fri,  3 Jul 2020 08:34:20 +0200
-Message-Id: <20200703063420.2241014-19-its@irrelevant.dk>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200703063420.2241014-1-its@irrelevant.dk>
-References: <20200703063420.2241014-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jrFT9-00087t-ON
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 02:46:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37400
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jrFT6-00060R-4h
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 02:46:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593758797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q55vSKBcjYFXUpilfEHlEvgrBVl52htf8NhNiA2wuAk=;
+ b=KnMtmfTWSd/E2u/FRulibu8XsxAZo9m59GImGXMdTRYneUQrcuMbQmyYvR8sx0BnbwvQ0q
+ XLabfMTYgCdEHVUFKj53eHKwYvZ+obn9tdTR/ybPg8jBe5k6PBqLKbnp13KGanpR/Y80Bt
+ uJ3NpYD9MSEDP68iKmotd26Eiebi43U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-puIN6wBfMMqP27es7PUPPQ-1; Fri, 03 Jul 2020 02:46:35 -0400
+X-MC-Unique: puIN6wBfMMqP27es7PUPPQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC71800411;
+ Fri,  3 Jul 2020 06:46:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C74BE10640E1;
+ Fri,  3 Jul 2020 06:46:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4E0C21138648; Fri,  3 Jul 2020 08:46:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 14/44] block: Avoid error accumulation in
+ bdrv_img_create()
+References: <20200702155000.3455325-1-armbru@redhat.com>
+ <20200702155000.3455325-15-armbru@redhat.com>
+ <582df16a-43be-70db-abc7-24b4b47e3c9e@redhat.com>
+Date: Fri, 03 Jul 2020 08:46:32 +0200
+In-Reply-To: <582df16a-43be-70db-abc7-24b4b47e3c9e@redhat.com> (Eric Blake's
+ message of "Thu, 2 Jul 2020 11:26:54 -0500")
+Message-ID: <87r1ttxfhz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:42:13
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,56 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Eric Blake <eblake@redhat.com> writes:
 
-Bump the supported NVM Express version to v1.3.
+> On 7/2/20 10:49 AM, Markus Armbruster wrote:
+>> When creating an image fails because the format doesn't support option
+>> "backing_file" or "backing_fmt", bdrv_img_create() first has
+>> qemu_opt_set() put a generic error into @local_err, then puts the real
+>> error into @errp with error_setg(), and then propagates the former to
+>> the latter, which throws away the generic error.  A bit complicated,
+>> but works.
+>>
+>> Not that qemu_opt_set() returns a useful value, we can simply ignore
+>
+> s/Not/Now/
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- hw/block/nvme.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I missed this one when processing review comments for v2.  Thanks for
+reminding me!
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 5bbb6aa0efc3..204032aac2c8 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -57,6 +57,7 @@
- #define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_REG_SIZE 0x1000
- #define NVME_DB_SIZE  4
-+#define NVME_SPEC_VER 0x00010300
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
- #define NVME_TEMPERATURE 0x143
-@@ -2106,6 +2107,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->ieee[0] = 0x00;
-     id->ieee[1] = 0x02;
-     id->ieee[2] = 0xb3;
-+    id->ver = cpu_to_le32(NVME_SPEC_VER);
-     id->oacs = cpu_to_le16(0);
- 
-     /*
-@@ -2151,7 +2153,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_CSS(n->bar.cap, 1);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
- 
--    n->bar.vs = 0x00010200;
-+    n->bar.vs = NVME_SPEC_VER;
-     n->bar.intmc = n->bar.intms = 0;
- }
- 
--- 
-2.27.0
+>> the generic error instead.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>   block.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
 
 
