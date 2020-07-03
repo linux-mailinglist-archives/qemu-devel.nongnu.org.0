@@ -2,110 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C703C213C4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:04:39 +0200 (CEST)
-Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC09213C5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:12:10 +0200 (CEST)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNF0-0005s7-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
+	id 1jrNMH-0005HM-U5
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrNCk-0002qz-Rb
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:02:18 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:38253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrNCi-0007j1-QB
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:02:18 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MQeI4-1jTgBW2yta-00NiVq; Fri, 03 Jul 2020 17:02:04 +0200
-Subject: Re: [PULL v2 00/12] Linux user for 5.1 patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200702152710.84602-1-laurent@vivier.eu>
- <CAFEAcA_CDZqch-dB2LhTrwQ1pGi_GGn=6RE2CWM8WvLducZigw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <8fc1ffef-e77b-40f8-5a62-fcb964a18796@vivier.eu>
-Date: Fri, 3 Jul 2020 17:02:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jrNL4-0004jP-NE
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:10:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jrNL0-0002H8-I6
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:10:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jrNKx-0003Ax-US
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 15:10:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B1A4F2E810A
+ for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 15:10:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_CDZqch-dB2LhTrwQ1pGi_GGn=6RE2CWM8WvLducZigw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2UhItBtfNyQ/KUN3gOFNagsBf9rZX2Z5i4eIKz2gdvYBzA7u5VT
- wCP1HSKcFNEd/ff3TXyewUkmaNN4aooCqrRyjtkrdXEZBcS9Q7QaZHvmzX4FIXu7MtZgFiS
- i9yAnLjQb01Mn1mv7SpQLebzBidGw3+stVOruptMv8k5h6PVPwvtExyE1qCLpmxMQnP6RGF
- LmrjDdIg9nUDhLQ4GCh3Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FaR9rBRyAj0=:bDF1NWxuVxo0WR6h1vIAnD
- OmNBUJuFOd/PLhg45Cb8cYbg+MxeXNhSSHR8XpTBWbHuVb4u8D6/4FOtTei8zYFvez4qrjrt/
- 0t0vd/5fHXRK+Bz5r62gzyDRQX1sClxw4B7fqDFNVek+q/iGWfUuDmfC2Q37/3GDQDWbRpJfz
- Y6OdEmT933Hi6bvbBfn59w2Ffs0pFntq16sMvU1Y6+TMWx50QhGLaxoGpG/S8zR1JbELm5fEh
- CHP36F0dmSnPzEncBmKLIZc/hzDYQfP1NyTJs0+hXKeWrueow7xWOh3VG3hrwpK7THN5nNjjv
- jDSakYYbVv1owss9TDp1x5O52rLQIWRv/OWFyetbGfm1b9oOokjGFVolGwbhD7InE5e+P47Hl
- ts3nYoJM/snDx3YZQsJuODj3qUawhm+wxB8a/3/amHLO1BIGT9hPES9dXpoqMLv8E62/Bcs5Q
- oU/WYWBG3P9ItR4GFTwg40zNn36utlCTqPigzyipBww4PWd72PN9dN1oLRKjOcIwMIL5maAXm
- zOqYdNCrc7SvOFkY10jYnYaThSJ4Szt499HimZ7F0bDDNh8w/S7HgEENP9OEj6F3/F1qjLhZB
- JdDF8xHjfH005j45JGx740RbKE3B6eV/aH7dDNWyluOxwffdcXytz6VEtFT+j6cxFF2DLUBtx
- T+sk74PtiLn+nDq6buAGz8X+VsCShWpVPU5CF/Hfehv4gZuk4zgageJhKXfVBtkdADZIhB/8S
- 2Y4R4XSH9hXM3DIIkBk9ZsYwqyygpAEWLP3vMYodC/+eaCOgzKBRzCHnjk4OzyT+nDbYjkroM
- Tc/3Tqxsf/KbZ5/rQZN0EaeC2/XkULNVSgM/AIH/wuiGsPi1vw=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:02:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 Jul 2020 15:04:11 -0000
+From: Xiaolei <1885827@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: plugins windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: casmac
+X-Launchpad-Bug-Reporter: Xiaolei (casmac)
+X-Launchpad-Bug-Modifier: Xiaolei (casmac)
+References: <159357217483.1717.4076077243388027502.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159378865160.17942.5070159367065081063.malone@soybean.canonical.com>
+Subject: [Bug 1885827] Re: building plugin failed on Windows with mingw
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 78eeae249eb54a893d540ed8ae78344b389ee4dd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:10:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -114,50 +72,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Reply-To: Bug 1885827 <1885827@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/07/2020 à 16:23, Peter Maydell a écrit :
-> On Thu, 2 Jul 2020 at 16:31, Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> The following changes since commit e7651153a8801dad6805d450ea8bef9b46c1adf5:
->>
->>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-gsoc-queue-jun-27-2020' into staging (2020-06-27 22:57:36 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
->>
->> for you to fetch changes up to 89ddeec7f060a9f403aead414bb883a52f2b5024:
->>
->>   MAINTAINERS: update linux-user maintainer (2020-07-02 16:55:16 +0200)
->>
->> ----------------------------------------------------------------
->> linux-user pull request 2020-07-02
->>
->> Update linux-user maintainer
->> Improve strace output for some syscalls
->> Display contents of ioctl() parameters
->> Fix sparc64 flushw operation
->>
-> 
-> Hi; I'm afraid this failed to build on 32-bit arm:
-> 
-> /home/peter.maydell/qemu/thunk.c: In function 'thunk_print':
-> /home/peter.maydell/qemu/thunk.c:304:51: error: expected expression
-> before ')' token
->          qemu_log("%" PRIu32, tswap32(*(uint32_t *))arg);
->                                                    ^
-> /home/peter.maydell/qemu/rules.mak:69: recipe for target 'thunk.o' failed
-> 
-> Looks like a misplaced close-bracket in a section of code
-> that's inside #if HOST_LONG_BITS == 32 && TARGET_ABI_BITS == 32.
+If I keep "-Wl,-soname,$@" in the command , I got similar linking errors.
+ =
 
-Thank you, I will fix that.
+makefile: =
 
-Laurent
+SONAMES :=3D $(addsuffix .dll,$(addprefix lib,$(NAMES)))
+
+QEMU_CFLAGS +=3D -fPIC -fno-stack-protector -DBUILDING_DLL
+QEMU_CFLAGS +=3D -I$(SRC_PATH)/include/qemu
+
+all: $(SONAMES)
+lib%.dll: %.o
+    $(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
+
+output:
+x86_64-w64-mingw32-gcc -shared -Wl,-soname,libbb.dll -o libbb.dll bb.o
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `g_autoptr_cleanup_generic_gfre=
+e':
+C:/msys64/mingw64/include/glib-2.0/glib/glib-autocleanups.h:28: undefined r=
+eference to `g_free'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `plugin_exit':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:27: undefined reference =
+to `g_strdup_printf'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:29: undefined reference to `qemu_plugin_outs'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `vcpu_tb_trans':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:42: undefined reference =
+to `qemu_plugin_tb_n_insns'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:45: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:47: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:50: undefined reference to `qemu_plugin_register_vcpu_tb_exec_cb'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `qemu_plugin_install':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:64: undefined reference =
+to `qemu_plugin_register_vcpu_tb_trans_cb'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:65: undefined reference to `qemu_plugin_register_atexit_cb'
+collect2.exe: error: ld returned 1 exit status
+
+    On windows, I replace $LDLIBS with $LIBS here, because $LDLIBS seems un=
+defined. But still yields linking error, except.
+     lib%.dll: %.o
+       $(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LIBS)"
+
+x86_64-w64-mingw32-gcc -shared -Wl,-soname,libbb.dll -o libbb.dll bb.o -ldl=
+ -LC:/msys64/mingw64/lib -lz -LC:/msys64/mingw64/lib -lgmodule-2.0 -pthread=
+ -lglib-2.0 -lintl -LC:/msys64/mingw64/lib -lgthread-2.0 -pthread -lglib-2.=
+0 -lintl -lwinmm -lws2_32 -liphlpapi
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `plugin_exit':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:29: undefined reference =
+to `qemu_plugin_outs'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `vcpu_tb_trans':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:42: undefined reference =
+to `qemu_plugin_tb_n_insns'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:45: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:47: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:50: undefined reference to `qemu_plugin_register_vcpu_tb_exec_cb'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: bb.o: in function `qemu_plugin_install':
+C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.c:64: undefined reference =
+to `qemu_plugin_register_vcpu_tb_trans_cb'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.3.0/../../../../x86_6=
+4-w64-mingw32/bin/ld.exe: C:/QRS_Project/simdsp/qemu-4.2.0/tests/plugin/bb.=
+c:65: undefined reference to `qemu_plugin_register_atexit_cb'
+
+    The libdl library (where dlopen() is defined) was not shipped with
+MSYS2 mingw . It is compiled from source(https://github.com/dlfcn-win32
+/dlfcn-win32), and I place the generated libdl.dll, libdl.a, libdl.dll.a
+in C:\msys64\mingw64\include.  dlfcn.h in C:\msys64\mingw64\include.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885827
+
+Title:
+  building plugin failed on Windows with mingw
+
+Status in QEMU:
+  New
+
+Bug description:
+  I want to build QEMU 4.2.0's plugin module on Windows 7/10 with Mingw, bu=
+t the building process faild.
+   =
+
+  The step I follow is listed below:
+  1. create "dsp_build" diretory under source file folder
+
+  2.  change directory to dsp_build , and run ../configure --target-list=3D=
+dsp-softmmu --cross-prefix=3Dx86_64-w64-mingw32- --enable-gtk --enable-sdl =
+--enable-debug --enable-plugins
+  3. build qemu project
+  4. switch dir to /dsp_build, make -C tests/plugin, yeilds error: =
+
+     CC      bb.o
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
+4: error: variable 'qemu_plugin_version' definition is marked dllimport
+     17 | QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSIO=
+N;
+        |                        ^~~~~~~~~~~~~~~~~~~
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:17:2=
+4: warning: 'qemu_plugin_version' redeclared without dllimport attribute: p=
+revious dllimport ignored [-Wattributes]
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
+function 'vcpu_tb_exec':
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:33:2=
+9: warning: cast from pointer to integer of different size [-Wpointer-to-in=
+t-cast]
+     33 |     unsigned long n_insns =3D (unsigned long)udata;
+        |                             ^
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c: In =
+function 'vcpu_tb_trans':
+   D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:51:4=
+6: warning: cast to pointer from integer of different size [-Wint-to-pointe=
+r-cast]
+     51 |                                              (void *)n_insns);
+
+  5.  Then , I modified the QEMU_flags and the compilation command
+  arguments($(CC) ..) in  the  makefile :
+
+                  BUILD_DIR :=3D $(CURDIR)/../..
+
+  		include $(BUILD_DIR)/config-host.mak
+  		include $(SRC_PATH)/rules.mak
+
+                  $(call set-vpath, $(SRC_PATH)/tests/plugin)
+
+  		NAMES :=3D
+  		NAMES +=3D bb
+  		NAMES +=3D empty
+  		NAMES +=3D insn
+  		NAMES +=3D mem
+  		NAMES +=3D hotblocks
+  		NAMES +=3D howvec
+  		NAMES +=3D hotpages
+
+                  SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))
+
+  		QEMU_CFLAGS +=3D -fPIC	-DBUILDING_DLL  		#added  -DBUILDING_DLL
+  		QEMU_CFLAGS +=3D -I$(SRC_PATH)/include/qemu
+
+                  all: $(SONAMES)
+
+  		lib%.so: %.o
+  			$(CC) -fPIC -shared -o $@ $^ $(LDLIBS) -L /c/msys64/mingw64/lib/ -lgli=
+b-2.0
+  			# original cmd: $(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
+
+  		clean:
+  			rm -f *.o *.so *.d
+  			rm -Rf .libs
+
+                  .PHONY: all clean
+
+  6.  Executing make yeilds:
+
+  make: enter   =E2=80=9C/d/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/=
+build_dsp/tests/plugin=E2=80=9D
+    CC      bb.o
+  x86_64-w64-mingw32-gcc -fPIC -shared -o libbb.so bb.o  -L /c/msys64/mingw=
+64/lib/ -lglib-2.0
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `plugin_exit':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:28: u=
+ndefined reference to `qemu_plugin_outs'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:29: undefined reference to `__stack_chk_fail'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `vcpu_tb_trans':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:41: u=
+ndefined reference to `qemu_plugin_tb_n_insns'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:44: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_inline'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:46: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_inline'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:49: undefined reference to `qemu_plugin_register_vcpu=
+_tb_exec_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o: in function `qemu_plugin_install':
+  D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_c3x/tests/plugin/bb.c:63: u=
+ndefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: D:/emu_devl/qemu_src/qemu-sr-dsp-a/qemu_tidsp_=
+c3x/tests/plugin/bb.c:64: undefined reference to `qemu_plugin_register_atex=
+it_cb'
+  C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/10.1.0/../../../../x8=
+6_64-w64-mingw32/bin/ld.exe: bb.o:bb.c:(.rdata$.refptr.__stack_chk_guard[.r=
+efptr.__stack_chk_guard]+0x0): undefined reference to `__stack_chk_guard'
+  collect2.exe: error: ld returned 1 exit status
+
+     It looks like linking problem(fail to link functions defined in api.c,=
+ core.c...), but I have no idea what goes wrong. If I mannualy add api.o, c=
+ore.o in the compilation command, still get error like undefined reference =
+to '__stack_chk_guard'. =
+
+     My collegue can build 4.2.0  plugins on Ubuntu Linux without any probl=
+em.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885827/+subscriptions
 
