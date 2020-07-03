@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4428E213CF4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:46:46 +0200 (CEST)
-Received: from localhost ([::1]:50202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D60213CE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 17:42:34 +0200 (CEST)
+Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrNtl-0000eQ-9l
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:46:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
+	id 1jrNph-0005s8-3e
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 11:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jrNsh-00008J-6y
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:45:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59626)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jrNof-0004X1-V2
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:41:29 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jrNsf-0002vQ-Bv
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:45:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jrNse-0001Sv-8u
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 15:45:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 220F32E8106
- for <qemu-devel@nongnu.org>; Fri,  3 Jul 2020 15:45:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jrNod-00027t-K6
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 11:41:29 -0400
+Received: by mail-oi1-x241.google.com with SMTP id y22so14206533oie.8
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 08:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=JI0mmWI1opmX6Cii+QmjTbUs4ooas1vaApI+tH+tDzI=;
+ b=lFIB5uOFpysYhnHA9mCDRJQjByHa92OEZhUF4Rqdj47p98P2h7m/kAA2GNFqyx33Aa
+ 4Y2DCsYDQ2VGDsGRmqv4rnQ8yhqDJ8JYdfONbOQwjpI6Mawwa/p+/y+2iYh5I6gE52Xn
+ 6IZlMIFIswQPh3bvHMA8wfvW7i6Kt1AR7GL9Yic/A8wi0572KlKRBDcmdeeOEsrWuTtN
+ UVX2QiHuRFnA1E1UDlKlhTJt4kpfhr6pK3bB8Fa8UkNxZXhRebBnbgSoekaszsHwpAzi
+ yn/PyTLI38XQtgUjGfbOFgzsXKPQC3jUh2qGeNr0ixM4bBRkTXDCX/CHg/HmImg5Aeo0
+ 9BGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JI0mmWI1opmX6Cii+QmjTbUs4ooas1vaApI+tH+tDzI=;
+ b=TGSxHkXn4MlYPYHvisE4fkffzkwMSz+CBQ0Uzsng91m2KwouYrkKM3effYtoH56QpB
+ bsTkFE7ca5SYIgOESzE8ntFjFJPkJLtrzT8Q9NCTnmpF+QRqWNKfaHUTAqJ7rGZWR5gO
+ w3fGAdielyXh3uY32tyL09hUwaXd1Nqy+AZB7raMbYqISPYqOgonSMNV4D5wwQoGCN42
+ zCDEsGb3DAUec+9gj7EJFCGMkg/vkkLJ7xA/f2rCZ0p+4ZtDncBZOMCrXSVkSIFKcQQc
+ wsbJAZrqKudfgLiRGyFUh9dbpOURr3feVodW5lXYpCLI8v/hO2qpRdfVF2d6pvXT60WM
+ Hr4w==
+X-Gm-Message-State: AOAM532QfGgd3b1ZgN+rlMrttaoeo+LH0biuzSDye51K+2zkD7zVNduI
+ 6tbC/3USItS4FpRBXEwx65aE5Hk7J1DSZ+IkJtwvnA==
+X-Google-Smtp-Source: ABdhPJzULYnX3+TthN6kgbBUDiZyXMK28kbDBrUlStgQEP9skLwEMs22kfI7gLWHg53aevy0mRk2iZlH+W35YuKA/ko=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr968169oii.146.1593790886057;
+ Fri, 03 Jul 2020 08:41:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200701161153.30988-1-alex.bennee@linaro.org>
+ <20200701161153.30988-4-alex.bennee@linaro.org>
+In-Reply-To: <20200701161153.30988-4-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Jul 2020 16:41:15 +0100
+Message-ID: <CAFEAcA9DaChFe=Eznc15_dtz9xbxyKE6i3DFpbxkYab7DmBXbw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] docs/devel: add some notes on tcg-icount for
+ developers
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 03 Jul 2020 15:37:07 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1886210@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <159379062799.1332.10709414866288351762.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1886210] [NEW] [Feature request] Illumnos VM image
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9738aaf24688d2fd2fe86e30861167f634af029f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 11:10:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,61 +82,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886210 <1886210@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Wed, 1 Jul 2020 at 17:11, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> This attempts to bring together my understanding of the requirements
+> for icount behaviour into one reference document for our developer
+> notes.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Message-Id: <20200619135844.23307-1-alex.bennee@linaro.org>
+>
+> ---
+> v2
+>   - fix copyright date
+>   - it's -> its
+>   - drop mentioned of gen_io_end()
+>   - remove and correct original conjecture
+> v3
+>   - include link in index
+> ---
+>  docs/devel/index.rst      |  1 +
+>  docs/devel/tcg-icount.rst | 89 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 90 insertions(+)
+>  create mode 100644 docs/devel/tcg-icount.rst
+>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 4ecaea3643f..ae6eac7c9c6 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -23,6 +23,7 @@ Contents:
+>     decodetree
+>     secure-coding-practices
+>     tcg
+> +   tcg-icount
+>     multi-thread-tcg
+>     tcg-plugins
+>     bitops
+> diff --git a/docs/devel/tcg-icount.rst b/docs/devel/tcg-icount.rst
+> new file mode 100644
+> index 00000000000..cb51cb34dde
+> --- /dev/null
+> +++ b/docs/devel/tcg-icount.rst
+> @@ -0,0 +1,89 @@
+> +..
+> +   Copyright (c) 2020, Linaro Limited
+> +   Written by Alex Benn=C3=A9e
+> +
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +TCG Instruction Counting
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +TCG has long supported a feature known as icount which allows for
+> +instruction counting during execution. This should be confused with
 
-We already have handy VMs to build QEMU within:
+Shurely "should not be confused" :-)
 
-$ git grep -l basevm.BaseVM
-tests/vm/centos
-tests/vm/fedora
-tests/vm/freebsd
-tests/vm/netbsd
-tests/vm/openbsd
-tests/vm/ubuntu.i386
+> +cycle accurate emulation - QEMU does not attempt to emulate how long
+> +an instruction would take on real hardware. That is a job for other
+> +more detailed (and slower) tools that simulate the rest of a
+> +micro-architecture.
+> +
+> +This feature is only available for system emulation and is
+> +incompatible with multi-threaded TCG. It can be used to better align
+> +execution time with wall-clock time so a "slow" device doesn't run too
+> +fast on modern hardware. It can also provides for a degree of
+> +deterministic execution and is an essential part of the record/replay
+> +support in QEMU.
+> +
+> +Core Concepts
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +At its heart icount is simply a count of executed instructions which
+> +is stored in the TimersState of QEMU's timer sub-system. The number of
+> +executed instructions can then be used to calculate QEMU_CLOCK_VIRTUAL
+> +which represents the amount of elapsed time in the system since
+> +execution started. Depending on the icount mode this may either be a
+> +fixed number of ns per instructions or adjusted as execution continues
 
-It would be useful to have a illumos VM to do build testing and avoid
-regressions.
+"per instruction"
 
-Suggested by Thomas Huth:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg719202.html
+> +to keep wall clock time and virtual time in sync.
+> +
+> +To be able to calculate the number of executed instructions the
+> +translator starts by allocating a budget of instructions to be
+> +executed. The budget of instructions is limited by how long it will be
+> +until the next timer will expire. We store this budget as part of a
+> +vCPU icount_decr field which shared with the machinery for handling
+> +cpu_exit(). The whole field is checked at the start of every
+> +translated block and will cause a return to the outer loop to deal
+> +with whatever caused the exit.
+> +
+> +In the case of icount before the flag is checked we subtract the
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+"of icount, "
 
--- =
+> +number of instructions the translation block would execute. If this
+> +would cause the instruction budget to got negative we exit the main
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886210
+"to go negative"
 
-Title:
-  [Feature request] Illumnos VM image
+> +loop and regenerate a new translation block with exactly the right
+> +number of instructions to take the budget to 0 meaning whatever timer
 
-Status in QEMU:
-  New
+"to 0. This means that whatever timer"
 
-Bug description:
-  We already have handy VMs to build QEMU within:
+> +was due to expire will expire exactly when we exit the main run loop.
+> +
+> +Dealing with MMIO
+> +-----------------
+> +
+> +While we can adjust the instruction budget for known events like timer
+> +expiry we can not do the same for MMIO. Every load/store we execute
 
-  $ git grep -l basevm.BaseVM
-  tests/vm/centos
-  tests/vm/fedora
-  tests/vm/freebsd
-  tests/vm/netbsd
-  tests/vm/openbsd
-  tests/vm/ubuntu.i386
+"cannot"
 
-  It would be useful to have a illumos VM to do build testing and avoid
-  regressions.
+> +might potentially trigger an I/O event at which point we will need an
 
-  Suggested by Thomas Huth:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg719202.html
+"event, at which point"
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886210/+subscriptions
+> +up to date and accurate reading of the icount number.
+> +
+> +To deal with this case when an I/O access is made we:
+
+"this case, when"
+
+> +
+> +  - restore un-executed instructions to the icount budget
+> +  - re-compile a single [1]_ instruction block for the current PC
+> +  - exit the cpu loop and execute the re-compiled block
+> +
+> +The new block is created with the CF_LAST_IO compile flag which
+> +ensures the final instruction translation starts with a call to
+> +gen_io_start() so we don't enter a perpetual loop constantly
+> +recompiling a single instruction block. For translators using the
+> +common translator_loop this is done automatically.
+> +
+> +.. [1] sometimes two instructions if dealing with delay slots
+> +
+> +Other I/O operations
+> +--------------------
+> +
+> +MMIO isn't the only type of operation for which we might need a
+> +correct and accurate clock. IO port instructions and accesses to
+> +system registers are the common examples here. These instructions have
+> +to be handled by the individual translators which have the knowledge
+> +of which operations are I/O operations.
+> +
+> +.. warning:: Any instruction that eventually causes an access to
+> +             QEMU_CLOCK_VIRTUAL needs to be preceded by a
+> +             gen_io_start() and must also be the last instruction
+> +             translated in the block.
+
+I think I would prefer some text phrased in a way that more
+explicitly states what the frontend code has to do, like:
+
+=3D=3D=3D=3D=3D=3D
+When the translator is handling an instruction of this kind:
+ * it must call gen_io_start() if icount is enabled, at some
+   point before the generation of the code which actually does
+   the I/O, using a code fragment similar to:
+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+            gen_io_start();
+        }
+ * it must end the TB immediately after this instruction
+
+Note that some older front-ends call a "gen_io_end()" function:
+this is obsolete and should not be used.
+=3D=3D=3D=3D=3D=3D
+
+thanks
+-- PMM
 
