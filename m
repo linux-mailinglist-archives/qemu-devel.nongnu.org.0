@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221EC213752
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:10:06 +0200 (CEST)
-Received: from localhost ([::1]:41926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2905521373F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:08:54 +0200 (CEST)
+Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHht-0002AY-6L
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59862)
+	id 1jrHgj-00085V-85
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcL-0007iN-CV
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:21 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51184
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcQ-0007v0-C3
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53535
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcJ-0004RB-ID
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:21 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHcO-0004Rc-Co
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:04:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767058;
+ s=mimecast20190719; t=1593767063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iWDsFI9FTPaIYFz+N5tNzGyrP1poUpyqulcQXZoBxbc=;
- b=aKVtC2fLFR9+H7iT9tWrPr6p2+xtjfavzIupeie9hjBRLQs38l1j6ybzeVqpmS+bl5uSdC
- rFojmbauhoLsENS12QuHzRIYemicJ3txYtN3XoDJ8Fc34yw3IUPZwI56Pagrv+2L0BGu0b
- Cp53qfmyCihJFBw2adfxqqLPH0aitGQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-3PfUPGCzN8KdeycEsYG3eQ-1; Fri, 03 Jul 2020 05:04:17 -0400
-X-MC-Unique: 3PfUPGCzN8KdeycEsYG3eQ-1
-Received: by mail-wm1-f72.google.com with SMTP id g138so25731787wme.7
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:17 -0700 (PDT)
+ bh=R6v2kcHm1yafmRwNtVM4TnE2cecweMPkWTwUrJuLZnU=;
+ b=h4R63ePPjbotzcZ2zskdZIssEh8I6mm71SS1g8ysQtM01apKarnny8ysgov49zq2LuEavn
+ nus0xkiugsTKw17bpsizDMYoYwBi5qtwJNVsUdggmIz2R1tWvViiIoVogqlkzay0B5Eiwy
+ 9/kyhZW4pZk3WIEVgFSLxKUKLETyNUg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-nzM1CqzNO1i42tSHCTEpnw-1; Fri, 03 Jul 2020 05:04:19 -0400
+X-MC-Unique: nzM1CqzNO1i42tSHCTEpnw-1
+Received: by mail-wr1-f71.google.com with SMTP id j16so25789364wrw.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:04:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=iWDsFI9FTPaIYFz+N5tNzGyrP1poUpyqulcQXZoBxbc=;
- b=Ud7MTEpphywaCXfAtUQ3dgioIJ8AffILcmztmLRgy0t7Y1VssPzboBEmxv0FroAzo0
- ZWRqhPQs1V3WQEjyVcIhKpwUBb3hjoj0TDZVcZIn81383WfDJpOxySOH4dzKWxXyt2G3
- iXwmqQFyr24Pk2Ip0NRaC+HQ+ouL/QDZDBty+HdXyoMbQqq9peBJGOiYCwQckVTUR5dy
- 2UVKjaW/Ruha+8f3I2eh8xBl2XrrqzelN7E2wZj6ccAYJcjyg5dS5SWo/ZlRgqNO4BPK
- 3yh8uuDh0DsOvL10L3A0VYzzysNPnDf+AepCnhY0scvUfXHv+tXu1mLzuF9T9einrnfh
- PiJQ==
-X-Gm-Message-State: AOAM5335dYG69bHBnKG2ifDpK9tjShQGOk1QIZUFiP0ovtMTeSyO1CRJ
- 2nAIYGSIE45R67fKPZOMRWUcsmXeV2/EV/1l9vh4ntSRpFntynDFRqBloSjXawmZNKv8bRHGfuK
- D29vql4JSBhrYFNY=
-X-Received: by 2002:a5d:4603:: with SMTP id t3mr38494057wrq.38.1593767055689; 
- Fri, 03 Jul 2020 02:04:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAamEJACZ2FMMDWl3FI9MjmizxGI5ridVvi7fdJxRmdrV7hlGMJqyo/ith6avmhbV30vvjPg==
-X-Received: by 2002:a5d:4603:: with SMTP id t3mr38494036wrq.38.1593767055484; 
- Fri, 03 Jul 2020 02:04:15 -0700 (PDT)
+ bh=R6v2kcHm1yafmRwNtVM4TnE2cecweMPkWTwUrJuLZnU=;
+ b=GlUtf9qDTZ0YpElIu9iijzx6M5bFqzbl6Q5/NZhl0YO1Mi0+9JsBfvGszgyKhUosZr
+ pkITkOW+pHkhxBMYTKuotsfvJJEGH4BqROR5MZqVzRDziINFxIS+U2kjeOtgvArnEqVS
+ gEUNVVx0g5XCqidgI9U5LlitJTt58k29Pt7uywDsEZgTFHg2GT0iTv75Yi9TNmzSw4Z6
+ kShwNulTLXVRCY5/YDzBmGGTiOyx5GjR/XMyNtwChpfa+fGF3r3A5LS8oGY28eVeaj1D
+ qvbmFDMpj1m21JUsLSuzY5yE8SGBZqSn0pM3hUtVy28LgIfb0fUeGBkumj1rUzRSnUBe
+ xbtA==
+X-Gm-Message-State: AOAM530ZXcE/jWUwp4YSwNgN/kX0pjOun8je9fUuc0pn1KKI4lYVfu7i
+ hT7/BmyK8IzrxN3Sx65JHjbGa72NDKOtbgXDb6c9y3mQGZdPvVU18nLQJqKaEwqdCRg85akiMQN
+ sxepnaQK3Tn1KDPA=
+X-Received: by 2002:a1c:2842:: with SMTP id o63mr20442951wmo.169.1593767058369; 
+ Fri, 03 Jul 2020 02:04:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyX13F5rNl5wkLnQF3uIQ7bjHGzLfg2YT9BI2s8cjEPte+6QLIUVG3Wcy4GPdmrHd1g1g/kvA==
+X-Received: by 2002:a1c:2842:: with SMTP id o63mr20442937wmo.169.1593767058223; 
+ Fri, 03 Jul 2020 02:04:18 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- v11sm49816438wmb.3.2020.07.03.02.04.14
+ k14sm13241600wrn.76.2020.07.03.02.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:04:14 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:04:13 -0400
+ Fri, 03 Jul 2020 02:04:17 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:04:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/41] hmp: Handle virtio-mem when printing memory device info
-Message-ID: <20200703090252.368694-17-mst@redhat.com>
+Subject: [PULL 17/41] numa: Handle virtio-mem in NUMA stats
+Message-ID: <20200703090252.368694-18-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,56 +97,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Print the memory device info just like for other memory devices.
+Account the memory to the configured nid.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-14-david@redhat.com>
+Message-Id: <20200626072248.78761-15-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- monitor/hmp-cmds.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/core/numa.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 2b0b58a336..2ec13e4cc3 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1821,6 +1821,7 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
-     MemoryDeviceInfoList *info_list = qmp_query_memory_devices(&err);
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 2725886d06..e9aec69afd 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -824,6 +824,7 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
      MemoryDeviceInfoList *info;
+     PCDIMMDeviceInfo     *pcdimm_info;
      VirtioPMEMDeviceInfo *vpi;
 +    VirtioMEMDeviceInfo *vmi;
-     MemoryDeviceInfo *value;
-     PCDIMMDeviceInfo *di;
  
-@@ -1855,6 +1856,21 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
-                 monitor_printf(mon, "  size: %" PRIu64 "\n", vpi->size);
-                 monitor_printf(mon, "  memdev: %s\n", vpi->memdev);
+     for (info = info_list; info; info = info->next) {
+         MemoryDeviceInfo *value = info->value;
+@@ -844,6 +845,11 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
+                 node_mem[0].node_mem += vpi->size;
+                 node_mem[0].node_plugged_mem += vpi->size;
                  break;
 +            case MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM:
 +                vmi = value->u.virtio_mem.data;
-+                monitor_printf(mon, "Memory device [%s]: \"%s\"\n",
-+                               MemoryDeviceInfoKind_str(value->type),
-+                               vmi->id ? vmi->id : "");
-+                monitor_printf(mon, "  memaddr: 0x%" PRIx64 "\n", vmi->memaddr);
-+                monitor_printf(mon, "  node: %" PRId64 "\n", vmi->node);
-+                monitor_printf(mon, "  requested-size: %" PRIu64 "\n",
-+                               vmi->requested_size);
-+                monitor_printf(mon, "  size: %" PRIu64 "\n", vmi->size);
-+                monitor_printf(mon, "  max-size: %" PRIu64 "\n", vmi->max_size);
-+                monitor_printf(mon, "  block-size: %" PRIu64 "\n",
-+                               vmi->block_size);
-+                monitor_printf(mon, "  memdev: %s\n", vmi->memdev);
++                node_mem[vmi->node].node_mem += vmi->size;
++                node_mem[vmi->node].node_plugged_mem += vmi->size;
 +                break;
              default:
                  g_assert_not_reached();
