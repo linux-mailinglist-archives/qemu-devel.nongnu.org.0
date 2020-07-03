@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B745C213EA8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:41:33 +0200 (CEST)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE3F213EFC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 19:51:40 +0200 (CEST)
+Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrPgq-0000bw-R1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60690)
+	id 1jrPqc-0001bn-UC
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 13:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jrPfW-0007xM-IW
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:40:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jrPfU-0007eV-3t
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:40:10 -0400
-Received: by mail-wm1-x343.google.com with SMTP id o2so34850636wmh.2
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 10:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xTtBdZoEmYeIU7YNVe2YymIzDUGlO7yqYHdq+RnoNP4=;
- b=S5FGmjMt48K5jkYGqa2v4rls7nB2/Kj6NWq1fD6kzMbgPsVtgIefvINtDPMnWDuWGq
- W4KoQ3ZWDo+WT308EmHxUyNCqgE0NlzdYVltdk3/7aMnwKuTlY5hkIPqfnKM+yLrwxm8
- f6TBQdDQz3BJ+1zuMT7oSfZHa47VjrMRnkx0NeLYQi14IgzQ4ogFQwGIaaFirAOfVlsB
- seY+NBkP4gfVgFNCgOem04A61gX0COLAF0y/kzme0J4LJN4NbYPEKiVwcZ8BjCyTFwkB
- SVByR81BRf/9s7AfI4w0C+V/9vHfsSeBUS2xhKU0hJmSHqVFfbly1NU1pjFXPAQ3wWN3
- Laqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xTtBdZoEmYeIU7YNVe2YymIzDUGlO7yqYHdq+RnoNP4=;
- b=GB1nq2OyeS/ax5AmtQH54owmxF5i8uWuYLHpmJe6yBfHyvw2ghG2XtUD3iaDOOHPE4
- DJN6jJOPxYoQHkdZ8Og+PhYyzzGCCRPJ59RuuqV1r7KxHTsAFmtaAGnKVGXsTrZ2YCLO
- nE1HtPJuARlF8KRc0xofwLCLBkThZYYEJnrweB9GOXfRokdIZKwZTZ/EUB2NmL1MLtsk
- kIEl9GS8Eo5+sppbLbJpiSvz4I5n1Re70U9auWEq+oHTrtxNY40zegbx/g2Wf9KMpVDX
- tWKE5SgaGbX3z9GyFgHIY222qjglRVgAu2XiPf9CTDs0nDkxFa4/hE0XpZp/oMPqMnPT
- pfbg==
-X-Gm-Message-State: AOAM532gvPDfsbGctRv7uXHoD0alcEhBupR4/+Yu9CbDtCVtaRg3OZDa
- MLFXBhNGSlqysZM2mXStseWzCQ==
-X-Google-Smtp-Source: ABdhPJzMNSRsU2YV6wBH4Fy6F5ytCN0VJQ3gWvhyzM/87H8q3/i/mSLcspV/lzz1vJyKlMo+TjGdmg==
-X-Received: by 2002:a1c:6308:: with SMTP id x8mr39357237wmb.92.1593798006017; 
- Fri, 03 Jul 2020 10:40:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q4sm13737103wmc.1.2020.07.03.10.40.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 10:40:05 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 55A8E1FF7E;
- Fri,  3 Jul 2020 18:40:04 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] blog post: Anatomy of a Boot, a QEMU perspective
-Date: Fri,  3 Jul 2020 18:39:48 +0100
-Message-Id: <20200703173948.22156-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrPpv-0001D4-1b
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:50:55 -0400
+Resent-Date: Fri, 03 Jul 2020 13:50:55 -0400
+Resent-Message-Id: <E1jrPpv-0001D4-1b@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrPpr-0003Pe-WE
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 13:50:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593798646; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nJXIOp1AZ1HmW10H2aLbJOkSnu8NKQTwJWMMqBf2ooQM17XcXkpEUUoiHtCj2MUQ4ntl77+kiQHixfzpvx4wxfsaMP7g27GFL3zAT9IAIvsaFZG+wR9AUD9AZjEcyG84ncc6AECtD/+1J9UBXdhpmGvwCqCXICNMuuKB6P6stgM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593798646;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=5RlQ3r+LfnDx94ZiIcu1TSQK5J9Z7TzPklDwxrGZKHk=; 
+ b=UnUXno1hXWpXelMakafR2Sb7odbTNmIgSKACIj+J5YjQEUO52WB7MgGTzesimt+MaHrLKi32WfSxa1gy2L4kO9jSzSkvzPcsyog5zcDhTnTxKMnrAmmlv0cKM33VEZVl8UCpBVliyCH21SiwwpfM0Zo/7Gf2bfNd0OebFollY8M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1593798645006977.4709920736116;
+ Fri, 3 Jul 2020 10:50:45 -0700 (PDT)
+Message-ID: <159379864411.15570.13905750808347487847@d1fd068a5071>
+Subject: Re: [PULL 00/34] target-arm queue
+In-Reply-To: <20200703165405.17672-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Fri, 3 Jul 2020 10:50:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 13:50:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,206 +69,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While working on some test cases I realised there was quite a lot of
-assumed knowledge about how things boot up. I thought it would be
-worth gathering this together in a user facing document where we could
-pour in the details and background to the boot process. The consensus
-seems to be this is better as a blog post.
-
-The post follows the socratic method and leaves the reader to ask
-themselves some questions in an effort to elucidate them about any
-problems they may be having before telling them that they probably
-wanted to use virt-manager all along.
-
-Based on Message-Id: <20200701161153.30988-2-alex.bennee@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-[rth: review of doc form]
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
----
-v3
-  - convert from doc to blog post
-  - address pm's comments
-  - new intro/outro for blog style
----
- _posts/2020-07-03-anatomy-of-a-boot.md | 161 +++++++++++++++++++++++++
- 1 file changed, 161 insertions(+)
- create mode 100644 _posts/2020-07-03-anatomy-of-a-boot.md
-
-diff --git a/_posts/2020-07-03-anatomy-of-a-boot.md b/_posts/2020-07-03-anatomy-of-a-boot.md
-new file mode 100644
-index 0000000..67aa72c
---- /dev/null
-+++ b/_posts/2020-07-03-anatomy-of-a-boot.md
-@@ -0,0 +1,161 @@
-+---
-+layout: post
-+title:  "Anatomy of a Boot, a QEMU perspective"
-+date:   2020-07-3 18:00:00:00 +0000
-+last_modified_at: 2020-07-3 18:00:00:00 +0000
-+author: Alex Bennée
-+categories: [boot, softmmu, system, firmware]
-+---
-+
-+Have you ever wondered about the process a machine goes through to get
-+to the point of a usable system? This post will give an overview of
-+how machines boot and how this matters to QEMU. We will discuss
-+firmware and BIOSes and the things they do before the OS kernel is
-+loaded and your usable system is finally ready.
-+
-+## Firmware
-+
-+When a CPU is powered up it knows nothing about its environment. The
-+internal state, including the program counter (PC), will be reset to a
-+defined set of values and it will attempt to fetch the first
-+instruction and execute it. It is the job of the firmware to bring a
-+CPU up from the initial few instructions to running in a relatively
-+sane execution environment. Firmware tends to be specific to the
-+hardware in question and is stored on non-volatile memory (memory that
-+survives a power off), usually a ROM or flash device on the computers
-+main board.
-+
-+Some examples of what firmware does include:
-+
-+### Early Hardware Setup
-+
-+Modern hardware often requires configuring before it is usable. For
-+example most modern systems won't have working RAM until the memory
-+controller has been programmed with the correct timings for whatever
-+memory is installed on the system. Processors may boot with a very
-+restricted view of the memory map until RAM and other key peripherals
-+have been configured to appear in its address space. Some hardware
-+may not even appear until some sort of blob has been loaded into it so
-+it can start responding to the CPU.
-+
-+Fortunately for QEMU we don't have to worry too much about this very
-+low level configuration. The device model we present to the CPU at
-+start-up will generally respond to IO access from the processor straight
-+away.
-+
-+### BIOS or Firmware Services
-+
-+In the early days of the PC era the BIOS or Basic Input/Output System
-+provided an abstraction interface to the operating system which
-+allowed the OS to do basic IO operations without having to directly
-+drive the hardware. Since then the scope of these firmware services
-+has grown as systems become more and more complex.
-+
-+Modern firmware often follows the Unified Extensible Firmware
-+Interface (UEFI) which provides services like secure boot, persistent
-+variables and external time-keeping.
-+
-+There can often be multiple levels of firmware service functions. For
-+example systems which support secure execution enclaves generally have
-+a firmware component that executes in this secure mode which the
-+operating system can call in a defined secure manner to undertake
-+security sensitive tasks on its behalf.
-+
-+### Hardware Enumeration
-+
-+It is easy to assume that modern hardware is built to be discoverable
-+and all the operating system needs to do is enumerate the various
-+buses on the system to find out what hardware exists. While buses like
-+PCI and USB do support discovery there is usually much more on a
-+modern system than just these two things.
-+
-+This process of discovery can take some time as devices usually need
-+to be probed and some time allowed for the buses to settle and the
-+probe to complete. For purely virtual machines operating in on-demand
-+cloud environments you may operate with stripped down kernels that
-+only support a fixed expected environment so they can boot as fast as
-+possible.
-+
-+In the embedded world it used to be acceptable to have a similar
-+custom compiled kernel which knew where everything is meant to be.
-+However this was a brittle approach and not very flexible. For example
-+a general purpose distribution would have to ship a special kernel for
-+each variant of hardware you wanted to run on. If you try and use a
-+kernel compiled for one platform that nominally uses the same
-+processor as another platform the result will generally not work.
-+
-+The more modern approach is to have a "generic" kernel that has a
-+number of different drivers compiled in which are then enabled based
-+on a hardware description provided by the firmware. This allows
-+flexibility on both sides. The software distribution is less concerned
-+about managing lots of different kernels for different pieces of
-+hardware. The hardware manufacturer is also able to make small changes
-+to the board over time to fix bugs or change minor components.
-+
-+The two main methods for this are the Advanced Configuration and Power
-+Interface (ACPI) and Device Trees. ACPI originated from the PC world
-+although it is becoming increasingly common for "enterprise" hardware
-+like servers. Device Trees of various forms have existed for a while
-+with perhaps the most common being Flattened Device Trees (FDT).
-+
-+## Boot Code
-+
-+The line between firmware and boot code is a very blurry one. However
-+from a functionality point of view we have moved from ensuring the
-+hardware is usable as a computing device to finding and loading a
-+kernel which is then going to take over control of the system. Modern
-+firmware often has the ability to boot a kernel directly and in some
-+systems you might chain through several boot loaders before the final
-+kernel takes control.
-+
-+The boot loader needs to do 3 things:
-+
-+  - find a kernel and load it into RAM
-+  - ensure the CPU is in the correct mode for the kernel to boot
-+  - pass any information the kernel may need to boot and can't find itself
-+
-+Once it has done these things it can jump to the kernel and let it get
-+on with things.
-+
-+## Kernel
-+
-+The Kernel now takes over and will be in charge of the system from now
-+on. It will enumerate all the devices on the system (again) and load
-+drivers that can control them. It will then locate some sort of
-+file-system and eventually start running programs that actually do
-+work.
-+
-+## Questions to ask yourself
-+
-+Having given this overview of booting here are some questions you
-+should ask when diagnosing boot problems.
-+
-+### Hardware
-+
-+ - is the platform fixed or dynamic?
-+ - is the platform enumeratable (e.g. PCI/USB)?
-+
-+### Firmware
-+
-+ - is the firmware built for the platform you are booting?
-+ - does the firmware need storage for variables (boot index etc)?
-+ - does the firmware provide a service to kernels (e.g. ACPI/EFI)?
-+
-+### Kernel
-+
-+ - is the kernel platform specific or generic?
-+ - how will the kernel enumerate the platform?
-+ - can the kernel interface talk to the firmware?
-+
-+## Final Thoughts
-+
-+When users visit the IRC channel to ask why a particular kernel won't
-+boot our first response is almost always to check the kernel is
-+actually matched to the hardware being instantiated. For ARM boards in
-+particular just being built for the same processor is generally not
-+enough and hopefully having made it through this post you see why.
-+This complexity is also the reason why we generally suggest using a
-+tool like [virt-manager](https://virt-manager.org/) to configure QEMU
-+as it is designed to ensure the right components and firmware is
-+selected to boot a given system.
-+
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwMzE2NTQwNS4xNzY3
+Mi0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BVTEwgMDAvMzRdIHRhcmdldC1hcm0gcXVldWUK
+VHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwNzAzMTY1NDA1LjE3NjcyLTEtcGV0ZXIubWF5
+ZGVsbEBsaW5hcm8ub3JnCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
+dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
+Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJv
+bSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAg
+ICAgICAgcGF0Y2hldy8yMDIwMDcwMzE2NTQwNS4xNzY3Mi0xLXBldGVyLm1heWRlbGxAbGluYXJv
+Lm9yZyAtPiBwYXRjaGV3LzIwMjAwNzAzMTY1NDA1LjE3NjcyLTEtcGV0ZXIubWF5ZGVsbEBsaW5h
+cm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDYzODU4MCBEZXByZWNhdGUg
+VGlsZUdYIHBvcnQKMWUyZTc3OCBSZXBsYWNlIHVzZXMgb2YgRlJPTV9TU0lfU0xBVkUoKSBtYWNy
+byB3aXRoIFFPTSBjYXN0cwo5MmE1ZjkyIGh3L2FybS9zcGl0ejogUHJvdmlkZSB1c3VhbCBRT00g
+bWFjcm9zIGZvciBjb3JnaS1zc3AgYW5kIHNwaXR6LWxjZHRnCmQ1NzhmN2EgaHcvYXJtL3B4YTJ4
+eF9waWM6IFVzZSBMT0dfR1VFU1RfRVJST1IgZm9yIGJhZCBndWVzdCByZWdpc3RlciBhY2Nlc3Nl
+cwo4Y2ExZmY5IGh3L2FybS9zcGl0ejogVXNlIExPR19HVUVTVF9FUlJPUiBmb3IgYmFkIGd1ZXN0
+IHJlZ2lzdGVyIGFjY2Vzc2VzCmJkYzhiM2YgaHcvZ3Bpby96YXVydXMuYzogVXNlIExPR19HVUVT
+VF9FUlJPUiBmb3IgYmFkIGd1ZXN0IHJlZ2lzdGVyIGFjY2Vzc2VzCmE3ZjBjZTggaHcvYXJtL3Nw
+aXR6OiBFbmNhcHN1bGF0ZSBtaXNjIEdQSU8gaGFuZGxpbmcgaW4gYSBkZXZpY2UKMmQyOTgwMSBo
+dy9taXNjL21heDExMXg6IENyZWF0ZSBoZWFkZXIgZmlsZSBmb3IgZG9jdW1lbnRhdGlvbiwgVFlQ
+RV8gbWFjcm9zCjFiMjAwODMgaHcvbWlzYy9tYXgxMTF4OiBVc2UgR1BJTyBsaW5lcyByYXRoZXIg
+dGhhbiBtYXgxMTF4X3NldF9pbnB1dCgpCjlkZGVmMTYgaHcvYXJtL3NwaXR6OiBVc2UgbWF4MTEx
+eCBwcm9wZXJ0aWVzIHRvIHNldCBpbml0aWFsIHZhbHVlcwoyMDg0NDViIHNzaTogQWRkIHNzaV9y
+ZWFsaXplX2FuZF91bnJlZigpCjcwMTc0NDQgaHcvbWlzYy9tYXgxMTF4OiBEb24ndCB1c2Ugdm1z
+dGF0ZV9yZWdpc3RlcigpCjU3ZTU2NGIgaHcvbWlzYy9tYXgxMTF4OiBwcm92aWRlIFFPTSBwcm9w
+ZXJ0aWVzIGZvciBzZXR0aW5nIGluaXRpYWwgdmFsdWVzCjQ5MDJiY2UgaHcvYXJtL3NwaXR6OiBJ
+bXBsZW1lbnQgaW5ib3VuZCBHUElPIGxpbmVzIGZvciBiaXQ1IGFuZCBwb3dlciBzaWduYWxzCmQ3
+Njk1NzYgaHcvYXJtL3NwaXR6OiBLZWVwIHBvaW50ZXJzIHRvIHNjcDAsIHNjcDEgaW4gU3BpdHpN
+YWNoaW5lU3RhdGUKOTk3MDc4NiBody9hcm0vc3BpdHo6IEtlZXAgcG9pbnRlcnMgdG8gTVBVIGFu
+ZCBTU0kgZGV2aWNlcyBpbiBTcGl0ek1hY2hpbmVTdGF0ZQo4OTQzMjI1IGh3L2FybS9zcGl0ejog
+Q3JlYXRlIFNwaXR6TWFjaGluZUNsYXNzIGFic3RyYWN0IGJhc2UgY2xhc3MKMmQ1ZWFmZSBody9h
+cm0vc3BpdHo6IERldGFiaWZ5CjFmOGRmZGIgaHcvZGlzcGxheS9iY20yODM1X2ZiLmM6IEluaXRp
+YWxpemUgYWxsIGZpZWxkcyBvZiBzdHJ1Y3QKMjBlZTU2YSB0YXJnZXQvYXJtOiBGaXggdGVtcCBk
+b3VibGUtZnJlZSBpbiBzdmUgbGRyL3N0cgo3MDVjZTczIHRlc3RzL2FjcGk6IHZpcnQ6IHVwZGF0
+ZSBnb2xkZW4gbWFzdGVycyBmb3IgRFNEVApjM2I1YWY3IGh3L2FybS92aXJ0LWFjcGktYnVpbGQ6
+IE9ubHkgZXhwb3NlIGZsYXNoIG9uIG9sZGVyIG1hY2hpbmUgdHlwZXMKZTI2Y2IzNyB0ZXN0cy9h
+Y3BpOiB2aXJ0OiBhbGxvdyBEU0RUIGFjcGkgdGFibGUgY2hhbmdlcwpjODI0NTIzIHRlc3RzL2Fj
+cGk6IHJlbW92ZSBzdGFsZSBhbGxvd2VkIHRhYmxlcwo0YmNkOGJlIHRhcmdldC9hcm06IGt2bTog
+SGFuZGxlIG1pc2NvbmZpZ3VyZWQgZGFidCBpbmplY3Rpb24KNGRiYTA3OSB0YXJnZXQvYXJtOiBr
+dm06IEhhbmRsZSBEQUJUIHdpdGggbm8gdmFsaWQgSVNTCjcxZjcwNTUgaHcvYXJtL3ZpcnQ6IExl
+dCB0aGUgdmlydGlvLWlvbW11IGJ5cGFzcyBNU0lzCmI2OTJmNGIgdmlydGlvLWlvbW11LXBjaTog
+QWRkIGFycmF5IG9mIEludGVydmFsIHByb3BlcnRpZXMKYmY1YzJiMCB2aXJ0aW8taW9tbXU6IEhh
+bmRsZSByZXNlcnZlZCByZWdpb25zIGluIHRoZSB0cmFuc2xhdGlvbiBwcm9jZXNzCmRhOTZmMzUg
+dmlydGlvLWlvbW11OiBJbXBsZW1lbnQgUkVTVl9NRU0gcHJvYmUgcmVxdWVzdApiNTE4MjUyIHFk
+ZXY6IEludHJvZHVjZSBERUZJTkVfUFJPUF9SRVNFUlZFRF9SRUdJT04KODhhYzhhMSBTZWxlY3Qg
+TURJTyBkZXZpY2UgMiBhbmQgMSBhcyBQSFkgZGV2aWNlcyBmb3IgaS5NWDZVTCBFVksgYm9hcmQu
+CmFiMjVkZTkgQWRkIHRoZSBhYmlsaXR5IHRvIHNlbGVjdCBhIGRpZmZlcmVudCBQSFkgZm9yIGVh
+Y2ggaS5NWDZVTCBGRUMgaW50ZXJmYWNlCjBlNzAwY2MgQWRkIGEgcGh5LW51bSBwcm9wZXJ0eSB0
+byB0aGUgaS5NWCBGRUMgZW11bGF0b3IKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMzQgQ2hlY2tp
+bmcgY29tbWl0IDBlNzAwY2MyZjkwZCAoQWRkIGEgcGh5LW51bSBwcm9wZXJ0eSB0byB0aGUgaS5N
+WCBGRUMgZW11bGF0b3IpCjIvMzQgQ2hlY2tpbmcgY29tbWl0IGFiMjVkZTliMTE5NCAoQWRkIHRo
+ZSBhYmlsaXR5IHRvIHNlbGVjdCBhIGRpZmZlcmVudCBQSFkgZm9yIGVhY2ggaS5NWDZVTCBGRUMg
+aW50ZXJmYWNlKQozLzM0IENoZWNraW5nIGNvbW1pdCA4OGFjOGExZTZjNTUgKFNlbGVjdCBNRElP
+IGRldmljZSAyIGFuZCAxIGFzIFBIWSBkZXZpY2VzIGZvciBpLk1YNlVMIEVWSyBib2FyZC4pCjQv
+MzQgQ2hlY2tpbmcgY29tbWl0IGI1MTgyNTJmNGI2YSAocWRldjogSW50cm9kdWNlIERFRklORV9Q
+Uk9QX1JFU0VSVkVEX1JFR0lPTikKNS8zNCBDaGVja2luZyBjb21taXQgZGE5NmYzNTI3MWEzICh2
+aXJ0aW8taW9tbXU6IEltcGxlbWVudCBSRVNWX01FTSBwcm9iZSByZXF1ZXN0KQo2LzM0IENoZWNr
+aW5nIGNvbW1pdCBiZjVjMmIwYjFhZTIgKHZpcnRpby1pb21tdTogSGFuZGxlIHJlc2VydmVkIHJl
+Z2lvbnMgaW4gdGhlIHRyYW5zbGF0aW9uIHByb2Nlc3MpCjcvMzQgQ2hlY2tpbmcgY29tbWl0IGI2
+OTJmNGIwZTAwNSAodmlydGlvLWlvbW11LXBjaTogQWRkIGFycmF5IG9mIEludGVydmFsIHByb3Bl
+cnRpZXMpCjgvMzQgQ2hlY2tpbmcgY29tbWl0IDcxZjcwNTVjMzJlMSAoaHcvYXJtL3ZpcnQ6IExl
+dCB0aGUgdmlydGlvLWlvbW11IGJ5cGFzcyBNU0lzKQo5LzM0IENoZWNraW5nIGNvbW1pdCA0ZGJh
+MDc5ZjFlMzggKHRhcmdldC9hcm06IGt2bTogSGFuZGxlIERBQlQgd2l0aCBubyB2YWxpZCBJU1Mp
+CjEwLzM0IENoZWNraW5nIGNvbW1pdCA0YmNkOGJlZjJlZjUgKHRhcmdldC9hcm06IGt2bTogSGFu
+ZGxlIG1pc2NvbmZpZ3VyZWQgZGFidCBpbmplY3Rpb24pCjExLzM0IENoZWNraW5nIGNvbW1pdCBj
+ODI0NTIzZTFiMWYgKHRlc3RzL2FjcGk6IHJlbW92ZSBzdGFsZSBhbGxvd2VkIHRhYmxlcykKMTIv
+MzQgQ2hlY2tpbmcgY29tbWl0IGUyNmNiMzczN2I4ZSAodGVzdHMvYWNwaTogdmlydDogYWxsb3cg
+RFNEVCBhY3BpIHRhYmxlIGNoYW5nZXMpCjEzLzM0IENoZWNraW5nIGNvbW1pdCBjM2I1YWY3ODFj
+MTYgKGh3L2FybS92aXJ0LWFjcGktYnVpbGQ6IE9ubHkgZXhwb3NlIGZsYXNoIG9uIG9sZGVyIG1h
+Y2hpbmUgdHlwZXMpCjE0LzM0IENoZWNraW5nIGNvbW1pdCA3MDVjZTczMjhjODYgKHRlc3RzL2Fj
+cGk6IHZpcnQ6IHVwZGF0ZSBnb2xkZW4gbWFzdGVycyBmb3IgRFNEVCkKMTUvMzQgQ2hlY2tpbmcg
+Y29tbWl0IDIwZWU1NmE5N2NlZiAodGFyZ2V0L2FybTogRml4IHRlbXAgZG91YmxlLWZyZWUgaW4g
+c3ZlIGxkci9zdHIpCjE2LzM0IENoZWNraW5nIGNvbW1pdCAxZjhkZmRiZTBlMmYgKGh3L2Rpc3Bs
+YXkvYmNtMjgzNV9mYi5jOiBJbml0aWFsaXplIGFsbCBmaWVsZHMgb2Ygc3RydWN0KQoxNy8zNCBD
+aGVja2luZyBjb21taXQgMmQ1ZWFmZWUzZGZiIChody9hcm0vc3BpdHo6IERldGFiaWZ5KQpFUlJP
+Ujogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCAnKysnIChjdHg6V3hCKQojMTEzOiBGSUxF
+OiBody9hcm0vc3BpdHouYzozMDM6CisjZGVmaW5lIFFVRVVFX0tFWShjKSAgICBzLT5maWZvWyhz
+LT5maWZvcG9zICsgcy0+Zmlmb2xlbiArKykgJiAweGZdID0gYwogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IE1hY3JvcyB3
+aXRoIGNvbXBsZXggdmFsdWVzIHNob3VsZCBiZSBlbmNsb3NlZCBpbiBwYXJlbnRoZXNpcwojMTEz
+OiBGSUxFOiBody9hcm0vc3BpdHouYzozMDM6CisjZGVmaW5lIFFVRVVFX0tFWShjKSAgICBzLT5m
+aWZvWyhzLT5maWZvcG9zICsgcy0+Zmlmb2xlbiArKykgJiAweGZdID0gYwoKdG90YWw6IDIgZXJy
+b3JzLCAwIHdhcm5pbmdzLCAyNTkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMzQgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCjE4LzM0IENoZWNraW5nIGNvbW1pdCA4OTQzMjI1MDU2MGYgKGh3
+L2FybS9zcGl0ejogQ3JlYXRlIFNwaXR6TWFjaGluZUNsYXNzIGFic3RyYWN0IGJhc2UgY2xhc3Mp
+CjE5LzM0IENoZWNraW5nIGNvbW1pdCA5OTcwNzg2ZDk3ZTEgKGh3L2FybS9zcGl0ejogS2VlcCBw
+b2ludGVycyB0byBNUFUgYW5kIFNTSSBkZXZpY2VzIGluIFNwaXR6TWFjaGluZVN0YXRlKQoyMC8z
+NCBDaGVja2luZyBjb21taXQgZDc2OTU3NmM5MzAyIChody9hcm0vc3BpdHo6IEtlZXAgcG9pbnRl
+cnMgdG8gc2NwMCwgc2NwMSBpbiBTcGl0ek1hY2hpbmVTdGF0ZSkKMjEvMzQgQ2hlY2tpbmcgY29t
+bWl0IDQ5MDJiY2U1NzY0MyAoaHcvYXJtL3NwaXR6OiBJbXBsZW1lbnQgaW5ib3VuZCBHUElPIGxp
+bmVzIGZvciBiaXQ1IGFuZCBwb3dlciBzaWduYWxzKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojOTY6IEZJTEU6IGh3L2FybS9zcGl0ei5jOjg1OToKKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHFkZXZfZ2V0X2dwaW9faW5fbmFtZWQoc21zLT5sY2R0ZywgImJsX3Bvd2Vy
+IiwgMCkpOwoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2OCBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCAyMS8zNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMi8zNCBDaGVja2luZyBjb21t
+aXQgNTdlNTY0YmNhNDFiIChody9taXNjL21heDExMXg6IHByb3ZpZGUgUU9NIHByb3BlcnRpZXMg
+Zm9yIHNldHRpbmcgaW5pdGlhbCB2YWx1ZXMpCjIzLzM0IENoZWNraW5nIGNvbW1pdCA3MDE3NDQ0
+NzBjYjEgKGh3L21pc2MvbWF4MTExeDogRG9uJ3QgdXNlIHZtc3RhdGVfcmVnaXN0ZXIoKSkKMjQv
+MzQgQ2hlY2tpbmcgY29tbWl0IDIwODQ0NWJkMzJjOSAoc3NpOiBBZGQgc3NpX3JlYWxpemVfYW5k
+X3VucmVmKCkpCjI1LzM0IENoZWNraW5nIGNvbW1pdCA5ZGRlZjE2NWE0ZWIgKGh3L2FybS9zcGl0
+ejogVXNlIG1heDExMXggcHJvcGVydGllcyB0byBzZXQgaW5pdGlhbCB2YWx1ZXMpCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzMTog
+RklMRTogaHcvYXJtL3NwaXR6LmM6NzM2OgorICAgIHFkZXZfcHJvcF9zZXRfdWludDgoc21zLT5t
+YXgxMTExLCAiaW5wdXQxIiAvKiBCQVRUX1ZPTFQgKi8sCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzM6IEZJTEU6IGh3L2FybS9z
+cGl0ei5jOjczODoKKyAgICBxZGV2X3Byb3Bfc2V0X3VpbnQ4KHNtcy0+bWF4MTExMSwgImlucHV0
+MiIgLyogQkFUVF9URU1QICovLCAwKTsKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMzNDogRklMRTogaHcvYXJtL3NwaXR6LmM6NzM5
+OgorICAgIHFkZXZfcHJvcF9zZXRfdWludDgoc21zLT5tYXgxMTExLCAiaW5wdXQzIiAvKiBBQ0lO
+X1ZPTFQgKi8sCgp0b3RhbDogMCBlcnJvcnMsIDMgd2FybmluZ3MsIDE4IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDI1LzM0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI2LzM0IENoZWNraW5nIGNv
+bW1pdCAxYjIwMDgzZjcyMDcgKGh3L21pc2MvbWF4MTExeDogVXNlIEdQSU8gbGluZXMgcmF0aGVy
+IHRoYW4gbWF4MTExeF9zZXRfaW5wdXQoKSkKMjcvMzQgQ2hlY2tpbmcgY29tbWl0IDJkMjk4MDEz
+NTZlOSAoaHcvbWlzYy9tYXgxMTF4OiBDcmVhdGUgaGVhZGVyIGZpbGUgZm9yIGRvY3VtZW50YXRp
+b24sIFRZUEVfIG1hY3JvcykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
+KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojOTY6IApuZXcgZmlsZSBtb2RlIDEw
+MDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMTMgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMjcvMzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMjgvMzQgQ2hlY2tpbmcgY29tbWl0
+IGE3ZjBjZTg1YWM0OCAoaHcvYXJtL3NwaXR6OiBFbmNhcHN1bGF0ZSBtaXNjIEdQSU8gaGFuZGxp
+bmcgaW4gYSBkZXZpY2UpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxODY6IEZJ
+TEU6IGh3L2FybS9zcGl0ei5jOjg5MzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+cWRldl9nZXRfZ3Bpb19pbihzbXMtPm1heDExMTEsIE1BWDExMTFfQkFUVF9URU1QKSk7Cgp0b3Rh
+bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE4NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyOC8zNCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyOS8zNCBDaGVja2luZyBjb21taXQgYmRjOGIzZjY3
+YTdjIChody9ncGlvL3phdXJ1cy5jOiBVc2UgTE9HX0dVRVNUX0VSUk9SIGZvciBiYWQgZ3Vlc3Qg
+cmVnaXN0ZXIgYWNjZXNzZXMpCjMwLzM0IENoZWNraW5nIGNvbW1pdCA4Y2ExZmY5Y2NmNWIgKGh3
+L2FybS9zcGl0ejogVXNlIExPR19HVUVTVF9FUlJPUiBmb3IgYmFkIGd1ZXN0IHJlZ2lzdGVyIGFj
+Y2Vzc2VzKQozMS8zNCBDaGVja2luZyBjb21taXQgZDU3OGY3YTc3OTNiIChody9hcm0vcHhhMnh4
+X3BpYzogVXNlIExPR19HVUVTVF9FUlJPUiBmb3IgYmFkIGd1ZXN0IHJlZ2lzdGVyIGFjY2Vzc2Vz
+KQozMi8zNCBDaGVja2luZyBjb21taXQgOTJhNWY5Mjk2OTZmIChody9hcm0vc3BpdHo6IFByb3Zp
+ZGUgdXN1YWwgUU9NIG1hY3JvcyBmb3IgY29yZ2ktc3NwIGFuZCBzcGl0ei1sY2R0ZykKMzMvMzQg
+Q2hlY2tpbmcgY29tbWl0IDFlMmU3NzhlYTBiYiAoUmVwbGFjZSB1c2VzIG9mIEZST01fU1NJX1NM
+QVZFKCkgbWFjcm8gd2l0aCBRT00gY2FzdHMpCjM0LzM0IENoZWNraW5nIGNvbW1pdCBkNjM4NTgw
+YjZhYzMgKERlcHJlY2F0ZSBUaWxlR1ggcG9ydCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNv
+bW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
+aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MDMxNjU0MDUuMTc2NzItMS1wZXRlci5tYXlk
+ZWxsQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
