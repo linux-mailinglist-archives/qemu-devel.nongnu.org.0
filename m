@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06362138B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:38:13 +0200 (CEST)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590C42138B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 12:41:00 +0200 (CEST)
+Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrJ59-0001Ut-WE
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:38:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
+	id 1jrJ7r-0004IB-EK
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 06:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jrJ4F-0000Ra-Ua
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:37:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jrJ6u-0003Rz-CF
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:40:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36764
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jrJ4C-00054k-Ve
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:37:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jrJ6s-0005Jn-Dm
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 06:40:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593772631;
+ s=mimecast20190719; t=1593772797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WLy6J0rR87x/UaIr12oNWogdPYYi4gz/HBto258uaTI=;
- b=EDHPYJcscn68sMic+c2jGjP5NQ+mlqjBokpyjxCwQAklyK8slogkh1Vz78oiWVULLx47nR
- /5Dgdnf7qTxR5kwlEE9xT6Z52oviC2PTFNx6V6jyLYpXpePV9x+TMcqXY4zhjAz25N1jKm
- n0b3UchUQOdX8SR9Rhv0QK4mGHxrjDI=
+ bh=40ZPFA07EbyFWzh+hlWWEZrgFMyYGKruSuZz8RDC9Jg=;
+ b=i4nzz3mP5JLxKkCp2nBBmt70o7hZ7pdRruIKqP2XBMevCXqtUE0yB0A9lm1V+ORpLTR32r
+ ktx/6X7eOC0NLhjv4tXM3X8j3EJpsZbRVhPyr0Zs5mzDvPdHlUqCBBFYpeQf4nA6x7b/3x
+ /rMn+Mz9aU1hiabz00N8SsjTwkHVGcc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-ROnTtFQCNKWBtcb1xZTNUQ-1; Fri, 03 Jul 2020 06:37:10 -0400
-X-MC-Unique: ROnTtFQCNKWBtcb1xZTNUQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-245-zggKlGpqOB-CNzZ8efc_kA-1; Fri, 03 Jul 2020 06:39:55 -0400
+X-MC-Unique: zggKlGpqOB-CNzZ8efc_kA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E933287950E;
- Fri,  3 Jul 2020 10:37:08 +0000 (UTC)
-Received: from titinator (ovpn-113-254.ams2.redhat.com [10.36.113.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31A306FEF4;
- Fri,  3 Jul 2020 10:37:04 +0000 (UTC)
-References: <20200626162706.3304357-1-dinechin@redhat.com>
- <20200630125916.GG91444@stefanha-x1.localdomain>
-User-agent: mu4e 1.5.2; emacs 26.3
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 0/3] trace: Add a trace backend for the recorder library
-In-reply-to: <20200630125916.GG91444@stefanha-x1.localdomain>
-Date: Fri, 03 Jul 2020 12:37:02 +0200
-Message-ID: <lysge8c2b5.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7CCF107ACCA;
+ Fri,  3 Jul 2020 10:39:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-62.ams2.redhat.com
+ [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92E0C19D7B;
+ Fri,  3 Jul 2020 10:39:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7894416E16; Fri,  3 Jul 2020 12:39:49 +0200 (CEST)
+Date: Fri, 3 Jul 2020 12:39:49 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/10] Modules 20200702 patches
+Message-ID: <20200703103949.7vz3dmy4br55rh4b@sirius.home.kraxel.org>
+References: <20200702122048.27798-1-kraxel@redhat.com>
+ <CAFEAcA9PVnKo8S7=bSggS2FpS5YoBexZD7nM54XFHto333_OhQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAFEAcA9PVnKo8S7=bSggS2FpS5YoBexZD7nM54XFHto333_OhQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:38:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 02:53:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -68,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 03, 2020 at 09:54:13AM +0100, Peter Maydell wrote:
+> On Thu, 2 Jul 2020 at 13:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+> >
+> >   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kraxel.org/qemu tags/modules-20200702-pull-request
+> >
+> > for you to fetch changes up to 474a5d66036d18ee5ccaa88364660d05bf32127b:
+> >
+> >   chardev: enable modules, use for braille (2020-07-01 21:08:11 +0200)
+> >
+> > ----------------------------------------------------------------
+> > qom: add support for qom objects in modules.
+> > build some devices (qxl, virtio-gpu, ccid, usb-redir) as modules.
+> > build braille chardev as module.
+> >
+> > note: qemu doesn't rebuild objects on cflags changes (specifically
+> >       -fPIC being added when code is switched from builtin to module).
+> >       Workaround for resulting build errors: "make clean", rebuild.
+> >
+> > ----------------------------------------------------------------
+> >
+> > Gerd Hoffmann (10):
+> >   module: qom module support
+> >   object: qom module support
+> >   qdev: device module support
+> >   build: fix device module builds
+> >   ccid: build smartcard as module
+> >   usb: build usb-redir as module
+> >   vga: build qxl as module
+> >   vga: build virtio-gpu only once
+> >   vga: build virtio-gpu as module
+> >   chardev: enable modules, use for braille
+> 
+> No code review at all? :-(
 
-On 2020-06-30 at 14:59 CEST, Stefan Hajnoczi wrote...
-> On Fri, Jun 26, 2020 at 06:27:03PM +0200, Christophe de Dinechin wrote:
->> The recorder library implements low-cost always-on tracing, with three
->> usage models:
->>
->> 1. Flight recorder: Dump information on recent events in case of crash
->> 2. Tracing: Individual traces can be enabled using environment variables
->> 3. Real-time graphing / control, using the recorder_scope application
->>
->> This short series introduces a new "recorder" back-end which connects
->> to the recorder. Traces using the recorder are intentionally "always on".
->> An example is given of how the recorder can also be used separately
->> from generated traces. This can be useful if you want to enable
->> multiple related traces for a particular topic.
->>
->> This series requires a small makefile fix submitted earlier, included
->> here for convenience.
->>
->> Christophe de Dinechin (3):
->>   Makefile: Compute libraries for libqemuutil.a and libvhost-user.a
->>   trace: Add support for recorder back-end
->>   trace: Example of "centralized" recorder tracing
->
-> Please add a build to .travis.yml that enables recorder. That way we'll
-> catch build failures.
+Well, there have been 5 revisions on the list, partly due to bugs being
+fixed, partly with changes as response to review comments.  So it got
+some review (not much though) even though the v5 series (posted on June
+22th, so there was more than a week time) didn't got any acks so far.
 
-There is no recorder package in Xenial.
+> In particular the "build: fix device module
+> builds" commit (as you note in your commit message) does not look at
+> all right.
 
->
-> Thanks,
-> Stefan
+I think this stop-gap will do fine as long as we don't have any
+target-specific modules.
 
-
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+take care,
+  Gerd
 
 
