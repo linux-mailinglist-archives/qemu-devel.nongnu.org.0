@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488EA214053
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:26:15 +0200 (CEST)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E322E21404A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 22:22:41 +0200 (CEST)
+Received: from localhost ([::1]:54244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrSGE-0003ui-AB
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
+	id 1jrSCm-0005le-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 16:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9g-0008Au-IW; Fri, 03 Jul 2020 16:19:28 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55106)
+ id 1jrS9i-0008F3-3T; Fri, 03 Jul 2020 16:19:30 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrS9f-0001Vd-4I; Fri, 03 Jul 2020 16:19:28 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o8so33101691wmh.4;
- Fri, 03 Jul 2020 13:19:26 -0700 (PDT)
+ id 1jrS9g-0001Vr-KU; Fri, 03 Jul 2020 16:19:29 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g10so11555568wmc.1;
+ Fri, 03 Jul 2020 13:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=my+2I7oEcIoGWnbLn8sq/+Zy6t716yBT3j4+w3PES+4=;
- b=jMsdntsCkNXisGBb8CWMLEwcMT5w5vt3Sf5OaNZ9pzAtgCTTUxi5pfTcmNNtU+aeYs
- wEr4QCmswYd+71G3yezbvj1mMfMVZtHHeGtkyC7UuxeJ+LKj/cLVHMXAN+003sXUtWBh
- dimsIGOni4BsEQsiwyDzR8GGjEo8g261ygPJxPmfelMqA2wJiLXJ+F+IYolgMxNeL0s8
- h2savXhtsNvan343BBx6k+lcOig6zXVV+7g4WTtLu/ukI0NgwbTRzYkod3gpbONdd15q
- CvKcbi3VOuRytEWpLnBhrTu+RR5WFS8hZDz2nwrs8bce3NicYV7C7OHlhYuxEPjQVe+u
- 1bQA==
+ bh=5zz83s2aXXms/dZv8O4WT0VV9oFnKrxqm4zzQa37/7Q=;
+ b=ldiTWbkdIwLYF3/DPDYXuf8mdH+9ddp6gI13TA9WuTbp0Wz4tqBi/J9Ba7Yrsd/FMx
+ Q6B3uWhQEzhyEB6XBDiyupi1GwCfLZVnEFjR6D6+X2e5whIAJTzipK0bSw7sk71/RiWW
+ nNMxEgAdFfhTdxHI5pebLbMhqWGSNTGOHSxgn1sAxqUzmu67mgn5awBaFbh4+CWK9AT5
+ qQpSDu0nWqjW8ikXe0n/rPyGLT+et/XaMuPTcjOdMMM+B338RXSCpu+HRxfKnj7PlfUD
+ w3GNmY4SOp0woMJyqHvQfX2qHkEIRTMx6oxvDkJBOKseCzCo31K/PfRmTFenn+lQBHbP
+ FCvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=my+2I7oEcIoGWnbLn8sq/+Zy6t716yBT3j4+w3PES+4=;
- b=Rjg0Zo1APAbGgM9xgSTeSD0x8LuPXVqY0osVlRozTJn1FceAb3w5RFowJpmzQmSBMl
- rySILM2A/3emOI2cSlGtAy5CsrmMD7eHu8OURZiCn/nIZPn1WsPgxPgvjkCwDVsd6bwp
- eYNLUoNLlsg3vYu3RIMpFxUBSalRoOtn1akUaMJOJYLGgTV8+CDEE7pefo2COrkNFV5F
- kVcyQD/68j6sUqrBK0SBli2+Rek3kSyHfYrbfbq7ylZtf4VMjWZzLuzd9+M5ylYRvGMe
- RF3O5VKfAbP+GVHDYsLZsocL2ENsqSppGraqax6I5JuZLB4o+9jS3BHETN1mudAQdOzm
- 1MbQ==
-X-Gm-Message-State: AOAM5309oHwLAMQAdJ9CsufvzuvsiJV1TTLjToDb51sM0YI0Axf9JAKT
- 2aff12JttUQkxBnEh+6nRsqIw4Xrfp8=
-X-Google-Smtp-Source: ABdhPJxmeyPqHpEMctz7hcbDpSQ57jL1oBVn5E+qjNvJuB1N1xdseIfddj8uVI/c3QjqZcUu8RekZA==
-X-Received: by 2002:a1c:7209:: with SMTP id n9mr10149730wmc.150.1593807565301; 
- Fri, 03 Jul 2020 13:19:25 -0700 (PDT)
+ bh=5zz83s2aXXms/dZv8O4WT0VV9oFnKrxqm4zzQa37/7Q=;
+ b=E05uuifwNb4ev/WN4r2/Fs0PPiFjy8DQopPhc0DI9sY1/qs0Ce+wdkYD81pU1CaZhn
+ Pjh768vpq8kniF1cFyYti4fpIZRnVTpcpuOKiVnqHBOaHZC7EU5Xa8gF/yvM/tnCIx4o
+ zI76dfTuxwMqtVvGQ76Ko92zBpkRTz6mNc9Dc8fseK7WcoPr26zObxaliA5hJ56wriFz
+ b8wg1F8iM8VFgb+Xz5bQMwu+KOKuXOghnyqQEWJH7x5AQYfQu8wU0/pYS/UkSrYBKyeY
+ RCziNWu4c5VIw+UGSLn+xAbsguoEH24G+WeAxxAiNVbd43cHjlccOsk0typcAEbC036e
+ hq6w==
+X-Gm-Message-State: AOAM531wf+ZEByXfRo2aDoXE71akdmq0XrYKlUqrt5760OkRYfj4oOZu
+ 3iOIXLkZZVOQ3GQqe27izIJdddmywY4=
+X-Google-Smtp-Source: ABdhPJwle8wm1WDLa2CYtkDoT4ukCNEWe6/zVb2J5uM9dMvViSCaSD0jgR9OOhzBfMZmLGovKMU/2w==
+X-Received: by 2002:a1c:6354:: with SMTP id x81mr36687795wmb.98.1593807566780; 
+ Fri, 03 Jul 2020 13:19:26 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.23
+ by smtp.gmail.com with ESMTPSA id u65sm14229625wmg.5.2020.07.03.13.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 13:19:24 -0700 (PDT)
+ Fri, 03 Jul 2020 13:19:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 08/18] hw/core/split-irq: Mark the device with no migratable
+Subject: [PATCH 09/18] hw/cpu/a9mpcore: Mark the device with no migratable
  fields
-Date: Fri,  3 Jul 2020 22:19:01 +0200
-Message-Id: <20200703201911.26573-9-f4bug@amsat.org>
+Date: Fri,  3 Jul 2020 22:19:02 +0200
+Message-Id: <20200703201911.26573-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200703201911.26573-1-f4bug@amsat.org>
 References: <20200703201911.26573-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -106,23 +106,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 This device doesn't have fields to migrate. Be explicit
 by using vmstate_qdev_no_state_to_migrate.
 
+Add a more descriptive comment to keep a clear separation
+between static property vs runtime changeable.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/split-irq.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/cpu/a9mpcore.h | 3 ++-
+ hw/cpu/a9mpcore.c         | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/split-irq.c b/hw/core/split-irq.c
-index 3b90af2e8f..a7072f922c 100644
---- a/hw/core/split-irq.c
-+++ b/hw/core/split-irq.c
-@@ -71,6 +71,7 @@ static void split_irq_class_init(ObjectClass *klass, void *data)
-     /* No state to reset or migrate */
-     device_class_set_props(dc, split_irq_properties);
-     dc->realize = split_irq_realize;
-+    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+diff --git a/include/hw/cpu/a9mpcore.h b/include/hw/cpu/a9mpcore.h
+index 5d67ca22c4..212f5db391 100644
+--- a/include/hw/cpu/a9mpcore.h
++++ b/include/hw/cpu/a9mpcore.h
+@@ -25,10 +25,11 @@ typedef struct A9MPPrivState {
+     SysBusDevice parent_obj;
+     /*< public >*/
  
-     /* Reason: Needs to be wired up to work */
-     dc->user_creatable = false;
++    /* Properties */
+     uint32_t num_cpu;
+-    MemoryRegion container;
+     uint32_t num_irq;
+ 
++    MemoryRegion container;
+     A9SCUState scu;
+     GICState gic;
+     A9GTimerState gtimer;
+diff --git a/hw/cpu/a9mpcore.c b/hw/cpu/a9mpcore.c
+index 642363d2f4..5012c7a81a 100644
+--- a/hw/cpu/a9mpcore.c
++++ b/hw/cpu/a9mpcore.c
+@@ -176,6 +176,7 @@ static void a9mp_priv_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->realize = a9mp_priv_realize;
++    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+     device_class_set_props(dc, a9mp_priv_properties);
+ }
+ 
 -- 
 2.21.3
 
