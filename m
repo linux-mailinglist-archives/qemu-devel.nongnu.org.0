@@ -2,95 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EA7213D84
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:24:15 +0200 (CEST)
-Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB9D213D88
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:26:40 +0200 (CEST)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrOU1-00061d-TV
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
+	id 1jrOWN-0001Ic-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jrOGx-0008DO-4H
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:43 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22315
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jrOGv-0002GZ-AI
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:10:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593792640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iEErfAAUmSWz7XxBKfMjIbETjeIrgJHwvgsvYUQtikY=;
- b=gcpyqPcTDKC53fDM5e0ssYMriPlcvtU9MDqGBWjKDanyrcVMgIR9lvE+QeCfQ03vkAuqFC
- PDNaQBA3K+mIqxl71nYLfGihdsehhGm2hu4kUL/RgDLO0yK4aikER/70kehNh4et3M2Z/z
- jUW/t2ghNLIKtl0zGpvWWVOJmcSYwyk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-s7FVdhplOguMxRezv524rA-1; Fri, 03 Jul 2020 12:10:39 -0400
-X-MC-Unique: s7FVdhplOguMxRezv524rA-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so26768216wrw.3
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 09:10:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iEErfAAUmSWz7XxBKfMjIbETjeIrgJHwvgsvYUQtikY=;
- b=Fg6THf7hRIl5JYrma2X1+voXsSeecrnk4AvtgBj7/xxHXvFIX33Cx/G4knSf8RPCfY
- JLllyp8ex+5sLKU4/XtfL34L0OPKbfUiTlcE/JqsfLRFKab+acAn8qSTHBFOa7F0xJC5
- vrm+V129bC5NUZtuL35wWZnEOVLtDbEa5obc35681AVvV4IZZpYcwQSeNpdl5kSTz8Nm
- Ja+u6ZTmXZpo7dL06sGL3sPOd84MFQYabptAXliG0ro3Czy5R6S1u4pwUJnzTovh9PQT
- Hbo5MRgG/PDUd8s28KbjJe/rcERx97sdLeFV5Afo2w0BnINUAUedGycUOZuihK9HAxbL
- Ukag==
-X-Gm-Message-State: AOAM533FU8ozy45P3HDlR8u6WZOO5WIOBGGJ+8dCIge0lPOYHlpBK5w1
- BjxXjD7Lurx8a/sy1VdQT+M6tqUScLCsvHIgNeTzzgSN9dUKCHtHrF1mLVoRT0b77sSxnts3yDI
- bJwm4KZDUuYs1oc4=
-X-Received: by 2002:adf:afc3:: with SMTP id y3mr39681190wrd.277.1593792637814; 
- Fri, 03 Jul 2020 09:10:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAsHS28gtPjF7hu4kzjD3hdCBuvWM2/67JaTaA2T591inLvcv28B39mbGeRwVNu/VRE3ik6A==
-X-Received: by 2002:adf:afc3:: with SMTP id y3mr39681177wrd.277.1593792637637; 
- Fri, 03 Jul 2020 09:10:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5cf9:fc14:deb7:51fc?
- ([2001:b07:6468:f312:5cf9:fc14:deb7:51fc])
- by smtp.gmail.com with ESMTPSA id h23sm10070wmb.3.2020.07.03.09.10.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jul 2020 09:10:37 -0700 (PDT)
-Subject: Re: [PATCH 2/2] target-i386: sev: fail query-sev-capabilities if QEMU
- cannot use SEV
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200630154521.552874-1-pbonzini@redhat.com>
- <20200630154521.552874-3-pbonzini@redhat.com> <20200703160841.GA6680@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d009abf4-6a78-bef2-5789-e51b7ec815e2@redhat.com>
-Date: Fri, 3 Jul 2020 18:10:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200703160841.GA6680@work-vm>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jrOHu-0001O7-Rd; Fri, 03 Jul 2020 12:11:44 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48382 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1jrOHq-0002cs-TK; Fri, 03 Jul 2020 12:11:42 -0400
+Received: from [192.168.15.23] (helo=iris.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <den@openvz.org>)
+ id 1jrOHf-0005Rg-67; Fri, 03 Jul 2020 19:11:27 +0300
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v6 0/7] block: seriously improve savevm/loadvm performance
+Date: Fri,  3 Jul 2020 19:11:23 +0300
+Message-Id: <20200703161130.23772-1-den@openvz.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=den@openvz.org;
+ helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 12:11:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,23 +49,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/07/20 18:08, Dr. David Alan Gilbert wrote:
->> +        error_setg(errp, "KVM not enabled\n");
->> +        return NULL;
->> +    }
->> +    if (kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_OP, NULL) < 0) {
->> +        error_setg(errp, "SEV is not enabled\n");
-> Can you make that 'SEV is not enabled in KVM' so it's obvious
-> that it's the KVM side and not the qemu side (like you've
-> done in the previous patch).
+This series do standard basic things:
+- it creates intermediate buffer for all writes from QEMU migration code
+  to QCOW2 image,
+- this buffer is sent to disk asynchronously, allowing several writes to
+  run in parallel.
 
+In general, migration code is fantastically inefficent (by observation),
+buffers are not aligned and sent with arbitrary pieces, a lot of time
+less than 100 bytes at a chunk, which results in read-modify-write
+operations with non-cached operations. It should also be noted that all
+operations are performed into unallocated image blocks, which also suffer
+due to partial writes to such new clusters.
 
-Sure.
+This patch series is an implementation of idea discussed in the RFC
+posted by Denis Plotnikov
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg01925.html
+Results with this series over NVME are better than original code
+                original     rfc    this
+cached:          1.79s      2.38s   1.27s
+non-cached:      3.29s      1.31s   0.81s
 
-Paolo
+Changes from v5:
+- loadvm optimizations added with Vladimir comments included
+
+Changes from v4:
+- added patch 4 with blk_save_vmstate() cleanup
+- added R-By
+- bdrv_flush_vmstate -> bdrv_finalize_vmstate
+- fixed return code of bdrv_co_do_save_vmstate
+- fixed typos in comments (Eric, thanks!)
+- fixed patchew warnings
+
+Changes from v3:
+- rebased to master
+- added patch 3 which removes aio_task_pool_wait_one()
+- added R-By to patch 1
+- patch 4 is rewritten via bdrv_run_co
+- error path in blk_save_vmstate() is rewritten to call bdrv_flush_vmstate
+  unconditionally
+- added some comments
+- fixes initialization in bdrv_co_vmstate_save_task_entry as suggested
+
+Changes from v2:
+- code moved from QCOW2 level to generic block level
+- created bdrv_flush_vmstate helper to fix 022, 029 tests
+- added recursive for bs->file in bdrv_co_flush_vmstate (fix 267)
+- fixed blk_save_vmstate helper
+- fixed coroutine wait as Vladimir suggested with waiting fixes from me
+
+Changes from v1:
+- patchew warning fixed
+- fixed validation that only 1 waiter is allowed in patch 1
+
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: Fam Zheng <fam@euphon.net>
+CC: Juan Quintela <quintela@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+CC: Denis Plotnikov <dplotnikov@virtuozzo.com>
+
 
 
