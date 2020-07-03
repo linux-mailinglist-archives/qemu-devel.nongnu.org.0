@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49789213781
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:20:29 +0200 (CEST)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CFD213787
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:22:05 +0200 (CEST)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHrw-0007Gg-9n
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60282)
+	id 1jrHtU-0001eo-4X
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHdB-0001Hi-Bj
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:05:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37042
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHdE-0001OB-42
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:05:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45684
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHd9-0004c0-Ew
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:05:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrHdC-0004cT-5v
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:05:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593767110;
+ s=mimecast20190719; t=1593767113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3ExkqCYE+MZcrtgAoyxaOOvh3MgXkaeP71bTYP6/+H0=;
- b=Dc/YFe3nU1mxe2jAQ9RPN8puu74cicKGc+tBBj6gACHpCE3uGiAAp5Y1kkSPgM7ez3TU3H
- U6Ny8CmpjRSAKO5c5yam6A71GeUslCi8yBCn6DO4zqPQsvc66T9RQIPpMhwo5loG71kGXo
- 4WM6nLY/IxZUvaHzhWzB56JJpeowWu4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-hVzYesiNNJm7LGu0v8JmBg-1; Fri, 03 Jul 2020 05:05:08 -0400
-X-MC-Unique: hVzYesiNNJm7LGu0v8JmBg-1
-Received: by mail-wm1-f71.google.com with SMTP id 65so14771735wmd.8
- for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:05:08 -0700 (PDT)
+ bh=zxsZyEl0Ic2zeqGPCHFNr5fX901vp9gn578GtCCySkg=;
+ b=GzXDLl34WaNEJZhZSqccwFGR06/C0l8Tu1mrYK+hPop97riVRqGbaL0j2bkkqBeCOH3TiE
+ eSEdzIeN/VS0I5roONxHUY2hRcw3BK/GPJFwnbzWZkzOMKGehWllbi3+guPmjAsdX9KcoT
+ R8Lrqr2+DNtVGUYCybiCX7bHOuRvhOM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-q6ZgD4AKPQSjHoxyicTQGA-1; Fri, 03 Jul 2020 05:05:10 -0400
+X-MC-Unique: q6ZgD4AKPQSjHoxyicTQGA-1
+Received: by mail-wm1-f72.google.com with SMTP id v6so32317049wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Jul 2020 02:05:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3ExkqCYE+MZcrtgAoyxaOOvh3MgXkaeP71bTYP6/+H0=;
- b=og+EDe3m9CvqcQbLUg/aqk+rt9iH7SxJATieZAQJyyWCfh3f1V0Gykq/zxdNBVM3M2
- e/HARdbbQvujUX3idc1hXqhxn1RXpFHnWedpgz/YUy8BZhJcRUnlwLRjDcC/injXh3Iq
- WBDpQPlCIqYbWlRFZ4ekSbqpFKi74nRtEcuYqyMTDNQh/k8hbbyZsxq3zLe/vqXQ7kis
- j0a7/UUYDXGevpMdhBc7DVsoDYimSaj4HOy/HlkifpqQOEhS2OlhNdkTEuzZucWlDO7w
- mBKDa/UdGv68WG4jWQkB3E1pHKyUkci9/x42RvRPBt9yYhwbxBTJO8XOdYFE/8Qr+XfD
- CUAg==
-X-Gm-Message-State: AOAM533IOlFOKR3JXcKGLq5DYzVOu8SxnIphgDET6t7iRuWwEUj+LbcA
- 4HfQPqbui5WzOF+jGR+YVUXq4w9aJyMJ4dQivR65wlz69n/Pq568r2FqTHE6N5b5w8T9uDAhoMy
- Q22RmNVCbYwg6CTM=
-X-Received: by 2002:a1c:4143:: with SMTP id o64mr2838340wma.11.1593767107090; 
- Fri, 03 Jul 2020 02:05:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywwa0yMx9DCHIvQEsFAMlyXhDgw0mPGKsNi9muvCkmmtX8fHNf0jIULbV8dMJY5VDtyd2wGA==
-X-Received: by 2002:a1c:4143:: with SMTP id o64mr2838324wma.11.1593767106922; 
- Fri, 03 Jul 2020 02:05:06 -0700 (PDT)
+ bh=zxsZyEl0Ic2zeqGPCHFNr5fX901vp9gn578GtCCySkg=;
+ b=AHgl3qEujd9538jWOdoqpbFZOKtdagzKdt+7+/8thH5s0N4gSNxm5dv0edfoGGnN/g
+ nm3dB0odLomPqjhaUR06nTh+4KUw/miZEsAsaEzAi3wNw4jlmU8spVemZsTJE4xQgQ/x
+ BgBh8cThbcJhhuvtDCciO94zbz7/8uleK1/cR7InErNrhawjlBZ8jifKDDDECvxNlfau
+ Hz8oCDQJk4KDmaTsMDbRXrPRk7DI0Vr55INitj6lKUQ0RUecMomDF7xyI0EnU1Sm57Xg
+ SEM5wIjK0FzzGeLdMCMXMeqrvI49LChtzA6D1z8fSYZ/MzrlNIPfFTdyr4Ku7TWCX2/+
+ EIbg==
+X-Gm-Message-State: AOAM53009/VDTlAOEUWNKued4hL4Ak+DOPiaB0edEv2l6jbVS4h8xPLN
+ 01rSKdkFc5uKOon4vvCHc0quaKyn8rr58xBaH/nUxna1slKbeHLZC2faJwgrhqLOZM2Blr9URkG
+ mQwKYwugE6J0lr9U=
+X-Received: by 2002:a5d:4992:: with SMTP id r18mr33929657wrq.323.1593767109631; 
+ Fri, 03 Jul 2020 02:05:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtr03rcNACSmb0UpIZQYQnkHGUcx0kffoXsoY7GeQbNs+qvVb11RIKvz60jek8LLTOiIuqsg==
+X-Received: by 2002:a5d:4992:: with SMTP id r18mr33929646wrq.323.1593767109478; 
+ Fri, 03 Jul 2020 02:05:09 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- d10sm13689266wrx.66.2020.07.03.02.05.05
+ w13sm13166619wrr.67.2020.07.03.02.05.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 02:05:06 -0700 (PDT)
-Date: Fri, 3 Jul 2020 05:05:04 -0400
+ Fri, 03 Jul 2020 02:05:08 -0700 (PDT)
+Date: Fri, 3 Jul 2020 05:05:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/41] vhost: implement vhost_vq_get_addr method
-Message-ID: <20200703090252.368694-37-mst@redhat.com>
+Subject: [PULL 37/41] vhost: introduce new VhostOps vhost_force_iommu
+Message-ID: <20200703090252.368694-38-mst@redhat.com>
 References: <20200703090252.368694-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200703090252.368694-1-mst@redhat.com>
@@ -103,79 +103,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cindy Lu <lulu@redhat.com>
 
-use vhost_vq_get_addr callback to get the vq address from backend
+This patch introduces new VhostOps vhost_force_iommu callback
+to force enable features bit VIRTIO_F_IOMMU_PLATFORM.
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20200701145538.22333-10-lulu@redhat.com>
+Message-Id: <20200701145538.22333-11-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h |  4 ++++
- hw/virtio/vhost.c                 | 28 +++++++++++++++++++---------
- 2 files changed, 23 insertions(+), 9 deletions(-)
+ include/hw/virtio/vhost-backend.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index fa84abac97..bfc24207e2 100644
+index bfc24207e2..e7cb8d028c 100644
 --- a/include/hw/virtio/vhost-backend.h
 +++ b/include/hw/virtio/vhost-backend.h
-@@ -118,6 +118,9 @@ typedef int (*vhost_dev_start_op)(struct vhost_dev *dev, bool started);
- typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
-                     struct vhost_vring_addr *addr,
-                     struct vhost_virtqueue *vq);
-+
-+typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+@@ -121,6 +121,8 @@ typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
+ 
+ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+ 
++typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
 +
  typedef struct VhostOps {
      VhostBackendType backend_type;
      vhost_backend_init vhost_backend_init;
-@@ -160,6 +163,7 @@ typedef struct VhostOps {
-     vhost_set_inflight_fd_op vhost_set_inflight_fd;
+@@ -164,6 +166,7 @@ typedef struct VhostOps {
      vhost_dev_start_op vhost_dev_start;
      vhost_vq_get_addr_op  vhost_vq_get_addr;
-+    vhost_get_device_id_op vhost_get_device_id;
+     vhost_get_device_id_op vhost_get_device_id;
++    vhost_force_iommu_op vhost_force_iommu;
  } VhostOps;
  
  extern const VhostOps user_ops;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 32809e54b5..1e083a8976 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -773,15 +773,25 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
-                                     struct vhost_virtqueue *vq,
-                                     unsigned idx, bool enable_log)
- {
--    struct vhost_vring_addr addr = {
--        .index = idx,
--        .desc_user_addr = (uint64_t)(unsigned long)vq->desc,
--        .avail_user_addr = (uint64_t)(unsigned long)vq->avail,
--        .used_user_addr = (uint64_t)(unsigned long)vq->used,
--        .log_guest_addr = vq->used_phys,
--        .flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0,
--    };
--    int r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
-+    struct vhost_vring_addr addr;
-+    int r;
-+    memset(&addr, 0, sizeof(struct vhost_vring_addr));
-+
-+    if (dev->vhost_ops->vhost_vq_get_addr) {
-+        r = dev->vhost_ops->vhost_vq_get_addr(dev, &addr, vq);
-+        if (r < 0) {
-+            VHOST_OPS_DEBUG("vhost_vq_get_addr failed");
-+            return -errno;
-+        }
-+    } else {
-+        addr.desc_user_addr = (uint64_t)(unsigned long)vq->desc;
-+        addr.avail_user_addr = (uint64_t)(unsigned long)vq->avail;
-+        addr.used_user_addr = (uint64_t)(unsigned long)vq->used;
-+    }
-+    addr.index = idx;
-+    addr.log_guest_addr = vq->used_phys;
-+    addr.flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0;
-+    r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
-     if (r < 0) {
-         VHOST_OPS_DEBUG("vhost_set_vring_addr failed");
-         return -errno;
 -- 
 MST
 
