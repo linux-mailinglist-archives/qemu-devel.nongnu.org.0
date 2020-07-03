@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1401021379A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:25:06 +0200 (CEST)
-Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399662137A8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:28:06 +0200 (CEST)
+Received: from localhost ([::1]:43842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHwP-0007V9-1J
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35984)
+	id 1jrHzJ-0006mk-8u
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtV-0002pH-TF
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38910
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jrHtU-0000yJ-0i
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:22:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593768120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TVF5KUpHWkY3Qg0PDkkb2MQ94k7vQg1CYbztYqZ3E/s=;
- b=bbNsrPgZry0pKwnEnauxzeu0bOgh2iqDFtH8VXq4mA5rKEskTDQ/FQXq3yMoq7sVbQwfeJ
- m4bHGwTrNKfWrrVZesoYIfa7XwEYGV+otiERZju4pkOTmQpibMJwcgajK8HUgP/VMJgirW
- /9po8Z4j9Trfk2sfp3MPwRg3UwM5VrE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-SiLobQuyMleMxuVHlRWzmQ-1; Fri, 03 Jul 2020 05:21:58 -0400
-X-MC-Unique: SiLobQuyMleMxuVHlRWzmQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FA5F107ACCA;
- Fri,  3 Jul 2020 09:21:57 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD86A7AC63;
- Fri,  3 Jul 2020 09:21:56 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 5/7] vvfat: Fix array_remove_slice()
-Date: Fri,  3 Jul 2020 11:21:41 +0200
-Message-Id: <20200703092143.165594-6-kwolf@redhat.com>
-In-Reply-To: <20200703092143.165594-1-kwolf@redhat.com>
-References: <20200703092143.165594-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jrHtz-0003SS-Gv; Fri, 03 Jul 2020 05:22:35 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:53454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jrHtv-00010m-7w; Fri, 03 Jul 2020 05:22:35 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 74793BF465;
+ Fri,  3 Jul 2020 09:22:28 +0000 (UTC)
+Date: Fri, 3 Jul 2020 11:22:21 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 15/18] hw/block/nvme: reject invalid nsid values in
+ active namespace id list
+Message-ID: <20200703092213.27qhr5ow4kksunrw@apples.localdomain>
+References: <20200703063420.2241014-1-its@irrelevant.dk>
+ <20200703063420.2241014-16-its@irrelevant.dk>
+ <6a038075-13fd-2f60-23a2-ddc7081cff32@redhat.com>
+ <20200703083701.sj4xlgyzp6xte4xi@apples.localdomain>
+ <3d45ddb7-867e-3c40-c78b-cf5bc095e2e0@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <3d45ddb7-867e-3c40-c78b-cf5bc095e2e0@redhat.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:42:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,88 +58,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-array_remove_slice() calls array_roll() with array->next - 1 as the
-destination index. This is only correct for count == 1, otherwise we're
-writing past the end of the array. array->next - count would be correct.
+On Jul  3 11:14, Philippe Mathieu-Daudé wrote:
+> On 7/3/20 10:37 AM, Klaus Jensen wrote:
+> > On Jul  3 10:20, Philippe Mathieu-Daudé wrote:
+> >> On 7/3/20 8:34 AM, Klaus Jensen wrote:
+> >>> From: Klaus Jensen <k.jensen@samsung.com>
+> >>>
+> >>> Reject the nsid broadcast value (0xffffffff) and 0xfffffffe in the
+> >>> Active Namespace ID list.
+> >>
+> >> Can we have a definition instead of this 0xfffffffe magic value please?
+> >>
+> > 
+> > Hmm, not really actually. It's not a magic value, its just because the
+> > logic in Active Namespace ID list would require that it should report
+> > any namespaces with ids *higher* than the one specified, so since
+> > 0xffffffff (NVME_NSID_BROADCAST) is invalid, NVME_NSID_BROADCAST - 1
+> > needs to be as well.
+> 
+> OK.
+> 
+> > 
+> > What do you say I change it to `min_nsid >= NVME_NSID_BROADCAST - 1`?
+> > The original condition just reads well if you are sitting with the spec
+> > on the side.
+> 
+> IMO this is clearer:
+> 
+>   if (min_nsid + 1 >= NVME_NSID_BROADCAST) {
+>       return NVME_INVALID_NSID | NVME_DNR;
+>   }
+> 
 
-However, this is the only place ever calling array_roll(), so this
-rather complicated operation isn't even necessary.
+But since min_nsid is uint32_t that would not be wise ;)
 
-Fix the problem and simplify the code by replacing it with a single
-memmove() call. array_roll() can now be removed.
+I'll go with the - 1 and add a comment!
 
-Reported-by: Nathan Huckleberry <nhuck15@gmail.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200623175534.38286-3-kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/vvfat.c | 42 +++++-------------------------------------
- 1 file changed, 5 insertions(+), 37 deletions(-)
-
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 62230542e5..2eb8cbb19f 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -140,48 +140,16 @@ static inline void* array_insert(array_t* array,unsigned int index,unsigned int
-     return array->pointer+index*array->item_size;
- }
- 
--/* this performs a "roll", so that the element which was at index_from becomes
-- * index_to, but the order of all other elements is preserved. */
--static inline int array_roll(array_t* array,int index_to,int index_from,int count)
--{
--    char* buf;
--    char* from;
--    char* to;
--    int is;
--
--    if(!array ||
--            index_to<0 || index_to>=array->next ||
--            index_from<0 || index_from>=array->next)
--        return -1;
--
--    if(index_to==index_from)
--        return 0;
--
--    is=array->item_size;
--    from=array->pointer+index_from*is;
--    to=array->pointer+index_to*is;
--    buf=g_malloc(is*count);
--    memcpy(buf,from,is*count);
--
--    if(index_to<index_from)
--        memmove(to+is*count,to,from-to);
--    else
--        memmove(from,from+is*count,to-from);
--
--    memcpy(to,buf,is*count);
--
--    g_free(buf);
--
--    return 0;
--}
--
- static inline int array_remove_slice(array_t* array,int index, int count)
- {
-     assert(index >=0);
-     assert(count > 0);
-     assert(index + count <= array->next);
--    if(array_roll(array,array->next-1,index,count))
--        return -1;
-+
-+    memmove(array->pointer + index * array->item_size,
-+            array->pointer + (index + count) * array->item_size,
-+            (array->next - index - count) * array->item_size);
-+
-     array->next -= count;
-     return 0;
- }
--- 
-2.25.4
-
+> Whichever form you prefer you can amend to the respin patch:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> > 
+> >>>
+> >>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> >>> ---
+> >>>  hw/block/nvme.c | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> >>> index 65c2fa3ac1f4..0dac7a41ddae 100644
+> >>> --- a/hw/block/nvme.c
+> >>> +++ b/hw/block/nvme.c
+> >>> @@ -956,6 +956,10 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
+> >>>  
+> >>>      trace_pci_nvme_identify_nslist(min_nsid);
+> >>>  
+> >>> +    if (min_nsid == 0xfffffffe || min_nsid == NVME_NSID_BROADCAST) {
+> >>> +        return NVME_INVALID_NSID | NVME_DNR;
+> >>> +    }
+> >>> +
+> >>>      list = g_malloc0(data_len);
+> >>>      for (i = 0; i < n->num_namespaces; i++) {
+> >>>          if (i < min_nsid) {
+> >>>
+> >>
+> > 
+> 
 
