@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E332137A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:27:58 +0200 (CEST)
-Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4DE2137B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 11:30:07 +0200 (CEST)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrHzB-0006LP-L8
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
+	id 1jrI1G-0003JJ-5i
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 05:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgW-0000QT-4j
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:40 -0400
-Received: from mail-eopbgr40109.outbound.protection.outlook.com
- ([40.107.4.109]:51961 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ id 1jrHge-0000le-2c; Fri, 03 Jul 2020 05:08:48 -0400
+Received: from mail-eopbgr140133.outbound.protection.outlook.com
+ ([40.107.14.133]:62071 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jrHgT-0005DK-G5
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 05:08:39 -0400
+ id 1jrHgb-0005Bb-Q1; Fri, 03 Jul 2020 05:08:47 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L9Ovg7si6e/BIsnBhddDQCNF6Z0hEML8lq+IS20nq2zKpoWj7dAR1AgjrnZP6c9qOiKWNjuAe8jdQ/W+Dae7Gin4Hz0o7jwJlkXTlNxx80w+CPvJyrQyygYE/is4SHY8EuuZuQLoNmTHsMvsjxsowRMIQZ4yPFFch1HW4MfQwTXE6KqP2bVsYN3UWtCVQ+G3qwFTuc/IGLNho9EpO26z5di78f1dGrHXDj6+2GApHeKgAQUl7CL0t8jiCTXB9Y0PgMNjUA1g1ixHp0ns0je/tylGT8I8FMU89OBivcxeDtxstAT6NzPgL6itnKwjokBMvHUGe7Cv7r0WthBacHdQrQ==
+ b=WkbvQ/e4ha4YPsKMwzMKSecTzGhmKEPGFw35EGEOF6Ia04aJDseR2wEQu65k9lnX3FHuyQyzgxG3UNOGeclSPABSZiQfORZ/xPMXBw0mY3ujeB8SSdxi9a0UnbkLmMOLXoabIy7TzPSnZ+SN+ODXLsvdLFPIiTBsDSxdeBnyJ/Ajtc+zI0+ThtXBi0DdOZOXgkUMqKkyaY3hztZny5Sm1CUcjzFJFeKdXMmkdPupNoUQ6rMekW4NW91KmralgQp8Zkp4LAr3HOYftFFObozJO7B2em31fIygj76NlRLJ4rM1uBGYB9QVqGq71GBLXB0D1mKN9FWGJ9bVu5B4Bku2wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/m9Qz845bbRNJv7IZ3xLxWb11W294MOi+4/b6edhPP0=;
- b=EpqZ7aG03rYjV6QLvw24hyzk7H5aPiI83bEqw2fsB/Oyclx5eW8Bi12l6j14Bha7MIvwiZwUlUqlb4NWqEoXOrEs+dPIkZCrEjeUdU68ngjYwRq/FAPtGDStSkxCjism6M+pPvegvDenNdhG5zovHaZA0RwWOXCy63xMbxcNYxasB5qfqo5od81IKh0UEhyIWbKKYHT/jR9ndNCPbOaU8nkIYRMrGVbw693VCjbagKI7tZ5Sx9nmP4rwIfGrjWrnx3HuHLnLt6wXMqgROAxaFEo+RTpf/auoFNEyYtJgFqEFuBjofcQt0D/XPKRaB5UpJJk78+E3l53de2muBjaVKw==
+ bh=qUTVdZHmF0gntwzLj0aHW2xdsF3Kr8nM6kQDszPWEuc=;
+ b=l04OMdgkT3BLygnSRUmAj5q9S3T0UHjoU0daZT0Lyiwzqz+Lm/cmdwcjoLd/or8qXXZgeqi1jy7rPf7N3Mw9elA3BVpfFkvqD0S/PGTyg/JeBQf3vPcqIV+tT4WiikmnKM4Sw4UWm2McK+7a+hatM07uc77rcw8Iax1REu1T8p3Mmt2NOkf8XV578bj0TjKDuUs6B3Q7EfZy5wRSTCtm34lw7HLeyvCa1nVW3MhYo/b7HtyFIUoLSx7y3K6DXnynt4Qo8gtfNpjXtPe9iRoHsdG7SV5heWos9NsZouCLFkQfHQHCIQvrlf5mUEEv5yWk3etY5nKkEJUFcMvVR9+uNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/m9Qz845bbRNJv7IZ3xLxWb11W294MOi+4/b6edhPP0=;
- b=BZRkdtJuWKpWaSMZio03KSoK7kyi2l2GFGiO5Uu8IQBxTizWbpIHH4iRj0PdBYA3UQcw5H67Z4HEl432pUkn3ouampC+yeQv1VrC4w+ykln57iAihTouim3eBdnZp7ph16qqhS77W3HICwEpXeR1rSRJ36rdSJ5W/uhe9ZD2Ego=
+ bh=qUTVdZHmF0gntwzLj0aHW2xdsF3Kr8nM6kQDszPWEuc=;
+ b=eXurS1XGz35iP7z090wb4T3WXe4FrsWwwmykYlQcUNfX/lRUbvn+drPzCC7fg2mAt7z/js7gEtojXA0ib/yVBujaiQiT8GGY7XGTvsDfV2VdxB/+MvefmCwtUacMrtqyEJhl6bA54wOMGtPHeuVDX43v2NhvGV4pEtD0ZlvQClM=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4691.eurprd08.prod.outlook.com (2603:10a6:20b:cc::14)
+ by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Fri, 3 Jul
- 2020 09:08:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Fri, 3 Jul
+ 2020 09:08:36 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3131.028; Fri, 3 Jul 2020
- 09:08:34 +0000
+ 09:08:36 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 5/8] fw_cfg: introduce ERRP_AUTO_PROPAGATE
-Date: Fri,  3 Jul 2020 12:08:13 +0300
-Message-Id: <20200703090816.3295-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v11 7/8] nbd: introduce ERRP_AUTO_PROPAGATE
+Date: Fri,  3 Jul 2020 12:08:15 +0300
+Message-Id: <20200703090816.3295-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200703090816.3295-1-vsementsov@virtuozzo.com>
 References: <20200703090816.3295-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:208:17c::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
@@ -65,39 +63,39 @@ Received: from localhost.localdomain (185.215.60.15) by
  AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23 via Frontend
- Transport; Fri, 3 Jul 2020 09:08:34 +0000
+ Transport; Fri, 3 Jul 2020 09:08:35 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.15]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45753270-1dbb-463e-8cbe-08d81f30aa1e
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4691:
+X-MS-Office365-Filtering-Correlation-Id: 6f7f61a3-f783-4f58-8895-08d81f30ab12
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4691DE9687DE85B778B00518C16A0@AM6PR08MB4691.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:156;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54485A313BB1A627AFEE75F5C16A0@AM7PR08MB5448.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
 X-Forefront-PRVS: 045315E1EE
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ilzMwJeilzhxIchhHBMlg7+VeLKJ+NRzXQw+TeW/fkFo8gNRGtJukNMOcfC83HqrN35hpg1FZ+aOqwAB1q/p6nbyZyR+bSGEXFlrDwwIg1Gtb8xtKRYj+ECVs3EjoZzL7Qd3Y4za3IWrItR5pTMLiQ4QxHdKMk/fsBs2KnheIVfij6Af/26uNn1aK1017JLE2LXHFNR3x8Ui/zsFraVrDFUjgsGAgUTUA380C0nP48TManuDJLCn1j/lX9gm5beguSnlepWu0Kb0Nx2k86nKTBKMv4ss8socRH119QSDQ8psVDgHngfXNmAI3new3aFfWGzXZjU5SeI0G8/f5kdERw==
+X-Microsoft-Antispam-Message-Info: 00LumWU39zkikrDznEnBW15Wuf5Bx11jrZmSClvLTt88nj9vtr6j65W7eatmdOImoo1ukah2l6B0lvt00n5nSNv6W4fvd76yQvMxEsuYV8cD9X1uVpDxjVm6SUv+j4/QmL+dLTzbVdOzi+YM84TuMLM23V4g2cmGOyBJBQ+tMJJC+5mgvx6RSbJUs6n/+wZVBF75BObpubhgUNfrYp8H0cSljrxGYvCNEeGdE6+sEsGqgISeu6VdeUSKru0P/a3vNq6AzfJWtXxerYYH6IQhlk4E2Su3Qy0RBOloomGyzGj5wvwMC/UwJpmBM1JIkFiWikDoehmkQu6QHRH857SYVeuWulvf0lnXpI4R4w3LZ1CkMAZRa5YYpw0Cj0rpn6pQ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(136003)(39840400004)(396003)(366004)(346002)(8676002)(6666004)(16526019)(36756003)(186003)(66556008)(6506007)(66476007)(956004)(2616005)(478600001)(54906003)(66946007)(86362001)(316002)(6916009)(26005)(6486002)(52116002)(4326008)(8936002)(6512007)(5660300002)(2906002)(83380400001)(1076003);
+ SFS:(4636009)(39840400004)(366004)(376002)(136003)(396003)(346002)(69590400007)(66946007)(66476007)(66556008)(2906002)(86362001)(1076003)(8676002)(83380400001)(6512007)(5660300002)(8936002)(6666004)(186003)(36756003)(4326008)(6506007)(16526019)(6486002)(6916009)(26005)(478600001)(956004)(52116002)(316002)(54906003)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: sOI4s0nOpouT7lDYdXwRhrDmhAw4bII9xXTt89nBZpAt30GV8ZcR07MIOiVCoMQj8ZPST172jEwL8lMsl8Om4WEq/kCzemdv5mVZSa7qf0P/Bo1FfSfirO9zwRWWIs97retiZultn26+xaDjPCU8AnOA65F5gu4E8YcX9zETAwNmK9SXrU3JkvTXJsIkrFiNxuDzJoJcQ8QDP8XHk2Hr3PCBC9zbaFHdaHRnn5oA1qZenJxQsW65UIOo0JE3jyTP7fBGqWcjRDmTfWTTcnSmsGlr0IY/1TvXAs8CUttf5YSQZMF1tSwhk1rrwhG0NJt6L7Nq0dqq+oPEhrCouR0/EFy1XuVO+w/HJhLjLvH/IbznibphfgrQ0Eoi2XwdqJAY2bnv6zPekAMZYbWSQKa70qFiIx+oUM6M+xEAPZ2sWTDsUK2WZIYwwAH1+WiY+THiiS8Izvpht/BLlt/Vcwv2f2E4pBwq1k5P3PM2tWMvz7M=
+X-MS-Exchange-AntiSpam-MessageData: aXr/SSB5rGNzWNljYvYHq8zVYBwO7n0sLuMT5r2zO8ARzoydpgffPeeEVhhr0lWEgE0fs4miBl+BKTl6Fr7r5VpwrHHvP83AYdLoQ3iqcbonCAa0p4TTHk5RSwQ1TDQrfs/owoB6/lQE/O44JJuHz177XOj+p4qJKM+AFeiE62Ox6e4IqPOlvQN/gL2P2eJpwBWcB706HluAntu6pKuUX0A2YjD+uB0o9Bvnz7w19P2z78J9QxpV0TsHQ29E0rkdzp2V70jCWcGJHuc4o2eDvwfWQtqEgANY+Ckndfvn05ojGFOQ1LHLCH7ytnY5BMedbRDNovqoUQlctilFrfToF2UjHHQdQXcrNfgqa01PR3xFhAuNzHt1AIvzfXBiavrUoxDbLhQwVrgjQkT29kqvRBVQ4+MEFiJeubhPwcbLltLfNl4uoGsp4JFziOlMokTblFABy0FZPSNVMEQ3fd/CD+TAdR4E6v5SDZuT1//WIlQ=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45753270-1dbb-463e-8cbe-08d81f30aa1e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f7f61a3-f783-4f58-8895-08d81f30ab12
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:34.7219 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2020 09:08:36.3468 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uhpd5ydqTro+aYg/Vpu4o24Ss0Oj91uA+i3T62IdEppTNas8RlfV18bNIDc4u+rVhne0y829T+jStqj2FwK6SFIzqFVcNi+/gyTWqVnY4KI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4691
-Received-SPF: pass client-ip=40.107.4.109;
+X-MS-Exchange-CrossTenant-UserPrincipalName: PcUcUWfawJgEs+1Cd9cbXtH2Cj4Pv/kGPCwJLXL7nT5+4AkTtlL+syZjEHE5CpLws12yg+Fhxp4q7DF6B6Yx3l5YiAaknxQWoXBN2Dp/PaQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
+Received-SPF: pass client-ip=40.107.14.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:08:35
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 05:08:30
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -120,9 +118,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Laszlo Ersek <lersek@redhat.com>, armbru@redhat.com, groug@kaod.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -143,7 +140,7 @@ ERRP_AUTO_PROPAGATE macro, benefits are:
 
 This commit is generated by command
 
-    sed -n '/^Firmware configuration (fw_cfg)$/,/^$/{s/^F: //p}' \
+    sed -n '/^Network Block Device (NBD)$/,/^$/{s/^F: //p}' \
         MAINTAINERS | \
     xargs git ls-files | grep '\.[hc]$' | \
     xargs spatch \
@@ -154,49 +151,137 @@ This commit is generated by command
 Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/nvram/fw_cfg.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ include/block/nbd.h | 1 +
+ block/nbd.c         | 7 +++----
+ nbd/client.c        | 5 +++++
+ nbd/server.c        | 5 +++++
+ 4 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 0408a31f8e..d5386c3235 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -1231,12 +1231,11 @@ static Property fw_cfg_io_properties[] = {
- 
- static void fw_cfg_io_realize(DeviceState *dev, Error **errp)
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 20363280ae..f7d87636d3 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -361,6 +361,7 @@ void nbd_server_start_options(NbdServerOptions *arg, Error **errp);
+ static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
+                            const char *desc, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     FWCfgIoState *s = FW_CFG_IO(dev);
--    Error *local_err = NULL;
+     int ret = qio_channel_read_all(ioc, buffer, size, errp) < 0 ? -EIO : 0;
  
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1282,14 +1281,13 @@ static Property fw_cfg_mem_properties[] = {
- 
- static void fw_cfg_mem_realize(DeviceState *dev, Error **errp)
+     if (ret < 0) {
+diff --git a/block/nbd.c b/block/nbd.c
+index 6876da04a7..b7cea0f650 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1408,16 +1408,15 @@ static void nbd_client_close(BlockDriverState *bs)
+ static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
+                                                   Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     FWCfgMemState *s = FW_CFG_MEM(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     const MemoryRegionOps *data_ops = &fw_cfg_data_mem_ops;
+     QIOChannelSocket *sioc;
 -    Error *local_err = NULL;
  
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
+     sioc = qio_channel_socket_new();
+     qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
+ 
+-    qio_channel_socket_connect_sync(sioc, saddr, &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
++    qio_channel_socket_connect_sync(sioc, saddr, errp);
 +    if (*errp) {
-         return;
+         object_unref(OBJECT(sioc));
+-        error_propagate(errp, local_err);
+         return NULL;
      }
  
+diff --git a/nbd/client.c b/nbd/client.c
+index ba173108ba..e258ef3f7e 100644
+--- a/nbd/client.c
++++ b/nbd/client.c
+@@ -68,6 +68,7 @@ static int nbd_send_option_request(QIOChannel *ioc, uint32_t opt,
+                                    uint32_t len, const char *data,
+                                    Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     NBDOption req;
+     QEMU_BUILD_BUG_ON(sizeof(req) != 16);
+ 
+@@ -153,6 +154,7 @@ static int nbd_receive_option_reply(QIOChannel *ioc, uint32_t opt,
+ static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
+                                 bool strict, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *msg = NULL;
+ 
+     if (!(reply->type & (1 << 31))) {
+@@ -337,6 +339,7 @@ static int nbd_receive_list(QIOChannel *ioc, char **name, char **description,
+ static int nbd_opt_info_or_go(QIOChannel *ioc, uint32_t opt,
+                               NBDExportInfo *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     NBDOptionReply reply;
+     uint32_t len = strlen(info->name);
+     uint16_t type;
+@@ -882,6 +885,7 @@ static int nbd_start_negotiate(AioContext *aio_context, QIOChannel *ioc,
+                                bool structured_reply, bool *zeroes,
+                                Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     uint64_t magic;
+ 
+     trace_nbd_start_negotiate(tlscreds, hostname ? hostname : "<null>");
+@@ -1017,6 +1021,7 @@ int nbd_receive_negotiate(AioContext *aio_context, QIOChannel *ioc,
+                           const char *hostname, QIOChannel **outioc,
+                           NBDExportInfo *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int result;
+     bool zeroes;
+     bool base_allocation = info->base_allocation;
+diff --git a/nbd/server.c b/nbd/server.c
+index 20754e9ebc..8a12e586d7 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -211,6 +211,7 @@ static int GCC_FMT_ATTR(4, 0)
+ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+                             Error **errp, const char *fmt, va_list va)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *msg = NULL;
+     int ret;
+     size_t len;
+@@ -382,6 +383,7 @@ static int nbd_opt_read_name(NBDClient *client, char **name, uint32_t *length,
+ static int nbd_negotiate_send_rep_list(NBDClient *client, NBDExport *exp,
+                                        Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     size_t name_len, desc_len;
+     uint32_t len;
+     const char *name = exp->name ? exp->name : "";
+@@ -445,6 +447,7 @@ static void nbd_check_meta_export(NBDClient *client)
+ static int nbd_negotiate_handle_export_name(NBDClient *client, bool no_zeroes,
+                                             Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *name = NULL;
+     char buf[NBD_REPLY_EXPORT_NAME_SIZE] = "";
+     size_t len;
+@@ -1289,6 +1292,7 @@ static int nbd_negotiate_options(NBDClient *client, Error **errp)
+  */
+ static coroutine_fn int nbd_negotiate(NBDClient *client, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     char buf[NBD_OLDSTYLE_NEGOTIATE_SIZE] = "";
+     int ret;
+ 
+@@ -1663,6 +1667,7 @@ void nbd_export_close(NBDExport *exp)
+ 
+ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     if (mode == NBD_SERVER_REMOVE_MODE_HARD || QTAILQ_EMPTY(&exp->clients)) {
+         nbd_export_close(exp);
+         return;
 -- 
 2.21.0
 
