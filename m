@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67AE213D82
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:22:00 +0200 (CEST)
-Received: from localhost ([::1]:46308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B5D213D7C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jul 2020 18:21:20 +0200 (CEST)
+Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrORr-000228-Nt
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60084)
+	id 1jrORD-0000uQ-PG
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jul 2020 12:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrO8q-00015h-Eo
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:02:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48150
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jrO9I-0001mX-NS
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:02:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60950
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jrO8n-0008IM-U6
- for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:02:19 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jrO9G-00006U-KX
+ for qemu-devel@nongnu.org; Fri, 03 Jul 2020 12:02:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593792136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1593792165;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QBCgCDInfFECHeq4DAuxkUBflOMbLuBSh4FmjCvUoKI=;
- b=THZfXH+/Iv1CFT5mib8msvPwGiE3a1i2U03SSDUOG/AiD3JMwg+0s36IsDlH1epTVrP5Ed
- WaKwJbPiGQitHLpRn/XBAQImomTrSOuERwlLSaJLcof+4w3ugeNZqa1aJMk0hjET+HI6zb
- FMNTUCz7IGIoQMldVAOoGBbZLpOjYXc=
+ bh=rH2Dhr5IyF5hTu+C+FJwJzn/bdxmflkuVQlkAH0T6Pg=;
+ b=ST7f7R3oalSTAmZYpvuHzUtTIEJ5CF9+gF3TEIyTrnOkeDVFvInu0z+aYvVCKE2ycJd6fs
+ jO4xrLtH3qhBiHJ3WtkQNSIz/S62izPB/b9sehSFceee589N15tVUCDTpDNzKcfrqLe8lE
+ 2a2oeeot7u8o4OjBZ5Onf1hfW2+RC8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-NtVNTqzKOrS_wevjcJmepw-1; Fri, 03 Jul 2020 12:02:14 -0400
-X-MC-Unique: NtVNTqzKOrS_wevjcJmepw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-375-SgZx_tJGMqW3penv9PSwxA-1; Fri, 03 Jul 2020 12:02:43 -0400
+X-MC-Unique: SgZx_tJGMqW3penv9PSwxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CDEB186A206;
- Fri,  3 Jul 2020 16:02:12 +0000 (UTC)
-Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADC389CA0;
- Fri,  3 Jul 2020 16:02:10 +0000 (UTC)
-Date: Fri, 3 Jul 2020 17:02:08 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: James Bottomley <jejb@linux.ibm.com>
-Subject: Re: [PATCH v2] SEV: QMP support for Inject-Launch-Secret
-Message-ID: <20200703160208.GG6641@work-vm>
-References: <20200702194213.23272-1-tobin@linux.vnet.ibm.com>
- <20200703110929.GB6641@work-vm>
- <1593791654.3972.26.camel@linux.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90E8FEC1AA;
+ Fri,  3 Jul 2020 16:02:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4F1B7BD45;
+ Fri,  3 Jul 2020 16:02:38 +0000 (UTC)
+Date: Fri, 3 Jul 2020 17:02:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 2/6] migration: introduce savevm, loadvm, delvm QMP
+ commands
+Message-ID: <20200703160235.GM2213227@redhat.com>
+References: <20200702175754.2211821-1-berrange@redhat.com>
+ <20200702175754.2211821-3-berrange@redhat.com>
+ <fcff0e8b-fd60-2897-0553-49ab24a9b7fa@redhat.com>
+ <20200702182452.GP1888119@redhat.com>
+ <20200703154933.GE6641@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <1593791654.3972.26.camel@linux.ibm.com>
-User-Agent: Mutt/1.14.5 (2020-06-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200703154933.GE6641@work-vm>
+User-Agent: Mutt/1.14.3 (2020-06-14)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 03:17:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/03 01:34:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -70,7 +76,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,44 +89,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, tobin@ibm.com,
- qemu-devel@nongnu.org, Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>,
- pbonzini@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* James Bottomley (jejb@linux.ibm.com) wrote:
-> On Fri, 2020-07-03 at 12:11 +0100, Dr. David Alan Gilbert wrote:
-> > * Tobin Feldman-Fitzthum (tobin@linux.vnet.ibm.com) wrote:
-> [...]
-> > > +    input.trans_uaddr = (uint64_t)data;
-> > > +    input.trans_len = data_sz;
-> > > +
-> > > +    input.guest_uaddr = (uint64_t)hva;
+On Fri, Jul 03, 2020 at 04:49:33PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Thu, Jul 02, 2020 at 01:12:52PM -0500, Eric Blake wrote:
+> > > On 7/2/20 12:57 PM, Daniel P. Berrangé wrote:
+> > > > savevm, loadvm and delvm are some of the few commands that have never
+> > > > been converted to use QMP. The primary reason for this lack of
+> > > > conversion is that they block execution of the thread for as long as
+> > > > they run.
+> > > > 
+> > > > Despite this downside, however, libvirt and applications using libvirt
+> > > > has used these commands for as long as QMP has existed, via the
+> > > > "human-monitor-command" passthrough command. IOW, while it is clearly
+> > > > desirable to be able to fix the blocking problem, this is not an
+> > > > immediate obstacle to real world usage.
+> > > > 
+> > > > Meanwhile there is a need for other features which involve adding new
+> > > > parameters to the commands. This is possible with HMP passthrough, but
+> > > > it provides no reliable way for apps to introspect features, so using
+> > > > QAPI modelling is highly desirable.
+> > > > 
+> > > > This patch thus introduces trival savevm, loadvm, delvm commands
+> > > 
+> > > trivial
+> > > 
+> > > > to QMP that are functionally identical to the HMP counterpart, including
+> > > > the blocking problem.
+> > > 
+> > > Should we name them 'x-savevm', 'x-loadvm', 'x-delvm' to give ourselves room
+> > > to change them when we DO solve the blocking issue?  Or will the solution of
+> > > the blocking issue introduce new QMP commands, at which point we can add QMP
+> > > deprecation markers on these commands to eventually retire them?
 > > 
-> > Thanks for changing these; although it fails a 32bit build (which is
-> > probably mostly pointless for SEV, but it fails the build rather than
-> > building it out). The easy fix here seems to be:
-> >    (uint64_t)(uintptr_t)
+> > I was in two minds about this, so I'm open to arguments either way.
+> > 
+> > The primary goal is for libvirt to consume the APIs as soon as possible,
+> > and generally libvirt doesn't want todo this is they are declared experimental
+> > via a "x-" prefix. So that pushes me away from "x-".
+> > 
+> > If we don't have an "x-" prefix and want to make changes, we can add extra
+> > parameters to trigger new behaviour in backwards compatible manner. Or we can
+> > simply deprecate these commands, deleting them 2 releases later, while adding
+> > completely new commands.
+> > 
+> > If we think the prposed design will definitely need incompatible changes in
+> > a very short time frame though, that would push towards "x-".
+> > 
+> > So IMHO the right answer largely depends on whether there is a credible
+> > strategy to implement the ideal non-blocking solution in a reasonable amount
+> > of time. I can't justify spending much time on this myself, but I'm willing
+> > to consider & try proposals for solving the blocking problem if they're not
+> > too complex / invasive.
 > 
-> That's a pointer width issue.  The recommended way to communicate to
-> the compiler that we really want to cast a 32 bit pointer to a 64 bit
-> value is actually to cast to unsigned long before casting to pointer,
-> so
-> 
-> (uint64_t)(unsigned long)hva
-> 
-> Many other things work, of course, but if you follow the recommendation
-> you (hopefully) don't trip future compiler warnings.
+> Remind me, what was the problem with just making a block: migration
+> channel, and then we can migrate to it?
 
-OK, fair enough
-(Out of curiosity can you explain why unsigned long not uintptr_t?)
+migration only does vmstate, not disks. The current blockdev commands
+are all related to external snapshots, nothing for internal snapshots
+AFAIK. So we still need commands to load/save internal snapshots of
+the disk data in the qcow2 files.
 
-Dave
+So we could look at loadvm/savevm conceptually as a syntax sugar above
+a migration transport that targets disk images, and blockdev QMP command
+that can do internal snapshots. Neither of these exist though and feel
+like a significantly larger amount of work than using existing functionality
+that is currently working.
 
-> James
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
