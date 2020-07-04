@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322DC214693
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:53:24 +0200 (CEST)
-Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA800214697
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:55:15 +0200 (CEST)
+Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjXf-0007O0-6p
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57692)
+	id 1jrjZS-0002KD-T3
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUT-0001TI-M3; Sat, 04 Jul 2020 10:50:05 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33684)
+ id 1jrjUV-0001YY-Qm; Sat, 04 Jul 2020 10:50:07 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUS-0003f0-2v; Sat, 04 Jul 2020 10:50:05 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f18so27701915wrs.0;
- Sat, 04 Jul 2020 07:50:03 -0700 (PDT)
+ id 1jrjUU-0003fC-6h; Sat, 04 Jul 2020 10:50:07 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b6so35747440wrs.11;
+ Sat, 04 Jul 2020 07:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/SEb7i40/nbfV3CvB7T6xkytpAoG+YE52veZZ5mv5j4=;
- b=M86GQvVjqh2GOpnc8959nIEqLnIltzOWwA63YgcRTjTllNzsFeKa2AxLUplFe59nVZ
- EU5gEhxt62SSXh8q7000ETaWmRIbSKTzrgZ47MtBnXMnZm75mqtFngMn13ekv5iU3uR1
- jZH+QjvY71cexOwBR/zzvmBgICLG+ZXIDZGxG3evDVbBXwFvFbeNbh4ioXGgUGUaFauF
- lbh9Jk61RelYOfy760OtZib/qtDn/T5+sGmZ3flNc8ml4r0kTxIqEmHI5Z71CCawDYVS
- JHWip9FEybZwE41MmK/BYGDg85WJYNaGdThCFnN87eeYykN1tf2mZJKQABQuft2b5FSo
- Wb9w==
+ bh=8KnwDCFnDP2p4VznLGchEQ7MhbCDHoouF9hb3OmMvFo=;
+ b=qnXK+ln5rQy/kZGC3Fh2RFx/8LLRy2FzRaODh+swFw0DtexOC034PCwojAmD2p2qEc
+ +xBeYKP6Sea6ucH8fkvrVNNAXzAZNbHz5N4CojECMrqUJVqYMYiMaro3hTSh93ifaaQa
+ XZwymWtZAF5r5fjYDxoQfxgBDwsrJ+DJMbXURYjcQX+7tdru4xwSDdEYfIB4ftoZAWW3
+ odapVHwJEugfsQL3deagFHvaMemeZ1/ffZNaL8ml9YhUlAPZWcmqAc9Ldb9FPwIY49F5
+ nCg4ELh3hzoGogZjdC9IsUHrjWxHgtGLNK9IssYFB3ec8/8vdv8bxlDIDWrs/Yk59fX7
+ Perw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/SEb7i40/nbfV3CvB7T6xkytpAoG+YE52veZZ5mv5j4=;
- b=SPGsoX8aK+2Rnwj2NokFgCRSAjTkdzjrsPAcglxNXgNpdKBGOnVm4PCIbz5hC0qGTV
- aitHPi9KiE7bM6qK2vT06mfjZTYS+/RNsPGxj29q2TwzmacIvbLMQEo8wCDYEM3c4MO1
- KpjuuLe/h6gF7mkSs4kwpARbTXLbjpJy0pr4MuKHqAnMT/l/3XtFRO+75BRCBF7AyT3t
- JCPrREhNZ4+6yfr/IK+Sh6HO8ua2WQ2l9YLz9LaesCKGJcO/oFU3Nvss557j090YolNs
- BdaMX3mAJ9W0UJaIq3HJbO0KOn8TqPRsuSeWn15plvjQliWTW2+A6sWTwXKT6/PrPzNh
- xBEA==
-X-Gm-Message-State: AOAM531T7RRg1GoVn/x0bAk++WM0J4ciIGFXOzeV9yQr6YvP5zYF4KD9
- dia7Rv3dSHenf2W9uvPSd+lfjHf/Roo=
-X-Google-Smtp-Source: ABdhPJzU2sv77zfdcGa3LX0JoxfFviQ6DXsIevpTW1tzmmUhaY0yZ73I5eZpKHBXzbQobqiSJf7dUQ==
-X-Received: by 2002:adf:8b50:: with SMTP id v16mr43284603wra.188.1593874202076; 
- Sat, 04 Jul 2020 07:50:02 -0700 (PDT)
+ bh=8KnwDCFnDP2p4VznLGchEQ7MhbCDHoouF9hb3OmMvFo=;
+ b=n+wjN09AMO/DSgSbcRmkDe2EYw7fC8n9BotB80ztABkOdyO8lyoVTK+B6UFqcEB5hm
+ BCIy8CFDL8UIOveXF1usQ3SfLGBW/bdkavPNSlVKBkOVZy6PTgTNiReIVe6hKZxfL+K/
+ 9X/nUifqFIlwtIWO/flg7uDx7MjEX31oPGlaOsxRVizW8BbPBAI7gXv1pUTF0tv0m2QM
+ SzUBORpYVQCRC82GHRmeqXHl35eJ2HAdwbWORZAkJ9t+013b+p2ShPiWU9UFmqbETLcz
+ 93fB9HN87I+qeTJ+AnECtA6pRwf83WnmABB8E59pbA0AdJgDuhMnC/OlXhz+WXBRDnsC
+ NXdg==
+X-Gm-Message-State: AOAM531WmS/WicnH7D+NsbwvTHhjX9FQwYefXgEKgan895RZKuN+7JeC
+ rXd/WHyykGe257LWdp7L50bbG71bajA=
+X-Google-Smtp-Source: ABdhPJy5uEuHNE6Qu6FF+bwIyX64Em7+RTT3tgkuG40gaTm44oygCnXfGMDpLMWbQQ/T4oOMWH2j6A==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr41607272wrv.177.1593874204051; 
+ Sat, 04 Jul 2020 07:50:04 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.00
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:50:01 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 07/26] hw/usb/hcd-dwc2: Restrict some headers to source
-Date: Sat,  4 Jul 2020 16:49:24 +0200
-Message-Id: <20200704144943.18292-8-f4bug@amsat.org>
+Subject: [PATCH 08/26] hw/usb/hcd-dwc2: Restrict 'dwc2-regs.h' scope
+Date: Sat,  4 Jul 2020 16:49:25 +0200
+Message-Id: <20200704144943.18292-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -117,49 +117,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The header "usb/hcd-dwc2.h" doesn't need to include "qemu/timer.h",
-"sysemu/dma.h", "hw/irq.h" (the types required are forward declared).
-Include them in the source file which is the only one requiring the
-function declarations.
+We only use these register definitions in files under the
+hw/usb/ directory. Keep that header local by moving it there.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-dwc2.h | 3 ---
- hw/usb/hcd-dwc2.c | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ {include/hw => hw}/usb/dwc2-regs.h | 0
+ hw/usb/hcd-dwc2.c                  | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename {include/hw => hw}/usb/dwc2-regs.h (100%)
 
-diff --git a/hw/usb/hcd-dwc2.h b/hw/usb/hcd-dwc2.h
-index 4ba809a07b..2adf0f53c7 100644
---- a/hw/usb/hcd-dwc2.h
-+++ b/hw/usb/hcd-dwc2.h
-@@ -19,11 +19,8 @@
- #ifndef HW_USB_DWC2_H
- #define HW_USB_DWC2_H
- 
--#include "qemu/timer.h"
--#include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "hw/usb.h"
--#include "sysemu/dma.h"
- 
- #define DWC2_MMIO_SIZE      0x11000
- 
+diff --git a/include/hw/usb/dwc2-regs.h b/hw/usb/dwc2-regs.h
+similarity index 100%
+rename from include/hw/usb/dwc2-regs.h
+rename to hw/usb/dwc2-regs.h
 diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
-index 590e75b455..ccf05d0823 100644
+index ccf05d0823..252b60ef65 100644
 --- a/hw/usb/hcd-dwc2.c
 +++ b/hw/usb/hcd-dwc2.c
-@@ -36,8 +36,11 @@
+@@ -34,7 +34,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
  #include "qapi/error.h"
- #include "hw/usb/dwc2-regs.h"
+-#include "hw/usb/dwc2-regs.h"
  #include "hw/usb/hcd-dwc2.h"
-+#include "hw/irq.h"
-+#include "sysemu/dma.h"
- #include "migration/vmstate.h"
- #include "trace.h"
-+#include "qemu/timer.h"
+ #include "hw/irq.h"
+ #include "sysemu/dma.h"
+@@ -43,6 +42,7 @@
+ #include "qemu/timer.h"
  #include "qemu/log.h"
  #include "hw/qdev-properties.h"
++#include "dwc2-regs.h"
  
+ #define USB_HZ_FS       12000000
+ #define USB_HZ_HS       96000000
 -- 
 2.21.3
 
