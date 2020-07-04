@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0949021477C
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:43:45 +0200 (CEST)
-Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1127721477D
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:43:51 +0200 (CEST)
+Received: from localhost ([::1]:37894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrlGS-00052p-2u
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52588)
+	id 1jrlGY-0005Gw-3Y
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrlCl-000071-V1
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:39:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20779
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrlCp-0000Ay-Th
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:39:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44924
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrlCj-0005SH-Dw
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:39:55 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrlCn-0005T5-MV
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:39:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593880792;
+ s=mimecast20190719; t=1593880797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uLixvpNJpQxN4tT2DsMy+7dKl6K2fJXcgmydaNhaJeY=;
- b=Vw49s+CTVDI3CEzu23pnI3UL/ak1nQHSRRbi850xyLy4FMC5Tip3pYfEGQzSK43Odrq48Y
- CD6hiRx9k9Zp/xUH21r6FChxUc07XAUeANL4RJgDe4I+Du47niDLvm6BkVkYAKO4eRzhv6
- tZ3Pp/ld2HXrqhVmMJbr9ECkU2IagQY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-E_rAndy4MjSdeuhPIX60Zw-1; Sat, 04 Jul 2020 12:39:50 -0400
-X-MC-Unique: E_rAndy4MjSdeuhPIX60Zw-1
-Received: by mail-wr1-f72.google.com with SMTP id j3so16494708wrq.9
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 09:39:50 -0700 (PDT)
+ bh=SoMzx8A+FvWrYD3fCm48tVpQZqurazT9wEn66p/sv/E=;
+ b=RREtsUMuf9xOfAwH5LcjUdLkFP0X6r6WhYZYPSaIfGzbrrQghdOqBZY4SqJP8maGjU70GH
+ dB1ewDXE826XncH3DimPXlg2x233aT6oTBkURhT5ZhfvazUC7QXtRvIdD+nOAt7AqMrVv5
+ W9+rrd7yIL6pwduIxURzChlpN34C160=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-y8YM_rxZMaK_3UbSTojltw-1; Sat, 04 Jul 2020 12:39:55 -0400
+X-MC-Unique: y8YM_rxZMaK_3UbSTojltw-1
+Received: by mail-wm1-f72.google.com with SMTP id t145so39976322wmt.2
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 09:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLixvpNJpQxN4tT2DsMy+7dKl6K2fJXcgmydaNhaJeY=;
- b=ZPabgXfiYlPZmNOKRqaRrVLEr75dTt2JATGCpx3FL/1/CFb8aIo7x7JEYZPqQVLKXq
- LR4dy1eoME7euwobFeU+tmZ6ueguBXOorp6KfUjeph4Fapmt9YwYoUukK6Ei505UAg//
- BxQCOHjQcVUo9w9Ho5E6rGOUKrjNMRrMXDtH07lW1WQvC0hTD0Q3Cz6/ANCrhwWEqOx+
- N1JrsVEDmFwO6qWEE1feWCBji0eIiGX0MfU7ba7wanCCy/ifk3MiwnT7ZI2AGwimzRGr
- KFyGXHC61KXpnobWOG8RF00DlBZNK7bc77YV0oNPZSUqwXTB4ncuZwtwossArIYp1hjz
- ak+w==
-X-Gm-Message-State: AOAM532o+vMZVsGl1IMIl2du+wuASmy/XfKwlxYg9uXZ5VswdQ+sKzOJ
- IINrxV6aORsyjdgho5l5Ttg5fruXA5lVCWCC45NLFshe+XP706dzRdVAZyt4ja1xjeAEjHJYrbF
- YvLJ2wLlhkkKUXzA=
-X-Received: by 2002:adf:8168:: with SMTP id 95mr42230307wrm.104.1593880789192; 
- Sat, 04 Jul 2020 09:39:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/OkON3+vkcSs96FPZYD4K5p222dIH+82xd59DrfBq/WyafmFq0U4r/bOf4qSqal6vtDjLlg==
-X-Received: by 2002:adf:8168:: with SMTP id 95mr42230298wrm.104.1593880789034; 
- Sat, 04 Jul 2020 09:39:49 -0700 (PDT)
+ bh=SoMzx8A+FvWrYD3fCm48tVpQZqurazT9wEn66p/sv/E=;
+ b=tjcQXjXf4z3YFsZWKD7PBsXUefft3d8k1n4lpd2Wxldu2wYptqoPeCZUkgZSYspHzC
+ j0PJULytq6bK15cr29etY4haWFvrRnhiFovI9hcXFGzIORwHnos3/nzNFII6tJ5dpEQA
+ volzirLRHa8Tv0JT5tjHuZpCCSuhF8iFt5WRiHiSGAqhDkjO8cEwaNyMLPCd/CmIBkqX
+ 2WSnpBKHnHrpfNgN/1FvBh3yDfxr0ojI2zwsR409tAaFevG0LFz0QmhD0zbAGkmNDb4b
+ zgEPpLVLHwtksH+YKfMJkHgCvRslAyd/U5bhKRObd7WRspKOmobXNa2Xm2QF0YxJHNUr
+ Oidw==
+X-Gm-Message-State: AOAM533ZYua75a+bOKEgi2TPmMMGJlkcJ3pesWImW6/rx5CU7Hau1ve1
+ 4lHvfbW/I5bwgznuD5rhZWAxaILZ7b8nnfH6v10xNJ0v1/k+0+YLwQY7SwEkTBBSMDGO0Ko/q00
+ x/YpveO1qJThM6BI=
+X-Received: by 2002:adf:e50a:: with SMTP id j10mr44217697wrm.71.1593880794065; 
+ Sat, 04 Jul 2020 09:39:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVcBdbyx4Vu6pxwhm7S5WKVdlD8nuS4ufxBCdNKEKYMUmbFUM+owxKRd2/wi3OZdKggl32zw==
+X-Received: by 2002:adf:e50a:: with SMTP id j10mr44217677wrm.71.1593880793778; 
+ Sat, 04 Jul 2020 09:39:53 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id l8sm17362051wrq.15.2020.07.04.09.39.48
+ by smtp.gmail.com with ESMTPSA id j4sm13006917wrp.51.2020.07.04.09.39.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 09:39:48 -0700 (PDT)
+ Sat, 04 Jul 2020 09:39:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] softmmu/vl: Allow -fw_cfg 'gen_id' option to use the
- 'etc/' namespace
-Date: Sat,  4 Jul 2020 18:39:26 +0200
-Message-Id: <20200704163927.28188-5-philmd@redhat.com>
+Subject: [PULL 5/5] crypto/tls-cipher-suites: Produce fw_cfg consumable blob
+Date: Sat,  4 Jul 2020 18:39:27 +0200
+Message-Id: <20200704163927.28188-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704163927.28188-1-philmd@redhat.com>
 References: <20200704163927.28188-1-philmd@redhat.com>
@@ -75,9 +74,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,51 +104,126 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Names of user-provided fw_cfg items are supposed to start
-with "opt/". However FW_CFG_DATA_GENERATOR items are generated
-by QEMU, so allow the "etc/" namespace in this specific case.
+Since our format is consumable by the fw_cfg device,
+we can implement the FW_CFG_DATA_GENERATOR interface.
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Example of use to dump the cipher suites (if tracing enabled):
+
+  $ qemu-system-x86_64 -S \
+    -object tls-cipher-suites,id=mysuite1,priority=@SYSTEM \
+    -fw_cfg name=etc/path/to/ciphers,gen_id=mysuite1 \
+    -trace qcrypto\*
+  1590664444.197123:qcrypto_tls_cipher_suite_priority priority: @SYSTEM
+  1590664444.197219:qcrypto_tls_cipher_suite_info data=[0x13,0x02] version=TLS1.3 name=TLS_AES_256_GCM_SHA384
+  1590664444.197228:qcrypto_tls_cipher_suite_info data=[0x13,0x03] version=TLS1.3 name=TLS_CHACHA20_POLY1305_SHA256
+  1590664444.197233:qcrypto_tls_cipher_suite_info data=[0x13,0x01] version=TLS1.3 name=TLS_AES_128_GCM_SHA256
+  1590664444.197236:qcrypto_tls_cipher_suite_info data=[0x13,0x04] version=TLS1.3 name=TLS_AES_128_CCM_SHA256
+  1590664444.197240:qcrypto_tls_cipher_suite_info data=[0xc0,0x30] version=TLS1.2 name=TLS_ECDHE_RSA_AES_256_GCM_SHA384
+  1590664444.197245:qcrypto_tls_cipher_suite_info data=[0xcc,0xa8] version=TLS1.2 name=TLS_ECDHE_RSA_CHACHA20_POLY1305
+  1590664444.197250:qcrypto_tls_cipher_suite_info data=[0xc0,0x14] version=TLS1.0 name=TLS_ECDHE_RSA_AES_256_CBC_SHA1
+  1590664444.197254:qcrypto_tls_cipher_suite_info data=[0xc0,0x2f] version=TLS1.2 name=TLS_ECDHE_RSA_AES_128_GCM_SHA256
+  1590664444.197258:qcrypto_tls_cipher_suite_info data=[0xc0,0x13] version=TLS1.0 name=TLS_ECDHE_RSA_AES_128_CBC_SHA1
+  1590664444.197261:qcrypto_tls_cipher_suite_info data=[0xc0,0x2c] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_GCM_SHA384
+  1590664444.197266:qcrypto_tls_cipher_suite_info data=[0xcc,0xa9] version=TLS1.2 name=TLS_ECDHE_ECDSA_CHACHA20_POLY1305
+  1590664444.197270:qcrypto_tls_cipher_suite_info data=[0xc0,0xad] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_CCM
+  1590664444.197274:qcrypto_tls_cipher_suite_info data=[0xc0,0x0a] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_256_CBC_SHA1
+  1590664444.197278:qcrypto_tls_cipher_suite_info data=[0xc0,0x2b] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_GCM_SHA256
+  1590664444.197283:qcrypto_tls_cipher_suite_info data=[0xc0,0xac] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_CCM
+  1590664444.197287:qcrypto_tls_cipher_suite_info data=[0xc0,0x09] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_128_CBC_SHA1
+  1590664444.197291:qcrypto_tls_cipher_suite_info data=[0x00,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_GCM_SHA384
+  1590664444.197296:qcrypto_tls_cipher_suite_info data=[0xc0,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_CCM
+  1590664444.197300:qcrypto_tls_cipher_suite_info data=[0x00,0x35] version=TLS1.0 name=TLS_RSA_AES_256_CBC_SHA1
+  1590664444.197304:qcrypto_tls_cipher_suite_info data=[0x00,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_GCM_SHA256
+  1590664444.197308:qcrypto_tls_cipher_suite_info data=[0xc0,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_CCM
+  1590664444.197312:qcrypto_tls_cipher_suite_info data=[0x00,0x2f] version=TLS1.0 name=TLS_RSA_AES_128_CBC_SHA1
+  1590664444.197316:qcrypto_tls_cipher_suite_info data=[0x00,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_GCM_SHA384
+  1590664444.197320:qcrypto_tls_cipher_suite_info data=[0xcc,0xaa] version=TLS1.2 name=TLS_DHE_RSA_CHACHA20_POLY1305
+  1590664444.197325:qcrypto_tls_cipher_suite_info data=[0xc0,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_CCM
+  1590664444.197329:qcrypto_tls_cipher_suite_info data=[0x00,0x39] version=TLS1.0 name=TLS_DHE_RSA_AES_256_CBC_SHA1
+  1590664444.197333:qcrypto_tls_cipher_suite_info data=[0x00,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_GCM_SHA256
+  1590664444.197337:qcrypto_tls_cipher_suite_info data=[0xc0,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_CCM
+  1590664444.197341:qcrypto_tls_cipher_suite_info data=[0x00,0x33] version=TLS1.0 name=TLS_DHE_RSA_AES_128_CBC_SHA1
+  1590664444.197345:qcrypto_tls_cipher_suite_count count: 29
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200623172726.21040-5-philmd@redhat.com>
+Acked-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200623172726.21040-6-philmd@redhat.com>
 ---
- docs/specs/fw_cfg.txt | 4 ++++
- softmmu/vl.c          | 8 +++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ crypto/tls-cipher-suites.c | 11 +++++++++++
+ qemu-options.hx            | 18 ++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/docs/specs/fw_cfg.txt b/docs/specs/fw_cfg.txt
-index bc16daa38a..3e6d586f66 100644
---- a/docs/specs/fw_cfg.txt
-+++ b/docs/specs/fw_cfg.txt
-@@ -258,4 +258,8 @@ Prefix "opt/org.qemu/" is reserved for QEMU itself.
- Use of names not beginning with "opt/" is potentially dangerous and
- entirely unsupported.  QEMU will warn if you try.
+diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
+index a4e0f84307..0d305b684b 100644
+--- a/crypto/tls-cipher-suites.c
++++ b/crypto/tls-cipher-suites.c
+@@ -13,6 +13,7 @@
+ #include "qom/object_interfaces.h"
+ #include "crypto/tlscreds.h"
+ #include "crypto/tls-cipher-suites.h"
++#include "hw/nvram/fw_cfg.h"
+ #include "trace.h"
  
-+Use of names not beginning with "opt/" is tolerated with 'gen_id' (that
-+is, the warning is suppressed), but you must know exactly what you're
-+doing.
+ /*
+@@ -88,11 +89,20 @@ static void qcrypto_tls_cipher_suites_complete(UserCreatable *uc,
+     }
+ }
+ 
++static GByteArray *qcrypto_tls_cipher_suites_fw_cfg_gen_data(Object *obj,
++                                                             Error **errp)
++{
++    return qcrypto_tls_cipher_suites_get_data(QCRYPTO_TLS_CIPHER_SUITES(obj),
++                                              errp);
++}
 +
- All externally provided fw_cfg items are read-only to the guest.
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 13cada39d6..159f0352a9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2049,7 +2049,13 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
-                    FW_CFG_MAX_FILE_PATH - 1);
-         return -1;
+ static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++    FWCfgDataGeneratorClass *fwgc = FW_CFG_DATA_GENERATOR_CLASS(oc);
+ 
+     ucc->complete = qcrypto_tls_cipher_suites_complete;
++    fwgc->get_data = qcrypto_tls_cipher_suites_fw_cfg_gen_data;
+ }
+ 
+ static const TypeInfo qcrypto_tls_cipher_suites_info = {
+@@ -103,6 +113,7 @@ static const TypeInfo qcrypto_tls_cipher_suites_info = {
+     .class_init = qcrypto_tls_cipher_suites_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
++        { TYPE_FW_CFG_DATA_GENERATOR_INTERFACE },
+         { }
      }
--    if (strncmp(name, "opt/", 4) != 0) {
-+    if (nonempty_str(gen_id)) {
-+        /*
-+         * In this particular case where the content is populated
-+         * internally, the "etc/" namespace protection is relaxed,
-+         * so do not emit a warning.
-+         */
-+    } else if (strncmp(name, "opt/", 4) != 0) {
-         warn_report("externally provided fw_cfg item names "
-                     "should be prefixed with \"opt/\"");
-     }
+ };
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ecc4658e1f..b2cbbbf281 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4586,6 +4586,24 @@ SRST
+         string as described at
+         https://gnutls.org/manual/html_node/Priority-Strings.html.
+ 
++        An example of use of this object is to control UEFI HTTPS Boot.
++        The tls-cipher-suites object exposes the ordered list of permitted
++        TLS cipher suites from the host side to the guest firmware, via
++        fw_cfg. The list is represented as an array of IANA_TLS_CIPHER
++        objects. The firmware uses the IANA_TLS_CIPHER array for configuring
++        guest-side TLS.
++
++        In the following example, the priority at which the host-side policy
++        is retrieved is given by the ``priority`` property.
++        Given that QEMU uses GNUTLS, ``priority=@SYSTEM`` may be used to
++        refer to /etc/crypto-policies/back-ends/gnutls.config.
++
++        .. parsed-literal::
++
++             # |qemu_system| \
++                 -object tls-cipher-suites,id=mysuite0,priority=@SYSTEM \
++                 -fw_cfg name=etc/edk2/https/ciphers,gen_id=mysuite0
++
+     ``-object filter-buffer,id=id,netdev=netdevid,interval=t[,queue=all|rx|tx][,status=on|off][,position=head|tail|id=<id>][,insert=behind|before]``
+         Interval t can't be 0, this filter batches the packet delivery:
+         all packets arriving in a given interval on netdev netdevid are
 -- 
 2.21.3
 
