@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4769021480B
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:38:07 +0200 (CEST)
-Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EA2214823
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:45:19 +0200 (CEST)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn38-0000kY-98
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39728)
+	id 1jrnA6-0005J6-HC
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:45:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvU-0003Eb-FV
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42668
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvW-0003Hu-23
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48039
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvS-0001P3-MX
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:12 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvU-0001PD-3V
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887410;
+ s=mimecast20190719; t=1593887411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=P6r2FskKwB1C7cd0JfHkwqOjL7yF8DU7eDQFn/2WuCI=;
- b=NrwJznvPfI/kXVe8t/K/IMUJNyfZhefArlXyRr3y/5WQT9dW4/3pb36Rf+GAZri+p/7JWx
- 2Eqq38fUBFtChuDPbJf9JC5ptkKZU9z4JNqRqz+jDe+j1leGcQ8w/nJQnvkL+6Icd67IEX
- j7x1zz/zE57xu/WiRHZ5jB6RhksnF28=
+ bh=iWDsFI9FTPaIYFz+N5tNzGyrP1poUpyqulcQXZoBxbc=;
+ b=LM182bj/piyS/4VhY4DULwKxnC53uaD/3lQOyY60F+7BnfIvHJIwT/GjDRNvhAspVKtR5q
+ l74Yxsj5gcV79JP8T2DZ1HfBabaLzEpkQ4QoxWXO5JA0PPPOFOEw2NET1umIHGK8Lj9BlM
+ JnOwOec6ctbDGrSMb0hedAu2RcZMRZg=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-jciBYOJOMCy7ITHZeCMhoQ-1; Sat, 04 Jul 2020 14:30:06 -0400
-X-MC-Unique: jciBYOJOMCy7ITHZeCMhoQ-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so31064169wrw.3
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:06 -0700 (PDT)
+ us-mta-267-o8_5sEFPM9O1kSKFxiwJ8g-1; Sat, 04 Jul 2020 14:30:09 -0400
+X-MC-Unique: o8_5sEFPM9O1kSKFxiwJ8g-1
+Received: by mail-wr1-f72.google.com with SMTP id i14so36213788wru.17
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=P6r2FskKwB1C7cd0JfHkwqOjL7yF8DU7eDQFn/2WuCI=;
- b=hlz+maUY66BxNp+WvWips5bEW1n5tJ2fS1EgqbbCjQp/RWnJF0dMso0qCmPGQLMeH2
- sh8dVHfqnm5Kk0csbHPqEat89BgOORuejtWDltreXaUFRw/yEmamy0/wINHi2199dqTa
- fCxbLQQKrHBH8oewIDRS8CltWMRvXhgQbiB3gjOHeF41DgqY0vidccRT2xSUiyGskadT
- yzGweb/1IyrCqMyLHBAr3F9OgONVmeNoZcFulteymz7j+xZhmbxbwh/+MAUPRwWFBVOP
- ZNSdLms+/XfeOcCH1NDdaYU+ybm47BOKR6x+iUzplHYfdFjwzTEAkeftv8012JVGnhpY
- QeOA==
-X-Gm-Message-State: AOAM530v2syI0Qgm4LhxhVYKLn05I7GlDYPDnKhVjqL5dY8WzLp3c0W0
- SY7r2jXru66mR3tOll6W8nrhfnZjh+r2QStwdETxn1a9Ji0VmsnsblvyrLxsC5YHR+GmG6VXUBt
- OA+xoV3GmDu9Zw0I=
-X-Received: by 2002:a1c:4444:: with SMTP id r65mr40310672wma.129.1593887405609; 
- Sat, 04 Jul 2020 11:30:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziOhc08D/FoT6hHyBL2TK+sGvS3ui80NYHBuOuFxQQikwOOleQieaiGuMLkTR2kG2t+zx4dg==
-X-Received: by 2002:a1c:4444:: with SMTP id r65mr40310659wma.129.1593887405418; 
- Sat, 04 Jul 2020 11:30:05 -0700 (PDT)
+ bh=iWDsFI9FTPaIYFz+N5tNzGyrP1poUpyqulcQXZoBxbc=;
+ b=WuDF3CKuKRmp1vxDXLfLvctUQvld1nzK4F9ZXBpdvRuEoCUqhpvAOITe39z/BZb2tV
+ 4o/QuXaa2agpvkyZGGxSSIDHv5KqIUUhenEygGLiiVHpOY0uy4e8X2lC5hjDY+bfKzLW
+ Oke1yhj+LMVU20hhz2ruqrs6+MpqBNwTN6gNvfJLDDhScRB7gfOPgtblgCS83jN/g/yP
+ +KQ768q3TXqVBLNn7b+BXLnPJuqrtgtaHbEOsNwOwQOJUu+Hm9eVkLgN4dzWDGZ+1it9
+ yDo0HDrE+m7mU063/xQZGoJeu/sOxuIedyMhP4hySMqRNrWVJtBNNwOYR/k1nz+pUsyO
+ xozQ==
+X-Gm-Message-State: AOAM530aM10+7CQTUOvtcrRWuXWsZWZuu9g2YfkzPLZF6dyjZboMOFaM
+ Wo4pQ23+2+BjE+5tNzXukY5zV5rE4gDiKUMdu92DONwC0DIsNXBQ3/ktEDTpIlKFzxtGsXG0GGu
+ SfW32By71bZcxVBg=
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr41524255wrs.365.1593887408055; 
+ Sat, 04 Jul 2020 11:30:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwz4D+oj/8FDX+qX2CEY79GF9mGPebi3j3euQoGNIdhFibF9mYEJq1sQN3S8Q2Qdrw/+F18w==
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr41524250wrs.365.1593887407851; 
+ Sat, 04 Jul 2020 11:30:07 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- b184sm17722440wmc.20.2020.07.04.11.30.03
+ b62sm17081843wmh.38.2020.07.04.11.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:04 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:03 -0400
+ Sat, 04 Jul 2020 11:30:07 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/41] MAINTAINERS: Add myself as virtio-mem maintainer
-Message-ID: <20200704182750.1088103-16-mst@redhat.com>
+Subject: [PULL v2 16/41] hmp: Handle virtio-mem when printing memory device
+ info
+Message-ID: <20200704182750.1088103-17-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -73,9 +74,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:14
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 08:57:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +98,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's make sure patches/bug reports find the right person.
+Print the memory device info just like for other memory devices.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-13-david@redhat.com>
+Message-Id: <20200626072248.78761-14-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ monitor/hmp-cmds.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dec252f38b..5f02160436 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1790,6 +1790,15 @@ F: hw/virtio/virtio-crypto.c
- F: hw/virtio/virtio-crypto-pci.c
- F: include/hw/virtio/virtio-crypto.h
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 2b0b58a336..2ec13e4cc3 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1821,6 +1821,7 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
+     MemoryDeviceInfoList *info_list = qmp_query_memory_devices(&err);
+     MemoryDeviceInfoList *info;
+     VirtioPMEMDeviceInfo *vpi;
++    VirtioMEMDeviceInfo *vmi;
+     MemoryDeviceInfo *value;
+     PCDIMMDeviceInfo *di;
  
-+virtio-mem
-+M: David Hildenbrand <david@redhat.com>
-+S: Supported
-+W: https://virtio-mem.gitlab.io/
-+F: hw/virtio/virtio-mem.c
-+F: hw/virtio/virtio-mem-pci.h
-+F: hw/virtio/virtio-mem-pci.c
-+F: include/hw/virtio/virtio-mem.h
-+
- nvme
- M: Keith Busch <kbusch@kernel.org>
- L: qemu-block@nongnu.org
+@@ -1855,6 +1856,21 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
+                 monitor_printf(mon, "  size: %" PRIu64 "\n", vpi->size);
+                 monitor_printf(mon, "  memdev: %s\n", vpi->memdev);
+                 break;
++            case MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM:
++                vmi = value->u.virtio_mem.data;
++                monitor_printf(mon, "Memory device [%s]: \"%s\"\n",
++                               MemoryDeviceInfoKind_str(value->type),
++                               vmi->id ? vmi->id : "");
++                monitor_printf(mon, "  memaddr: 0x%" PRIx64 "\n", vmi->memaddr);
++                monitor_printf(mon, "  node: %" PRId64 "\n", vmi->node);
++                monitor_printf(mon, "  requested-size: %" PRIu64 "\n",
++                               vmi->requested_size);
++                monitor_printf(mon, "  size: %" PRIu64 "\n", vmi->size);
++                monitor_printf(mon, "  max-size: %" PRIu64 "\n", vmi->max_size);
++                monitor_printf(mon, "  block-size: %" PRIu64 "\n",
++                               vmi->block_size);
++                monitor_printf(mon, "  memdev: %s\n", vmi->memdev);
++                break;
+             default:
+                 g_assert_not_reached();
+             }
 -- 
 MST
 
