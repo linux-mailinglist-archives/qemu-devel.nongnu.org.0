@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE024214802
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:36:02 +0200 (CEST)
-Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6492147F2
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:31:48 +0200 (CEST)
+Received: from localhost ([::1]:59784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn18-0004Ub-0S
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
+	id 1jrmx0-0004sY-9S
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvF-0002mB-Tr
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25722
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvJ-0002ty-9U
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35966
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvD-0001Le-LF
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:57 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvH-0001Lz-Fc
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887395;
+ s=mimecast20190719; t=1593887398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rJ+ftu7sRo4+D1GoB2r1H/Xv24+UlICQh28kpGHM9w0=;
- b=VJtFnGqmm2IV3Ey1zh3sNKc4LWqsdEXyn2dcusm9zEdZaxvuCPYam60owRVCRTeeXaV98I
- ZpNV07++G73AhNUbAbC35ns5zT8EkuUfC1ReSnkIqf+JaMPVgltuv7sZGvjNU9W9xZuczv
- AKSNMIj0DU9xm+4eVzMlXP0US1Cdncw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-QhwGETBPMHqkzuRtaSVdDQ-1; Sat, 04 Jul 2020 14:29:53 -0400
-X-MC-Unique: QhwGETBPMHqkzuRtaSVdDQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t18so40173223wmj.5
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:29:53 -0700 (PDT)
+ bh=rnwhkibuuryD3VaVsetE4dEaQSFYlxZxsA4QPNf181w=;
+ b=LA3aDlf1JdiUzt/kHAdQklil35gXSvC3Mwzj0aEWEV/jHqc0po35HRCq5+SK3NVjyeEPK5
+ F9KBsqwd1++WVt6qHWcD4xcAzf0nVoEFCXE54SGTURUgk0SUr8Cqmgk4Ga8QfBXBs/qhnn
+ RwyO101IAD4kDhdCR1GZ3U9T7drQjiM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-bqjU5aL7N4OiD5aHIShOzg-1; Sat, 04 Jul 2020 14:29:56 -0400
+X-MC-Unique: bqjU5aL7N4OiD5aHIShOzg-1
+Received: by mail-wr1-f71.google.com with SMTP id v3so6664119wrq.10
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:29:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rJ+ftu7sRo4+D1GoB2r1H/Xv24+UlICQh28kpGHM9w0=;
- b=jpHBLJMxPuo6RjUQtWa6U0eU+GLdwqCFSTfVqbEMlaPlsVeOXzLxexzCH110QBcLVT
- /6GP1d7IXfKuPfY4gb9cUXccqiz1iFkssT50xAFDBAbFlQHAFHElJ1hijfBNE37v03M2
- pzV7Q90/W9fr50+o3xXIlri9JrRuJuGjMA8gcpnVwzzhHcweFPp/tv+C2hW5R/+Q2lDG
- lyrvBHjE4UaUNYVWsWL42YlVJQHk74NJ4mqitdrP/TRsTHHwG2xhAcMaWLkKpuPu+mXz
- kRW6Jw8U0fMDLS9B0+mfdchOIkWIBnCvgeXmSKxdIhi0ohMNAa42gxlBzoZBcJ62AWqu
- 3shA==
-X-Gm-Message-State: AOAM531oTbJ5cF00b3tQ4P7M+Tvsp0qtAOQNbySj8pcr9kOyoNkk4f17
- D2JTmGaW7IVp1luxB8OubcEGluNgkGk4Xsq1ig8QXDGKIpk98wZeRz5QPeIzS7rjcYuKsKvWfkl
- s1I6ckm6px8QWAnw=
-X-Received: by 2002:a7b:ce97:: with SMTP id q23mr42520261wmj.89.1593887392065; 
- Sat, 04 Jul 2020 11:29:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypgywOX2uW7oB0F+xcHYZ5odIW5/4MTbqD/5w4NaF9NjLbUW8fLrM47A0wWgS7hsnuWLFz/g==
-X-Received: by 2002:a7b:ce97:: with SMTP id q23mr42520250wmj.89.1593887391917; 
- Sat, 04 Jul 2020 11:29:51 -0700 (PDT)
+ bh=rnwhkibuuryD3VaVsetE4dEaQSFYlxZxsA4QPNf181w=;
+ b=UHg4UHeHTa7c+5svaQvOVOQ82RXWhdl4oWQ1tE00FWrBDPrXE+vukCu6AR1H9EsoXZ
+ laxhn+14tdtNx6P3CINBJVpMpbm/bW/iRfV0HT7GQdKMpWsRNbDZATVdQnSPpZQjfhgI
+ t6ftu787tVgjpoGqqsltOtDvM08+EnW0XBGJMaqbfOi4HmDZ1k1+B99hB+7XdXaqSiTR
+ O/TlcuzigW24ZUOQzpcO6wLwoepF/evCHfjSgMxAgATMIwFdLziLst6MYYtJ5c3h+X3d
+ J0RF0i0OQzXqJ0+1QcMs/52HmH4Wa8AMxFRUGBh3zYvwHFAvu7iZlUe4nuFy5J9SsqJm
+ n0zw==
+X-Gm-Message-State: AOAM530V5d+5+HZJFN1AXdP1+vfiXtYquLGTR578+eR90lkk5BXA6W2e
+ yHSF2NK00jZWKv7h3gCktGmTUyDI2H/sgQ5Hsaw2ymDXLRT+JohU3lIGDEer/4KjWsofSfhxGuH
+ bNgI6RrU2UojwJCo=
+X-Received: by 2002:adf:f60a:: with SMTP id t10mr33810099wrp.64.1593887394482; 
+ Sat, 04 Jul 2020 11:29:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkm5yQ1qWIomDDGcWAn4+HbF2EUljM6ONyprgX/l9v5ui6ZJIYpxHdFnFzm7gk0vsOvVd3zA==
+X-Received: by 2002:adf:f60a:: with SMTP id t10mr33810092wrp.64.1593887394338; 
+ Sat, 04 Jul 2020 11:29:54 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- c11sm16765277wmb.45.2020.07.04.11.29.50
+ 1sm16942120wmf.21.2020.07.04.11.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:29:51 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:29:49 -0400
+ Sat, 04 Jul 2020 11:29:53 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:29:52 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/41] target/i386: sev: Use ram_block_discard_disable()
-Message-ID: <20200704182750.1088103-11-mst@redhat.com>
+Subject: [PULL v2 11/41] migration/rdma: Use ram_block_discard_disable()
+Message-ID: <20200704182750.1088103-12-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -97,56 +97,82 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-AMD SEV will pin all guest memory, mark discarding of RAM broken. At the
-time this is called, we cannot have anyone active that relies on discards
-to work properly - let's still implement error handling.
+RDMA will pin all guest memory (as documented in docs/rdma.txt). We want
+to disable RAM block discards - however, to keep it simple use
+ram_block_discard_is_required() instead of inhibiting.
+
+Note: It is not sufficient to limit disabling to pin_all. Even when only
+conditionally pinning 1 MB chunks, as soon as one page within such a
+chunk was discarded and one page not, the discarded pages will be pinned
+as well.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-8-david@redhat.com>
+Message-Id: <20200626072248.78761-9-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- target/i386/sev.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ migration/rdma.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index d273174ad3..f100a53231 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -680,6 +680,12 @@ sev_guest_init(const char *id)
-     uint32_t host_cbitpos;
-     struct sev_user_data_status status = {};
+diff --git a/migration/rdma.c b/migration/rdma.c
+index ec45d33ba3..bbe6f36627 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -29,6 +29,7 @@
+ #include "qemu/sockets.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/coroutine.h"
++#include "exec/memory.h"
+ #include <sys/socket.h>
+ #include <netdb.h>
+ #include <arpa/inet.h>
+@@ -4017,8 +4018,14 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+     Error *local_err = NULL;
  
-+    ret = ram_block_discard_disable(true);
-+    if (ret) {
-+        error_report("%s: cannot disable RAM discard", __func__);
-+        return NULL;
+     trace_rdma_start_incoming_migration();
+-    rdma = qemu_rdma_data_init(host_port, &local_err);
+ 
++    /* Avoid ram_block_discard_disable(), cannot change during migration. */
++    if (ram_block_discard_is_required()) {
++        error_setg(errp, "RDMA: cannot disable RAM discard");
++        return;
 +    }
 +
-     sev = lookup_sev_guest_info(id);
-     if (!sev) {
-         error_report("%s: '%s' is not a valid '%s' object",
-@@ -751,6 +757,7 @@ sev_guest_init(const char *id)
-     return sev;
- err:
-     sev_guest = NULL;
-+    ram_block_discard_disable(false);
-     return NULL;
- }
++    rdma = qemu_rdma_data_init(host_port, &local_err);
+     if (rdma == NULL) {
+         goto err;
+     }
+@@ -4067,10 +4074,17 @@ void rdma_start_outgoing_migration(void *opaque,
+                             const char *host_port, Error **errp)
+ {
+     MigrationState *s = opaque;
+-    RDMAContext *rdma = qemu_rdma_data_init(host_port, errp);
+     RDMAContext *rdma_return_path = NULL;
++    RDMAContext *rdma;
+     int ret = 0;
  
++    /* Avoid ram_block_discard_disable(), cannot change during migration. */
++    if (ram_block_discard_is_required()) {
++        error_setg(errp, "RDMA: cannot disable RAM discard");
++        return;
++    }
++
++    rdma = qemu_rdma_data_init(host_port, errp);
+     if (rdma == NULL) {
+         goto err;
+     }
 -- 
 MST
 
