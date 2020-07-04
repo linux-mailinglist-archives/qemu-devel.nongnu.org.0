@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02123214695
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:54:04 +0200 (CEST)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD05A21469B
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:56:10 +0200 (CEST)
+Received: from localhost ([::1]:52524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjYJ-0000B4-1V
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
+	id 1jrjaL-0003iO-NF
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUZ-0001ik-P4; Sat, 04 Jul 2020 10:50:11 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39250)
+ id 1jrjUb-0001nE-HG; Sat, 04 Jul 2020 10:50:13 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUY-0003fr-8v; Sat, 04 Jul 2020 10:50:11 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id w3so24606689wmi.4;
- Sat, 04 Jul 2020 07:50:09 -0700 (PDT)
+ id 1jrjUa-0003g7-0s; Sat, 04 Jul 2020 10:50:13 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f18so37074163wml.3;
+ Sat, 04 Jul 2020 07:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CVXjF5m55kSlusAor5YG6lDc3XbyrrRebQzgpXEfhAM=;
- b=AP5+c+c62PoQXfTA/LtPm4Xh/2BhHY+f3Lrq+ywLKxnRs/teD8SlK4rBeR1W21QVVg
- MX5/zdYcr6MAV0tTj6y2JwWtreM0kI/3HLVXeM5Km0zk4LkxkDr+JUBRTgKPd4JDTNTQ
- qN+mtEml6SPGpVvDH0gvcL2DaAmIUkHFVWrvjkbOj7nMpqfWvSbHnLG867tnERkfPaEt
- R2NVOPlavAmVmA4nXJZ+9rKOMoryjsy3gDMvjOfRq/6T+kmZOAFOqpsdRHndZbJgqOt0
- X2QNL+czgbdip7AR/uSYj4AY75akrcM9UFux62yHvkIZB1h62OgvTkd3vwzX7RVlkGWT
- qEKg==
+ bh=Qlr3O8z8K3sxKCQEA3LIB47YWANsKrmr6NiJfPzW+pA=;
+ b=BjegYO4FHLxpds48YkBBFzRrjEv1/GP+e4ATsl6+otTSGUY/901sR8dfeFezH6YE/H
+ gyqcHtJDTSjMR3xSfApYj8hqtz/wSqo+AhH4cF/fm2j+9m/n0GaYISJPWJ/RwXFwMv0i
+ zF35Mon1ROOvzuyLQlhn2ubfKHpMR6u+d6BRgIWzYqjNEGrlhI70Re1P2IMAC6x/WVCy
+ UpAhaCc/lRUYHliXs64Cz+eMjpdgUsURvkEK6XHbHXGDgqkC12TEmbUML5S9HZLBsrDI
+ CfvgBiMtwGNU5/W+nM99z3Uhdqnhwsjs6JgDwP2puNTcMnyTpTn0mUq5lKsTdp+nUtSr
+ CzWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CVXjF5m55kSlusAor5YG6lDc3XbyrrRebQzgpXEfhAM=;
- b=Rno1h0TOP40mC78G8rx7YznS4QFn1Yom1ptwWdKDmGONV6R4WXFkqErwvI0UA8cfTG
- o6yv7jOfQkybIjyxXWKAypRQIrPknNdgztSQxwb5H5i1mHC+zj3mjxHIseEAvK+M+P7l
- 0glXu5E2qEehOevOKmMfWT9p0IeWj7ew8mCg4Zb/9Iw5W98H6Il+XffEue1dqOu+8rPX
- QIWPMwlBQjaHBU4GuGcnKGya+u87wrIso6TmFL9JmbCIuBXPxHJSPCknoL6Sw6L53w3u
- HQ/iZSnP64LtKWBDli40xNYvgbpchgbyN/TpV4ax7mbiUYmtk76FWfKs0x1SqH2u8RXg
- qd/A==
-X-Gm-Message-State: AOAM533My5frZyNAu7Zc6o+JGOjd6VPd7BHMmzXupdPtz7PU+OVzfvmi
- ha1npqdSBR/8G6lE6evtjSSDcCL5kg4=
-X-Google-Smtp-Source: ABdhPJymro0ZDYhdB5ObnYkjPPmmHwp/a0dtBWYIDo1/eOyMgDUzyUYBTppKmDKb9G4hobFLnzrm0w==
-X-Received: by 2002:a1c:18e:: with SMTP id 136mr10977102wmb.93.1593874208054; 
- Sat, 04 Jul 2020 07:50:08 -0700 (PDT)
+ bh=Qlr3O8z8K3sxKCQEA3LIB47YWANsKrmr6NiJfPzW+pA=;
+ b=cFOZs2K1Mc9DbIU7YJfGHI7UKLFiSGqcAlNYLRNbdrsEG66zymXL3nc4TbtmSQhTvb
+ nUMGKBekZiPFpq5ICMZ5R0vBo3SrL6M7wiCvuf06v3qR1eJHcLH++mH+k6smwBT2rLSr
+ vwM3dka4L16GOvgnuuZDnioPR6OmIqpQsOx0JkbNDR6L+PipJnymy8YEZFxo9yfeT5r0
+ vCC4kvk5s5oaCjuT3N2welri79KNygdPzmRMU99lgOLd0/e04MaGcFoHirOotpSzylsF
+ 5S9/fa2aOVNMbl8zlvaXvLpJkE9VoM2jlKriXcRfYC1ouD/mu4W2GkrbYIuSfDfCQLr1
+ ApFA==
+X-Gm-Message-State: AOAM532JuSN+73KaUlMEp8s1EJjV0CRFV0oxCuGvtdypQFRrTFSYFipL
+ TJHIUuP6D85mjKu7gNw3eZs34C4K7oc=
+X-Google-Smtp-Source: ABdhPJwynHTB68DwvsWAVjiG8rSM/kHHHNQ70teJ+dR7LseKz9qmvzwpG0TxpNzjRrE6k7cH1DWiTw==
+X-Received: by 2002:a1c:f007:: with SMTP id a7mr41379225wmb.103.1593874209918; 
+ Sat, 04 Jul 2020 07:50:09 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.06
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:50:07 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 10/26] hw/usb/hcd-ehci: Move few definitions from header to
- source
-Date: Sat,  4 Jul 2020 16:49:27 +0200
-Message-Id: <20200704144943.18292-11-f4bug@amsat.org>
+Subject: [PATCH 11/26] hw/usb/hcd-xhci: Add missing header
+Date: Sat,  4 Jul 2020 16:49:28 +0200
+Message-Id: <20200704144943.18292-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -118,59 +117,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move definitions only useful for hcd-ehci.c to this source file.
+This header uses the USBPort type which is forward declared
+by "hw/usb.h".
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-ehci.h | 11 -----------
- hw/usb/hcd-ehci.c | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 11 deletions(-)
+ hw/usb/hcd-xhci.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/hcd-ehci.h b/hw/usb/hcd-ehci.h
-index 57b38cfc05..4577f5e31d 100644
---- a/hw/usb/hcd-ehci.h
-+++ b/hw/usb/hcd-ehci.h
-@@ -24,17 +24,6 @@
- #include "hw/pci/pci.h"
- #include "hw/sysbus.h"
+diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
+index 946af51fc2..8edbdc2c3e 100644
+--- a/hw/usb/hcd-xhci.h
++++ b/hw/usb/hcd-xhci.h
+@@ -22,6 +22,8 @@
+ #ifndef HW_USB_HCD_XHCI_H
+ #define HW_USB_HCD_XHCI_H
  
--#ifndef EHCI_DEBUG
--#define EHCI_DEBUG   0
--#endif
--
--#if EHCI_DEBUG
--#define DPRINTF printf
--#else
--#define DPRINTF(...)
--#endif
--
--#define MMIO_SIZE        0x1000
- #define CAPA_SIZE        0x10
- 
- #define NB_PORTS         6        /* Max. Number of downstream ports */
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 256fb91e0c..a0beee527c 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -36,6 +36,18 @@
- #include "qemu/error-report.h"
- #include "sysemu/runstate.h"
- 
-+#ifndef EHCI_DEBUG
-+#define EHCI_DEBUG   0
-+#endif
++#include "hw/usb.h"
 +
-+#if EHCI_DEBUG
-+#define DPRINTF printf
-+#else
-+#define DPRINTF(...)
-+#endif
-+
-+#define MMIO_SIZE        0x1000
-+
- #define FRAME_TIMER_FREQ 1000
- #define FRAME_TIMER_NS   (NANOSECONDS_PER_SECOND / FRAME_TIMER_FREQ)
- #define UFRAME_TIMER_NS  (FRAME_TIMER_NS / 8)
+ #define TYPE_XHCI "base-xhci"
+ #define TYPE_NEC_XHCI "nec-usb-xhci"
+ #define TYPE_QEMU_XHCI "qemu-xhci"
 -- 
 2.21.3
 
