@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A436214854
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 21:17:14 +0200 (CEST)
-Received: from localhost ([::1]:37712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D80521487A
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 21:46:45 +0200 (CEST)
+Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnez-0002Fa-6b
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 15:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1jro7X-0006YD-8h
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 15:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrndG-00010L-Hu
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:15:26 -0400
-Received: from elasmtp-masked.atl.sa.earthlink.net ([209.86.89.68]:41934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
- id 1jrndE-0002aD-DF
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
- s=dk12062016; t=1593890124; bh=rWfiki62H/m6w6n+NHPQ7FEqI1ky8Jvhhgrf
- TnZb360=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
- To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:
- X-Originating-IP; b=p6D/kx5wnzH/c0ijNZr16qLYtReDOIzwqmat5J6yJOdB7Q
- +hPAdqHJhLtAruyThoRSxDx+LKVUS8krsNKtobQat502OlnkKgwAnfYaiz97dv5VQPH
- 1sbOnR7KymxwKbF+TqQMuK7GqkKIj3DR8h2+2xTc2GnKnfcFzZ24bvpE4PprqAx28R3
- 11wi8+3/TPy4qskqJa/d44Qn6l4nGyHaZRMPRgfMFS43rnQdBCuJz6ZOlZJp6S8ALZm
- I4sTmWzHWnOH2DI6GhsmN/lzr7ClQHKkxpRxMXizY20FJoL3j/26ckRqaDuz0f/x9sv
- Qwq2IT3frAMb8cfNDR81HvSx/2pA==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
- s=dk12062016; d=mindspring.com;
- b=p0rivGb2Ph3bn3tLvTpF2Gk8xKDjiJ21cvNWW+Ozc4R2/FnQRFbanylPpBrXBh0ZdoNJ7em8GcuF7dMCuhtB+cRDKwL0hPwzULKi/DF4PCcZ9bDk28XmRGhT6gNP8h8IGy+T1MzMa95PnT8DPv9PXoRzi/mS38KdWtw4CttMSJQPIzuo/BNU0U+QaNS1J3kq5khhHShCcBcNwAvk07VOkkpATeQRgk2lhGntDhxFZntnTlLaRiflAXzfrXf5pqWQmNxMhoeZ9ZnVyKvApVCVNya7LdWO9BnwpSg1nnZ0WJVX6yFkmlQtb5RmH2G8JG6pPmT5IfcE2hXvHqUKqEAA8g==;
- h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:X-Originating-IP;
-Received: from [8.9.81.230] (helo=[192.168.0.78])
- by elasmtp-masked.atl.sa.earthlink.net with esmtpa (Exim 4)
- (envelope-from <denber@mindspring.com>)
- id 1jrndA-00039c-NA; Sat, 04 Jul 2020 15:15:20 -0400
-Message-ID: <5F00D548.5050305@mindspring.com>
-Date: Sat, 04 Jul 2020 15:15:20 -0400
-From: Michele Denber <denber@mindspring.com>
-User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
- rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jro6W-00064V-UJ
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:45:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jro6T-0000Gv-FV
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:45:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jro6P-0007iZ-Gc
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 19:45:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5B1352E8112
+ for <qemu-devel@nongnu.org>; Sat,  4 Jul 2020 19:45:33 +0000 (UTC)
 MIME-Version: 1.0
-To: =?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: gmake in Solaris 11.4: TFR missing
-References: <20200702143955.678-1-thuth@redhat.com>
- <5EFE07BC.6040407@mindspring.com>
- <1e699fdc-639e-ef8a-313f-7e665cad868c@redhat.com>
- <5EFE5291.6030300@mindspring.com>
- <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
- <5EFF5DFC.2060006@mindspring.com>
- <CAFEAcA81y59yaOCW=QONy9EKv6Fdkkwb=XGJ786-N5du2+P9NQ@mail.gmail.com>
- <5EFF7DD7.1000605@mindspring.com> <5EFFA499.7050008@mindspring.com>
- <3474053c-12d7-cf4a-5470-62845c166127@redhat.com>
- <5F00A1ED.6040909@mindspring.com>
- <69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org>
-In-Reply-To: <69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org>
-Content-Type: multipart/alternative;
- boundary="------------060407050906070105000507"
-X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca560f253835c45648768724f8d9b219674350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 8.9.81.230
-Received-SPF: pass client-ip=209.86.89.68; envelope-from=denber@mindspring.com;
- helo=elasmtp-masked.atl.sa.earthlink.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 15:15:22
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 04 Jul 2020 19:38:40 -0000
+From: Dustin Spicuzza <1886285@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dustin-virtualroadside
+X-Launchpad-Bug-Reporter: Dustin Spicuzza (dustin-virtualroadside)
+X-Launchpad-Bug-Modifier: Dustin Spicuzza (dustin-virtualroadside)
+Message-Id: <159389152128.1124.17936242072997160308.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1886285] [NEW] Provide SMB option to support Windows 2000
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1182d49db314ffbac6d213470f474322733ae55c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 15:45:33
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,131 +70,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Peter Tribble <peter.tribble@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1886285 <1886285@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------060407050906070105000507
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Public bug reported:
 
-On 07/04/20 11:57, Philippe Mathieu-Daudé wrote:
-> Odd...
->
-> Assuming you are using gcc, have you tried 'configure --host-cc=gcc'?
-OK, so I changed it from
+As of SAMBA 4.11
+(https://www.samba.org/samba/history/samba-4.11.0.html), SMB1 is
+disabled by default (and may be removed in the future). This breaks SMB
+shares with Windows 2000 guests.
 
-# /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"
+Adding the following line to smb.conf fixes this:
 
-to
+min protocol =3D NT1
 
-# /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32" 
---host-cc=gcc
+I would propose that an option be added to add this line to smb.conf to
+support these legacy operating systems.
 
-and then reran gmake -j16.   That seems to have fixed it.  ppc64 is 
-there now:
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-root@hemlock:~/qemu-5.0.0# ppc64-softmmu/qemu-system-ppc64 -machine help
-Supported machines are:
-40p                  IBM RS/6000 7020 (40p)
-bamboo               bamboo
-g3beige              Heathrow based PowerMAC
-mac99                Mac99 based PowerMAC
-mpc8544ds            mpc8544ds
-... and a bunch more ...
-root@hemlock:~/qemu-5.0.0#
+-- =
 
-And I also have the right stuff in x86_64-softmmu. So I tried running my 
-Win XP image and it started up OK, opening the QEMU window and 
-displaying the XP logo.  But unfortunately it's really really slow, like 
-20 minutes just to get to the XP desktop appearing.  That takes about 2 
-minutes in QEMU 2.12 on the same host hardware.  I had been hoping 5.0 
-would be faster.  Is there a reason for it to be an order of magnitude 
-slower?  I'm saying:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886285
 
-root@hemlock:~/qemu-5.0.0/x86_64-softmmu# ./qemu-system-x86_64  -m 2047  
--usb -device usb-tablet -smp 3 -device rtl8139,netdev=net0 -netdev 
-user,id=net0 -boot d -hda  /bkpool/qemuimages/XP.img -cdrom 
-/bkpool/qemuimages/xp.iso &
+Title:
+  Provide SMB option to support Windows 2000
 
-But in any case, I will now cautiously claim  that I have succeeded in 
-building QEMU 5.0 in Solaris 11.4 SPARC.  Thanks very much to everyone 
-for all your help.
+Status in QEMU:
+  New
 
-             - Michele
+Bug description:
+  As of SAMBA 4.11
+  (https://www.samba.org/samba/history/samba-4.11.0.html), SMB1 is
+  disabled by default (and may be removed in the future). This breaks
+  SMB shares with Windows 2000 guests.
 
+  Adding the following line to smb.conf fixes this:
 
+  min protocol =3D NT1
 
---------------060407050906070105000507
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+  I would propose that an option be added to add this line to smb.conf
+  to support these legacy operating systems.
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 07/04/20 11:57, Philippe Mathieu-Daudé wrote:<br>
-    <blockquote
-      cite="mid:69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org"
-      type="cite">
-      <pre wrap="">
-Odd...
-
-Assuming you are using gcc, have you tried 'configure --host-cc=gcc'?</pre>
-    </blockquote>
-    OK, so I changed it from<br>
-    <small><font face="Courier New, Courier, monospace"><br>
-        # /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"</font></small><br>
-    <br>
-    to<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace">#
-        /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"
-        --host-cc=gcc</font></small><br>
-    <br>
-    and then reran gmake -j16.   That seems to have fixed it.  ppc64 is
-    there now:<br>
-    <br>
-    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
-        ppc64-softmmu/qemu-system-ppc64 -machine help<br>
-        Supported machines are:<br>
-        40p                  IBM RS/6000 7020 (40p)<br>
-        bamboo               bamboo<br>
-        g3beige              Heathrow based PowerMAC<br>
-        mac99                Mac99 based PowerMAC<br>
-        mpc8544ds            mpc8544ds<br>
-        ... and a bunch more ...<br>
-        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> </font></small><br>
-    <br>
-    And I also have the right stuff in <small><font face="Courier New,
-        Courier, monospace">x86_64-softmmu. <big><font face="Helvetica,
-            Arial, sans-serif"> So I tried running my Win XP image and
-            it started up OK, opening the QEMU window and displaying the
-            XP logo.  But unfortunately it's really really slow, like 20
-            minutes just to get to the XP desktop appearing.  That takes
-            about 2 minutes in QEMU 2.12 on the same host hardware.  I
-            had been hoping 5.0 would be faster.  Is there a reason for
-            it to be an order of magnitude slower?  I'm saying:<br>
-            <br>
-            <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0/x86_64-softmmu#">root@hemlock:~/qemu-5.0.0/x86_64-softmmu#</a>
-                ./qemu-system-x86_64  -m 2047  -usb -device usb-tablet
-                -smp 3 -device rtl8139,netdev=net0 -netdev user,id=net0
-                -boot d -hda  /bkpool/qemuimages/XP.img -cdrom
-                /bkpool/qemuimages/xp.iso &amp;</font></small><br>
-            <br>
-            But in any case, I will now cautiously claim  that I have
-            succeeded in building QEMU 5.0 in Solaris 11.4 SPARC. 
-            Thanks very much to everyone for all your help.<br>
-            <br>
-                        - Michele<br>
-            <br>
-          </font></big></font></small><br>
-  </body>
-</html>
-
---------------060407050906070105000507--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886285/+subscriptions
 
