@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65957214817
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:42:35 +0200 (CEST)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BBD21481B
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:43:40 +0200 (CEST)
+Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn7S-0007f0-EM
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
+	id 1jrn8V-0001jT-S9
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwA-0004kt-6H
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34437
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwC-0004pg-DK
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52803
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmw8-0001fy-Ec
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwA-0001gI-PH
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887451;
+ s=mimecast20190719; t=1593887454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tXbtGjuArFU0L6axuc9oufytf20N/xVITacNIR/IrnQ=;
- b=RoUKcmhsRME2O4bQGE91dEOBu0dtnB1X6ppyzUjpqSbwBskFBxGyNZBe6RmvNJEQZwsG/C
- 2plvaR42ehBN7yQW7+THzZEic4n6UMjAxm6xVDT0uFKlzyJfRNMhC6OxImpz/fNjxnZ2RH
- xUAf0nATo1xThFZ1nxCeaGQmmQRv0tI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-kscUJR0WPdyyLSGoAdDuhQ-1; Sat, 04 Jul 2020 14:30:50 -0400
-X-MC-Unique: kscUJR0WPdyyLSGoAdDuhQ-1
-Received: by mail-wm1-f70.google.com with SMTP id b13so38188537wme.9
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:49 -0700 (PDT)
+ bh=YYDftXcBQrqsgbkpJ5iu6MhYnQVu4atwyoFfOVtYo8s=;
+ b=cEjwfFePD/j2dB6/fBeSombGns3Q0yhP3U0jQwT31PkEZcCTfaxs2WRaJdohrjJSyCYQo0
+ uYkNqYtTT431eHJqXxeRfq43jxRcFkxNEZA8dIKAfgNt2lerFC3ytEpM/nAmibDGeWGsGK
+ OkMe35sqWgWbDi5B/Su0r03GYTB76hk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-ErJfnVj8OHG84cYCtRcQgA-1; Sat, 04 Jul 2020 14:30:52 -0400
+X-MC-Unique: ErJfnVj8OHG84cYCtRcQgA-1
+Received: by mail-wr1-f69.google.com with SMTP id y13so36374361wrp.13
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tXbtGjuArFU0L6axuc9oufytf20N/xVITacNIR/IrnQ=;
- b=luv+J1hUyPwGEr2QQArNyxQE/tKd6vsuWFbSXWqnBM2/X7A8C+pTWhhI3GmmiThsni
- kL013wVN05bm9BAIzVgINXiRaSlWbuu8/SbvcUSsC8EatR+DkJV68rp7XMO8QUzekIO5
- y/WuNS8oB8bSGzT/7u8BiAgTsTVwRmlYmdC1zd6RuGUwJX33klKLCYLqJYz9m5wPU6V4
- YNoEBv68badf0YCdGdHmFGUbBochmOjamZ1UfqcNVxzaZD8H6hUyAvaAhwm4M5ZQ83u/
- YF1VizybDbxnpshbLoJu5d2SCUXpV3bgl8B5EvlGdnFV3VIbKr37Pw49MVT45E6Bh+YF
- Cp5w==
-X-Gm-Message-State: AOAM5319z2Ir/x+6/m6yEI0TcfZXbp3BSX26mtRetdfG/9FaIqwGjOhp
- kX0FkF9r7ZXaU6a/Qlq5uVU+e8uB734ufw+nF+ZCdj5Hv7saLdr48ZUFGDswdDdI/OYcrdkEqWz
- JaBAK6uzh/4LfB/c=
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr41976162wme.160.1593887448647; 
- Sat, 04 Jul 2020 11:30:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBuKGuxEfeLC/H05GRf+YECK74aXaYEnnZhF3ewyvZp9MlDzVRN9tfs2+FSdSz14sfgSFA4A==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr41976153wme.160.1593887448518; 
- Sat, 04 Jul 2020 11:30:48 -0700 (PDT)
+ bh=YYDftXcBQrqsgbkpJ5iu6MhYnQVu4atwyoFfOVtYo8s=;
+ b=ieLq9vmrtnjQBEKjB5IR/V0WUYTXu8j2oeGZG+4DjarZRYU65l0zwtkWAIrzLoA5u1
+ P/ns0Vz0UEcU++WDYRUzgbZfg95Yc2fTeAVJNPE5sp+XF4cq6BikLgtfREa2J2nNbZUu
+ v20eE3O5YNKoAGby+TS7EHKfVSXSnlSGkrw32XF4mmZSInGm5ghN544SttXeReQ/nO4Z
+ yJlgTU9eQNYseMGFdYgO0JFgAw+7BSgHxpSdFRrwJg6AuYo0Pn8arP/tVr/L7pkvbkwf
+ URp/VYxgLfiBllzaTBlj2ctdAq7o7RIxq7Oa6u8i/l4oR47WOhl/E9aAm2MHQBwu3Zdf
+ 8tSA==
+X-Gm-Message-State: AOAM532niuD3EYPYLXdvKjfpDPX+X8priWEzgMbOQukhKbdzhRez05kw
+ Z8z1h5lVPZa5kWat6xJIeN/83SngbRtfykW0HM352FfWGVms3DM4hcU2KaXdp2m7Yy8jG15H0Rg
+ oc8LL3PqXNEr/45Y=
+X-Received: by 2002:a1c:29c6:: with SMTP id p189mr38530685wmp.70.1593887451071; 
+ Sat, 04 Jul 2020 11:30:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxEWruZyg5Ir5vuXKr7DhssaD6SH8GIaifOSnuAAXGN1CCkskJTSCjQoqMuy6MpOiu1D8RjkQ==
+X-Received: by 2002:a1c:29c6:: with SMTP id p189mr38530674wmp.70.1593887450876; 
+ Sat, 04 Jul 2020 11:30:50 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- q5sm8115508wrp.60.2020.07.04.11.30.47
+ y77sm7176284wmd.36.2020.07.04.11.30.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:48 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:46 -0400
+ Sat, 04 Jul 2020 11:30:50 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:48 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 32/41] vhost: check the existence of vhost_set_iotlb_callback
-Message-ID: <20200704182750.1088103-33-mst@redhat.com>
+Subject: [PULL v2 33/41] vhost: introduce new VhostOps vhost_dev_start
+Message-ID: <20200704182750.1088103-34-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -101,48 +101,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
 
-Add the check of vhost_set_iotlb_callback
-before calling
+This patch introduces new VhostOps vhost_dev_start callback which allows the
+vhost_net set the start/stop status to backend
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20200701145538.22333-6-lulu@redhat.com>
+Message-Id: <20200701145538.22333-7-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ include/hw/virtio/vhost-backend.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 5fd25fe520..10304b583e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1686,8 +1686,9 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-         }
-     }
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 6f6670783f..b80f344cd6 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -112,6 +112,7 @@ typedef int (*vhost_get_inflight_fd_op)(struct vhost_dev *dev,
+ typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
+                                         struct vhost_inflight *inflight);
  
--    if (vhost_dev_has_iommu(hdev)) {
--        hdev->vhost_ops->vhost_set_iotlb_callback(hdev, true);
-+    if (vhost_dev_has_iommu(hdev) &&
-+        hdev->vhost_ops->vhost_set_iotlb_callback) {
-+            hdev->vhost_ops->vhost_set_iotlb_callback(hdev, true);
++typedef int (*vhost_dev_start_op)(struct vhost_dev *dev, bool started);
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -152,6 +153,7 @@ typedef struct VhostOps {
+     vhost_backend_mem_section_filter_op vhost_backend_mem_section_filter;
+     vhost_get_inflight_fd_op vhost_get_inflight_fd;
+     vhost_set_inflight_fd_op vhost_set_inflight_fd;
++    vhost_dev_start_op vhost_dev_start;
+ } VhostOps;
  
-         /* Update used ring information for IOTLB to work correctly,
-          * vhost-kernel code requires for this.*/
-@@ -1730,7 +1731,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     }
- 
-     if (vhost_dev_has_iommu(hdev)) {
--        hdev->vhost_ops->vhost_set_iotlb_callback(hdev, false);
-+        if (hdev->vhost_ops->vhost_set_iotlb_callback) {
-+            hdev->vhost_ops->vhost_set_iotlb_callback(hdev, false);
-+        }
-         memory_listener_unregister(&hdev->iommu_listener);
-     }
-     vhost_log_put(hdev, true);
+ extern const VhostOps user_ops;
 -- 
 MST
 
