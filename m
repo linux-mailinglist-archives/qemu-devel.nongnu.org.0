@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F592214769
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:34:42 +0200 (CEST)
-Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEED214764
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:33:08 +0200 (CEST)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrl7h-0001fw-MV
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
+	id 1jrl6B-0006ye-CF
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzX-0005Tw-Na
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:51321)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzZ-0005Xy-PI
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:18 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:42201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzQ-0002PP-HT
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:14 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzR-0002PX-V7
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:16 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MulyX-1kjJJN21z9-00rnzO; Sat, 04 Jul 2020 18:25:58 +0200
+ id 1MAOVx-1k3XV51xHf-00BtZK; Sat, 04 Jul 2020 18:26:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] linux-user: Add strace support for a group of syscalls
-Date: Sat,  4 Jul 2020 18:25:38 +0200
-Message-Id: <20200704162545.311133-6-laurent@vivier.eu>
+Subject: [PULL 08/12] linux-user: Add strace support for printing arguments of
+ chown()/lchown()
+Date: Sat,  4 Jul 2020 18:25:41 +0200
+Message-Id: <20200704162545.311133-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704162545.311133-1-laurent@vivier.eu>
 References: <20200704162545.311133-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qe57hQRhfBDJQOgfjZj7Dgsl40shKE68Jo0N/0JuhK0mjBPtIcy
- rss6qmCcWiImDOp6cKRsP/NbNF3+Q3UMlnGX/5oV9RzmYo7NTWC+cevpxg05lvbd742OrQe
- JeSycWR7c5Ptemwk1yti4MiUZ9Dln4HavW6czkibASrcfYr2uWfxVT7fH4Osf6JtP1MnO39
- XwEfZJlbS9Jk0zxb+T/dA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Bot2vp0/3eY=:QDiOupgX6JcGXkUGe2ABfn
- R7sDzSOI8hxFevjYrWsINImzd8kW6/bbDxJdl/LhSwRNBN+wmloFyiVTMro4ygqb3+CWFvC3z
- 8MEnvUXm6w7MkYGJh0uDgKzenF2ARSE4tDl3zVES88RtmTeRZP8r7BkxPY2zVZ7oELzmDNPgl
- DOWMXYsd/eqrtDsj+p1BpMXRPGS58KhWHoS5Njf67+MHngq5f/l4cBjXqjIwf7nrfL0qDXHci
- sEhMc/sdEH9pTppJ+ECnT2Dz7AeEl/X3RMam8939KeGmmcuTXlnnthEop14eEapt4YOIyC+KE
- 20PIcnaX/qGNfl4U4MsX6Sx1SZzqL/LxY84aQtcm4IPOasPtduHyHwPanDhRskN354M58dCsd
- JvMTczHjameAe6rAFgZoYLFxGaJpwCPxov+013RsOT9ftHWH2dloW2fYr9MhH5QIQHn0Y5U43
- vXZYFRkbbS2MZlbW7cKcH+mOooU2U8MfNZs6QxXXADLCLonqBPYsDn+J//Ql+EFTbP9ARHAcJ
- MgkMjSSZHhE9ZCep6NdxdlcZuzbJFONJNd8GRk/PFJESMW/kI1wyWrtkqatNaOQpLxQx97CXv
- wHJejzpLJ3inBEzdMim9qGKVOK8z6fvZPsbOSERuLBehzUxe6YoBqfNKLc5bdj6eRIXMlctmV
- Pn7BO8/ZsrEZjZPYkKJqsmoXmACl8mjjY0TLuwZBy1n0MEI4we/kzj3ur0hAnIGrR4iW0NyJ4
- dgj4pNWyaH3/a0PeXYtX3SOQEP00xMkRzPHNksQ+HiAIsfvBeZTk6Cn66Uqms9ymvLqBpeiZo
- M3F4D/JBVUm/D+VWV87QJmoOxewd/zA9Xw12ZCwhg4k2FxA8PY=
+X-Provags-ID: V03:K1:czKZRX6NarPlZ1JUy9KbABIUfVDaLZV5B8Bw2Af3vsiwCk71Z4v
+ yAniG3k4KCGd8QEOrV58BdTcfN8alpEaG7Hdw+ENrdytWP1MU9Tvghga1aBnW1fb508yg1w
+ GGHMkpDuep9tPjFDV0L4x7aFAYZsydSHIDrEUoLYu8pPBXU2kGLvC087GaVXGZqHsvhpsIY
+ 8L4SsvvLfVBKGhn7D93DQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6JciE7Ux9sg=:9MPbnuu+lQU/wR/8KTKy93
+ XLW5FzAhkXuPVR48QJ0jV9OS5m/jq+d5kDTWL0I3mDCLY5zWnx7Z5YtUZudVGwGFKYo73D4Pf
+ KVGLh6hruFrZi8G7jSVKh8clTy55TegSQxND8GD9A2mtzNtEr8md3jsa/7Z7rxmfIygpVQbJY
+ HCiw/C09BkJ1d5wErDt/a28wDKOHWzQHia2nzLw2PQ2qfjZ6aJXE1fbfz50lAkSvE2yowIe8o
+ 5MzHQABhBj9sFcQp1B6JByjR+XsKI0/CxAh61tyGYZXz0Bv44J/DxgS4JmbPeDcGQoE0AoaNb
+ uGFmcZPg3wGRCwXNawwLLqXZi5P6Z2NfYHOoSx7szoTdfzP379zA151Q72UNPsvNF4TG/wjgm
+ FZobGuvasPHZHMQXl6P3brRlFe6TSX3Ka8ajuGP01VXxK7FjpwID4/dYNOJkP8ww3smTOewfb
+ VBmwEpcQ2VjlwLpNTB6+KEuHMU90OZ5WIX1HvxxMHQs/2JKVFcF/TT7pmGfgefJlzQVVmjWUd
+ FkV4fzZbGEzh3Q69m3HxcSvQCbXOBbm06LkMBbGfixJ2NMgtPAlcVBzQFgx84HhZcO0FD1i+y
+ +ox+YU+Gtpb698UhAcVVnjYoL21WbmmewIqimJ88w0vQSzmUz1bOGyb1fL3TxT8dvNzKQDl3N
+ EggU1iHBgY4udgxjmsWF+d6qHqrXCbmlYTiqOW0G6ExtjZ/bOzq9PnH7QSUSU968+aPWvYrRx
+ WquQzXlAMWCNPVByFGHwOrnaTymOUQGQVp0ZoF2zMXokUZ5Sx4hqffd1V2bQbCnXmcm5Gzkwk
+ LowgribDZgU0esEgyEcGgAwqyLwdT3brD3qf9Cs1Hxlw3lpFiQ=
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:25:55
@@ -77,114 +78,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for following syscalls:
+This patch implements strace argument printing functionality for syscalls:
 
-    *acct - switch process accounting on or off
+    *chown, lchown - change ownership of a file
 
-        int acct(const char *filename)
-        man page: https://www.man7.org/linux/man-pages/man2/acct.2.html
-
-    *fsync, fdatasync - synchronize a file's in-core state with storage device
-
-        int fsync(int fd)
-        int fdatasync(int fd)
-        man page: https://www.man7.org/linux/man-pages/man2/fsync.2.html
-
-    *listen - listen for connections on a socket
-
-        int listen(int sockfd, int backlog)
-        man page: https://www.man7.org/linux/man-pages/man2/listen.2.html
+        int chown(const char *pathname, uid_t owner, gid_t group)
+        int lchown(const char *pathname, uid_t owner, gid_t group)
+        man page: https://www.man7.org/linux/man-pages/man2/lchown.2.html
 
 Implementation notes:
 
-    Syscall acct() takes string as its only argument and thus a separate
-    print function "print_acct" is stated in file "strace.list". This
-    function is defined and implemented in "strace.c" by using an
-    existing function used to print string arguments: "print_string()".
-    All the other syscalls have only primitive argument types, so the
-    rest of the implementation was handled by stating an appropriate
-    printing format in file "strace.list".
+    Both syscalls use strings as arguments and thus a separate
+    printing function was stated in "strace.list" for them.
+    Both syscalls share the same number and types of arguments
+    and thus share a same definition in file "syscall.c".
+    This defintion uses existing functions "print_string()" to
+    print the string argument and "print_raw_param()" to print
+    other two arguments that are of basic types.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-3-filip.bozuta@syrmia.com>
+Message-Id: <20200619123331.17387-6-filip.bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 13 ++++++++++++-
- linux-user/strace.list |  8 ++++----
- 2 files changed, 16 insertions(+), 5 deletions(-)
+ linux-user/strace.c    | 15 +++++++++++++++
+ linux-user/strace.list |  4 ++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 62117e8555f6..123e022c35bf 100644
+index a26736516bab..957f08f1adf2 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1357,6 +1357,18 @@ print_access(const struct syscallname *name,
+@@ -1452,6 +1452,21 @@ print_chmod(const struct syscallname *name,
  }
  #endif
  
-+#ifdef TARGET_NR_acct
++#if defined(TARGET_NR_chown) || defined(TARGET_NR_lchown)
 +static void
-+print_acct(const struct syscallname *name,
++print_chown(const struct syscallname *name,
 +    abi_long arg0, abi_long arg1, abi_long arg2,
 +    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg0, 1);
++    print_string(arg0, 0);
++    print_raw_param("%d", arg1, 0);
++    print_raw_param("%d", arg2, 1);
 +    print_syscall_epilogue(name);
 +}
++#define print_lchown     print_chown
 +#endif
 +
- #ifdef TARGET_NR_brk
+ #ifdef TARGET_NR_clock_adjtime
  static void
- print_brk(const struct syscallname *name,
-@@ -1621,7 +1633,6 @@ print_fcntl(const struct syscallname *name,
- #define print_fcntl64   print_fcntl
- #endif
- 
--
- #ifdef TARGET_NR_futimesat
- static void
- print_futimesat(const struct syscallname *name,
+ print_clock_adjtime(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 9281c0a75828..8a887fc16dcc 100644
+index a4a8c61969cd..e99030c9ef39 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -13,7 +13,7 @@
- { TARGET_NR_access, "access" , NULL, print_access, NULL },
+@@ -71,7 +71,7 @@
+ { TARGET_NR_chmod, "chmod" , NULL, print_chmod, NULL },
  #endif
- #ifdef TARGET_NR_acct
--{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
-+{ TARGET_NR_acct, "acct" , NULL, print_acct, NULL },
+ #ifdef TARGET_NR_chown
+-{ TARGET_NR_chown, "chown" , NULL, NULL, NULL },
++{ TARGET_NR_chown, "chown" , NULL, print_chown, NULL },
  #endif
- #ifdef TARGET_NR_add_key
- { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
-@@ -215,7 +215,7 @@
- { TARGET_NR_fcntl64, "fcntl64" , NULL, print_fcntl64, NULL },
+ #ifdef TARGET_NR_chown32
+ { TARGET_NR_chown32, "chown32" , NULL, NULL, NULL },
+@@ -475,7 +475,7 @@
+ { TARGET_NR_kill, "kill", NULL, print_kill, NULL },
  #endif
- #ifdef TARGET_NR_fdatasync
--{ TARGET_NR_fdatasync, "fdatasync" , NULL, NULL, NULL },
-+{ TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+ #ifdef TARGET_NR_lchown
+-{ TARGET_NR_lchown, "lchown" , NULL, NULL, NULL },
++{ TARGET_NR_lchown, "lchown" , NULL, print_lchown, NULL },
  #endif
- #ifdef TARGET_NR_fgetxattr
- { TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
-@@ -251,7 +251,7 @@
- { TARGET_NR_fstatfs64, "fstatfs64" , "%s(%d,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_fsync
--{ TARGET_NR_fsync, "fsync" , NULL, NULL, NULL },
-+{ TARGET_NR_fsync, "fsync" , "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_ftime
- { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
-@@ -492,7 +492,7 @@
- { TARGET_NR_Linux, "Linux" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_listen
--{ TARGET_NR_listen, "listen" , NULL, NULL, NULL },
-+{ TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_listxattr
- { TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_lchown32
+ { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
 -- 
 2.26.2
 
