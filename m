@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E144214828
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:47:35 +0200 (CEST)
-Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43029214830
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:50:53 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnCI-0001cY-K4
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
+	id 1jrnFU-0000Rl-7e
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmzN-0002SM-HO
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:34:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49208
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn1v-00082z-Se
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:36:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34280
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmzL-00026L-Nc
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:34:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn1u-00032G-5u
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:36:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887651;
+ s=mimecast20190719; t=1593887809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cjzZWxnnykq05TtdjmaRFa55dc9c5bd35Z/S8rumoHc=;
- b=Ik9Zcy3dg98CP6v3E9il4UU7/yYZ+zdvYii+46o5BDiQvi9PxXDs8JCsNKELhLbKfBnNFx
- bWeMZsL7wOEBlYX55GDusTIqTawGNs90t27uB/9GQIZcGvjc/ZvM1vxqD7tb8bJQf8yjKc
- WoaFCCsLx8Yu8dmhEueeZfI2QuCTXM8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-bkvge0pENIGthhw1pd_WFw-1; Sat, 04 Jul 2020 14:34:09 -0400
-X-MC-Unique: bkvge0pENIGthhw1pd_WFw-1
-Received: by mail-wm1-f70.google.com with SMTP id v24so40251086wmh.3
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:34:08 -0700 (PDT)
+ bh=oE/PPR0E6nARTK8boCBJKqqJeqCJbIE2MIJ2Y6X62Hk=;
+ b=iML7Ol+pVSEm5nGiMrmWNBJEr/DU82RuHRgD5IJb0oCt7mLXMWLN2QdneyF9k74AG7PXnr
+ 1XGxT5P0Es6vPBiJ9FC3KQF2nKGb4MLg5M3RRKzU89B1OTJHndNtQbs+o89TF0a3TGDIIp
+ peDbVWixVuVoP4JZrg2Q0yqVBmBoL6o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-Q6MZ1fSDMEWnFcNrNCRa9A-1; Sat, 04 Jul 2020 14:36:47 -0400
+X-MC-Unique: Q6MZ1fSDMEWnFcNrNCRa9A-1
+Received: by mail-wm1-f69.google.com with SMTP id g138so31395815wme.7
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:36:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=cjzZWxnnykq05TtdjmaRFa55dc9c5bd35Z/S8rumoHc=;
- b=l9tLWinNQJPjvbXRUrFN1OH4/2Ax283vUWhU5F9HG7wh+QEtLGgu2P2AirzNTwi5Ov
- +d9gXejMc3H03umrxOPZz7kcp0FwwTo9vi8RUU8A1G1gGlaksoPdZgfHnLKrd5zxyLpf
- 0XgH+iDnaNBTM8pUr6WXwYR1gi6cSrw/a/3mHO65bQ66rEct+DyOFTGw3llRCde4vebp
- gYs1bs4RTrEpcxk9HOibwNDNla4B/AnvJqPBt1s7h+lclxpvM+io/tHX4J6SJGiALC3U
- VXWqlO9k97jvFKQfnDbgGCOAzsfnRtH9raCk2ZAyOF6F7+LLqlh4x5gbG1p2Jr0l6Wef
- taQA==
-X-Gm-Message-State: AOAM533VhL/3KP5urX/tam9VBTRChpuAqsvsjAF539QQ820187ri6VRF
- nB2SlQJKTpHRvKc1AnJOiLTZkE06DAiX0O4to6MMZqUuyECeCXn9ntTj8XNHweHkT9X8kU+bb3G
- YEsInuZOOfGMDr20=
-X-Received: by 2002:a1c:dd86:: with SMTP id
- u128mr41891253wmg.123.1593887647998; 
- Sat, 04 Jul 2020 11:34:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+hxeVv9tyaPjISHwSpdkExcuyq92d2WV1GUELBTtxzAm0ZJ+X1l2dd6Kqevu7loZ8P/3jeA==
-X-Received: by 2002:a1c:dd86:: with SMTP id
- u128mr41891236wmg.123.1593887647826; 
- Sat, 04 Jul 2020 11:34:07 -0700 (PDT)
+ bh=oE/PPR0E6nARTK8boCBJKqqJeqCJbIE2MIJ2Y6X62Hk=;
+ b=P5+ejFZc+lo+X+NS+O4F7h6IYghQKZPHpTV4NVJVejuRSsDKgC8qp651W6Jnk+dYxJ
+ 6qw4DL9kf0dx0Z/l7uQmcWX8RHtXtwoP17jm8KMrouhRhADILY+a3OfqQnOBwJRgZAso
+ jVxzf3EFvKRdtCpheM0j3IFaKbx8ewLhJzMQwGA54tpK1lqrmTfogjQ2hlBegeYkY8GK
+ xoMNLcWJi2Z4k7ZMMlO67IcdX4aFngwBp66cPVXNv7MaKlu2+DEOjvFFJl099CpjaEWD
+ th05tP4J4FhUAazh1xsm81hsLS4E5w56+2zLt6oKA608z/y1GERoXRT2iUntlTiIlY1U
+ CyLQ==
+X-Gm-Message-State: AOAM530hRwv1tt8NX68eeuz9hwUBXh1g/1Lh5w5QS/XtF/O1IzlAswvl
+ ZZ6azCVA7gwlM4O+BL94LW4iPKCrIjG4ahDRvhtS85W1RMiq3sghu9bCkolrp2X2EAPxyAb3gBZ
+ Y0CI7Xnhulmx0gpc=
+X-Received: by 2002:adf:ee4d:: with SMTP id w13mr12930317wro.245.1593887806747; 
+ Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKML8y17U0AoKaZpwd58avTE3kM5CyrkXiimb97wmPAfQQm5C+P5hDIuF8UEERkIKWZYH4ig==
+X-Received: by 2002:adf:ee4d:: with SMTP id w13mr12930306wro.245.1593887806544; 
+ Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- v6sm5249119wrr.85.2020.07.04.11.34.06
+ g14sm17464950wrm.93.2020.07.04.11.36.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:34:07 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:34:04 -0400
+ Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:36:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/2] virtio-ccw: fix virtio_set_ind_atomic
-Message-ID: <20200704143126-mutt-send-email-mst@kernel.org>
-References: <20200616045035.51641-1-pasic@linux.ibm.com>
- <20200616045035.51641-2-pasic@linux.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/41] virtio,acpi: features, fixes, cleanups.
+Message-ID: <20200704143553-mutt-send-email-mst@kernel.org>
+References: <20200703090252.368694-1-mst@redhat.com>
+ <CAFEAcA8gW6yGD_g7LLR9BeuEehtSWb+x3iPvDg+zbVr77cn-pg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200616045035.51641-2-pasic@linux.ibm.com>
+In-Reply-To: <CAFEAcA8gW6yGD_g7LLR9BeuEehtSWb+x3iPvDg+zbVr77cn-pg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,85 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 16, 2020 at 06:50:34AM +0200, Halil Pasic wrote:
-> The atomic_cmpxchg() loop is broken because we occasionally end up with
-> old and _old having different values (a legit compiler can generate code
-> that accessed *ind_addr again to pick up a value for _old instead of
-> using the value of old that was already fetched according to the
-> rules of the abstract machine). This means the underlying CS instruction
-> may use a different old (_old) than the one we intended to use if
-> atomic_cmpxchg() performed the xchg part.
-
-And was this ever observed in the field? Or is this a theoretical issue?
-commit log should probably say ...
-
+On Sat, Jul 04, 2020 at 03:05:19PM +0100, Peter Maydell wrote:
+> On Fri, 3 Jul 2020 at 10:03, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+> >
+> >   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to 900ed7043750ae3cdf35c05da66e150a8821c3a0:
+> >
+> >   vhost-vdpa: introduce vhost-vdpa net client (2020-07-03 04:59:13 -0400)
+> >
+> > ----------------------------------------------------------------
+> > virtio,acpi: features, fixes, cleanups.
+> >
+> > vdpa support
+> > virtio-mem support
+> > a handy script for disassembling acpi tables
+> > misc fixes and cleanups
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >
 > 
-> Let us use volatile to force the rules of the abstract machine for
-> accesses to *ind_addr. Let us also rewrite the loop so, we that the
-
-we that -> we know that?
-
-> new old is used to compute the new desired value if the xchg part
-> is not performed.
+> Hi; this fails to build on OSX and the BSDs:
 > 
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Reported-by: Andre Wild <Andre.Wild1@ibm.com>
-> Fixes: 7e7494627f ("s390x/virtio-ccw: Adapter interrupt support.")
-> ---
->  hw/s390x/virtio-ccw.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+> In file included from /home/qemu/qemu-test.TcQYno/src/hw/net/vhost_net.c:23:
+> /home/qemu/qemu-test.TcQYno/src/linux-headers/linux/vhost.h:14:10:
+> fatal error: 'linux/vhost_types.h' file not found
+> #include <linux/vhost_types.h>
+>          ^~~~~~~~~~~~~~~~~~~~~
+> 1 error generated.
 > 
-> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> index c1f4bb1d33..3c988a000b 100644
-> --- a/hw/s390x/virtio-ccw.c
-> +++ b/hw/s390x/virtio-ccw.c
-> @@ -786,9 +786,10 @@ static inline VirtioCcwDevice *to_virtio_ccw_dev_fast(DeviceState *d)
->  static uint8_t virtio_set_ind_atomic(SubchDev *sch, uint64_t ind_loc,
->                                       uint8_t to_be_set)
->  {
-> -    uint8_t ind_old, ind_new;
-> +    uint8_t expected, actual;
->      hwaddr len = 1;
-> -    uint8_t *ind_addr;
-> +    /* avoid  multiple fetches */
-> +    uint8_t volatile *ind_addr;
->  
->      ind_addr = cpu_physical_memory_map(ind_loc, &len, true);
->      if (!ind_addr) {
-> @@ -796,14 +797,15 @@ static uint8_t virtio_set_ind_atomic(SubchDev *sch, uint64_t ind_loc,
->                       __func__, sch->cssid, sch->ssid, sch->schid);
->          return -1;
->      }
-> +    actual = *ind_addr;
->      do {
-> -        ind_old = *ind_addr;
-> -        ind_new = ind_old | to_be_set;
-> -    } while (atomic_cmpxchg(ind_addr, ind_old, ind_new) != ind_old);
-> -    trace_virtio_ccw_set_ind(ind_loc, ind_old, ind_new);
-> -    cpu_physical_memory_unmap(ind_addr, len, 1, len);
-> +        expected = actual;
-> +        actual = atomic_cmpxchg(ind_addr, expected, expected | to_be_set);
-> +    } while (actual != expected);
-> +    trace_virtio_ccw_set_ind(ind_loc, actual, actual | to_be_set);
-> +    cpu_physical_memory_unmap((void *)ind_addr, len, 1, len);
->  
-> -    return ind_old;
-> +    return actual;
->  }
+> thanks
+> -- PMM
 
-I wonder whether cpuXX APIs should accept volatile pointers, too:
-casting away volatile is always suspicious.
-But that is a separate issue ...
+My bad.  Send v2 fixing that. Thanks!
 
->  static void virtio_ccw_notify(DeviceState *d, uint16_t vector)
-> -- 
-> 2.17.1
+-- 
+MST
 
 
