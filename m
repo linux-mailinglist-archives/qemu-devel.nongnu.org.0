@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A851C214696
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:55:04 +0200 (CEST)
-Received: from localhost ([::1]:48258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322DC214693
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:53:24 +0200 (CEST)
+Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjZH-0001zQ-KX
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57680)
+	id 1jrjXf-0007O0-6p
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUR-0001O3-Jn; Sat, 04 Jul 2020 10:50:03 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51872)
+ id 1jrjUT-0001TI-M3; Sat, 04 Jul 2020 10:50:05 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUQ-0003ei-67; Sat, 04 Jul 2020 10:50:03 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 22so34725142wmg.1;
- Sat, 04 Jul 2020 07:50:01 -0700 (PDT)
+ id 1jrjUS-0003f0-2v; Sat, 04 Jul 2020 10:50:05 -0400
+Received: by mail-wr1-x442.google.com with SMTP id f18so27701915wrs.0;
+ Sat, 04 Jul 2020 07:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ci3lKGhT7CaGmfO0merQ+/KTVofaj9NyV7u1/2UAP3w=;
- b=HTr3GqMeiMrHSFVz09gNzzyGE5/NusjcYwPUPJ9+Az6tEcg4A2YjJthJc8BKS0f3xF
- F4+ebiouyz8NRclvNRqup/GDrEN4F9p2jviH4u+BYG+0fxPmcN8XcbhSAoh6SFqU4Zw0
- FH/IpcWFj2yRtZ9xJLuf96x1ST8pDEf9hbCzZCPwmk0sO+6vtZTFj/sU4oryrL3pJ5Li
- Z1W2ONSpiFn0BO3jkg80P04ozix3y5MCMrcei0bm8NOU72QICc6nO3mwQ0RF77ptyVlN
- TnLG2rz47FkHMnveffGYGtgCStlP8At2zi6ngwyWWC2wn+upypNWXZkbAwAcNzprcGts
- BnOA==
+ bh=/SEb7i40/nbfV3CvB7T6xkytpAoG+YE52veZZ5mv5j4=;
+ b=M86GQvVjqh2GOpnc8959nIEqLnIltzOWwA63YgcRTjTllNzsFeKa2AxLUplFe59nVZ
+ EU5gEhxt62SSXh8q7000ETaWmRIbSKTzrgZ47MtBnXMnZm75mqtFngMn13ekv5iU3uR1
+ jZH+QjvY71cexOwBR/zzvmBgICLG+ZXIDZGxG3evDVbBXwFvFbeNbh4ioXGgUGUaFauF
+ lbh9Jk61RelYOfy760OtZib/qtDn/T5+sGmZ3flNc8ml4r0kTxIqEmHI5Z71CCawDYVS
+ JHWip9FEybZwE41MmK/BYGDg85WJYNaGdThCFnN87eeYykN1tf2mZJKQABQuft2b5FSo
+ Wb9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ci3lKGhT7CaGmfO0merQ+/KTVofaj9NyV7u1/2UAP3w=;
- b=Kb9v1U6mGsTXsiE3+y/DLxrVcQi6C+fuzR1X2rwiwULahaNzv+nE8yHV3ulU1cFy7T
- R8sazGRHf68MeNb+Cl0uXWIgICTSeyDG8BzNV88NiZtYqRxqpDBEtUbSe3x2BEJB/jBf
- 6bpLtk7xbmJK0VZWF+/nwn+cIMoVCCTpfK84jjFvnSqmunWcYCvci6lVplB6kn1GQ2m9
- INCHcUPetfyl2hA/T/I0lb6N/6xluceskpZQ4iAPuysyCWxG2Kon/n0hFisMYK2ANrzd
- d8dgcaTwolUjpUG5W5Hei40TUZUjluMgbO7th0HKvSl+wx67biaeEJTir56U35lq9zvI
- u/rg==
-X-Gm-Message-State: AOAM533v19+oeYkHUkukusKgniNY6HhXd6p2J4jIDpgoNiczizkyz+xd
- IibAOiHhC8+qtsSTUrUA2HvKOmOdvlM=
-X-Google-Smtp-Source: ABdhPJxDJ13C73XgkZIyjGV7LxF7eBLsgTcF0RFnIfpAnAwchRq5JuWHl5cvDUWZqd//9F+vT3r0og==
-X-Received: by 2002:a1c:b386:: with SMTP id
- c128mr43397378wmf.133.1593874199940; 
- Sat, 04 Jul 2020 07:49:59 -0700 (PDT)
+ bh=/SEb7i40/nbfV3CvB7T6xkytpAoG+YE52veZZ5mv5j4=;
+ b=SPGsoX8aK+2Rnwj2NokFgCRSAjTkdzjrsPAcglxNXgNpdKBGOnVm4PCIbz5hC0qGTV
+ aitHPi9KiE7bM6qK2vT06mfjZTYS+/RNsPGxj29q2TwzmacIvbLMQEo8wCDYEM3c4MO1
+ KpjuuLe/h6gF7mkSs4kwpARbTXLbjpJy0pr4MuKHqAnMT/l/3XtFRO+75BRCBF7AyT3t
+ JCPrREhNZ4+6yfr/IK+Sh6HO8ua2WQ2l9YLz9LaesCKGJcO/oFU3Nvss557j090YolNs
+ BdaMX3mAJ9W0UJaIq3HJbO0KOn8TqPRsuSeWn15plvjQliWTW2+A6sWTwXKT6/PrPzNh
+ xBEA==
+X-Gm-Message-State: AOAM531T7RRg1GoVn/x0bAk++WM0J4ciIGFXOzeV9yQr6YvP5zYF4KD9
+ dia7Rv3dSHenf2W9uvPSd+lfjHf/Roo=
+X-Google-Smtp-Source: ABdhPJzU2sv77zfdcGa3LX0JoxfFviQ6DXsIevpTW1tzmmUhaY0yZ73I5eZpKHBXzbQobqiSJf7dUQ==
+X-Received: by 2002:adf:8b50:: with SMTP id v16mr43284603wra.188.1593874202076; 
+ Sat, 04 Jul 2020 07:50:02 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.49.58
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:49:59 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 06/26] hw/usb/hcd-dwc2: Remove unnecessary includes
-Date: Sat,  4 Jul 2020 16:49:23 +0200
-Message-Id: <20200704144943.18292-7-f4bug@amsat.org>
+Subject: [PATCH 07/26] hw/usb/hcd-dwc2: Restrict some headers to source
+Date: Sat,  4 Jul 2020 16:49:24 +0200
+Message-Id: <20200704144943.18292-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -118,27 +117,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"qemu/error-report.h" and "qemu/main-loop.h" are not used.
-Remove them.
+The header "usb/hcd-dwc2.h" doesn't need to include "qemu/timer.h",
+"sysemu/dma.h", "hw/irq.h" (the types required are forward declared).
+Include them in the source file which is the only one requiring the
+function declarations.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-dwc2.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/usb/hcd-dwc2.h | 3 ---
+ hw/usb/hcd-dwc2.c | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/hw/usb/hcd-dwc2.h b/hw/usb/hcd-dwc2.h
+index 4ba809a07b..2adf0f53c7 100644
+--- a/hw/usb/hcd-dwc2.h
++++ b/hw/usb/hcd-dwc2.h
+@@ -19,11 +19,8 @@
+ #ifndef HW_USB_DWC2_H
+ #define HW_USB_DWC2_H
+ 
+-#include "qemu/timer.h"
+-#include "hw/irq.h"
+ #include "hw/sysbus.h"
+ #include "hw/usb.h"
+-#include "sysemu/dma.h"
+ 
+ #define DWC2_MMIO_SIZE      0x11000
+ 
 diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
-index 72cbd051f3..590e75b455 100644
+index 590e75b455..ccf05d0823 100644
 --- a/hw/usb/hcd-dwc2.c
 +++ b/hw/usb/hcd-dwc2.c
-@@ -39,8 +39,6 @@
+@@ -36,8 +36,11 @@
+ #include "qapi/error.h"
+ #include "hw/usb/dwc2-regs.h"
+ #include "hw/usb/hcd-dwc2.h"
++#include "hw/irq.h"
++#include "sysemu/dma.h"
  #include "migration/vmstate.h"
  #include "trace.h"
++#include "qemu/timer.h"
  #include "qemu/log.h"
--#include "qemu/error-report.h"
--#include "qemu/main-loop.h"
  #include "hw/qdev-properties.h"
  
- #define USB_HZ_FS       12000000
 -- 
 2.21.3
 
