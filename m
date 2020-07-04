@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB06F214822
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:45:17 +0200 (CEST)
-Received: from localhost ([::1]:32936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A96F21481D
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:44:01 +0200 (CEST)
+Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnA4-0005HB-TG
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
+	id 1jrn8q-0002Yr-4x
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwH-000530-Tm
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:01 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48853
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwK-000589-8e
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40285
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwG-0001hH-7i
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwI-0001hc-FK
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887459;
+ s=mimecast20190719; t=1593887461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=h8govD67lanJJAmIgSTuxQeH9ZylAQ7cIEwKwJSkzkc=;
- b=NwclBJungDvBflgY6ZA7zM5yFUntwpLH2u7mOGIaMFeYgrV2Tvz2oDdJA6yoGvQ3NYMPSv
- fdB1LF6SLY1FsFFfIfcFKhTzu85jpKN0BU8kkcnYWsZYZhY+6QmR9RVPOYB53Ilr7WJWlT
- oIwBEGAlJ/dZLW/83k1MZMItYtlISDI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-sMLozI-AMiygTSCdW7_JzA-1; Sat, 04 Jul 2020 14:30:57 -0400
-X-MC-Unique: sMLozI-AMiygTSCdW7_JzA-1
-Received: by mail-wr1-f71.google.com with SMTP id s16so23281627wrv.1
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:57 -0700 (PDT)
+ bh=3ExkqCYE+MZcrtgAoyxaOOvh3MgXkaeP71bTYP6/+H0=;
+ b=evCOB0cdPgO60WCkiW8HzHpq/hYceWzOkBGAp82PNzRFMPV6I63WzJILMZhT93SAHG4GXG
+ u9PWtRe2kPEIDmMPtT+cumoFOPfhXabp7mlNMUFZh7l2/0xAR1zxOVT0K6jzBi6FUCubLS
+ U3Jq7MEBQwj8ZLbMWpFOr4BVuIHlfsw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-6Dh6bSz6N8Svkzqnd9HSxQ-1; Sat, 04 Jul 2020 14:31:00 -0400
+X-MC-Unique: 6Dh6bSz6N8Svkzqnd9HSxQ-1
+Received: by mail-wm1-f69.google.com with SMTP id z11so40160250wmg.5
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=h8govD67lanJJAmIgSTuxQeH9ZylAQ7cIEwKwJSkzkc=;
- b=sVgjc8dQFmcgzNTZPx6tMyQ4lq52iYrEwfrO9BuXrcHuS3+O5NoX0eUubEfi4IpWWw
- U7zbElFpMEg2yVUp15YN7tJAvdgBJbaR6TJEUyTP2m8xuOGdOAgy+uS9K1jtNOyerATv
- dVgVVPNoAAlRrMQHHwEViSUTO10W/Y/aGKU5rHwP1KZkxjcmyoxbP1qaBo4+UGaX2J3w
- fEFI1Bx3ErXeMWSLyiiecz7F78cLAanan6dvPlf3ia3YZwDol2wjhYwUawVKhGdqx+Hj
- siRg4jExFa0ylGgauoP+dclkcm1yM4MjNEcxJdPjtV8yogoBDVGSg3m6Ptm+rT8Ym1Qk
- Nw6w==
-X-Gm-Message-State: AOAM532SJSZopriiQdpdMYgH7MIv7xO9Y+8EIySAP5oreMGKeTHt9RDJ
- L3CYd814dKOwRCyiYQzdgK/wSUZULpSkFBY7hw0Jb4PMp0Zi2fpEVSCUK8cPWbRA1GbsWvLTJdX
- eEtKyeCl8UK9496c=
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr40768083wro.318.1593887456093; 
- Sat, 04 Jul 2020 11:30:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7o45bmOSP6iFycd0u9lYGGBcNJgMmsmANcbnppIhjuLucrWxib+DrU/VAyrzufzddRSdwtw==
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr40768078wro.318.1593887455964; 
- Sat, 04 Jul 2020 11:30:55 -0700 (PDT)
+ bh=3ExkqCYE+MZcrtgAoyxaOOvh3MgXkaeP71bTYP6/+H0=;
+ b=jGqgQmwA6Pw8Z1ln9VuiQt4jX7HTN5IxeMz6OoxX9pbnQVanf3QOzIR7tD3Cr5guY8
+ Ltm9CtF7BvSYnbK7Th7uK/HKHwBjJVooM/ym9P9dV3gCB5Hn5VxP8OfJDr3BDcqW0dJT
+ blCH8DqV29bv4R0V4+qqcKS1nL6dIaIvZcfdUZFqXTX+I8avsCwnJwdXxfbpQTTBHH9Z
+ 1ylIRV27nAyA+/PPfg+IKcp5+skbizBvCnsioYsGxs4Eo0oBovdy1x4tWE1RI2EHDXmQ
+ pIalZOqDm6xvPWbfOrk+w+c1lHn1higmA0vUJrbL+kijMYI027tlUa13aB+y7wxoaI+D
+ vS6w==
+X-Gm-Message-State: AOAM531/McHNFDKuFhm643qrhF9w5JJD6KOYw37LBfqQAMApXsk+Cnry
+ Urki4MwLn+aR7GffQhz7Uk9PEuPvEKcc8AET8fXJanQNtCJmoqzzo6Fy2/y1nwFf43oZ0wssbg5
+ uJB/nCDiX1IVnyTo=
+X-Received: by 2002:adf:f60c:: with SMTP id t12mr44996601wrp.198.1593887458330; 
+ Sat, 04 Jul 2020 11:30:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTreTBt+rQeyH1JQJqPgS1oL5zFWDdXRhmi55K32zByg3AFpyyawPDOLXm6AfNfancG+IciA==
+X-Received: by 2002:adf:f60c:: with SMTP id t12mr44996594wrp.198.1593887458171; 
+ Sat, 04 Jul 2020 11:30:58 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- r8sm17523480wrp.40.2020.07.04.11.30.54
+ v11sm54224641wmb.3.2020.07.04.11.30.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:55 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:53 -0400
+ Sat, 04 Jul 2020 11:30:57 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 35/41] vhost: introduce new VhostOps vhost_vq_get_addr
-Message-ID: <20200704182750.1088103-36-mst@redhat.com>
+Subject: [PULL v2 36/41] vhost: implement vhost_vq_get_addr method
+Message-ID: <20200704182750.1088103-37-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -103,49 +103,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cindy Lu <lulu@redhat.com>
 
-This patch introduces new VhostOps vhost_vq_get_addr_op callback to get
-the vring addr from the backend
+use vhost_vq_get_addr callback to get the vq address from backend
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20200701145538.22333-9-lulu@redhat.com>
+Message-Id: <20200701145538.22333-10-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/virtio/vhost-backend.h |  4 ++++
+ hw/virtio/vhost.c                 | 28 +++++++++++++++++++---------
+ 2 files changed, 23 insertions(+), 9 deletions(-)
 
 diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index b80f344cd6..fa84abac97 100644
+index fa84abac97..bfc24207e2 100644
 --- a/include/hw/virtio/vhost-backend.h
 +++ b/include/hw/virtio/vhost-backend.h
-@@ -34,6 +34,7 @@ struct vhost_vring_state;
- struct vhost_vring_addr;
- struct vhost_scsi_target;
- struct vhost_iotlb_msg;
-+struct vhost_virtqueue;
- 
- typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque);
- typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
-@@ -113,6 +114,10 @@ typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
-                                         struct vhost_inflight *inflight);
- 
- typedef int (*vhost_dev_start_op)(struct vhost_dev *dev, bool started);
+@@ -118,6 +118,9 @@ typedef int (*vhost_dev_start_op)(struct vhost_dev *dev, bool started);
+ typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
+                     struct vhost_vring_addr *addr,
+                     struct vhost_virtqueue *vq);
 +
-+typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
-+                    struct vhost_vring_addr *addr,
-+                    struct vhost_virtqueue *vq);
++typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
++
  typedef struct VhostOps {
      VhostBackendType backend_type;
      vhost_backend_init vhost_backend_init;
-@@ -154,6 +159,7 @@ typedef struct VhostOps {
-     vhost_get_inflight_fd_op vhost_get_inflight_fd;
+@@ -160,6 +163,7 @@ typedef struct VhostOps {
      vhost_set_inflight_fd_op vhost_set_inflight_fd;
      vhost_dev_start_op vhost_dev_start;
-+    vhost_vq_get_addr_op  vhost_vq_get_addr;
+     vhost_vq_get_addr_op  vhost_vq_get_addr;
++    vhost_get_device_id_op vhost_get_device_id;
  } VhostOps;
  
  extern const VhostOps user_ops;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 32809e54b5..1e083a8976 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -773,15 +773,25 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
+                                     struct vhost_virtqueue *vq,
+                                     unsigned idx, bool enable_log)
+ {
+-    struct vhost_vring_addr addr = {
+-        .index = idx,
+-        .desc_user_addr = (uint64_t)(unsigned long)vq->desc,
+-        .avail_user_addr = (uint64_t)(unsigned long)vq->avail,
+-        .used_user_addr = (uint64_t)(unsigned long)vq->used,
+-        .log_guest_addr = vq->used_phys,
+-        .flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0,
+-    };
+-    int r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
++    struct vhost_vring_addr addr;
++    int r;
++    memset(&addr, 0, sizeof(struct vhost_vring_addr));
++
++    if (dev->vhost_ops->vhost_vq_get_addr) {
++        r = dev->vhost_ops->vhost_vq_get_addr(dev, &addr, vq);
++        if (r < 0) {
++            VHOST_OPS_DEBUG("vhost_vq_get_addr failed");
++            return -errno;
++        }
++    } else {
++        addr.desc_user_addr = (uint64_t)(unsigned long)vq->desc;
++        addr.avail_user_addr = (uint64_t)(unsigned long)vq->avail;
++        addr.used_user_addr = (uint64_t)(unsigned long)vq->used;
++    }
++    addr.index = idx;
++    addr.log_guest_addr = vq->used_phys;
++    addr.flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0;
++    r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
+     if (r < 0) {
+         VHOST_OPS_DEBUG("vhost_set_vring_addr failed");
+         return -errno;
 -- 
 MST
 
