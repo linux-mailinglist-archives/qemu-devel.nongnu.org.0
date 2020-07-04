@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C763621480A
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:37:48 +0200 (CEST)
-Received: from localhost ([::1]:58130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61729214815
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:42:15 +0200 (CEST)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn2p-0000Lq-TX
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39950)
+	id 1jrn78-0006oG-E6
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvz-0004ML-9S
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvz-0004Ln-1H
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54103
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51546
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvw-0001Xj-Mp
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvw-0001XX-FT
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887440;
+ s=mimecast20190719; t=1593887439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XsBDJFEC04b3XTFz4nBxIO5zxhzyAGQ01hQLAAQIsGo=;
- b=TKcXwXe6okdOUuNDJNJ0qM/BnkbNCPX3kIK8OVARL3vPt1jmMGnecu/z9dtk+5JNWNq/+q
- /ilxFyfGARQwuegln2iy5jO3OYvEjfa42jHG/bRb4he+EI9GO13wYMh4770xrtAdSQtw+6
- W3HGHP0ZbnzEoOJ1K4rklj7ELM+dZv8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-xBfikwVKOrS0kcJFDejFgg-1; Sat, 04 Jul 2020 14:30:35 -0400
-X-MC-Unique: xBfikwVKOrS0kcJFDejFgg-1
-Received: by mail-wm1-f69.google.com with SMTP id c124so7825798wme.0
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:35 -0700 (PDT)
+ bh=b+cCdkPsrD4TM/VrIcZdX3Ig4P6coUYr9PkA+fapcI0=;
+ b=e1YulLyXiCpI2QJ9eiDHP3JpdkO+9llBtnwK4W0yHpC6fl75YShZj30NXWfQNVu9pMoKbT
+ HJtD0QoWZ3Q96i9LyF1czXcli52mfZ2ywLkiQMfbusmELqmft9Ax2gbSHisbMwqXHYGGzs
+ o6QbfVtfdeOsM/iap6LgX9mekhusREM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-AFZcn_qtODmrmunOpxQmPQ-1; Sat, 04 Jul 2020 14:30:38 -0400
+X-MC-Unique: AFZcn_qtODmrmunOpxQmPQ-1
+Received: by mail-wm1-f70.google.com with SMTP id q20so30339225wme.3
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XsBDJFEC04b3XTFz4nBxIO5zxhzyAGQ01hQLAAQIsGo=;
- b=APmC1bro6pLJfgg6I3XbfIotmjzDkZ3oCFIS8SP7POI9RH3fk3uNe3fM3qwtU6SRFE
- abunQp8yQaDVsg9IvLZaGmmzaJ8CuxX+6oAt2+7r94G9QMzd6HVemHUD4Z0yEsSVgZwe
- 1VLs+NgRHRUrXE0h0vXC+mpW18cAcCKGErZdlcLeizYKzx84iH+2QBeqUjKzIw6JNR9G
- NJZVhy/4mdHIdQHChQHxIaU2GBGq3s4cP2+d2Mn+8qzhcRuRcdtM7VeN6fKjKeI1BeB2
- h08pn8v8WMdMZPnS04pWoBht1o8oTw8pnY4CORtz2ZMNcePQMfL3lp8n7k+pqXAzx6DX
- paRQ==
-X-Gm-Message-State: AOAM532402unXdoa3uo59JZTwHnNFBntdlrVcHKi22hOO+2CeT4S6Jij
- /X1IaVuewn5ISyd84pa1GGAkAfy7DHehvVmsg2i3QU6pFThwZT71waOYqr7qT9waI8jKkODCQ6l
- ibSdFnlOPHN8ikko=
-X-Received: by 2002:a5d:630d:: with SMTP id i13mr42318609wru.208.1593887434029; 
- Sat, 04 Jul 2020 11:30:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE+d+B11E2636uIQUtE4bOl5JE4bt1NC/dCI/OQS5YDXnScNRdsGiXRRrxqpP+CS3F8o1mEg==
-X-Received: by 2002:a5d:630d:: with SMTP id i13mr42318599wru.208.1593887433878; 
- Sat, 04 Jul 2020 11:30:33 -0700 (PDT)
+ bh=b+cCdkPsrD4TM/VrIcZdX3Ig4P6coUYr9PkA+fapcI0=;
+ b=RXXqrn9kuiNPohMw3uD/XlwZ6ybWLSUTe2I1v0OboHY+CHsxLj4P3M4sDpXkHL3Xg+
+ pDFkjHfjyo725QmtzhJReeVUUXGQN934Fgrvcakxx5W8ffizJnITZaiZGE4oD+wz4Ckd
+ sQjAypYM7EaY6GH09EFpecD4btFVd8EnKE7IfRhZHQRZ4GJjctOzgp98fSIkrbeV+oQl
+ FQpICKe4duBygvlKMRpcoJzn2Ai4yg7cv8G2ISGuGwyDRsNeqJwwfb2oB3V/LBjDDzKt
+ +YeEpRFz50/Fm583RUFcTZ0eVVWa3F8i+xEtg/80rIgVi6icqnLjEU/8u52Lw9zDyRrz
+ jMNA==
+X-Gm-Message-State: AOAM532tivUtbk5cobPG+KsSXXcOriQ3fEc27b6Qhpa4iVg4hBiNRngB
+ IuvZxhdk6nvhfuGhypFY6XZ/ssFu3PYlez8NZQ7c34QWeLRQBBwEaWt3DEv61PXN6Qve29QONZ/
+ bdB8mIc1u4JmoREg=
+X-Received: by 2002:a5d:6412:: with SMTP id z18mr40873158wru.310.1593887436656; 
+ Sat, 04 Jul 2020 11:30:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySJsC7pHE2exasR13nd1GGexOVm/Dg/X6BKJ49WB11jxf2N6CmEnfOyBDnB1jiIhqj3HGKbg==
+X-Received: by 2002:a5d:6412:: with SMTP id z18mr40873143wru.310.1593887436533; 
+ Sat, 04 Jul 2020 11:30:36 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- f186sm16994044wmf.29.2020.07.04.11.30.32
+ h13sm17293163wml.42.2020.07.04.11.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:33 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:31 -0400
+ Sat, 04 Jul 2020 11:30:36 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 26/41] docs: vhost-user: add Virtio status protocol feature
-Message-ID: <20200704182750.1088103-27-mst@redhat.com>
+Subject: [PULL v2 27/41] MAINTAINERS: add VT-d entry
+Message-ID: <20200704182750.1088103-28-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -97,70 +97,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Maxime Coquelin <maxime.coquelin@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Peter Xu <peterx@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-This patch specifies the VHOST_USER_SET_STATUS and
-VHOST_USER_GET_STATUS requests, which are sent by
-the master to update and query the Virtio status
-in the backend.
+Add this entry as suggested by Jason and Michael.
 
-Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
-Message-Id: <20200618134501.145747-1-maxime.coquelin@redhat.com>
+CC: Jason Wang <jasowang@redhat.com>
+CC: Michael S. Tsirkin <mst@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20200701124418.63060-1-peterx@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/interop/vhost-user.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 688b7c6900..10e3e3475e 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -816,6 +816,7 @@ Protocol features
-   #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
-   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
-   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
-+  #define VHOST_USER_PROTOCOL_F_STATUS               16
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5f02160436..49a0d837d7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2624,6 +2624,15 @@ F: tests/uefi-test-tools/
+ F: .gitlab-ci.d/edk2.yml
+ F: .gitlab-ci.d/edk2/
  
- Master message types
- --------------------
-@@ -1307,6 +1308,29 @@ Master message types
-   ``VHOST_USER_ADD_MEM_REG`` message, this message is used to set and
-   update the memory tables of the slave device.
- 
-+``VHOST_USER_SET_STATUS``
-+  :id: 39
-+  :equivalent ioctl: VHOST_VDPA_SET_STATUS
-+  :slave payload: N/A
-+  :master payload: ``u64``
++VT-d Emulation
++M: Michael S. Tsirkin <mst@redhat.com>
++M: Peter Xu <peterx@redhat.com>
++R: Jason Wang <jasowang@redhat.com>
++S: Supported
++F: hw/i386/intel_iommu.c
++F: hw/i386/intel_iommu_internal.h
++F: include/hw/i386/intel_iommu.h
 +
-+  When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
-+  successfully negotiated, this message is submitted by the master to
-+  notify the backend with updated device status as defined in the Virtio
-+  specification.
-+
-+``VHOST_USER_GET_STATUS``
-+  :id: 40
-+  :equivalent ioctl: VHOST_VDPA_GET_STATUS
-+  :slave payload: ``u64``
-+  :master payload: N/A
-+
-+  When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
-+  successfully negotiated, this message is submitted by the master to
-+  query the backend for its device status as defined in the Virtio
-+  specification.
-+
-+
- Slave message types
- -------------------
- 
+ Usermode Emulation
+ ------------------
+ Overall usermode emulation
 -- 
 MST
 
