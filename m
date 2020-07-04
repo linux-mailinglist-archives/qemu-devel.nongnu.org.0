@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43029214830
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:50:53 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC35214832
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:51:52 +0200 (CEST)
+Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnFU-0000Rl-7e
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
+	id 1jrnGS-0002q9-0S
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn1v-00082z-Se
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:36:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34280
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn8X-0002zM-Va
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:43:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42904
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn1u-00032G-5u
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:36:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrn8V-0003yk-KK
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:43:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887809;
+ s=mimecast20190719; t=1593888218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oE/PPR0E6nARTK8boCBJKqqJeqCJbIE2MIJ2Y6X62Hk=;
- b=iML7Ol+pVSEm5nGiMrmWNBJEr/DU82RuHRgD5IJb0oCt7mLXMWLN2QdneyF9k74AG7PXnr
- 1XGxT5P0Es6vPBiJ9FC3KQF2nKGb4MLg5M3RRKzU89B1OTJHndNtQbs+o89TF0a3TGDIIp
- peDbVWixVuVoP4JZrg2Q0yqVBmBoL6o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-Q6MZ1fSDMEWnFcNrNCRa9A-1; Sat, 04 Jul 2020 14:36:47 -0400
-X-MC-Unique: Q6MZ1fSDMEWnFcNrNCRa9A-1
-Received: by mail-wm1-f69.google.com with SMTP id g138so31395815wme.7
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:36:47 -0700 (PDT)
+ bh=0PJpX4jH/bGy20P0EXe9TKnieR941CAQOK9+CesVaJI=;
+ b=h5y8CPzBpqQpsV1HSJldLP8Y6jaUO36KqfEgeEHVF0J2IbA8OUoTU9MnroZoT9Me63X5Ad
+ vrOaKUphNfOo614+8kPrpEf2Uap198ze+hOWprL6VOEoB0h0C/VX1YU6xAHrvTAYj0aO0F
+ lBUs+yLnf5wyHFGfHtWSvxi14LeLooY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-ybZKD55HMEqw_ItlWmTI1A-1; Sat, 04 Jul 2020 14:43:37 -0400
+X-MC-Unique: ybZKD55HMEqw_ItlWmTI1A-1
+Received: by mail-wm1-f72.google.com with SMTP id v24so40263701wmh.3
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:43:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=oE/PPR0E6nARTK8boCBJKqqJeqCJbIE2MIJ2Y6X62Hk=;
- b=P5+ejFZc+lo+X+NS+O4F7h6IYghQKZPHpTV4NVJVejuRSsDKgC8qp651W6Jnk+dYxJ
- 6qw4DL9kf0dx0Z/l7uQmcWX8RHtXtwoP17jm8KMrouhRhADILY+a3OfqQnOBwJRgZAso
- jVxzf3EFvKRdtCpheM0j3IFaKbx8ewLhJzMQwGA54tpK1lqrmTfogjQ2hlBegeYkY8GK
- xoMNLcWJi2Z4k7ZMMlO67IcdX4aFngwBp66cPVXNv7MaKlu2+DEOjvFFJl099CpjaEWD
- th05tP4J4FhUAazh1xsm81hsLS4E5w56+2zLt6oKA608z/y1GERoXRT2iUntlTiIlY1U
- CyLQ==
-X-Gm-Message-State: AOAM530hRwv1tt8NX68eeuz9hwUBXh1g/1Lh5w5QS/XtF/O1IzlAswvl
- ZZ6azCVA7gwlM4O+BL94LW4iPKCrIjG4ahDRvhtS85W1RMiq3sghu9bCkolrp2X2EAPxyAb3gBZ
- Y0CI7Xnhulmx0gpc=
-X-Received: by 2002:adf:ee4d:: with SMTP id w13mr12930317wro.245.1593887806747; 
- Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKML8y17U0AoKaZpwd58avTE3kM5CyrkXiimb97wmPAfQQm5C+P5hDIuF8UEERkIKWZYH4ig==
-X-Received: by 2002:adf:ee4d:: with SMTP id w13mr12930306wro.245.1593887806544; 
- Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
+ bh=0PJpX4jH/bGy20P0EXe9TKnieR941CAQOK9+CesVaJI=;
+ b=qd82y0DvQwGN5UPjzbCpcZRaXrM9rG7l6d9vQ2L+oMXQqSvFrL0EPpt4IsXq6LrU4h
+ R9OIg2JmMPXayOo0xK3XjqhMCN+HDAoP4hR1Lox8URWASL+iD9GVpZZnKuonWdK3JzPT
+ 8XRQ86zlJRcGmb1khIgS8WJ9J47PwlvU+BxJ+CmKh4pLIPrS2t7nhLb3QjHYK7LwQIVX
+ T9R5wtZuulMgY7MrjBRrcpnvBgC9r4HT29oCKtTMJ6/bp1K2QTGh7W8TOGi389xZlJ0S
+ PWmvp5oM5Ve2waE0sRXVxjHicGOP7BqmOT6v0g34Bw+fTjFlYrM677r1EcIfhCN8Um81
+ O/BQ==
+X-Gm-Message-State: AOAM530ZhmrCxQKW/lQ8Ct1GmU1DV66gqY47kzXRjY2VIOgLUZmsz81W
+ Mzbi9A7mb3EtB7EA8/5P81EWh6v7Qgj5ep8FOWg0FCi9MrdxLVWggkjscH5F+GmeICL5pNDf2KL
+ vGfNSuysIoumtV+U=
+X-Received: by 2002:adf:ed02:: with SMTP id a2mr41172922wro.110.1593888216081; 
+ Sat, 04 Jul 2020 11:43:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2slL7S/h3ZGpf/wt+mPN0ZE2v4S0v8e3BlBgiliKgWtFIMaKr5EJuVqZcz+z5C3THCAkzCA==
+X-Received: by 2002:adf:ed02:: with SMTP id a2mr41172907wro.110.1593888215885; 
+ Sat, 04 Jul 2020 11:43:35 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- g14sm17464950wrm.93.2020.07.04.11.36.45
+ k185sm17320859wmk.47.2020.07.04.11.43.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:36:46 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:36:43 -0400
+ Sat, 04 Jul 2020 11:43:35 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:43:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/41] virtio,acpi: features, fixes, cleanups.
-Message-ID: <20200704143553-mutt-send-email-mst@kernel.org>
-References: <20200703090252.368694-1-mst@redhat.com>
- <CAFEAcA8gW6yGD_g7LLR9BeuEehtSWb+x3iPvDg+zbVr77cn-pg@mail.gmail.com>
+Subject: Re: [RFC] virt/acpi: set PSCI flag even when psci_conduit is disabled
+Message-ID: <20200704144228-mutt-send-email-mst@kernel.org>
+References: <1593769409-13534-1-git-send-email-guoheyi@linux.alibaba.com>
+ <CAFEAcA8RU6fS8PX7LMhn4U33nKoRvcO_mnyBFcmW3iOpA40sCQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8gW6yGD_g7LLR9BeuEehtSWb+x3iPvDg+zbVr77cn-pg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8RU6fS8PX7LMhn4U33nKoRvcO_mnyBFcmW3iOpA40sCQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,49 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: yitian.ly@alibaba-inc.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Heyi Guo <guoheyi@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 04, 2020 at 03:05:19PM +0100, Peter Maydell wrote:
-> On Fri, 3 Jul 2020 at 10:03, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Fri, Jul 03, 2020 at 11:37:02AM +0100, Peter Maydell wrote:
+> On Fri, 3 Jul 2020 at 10:44, Heyi Guo <guoheyi@linux.alibaba.com> wrote:
 > >
-> > The following changes since commit fc1bff958998910ec8d25db86cd2f53ff125f7ab:
+> > vms->psci_conduit being disabled only means PSCI is not implemented by
+> > qemu; it doesn't mean PSCI is not supported on this virtual machine.
+> > Actually vms->psci_conduit is set to disabled when vms->secure and
+> > firmware_loaded are both set, which means we will run ARM trusted
+> > firmware, which will definitely provide PSCI.
 > >
-> >   hw/misc/pca9552: Add missing TypeInfo::class_size field (2020-06-29 21:16:10 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 900ed7043750ae3cdf35c05da66e150a8821c3a0:
-> >
-> >   vhost-vdpa: introduce vhost-vdpa net client (2020-07-03 04:59:13 -0400)
-> >
-> > ----------------------------------------------------------------
-> > virtio,acpi: features, fixes, cleanups.
-> >
-> > vdpa support
-> > virtio-mem support
-> > a handy script for disassembling acpi tables
-> > misc fixes and cleanups
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
+> > The issue can be reproduced when running qemu in TCG mode with secure
+> > enabled, while using ARM trusted firmware + qemu virt UEFI as firmware
+> > binaries, and we can see secondary cores will not be waken up.
 > 
-> Hi; this fails to build on OSX and the BSDs:
-> 
-> In file included from /home/qemu/qemu-test.TcQYno/src/hw/net/vhost_net.c:23:
-> /home/qemu/qemu-test.TcQYno/src/linux-headers/linux/vhost.h:14:10:
-> fatal error: 'linux/vhost_types.h' file not found
-> #include <linux/vhost_types.h>
->          ^~~~~~~~~~~~~~~~~~~~~
-> 1 error generated.
+> If you're using a real EL3 guest firmware then it's the job of
+> the guest firmware to provide a DTB to the guest EL2/EL1 that says
+> "and I support PSCI" if it supports PSCI, surely? QEMU can't tell
+> whether the EL3 code does or doesn't do that...
 > 
 > thanks
 > -- PMM
 
-My bad.  Send v2 fixing that. Thanks!
+I guess this means qemu needs to find this out from firmware?
+Perhaps through fwcfg ...
+Don't really know about PSCI specifically, just a general
+comment from ACPI POV.
 
 -- 
 MST
