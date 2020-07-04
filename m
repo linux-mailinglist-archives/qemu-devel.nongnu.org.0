@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895F62146B7
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:59:42 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78CA2146B3
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:58:07 +0200 (CEST)
+Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjdk-0001oE-Tk
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
+	id 1jrjcE-0007FF-NQ
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUi-00024i-5m; Sat, 04 Jul 2020 10:50:20 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38205)
+ id 1jrjUk-00026x-A7; Sat, 04 Jul 2020 10:50:23 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUg-0003jd-Fs; Sat, 04 Jul 2020 10:50:19 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f18so37074331wml.3;
- Sat, 04 Jul 2020 07:50:17 -0700 (PDT)
+ id 1jrjUi-0003nE-Cs; Sat, 04 Jul 2020 10:50:21 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s10so35719344wrw.12;
+ Sat, 04 Jul 2020 07:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xjjAqG2L8PiyECLv8vWl/nPN8wdvqzFPKnLDYj57EWU=;
- b=kGjxAbMk0Y+V1ZM0jG8F7zrUJeEpbEY2rUuWHyvQnUy2BC4TEa4D9G84sW8qU3Tnyi
- hXyLAakl5TAVaESh9mwcqIkW9kPRuFhF1CPBo0iqa9EzqOeUO8dcJwyom69eu1X7is1K
- GI/h4RCMamXhRltfPP+anRNrC4T3Xl/b+bRd7v5Nxqs6IBSrpiZ+NfMzkc3fyOz+zG/O
- qhZVj0cz4AUqg4attnXMbE/OWUZmlqtkxjHzNmmPiDdGXYHh9wyMp7La7dx/LG+WG1y0
- 7hKot5Tx+EVBqxTjnBKGlFKxDUcrNR10Wub/RcuZ75CfRChXgIvTj2rJ1blM2eTTB1qV
- uPjQ==
+ bh=F2y1uml1RkFfNsOb+m2iyzdDwj1uXo3NnuLQTrqdA9s=;
+ b=XuFU4CBE8JCcfpdI/mR5sE2jyMeyBckQOwPMTtzwJf8CjscRTofonY09HxmwJm00NE
+ hgXaGKtjBGKgBEytwuJ+1LT1UMvcBupnCU5041RZtHT4vwcBWQo/M/+GghnU6sLvVTLF
+ Y0OX5yURCQg13pYSivq8FFPYj7wg8wOD1j0jENHOgxaRTzOtllVlw7cjPNFn2IWH1BIq
+ Sm6KuoljtLR0LbF6gX5rfDBtKX6CprkJZYeXQzCIGgZcLZdQ6vORkbiRnRe5hvsbF/uS
+ OWFgKWrvnxxqFL1fM5rMPeqOvIkLQG0cFB/v/CHa/YpQquR2m9B6/D1fPzqQ7wWU0wd9
+ 8j+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xjjAqG2L8PiyECLv8vWl/nPN8wdvqzFPKnLDYj57EWU=;
- b=DsxGZ58tcbMVgprV0RiBT6eKszIJWBi0hweXYCfw5k6dxZrNUS3cieI3PF8lE5/YIY
- 3vvWbcw9DXnz6evxs4GgB47G71m7L+VsQLuq7aORv1/RqsR8e0YSqtG8RmMAnbTBikPe
- Sqw2n7Q/LmmJkRY8z58RqRTZdFBHMlfiNOGWuS/dhfKHpFQk169TbRO8Mlf5hGMdqxy7
- PhFmrQNntpld09S8GKrZgBkanSB4uQNr8YZ3ZERDRpRGK5n/D+EmVwS5yOB+vvsplMdI
- ZFDD7tP0TCr1KtIHU1/DpCiP+qJGayqj2Z9uzfN8HYyiQKFNi/5N96wemyxQszL9vqNV
- wTwA==
-X-Gm-Message-State: AOAM533kb4Xy5Crf8AtrEbfs/Eea4BGx2eXw8I4mxz/5zQFqVJahuJUy
- TMxs6efJ8Kuv30Z29pve1GNWUjge+4s=
-X-Google-Smtp-Source: ABdhPJyylaQ90oaFVpyNttGYGyUpJwJRvbiuNFcOgPIhMsiwGOGXapRLVUD2ADJD/bSRm2sJT5Aq2g==
-X-Received: by 2002:a1c:6788:: with SMTP id
- b130mr42706142wmc.100.1593874216169; 
- Sat, 04 Jul 2020 07:50:16 -0700 (PDT)
+ bh=F2y1uml1RkFfNsOb+m2iyzdDwj1uXo3NnuLQTrqdA9s=;
+ b=pv44Hed7e11VRFYiGl8UVgkq++UfjT45DGAmMYNHhJiII+W9DhZ3P1w2K/CyIFDl6o
+ NhSOhgJnUZJfP36rE5MkzbJklQ7XCO/BcQbGuZVLSzw6GBc2I2nEn4/Sd6KEUhzRKudn
+ yqA/lCL1wn2947pSbKjcyhx5qRWZvVfoYzRDDyocMMajyunA2TlWTShSeOT5e+bngFik
+ nz7uX6mhr5dSd5lMKFQ6BwaMcx+32uMUenUdFg+Mu5bwExQ1HmJ2qXjQYSmbM2ODMF74
+ 2jCSlaGlthOQC7Fw4CYbxBJldBhxHw4u4RH0s1NVvMbdclC9G6Ok4+kdPFMx2cmSsVeY
+ etzA==
+X-Gm-Message-State: AOAM530BXLfTbMt7KzcB17RL3jZZE2Rm225HDmKjWib0F3xXKej4AMj/
+ nqEQQilgr+Ifx0of7B5JMHBco5xQF8o=
+X-Google-Smtp-Source: ABdhPJyq/7eRAGeHxJJ4O+Zutc0Mt3EntxvTem4i1yYIv/0yUmC2RdRBoUXQL+VySe0UhHY6Lv3gOQ==
+X-Received: by 2002:a5d:6a01:: with SMTP id m1mr43778986wru.115.1593874218068; 
+ Sat, 04 Jul 2020 07:50:18 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.14
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:50:15 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 14/26] hw/usb/quirks: Rename included source with '.inc.c'
- suffix
-Date: Sat,  4 Jul 2020 16:49:31 +0200
-Message-Id: <20200704144943.18292-15-f4bug@amsat.org>
+Subject: [PATCH 15/26] hw/usb: Add new 'usb-quirks.h' local header
+Date: Sat,  4 Jul 2020 16:49:32 +0200
+Message-Id: <20200704144943.18292-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -65,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -119,54 +117,96 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This file is not a header, but contains source code which is
-included and compiled once. We use the '.inc.c' suffix in few
-other cases in the repository. Follow the same convention with
-this file.
+Only redirect.c consumes the quirks API. Reduce the big "hw/usb.h"
+header by moving the quirks related declaration into their own
+header. As nothing out of hw/usb/ requires it, keep it local.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/quirks.c                   | 2 +-
- hw/usb/{quirks.h => quirks.inc.c} | 5 -----
- 2 files changed, 1 insertion(+), 6 deletions(-)
- rename hw/usb/{quirks.h => quirks.inc.c} (99%)
+ hw/usb/usb-quirks.h | 27 +++++++++++++++++++++++++++
+ include/hw/usb.h    | 11 -----------
+ hw/usb/quirks.c     |  1 +
+ hw/usb/redirect.c   |  1 +
+ 4 files changed, 29 insertions(+), 11 deletions(-)
+ create mode 100644 hw/usb/usb-quirks.h
 
+diff --git a/hw/usb/usb-quirks.h b/hw/usb/usb-quirks.h
+new file mode 100644
+index 0000000000..542889efc4
+--- /dev/null
++++ b/hw/usb/usb-quirks.h
+@@ -0,0 +1,27 @@
++/*
++ * USB quirk handling
++ *
++ * Copyright (c) 2012 Red Hat, Inc.
++ *
++ * Red Hat Authors:
++ * Hans de Goede <hdegoede@redhat.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ */
++
++#ifndef HW_USB_QUIRKS_H
++#define HW_USB_QUIRKS_H
++
++/* In bulk endpoints are streaming data sources (iow behave like isoc eps) */
++#define USB_QUIRK_BUFFER_BULK_IN        0x01
++/* Bulk pkts in FTDI format, need special handling when combining packets */
++#define USB_QUIRK_IS_FTDI               0x02
++
++int usb_get_quirks(uint16_t vendor_id, uint16_t product_id,
++                   uint8_t interface_class, uint8_t interface_subclass,
++                   uint8_t interface_protocol);
++
++#endif
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index 18f1349bdc..8c3bc920ff 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -549,15 +549,4 @@ int usb_device_alloc_streams(USBDevice *dev, USBEndpoint **eps, int nr_eps,
+                              int streams);
+ void usb_device_free_streams(USBDevice *dev, USBEndpoint **eps, int nr_eps);
+ 
+-/* quirks.c */
+-
+-/* In bulk endpoints are streaming data sources (iow behave like isoc eps) */
+-#define USB_QUIRK_BUFFER_BULK_IN	0x01
+-/* Bulk pkts in FTDI format, need special handling when combining packets */
+-#define USB_QUIRK_IS_FTDI		0x02
+-
+-int usb_get_quirks(uint16_t vendor_id, uint16_t product_id,
+-                   uint8_t interface_class, uint8_t interface_subclass,
+-                   uint8_t interface_protocol);
+-
+ #endif
 diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
-index 23ea7a23ea..655b36f2d5 100644
+index 655b36f2d5..b0d0f87e35 100644
 --- a/hw/usb/quirks.c
 +++ b/hw/usb/quirks.c
-@@ -13,7 +13,7 @@
-  */
- 
+@@ -15,6 +15,7 @@
  #include "qemu/osdep.h"
--#include "quirks.h"
-+#include "quirks.inc.c"
+ #include "quirks.inc.c"
  #include "hw/usb.h"
++#include "usb-quirks.h"
  
  static bool usb_id_match(const struct usb_device_id *ids,
-diff --git a/hw/usb/quirks.h b/hw/usb/quirks.inc.c
-similarity index 99%
-rename from hw/usb/quirks.h
-rename to hw/usb/quirks.inc.c
-index 50ef2f9c2e..004b228aba 100644
---- a/hw/usb/quirks.h
-+++ b/hw/usb/quirks.inc.c
-@@ -12,9 +12,6 @@
-  * (at your option) any later version.
-  */
+                          uint16_t vendor_id, uint16_t product_id,
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 417a60a2e6..4c5925a039 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -45,6 +45,7 @@
+ #include "hw/usb.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
++#include "usb-quirks.h"
  
--#ifndef HW_USB_QUIRKS_H
--#define HW_USB_QUIRKS_H
--
- /* 1 on 1 copy of linux/drivers/usb/serial/ftdi_sio_ids.h */
- #include "quirks-ftdi-ids.h"
- /* 1 on 1 copy of linux/drivers/usb/serial/pl2303.h */
-@@ -915,5 +912,3 @@ static const struct usb_device_id usbredir_ftdi_serial_ids[] = {
- 
- #undef USB_DEVICE
- #undef USB_DEVICE_AND_INTERFACE_INFO
--
--#endif
+ /* ERROR is defined below. Remove any previous definition. */
+ #undef ERROR
 -- 
 2.21.3
 
