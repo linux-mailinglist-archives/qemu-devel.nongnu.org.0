@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8199E214713
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:51:03 +0200 (CEST)
-Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6897421470D
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:48:53 +0200 (CEST)
+Received: from localhost ([::1]:49676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrkRR-0005Cc-T8
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
+	id 1jrkPM-0000Pe-Ai
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkHI-0002Y1-Pk
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:40:36 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54456
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkHG-0002TW-Dc
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:40:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkHE-0007x7-K1
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:40:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkHC-0007wd-2X
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:40:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593877225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y8wt5v6YHTpbkeCWEGxoSB2Z3fXavqt1TINJtdAbbd4=;
- b=N3NUQlT6CSKAMEo4aIjUeXQff06mVUTNr2OMIO2oiJzp7p0KrrF10rhZeGguyDPqk+yr3p
- PIQ6hTratQrGn2n6sWD3h19P/bWWEZUbokO5kkw3H0ECAqHRw+7d9q1QBA8J9bGit0rjPK
- rg+u9HsO+lwtq2ZDtE81Xeseu26h5Pw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-KYsFmk4tOT68hLMeW_rBtg-1; Sat, 04 Jul 2020 11:40:18 -0400
-X-MC-Unique: KYsFmk4tOT68hLMeW_rBtg-1
-Received: by mail-wm1-f69.google.com with SMTP id o138so38549504wme.4
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 08:40:17 -0700 (PDT)
+ bh=g5ly0fcUXOf9qpye/9fR2nyQtN4aqsUxjucs8EhlOCo=;
+ b=C2Ojca4ort7pUqR/4cjTbJbK2RSuArXbVzAQVqzvtw3ztSZ/NUFmxjYQxPyIOQZHjEUVDM
+ M5gfflAiMn+e4ixdZKPomNsWo9aQg6UbX4XgF6oejERyXUdWShHkyKdmKGEXHNJnwwowob
+ 0ZbPDdPJ+AAMxChLdSqwHtj7ogCtUkQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-RP2wodYJM5q55X3yH3biqQ-1; Sat, 04 Jul 2020 11:40:23 -0400
+X-MC-Unique: RP2wodYJM5q55X3yH3biqQ-1
+Received: by mail-wm1-f71.google.com with SMTP id h6so39690945wmb.7
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 08:40:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y8wt5v6YHTpbkeCWEGxoSB2Z3fXavqt1TINJtdAbbd4=;
- b=jwy49AqNrqnAXQXaaPtm9BxPXA0xf+9knDVvI9fpOfV7P9UPPHQqGFP2F3VCZC2fCn
- /Il4y21D18brHyA7hRL7t/QCL6ZdOzVaTjBBkNLptwaueOGwdvXbY5BplXn9tDJ1gaFu
- R9mRoApM0Kch2imhSePD/jfbFGtOm1Y4GNBdZjohXybgb2E/9fwp+ZnHkQ6eojOCAS4i
- d8S7uIZ6+kdtz8ZchRbmj8vniHrh+F31nJ0ZHmgSP06YgMVYeGnxLJNzPzR1pvCrtW+G
- g9JnhTNfQK1q83RD4irclx6epuKr1wqXAJAOXhozJjLD3qn9XEslsefpuNyqrBmJX0lQ
- Dw2Q==
-X-Gm-Message-State: AOAM5314VOV2Cst/nA1tZ10dgkW5YykuS3inQ3u2n54WWpXJWL024nwg
- MzxTJb9oUW8GGz6G3rnuDNhB9Xi3yKfwHWUz0Y35OgPFivuMnWRiYA1lSqcSPPKsuNA4nowOeTS
- bIQLyc7E3QIZE/tA=
-X-Received: by 2002:adf:e7c2:: with SMTP id e2mr44081236wrn.179.1593877216700; 
- Sat, 04 Jul 2020 08:40:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfLWq3tNY6jtdJixaHD7AoQJvqvwD5nnSHyNlkJG1VDMwXJ0YClqmsYsEN3jTKVungM+ZcUQ==
-X-Received: by 2002:adf:e7c2:: with SMTP id e2mr44081217wrn.179.1593877216543; 
- Sat, 04 Jul 2020 08:40:16 -0700 (PDT)
+ bh=g5ly0fcUXOf9qpye/9fR2nyQtN4aqsUxjucs8EhlOCo=;
+ b=OlJ1T5+OGHZJMsCWadr1ap9BN2o1N/pjw89zK9deUPkhKLMXRVzuOufgBgBA0ReMmX
+ atvso73e6BRKaWkW1mNvpOo8QrlFZKwFRk8stdL/9gdVT23NRPrFiA5HEUsm4l+Eutrr
+ 9XuX5r3jZEk6ad8kJ/9ynUYTZxWTLU3grROSZIPWwkyHqRJ6ezEtwqqQ0hfkJAVnbMye
+ qwW23eJr3yo5TYtziqF2QCcx0nYykZ60ag6U6Fc8grGBPWi4yKKtdJyhmU25JOqsKMKw
+ J0hRQMH8N4Jk4qB/HF1z7OSKpgeIEiakRRtIvdzmQeWPOLkL/EsI/OUR6/6feBgEEKj2
+ JXCA==
+X-Gm-Message-State: AOAM531upH+UrdcZTgb3DQ3hSj5+WYCb5IoZRDSWbhS9hyZTBd6BVcjz
+ C5jfsDWkfR0uqjwS54FWSAUpDsQR+plqCP4G+GoicGL3trwSVCRJ+9d5aSBJQJimBJc+BYr7xL0
+ 0trUzNuW+Pv3COk8=
+X-Received: by 2002:a5d:658a:: with SMTP id q10mr38375941wru.220.1593877221943; 
+ Sat, 04 Jul 2020 08:40:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyMKgD3/a3jy6iGiInZDbrcH8w26uYQl56sAGdQc8KZPWj5YW69Fw4oOJxni+dn0nj12wpKw==
+X-Received: by 2002:a5d:658a:: with SMTP id q10mr38375922wru.220.1593877221764; 
+ Sat, 04 Jul 2020 08:40:21 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id a123sm8262680wmd.28.2020.07.04.08.40.14
+ by smtp.gmail.com with ESMTPSA id v7sm18015001wrp.45.2020.07.04.08.40.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 08:40:16 -0700 (PDT)
+ Sat, 04 Jul 2020 08:40:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 12/23] hw/dma/soc_dma: Emit warning when old code is
+Subject: [RFC PATCH v2 13/23] hw/input/lasips2: Emit warning when old code is
  used
-Date: Sat,  4 Jul 2020 17:38:57 +0200
-Message-Id: <20200704153908.12118-13-philmd@redhat.com>
+Date: Sat,  4 Jul 2020 17:38:58 +0200
+Message-Id: <20200704153908.12118-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704153908.12118-1-philmd@redhat.com>
 References: <20200704153908.12118-1-philmd@redhat.com>
@@ -76,7 +75,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 08:57:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
@@ -85,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,30 +120,31 @@ This code hasn't been QOM'ified yet. Warn the user.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/dma/soc_dma.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/input/lasips2.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/dma/soc_dma.c b/hw/dma/soc_dma.c
-index 3a430057f5..22fd8c38b0 100644
---- a/hw/dma/soc_dma.c
-+++ b/hw/dma/soc_dma.c
-@@ -21,6 +21,7 @@
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
- #include "hw/arm/soc_dma.h"
+diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+index 0786e57338..452244f037 100644
+--- a/hw/input/lasips2.c
++++ b/hw/input/lasips2.c
+@@ -34,7 +34,7 @@
+ #include "exec/address-spaces.h"
+ #include "migration/vmstate.h"
+ #include "hw/irq.h"
+-
 +#include "hw/qdev-deprecated.h"
  
- static void transfer_mem2mem(struct soc_dma_ch_s *ch)
+ struct LASIPS2State;
+ typedef struct LASIPS2Port {
+@@ -269,6 +269,8 @@ void lasips2_init(MemoryRegion *address_space,
  {
-@@ -242,6 +243,8 @@ struct soc_dma_s *soc_dma_init(int n)
-     int i;
-     struct dma_s *s = g_malloc0(sizeof(*s) + n * sizeof(*s->ch));
+     LASIPS2State *s;
  
 +    qdev_warn_deprecated_function_used();
 +
-     s->chnum = n;
-     s->soc.ch = s->ch;
-     for (i = 0; i < n; i ++) {
+     s = g_malloc0(sizeof(LASIPS2State));
+ 
+     s->irq = irq;
 -- 
 2.21.3
 
