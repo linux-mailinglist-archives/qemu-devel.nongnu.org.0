@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E16214768
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:34:17 +0200 (CEST)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDB821476E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:36:11 +0200 (CEST)
+Received: from localhost ([::1]:46046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrl7I-0000rF-Vu
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
+	id 1jrl98-00045E-Nd
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzb-0005ax-JA
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:19 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:57367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzS-0002Pd-Ak
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkza-0005Y9-7H
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:18 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:51375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzV-0002QW-Da
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:17 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MqJyX-1kepBq0PLv-00nSNG; Sat, 04 Jul 2020 18:26:01 +0200
+ id 1N6bo8-1kzVP223vq-0180Sl; Sat, 04 Jul 2020 18:26:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] linux-user: Add strace support for printing arguments of
- fallocate()
-Date: Sat,  4 Jul 2020 18:25:42 +0200
-Message-Id: <20200704162545.311133-10-laurent@vivier.eu>
+Subject: [PULL 11/12] linux-user: Add strace support for printing arguments of
+ ioctl()
+Date: Sat,  4 Jul 2020 18:25:44 +0200
+Message-Id: <20200704162545.311133-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704162545.311133-1-laurent@vivier.eu>
 References: <20200704162545.311133-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7XmTRK8VlOZpkscqkLnES9Gyntcavkz6rWMS0o7riS0XVxq4SQ9
- eTbdSCRO//59HhlEcqNxCxYhKt6zm7bWFsjQcLd0P4NFxR5hEjduPLt8wHoP3OQAPkPWGHi
- R3vj4HYcNLzHZG8b/osaSNUCdrW7H5TN0nEYe3JgKyjFgMhWDSVgRyh+Zp8qNCZIn9JLH8L
- FaAbGlIbot7g8voJPIIqA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:d/l9t9vXShE=:6UFHjv4pdA6mR8XQD1cddt
- GqyDbN7EpEzpN5ARAh4ql/qAcva6vOnpQBVIrNHxuo271yGdFZuEPh9db4nalOhSoBCprgCQG
- m1mTlIaXeS+GLD86wrSIOU7+UF8icQSiLaMuoTHioZ5tVE7gbF4vZIKecVHYzJbCVb/acnEPN
- 0L3WCFgF7ZLjjoc+Wbmr9b/fUU9s1dcMyXT+hYjRJ2hm6btBA1jX8S6s3BLzDdLR4zEOgD+8o
- SI3KbPMLM4rAjZFCbmCJceFashP2x8OGBHTfBm0wLAGbIsb6OWdir4Eo1+gf7hVRg1a6x8UfN
- R3f2U3Wmo+wYEh8TE3xZihHoiw8IjmndlfKrpH9bOjG1DTC+DHcp8S/PhL1rsq6ArF/zXTD3b
- uYQLjnukKpcsKYbNpu+kzAy2j8OXKZLQZrOBmk3wMKZnOxDTsoKT2FXUaEeWddU3p/rgQPKIw
- GQtvqc05IEwLwOFXeqc76b/kXHpw6Cd+YBhOPtWl11slqf1yir9EaYRqq7gU/6LuToXUoew/S
- 7NPd2A0EUQ77ofpwekR2qKINq6+E8yfU4ZEMCdSDBs81Z2GU8oveZw0GTXnqJEO1T7GaGf3NC
- pPplzNA1idygZ3onC+rTKmJL6opq0Gtgfzi4HX0Js3CTtDt5RrG2byxVCod/mG328MO4f35cf
- aAQEDDnwYrWnj9C3mfmwLiUOWGjBfBo8M/TSFGOviH1DWWl+5aF9YpYYvnK8fxsnoYQP5uIvR
- 8oNxUUNO/rOBvw2np5VYcQR7mCY9T6LJiS7yBFoh9uDzMqqApdAL1gXiNWwLp8RlhDTtN/Bf8
- AU0tqh6lnjOoI+X7p4w5hHGssmBqHWvaKZzrGcW8jZsRVqc1GA=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:3jdLZ4I29TuXL7Hg0KMy9NfjIrXvdUxJ6Tr1OzjUxCT4M5ViJae
+ IbNHAbWSm86VJoh99q2f6w8MXYFP6a8DmZR58apKJUHgSQXzc4r9JbGKXGcGfv3decWzCDl
+ +W07cfND+6Ufx6Mn10C6/aQ8KjTD6axSDjyFPmRkkPe1I4Tas7ULYi4MUKztYsWZmoI5d2r
+ /79q29a6EN3YMVAW8vYNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0z1CpmjPsDU=:eL0tPhuxd2NpB/kGUgFN0y
+ D6u2B0bVLGNjjgaLgWYxvXDs2AkcXB1FrRUdt+9gud1LFdraWCnlvYB6zz55S9r7YiSOHTR5k
+ JtoHwaSZKR4l5FlGP0QX3jDHo9LlHPCkDpGE5ji1ljfTf1i0C7x2iMqCKnpa/7FwPoZITGqNK
+ XAkDMH94d7n0+xq4ohgiQ29trX3FInsQ9IULlZXGPW02nTVOoSuO4ecBll1ugMx5sEN8LA6VF
+ lvXOpSv1ty5AL2EtyjyxxrzFYhN9TkVcdf/LThEKv0HGcfuX0CflQUZ0sq1giZzRbD2xAd0ZW
+ UpNDaKU7vgToiUTZ3pRc7f1GM3h9jjLTaFQUCDyviwF4TPFdzYwNcod6VShnrp1zRmcjaFQQC
+ XEt8mxW2ODz2Gv+N+LM79hh08NyTntPkbUqH+bSJNv+cEFe5/BEdh9OovowA6Z7eY/VJ4iBQM
+ JqrACWMOIaU0OVm987uQ1fWqKj5S8/aYHI0LJONJdNESp8O4pi6X6zNem3eJJepG77dNURlpK
+ b19VfU+7Rl6esywHWptEjb2PN8nVoQ6fiDub4LmLO2Gx3ks2ItRSJXoRvXOwh2NHdhRY0XsZf
+ DD/Gr7GNF/Trn0NW4fHra5xEFs6oN4SsznYafCBCgqama/hR0/6ComR4/I0/34FHvLfo+bbCb
+ FVdQNs+ik5uIzZArQF2vzt/vHfu1pEAcQ5yWhTjauwQLoN4W78Xzs34q2ibq3ZeIYzq+k9Ql/
+ HZYLuv1YlBa79AWWaJ/NtbZjVyHfhmWSsFge+fL9xGZX3X1soG6MU1J4rtcsFTSO4qomVxsET
+ FSKVIlwo8+EjU2Nwc7aDSYLOwlmBCUWZpx+PvJuixT8245kvrs=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:26:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:26:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,166 +77,442 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for following syscall:
+This patch implements functionality for strace argument printing for ioctls.
+When running ioctls through qemu with "-strace", they get printed in format:
 
-    *fallocate - manipulate file space
+    "ioctl(fd_num,0x*,0x*) = ret_value"
 
-        int fallocate(int fd, int mode, off_t offset, off_t len)
-        man page: https://www.man7.org/linux/man-pages/man2/fallocate.2.html
+where the request code an the ioctl's third argument get printed in a hexadicemal
+format. This patch changes that by enabling strace to print both the request code
+name and the contents of the third argument. For example, when running ioctl
+RTC_SET_TIME with "-strace", with changes from this patch, it gets printed in
+this way:
+
+    "ioctl(3,RTC_SET_TIME,{12,13,15,20,10,119,0,0,0}) = 0"
+
+In case of IOC_R type ioctls, the contents of the third argument get printed
+after the return value, and the argument inside the ioctl call gets printed
+as pointer in hexadecimal format. For example, when running RTC_RD_TIME with
+"-strace", with changes from this patch, it gets printed in this way:
+
+    "ioctl(3,RTC_RD_TIME,0x40800374) = 0 ({22,9,13,11,5,120,0,0,0})"
+
+In case of IOC_RW type ioctls, the contents of the third argument get printed
+both inside the ioctl call and after the return value.
 
 Implementation notes:
 
-    This syscall's second argument "mode" is composed of predefined values
-    which represent flags that determine the type of operation that is
-    to be performed on the file space. For that reason, a printing
-    function "print_fallocate" was stated in file "strace.list". This printing
-    function uses an already existing function "print_flags()" to print flags of
-    the "mode" argument. These flags are stated inside an array "falloc_flags"
-    that contains values of type "struct flags". These values are instantiated
-    using an existing macro "FLAG_GENERIC()". Most of these flags are defined
-    after kernel version 3.0 which is why they are enwrapped in an #ifdef
-    directive.
-    The syscall's third ant fourth argument are of type "off_t" which can
-    cause variations between 32/64-bit architectures. To handle this variation,
-    function "target_offset64()" was copied from file "strace.c" and used in
-    "print_fallocate" to print "off_t" arguments for 32-bit architectures.
+    Functions "print_ioctl()" and "print_syscall_ret_ioctl()", that are defined
+    in "strace.c", are listed in file "strace.list" as "call" and "result"
+    value for ioctl. Structure definition "IOCTLEntry" as well as predefined
+    values for IOC_R, IOC_W and IOC_RW were cut and pasted from file "syscall.c"
+    to file "qemu.h" so that they can be used by these functions to print the
+    contents of the third ioctl argument. Also, the "static" identifier for array
+    "ioctl_entries[]" was removed and this array was declared as "extern" in "qemu.h"
+    so that it can also be used by these functions. To decode the structure type
+    of the ioctl third argument, function "thunk_print()" was defined in file
+    "thunk.c" and its definition is somewhat simillar to that of function
+    "thunk_convert()".
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-7-filip.bozuta@syrmia.com>
+Message-Id: <20200619124727.18080-3-filip.bozuta@syrmia.com>
+[lv: fix close-bracket]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h      | 16 ++++++++++++++++
- linux-user/strace.c    | 40 ++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  2 +-
- linux-user/syscall.c   | 16 ----------------
- 4 files changed, 57 insertions(+), 17 deletions(-)
+ include/exec/user/thunk.h |   1 +
+ linux-user/qemu.h         |  20 +++++
+ linux-user/strace.c       | 107 ++++++++++++++++++++++++++
+ linux-user/strace.list    |   3 +-
+ linux-user/syscall.c      |  20 +----
+ thunk.c                   | 154 ++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 285 insertions(+), 20 deletions(-)
 
+diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
+index eae2c27f99da..7992475c9f8a 100644
+--- a/include/exec/user/thunk.h
++++ b/include/exec/user/thunk.h
+@@ -73,6 +73,7 @@ void thunk_register_struct_direct(int id, const char *name,
+                                   const StructEntry *se1);
+ const argtype *thunk_convert(void *dst, const void *src,
+                              const argtype *type_ptr, int to_host);
++const argtype *thunk_print(void *arg, const argtype *type_ptr);
+ 
+ extern StructEntry *struct_entries;
+ 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 8f938b8105b3..be67391ba49d 100644
+index be67391ba49d..5c964389c101 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -670,6 +670,22 @@ static inline int is_error(abi_long ret)
-     return (abi_ulong)ret >= (abi_ulong)(-4096);
- }
- 
-+#if TARGET_ABI_BITS == 32
-+static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
-+{
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    return ((uint64_t)word0 << 32) | word1;
-+#else
-+    return ((uint64_t)word1 << 32) | word0;
-+#endif
-+}
-+#else /* TARGET_ABI_BITS == 32 */
-+static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
-+{
-+    return word0;
-+}
-+#endif /* TARGET_ABI_BITS != 32 */
-+
- /**
-  * preexit_cleanup: housekeeping before the guest exits
-  *
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 957f08f1adf2..32e5e987acbb 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1135,6 +1135,26 @@ UNUSED static struct flags statx_mask[] = {
-     FLAG_END,
+@@ -184,6 +184,26 @@ struct linux_binprm {
+         int (*core_dump)(int, const CPUArchState *); /* coredump routine */
  };
  
-+UNUSED static struct flags falloc_flags[] = {
-+    FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
-+    FLAG_GENERIC(FALLOC_FL_PUNCH_HOLE),
-+#ifdef FALLOC_FL_NO_HIDE_STALE
-+    FLAG_GENERIC(FALLOC_FL_NO_HIDE_STALE),
-+#endif
-+#ifdef FALLOC_FL_COLLAPSE_RANGE
-+    FLAG_GENERIC(FALLOC_FL_COLLAPSE_RANGE),
-+#endif
-+#ifdef FALLOC_FL_ZERO_RANGE
-+    FLAG_GENERIC(FALLOC_FL_ZERO_RANGE),
-+#endif
-+#ifdef FALLOC_FL_INSERT_RANGE
-+    FLAG_GENERIC(FALLOC_FL_INSERT_RANGE),
-+#endif
-+#ifdef FALLOC_FL_UNSHARE_RANGE
-+    FLAG_GENERIC(FALLOC_FL_UNSHARE_RANGE),
-+#endif
++typedef struct IOCTLEntry IOCTLEntry;
++
++typedef abi_long do_ioctl_fn(const IOCTLEntry *ie, uint8_t *buf_temp,
++                             int fd, int cmd, abi_long arg);
++
++struct IOCTLEntry {
++    int target_cmd;
++    unsigned int host_cmd;
++    const char *name;
++    int access;
++    do_ioctl_fn *do_ioctl;
++    const argtype arg_type[5];
 +};
 +
- /*
-  * print_xxx utility functions.  These are used to print syscall
-  * parameters in certain format.  All of these have parameter
-@@ -1552,6 +1572,26 @@ print_faccessat(const struct syscallname *name,
++extern IOCTLEntry ioctl_entries[];
++
++#define IOC_R 0x0001
++#define IOC_W 0x0002
++#define IOC_RW (IOC_R | IOC_W)
++
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+                               abi_ulong stringp, int push_ptr);
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 32e5e987acbb..5235b2260cdd 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -860,6 +860,44 @@ print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
+ #define print_syscall_ret_flistxattr     print_syscall_ret_listxattr
+ #endif
+ 
++#ifdef TARGET_NR_ioctl
++static void
++print_syscall_ret_ioctl(const struct syscallname *name, abi_long ret,
++                        abi_long arg0, abi_long arg1, abi_long arg2,
++                        abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_err(ret);
++
++    if (ret >= 0) {
++        qemu_log(TARGET_ABI_FMT_ld, ret);
++
++        const IOCTLEntry *ie;
++        const argtype *arg_type;
++        void *argptr;
++        int target_size;
++
++        for (ie = ioctl_entries; ie->target_cmd != 0; ie++) {
++            if (ie->target_cmd == arg1) {
++                break;
++            }
++        }
++
++        if (ie->target_cmd == arg1 &&
++           (ie->access == IOC_R || ie->access == IOC_RW)) {
++            arg_type = ie->arg_type;
++            qemu_log(" (");
++            arg_type++;
++            target_size = thunk_type_size(arg_type, 0);
++            argptr = lock_user(VERIFY_READ, arg2, target_size, 1);
++            thunk_print(argptr, arg_type);
++            unlock_user(argptr, arg2, target_size);
++            qemu_log(")");
++        }
++    }
++    qemu_log("\n");
++}
++#endif
++
+ UNUSED static struct flags access_flags[] = {
+     FLAG_GENERIC(F_OK),
+     FLAG_GENERIC(R_OK),
+@@ -3026,6 +3064,75 @@ print_statx(const struct syscallname *name,
  }
  #endif
  
-+#ifdef TARGET_NR_fallocate
++#ifdef TARGET_NR_ioctl
 +static void
-+print_fallocate(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
++print_ioctl(const struct syscallname *name,
++            abi_long arg0, abi_long arg1, abi_long arg2,
++            abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
 +    print_raw_param("%d", arg0, 0);
-+    print_flags(falloc_flags, arg1, 0);
-+#if TARGET_ABI_BITS == 32
-+    print_raw_param("%" PRIu64, target_offset64(arg2, arg3), 0);
-+    print_raw_param("%" PRIu64, target_offset64(arg4, arg5), 1);
-+#else
-+    print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-+    print_raw_param(TARGET_ABI_FMT_ld, arg3, 1);
-+#endif
++
++    const IOCTLEntry *ie;
++    const argtype *arg_type;
++    void *argptr;
++    int target_size;
++
++    for (ie = ioctl_entries; ie->target_cmd != 0; ie++) {
++        if (ie->target_cmd == arg1) {
++            break;
++        }
++    }
++
++    if (ie->target_cmd == 0) {
++        print_raw_param("%#x", arg1, 0);
++        print_raw_param("%#x", arg2, 1);
++    } else {
++        qemu_log("%s", ie->name);
++        arg_type = ie->arg_type;
++
++        if (arg_type[0] != TYPE_NULL) {
++            qemu_log(",");
++
++            switch (arg_type[0]) {
++            case TYPE_PTRVOID:
++                print_pointer(arg2, 1);
++                break;
++            case TYPE_CHAR:
++            case TYPE_SHORT:
++            case TYPE_INT:
++                print_raw_param("%d", arg2, 1);
++                break;
++            case TYPE_LONG:
++                print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
++                break;
++            case TYPE_ULONG:
++                print_raw_param(TARGET_ABI_FMT_lu, arg2, 1);
++                break;
++            case TYPE_PTR:
++                switch (ie->access) {
++                case IOC_R:
++                    print_pointer(arg2, 1);
++                    break;
++                case IOC_W:
++                case IOC_RW:
++                    arg_type++;
++                    target_size = thunk_type_size(arg_type, 0);
++                    argptr = lock_user(VERIFY_READ, arg2, target_size, 1);
++                    thunk_print(argptr, arg_type);
++                    unlock_user(argptr, arg2, target_size);
++                    break;
++                }
++                break;
++            default:
++                g_assert_not_reached();
++            }
++        }
++    }
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
- #ifdef TARGET_NR_fchmodat
- static void
- print_fchmodat(const struct syscallname *name,
+ /*
+  * An array of all of the syscalls we know about
+  */
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index e99030c9ef39..ebb713252ce3 100644
+index ebb713252ce3..a04706a524ae 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -182,7 +182,7 @@
- { TARGET_NR_fadvise64_64, "fadvise64_64" , NULL, NULL, NULL },
+@@ -433,7 +433,8 @@
+ { TARGET_NR_io_cancel, "io_cancel" , NULL, NULL, NULL },
  #endif
- #ifdef TARGET_NR_fallocate
--{ TARGET_NR_fallocate, "fallocate" , NULL, NULL, NULL },
-+{ TARGET_NR_fallocate, "fallocate" , NULL, print_fallocate, NULL },
+ #ifdef TARGET_NR_ioctl
+-{ TARGET_NR_ioctl, "ioctl" , "%s(%d,%#x,%#x)", NULL, NULL },
++{ TARGET_NR_ioctl, "ioctl" , NULL, print_ioctl,
++                   print_syscall_ret_ioctl},
  #endif
- #ifdef TARGET_NR_fanotify_init
- { TARGET_NR_fanotify_init, "fanotify_init" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_io_destroy
+ { TARGET_NR_io_destroy, "io_destroy" , NULL, NULL, NULL },
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1b971c06b270..506b94a12c1e 100644
+index 506b94a12c1e..82afadcea0e2 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6712,22 +6712,6 @@ void syscall_init(void)
-     }
+@@ -4481,24 +4481,6 @@ STRUCT_MAX
+ #undef STRUCT
+ #undef STRUCT_SPECIAL
+ 
+-typedef struct IOCTLEntry IOCTLEntry;
+-
+-typedef abi_long do_ioctl_fn(const IOCTLEntry *ie, uint8_t *buf_temp,
+-                             int fd, int cmd, abi_long arg);
+-
+-struct IOCTLEntry {
+-    int target_cmd;
+-    unsigned int host_cmd;
+-    const char *name;
+-    int access;
+-    do_ioctl_fn *do_ioctl;
+-    const argtype arg_type[5];
+-};
+-
+-#define IOC_R 0x0001
+-#define IOC_W 0x0002
+-#define IOC_RW (IOC_R | IOC_W)
+-
+ #define MAX_STRUCT_SIZE 4096
+ 
+ #ifdef CONFIG_FIEMAP
+@@ -5374,7 +5356,7 @@ static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
+ 
+ #endif
+ 
+-static IOCTLEntry ioctl_entries[] = {
++IOCTLEntry ioctl_entries[] = {
+ #define IOCTL(cmd, access, ...) \
+     { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
+ #define IOCTL_SPECIAL(cmd, access, dofn, ...)                      \
+diff --git a/thunk.c b/thunk.c
+index 7f31cffe0968..c5d971974783 100644
+--- a/thunk.c
++++ b/thunk.c
+@@ -271,6 +271,160 @@ const argtype *thunk_convert(void *dst, const void *src,
+     return type_ptr;
  }
  
--#if TARGET_ABI_BITS == 32
--static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
--{
--#ifdef TARGET_WORDS_BIGENDIAN
--    return ((uint64_t)word0 << 32) | word1;
--#else
--    return ((uint64_t)word1 << 32) | word0;
--#endif
--}
--#else /* TARGET_ABI_BITS == 32 */
--static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
--{
--    return word0;
--}
--#endif /* TARGET_ABI_BITS != 32 */
--
- #ifdef TARGET_NR_truncate64
- static inline abi_long target_truncate64(void *cpu_env, const char *arg1,
-                                          abi_long arg2,
++const argtype *thunk_print(void *arg, const argtype *type_ptr)
++{
++    int type;
++
++    type = *type_ptr++;
++
++    switch (type) {
++    case TYPE_CHAR:
++        qemu_log("%c", *(uint8_t *)arg);
++        break;
++    case TYPE_SHORT:
++        qemu_log("%" PRId16, tswap16(*(uint16_t *)arg));
++        break;
++    case TYPE_INT:
++        qemu_log("%" PRId32, tswap32(*(uint32_t *)arg));
++        break;
++    case TYPE_LONGLONG:
++        qemu_log("%" PRId64, tswap64(*(uint64_t *)arg));
++        break;
++    case TYPE_ULONGLONG:
++        qemu_log("%" PRIu64, tswap64(*(uint64_t *)arg));
++        break;
++#if HOST_LONG_BITS == 32 && TARGET_ABI_BITS == 32
++    case TYPE_PTRVOID:
++        qemu_log("0x%" PRIx32, tswap32(*(uint32_t *)arg));
++        break;
++    case TYPE_LONG:
++        qemu_log("%" PRId32, tswap32(*(uint32_t *)arg));
++        break;
++    case TYPE_ULONG:
++        qemu_log("%" PRIu32, tswap32(*(uint32_t *)arg));
++        break;
++#elif HOST_LONG_BITS == 64 && TARGET_ABI_BITS == 32
++    case TYPE_PTRVOID:
++        qemu_log("0x%" PRIx32, tswap32(*(uint64_t *)arg & 0xffffffff));
++        break;
++    case TYPE_LONG:
++        qemu_log("%" PRId32, tswap32(*(uint64_t *)arg & 0xffffffff));
++        break;
++    case TYPE_ULONG:
++        qemu_log("%" PRIu32, tswap32(*(uint64_t *)arg & 0xffffffff));
++        break;
++#elif HOST_LONG_BITS == 64 && TARGET_ABI_BITS == 64
++    case TYPE_PTRVOID:
++        qemu_log("0x%" PRIx64, tswap64(*(uint64_t *)arg));
++        break;
++    case TYPE_LONG:
++        qemu_log("%" PRId64, tswap64(*(uint64_t *)arg));
++        break;
++    case TYPE_ULONG:
++        qemu_log("%" PRIu64, tswap64(*(uint64_t *)arg));
++        break;
++#else
++    case TYPE_PTRVOID:
++        qemu_log("0x%" PRIx64, tswap64(*(uint64_t *)arg));
++        break;
++    case TYPE_LONG:
++        qemu_log("%" PRId64, tswap64(*(uint64_t *)arg));
++        break;
++    case TYPE_ULONG:
++        qemu_log("%" PRIu64, tswap64(*(uint64_t *)arg));
++        break;
++#endif
++    case TYPE_OLDDEVT:
++    {
++        uint64_t val = 0;
++        switch (thunk_type_size(type_ptr - 1, 1)) {
++        case 2:
++            val = *(uint16_t *)arg;
++            break;
++        case 4:
++            val = *(uint32_t *)arg;
++            break;
++        case 8:
++            val = *(uint64_t *)arg;
++            break;
++        }
++        switch (thunk_type_size(type_ptr - 1, 0)) {
++        case 2:
++            qemu_log("%" PRIu16, tswap16(val));
++            break;
++        case 4:
++            qemu_log("%" PRIu32, tswap32(val));
++            break;
++        case 8:
++            qemu_log("%" PRIu64, tswap64(val));
++            break;
++        }
++    }
++    break;
++    case TYPE_ARRAY:
++        {
++            int i, array_length, arg_size;
++            uint8_t *a;
++            int is_string = 0;
++
++            array_length = *type_ptr++;
++            arg_size = thunk_type_size(type_ptr, 0);
++            a = arg;
++
++            if (*type_ptr == TYPE_CHAR) {
++                qemu_log("\"");
++                is_string = 1;
++            } else {
++                qemu_log("[");
++            }
++
++            for (i = 0; i < array_length; i++) {
++                if (i > 0 && !is_string) {
++                    qemu_log(",");
++                }
++                thunk_print(a, type_ptr);
++                a += arg_size;
++            }
++
++            if (is_string) {
++                qemu_log("\"");
++            } else {
++                qemu_log("]");
++            }
++
++            type_ptr = thunk_type_next(type_ptr);
++        }
++        break;
++    case TYPE_STRUCT:
++        {
++            int i;
++            const StructEntry *se;
++            uint8_t  *a;
++            const argtype *field_types;
++            const int *arg_offsets;
++
++            se = struct_entries + *type_ptr++;
++            a = arg;
++
++            field_types = se->field_types;
++            arg_offsets = se->field_offsets[0];
++
++            qemu_log("{");
++            for (i = 0; i < se->nb_fields; i++) {
++                if (i > 0) {
++                    qemu_log(",");
++                }
++                field_types = thunk_print(a + arg_offsets[i], field_types);
++            }
++            qemu_log("}");
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    return type_ptr;
++}
++
+ /* from em86 */
+ 
+ /* Utility function: Table-driven functions to translate bitmasks
 -- 
 2.26.2
 
