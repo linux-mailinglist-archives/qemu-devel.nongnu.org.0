@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D7221475A
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:27:40 +0200 (CEST)
-Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3505E21475C
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:29:18 +0200 (CEST)
+Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrl0t-0007dB-LI
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
+	id 1jrl2T-0001ua-79
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzI-00052r-KZ
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzI-00053O-VH
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:00 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:36099)
+Received: from mout.kundenserver.de ([212.227.17.13]:40589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzF-0002NX-Uy
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzG-0002Nf-3U
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:00 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MPXlM-1kEOTD2cFe-00Mbtr; Sat, 04 Jul 2020 18:25:53 +0200
+ id 1MVvGt-1kJYkZ1G0j-00RmpQ; Sat, 04 Jul 2020 18:25:54 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] target/sparc: Translate flushw opcode
-Date: Sat,  4 Jul 2020 18:25:34 +0200
-Message-Id: <20200704162545.311133-2-laurent@vivier.eu>
+Subject: [PULL 02/12] linux-user/sparc64: Fix the handling of window spill trap
+Date: Sat,  4 Jul 2020 18:25:35 +0200
+Message-Id: <20200704162545.311133-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704162545.311133-1-laurent@vivier.eu>
 References: <20200704162545.311133-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zJMSMPD1WCs2H/7T1KaIqqNDXh4awHcxaW3nmKyDH0rv+EUv9xx
- G88TlDnAcjdphBJcwk1Icj299tS5X61pBIaDFUMqHr8p7oB4Z4RL9U8gEGKBOINW09YIY9d
- KiCWRl5UZkU9iiplnFa8QItDyGjSW+MQxi7xttDhiINbMIOrf4dNuI6hoAtbrBy+iJGEsVm
- nEA7a9lJxbjyeHNlNEyXg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:20r6uQB412g=:qONXXoXnJ+VoT+YBMvr5R9
- SecnkV9lLrXKO8m4n0ENqQW14OAXPQ4gkIPI1sYvA0Ojnw0AZVvyF4nVhzSJ21jdTqzel+Y/t
- c3S2lfUPVzYQja2bydWQZTl+RPkrlnZMKG81Il3P8Q8Ai9KwJlWZ5lUoNbI0lTM7i2oqV1Jy9
- I5oy+fcFtLiw3jxtngXsCuyiSR+1SGJQnBa9nGDd7n/EWUtYCsDyKUHNr4vVIj1tXyw7yLVyg
- YTbZLTxVX0vhElwHX/hmCGwEwnfysWb2AMFMo/PoT5OA2LOTfuzXszmg25Ads+6hes/zY7CDe
- H43AbnFVwvzNaDbSpVndmu7pR95ceh39HASy+utnDV1ws5u1bSczTsIla1XjLotjqc/9YQf5H
- ohW+3NQWhWOU3kWomANsswSSAnfZmDezhmJ/02/tPVCtftS69B2nXMKheigUUOUKU1WZi0gHL
- v704e32nISjgygk8J9dBB7Xx2KDqAewvgH0nUpHJKVQnbaLnMKfEh/r48+nuIezw7Vamm5F5b
- Js0KqnBQZDFJUyZT5FrSP/G7PA66nrwee5Vab1pkdtI6yeT0gfxz9WxospALkqDTFO9hupcKk
- XnMIAeIwGKpvcnHQ0NHnEqX8wPhG360KAPAAguhCwxAwvPBWbOrBnysZmuCOEXuAcf+2sratw
- LrvWHAdAkV6QiHqhHql05NtrYkwI31nQ5V49JrqtRIQ1hvJed+2EQTatVhQFxqiSu4DUZu53x
- pXzTwHupe49AVIDZUiNbrUBauvN6yMOaCJkkA9UEw7Cz5nUoQCyMKKolSIoMYkxHrpV7uH+Sb
- UE2R5JR429d08JKHZo5nqaYQ1Sdo2uwJMIIAhPbpyFfg9gFkzE=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:CZpX6YXxb7WOdVWhB9j9G6aVu4bzOf2oJWOAAtQezpH5aN5AZOD
+ HE9BNn7lyhrixircWt3LQecA7EGMAmPl9d6op527Yvn4Lv1slsRRrkgXEiuIdn6/ujqWNew
+ bLKqg9D7AdcKpFQQkDu/jIrKjotdb/c+ROlVCwoRb7WsMC029dzpr6h6nE0kZPjmKF9D/Lv
+ ljEiza9bQu4MoNXgnltuQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LF5MlfSwLoU=:fIVAsQp4pfVZJEZplL46hP
+ Y3UPx4KpHUN1ih87pVvt9KyB882y3WLKvxwCTXns44vGVC5++8DszGn/zV2w15Yg3/08CBUnW
+ dTYT66UC6UWJXlaPMOWPBMtR1ExyWGrLjmLEf4JUfOYxQEPZC92mHVmG7hBAcLqo6jCkbvY4d
+ bF/nr9m4pd984tWvcxvuoziyfiKGoB6A+MJsNhZ6V7rRDCV7IHOxVfbkfvaeS8BbGpw7l3HLb
+ 08BVU7LAQsikox3iKss08JDvZs1TjwWTxEBc5OxS/v8BhpCmKj4/xNg89pPSyfCnldkp8rNgi
+ TZKNn/6ZF8/KQxddR3TFaM3961I15YCq5iESTbmyFKSpqlDbcqNbZNDP/lwgwcR+aCaAZqZ9s
+ RQ+hxzHm6fy5XSAjPYmcKD768wrFHwkvP0roLRmXnY58aD1TXF87WAkhTXBVNsgOSES7hU1oD
+ Il2DIjJaG/h0fJI6Td9SKNu7XFDkP6pO7yqm0UHBO0WT+XaYd9pr1xvVPs2+j1pS/JkSXkcgc
+ yMOHE4R25hFLDgtn+BuqgYHT3zG2azJ1u+x2x1fLZ1X0P/0W8MVakSZhM8kcq8gWUD2bqhuFZ
+ ALgdDDK1nU/D6vxidVabFDOKRIlaLOhgp1UgFfB87daOJ6PPEqi7BBJ0XASNV8dDcUOJA5uD8
+ iAJjIS8noQDKKvVGZMB4SqD8Q+E6npFTO2BN3/TWSfuqRdlwmrco27/hYYhZ3aj6Fy2nutjpW
+ 0baRGtqX0P+ZNkeoF+s+x03InsMFO3PeJAccrRIk9yfCxPuaYCfogdk8xwuqU5em+iSwNcSo4
+ Qks77ehtyP9gLRIrKH8tDRwo7KTgzykrS53MYWTFwLHHXqVvTw=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:25:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:25:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,30 +78,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Giuseppe Musacchio <thatlemon@gmail.com>
 
-The ifdef logic should unconditionally compile in the `xop == 0x2b` case
-when targeting sparc64.
+Fix the handling of window spill traps by keeping cansave into account
+when calculating the new CWP.
 
 Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200625091204.3186186-2-laurent@vivier.eu>
+Message-Id: <20200625091204.3186186-3-laurent@vivier.eu>
 ---
- target/sparc/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ bsd-user/main.c             | 6 +++++-
+ linux-user/sparc/cpu_loop.c | 6 +++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 9416a551cf46..1a4efd4ed665 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -3663,6 +3663,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 0bfe46cff93e..ac40d79bfaac 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -413,7 +413,11 @@ static void save_window(CPUSPARCState *env)
+     save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
+     env->wim = new_wim;
+ #else
+-    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
++    /*
++     * cansave is zero if the spill trap handler is triggered by `save` and
++     * nonzero if triggered by a `flushw`
++     */
++    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
+     env->cansave++;
+     env->canrestore--;
  #endif
-                 gen_store_gpr(dc, rd, cpu_tmp0);
-                 break;
-+#endif
-+#if defined(TARGET_SPARC64) || !defined(CONFIG_USER_ONLY)
-             } else if (xop == 0x2b) { /* rdtbr / V9 flushw */
- #ifdef TARGET_SPARC64
-                 gen_helper_flushw(cpu_env);
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index 7645cc04ca73..02532f198df8 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -69,7 +69,11 @@ static void save_window(CPUSPARCState *env)
+     save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
+     env->wim = new_wim;
+ #else
+-    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
++    /*
++     * cansave is zero if the spill trap handler is triggered by `save` and
++     * nonzero if triggered by a `flushw`
++     */
++    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
+     env->cansave++;
+     env->canrestore--;
+ #endif
 -- 
 2.26.2
 
