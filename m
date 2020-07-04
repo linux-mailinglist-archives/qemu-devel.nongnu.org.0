@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BBB21475B
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:27:43 +0200 (CEST)
-Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D121475F
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:29:33 +0200 (CEST)
+Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrl0w-0007iO-3K
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1jrl2i-0002Yj-Ag
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzN-0005EX-Ly
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:05 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:38683)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzW-0005Sb-34
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:14 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:42245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzK-0002OY-Jh
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:05 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzR-0002PS-Vg
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:13 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MA7Om-1k3GWL0UJO-00BcSB; Sat, 04 Jul 2020 18:25:59 +0200
+ id 1Mq2rM-1keYCr3T1O-00nBG7; Sat, 04 Jul 2020 18:26:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/12] linux-user: Add strace support for printing argument of
- syscalls used for extended attributes
-Date: Sat,  4 Jul 2020 18:25:39 +0200
-Message-Id: <20200704162545.311133-7-laurent@vivier.eu>
+Subject: [PULL 07/12] linux-user: Add strace support for printing arguments of
+ lseek()
+Date: Sat,  4 Jul 2020 18:25:40 +0200
+Message-Id: <20200704162545.311133-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704162545.311133-1-laurent@vivier.eu>
 References: <20200704162545.311133-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:82muBEwMrNmJCSZMC3XvJ8SAEMCgKosfzRESzkdgt0Vrub/Jcqo
- Ioxw6of/zCi9fo8YFCn4AnDn9jCvuaIkF5SwAEiTwRyW/6Inms73GUPX6X/rArHuz9FbWTw
- UFsR8vKg6EiZewY4Dy0lRE2Mh50tMdiXGSCrXE0uvVuluseqZMWLNxbrR1ZUko/D3HRibMh
- 5GI2MWYX18LASqEFE0pIg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F8DhPqyMl9k=:fTcAPaB8uKY1mbCPUH6Xtk
- FvQrdgDwpKygZRz2dDup6N1QxH13GpBoB/b8w3Nufy61JPfLF2VE+07leMrgcFVUJkjz9Zt6b
- hg/vbkE6EV4XQqKayqQKMpaOKsf/DlC1R/Ry4MJA6H7/xggK0A66VIzToIv3Ku8eyF5MmvcsZ
- rgAHVkMQQBVkuTQfyHKVMUCd9Icbh3Yv8cEZ1eWHflReHT2gj1LcLH63aD9M6pH2upQM6RByg
- +wvlG/gWueAz1sVQCRDc9Gqlf75d2PkB3XsIzI+5B+ejF7WFZdg1yBXpKBgA2no8tT6Eu7pPo
- 5V8jjLMPQuAU+VdELdGE97besF2nJz657MqwKaRBOVcAT4LHtC+sk/CvVrD1Kdcs9RTV16Lez
- +2q3rePvS1FpDP+bBWCPNG+7YIm6yZfd1uDpiMqgOiDl/17xx4NJOoKAtGnpcDUu6bQ1o73HF
- CKmxUFabKM9wJBHJWQuaQeiDMZrC/S1VAPOZVCElC2ZJmnEfdkRGKQptmbS08fLgwuJRgn2kg
- QsLakQjl2kLCkKiVNMb9CLv2bud/eXOR7WzHtSw41pjWB1KZ6Nh22dYSDACCFLru3n6L63qMa
- 11mi9Y1oxOh6jBz3yz+nvtEovhKozHKfAtiavZulMU7/AzP9Umzy8Qdj37QcP2RW+rI60FvL2
- kE9C+vyA1g/IJKsULr5Pg65jFySJg6uxYFJX6odIM2ez0bc3Mdby445unlKadWYBkYDkg464Z
- KoDxFp3GEclk7IQ+HVqRBWP7eqZGTXJlDcFM+fBg1wFswdK0HYRt0WyS4pG/GY0I91yzLwKAE
- Kv+9RKeo6eP+qhj4GIuL1MeqHuaeFF2KaWAO58SUoxkYDkAJDw=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6ExM+EIb8avJ3JyTQbsZEpcNibGSfYsBF2ON6SMDwHW5Alh18y8
+ Jq1bCQLjM7SlpZv1ukTAh5QOAi4vpmJvn1hv6P5K14DZVW76mlQCaEGG6T2g8F+/klaLba5
+ dZO8aAUmlJVSJVZENnPE/HPpxGcQrHDRl5SxoIwvs5q7W53IM3WIEZ8+vYRVm+sM5DaQrq0
+ /npOVAldix6EymIHLx/5g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:c5WfpDzHTmU=:LyfsDKluSBP60gLGWZfrV7
+ MCCd+DR3OWix77hihDwR2/5AxyqAFAhtgim+yb8rDf7fqtpKESV6+KlW4uWgrDlK/ykhzOsGh
+ B18FrC8+QbYwaUdE+2Q8sSeKEQVUbggmcixX0T1uPTy4can3223cd9fs/f/aKOQ1iK+r0DL6O
+ CpFMy2hJTYtw55TBbnZZHw8nUoCTQIP2CPzIwdM7slsYiIHnvQ1DWK8G4uCWxHUXOctQ/qCbr
+ zJ3QOti473+X6sfk0mvKdKQXpZJpiTRoWz3IiL/8thf9ZMudZiLsndNURSqhHo6q6FYV5Kffw
+ PNdvJkQaJA+tMkOFH46nTYQ1LLMNLu0X4RUJuoHRc1h9Xel2cWXOwUuJYwUqAIuvZNSbKOOFw
+ XHaFfkAy6DwLVNUHSM8IEv6qtXn5R8zgb9QzvcVuGCet9zd2Ky89BMB9O4zNKBaS0xbNMsbOG
+ IYYd7k2qEuTLRZQyB2wdePgEyosux6Ae8APkbwQKtgLhu5aJ7be6zCt5HRzhXBkC/9hMZV+Aj
+ panxqDZ4zd7oEQ9MmnpRuqlG4iVLHzllv3JeBAF2qxXGqLX0pITxRZtJ7dOVArwdcl0ggbQCS
+ 0iNoLapByHLIQt/vHS4u/F9BGfcV7pDo0EFhSZr4iAoIW4SazlZRM0YTwjC9KxuxWEuVaD1y6
+ QJGNTNnqhi18rXL9hkNQsnWdG7BqpDOqSk4sRZfvx3axa8DPq+sndtDFv+8+OA+5iASV3s7hP
+ GJXZL8JlW6m5nS45TFzNAs+Pm/x6G/SxN1xyjdIW2NEzex7a61bH9FPQNid4scgAUQQpgVWCv
+ Df4kAVti60HiwBcq0kAAafK3ZdkCdJbzTRc7qBXZNcpATahLc4=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:26:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:26:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,275 +78,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for following syscalls:
+This patch implements strace argument printing functionality for syscall:
 
-    *getxattr, lgetxattr, fgetxattr - retrieve an extended attribute value
+    *lseek - reposition read/write file offset
 
-        ssize_t getxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t lgetxattr(const char *path, const char *name, void *value, size_t size)
-        ssize_t fgetxattr(int fd, const char *name, void *value, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/getxattr.2.html
-
-    *listxattr, llistxattr, flistxattr - list extended attribute names
-
-        ssize_t listxattr(const char *path, char *list, size_t size)
-        ssize_t llistxattr(const char *path, char *list, size_t size)
-        ssize_t flistxattr(int fd, char *list, size_t size)
-        man page: https://www.man7.org/linux/man-pages/man2/listxattr.2.html
-
-    *removexattr, lremovexattr, fremovexattr - remove an extended attribute
-
-         int removexattr(const char *path, const char *name)
-         int lremovexattr(const char *path, const char *name)
-         int fremovexattr(int fd, const char *name)
-         man page: https://www.man7.org/linux/man-pages/man2/removexattr.2.html
+         off_t lseek(int fd, off_t offset, int whence)
+         man page: https://www.man7.org/linux/man-pages/man2/lseek.2.html
 
 Implementation notes:
 
-    All of the syscalls have strings as argument types and thus a separate
-    printing function was stated in file "strace.list" for every one of them.
-    All of these printing functions were defined in "strace.c" using existing
-    printing functions for appropriate argument types:
-       "print_string()" - for (const char*) type
-       "print_pointer()" - for (char*) and (void *) type
-       "print_raw_param()" for (int) and (size_t) type
-    Syscalls "getxattr()" and "lgetxattr()" have the same number and type of
-    arguments and thus their print functions ("print_getxattr", "print_lgetxattr")
-    share a same definition. The same statement applies to syscalls "listxattr()"
-    and "llistxattr()".
-    Function "print_syscall_ret_listxattr()" was added to print the returned list
-    of extended attributes for syscalls "print_listxattr(), print_llistxattr() and
-    print_flistxattr()".
+    The syscall's third argument "whence" has predefined values:
+    "SEEK_SET","SEEK_CUR","SEEK_END","SEEK_DATA","SEEK_HOLE"
+    and thus a separate printing function "print_lseek" was stated
+    in file "strace.list". This function is defined in "strace.c"
+    by using an existing function "print_raw_param()" to print
+    the first and second argument and a switch(case) statement
+    for the predefined values of the third argument.
+    Values "SEEK_DATA" and "SEEK_HOLE" are defined in kernel version 3.1.
+    That is the reason why case statements for these values are
+    enwrapped in #ifdef directive.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-4-filip.bozuta@syrmia.com>
+Message-Id: <20200619123331.17387-5-filip.bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 121 +++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  21 ++++---
- 2 files changed, 133 insertions(+), 9 deletions(-)
+ linux-user/strace.c    | 31 +++++++++++++++++++++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 123e022c35bf..760020132b5a 100644
+index 760020132b5a..a26736516bab 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -826,6 +826,40 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
+@@ -1833,6 +1833,37 @@ print__llseek(const struct syscallname *name,
  }
  #endif
  
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr) \
-+ || defined(TARGGET_NR_flistxattr)
++#ifdef TARGET_NR_lseek
 +static void
-+print_syscall_ret_listxattr(const struct syscallname *name, abi_long ret,
-+                            abi_long arg0, abi_long arg1, abi_long arg2,
-+                            abi_long arg3, abi_long arg4, abi_long arg5)
++print_lseek(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    print_syscall_err(ret);
-+
-+    if (ret >= 0) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (list = ");
-+        if (arg1 != 0) {
-+            abi_long attr = arg1;
-+            while (ret) {
-+                if (attr != arg1) {
-+                    qemu_log(",");
-+                }
-+                print_string(attr, 1);
-+                ret -= target_strlen(attr) + 1;
-+                attr += target_strlen(attr) + 1;
-+            }
-+        } else {
-+            qemu_log("NULL");
-+        }
-+        qemu_log(")");
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
++    switch (arg2) {
++    case SEEK_SET:
++        qemu_log("SEEK_SET"); break;
++    case SEEK_CUR:
++        qemu_log("SEEK_CUR"); break;
++    case SEEK_END:
++        qemu_log("SEEK_END"); break;
++#ifdef SEEK_DATA
++    case SEEK_DATA:
++        qemu_log("SEEK_DATA"); break;
++#endif
++#ifdef SEEK_HOLE
++    case SEEK_HOLE:
++        qemu_log("SEEK_HOLE"); break;
++#endif
++    default:
++        print_raw_param("%#x", arg2, 1);
 +    }
-+
-+    qemu_log("\n");
-+}
-+#define print_syscall_ret_llistxattr     print_syscall_ret_listxattr
-+#define print_syscall_ret_flistxattr     print_syscall_ret_listxattr
-+#endif
-+
- UNUSED static struct flags access_flags[] = {
-     FLAG_GENERIC(F_OK),
-     FLAG_GENERIC(R_OK),
-@@ -1633,6 +1667,93 @@ print_fcntl(const struct syscallname *name,
- #define print_fcntl64   print_fcntl
- #endif
- 
-+#ifdef TARGET_NR_fgetxattr
-+static void
-+print_fgetxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
-+#ifdef TARGET_NR_flistxattr
-+static void
-+print_flistxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#if defined(TARGET_NR_getxattr) || defined(TARGET_NR_lgetxattr)
-+static void
-+print_getxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_string(arg1, 0);
-+    print_pointer(arg2, 0);
-+    print_raw_param(TARGET_FMT_lu, arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_lgetxattr     print_getxattr
-+#endif
-+
-+#if defined(TARGET_NR_listxattr) || defined(TARGET_NR_llistxattr)
-+static void
-+print_listxattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_pointer(arg1, 0);
-+    print_raw_param(TARGET_FMT_lu, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_llistxattr     print_listxattr
-+#endif
-+
-+#if defined(TARGET_NR_fremovexattr)
-+static void
-+print_fremovexattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_string(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
-+#if defined(TARGET_NR_removexattr) || defined(TARGET_NR_lremovexattr)
-+static void
-+print_removexattr(const struct syscallname *name,
-+    abi_long arg0, abi_long arg1, abi_long arg2,
-+    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_string(arg0, 0);
-+    print_string(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#define print_lremovexattr     print_removexattr
-+#endif
-+
- #ifdef TARGET_NR_futimesat
+ #if defined(TARGET_NR_socket)
  static void
- print_futimesat(const struct syscallname *name,
+ print_socket(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 8a887fc16dcc..d04ad507b0fb 100644
+index d04ad507b0fb..a4a8c61969cd 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -218,13 +218,14 @@
- { TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_fgetxattr
--{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_fgetxattr, "fgetxattr" , NULL, print_fgetxattr, NULL },
- #endif
- #ifdef TARGET_NR_finit_module
- { TARGET_NR_finit_module, "finit_module" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_flistxattr
--{ TARGET_NR_flistxattr, "flistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_flistxattr, "flistxattr" , NULL, print_flistxattr,
-+                        print_syscall_ret_flistxattr},
- #endif
- #ifdef TARGET_NR_flock
- { TARGET_NR_flock, "flock" , NULL, NULL, NULL },
-@@ -233,7 +234,7 @@
- { TARGET_NR_fork, "fork" , "%s()", NULL, NULL },
- #endif
- #ifdef TARGET_NR_fremovexattr
--{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_fremovexattr, "fremovexattr" , NULL, print_fremovexattr, NULL },
- #endif
- #ifdef TARGET_NR_fsetxattr
- { TARGET_NR_fsetxattr, "fsetxattr" , NULL, NULL, NULL },
-@@ -396,7 +397,7 @@
- { TARGET_NR_getuid32, "getuid32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_getxattr
--{ TARGET_NR_getxattr, "getxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_getxattr, "getxattr" , NULL, print_getxattr, NULL },
- #endif
- #ifdef TARGET_NR_getxgid
- { TARGET_NR_getxgid, "getxgid" , NULL, NULL, NULL },
-@@ -480,7 +481,7 @@
- { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_lgetxattr
--{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_lgetxattr, "lgetxattr" , NULL, print_lgetxattr, NULL },
- #endif
- #ifdef TARGET_NR_link
- { TARGET_NR_link, "link" , NULL, print_link, NULL },
-@@ -495,10 +496,12 @@
- { TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_listxattr
--{ TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_listxattr, "listxattr" , NULL, print_listxattr,
-+                       print_syscall_ret_listxattr},
- #endif
- #ifdef TARGET_NR_llistxattr
--{ TARGET_NR_llistxattr, "llistxattr" , NULL, NULL, NULL },
-+{ TARGET_NR_llistxattr, "llistxattr" , NULL, print_llistxattr,
-+                        print_syscall_ret_llistxattr},
- #endif
- #ifdef TARGET_NR__llseek
- { TARGET_NR__llseek, "_llseek" , NULL, print__llseek, NULL },
-@@ -510,7 +513,7 @@
- { TARGET_NR_lookup_dcookie, "lookup_dcookie" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_lremovexattr
--{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
+@@ -516,7 +516,7 @@
+ { TARGET_NR_lremovexattr, "lremovexattr" , NULL, print_lremovexattr, NULL },
  #endif
  #ifdef TARGET_NR_lseek
- { TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
-@@ -1116,7 +1119,7 @@
- { TARGET_NR_remap_file_pages, "remap_file_pages" , NULL, NULL, NULL },
+-{ TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
++{ TARGET_NR_lseek, "lseek" , NULL, print_lseek, NULL },
  #endif
- #ifdef TARGET_NR_removexattr
--{ TARGET_NR_removexattr, "removexattr" , NULL, NULL, NULL },
-+{ TARGET_NR_removexattr, "removexattr" , NULL, print_removexattr, NULL },
- #endif
- #ifdef TARGET_NR_rename
- { TARGET_NR_rename, "rename" , NULL, print_rename, NULL },
+ #ifdef TARGET_NR_lsetxattr
+ { TARGET_NR_lsetxattr, "lsetxattr" , NULL, NULL, NULL },
 -- 
 2.26.2
 
