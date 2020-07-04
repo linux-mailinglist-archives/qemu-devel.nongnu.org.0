@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40E3214762
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:31:52 +0200 (CEST)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F592214769
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 18:34:42 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrl4x-0005Hz-2H
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50152)
+	id 1jrl7h-0001fw-MV
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 12:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzS-0005NQ-B5
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:11 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:57527)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzX-0005Tw-Na
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:15 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:51321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzP-0002PJ-Kx
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:10 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jrkzQ-0002PP-HT
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 12:26:14 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MORIm-1kHgGB2rVO-00PuDf; Sat, 04 Jul 2020 18:25:58 +0200
+ id 1MulyX-1kjJJN21z9-00rnzO; Sat, 04 Jul 2020 18:25:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/12] linux-user: Extend strace support to enable argument
- printing after syscall execution
-Date: Sat,  4 Jul 2020 18:25:37 +0200
-Message-Id: <20200704162545.311133-5-laurent@vivier.eu>
+Subject: [PULL 05/12] linux-user: Add strace support for a group of syscalls
+Date: Sat,  4 Jul 2020 18:25:38 +0200
+Message-Id: <20200704162545.311133-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200704162545.311133-1-laurent@vivier.eu>
 References: <20200704162545.311133-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:M5B1LK085gQ1Z3csJthheFo055SJx8H0gNzV/IKO46xVff1HWNR
- INeszLe2G90j9/BWlD5JYW/fUwkqdSyZ4wZodlroK1TSgPny8GCibA8oWANkYdWJCC09mMx
- TXgADmrgAnEzwiOfSGrxdEPnMFMDxNC+U8IMqTYpX0pXOzktqsVov7rmzTzluGkT8UYIx0j
- KBg3QV/xJ/ZAXqZDGaVQA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sEESX7mjVsU=:asGfKS8yNSX8gonHBQnTk0
- eOCSgQhySebXQ/6gnmCXxVmJ1daUmPuPYKW8gbgdHtKj4UVtXucFTQis/Upu3pWp6/zw85C4w
- qldQHI4faiZt2029Oc/1+OiHXnGrdzv3ktxU7l59EMxzkYHHEAwvDKYOjRnZaK1EFk4x9lv5w
- 6qFdAf9h2TfTpfRX6KlfeF4XultAU+TJMnDkpEicl2vg/IQuPPq4DqJi1ixKuoat5Ml4EaNWS
- qcGemdhsZaaRQ4Kg98AUNzRMQifusSWluYVshmZDcGdU7E2DndPD2KR611BYfWSc/hnxSnDYF
- biuQUVSNie+RCu7r/T1VOt00afXpmnF2lZPQ34OnwlEr587WAxX+lyogFXjQ56UsHe8Oq/JyY
- 1tv+JMkFs1/QhDdMlX2OofpiJ03wANjC3xRahbtK0rOGlPq4nvMCoTmvLKcAfScq3i46K67ae
- Usf9+A8z24777VqFTOVS6G2Y3CUHRCxHRZOM392TW5FY8fLV5WUjj0G8cr7CxKA2Cfmzw8xZb
- P/kfE8KgYi0pQ88A5dfI99Mq3aCDqjtGO4muoEUJeQ2uq3iCyfGkizOhnLbRZeTxWTsTivTDD
- cYAUImdlDZTOBSffLy1AAfBlVX6m+ROU/sASGM9kVapRNwz6pARQfiCA+duL/06o9b4Bmsx1C
- Uho7heh/jHqy2GgAv+5o2WftgyucBW4fy8ltJRIAoA/o/xI+4sz1M4KWGCtc0fNgH1JqqYUBp
- pHE1f8BOonpnfYrDyvMQ42f2+eMBwYjuhocmpYtGsktxA5oEnWbXr9NC272EUm4AiB2QDVsmX
- LH9YAmKEVX+S4apwbmnv0LUH27AQaDbB7CQZOJYYi+3xMTUy84=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qe57hQRhfBDJQOgfjZj7Dgsl40shKE68Jo0N/0JuhK0mjBPtIcy
+ rss6qmCcWiImDOp6cKRsP/NbNF3+Q3UMlnGX/5oV9RzmYo7NTWC+cevpxg05lvbd742OrQe
+ JeSycWR7c5Ptemwk1yti4MiUZ9Dln4HavW6czkibASrcfYr2uWfxVT7fH4Osf6JtP1MnO39
+ XwEfZJlbS9Jk0zxb+T/dA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Bot2vp0/3eY=:QDiOupgX6JcGXkUGe2ABfn
+ R7sDzSOI8hxFevjYrWsINImzd8kW6/bbDxJdl/LhSwRNBN+wmloFyiVTMro4ygqb3+CWFvC3z
+ 8MEnvUXm6w7MkYGJh0uDgKzenF2ARSE4tDl3zVES88RtmTeRZP8r7BkxPY2zVZ7oELzmDNPgl
+ DOWMXYsd/eqrtDsj+p1BpMXRPGS58KhWHoS5Njf67+MHngq5f/l4cBjXqjIwf7nrfL0qDXHci
+ sEhMc/sdEH9pTppJ+ECnT2Dz7AeEl/X3RMam8939KeGmmcuTXlnnthEop14eEapt4YOIyC+KE
+ 20PIcnaX/qGNfl4U4MsX6Sx1SZzqL/LxY84aQtcm4IPOasPtduHyHwPanDhRskN354M58dCsd
+ JvMTczHjameAe6rAFgZoYLFxGaJpwCPxov+013RsOT9ftHWH2dloW2fYr9MhH5QIQHn0Y5U43
+ vXZYFRkbbS2MZlbW7cKcH+mOooU2U8MfNZs6QxXXADLCLonqBPYsDn+J//Ql+EFTbP9ARHAcJ
+ MgkMjSSZHhE9ZCep6NdxdlcZuzbJFONJNd8GRk/PFJESMW/kI1wyWrtkqatNaOQpLxQx97CXv
+ wHJejzpLJ3inBEzdMim9qGKVOK8z6fvZPsbOSERuLBehzUxe6YoBqfNKLc5bdj6eRIXMlctmV
+ Pn7BO8/ZsrEZjZPYkKJqsmoXmACl8mjjY0TLuwZBy1n0MEI4we/kzj3ur0hAnIGrR4iW0NyJ4
+ dgj4pNWyaH3/a0PeXYtX3SOQEP00xMkRzPHNksQ+HiAIsfvBeZTk6Cn66Uqms9ymvLqBpeiZo
+ M3F4D/JBVUm/D+VWV87QJmoOxewd/zA9Xw12ZCwhg4k2FxA8PY=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:26:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 12:25:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,253 +77,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-    Structure "struct syscallname" in file "strace.c" is used for "-strace"
-    to print arguments and return values of syscalls. The last field of
-    this structure "result" represents the calling function that prints the
-    return values. This field was extended in this patch so that this function
-    takes all syscalls arguments beside the return value. In this way, it enables
-    "-strace" to print arguments of syscalls that have changed after the syscall
-    execution. This extension will be useful as there are many syscalls that
-    return values inside their arguments (i.e. listxattr() that returns the list
-    of extended attributes inside the "list" argument).
+This patch implements strace argument printing functionality for following syscalls:
+
+    *acct - switch process accounting on or off
+
+        int acct(const char *filename)
+        man page: https://www.man7.org/linux/man-pages/man2/acct.2.html
+
+    *fsync, fdatasync - synchronize a file's in-core state with storage device
+
+        int fsync(int fd)
+        int fdatasync(int fd)
+        man page: https://www.man7.org/linux/man-pages/man2/fsync.2.html
+
+    *listen - listen for connections on a socket
+
+        int listen(int sockfd, int backlog)
+        man page: https://www.man7.org/linux/man-pages/man2/listen.2.html
 
 Implementation notes:
 
-    Since there are already three existing "print_syscall_ret*" functions inside
-    "strace.c" ("print_syscall_ret_addr()", "print_syscall_ret_adjtimex()",
-    "print_syscall_ret_newselect()"), they were changed to have all syscall arguments
-    beside the return value. This was done so that these functions don't cause build
-    errors (even though syscall arguments are not used in these functions).
-    There is code repetition in these functions for checking the return value
-    and printing the approppriate error message (this code is also located in
-    print_syscall_ret() at the end of "strace.c"). That is the reason why a
-    function "syscall_print_err()" was added for this code and put inside these
-    functions. Functions "print_newselect()" and "print_syscall_ret_newselect()"
-    were changed to use this new implemented functionality and not store the syscall
-    argument values in separate static variables.
+    Syscall acct() takes string as its only argument and thus a separate
+    print function "print_acct" is stated in file "strace.list". This
+    function is defined and implemented in "strace.c" by using an
+    existing function used to print string arguments: "print_string()".
+    All the other syscalls have only primitive argument types, so the
+    rest of the implementation was handled by stating an appropriate
+    printing format in file "strace.list".
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200619123331.17387-2-filip.bozuta@syrmia.com>
+Message-Id: <20200619123331.17387-3-filip.bozuta@syrmia.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h    |   4 +-
- linux-user/strace.c  | 110 ++++++++++++++++++++++---------------------
- linux-user/syscall.c |   2 +-
- 3 files changed, 61 insertions(+), 55 deletions(-)
+ linux-user/strace.c    | 13 ++++++++++++-
+ linux-user/strace.list |  8 ++++----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index ce902f5132a6..8f938b8105b3 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -383,7 +383,9 @@ int host_to_target_waitstatus(int status);
- void print_syscall(int num,
-                    abi_long arg1, abi_long arg2, abi_long arg3,
-                    abi_long arg4, abi_long arg5, abi_long arg6);
--void print_syscall_ret(int num, abi_long arg1);
-+void print_syscall_ret(int num, abi_long ret,
-+                       abi_long arg1, abi_long arg2, abi_long arg3,
-+                       abi_long arg4, abi_long arg5, abi_long arg6);
- /**
-  * print_taken_signal:
-  * @target_signum: target signal being taken
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 0d9095c674f4..62117e8555f6 100644
+index 62117e8555f6..123e022c35bf 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -19,7 +19,9 @@ struct syscallname {
-     void (*call)(const struct syscallname *,
-                  abi_long, abi_long, abi_long,
-                  abi_long, abi_long, abi_long);
--    void (*result)(const struct syscallname *, abi_long);
-+    void (*result)(const struct syscallname *, abi_long,
-+                   abi_long, abi_long, abi_long,
-+                   abi_long, abi_long, abi_long);
- };
- 
- #ifdef __GNUC__
-@@ -631,18 +633,12 @@ print_clockid(int clockid, int last)
- 
- /* select */
- #ifdef TARGET_NR__newselect
--static long newselect_arg1 = 0;
--static long newselect_arg2 = 0;
--static long newselect_arg3 = 0;
--static long newselect_arg4 = 0;
--static long newselect_arg5 = 0;
--
- static void
- print_newselect(const struct syscallname *name,
-                 abi_long arg1, abi_long arg2, abi_long arg3,
-                 abi_long arg4, abi_long arg5, abi_long arg6)
- {
--    qemu_log("%s(" TARGET_ABI_FMT_ld ",", name->name, arg1);
-+    print_syscall_prologue(name);
-     print_fdset(arg1, arg2);
-     qemu_log(",");
-     print_fdset(arg1, arg3);
-@@ -650,14 +646,7 @@ print_newselect(const struct syscallname *name,
-     print_fdset(arg1, arg4);
-     qemu_log(",");
-     print_timeval(arg5, 1);
--    qemu_log(")");
--
--    /* save for use in the return output function below */
--    newselect_arg1=arg1;
--    newselect_arg2=arg2;
--    newselect_arg3=arg3;
--    newselect_arg4=arg4;
--    newselect_arg5=arg5;
-+    print_syscall_epilogue(name);
+@@ -1357,6 +1357,18 @@ print_access(const struct syscallname *name,
  }
  #endif
  
-@@ -736,17 +725,29 @@ print_ipc(const struct syscallname *name,
-  */
- 
- static void
--print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
-+print_syscall_err(abi_long ret)
- {
-     const char *errstr = NULL;
- 
-+    qemu_log(" = ");
-     if (ret < 0) {
-+        qemu_log("-1 errno=%d", errno);
-         errstr = target_strerror(-ret);
-+        if (errstr) {
-+            qemu_log(" (%s)", errstr);
-+        }
-     }
--    if (errstr) {
--        qemu_log(" = -1 errno=%d (%s)\n", (int)-ret, errstr);
--    } else {
--        qemu_log(" = 0x" TARGET_ABI_FMT_lx "\n", ret);
-+}
-+
++#ifdef TARGET_NR_acct
 +static void
-+print_syscall_ret_addr(const struct syscallname *name, abi_long ret,
-+                       abi_long arg0, abi_long arg1, abi_long arg2,
-+                       abi_long arg3, abi_long arg4, abi_long arg5)
++print_acct(const struct syscallname *name,
++    abi_long arg0, abi_long arg1, abi_long arg2,
++    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
-+    print_syscall_err(ret);
++    print_syscall_prologue(name);
++    print_string(arg0, 1);
++    print_syscall_epilogue(name);
++}
++#endif
 +
-+    if (ret >= 0) {
-+        qemu_log("0x" TARGET_ABI_FMT_lx "\n", ret);
-     }
- }
- 
-@@ -760,17 +761,25 @@ print_syscall_ret_raw(struct syscallname *name, abi_long ret)
- 
- #ifdef TARGET_NR__newselect
+ #ifdef TARGET_NR_brk
  static void
--print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
--{
--    qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
--    print_fdset(newselect_arg1,newselect_arg2);
--    qemu_log(",");
--    print_fdset(newselect_arg1,newselect_arg3);
--    qemu_log(",");
--    print_fdset(newselect_arg1,newselect_arg4);
--    qemu_log(",");
--    print_timeval(newselect_arg5, 1);
--    qemu_log(")\n");
-+print_syscall_ret_newselect(const struct syscallname *name, abi_long ret,
-+                            abi_long arg0, abi_long arg1, abi_long arg2,
-+                            abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_err(ret);
-+
-+    if (ret >= 0) {
-+        qemu_log(" = 0x" TARGET_ABI_FMT_lx " (", ret);
-+        print_fdset(arg0, arg1);
-+        qemu_log(",");
-+        print_fdset(arg0, arg2);
-+        qemu_log(",");
-+        print_fdset(arg0, arg3);
-+        qemu_log(",");
-+        print_timeval(arg4, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
- }
+ print_brk(const struct syscallname *name,
+@@ -1621,7 +1633,6 @@ print_fcntl(const struct syscallname *name,
+ #define print_fcntl64   print_fcntl
  #endif
  
-@@ -783,18 +792,13 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
- #define TARGET_TIME_ERROR    5   /* clock not synchronized */
- #ifdef TARGET_NR_adjtimex
+-
+ #ifdef TARGET_NR_futimesat
  static void
--print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret)
-+print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret,
-+                           abi_long arg0, abi_long arg1, abi_long arg2,
-+                           abi_long arg3, abi_long arg4, abi_long arg5)
- {
--    const char *errstr = NULL;
-+    print_syscall_err(ret);
- 
--    qemu_log(" = ");
--    if (ret < 0) {
--        qemu_log("-1 errno=%d", errno);
--        errstr = target_strerror(-ret);
--        if (errstr) {
--            qemu_log(" (%s)", errstr);
--        }
--    } else {
-+    if (ret >= 0) {
-         qemu_log(TARGET_ABI_FMT_ld, ret);
-         switch (ret) {
-         case TARGET_TIME_OK:
-@@ -2847,25 +2851,25 @@ print_syscall(int num,
- 
- 
- void
--print_syscall_ret(int num, abi_long ret)
-+print_syscall_ret(int num, abi_long ret,
-+                  abi_long arg1, abi_long arg2, abi_long arg3,
-+                  abi_long arg4, abi_long arg5, abi_long arg6)
- {
-     int i;
--    const char *errstr = NULL;
- 
-     for(i=0;i<nsyscalls;i++)
-         if( scnames[i].nr == num ) {
-             if( scnames[i].result != NULL ) {
--                scnames[i].result(&scnames[i], ret);
-+                scnames[i].result(&scnames[i], ret,
-+                                  arg1, arg2, arg3,
-+                                  arg4, arg5, arg6);
-             } else {
--                if (ret < 0) {
--                    errstr = target_strerror(-ret);
--                }
--                if (errstr) {
--                    qemu_log(" = -1 errno=" TARGET_ABI_FMT_ld " (%s)\n",
--                             -ret, errstr);
--                } else {
--                    qemu_log(" = " TARGET_ABI_FMT_ld "\n", ret);
-+                print_syscall_err(ret);
-+
-+                if (ret >= 0) {
-+                    qemu_log(TARGET_ABI_FMT_ld, ret);
-                 }
-+                qemu_log("\n");
-             }
-             break;
-         }
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 17ed7f8d6b59..1b971c06b270 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -12565,7 +12565,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                       arg5, arg6, arg7, arg8);
- 
-     if (unlikely(qemu_loglevel_mask(LOG_STRACE))) {
--        print_syscall_ret(num, ret);
-+        print_syscall_ret(num, ret, arg1, arg2, arg3, arg4, arg5, arg6);
-     }
- 
-     record_syscall_return(cpu, num, ret);
+ print_futimesat(const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 9281c0a75828..8a887fc16dcc 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -13,7 +13,7 @@
+ { TARGET_NR_access, "access" , NULL, print_access, NULL },
+ #endif
+ #ifdef TARGET_NR_acct
+-{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
++{ TARGET_NR_acct, "acct" , NULL, print_acct, NULL },
+ #endif
+ #ifdef TARGET_NR_add_key
+ { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
+@@ -215,7 +215,7 @@
+ { TARGET_NR_fcntl64, "fcntl64" , NULL, print_fcntl64, NULL },
+ #endif
+ #ifdef TARGET_NR_fdatasync
+-{ TARGET_NR_fdatasync, "fdatasync" , NULL, NULL, NULL },
++{ TARGET_NR_fdatasync, "fdatasync" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fgetxattr
+ { TARGET_NR_fgetxattr, "fgetxattr" , NULL, NULL, NULL },
+@@ -251,7 +251,7 @@
+ { TARGET_NR_fstatfs64, "fstatfs64" , "%s(%d,%p)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fsync
+-{ TARGET_NR_fsync, "fsync" , NULL, NULL, NULL },
++{ TARGET_NR_fsync, "fsync" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_ftime
+ { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+@@ -492,7 +492,7 @@
+ { TARGET_NR_Linux, "Linux" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_listen
+-{ TARGET_NR_listen, "listen" , NULL, NULL, NULL },
++{ TARGET_NR_listen, "listen" , "%s(%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_listxattr
+ { TARGET_NR_listxattr, "listxattr" , NULL, NULL, NULL },
 -- 
 2.26.2
 
