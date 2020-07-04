@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6253A214564
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 13:39:29 +0200 (CEST)
-Received: from localhost ([::1]:56582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C402145B5
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 13:59:49 +0200 (CEST)
+Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrgW0-0000Xm-El
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 07:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
+	id 1jrgpg-0005rA-AV
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 07:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jrgOW-0002Vz-KE
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:31:44 -0400
-Received: from mga05.intel.com ([192.55.52.43]:24796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jrgOT-0004KB-3T
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:31:44 -0400
-IronPort-SDR: AvEtHyrIYuQ4gLgKqtlTUqwIm/tf08kmEcSmW96Ip5W37e5aZ4TddYIN0AU9sJe8i3gwoeqV73
- GSgb/iaG1xLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="232105545"
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="232105545"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2020 04:30:29 -0700
-IronPort-SDR: +O68N3slXIRFYqaYqAOJ/F/UFy3f2v9E5LfoogZwBgs76OH7J2c0qsNhAI493TcOUrYnF4ZCP3
- z3JMQDjyXPrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="266146866"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by fmsmga007.fm.intel.com with ESMTP; 04 Jul 2020 04:30:28 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org,
-	alex.williamson@redhat.com,
-	peterx@redhat.com
-Subject: [RFC v7 25/25] intel_iommu: modify x-scalable-mode to be string option
-Date: Sat,  4 Jul 2020 04:36:49 -0700
-Message-Id: <1593862609-36135-26-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrgoz-0005SW-P2
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:59:05 -0400
+Resent-Date: Sat, 04 Jul 2020 07:59:05 -0400
+Resent-Message-Id: <E1jrgoz-0005SW-P2@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jrgow-0001wu-Ni
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:59:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1593863912; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AZddr8J8I8qWlBIPS37LxAXWkOYGoJK9a6whMLKON+8k4Pisr55X12r+cY2xfbOWBM0bAs3GzAbc+by83SJcVZYZTLXQPfOI9s0k8EVncqZGuf8gV1sTR03T8uxx3RBkqpa0zBGDr9xncdpwNn56Cwo/GEbzWhmT4N8MCnwaFrg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1593863912;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=K3QjHM+2sCUaBsxROMpqrxaYxwc6vlTPOjSyhx3eIgc=; 
+ b=Va8NWt/V91T4H591Jcd2+gV/a0biUgH4U5JWOEVdKOiD1y/eEbtDhzWFh5UGH2cRUGrDV1m8GoR3MmV2XZnr4fdtJBo4HZMcwMvKIAqhu1f234opw6LWHM98TJNvpv57aL+peM1YnqSLI7bseZ7hrqKrvcFzE+WEr7e2/aRmE3o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 15938639106211016.487946550666;
+ Sat, 4 Jul 2020 04:58:30 -0700 (PDT)
+Message-ID: <159386390837.16530.6161604423603998922@d1fd068a5071>
+Subject: Re: [RFC v7 00/25] intel_iommu: expose Shared Virtual Addressing to
+ VMs
 In-Reply-To: <1593862609-36135-1-git-send-email-yi.l.liu@intel.com>
-References: <1593862609-36135-1-git-send-email-yi.l.liu@intel.com>
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yi.l.liu@intel.com;
- helo=mga05.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 07:30:14
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: yi.l.liu@intel.com
+Date: Sat, 4 Jul 2020 04:58:30 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 07:59:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,182 +70,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, jasowang@redhat.com, Richard Henderson <rth@twiddle.net>,
- david@gibson.dropbear.id.au
+ kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com, jun.j.tian@intel.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eric.auger@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, david@gibson.dropbear.id.au,
+ yi.y.sun@intel.com, hao.wu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel VT-d 3.0 introduces scalable mode, and it has a bunch of capabilities
-related to scalable mode translation, thus there are multiple combinations.
-While this vIOMMU implementation wants simplify it for user by providing
-typical combinations. User could config it by "x-scalable-mode" option. The
-usage is as below:
-
-"-device intel-iommu,x-scalable-mode=["legacy"|"modern"|"off"]"
-
- - "legacy": gives support for SL page table
- - "modern": gives support for FL page table, pasid, virtual command
- - "off": no scalable mode support
- -  if not configured, means no scalable mode support, if not proper
-    configured, will throw error
-
-Note: this patch is supposed to be merged when the whole vSVA patch series
-were merged.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
----
-rfcv5 (v2) -> rfcv6:
-*) reports want_nested to VFIO;
-*) assert iommu_set/unset_iommu_context() if vIOMMU is not scalable modern.
----
- hw/i386/intel_iommu.c          | 39 +++++++++++++++++++++++++++++++++++----
- hw/i386/intel_iommu_internal.h |  3 +++
- include/hw/i386/intel_iommu.h  |  2 ++
- 3 files changed, 40 insertions(+), 4 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index e9a85a2..75b7a8b 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -4048,7 +4048,7 @@ static Property vtd_properties[] = {
-     DEFINE_PROP_UINT8("aw-bits", IntelIOMMUState, aw_bits,
-                       VTD_HOST_ADDRESS_WIDTH),
-     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
--    DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-+    DEFINE_PROP_STRING("x-scalable-mode", IntelIOMMUState, scalable_mode_str),
-     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -4418,6 +4418,7 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
- static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
-                                    IOMMUAttr attr, void *data)
- {
-+    IntelIOMMUState *s = opaque;
-     int ret = 0;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-@@ -4427,8 +4428,7 @@ static int vtd_dev_get_iommu_attr(PCIBus *bus, void *opaque, int32_t devfn,
-     {
-         bool *pdata = data;
- 
--        /* return false until vSVA is ready */
--        *pdata = false;
-+        *pdata = s->scalable_modern ? true : false;
-         break;
-     }
-     default:
-@@ -4524,6 +4524,8 @@ static int vtd_dev_set_iommu_context(PCIBus *bus, void *opaque,
-     VTDHostIOMMUContext *vtd_dev_icx;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-+    /* only modern scalable supports set_ioimmu_context */
-+    assert(s->scalable_modern);
- 
-     vtd_bus = vtd_find_add_bus(s, bus);
- 
-@@ -4558,6 +4560,8 @@ static void vtd_dev_unset_iommu_context(PCIBus *bus, void *opaque, int devfn)
-     VTDHostIOMMUContext *vtd_dev_icx;
- 
-     assert(0 <= devfn && devfn < PCI_DEVFN_MAX);
-+    /* only modern scalable supports unset_ioimmu_context */
-+    assert(s->scalable_modern);
- 
-     vtd_bus = vtd_find_add_bus(s, bus);
- 
-@@ -4785,8 +4789,13 @@ static void vtd_init(IntelIOMMUState *s)
-     }
- 
-     /* TODO: read cap/ecap from host to decide which cap to be exposed. */
--    if (s->scalable_mode) {
-+    if (s->scalable_mode && !s->scalable_modern) {
-         s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
-+    } else if (s->scalable_mode && s->scalable_modern) {
-+        s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_PASID |
-+                   VTD_ECAP_FLTS | VTD_ECAP_PSS(VTD_PASID_SS) |
-+                   VTD_ECAP_VCS;
-+        s->vccap |= VTD_VCCAP_PAS;
-     }
- 
-     if (!s->cap_finalized) {
-@@ -4927,6 +4936,28 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-         return false;
-     }
- 
-+    if (s->scalable_mode_str &&
-+        (strcmp(s->scalable_mode_str, "off") &&
-+         strcmp(s->scalable_mode_str, "modern") &&
-+         strcmp(s->scalable_mode_str, "legacy"))) {
-+        error_setg(errp, "Invalid x-scalable-mode config,"
-+                         "Please use \"modern\", \"legacy\" or \"off\"");
-+        return false;
-+    }
-+
-+    if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "legacy")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = false;
-+    } else if (s->scalable_mode_str &&
-+        !strcmp(s->scalable_mode_str, "modern")) {
-+        s->scalable_mode = true;
-+        s->scalable_modern = true;
-+    } else {
-+        s->scalable_mode = false;
-+        s->scalable_modern = false;
-+    }
-+
-     return true;
- }
- 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index 9b4fc67..afb4c6a 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -197,7 +197,9 @@
- #define VTD_ECAP_MHMV               (15ULL << 20)
- #define VTD_ECAP_SRS                (1ULL << 31)
- #define VTD_ECAP_SMTS               (1ULL << 43)
-+#define VTD_ECAP_VCS                (1ULL << 44)
- #define VTD_ECAP_SLTS               (1ULL << 46)
-+#define VTD_ECAP_FLTS               (1ULL << 47)
- 
- /* 1st level related caps */
- #define VTD_CAP_FL1GP               (1ULL << 56)
-@@ -209,6 +211,7 @@
- #define VTD_ECAP_PSS(val)           (((val) & 0x1fULL) << 35)
- #define VTD_ECAP_PASID              (1ULL << 40)
- 
-+#define VTD_PASID_SS                (19)
- #define VTD_GET_PSS(val)            (((val) >> 35) & 0x1f)
- #define VTD_ECAP_PSS_MASK           (0x1fULL << 35)
- 
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 1aab882..fd64364 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -263,6 +263,8 @@ struct IntelIOMMUState {
- 
-     bool caching_mode;              /* RO - is cap CM enabled? */
-     bool scalable_mode;             /* RO - is Scalable Mode supported? */
-+    char *scalable_mode_str;        /* RO - admin's Scalable Mode config */
-+    bool scalable_modern;           /* RO - is modern SM supported? */
- 
-     dma_addr_t root;                /* Current root table pointer */
-     bool root_scalable;             /* Type of root table (scalable or not) */
--- 
-2.7.4
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTkzODYyNjA5LTM2MTM1LTEt
+Z2l0LXNlbmQtZW1haWwteWkubC5saXVAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZh
+aWxlZCB0aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUg
+dGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2Nr
+ZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1h
+a2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVz
+dC1taW5nd0BmZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAg
+ICAgICAgICAgICAgICAgZnJvbSAvdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9ody9wY2kvcGNp
+X2J1cy5oOjQsCiAgICAgICAgICAgICAgICAgZnJvbSAvdG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVk
+ZS9ody9wY2ktaG9zdC9pNDQwZnguaDoxNSwKICAgICAgICAgICAgICAgICBmcm9tIC90bXAvcWVt
+dS10ZXN0L3NyYy9zdHVicy9wY2ktaG9zdC1waWl4LmM6MjoKL3RtcC9xZW11LXRlc3Qvc3JjL2lu
+Y2x1ZGUvaHcvaW9tbXUvaG9zdF9pb21tdV9jb250ZXh0Lmg6Mjg6MTA6IGZhdGFsIGVycm9yOiBs
+aW51eC9pb21tdS5oOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CiAgIDI4IHwgI2luY2x1ZGUg
+PGxpbnV4L2lvbW11Lmg+CiAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+CmNvbXBpbGF0
+aW9uIHRlcm1pbmF0ZWQuCm1ha2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qvc3JjL3J1bGVzLm1hazo2
+OTogc3R1YnMvcGNpLWhvc3QtcGlpeC5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1
+bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBG
+aWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2OSwgaW4gPG1vZHVsZT4KLS0t
+CiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNh
+bGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4n
+LCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTJkMWEwYWM0ODgyOTQwNzhhNmQz
+YjZkZjJjNGZlZmU3JywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11
+bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NP
+TkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScs
+ICctZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAn
+LXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2Nj
+YWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0wZmhqbWRrby9zcmMv
+ZG9ja2VyLXNyYy4yMDIwLTA3LTA0LTA3LjU1LjIwLjI3Nzg0Oi92YXIvdG1wL3FlbXU6eixybycs
+ICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVy
+bmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVt
+dS5pbnN0YW5jZS51dWlkPTJkMWEwYWM0ODgyOTQwNzhhNmQzYjZkZjJjNGZlZmU3Cm1ha2VbMV06
+ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zh
+ci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTBmaGptZGtvL3NyYycKbWFrZTogKioqIFtkb2NrZXIt
+cnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDNtOS40ODBzCnVzZXIgICAg
+MG04LjgzMnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzE1OTM4NjI2MDktMzYxMzUtMS1naXQtc2VuZC1lbWFpbC15aS5sLmxpdUBpbnRlbC5j
+b20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
