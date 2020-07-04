@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E42146B9
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:59:56 +0200 (CEST)
-Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895F62146B7
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 16:59:42 +0200 (CEST)
+Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjdz-0002R5-DK
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
+	id 1jrjdk-0001oE-Tk
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 10:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUh-00022q-BD; Sat, 04 Jul 2020 10:50:19 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35258)
+ id 1jrjUi-00024i-5m; Sat, 04 Jul 2020 10:50:20 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjUe-0003iS-AP; Sat, 04 Jul 2020 10:50:19 -0400
-Received: by mail-wm1-x344.google.com with SMTP id l2so35560275wmf.0;
- Sat, 04 Jul 2020 07:50:15 -0700 (PDT)
+ id 1jrjUg-0003jd-Fs; Sat, 04 Jul 2020 10:50:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f18so37074331wml.3;
+ Sat, 04 Jul 2020 07:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k+8FH1LHVyWY5lxn8kaV6RhN5WT6vNL6Csn+tWtGqIU=;
- b=IB9L+DJ6fMSlRh6JnfVIyjRfs3r2+cKnkCMh6AOc0lm/+BaC+pa5gw3hPPcon8hyCC
- TQRh9Dsuy4N9iNSa+sDAo59Wb9OBUTJhWrGiQYUiHaJcD2YjCqcZFlX3q6wvN0kzv12y
- zjRWD0O+C14SgaG835wapqV4fOHwaoE+lia4hfdbd5Zyk+XJzdC2t6DGiCxQ8vTcnZgX
- 354/5VYBjRfY9uD1tT+MK47AGBcB3P1p8J9RpLbDsqF2ri9rbyNs8LgFGF8k/fGIcKWy
- wmxNBkxWFAH/E/5EdZfvMLkUm0kbfAlZiV+UjR0G1MRggb5dB2nI2Req9hTae4hUmE3t
- glLw==
+ bh=xjjAqG2L8PiyECLv8vWl/nPN8wdvqzFPKnLDYj57EWU=;
+ b=kGjxAbMk0Y+V1ZM0jG8F7zrUJeEpbEY2rUuWHyvQnUy2BC4TEa4D9G84sW8qU3Tnyi
+ hXyLAakl5TAVaESh9mwcqIkW9kPRuFhF1CPBo0iqa9EzqOeUO8dcJwyom69eu1X7is1K
+ GI/h4RCMamXhRltfPP+anRNrC4T3Xl/b+bRd7v5Nxqs6IBSrpiZ+NfMzkc3fyOz+zG/O
+ qhZVj0cz4AUqg4attnXMbE/OWUZmlqtkxjHzNmmPiDdGXYHh9wyMp7La7dx/LG+WG1y0
+ 7hKot5Tx+EVBqxTjnBKGlFKxDUcrNR10Wub/RcuZ75CfRChXgIvTj2rJ1blM2eTTB1qV
+ uPjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=k+8FH1LHVyWY5lxn8kaV6RhN5WT6vNL6Csn+tWtGqIU=;
- b=XYKZY/6jE/ty/XPqIXLKfWiic48wCT4R3JwYPcj0dsz4HkgiFM5QQNbXXWXQKjLlwZ
- Fy9DOc+cWWi1S0xedSyL699J+0qgoi8GRO4A05yxmDuc/rNtvtjvO6UfFpVF+Dy5y0L+
- 7jNl+STy78hgugcNw6M/r3B337gyXdrOr+MGnRgcJooFHPdNaf01+3IObCPIR3jWvpe9
- Rz2Ph+lSnzv2N+NfRBev6EhTKBKxL+khFC0NmFMwAb6iJlx6Sueusszf6LzqRHEaQ307
- yTVyyA+/JtslHqE2n2BNYYhlIceETxxx6m1w02k53FvM0dWaQI7Qo6MeBjdR4XqCJlk4
- zN9w==
-X-Gm-Message-State: AOAM533fG80KTD4yiR/27obNbJ25aNNFyRknTz7FEq4a3lYac4t2sIaw
- LhsC844iKwWG48ZCzd/QyNdqihIoKII=
-X-Google-Smtp-Source: ABdhPJzNTGufYfLMeOUgBhGaylb5O5upKi84ytezyRjwfpHgpubMO2vfpa3tyGQAl3MlqZSVzS+XTQ==
-X-Received: by 2002:a1c:48:: with SMTP id 69mr43033872wma.32.1593874214066;
- Sat, 04 Jul 2020 07:50:14 -0700 (PDT)
+ bh=xjjAqG2L8PiyECLv8vWl/nPN8wdvqzFPKnLDYj57EWU=;
+ b=DsxGZ58tcbMVgprV0RiBT6eKszIJWBi0hweXYCfw5k6dxZrNUS3cieI3PF8lE5/YIY
+ 3vvWbcw9DXnz6evxs4GgB47G71m7L+VsQLuq7aORv1/RqsR8e0YSqtG8RmMAnbTBikPe
+ Sqw2n7Q/LmmJkRY8z58RqRTZdFBHMlfiNOGWuS/dhfKHpFQk169TbRO8Mlf5hGMdqxy7
+ PhFmrQNntpld09S8GKrZgBkanSB4uQNr8YZ3ZERDRpRGK5n/D+EmVwS5yOB+vvsplMdI
+ ZFDD7tP0TCr1KtIHU1/DpCiP+qJGayqj2Z9uzfN8HYyiQKFNi/5N96wemyxQszL9vqNV
+ wTwA==
+X-Gm-Message-State: AOAM533kb4Xy5Crf8AtrEbfs/Eea4BGx2eXw8I4mxz/5zQFqVJahuJUy
+ TMxs6efJ8Kuv30Z29pve1GNWUjge+4s=
+X-Google-Smtp-Source: ABdhPJyylaQ90oaFVpyNttGYGyUpJwJRvbiuNFcOgPIhMsiwGOGXapRLVUD2ADJD/bSRm2sJT5Aq2g==
+X-Received: by 2002:a1c:6788:: with SMTP id
+ b130mr42706142wmc.100.1593874216169; 
+ Sat, 04 Jul 2020 07:50:16 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.12
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:50:13 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 13/26] hw/usb/desc: Reduce some declarations scope
-Date: Sat,  4 Jul 2020 16:49:30 +0200
-Message-Id: <20200704144943.18292-14-f4bug@amsat.org>
+Subject: [PATCH 14/26] hw/usb/quirks: Rename included source with '.inc.c'
+ suffix
+Date: Sat,  4 Jul 2020 16:49:31 +0200
+Message-Id: <20200704144943.18292-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -117,77 +119,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-USBDescString is forward-declared. Only bus.c uses the
-usb_device_get_product_desc() and usb_device_get_usb_desc()
-function. Move all that to the "desc.h" header to reduce
-the big "hw/usb.h" header a bit.
+This file is not a header, but contains source code which is
+included and compiled once. We use the '.inc.c' suffix in few
+other cases in the repository. Follow the same convention with
+this file.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/desc.h    | 10 ++++++++++
- include/hw/usb.h | 10 ----------
- hw/usb/bus.c     |  1 +
- 3 files changed, 11 insertions(+), 10 deletions(-)
+ hw/usb/quirks.c                   | 2 +-
+ hw/usb/{quirks.h => quirks.inc.c} | 5 -----
+ 2 files changed, 1 insertion(+), 6 deletions(-)
+ rename hw/usb/{quirks.h => quirks.inc.c} (99%)
 
-diff --git a/hw/usb/desc.h b/hw/usb/desc.h
-index 92594fbe29..4bf6966c4b 100644
---- a/hw/usb/desc.h
-+++ b/hw/usb/desc.h
-@@ -242,4 +242,14 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
- int usb_desc_handle_control(USBDevice *dev, USBPacket *p,
-         int request, int value, int index, int length, uint8_t *data);
+diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
+index 23ea7a23ea..655b36f2d5 100644
+--- a/hw/usb/quirks.c
++++ b/hw/usb/quirks.c
+@@ -13,7 +13,7 @@
+  */
  
-+const char *usb_device_get_product_desc(USBDevice *dev);
-+
-+const USBDesc *usb_device_get_usb_desc(USBDevice *dev);
-+
-+struct USBDescString {
-+    uint8_t index;
-+    char *str;
-+    QLIST_ENTRY(USBDescString) next;
-+};
-+
- #endif /* QEMU_HW_USB_DESC_H */
-diff --git a/include/hw/usb.h b/include/hw/usb.h
-index 15b2ef300a..18f1349bdc 100644
---- a/include/hw/usb.h
-+++ b/include/hw/usb.h
-@@ -192,12 +192,6 @@ typedef struct USBDescOther USBDescOther;
- typedef struct USBDescString USBDescString;
- typedef struct USBDescMSOS USBDescMSOS;
+ #include "qemu/osdep.h"
+-#include "quirks.h"
++#include "quirks.inc.c"
+ #include "hw/usb.h"
  
--struct USBDescString {
--    uint8_t index;
--    char *str;
--    QLIST_ENTRY(USBDescString) next;
--};
+ static bool usb_id_match(const struct usb_device_id *ids,
+diff --git a/hw/usb/quirks.h b/hw/usb/quirks.inc.c
+similarity index 99%
+rename from hw/usb/quirks.h
+rename to hw/usb/quirks.inc.c
+index 50ef2f9c2e..004b228aba 100644
+--- a/hw/usb/quirks.h
++++ b/hw/usb/quirks.inc.c
+@@ -12,9 +12,6 @@
+  * (at your option) any later version.
+  */
+ 
+-#ifndef HW_USB_QUIRKS_H
+-#define HW_USB_QUIRKS_H
 -
- #define USB_MAX_ENDPOINTS  15
- #define USB_MAX_INTERFACES 16
+ /* 1 on 1 copy of linux/drivers/usb/serial/ftdi_sio_ids.h */
+ #include "quirks-ftdi-ids.h"
+ /* 1 on 1 copy of linux/drivers/usb/serial/pl2303.h */
+@@ -915,5 +912,3 @@ static const struct usb_device_id usbredir_ftdi_serial_ids[] = {
  
-@@ -555,10 +549,6 @@ int usb_device_alloc_streams(USBDevice *dev, USBEndpoint **eps, int nr_eps,
-                              int streams);
- void usb_device_free_streams(USBDevice *dev, USBEndpoint **eps, int nr_eps);
- 
--const char *usb_device_get_product_desc(USBDevice *dev);
+ #undef USB_DEVICE
+ #undef USB_DEVICE_AND_INTERFACE_INFO
 -
--const USBDesc *usb_device_get_usb_desc(USBDevice *dev);
--
- /* quirks.c */
- 
- /* In bulk endpoints are streaming data sources (iow behave like isoc eps) */
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index 957559b18d..111c3af7c1 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -9,6 +9,7 @@
- #include "monitor/monitor.h"
- #include "trace.h"
- #include "qemu/cutils.h"
-+#include "desc.h"
- 
- static void usb_bus_dev_print(Monitor *mon, DeviceState *qdev, int indent);
- 
+-#endif
 -- 
 2.21.3
 
