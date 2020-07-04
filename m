@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A9221484C
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 21:14:14 +0200 (CEST)
-Received: from localhost ([::1]:58898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A436214854
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 21:17:14 +0200 (CEST)
+Received: from localhost ([::1]:37712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnc5-0007Sf-83
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 15:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47776)
+	id 1jrnez-0002Fa-6b
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 15:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jrnav-0005oQ-J9
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:13:01 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:37761)
+ (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
+ id 1jrndG-00010L-Hu
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:15:26 -0400
+Received: from elasmtp-masked.atl.sa.earthlink.net ([209.86.89.68]:41934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1jrnat-0002EX-Ue
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:13:01 -0400
-X-Originating-IP: 90.127.194.69
-Received: from jcd-UX305CA.home (lfbn-idf1-1-2027-69.w90-127.abo.wanadoo.fr
- [90.127.194.69]) (Authenticated sender: jcd@tribudubois.net)
- by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 77C612000A;
- Sat,  4 Jul 2020 19:12:57 +0000 (UTC)
-From: Jean-Christophe Dubois <jcd@tribudubois.net>
-To: qemu-devel@nongnu.org, peter.maydell@linaro.org, peter.chubb@nicta.com.au,
- f4bug@amsat.org
-Subject: [PATCH v2 3/3] Add the ability to change the FEC PHY MDIO devices
- numbers on i.MX7 processor
-Date: Sat,  4 Jul 2020 21:12:45 +0200
-Message-Id: <c850187322be9930e47c8b234c385a7d0da245cb.1593806826.git.jcd@tribudubois.net>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1593806826.git.jcd@tribudubois.net>
-References: <cover.1593806826.git.jcd@tribudubois.net>
+ (Exim 4.90_1) (envelope-from <denber@mindspring.com>)
+ id 1jrndE-0002aD-DF
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 15:15:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
+ s=dk12062016; t=1593890124; bh=rWfiki62H/m6w6n+NHPQ7FEqI1ky8Jvhhgrf
+ TnZb360=; h=Received:Message-ID:Date:From:User-Agent:MIME-Version:
+ To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:
+ X-Originating-IP; b=p6D/kx5wnzH/c0ijNZr16qLYtReDOIzwqmat5J6yJOdB7Q
+ +hPAdqHJhLtAruyThoRSxDx+LKVUS8krsNKtobQat502OlnkKgwAnfYaiz97dv5VQPH
+ 1sbOnR7KymxwKbF+TqQMuK7GqkKIj3DR8h2+2xTc2GnKnfcFzZ24bvpE4PprqAx28R3
+ 11wi8+3/TPy4qskqJa/d44Qn6l4nGyHaZRMPRgfMFS43rnQdBCuJz6ZOlZJp6S8ALZm
+ I4sTmWzHWnOH2DI6GhsmN/lzr7ClQHKkxpRxMXizY20FJoL3j/26ckRqaDuz0f/x9sv
+ Qwq2IT3frAMb8cfNDR81HvSx/2pA==
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
+ s=dk12062016; d=mindspring.com;
+ b=p0rivGb2Ph3bn3tLvTpF2Gk8xKDjiJ21cvNWW+Ozc4R2/FnQRFbanylPpBrXBh0ZdoNJ7em8GcuF7dMCuhtB+cRDKwL0hPwzULKi/DF4PCcZ9bDk28XmRGhT6gNP8h8IGy+T1MzMa95PnT8DPv9PXoRzi/mS38KdWtw4CttMSJQPIzuo/BNU0U+QaNS1J3kq5khhHShCcBcNwAvk07VOkkpATeQRgk2lhGntDhxFZntnTlLaRiflAXzfrXf5pqWQmNxMhoeZ9ZnVyKvApVCVNya7LdWO9BnwpSg1nnZ0WJVX6yFkmlQtb5RmH2G8JG6pPmT5IfcE2hXvHqUKqEAA8g==;
+ h=Received:Message-ID:Date:From:User-Agent:MIME-Version:To:CC:Subject:References:In-Reply-To:Content-Type:X-ELNK-Trace:X-Originating-IP;
+Received: from [8.9.81.230] (helo=[192.168.0.78])
+ by elasmtp-masked.atl.sa.earthlink.net with esmtpa (Exim 4)
+ (envelope-from <denber@mindspring.com>)
+ id 1jrndA-00039c-NA; Sat, 04 Jul 2020 15:15:20 -0400
+Message-ID: <5F00D548.5050305@mindspring.com>
+Date: Sat, 04 Jul 2020 15:15:20 -0400
+From: Michele Denber <denber@mindspring.com>
+User-Agent: Mozilla/5.0 (X11; SunOS sun4v;
+ rv:10.0.7) Gecko/20121005 Thunderbird/10.0.7
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.70.183.200; envelope-from=jcd@tribudubois.net;
- helo=relay7-d.mail.gandi.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 14:54:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+To: =?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: gmake in Solaris 11.4: TFR missing
+References: <20200702143955.678-1-thuth@redhat.com>
+ <5EFE07BC.6040407@mindspring.com>
+ <1e699fdc-639e-ef8a-313f-7e665cad868c@redhat.com>
+ <5EFE5291.6030300@mindspring.com>
+ <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
+ <5EFF5DFC.2060006@mindspring.com>
+ <CAFEAcA81y59yaOCW=QONy9EKv6Fdkkwb=XGJ786-N5du2+P9NQ@mail.gmail.com>
+ <5EFF7DD7.1000605@mindspring.com> <5EFFA499.7050008@mindspring.com>
+ <3474053c-12d7-cf4a-5470-62845c166127@redhat.com>
+ <5F00A1ED.6040909@mindspring.com>
+ <69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org>
+In-Reply-To: <69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org>
+Content-Type: multipart/alternative;
+ boundary="------------060407050906070105000507"
+X-ELNK-Trace: 17a948d2f1835c375e89bb4777695beb24867385ea7beca560f253835c45648768724f8d9b219674350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
+X-Originating-IP: 8.9.81.230
+Received-SPF: pass client-ip=209.86.89.68; envelope-from=denber@mindspring.com;
+ helo=elasmtp-masked.atl.sa.earthlink.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 15:15:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,63 +84,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Peter Tribble <peter.tribble@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
----
+This is a multi-part message in MIME format.
+--------------060407050906070105000507
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
- v2: same patch after pull request from peter is validated.
+On 07/04/20 11:57, Philippe Mathieu-Daudé wrote:
+> Odd...
+>
+> Assuming you are using gcc, have you tried 'configure --host-cc=gcc'?
+OK, so I changed it from
 
- hw/arm/fsl-imx7.c         | 9 +++++++++
- include/hw/arm/fsl-imx7.h | 1 +
- 2 files changed, 10 insertions(+)
+# /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"
 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index b49d895a412..5dbf0e500aa 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -364,6 +364,8 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_ENET2_ADDR,
-         };
- 
-+        object_property_set_uint(OBJECT(&s->eth[i]), s->phy_num[i],
-+                                 "phy-num", &error_abort);
-         object_property_set_uint(OBJECT(&s->eth[i]), FSL_IMX7_ETH_NUM_TX_RINGS,
-                                  "tx-ring-num", &error_abort);
-         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
-@@ -551,10 +553,17 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-                                 FSL_IMX7_PCIE_PHY_SIZE);
- }
- 
-+static Property fsl_imx7_properties[] = {
-+    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX7State, phy_num[0], 0),
-+    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX7State, phy_num[1], 1),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void fsl_imx7_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-+    device_class_set_props(dc, fsl_imx7_properties);
-     dc->realize = fsl_imx7_realize;
- 
-     /* Reason: Uses serial_hds and nd_table in realize() directly */
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index da977f9ffb4..ad889237077 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -81,6 +81,7 @@ typedef struct FslIMX7State {
-     IMX7GPRState       gpr;
-     ChipideaState      usb[FSL_IMX7_NUM_USBS];
-     DesignwarePCIEHost pcie;
-+    uint32_t           phy_num[FSL_IMX7_NUM_ETHS];
- } FslIMX7State;
- 
- enum FslIMX7MemoryMap {
--- 
-2.25.1
+to
 
+# /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32" 
+--host-cc=gcc
+
+and then reran gmake -j16.   That seems to have fixed it.  ppc64 is 
+there now:
+
+root@hemlock:~/qemu-5.0.0# ppc64-softmmu/qemu-system-ppc64 -machine help
+Supported machines are:
+40p                  IBM RS/6000 7020 (40p)
+bamboo               bamboo
+g3beige              Heathrow based PowerMAC
+mac99                Mac99 based PowerMAC
+mpc8544ds            mpc8544ds
+... and a bunch more ...
+root@hemlock:~/qemu-5.0.0#
+
+And I also have the right stuff in x86_64-softmmu. So I tried running my 
+Win XP image and it started up OK, opening the QEMU window and 
+displaying the XP logo.  But unfortunately it's really really slow, like 
+20 minutes just to get to the XP desktop appearing.  That takes about 2 
+minutes in QEMU 2.12 on the same host hardware.  I had been hoping 5.0 
+would be faster.  Is there a reason for it to be an order of magnitude 
+slower?  I'm saying:
+
+root@hemlock:~/qemu-5.0.0/x86_64-softmmu# ./qemu-system-x86_64  -m 2047  
+-usb -device usb-tablet -smp 3 -device rtl8139,netdev=net0 -netdev 
+user,id=net0 -boot d -hda  /bkpool/qemuimages/XP.img -cdrom 
+/bkpool/qemuimages/xp.iso &
+
+But in any case, I will now cautiously claim  that I have succeeded in 
+building QEMU 5.0 in Solaris 11.4 SPARC.  Thanks very much to everyone 
+for all your help.
+
+             - Michele
+
+
+
+--------------060407050906070105000507
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    On 07/04/20 11:57, Philippe Mathieu-Daudé wrote:<br>
+    <blockquote
+      cite="mid:69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org"
+      type="cite">
+      <pre wrap="">
+Odd...
+
+Assuming you are using gcc, have you tried 'configure --host-cc=gcc'?</pre>
+    </blockquote>
+    OK, so I changed it from<br>
+    <small><font face="Courier New, Courier, monospace"><br>
+        # /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"</font></small><br>
+    <br>
+    to<br>
+    <br>
+    <small><font face="Courier New, Courier, monospace">#
+        /opt/csw/bin/bash ./configure --cc=gcc  --extra-cflags="-m32"
+        --host-cc=gcc</font></small><br>
+    <br>
+    and then reran gmake -j16.   That seems to have fixed it.  ppc64 is
+    there now:<br>
+    <br>
+    <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a>
+        ppc64-softmmu/qemu-system-ppc64 -machine help<br>
+        Supported machines are:<br>
+        40p                  IBM RS/6000 7020 (40p)<br>
+        bamboo               bamboo<br>
+        g3beige              Heathrow based PowerMAC<br>
+        mac99                Mac99 based PowerMAC<br>
+        mpc8544ds            mpc8544ds<br>
+        ... and a bunch more ...<br>
+        <a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0#">root@hemlock:~/qemu-5.0.0#</a> </font></small><br>
+    <br>
+    And I also have the right stuff in <small><font face="Courier New,
+        Courier, monospace">x86_64-softmmu. <big><font face="Helvetica,
+            Arial, sans-serif"> So I tried running my Win XP image and
+            it started up OK, opening the QEMU window and displaying the
+            XP logo.  But unfortunately it's really really slow, like 20
+            minutes just to get to the XP desktop appearing.  That takes
+            about 2 minutes in QEMU 2.12 on the same host hardware.  I
+            had been hoping 5.0 would be faster.  Is there a reason for
+            it to be an order of magnitude slower?  I'm saying:<br>
+            <br>
+            <small><font face="Courier New, Courier, monospace"><a class="moz-txt-link-abbreviated" href="mailto:root@hemlock:~/qemu-5.0.0/x86_64-softmmu#">root@hemlock:~/qemu-5.0.0/x86_64-softmmu#</a>
+                ./qemu-system-x86_64  -m 2047  -usb -device usb-tablet
+                -smp 3 -device rtl8139,netdev=net0 -netdev user,id=net0
+                -boot d -hda  /bkpool/qemuimages/XP.img -cdrom
+                /bkpool/qemuimages/xp.iso &amp;</font></small><br>
+            <br>
+            But in any case, I will now cautiously claim  that I have
+            succeeded in building QEMU 5.0 in Solaris 11.4 SPARC. 
+            Thanks very much to everyone for all your help.<br>
+            <br>
+                        - Michele<br>
+            <br>
+          </font></big></font></small><br>
+  </body>
+</html>
+
+--------------060407050906070105000507--
 
