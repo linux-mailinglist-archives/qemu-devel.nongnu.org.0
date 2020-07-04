@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8971214826
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:47:02 +0200 (CEST)
-Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1D7214824
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:45:56 +0200 (CEST)
+Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnBl-0000Fk-RI
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40092)
+	id 1jrnAh-0006AH-0Q
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwM-0005CV-FA
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55272
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwR-0005Nl-TM
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47218
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwK-0001hp-Ql
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmwQ-0001iG-0G
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:31:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887464;
+ s=mimecast20190719; t=1593887469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zxsZyEl0Ic2zeqGPCHFNr5fX901vp9gn578GtCCySkg=;
- b=cOcqpmq6a+/cCzu4qfGOk59R620AVwjUD7d6DbXUsX1AmEZxBhITJdQ/YwBV06oojnmhEl
- xpAnShfqfS4/9PylAP9XcOoRDhKvmOUBdUz0tclqhFoJ5wrKnITCHVz137z5EAl1Om8neG
- VTa+9TW1y22pWhWQBRZS38bRGkNoZJY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-T_oxx4DBNsCNOUrys1a_RQ-1; Sat, 04 Jul 2020 14:31:02 -0400
-X-MC-Unique: T_oxx4DBNsCNOUrys1a_RQ-1
-Received: by mail-wm1-f71.google.com with SMTP id o13so40189995wmh.9
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:31:01 -0700 (PDT)
+ bh=bXQcnI6PvYNrc0EdCBus9d90Kc/4/S8iNwGC64RK2O8=;
+ b=DqsPYe1pGOWsxNUlZTDqpfhKfgg0LLFvRX5aXHgpXSqAGAJLffJs/07QrQt7/zYjILPeop
+ kquk4RsTqnaD3S5mqcqbgMjtZ8BSetTnkFOy1/x5rGMeECFBJif2pRfwCms5ozdDUVQime
+ /bp6yaOL9lEDNx5G7kq+2Kt55ugK/7A=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-TQuGDHkIPA2ACPiEORkUFA-1; Sat, 04 Jul 2020 14:31:04 -0400
+X-MC-Unique: TQuGDHkIPA2ACPiEORkUFA-1
+Received: by mail-wr1-f70.google.com with SMTP id b14so36495575wrp.0
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:31:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zxsZyEl0Ic2zeqGPCHFNr5fX901vp9gn578GtCCySkg=;
- b=JLnabfiSqcCQX0n6mYtRWLWMQivqRvei9i64OoHBZzvunnXs3D3lvMPk+2O8T7wdvj
- JTWOowH5+x4y3+XlmET7BZPqdYuYEFwGykmuNhL8BCP5TrgULsbfMm2SHcb8cjqDC16O
- mHkjgGGhHU+RbRUMjGREev+FwtWj/Vevf4j5miGcM/qlxrxveQdKXbOnqgTicGnNPE9n
- GtNiczRvYCKo3Zh11qAnccqYUPk2bH/LoNRCtCFUAyMQEFptvS9MdN/uTtMnAasp8kpK
- gW6pDQd0yxL5buHsjkFBulcEy9uO3XmTcZDhgdgMhMnhV9BRIeG9qAodgn5SJS8xm9Yj
- LwOw==
-X-Gm-Message-State: AOAM531xua1Tmtm9xUai+IgNdpNa6cENKCWx9aAg/MOYUaQrLReQ/qw1
- aCTxYjDD8ZwvHGxOUqvSYqQJ5JcanFCgQVt2rnSeL2dZVsWyKj08eUkxmboVa7mLjTMwc6M6rMp
- /aKf1xyFzUUjOLbM=
-X-Received: by 2002:a5d:6b8c:: with SMTP id n12mr42148509wrx.352.1593887460671; 
- Sat, 04 Jul 2020 11:31:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwu4j4NZqOoPOYexPsdJ/qusDiClakwVkxT1uLaeahCIfg+cNTjhrzmLBJTBx+46lyfkluqkw==
-X-Received: by 2002:a5d:6b8c:: with SMTP id n12mr42148505wrx.352.1593887460527; 
- Sat, 04 Jul 2020 11:31:00 -0700 (PDT)
+ bh=bXQcnI6PvYNrc0EdCBus9d90Kc/4/S8iNwGC64RK2O8=;
+ b=V9626T96YR6r/CbrPNvh5uLzOnuBoVlzlMlwDrSe2EWMAviWLG3BweP8KQWJVIpU5/
+ RUHenAlgEpkwXJD6kR1Q/JeWZPXVHSvlceR1QLSF/ueUYMIt8I9xXuYBqWL//ZTpYt8V
+ Wpg99VfR1tcGiZ2wOvxCXJCbamW0qDdftUfqsliq5DIR/EoDOVrJ5rX6lENoVkZC1lAz
+ isk4Fl0OLvph3R8JaqYYCS1FaZMr1VrZn5DCwAxXVpZWZTQsRTBKQfGodTMu3wtdTZhu
+ 2e9YYcfH6SrQ7XJRq5BpEXXy35NNHy48ZhJhUS09xH5XroGWWzV0TiiQIER2G+4uHvQ7
+ c3sg==
+X-Gm-Message-State: AOAM532mkRIJoqxCqmfA0K1rRAnqo0WpChWAR+M0zeYFNkvnBtWQntQJ
+ CtQfj7Z7tk+CA7f/GHWjQfivuJWwUGsnmGueob0AlDa0L/4dvSY69LrPVn/8JYUf2zPHneYZuNg
+ x1i4hW13S9K5pM5o=
+X-Received: by 2002:a5d:6912:: with SMTP id t18mr41081832wru.411.1593887462976; 
+ Sat, 04 Jul 2020 11:31:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu/tTGeWJsYhj0Mcg34Kyyo5pdZZFzN1ONJp3PYv0w110/HS05zTw3svSK1EkwmbP5ZFIjxg==
+X-Received: by 2002:a5d:6912:: with SMTP id t18mr41081828wru.411.1593887462840; 
+ Sat, 04 Jul 2020 11:31:02 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- 68sm17479697wmz.40.2020.07.04.11.30.59
+ u8sm17007683wrt.28.2020.07.04.11.31.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:31:00 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:58 -0400
+ Sat, 04 Jul 2020 11:31:02 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:31:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 37/41] vhost: introduce new VhostOps vhost_force_iommu
-Message-ID: <20200704182750.1088103-38-mst@redhat.com>
+Subject: [PULL v2 38/41] vhost: implement vhost_force_iommu method
+Message-ID: <20200704182750.1088103-39-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 08:57:02
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,39 +103,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cindy Lu <lulu@redhat.com>
 
-This patch introduces new VhostOps vhost_force_iommu callback
-to force enable features bit VIRTIO_F_IOMMU_PLATFORM.
+use the vhost_force_iommu callback to force enable feature bit VIRTIO_F_IOMMU_PLATFORM
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20200701145538.22333-11-lulu@redhat.com>
+Message-Id: <20200701145538.22333-12-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/vhost.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index bfc24207e2..e7cb8d028c 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -121,6 +121,8 @@ typedef int (*vhost_vq_get_addr_op)(struct vhost_dev *dev,
- 
- typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
- 
-+typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
-+
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -164,6 +166,7 @@ typedef struct VhostOps {
-     vhost_dev_start_op vhost_dev_start;
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-+    vhost_force_iommu_op vhost_force_iommu;
- } VhostOps;
- 
- extern const VhostOps user_ops;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 1e083a8976..1a1384e7a6 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -810,6 +810,11 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
+     if (!vhost_dev_has_iommu(dev)) {
+         features &= ~(0x1ULL << VIRTIO_F_IOMMU_PLATFORM);
+     }
++    if (dev->vhost_ops->vhost_force_iommu) {
++        if (dev->vhost_ops->vhost_force_iommu(dev) == true) {
++            features |= 0x1ULL << VIRTIO_F_IOMMU_PLATFORM;
++       }
++    }
+     r = dev->vhost_ops->vhost_set_features(dev, features);
+     if (r < 0) {
+         VHOST_OPS_DEBUG("vhost_set_features failed");
 -- 
 MST
 
