@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF39214714
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:51:10 +0200 (CEST)
-Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22CB214722
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:58:36 +0200 (CEST)
+Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrkRZ-0005q9-Sc
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
+	id 1jrkYm-0007n3-1c
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkI0-0003bH-HZ
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:41:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39143
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jrkHx-0008PC-S1
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:41:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593877273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T05aSWsXj6XqlyyRKFN7AiT8E00rxZAH7ivGzBAXguo=;
- b=fqFPwnI/niaIUFNl6cM1EH1O1EbAL0c0TEvzZDpkXQlwOm1h0pQPRSi/WHVADh6Tpb7PD5
- elV8EQyej2KALpvPXr/LlhtBJOEZG2JiEv050fUb5uJz7UaX7sdYwBSeXcOy3glq2ch0iV
- NX0Y9+mSpPpiMgEGc7daYhE7tMSAxo4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-UZlcotD5MMCXHybsVLeXPw-1; Sat, 04 Jul 2020 11:41:12 -0400
-X-MC-Unique: UZlcotD5MMCXHybsVLeXPw-1
-Received: by mail-wr1-f70.google.com with SMTP id i14so35800796wru.17
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 08:41:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jrkXg-0006gi-Sc
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:57:28 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jrkXf-0003yA-6l
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 11:57:28 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g75so34821735wme.5
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 08:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=08z4qlPQzjCeE3BAnQjuZ41XADdXtoD+RXDn53FVtw8=;
+ b=oJnDdVRVHqNo+xl3aXfVoyorKOKqat+UadlU1z4aLNKmEKhBPeA/nSv+Dt9brQrUY4
+ 6BBSyXtBLmjShiAQJHISPoZpJmvjfqpyTfm9RbazBSE5pMEXBG53WlIh+CdA8lG5aCov
+ /clMWgAwHUNof0J2YHksYsZz9Jdk4BpXGYB14P2ORvN5d9Il4NPjE3res9Syw2e0+FzQ
+ hS1h0H802Ult2/nqgl91+INXsqeGJLrqOOVQU0ZdxmDSqsC28QKAwZnk9IPeWnI+f6JI
+ v1jNh+5v3hbmlih8EulsuSXuVlzQVcNRkDvw4Dmyaa/WHFgG6d7ONq/rEsspb8f01QmU
+ u7iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=T05aSWsXj6XqlyyRKFN7AiT8E00rxZAH7ivGzBAXguo=;
- b=jw4JM53EmStNhWZfs6SylleZXwZBDzHGvLhUYn++DAtlkn3F2ulMkO0cb1CEVGQXsa
- ki6X99gOd5+z6HHB79vDV3rJ1EIknhyDkkNdCTie9fqi+D4z/6PLSqY5vKw/yOKbvtAa
- ObakxMcEjUYefsO3nqGQVG12d0PH2IHUU+vXw79lYNig7p5lepgI+jvVntbyn1cOajvR
- bO2D0Yi/qUu/6BgIfDm0mydtmkKbOk22qhESpOqlrRiMrJxnPT+Z2MZtZjLCJXsnWNeE
- OMh8fqT2P42vzBJpNHbIP13XnveMDed1jdvALdkXmteXLeRaza3j02laL7ghh+9ItjFb
- N1jQ==
-X-Gm-Message-State: AOAM531fgG7N1GFArCr6nQ/aes4dpj3cEs4OHDzJwxBqGHsFQM7ZByMR
- solG2663XBtHAlRkgXx1i2/gy6scdV5U+do2DxBNLUkznRj1nGGQqqvuDnuR5ZP6PFJ2k+YVJ3h
- 2xNNNLT5eX2tZxXM=
-X-Received: by 2002:a1c:398b:: with SMTP id g133mr40165702wma.76.1593877270491; 
- Sat, 04 Jul 2020 08:41:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyY6jjMSQWiKHCzETU0E+/X0LPKuPCnnd4xVQP5+FKyucBMWp08OCApfnD7RL8JFbFT8AYF3A==
-X-Received: by 2002:a1c:398b:: with SMTP id g133mr40165682wma.76.1593877270343; 
- Sat, 04 Jul 2020 08:41:10 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=08z4qlPQzjCeE3BAnQjuZ41XADdXtoD+RXDn53FVtw8=;
+ b=RRL0fpXWXvbhwYJv5ZbUcemLAr+cCxm16NhrRE6yw8P2FXVd8nRlZcOOVhNFnnVmNg
+ S8YSCRAIPGHh0wzsOcokLyGtqBBfi8q7pHdcljueHTcML+IS06Y0j8BK8afHEojc6WTt
+ wfcAK/m+OLG87cz5RgBnSvgbfeZWSukymXS/B2pcvhw3qi3kLN1U9Tn3kxqXYH9Hy6li
+ Tcj6LoElkM1fC2TsBJij3YiOqeXjKNQ+sH9JE0ot/S1l8ovH7d/67SAbzMBpOd9cxs6v
+ xyKloGiJPQIPrRP4EfI0PkwBEJXri8BtfSzlBPsV76/E2/CZgccRWGKWTBIN6STSPW5A
+ sZsQ==
+X-Gm-Message-State: AOAM533YwxaIY/xJNVJ5QNSUkt3fnV5uISWUZFmeb9Vb+85ZmetgCfcl
+ S1Ef6O43CtJJgoWyIVd2bVoQhCVFFSg=
+X-Google-Smtp-Source: ABdhPJxYjIDktrVmjdh4ywCgIi5REV4drF7SQ8fEpikIDQ7LDtQcZ0YU71+i0P6uCvg8UdE7Hidm6w==
+X-Received: by 2002:a1c:9911:: with SMTP id b17mr37411153wme.135.1593878245300; 
+ Sat, 04 Jul 2020 08:57:25 -0700 (PDT)
+Received: from [192.168.1.39] (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id h2sm17134778wrw.62.2020.07.04.08.41.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 08:41:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 22/23] hw/usb/hcd-musb: Emit warning when old code is
- used
-Date: Sat,  4 Jul 2020 17:39:07 +0200
-Message-Id: <20200704153908.12118-23-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200704153908.12118-1-philmd@redhat.com>
-References: <20200704153908.12118-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id l3sm1161134wrx.22.2020.07.04.08.57.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Jul 2020 08:57:24 -0700 (PDT)
+Subject: Re: gmake in Solaris 11.4: TFR missing
+To: Michele Denber <denber@mindspring.com>, Thomas Huth <thuth@redhat.com>
+References: <20200702143955.678-1-thuth@redhat.com>
+ <5EFE07BC.6040407@mindspring.com>
+ <1e699fdc-639e-ef8a-313f-7e665cad868c@redhat.com>
+ <5EFE5291.6030300@mindspring.com>
+ <975b5072-43de-da16-bf62-fc7e5a7a87f5@redhat.com>
+ <5EFF5DFC.2060006@mindspring.com>
+ <CAFEAcA81y59yaOCW=QONy9EKv6Fdkkwb=XGJ786-N5du2+P9NQ@mail.gmail.com>
+ <5EFF7DD7.1000605@mindspring.com> <5EFFA499.7050008@mindspring.com>
+ <3474053c-12d7-cf4a-5470-62845c166127@redhat.com>
+ <5F00A1ED.6040909@mindspring.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <69adae2a-8c3c-ec17-08f4-c2109b1d0993@amsat.org>
+Date: Sat, 4 Jul 2020 17:57:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+In-Reply-To: <5F00A1ED.6040909@mindspring.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,53 +99,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+ Peter Tribble <peter.tribble@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code hasn't been QOM'ified yet. Warn the user.
+On 7/4/20 5:36 PM, Michele Denber wrote:
+> On 07/04/20 08:02, Thomas Huth wrote:
+>> TFR is a macro that is defined in our qemu-common.h header ... does it
+>> work if you add a #include "qemu-common.h" somewhere at the beginning of
+>> net/tap-solaris.c ?
+> Yes, thank you, that fixed it:
+> 
+> root@hemlock:~/qemu-5.0.0# gmake -j16
+> gmake[1]: Entering directory '/export/home/denber/qemu-5.0.0/slirp'
+> grep: illegal option -- m
+> Usage: grep [-c|-l|-q] -bhinsvw pattern file . . .
+> gmake[1]: Nothing to be done for 'all'.
+> gmake[1]: Leaving directory '/export/home/denber/qemu-5.0.0/slirp'
+>         CHK version_gen.h
+>   CC      net/tap-solaris.o
+>   LINK    moxie-softmmu/qemu-system-moxie
+>   LINK    cris-softmmu/qemu-system-cris
+>   LINK    microblaze-softmmu/qemu-system-microblaze
+>   LINK    microblazeel-softmmu/qemu-system-microblazeel
+>   LINK    nios2-softmmu/qemu-system-nios2
+>   LINK    lm32-softmmu/qemu-system-lm32
+>   LINK    m68k-softmmu/qemu-system-m68k
+>   LINK    hppa-softmmu/qemu-system-hppa
+>   LINK    alpha-softmmu/qemu-system-alpha
+>   LINK    mips64-softmmu/qemu-system-mips64
+>   LINK    mips64el-softmmu/qemu-system-mips64el
+>   LINK    mipsel-softmmu/qemu-system-mipsel
+>   LINK    mips-softmmu/qemu-system-mips
+>   LINK    i386-softmmu/qemu-system-i386
+>   LINK    aarch64-softmmu/qemu-system-aarch64
+>   LINK    arm-softmmu/qemu-system-arm
+>   LINK    or1k-softmmu/qemu-system-or1k
+>   CC      s390x-softmmu/gen-features
+> /bin/sh: cc: not found
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/usb/hcd-musb.c | 3 +++
- 1 file changed, 3 insertions(+)
+Odd...
 
-diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
-index 85f5ff5bd4..f09464ed5e 100644
---- a/hw/usb/hcd-musb.c
-+++ b/hw/usb/hcd-musb.c
-@@ -26,6 +26,7 @@
- #include "hw/usb/hcd-musb.h"
- #include "hw/irq.h"
- #include "hw/hw.h"
-+#include "hw/qdev-deprecated.h"
- 
- /* Common USB registers */
- #define MUSB_HDRC_FADDR		0x00	/* 8-bit */
-@@ -378,6 +379,8 @@ struct MUSBState *musb_init(DeviceState *parent_device, int gpio_base)
-     MUSBState *s = g_malloc0(sizeof(*s));
-     int i;
- 
-+    qdev_warn_deprecated_function_used();
-+
-     for (i = 0; i < musb_irq_max; i++) {
-         s->irqs[i] = qdev_get_gpio_in(parent_device, gpio_base + i);
-     }
--- 
-2.21.3
+Assuming you are using gcc, have you tried 'configure --host-cc=gcc'?
+
+> gmake[1]: ***
+> [/export/home/denber/qemu-5.0.0/target/s390x/Makefile.objs:25:
+> /export/home/denber/qemu-5.0.0/s390x-softmmu/gen-features] Error 127
+> gmake: *** [Makefile:527: s390x-softmmu/all] Error 2
+> gmake: *** Waiting for unfinished jobs....
+>   LINK    rx-softmmu/qemu-system-rx
+>   LINK    riscv32-softmmu/qemu-system-riscv32
+>   LINK    riscv64-softmmu/qemu-system-riscv64
+>   LINK    ppc64-softmmu/qemu-system-ppc64
+>   LINK    ppc-softmmu/qemu-system-ppc
+> root@hemlock:~/qemu-5.0.0#
+> 
+> I still have one grep/ggrep issue and one "wrong sh" issue.  And it
+> doesn't look like it really completed correctly because for example I see:
+> 
+> root@hemlock:~/qemu-5.0.0# cd x86_64-softmmu
+> root@hemlock:~/qemu-5.0.0/x86_64-softmmu# ls
+> config-devices.mak      config-devices.mak.old  Makefile
+> config-devices.mak.d    config-target.mak
+> root@hemlock:~/qemu-5.0.0/x86_64-softmmu#
+> 
+> So even though gmake finished, it didn't make at least one VM.  Is that
+> because of the two remaining errors?
+
+From the LINK error message you pasted, you successfully built various
+QEMU, but the s390x-softmmu one failed.
+
+Try running for example the QEMU targetting ppc64-softmmu, by listing
+the available machines:
+
+$ ppc64-softmmu/qemu-system-ppc64 -machine help
+Supported machines are:
+40p                  IBM RS/6000 7020 (40p)
+bamboo               bamboo
+g3beige              Heathrow based PowerMAC
+mac99                Mac99 based PowerMAC
+mpc8544ds            mpc8544ds
+...
+
+> 
+>             - Michele
+> 
 
 
