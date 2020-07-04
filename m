@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0795D214816
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:42:17 +0200 (CEST)
-Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE024214802
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:36:02 +0200 (CEST)
+Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn7A-0006rT-29
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39644)
+	id 1jrn18-0004Ub-0S
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvH-0002qe-LS
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:59 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54413
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvF-0002mB-Tr
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25722
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvE-0001Li-2g
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvD-0001Le-LF
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:29:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1593887395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zm5yAzYb8Njf/7lXhPa4kHkewLVdbaNS9bfJJo2eVkw=;
- b=PkzdohkFNB7e6FDivAsHkrQtKhWn5vgVTFFaI49cGauy/LibYxZaKmkaQko/hUk3gGNgFB
- 6/5N7B2VCWim2fzkYhHuE9rssN/Kd4POeburrJ/z+d7N9WXc3Aot9HoSWYKHYLpeZPa+zS
- 9VTJbYTD25UjdiLWyqLVkxx7zzAc1oA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-6PnnhoqqN--y9A0MwQKy8A-1; Sat, 04 Jul 2020 14:29:51 -0400
-X-MC-Unique: 6PnnhoqqN--y9A0MwQKy8A-1
-Received: by mail-wr1-f70.google.com with SMTP id o25so36283134wro.16
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:29:51 -0700 (PDT)
+ bh=rJ+ftu7sRo4+D1GoB2r1H/Xv24+UlICQh28kpGHM9w0=;
+ b=VJtFnGqmm2IV3Ey1zh3sNKc4LWqsdEXyn2dcusm9zEdZaxvuCPYam60owRVCRTeeXaV98I
+ ZpNV07++G73AhNUbAbC35ns5zT8EkuUfC1ReSnkIqf+JaMPVgltuv7sZGvjNU9W9xZuczv
+ AKSNMIj0DU9xm+4eVzMlXP0US1Cdncw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-QhwGETBPMHqkzuRtaSVdDQ-1; Sat, 04 Jul 2020 14:29:53 -0400
+X-MC-Unique: QhwGETBPMHqkzuRtaSVdDQ-1
+Received: by mail-wm1-f72.google.com with SMTP id t18so40173223wmj.5
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:29:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zm5yAzYb8Njf/7lXhPa4kHkewLVdbaNS9bfJJo2eVkw=;
- b=dvklGdJEtLq8anZHGStF2PMCSGmkupYZty3U0mRxGnvMjtx05YbrTSmGxACcmlxSOh
- DZOFYH6nWngfenNGvF/Pq88he9KdOGump0C2eVl7tOQjAZhx7jTnx2f+AlAgSMVDfh4i
- tKyDdIaMH11CjLKsqng0b1TqIR48CeWdxztxXt8nMzMq00KmC6e+pLN4UC4uMR7Sks3l
- YI6Ew0DkB3DDsdJNakEle4lmP7GWoHhS+Z42EL0kLmfcRYU2n4WRs7MXfC2UOCkqL1bG
- D8cdkJXyDFm8RSmXn2b/ymcRswEw18BmvZAUbB2Jweyxmu52M4TLyLl8RmiV0dgfwSvo
- k81g==
-X-Gm-Message-State: AOAM5305DbiVF2l4Qt9FjjPpdHEqSnpASlhA1Q5Es07XiRUAwZIO1hi7
- +03QUiUV7rnhvxePmoqUWT7q2KMzFpvIhVx59vb3IV3CD3mysdmbdPZ462TEsChsDsnzk2zZ3LA
- AnJcjy8nzmQzXPT8=
-X-Received: by 2002:adf:c542:: with SMTP id s2mr14595704wrf.132.1593887389564; 
- Sat, 04 Jul 2020 11:29:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPUkCORtKWBkbPb/6lzKY9n4UPADzPmD5jdzm4j4bGl4Uqu9HPX/MWRmFRj8tbWrSy7WBCIg==
-X-Received: by 2002:adf:c542:: with SMTP id s2mr14595689wrf.132.1593887389195; 
- Sat, 04 Jul 2020 11:29:49 -0700 (PDT)
+ bh=rJ+ftu7sRo4+D1GoB2r1H/Xv24+UlICQh28kpGHM9w0=;
+ b=jpHBLJMxPuo6RjUQtWa6U0eU+GLdwqCFSTfVqbEMlaPlsVeOXzLxexzCH110QBcLVT
+ /6GP1d7IXfKuPfY4gb9cUXccqiz1iFkssT50xAFDBAbFlQHAFHElJ1hijfBNE37v03M2
+ pzV7Q90/W9fr50+o3xXIlri9JrRuJuGjMA8gcpnVwzzhHcweFPp/tv+C2hW5R/+Q2lDG
+ lyrvBHjE4UaUNYVWsWL42YlVJQHk74NJ4mqitdrP/TRsTHHwG2xhAcMaWLkKpuPu+mXz
+ kRW6Jw8U0fMDLS9B0+mfdchOIkWIBnCvgeXmSKxdIhi0ohMNAa42gxlBzoZBcJ62AWqu
+ 3shA==
+X-Gm-Message-State: AOAM531oTbJ5cF00b3tQ4P7M+Tvsp0qtAOQNbySj8pcr9kOyoNkk4f17
+ D2JTmGaW7IVp1luxB8OubcEGluNgkGk4Xsq1ig8QXDGKIpk98wZeRz5QPeIzS7rjcYuKsKvWfkl
+ s1I6ckm6px8QWAnw=
+X-Received: by 2002:a7b:ce97:: with SMTP id q23mr42520261wmj.89.1593887392065; 
+ Sat, 04 Jul 2020 11:29:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypgywOX2uW7oB0F+xcHYZ5odIW5/4MTbqD/5w4NaF9NjLbUW8fLrM47A0wWgS7hsnuWLFz/g==
+X-Received: by 2002:a7b:ce97:: with SMTP id q23mr42520250wmj.89.1593887391917; 
+ Sat, 04 Jul 2020 11:29:51 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- k126sm17561156wmf.3.2020.07.04.11.29.47
+ c11sm16765277wmb.45.2020.07.04.11.29.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:29:48 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:29:47 -0400
+ Sat, 04 Jul 2020 11:29:51 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:29:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/41] virtio-balloon: Rip out qemu_balloon_inhibit()
-Message-ID: <20200704182750.1088103-10-mst@redhat.com>
+Subject: [PULL v2 10/41] target/i386: sev: Use ram_block_discard_disable()
+Message-ID: <20200704182750.1088103-11-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:20
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,201 +97,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-The only remaining special case is postcopy. It cannot handle
-concurrent discards yet, which would result in requesting already sent
-pages from the source. Special-case it in virtio-balloon instead.
-
-Introduce migration_in_incoming_postcopy(), to find out if incoming
-postcopy is active.
+AMD SEV will pin all guest memory, mark discarding of RAM broken. At the
+time this is called, we cannot have anyone active that relies on discards
+to work properly - let's still implement error handling.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-7-david@redhat.com>
+Message-Id: <20200626072248.78761-8-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/migration/misc.h   |  2 ++
- include/sysemu/balloon.h   |  2 --
- balloon.c                  | 18 ------------------
- hw/virtio/virtio-balloon.c | 10 ++++++++--
- migration/migration.c      |  7 +++++++
- migration/postcopy-ram.c   | 23 -----------------------
- 6 files changed, 17 insertions(+), 45 deletions(-)
+ target/i386/sev.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/migration/misc.h b/include/migration/misc.h
-index d2762257aa..34e7d75713 100644
---- a/include/migration/misc.h
-+++ b/include/migration/misc.h
-@@ -69,6 +69,8 @@ bool migration_has_failed(MigrationState *);
- /* ...and after the device transmission */
- bool migration_in_postcopy_after_devices(MigrationState *);
- void migration_global_dump(Monitor *mon);
-+/* True if incomming migration entered POSTCOPY_INCOMING_DISCARD */
-+bool migration_in_incoming_postcopy(void);
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index d273174ad3..f100a53231 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -680,6 +680,12 @@ sev_guest_init(const char *id)
+     uint32_t host_cbitpos;
+     struct sev_user_data_status status = {};
  
- /* migration/block-dirty-bitmap.c */
- void dirty_bitmap_mig_init(void);
-diff --git a/include/sysemu/balloon.h b/include/sysemu/balloon.h
-index aea0c44985..20a2defe3a 100644
---- a/include/sysemu/balloon.h
-+++ b/include/sysemu/balloon.h
-@@ -23,7 +23,5 @@ typedef void (QEMUBalloonStatus)(void *opaque, BalloonInfo *info);
- int qemu_add_balloon_handler(QEMUBalloonEvent *event_func,
-                              QEMUBalloonStatus *stat_func, void *opaque);
- void qemu_remove_balloon_handler(void *opaque);
--bool qemu_balloon_is_inhibited(void);
--void qemu_balloon_inhibit(bool state);
- 
- #endif
-diff --git a/balloon.c b/balloon.c
-index 5fff79523a..354408c6ea 100644
---- a/balloon.c
-+++ b/balloon.c
-@@ -36,24 +36,6 @@
- static QEMUBalloonEvent *balloon_event_fn;
- static QEMUBalloonStatus *balloon_stat_fn;
- static void *balloon_opaque;
--static int balloon_inhibit_count;
--
--bool qemu_balloon_is_inhibited(void)
--{
--    return atomic_read(&balloon_inhibit_count) > 0 ||
--           ram_block_discard_is_disabled();
--}
--
--void qemu_balloon_inhibit(bool state)
--{
--    if (state) {
--        atomic_inc(&balloon_inhibit_count);
--    } else {
--        atomic_dec(&balloon_inhibit_count);
--    }
--
--    assert(atomic_read(&balloon_inhibit_count) >= 0);
--}
- 
- static bool have_balloon(Error **errp)
- {
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 8a84718490..ae31f0817a 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -63,6 +63,12 @@ static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
-     return pbp->base_gpa == base_gpa;
++    ret = ram_block_discard_disable(true);
++    if (ret) {
++        error_report("%s: cannot disable RAM discard", __func__);
++        return NULL;
++    }
++
+     sev = lookup_sev_guest_info(id);
+     if (!sev) {
+         error_report("%s: '%s' is not a valid '%s' object",
+@@ -751,6 +757,7 @@ sev_guest_init(const char *id)
+     return sev;
+ err:
+     sev_guest = NULL;
++    ram_block_discard_disable(false);
+     return NULL;
  }
  
-+static bool virtio_balloon_inhibited(void)
-+{
-+    /* Postcopy cannot deal with concurrent discards, so it's special. */
-+    return ram_block_discard_is_disabled() || migration_in_incoming_postcopy();
-+}
-+
- static void balloon_inflate_page(VirtIOBalloon *balloon,
-                                  MemoryRegion *mr, hwaddr mr_offset,
-                                  PartiallyBalloonedPage *pbp)
-@@ -336,7 +342,7 @@ static void virtio_balloon_handle_report(VirtIODevice *vdev, VirtQueue *vq)
-          * accessible by another device or process, or if the guest is
-          * expecting it to retain a non-zero value.
-          */
--        if (qemu_balloon_is_inhibited() || dev->poison_val) {
-+        if (virtio_balloon_inhibited() || dev->poison_val) {
-             goto skip_element;
-         }
- 
-@@ -421,7 +427,7 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- 
-             trace_virtio_balloon_handle_output(memory_region_name(section.mr),
-                                                pa);
--            if (!qemu_balloon_is_inhibited()) {
-+            if (!virtio_balloon_inhibited()) {
-                 if (vq == s->ivq) {
-                     balloon_inflate_page(s, section.mr,
-                                          section.offset_within_region, &pbp);
-diff --git a/migration/migration.c b/migration/migration.c
-index 481a590f72..d365d82209 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1772,6 +1772,13 @@ bool migration_in_postcopy_after_devices(MigrationState *s)
-     return migration_in_postcopy() && s->postcopy_after_devices;
- }
- 
-+bool migration_in_incoming_postcopy(void)
-+{
-+    PostcopyState ps = postcopy_state_get();
-+
-+    return ps >= POSTCOPY_INCOMING_DISCARD && ps < POSTCOPY_INCOMING_END;
-+}
-+
- bool migration_is_idle(void)
- {
-     MigrationState *s = current_migration;
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index a36402722b..b41a9fe2fd 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -27,7 +27,6 @@
- #include "qemu/notify.h"
- #include "qemu/rcu.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/balloon.h"
- #include "qemu/error-report.h"
- #include "trace.h"
- #include "hw/boards.h"
-@@ -520,20 +519,6 @@ int postcopy_ram_incoming_init(MigrationIncomingState *mis)
-     return 0;
- }
- 
--/*
-- * Manage a single vote to the QEMU balloon inhibitor for all postcopy usage,
-- * last caller wins.
-- */
--static void postcopy_balloon_inhibit(bool state)
--{
--    static bool cur_state = false;
--
--    if (state != cur_state) {
--        qemu_balloon_inhibit(state);
--        cur_state = state;
--    }
--}
--
- /*
-  * At the end of a migration where postcopy_ram_incoming_init was called.
-  */
-@@ -565,8 +550,6 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
-         mis->have_fault_thread = false;
-     }
- 
--    postcopy_balloon_inhibit(false);
--
-     if (enable_mlock) {
-         if (os_mlock() < 0) {
-             error_report("mlock: %s", strerror(errno));
-@@ -1160,12 +1143,6 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-     }
-     memset(mis->postcopy_tmp_zero_page, '\0', mis->largest_page_size);
- 
--    /*
--     * Ballooning can mark pages as absent while we're postcopying
--     * that would cause false userfaults.
--     */
--    postcopy_balloon_inhibit(true);
--
-     trace_postcopy_ram_enable_notify();
- 
-     return 0;
 -- 
 MST
 
