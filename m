@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB381214825
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:46:41 +0200 (CEST)
-Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81EA2147FF
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:35:52 +0200 (CEST)
+Received: from localhost ([::1]:49694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrnBQ-0007zA-Q0
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:46:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
+	id 1jrn0x-00044N-Ok
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:35:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvo-0003vJ-Ks
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44007
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvr-00043b-6j
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:35 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35555
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvm-0001RI-Fs
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvp-0001SN-9h
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887429;
+ s=mimecast20190719; t=1593887432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=84z48SEDVIW4lHeSX/JWrxebkeh/PVqSS0PAVUgtM8I=;
- b=JLo6mZ/24MQCs4AXwIAUSXr7r9dd0Ro7E12sIP2uiQyduIAr/4PfB+tw82PCgdBxvO4rL2
- dXvQBi1ZG3g7xjl0sY5wj/nGgdvEUUa6ueusdyd2KgcvGdu/7F986QZCSJgxi7vJW3GGqR
- K1dGdQN16zUE13XOOMRJruiiKYz3zK8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-a_3ua2UjPuWPZdA0SB0H-w-1; Sat, 04 Jul 2020 14:30:27 -0400
-X-MC-Unique: a_3ua2UjPuWPZdA0SB0H-w-1
-Received: by mail-wr1-f69.google.com with SMTP id g14so36341439wrp.8
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:27 -0700 (PDT)
+ bh=c5tdu84EsYu030A7xZkXJlQoGtXOTX2WueiDbJOGS4I=;
+ b=aZXbCez874WMXryFVKQ8JC4F+yfBFgqQVPgmcw5Ld83iOVD2aISTwQ8LfUD/xBYaIp/AZb
+ wk2ohByiYPPyo/hyYc3U8QuJ8+orWY6nFBnlQNNJ2+E4ynKJiaMvOgCMOoXlycmmIXkeKe
+ a8K9P5HBhHhPpCkTsPE88B0Kj5PYLtc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-AqOa_4JaN1ihcmqFC1wqfA-1; Sat, 04 Jul 2020 14:30:30 -0400
+X-MC-Unique: AqOa_4JaN1ihcmqFC1wqfA-1
+Received: by mail-wr1-f71.google.com with SMTP id g14so36341498wrp.8
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=84z48SEDVIW4lHeSX/JWrxebkeh/PVqSS0PAVUgtM8I=;
- b=nujsIOjand6hj+9ms2NvNdT1YnTAv+xWVbyOTT45mMYO35LBQpBEngy1OEoNDBEHlv
- sAeG5F2BLgfvlqFnwT8R94KjGXJefQi+HdoyhNgonWtydMf3giFbIQPT2hSrBK1XC11Q
- /KP4LR9QmRt/0TMl3nb0plaI7xXMAges9y63ZEbt5O1xwNMWrAJc2crz/fK2r3Kr6lNj
- EWRFBt4mZaDRCkBFfV29idZfAw/GtUbwD9GKKLcr0tgcVq24R5mMdhwgjqATyhOtONxx
- 7NLXR6bAV5cQAXY9sAOCKZYJKPoyfR7p+8GOIevvjNkgzrkNqN6si2GsclmVUGzId5rh
- vaGw==
-X-Gm-Message-State: AOAM532o2/Np/UI2roDBb6E7IzHPRQYlID0TUPq/g/zTh6dunsg4Inqw
- b/WIiCWGJBtv+9EkuyKEvzIu72aijhxJ+o7DesoQQcjTmW1N2yN4ckQEBuFaiQJ1FdEMbCMGc51
- tb6qiWPsJOLGaTjQ=
-X-Received: by 2002:a1c:99c2:: with SMTP id b185mr44654505wme.52.1593887426468; 
- Sat, 04 Jul 2020 11:30:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCryA6dX+fL8OLR9fS6X8IAgPieuRlD7P/JDWyluu3Ky07a5hGBsjv+Vy4/u11a5MxEI8B2w==
-X-Received: by 2002:a1c:99c2:: with SMTP id b185mr44654495wme.52.1593887426294; 
- Sat, 04 Jul 2020 11:30:26 -0700 (PDT)
+ bh=c5tdu84EsYu030A7xZkXJlQoGtXOTX2WueiDbJOGS4I=;
+ b=p4HTvgHg81A7PK2DGfYbaPz3y0Ij5aJ7zzFwZsePsQgnrzcP1RoeCyB8ggkmD7B6EV
+ jf/qGxffB208TbU5WjckS4VOcNV/05QZaOkDr/gaf4yh6mC7aUHf3vtp7GJkS4FjuwNu
+ gA+IdXNRD9tU4k5+KaxfmkTqJ9XA2IilhhZ30mQ7xLaICHvFH45QnTg7wedSt474iwUH
+ NUyhvVqxHfNZXPA2HB5z9667MyIrwRpzXEjXr9LVHZZ1pLwggSQFTXNw8yoKB+7TJFe+
+ c0cTpjNNCWjy7j1LX0alDs1YOjeNGO9fnBd2aDx61riHSVe2HsoefafmbVkRcOfLuE4k
+ tzlg==
+X-Gm-Message-State: AOAM531oXkPnsRVEU1nvb9GiguBR3GwAhvHDFU1oQr9Pe79sra9M5bHG
+ NohUkQZTsVg/tejJ6vL8R2eY6QwtEisva3xumDDsRI2dU4ETmye8GdRMUTrSw2s5AwecHyNnITt
+ 45GnNsyfOaxxFU4s=
+X-Received: by 2002:a1c:2543:: with SMTP id l64mr19623190wml.31.1593887429326; 
+ Sat, 04 Jul 2020 11:30:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbftQgMyYBvfKSH1NN+PJnw9GEpP/PW/wYMk4Mirry8BFPzZZt51zy13T+uqR+sMV7gMfuAg==
+X-Received: by 2002:a1c:2543:: with SMTP id l64mr19623173wml.31.1593887429065; 
+ Sat, 04 Jul 2020 11:30:29 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- 63sm18751488wra.86.2020.07.04.11.30.25
+ 138sm11807123wmb.1.2020.07.04.11.30.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:25 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:24 -0400
+ Sat, 04 Jul 2020 11:30:28 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 23/41] virtio-mem: Exclude unplugged memory during migration
-Message-ID: <20200704182750.1088103-24-mst@redhat.com>
+Subject: [PULL v2 24/41] numa: Auto-enable NUMA when any memory devices are
+ possible
+Message-ID: <20200704182750.1088103-25-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -73,9 +74,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 11:39:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/04 08:57:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,138 +98,162 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "qemu-arm @ nongnu . org" <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Shi <alex.shi@linux.alibaba.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-The content of unplugged memory is undefined and should not be migrated,
-ever. Exclude all unplugged memory during precopy using the precopy notifier
-infrastructure introduced for free page hinting in virtio-balloon.
+Let's auto-enable it also when maxmem is specified but no slots are
+defined. This will result in us properly creating ACPI srat tables,
+indicating the maximum possible PFN to the guest OS. Based on this, e.g.,
+Linux will enable the swiotlb properly.
 
-Unplugged memory is marked as "not dirty", meaning it won't be
-considered for migration.
+This avoids having to manually force the switolb on (swiotlb=force) in
+Linux in case we're booting only using DMA memory (e.g., 2GB on x86-64),
+and virtio-mem adds memory later on that really needs the swiotlb to be
+used for DMA.
 
+Let's take care of backwards compatibility if somebody has a setup that
+specifies "maxram" without "slots".
+
+Reported-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Sergio Lopez <slp@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-arm@nongnu.org <qemu-arm@nongnu.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-21-david@redhat.com>
+Message-Id: <20200626072248.78761-22-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-mem.h |  3 ++
- hw/virtio/virtio-mem.c         | 54 +++++++++++++++++++++++++++++++++-
- 2 files changed, 56 insertions(+), 1 deletion(-)
+ include/hw/boards.h |  1 +
+ hw/arm/virt.c       |  2 ++
+ hw/core/numa.c      | 11 ++++++-----
+ hw/i386/microvm.c   |  1 +
+ hw/i386/pc.c        |  1 +
+ hw/i386/pc_piix.c   |  1 +
+ hw/i386/pc_q35.c    |  1 +
+ 7 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index b74c77cd42..0778224964 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -67,6 +67,9 @@ typedef struct VirtIOMEM {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 18815d9be2..426ce5f625 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -207,6 +207,7 @@ struct MachineClass {
+     const char **valid_cpu_types;
+     strList *allowed_dynamic_sysbus_devices;
+     bool auto_enable_numa_with_memhp;
++    bool auto_enable_numa_with_memdev;
+     void (*numa_auto_assign_ram)(MachineClass *mc, NodeInfo *nodes,
+                                  int nb_nodes, ram_addr_t size);
+     bool ignore_boot_device_suffixes;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index cd0834ce7f..f97be80a86 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2373,6 +2373,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->unplug = virt_machine_device_unplug_cb;
+     mc->nvdimm_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
++    mc->auto_enable_numa_with_memdev = true;
+     mc->default_ram_id = "mach-virt.ram";
  
-     /* notifiers to notify when "size" changes */
-     NotifierList size_change_notifiers;
-+
-+    /* don't migrate unplugged memory */
-+    NotifierWithReturn precopy_notifier;
- } VirtIOMEM;
+     object_class_property_add(oc, "acpi", "OnOffAuto",
+@@ -2485,6 +2486,7 @@ static void virt_machine_5_0_options(MachineClass *mc)
+     virt_machine_5_1_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     mc->numa_mem_supported = true;
++    mc->auto_enable_numa_with_memdev = false;
+ }
+ DEFINE_VIRT_MACHINE(5, 0)
  
- typedef struct VirtIOMEMClass {
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 1ab9ef17fa..65850530e7 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -62,8 +62,14 @@ static bool virtio_mem_is_busy(void)
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index e9aec69afd..6a20ce7cf1 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -688,8 +688,9 @@ void numa_complete_configuration(MachineState *ms)
+     NodeInfo *numa_info = ms->numa_state->nodes;
+ 
      /*
-      * Postcopy cannot handle concurrent discards and we don't want to migrate
-      * pages on-demand with stale content when plugging new blocks.
-+     *
-+     * For precopy, we don't want unplugged blocks in our migration stream, and
-+     * when plugging new blocks, the page content might differ between source
-+     * and destination (observable by the guest when not initializing pages
-+     * after plugging them) until we're running on the destination (as we didn't
-+     * migrate these blocks when they were unplugged).
+-     * If memory hotplug is enabled (slots > 0) but without '-numa'
+-     * options explicitly on CLI, guestes will break.
++     * If memory hotplug is enabled (slot > 0) or memory devices are enabled
++     * (ms->maxram_size > ram_size) but without '-numa' options explicitly on
++     * CLI, guests will break.
+      *
+      *   Windows: won't enable memory hotplug without SRAT table at all
+      *
+@@ -704,9 +705,9 @@ void numa_complete_configuration(MachineState *ms)
+      * assume there is just one node with whole RAM.
       */
--    return migration_in_incoming_postcopy();
-+    return migration_in_incoming_postcopy() || !migration_is_idle();
+     if (ms->numa_state->num_nodes == 0 &&
+-        ((ms->ram_slots > 0 &&
+-        mc->auto_enable_numa_with_memhp) ||
+-        mc->auto_enable_numa)) {
++        ((ms->ram_slots && mc->auto_enable_numa_with_memhp) ||
++         (ms->maxram_size > ms->ram_size && mc->auto_enable_numa_with_memdev) ||
++         mc->auto_enable_numa)) {
+             NumaNodeOptions node = { };
+             parse_numa_node(ms, &node, &error_abort);
+             numa_info[0].node_mem = ram_size;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5e931975a0..81d0888930 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -464,6 +464,7 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = 288;
+     mc->has_hotpluggable_cpus = false;
+     mc->auto_enable_numa_with_memhp = false;
++    mc->auto_enable_numa_with_memdev = false;
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = false;
+     mc->default_ram_id = "microvm.ram";
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 576f2502f9..61acc9e530 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1975,6 +1975,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     mc->get_default_cpu_node_id = x86_get_default_cpu_node_id;
+     mc->possible_cpu_arch_ids = x86_possible_cpu_arch_ids;
+     mc->auto_enable_numa_with_memhp = true;
++    mc->auto_enable_numa_with_memdev = true;
+     mc->has_hotpluggable_cpus = true;
+     mc->default_boot_order = "cad";
+     mc->hot_add_cpu = pc_hot_add_cpu;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 1d832b2878..fae487f57d 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -444,6 +444,7 @@ static void pc_i440fx_5_0_machine_options(MachineClass *m)
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
++    m->auto_enable_numa_with_memdev = false;
  }
  
- static bool virtio_mem_test_bitmap(VirtIOMEM *vmem, uint64_t start_gpa,
-@@ -475,6 +481,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     host_memory_backend_set_mapped(vmem->memdev, true);
-     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
-     qemu_register_reset(virtio_mem_system_reset, vmem);
-+    precopy_add_notifier(&vmem->precopy_notifier);
+ DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 047ea8db28..acd6d405f0 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -372,6 +372,7 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
++    m->auto_enable_numa_with_memhp = false;
  }
  
- static void virtio_mem_device_unrealize(DeviceState *dev)
-@@ -482,6 +489,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOMEM *vmem = VIRTIO_MEM(dev);
- 
-+    precopy_remove_notifier(&vmem->precopy_notifier);
-     qemu_unregister_reset(virtio_mem_system_reset, vmem);
-     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
-     host_memory_backend_set_mapped(vmem->memdev, false);
-@@ -757,12 +765,56 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
-     vmem->block_size = value;
- }
- 
-+static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
-+{
-+    void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
-+    unsigned long first_zero_bit, last_zero_bit;
-+    uint64_t offset, length;
-+
-+    /*
-+     * Find consecutive unplugged blocks and exclude them from migration.
-+     *
-+     * Note: Blocks cannot get (un)plugged during precopy, no locking needed.
-+     */
-+    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-+    while (first_zero_bit < vmem->bitmap_size) {
-+        offset = first_zero_bit * vmem->block_size;
-+        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                      first_zero_bit + 1) - 1;
-+        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-+
-+        qemu_guest_free_page_hint(host + offset, length);
-+        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                            last_zero_bit + 2);
-+    }
-+}
-+
-+static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
-+{
-+    VirtIOMEM *vmem = container_of(n, VirtIOMEM, precopy_notifier);
-+    PrecopyNotifyData *pnd = data;
-+
-+    switch (pnd->reason) {
-+    case PRECOPY_NOTIFY_SETUP:
-+        precopy_enable_free_page_optimization();
-+        break;
-+    case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
-+        virtio_mem_precopy_exclude_unplugged(vmem);
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return 0;
-+}
-+
- static void virtio_mem_instance_init(Object *obj)
- {
-     VirtIOMEM *vmem = VIRTIO_MEM(obj);
- 
-     vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
-     notifier_list_init(&vmem->size_change_notifiers);
-+    vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
- 
-     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
-                         NULL, NULL, NULL);
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 -- 
 MST
 
