@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4A72145A2
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 13:48:03 +0200 (CEST)
-Received: from localhost ([::1]:46666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8221455F
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 13:38:49 +0200 (CEST)
+Received: from localhost ([::1]:54158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrgeI-00018q-7G
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 07:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
+	id 1jrgVM-0007xx-6g
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 07:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jrgOI-00025o-Cg
+ id 1jrgOI-000273-R4
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:31:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:24793)
+Received: from mga05.intel.com ([192.55.52.43]:24796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1jrgOG-0004K6-B1
+ id 1jrgOG-0004KB-SC
  for qemu-devel@nongnu.org; Sat, 04 Jul 2020 07:31:30 -0400
-IronPort-SDR: y1iWZByJIMKXIKUs1Wd+dR4UyVW/2hXGRUSDaivk8p78GCeHauhnIKZoOfa+LhcOcT3fH/HWFz
- AlN7w1izAWzA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="232105539"
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="232105539"
+IronPort-SDR: xc7fwB8RJG9vQkA96PH8WoORydayCOUkpw4BYrXL7ZD8v65Qnvi+QF/Yf4xxh13f82ByIM0SiM
+ jv+ZCUzIRH0A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="232105540"
+X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="232105540"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2020 04:30:26 -0700
-IronPort-SDR: MePvtwrsbp/pez2V52gM3xVsHFovGhuZGyTaHzem0Wo7WPGUs8ftB825lje4mHeXnOsGK/YcPV
- neoi6nmlWAaw==
+ 04 Jul 2020 04:30:27 -0700
+IronPort-SDR: 3u51U2vtWUs8ne+RQuleVepm093D2gPoNv+Lun4ud9Q2b0BvQurygI+5sQaFyUqgTTV1CVvSZw
+ BJ6b/H+zAIjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="266146844"
+X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="266146853"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by fmsmga007.fm.intel.com with ESMTP; 04 Jul 2020 04:30:25 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 04 Jul 2020 04:30:26 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org,
 	alex.williamson@redhat.com,
 	peterx@redhat.com
-Subject: [RFC v7 21/25] vfio: add support for flush iommu stage-1 cache
-Date: Sat,  4 Jul 2020 04:36:45 -0700
-Message-Id: <1593862609-36135-22-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v7 22/25] intel_iommu: process PASID-based iotlb invalidation
+Date: Sat,  4 Jul 2020 04:36:46 -0700
+Message-Id: <1593862609-36135-23-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593862609-36135-1-git-send-email-yi.l.liu@intel.com>
 References: <1593862609-36135-1-git-send-email-yi.l.liu@intel.com>
@@ -66,131 +66,129 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
- jun.j.tian@intel.com, eric.auger@redhat.com, yi.y.sun@intel.com,
+ Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
+ eric.auger@redhat.com, yi.y.sun@intel.com,
  Jacob Pan <jacob.jun.pan@linux.intel.com>, pbonzini@redhat.com,
- hao.wu@intel.com, jasowang@redhat.com, david@gibson.dropbear.id.au
+ hao.wu@intel.com, jasowang@redhat.com, Richard Henderson <rth@twiddle.net>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds flush_stage1_cache() definition in HostIOMUContextClass.
-And adds corresponding implementation in VFIO. This is to expose a way
-for vIOMMU to flush stage-1 cache in host side since guest owns stage-1
-translation structures in dual stage DMA translation configuration.
+This patch adds the basic PASID-based iotlb (piotlb) invalidation
+support. piotlb is used during walking Intel VT-d 1st level page
+table. This patch only adds the basic processing. Detailed handling
+will be added in next patch.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Cc: Peter Xu <peterx@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/iommu/host_iommu_context.c         | 19 +++++++++++++++++++
- hw/vfio/common.c                      | 24 ++++++++++++++++++++++++
- include/hw/iommu/host_iommu_context.h |  8 ++++++++
- 3 files changed, 51 insertions(+)
+ hw/i386/intel_iommu.c          | 53 ++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/intel_iommu_internal.h | 13 +++++++++++
+ 2 files changed, 66 insertions(+)
 
-diff --git a/hw/iommu/host_iommu_context.c b/hw/iommu/host_iommu_context.c
-index 0e7e790..7c8be15 100644
---- a/hw/iommu/host_iommu_context.c
-+++ b/hw/iommu/host_iommu_context.c
-@@ -113,6 +113,25 @@ int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
-     return hicxc->unbind_stage1_pgtbl(iommu_ctx, unbind);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index fb72076..89ded1c 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3036,6 +3036,55 @@ static bool vtd_process_pasid_desc(IntelIOMMUState *s,
+     return true;
  }
  
-+int host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
-+                                 struct iommu_cache_invalidate_info *cache)
++static void vtd_piotlb_pasid_invalidate(IntelIOMMUState *s,
++                                        uint16_t domain_id,
++                                        uint32_t pasid)
 +{
-+    HostIOMMUContextClass *hicxc;
-+
-+    hicxc = HOST_IOMMU_CONTEXT_GET_CLASS(iommu_ctx);
-+
-+    if (!hicxc) {
-+        return -EINVAL;
-+    }
-+
-+    if (!(iommu_ctx->flags & HOST_IOMMU_NESTING) ||
-+        !hicxc->flush_stage1_cache) {
-+        return -EINVAL;
-+    }
-+
-+    return hicxc->flush_stage1_cache(iommu_ctx, cache);
 +}
 +
- void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
-                          const char *mrtypename,
-                          uint64_t flags,
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index a872cec..ca88433 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1276,6 +1276,29 @@ static int vfio_host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
-     return ret;
- }
- 
-+static int vfio_host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
-+                                    struct iommu_cache_invalidate_info *cache)
++static void vtd_piotlb_page_invalidate(IntelIOMMUState *s, uint16_t domain_id,
++                                       uint32_t pasid, hwaddr addr, uint8_t am,
++                                       bool ih)
 +{
-+    VFIOContainer *container = container_of(iommu_ctx,
-+                                            VFIOContainer, iommu_ctx);
-+    struct vfio_iommu_type1_nesting_op *op;
-+    unsigned long argsz;
-+    int ret = 0;
-+
-+    argsz = sizeof(*op) + sizeof(*cache);
-+    op = g_malloc0(argsz);
-+    op->argsz = argsz;
-+    op->flags = VFIO_IOMMU_NESTING_OP_CACHE_INVLD;
-+    memcpy(&op->data, cache, sizeof(*cache));
-+
-+    if (ioctl(container->fd, VFIO_IOMMU_NESTING_OP, op)) {
-+        ret = -errno;
-+        error_report("%s: iommu cache flush failed: %m", __func__);
-+    }
-+    g_free(op);
-+    return ret;
 +}
 +
- /**
-  * Get iommu info from host. Caller of this funcion should free
-  * the memory pointed by the returned pointer stored in @info
-@@ -2016,6 +2039,7 @@ static void vfio_host_iommu_context_class_init(ObjectClass *klass,
-     hicxc->pasid_free = vfio_host_iommu_ctx_pasid_free;
-     hicxc->bind_stage1_pgtbl = vfio_host_iommu_ctx_bind_stage1_pgtbl;
-     hicxc->unbind_stage1_pgtbl = vfio_host_iommu_ctx_unbind_stage1_pgtbl;
-+    hicxc->flush_stage1_cache = vfio_host_iommu_ctx_flush_stage1_cache;
- }
++static bool vtd_process_piotlb_desc(IntelIOMMUState *s,
++                                    VTDInvDesc *inv_desc)
++{
++    uint16_t domain_id;
++    uint32_t pasid;
++    uint8_t am;
++    hwaddr addr;
++
++    if ((inv_desc->val[0] & VTD_INV_DESC_PIOTLB_RSVD_VAL0) ||
++        (inv_desc->val[1] & VTD_INV_DESC_PIOTLB_RSVD_VAL1)) {
++        error_report_once("non-zero-field-in-piotlb_inv_desc hi: 0x%" PRIx64
++                  " lo: 0x%" PRIx64, inv_desc->val[1], inv_desc->val[0]);
++        return false;
++    }
++
++    domain_id = VTD_INV_DESC_PIOTLB_DID(inv_desc->val[0]);
++    pasid = VTD_INV_DESC_PIOTLB_PASID(inv_desc->val[0]);
++    switch (inv_desc->val[0] & VTD_INV_DESC_IOTLB_G) {
++    case VTD_INV_DESC_PIOTLB_ALL_IN_PASID:
++        vtd_piotlb_pasid_invalidate(s, domain_id, pasid);
++        break;
++
++    case VTD_INV_DESC_PIOTLB_PSI_IN_PASID:
++        am = VTD_INV_DESC_PIOTLB_AM(inv_desc->val[1]);
++        addr = (hwaddr) VTD_INV_DESC_PIOTLB_ADDR(inv_desc->val[1]);
++        vtd_piotlb_page_invalidate(s, domain_id, pasid, addr, am,
++                                   VTD_INV_DESC_PIOTLB_IH(inv_desc->val[1]));
++        break;
++
++    default:
++        error_report_once("Invalid granularity in P-IOTLB desc hi: 0x%" PRIx64
++                  " lo: 0x%" PRIx64, inv_desc->val[1], inv_desc->val[0]);
++        return false;
++    }
++    return true;
++}
++
+ static bool vtd_process_inv_iec_desc(IntelIOMMUState *s,
+                                      VTDInvDesc *inv_desc)
+ {
+@@ -3150,6 +3199,10 @@ static bool vtd_process_inv_desc(IntelIOMMUState *s)
+         break;
  
- static const TypeInfo vfio_host_iommu_context_info = {
-diff --git a/include/hw/iommu/host_iommu_context.h b/include/hw/iommu/host_iommu_context.h
-index 2883ed8..40e860a 100644
---- a/include/hw/iommu/host_iommu_context.h
-+++ b/include/hw/iommu/host_iommu_context.h
-@@ -64,6 +64,12 @@ typedef struct HostIOMMUContextClass {
-     /* Undo a previous bind. @unbind specifies the unbind info. */
-     int (*unbind_stage1_pgtbl)(HostIOMMUContext *iommu_ctx,
-                                struct iommu_gpasid_bind_data *unbind);
-+    /*
-+     * Propagate stage-1 cache flush to host IOMMU, cache
-+     * info specifid in @cache
-+     */
-+    int (*flush_stage1_cache)(HostIOMMUContext *iommu_ctx,
-+                              struct iommu_cache_invalidate_info *cache);
- } HostIOMMUContextClass;
+     case VTD_INV_DESC_PIOTLB:
++        trace_vtd_inv_desc("p-iotlb", inv_desc.val[1], inv_desc.val[0]);
++        if (!vtd_process_piotlb_desc(s, &inv_desc)) {
++            return false;
++        }
+         break;
  
- /*
-@@ -85,6 +91,8 @@ int host_iommu_ctx_bind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
-                                      struct iommu_gpasid_bind_data *bind);
- int host_iommu_ctx_unbind_stage1_pgtbl(HostIOMMUContext *iommu_ctx,
-                                  struct iommu_gpasid_bind_data *unbind);
-+int host_iommu_ctx_flush_stage1_cache(HostIOMMUContext *iommu_ctx,
-+                               struct iommu_cache_invalidate_info *cache);
+     case VTD_INV_DESC_WAIT:
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index 9805b84..118d568 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -476,6 +476,19 @@ typedef union VTDInvDesc VTDInvDesc;
+ #define VTD_INV_DESC_PASIDC_PASID_SI   (1ULL << 4)
+ #define VTD_INV_DESC_PASIDC_GLOBAL     (3ULL << 4)
  
- void host_iommu_ctx_init(void *_iommu_ctx, size_t instance_size,
-                          const char *mrtypename,
++#define VTD_INV_DESC_PIOTLB_ALL_IN_PASID  (2ULL << 4)
++#define VTD_INV_DESC_PIOTLB_PSI_IN_PASID  (3ULL << 4)
++
++#define VTD_INV_DESC_PIOTLB_RSVD_VAL0     0xfff000000000ffc0ULL
++#define VTD_INV_DESC_PIOTLB_RSVD_VAL1     0xf80ULL
++
++#define VTD_INV_DESC_PIOTLB_PASID(val)    (((val) >> 32) & 0xfffffULL)
++#define VTD_INV_DESC_PIOTLB_DID(val)      (((val) >> 16) & \
++                                             VTD_DOMAIN_ID_MASK)
++#define VTD_INV_DESC_PIOTLB_ADDR(val)     ((val) & ~0xfffULL)
++#define VTD_INV_DESC_PIOTLB_AM(val)       ((val) & 0x3fULL)
++#define VTD_INV_DESC_PIOTLB_IH(val)       (((val) >> 6) & 0x1)
++
+ /* Information about page-selective IOTLB invalidate */
+ struct VTDIOTLBPageInvInfo {
+     uint16_t domain_id;
 -- 
 2.7.4
 
