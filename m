@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38262147FB
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:35:10 +0200 (CEST)
-Received: from localhost ([::1]:47516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4769021480B
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 20:38:07 +0200 (CEST)
+Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrn0H-0003Ah-Lp
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39702)
+	id 1jrn38-0000kY-98
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 14:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvS-0003AQ-89
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21709
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvU-0003Eb-FV
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42668
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvO-0001Oh-NA
- for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:09 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jrmvS-0001P3-MX
+ for qemu-devel@nongnu.org; Sat, 04 Jul 2020 14:30:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593887406;
+ s=mimecast20190719; t=1593887410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0fQeQikRy8Q2V3Lt7CmPVpto3iu6bzueyFNbeNFBh7o=;
- b=f0r78Ywrucy5JR9Wz9IIRp4TB9HjZK/fS+xEdWSJvI690MSZkrkfdzWkCOSIvETRAJkn42
- qky83JNPOoq1fD8IOwhImZhQdwNaow12BMwmzG8RAVr2JRHqheJwym8TbsKsCgPM9+LbJo
- nR3cVzin2m6Vr+gxB7U3V+eF49wMD+s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-DrLHUaS3P0WgTZFnrYzwDw-1; Sat, 04 Jul 2020 14:30:04 -0400
-X-MC-Unique: DrLHUaS3P0WgTZFnrYzwDw-1
-Received: by mail-wm1-f72.google.com with SMTP id g6so34361647wmk.4
- for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:04 -0700 (PDT)
+ bh=P6r2FskKwB1C7cd0JfHkwqOjL7yF8DU7eDQFn/2WuCI=;
+ b=NrwJznvPfI/kXVe8t/K/IMUJNyfZhefArlXyRr3y/5WQT9dW4/3pb36Rf+GAZri+p/7JWx
+ 2Eqq38fUBFtChuDPbJf9JC5ptkKZU9z4JNqRqz+jDe+j1leGcQ8w/nJQnvkL+6Icd67IEX
+ j7x1zz/zE57xu/WiRHZ5jB6RhksnF28=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-jciBYOJOMCy7ITHZeCMhoQ-1; Sat, 04 Jul 2020 14:30:06 -0400
+X-MC-Unique: jciBYOJOMCy7ITHZeCMhoQ-1
+Received: by mail-wr1-f72.google.com with SMTP id j16so31064169wrw.3
+ for <qemu-devel@nongnu.org>; Sat, 04 Jul 2020 11:30:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=0fQeQikRy8Q2V3Lt7CmPVpto3iu6bzueyFNbeNFBh7o=;
- b=Rhg55JdPUrN7uR4z11mIARTfFNKJGKkBFitEdgFS2IQAlgIFlUv/gNMF/PlZIGcYf2
- Atvzas/bT54uY1PdATBGSBRES7F8y/syNmHgn0lJ5zZ//9mr2q1+ibFQZn7G8I2YfeKb
- P0w6Ida37affM4CUamqAaqsZp+IAvqiEs1TDKExVaasTb1/RyCBIRBpNPW8AEXjWZt5Q
- 4w0z+GiQiTLu4QNO8Nj3IbP9gY4EAj1OWQdHmxeiuBsNKA2s8zpaYYb/7Pupo8Cjpudu
- yQnqkg95tNqsQlmKC48wAzLfMkqz3dSD3jMSX8OMiLxgKNO8Kb68QTvMG4nMJz8TGJJq
- MduA==
-X-Gm-Message-State: AOAM533La/ARqobXWu1Jodh8qCL953GRh4PA74myZ0EyRD86Jwlr74nV
- P69UaN4mEgFYGZDpxj1GLXLFZU1z0/iy/YcQw6/U4dhlp4L+xBePUvRBMpFv4hX0Z/fBas1ICb0
- 1GJu2HsMWL+z/OQ8=
-X-Received: by 2002:adf:b1cf:: with SMTP id r15mr13168585wra.118.1593887402976; 
- Sat, 04 Jul 2020 11:30:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0Ti6I3VvzltQfE1SULhddlz7M2/51SoTIFIO40tkyod0ZJnfKud/GG1oETZf5d6aSUJuS4Q==
-X-Received: by 2002:adf:b1cf:: with SMTP id r15mr13168571wra.118.1593887402772; 
- Sat, 04 Jul 2020 11:30:02 -0700 (PDT)
+ bh=P6r2FskKwB1C7cd0JfHkwqOjL7yF8DU7eDQFn/2WuCI=;
+ b=hlz+maUY66BxNp+WvWips5bEW1n5tJ2fS1EgqbbCjQp/RWnJF0dMso0qCmPGQLMeH2
+ sh8dVHfqnm5Kk0csbHPqEat89BgOORuejtWDltreXaUFRw/yEmamy0/wINHi2199dqTa
+ fCxbLQQKrHBH8oewIDRS8CltWMRvXhgQbiB3gjOHeF41DgqY0vidccRT2xSUiyGskadT
+ yzGweb/1IyrCqMyLHBAr3F9OgONVmeNoZcFulteymz7j+xZhmbxbwh/+MAUPRwWFBVOP
+ ZNSdLms+/XfeOcCH1NDdaYU+ybm47BOKR6x+iUzplHYfdFjwzTEAkeftv8012JVGnhpY
+ QeOA==
+X-Gm-Message-State: AOAM530v2syI0Qgm4LhxhVYKLn05I7GlDYPDnKhVjqL5dY8WzLp3c0W0
+ SY7r2jXru66mR3tOll6W8nrhfnZjh+r2QStwdETxn1a9Ji0VmsnsblvyrLxsC5YHR+GmG6VXUBt
+ OA+xoV3GmDu9Zw0I=
+X-Received: by 2002:a1c:4444:: with SMTP id r65mr40310672wma.129.1593887405609; 
+ Sat, 04 Jul 2020 11:30:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziOhc08D/FoT6hHyBL2TK+sGvS3ui80NYHBuOuFxQQikwOOleQieaiGuMLkTR2kG2t+zx4dg==
+X-Received: by 2002:a1c:4444:: with SMTP id r65mr40310659wma.129.1593887405418; 
+ Sat, 04 Jul 2020 11:30:05 -0700 (PDT)
 Received: from redhat.com (bzq-79-182-31-92.red.bezeqint.net. [79.182.31.92])
  by smtp.gmail.com with ESMTPSA id
- d2sm18177656wrs.95.2020.07.04.11.30.00
+ b184sm17722440wmc.20.2020.07.04.11.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 11:30:02 -0700 (PDT)
-Date: Sat, 4 Jul 2020 14:30:00 -0400
+ Sat, 04 Jul 2020 11:30:04 -0700 (PDT)
+Date: Sat, 4 Jul 2020 14:30:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 14/41] virtio-pci: Proxy for virtio-mem
-Message-ID: <20200704182750.1088103-15-mst@redhat.com>
+Subject: [PULL v2 15/41] MAINTAINERS: Add myself as virtio-mem maintainer
+Message-ID: <20200704182750.1088103-16-mst@redhat.com>
 References: <20200704182750.1088103-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200704182750.1088103-1-mst@redhat.com>
@@ -83,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,234 +97,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's add a proxy for virtio-mem, make it a memory device, and
-pass-through the properties.
+Let's make sure patches/bug reports find the right person.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20200626072248.78761-12-david@redhat.com>
+Message-Id: <20200626072248.78761-13-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem-pci.h |  33 ++++++++++
- include/hw/pci/pci.h       |   1 +
- hw/virtio/virtio-mem-pci.c | 129 +++++++++++++++++++++++++++++++++++++
- hw/virtio/Makefile.objs    |   1 +
- 4 files changed, 164 insertions(+)
- create mode 100644 hw/virtio/virtio-mem-pci.h
- create mode 100644 hw/virtio/virtio-mem-pci.c
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/virtio/virtio-mem-pci.h b/hw/virtio/virtio-mem-pci.h
-new file mode 100644
-index 0000000000..8820cd6628
---- /dev/null
-+++ b/hw/virtio/virtio-mem-pci.h
-@@ -0,0 +1,33 @@
-+/*
-+ * Virtio MEM PCI device
-+ *
-+ * Copyright (C) 2020 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  David Hildenbrand <david@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_VIRTIO_MEM_PCI_H
-+#define QEMU_VIRTIO_MEM_PCI_H
-+
-+#include "hw/virtio/virtio-pci.h"
-+#include "hw/virtio/virtio-mem.h"
-+
-+typedef struct VirtIOMEMPCI VirtIOMEMPCI;
-+
-+/*
-+ * virtio-mem-pci: This extends VirtioPCIProxy.
-+ */
-+#define TYPE_VIRTIO_MEM_PCI "virtio-mem-pci-base"
-+#define VIRTIO_MEM_PCI(obj) \
-+        OBJECT_CHECK(VirtIOMEMPCI, (obj), TYPE_VIRTIO_MEM_PCI)
-+
-+struct VirtIOMEMPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VirtIOMEM vdev;
-+};
-+
-+#endif /* QEMU_VIRTIO_MEM_PCI_H */
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index a4e9c33416..c1bf7d5356 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -87,6 +87,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
- #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
- #define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
-+#define PCI_DEVICE_ID_VIRTIO_MEM         0x1015
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dec252f38b..5f02160436 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1790,6 +1790,15 @@ F: hw/virtio/virtio-crypto.c
+ F: hw/virtio/virtio-crypto-pci.c
+ F: include/hw/virtio/virtio-crypto.h
  
- #define PCI_VENDOR_ID_REDHAT             0x1b36
- #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-new file mode 100644
-index 0000000000..b325303b32
---- /dev/null
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -0,0 +1,129 @@
-+/*
-+ * Virtio MEM PCI device
-+ *
-+ * Copyright (C) 2020 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  David Hildenbrand <david@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
++virtio-mem
++M: David Hildenbrand <david@redhat.com>
++S: Supported
++W: https://virtio-mem.gitlab.io/
++F: hw/virtio/virtio-mem.c
++F: hw/virtio/virtio-mem-pci.h
++F: hw/virtio/virtio-mem-pci.c
++F: include/hw/virtio/virtio-mem.h
 +
-+#include "qemu/osdep.h"
-+#include "virtio-mem-pci.h"
-+#include "hw/mem/memory-device.h"
-+#include "qapi/error.h"
-+
-+static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VirtIOMEMPCI *mem_pci = VIRTIO_MEM_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&mem_pci->vdev);
-+
-+    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+}
-+
-+static void virtio_mem_pci_set_addr(MemoryDeviceState *md, uint64_t addr,
-+                                    Error **errp)
-+{
-+    object_property_set_uint(OBJECT(md), addr, VIRTIO_MEM_ADDR_PROP, errp);
-+}
-+
-+static uint64_t virtio_mem_pci_get_addr(const MemoryDeviceState *md)
-+{
-+    return object_property_get_uint(OBJECT(md), VIRTIO_MEM_ADDR_PROP,
-+                                    &error_abort);
-+}
-+
-+static MemoryRegion *virtio_mem_pci_get_memory_region(MemoryDeviceState *md,
-+                                                      Error **errp)
-+{
-+    VirtIOMEMPCI *pci_mem = VIRTIO_MEM_PCI(md);
-+    VirtIOMEM *vmem = VIRTIO_MEM(&pci_mem->vdev);
-+    VirtIOMEMClass *vmc = VIRTIO_MEM_GET_CLASS(vmem);
-+
-+    return vmc->get_memory_region(vmem, errp);
-+}
-+
-+static uint64_t virtio_mem_pci_get_plugged_size(const MemoryDeviceState *md,
-+                                                Error **errp)
-+{
-+    return object_property_get_uint(OBJECT(md), VIRTIO_MEM_SIZE_PROP,
-+                                    errp);
-+}
-+
-+static void virtio_mem_pci_fill_device_info(const MemoryDeviceState *md,
-+                                            MemoryDeviceInfo *info)
-+{
-+    VirtioMEMDeviceInfo *vi = g_new0(VirtioMEMDeviceInfo, 1);
-+    VirtIOMEMPCI *pci_mem = VIRTIO_MEM_PCI(md);
-+    VirtIOMEM *vmem = VIRTIO_MEM(&pci_mem->vdev);
-+    VirtIOMEMClass *vpc = VIRTIO_MEM_GET_CLASS(vmem);
-+    DeviceState *dev = DEVICE(md);
-+
-+    if (dev->id) {
-+        vi->has_id = true;
-+        vi->id = g_strdup(dev->id);
-+    }
-+
-+    /* let the real device handle everything else */
-+    vpc->fill_device_info(vmem, vi);
-+
-+    info->u.virtio_mem.data = vi;
-+    info->type = MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
-+}
-+
-+static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(klass);
-+
-+    k->realize = virtio_mem_pci_realize;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_MEM;
-+    pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
-+    pcidev_k->class_id = PCI_CLASS_OTHERS;
-+
-+    mdc->get_addr = virtio_mem_pci_get_addr;
-+    mdc->set_addr = virtio_mem_pci_set_addr;
-+    mdc->get_plugged_size = virtio_mem_pci_get_plugged_size;
-+    mdc->get_memory_region = virtio_mem_pci_get_memory_region;
-+    mdc->fill_device_info = virtio_mem_pci_fill_device_info;
-+}
-+
-+static void virtio_mem_pci_instance_init(Object *obj)
-+{
-+    VirtIOMEMPCI *dev = VIRTIO_MEM_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_MEM);
-+    object_property_add_alias(obj, VIRTIO_MEM_BLOCK_SIZE_PROP,
-+                              OBJECT(&dev->vdev), VIRTIO_MEM_BLOCK_SIZE_PROP);
-+    object_property_add_alias(obj, VIRTIO_MEM_SIZE_PROP, OBJECT(&dev->vdev),
-+                              VIRTIO_MEM_SIZE_PROP);
-+    object_property_add_alias(obj, VIRTIO_MEM_REQUESTED_SIZE_PROP,
-+                              OBJECT(&dev->vdev),
-+                              VIRTIO_MEM_REQUESTED_SIZE_PROP);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo virtio_mem_pci_info = {
-+    .base_name = TYPE_VIRTIO_MEM_PCI,
-+    .generic_name = "virtio-mem-pci",
-+    .instance_size = sizeof(VirtIOMEMPCI),
-+    .instance_init = virtio_mem_pci_instance_init,
-+    .class_init = virtio_mem_pci_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_MEMORY_DEVICE },
-+        { }
-+    },
-+};
-+
-+static void virtio_mem_pci_register_types(void)
-+{
-+    virtio_pci_types_register(&virtio_mem_pci_info);
-+}
-+type_init(virtio_mem_pci_register_types)
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index f3a65e01b7..a986708186 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -20,6 +20,7 @@ obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu.o
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-common.o vhost-vsock.o
- obj-$(CONFIG_VHOST_USER_VSOCK) += vhost-vsock-common.o vhost-user-vsock.o
- obj-$(CONFIG_VIRTIO_MEM) += virtio-mem.o
-+common-obj-$(call land,$(CONFIG_VIRTIO_MEM),$(CONFIG_VIRTIO_PCI)) += virtio-mem-pci.o
- 
- ifeq ($(CONFIG_VIRTIO_PCI),y)
- obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-pci.o
+ nvme
+ M: Keith Busch <kbusch@kernel.org>
+ L: qemu-block@nongnu.org
 -- 
 MST
 
