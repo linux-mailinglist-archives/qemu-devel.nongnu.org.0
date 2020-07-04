@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F185B2146CC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:11:08 +0200 (CEST)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AF42146BE
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jul 2020 17:03:27 +0200 (CEST)
+Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jrjoq-00029R-29
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1jrjhO-0007i8-Ks
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jul 2020 11:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjV5-0002lg-9O; Sat, 04 Jul 2020 10:50:43 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39805)
+ id 1jrjV7-0002tg-A5; Sat, 04 Jul 2020 10:50:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jrjV3-0003wo-LD; Sat, 04 Jul 2020 10:50:42 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w3so24607430wmi.4;
- Sat, 04 Jul 2020 07:50:40 -0700 (PDT)
+ id 1jrjV5-0003xI-Pb; Sat, 04 Jul 2020 10:50:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k6so35784575wrn.3;
+ Sat, 04 Jul 2020 07:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uFl2X6lG6vil8sEXKsbieCQlkH7+teoSNXY57sY2N5o=;
- b=pEPq0tBtl3XW/xKrGA5imilI9ZmVHCddD6JX7pQf5W26Rrv3j0GgA9nuE3yRIkzKmh
- xHXVt9A0O2Sb6wPcOQhczgtzphR+PeHVZ4Fdijl43Nrxg+v0v2Hz13FZ7aE8sOrKMSba
- lfG8A6MMb+bM+xNdOi2/2GPMz+xyBlp2BCeJ2lrXsutgPmG7wdmm6i+UpuNi8+BMpdVg
- eiQN9k6197cbsfvPjRB78ybOhM3ezQzyqGNS+gSkzZo/tgdWfPLh9B5gQMHqP+XuG+Vf
- +5B1ATevPKzMRin82a+Fpe8eN19U96Tx56oDwDoz3bikVgrPUqsQH6eHcCsfnf4o51sH
- T5uw==
+ bh=uE7YqG+qACaG8Uud6yeGxAsfWVnV3rkTeBq37HQj1qo=;
+ b=sIhGHE4QN5ORR+3/Mgnoaxt2dRH9Duka3DMpiaQTVgS1lpSJEJ8KEB4VjCSKQqSlfc
+ HwpmkE15woH+abTAT5VLKiyhb0Zq+u1XvalFXiALNHpXyYLuDGhlcjr3PJjaoEf3+FY7
+ 4UjhgJzhzYvcqHRKWwR/aqKYvEyqZ1yrs8FGt1f9ohuKcUlxQe/dtogbIP9H2gOPTdM+
+ X1mnhOjui1Vk5B+Xa4Ju6b+X93HolCAPQsIP0PCVa5noiOK0+NH5/fSK60TLZZ4znABy
+ cKKta1I+QCL7DFqQUZxr5qs5kGd/t289lAxS+UdQKR8b+NnivhadaJIHkJJVNpWJ4AOo
+ xV1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uFl2X6lG6vil8sEXKsbieCQlkH7+teoSNXY57sY2N5o=;
- b=G4/oks1vyZKVosOigGfJnY9zkiwETomI8q5fuFy2ge9RLDltCcENmZNQJWNvSQMSuK
- D5z2V6zjqbHFbmCBSN+r7ee4Lao1eGHcRB4s+R23G8K4wQTSDtBcvYvfgfpevlLGeCCV
- Tqx4Fmcs/mM4LSad0++MeafZO+KhZHJiNz8mKWlS9sFmmm9yKTMRmlYZ/DH/i79Uvi4p
- UBKpZO9P0MVitrmDJTvAtAjF4JL+wP/0KOcD98Ipyo+nSEy4a8kNAnyLuaydYo2mYxDU
- 5aRzNPYmoTXHWCOwDPxY1tGPSGLTZ9RwxMANeD3yNXsRKsj3sObFAWwyHE+xqcohRwy2
- AsQg==
-X-Gm-Message-State: AOAM531g3Hx2WTGvv8eW2CIn+FFYQFqy1BlO2I23vLX3lp37ZgHFKx3R
- Y+TbaUNqY89YkugiggcCG5XyfU0oVrc=
-X-Google-Smtp-Source: ABdhPJzM4tGe90D+YYy5lfrAPXqvO73Nu2kMmuLd9RH15Fay5P8lwxNw5t/4Uu8mV3OZMnQRXn0t1A==
-X-Received: by 2002:a7b:c44d:: with SMTP id l13mr43119938wmi.66.1593874239587; 
- Sat, 04 Jul 2020 07:50:39 -0700 (PDT)
+ bh=uE7YqG+qACaG8Uud6yeGxAsfWVnV3rkTeBq37HQj1qo=;
+ b=iEilyWCOzbCQ+yGmY4aIeEvnwcGhx4VVL9JGJSuRJMfU9GZO8p5m41Z/lyQIFdIrU1
+ SFS3DwwCpTFnxFxe5f2VL5XxNslSdMJNJms8xUK06HwaUUNuH3HOEfoZMcnwqKQ3lSID
+ AdAmpOqf5L3ZVSpSdnbNuTAsYeSVlVoqBdIQCWFGW719Sw5/gkvrls8M9jUIAfcfE5tv
+ J767Ldd+hmd9pji9fEnjSnyNIoirFTlZZ8aTrsIrfXHJUzXRH8ul6sNLJHgTVcGUw2dt
+ YoEiQ5/07IjwlUnTZxvfcz4XlKaUrFhe7J76jmgrzWS8y8TSKA/qpolghPo6H9KUZkeA
+ +NLg==
+X-Gm-Message-State: AOAM532SGS6delwp1vh9wnsCESGPi+1A56rVv5ecEJIPXacnjjRkt5s8
+ V7A+a98sRuv4+MuhJy6nA3/NaZ6AXL4=
+X-Google-Smtp-Source: ABdhPJw68YNz9StYiIER/Bcj0m+eoPkR5IWJU/SRvblSzDy3zWSMVqWNGeAGRScY2s+A4+/iXWgZVA==
+X-Received: by 2002:adf:9561:: with SMTP id 88mr11043924wrs.240.1593874241665; 
+ Sat, 04 Jul 2020 07:50:41 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.37
+ by smtp.gmail.com with ESMTPSA id r10sm17135019wrm.17.2020.07.04.07.50.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:50:39 -0700 (PDT)
+ Sat, 04 Jul 2020 07:50:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 25/26] hw/usb/usb-hcd: Use XHCI type definitions
-Date: Sat,  4 Jul 2020 16:49:42 +0200
-Message-Id: <20200704144943.18292-26-f4bug@amsat.org>
+Subject: [PATCH 26/26] MAINTAINERS: Cover dwc-hsotg (dwc2) USB host controller
+ emulation
+Date: Sat,  4 Jul 2020 16:49:43 +0200
+Message-Id: <20200704144943.18292-27-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200704144943.18292-1-f4bug@amsat.org>
 References: <20200704144943.18292-1-f4bug@amsat.org>
@@ -63,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -117,60 +118,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various machine/board/soc models create XHCI device instances
-with the generic QDEV API, and don't need to access USB internals.
+Add an section for the dwc2 host controller emulation
+introduced in commit 153ef1662c.
 
-Simplify header inclusions by moving the QOM type names into a
-simple header, with no need to include other "hw/usb" headers.
-
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Paul Zimmerman <pauldzim@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-xhci.h        | 2 +-
- include/hw/usb/usb-hcd.h | 3 +++
- hw/ppc/spapr.c           | 2 +-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index f9a3aaceec..b6c54e38a6 100644
---- a/hw/usb/hcd-xhci.h
-+++ b/hw/usb/hcd-xhci.h
-@@ -23,9 +23,9 @@
- #define HW_USB_HCD_XHCI_H
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2566566d72..e3f895bc6e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1651,6 +1651,12 @@ M: Samuel Thibault <samuel.thibault@ens-lyon.org>
+ S: Maintained
+ F: hw/usb/dev-serial.c
  
- #include "usb-internal.h"
-+#include "hw/usb/usb-hcd.h"
- 
- #define TYPE_XHCI "base-xhci"
--#define TYPE_NEC_XHCI "nec-usb-xhci"
- #define TYPE_QEMU_XHCI "qemu-xhci"
- 
- #define XHCI(obj) \
-diff --git a/include/hw/usb/usb-hcd.h b/include/hw/usb/usb-hcd.h
-index c9d0a88984..56107fca62 100644
---- a/include/hw/usb/usb-hcd.h
-+++ b/include/hw/usb/usb-hcd.h
-@@ -30,4 +30,7 @@
- #define TYPE_VT82C686B_USB_UHCI     "vt82c686b-usb-uhci"
- #define TYPE_ICH9_USB_UHCI(n)       "ich9-usb-uhci" #n
- 
-+/* XHCI */
-+#define TYPE_NEC_XHCI "nec-usb-xhci"
++USB dwc-hsotg (dwc2)
++M: Gerd Hoffmann <kraxel@redhat.com>
++R: Paul Zimmerman <pauldzim@gmail.com>
++S: Maintained
++F: hw/usb/*dwc2*
 +
- #endif
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index db1706a66c..d8b3978f24 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2961,7 +2961,7 @@ static void spapr_machine_init(MachineState *machine)
-         if (smc->use_ohci_by_default) {
-             pci_create_simple(phb->bus, -1, TYPE_PCI_OHCI);
-         } else {
--            pci_create_simple(phb->bus, -1, "nec-usb-xhci");
-+            pci_create_simple(phb->bus, -1, TYPE_NEC_XHCI);
-         }
- 
-         if (spapr->has_graphics) {
+ VFIO
+ M: Alex Williamson <alex.williamson@redhat.com>
+ S: Supported
 -- 
 2.21.3
 
