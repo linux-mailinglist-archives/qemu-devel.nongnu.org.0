@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C606215035
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 00:43:39 +0200 (CEST)
-Received: from localhost ([::1]:44274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756FD215039
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 00:44:08 +0200 (CEST)
+Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsDMI-0006Iq-J2
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 18:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42464)
+	id 1jsDMl-0007wj-HX
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 18:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsDKl-0004Gl-6F; Sun, 05 Jul 2020 18:42:03 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46041)
+ id 1jsDKm-0004Hy-CZ; Sun, 05 Jul 2020 18:42:04 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsDKj-0002hk-B0; Sun, 05 Jul 2020 18:42:02 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s10so38888669wrw.12;
- Sun, 05 Jul 2020 15:42:00 -0700 (PDT)
+ id 1jsDKk-0002hv-Q8; Sun, 05 Jul 2020 18:42:04 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id b6so38915949wrs.11;
+ Sun, 05 Jul 2020 15:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KJXVJ20Xc29x5zy30LKvYKgkRIGdu79sUZj2iAxIfIU=;
- b=axACWr0xg9raBoHcuXDdr2p8cPavojEtKh3jVCUuylaEtnFauxGfpKn3FPjdbtGUe9
- /rNdvs8Kq2zDZkuLvxrF1KxPuooMsiuBQGdOUBHwqzNWVH5mlxE2w1X84tTcGCMWPX0Q
- obVX1Jf7aEqrH6fqW11bcqmOVWgtL4ZhcmHAPJvgPIXMP//zi7ErwXRa1PZzUYgSyAv7
- Z13keyu7ti/L8BisgeMift0ebkp1cwGnKdxW9qQb4erijE68DaCuLmAc+jvcMh2zYJ2D
- 6JBRNrMgdBF+6/TgodBh309ehHy6DkwGPTXbzHQsbhKZGkJ8s2jiU+WaQDl2/36qSsTE
- WRyQ==
+ bh=RJorkYK71XuxeJn/MmaQaqEtLEUwVuOASL3pI8dX4DM=;
+ b=tkrHuxjAVfaJchGbSaeE5rbW8n2tB/xcKjLYaHFqPVcoR6gPUum+c7QX8zvWOhDTqS
+ JHoFY+LKmo9Oei4kNKGFVJtVtiskzfwL7H6tmim+IhVv2GyhnaU3iRgeq22npWU9GM3j
+ VYWbUgj0vzhzpo3K38f/1/T4rzmwxK1v/HunH3H58J6If91tVq6Svs0zO0Pb4sURGzc7
+ HT833FRXH+RrkPSN9ng6SPbVPJb9sT9tOeQ88JFLBU5b2cTKk6JY5keGxi/cN08fRbB5
+ FT3CWwn5z/9tEdLiHDQ/ZnfYA96tEBCsFzTPM/FAk21xtS7CshK1hFuxtOtTAWNrrvgB
+ zRQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KJXVJ20Xc29x5zy30LKvYKgkRIGdu79sUZj2iAxIfIU=;
- b=gdAYTxlNhB/TI/Rz5FDQWUeyWtHJRWR9SGNzSyT+W78Zvhk+u7EKuP9eAj6k+2NEq9
- SR43K0sG7UI1Gv3kubVhYvP/LBu4A96zi/wWflaXUf+SXmjI7UUbjULsN+e8hhTmhcVI
- 4bfMkfNzfvN5uX9gNFOASY7WjZznsB6Poc6ABZGgInPC0ewSgASp9q88xUdC6aNimTvl
- 1RUAXsKTgDedXojy0wQualfdaIx1lSCBVFRi5VDiuL8RV7sjzF//n0QXtiitTgEozMmo
- GjRRyETpydPyTkKb0R8ExJi4QtigrbAND/Ci0+U9Nd0FL85YHdJfd/wd8nAjGXLvzkKy
- efBQ==
-X-Gm-Message-State: AOAM530zet0UYvTsc2gMstuJCCULkLMrN/2/UbR9gEUXDAI+B7vvP1no
- tkp/DZHJLb/ET0s49KH8WMq5ZtJ941Y=
-X-Google-Smtp-Source: ABdhPJyxQfi3gWAf+rfc8Aws+xAeKW1KGRhNPbT22vx96D7ZgcV2d9I5htni3D2pbvPDMn/egiUWAg==
-X-Received: by 2002:a5d:6a04:: with SMTP id m4mr44957503wru.418.1593988919095; 
- Sun, 05 Jul 2020 15:41:59 -0700 (PDT)
+ bh=RJorkYK71XuxeJn/MmaQaqEtLEUwVuOASL3pI8dX4DM=;
+ b=IEmy2m20uAsm1uJXJrC1fHALhjmGoK96qnLZD1wDt98IrnV4lVnzaGRyo49PlkjCFu
+ 60Lfzi3jRLJahDEK4fROfEnCS+zIM3KgxUrHRChAunHLSUSYI5YGo3WSjsH6k+6dxCin
+ Qjbi0wwF3TagZjeR01DyUch0k7erUQlZlT5LZo0R8wS1MQ3CMgHgHI+q1fULm5IAkVGC
+ lI02P5ehOZWU+4iabhwa9iX5yrxOhN/WQh3H5P0nVa1frqxtTQfa1PGuPL7I2C56yNHQ
+ kxuEpNRGNWaZNlqUHcEtCjUYx0ECOjwF10aBxP94scM8VnLzzChOBijDkf1jBIERX2b0
+ DKuQ==
+X-Gm-Message-State: AOAM530mM/hVut+GTuSpJ8jqJzZnrjzftTHYl8+V/xiw6bqZEQdLCGUC
+ zw6aFuZgClWfxU6HKvJ8SCXPFBiyIYA=
+X-Google-Smtp-Source: ABdhPJyynVJotrId2R/nneiiyxoSSjqSejsDVq9KR/lJVr2WL6nTSVjLo7A9hCtbW4P7GWKcYkxMSA==
+X-Received: by 2002:adf:b608:: with SMTP id f8mr49757881wre.363.1593988920564; 
+ Sun, 05 Jul 2020 15:42:00 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id v6sm9151467wrr.85.2020.07.05.15.41.57
+ by smtp.gmail.com with ESMTPSA id v6sm9151467wrr.85.2020.07.05.15.41.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 15:41:58 -0700 (PDT)
+ Sun, 05 Jul 2020 15:42:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/i2c/aspeed_i2c: Simplify aspeed_i2c_get_bus()
-Date: Mon,  6 Jul 2020 00:41:50 +0200
-Message-Id: <20200705224154.16917-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/5] hw/i2c: Rename i2c_try_create_slave() as
+ i2c_slave_new()
+Date: Mon,  6 Jul 2020 00:41:51 +0200
+Message-Id: <20200705224154.16917-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200705224154.16917-1-f4bug@amsat.org>
 References: <20200705224154.16917-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -95,214 +96,92 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the callers of aspeed_i2c_get_bus() have a AspeedI2CState and
-cast it to a DeviceState with DEVICE(), then aspeed_i2c_get_bus()
-cast the DeviceState to an AspeedI2CState with ASPEED_I2C()...
+We use "new" names for functions that allocate and initialize
+device objects: pci_new(), isa_new(), usb_new().
+Let's call this one i2c_slave_new(). Since we have to update
+all the callers, also let it return a I2CSlave object.
 
-Simplify aspeed_i2c_get_bus() callers by using AspeedI2CState
-argument.
-
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/i2c/aspeed_i2c.h |  2 +-
- hw/arm/aspeed.c             | 70 ++++++++++++++++++-------------------
- hw/i2c/aspeed_i2c.c         |  3 +-
- 3 files changed, 37 insertions(+), 38 deletions(-)
+ include/hw/i2c/i2c.h |  2 +-
+ hw/arm/aspeed.c      |  4 ++--
+ hw/i2c/core.c        | 11 +++++------
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index f1b9e5bf91..243789ae5d 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -93,6 +93,6 @@ typedef struct AspeedI2CClass {
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index d6e3d85faf..18efc668f1 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -79,8 +79,8 @@ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
  
- } AspeedI2CClass;
++I2CSlave *i2c_slave_new(const char *name, uint8_t addr);
+ DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
+-DeviceState *i2c_try_create_slave(const char *name, uint8_t addr);
+ bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp);
  
--I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr);
-+I2CBus *aspeed_i2c_get_bus(AspeedI2CState *s, int busnr);
- 
- #endif /* ASPEED_I2C_H */
+ /* lm832x.c */
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 379f9672a5..1285bf82c0 100644
+index 1285bf82c0..54ca36e0b6 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -385,13 +385,13 @@ static void palmetto_bmc_i2c_init(AspeedMachineState *bmc)
- 
-     /* The palmetto platform expects a ds3231 RTC but a ds1338 is
-      * enough to provide basic RTC features. Alarms will be missing */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 0), "ds1338", 0x68);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 0), "ds1338", 0x68);
- 
--    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 0), 0x50,
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 0), 0x50,
-                           eeprom_buf);
- 
-     /* add a TMP423 temperature sensor */
--    dev = i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 2),
-+    dev = i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 2),
-                            "tmp423", 0x4c);
-     object_property_set_int(OBJECT(dev), 31000, "temperature0", &error_abort);
-     object_property_set_int(OBJECT(dev), 28000, "temperature1", &error_abort);
-@@ -404,16 +404,16 @@ static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
-     AspeedSoCState *soc = &bmc->soc;
-     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
- 
--    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), 0x50,
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 3), 0x50,
-                           eeprom_buf);
- 
-     /* The AST2500 EVB expects a LM75 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7),
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 7),
-                      TYPE_TMP105, 0x4d);
- 
-     /* The AST2500 EVB does not have an RTC. Let's pretend that one is
-      * plugged on the I2C bus header */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
- }
- 
- static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
-@@ -428,36 +428,36 @@ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
- 
-     /* The romulus board expects Epson RX8900 I2C RTC but a ds1338 is
-      * good enough */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
- }
- 
- static void swift_bmc_i2c_init(AspeedMachineState *bmc)
- {
-     AspeedSoCState *soc = &bmc->soc;
- 
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 3), "pca9552", 0x60);
- 
-     /* The swift board expects a TMP275 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 7), "tmp105", 0x48);
-     /* The swift board expects a pca9551 but a pca9552 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552", 0x60);
- 
-     /* The swift board expects an Epson RX8900 RTC but a ds1338 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "ds1338", 0x32);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 8), "ds1338", 0x32);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552", 0x60);
- 
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp423", 0x4c);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", 0x4c);
-     /* The swift board expects a pca9539 but a pca9552 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "pca9552", 0x74);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 9), "pca9552", 0x74);
- 
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "tmp423", 0x4c);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423", 0x4c);
-     /* The swift board expects a pca9539 but a pca9552 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "pca9552",
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 10), "pca9552",
-                      0x74);
- 
-     /* The swift board expects a TMP275 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x48);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x4a);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 12), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 12), "tmp105", 0x4a);
- }
- 
- static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
-@@ -465,32 +465,32 @@ static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
-     AspeedSoCState *soc = &bmc->soc;
- 
-     /* bus 2 : */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 2), "tmp105", 0x48);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 2), "tmp105", 0x49);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 2), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 2), "tmp105", 0x49);
-     /* bus 2 : pca9546 @ 0x73 */
- 
-     /* bus 3 : pca9548 @ 0x70 */
- 
-     /* bus 4 : */
-     uint8_t *eeprom4_54 = g_malloc0(8 * 1024);
--    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), 0x54,
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 4), 0x54,
-                           eeprom4_54);
-     /* PCA9539 @ 0x76, but PCA9552 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "pca9552", 0x76);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 4), "pca9552", 0x76);
-     /* PCA9539 @ 0x77, but PCA9552 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "pca9552", 0x77);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 4), "pca9552", 0x77);
- 
-     /* bus 6 : */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 6), "tmp105", 0x48);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 6), "tmp105", 0x49);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp105", 0x49);
-     /* bus 6 : pca9546 @ 0x73 */
- 
-     /* bus 8 : */
-     uint8_t *eeprom8_56 = g_malloc0(8 * 1024);
--    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), 0x56,
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 8), 0x56,
-                           eeprom8_56);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x60);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x61);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552", 0x61);
-     /* bus 8 : adc128d818 @ 0x1d */
-     /* bus 8 : adc128d818 @ 0x1f */
- 
-@@ -515,25 +515,25 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+@@ -513,7 +513,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
+     /* Bus 3: TODO bmp280@77 */
+     /* Bus 3: TODO max31785@52 */
      /* Bus 3: TODO dps310@76 */
-     dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
+-    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
++    dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
      qdev_prop_set_string(dev, "description", "pca1");
--    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3),
-+    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 3),
+     i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 3),
                            &error_fatal);
+@@ -531,7 +531,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
  
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "tmp423", 0x4c);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 5), "tmp423", 0x4c);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 4), "tmp423", 0x4c);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 5), "tmp423", 0x4c);
- 
-     /* The Witherspoon expects a TMP275 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), TYPE_TMP105,
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 9), TYPE_TMP105,
-                      0x4a);
- 
-     /* The witherspoon board expects Epson RX8900 I2C RTC but a ds1338 is
-      * good enough */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
-+    i2c_create_slave(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
- 
--    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), 0x51,
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 11), 0x51,
+     smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 11), 0x51,
                            eeprom_buf);
-     dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
+-    dev = i2c_try_create_slave(TYPE_PCA9552, 0x60);
++    dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
      qdev_prop_set_string(dev, "description", "pca0");
--    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11),
-+    i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 11),
+     i2c_realize_and_unref(dev, aspeed_i2c_get_bus(&soc->i2c, 11),
                            &error_fatal);
-     /* Bus 11: TODO ucd90160@64 */
- }
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index fb973a983d..518a3f5c6f 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -959,9 +959,8 @@ static void aspeed_i2c_register_types(void)
- type_init(aspeed_i2c_register_types)
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index acf34a12d6..144786f17a 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -267,13 +267,13 @@ const VMStateDescription vmstate_i2c_slave = {
+     }
+ };
  
- 
--I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr)
-+I2CBus *aspeed_i2c_get_bus(AspeedI2CState *s, int busnr)
+-DeviceState *i2c_try_create_slave(const char *name, uint8_t addr)
++I2CSlave *i2c_slave_new(const char *name, uint8_t addr)
  {
--    AspeedI2CState *s = ASPEED_I2C(dev);
-     AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
-     I2CBus *bus = NULL;
+     DeviceState *dev;
  
+     dev = qdev_new(name);
+     qdev_prop_set_uint8(dev, "address", addr);
+-    return dev;
++    return I2C_SLAVE(dev);
+ }
+ 
+ bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
+@@ -283,12 +283,11 @@ bool i2c_realize_and_unref(DeviceState *dev, I2CBus *bus, Error **errp)
+ 
+ DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr)
+ {
+-    DeviceState *dev;
++    I2CSlave *dev = i2c_slave_new(name, addr);
+ 
+-    dev = i2c_try_create_slave(name, addr);
+-    i2c_realize_and_unref(dev, bus, &error_fatal);
++    i2c_realize_and_unref(DEVICE(dev), bus, &error_fatal);
+ 
+-    return dev;
++    return DEVICE(dev);
+ }
+ 
+ static void i2c_slave_class_init(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
