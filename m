@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9E4214CEE
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:08:35 +0200 (CEST)
-Received: from localhost ([::1]:59396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAC0214CF4
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:10:51 +0200 (CEST)
+Received: from localhost ([::1]:39482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Jq-0007Yg-Im
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
+	id 1js5Lr-0002oT-GU
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F8-0007Ps-H1
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:42 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:45050)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F9-0007S7-9q
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:43 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F6-0008Jj-OL
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F7-0008Jo-IB
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:42 -0400
-Received: by mail-ej1-f66.google.com with SMTP id ga4so39611941ejb.11
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:40 -0700 (PDT)
+Received: by mail-ed1-f67.google.com with SMTP id h28so32284319edz.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NBA33F4cTnjpei7Eu7uXC1o1J+uGgZDxaDlN3FjgnIU=;
- b=poQMlWcMk0CjDxHRCkJfjTc6qtJ3rhMXqWb+DikLvyHO9W9xTQOnXpXANOOGTWIFj5
- 0BbwB8y1Mtv+uwqoSlmpxT1pKuN+kLmQrbka+QAlv1Vdfk0gxSCm98HsG1ZcgAfKKnPh
- kjSucNkJjQzpQ7v/5YKjdPkwqj9+MI+PXvfmwenVCgCfOBSWTdsygR3ap8NzPqA0SSYy
- hvz6a5IFsNLQhSgu1ENOY77nl7y7+e3HjqYd+qmYKVovbi26cNxcJtD/rqoemnYJKgVY
- rWbk5YOroY061yNRgwIl29zMSxymUjyn0+mrcUE2vUUqvw3JlXqRs+xLS8p+v6Aa28R9
- NSIA==
-X-Gm-Message-State: AOAM533Gu8TkwvbEFMUe1edRdSfeKIm2YCvf91/sFhNcxghnm8l+MlCb
- DwtsKBw2wkogKdSGt+1c5N4n3Kch
-X-Google-Smtp-Source: ABdhPJzjobZZ3PnI6JDUTxUB6oMO+z2/8jPI5BCubTpk+XHfU0zoHxPJH0FIrWXxchWq90j9Q2WS8g==
-X-Received: by 2002:a17:906:cc0e:: with SMTP id
- ml14mr38889423ejb.432.1593957819096; 
+ bh=FnHkvEbRktr9azHnojGBBoQNdyyGCCp0vyeyrT/yeAA=;
+ b=dfF6Za4XQXwGZ1gKVETYyRCyOdnDl+OPCZL4PmN6l9oy9FeIwktE2PHXjflq3UankH
+ oUTfsfufpG6NXBlljR7Txupl9MOTA8KSoI8Ut1pMMHirft4p3s0NWddyBk3E2r06HM+S
+ /oB8K66wtwhzMnwUyFlB14rxUZJXcB+Y2XxNVyhOHwCMwj00djduWUKYzcvVusUEHWAk
+ oTWhYEDdTzWFNRp6i3WBu9oCJHQ0XsIvjPCfX2GA11pv6PhXrv6afWIcW/30hfqUs3uu
+ 7zd5Lbiekn1i4ozjkvM/OLLj+hlFl0dvhGJS4qjSMA2oD+a5nIOjpk4AnKWYi0iEl7Tw
+ tUdw==
+X-Gm-Message-State: AOAM532RY2Wh+TA2eyltDeAjI6UXI+hfynxpt1f71o2mHztD6z/F0SNH
+ TN8tstkdFAN5AykMU99Ljo8r+37S
+X-Google-Smtp-Source: ABdhPJy6FocxLotpULqpzV/7s99p65GEqjdfX1PGK5GgGb18wAinKAhoVxgUHCnA2pOWneEZ1NT5vw==
+X-Received: by 2002:aa7:d2c9:: with SMTP id k9mr41704088edr.98.1593957819946; 
  Sun, 05 Jul 2020 07:03:39 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.38
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:38 -0700 (PDT)
+ Sun, 05 Jul 2020 07:03:39 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 15/30] target/avr: Add instruction translation - MCU
- Control Instructions
-Date: Sun,  5 Jul 2020 16:03:00 +0200
-Message-Id: <20200705140315.260514-16-huth@tuxfamily.org>
+Subject: [PATCH rc6 16/30] target/avr: Add instruction translation - CPU main
+ translation function
+Date: Sun,  5 Jul 2020 16:03:01 +0200
+Message-Id: <20200705140315.260514-17-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.66; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f66.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:30
+Received-SPF: pass client-ip=209.85.208.67; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f67.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 1
-X-Spam_score: 0.1
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,113 +83,241 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This includes:
-    - BREAK
-    - NOP
-    - SLEEP
-    - WDR
+Add the core of translation mechanism.
 
+Co-developed-by: Richard Henderson <richard.henderson@linaro.org>
+Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- target/avr/insn.decode |  8 +++++
- target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
+ target/avr/translate.c | 214 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 214 insertions(+)
 
-diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 8141e180d2..0220da2593 100644
---- a/target/avr/insn.decode
-+++ b/target/avr/insn.decode
-@@ -177,3 +177,11 @@ BST             1111 101 rd:5 0 bit:3
- BLD             1111 100 rd:5 0 bit:3
- BSET            1001 0100 0 bit:3 1000
- BCLR            1001 0100 1 bit:3 1000
-+
-+#
-+# MCU Control Instructions
-+#
-+BREAK           1001 0101 1001 1000
-+NOP             0000 0000 0000 0000
-+SLEEP           1001 0101 1000 1000
-+WDR             1001 0101 1010 1000
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 315f534f66..806a0f4e78 100644
+index 806a0f4e78..a6e67488df 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2747,3 +2747,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
+@@ -2815,3 +2815,217 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
  
      return true;
  }
 +
-+/*
-+ * MCU Control Instructions
-+ */
 +
 +/*
-+ *  The BREAK instruction is used by the On-chip Debug system, and is
-+ *  normally not used in the application software. When the BREAK instruction is
-+ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
-+ *  Debugger access to internal resources.  If any Lock bits are set, or either
-+ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
-+ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
-+ *  is not available in all devices. Refer to the device specific instruction
-+ *  set summary.
++ *  Core translation mechanism functions:
++ *
++ *    - translate()
++ *    - canonicalize_skip()
++ *    - gen_intermediate_code()
++ *    - restore_state_to_opc()
++ *
 + */
-+static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
++static void translate(DisasContext *ctx)
 +{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
-+        return true;
++    uint32_t opcode = next_word(ctx);
++
++    if (!decode_insn(ctx, opcode)) {
++        gen_helper_unsupported(cpu_env);
++        ctx->bstate = DISAS_NORETURN;
++    }
++}
++
++/* Standardize the cpu_skip condition to NE.  */
++static bool canonicalize_skip(DisasContext *ctx)
++{
++    switch (ctx->skip_cond) {
++    case TCG_COND_NEVER:
++        /* Normal case: cpu_skip is known to be false.  */
++        return false;
++
++    case TCG_COND_ALWAYS:
++        /*
++         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_SKIP.
++         * The breakpoint is on the instruction being skipped, at the start
++         * of the TranslationBlock.  No need to update.
++         */
++        return false;
++
++    case TCG_COND_NE:
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
++        } else {
++            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
++        break;
++
++    default:
++        /* Convert to a NE condition vs 0. */
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0, 0);
++        } else {
++            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
++                               ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
++        ctx->skip_cond = TCG_COND_NE;
++        break;
++    }
++    if (ctx->free_skip_var0) {
++        tcg_temp_free(ctx->skip_var0);
++        ctx->free_skip_var0 = false;
++    }
++    ctx->skip_var0 = cpu_skip;
++    return true;
++}
++
++void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++{
++    CPUAVRState *env = cs->env_ptr;
++    DisasContext ctx = {
++        .tb = tb,
++        .cs = cs,
++        .env = env,
++        .memidx = 0,
++        .bstate = DISAS_NEXT,
++        .skip_cond = TCG_COND_NEVER,
++        .singlestep = cs->singlestep_enabled,
++    };
++    target_ulong pc_start = tb->pc / 2;
++    int num_insns = 0;
++
++    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
++        /*
++         * This flag is set by ST/LD instruction we will regenerate it ONLY
++         * with mem/cpu memory access instead of mem access
++         */
++        max_insns = 1;
++    }
++    if (ctx.singlestep) {
++        max_insns = 1;
 +    }
 +
-+#ifdef BREAKPOINT_ON_BREAK
-+    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
-+    gen_helper_debug(cpu_env);
-+    ctx->bstate = DISAS_EXIT;
-+#else
-+    /* NOP */
-+#endif
++    gen_tb_start(tb);
 +
-+    return true;
++    ctx.npc = pc_start;
++    if (tb->flags & TB_FLAGS_SKIP) {
++        ctx.skip_cond = TCG_COND_ALWAYS;
++        ctx.skip_var0 = cpu_skip;
++    }
++
++    do {
++        TCGLabel *skip_label = NULL;
++
++        /* translate current instruction */
++        tcg_gen_insn_start(ctx.npc);
++        num_insns++;
++
++        /*
++         * this is due to some strange GDB behavior
++         * let's assume main has address 0x100
++         * b main   - sets breakpoint at address 0x00000100 (code)
++         * b *0x100 - sets breakpoint at address 0x00800100 (data)
++         */
++        if (unlikely(!ctx.singlestep &&
++                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
++                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
++            canonicalize_skip(&ctx);
++            tcg_gen_movi_tl(cpu_pc, ctx.npc);
++            gen_helper_debug(cpu_env);
++            goto done_generating;
++        }
++
++        /* Conditionally skip the next instruction, if indicated.  */
++        if (ctx.skip_cond != TCG_COND_NEVER) {
++            skip_label = gen_new_label();
++            if (ctx.skip_var0 == cpu_skip) {
++                /*
++                 * Copy cpu_skip so that we may zero it before the branch.
++                 * This ensures that cpu_skip is non-zero after the label
++                 * if and only if the skipped insn itself sets a skip.
++                 */
++                ctx.free_skip_var0 = true;
++                ctx.skip_var0 = tcg_temp_new();
++                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
++                tcg_gen_movi_tl(cpu_skip, 0);
++            }
++            if (ctx.skip_var1 == NULL) {
++                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
++            } else {
++                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
++                                  ctx.skip_var1, skip_label);
++                ctx.skip_var1 = NULL;
++            }
++            if (ctx.free_skip_var0) {
++                tcg_temp_free(ctx.skip_var0);
++                ctx.free_skip_var0 = false;
++            }
++            ctx.skip_cond = TCG_COND_NEVER;
++            ctx.skip_var0 = NULL;
++        }
++
++        translate(&ctx);
++
++        if (skip_label) {
++            canonicalize_skip(&ctx);
++            gen_set_label(skip_label);
++            if (ctx.bstate == DISAS_NORETURN) {
++                ctx.bstate = DISAS_CHAIN;
++            }
++        }
++    } while (ctx.bstate == DISAS_NEXT
++             && num_insns < max_insns
++             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
++             && !tcg_op_buf_full());
++
++    if (tb->cflags & CF_LAST_IO) {
++        gen_io_end();
++    }
++
++    bool nonconst_skip = canonicalize_skip(&ctx);
++
++    switch (ctx.bstate) {
++    case DISAS_NORETURN:
++        assert(!nonconst_skip);
++        break;
++    case DISAS_NEXT:
++    case DISAS_TOO_MANY:
++    case DISAS_CHAIN:
++        if (!nonconst_skip) {
++            /* Note gen_goto_tb checks singlestep.  */
++            gen_goto_tb(&ctx, 1, ctx.npc);
++            break;
++        }
++        tcg_gen_movi_tl(cpu_pc, ctx.npc);
++        /* fall through */
++    case DISAS_LOOKUP:
++        if (!ctx.singlestep) {
++            tcg_gen_lookup_and_goto_ptr();
++            break;
++        }
++        /* fall through */
++    case DISAS_EXIT:
++        if (ctx.singlestep) {
++            gen_helper_debug(cpu_env);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++done_generating:
++    gen_tb_end(tb, num_insns);
++
++    tb->size = (ctx.npc - pc_start) * 2;
++    tb->icount = num_insns;
 +}
 +
-+
-+/*
-+ *  This instruction performs a single cycle No Operation.
-+ */
-+static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
++void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
++                            target_ulong *data)
 +{
-+
-+    /* NOP */
-+
-+    return true;
-+}
-+
-+
-+/*
-+ *  This instruction sets the circuit in sleep mode defined by the MCU
-+ *  Control Register.
-+ */
-+static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
-+{
-+    gen_helper_sleep(cpu_env);
-+    ctx->bstate = DISAS_NORETURN;
-+    return true;
-+}
-+
-+
-+/*
-+ *  This instruction resets the Watchdog Timer. This instruction must be
-+ *  executed within a limited time given by the WD prescaler. See the Watchdog
-+ *  Timer hardware specification.
-+ */
-+static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
-+{
-+    gen_helper_wdr(cpu_env);
-+
-+    return true;
++    env->pc_w = data[0];
 +}
 -- 
 2.26.2
