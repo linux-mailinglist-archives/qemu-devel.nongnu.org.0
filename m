@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E8B214CE4
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:04:48 +0200 (CEST)
-Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD72F214CE9
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:06:32 +0200 (CEST)
+Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5GB-0000dP-Dl
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
+	id 1js5Hr-0004Ai-OW
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-00077y-0f
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-00078M-K2
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:35 -0400
-Received: from mail-ej1-f49.google.com ([209.85.218.49]:43789)
+Received: from mail-ej1-f51.google.com ([209.85.218.51]:38328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5Ez-0008I5-4h
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:34 -0400
-Received: by mail-ej1-f49.google.com with SMTP id l12so39626122ejn.10
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5Ez-0008IA-Rj
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:35 -0400
+Received: by mail-ej1-f51.google.com with SMTP id w16so39667693ejj.5
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2ahYN4Ge3uqmONxG6z02hvCW/RKw9GJyc5ErJ800j5g=;
- b=uNmnJRRT8cwxybzydXCmnLHMTUx56ejSaH+RBXqYcl2jdhlVw1Jv3bTvQWqKQjyVKa
- R1RFSflADwNfcg76fjpSATNpImz7DZod1/qiarg2nqxBlbklW/gNKnmSJ8QQuIATmWis
- WS0fOLynNEEeH69V/XyM0nLR9bWbl33D+e6tcOnn25/rOzpH1ru+wSC3EuoStRW9+4H2
- aUN+4Egiz918K88c287XAxUUkFHkhCHb52QKQUQBDTHObdLFBKf+HvMdrza4AEwXKKLq
- K1QWv/JhfB3HKN/jeDV8lgNHSltwnDQrxc5QkhRWuuNJSrizdMlq92tERAUbYxOGkbQt
- nfSQ==
-X-Gm-Message-State: AOAM530c4u6G6YkKekAMsGfAqpvsSmqyDLhwTydE2nF3fho2UXDe8Uua
- hRwHBzf1kGiJMhYV9A4dB9dyulS/
-X-Google-Smtp-Source: ABdhPJyY7TC/v/bC+RoT/CDnxxwkgF1i/uPcInN6dXDFjBlafdG59HpbVjZbXokk5KoCjbw70ZfGGw==
-X-Received: by 2002:a17:906:4dd4:: with SMTP id
- f20mr41743537ejw.170.1593957811655; 
- Sun, 05 Jul 2020 07:03:31 -0700 (PDT)
+ bh=jkC0aolhlj6RcBhlvFE2t0bB5Yx6UH76eFCh011rLYA=;
+ b=GBHJTy2djowMvBrxecy2w64DCX+z/pvo/jO+/UPcL6moSloMj6ZlRqMnPQ8IoPUrCX
+ ibxEg0ofgVA3IIi3F/pSCt9HE3X902gbHqoVhQO1YguecvJOYqkDhzj4nkLEs64NxDK0
+ bng3xuPlYCaEd5W1kx4AG2270Q1FaSW9JSWo7RWfJMlsSSr0hCb8dwOyguKz8g05iWSj
+ gCotcl7atlUBhVqY6uTnp5JxizAKX+YLWcWzPJijd5IMHOSkhNzsIG5tLh8hBicfjGhq
+ 6vOsn4/zpoFtEEYWcuAGkXmFJUp3RG7lSpnbgqWrwi+b95iOakRXLFUNzkTJYk6x5DZ5
+ +BJA==
+X-Gm-Message-State: AOAM531Q6IYxQqb7/bukwNDMGXsWN3l9ZBjdDixUJ3yp1IuLn+vBbuLr
+ hA00rGdUR+yNyrobrb+X4eGKtWtP
+X-Google-Smtp-Source: ABdhPJwiH7tkO/RIWTy2nMophv9qlKkACO37EyOVyxU86bFk0rwm8Ea+xaLRz/s+LKvvtN8VMmggyw==
+X-Received: by 2002:a17:906:f202:: with SMTP id
+ gt2mr39443768ejb.70.1593957812297; 
+ Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
  by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.31
@@ -45,17 +45,17 @@ From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 04/30] target/avr: CPU class: Add memory menagement support
-Date: Sun,  5 Jul 2020 16:02:49 +0200
-Message-Id: <20200705140315.260514-5-huth@tuxfamily.org>
+Subject: [PATCH rc6 05/30] target/avr: CPU class: Add migration support
+Date: Sun,  5 Jul 2020 16:02:50 +0200
+Message-Id: <20200705140315.260514-6-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.49; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f49.google.com
+Received-SPF: pass client-ip=209.85.218.51; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f51.google.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 1
@@ -83,8 +83,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This patch introduces three memory-management-related functions
-that will become part of AVR CPU class object.
+Add migration-related functions of AVR CPU class object.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -98,82 +97,164 @@ Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- target/avr/cpu.c    |  3 +++
- target/avr/helper.c | 50 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+ target/avr/cpu.c     |   1 +
+ target/avr/cpu.h     |   2 +
+ target/avr/machine.c | 121 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 124 insertions(+)
+ create mode 100644 target/avr/machine.c
 
 diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 8305a3a85d..a1d5f3c1eb 100644
+index a1d5f3c1eb..ced1107824 100644
 --- a/target/avr/cpu.c
 +++ b/target/avr/cpu.c
-@@ -203,6 +203,9 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
-     cc->dump_state = avr_cpu_dump_state;
-     cc->set_pc = avr_cpu_set_pc;
-+    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-+    cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
-+    cc->tlb_fill = avr_cpu_tlb_fill;
+@@ -206,6 +206,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->memory_rw_debug = avr_cpu_memory_rw_debug;
+     cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
+     cc->tlb_fill = avr_cpu_tlb_fill;
++    cc->vmsd = &vms_avr_cpu;
      cc->disas_set_info = avr_cpu_disas_set_info;
      cc->tcg_initialize = avr_cpu_tcg_init;
      cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index 731a9ee27f..354def2a65 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -87,3 +87,53 @@ void avr_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index ac14e642bf..d3003f8e25 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -118,6 +118,8 @@ typedef struct AVRCPU {
+     CPUAVRState env;
+ } AVRCPU;
  
-     cs->exception_index = -1;
- }
++extern const struct VMStateDescription vms_avr_cpu;
 +
-+int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
-+                                int len, bool is_write)
+ void avr_cpu_do_interrupt(CPUState *cpu);
+ bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+diff --git a/target/avr/machine.c b/target/avr/machine.c
+new file mode 100644
+index 0000000000..ba44bd042b
+--- /dev/null
++++ b/target/avr/machine.c
+@@ -0,0 +1,121 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2019 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "migration/cpu.h"
++
++static int get_sreg(QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field)
 +{
-+    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
++    CPUAVRState *env = opaque;
++    uint8_t sreg;
++
++    sreg = qemu_get_byte(f);
++    cpu_set_sreg(env, sreg);
++    return 0;
 +}
 +
-+hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++static int put_sreg(
++    QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field, QJSON *vmdesc)
 +{
-+    return addr; /* I assume 1:1 address correspondance */
++    CPUAVRState *env = opaque;
++    uint8_t sreg = cpu_get_sreg(env);
++
++    qemu_put_byte(f, sreg);
++    return 0;
 +}
 +
-+bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
++static const VMStateInfo vms_sreg = {
++    .name = "sreg",
++    .get = get_sreg,
++    .put = put_sreg,
++};
++
++static int get_segment(
++    QEMUFile *f, void *opaque, size_t size, const VMStateField *field)
 +{
-+    int prot = 0;
-+    MemTxAttrs attrs = {};
-+    uint32_t paddr;
++    uint32_t *ramp = opaque;
++    uint8_t temp;
 +
-+    address &= TARGET_PAGE_MASK;
++    temp = qemu_get_byte(f);
++    *ramp = ((uint32_t)temp) << 16;
++    return 0;
++}
 +
-+    if (mmu_idx == MMU_CODE_IDX) {
-+        /* access to code in flash */
-+        paddr = OFFSET_CODE + address;
-+        prot = PAGE_READ | PAGE_EXEC;
-+        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
-+            error_report("execution left flash memory");
-+            exit(1);
-+        }
-+    } else if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
-+        /*
-+         * access to CPU registers, exit and rebuilt this TB to use full access
-+         * incase it touches specially handled registers like SREG or SP
-+         */
-+        AVRCPU *cpu = AVR_CPU(cs);
-+        CPUAVRState *env = &cpu->env;
-+        env->fullacc = 1;
-+        cpu_loop_exit_restore(cs, retaddr);
-+    } else {
-+        /* access to memory. nothing special */
-+        paddr = OFFSET_DATA + address;
-+        prot = PAGE_READ | PAGE_WRITE;
++static int put_segment(
++    QEMUFile *f, void *opaque, size_t size,
++    const VMStateField *field, QJSON *vmdesc)
++{
++    uint32_t *ramp = opaque;
++    uint8_t temp = *ramp >> 16;
++
++    qemu_put_byte(f, temp);
++    return 0;
++}
++
++static const VMStateInfo vms_rampD = {
++    .name = "rampD",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampX = {
++    .name = "rampX",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampY = {
++    .name = "rampY",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_rampZ = {
++    .name = "rampZ",
++    .get = get_segment,
++    .put = put_segment,
++};
++static const VMStateInfo vms_eind = {
++    .name = "eind",
++    .get = get_segment,
++    .put = put_segment,
++};
++
++const VMStateDescription vms_avr_cpu = {
++    .name = "cpu",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.pc_w, AVRCPU),
++        VMSTATE_UINT32(env.sp, AVRCPU),
++        VMSTATE_UINT32(env.skip, AVRCPU),
++
++        VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NUMBER_OF_CPU_REGISTERS),
++
++        VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAVRState),
++        VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD, uint32_t),
++        VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX, uint32_t),
++        VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY, uint32_t),
++        VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ, uint32_t),
++        VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, uint32_t),
++
++        VMSTATE_END_OF_LIST()
 +    }
-+
-+    tlb_set_page_with_attrs(
-+        cs, address, paddr, attrs, prot, mmu_idx, TARGET_PAGE_SIZE);
-+
-+    return true;
-+}
++};
 -- 
 2.26.2
 
