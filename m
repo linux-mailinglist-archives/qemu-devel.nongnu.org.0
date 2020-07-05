@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F303214F8F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:48:29 +0200 (CEST)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B31214F96
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:50:14 +0200 (CEST)
+Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsBYq-0006Fz-Ih
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
+	id 1jsBaX-0001Hf-6c
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBX5-0004T8-RU; Sun, 05 Jul 2020 16:46:39 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38676)
+ id 1jsBX6-0004Wa-Vg; Sun, 05 Jul 2020 16:46:40 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBX4-0000pH-6M; Sun, 05 Jul 2020 16:46:39 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f18so39594739wml.3;
- Sun, 05 Jul 2020 13:46:37 -0700 (PDT)
+ id 1jsBX5-0000pR-F5; Sun, 05 Jul 2020 16:46:40 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f2so10762416wrp.7;
+ Sun, 05 Jul 2020 13:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6rxTtNzGxZKeUz8u/465WGrq0JGlEJZidTb9y8deq6c=;
- b=kT1j+IAINJp7ET0x51OC/MutF4L7mkS5pCL+JGPwLNniC8TM6Ri7o5a9xToazhcOTI
- lzMg36zKQNqHJMib3Cub0vAkeA9bHaKwha7Dccc4Sx0FRjLwN8SBEb/aoXyXa2Lhzf9Q
- ierLrYARMMXpjWl9S6FDg9xYHNMgsBgo/rl6vlc+hrJbMvaHng+5df1I0S3hmFpJZhy7
- RJM43IgBWG8L3VHNG42x2NSKU/YzESwdiR433jvZdfi/uQZArT+kGkt5PHkpxsPVjOnJ
- Qi3OXVcILGjSqEU5vWIE/gd5advfeCSdlDJLZlto5DotH1CQD/YCFpze6VT4puP2W5Bo
- yQHg==
+ bh=WxPjkbT1Cf+fTJhIz6EA4Q+a6g7EtjSauXqyKUUtqbs=;
+ b=mc2aaxRiAz5Y+OEAGL+ybYmW+l0Bz0R2Ha60762Wtp6AqE1nSMUAWgkSgzcfZOUWBE
+ or23TPDUpHb4t/cC+k8K7o+tDy8stfHAWygt+CpZ/ExKqIJIkaBGTY1xn5sgytoBFG/U
+ refyFb9/5P+yQK0JEBuTckvRtmyo4dgBOKxPvza5YMh6HSgq+ZrMjs3UNOxWjxYRdsDj
+ fXEX72oVKjWAqGDVEHEtk5Sqg6QOfFj4BXql57UdkBq0Kq8qzalcG4JFXFSPsclNEuI+
+ HOu49jQHSFE93+ITlUirQHQbGh4w+jzeLOmnQhLZLQqd6pI5a9JLh0oOd/jfg2U2v3H0
+ 0hLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6rxTtNzGxZKeUz8u/465WGrq0JGlEJZidTb9y8deq6c=;
- b=qhrx7fhr5T2QLezImpODrq7pWtjSbg82YjSCevbKf3aUo1mdVYd9pi4A4d3BgNzCnw
- qS003ArLUHDmD5SgktemIkw/P0WHbrem+s2v3YMzfdTaTvSg/PM7u0RUGBUtoBkAV9/o
- C/tRNFSDXmJfJamCqfBnJH/YkISQ4sL4V84GUZ9Bumlq2JNEnzQkynDUgHmXWJ/8oRvm
- LRNe4IMVtBgKfKyCFbpaz1snP0ybUl9OIhAqWbeFQmpQEck0Kw+LGCp9G9lI5gRBGMfT
- W5TJowthVkYlOXvUvkl5evy9xMSTl7IzF9o/0+khiYl+anBP/i+CpiO1MhwKPJWdGhdP
- 2e/A==
-X-Gm-Message-State: AOAM531FVuYxRwxshUhsnCp5BX3iRe2hMNLTli8Eix/BsYaxBgfLFF4B
- aYvmrgjo0tsJrwNixJQnDbxTQ6/TIUU=
-X-Google-Smtp-Source: ABdhPJyKUKMwKXsEBNjcQ1ADhx/FTh/fF0qzFCVe6Jso5XEsc4jsCxugiJJqCezX0WzWafqrgv9PtQ==
-X-Received: by 2002:a1c:a986:: with SMTP id
- s128mr49169383wme.121.1593981996400; 
- Sun, 05 Jul 2020 13:46:36 -0700 (PDT)
+ bh=WxPjkbT1Cf+fTJhIz6EA4Q+a6g7EtjSauXqyKUUtqbs=;
+ b=TIkKK/Tc9lloLNORhMAugF9dYWsFvMYQRV9RJKHgf0016KstBMDbH5gkm8kEd+ma1x
+ 2xi+4K9jrYSwACd1Ika43PFmUFsN/Vtxy5O91hk45DCSHbiYpFtZIpSKi0pM0GXsk9/J
+ Vi3Lp2tO108/TUO8yr1hlcf/dv6DZwe4pHDpE1+Xiod4fz4uqwf+v+hjomsrz2QDz245
+ oxHnsDGM6CIgb/34jyohzBMJSYX1ZfZNWd1ogkOJ0Vs3OfhpOnFpm2skhgN7hjoJRGwd
+ x/G4bPA1C8u7euadBK9OVzVpY2MQvIxiMoSNEH6a5sSMrDDHwwM1vYLutdyVSPRSVagM
+ fEcA==
+X-Gm-Message-State: AOAM530q1qIrKl9U8USm+m8twdBPYZm3kTbHRxbJPk0YJ8qDypho1F1a
+ 0VYxCIjJ345du2yYCVqj7RW1zmv4YeM=
+X-Google-Smtp-Source: ABdhPJw91Wwsgy9yklgukYdN1oyXPDCzUEIFnV6ARwpc631pb89EqxuL+33SqYWbyZ97j4i35SQlbg==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr48495990wrm.40.1593981997457; 
+ Sun, 05 Jul 2020 13:46:37 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id g144sm51397817wme.2.2020.07.05.13.46.35
+ by smtp.gmail.com with ESMTPSA id g144sm51397817wme.2.2020.07.05.13.46.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 13:46:35 -0700 (PDT)
+ Sun, 05 Jul 2020 13:46:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/10] hw/sd/pl181: Add TODO to use Fifo32 API
-Date: Sun,  5 Jul 2020 22:46:23 +0200
-Message-Id: <20200705204630.4133-4-f4bug@amsat.org>
+Subject: [PATCH v4 04/10] hw/arm/versatilepb: Comment to remember some IRQs
+ lines are left unwired
+Date: Sun,  5 Jul 2020 22:46:24 +0200
+Message-Id: <20200705204630.4133-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200705204630.4133-1-f4bug@amsat.org>
 References: <20200705204630.4133-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -73,7 +73,7 @@ X-Spam_bar: /
 X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,26 +92,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add TODO to use Fifo32 API from "qemu/fifo32.h".
+The 'card is readonly' and 'card inserted' IRQs are not wired.
+Add a comment in case someone know where to wire them.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/pl181.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/versatilepb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 3fc2cdd71a..86219c851d 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -57,7 +57,7 @@ typedef struct PL181State {
-        http://www.arm.linux.org.uk/developer/patches/viewpatch.php?id=4446/1
-      */
-     int32_t linux_hack;
--    uint32_t fifo[PL181_FIFO_LEN];
-+    uint32_t fifo[PL181_FIFO_LEN]; /* TODO use Fifo32 */
-     qemu_irq irq[2];
-     /* GPIO outputs for 'card is readonly' and 'card inserted' */
-     qemu_irq cardstatus[2];
+diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+index e596b8170f..45a13ae2b9 100644
+--- a/hw/arm/versatilepb.c
++++ b/hw/arm/versatilepb.c
+@@ -310,7 +310,9 @@ static void versatile_init(MachineState *machine, int board_id)
+     qdev_connect_gpio_out(sysctl, 0, qdev_get_gpio_in(dev, 0));
+ 
+     sysbus_create_varargs("pl181", 0x10005000, sic[22], sic[1], NULL);
++    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+     sysbus_create_varargs("pl181", 0x1000b000, sic[23], sic[2], NULL);
++    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+ 
+     /* Add PL031 Real Time Clock. */
+     sysbus_create_simple("pl031", 0x101e8000, pic[10]);
 -- 
 2.21.3
 
