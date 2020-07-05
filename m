@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A34214E6B
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 20:17:58 +0200 (CEST)
-Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1813B214E72
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 20:21:15 +0200 (CEST)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js9DB-0003VN-5e
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 14:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45908)
+	id 1js9GM-0005Kh-53
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 14:21:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1js9C5-0002zI-M4; Sun, 05 Jul 2020 14:16:49 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39155)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1js9Fa-0004rN-Br
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 14:20:26 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:45736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1js9C4-0003KT-9G; Sun, 05 Jul 2020 14:16:49 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id b92so16025265pjc.4;
- Sun, 05 Jul 2020 11:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1js9FY-0004KL-94
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 14:20:25 -0400
+Received: by mail-ot1-x333.google.com with SMTP id h1so7922892otq.12
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 11:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vzwXKwBxzMlfQOfpm981coONyXr9PQ6P2V2Qm8gfRoI=;
- b=fSWiZTFqoTFCNo1uejRPO6gY/DMUIc0LgWA4QJYi4qEyT4pqlgqWpa6U60DMWlbraD
- xDdJlUG+sQdIxn4tChskQGNVVqToIOJWLNdWvyxMMTq6w5H5x2g7SZA6CgsG4pq2KzLQ
- U9JT/Hze3meujLQtqA5Dm1tftVwszrRMM5y9D/DX5m9NajahWjOtTbGpIoiF2BP75Cq6
- W5CdCLzo6tlJcD7X6ld3zCXrYQTghT0ybwvO2BqqtUcZWjig0lF6wGNWQUOnADO8e70q
- UA/ILs/H8KaRH2/SkieTcH+dBGJX/WX/J/yW6hrVCy6lmanLKJzXD+C7x0gBf7osSyJc
- pRlQ==
+ :cc; bh=Fev7Vi7RbfMP/3CjoSfv3+EGxAPyUimnEomSshhQnHY=;
+ b=jJyg+KdNsC0Mvb5pqpvaXUpnLW39YGdqEna5a/7pRea724L3qZB+ZJi6rE01vG5POU
+ SE7MBSOr9/lA1CE4TNE8/zVfkCh0hN18RTjHweGpdpvQq2El9CGlcD21ZohsQXTcJNP+
+ Y9dt32Ar7aa8Df206KQ1yu1SP4nuQlqXwpk4JgYqGy5IMmVWgOpgdVbXPiVz7HP31hRU
+ jajSIiLFViSqNorTJYl9pZAMb1AwWfmgjtHVEdxBkuwX4UW7eB2uh3eyZHgEg3pkHwQq
+ upqQxWNdEZe9Q6g2t8tkL4puM+UO1wcSqcJIHinx2t/NIFjqiOjRIjMByxHWGpn2ofSi
+ gf5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vzwXKwBxzMlfQOfpm981coONyXr9PQ6P2V2Qm8gfRoI=;
- b=XxwrnCz1uuZWhMXEvJ4kRDfwJGEcR+OYgf9CciYxtoKppCpMqoig/SY0Uojcy9I8oX
- CBw4Ry5+jnrhLbDBHFPPohXD36De2KJfeOPVRolokxB2dRqN4dJdBoWtaU5s857E5xH0
- 3Lgv6ouJxxeBz/5DZzAtWeHDpl7RegSiC6O/x4E8P7tB+ATivxCZHfM7wvadxMypYysG
- Wb2pGhjpBn2OZ0cBOMsWz+qFUfYayiGxSD1VYBktQX76/N97R7sy4qV262omiHhqpqos
- ICiJbDHWfl7XSaw0r8xIch16OXio8KUtudSY16ej7Yya20rbLimsMHhgMDkomF37cFxZ
- fUzw==
-X-Gm-Message-State: AOAM532K3HpURYYsajgcYA6d3o6z1Bq6gCw6Qv6ZcAcjKb/OQOdyGoE+
- LrLuafMGVnEN4Uwq/zYujyN4ojdEHq0STzdgh+0=
-X-Google-Smtp-Source: ABdhPJwp0YshKfHrboJI+dbiYHih4Fj+ess4NkMwddohSRmrXCMLjxW4gKo9lrk+B3OdrWJNyAVpBfyqhQ1tcEq5IV0=
-X-Received: by 2002:a17:902:b694:: with SMTP id
- c20mr37838996pls.123.1593973006134; 
- Sun, 05 Jul 2020 11:16:46 -0700 (PDT)
+ bh=Fev7Vi7RbfMP/3CjoSfv3+EGxAPyUimnEomSshhQnHY=;
+ b=jfLVjP7MBHZ2RVI8J6xxJ8akA2pzaY2DJf8LU3+P5K5r57CGgyeV95QDRNAaG/1oia
+ Edg4pxmfWMyY6L+xvbckIEtVOJAHECWRF/lCoE7tSA4i9Xr6gp3znD4Ot3eu2HzXs0ar
+ Ez34P9/sOKyWa14lJzu3yjEI4nXOIoBq+U/1prJTwDh8KUBU95b0YWAhbKxzekxORCbK
+ 90cqxSl2TmfPn4yJZjEDLra3k7T1UGK7Zxru/4o1oUFZVvOr+tn4lqL8hP1Hg6k3CGKP
+ PiGo2hvY5zyU8eOvQObJJbpPgzauque+K2RiKUEy3pl6n83AohTW7LvlqXdEHXOwEuLp
+ REHQ==
+X-Gm-Message-State: AOAM53167S3N4KFMwpqlfSZcuGFgmJnKrH+KCDDnbZ8PNddmHdAgGBld
+ ZE8qv8S3VUeCJGltp15oWWRsMV9ppC4gExlNl9/9sQ==
+X-Google-Smtp-Source: ABdhPJwnXy+SMAtoPNCZnGdZR/VB8O6RLl7KnFNHd/JTvcyDX7p5pqjvtWyCY+OGRMgrvdLbiUhppuh6geKBdKSSRyg=
+X-Received: by 2002:a05:6830:1bd3:: with SMTP id
+ v19mr36037919ota.91.1593973222743; 
+ Sun, 05 Jul 2020 11:20:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200629160535.3910-1-wentong.wu@intel.com>
- <20200629160535.3910-3-wentong.wu@intel.com>
- <3260735e-05ab-2d42-f7e4-914ad804f543@linaro.org>
- <CAFEAcA_+e7hrA5GRGb=gv3GxJRL77ARP34vyudRbiqhdsNVKwg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_+e7hrA5GRGb=gv3GxJRL77ARP34vyudRbiqhdsNVKwg@mail.gmail.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sun, 5 Jul 2020 11:16:34 -0700
-Message-ID: <CAMo8BfLVDEFCXWNffVJaRb31UOTPO1iXNz5StexoKvWqQYzg6g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/nios2: Use gen_io_start around wrctl
- instruction
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200702162354.928528-1-alistair.francis@wdc.com>
+ <20200702162354.928528-13-alistair.francis@wdc.com>
+In-Reply-To: <20200702162354.928528-13-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 5 Jul 2020 19:20:11 +0100
+Message-ID: <CAFEAcA8b7Rk8ZDDu689tRDCqcSKRbCGVf=75e0f0WNd2GJ9dmg@mail.gmail.com>
+Subject: Re: [PULL v2 12/64] target/riscv: add vector amo operations
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -82,67 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Wentong Wu <wentong.wu@intel.com>,
+Cc: Alistair Francis <alistair23@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ QEMU Developers <qemu-devel@nongnu.org>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 5, 2020 at 10:09 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Thu, 2 Jul 2020 at 19:53, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> > This isn't right.  Not so much the gen_io_start portion, but the entire
-> > existence of helper_check_interrupt.
+On Thu, 2 Jul 2020 at 17:33, Alistair Francis <alistair.francis@wdc.com> wrote:
 >
-> I agree that it looks bogus (xtensa has a similar helper as well, incidentally),
+> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>
+> Vector AMOs operate as if aq and rl bits were zero on each element
+> with regard to ordering relative to other instructions in the same hart.
+> Vector AMOs provide no ordering guarantee between element operations
+> in the same vector AMO instruction
 
-I think there was a reason for it. According to Richard
+Hi; Coverity thinks (probably wrongly) that there might be an array
+overflow here:
 
-> The correct way to acknowledge interrupts after changing an interrupt mask bit
-> is to exit the TB back to the cpu main loop.
+> +static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+> +{
+> +    uint32_t data = 0;
+> +    gen_helper_amo *fn;
+> +    static gen_helper_amo *const fnsw[9] = {
 
-But if I do this change for Xtensa I get a bunch of test_interrupt failures
-that indicate that the interrupt that should have been taken wasn't taken.
-FTR here's the change that I tested, did I miss something?
+This is a 9-element array...
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index fdf47642e6f1..85e8d65f169d 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -631,18 +631,10 @@ static int gen_postprocess(DisasContext *dc, int slot)
- {
-     uint32_t op_flags = dc->op_flags;
+> +        /* no atomic operation */
+> +        gen_helper_vamoswapw_v_w,
+> +        gen_helper_vamoaddw_v_w,
+> +        gen_helper_vamoxorw_v_w,
+> +        gen_helper_vamoandw_v_w,
+> +        gen_helper_vamoorw_v_w,
+> +        gen_helper_vamominw_v_w,
+> +        gen_helper_vamomaxw_v_w,
+> +        gen_helper_vamominuw_v_w,
+> +        gen_helper_vamomaxuw_v_w
+> +    };
 
--#ifndef CONFIG_USER_ONLY
--    if (op_flags & XTENSA_OP_CHECK_INTERRUPTS) {
--        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
--            gen_io_start();
--        }
--        gen_helper_check_interrupts(cpu_env);
--    }
--#endif
-     if (op_flags & XTENSA_OP_SYNC_REGISTER_WINDOW) {
-         gen_helper_sync_windowbase(cpu_env);
-     }
--    if (op_flags & XTENSA_OP_EXIT_TB_M1) {
-+    if (op_flags & (XTENSA_OP_EXIT_TB_M1 | XTENSA_OP_CHECK_INTERRUPTS)) {
-         slot = -1;
-     }
-     return slot;
-@@ -1175,7 +1167,7 @@ static void disas_xtensa_insn(CPUXtensaState
-*env, DisasContext *dc)
-     if (dc->base.is_jmp == DISAS_NEXT) {
-         gen_postprocess(dc, 0);
-         dc->op_flags = 0;
--        if (op_flags & XTENSA_OP_EXIT_TB_M1) {
-+        if (op_flags & (XTENSA_OP_EXIT_TB_M1 | XTENSA_OP_CHECK_INTERRUPTS)) {
-             /* Change in mmu index, memory mapping or tb->flags; exit tb */
-             gen_jumpi_check_loop_end(dc, -1);
-         } else if (op_flags & XTENSA_OP_EXIT_TB_0) {
+> +    if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+> +        gen_helper_exit_atomic(cpu_env);
+> +        s->base.is_jmp = DISAS_NORETURN;
+> +        return true;
+> +    } else {
+> +        if (s->sew == 3) {
+> +#ifdef TARGET_RISCV64
+> +            fn = fnsd[seq];
+> +#else
+> +            /* Check done in amo_check(). */
+> +            g_assert_not_reached();
+> +#endif
+> +        } else {
+> +            fn = fnsw[seq];
+
+...which we here index via 'seq'...
 
 
--- 
-Thanks.
--- Max
+> +#ifdef TARGET_RISCV64
+> +GEN_VEXT_TRANS(vamoswapd_v, 9, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoaddd_v, 10, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoxord_v, 11, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoandd_v, 12, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamoord_v, 13, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomind_v, 14, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxd_v, 15, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamominud_v, 16, rwdvm, amo_op, amo_check)
+> +GEN_VEXT_TRANS(vamomaxud_v, 17, rwdvm, amo_op, amo_check)
+> +#endif
+
+...which in the calls that these macros expand out to can
+be 9 or greater.
+
+If it's in fact impossible to get into that code path
+with a value of seq that's larger than the array, it
+would help Coverity if we asserted so, maybe
+   assert(seq < ARRAY_SIZE(fnsw));
+
+This is CID 1430177, 1430178, 1430179, 1430180, 1430181,
+1430182, 1430183, 1430184, 1430185, 14305186.
+
+thanks
+-- PMM
 
