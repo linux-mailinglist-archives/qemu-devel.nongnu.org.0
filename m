@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4100C214FD4
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 23:13:46 +0200 (CEST)
-Received: from localhost ([::1]:50352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BC1214FCC
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 23:12:15 +0200 (CEST)
+Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsBxJ-0003KI-AJ
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 17:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
+	id 1jsBvp-0000rq-RX
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 17:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBu3-0007Bs-D8
+ id 1jsBu3-0007Bu-TX
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 17:10:24 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41301)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBu1-0004qZ-QZ
+ id 1jsBu2-0004rI-J9
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 17:10:23 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z15so27494932wrl.8
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 14:10:21 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id l2so38123399wmf.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 14:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0uVc1RwrLMQTCvhtTK0p0uUR1koiTD8RW3TLjeqwhns=;
- b=jQyhI/5YYDXiS/6oRlHxKFZRz39HKRwaJryKzojw8cFnKCp5SscGDOawLoQfQSv7gn
- CQdxjB7M2RyEn1PxeK/OohUpFOhjYFL8uT0RbJK+tTnSy/gSWukidzwU9e2bmPZwlljf
- vtTOq9yUvGMZHbyGahEKB84Zg2SrKmOViw7Wonwx5N8SiCecThtfbaCVTKF0DrtvGa3l
- G1+IRUNdLgUCFpHwrCnYElB1lzZYpkAIotHx/eA93zFEz3V+h2S6nmLFt/A2qSIp5I3P
- xERr/sLzTp0lvedmFR9Be9TlLRCwg3n4MJzIXqsfOfw+sRUBHY4COv/Ih2rWFycxRcgQ
- GcSA==
+ bh=JgXQcZX51V7t77DAFUY2XleRV/WzIO1Iw/ek8pGYzRQ=;
+ b=MdSgeYToOdzmupULd48ervtyi0JgdjlRtmpaAtg+67QTTPKrQf1VAclJrOb1Aiub+3
+ ZcNdJPeosWcPm5qa4sAm1NRMtXce5BoVJETFMMYpQohX9N9NXW5dojn1rL6qJcDV49Ep
+ VdoTwpxcf0aDzF1HG26+YI3ks0Lqpt04J9Z5/N9jvd1RrjjkpeKduWXrY9iXADpPQa3Y
+ zYz1gnUvP0tLQcU+MQVIsG0bcreakrIfPhmNAlSvB55nxqfmINddKamnfdM6isACPx+Q
+ bPiozwSpSPgxCg9d1ptWwfaK8JGRSt/fK+h93C5X62tPJz2JNVcGOjL/WR/BVq87PaTx
+ eEXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0uVc1RwrLMQTCvhtTK0p0uUR1koiTD8RW3TLjeqwhns=;
- b=NbjDcACoRXuOQAZ+tewMj+fdg/bQWgcoOqktQBUBDJ6jor3XXxl9TVhNRQ7UYRqQbU
- TW06dCoVmR+1EtI23S6odG+o0Y4RrnHzmS9NtsB86Hevg6Hb7RgQkDQcuPLRO0p6d4Q7
- qHCYIVj8Gua8CObd/C0ykbM+f852GmBT6QtgZfwUC+y53iorXuSW1Ek+flwPyBCDUhS3
- v/b9iFcFIKquuZBdnN8UfHMZr7IWSO7/BUQLPAWGvHs07vEGRKGFF9H7nPvTXsua0NhY
- bGmGH0rgsEuruKey1Pb4m7sWJ4ttPV/QsZl1IWPWZGNf6AG5E6nP7yCgaogUNqwPORKO
- n4ww==
-X-Gm-Message-State: AOAM532rrqsHEEcJUN6XqxssKbliS+d8fF7Yv9NA8NWVsWrxN9tSaKfe
- gnXZi0yiJncYfbOqygMjh6EXE9k63+Y=
-X-Google-Smtp-Source: ABdhPJwGaPdNiouywgbyHEMo19745phH81vXpdYVh82rIUV6Z7/+4yvJoR6lFcyqy9bcuMR7WOLYxQ==
-X-Received: by 2002:adf:ed4f:: with SMTP id u15mr44625398wro.318.1593983420004; 
- Sun, 05 Jul 2020 14:10:20 -0700 (PDT)
+ bh=JgXQcZX51V7t77DAFUY2XleRV/WzIO1Iw/ek8pGYzRQ=;
+ b=N4UKv1XPmrPPGPtHFzEIpCCrVcx+lQHHhl269A7/2kM7ij1cH52Z/dp9uwuEuRJP6f
+ 8M8ocgK2v/Hh+ahDhkIhX/8XsFzrvfj/aQyVGqatuRWJv5IXpD8O/eiS9RLLiaTBSsgD
+ h9Jt23q/cxhGkJIboYtBWuxmHvd1CxictXz0I8mtCZrJoRhH0Z0dFeBYXg64dOIIIbu3
+ q8mhCw9PzgXhZI8NboLUqqjwUyTMXI6UEDJQngu7RAeWjELiOWyrOcgyds6slXOTR5aB
+ 5+dRi0WDVgYp63Q5FAoAwLplHzaSNrh8RyWQ7YDHfhzRJgvjfuwqiH0EeDSTkf1BdYnb
+ 4wvw==
+X-Gm-Message-State: AOAM530DZdu8AYuqI5dqJ1rGxSsVkYVhWgmm/Zx1CoTmwKU70YOVSjmE
+ /tv/gyObtA0gGomTbdJPz8AUBTfZjds=
+X-Google-Smtp-Source: ABdhPJxCi8KLQ/YjESPFsV2YeEedkEfvEuKDVAe5cA3MfXUZLfDP1UkdPpFCUi0qCOJYkVSAyBfb1g==
+X-Received: by 2002:a7b:c441:: with SMTP id l1mr44009680wmi.7.1593983421083;
+ Sun, 05 Jul 2020 14:10:21 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id r8sm21102004wrp.40.2020.07.05.14.10.19
+ by smtp.gmail.com with ESMTPSA id r8sm21102004wrp.40.2020.07.05.14.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 14:10:19 -0700 (PDT)
+ Sun, 05 Jul 2020 14:10:20 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw/lm32/milkymist: Un-inline milkymist_memcard_create()
-Date: Sun,  5 Jul 2020 23:10:13 +0200
-Message-Id: <20200705211016.15241-2-f4bug@amsat.org>
+Subject: [PATCH 2/4] hw/lm32/milkymist: Comment to remember some IRQs lines
+ are left unwired
+Date: Sun,  5 Jul 2020 23:10:14 +0200
+Message-Id: <20200705211016.15241-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200705211016.15241-1-f4bug@amsat.org>
 References: <20200705211016.15241-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -93,59 +94,26 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we will modify milkymist_memcard_create(), move it first
-to the source file where it is used.
+The 'card is readonly' and 'card inserted' IRQs are not wired.
+Add a comment in case someone know where to wire them.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/lm32/milkymist-hw.h | 11 -----------
- hw/lm32/milkymist.c    | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
+ hw/lm32/milkymist.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/lm32/milkymist-hw.h b/hw/lm32/milkymist-hw.h
-index 05e2c2a5a7..5dca5d52f5 100644
---- a/hw/lm32/milkymist-hw.h
-+++ b/hw/lm32/milkymist-hw.h
-@@ -31,17 +31,6 @@ static inline DeviceState *milkymist_hpdmc_create(hwaddr base)
-     return dev;
- }
- 
--static inline DeviceState *milkymist_memcard_create(hwaddr base)
--{
--    DeviceState *dev;
--
--    dev = qdev_new("milkymist-memcard");
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--
--    return dev;
--}
--
- static inline DeviceState *milkymist_vgafb_create(hwaddr base,
-         uint32_t fb_offset, uint32_t fb_mask)
- {
 diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-index 85913bb68b..469e3c4322 100644
+index 469e3c4322..117973c967 100644
 --- a/hw/lm32/milkymist.c
 +++ b/hw/lm32/milkymist.c
-@@ -80,6 +80,17 @@ static void main_cpu_reset(void *opaque)
-     env->deba = reset_info->flash_base;
- }
+@@ -87,6 +87,7 @@ static DeviceState *milkymist_memcard_create(hwaddr base)
+     dev = qdev_new("milkymist-memcard");
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
++    /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
  
-+static DeviceState *milkymist_memcard_create(hwaddr base)
-+{
-+    DeviceState *dev;
-+
-+    dev = qdev_new("milkymist-memcard");
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-+
-+    return dev;
-+}
-+
- static void
- milkymist_init(MachineState *machine)
- {
+     return dev;
+ }
 -- 
 2.21.3
 
