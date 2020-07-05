@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3F6214FA3
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:53:51 +0200 (CEST)
-Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C940214FAB
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:56:54 +0200 (CEST)
+Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsBe2-0006DE-FV
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50742)
+	id 1jsBgz-0003Im-4y
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBXE-0004sY-Eo; Sun, 05 Jul 2020 16:46:48 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37439)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jsBeQ-0007WL-8b; Sun, 05 Jul 2020 16:54:14 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBXC-0000qW-No; Sun, 05 Jul 2020 16:46:48 -0400
-Received: by mail-wm1-x330.google.com with SMTP id o2so39569814wmh.2;
- Sun, 05 Jul 2020 13:46:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jsBeO-0001Yb-QD; Sun, 05 Jul 2020 16:54:13 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id k5so6531980pjg.3;
+ Sun, 05 Jul 2020 13:54:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ixcXKWbf6cfHfw1IyV/7F3PpTUGdIgNQjxeIJDW6DDw=;
- b=dX9X87CICh83fMLpy1imMTodQaq6w4CS+Qa/L4TVpg8B8IE3gJ7frwcEVhcIRfaVvV
- wVIMR22gHAOpnivn6uI9WT7Ngq4Nbz6X0H5s6hS15PWwErB3AXNMYoTQW9RtPQcaJGdc
- 8Oyu2LP/7YkDCGJcI1siFDU3mIcsrmmuuSjk7+5v1bNVBGyrxp/mkxM2Wxftb4aWUJlr
- hXaGZnRE17OjSBfmF1v0DviKNeXSttdh8UACH5SRshLFm5OSYTnY13NsyVwUsrJgWFuZ
- 2xRYWcr62P6+Cy1kaJQCqswNP5r/FulYvUd02Qu9woFqg6M8gL9GIBRnj99W/lhmwmSE
- FVNQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Vc/HBrgID2IsA3qadurmoqsX6c2eBRLY7r2F4iMCf3s=;
+ b=uqNwEpUSeEUZGVi51/V9GifUKUpplX6pZF6FIk9ijhpZBnGV0kSWkY9/mZr6u2fSHc
+ xYVZCqxqvejmCV9TbmH46DeGqhtMKvPzCsDfoXPcDTMzBmYZjkhzWr7OM4o+QgmCOlwB
+ 4U9I7h1Sn1SEfI2+0W5ayrFSZtaKBXb7fJ51wZY60Y2NgWZcK4T3gOLgiI6yYbP7Jtmq
+ 9Rdf35MlNOO/yCGdVd2UkEzMLOslkoM/sD9hOSJd8nyocBbNCdzt3f6iQ0lCPyYN+LOc
+ 0ymWogWcbWoWJEYqXajU3dpLS3z48jtVddLRZYq52Zo8d2zbVXKtSIGvu1Zi71Py3NXh
+ H8ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ixcXKWbf6cfHfw1IyV/7F3PpTUGdIgNQjxeIJDW6DDw=;
- b=B1LZUWG3s3mPmsw3sT+rf+J07koIsb3ejVXyNswxUrp6ux91+Ch7RBdq3OfmXOiBj2
- um0D7Hldg9mz5JiqXIrl+eNVaBlvBfczbpk6fO6e8u07ohkuM+XiFwj3PtTUYjBfqlqw
- wkcT8Ygc1v/yqrZP+9aLmcxsDu/SPJ+lfdgRJelzD9mUpgUANCn+mY3a/FU+Dx6rvkNH
- tzrJfdXgRT5BnDBMXGMjgigXjEAJkKDcqwscBP8m+X7tbQtumDiaqxQOJQhQgQFfhSGb
- HYm4i4og/xSaJTircfC7CMXs74IjOk6cgm4GzXyYafeDybMwbNdS+fPp/m59Bghimn+g
- zVoQ==
-X-Gm-Message-State: AOAM531DGIvqZ44IF3jCWN5nL7xBGVx8JRJ5HdGaCCJonK7c7T79hI8n
- T/yIFPK/Uu3jNN/xB7rAcleDLBmYgLA=
-X-Google-Smtp-Source: ABdhPJw24A2SJD5MrIPJGOitkSwr0oyO/ViPWTHib9o0ECClvV45KISmDYxNk/UjWqWdiDIKEV+i/A==
-X-Received: by 2002:a1c:e4d4:: with SMTP id b203mr17343330wmh.49.1593982004659; 
- Sun, 05 Jul 2020 13:46:44 -0700 (PDT)
-Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id g144sm51397817wme.2.2020.07.05.13.46.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 13:46:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/10] hw/sd: move sdcard legacy API to
- 'hw/sd/sdcard_legacy.h'
-Date: Sun,  5 Jul 2020 22:46:30 +0200
-Message-Id: <20200705204630.4133-11-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200705204630.4133-1-f4bug@amsat.org>
-References: <20200705204630.4133-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vc/HBrgID2IsA3qadurmoqsX6c2eBRLY7r2F4iMCf3s=;
+ b=SbG1kqWjtD4DinASIDIShqFrMfoB8jdQWIclFdKIw9WNx6ULu5h6DGEKVqd1wuaCym
+ 0Xi2rNQHtrrQ2B8LEaF6i/SHc22pouQqB+c1F0b03WUjVgZoVlySqnmg89ndQudlN6tD
+ A/iCcE4VUCMwi7KMgq6UEGdb1LDiPjIm9nXyQ9bo+J4JW9GrtGL/yCw+RY92Po6njddR
+ skOZm6o24QVFauovEx6JWe/hPqVov0yzY4QkvN4ARSsxADRV1ZKFaGbCU5epuSaQR3lz
+ LlrNmurlHOJSd620Sa2/52075GpEzLEhHUDXQ+mBDg5+aw457lfqTC+jGexr8hTSQfK8
+ cjrw==
+X-Gm-Message-State: AOAM530lsAFmFG9PnQBoIXAxvncDL4NRKoT3yHDUPrO9XzWTOppUdfF4
+ YAJwxAsyP7TwFJp66f+fBKJk8EmV2af8pIa9zIQ=
+X-Google-Smtp-Source: ABdhPJytteY4dHGHW3TQFV1zMy/0pQ96RrHIWNbpVQztA58X1KG2s9EDNzZiaS+jsXACR6FVgrYgHqahqwRASTUM0fs=
+X-Received: by 2002:a17:902:b694:: with SMTP id
+ c20mr38184926pls.123.1593982450781; 
+ Sun, 05 Jul 2020 13:54:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+References: <20200629160535.3910-1-wentong.wu@intel.com>
+ <20200629160535.3910-3-wentong.wu@intel.com>
+ <3260735e-05ab-2d42-f7e4-914ad804f543@linaro.org>
+ <CAFEAcA_+e7hrA5GRGb=gv3GxJRL77ARP34vyudRbiqhdsNVKwg@mail.gmail.com>
+ <CAMo8BfLVDEFCXWNffVJaRb31UOTPO1iXNz5StexoKvWqQYzg6g@mail.gmail.com>
+In-Reply-To: <CAMo8BfLVDEFCXWNffVJaRb31UOTPO1iXNz5StexoKvWqQYzg6g@mail.gmail.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Sun, 5 Jul 2020 13:53:59 -0700
+Message-ID: <CAMo8Bf+Fk32dYH6GV6Z6OWLsnpJy4Sw_ny+8yviQc6MjGD+mRw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/nios2: Use gen_io_start around wrctl
+ instruction
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 0
-X-Spam_score: 0.0
+X-Spam_score_int: -5
+X-Spam_score: -0.6
 X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,138 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@xilinx.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Wentong Wu <wentong.wu@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-omap_mmc.c is the last device left using the legacy sdcard API.
-Move the prototype declarations into a separate header, to
-make it clear this is a legacy API.
+On Sun, Jul 5, 2020 at 11:16 AM Max Filippov <jcmvbkbc@gmail.com> wrote:
+> On Sun, Jul 5, 2020 at 10:09 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > On Thu, 2 Jul 2020 at 19:53, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> > > This isn't right.  Not so much the gen_io_start portion, but the entire
+> > > existence of helper_check_interrupt.
+> > I agree that it looks bogus (xtensa has a similar helper as well, incidentally),
+> I think there was a reason for it.
 
-Reviewed-by: Alistair Francis <alistair.francis@xilinx.com>
-Message-Id: <20180216022933.10945-8-f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/sd/sd.h            | 16 -----------
- include/hw/sd/sdcard_legacy.h | 50 +++++++++++++++++++++++++++++++++++
- hw/sd/omap_mmc.c              |  2 +-
- hw/sd/sd.c                    |  1 +
- 4 files changed, 52 insertions(+), 17 deletions(-)
- create mode 100644 include/hw/sd/sdcard_legacy.h
+...and the reason is that this helper calls cpu_[re]set_interrupt
+to update CPU_INTERRUPT_HARD, which makes exit to the
+main CPU loop do something to handle IRQ.
+Maybe 'check_interrupt' is not a good name for that, but the
+action taken there seems right to me.
 
-diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index ace350e0e8..8767ab817c 100644
---- a/include/hw/sd/sd.h
-+++ b/include/hw/sd/sd.h
-@@ -136,22 +136,6 @@ typedef struct {
-     void (*set_readonly)(DeviceState *dev, bool readonly);
- } SDBusClass;
- 
--/* Legacy functions to be used only by non-qdevified callers */
--SDState *sd_init(BlockBackend *bs, bool is_spi);
--int sd_do_command(SDState *sd, SDRequest *req,
--                  uint8_t *response);
--void sd_write_data(SDState *sd, uint8_t value);
--uint8_t sd_read_data(SDState *sd);
--void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert);
--/* sd_enable should not be used -- it is only used on the nseries boards,
-- * where it is part of a broken implementation of the MMC card slot switch
-- * (there should be two card slots which are multiplexed to a single MMC
-- * controller, but instead we model it with one card and controller and
-- * disable the card when the second slot is selected, so it looks like the
-- * second slot is always empty).
-- */
--void sd_enable(SDState *sd, bool enable);
--
- /* Functions to be used by qdevified callers (working via
-  * an SDBus rather than directly with SDState)
-  */
-diff --git a/include/hw/sd/sdcard_legacy.h b/include/hw/sd/sdcard_legacy.h
-new file mode 100644
-index 0000000000..8681f8089b
---- /dev/null
-+++ b/include/hw/sd/sdcard_legacy.h
-@@ -0,0 +1,50 @@
-+/*
-+ * SD Memory Card emulation (deprecated legacy API)
-+ *
-+ * Copyright (c) 2006 Andrzej Zaborowski  <balrog@zabor.org>
-+ *
-+ * Redistribution and use in source and binary forms, with or without
-+ * modification, are permitted provided that the following conditions
-+ * are met:
-+ *
-+ * 1. Redistributions of source code must retain the above copyright
-+ *    notice, this list of conditions and the following disclaimer.
-+ * 2. Redistributions in binary form must reproduce the above copyright
-+ *    notice, this list of conditions and the following disclaimer in
-+ *    the documentation and/or other materials provided with the
-+ *    distribution.
-+ *
-+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
-+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-+ * PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR
-+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
-+ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+ */
-+#ifndef HW_SDCARD_LEGACY_H
-+#define HW_SDCARD_LEGACY_H
-+
-+#include "hw/sd/sd.h"
-+
-+/* Legacy functions to be used only by non-qdevified callers */
-+SDState *sd_init(BlockBackend *blk, bool is_spi);
-+int sd_do_command(SDState *card, SDRequest *request, uint8_t *response);
-+void sd_write_data(SDState *card, uint8_t value);
-+uint8_t sd_read_data(SDState *card);
-+void sd_set_cb(SDState *card, qemu_irq readonly, qemu_irq insert);
-+
-+/* sd_enable should not be used -- it is only used on the nseries boards,
-+ * where it is part of a broken implementation of the MMC card slot switch
-+ * (there should be two card slots which are multiplexed to a single MMC
-+ * controller, but instead we model it with one card and controller and
-+ * disable the card when the second slot is selected, so it looks like the
-+ * second slot is always empty).
-+ */
-+void sd_enable(SDState *card, bool enable);
-+
-+#endif /* HW_SDCARD_LEGACY_H */
-diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
-index 4088a8a80b..7d33c59226 100644
---- a/hw/sd/omap_mmc.c
-+++ b/hw/sd/omap_mmc.c
-@@ -23,7 +23,7 @@
- #include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/arm/omap.h"
--#include "hw/sd/sd.h"
-+#include "hw/sd/sdcard_legacy.h"
- 
- struct omap_mmc_s {
-     qemu_irq irq;
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 54b1414131..6bd7ed59e7 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -36,6 +36,7 @@
- #include "hw/registerfields.h"
- #include "sysemu/block-backend.h"
- #include "hw/sd/sd.h"
-+#include "hw/sd/sdcard_legacy.h"
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qemu/bitmap.h"
 -- 
-2.21.3
-
+Thanks.
+-- Max
 
