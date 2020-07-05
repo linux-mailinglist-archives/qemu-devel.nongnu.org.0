@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51551214CF7
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:12:33 +0200 (CEST)
-Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1083D214CFA
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:13:24 +0200 (CEST)
+Received: from localhost ([::1]:51420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Ng-0006Eo-1t
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
+	id 1js5OV-0007wq-3I
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FE-0007fI-2t
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:48 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FB-0008Kc-1s
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FD-0007f2-VA
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:47 -0400
-Received: by mail-ed1-f66.google.com with SMTP id e22so32237859edq.8
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:44 -0700 (PDT)
+Received: from mail-ed1-f41.google.com ([209.85.208.41]:42813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FB-0008Kj-MO
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:47 -0400
+Received: by mail-ed1-f41.google.com with SMTP id z17so32270124edr.9
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KWm9PZSzGSkYjcloy35d8SPArCw3VC4k2dSqRIJb5II=;
- b=RcXm6LCD1xqH3oLpn3Z3Wkdf4wJcwDXUL5ivjpzmmGHuHXWAxQuZQDEXWDbUFfmpTU
- re42Z4iWuOIng02VnKFKfMsezVXgmwpGoG+2ibCWwvN0LwYrfFBdwPT3sAmmNteeZEwX
- 4YaS0CqMg4jaTsi0BAEcxCdrqQXExxPaNPpOT8ldPfgeUQQa1EA4bc5iG5d2CATZRZ9b
- ENBHGB7W6dyIDAcuUAbqhKtXnQDvIlBd21Hb3dZDzqjmQuq605R9olw02Xf+INpB6EHa
- XneMKBW5XFV3RlNg+/9fBxE/0886vWIyc7XJGGXkl7pHEEZQAu2QS55Vf/xCmh74QtTF
- azsQ==
-X-Gm-Message-State: AOAM531xFd/ExYwgY/05QGoMdupU/n6m5g+CRk8kjBsSDpCXXeMDJu2I
- M2fh15+xP1OPrMnYu2XmZLRWbn3B
-X-Google-Smtp-Source: ABdhPJxjWLBHM6Sl60hnPlQrLD8N7I1hIF1GKQQhhay8fCNHV4soOtAqe6olixDS8QzxBTuMqNYXfQ==
-X-Received: by 2002:a05:6402:947:: with SMTP id
- h7mr50837162edz.213.1593957823297; 
- Sun, 05 Jul 2020 07:03:43 -0700 (PDT)
+ bh=c+fnEmu1v+29FBdjRMbDR6vV1TPbEyjZMJCpBoQXt+4=;
+ b=VKmbJRCmdNRk4c5yADQ1tB+e6IJqDeEpRPYRw/g8mc/mvmOS7PRMVmJ6gVlhA7YwvW
+ bAZXZBTfDT8IsA1hnzSbFseErHCWGt/FlXuEO/jZwc9pgxuXpYNWiaeHQ0LES2U5ueKR
+ jE658isg2b8iSMUKW+XrhdbRbmEQtl5cEb73BY45Kq6GaK2O8JIJo13Ku/2gWVyRX1Vw
+ HeI5UrJsxoL+LvyyHnYuyRRiX/GhQmU2RAe2kBxzw/DfeqMAJXC4FwX+I/R3I4o0phzp
+ 5yAeAwaKspDOsD0NTk9nB01YJn8mN1yQmjTPfP0EoyulDqWK7mdfV0BZqjMzbjqkG/+a
+ HxFw==
+X-Gm-Message-State: AOAM532y3BiDH02voWDJAYMTEJbu+x+tV4/GhxVs3V8pVgo2794emgaw
+ 9sMlvvG36AUvG/ZADHLKpdKJcyh6
+X-Google-Smtp-Source: ABdhPJz1bEkMc+4tW3c53HN095SWoTRlcRm2Fgthdv6l+IZCeXM5n8Ah4qU54EHem68DN4EMpAlufg==
+X-Received: by 2002:a50:8adb:: with SMTP id k27mr49253419edk.267.1593957824203; 
+ Sun, 05 Jul 2020 07:03:44 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.42
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 05 Jul 2020 07:03:43 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 21/30] hw/misc: avr: Add limited support for power
- reduction device
-Date: Sun,  5 Jul 2020 16:03:06 +0200
-Message-Id: <20200705140315.260514-22-huth@tuxfamily.org>
+Subject: [PATCH rc6 22/30] target/avr: Register AVR support with the rest of
+ QEMU
+Date: Sun,  5 Jul 2020 16:03:07 +0200
+Message-Id: <20200705140315.260514-23-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.208.66; envelope-from=th.huth@gmail.com;
- helo=mail-ed1-f66.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:38
+Received-SPF: pass client-ip=209.85.208.41; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f41.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -84,251 +83,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This is a simple device of just one register, and whenever this
-register is written to it calls qemu_set_irq function for each
-of 8 bits/IRQs. It is used to implement AVR Power Reduction.
+Add AVR related definitions into QEMU.
 
 [AM: Remove word 'Atmel' from filenames and all elements of code]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[rth: Squash include fix and file rename from f4bug]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- MAINTAINERS                 |   2 +
- hw/misc/Kconfig             |   3 +
- hw/misc/Makefile.objs       |   2 +
- hw/misc/avr_power.c         | 113 ++++++++++++++++++++++++++++++++++++
- hw/misc/trace-events        |   4 ++
- include/hw/misc/avr_power.h |  46 +++++++++++++++
- 6 files changed, 170 insertions(+)
- create mode 100644 hw/misc/avr_power.c
- create mode 100644 include/hw/misc/avr_power.h
+ arch_init.c                |  2 ++
+ include/disas/dis-asm.h    | 19 +++++++++++++++++++
+ include/sysemu/arch_init.h |  1 +
+ qapi/machine.json          |  2 +-
+ 4 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b1714fac96..5b5f831cd7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -986,6 +986,8 @@ F: include/hw/char/avr_usart.h
- F: hw/char/avr_usart.c
- F: include/hw/timer/avr_timer16.h
- F: hw/timer/avr_timer16.c
-+F: include/hw/misc/avr_power.h
-+F: hw/misc/avr_power.c
+diff --git a/arch_init.c b/arch_init.c
+index 8afea4748b..7fd5c09b2b 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -90,6 +90,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_UNICORE32
+ #elif defined(TARGET_XTENSA)
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
++#elif defined(TARGET_AVR)
++#define QEMU_ARCH QEMU_ARCH_AVR
+ #endif
  
- CRIS Machines
- -------------
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index bdd77d8020..92c397ca07 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -131,4 +131,7 @@ config MAC_VIA
-     select MOS6522
-     select ADB
+ const uint32_t arch_type = QEMU_ARCH;
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index c5f9fa08ab..9856bf7921 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -211,6 +211,25 @@ enum bfd_architecture
+ #define bfd_mach_m32r          0  /* backwards compatibility */
+   bfd_arch_mn10200,    /* Matsushita MN10200 */
+   bfd_arch_mn10300,    /* Matsushita MN10300 */
++  bfd_arch_avr,        /* AVR microcontrollers */
++#define bfd_mach_avr1       1
++#define bfd_mach_avr2       2
++#define bfd_mach_avr25      25
++#define bfd_mach_avr3       3
++#define bfd_mach_avr31      31
++#define bfd_mach_avr35      35
++#define bfd_mach_avr4       4
++#define bfd_mach_avr5       5
++#define bfd_mach_avr51      51
++#define bfd_mach_avr6       6
++#define bfd_mach_avrtiny    100
++#define bfd_mach_avrxmega1  101
++#define bfd_mach_avrxmega2  102
++#define bfd_mach_avrxmega3  103
++#define bfd_mach_avrxmega4  104
++#define bfd_mach_avrxmega5  105
++#define bfd_mach_avrxmega6  106
++#define bfd_mach_avrxmega7  107
+   bfd_arch_cris,       /* Axis CRIS */
+ #define bfd_mach_cris_v0_v10   255
+ #define bfd_mach_cris_v32      32
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 71a7a285ee..54f069d491 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -25,6 +25,7 @@ enum {
+     QEMU_ARCH_HPPA = (1 << 18),
+     QEMU_ARCH_RISCV = (1 << 19),
+     QEMU_ARCH_RX = (1 << 20),
++    QEMU_ARCH_AVR = (1 << 21),
  
-+config AVR_POWER
-+    bool
-+
- source macio/Kconfig
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index 5aaca8a039..6be3d255ab 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -91,3 +91,5 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
- obj-$(CONFIG_MAC_VIA) += mac_via.o
- 
- common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
-+
-+obj-$(CONFIG_AVR_POWER) += avr_power.o
-diff --git a/hw/misc/avr_power.c b/hw/misc/avr_power.c
-new file mode 100644
-index 0000000000..65ff7c4405
---- /dev/null
-+++ b/hw/misc/avr_power.c
-@@ -0,0 +1,113 @@
-+/*
-+ * AVR Power Reduction Management
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/misc/avr_power.h"
-+#include "qemu/log.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/irq.h"
-+#include "trace.h"
-+
-+static void avr_mask_reset(DeviceState *dev)
-+{
-+    AVRMaskState *s = AVR_MASK(dev);
-+
-+    s->val = 0x00;
-+
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], 0);
-+    }
-+}
-+
-+static uint64_t avr_mask_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
-+
-+    trace_avr_power_read(s->val);
-+
-+    return (uint64_t)s->val;
-+}
-+
-+static void avr_mask_write(void *opaque, hwaddr offset,
-+                           uint64_t val64, unsigned size)
-+{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
-+    uint8_t val8 = val64;
-+
-+    trace_avr_power_write(val8);
-+    s->val = val8;
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], (val8 & (1 << i)) != 0);
-+    }
-+}
-+
-+static const MemoryRegionOps avr_mask_ops = {
-+    .read = avr_mask_read,
-+    .write = avr_mask_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .max_access_size = 1,
-+    },
-+};
-+
-+static void avr_mask_init(Object *dev)
-+{
-+    AVRMaskState *s = AVR_MASK(dev);
-+    SysBusDevice *busdev = SYS_BUS_DEVICE(dev);
-+
-+    memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_AVR_MASK,
-+                          0x01);
-+    sysbus_init_mmio(busdev, &s->iomem);
-+
-+    for (int i = 0; i < 8; i++) {
-+        sysbus_init_irq(busdev, &s->irq[i]);
-+    }
-+    s->val = 0x00;
-+}
-+
-+static void avr_mask_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = avr_mask_reset;
-+}
-+
-+static const TypeInfo avr_mask_info = {
-+    .name          = TYPE_AVR_MASK,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AVRMaskState),
-+    .class_init    = avr_mask_class_init,
-+    .instance_init = avr_mask_init,
-+};
-+
-+static void avr_mask_register_types(void)
-+{
-+    type_register_static(&avr_mask_info);
-+}
-+
-+type_init(avr_mask_register_types)
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index ebea53735c..066752aa90 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -19,6 +19,10 @@ allwinner_h3_dramphy_write(uint64_t offset, uint64_t data, unsigned size) "write
- allwinner_sid_read(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- allwinner_sid_write(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- 
-+# avr_power.c
-+avr_power_read(uint8_t value) "power_reduc read value:%u"
-+avr_power_write(uint8_t value) "power_reduc write value:%u"
-+
- # eccmemctl.c
- ecc_mem_writel_mer(uint32_t val) "Write memory enable 0x%08x"
- ecc_mem_writel_mdr(uint32_t val) "Write memory delay 0x%08x"
-diff --git a/include/hw/misc/avr_power.h b/include/hw/misc/avr_power.h
-new file mode 100644
-index 0000000000..434ac23a3c
---- /dev/null
-+++ b/include/hw/misc/avr_power.h
-@@ -0,0 +1,46 @@
-+/*
-+ * AVR Power Reduction Management
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_MISC_AVR_POWER_H
-+#define HW_MISC_AVR_POWER_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/hw.h"
-+
-+
-+#define TYPE_AVR_MASK "avr-power"
-+#define AVR_MASK(obj) OBJECT_CHECK(AVRMaskState, (obj), TYPE_AVR_MASK)
-+
-+typedef struct {
-+    /* <private> */
-+    SysBusDevice parent_obj;
-+
-+    /* <public> */
-+    MemoryRegion iomem;
-+
-+    uint8_t val;
-+    qemu_irq irq[8];
-+} AVRMaskState;
-+
-+#endif /* HW_MISC_AVR_POWER_H */
+     QEMU_ARCH_NONE = (1 << 31),
+ };
+diff --git a/qapi/machine.json b/qapi/machine.json
+index ff7b5032e3..39b6b6d089 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -25,7 +25,7 @@
+ # Since: 3.0
+ ##
+ { 'enum' : 'SysEmuTarget',
+-  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
++  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
+              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
 -- 
 2.26.2
 
