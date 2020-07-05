@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8470B214CE8
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:06:32 +0200 (CEST)
-Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E8B214CE4
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:04:48 +0200 (CEST)
+Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Hr-0004An-GB
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1js5GB-0000dP-Dl
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-00077z-3E
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-00077y-0f
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:35 -0400
-Received: from mail-ej1-f48.google.com ([209.85.218.48]:46610)
+Received: from mail-ej1-f49.google.com ([209.85.218.49]:43789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5Ey-0008I1-IC
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5Ez-0008I5-4h
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:34 -0400
-Received: by mail-ej1-f48.google.com with SMTP id p20so39621476ejd.13
+Received: by mail-ej1-f49.google.com with SMTP id l12so39626122ejn.10
  for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1CySjLgGRRVRRw0BBDjUZQRjIzzmMdiS8rvXA+PsrzM=;
- b=luC3rwO0KBINnhCwDTzv3qqmHPp/6aKZsfil6JS4xnDHBUX7IPLMJXltZ+yuEtt5jF
- LkDkGxThhNwiMzKijHlqSei/Fp5ilixsrAImKCX6Yegul/vEgqHRj/wWSHWWDDVYPabG
- Mz1Jvmo7n24D++sWnGlj5n8xs/Ug4K5bRX0YTWjF9Ot3UXVEfOf+Ty6H4EEhFagAOTCH
- UFwrRaLdafqSIcTs3Q4xfx6Dp5IO8ViIPzx/E8YOd7s46V4NOm9OX1LnRvSZAf4ovI+4
- Uy+lUT8BRwiLyeXotvBT+niwcRraQ99qnE2j5v+MediU7qkWSJcy1WrudwvK+siYoyVc
- ezxg==
-X-Gm-Message-State: AOAM532pvlZL2G4HWwDJ7BM7Fw0mYtiN4PZXPFralzYWxHt+mQ7F7T9D
- 4NvBRsBF6R9xlN5HhpYvtRAw7uOe
-X-Google-Smtp-Source: ABdhPJxJldG3/UIGmJsjiYlDq4aei619IxfZhqx5itmpheD17ojc181bV+CUpWtO4FLPItYHtCbrvw==
-X-Received: by 2002:a17:906:6d56:: with SMTP id
- a22mr41137488ejt.440.1593957810975; 
- Sun, 05 Jul 2020 07:03:30 -0700 (PDT)
+ bh=2ahYN4Ge3uqmONxG6z02hvCW/RKw9GJyc5ErJ800j5g=;
+ b=uNmnJRRT8cwxybzydXCmnLHMTUx56ejSaH+RBXqYcl2jdhlVw1Jv3bTvQWqKQjyVKa
+ R1RFSflADwNfcg76fjpSATNpImz7DZod1/qiarg2nqxBlbklW/gNKnmSJ8QQuIATmWis
+ WS0fOLynNEEeH69V/XyM0nLR9bWbl33D+e6tcOnn25/rOzpH1ru+wSC3EuoStRW9+4H2
+ aUN+4Egiz918K88c287XAxUUkFHkhCHb52QKQUQBDTHObdLFBKf+HvMdrza4AEwXKKLq
+ K1QWv/JhfB3HKN/jeDV8lgNHSltwnDQrxc5QkhRWuuNJSrizdMlq92tERAUbYxOGkbQt
+ nfSQ==
+X-Gm-Message-State: AOAM530c4u6G6YkKekAMsGfAqpvsSmqyDLhwTydE2nF3fho2UXDe8Uua
+ hRwHBzf1kGiJMhYV9A4dB9dyulS/
+X-Google-Smtp-Source: ABdhPJyY7TC/v/bC+RoT/CDnxxwkgF1i/uPcInN6dXDFjBlafdG59HpbVjZbXokk5KoCjbw70ZfGGw==
+X-Received: by 2002:a17:906:4dd4:: with SMTP id
+ f20mr41743537ejw.170.1593957811655; 
+ Sun, 05 Jul 2020 07:03:31 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.30
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:30 -0700 (PDT)
+ Sun, 05 Jul 2020 07:03:31 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 03/30] target/avr: CPU class: Add interrupt handling
- support
-Date: Sun,  5 Jul 2020 16:02:48 +0200
-Message-Id: <20200705140315.260514-4-huth@tuxfamily.org>
+Subject: [PATCH rc6 04/30] target/avr: CPU class: Add memory menagement support
+Date: Sun,  5 Jul 2020 16:02:49 +0200
+Message-Id: <20200705140315.260514-5-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.48; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f48.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:31
+Received-SPF: pass client-ip=209.85.218.49; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f49.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
+X-Spam_score_int: 1
+X-Spam_score: 0.1
 X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,8 +83,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This patch introduces functions avr_cpu_do_interrupt() and
-avr_cpu_exec_interrupt() that are part of AVR CPU class object.
+This patch introduces three memory-management-related functions
+that will become part of AVR CPU class object.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -99,118 +98,81 @@ Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- target/avr/cpu.c    |  2 +
- target/avr/helper.c | 89 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 target/avr/helper.c
+ target/avr/cpu.c    |  3 +++
+ target/avr/helper.c | 50 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
 diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 1e9b099263..8305a3a85d 100644
+index 8305a3a85d..a1d5f3c1eb 100644
 --- a/target/avr/cpu.c
 +++ b/target/avr/cpu.c
-@@ -199,6 +199,8 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = avr_cpu_class_by_name;
- 
-     cc->has_work = avr_cpu_has_work;
-+    cc->do_interrupt = avr_cpu_do_interrupt;
-+    cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
+@@ -203,6 +203,9 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = avr_cpu_exec_interrupt;
      cc->dump_state = avr_cpu_dump_state;
      cc->set_pc = avr_cpu_set_pc;
++    cc->memory_rw_debug = avr_cpu_memory_rw_debug;
++    cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
++    cc->tlb_fill = avr_cpu_tlb_fill;
      cc->disas_set_info = avr_cpu_disas_set_info;
+     cc->tcg_initialize = avr_cpu_tcg_init;
+     cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
 diff --git a/target/avr/helper.c b/target/avr/helper.c
-new file mode 100644
-index 0000000000..731a9ee27f
---- /dev/null
+index 731a9ee27f..354def2a65 100644
+--- a/target/avr/helper.c
 +++ b/target/avr/helper.c
-@@ -0,0 +1,89 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
+@@ -87,3 +87,53 @@ void avr_cpu_do_interrupt(CPUState *cs)
+ 
+     cs->exception_index = -1;
+ }
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+
-+bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
++                                int len, bool is_write)
 +{
-+    bool ret = false;
-+    CPUClass *cc = CPU_GET_CLASS(cs);
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
-+
-+    if (interrupt_request & CPU_INTERRUPT_RESET) {
-+        if (cpu_interrupts_enabled(env)) {
-+            cs->exception_index = EXCP_RESET;
-+            cc->do_interrupt(cs);
-+
-+            cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
-+
-+            ret = true;
-+        }
-+    }
-+    if (interrupt_request & CPU_INTERRUPT_HARD) {
-+        if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
-+            int index = ctz32(env->intsrc);
-+            cs->exception_index = EXCP_INT(index);
-+            cc->do_interrupt(cs);
-+
-+            env->intsrc &= env->intsrc - 1; /* clear the interrupt */
-+            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+
-+            ret = true;
-+        }
-+    }
-+    return ret;
++    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
 +}
 +
-+void avr_cpu_do_interrupt(CPUState *cs)
++hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 +{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
++    return addr; /* I assume 1:1 address correspondance */
++}
 +
-+    uint32_t ret = env->pc_w;
-+    int vector = 0;
-+    int size = avr_feature(env, AVR_FEATURE_JMP_CALL) ? 2 : 1;
-+    int base = 0;
++bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
++{
++    int prot = 0;
++    MemTxAttrs attrs = {};
++    uint32_t paddr;
 +
-+    if (cs->exception_index == EXCP_RESET) {
-+        vector = 0;
-+    } else if (env->intsrc != 0) {
-+        vector = ctz32(env->intsrc) + 1;
-+    }
++    address &= TARGET_PAGE_MASK;
 +
-+    if (avr_feature(env, AVR_FEATURE_3_BYTE_PC)) {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
-+        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
-+        cpu_stb_data(env, env->sp--, (ret & 0xff0000) >> 16);
-+    } else if (avr_feature(env, AVR_FEATURE_2_BYTE_PC)) {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
-+        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
++    if (mmu_idx == MMU_CODE_IDX) {
++        /* access to code in flash */
++        paddr = OFFSET_CODE + address;
++        prot = PAGE_READ | PAGE_EXEC;
++        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
++            error_report("execution left flash memory");
++            exit(1);
++        }
++    } else if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
++        /*
++         * access to CPU registers, exit and rebuilt this TB to use full access
++         * incase it touches specially handled registers like SREG or SP
++         */
++        AVRCPU *cpu = AVR_CPU(cs);
++        CPUAVRState *env = &cpu->env;
++        env->fullacc = 1;
++        cpu_loop_exit_restore(cs, retaddr);
 +    } else {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
++        /* access to memory. nothing special */
++        paddr = OFFSET_DATA + address;
++        prot = PAGE_READ | PAGE_WRITE;
 +    }
 +
-+    env->pc_w = base + vector * size;
-+    env->sregI = 0; /* clear Global Interrupt Flag */
++    tlb_set_page_with_attrs(
++        cs, address, paddr, attrs, prot, mmu_idx, TARGET_PAGE_SIZE);
 +
-+    cs->exception_index = -1;
++    return true;
 +}
 -- 
 2.26.2
