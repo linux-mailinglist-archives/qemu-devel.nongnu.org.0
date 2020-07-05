@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD72F214CE9
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:06:32 +0200 (CEST)
-Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AB8214CF8
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:12:33 +0200 (CEST)
+Received: from localhost ([::1]:47866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Hr-0004Ai-OW
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54030)
+	id 1js5Ng-0006GS-Un
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:12:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-00078M-K2
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:35 -0400
-Received: from mail-ej1-f51.google.com ([209.85.218.51]:38328)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F2-0007AN-JL
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:36 -0400
+Received: from mail-ej1-f41.google.com ([209.85.218.41]:34077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5Ez-0008IA-Rj
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:35 -0400
-Received: by mail-ej1-f51.google.com with SMTP id w16so39667693ejj.5
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F0-0008IO-Iw
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:36 -0400
+Received: by mail-ej1-f41.google.com with SMTP id y10so39638393eje.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jkC0aolhlj6RcBhlvFE2t0bB5Yx6UH76eFCh011rLYA=;
- b=GBHJTy2djowMvBrxecy2w64DCX+z/pvo/jO+/UPcL6moSloMj6ZlRqMnPQ8IoPUrCX
- ibxEg0ofgVA3IIi3F/pSCt9HE3X902gbHqoVhQO1YguecvJOYqkDhzj4nkLEs64NxDK0
- bng3xuPlYCaEd5W1kx4AG2270Q1FaSW9JSWo7RWfJMlsSSr0hCb8dwOyguKz8g05iWSj
- gCotcl7atlUBhVqY6uTnp5JxizAKX+YLWcWzPJijd5IMHOSkhNzsIG5tLh8hBicfjGhq
- 6vOsn4/zpoFtEEYWcuAGkXmFJUp3RG7lSpnbgqWrwi+b95iOakRXLFUNzkTJYk6x5DZ5
- +BJA==
-X-Gm-Message-State: AOAM531Q6IYxQqb7/bukwNDMGXsWN3l9ZBjdDixUJ3yp1IuLn+vBbuLr
- hA00rGdUR+yNyrobrb+X4eGKtWtP
-X-Google-Smtp-Source: ABdhPJwiH7tkO/RIWTy2nMophv9qlKkACO37EyOVyxU86bFk0rwm8Ea+xaLRz/s+LKvvtN8VMmggyw==
-X-Received: by 2002:a17:906:f202:: with SMTP id
- gt2mr39443768ejb.70.1593957812297; 
+ bh=D4Jj51AkUtR5EfrbyrD5SDecvoxZsLvEPjgbdzyt5YE=;
+ b=GsRjSLgQx7Had9EXebEvVAh6zURKCHuFd2+mPWO8aGRy9nrxmTtTCD8c3u+Z599KZg
+ kdT/Ggn5f6fvpAmoisPZFvbSafw3HGN3pmZZeJC4acs4GwejLo5uB5XkWbatctoUx/VD
+ nvmpPKX3KrJ+iDUTyyHApTdJwTIGS/dHW293X4Hl4lUh1MXsMZ3N8rDNoZYO5r0L2X0o
+ LG96RmP8u5Y0eHq1m7WzH+wZGncyOPDyDiCQ94lN/PnU2N6CNNKvvSZEnMFX2LLFv+Kp
+ 4BEYufa9yZaDaOFmGHiTcJ3D3rty4GKfkfEM+RnoqQPf0I3oa47bKCgphGKRrZTLkQcM
+ A6Pw==
+X-Gm-Message-State: AOAM533283gEn5bdnSxPDqc8VrcGYUikd6UDfIkAVmHbzhlcqgBR52ca
+ fYkuv98Y/ScKpV1Ou5ZkXUFP1kzZ
+X-Google-Smtp-Source: ABdhPJyc2q+7Qvzt07ubrBA2ppy430olvfHekGqK3pxCtsYup/xdK9r1QTsqp5jm5Vxjgm1fYJ+y5g==
+X-Received: by 2002:a17:906:a058:: with SMTP id
+ bg24mr40963615ejb.370.1593957812987; 
  Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.31
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:31 -0700 (PDT)
+ Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 05/30] target/avr: CPU class: Add migration support
-Date: Sun,  5 Jul 2020 16:02:50 +0200
-Message-Id: <20200705140315.260514-6-huth@tuxfamily.org>
+Subject: [PATCH rc6 06/30] target/avr: CPU class: Add GDB support
+Date: Sun,  5 Jul 2020 16:02:51 +0200
+Message-Id: <20200705140315.260514-7-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.51; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f51.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:32
+Received-SPF: pass client-ip=209.85.218.41; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f41.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 1
 X-Spam_score: 0.1
@@ -83,7 +83,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add migration-related functions of AVR CPU class object.
+This includes GDB hooks for reading from wnd wrtiting to AVR
+registers, and xml register definition file as well.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -95,45 +96,117 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[thuth: Fixed avr_cpu_gdb_read_register() parameter]
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- target/avr/cpu.c     |   1 +
- target/avr/cpu.h     |   2 +
- target/avr/machine.c | 121 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 124 insertions(+)
- create mode 100644 target/avr/machine.c
+ MAINTAINERS          |  1 +
+ gdb-xml/avr-cpu.xml  | 49 ++++++++++++++++++++++++++
+ target/avr/cpu.c     |  4 +++
+ target/avr/cpu.h     |  2 ++
+ target/avr/gdbstub.c | 84 ++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 140 insertions(+)
+ create mode 100644 gdb-xml/avr-cpu.xml
+ create mode 100644 target/avr/gdbstub.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ee1f35edf5..11a0611b3e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -171,6 +171,7 @@ AVR TCG CPUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
++F: gdb-xml/avr-cpu.xml
+ F: target/avr/
+ 
+ CRIS TCG CPUs
+diff --git a/gdb-xml/avr-cpu.xml b/gdb-xml/avr-cpu.xml
+new file mode 100644
+index 0000000000..c4747f5b40
+--- /dev/null
++++ b/gdb-xml/avr-cpu.xml
+@@ -0,0 +1,49 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!-- Register numbers are hard-coded in order to maintain backward
++     compatibility with older versions of tools that didn't use xml
++     register descriptions.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.riscv.cpu">
++  <reg name="r0" bitsize="8" type="int" regnum="0"/>
++  <reg name="r1" bitsize="8" type="int"/>
++  <reg name="r2" bitsize="8" type="int"/>
++  <reg name="r3" bitsize="8" type="int"/>
++  <reg name="r4" bitsize="8" type="int"/>
++  <reg name="r5" bitsize="8" type="int"/>
++  <reg name="r6" bitsize="8" type="int"/>
++  <reg name="r7" bitsize="8" type="int"/>
++  <reg name="r8" bitsize="8" type="int"/>
++  <reg name="r9" bitsize="8" type="int"/>
++  <reg name="r10" bitsize="8" type="int"/>
++  <reg name="r11" bitsize="8" type="int"/>
++  <reg name="r12" bitsize="8" type="int"/>
++  <reg name="r13" bitsize="8" type="int"/>
++  <reg name="r14" bitsize="8" type="int"/>
++  <reg name="r15" bitsize="8" type="int"/>
++  <reg name="r16" bitsize="8" type="int"/>
++  <reg name="r17" bitsize="8" type="int"/>
++  <reg name="r18" bitsize="8" type="int"/>
++  <reg name="r19" bitsize="8" type="int"/>
++  <reg name="r20" bitsize="8" type="int"/>
++  <reg name="r21" bitsize="8" type="int"/>
++  <reg name="r22" bitsize="8" type="int"/>
++  <reg name="r23" bitsize="8" type="int"/>
++  <reg name="r24" bitsize="8" type="int"/>
++  <reg name="r25" bitsize="8" type="int"/>
++  <reg name="r26" bitsize="8" type="int"/>
++  <reg name="r27" bitsize="8" type="int"/>
++  <reg name="r28" bitsize="8" type="int"/>
++  <reg name="r29" bitsize="8" type="int"/>
++  <reg name="r30" bitsize="8" type="int"/>
++  <reg name="r31" bitsize="8" type="int"/>
++  <reg name="sreg" bitsize="8" type="int"/>
++  <reg name="sp" bitsize="8" type="int"/>
++  <reg name="pc" bitsize="8" type="int"/>
++</feature>
 diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index a1d5f3c1eb..ced1107824 100644
+index ced1107824..4802453ff9 100644
 --- a/target/avr/cpu.c
 +++ b/target/avr/cpu.c
-@@ -206,6 +206,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->memory_rw_debug = avr_cpu_memory_rw_debug;
-     cc->get_phys_page_debug = avr_cpu_get_phys_page_debug;
-     cc->tlb_fill = avr_cpu_tlb_fill;
-+    cc->vmsd = &vms_avr_cpu;
+@@ -210,4 +210,8 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
      cc->disas_set_info = avr_cpu_disas_set_info;
      cc->tcg_initialize = avr_cpu_tcg_init;
      cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
++    cc->gdb_read_register = avr_cpu_gdb_read_register;
++    cc->gdb_write_register = avr_cpu_gdb_write_register;
++    cc->gdb_num_core_regs = 35;
++    cc->gdb_core_xml_file = "avr-cpu.xml";
+ }
 diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index ac14e642bf..d3003f8e25 100644
+index d3003f8e25..675a33d17a 100644
 --- a/target/avr/cpu.h
 +++ b/target/avr/cpu.h
-@@ -118,6 +118,8 @@ typedef struct AVRCPU {
-     CPUAVRState env;
- } AVRCPU;
- 
-+extern const struct VMStateDescription vms_avr_cpu;
-+
+@@ -123,6 +123,8 @@ extern const struct VMStateDescription vms_avr_cpu;
  void avr_cpu_do_interrupt(CPUState *cpu);
  bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
  hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-diff --git a/target/avr/machine.c b/target/avr/machine.c
++int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
++int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
+ #define cpu_list avr_cpu_list
+ #define cpu_signal_handler cpu_avr_signal_handler
+diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
 new file mode 100644
-index 0000000000..ba44bd042b
+index 0000000000..3ec78cff70
 --- /dev/null
-+++ b/target/avr/machine.c
-@@ -0,0 +1,121 @@
++++ b/target/avr/gdbstub.c
+@@ -0,0 +1,84 @@
 +/*
 + * QEMU AVR CPU
 + *
@@ -155,106 +228,69 @@ index 0000000000..ba44bd042b
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "migration/cpu.h"
++#include "exec/gdbstub.h"
 +
-+static int get_sreg(QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field)
++int avr_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
-+    CPUAVRState *env = opaque;
-+    uint8_t sreg;
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
 +
-+    sreg = qemu_get_byte(f);
-+    cpu_set_sreg(env, sreg);
-+    return 0;
-+}
-+
-+static int put_sreg(
-+    QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field, QJSON *vmdesc)
-+{
-+    CPUAVRState *env = opaque;
-+    uint8_t sreg = cpu_get_sreg(env);
-+
-+    qemu_put_byte(f, sreg);
-+    return 0;
-+}
-+
-+static const VMStateInfo vms_sreg = {
-+    .name = "sreg",
-+    .get = get_sreg,
-+    .put = put_sreg,
-+};
-+
-+static int get_segment(
-+    QEMUFile *f, void *opaque, size_t size, const VMStateField *field)
-+{
-+    uint32_t *ramp = opaque;
-+    uint8_t temp;
-+
-+    temp = qemu_get_byte(f);
-+    *ramp = ((uint32_t)temp) << 16;
-+    return 0;
-+}
-+
-+static int put_segment(
-+    QEMUFile *f, void *opaque, size_t size,
-+    const VMStateField *field, QJSON *vmdesc)
-+{
-+    uint32_t *ramp = opaque;
-+    uint8_t temp = *ramp >> 16;
-+
-+    qemu_put_byte(f, temp);
-+    return 0;
-+}
-+
-+static const VMStateInfo vms_rampD = {
-+    .name = "rampD",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampX = {
-+    .name = "rampX",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampY = {
-+    .name = "rampY",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_rampZ = {
-+    .name = "rampZ",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+static const VMStateInfo vms_eind = {
-+    .name = "eind",
-+    .get = get_segment,
-+    .put = put_segment,
-+};
-+
-+const VMStateDescription vms_avr_cpu = {
-+    .name = "cpu",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(env.pc_w, AVRCPU),
-+        VMSTATE_UINT32(env.sp, AVRCPU),
-+        VMSTATE_UINT32(env.skip, AVRCPU),
-+
-+        VMSTATE_UINT32_ARRAY(env.r, AVRCPU, NUMBER_OF_CPU_REGISTERS),
-+
-+        VMSTATE_SINGLE(env, AVRCPU, 0, vms_sreg, CPUAVRState),
-+        VMSTATE_SINGLE(env.rampD, AVRCPU, 0, vms_rampD, uint32_t),
-+        VMSTATE_SINGLE(env.rampX, AVRCPU, 0, vms_rampX, uint32_t),
-+        VMSTATE_SINGLE(env.rampY, AVRCPU, 0, vms_rampY, uint32_t),
-+        VMSTATE_SINGLE(env.rampZ, AVRCPU, 0, vms_rampZ, uint32_t),
-+        VMSTATE_SINGLE(env.eind, AVRCPU, 0, vms_eind, uint32_t),
-+
-+        VMSTATE_END_OF_LIST()
++    /*  R */
++    if (n < 32) {
++        return gdb_get_reg8(mem_buf, env->r[n]);
 +    }
-+};
++
++    /*  SREG */
++    if (n == 32) {
++        uint8_t sreg = cpu_get_sreg(env);
++
++        return gdb_get_reg8(mem_buf, sreg);
++    }
++
++    /*  SP */
++    if (n == 33) {
++        return gdb_get_reg16(mem_buf, env->sp & 0x0000ffff);
++    }
++
++    /*  PC */
++    if (n == 34) {
++        return gdb_get_reg32(mem_buf, env->pc_w * 2);
++    }
++
++    return 0;
++}
++
++int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++    CPUAVRState *env = &cpu->env;
++
++    /*  R */
++    if (n < 32) {
++        env->r[n] = *mem_buf;
++        return 1;
++    }
++
++    /*  SREG */
++    if (n == 32) {
++        cpu_set_sreg(env, *mem_buf);
++        return 1;
++    }
++
++    /*  SP */
++    if (n == 33) {
++        env->sp = lduw_p(mem_buf);
++        return 2;
++    }
++
++    /*  PC */
++    if (n == 34) {
++        env->pc_w = ldl_p(mem_buf) / 2;
++        return 4;
++    }
++
++    return 0;
++}
 -- 
 2.26.2
 
