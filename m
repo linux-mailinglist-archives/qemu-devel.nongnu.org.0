@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D456214D02
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:16:32 +0200 (CEST)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2C4214D07
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:17:47 +0200 (CEST)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5RX-0005R2-2O
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54122)
+	id 1js5Sk-0007aX-UO
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:17:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F7-0007M9-7p
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F7-0007MH-8C
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:41 -0400
-Received: from mail-ed1-f43.google.com ([209.85.208.43]:42810)
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F4-0008JC-B4
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F4-0008JE-Tr
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:40 -0400
-Received: by mail-ed1-f43.google.com with SMTP id z17so32269931edr.9
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:37 -0700 (PDT)
+Received: by mail-ed1-f65.google.com with SMTP id g20so32064673edm.4
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sXQQoktsGrtJLUHF/7YnCLkoEinEFTJGZ5NeBg5xGHw=;
- b=Su9p69Amy4Xsm4b8fV6l2LmWpX40q6+QE0IHdFwRd5h00OOvd52x7Rab9GK1c7Uncz
- zNTxDqHoNjvsXP/MPuXd38UPgpqOjVzCR4ewfx/fDiU3dm2Cd7761dsPJtoY6M+h1DvA
- p0p/YvpAmik+7bxbI+Cq16maV8WS7DeoKtaYhOEI4XINBjKPkoAES9JG6AAkqCGw9yJA
- /v6XjZWcMSzMOi64PWLLAP64uZfM2p76YQrWx8B7S13L6Cm8Mc0d3TqSqXd993IvLYLo
- gFw1rSrVVZlUkNTuBZsSOK6ERSWSBimxyJ7/DsPwKgVBiiMHIKZOtl0mNua3v8UMUX7Z
- yn6g==
-X-Gm-Message-State: AOAM530M+viZSI56nM+n3Nviuh0Xck7vk+XcoWMFfJLHe7qhZKtsli+k
- zM1zi5Kc3OcokE1bzTsi1FS/jtg3
-X-Google-Smtp-Source: ABdhPJxNxqq6wsha4hhNnAlxHpXt/qlRVAkJXa+xUWlCj8vkskY0r8y0OMSjMyKC2Sm04bkXtEhhng==
-X-Received: by 2002:aa7:c714:: with SMTP id i20mr51527625edq.215.1593957816422; 
+ bh=40hnrMAJaA4Hvy0NcjMdSRzOePa1KxnGU/TeFx99E8s=;
+ b=hIUXVOTbOlB3KrAB1Tl5umPhdmA7PVwvjwsPoK9TfVan/ZnOUBnfUaZdjECAUizMQn
+ cjWbekqa6RQXBi3xmwR9pAcT/soX9RsMib29cCjbnW4ot3Q3+Gaw1YfaeNiEnVkrvwSl
+ 9JuBn2GJ7XEjY9tpEdguz9KmXa4nX08PeNeLv6ML3oV/Wje73BFcRRrKEngFTT9S7hhh
+ /+s/UTycKIh1MELcSGyfYVJxOnVUIOOYKsZCQA7bamE05uAuha1FnnzOk5FnYHdpTirO
+ rktz4ZIyjXjmLyZuSy1SuTjGDuEmFa2Yyv+fVibeAx5amR5oUJ5SLw/UTwByUAge1Hqn
+ Lfdw==
+X-Gm-Message-State: AOAM531uJNhYoQOB36yzRoY9Rso09es5Putx4PPsDwWkq5UIiNCJb7vc
+ JG1CzxZeIBdelfOlUZ3uMMUNGIXl
+X-Google-Smtp-Source: ABdhPJxM+kFCzMmbW1E7R92bzi8hFW7gESfZGKMOV4TSp+o6/35BkpRVBHThfYLXw4dB8tFSplEvCA==
+X-Received: by 2002:aa7:c24d:: with SMTP id y13mr52971257edo.123.1593957816984; 
  Sun, 05 Jul 2020 07:03:36 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.35
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 05 Jul 2020 07:03:36 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 11/30] target/avr: Add instruction translation -
- Arithmetic and Logic Instructions
-Date: Sun,  5 Jul 2020 16:02:56 +0200
-Message-Id: <20200705140315.260514-12-huth@tuxfamily.org>
+Subject: [PATCH rc6 12/30] target/avr: Add instruction translation - Branch
+ Instructions
+Date: Sun,  5 Jul 2020 16:02:57 +0200
+Message-Id: <20200705140315.260514-13-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.208.43; envelope-from=th.huth@gmail.com;
- helo=mail-ed1-f43.google.com
+Received-SPF: pass client-ip=209.85.208.65; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f65.google.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -8
@@ -84,15 +84,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Michael Rolnik <mrolnik@gmail.com>
 
 This includes:
-- ADD, ADC, ADIW
-- SBIW, SUB, SUBI, SBC, SBCI
-- AND, ANDI
-- OR, ORI, EOR
-- COM, NEG
-- INC, DEC
-- MUL, MULS, MULSU
-- FMUL, FMULS, FMULSU
-- DES
+    - RJMP, IJMP, EIJMP, JMP
+    - RCALL, ICALL, EICALL, CALL
+    - RET, RETI
+    - CPSE, CP, CPC, CPI
+    - SBRC, SBRS, SBIC, SBIS
+    - BRBC, BRBS
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -101,337 +98,368 @@ Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- target/avr/insn.decode |  76 ++++
- target/avr/translate.c | 823 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 899 insertions(+)
- create mode 100644 target/avr/insn.decode
+ target/avr/insn.decode |  33 +++
+ target/avr/translate.c | 544 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 577 insertions(+)
 
 diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-new file mode 100644
-index 0000000000..43baf6d92f
---- /dev/null
+index 43baf6d92f..8b00d8807c 100644
+--- a/target/avr/insn.decode
 +++ b/target/avr/insn.decode
-@@ -0,0 +1,76 @@
-+#
-+# AVR instruction decode definitions.
-+#
-+# Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2.1 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+#
+@@ -74,3 +74,36 @@ FMUL            0000 0011 0 ... 1 ...       @fmul
+ FMULS           0000 0011 1 ... 0 ...       @fmul
+ FMULSU          0000 0011 1 ... 1 ...       @fmul
+ DES             1001 0100 imm:4 1011
 +
 +#
-+#   regs_16_31_by_one = [16 .. 31]
-+#   regs_16_23_by_one = [16 .. 23]
-+#   regs_24_30_by_two = [24, 26, 28, 30]
-+#   regs_00_30_by_two = [0, 2, 4, 6, 8, .. 30]
-+
-+%rd             4:5
-+%rr             9:1 0:4
-+
-+%rd_a           4:4                         !function=to_regs_16_31_by_one
-+%rd_b           4:3                         !function=to_regs_16_23_by_one
-+%rd_c           4:2                         !function=to_regs_24_30_by_two
-+%rr_a           0:4                         !function=to_regs_16_31_by_one
-+%rr_b           0:3                         !function=to_regs_16_23_by_one
-+
-+%imm6           6:2 0:4
-+%imm8           8:4 0:4
-+
-+%io_imm         9:2 0:4
-+%ldst_d_imm     13:1 10:2 0:3
-+
-+
-+&rd_rr          rd rr
-+&rd_imm         rd imm
-+
-+@op_rd_rr       .... .. . ..... ....        &rd_rr      rd=%rd rr=%rr
-+@op_rd_imm6     .... .... .. .. ....        &rd_imm     rd=%rd_c imm=%imm6
-+@op_rd_imm8     .... .... .... ....         &rd_imm     rd=%rd_a imm=%imm8
-+@fmul           .... .... . ... . ...       &rd_rr      rd=%rd_b rr=%rr_b
-+
++# Branch Instructions
 +#
-+# Arithmetic Instructions
-+#
-+ADD             0000 11 . ..... ....        @op_rd_rr
-+ADC             0001 11 . ..... ....        @op_rd_rr
-+ADIW            1001 0110 .. .. ....        @op_rd_imm6
-+SUB             0001 10 . ..... ....        @op_rd_rr
-+SUBI            0101 .... .... ....         @op_rd_imm8
-+SBC             0000 10 . ..... ....        @op_rd_rr
-+SBCI            0100 .... .... ....         @op_rd_imm8
-+SBIW            1001 0111 .. .. ....        @op_rd_imm6
-+AND             0010 00 . ..... ....        @op_rd_rr
-+ANDI            0111 .... .... ....         @op_rd_imm8
-+OR              0010 10 . ..... ....        @op_rd_rr
-+ORI             0110 .... .... ....         @op_rd_imm8
-+EOR             0010 01 . ..... ....        @op_rd_rr
-+COM             1001 010 rd:5 0000
-+NEG             1001 010 rd:5 0001
-+INC             1001 010 rd:5 0011
-+DEC             1001 010 rd:5 1010
-+MUL             1001 11 . ..... ....        @op_rd_rr
-+MULS            0000 0010 .... ....         &rd_rr      rd=%rd_a rr=%rr_a
-+MULSU           0000 0011 0 ... 0 ...       @fmul
-+FMUL            0000 0011 0 ... 1 ...       @fmul
-+FMULS           0000 0011 1 ... 0 ...       @fmul
-+FMULSU          0000 0011 1 ... 1 ...       @fmul
-+DES             1001 0100 imm:4 1011
++
++# The 22-bit immediate is partially in the opcode word,
++# and partially in the next.  Use append_16 to build the
++# complete 22-bit value.
++%imm_call       4:5 0:1                     !function=append_16
++
++@op_bit         .... .... . bit:3 ....
++@op_bit_imm     .... .. imm:s7 bit:3
++
++RJMP            1100 imm:s12
++IJMP            1001 0100 0000 1001
++EIJMP           1001 0100 0001 1001
++JMP             1001 010 ..... 110 .        imm=%imm_call
++RCALL           1101 imm:s12
++ICALL           1001 0101 0000 1001
++EICALL          1001 0101 0001 1001
++CALL            1001 010 ..... 111 .        imm=%imm_call
++RET             1001 0101 0000 1000
++RETI            1001 0101 0001 1000
++CPSE            0001 00 . ..... ....        @op_rd_rr
++CP              0001 01 . ..... ....        @op_rd_rr
++CPC             0000 01 . ..... ....        @op_rd_rr
++CPI             0011 .... .... ....         @op_rd_imm8
++SBRC            1111 110 rr:5 0 bit:3
++SBRS            1111 111 rr:5 0 bit:3
++SBIC            1001 1001 reg:5 bit:3
++SBIS            1001 1011 reg:5 bit:3
++BRBS            1111 00 ....... ...         @op_bit_imm
++BRBC            1111 01 ....... ...         @op_bit_imm
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 44ee8849f0..d81bfaa04b 100644
+index d81bfaa04b..6db9f74a02 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -129,6 +129,22 @@ struct DisasContext {
- };
+@@ -145,6 +145,17 @@ static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
+ }
  
  
-+static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
++static uint16_t next_word(DisasContext *ctx)
 +{
-+    return 16 + (indx % 16);
++    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
 +}
 +
-+static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
++static int append_16(DisasContext *ctx, int x)
 +{
-+    return 16 + (indx % 8);
-+}
-+
-+static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return 24 + (indx % 4) * 2;
++    return x << 16 | next_word(ctx);
 +}
 +
 +
  static bool avr_have_feature(DisasContext *ctx, int feature)
  {
      if (!avr_feature(ctx->env, feature)) {
-@@ -141,3 +157,810 @@ static bool avr_have_feature(DisasContext *ctx, int feature)
+@@ -964,3 +975,536 @@ static bool trans_DES(DisasContext *ctx, arg_DES *a)
  
- static bool decode_insn(DisasContext *ctx, uint16_t insn);
- #include "decode_insn.inc.c"
+     return true;
+ }
 +
 +/*
-+ * Arithmetic Instructions
++ * Branch Instructions
 + */
-+
-+/*
-+ * Utility functions for updating status registers:
-+ *
-+ *   - gen_add_CHf()
-+ *   - gen_add_Vf()
-+ *   - gen_sub_CHf()
-+ *   - gen_sub_Vf()
-+ *   - gen_NSf()
-+ *   - gen_ZNSf()
-+ *
-+ */
-+
-+static void gen_add_CHf(TCGv R, TCGv Rd, TCGv Rr)
++static void gen_jmp_ez(DisasContext *ctx)
 +{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+    TCGv t3 = tcg_temp_new_i32();
-+
-+    tcg_gen_and_tl(t1, Rd, Rr); /* t1 = Rd & Rr */
-+    tcg_gen_andc_tl(t2, Rd, R); /* t2 = Rd & ~R */
-+    tcg_gen_andc_tl(t3, Rr, R); /* t3 = Rr & ~R */
-+    tcg_gen_or_tl(t1, t1, t2); /* t1 = t1 | t2 | t3 */
-+    tcg_gen_or_tl(t1, t1, t3);
-+
-+    tcg_gen_shri_tl(cpu_Cf, t1, 7); /* Cf = t1(7) */
-+    tcg_gen_shri_tl(cpu_Hf, t1, 3); /* Hf = t1(3) */
-+    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
-+
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
++    tcg_gen_deposit_tl(cpu_pc, cpu_r[30], cpu_r[31], 8, 8);
++    tcg_gen_or_tl(cpu_pc, cpu_pc, cpu_eind);
++    ctx->bstate = DISAS_LOOKUP;
 +}
 +
-+
-+static void gen_add_Vf(TCGv R, TCGv Rd, TCGv Rr)
++static void gen_jmp_z(DisasContext *ctx)
 +{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+
-+    /* t1 = Rd & Rr & ~R | ~Rd & ~Rr & R */
-+    /*    = (Rd ^ R) & ~(Rd ^ Rr) */
-+    tcg_gen_xor_tl(t1, Rd, R);
-+    tcg_gen_xor_tl(t2, Rd, Rr);
-+    tcg_gen_andc_tl(t1, t1, t2);
-+
-+    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
-+
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
++    tcg_gen_deposit_tl(cpu_pc, cpu_r[30], cpu_r[31], 8, 8);
++    ctx->bstate = DISAS_LOOKUP;
 +}
 +
-+
-+static void gen_sub_CHf(TCGv R, TCGv Rd, TCGv Rr)
++static void gen_push_ret(DisasContext *ctx, int ret)
 +{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+    TCGv t3 = tcg_temp_new_i32();
++    if (avr_feature(ctx->env, AVR_FEATURE_1_BYTE_PC)) {
 +
-+    tcg_gen_not_tl(t1, Rd); /* t1 = ~Rd */
-+    tcg_gen_and_tl(t2, t1, Rr); /* t2 = ~Rd & Rr */
-+    tcg_gen_or_tl(t3, t1, Rr); /* t3 = (~Rd | Rr) & R */
-+    tcg_gen_and_tl(t3, t3, R);
-+    tcg_gen_or_tl(t2, t2, t3); /* t2 = ~Rd & Rr | ~Rd & R | R & Rr */
++        TCGv t0 = tcg_const_i32((ret & 0x0000ff));
 +
-+    tcg_gen_shri_tl(cpu_Cf, t2, 7); /* Cf = t2(7) */
-+    tcg_gen_shri_tl(cpu_Hf, t2, 3); /* Hf = t2(3) */
-+    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
++        tcg_gen_qemu_st_tl(t0, cpu_sp, MMU_DATA_IDX, MO_UB);
++        tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
 +
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
++        tcg_temp_free_i32(t0);
++    } else if (avr_feature(ctx->env, AVR_FEATURE_2_BYTE_PC)) {
++
++        TCGv t0 = tcg_const_i32((ret & 0x00ffff));
++
++        tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
++        tcg_gen_qemu_st_tl(t0, cpu_sp, MMU_DATA_IDX, MO_BEUW);
++        tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
++
++        tcg_temp_free_i32(t0);
++
++    } else if (avr_feature(ctx->env, AVR_FEATURE_3_BYTE_PC)) {
++
++        TCGv lo = tcg_const_i32((ret & 0x0000ff));
++        TCGv hi = tcg_const_i32((ret & 0xffff00) >> 8);
++
++        tcg_gen_qemu_st_tl(lo, cpu_sp, MMU_DATA_IDX, MO_UB);
++        tcg_gen_subi_tl(cpu_sp, cpu_sp, 2);
++        tcg_gen_qemu_st_tl(hi, cpu_sp, MMU_DATA_IDX, MO_BEUW);
++        tcg_gen_subi_tl(cpu_sp, cpu_sp, 1);
++
++        tcg_temp_free_i32(lo);
++        tcg_temp_free_i32(hi);
++    }
 +}
 +
-+
-+static void gen_sub_Vf(TCGv R, TCGv Rd, TCGv Rr)
++static void gen_pop_ret(DisasContext *ctx, TCGv ret)
 +{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
++    if (avr_feature(ctx->env, AVR_FEATURE_1_BYTE_PC)) {
++        tcg_gen_addi_tl(cpu_sp, cpu_sp, 1);
++        tcg_gen_qemu_ld_tl(ret, cpu_sp, MMU_DATA_IDX, MO_UB);
++    } else if (avr_feature(ctx->env, AVR_FEATURE_2_BYTE_PC)) {
++        tcg_gen_addi_tl(cpu_sp, cpu_sp, 1);
++        tcg_gen_qemu_ld_tl(ret, cpu_sp, MMU_DATA_IDX, MO_BEUW);
++        tcg_gen_addi_tl(cpu_sp, cpu_sp, 1);
++    } else if (avr_feature(ctx->env, AVR_FEATURE_3_BYTE_PC)) {
++        TCGv lo = tcg_temp_new_i32();
++        TCGv hi = tcg_temp_new_i32();
 +
-+    /* t1 = Rd & ~Rr & ~R | ~Rd & Rr & R */
-+    /*    = (Rd ^ R) & (Rd ^ R) */
-+    tcg_gen_xor_tl(t1, Rd, R);
-+    tcg_gen_xor_tl(t2, Rd, Rr);
-+    tcg_gen_and_tl(t1, t1, t2);
++        tcg_gen_addi_tl(cpu_sp, cpu_sp, 1);
++        tcg_gen_qemu_ld_tl(hi, cpu_sp, MMU_DATA_IDX, MO_BEUW);
 +
-+    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
++        tcg_gen_addi_tl(cpu_sp, cpu_sp, 2);
++        tcg_gen_qemu_ld_tl(lo, cpu_sp, MMU_DATA_IDX, MO_UB);
 +
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
++        tcg_gen_deposit_tl(ret, lo, hi, 8, 16);
++
++        tcg_temp_free_i32(lo);
++        tcg_temp_free_i32(hi);
++    }
 +}
 +
-+
-+static void gen_NSf(TCGv R)
++static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
 +{
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+}
++    TranslationBlock *tb = ctx->tb;
 +
-+
-+static void gen_ZNSf(TCGv R)
-+{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
++    if (ctx->singlestep == 0) {
++        tcg_gen_goto_tb(n);
++        tcg_gen_movi_i32(cpu_pc, dest);
++        tcg_gen_exit_tb(tb, n);
++    } else {
++        tcg_gen_movi_i32(cpu_pc, dest);
++        gen_helper_debug(cpu_env);
++        tcg_gen_exit_tb(NULL, 0);
++    }
++    ctx->bstate = DISAS_NORETURN;
 +}
 +
 +/*
-+ *  Adds two registers without the C Flag and places the result in the
-+ *  destination register Rd.
++ *  Relative jump to an address within PC - 2K +1 and PC + 2K (words). For
++ *  AVR microcontrollers with Program memory not exceeding 4K words (8KB) this
++ *  instruction can address the entire memory from every address location. See
++ *  also JMP.
 + */
-+static bool trans_ADD(DisasContext *ctx, arg_ADD *a)
++static bool trans_RJMP(DisasContext *ctx, arg_RJMP *a)
 +{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
++    int dst = ctx->npc + a->imm;
 +
-+    tcg_gen_add_tl(R, Rd, Rr); /* Rd = Rd + Rr */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+
-+    /* update status register */
-+    gen_add_CHf(R, Rd, Rr);
-+    gen_add_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
++    gen_goto_tb(ctx, 0, dst);
 +
 +    return true;
 +}
 +
 +/*
-+ *  Adds two registers and the contents of the C Flag and places the result in
-+ *  the destination register Rd.
++ *  Indirect jump to the address pointed to by the Z (16 bits) Pointer
++ *  Register in the Register File. The Z-pointer Register is 16 bits wide and
++ *  allows jump within the lowest 64K words (128KB) section of Program memory.
++ *  This instruction is not available in all devices. Refer to the device
++ *  specific instruction set summary.
 + */
-+static bool trans_ADC(DisasContext *ctx, arg_ADC *a)
++static bool trans_IJMP(DisasContext *ctx, arg_IJMP *a)
 +{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_add_tl(R, Rd, Rr); /* R = Rd + Rr + Cf */
-+    tcg_gen_add_tl(R, R, cpu_Cf);
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+
-+    /* update status register */
-+    gen_add_CHf(R, Rd, Rr);
-+    gen_add_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Adds an immediate value (0 - 63) to a register pair and places the result
-+ *  in the register pair. This instruction operates on the upper four register
-+ *  pairs, and is well suited for operations on the pointer registers.  This
-+ *  instruction is not available in all devices. Refer to the device specific
-+ *  instruction set summary.
-+ */
-+static bool trans_ADIW(DisasContext *ctx, arg_ADIW *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
++    if (!avr_have_feature(ctx, AVR_FEATURE_IJMP_ICALL)) {
 +        return true;
 +    }
 +
-+    TCGv RdL = cpu_r[a->rd];
-+    TCGv RdH = cpu_r[a->rd + 1];
-+    int Imm = (a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv Rd = tcg_temp_new_i32();
-+
-+    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
-+    tcg_gen_addi_tl(R, Rd, Imm); /* R = Rd + Imm */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+
-+    /* update status register */
-+    tcg_gen_andc_tl(cpu_Cf, Rd, R); /* Cf = Rd & ~R */
-+    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15);
-+    tcg_gen_andc_tl(cpu_Vf, R, Rd); /* Vf = R & ~Rd */
-+    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf);/* Sf = Nf ^ Vf */
-+
-+    /* update output registers */
-+    tcg_gen_andi_tl(RdL, R, 0xff);
-+    tcg_gen_shri_tl(RdH, R, 8);
-+
-+    tcg_temp_free_i32(Rd);
-+    tcg_temp_free_i32(R);
++    gen_jmp_z(ctx);
 +
 +    return true;
 +}
 +
 +/*
-+ *  Subtracts two registers and places the result in the destination
-+ *  register Rd.
++ *  Indirect jump to the address pointed to by the Z (16 bits) Pointer
++ *  Register in the Register File and the EIND Register in the I/O space. This
++ *  instruction allows for indirect jumps to the entire 4M (words) Program
++ *  memory space. See also IJMP.  This instruction is not available in all
++ *  devices. Refer to the device specific instruction set summary.
 + */
-+static bool trans_SUB(DisasContext *ctx, arg_SUB *a)
++static bool trans_EIJMP(DisasContext *ctx, arg_EIJMP *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_EIJMP_EICALL)) {
++        return true;
++    }
++
++    gen_jmp_ez(ctx);
++    return true;
++}
++
++/*
++ *  Jump to an address within the entire 4M (words) Program memory. See also
++ *  RJMP.  This instruction is not available in all devices. Refer to the device
++ *  specific instruction set summary.0
++ */
++static bool trans_JMP(DisasContext *ctx, arg_JMP *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_JMP_CALL)) {
++        return true;
++    }
++
++    gen_goto_tb(ctx, 0, a->imm);
++
++    return true;
++}
++
++/*
++ *  Relative call to an address within PC - 2K + 1 and PC + 2K (words). The
++ *  return address (the instruction after the RCALL) is stored onto the Stack.
++ *  See also CALL. For AVR microcontrollers with Program memory not exceeding 4K
++ *  words (8KB) this instruction can address the entire memory from every
++ *  address location. The Stack Pointer uses a post-decrement scheme during
++ *  RCALL.
++ */
++static bool trans_RCALL(DisasContext *ctx, arg_RCALL *a)
++{
++    int ret = ctx->npc;
++    int dst = ctx->npc + a->imm;
++
++    gen_push_ret(ctx, ret);
++    gen_goto_tb(ctx, 0, dst);
++
++    return true;
++}
++
++/*
++ *  Calls to a subroutine within the entire 4M (words) Program memory. The
++ *  return address (to the instruction after the CALL) will be stored onto the
++ *  Stack. See also RCALL. The Stack Pointer uses a post-decrement scheme during
++ *  CALL.  This instruction is not available in all devices. Refer to the device
++ *  specific instruction set summary.
++ */
++static bool trans_ICALL(DisasContext *ctx, arg_ICALL *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_IJMP_ICALL)) {
++        return true;
++    }
++
++    int ret = ctx->npc;
++
++    gen_push_ret(ctx, ret);
++    gen_jmp_z(ctx);
++
++    return true;
++}
++
++/*
++ *  Indirect call of a subroutine pointed to by the Z (16 bits) Pointer
++ *  Register in the Register File and the EIND Register in the I/O space. This
++ *  instruction allows for indirect calls to the entire 4M (words) Program
++ *  memory space. See also ICALL. The Stack Pointer uses a post-decrement scheme
++ *  during EICALL.  This instruction is not available in all devices. Refer to
++ *  the device specific instruction set summary.
++ */
++static bool trans_EICALL(DisasContext *ctx, arg_EICALL *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_EIJMP_EICALL)) {
++        return true;
++    }
++
++    int ret = ctx->npc;
++
++    gen_push_ret(ctx, ret);
++    gen_jmp_ez(ctx);
++    return true;
++}
++
++/*
++ *  Calls to a subroutine within the entire Program memory. The return
++ *  address (to the instruction after the CALL) will be stored onto the Stack.
++ *  (See also RCALL). The Stack Pointer uses a post-decrement scheme during
++ *  CALL.  This instruction is not available in all devices. Refer to the device
++ *  specific instruction set summary.
++ */
++static bool trans_CALL(DisasContext *ctx, arg_CALL *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_JMP_CALL)) {
++        return true;
++    }
++
++    int Imm = a->imm;
++    int ret = ctx->npc;
++
++    gen_push_ret(ctx, ret);
++    gen_goto_tb(ctx, 0, Imm);
++
++    return true;
++}
++
++/*
++ *  Returns from subroutine. The return address is loaded from the STACK.
++ *  The Stack Pointer uses a preincrement scheme during RET.
++ */
++static bool trans_RET(DisasContext *ctx, arg_RET *a)
++{
++    gen_pop_ret(ctx, cpu_pc);
++
++    ctx->bstate = DISAS_LOOKUP;
++    return true;
++}
++
++/*
++ *  Returns from interrupt. The return address is loaded from the STACK and
++ *  the Global Interrupt Flag is set.  Note that the Status Register is not
++ *  automatically stored when entering an interrupt routine, and it is not
++ *  restored when returning from an interrupt routine. This must be handled by
++ *  the application program. The Stack Pointer uses a pre-increment scheme
++ *  during RETI.
++ */
++static bool trans_RETI(DisasContext *ctx, arg_RETI *a)
++{
++    gen_pop_ret(ctx, cpu_pc);
++    tcg_gen_movi_tl(cpu_If, 1);
++
++    /* Need to return to main loop to re-evaluate interrupts.  */
++    ctx->bstate = DISAS_EXIT;
++    return true;
++}
++
++/*
++ *  This instruction performs a compare between two registers Rd and Rr, and
++ *  skips the next instruction if Rd = Rr.
++ */
++static bool trans_CPSE(DisasContext *ctx, arg_CPSE *a)
++{
++    ctx->skip_cond = TCG_COND_EQ;
++    ctx->skip_var0 = cpu_r[a->rd];
++    ctx->skip_var1 = cpu_r[a->rr];
++    return true;
++}
++
++/*
++ *  This instruction performs a compare between two registers Rd and Rr.
++ *  None of the registers are changed. All conditional branches can be used
++ *  after this instruction.
++ */
++static bool trans_CP(DisasContext *ctx, arg_CP *a)
 +{
 +    TCGv Rd = cpu_r[a->rd];
 +    TCGv Rr = cpu_r[a->rr];
@@ -441,13 +469,9 @@ index 44ee8849f0..d81bfaa04b 100644
 +    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
 +
 +    /* update status register */
-+    tcg_gen_andc_tl(cpu_Cf, Rd, R); /* Cf = Rd & ~R */
 +    gen_sub_CHf(R, Rd, Rr);
 +    gen_sub_Vf(R, Rd, Rr);
 +    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
 +
 +    tcg_temp_free_i32(R);
 +
@@ -455,38 +479,11 @@ index 44ee8849f0..d81bfaa04b 100644
 +}
 +
 +/*
-+ *  Subtracts a register and a constant and places the result in the
-+ *  destination register Rd. This instruction is working on Register R16 to R31
-+ *  and is very well suited for operations on the X, Y, and Z-pointers.
++ *  This instruction performs a compare between two registers Rd and Rr and
++ *  also takes into account the previous carry. None of the registers are
++ *  changed. All conditional branches can be used after this instruction.
 + */
-+static bool trans_SUBI(DisasContext *ctx, arg_SUBI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = tcg_const_i32(a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Imm */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+
-+    /* update status register */
-+    gen_sub_CHf(R, Rd, Rr);
-+    gen_sub_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+    tcg_temp_free_i32(Rr);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts two registers and subtracts with the C Flag and places the
-+ *  result in the destination register Rd.
-+ */
-+static bool trans_SBC(DisasContext *ctx, arg_SBC *a)
++static bool trans_CPC(DisasContext *ctx, arg_CPC *a)
 +{
 +    TCGv Rd = cpu_r[a->rd];
 +    TCGv Rr = cpu_r[a->rr];
@@ -496,7 +493,6 @@ index 44ee8849f0..d81bfaa04b 100644
 +    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
 +    tcg_gen_sub_tl(R, R, cpu_Cf);
 +    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+
 +    /* update status register */
 +    gen_sub_CHf(R, Rd, Rr);
 +    gen_sub_Vf(R, Rd, Rr);
@@ -508,9 +504,6 @@ index 44ee8849f0..d81bfaa04b 100644
 +     */
 +    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
 +
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
 +    tcg_temp_free_i32(zero);
 +    tcg_temp_free_i32(R);
 +
@@ -518,34 +511,25 @@ index 44ee8849f0..d81bfaa04b 100644
 +}
 +
 +/*
-+ *  SBCI -- Subtract Immediate with Carry
++ *  This instruction performs a compare between register Rd and a constant.
++ *  The register is not changed. All conditional branches can be used after this
++ *  instruction.
 + */
-+static bool trans_SBCI(DisasContext *ctx, arg_SBCI *a)
++static bool trans_CPI(DisasContext *ctx, arg_CPI *a)
 +{
 +    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = tcg_const_i32(a->imm);
++    int Imm = a->imm;
++    TCGv Rr = tcg_const_i32(Imm);
 +    TCGv R = tcg_temp_new_i32();
-+    TCGv zero = tcg_const_i32(0);
 +
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
-+    tcg_gen_sub_tl(R, R, cpu_Cf);
++    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr */
 +    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
 +
 +    /* update status register */
 +    gen_sub_CHf(R, Rd, Rr);
 +    gen_sub_Vf(R, Rd, Rr);
-+    gen_NSf(R);
++    gen_ZNSf(R);
 +
-+    /*
-+     * Previous value remains unchanged when the result is zero;
-+     * cleared otherwise.
-+     */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(zero);
 +    tcg_temp_free_i32(R);
 +    tcg_temp_free_i32(Rr);
 +
@@ -553,477 +537,169 @@ index 44ee8849f0..d81bfaa04b 100644
 +}
 +
 +/*
-+ *  Subtracts an immediate value (0-63) from a register pair and places the
-+ *  result in the register pair. This instruction operates on the upper four
-+ *  register pairs, and is well suited for operations on the Pointer Registers.
-+ *  This instruction is not available in all devices. Refer to the device
-+ *  specific instruction set summary.
++ *  This instruction tests a single bit in a register and skips the next
++ *  instruction if the bit is cleared.
 + */
-+static bool trans_SBIW(DisasContext *ctx, arg_SBIW *a)
++static bool trans_SBRC(DisasContext *ctx, arg_SBRC *a)
 +{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
-+        return true;
++    TCGv Rr = cpu_r[a->rr];
++
++    ctx->skip_cond = TCG_COND_EQ;
++    ctx->skip_var0 = tcg_temp_new();
++    ctx->free_skip_var0 = true;
++
++    tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
++    return true;
++}
++
++/*
++ *  This instruction tests a single bit in a register and skips the next
++ *  instruction if the bit is set.
++ */
++static bool trans_SBRS(DisasContext *ctx, arg_SBRS *a)
++{
++    TCGv Rr = cpu_r[a->rr];
++
++    ctx->skip_cond = TCG_COND_NE;
++    ctx->skip_var0 = tcg_temp_new();
++    ctx->free_skip_var0 = true;
++
++    tcg_gen_andi_tl(ctx->skip_var0, Rr, 1 << a->bit);
++    return true;
++}
++
++/*
++ *  This instruction tests a single bit in an I/O Register and skips the
++ *  next instruction if the bit is cleared. This instruction operates on the
++ *  lower 32 I/O Registers -- addresses 0-31.
++ */
++static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
++{
++    TCGv temp = tcg_const_i32(a->reg);
++
++    gen_helper_inb(temp, cpu_env, temp);
++    tcg_gen_andi_tl(temp, temp, 1 << a->bit);
++    ctx->skip_cond = TCG_COND_EQ;
++    ctx->skip_var0 = temp;
++    ctx->free_skip_var0 = true;
++
++    return true;
++}
++
++/*
++ *  This instruction tests a single bit in an I/O Register and skips the
++ *  next instruction if the bit is set. This instruction operates on the lower
++ *  32 I/O Registers -- addresses 0-31.
++ */
++static bool trans_SBIS(DisasContext *ctx, arg_SBIS *a)
++{
++    TCGv temp = tcg_const_i32(a->reg);
++
++    gen_helper_inb(temp, cpu_env, temp);
++    tcg_gen_andi_tl(temp, temp, 1 << a->bit);
++    ctx->skip_cond = TCG_COND_NE;
++    ctx->skip_var0 = temp;
++    ctx->free_skip_var0 = true;
++
++    return true;
++}
++
++/*
++ *  Conditional relative branch. Tests a single bit in SREG and branches
++ *  relatively to PC if the bit is cleared. This instruction branches relatively
++ *  to PC in either direction (PC - 63 < = destination <= PC + 64). The
++ *  parameter k is the offset from PC and is represented in two's complement
++ *  form.
++ */
++static bool trans_BRBC(DisasContext *ctx, arg_BRBC *a)
++{
++    TCGLabel *not_taken = gen_new_label();
++
++    TCGv var;
++
++    switch (a->bit) {
++    case 0x00:
++        var = cpu_Cf;
++        break;
++    case 0x01:
++        var = cpu_Zf;
++        break;
++    case 0x02:
++        var = cpu_Nf;
++        break;
++    case 0x03:
++        var = cpu_Vf;
++        break;
++    case 0x04:
++        var = cpu_Sf;
++        break;
++    case 0x05:
++        var = cpu_Hf;
++        break;
++    case 0x06:
++        var = cpu_Tf;
++        break;
++    case 0x07:
++        var = cpu_If;
++        break;
++    default:
++        g_assert_not_reached();
 +    }
 +
-+    TCGv RdL = cpu_r[a->rd];
-+    TCGv RdH = cpu_r[a->rd + 1];
-+    int Imm = (a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv Rd = tcg_temp_new_i32();
++    tcg_gen_brcondi_i32(TCG_COND_NE, var, 0, not_taken);
++    gen_goto_tb(ctx, 0, ctx->npc + a->imm);
++    gen_set_label(not_taken);
 +
-+    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
-+    tcg_gen_subi_tl(R, Rd, Imm); /* R = Rd - Imm */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+
-+    /* update status register */
-+    tcg_gen_andc_tl(cpu_Cf, R, Rd);
-+    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15); /* Cf = R & ~Rd */
-+    tcg_gen_andc_tl(cpu_Vf, Rd, R);
-+    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15); /* Vf = Rd & ~R */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+
-+    /* update output registers */
-+    tcg_gen_andi_tl(RdL, R, 0xff);
-+    tcg_gen_shri_tl(RdH, R, 8);
-+
-+    tcg_temp_free_i32(Rd);
-+    tcg_temp_free_i32(R);
-+
++    ctx->bstate = DISAS_CHAIN;
 +    return true;
 +}
 +
 +/*
-+ *  Performs the logical AND between the contents of register Rd and register
-+ *  Rr and places the result in the destination register Rd.
++ *  Conditional relative branch. Tests a single bit in SREG and branches
++ *  relatively to PC if the bit is set. This instruction branches relatively to
++ *  PC in either direction (PC - 63 < = destination <= PC + 64). The parameter k
++ *  is the offset from PC and is represented in two's complement form.
 + */
-+static bool trans_AND(DisasContext *ctx, arg_AND *a)
++static bool trans_BRBS(DisasContext *ctx, arg_BRBS *a)
 +{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
++    TCGLabel *not_taken = gen_new_label();
 +
-+    tcg_gen_and_tl(R, Rd, Rr); /* Rd = Rd and Rr */
++    TCGv var;
 +
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical AND between the contents of register Rd and a constant
-+ *  and places the result in the destination register Rd.
-+ */
-+static bool trans_ANDI(DisasContext *ctx, arg_ANDI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    int Imm = (a->imm);
-+
-+    tcg_gen_andi_tl(Rd, Rd, Imm); /* Rd = Rd & Imm */
-+
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical OR between the contents of register Rd and register
-+ *  Rr and places the result in the destination register Rd.
-+ */
-+static bool trans_OR(DisasContext *ctx, arg_OR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_or_tl(R, Rd, Rr);
-+
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Vf, 0);
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical OR between the contents of register Rd and a
-+ *  constant and places the result in the destination register Rd.
-+ */
-+static bool trans_ORI(DisasContext *ctx, arg_ORI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    int Imm = (a->imm);
-+
-+    tcg_gen_ori_tl(Rd, Rd, Imm); /* Rd = Rd | Imm */
-+
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical EOR between the contents of register Rd and
-+ *  register Rr and places the result in the destination register Rd.
-+ */
-+static bool trans_EOR(DisasContext *ctx, arg_EOR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+
-+    tcg_gen_xor_tl(Rd, Rd, Rr);
-+
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Vf, 0);
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears the specified bits in register Rd. Performs the logical AND
-+ *  between the contents of register Rd and the complement of the constant mask
-+ *  K. The result will be placed in register Rd.
-+ */
-+static bool trans_COM(DisasContext *ctx, arg_COM *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_xori_tl(Rd, Rd, 0xff);
-+
-+    /* update status register */
-+    tcg_gen_movi_tl(cpu_Cf, 1); /* Cf = 1 */
-+    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Replaces the contents of register Rd with its two's complement; the
-+ *  value $80 is left unchanged.
-+ */
-+static bool trans_NEG(DisasContext *ctx, arg_NEG *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_const_i32(0);
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_sub_tl(R, t0, Rd); /* R = 0 - Rd */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+
-+    /* update status register */
-+    gen_sub_CHf(R, t0, Rd);
-+    gen_sub_Vf(R, t0, Rd);
-+    gen_ZNSf(R);
-+
-+    /* update output registers */
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Adds one -1- to the contents of register Rd and places the result in the
-+ *  destination register Rd.  The C Flag in SREG is not affected by the
-+ *  operation, thus allowing the INC instruction to be used on a loop counter in
-+ *  multiple-precision computations.  When operating on unsigned numbers, only
-+ *  BREQ and BRNE branches can be expected to perform consistently. When
-+ *  operating on two's complement values, all signed branches are available.
-+ */
-+static bool trans_INC(DisasContext *ctx, arg_INC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_addi_tl(Rd, Rd, 1);
-+    tcg_gen_andi_tl(Rd, Rd, 0xff);
-+
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x80); /* Vf = Rd == 0x80 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts one -1- from the contents of register Rd and places the result
-+ *  in the destination register Rd.  The C Flag in SREG is not affected by the
-+ *  operation, thus allowing the DEC instruction to be used on a loop counter in
-+ *  multiple-precision computations.  When operating on unsigned values, only
-+ *  BREQ and BRNE branches can be expected to perform consistently.  When
-+ *  operating on two's complement values, all signed branches are available.
-+ */
-+static bool trans_DEC(DisasContext *ctx, arg_DEC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_subi_tl(Rd, Rd, 1); /* Rd = Rd - 1 */
-+    tcg_gen_andi_tl(Rd, Rd, 0xff); /* make it 8 bits */
-+
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x7f); /* Vf = Rd == 0x7f */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned multiplication.
-+ */
-+static bool trans_MUL(DisasContext *ctx, arg_MUL *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
++    switch (a->bit) {
++    case 0x00:
++        var = cpu_Cf;
++        break;
++    case 0x01:
++        var = cpu_Zf;
++        break;
++    case 0x02:
++        var = cpu_Nf;
++        break;
++    case 0x03:
++        var = cpu_Vf;
++        break;
++    case 0x04:
++        var = cpu_Sf;
++        break;
++    case 0x05:
++        var = cpu_Hf;
++        break;
++    case 0x06:
++        var = cpu_Tf;
++        break;
++    case 0x07:
++        var = cpu_If;
++        break;
++    default:
++        g_assert_not_reached();
 +    }
 +
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
++    tcg_gen_brcondi_i32(TCG_COND_EQ, var, 0, not_taken);
++    gen_goto_tb(ctx, 0, ctx->npc + a->imm);
++    gen_set_label(not_taken);
 +
-+    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication.
-+ */
-+static bool trans_MULS(DisasContext *ctx, arg_MULS *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit multiplication of a
-+ *  signed and an unsigned number.
-+ */
-+static bool trans_MULSU(DisasContext *ctx, arg_MULSU *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make R 16 bits */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned
-+ *  multiplication and shifts the result one bit left.
-+ */
-+static bool trans_FMUL(DisasContext *ctx, arg_FMUL *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    /* update output registers */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
-+ *  and shifts the result one bit left.
-+ */
-+static bool trans_FMULS(DisasContext *ctx, arg_FMULS *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    /* update output registers */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
-+ *  and shifts the result one bit left.
-+ */
-+static bool trans_FMULSU(DisasContext *ctx, arg_FMULSU *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+
-+    /* update status register */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    /* update output registers */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  The module is an instruction set extension to the AVR CPU, performing
-+ *  DES iterations. The 64-bit data block (plaintext or ciphertext) is placed in
-+ *  the CPU register file, registers R0-R7, where LSB of data is placed in LSB
-+ *  of R0 and MSB of data is placed in MSB of R7. The full 64-bit key (including
-+ *  parity bits) is placed in registers R8- R15, organized in the register file
-+ *  with LSB of key in LSB of R8 and MSB of key in MSB of R15. Executing one DES
-+ *  instruction performs one round in the DES algorithm. Sixteen rounds must be
-+ *  executed in increasing order to form the correct DES ciphertext or
-+ *  plaintext. Intermediate results are stored in the register file (R0-R15)
-+ *  after each DES instruction. The instruction's operand (K) determines which
-+ *  round is executed, and the half carry flag (H) determines whether encryption
-+ *  or decryption is performed.  The DES algorithm is described in
-+ *  "Specifications for the Data Encryption Standard" (Federal Information
-+ *  Processing Standards Publication 46). Intermediate results in this
-+ *  implementation differ from the standard because the initial permutation and
-+ *  the inverse initial permutation are performed each iteration. This does not
-+ *  affect the result in the final ciphertext or plaintext, but reduces
-+ *  execution time.
-+ */
-+static bool trans_DES(DisasContext *ctx, arg_DES *a)
-+{
-+    /* TODO */
-+    if (!avr_have_feature(ctx, AVR_FEATURE_DES)) {
-+        return true;
-+    }
-+
++    ctx->bstate = DISAS_CHAIN;
 +    return true;
 +}
 -- 
