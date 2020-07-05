@@ -2,68 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B76214D06
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:17:07 +0200 (CEST)
-Received: from localhost ([::1]:38922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBE0214D18
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:25:51 +0200 (CEST)
+Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5S6-0006M2-3m
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
+	id 1js5aY-0005Is-OP
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:25:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FI-0007rj-SE
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:52 -0400
-Received: from mail-ej1-f47.google.com ([209.85.218.47]:46625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FH-0008N8-4a
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:52 -0400
-Received: by mail-ej1-f47.google.com with SMTP id p20so39621954ejd.13
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rTb61qVqQxM+c4GL5A/lVhDhxPH2+VJexS8aBrwdYmw=;
- b=Jl24SWbRETLGOsUe7J6PwC/+K9rjNUfLpYyZmNIl+duOlL7h8HzD+Gs1Xg0TyPlEiE
- vom7ag1r3rDte5hxQVtCaCbelgwnuBa52C3KMqC2qkpF8+BOhNAqhR4Cr/UtyJLn4NtK
- /lNLBGo8xZDRmp6isffOG272o0cBjY4USVa9Lifzh1Vt8367aY5klS1/bD6a5hyVxqOO
- ogf9MMWg9F0o3ny1kxBIaHD1t9WxQHi+OWVS+mhqWvVUjq7uKKDtm2F1PLZmRHcYljx/
- Exz0kvcbss99uQZ9gcVvtwrRAhVAfS/M4bQqi30PvOBZlHrKQ/GTDcrzERt637i9E+NZ
- 803w==
-X-Gm-Message-State: AOAM531IAEUBbzcl8FL5TW9nPPnqAB9JLuAhWehtAWZMxbNjSn+HoSQ9
- wB27QZc0nLpkMqFjqzwWadDwhHlN
-X-Google-Smtp-Source: ABdhPJy6jiuxLbKJtLSo3ndogQB1ENI2BcB9G+TQzSZ/1NW+DeFWatY+FI29MJvG9e1mOnawh5KH/g==
-X-Received: by 2002:a17:906:4bcf:: with SMTP id
- x15mr30329957ejv.188.1593957829621; 
- Sun, 05 Jul 2020 07:03:49 -0700 (PDT)
-Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
- [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:49 -0700 (PDT)
-From: Thomas Huth <huth@tuxfamily.org>
-To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 30/30] target/avr: Add section into QEMU documentation
-Date: Sun,  5 Jul 2020 16:03:15 +0200
-Message-Id: <20200705140315.260514-31-huth@tuxfamily.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
-References: <20200705140315.260514-1-huth@tuxfamily.org>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1js5Zm-0004u1-Vr
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:25:03 -0400
+Received: from relay4.mymailcheap.com ([137.74.80.154]:33188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1js5Zk-0004Y9-2T
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:25:02 -0400
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay4.mymailcheap.com (Postfix) with ESMTPS id AD8DD3F1CF;
+ Sun,  5 Jul 2020 16:24:55 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by filter1.mymailcheap.com (Postfix) with ESMTP id D678B2A351;
+ Sun,  5 Jul 2020 10:24:54 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1593959094;
+ bh=NWbD0Gy155hB34exXo7mo/yU1hrNM3MfhQVLEctF24I=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=TNu4AtjbEPFdviWVBN+LBi5sdtag1YIDYdAJ/TpOQKsMOGH7Qx+wEeN/bwGlk5NYz
+ ci67pPj4CgG6FC1yHBabIcQu7YrpmoU0+b1t99CkAWe6WHfsThmqNqDtJpfVKl6uCJ
+ hROUXWtbpVi9MAr6PnFvt062REGnXFbdmXUtgm0E=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fz4fDH6Gv0f8; Sun,  5 Jul 2020 10:24:53 -0400 (EDT)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Sun,  5 Jul 2020 10:24:53 -0400 (EDT)
+Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id C907441B3D;
+ Sun,  5 Jul 2020 14:24:51 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="JkXqUURw"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [0.0.0.0] (ec2-18-163-238-147.ap-east-1.compute.amazonaws.com
+ [18.163.238.147])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id A340541B3D;
+ Sun,  5 Jul 2020 14:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
+ s=default; t=1593959069;
+ bh=NWbD0Gy155hB34exXo7mo/yU1hrNM3MfhQVLEctF24I=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=JkXqUURwS/y5MkMEaMMn+ENy+CypVUn27lYLnxRdOsqAKhRzOThk3O8p03jKW5JNk
+ CZZgQqfjclC2Wr/ti6jdoxpsVhvmYbd8wjhBh41oG7q8QjIkG4Fccs9XLwx/5c6o5i
+ 3O4VMjPpZwh4Vijss4Fz11wp5d3DTlWRe5wH72gQ=
+Subject: Re: [PATCH v2 1/1] disas: mips: Add Loongson 2F disassembler
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Stefan Brankovic <stefanbrankovic96@gmail.com>, qemu-devel@nongnu.org
+References: <20200703104409.6986-1-stefan.brankovic@syrmia.com>
+ <20200703104409.6986-2-stefan.brankovic@syrmia.com>
+ <93277e29-001d-824e-5b5e-93a928290a30@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <3482781c-d255-7cf1-72ce-9e7b0e2217b1@flygoat.com>
+Date: Sun, 5 Jul 2020 22:24:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <93277e29-001d-824e-5b5e-93a928290a30@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.47; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f47.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Rspamd-Queue-Id: C907441B3D
+X-Spamd-Result: default: False [1.40 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[]; R_SPF_SOFTFAIL(0.00)[~all];
+ ML_SERVERS(-3.10)[213.133.102.83];
+ DKIM_TRACE(0.00)[flygoat.com:+];
+ DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ FREEMAIL_TO(0.00)[amsat.org,gmail.com,nongnu.org];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+ MID_RHS_MATCH_FROM(0.00)[]; ARC_NA(0.00)[];
+ R_DKIM_ALLOW(0.00)[flygoat.com:s=default]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain];
+ RCVD_IN_DNSWL_NONE(0.00)[213.133.102.83:from];
+ HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
+ FREEMAIL_CC(0.00)[redhat.com,syrmia.com,gmail.com,lemote.com];
+ RCVD_COUNT_TWO(0.00)[2]; SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: mail20.mymailcheap.com
+Received-SPF: pass client-ip=137.74.80.154;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay4.mymailcheap.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:24:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,74 +122,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>
+Cc: chenhc@lemote.com, thuth@redhat.com, stefan.brankovic@syrmia.com,
+ aleksandar.rikalo@syrmia.com, aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new section explains basic ways of using AVR target in QEMU.
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-[thuth: Converted doc from texi to Sphinx syntax]
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
----
- docs/system/target-avr.rst | 37 +++++++++++++++++++++++++++++++++++++
- docs/system/targets.rst    |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 docs/system/target-avr.rst
 
-diff --git a/docs/system/target-avr.rst b/docs/system/target-avr.rst
-new file mode 100644
-index 0000000000..40d212a9a7
---- /dev/null
-+++ b/docs/system/target-avr.rst
-@@ -0,0 +1,37 @@
-+.. _AVR-System-emulator:
-+
-+AVR System emulator
-+-------------------
-+
-+Use the executable ``qemu-system-avr`` to emulate a AVR 8 bit based machine.
-+These can have one of the following cores: avr1, avr2, avr25, avr3, avr31,
-+avr35, avr4, avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5,
-+xmega6 and xmega7.
-+
-+As for now it supports few Arduino boards for educational and testing purposes.
-+These boards use a ATmega controller, which model is limited to USART & 16-bit
-+timer devices, enought to run FreeRTOS based applications (like
-+https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-+).
-+
-+Following are examples of possible usages, assuming demo.elf is compiled for
-+AVR cpu
-+
-+ - Continuous non interrupted execution: 
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf``
-+
-+ - Continuous non interrupted execution with serial output into telnet window:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -serial
-+   tcp::5678,server,nowait -nographic``
-+   and then in another shell
-+   ``telnet localhost 5678``
-+
-+ - Debugging wit GDB debugger:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -s -S``
-+   and then in another shell
-+   ``avr-gdb demo.elf``
-+   and then within GDB shell
-+   ``target remote :1234``
-+
-+ - Print out executed instructions:
-+   ``qemu-system-avr -machine mega2560 -bios demo.elf -d in_asm``
-diff --git a/docs/system/targets.rst b/docs/system/targets.rst
-index 99435a3eba..560783644d 100644
---- a/docs/system/targets.rst
-+++ b/docs/system/targets.rst
-@@ -19,3 +19,4 @@ Contents:
-    target-xtensa
-    target-s390x
-    target-rx
-+   target-avr
--- 
-2.26.2
+在 2020/7/5 4:04, Philippe Mathieu-Daudé 写道:
+> Hi Stefan,
+>
+> On 7/3/20 12:44 PM, Stefan Brankovic wrote:
+>> Add disassembler for Loongson 2F instruction set.
+>>
+>> Testing is done by comparing qemu disassembly output, obtained by
+>> using -d in_asm command line option, with appropriate objdump output.
+>>
+>> This disassembler is written as a generic disassembler that can be
+>> integrated into other projects. In this case, it is integrated into
+>> QEMU. One of initial key requirements was that it uses C++ as its
+>> language.
+> Wow, this is a huge contribution!
+>
+> QEMU uses the libcapstone as backend to disassemble some architectures.
+> I see the project [1] do support MIPS [2], but they don't support
+> neither nanoMIPS nor the Loongson 2F instruction set. As the library is
+> used by other projects, it might be worthwhile have a look if your
+> disassembler could fit there instead.
+> Don't take this as a negative comment please, this is the opposite:
+> more users would be able to use your work.
+> My comment doesn't say neither that I am against your proposal. I
+> wanted to be sure you are aware of the capstone engine project.
 
+Capstone relies on an ancient version of LLVM MC, however, Loongson 
+instructions
+never got upstreamed in LLVM.
+
+But... Yeah, upstream capstone looks like a better idea for the future.
+> I cc'ed Jiaxun Yang who has more experience with the Loongson 2F ISA
+> and might be able to test your patch.
+
+Thanks, will do some review and test later.
+
+>
+> Regards,
+>
+> Phil.
+>
+> [1] http://www.capstone-engine.org/
+> [2] http://www.capstone-engine.org/arch.html
+>
+>> Signed-off-by: Stefan Brankovic <stefan.brankovic@syrmia.com>
+>> ---
+>>   MAINTAINERS             |    1 +
+>>   configure               |    1 +
+>>   disas/Makefile.objs     |    1 +
+>>   disas/loongson2f.cpp    | 8154 +++++++++++++++++++++++++++++++++++++++
+>>   disas/loongson2f.h      | 2562 ++++++++++++
+>>   include/disas/dis-asm.h |    1 +
+>>   include/exec/poison.h   |    1 +
+>>   target/mips/cpu.c       |    4 +
+>>   8 files changed, 10725 insertions(+)
+>>   create mode 100644 disas/loongson2f.cpp
+>>   create mode 100644 disas/loongson2f.h
 
