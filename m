@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C940214FAB
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:56:54 +0200 (CEST)
-Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057FA214FCB
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 23:12:15 +0200 (CEST)
+Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsBgz-0003Im-4y
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:56:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
+	id 1jsBvp-0000rS-EI
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 17:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsBeQ-0007WL-8b; Sun, 05 Jul 2020 16:54:14 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38254)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsBu2-0007Bk-Jz
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 17:10:22 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsBeO-0001Yb-QD; Sun, 05 Jul 2020 16:54:13 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id k5so6531980pjg.3;
- Sun, 05 Jul 2020 13:54:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jsBu0-0004ot-Uo
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 17:10:22 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z2so16512997wrp.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 14:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vc/HBrgID2IsA3qadurmoqsX6c2eBRLY7r2F4iMCf3s=;
- b=uqNwEpUSeEUZGVi51/V9GifUKUpplX6pZF6FIk9ijhpZBnGV0kSWkY9/mZr6u2fSHc
- xYVZCqxqvejmCV9TbmH46DeGqhtMKvPzCsDfoXPcDTMzBmYZjkhzWr7OM4o+QgmCOlwB
- 4U9I7h1Sn1SEfI2+0W5ayrFSZtaKBXb7fJ51wZY60Y2NgWZcK4T3gOLgiI6yYbP7Jtmq
- 9Rdf35MlNOO/yCGdVd2UkEzMLOslkoM/sD9hOSJd8nyocBbNCdzt3f6iQ0lCPyYN+LOc
- 0ymWogWcbWoWJEYqXajU3dpLS3z48jtVddLRZYq52Zo8d2zbVXKtSIGvu1Zi71Py3NXh
- H8ow==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nNzM5/93dUYll+2DdWYX0zojdbNWRAz6yoQKex94XlY=;
+ b=mBNPBoStoEYwHsybcQAC7801f54RH3gT39zO6q8g16E6gDOh6ZtLzwFTref/aoLd2z
+ JMpUNnp1pflYiHGWkA+aZ1khMjj88L7rExbNJD69cRQbX4qj2OvdFFuoJ1lPUSbNNIua
+ 4CSJPGhapAxhn6LESAycA2eZHjMb6OGB2kA+bG0vxc+SqE5Ay9BdarMhL8ADwi/fjz3r
+ 5eT4NGFgSmDl5Rv4wa4U0yWuIDldmOZAe1GI5ystJjzfl+NKGicbZUqBn6ydE2+l+cgt
+ RCGLznN9vTT52HX6M43Ka7j3y92HpFLMZo03FSlOLlE8rNeLDQlVaKivpQSseHytfTcL
+ 4dTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vc/HBrgID2IsA3qadurmoqsX6c2eBRLY7r2F4iMCf3s=;
- b=SbG1kqWjtD4DinASIDIShqFrMfoB8jdQWIclFdKIw9WNx6ULu5h6DGEKVqd1wuaCym
- 0Xi2rNQHtrrQ2B8LEaF6i/SHc22pouQqB+c1F0b03WUjVgZoVlySqnmg89ndQudlN6tD
- A/iCcE4VUCMwi7KMgq6UEGdb1LDiPjIm9nXyQ9bo+J4JW9GrtGL/yCw+RY92Po6njddR
- skOZm6o24QVFauovEx6JWe/hPqVov0yzY4QkvN4ARSsxADRV1ZKFaGbCU5epuSaQR3lz
- LlrNmurlHOJSd620Sa2/52075GpEzLEhHUDXQ+mBDg5+aw457lfqTC+jGexr8hTSQfK8
- cjrw==
-X-Gm-Message-State: AOAM530lsAFmFG9PnQBoIXAxvncDL4NRKoT3yHDUPrO9XzWTOppUdfF4
- YAJwxAsyP7TwFJp66f+fBKJk8EmV2af8pIa9zIQ=
-X-Google-Smtp-Source: ABdhPJytteY4dHGHW3TQFV1zMy/0pQ96RrHIWNbpVQztA58X1KG2s9EDNzZiaS+jsXACR6FVgrYgHqahqwRASTUM0fs=
-X-Received: by 2002:a17:902:b694:: with SMTP id
- c20mr38184926pls.123.1593982450781; 
- Sun, 05 Jul 2020 13:54:10 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=nNzM5/93dUYll+2DdWYX0zojdbNWRAz6yoQKex94XlY=;
+ b=MIiN2pkpSCuVV6jGTt24rzHWygYLlHATwV+POgD+0E4BvzaP/TXOFXHkbr8TvDZS6t
+ /odP6ccgdbwMXtlz1HGPQFKREEEPeJFsDn3lbkqNIF3cV0u3d8gW1FD1PGyPlQy8lKN3
+ B6/wmYmFNIpZ5Y9ubaqIos3e48Dz4xFgFCpnIG0jJzxmtTb/6VF+sC6eAstnfqwfv+Ct
+ QjlLw7VcbcuMEN+KrtW3xg/1gPyjXLZDwOLxvchzjm8wMvAh1a4eRkZ3GHdo3/Y4EuVD
+ WiAkbeF7CogoClhwqarMV3xBhUdbdLfoMfVzAfZPwXT4Dy7qnpM2X2rsqmBMK4cAm0TR
+ jm7g==
+X-Gm-Message-State: AOAM530nn485khewKS4/39eAZ0OqZSCkau79vP9WewTTptVRwhMSr81h
+ qKcXfGlSaZ9AYFG5ImJjyxuUE4HL/ok=
+X-Google-Smtp-Source: ABdhPJz2zec1peohHykuLQkc45XnnPU8+pv3yxsdcxxO9plwIbk8BL/ffh7CDNYAckQJ2w/RmdMVSQ==
+X-Received: by 2002:adf:82b8:: with SMTP id 53mr49526845wrc.172.1593983418975; 
+ Sun, 05 Jul 2020 14:10:18 -0700 (PDT)
+Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.1])
+ by smtp.gmail.com with ESMTPSA id r8sm21102004wrp.40.2020.07.05.14.10.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Jul 2020 14:10:18 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] hw/sd/milkymist: Do not create SD card within the SDHCI
+ controller
+Date: Sun,  5 Jul 2020 23:10:12 +0200
+Message-Id: <20200705211016.15241-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20200629160535.3910-1-wentong.wu@intel.com>
- <20200629160535.3910-3-wentong.wu@intel.com>
- <3260735e-05ab-2d42-f7e4-914ad804f543@linaro.org>
- <CAFEAcA_+e7hrA5GRGb=gv3GxJRL77ARP34vyudRbiqhdsNVKwg@mail.gmail.com>
- <CAMo8BfLVDEFCXWNffVJaRb31UOTPO1iXNz5StexoKvWqQYzg6g@mail.gmail.com>
-In-Reply-To: <CAMo8BfLVDEFCXWNffVJaRb31UOTPO1iXNz5StexoKvWqQYzg6g@mail.gmail.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sun, 5 Jul 2020 13:53:59 -0700
-Message-ID: <CAMo8Bf+Fk32dYH6GV6Z6OWLsnpJy4Sw_ny+8yviQc6MjGD+mRw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/nios2: Use gen_io_start around wrctl
- instruction
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1043.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -5
-X-Spam_score: -0.6
+X-Spam_score_int: 0
+X-Spam_score: 0.0
 X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=1, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,29 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Wentong Wu <wentong.wu@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 5, 2020 at 11:16 AM Max Filippov <jcmvbkbc@gmail.com> wrote:
-> On Sun, Jul 5, 2020 at 10:09 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > On Thu, 2 Jul 2020 at 19:53, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> > > This isn't right.  Not so much the gen_io_start portion, but the entire
-> > > existence of helper_check_interrupt.
-> > I agree that it looks bogus (xtensa has a similar helper as well, incidentally),
-> I think there was a reason for it.
+SDHCI controllers provide a SD Bus to plug SD cards, but don't
+come with SD card plugged in :)
 
-...and the reason is that this helper calls cpu_[re]set_interrupt
-to update CPU_INTERRUPT_HARD, which makes exit to the
-main CPU loop do something to handle IRQ.
-Maybe 'check_interrupt' is not a good name for that, but the
-action taken there seems right to me.
+This series move the SD card creation to the machine/board code.
+
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (4):
+  hw/lm32/milkymist: Un-inline milkymist_memcard_create()
+  hw/lm32/milkymist: Comment to remember some IRQs lines are left
+    unwired
+  hw/sd/milkymist: Create the SDBus at init()
+  hw/sd/milkymist: Do not create SD card within the SDHCI controller
+
+ hw/lm32/milkymist-hw.h    | 11 --------
+ hw/lm32/milkymist.c       | 25 +++++++++++++++++
+ hw/sd/milkymist-memcard.c | 57 ++++++++++++++++++++++-----------------
+ 3 files changed, 58 insertions(+), 35 deletions(-)
 
 -- 
-Thanks.
--- Max
+2.21.3
+
 
