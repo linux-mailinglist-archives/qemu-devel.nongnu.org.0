@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13012214D0F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:21:36 +0200 (CEST)
-Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24AA214D01
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:15:48 +0200 (CEST)
+Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5WR-0003Ox-56
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
+	id 1js5Qq-0004Fr-3G
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:15:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FG-0007mJ-Ot
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:50 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:34885)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FH-0007oP-HS
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:51 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:37935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FF-0008Mc-3i
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:50 -0400
-Received: by mail-ej1-f65.google.com with SMTP id rk21so39684366ejb.2
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FF-0008Ml-Pc
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:51 -0400
+Received: by mail-ej1-f67.google.com with SMTP id w16so39668092ejj.5
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4M97oq1oAnOxEabEZEJ5kDDiZxswj4Hr2MVOSprbph0=;
- b=EOEhPdzstFzvmCkIP4bRyFHst9t/nNjlMnf0hR6xRPYb9Ky/9PjcXopuKkrb1LKjIZ
- zkisWykOSJA/pAgsZgdD12X0Z65vgc9i/fWpEujfedh/sRmBMxQC9jymPgaxkI8z22fL
- DtQPw5HwkUdhg9dWXB4pDhbfI5svruHGh6Prs01yl9CDfexuEX5A/iv7PcCY+BzLLfZq
- 0h2ibSGDMssRqn6pWv8R2/IcvtXuCsaBVQZwQkg9ZgmnawIC7Q7k41bsAbeHkuOca4Kv
- oyeof9dkBq9qFSd4kEuTS5d65vV95b7LwLnT/780gHsWgs/1Cl07pKek26XobH9Hd3X3
- 8L6Q==
-X-Gm-Message-State: AOAM532eh2XchuHZnM9tY1izQNIk4kfMeOhJZQXA+pDwQ/9oduron25U
- GmqrHlJosXt/WyOSNXnH8cDVvNVz
-X-Google-Smtp-Source: ABdhPJzf5c05wndNc32EQ4z/pGIaeccZKX8VMZ9t/C0sI75oAcDlyHGL5dd6zv/FQWOHPVPYnqwv4A==
-X-Received: by 2002:a17:906:d116:: with SMTP id
- b22mr16184459ejz.250.1593957827554; 
- Sun, 05 Jul 2020 07:03:47 -0700 (PDT)
+ bh=RKs6X96nXmVGxSBlCnmj0Thw4I4tEtK+nbLrimHWD88=;
+ b=V7Y//Q55LYTUuBApa2A2lSPAM2uEg8KtlA1QNXEoGwiRhjoYLhAkzA0nEctRMnJ0SC
+ eoByXJV2kDNP4V7cLxjAu7y/fbNBkxndg0N75F4ipJAgv5ydFPkxQ3h5ZJH6KpoLfQYd
+ 9ShrADqbNPUGMTGiKb1X2L2tJka8vdJLVh24pH9P+ShttXj1rK9nUJlfBIEKs4D1b/kd
+ +t8jhq/0JpH+u6QWP2tjAqu3ITQRNmOmUQL5AuhfX/HW+vPPQXgFdpsEGpd+F9Hngm9H
+ pZm1+jthDzjKdr/4Jf8S2GDegSoVA+2rwgSFLUgozagX8RI4yNT1VSnRQM+oK1lGsX/z
+ A5EA==
+X-Gm-Message-State: AOAM532+V05TuxebiGh3doQl9tDxUAXvo5txoPM3bjhmgWFuVcuBzpMx
+ nxZv2Kad4AA4/6MqLnACRd4COw/2
+X-Google-Smtp-Source: ABdhPJxOE4n/+ThMM7VZAx5r7PhFSuhhtmbrzKkNfJevHvjoBsvBug4U90sDAk+r6RW9y6aeC5GpJw==
+X-Received: by 2002:a17:906:17c8:: with SMTP id
+ u8mr40463861eje.129.1593957828243; 
+ Sun, 05 Jul 2020 07:03:48 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.46
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 05 Jul 2020 07:03:47 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 27/30] tests/machine-none: Add AVR support
-Date: Sun,  5 Jul 2020 16:03:12 +0200
-Message-Id: <20200705140315.260514-28-huth@tuxfamily.org>
+Subject: [PATCH rc6 28/30] tests/boot-serial: Test some Arduino boards (AVR
+ based)
+Date: Sun,  5 Jul 2020 16:03:13 +0200
+Message-Id: <20200705140315.260514-29-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.65; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:35
+Received-SPF: pass client-ip=209.85.218.67; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f67.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 1
 X-Spam_score: 0.1
@@ -83,32 +84,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add a single code line that will automatically provide 'machine none'
-test.
+Print out 'T' through serial port.
+
+The Arduino Duemilanove is based on a AVR5 CPU, while the
+Arduino MEGA2560 on a AVR6 CPU.
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[rth: Squash Arduino adjustments from f4bug]
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- tests/qtest/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/Makefile.include   |  2 ++
+ tests/qtest/boot-serial-test.c | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 8b7abea8af..57107f1aec 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 98af2c2d93..994ac47399 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -66,6 +66,8 @@ check-qtest-i386-y += numa-test
+ 
+ check-qtest-x86_64-y += $(check-qtest-i386-y)
+ 
++check-qtest-avr-y += boot-serial-test
++
+ check-qtest-alpha-y += boot-serial-test
+ check-qtest-alpha-$(CONFIG_VGA) += display-vga-test
+ 
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 85a3614286..bfe7624dc6 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -17,6 +17,15 @@
+ #include "libqtest.h"
+ #include "libqos/libqos-spapr.h"
+ 
++static const uint8_t bios_avr[] = {
++    0x88, 0xe0,             /* ldi r24, 0x08   */
++    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
++    0x86, 0xe0,             /* ldi r24, 0x06   */
++    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
++    0x84, 0xe5,             /* ldi r24, 0x54   */
++    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
++};
++
+ static const uint8_t kernel_mcf5208[] = {
+     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+@@ -104,6 +113,8 @@ typedef struct testdef {
+ 
+ static testdef_t tests[] = {
+     { "alpha", "clipper", "", "PCI:" },
++    { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bios_avr },
++    { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bios_avr},
+     { "ppc", "ppce500", "", "U-Boot" },
+     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+     { "ppc", "g3beige", "", "PowerPC,750" },
 -- 
 2.26.2
 
