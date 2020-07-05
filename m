@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AB8214CF8
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:12:33 +0200 (CEST)
-Received: from localhost ([::1]:47866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF752214CF2
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:10:40 +0200 (CEST)
+Received: from localhost ([::1]:39504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Ng-0006GS-Un
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
+	id 1js5Lr-0002p1-MR
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F2-0007AN-JL
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F2-0007AV-KD
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:36 -0400
-Received: from mail-ej1-f41.google.com ([209.85.218.41]:34077)
+Received: from mail-ej1-f48.google.com ([209.85.218.48]:34084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F0-0008IO-Iw
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5F1-0008IS-3h
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:36 -0400
-Received: by mail-ej1-f41.google.com with SMTP id y10so39638393eje.1
+Received: by mail-ej1-f48.google.com with SMTP id y10so39638414eje.1
  for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D4Jj51AkUtR5EfrbyrD5SDecvoxZsLvEPjgbdzyt5YE=;
- b=GsRjSLgQx7Had9EXebEvVAh6zURKCHuFd2+mPWO8aGRy9nrxmTtTCD8c3u+Z599KZg
- kdT/Ggn5f6fvpAmoisPZFvbSafw3HGN3pmZZeJC4acs4GwejLo5uB5XkWbatctoUx/VD
- nvmpPKX3KrJ+iDUTyyHApTdJwTIGS/dHW293X4Hl4lUh1MXsMZ3N8rDNoZYO5r0L2X0o
- LG96RmP8u5Y0eHq1m7WzH+wZGncyOPDyDiCQ94lN/PnU2N6CNNKvvSZEnMFX2LLFv+Kp
- 4BEYufa9yZaDaOFmGHiTcJ3D3rty4GKfkfEM+RnoqQPf0I3oa47bKCgphGKRrZTLkQcM
- A6Pw==
-X-Gm-Message-State: AOAM533283gEn5bdnSxPDqc8VrcGYUikd6UDfIkAVmHbzhlcqgBR52ca
- fYkuv98Y/ScKpV1Ou5ZkXUFP1kzZ
-X-Google-Smtp-Source: ABdhPJyc2q+7Qvzt07ubrBA2ppy430olvfHekGqK3pxCtsYup/xdK9r1QTsqp5jm5Vxjgm1fYJ+y5g==
-X-Received: by 2002:a17:906:a058:: with SMTP id
- bg24mr40963615ejb.370.1593957812987; 
- Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
+ bh=elitw4ERbB57ECB4QKN3YQAYhtjGS+Rt1eJrbmY8dJg=;
+ b=FKW+Dk4KmaKmgrKHhaBzw7x4/8jW94H+Uv7FMMpRFmYrZ6dVuUeuDRgo0RV/CTR8oH
+ yU84jVL62cQac88ceUrvfIPNZupBzyazjRmajHZX2JeNlTotMUNhkpO2uMHm9N2KMwIN
+ fhhRcCrspS/Zw97JwBQV+Y8NbdbT1QtVOksaJfExIZSGTc9KMaSY/tSq17KzbKb8RFI/
+ Zy6Jg94EyWxxwrG+5bzCfRyQ0SrNxxBbXh/sAZ0PBM3HrMQh1IY5eEj0pvqcEb78lLTb
+ qkm9N2MCOc4MTCy7WlAaHrl4F4gBcHhpSlIoHUXNxYorDTihDHoLZjzDjghduZ6LzD+4
+ R6qQ==
+X-Gm-Message-State: AOAM533n8BLaUzy6swZn0thqKPwSaA69qifbs+ITMZq1WnposiB7Pv0R
+ sXoNGPpiXH4jF1lPobxUmgl+0jJV
+X-Google-Smtp-Source: ABdhPJxQfsG0OYAMKNAnQrELPZvWaaM7+v7AsF/sjasAX36sDvB+0E08MiHijT/YfN0eJSdK8FbXQw==
+X-Received: by 2002:a17:906:fcba:: with SMTP id
+ qw26mr39149203ejb.112.1593957813727; 
+ Sun, 05 Jul 2020 07:03:33 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
- by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.32
+ by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:32 -0700 (PDT)
+ Sun, 05 Jul 2020 07:03:33 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 06/30] target/avr: CPU class: Add GDB support
-Date: Sun,  5 Jul 2020 16:02:51 +0200
-Message-Id: <20200705140315.260514-7-huth@tuxfamily.org>
+Subject: [PATCH rc6 07/30] target/avr: Introduce enumeration AVRFeature
+Date: Sun,  5 Jul 2020 16:02:52 +0200
+Message-Id: <20200705140315.260514-8-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.41; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f41.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:33
+Received-SPF: pass client-ip=209.85.218.48; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f48.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 1
-X-Spam_score: 0.1
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,8 +83,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This includes GDB hooks for reading from wnd wrtiting to AVR
-registers, and xml register definition file as well.
+This patch introduces enumeration "AVRFeature" that will be
+used for defining various AVR core types.
 
 [AM: Split a larger AVR introduction patch into logical units]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
@@ -96,201 +96,75 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[thuth: Fixed avr_cpu_gdb_read_register() parameter]
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- MAINTAINERS          |  1 +
- gdb-xml/avr-cpu.xml  | 49 ++++++++++++++++++++++++++
- target/avr/cpu.c     |  4 +++
- target/avr/cpu.h     |  2 ++
- target/avr/gdbstub.c | 84 ++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 140 insertions(+)
- create mode 100644 gdb-xml/avr-cpu.xml
- create mode 100644 target/avr/gdbstub.c
+ target/avr/cpu.h | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee1f35edf5..11a0611b3e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -171,6 +171,7 @@ AVR TCG CPUs
- M: Michael Rolnik <mrolnik@gmail.com>
- R: Sarah Harris <S.E.Harris@kent.ac.uk>
- S: Maintained
-+F: gdb-xml/avr-cpu.xml
- F: target/avr/
- 
- CRIS TCG CPUs
-diff --git a/gdb-xml/avr-cpu.xml b/gdb-xml/avr-cpu.xml
-new file mode 100644
-index 0000000000..c4747f5b40
---- /dev/null
-+++ b/gdb-xml/avr-cpu.xml
-@@ -0,0 +1,49 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!-- Register numbers are hard-coded in order to maintain backward
-+     compatibility with older versions of tools that didn't use xml
-+     register descriptions.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.riscv.cpu">
-+  <reg name="r0" bitsize="8" type="int" regnum="0"/>
-+  <reg name="r1" bitsize="8" type="int"/>
-+  <reg name="r2" bitsize="8" type="int"/>
-+  <reg name="r3" bitsize="8" type="int"/>
-+  <reg name="r4" bitsize="8" type="int"/>
-+  <reg name="r5" bitsize="8" type="int"/>
-+  <reg name="r6" bitsize="8" type="int"/>
-+  <reg name="r7" bitsize="8" type="int"/>
-+  <reg name="r8" bitsize="8" type="int"/>
-+  <reg name="r9" bitsize="8" type="int"/>
-+  <reg name="r10" bitsize="8" type="int"/>
-+  <reg name="r11" bitsize="8" type="int"/>
-+  <reg name="r12" bitsize="8" type="int"/>
-+  <reg name="r13" bitsize="8" type="int"/>
-+  <reg name="r14" bitsize="8" type="int"/>
-+  <reg name="r15" bitsize="8" type="int"/>
-+  <reg name="r16" bitsize="8" type="int"/>
-+  <reg name="r17" bitsize="8" type="int"/>
-+  <reg name="r18" bitsize="8" type="int"/>
-+  <reg name="r19" bitsize="8" type="int"/>
-+  <reg name="r20" bitsize="8" type="int"/>
-+  <reg name="r21" bitsize="8" type="int"/>
-+  <reg name="r22" bitsize="8" type="int"/>
-+  <reg name="r23" bitsize="8" type="int"/>
-+  <reg name="r24" bitsize="8" type="int"/>
-+  <reg name="r25" bitsize="8" type="int"/>
-+  <reg name="r26" bitsize="8" type="int"/>
-+  <reg name="r27" bitsize="8" type="int"/>
-+  <reg name="r28" bitsize="8" type="int"/>
-+  <reg name="r29" bitsize="8" type="int"/>
-+  <reg name="r30" bitsize="8" type="int"/>
-+  <reg name="r31" bitsize="8" type="int"/>
-+  <reg name="sreg" bitsize="8" type="int"/>
-+  <reg name="sp" bitsize="8" type="int"/>
-+  <reg name="pc" bitsize="8" type="int"/>
-+</feature>
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index ced1107824..4802453ff9 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -210,4 +210,8 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = avr_cpu_disas_set_info;
-     cc->tcg_initialize = avr_cpu_tcg_init;
-     cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
-+    cc->gdb_read_register = avr_cpu_gdb_read_register;
-+    cc->gdb_write_register = avr_cpu_gdb_write_register;
-+    cc->gdb_num_core_regs = 35;
-+    cc->gdb_core_xml_file = "avr-cpu.xml";
- }
 diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index d3003f8e25..675a33d17a 100644
+index 675a33d17a..a7318632c5 100644
 --- a/target/avr/cpu.h
 +++ b/target/avr/cpu.h
-@@ -123,6 +123,8 @@ extern const struct VMStateDescription vms_avr_cpu;
- void avr_cpu_do_interrupt(CPUState *cpu);
- bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-+int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-+int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+@@ -72,6 +72,42 @@
+  */
+ #define OFFSET_IO_REGISTERS (OFFSET_DATA + NUMBER_OF_CPU_REGISTERS)
  
++typedef enum AVRFeature {
++    AVR_FEATURE_SRAM,
++
++    AVR_FEATURE_1_BYTE_PC,
++    AVR_FEATURE_2_BYTE_PC,
++    AVR_FEATURE_3_BYTE_PC,
++
++    AVR_FEATURE_1_BYTE_SP,
++    AVR_FEATURE_2_BYTE_SP,
++
++    AVR_FEATURE_BREAK,
++    AVR_FEATURE_DES,
++    AVR_FEATURE_RMW, /* Read Modify Write - XCH LAC LAS LAT */
++
++    AVR_FEATURE_EIJMP_EICALL,
++    AVR_FEATURE_IJMP_ICALL,
++    AVR_FEATURE_JMP_CALL,
++
++    AVR_FEATURE_ADIW_SBIW,
++
++    AVR_FEATURE_SPM,
++    AVR_FEATURE_SPMX,
++
++    AVR_FEATURE_ELPMX,
++    AVR_FEATURE_ELPM,
++    AVR_FEATURE_LPMX,
++    AVR_FEATURE_LPM,
++
++    AVR_FEATURE_MOVW,
++    AVR_FEATURE_MUL,
++    AVR_FEATURE_RAMPD,
++    AVR_FEATURE_RAMPX,
++    AVR_FEATURE_RAMPY,
++    AVR_FEATURE_RAMPZ,
++} AVRFeature;
++
+ typedef struct CPUAVRState CPUAVRState;
+ 
+ struct CPUAVRState {
+@@ -126,6 +162,16 @@ hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int avr_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
++static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
++{
++    return (env->features & (1U << feature)) != 0;
++}
++
++static inline void set_avr_feature(CPUAVRState *env, int feature)
++{
++    env->features |= (1U << feature);
++}
++
  #define cpu_list avr_cpu_list
  #define cpu_signal_handler cpu_avr_signal_handler
-diff --git a/target/avr/gdbstub.c b/target/avr/gdbstub.c
-new file mode 100644
-index 0000000000..3ec78cff70
---- /dev/null
-+++ b/target/avr/gdbstub.c
-@@ -0,0 +1,84 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "exec/gdbstub.h"
-+
-+int avr_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-+{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
-+
-+    /*  R */
-+    if (n < 32) {
-+        return gdb_get_reg8(mem_buf, env->r[n]);
-+    }
-+
-+    /*  SREG */
-+    if (n == 32) {
-+        uint8_t sreg = cpu_get_sreg(env);
-+
-+        return gdb_get_reg8(mem_buf, sreg);
-+    }
-+
-+    /*  SP */
-+    if (n == 33) {
-+        return gdb_get_reg16(mem_buf, env->sp & 0x0000ffff);
-+    }
-+
-+    /*  PC */
-+    if (n == 34) {
-+        return gdb_get_reg32(mem_buf, env->pc_w * 2);
-+    }
-+
-+    return 0;
-+}
-+
-+int avr_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-+{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
-+
-+    /*  R */
-+    if (n < 32) {
-+        env->r[n] = *mem_buf;
-+        return 1;
-+    }
-+
-+    /*  SREG */
-+    if (n == 32) {
-+        cpu_set_sreg(env, *mem_buf);
-+        return 1;
-+    }
-+
-+    /*  SP */
-+    if (n == 33) {
-+        env->sp = lduw_p(mem_buf);
-+        return 2;
-+    }
-+
-+    /*  PC */
-+    if (n == 34) {
-+        env->pc_w = ldl_p(mem_buf) / 2;
-+        return 4;
-+    }
-+
-+    return 0;
-+}
+ #define cpu_mmu_index avr_cpu_mmu_index
 -- 
 2.26.2
 
