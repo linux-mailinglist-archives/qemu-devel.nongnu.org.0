@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B25214CF3
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:10:47 +0200 (CEST)
-Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13012214D0F
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 16:21:36 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js5Ly-00031k-6y
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54324)
+	id 1js5WR-0003Ox-56
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 10:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FG-0007ki-8l
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FG-0007mJ-Ot
  for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:50 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:33058)
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:34885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FE-0008MP-DA
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:49 -0400
-Received: by mail-ej1-f66.google.com with SMTP id n26so25730319ejx.0
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1js5FF-0008Mc-3i
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 10:03:50 -0400
+Received: by mail-ej1-f65.google.com with SMTP id rk21so39684366ejb.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 07:03:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=alRof7ar/BTTXnwLbfaomf4uRXUzHWbfcKrpaeApAxA=;
- b=NmLg+EfxF8XMKR5OGUPYtvpGVj5YpxfnuYnhmIeEclbh6jUkyRrBsaSOCaMK03b+Ht
- n2ondc+HbsszFHABPoVngcZgVA/EiGmW32UzggsCQCBjaWOCDCAIyKzN3ZRAIDDbxmnP
- 65gSL2a5jLw5OO9iflbCfv+RloInUsE16ms2JrPDbowUGI4eNtbPvvIEJgwCyKRQlvzB
- 5zOWDI6akDgXi7HqJ3WRV4MuqZiLhHEo+BiXSbhco1nuBuedKBHuTcKvVlJO4bk12ARn
- NrdcKeiAp1SbXSl/IFrDrtvXDc/JTwOtF8lMWF3JHKB1Eyyq6WLh6ghYTH3dM7H41Uz0
- SO/A==
-X-Gm-Message-State: AOAM532BCaDhMUCSzkKvQaovNEBQvaZk7yQTewyZeq0ZqTz9A9sXa7K7
- Vv53Fsleh6KJ2VaBNrv9h4Jd738S
-X-Google-Smtp-Source: ABdhPJzpNCuVjQCQ3Nej1GIUyJr+QumPJqoGIRTD/FINHdTiG+A1lML+sOflnnmHSYndnXUv71Gf3A==
-X-Received: by 2002:a17:906:cc13:: with SMTP id
- ml19mr39300967ejb.288.1593957826889; 
- Sun, 05 Jul 2020 07:03:46 -0700 (PDT)
+ bh=4M97oq1oAnOxEabEZEJ5kDDiZxswj4Hr2MVOSprbph0=;
+ b=EOEhPdzstFzvmCkIP4bRyFHst9t/nNjlMnf0hR6xRPYb9Ky/9PjcXopuKkrb1LKjIZ
+ zkisWykOSJA/pAgsZgdD12X0Z65vgc9i/fWpEujfedh/sRmBMxQC9jymPgaxkI8z22fL
+ DtQPw5HwkUdhg9dWXB4pDhbfI5svruHGh6Prs01yl9CDfexuEX5A/iv7PcCY+BzLLfZq
+ 0h2ibSGDMssRqn6pWv8R2/IcvtXuCsaBVQZwQkg9ZgmnawIC7Q7k41bsAbeHkuOca4Kv
+ oyeof9dkBq9qFSd4kEuTS5d65vV95b7LwLnT/780gHsWgs/1Cl07pKek26XobH9Hd3X3
+ 8L6Q==
+X-Gm-Message-State: AOAM532eh2XchuHZnM9tY1izQNIk4kfMeOhJZQXA+pDwQ/9oduron25U
+ GmqrHlJosXt/WyOSNXnH8cDVvNVz
+X-Google-Smtp-Source: ABdhPJzf5c05wndNc32EQ4z/pGIaeccZKX8VMZ9t/C0sI75oAcDlyHGL5dd6zv/FQWOHPVPYnqwv4A==
+X-Received: by 2002:a17:906:d116:: with SMTP id
+ b22mr16184459ejz.250.1593957827554; 
+ Sun, 05 Jul 2020 07:03:47 -0700 (PDT)
 Received: from thl530.multi.box (pd9e83654.dip0.t-ipconnect.de.
  [217.232.54.84])
  by smtp.gmail.com with ESMTPSA id bq8sm10941776ejb.103.2020.07.05.07.03.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 07:03:46 -0700 (PDT)
+ Sun, 05 Jul 2020 07:03:47 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <rth@twiddle.net>
-Subject: [PATCH rc6 26/30] target/avr: Update build system
-Date: Sun,  5 Jul 2020 16:03:11 +0200
-Message-Id: <20200705140315.260514-27-huth@tuxfamily.org>
+Subject: [PATCH rc6 27/30] tests/machine-none: Add AVR support
+Date: Sun,  5 Jul 2020 16:03:12 +0200
+Message-Id: <20200705140315.260514-28-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200705140315.260514-1-huth@tuxfamily.org>
 References: <20200705140315.260514-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.218.66; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f66.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:30
+Received-SPF: pass client-ip=209.85.218.65; envelope-from=th.huth@gmail.com;
+ helo=mail-ej1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 10:03:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 1
 X-Spam_score: 0.1
@@ -64,7 +64,7 @@ X-Spam_bar: /
 X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=1,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,113 +83,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Make AVR support buildable.
+Add a single code line that will automatically provide 'machine none'
+test.
 
-[AM: Remove word 'Atmel' from filenames and all elements of code]
-Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- MAINTAINERS                     |  1 +
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
- 4 files changed, 47 insertions(+)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+ tests/qtest/machine-none-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0ab0a0e40b..79e7470f5c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -982,6 +982,7 @@ AVR MCUs
- M: Michael Rolnik <mrolnik@gmail.com>
- R: Sarah Harris <S.E.Harris@kent.ac.uk>
- S: Maintained
-+F: default-configs/avr-softmmu.mak
- F: hw/avr/
- F: include/hw/char/avr_usart.h
- F: hw/char/avr_usart.c
-diff --git a/configure b/configure
-index 8a65240d4a..e84b532bf5 100755
---- a/configure
-+++ b/configure
-@@ -8105,6 +8105,10 @@ case "$target_name" in
-     mttcg="yes"
-     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
-   ;;
-+  avr)
-+    gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -8349,6 +8353,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..80218add98
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
-+
-+# Boards:
-+#
-+CONFIG_ARDUINO=y
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..7523e0c6e2
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,34 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
-+
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-y += disas.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
+diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
+index 8b7abea8af..57107f1aec 100644
+--- a/tests/qtest/machine-none-test.c
++++ b/tests/qtest/machine-none-test.c
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
+     /* tested targets list */
+     { "arm", "cortex-a15" },
+     { "aarch64", "cortex-a57" },
++    { "avr", "avr6-avr-cpu" },
+     { "x86_64", "qemu64,apic-id=0" },
+     { "i386", "qemu32,apic-id=0" },
+     { "alpha", "ev67" },
 -- 
 2.26.2
 
