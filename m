@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18830214E3A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 19:46:18 +0200 (CEST)
-Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83815214E71
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 20:18:56 +0200 (CEST)
+Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js8iX-0005Uo-5Z
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 13:46:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
+	id 1js9E7-0002zo-E1
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 14:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1js8ha-0004qi-EY; Sun, 05 Jul 2020 13:45:19 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12024)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@web.de>) id 1js99O-00027c-89
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 14:14:02 -0400
+Received: from mout.web.de ([212.227.15.4]:51367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1js8hY-0005ZQ-CO; Sun, 05 Jul 2020 13:45:18 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DA31074633D;
- Sun,  5 Jul 2020 19:45:14 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 535CD746307; Sun,  5 Jul 2020 19:45:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5105674594E;
- Sun,  5 Jul 2020 19:45:06 +0200 (CEST)
-Date: Sun, 5 Jul 2020 19:45:06 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 1/8] mac_oldworld: Allow loading binary ROM image
-In-Reply-To: <20200705073128.GB6626@umbus.fritz.box>
-Message-ID: <alpine.BSF.2.22.395.2007051942330.43363@zero.eik.bme.hu>
-References: <cover.1593456926.git.balaton@eik.bme.hu>
- <c69a791c7cad1246f3f34b3993dee4f549b75aa2.1593456926.git.balaton@eik.bme.hu>
- <ad28ac08-160d-0bde-7856-483308d164cb@ilande.co.uk>
- <alpine.BSF.2.22.395.2006302249091.46417@zero.eik.bme.hu>
- <20200705073128.GB6626@umbus.fritz.box>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@web.de>) id 1js99L-0002Uk-PZ
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 14:14:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1593972833;
+ bh=i5ZF77LVkPyx2p971BzRknEGkCUrnCoKdbrEJ8v2r8I=;
+ h=X-UI-Sender-Class:Subject:From:To:Cc:References:Date:In-Reply-To;
+ b=YDqgHOlspWGqXa775TtexF8WV1V7aX+YLAcjQvLEabGkvIoGnVuo74cV4JeS7jgfN
+ qiz9c9qmcgk4j8w6uv6tCbd9QM+Z/f7t0e825ey6kXY9/zp3tlSlmN2NsXyovWqCJq
+ QjcwRJH81vQSUzN//6mp8kPWt61SgcnKU7SKT7+s=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.2.196] ([92.210.73.173]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MKaHP-1jsylK1BzT-001wr8; Sun, 05
+ Jul 2020 20:13:53 +0200
+Subject: Re: [PATCH v2] apic: Report current_count via 'info lapic'
+From: Jan Kiszka <jan.kiszka@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+References: <e00e2896-ca5b-a929-de7a-8e5762f0c1c2@siemens.com>
+Message-ID: <ca8656e4-5f1d-7b41-7020-482fb2e2fe4e@web.de>
+Date: Sun, 5 Jul 2020 20:13:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+In-Reply-To: <e00e2896-ca5b-a929-de7a-8e5762f0c1c2@siemens.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Gqs/2Rqc6l1yr/YqfEqmbc8tDa7F5X5ToTV3I5G7cJTxwM9CG2S
+ QVRW8tG4ZkeKaKc5hs3n+Rn6t0nonhbx5QGNRlIglEpQ9KQ/rUG4zD1fDCDGtmGuiuMSFMF
+ AIGoeUvp6l6ot8PbUCETTMG8KA2og4+Vy+myNUkZwCe3c+BnWAJ7ywfchjxq1e17oonQKJk
+ 1/oBZr9faCzgeVf8Z3GwQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ghA0quksZVQ=:+JLEJaOmvKJ/kFQy6l60UJ
+ SqcL/AnDpw3gqviO7E2+IH0m0DRux23QGRrcECZ65h/fqQ2xdbcpRi4KJRj+C8UAQFsJ5ffCY
+ t8hnTmYadOeQ4Ply+FXmaTCz5QZbXq7N1HlqOTB1w/O4HmRwOxfqygLtHRpq/4E5Be7VGTZXo
+ 3E3NTIzqrBheGmUGHBP8KM0c4cmElLouq599dfwbmFcbrUnODUIiMf7RXQIcoPVcAgvSmyNa4
+ PBwcdI1I7I92iTSyqaBqrS29F71EOJqSA+388CE4qhHviMCVZPh1ms2B897j8VZKsVSPR47Z9
+ iEtmA3LedG0noFGLo75Jeh0m/6pLWhh1ugFltFIA0oKZSqoGbivXIFgdqqbzY4jE3ZYSeGsln
+ 4SRD3K9luFqEQLHu4dqMcBxv5xYmOO9eJeBUibOo6Dvl2vEONJyy7PVEP7+9C7C9TG2htN5xQ
+ zDqhZWLssXMF+48PhDZgzNGHeV0ShKS0mbrV8nnY49G21QCCxHJmvSHKTds/fr/6r7g4d2UtA
+ 2SF159+UT01QdZBeyi8vwi/fqEV2IqnbdjvOGKaa5Mv2A9JKaCDcd1DiMZRcyRtQvGqNBiHo8
+ SNi2d3XFPBU0krI7zvHLQafbhcoujy3P9QX/ExJfE3yo7m+8Vyitjtwv+CEgGaVGMso9CHJIE
+ bLabUhAq2PMQh+NM/sHomiw3bWKBIUbM1jVuJxK8bNgshnz6Hsgi5SixpoQx31eJrqNXKdUOg
+ KEzcxyEPZuq66Tf3pXxPutoEcRGU/22s4YvuX2PPtP04S6Ig/cmdc+20kkgW+DxJT4ZdHa/57
+ Sqce39zuPnYGcL+PRoRVohSynyuOCDx9anjWSUf5iEXvCkKzqj63R0fYVxLVe6Ca4gOQUNB8I
+ tv51BNrlRh84Cu/vhbmmceEddE7bd6otSyft4VID3cfJnGHiTh2T2iI8dtYuDZ+u77r/eysME
+ 2RvcUzM93E3ozC2CiGxmsWZVGFVfESfrbxXSKUeIaBbjlaV7AGhqywtb9gA9w/m1Knq7upv9X
+ gbDLg23TpIzAwF+DoYyEcB6yTKcwE25HpcclsfPX1JgtQ69p7DpP0mFtwyJoaJ+Png2QR4mq0
+ ZHCOggDl+EytW/ezDxWYdTktW4G6LvjvlZByZcOZcR9SIoHsKxtV1/uanlVME9VjWIyI27U7Z
+ ChsrrO4Kx1mCFVeE6e9RUwUNcqvo+DzhbVVDBIKt4M18bJgCugr7GzP8QM2+16jrYVqHUWB8D
+ omYeAWsOoY+PONVF1fEh2RRYCfY39OxWtnHPPjA==
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=jan.kiszka@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 14:13:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,195 +87,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 5 Jul 2020, David Gibson wrote:
-> On Tue, Jun 30, 2020 at 11:45:42PM +0200, BALATON Zoltan wrote:
->> On Tue, 30 Jun 2020, Mark Cave-Ayland wrote:
->>> On 29/06/2020 19:55, BALATON Zoltan wrote:
->>>> The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
->>>> the rom region and fall back to loading a binary image with -bios if
->>>> loading ELF image failed. This allows testing emulation with a ROM
->>>> image from real hardware as well as using an ELF OpenBIOS image.
->>>>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>> v4: use load address from ELF to check if ROM is too big
->>>>
->>>>  hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
->>>>  1 file changed, 20 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>>> index f8c204ead7..baf3da6f90 100644
->>>> --- a/hw/ppc/mac_oldworld.c
->>>> +++ b/hw/ppc/mac_oldworld.c
->>>> @@ -59,6 +59,8 @@
->>>>  #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
->>>>
->>>>  #define GRACKLE_BASE 0xfec00000
->>>> +#define PROM_BASE 0xffc00000
->>>> +#define PROM_SIZE (4 * MiB)
->>>>
->>>>  static void fw_cfg_boot_set(void *opaque, const char *boot_device,
->>>>                              Error **errp)
->>>> @@ -99,6 +101,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>      SysBusDevice *s;
->>>>      DeviceState *dev, *pic_dev;
->>>>      BusState *adb_bus;
->>>> +    uint64_t bios_addr;
->>>>      int bios_size;
->>>>      unsigned int smp_cpus = machine->smp.cpus;
->>>>      uint16_t ppc_boot_device;
->>>> @@ -127,24 +130,32 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>
->>>>      memory_region_add_subregion(sysmem, 0, machine->ram);
->>>>
->>>> -    /* allocate and load BIOS */
->>>> -    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
->>>> +    /* allocate and load firmware ROM */
->>>> +    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
->>>>                             &error_fatal);
->>>> +    memory_region_add_subregion(sysmem, PROM_BASE, bios);
->>>>
->>>> -    if (bios_name == NULL)
->>>> +    if (!bios_name) {
->>>>          bios_name = PROM_FILENAME;
->>>> +    }
->>>>      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->>>> -    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
->>>> -
->>>> -    /* Load OpenBIOS (ELF) */
->>>>      if (filename) {
->>>> -        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
->>>> -                             1, PPC_ELF_MACHINE, 0, 0);
->>>> +        /* Load OpenBIOS (ELF) */
->>>> +        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
->>>> +                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
->>>> +        if (bios_size <= 0) {
->>>> +            /* or load binary ROM image */
->>>> +            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
->>>> +            bios_addr = PROM_BASE;
->>>> +        } else {
->>>> +            /* load_elf sets high 32 bits for some reason, strip those */
->>>> +            bios_addr &= 0xffffffffULL;
->>>
->>> Repeating my earlier comment from v5: something is wrong here if you need to manually
->>> strip the high bits. If you compare with SPARC32 which uses the same approach, there
->>> is no such strip required - have a look there to try and figure out what's going on here.
->>
->> OK, the problem here is this:
->>
->> $ gdb qemu-system-ppc
->> (gdb) b mac_oldworld.c:146
->> Breakpoint 1 at 0x416770: file hw/ppc/mac_oldworld.c, line 146.
->> (gdb) r
->> Thread 1 "qemu-system-ppc" hit Breakpoint 1, ppc_heathrow_init (machine=0x555556863800) at hw/ppc/mac_oldworld.c:146
->> 146	    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->> (gdb) n
->> 147	    if (filename) {
->> 149	        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
->> 151	        if (bios_size <= 0) {
->> (gdb) p bios_size
->> $1 = 755500
->> (gdb) p/x bios_addr
->> $2 = 0xfffffffffff00000
->>
->> this happens within load_elf that I don't feel like wanting to debug but
->> causes problem when we use it to calculate bios size later here:
+On 07.02.20 07:43, Jan Kiszka wrote:
+> From: Jan Kiszka <jan.kiszka@siemens.com>
 >
-> I think the problem is here, in include/hw/elf_ops.h:
+> This is helpful when debugging stuck guest timers.
 >
->    if (lowaddr)
->        *lowaddr = (uint64_t)(elf_sword)low;
+> As we need apic_get_current_count for that, and it is really not
+> emulation specific, move it to apic_common.c and export it. Fix its
+> style at this chance as well.
 >
-> "low" is a u64, but for a 32-bit ELF file, which is what I'm guessing
-> you're dealing with here, elf_sword is an int32_t.  So the first cast
-> truncates the high bits, but makes it a signed value, so the second
-> cast sign extends, resulting in those high bits.
-
-Thanks for finding this, this looks like a likely reason.
-
-> Sign extending rather than zero-extending seems a dubious choice here,
-> so I wonder if that should be (elf_word) instead of (elf_sword).  But
-> maybe there's some weird other case where we do want the sign
-> extension here.
-
-Looks like most callers which get this value don't even use it, I've 
-submitted a patch to clean that up. Of the remaining callers at least 
-hppa does similar truncating but uses a cast instead of explicit masking. 
-I'll update my mac patches to do the same.
-
-Regards,
-BALATON Zoltan
-
->> -    if (bios_size < 0 || bios_size > BIOS_SIZE) {
->> +    if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
->>
->> unless we strip it down to expected 32 bits. This could be some unwanted
->> size extension or whatnot but I don't have time to dig deeper.
->>
->> Now lets see what sun4m does:
->>
->> $ gdb qemu-system-sparc
->> (gdb) b sun4m.c:721
->> Breakpoint 1 at 0x1fc0e6: file hw/sparc/sun4m.c, line 721.
->> (gdb) r
->> Thread 1 "qemu-system-spa" hit Breakpoint 1, prom_init (addr=1879048192, bios_name=0x555555b3c60d "openbios-sparc32") at hw/sparc/sun4m.c:721
->> 721	    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->> (gdb) p/x addr
->> $1 = 0x70000000
->> (gdb) n
->> 722	    if (filename) {
->> 723	        ret = load_elf(filename, NULL,
->> 726	        if (ret < 0 || ret > PROM_SIZE_MAX) {
->> (gdb) p ret
->> $2 = 847872
->> (gdb) p/x addr
->> $3 = 0x70000000
->>
->> Hmm, does not happen here, the difference is that this calls load_elf with
->> addr already initialised so maybe load_elf only sets low 32 bits? By the
->> way, sun4m does not use the returned addr so even if it was wrong it would
->> not be noticed,
->>
->> Maybe initialising addr before calling load_elf in mac_oldworld,c could fix
->> this so we can get rid of the fix up? Unfortunately not:
->>
->> --- a/hw/ppc/mac_oldworld.c
->> +++ b/hw/ppc/mac_oldworld.c
->> @@ -98,7 +98,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>      SysBusDevice *s;
->>      DeviceState *dev, *pic_dev;
->>      BusState *adb_bus;
->> -    uint64_t bios_addr;
->> +    uint64_t bios_addr = 0;
->>      int bios_size;
->>      unsigned int smp_cpus = machine->smp.cpus;
->>      uint16_t ppc_boot_device;
->>
->> $ gdb qemu-system-ppc
->> [...]
->> Thread 1 "qemu-system-ppc" hit Breakpoint 1, ppc_heathrow_init (machine=0x555556863800) at hw/ppc/mac_oldworld.c:146
->> 146	    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->> (gdb) p bios_addr
->> $1 = 0
->> (gdb) n
->> 147	    if (filename) {
->> 149	        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
->> 151	        if (bios_size <= 0) {
->> (gdb) p/x bios_addr
->> $2 = 0xfffffffffff00000
->>
->> Could this be something about openbios-ppc? I don't know. I give up
->> investigating further at this point and let someone else find out.
->> Any ideas?
->>
->> Regards,
->> BALATON Zoltan
->>
+> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
 >
+> Changes in v2:
+>   - fix style of apic_get_current_count
 >
+>   hw/intc/apic.c                  | 18 ------------------
+>   hw/intc/apic_common.c           | 19 +++++++++++++++++++
+>   include/hw/i386/apic_internal.h |  1 +
+>   target/i386/helper.c            |  5 +++--
+>   4 files changed, 23 insertions(+), 20 deletions(-)
+>
+> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+> index bd40467965..f2207d0ace 100644
+> --- a/hw/intc/apic.c
+> +++ b/hw/intc/apic.c
+> @@ -615,24 +615,6 @@ int apic_accept_pic_intr(DeviceState *dev)
+>       return 0;
+>   }
+>
+> -static uint32_t apic_get_current_count(APICCommonState *s)
+> -{
+> -    int64_t d;
+> -    uint32_t val;
+> -    d =3D (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_loa=
+d_time) >>
+> -        s->count_shift;
+> -    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
+> -        /* periodic */
+> -        val =3D s->initial_count - (d % ((uint64_t)s->initial_count + 1=
+));
+> -    } else {
+> -        if (d >=3D s->initial_count)
+> -            val =3D 0;
+> -        else
+> -            val =3D s->initial_count - d;
+> -    }
+> -    return val;
+> -}
+> -
+>   static void apic_timer_update(APICCommonState *s, int64_t current_time=
+)
+>   {
+>       if (apic_next_timer(s, current_time)) {
+> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
+> index 9ec0f2deb2..fb432e83f2 100644
+> --- a/hw/intc/apic_common.c
+> +++ b/hw/intc/apic_common.c
+> @@ -189,6 +189,25 @@ bool apic_next_timer(APICCommonState *s, int64_t cu=
+rrent_time)
+>       return true;
+>   }
+>
+> +uint32_t apic_get_current_count(APICCommonState *s)
+> +{
+> +    int64_t d;
+> +    uint32_t val;
+> +    d =3D (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_loa=
+d_time) >>
+> +        s->count_shift;
+> +    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
+> +        /* periodic */
+> +        val =3D s->initial_count - (d % ((uint64_t)s->initial_count + 1=
+));
+> +    } else {
+> +        if (d >=3D s->initial_count) {
+> +            val =3D 0;
+> +        } else {
+> +            val =3D s->initial_count - d;
+> +        }
+> +    }
+> +    return val;
+> +}
+> +
+>   void apic_init_reset(DeviceState *dev)
+>   {
+>       APICCommonState *s;
+> diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_inte=
+rnal.h
+> index b04bdd947f..2597000e03 100644
+> --- a/include/hw/i386/apic_internal.h
+> +++ b/include/hw/i386/apic_internal.h
+> @@ -211,6 +211,7 @@ void vapic_report_tpr_access(DeviceState *dev, CPUSt=
+ate *cpu, target_ulong ip,
+>                                TPRAccess access);
+>
+>   int apic_get_ppr(APICCommonState *s);
+> +uint32_t apic_get_current_count(APICCommonState *s);
+>
+>   static inline void apic_set_bit(uint32_t *tab, int index)
+>   {
+> diff --git a/target/i386/helper.c b/target/i386/helper.c
+> index c3a6e4fabe..e3c3726c29 100644
+> --- a/target/i386/helper.c
+> +++ b/target/i386/helper.c
+> @@ -370,10 +370,11 @@ void x86_cpu_dump_local_apic_state(CPUState *cs, i=
+nt flags)
+>       dump_apic_lvt("LVTTHMR", lvt[APIC_LVT_THERMAL], false);
+>       dump_apic_lvt("LVTT", lvt[APIC_LVT_TIMER], true);
+>
+> -    qemu_printf("Timer\t DCR=3D0x%x (divide by %u) initial_count =3D %u=
+\n",
+> +    qemu_printf("Timer\t DCR=3D0x%x (divide by %u) initial_count =3D %u=
+"
+> +                " current_count =3D %u\n",
+>                   s->divide_conf & APIC_DCR_MASK,
+>                   divider_conf(s->divide_conf),
+> -                s->initial_count);
+> +                s->initial_count, apic_get_current_count(s));
+>
+>       qemu_printf("SPIV\t 0x%08x APIC %s, focus=3D%s, spurious vec %u\n"=
+,
+>                   s->spurious_vec,
+>
+
+Ping.
+
+Jan
 
