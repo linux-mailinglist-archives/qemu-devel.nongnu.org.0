@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFD0214BF2
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 13:16:17 +0200 (CEST)
-Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A95214C25
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 13:47:08 +0200 (CEST)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1js2d5-0007UW-Uf
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 07:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56230)
+	id 1js36w-0000sl-Nt
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 07:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1js2bi-00074P-09
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 07:14:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43508
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1js2bd-0001qA-Aw
- for qemu-devel@nongnu.org; Sun, 05 Jul 2020 07:14:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593947684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0PbXWcgLxb27F1D3aXU2CE3bsYmKHtG1LHDWVLxzNhY=;
- b=J8mnoYYK7vVZdiRRLkHj7Fe+o/S3OTl8a80KsMSzGuukDrzo8fbHZE4IVgAnBfcIwb6hhn
- ceVTKOZBy/h/P1/x4GIJuY7+2Tzp4e749gEm1ak0ziMTC5QN62vLjXVuW3474MUJKBOjRP
- gVmCAyROuOJQXFD5ZmVHcW6yxv6A1I4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-eV0uyt_ONvOgsUTyuP17tQ-1; Sun, 05 Jul 2020 07:14:42 -0400
-X-MC-Unique: eV0uyt_ONvOgsUTyuP17tQ-1
-Received: by mail-ej1-f71.google.com with SMTP id yw17so31592234ejb.12
- for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 04:14:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0PbXWcgLxb27F1D3aXU2CE3bsYmKHtG1LHDWVLxzNhY=;
- b=YDvt4vljvclm2cdATykFAzbqQMKqY9DytvOQsztzpq1tdrFMR88ZR2EynnYkC3gVKj
- OQwYSQ+Er5WmuSNsoFa8fMj/A4rPeppXOA8x14y8pMF60vetVaFDodVk7krS8Hi24+ym
- GBmROF2JyzvbB5UXUlOQ663A4LN8qF+97zNLP016zyWIdbuIiB5L8Bz2rGibokvD+Uei
- CnYdqgRw/fTex43Aa//iIETcfyNIF8I5Ys19uQo9QBLes34NPs2uEtJOE1cMHOb3QMGy
- nmujVkj/8PzYGBQhdRd3PI2hd4S+PuPjV3NvGqifKNljW9tX9xxDQteCCOjpvyy66QTt
- t18Q==
-X-Gm-Message-State: AOAM531/n5YZ2lOeeiQ0TjieBHtsE/DOXKwoKvFB07W3FPZWS0HZU+gy
- eydtDkX9pPzYsmK6iJV9mmcPtNXcWTa0YhBhgb/5De8PixBF7Zffesd2GGUXxoDC+JLTRfzV0nU
- 06g4esSLtivYcseFifpSnjssnf+LERFs=
-X-Received: by 2002:aa7:db4f:: with SMTP id n15mr33849953edt.193.1593947681649; 
- Sun, 05 Jul 2020 04:14:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLVehjagcitC8Xw0UVl322KO242LVw+VfHrCb8xTMkrOeozfMZN4e4ZEdVIDwr9IBClUwxOsw/zw8CcJML/88=
-X-Received: by 2002:aa7:db4f:: with SMTP id n15mr33849935edt.193.1593947681443; 
- Sun, 05 Jul 2020 04:14:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1js35d-0000RK-FR
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 07:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1js35a-0007lE-Vk
+ for qemu-devel@nongnu.org; Sun, 05 Jul 2020 07:45:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1js35Y-0005e0-MG
+ for <qemu-devel@nongnu.org>; Sun, 05 Jul 2020 11:45:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A12282E8107
+ for <qemu-devel@nongnu.org>; Sun,  5 Jul 2020 11:45:40 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200620153837.14222-1-f4bug@amsat.org>
- <c0366cb5-fcb0-ff62-8ab5-92722a47d4e7@redhat.com>
- <65937a53-5430-e5df-a5f0-de93dad315f2@amsat.org>
-In-Reply-To: <65937a53-5430-e5df-a5f0-de93dad315f2@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Sun, 5 Jul 2020 13:14:29 +0200
-Message-ID: <CABgObfYbqHh6JZZ4z_KUovekUH2yac17oQr0WH6K9GkdEz6rkg@mail.gmail.com>
-Subject: Re: [PATCH] hw/core/qdev: Increase qdev_realize() kindness
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000057e27905a9afddeb"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 05:57:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 05 Jul 2020 11:36:25 -0000
+From: Simon John <1886318@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sej7278
+X-Launchpad-Bug-Reporter: Simon John (sej7278)
+X-Launchpad-Bug-Modifier: Simon John (sej7278)
+Message-Id: <159394898604.17667.6684490731246411850.malonedeb@soybean.canonical.com>
+Subject: [Bug 1886318] [NEW] Qemu after v5.0.0 breaks macos guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbd0aa39df153c901321817f9b57cf3f232b507";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: af5d0dc7e063db06ce2731f1b483eeafaa9c1573
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/05 07:45:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, HEADER_FROM_DIFFERENT_DOMAINS=1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,84 +70,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1886318 <1886318@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000057e27905a9afddeb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-Are we sure that qdev_realize is never called with user-provided input? If
-it's a programming error, the call chain will end up passing &error_abort
-anyway, won't it?
+The Debian Sid 5.0-6 qemu-kvm package can no longer get further than the
+Clover bootloader whereas 5.0-6 and earlier worked fine.
 
-Paolo
+So I built qemu master from github and it has the same problem, whereas
+git tag v5.0.0 (or 4.2.1) does not, so something between v5.0.0 release
+and the last few days has caused the problem.
 
-Il dom 5 lug 2020, 12:05 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> ha
-scritto:
+Here's my qemu script, pretty standard macOS-Simple-KVM setup on a Xeon
+host:
 
-> On 7/5/20 7:46 AM, Paolo Bonzini wrote:
-> > On 20/06/20 17:38, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> -    } else {
-> >> -        assert(!DEVICE_GET_CLASS(dev)->bus_type);
-> >> +    } else if (DEVICE_GET_CLASS(dev)->bus_type) {
-> >> +        error_report("%s: Unexpected bus '%s' for device '%s'",
-> >> +                     __func__, DEVICE_GET_CLASS(dev)->bus_type,
-> >> +                     object_get_typename(OBJECT(dev)));
-> >> +        abort();
-> >>      }
-> >>
-> >
-> > Since there is an errp, should we use it and be even kinder?
->
-> This is a programming error, not an user triggerable condition,
-> so I'm not sure. IOW this must not happen, but if it does, then
-> the error message helps the developer to notice the problem without
-> having to use gdb.
->
->
+qemu-system-x86_64 \
+    -enable-kvm \
+    -m 4G \
+    -machine q35,accel=3Dkvm \
+    -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
+    -cpu =
 
---00000000000057e27905a9afddeb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsave=
+opt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
 
-<div dir=3D"auto">Are we sure that qdev_realize is never called with user-p=
-rovided input? If it&#39;s a programming error, the call chain will end up =
-passing &amp;error_abort anyway, won&#39;t it?<div dir=3D"auto"><br></div><=
-div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Il dom 5 lug 2020, 12:05 Philippe Mathieu-Dau=
-d=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; ha s=
-critto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">On 7/5/20 7:46 AM, Paolo Bo=
-nzini wrote:<br>
-&gt; On 20/06/20 17:38, Philippe Mathieu-Daud=C3=A9 wrote:<br>
-&gt;&gt; -=C2=A0 =C2=A0 } else {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(!DEVICE_GET_CLASS(dev)-&gt;bus=
-_type);<br>
-&gt;&gt; +=C2=A0 =C2=A0 } else if (DEVICE_GET_CLASS(dev)-&gt;bus_type) {<br=
->
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;%s: Unexpected bus=
- &#39;%s&#39; for device &#39;%s&#39;&quot;,<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0__func__, DEVICE_GET_CLASS(dev)-&gt;bus_type,<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0object_get_typename(OBJECT(dev)));<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 abort();<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;&gt;=C2=A0 <br>
-&gt; <br>
-&gt; Since there is an errp, should we use it and be even kinder?<br>
-<br>
-This is a programming error, not an user triggerable condition,<br>
-so I&#39;m not sure. IOW this must not happen, but if it does, then<br>
-the error message helps the developer to notice the problem without<br>
-having to use gdb.<br>
-<br>
-</blockquote></div>
+\
+    -device =
 
---00000000000057e27905a9afddeb--
+isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)AppleCo=
+mputerInc" =
 
+\
+    -smbios type=3D2 \
+    -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
+    -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
+    -vga qxl \
+    -device ich9-ahci,id=3Dsata \
+    -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
+    -device ide-hd,bus=3Dsata.2,drive=3DESP \
+    -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSystem.=
+img \
+    -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
+    -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catalin=
+a.img \
+    -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+    -usb -device usb-kbd -device usb-mouse
+
+Perhaps something has changed in Penryn support recently, as that's
+required for macos?
+
+See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
+
+Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the host
+when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work fine -
+as does 5.5 kernel.
+
+See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Also affects: debian
+   Importance: Undecided
+       Status: New
+
+** No longer affects: debian
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886318
+
+Title:
+  Qemu after v5.0.0 breaks macos guests
+
+Status in QEMU:
+  New
+
+Bug description:
+  The Debian Sid 5.0-6 qemu-kvm package can no longer get further than
+  the Clover bootloader whereas 5.0-6 and earlier worked fine.
+
+  So I built qemu master from github and it has the same problem,
+  whereas git tag v5.0.0 (or 4.2.1) does not, so something between
+  v5.0.0 release and the last few days has caused the problem.
+
+  Here's my qemu script, pretty standard macOS-Simple-KVM setup on a
+  Xeon host:
+
+  qemu-system-x86_64 \
+      -enable-kvm \
+      -m 4G \
+      -machine q35,accel=3Dkvm \
+      -smp 4,sockets=3D1,cores=3D2,threads=3D2 \
+      -cpu =
+
+  Penryn,vendor=3DGenuineIntel,kvm=3Don,+sse3,+sse4.2,+aes,+xsave,+avx,+xsa=
+veopt,+xsavec,+xgetbv1,+avx2,+bmi2,+smep,+bmi1,+fma,+movbe,+invtsc =
+
+  \
+      -device =
+
+  isa-applesmc,osk=3D"ourhardworkbythesewordsguardedpleasedontsteal(c)Apple=
+ComputerInc" =
+
+  \
+      -smbios type=3D2 \
+      -drive if=3Dpflash,format=3Draw,readonly,file=3D"/tmp/OVMF_CODE.fd" \
+      -drive if=3Dpflash,format=3Draw,file=3D"/tmp/macos_catalina_VARS.fd" \
+      -vga qxl \
+      -device ich9-ahci,id=3Dsata \
+      -drive id=3DESP,if=3Dnone,format=3Draw,file=3D/tmp/ESP.img \
+      -device ide-hd,bus=3Dsata.2,drive=3DESP \
+      -drive id=3DInstallMedia,format=3Draw,if=3Dnone,file=3D/tmp/BaseSyste=
+m.img \
+      -device ide-hd,bus=3Dsata.3,drive=3DInstallMedia \
+      -drive id=3DSystemDisk,if=3Dnone,format=3Draw,file=3D/tmp/macos_catal=
+ina.img \
+      -device ide-hd,bus=3Dsata.4,drive=3DSystemDisk \
+      -usb -device usb-kbd -device usb-mouse
+
+  Perhaps something has changed in Penryn support recently, as that's
+  required for macos?
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D964247
+
+  Also on a related note, kernel 5.6/5.7 (on Debian) hard crashes the
+  host when I try GPU passthrough on macos, whereas Ubuntu20/Win10 work
+  fine - as does 5.5 kernel.
+
+  See also https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D961676
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886318/+subscriptions
 
