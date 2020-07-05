@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB150215004
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 00:09:05 +0200 (CEST)
-Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B3C215002
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 00:08:58 +0200 (CEST)
+Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsCoq-0003bQ-O6
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 18:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1jsCoj-0003NP-RT
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 18:08:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsCnS-00022q-Gb; Sun, 05 Jul 2020 18:07:38 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34043)
+ id 1jsCnT-00024C-FN; Sun, 05 Jul 2020 18:07:39 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsCnR-0005gE-0i; Sun, 05 Jul 2020 18:07:38 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f7so35881711wrw.1;
- Sun, 05 Jul 2020 15:07:36 -0700 (PDT)
+ id 1jsCnS-0005gM-0n; Sun, 05 Jul 2020 18:07:39 -0400
+Received: by mail-wr1-x442.google.com with SMTP id o11so38913621wrv.9;
+ Sun, 05 Jul 2020 15:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vZ+WBWeTdBDzQf/K0c+km2EcL1wjbRgW81W4iCtBWhc=;
- b=quidZ4432CpZBbbR21K3pQIKe3Qfj6xPgYUL8xqt4uD8/c+pc7j2irwn9z2yn3KRWQ
- ssTHt2Z/D/g2Q1+oDZRSUwmez9cNHLhBb7uqq0OVE1YPFYV9gPoDuhSwHoTm1Pzd8Scj
- QO9YzlhZGYSp+Vb66te6RW4kE06KEPHJpXybeCEHx/YihpX322q3BI9ggbF8SdX+wVfs
- uekHxLrJOz9Nk9OO39CLejgK/hr0dSGK/GiZfanONp4r4FvCv4Af/yENn9Ype+NN6XpG
- 7QmSvR/qP2jY/ulPQctHie/VoGNc/rCRuHW5ml0Szi5tIegcXAqLRtUoz0Be8ZNDySUZ
- wgiw==
+ bh=lzfhTjPDSMsAmEthVOvWh0C1YJaD8c8jBr9CnQhIF2k=;
+ b=td9VsUCxfs0QQZ+fsjrQnvm9g30GUS96767J0Tss+A0yUz3Tk/Z3ngcfcHidUj8mw2
+ wm7gzC/18jqputzwFOYAkl4nDSk453gqPNl6EwulZ6jRLkaAFSxPznxSzUssq2VmrlN7
+ vme+ewOjEPkNy5Jc73jgOQsaiCxknYo1b5PBJRhTv5HxL5ITIaRtuZH8Az/4krVarbCg
+ p0nBpi/UAMisIDzLy2TsyhI271IduYGkukq9PwGmijHaEQfmjhswr2p4Q2T2z7E6lBEy
+ JUHn/D6OVvImYG6T/K6Q9YiXhkD3q278PYgqdbh/ZLKenCvvRumGqNo7DnOooEOd9PSv
+ wcjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vZ+WBWeTdBDzQf/K0c+km2EcL1wjbRgW81W4iCtBWhc=;
- b=YLL1xw1y3/qvOIZm7MPVl2x5F8lA2qdo0hLwH9ynAvrdPvz5mdXQa0/pnI4IL5Boff
- C7cWtgTmsCIOfHLi6n0uK+0IU7aGy5dDwKtpWBplyZshqphFYa7dQpkSSk8iiu2cPwEx
- VqXwoZ/5tbQnAlks9rs8AhNea7UszmIwX10tswiGfHwKFsxeq0IOAmnzWHeHZzoyDCZT
- Rtg1v7v1qAIJDVK9T5q8SQ0MFRfnfGWpiYU9uTxKzm4gteaIA2NF+WNSqOYWuLJdh7tF
- G9SWxfjpucCCNwPsLoqWJP9pwc2ormd9XrC4qqIW0DNT/Ez9ExxOBREbbNToQk1rOe+s
- k6Ew==
-X-Gm-Message-State: AOAM5306qTXcQ1Oidv5uvlW7T32dMHM1XvjWmvUPRMXAxL3ZHfNUf1I0
- 5Xj8JdIcXjaqg7P7vWAtOcL09u2HwC0=
-X-Google-Smtp-Source: ABdhPJxcHikvx281RvfuH+k6OOwkJzCcWwtGgvO8+2TkX8jQwHinYOWBA+UbCG9j9tS4XOjFaXWzmg==
-X-Received: by 2002:adf:e60a:: with SMTP id p10mr43867083wrm.181.1593986855032; 
- Sun, 05 Jul 2020 15:07:35 -0700 (PDT)
+ bh=lzfhTjPDSMsAmEthVOvWh0C1YJaD8c8jBr9CnQhIF2k=;
+ b=Kh8+WQmCLcxSAErtQMnca3RQv2BZGue7QjvD2Df89SXYAGFnxFGdtDyb/ccamVznRa
+ +r0fw562L4ydUMdG9ThNx4c+o/8UxgbBKkQh+sB6qrNMcuo2nIK54alssMDrN9SFcahA
+ ce0ZaSB4spnWed7zBepZX5NrXAlWLPrKVlLza33OG8IIxNCus2WAiR8fFA3qCuhLYSu7
+ YpqexL4m4y3SJbbC9hHnjNdKXZfw1QXe3zE06a9kdt7ABNtZFZvkDVwaxL3puA6Y055k
+ +82xT9SdFWC4d5tolI5oTjX00YHC3zz6VOYN3ZcaXdHzgfaWIm1SbaULRYZR564F52eT
+ OmBA==
+X-Gm-Message-State: AOAM530h5kOSqR8aapSq+tVBoK4dqZXSNau6W3TSVZpjk9q7HDwsftoa
+ Tl1d/Gd0rfNDS0ee5SU2j7c6Jy57GGg=
+X-Google-Smtp-Source: ABdhPJyPz//O3P/vfw/tzlcHlDraBvd8eZKALxCHzh3cykv6lN8FJB97AQC80Vwzx1JHZ0pHZVFl5w==
+X-Received: by 2002:a5d:4e81:: with SMTP id e1mr43453903wru.22.1593986856243; 
+ Sun, 05 Jul 2020 15:07:36 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id j16sm21538214wrt.7.2020.07.05.15.07.34
+ by smtp.gmail.com with ESMTPSA id j16sm21538214wrt.7.2020.07.05.15.07.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 15:07:34 -0700 (PDT)
+ Sun, 05 Jul 2020 15:07:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/2] hw/sd/ssi-sd: Deprecate the SPI to SD card 'adapter'
-Date: Mon,  6 Jul 2020 00:07:30 +0200
-Message-Id: <20200705220731.28101-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/2] hw/sd/sdcard: Deprecate the SPI mode
+Date: Mon,  6 Jul 2020 00:07:31 +0200
+Message-Id: <20200705220731.28101-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200705220731.28101-1-f4bug@amsat.org>
 References: <20200705220731.28101-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -92,11 +92,11 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device duplicate the SPI mode of the sd-card device. The
-SPI protocol is better handler in the sd-card, however as the
-TYPE_SSI_SLAVE is not an interface, the sd-card can not implement
-it easily to be pluggable on a SPI bus. Meanwhile the ssi-sd
-device acts as a bridge, but is bitroting. Deprecate it.
+SD cards be used with SPI, SD or MMC protocol.
+
+Unfortunately, maintaining the SPI protocol make improving the
+MMC mode very difficult. As of 2020 users are more interested
+in using cards with the MMC protocol.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -104,20 +104,20 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 47f84be8e0..5e67d7f3e0 100644
+index 5e67d7f3e0..01dca3d038 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -343,6 +343,11 @@ The 'ide-drive' device is deprecated. Users should use 'ide-hd' or
- The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
- 'scsi-cd' as appropriate to get a SCSI hard disk or CD-ROM as needed.
+@@ -384,6 +384,11 @@ full SCSI support.  Use virtio-scsi instead when SCSI passthrough is required.
+ Note this also applies to ``-device virtio-blk-pci,scsi=on|off``, which is an
+ alias.
  
-+``ssi-sd`` (since 5.1)
-+'''''''''''''''''''''''''
++``-device sd-card,spi=on`` (since 5.1)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+The 'ssi-sd' (SSI to SD card adapter) device is deprecated.
++The SPI mode of the 'sd-card' device is deprecated.
 +
- System emulator machines
- ------------------------
+ Block device options
+ ''''''''''''''''''''
  
 -- 
 2.21.3
