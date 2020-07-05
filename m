@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73246214F94
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:50:04 +0200 (CEST)
-Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E11214F8E
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jul 2020 22:48:28 +0200 (CEST)
+Received: from localhost ([::1]:38718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsBaN-00013r-Id
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
+	id 1jsBYp-0006Db-Er
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jul 2020 16:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBX3-0004Mm-4Z; Sun, 05 Jul 2020 16:46:37 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38675)
+ id 1jsBX4-0004PM-DG; Sun, 05 Jul 2020 16:46:38 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsBX1-0000oo-J7; Sun, 05 Jul 2020 16:46:36 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f18so39594667wml.3;
- Sun, 05 Jul 2020 13:46:34 -0700 (PDT)
+ id 1jsBX2-0000p1-UD; Sun, 05 Jul 2020 16:46:38 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g75so37066778wme.5;
+ Sun, 05 Jul 2020 13:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G37x8W0rCVo00GrhnCpy9+AXL7M1+3sgu4vRFcZInrU=;
- b=JJczDjMLwMoXPKH+0R+2mc8M0V5x0fBL5XvAeVmEQu99CdurZAJztHO9STsOU0vEaJ
- SG8DAY7+LTfanaJkzCZYR2+Uu04pzvSRxkXws5SK3fCFwTMsAMgZNtOSxAnSUaFSThpO
- H/RupYVTFwisJoa/9TeF9VKdcGHkYJzhtfeK/E80ty0B2dwHu6f4YHG8qOhBIzzg1iZ3
- mx4XApkCKKLDh0lp9zeSJ1A7riNMTCuU0afNGRSPGg0uiY/psA6krnUvXDYIJ9RZPO6f
- F59inMBbDlQ5jFbVJ6KyZLmkVNS3HXTHsbOZxC4L3Baqj7hmq6igKphPPAy6rnBjm9Ws
- oJlA==
+ bh=97pUZmX/67wbHP9Fb1MFklUqwh59qQdvzxeqL5/W8D4=;
+ b=uGqxQPLPNagqvAJlLJufXSkR4jInpyfz+KVDjHLZRwMN7Kk+EOLJ8d7pUkBc5uYkRU
+ KhM3bHfMakJN5r/Gd89cq6gN+4Dj55IObDyjHHGQ7caqcXncD36kZ6MUHTSxqgeT8wh8
+ FELegVmolU+gYrBr/FgqTSU7Q2WQA17iTTxlNbjgHn2bczrB++MF+m101hfKA3bdxUKy
+ 39jAyhv/7D34Yslqnv1NwGF5m37xMJNnQc70xGdCVxqQPdYP4GxiH/Ter2y9/roh2rCO
+ 503gsou0Mk2FrlOYzZ3x43LZRLGCKo9+Fkxj0MIm9rSwl1KTBUEx6fO0O9maHK/PulDW
+ z1qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G37x8W0rCVo00GrhnCpy9+AXL7M1+3sgu4vRFcZInrU=;
- b=Y0xytoydmUnImSWShUs78XfcAgT4MQWNOLJr3wkNqud7yCK4Ix8dzQ4Pw2uk1MnyW8
- w0POVcfz4ut2WuNdPBYiwDw3orUqFxO3zOSd9fzRdDGrNN6AaQwWxuWnr9C6pwKiKH0x
- kHL5R41jv98A7dW4OjV5rfh9jrh1AP7xQ3IUwlq54sfBG+Nw3MvZdo8S1lGin+T617Bk
- JzyRhmh5s8qn9taDhAYGKEGYLZTxNZUiUDA70EjdW8d1c9XmoWrrnlvNm3X5jVMvToWu
- 8SY4YFI7yS+xu9Cf1hVpn4e8iEbq71d/BG4iaGgZ+wm2b+c7X5YJoJjNKYVqlS+fGuV5
- o/0Q==
-X-Gm-Message-State: AOAM530zZ0orWjrpX+Nn9vdzLPqNPXLS3c7AayTiGfhmTdA3xjk0DpFK
- PHiIoQMIQY/wxu9wfDUHhnvmvcbKt2w=
-X-Google-Smtp-Source: ABdhPJxoF+/qcYu3Da7PSaZmAENMPjDleFND+iYJdIA5FD6YvAvgnKWLL7LxdeMYwbFhM+tHyW18nA==
-X-Received: by 2002:a05:600c:258:: with SMTP id
- 24mr7340640wmj.126.1593981993901; 
- Sun, 05 Jul 2020 13:46:33 -0700 (PDT)
+ bh=97pUZmX/67wbHP9Fb1MFklUqwh59qQdvzxeqL5/W8D4=;
+ b=a/leI7WlTyFUxdyaIKuNgx255ajjIPyPFxnnw3trSuJ1HLjryDxL1I+/zTPkEj/1qD
+ oXSEElzbh03lM6GKpnJOAYHJxGTuPpbz9r8LAiAHHTaR5AOpki2/+ibXBHM5eGQ/NTsk
+ NrOWhuVRlMXhFwLEKUyW/QMR3DeZRk8kOwrleeywYXrcO7pA8TDlUez0ekwLvV5UxkP3
+ 9akmOFx5upN1F1oXza+z6WAI3+O8V769NTpyyYShoKzWipoyMEGPUG0NyJUhLBP+FkVm
+ kr9uW7aqJ1oo7moi9c4yvOq2LvIY+2zkuzDAbeoIMsdGaB9r0yK161ls9WwQFgaTGqeB
+ Jb5g==
+X-Gm-Message-State: AOAM533UA4J2ik46MKDtoyliDPXzA2hsISiNLykvy9LFRqAelP245IrB
+ oHsqgGUBZv4gfgouP6EarCclO9N50Kw=
+X-Google-Smtp-Source: ABdhPJzcIwUuzT6OUxbkOEB/leCLT/f8hgT9lGfq7iqtLEvoduxDdN9SnE9Oyaoqul5hEqsQsxckdg==
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr47170302wmy.79.1593981995180; 
+ Sun, 05 Jul 2020 13:46:35 -0700 (PDT)
 Received: from localhost.localdomain (1.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.1])
- by smtp.gmail.com with ESMTPSA id g144sm51397817wme.2.2020.07.05.13.46.33
+ by smtp.gmail.com with ESMTPSA id g144sm51397817wme.2.2020.07.05.13.46.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jul 2020 13:46:33 -0700 (PDT)
+ Sun, 05 Jul 2020 13:46:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/10] hw/sd/pl181: Replace fprintf(stderr,
- "*\n") with error_report()
-Date: Sun,  5 Jul 2020 22:46:21 +0200
-Message-Id: <20200705204630.4133-2-f4bug@amsat.org>
+Subject: [PATCH v4 02/10] hw/sd/pl181: Rename pl181_send_command() as
+ pl181_do_command()
+Date: Sun,  5 Jul 2020 22:46:22 +0200
+Message-Id: <20200705204630.4133-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200705204630.4133-1-f4bug@amsat.org>
 References: <20200705204630.4133-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -89,91 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair@alistair23.me>,
- Alistair Francis <alistair.francis@xilinx.com>
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@xilinx.com>
+pl181_send_command() do a bus transaction (send or receive),
+rename it as pl181_do_command().
 
-Replace a large number of the fprintf(stderr, "*\n" calls with
-error_report(). The functions were renamed with these commands and then
-compiler issues where manually fixed.
-
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N;N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N;N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-find ./* -type f -exec sed -i \
-    'N; {s|fprintf(stderr, "\(.*\)\\n"\(.*\));|error_report("\1"\2);|Ig}' \
-    {} +
-
-Some lines where then manually tweaked to pass checkpatch.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-Message-Id: <488ba8d4c562ea44119de8ea0f385a898bd8fa1e.1513790495.git.alistair.francis@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/pl181.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/sd/pl181.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 2b3776a6a0..649386ec3d 100644
+index 649386ec3d..3fc2cdd71a 100644
 --- a/hw/sd/pl181.c
 +++ b/hw/sd/pl181.c
-@@ -15,6 +15,7 @@
- #include "hw/sd/sd.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/error-report.h"
- #include "qapi/error.h"
+@@ -173,7 +173,7 @@ static uint32_t pl181_fifo_pop(PL181State *s)
+     return value;
+ }
  
- //#define DEBUG_PL181 1
-@@ -148,7 +149,7 @@ static void pl181_fifo_push(PL181State *s, uint32_t value)
-     int n;
- 
-     if (s->fifo_len == PL181_FIFO_LEN) {
--        fprintf(stderr, "pl181: FIFO overflow\n");
-+        error_report("%s: FIFO overflow", __func__);
-         return;
-     }
-     n = (s->fifo_pos + s->fifo_len) & (PL181_FIFO_LEN - 1);
-@@ -162,7 +163,7 @@ static uint32_t pl181_fifo_pop(PL181State *s)
-     uint32_t value;
- 
-     if (s->fifo_len == 0) {
--        fprintf(stderr, "pl181: FIFO underflow\n");
-+        error_report("%s: FIFO underflow", __func__);
-         return 0;
-     }
-     value = s->fifo[s->fifo_pos];
+-static void pl181_send_command(PL181State *s)
++static void pl181_do_command(PL181State *s)
+ {
+     SDRequest request;
+     uint8_t response[16];
+@@ -402,7 +402,7 @@ static void pl181_write(void *opaque, hwaddr offset,
+                 qemu_log_mask(LOG_UNIMP,
+                               "pl181: Pending commands not implemented\n");
+             } else {
+-                pl181_send_command(s);
++                pl181_do_command(s);
+                 pl181_fifo_run(s);
+             }
+             /* The command has completed one way or the other.  */
 -- 
 2.21.3
 
