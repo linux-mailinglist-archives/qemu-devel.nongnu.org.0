@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4309A21603D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:25:19 +0200 (CEST)
-Received: from localhost ([::1]:48276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3A21606C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:41:47 +0200 (CEST)
+Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXfy-0006q6-CU
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:25:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
+	id 1jsXvt-0004jE-OT
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jsXf7-0005y5-Ax; Mon, 06 Jul 2020 16:24:25 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:53798
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jsXf5-0007qM-23; Mon, 06 Jul 2020 16:24:25 -0400
-Received: from host86-182-221-233.range86-182.btcentralplus.com
- ([86.182.221.233] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jsXf3-0001xV-3L; Mon, 06 Jul 2020 21:24:27 +0100
-To: David Gibson <david@gibson.dropbear.id.au>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1593456926.git.balaton@eik.bme.hu>
- <c69a791c7cad1246f3f34b3993dee4f549b75aa2.1593456926.git.balaton@eik.bme.hu>
- <ad28ac08-160d-0bde-7856-483308d164cb@ilande.co.uk>
- <alpine.BSF.2.22.395.2006302249091.46417@zero.eik.bme.hu>
- <20200705073128.GB6626@umbus.fritz.box>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <a2b26a4e-0368-56fd-a76a-ad7c0ee537ad@ilande.co.uk>
-Date: Mon, 6 Jul 2020 21:24:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuN-0002zj-IU
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:11 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20687
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuK-0002T8-J9
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594068007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b1TX1DgeBrDNcQ8i7BNWXPZR6629OOyXYFtQ/bDhXMk=;
+ b=OwZs0SmakUa91lrWtV1sazD0+l+DRW4Zpr88rpV7G+XhRWkezAQoCVo+2aMCTiG4ZUB1N+
+ 5J198ZKXsfAeDAws5M5ggPKoasG92p1fb2LOWDOXg5wtfgEY7MlLi6JQU3fYR9k9n6AtZc
+ nS3xcHW90AgHJGxniDKU5GMbbSUah/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-HS9ozvHAO3aRd7TyQGHBrg-1; Mon, 06 Jul 2020 16:39:58 -0400
+X-MC-Unique: HS9ozvHAO3aRd7TyQGHBrg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E469580B70A;
+ Mon,  6 Jul 2020 20:39:57 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-97.phx2.redhat.com [10.3.113.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93ED81C4;
+ Mon,  6 Jul 2020 20:39:54 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/10] Tighten qemu-img rules on missing backing format
+Date: Mon,  6 Jul 2020 15:39:44 -0500
+Message-Id: <20200706203954.341758-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200705073128.GB6626@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.182.221.233
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v7 1/8] mac_oldworld: Allow loading binary ROM image
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,134 +76,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
+ kchamart@redhat.com, libvir-list@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2020 08:31, David Gibson wrote:
+v5 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg00679.html
+In v6:
+- add a few more patches
+- change qcow semantics based on several iterations of mailing list
+debates on what behavior is easiest to support
+- add iotesting that a probed raw file cannot be committed into
+- instead of recording an implicit probed raw file, instead we record
+only a non-raw file
+- rebase to a few more affected iotests, plus s/5.0/5.1/
 
-> On Tue, Jun 30, 2020 at 11:45:42PM +0200, BALATON Zoltan wrote:
->> On Tue, 30 Jun 2020, Mark Cave-Ayland wrote:
->>> On 29/06/2020 19:55, BALATON Zoltan wrote:
->>>> The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
->>>> the rom region and fall back to loading a binary image with -bios if
->>>> loading ELF image failed. This allows testing emulation with a ROM
->>>> image from real hardware as well as using an ELF OpenBIOS image.
->>>>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>> v4: use load address from ELF to check if ROM is too big
->>>>
->>>>  hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
->>>>  1 file changed, 20 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>>> index f8c204ead7..baf3da6f90 100644
->>>> --- a/hw/ppc/mac_oldworld.c
->>>> +++ b/hw/ppc/mac_oldworld.c
->>>> @@ -59,6 +59,8 @@
->>>>  #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
->>>>
->>>>  #define GRACKLE_BASE 0xfec00000
->>>> +#define PROM_BASE 0xffc00000
->>>> +#define PROM_SIZE (4 * MiB)
->>>>
->>>>  static void fw_cfg_boot_set(void *opaque, const char *boot_device,
->>>>                              Error **errp)
->>>> @@ -99,6 +101,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>      SysBusDevice *s;
->>>>      DeviceState *dev, *pic_dev;
->>>>      BusState *adb_bus;
->>>> +    uint64_t bios_addr;
->>>>      int bios_size;
->>>>      unsigned int smp_cpus = machine->smp.cpus;
->>>>      uint16_t ppc_boot_device;
->>>> @@ -127,24 +130,32 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>
->>>>      memory_region_add_subregion(sysmem, 0, machine->ram);
->>>>
->>>> -    /* allocate and load BIOS */
->>>> -    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
->>>> +    /* allocate and load firmware ROM */
->>>> +    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
->>>>                             &error_fatal);
->>>> +    memory_region_add_subregion(sysmem, PROM_BASE, bios);
->>>>
->>>> -    if (bios_name == NULL)
->>>> +    if (!bios_name) {
->>>>          bios_name = PROM_FILENAME;
->>>> +    }
->>>>      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->>>> -    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
->>>> -
->>>> -    /* Load OpenBIOS (ELF) */
->>>>      if (filename) {
->>>> -        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
->>>> -                             1, PPC_ELF_MACHINE, 0, 0);
->>>> +        /* Load OpenBIOS (ELF) */
->>>> +        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
->>>> +                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
->>>> +        if (bios_size <= 0) {
->>>> +            /* or load binary ROM image */
->>>> +            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
->>>> +            bios_addr = PROM_BASE;
->>>> +        } else {
->>>> +            /* load_elf sets high 32 bits for some reason, strip those */
->>>> +            bios_addr &= 0xffffffffULL;
->>>
->>> Repeating my earlier comment from v5: something is wrong here if you need to manually
->>> strip the high bits. If you compare with SPARC32 which uses the same approach, there
->>> is no such strip required - have a look there to try and figure out what's going on here.
->>
->> OK, the problem here is this:
->>
->> $ gdb qemu-system-ppc
->> (gdb) b mac_oldworld.c:146
->> Breakpoint 1 at 0x416770: file hw/ppc/mac_oldworld.c, line 146.
->> (gdb) r
->> Thread 1 "qemu-system-ppc" hit Breakpoint 1, ppc_heathrow_init (machine=0x555556863800) at hw/ppc/mac_oldworld.c:146
->> 146	    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->> (gdb) n
->> 147	    if (filename) {
->> 149	        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
->> 151	        if (bios_size <= 0) {
->> (gdb) p bios_size
->> $1 = 755500
->> (gdb) p/x bios_addr
->> $2 = 0xfffffffffff00000
->>
->> this happens within load_elf that I don't feel like wanting to debug but
->> causes problem when we use it to calculate bios size later here:
-> 
-> I think the problem is here, in include/hw/elf_ops.h:
-> 
->     if (lowaddr)
->         *lowaddr = (uint64_t)(elf_sword)low;
-> 
-> "low" is a u64, but for a 32-bit ELF file, which is what I'm guessing
-> you're dealing with here, elf_sword is an int32_t.  So the first cast
-> truncates the high bits, but makes it a signed value, so the second
-> cast sign extends, resulting in those high bits.
-> 
-> Sign extending rather than zero-extending seems a dubious choice here,
-> so I wonder if that should be (elf_word) instead of (elf_sword).  But
-> maybe there's some weird other case where we do want the sign
-> extension here.
+Yes, I know this is really short notice to make it in before feature
+freeze for 5.1 (removal in 6.0), so it may end up slipping into 5.2
+(removal in 6.1); but we'll see how things go.
 
-I agree that sign-extending here feels odd since it will cause problems with 32-bit
-values on 64-bit systems like we see here, however I'm not really familiar enough
-with the QEMU ELF loader to know what the intent was here.
+Also available at
+https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-create-backing-v6
 
-The original reference for this was SPARC32 which does a similar thing, but
-ultimately the resulting address is never used and the ROM is loaded at a fixed
-address which is why it doesn't matter here.
+001/10:[down] 'qemu-img: Flush stdout before before potential stderr messages'
+002/10:[down] 'block: Finish deprecation of 'qemu-img convert -n -o''
+003/10:[----] [--] 'sheepdog: Add trivial backing_fmt support'
+004/10:[----] [--] 'vmdk: Add trivial backing_fmt support'
+005/10:[0088] [FC] 'qcow: Tolerate backing_fmt='
+006/10:[down] 'block: Error if backing file fails during creation without -u'
+007/10:[0004] [FC] 'qcow2: Deprecate use of qemu-img amend to change backing file'
+008/10:[0059] [FC] 'iotests: Specify explicit backing format where sensible'
+009/10:[----] [-C] 'block: Add support to warn on backing file change without format'
+010/10:[0027] [FC] 'qemu-img: Deprecate use of -b without -F'
 
-Given that this needs to work with both qemu-system-ppc and qemu-system-ppc64 would
-casting bios_addr to target_ulong work?
+Eric Blake (10):
+  qemu-img: Flush stdout before before potential stderr messages
+  block: Finish deprecation of 'qemu-img convert -n -o'
+  sheepdog: Add trivial backing_fmt support
+  vmdk: Add trivial backing_fmt support
+  qcow: Tolerate backing_fmt=
+  block: Error if backing file fails during creation without -u
+  qcow2: Deprecate use of qemu-img amend to change backing file
+  iotests: Specify explicit backing format where sensible
+  block: Add support to warn on backing file change without format
+  qemu-img: Deprecate use of -b without -F
 
+ docs/system/deprecated.rst    | 58 +++++++++++++++++++----
+ docs/tools/qemu-img.rst       |  4 ++
+ include/block/block.h         |  4 +-
+ block.c                       | 53 +++++++++++++++------
+ block/qcow.c                  | 20 +++++++-
+ block/qcow2.c                 |  7 ++-
+ block/sheepdog.c              | 18 ++++++-
+ block/stream.c                |  2 +-
+ block/vmdk.c                  | 14 ++++++
+ blockdev.c                    |  3 +-
+ qemu-img.c                    | 15 ++++--
+ tests/qemu-iotests/017        |  2 +-
+ tests/qemu-iotests/017.out    |  2 +-
+ tests/qemu-iotests/018        |  2 +-
+ tests/qemu-iotests/018.out    |  2 +-
+ tests/qemu-iotests/019        |  5 +-
+ tests/qemu-iotests/019.out    |  2 +-
+ tests/qemu-iotests/020        |  4 +-
+ tests/qemu-iotests/020.out    |  4 +-
+ tests/qemu-iotests/024        |  8 ++--
+ tests/qemu-iotests/024.out    |  5 +-
+ tests/qemu-iotests/028        |  4 +-
+ tests/qemu-iotests/028.out    |  2 +-
+ tests/qemu-iotests/030        | 26 ++++++++---
+ tests/qemu-iotests/034        |  2 +-
+ tests/qemu-iotests/034.out    |  2 +-
+ tests/qemu-iotests/037        |  2 +-
+ tests/qemu-iotests/037.out    |  2 +-
+ tests/qemu-iotests/038        |  2 +-
+ tests/qemu-iotests/038.out    |  2 +-
+ tests/qemu-iotests/039        |  3 +-
+ tests/qemu-iotests/039.out    |  2 +-
+ tests/qemu-iotests/040        | 47 +++++++++++++------
+ tests/qemu-iotests/041        | 37 ++++++++++-----
+ tests/qemu-iotests/042        |  4 +-
+ tests/qemu-iotests/043        | 18 +++----
+ tests/qemu-iotests/043.out    | 16 ++++---
+ tests/qemu-iotests/046        |  2 +-
+ tests/qemu-iotests/046.out    |  2 +-
+ tests/qemu-iotests/049.out    |  8 ++--
+ tests/qemu-iotests/050        |  4 +-
+ tests/qemu-iotests/050.out    |  2 +-
+ tests/qemu-iotests/051        |  2 +-
+ tests/qemu-iotests/051.out    |  2 +-
+ tests/qemu-iotests/051.pc.out |  2 +-
+ tests/qemu-iotests/054.out    |  2 +-
+ tests/qemu-iotests/056        |  3 +-
+ tests/qemu-iotests/060        |  2 +-
+ tests/qemu-iotests/060.out    |  2 +-
+ tests/qemu-iotests/061        | 10 ++--
+ tests/qemu-iotests/061.out    | 11 +++--
+ tests/qemu-iotests/069        |  2 +-
+ tests/qemu-iotests/069.out    |  2 +-
+ tests/qemu-iotests/073        |  2 +-
+ tests/qemu-iotests/073.out    |  2 +-
+ tests/qemu-iotests/079.out    |  2 +-
+ tests/qemu-iotests/082        | 10 ++--
+ tests/qemu-iotests/082.out    | 14 +++---
+ tests/qemu-iotests/085        |  4 +-
+ tests/qemu-iotests/085.out    |  6 +--
+ tests/qemu-iotests/089        |  2 +-
+ tests/qemu-iotests/089.out    |  2 +-
+ tests/qemu-iotests/095        |  4 +-
+ tests/qemu-iotests/095.out    |  4 +-
+ tests/qemu-iotests/097        |  4 +-
+ tests/qemu-iotests/097.out    | 16 +++----
+ tests/qemu-iotests/098        |  2 +-
+ tests/qemu-iotests/098.out    |  8 ++--
+ tests/qemu-iotests/110        |  4 +-
+ tests/qemu-iotests/110.out    |  4 +-
+ tests/qemu-iotests/111.out    |  2 +-
+ tests/qemu-iotests/112.out    |  4 +-
+ tests/qemu-iotests/114        | 12 +++++
+ tests/qemu-iotests/114.out    |  9 ++++
+ tests/qemu-iotests/122        | 34 +++++++++-----
+ tests/qemu-iotests/122.out    | 12 +++--
+ tests/qemu-iotests/126        |  4 +-
+ tests/qemu-iotests/126.out    |  4 +-
+ tests/qemu-iotests/127        |  4 +-
+ tests/qemu-iotests/127.out    |  4 +-
+ tests/qemu-iotests/129        |  3 +-
+ tests/qemu-iotests/133        |  2 +-
+ tests/qemu-iotests/133.out    |  2 +-
+ tests/qemu-iotests/139        |  2 +-
+ tests/qemu-iotests/141        |  4 +-
+ tests/qemu-iotests/141.out    |  4 +-
+ tests/qemu-iotests/142        |  2 +-
+ tests/qemu-iotests/142.out    |  2 +-
+ tests/qemu-iotests/153        | 14 +++---
+ tests/qemu-iotests/153.out    | 35 +++++++-------
+ tests/qemu-iotests/154        | 42 ++++++++---------
+ tests/qemu-iotests/154.out    | 42 ++++++++---------
+ tests/qemu-iotests/155        | 12 +++--
+ tests/qemu-iotests/156        |  9 ++--
+ tests/qemu-iotests/156.out    |  6 +--
+ tests/qemu-iotests/158        |  2 +-
+ tests/qemu-iotests/158.out    |  2 +-
+ tests/qemu-iotests/161        |  8 ++--
+ tests/qemu-iotests/161.out    |  8 ++--
+ tests/qemu-iotests/176        |  4 +-
+ tests/qemu-iotests/176.out    | 32 ++++++-------
+ tests/qemu-iotests/177        |  2 +-
+ tests/qemu-iotests/177.out    |  2 +-
+ tests/qemu-iotests/179        |  2 +-
+ tests/qemu-iotests/179.out    |  2 +-
+ tests/qemu-iotests/189        |  2 +-
+ tests/qemu-iotests/189.out    |  2 +-
+ tests/qemu-iotests/191        | 12 ++---
+ tests/qemu-iotests/191.out    | 12 ++---
+ tests/qemu-iotests/195        |  6 +--
+ tests/qemu-iotests/195.out    |  6 +--
+ tests/qemu-iotests/198        |  2 +-
+ tests/qemu-iotests/198.out    |  3 +-
+ tests/qemu-iotests/204        |  2 +-
+ tests/qemu-iotests/204.out    |  2 +-
+ tests/qemu-iotests/216        |  2 +-
+ tests/qemu-iotests/224        |  4 +-
+ tests/qemu-iotests/225        |  2 +-
+ tests/qemu-iotests/225.out    |  2 +-
+ tests/qemu-iotests/228        |  5 +-
+ tests/qemu-iotests/245        |  3 +-
+ tests/qemu-iotests/249        |  4 +-
+ tests/qemu-iotests/249.out    |  4 +-
+ tests/qemu-iotests/252        |  2 +-
+ tests/qemu-iotests/257        |  3 +-
+ tests/qemu-iotests/259.out    |  2 +-
+ tests/qemu-iotests/267        |  4 +-
+ tests/qemu-iotests/267.out    |  6 +--
+ tests/qemu-iotests/270        |  2 +-
+ tests/qemu-iotests/270.out    |  2 +-
+ tests/qemu-iotests/273        |  4 +-
+ tests/qemu-iotests/273.out    |  4 +-
+ tests/qemu-iotests/274        | 12 ++---
+ tests/qemu-iotests/274.out    | 29 ++++++------
+ tests/qemu-iotests/279        |  4 +-
+ tests/qemu-iotests/279.out    |  4 +-
+ tests/qemu-iotests/290        |  2 +-
+ tests/qemu-iotests/290.out    |  4 +-
+ tests/qemu-iotests/293        | 88 +++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/293.out    | 59 +++++++++++++++++++++++
+ tests/qemu-iotests/group      |  1 +
+ 141 files changed, 792 insertions(+), 402 deletions(-)
+ create mode 100755 tests/qemu-iotests/293
+ create mode 100644 tests/qemu-iotests/293.out
 
-ATB,
+-- 
+2.27.0
 
-Mark.
 
