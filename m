@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7421215C7F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:01:22 +0200 (CEST)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98A7215C9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:06:16 +0200 (CEST)
+Received: from localhost ([::1]:50674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUUb-0007jo-No
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57412)
+	id 1jsUZL-0001ft-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCW-000444-HF
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:40 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47149
+ id 1jsUCV-00040H-6N
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58582
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCT-0003BR-5K
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:40 -0400
+ id 1jsUCT-0003BV-Ac
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594053756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ObRyi4G/EJ+fnlEOf/Qbl41N+VcmfjgZbo+oNjQT7uk=;
- b=LgNaujNiAwf/CZIBA9tPBpLVt1xXG9xKUKzlYOOJeIzrHMqPiEqU0uBwPYWQpP+O/nlFbW
- nPDKsFwJbwPS5YaTmGa53BXvMDh/IkOY0nj9SfYg30nSj9aImuReIgNR3xqr3kMPgyBuA2
- sZEVwhPzLG2WjSybXVizh9wYlsVpQVM=
+ bh=MsBQaU0PpGCwJ+2uAqO97DmSC929z/+d1sx9EfzBG4M=;
+ b=d2UGZqrZTyR9NC8pQ4U6mKPUBE6cRu4qjzCsm3BKtt3Zd1QDnyDBKimtimPXNcDdiKwl0D
+ UJmyoCK17SLeEELwQ2hzkKn9j6xt5tyqatJF1W7HZGATyyR3OPyub/BvgCPascOuL21Puz
+ g2f5tUV2LwQHwz01kbU2kFv4evhSCpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-FUjbmGa9O-mXR-nrSgL8jg-1; Mon, 06 Jul 2020 12:42:35 -0400
-X-MC-Unique: FUjbmGa9O-mXR-nrSgL8jg-1
+ us-mta-167-1G3WuifrO9Ok_46VvXSAgw-1; Mon, 06 Jul 2020 12:42:34 -0400
+X-MC-Unique: 1G3WuifrO9Ok_46VvXSAgw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C58A8010F8
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF43461
  for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 16:42:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36EB17B40D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A95CE5F7D8;
  Mon,  6 Jul 2020 16:42:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/53] target/i386/kvm: Simplify get_para_features()
-Date: Mon,  6 Jul 2020 12:41:50 -0400
-Message-Id: <20200706164155.24696-49-pbonzini@redhat.com>
+Subject: [PULL 49/53] target/i386/kvm: Simplify kvm_get_mce_cap_supported()
+Date: Mon,  6 Jul 2020 12:41:51 -0400
+Message-Id: <20200706164155.24696-50-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,45 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The KVMState* argument is now unused, drop it.
+As the MCE supported capabilities should be the same for
+all VMs, it is safe to directly use the global kvm_state.
+Remove the unnecessary KVMState* argument.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200623105052.1700-6-philmd@redhat.com>
+Message-Id: <20200623105052.1700-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/kvm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 466c4c2b14..14be9917f4 100644
+index 14be9917f4..cfb6bc15aa 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -289,7 +289,7 @@ static const struct kvm_para_features {
-     { KVM_CAP_ASYNC_PF, KVM_FEATURE_ASYNC_PF },
- };
- 
--static int get_para_features(KVMState *s)
-+static int get_para_features(void)
- {
-     int i, features = 0;
- 
-@@ -446,7 +446,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
- 
-     /* fallback for older kernels */
-     if ((function == KVM_CPUID_FEATURES) && !found) {
--        ret = get_para_features(s);
-+        ret = get_para_features();
+@@ -530,7 +530,7 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
      }
+ }
  
-     return ret;
+-static int kvm_get_mce_cap_supported(KVMState *s, uint64_t *mce_cap,
++static int kvm_get_mce_cap_supported(uint64_t *mce_cap,
+                                      int *max_banks)
+ {
+     int r;
+@@ -538,7 +538,7 @@ static int kvm_get_mce_cap_supported(KVMState *s, uint64_t *mce_cap,
+     r = kvm_check_extension(KVM_CAP_MCE);
+     if (r > 0) {
+         *max_banks = r;
+-        return kvm_ioctl(s, KVM_X86_GET_MCE_CAP_SUPPORTED, mce_cap);
++        return kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, mce_cap);
+     }
+     return -ENOSYS;
+ }
+@@ -1737,7 +1737,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         int banks;
+         int ret;
+ 
+-        ret = kvm_get_mce_cap_supported(cs->kvm_state, &mcg_cap, &banks);
++        ret = kvm_get_mce_cap_supported(&mcg_cap, &banks);
+         if (ret < 0) {
+             fprintf(stderr, "kvm_get_mce_cap_supported: %s", strerror(-ret));
+             return ret;
 -- 
 2.26.2
 
