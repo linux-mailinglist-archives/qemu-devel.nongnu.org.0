@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18EB215CE9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:21:05 +0200 (CEST)
-Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B81215CD8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:17:53 +0200 (CEST)
+Received: from localhost ([::1]:42364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUng-0000E1-MG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1jsUka-0001er-Bq
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUR9-00038J-Gy; Mon, 06 Jul 2020 12:57:47 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUR7-0005hA-Kt; Mon, 06 Jul 2020 12:57:47 -0400
-Received: by mail-io1-xd44.google.com with SMTP id i25so40215363iog.0;
- Mon, 06 Jul 2020 09:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jbu76fBiXNYavUN7hJcbgVnTcX2cRFUs4aT7tEW/KCU=;
- b=ubHpKe3Nm/Sr5j6MorIaPojzmsRHj5+fmcltESNG2gAbWTvX1yCj86i/BloyiAH3SL
- xWhHSfxANC145Do+ytU9h3x6gUWXXpxoJbax6p8l+3hblfd3vf/ZAPYv7trfCqGSSgM7
- ULfQdyQJbfWa7bnl+6S/qg9ngCL58WTQ9YsqfvGxRjz48ApcTCue/jtHA4PiCxoPwZhs
- CTGRtaolavDk8YuMP5fi1gXkm8RHoEKlXhKjVg2jvZnxY6lwWUiXLwfdbEuPrlbjmpfN
- ZYZ+D4DfO4FNsz/Cko3Rugg6gv4hh5P11TwOjAfiM1LmFxrBE++T4JSXMs2EiDcjqq0I
- iI4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jbu76fBiXNYavUN7hJcbgVnTcX2cRFUs4aT7tEW/KCU=;
- b=QaKAeFSsD93f34FOGlmeH65kaYNubpLpjaO55X2xgiROq6nTSrjmh2yCQ6NsphbW6F
- FvN9e4Lntqfb4mhZjVW+/l5uInc+NOgCeHrT4rbrA0e/JU94XBbXPU2xEqg3SgDlBZgA
- H8Qsh7oq27ZFwGorRYX3jBAvNPf+4p5+hKYFeWC87OoqXF9QSjIGnO81tyCYtkBn5jo4
- GgmpD7caHFFQT2N89XAsnNGbHJLH88EA8MT2G5pG8o1BZUCjrtwOlRwrxW+gtP7+Qi3G
- fAInqkkBcbgYsioPenN8s7026gUyNIUCLyXZ421q1myWsriwZEaS3XzlNrCiN4fg9AQD
- WIIg==
-X-Gm-Message-State: AOAM5321+3tdRa0+J02ShkdNUUIkArsQr2f3v3iB4yJkF2oxlz22O/Hk
- 4Bj/yQoIm2r0Ceg6H7qgNjFpGVHGGak38brcU/Q=
-X-Google-Smtp-Source: ABdhPJz4Nagjt4yMPeIUiuanaZZK73HDv7ILWk0uVF4t2Q+HCp1PRj88webbTw+MS2P2VLqMmcsYgAWk06cLvYu6Q4g=
-X-Received: by 2002:a02:1a06:: with SMTP id 6mr55748921jai.8.1594054664021;
- Mon, 06 Jul 2020 09:57:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jsUIG-0007Zy-PJ
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:48:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52638
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jsUIE-0004Jp-1l
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594054113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=moO3+lGkJ2sBGKmNWn7n87wS9tUDIgtnaNaBNy+qKy8=;
+ b=ZXiliWdWpfbfryFVzo5PMzijwCMOhu/CG0B444JwNwzNRlkWBlIK5qLr2Cl6WqOe3NpGsT
+ ZwxgTf208QtPpgYACRbBtuI7pocxw1cxpTJeAQo52mpzGJq6uDss8QXf8wBqL9kESh4pRf
+ MvhW4eVbNQBsRxAVAwWWGg3srQqQmuY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-iTRLvVAZPM6FyUykgXLYyw-1; Mon, 06 Jul 2020 12:48:31 -0400
+X-MC-Unique: iTRLvVAZPM6FyUykgXLYyw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0298100A8E7;
+ Mon,  6 Jul 2020 16:48:29 +0000 (UTC)
+Received: from [10.36.113.241] (ovpn-113-241.ams2.redhat.com [10.36.113.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D9B660C84;
+ Mon,  6 Jul 2020 16:48:21 +0000 (UTC)
+Subject: Re: [PATCH v2 9/9] hw/arm/smmuv3: Advertise SMMUv3.2 range
+ invalidation
+To: Robin Murphy <robin.murphy@arm.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ peterx@redhat.com
+References: <20200702152659.8522-1-eric.auger@redhat.com>
+ <20200702152659.8522-10-eric.auger@redhat.com>
+ <10bafac8-a230-c545-662c-bcbd9f3902dc@arm.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <3f4dce7c-14e9-f97f-1de5-d39a501bd229@redhat.com>
+Date: Mon, 6 Jul 2020 18:48:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200704144943.18292-1-f4bug@amsat.org>
- <20200704144943.18292-9-f4bug@amsat.org>
-In-Reply-To: <20200704144943.18292-9-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:47:55 -0700
-Message-ID: <CAKmqyKNeuFosuMbvQ80EQ2uCEXpxfii=8WZE_njt8=3UyzUMqw@mail.gmail.com>
-Subject: Re: [PATCH 08/26] hw/usb/hcd-dwc2: Restrict 'dwc2-regs.h' scope
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <10bafac8-a230-c545-662c-bcbd9f3902dc@arm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,81 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Richard Henderson <rth@twiddle.net>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: jean-philippe@linaro.org, mst@redhat.com, zhangfei.gao@foxmail.com,
+ shameerali.kolothum.thodi@huawei.com, will@kernel.org, robh@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 7:53 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> We only use these register definitions in files under the
-> hw/usb/ directory. Keep that header local by moving it there.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Hi Robin,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+On 7/6/20 6:18 PM, Robin Murphy wrote:
+> On 2020-07-02 16:26, Eric Auger wrote:
+>> Expose the RIL bit so that the guest driver uses range
+>> invalidation.
+> 
+> Hmm, this is a v3.2 feature... so strictly, in order to advertise it you
+> would need to claim at least v3.1 in SMMU_AIDR and implement all the
+> mandatory v3.1 behaviour ;)
 
-Alistair
+AIDR is not modeled at the moment in this emulation code.
+I do not see it used in the linux smmuv3 driver either. I can initialize
+it to 0x2 for the sake of completeness.
 
-> ---
->  {include/hw =3D> hw}/usb/dwc2-regs.h | 0
->  hw/usb/hcd-dwc2.c                  | 2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename {include/hw =3D> hw}/usb/dwc2-regs.h (100%)
->
-> diff --git a/include/hw/usb/dwc2-regs.h b/hw/usb/dwc2-regs.h
-> similarity index 100%
-> rename from include/hw/usb/dwc2-regs.h
-> rename to hw/usb/dwc2-regs.h
-> diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
-> index ccf05d0823..252b60ef65 100644
-> --- a/hw/usb/hcd-dwc2.c
-> +++ b/hw/usb/hcd-dwc2.c
-> @@ -34,7 +34,6 @@
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
->  #include "qapi/error.h"
-> -#include "hw/usb/dwc2-regs.h"
->  #include "hw/usb/hcd-dwc2.h"
->  #include "hw/irq.h"
->  #include "sysemu/dma.h"
-> @@ -43,6 +42,7 @@
->  #include "qemu/timer.h"
->  #include "qemu/log.h"
->  #include "hw/qdev-properties.h"
-> +#include "dwc2-regs.h"
->
->  #define USB_HZ_FS       12000000
->  #define USB_HZ_HS       96000000
-> --
-> 2.21.3
->
->
+With respect to the 'mandatory features', could you please help me
+determining what are they. Most of the features that would impact this
+emulation code look optional to me (52bit support, PBHA, MPAM).
+
+This emulation code is tested against the latest linux kernel.
+
+Thanks
+
+Eric
+
+> Robin.
+> 
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>   hw/arm/smmuv3-internal.h | 1 +
+>>   hw/arm/smmuv3.c          | 2 ++
+>>   2 files changed, 3 insertions(+)
+>>
+>> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+>> index 5babf72f7d..4e7ec252ed 100644
+>> --- a/hw/arm/smmuv3-internal.h
+>> +++ b/hw/arm/smmuv3-internal.h
+>> @@ -54,6 +54,7 @@ REG32(IDR1,                0x4)
+>>     REG32(IDR2,                0x8)
+>>   REG32(IDR3,                0xc)
+>> +    FIELD(IDR3, RIL,          10, 1);
+>>   REG32(IDR4,                0x10)
+>>   REG32(IDR5,                0x14)
+>>        FIELD(IDR5, OAS,         0, 3);
+>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+>> index 89ab11fc36..add4ba4543 100644
+>> --- a/hw/arm/smmuv3.c
+>> +++ b/hw/arm/smmuv3.c
+>> @@ -254,6 +254,8 @@ static void smmuv3_init_regs(SMMUv3State *s)
+>>       s->idr[1] = FIELD_DP32(s->idr[1], IDR1, EVENTQS, SMMU_EVENTQS);
+>>       s->idr[1] = FIELD_DP32(s->idr[1], IDR1, CMDQS,   SMMU_CMDQS);
+>>   +    s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
+>> +
+>>      /* 4K and 64K granule support */
+>>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
+>>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
+>>
+> 
+
 
