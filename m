@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB06C215CAD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:09:18 +0200 (CEST)
-Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA90215CB8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:11:07 +0200 (CEST)
+Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUcH-0008Mz-R5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33516)
+	id 1jsUe2-0003Qe-M8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jsUWP-00047z-VX
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:03:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41619
+ id 1jsUWW-0004NN-Ij
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:03:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45975
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1jsUWO-0006ed-Bc
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:03:13 -0400
+ id 1jsUWS-0006f9-Qs
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:03:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594054991;
+ s=mimecast20190719; t=1594054995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=apfggld3R7K2A3T1PK9XU7I7BAXDd4dvfqV923imVeM=;
- b=fS4ydFlFfEIqPJREDpLJQmMuHPzPW2W0prujzlbJbHWLWQExBFLSdwz3hrugLjM2XpeNlc
- q7Fdq9hOaQq4YxPKcW5OzGBwYLSkhdnR5fVn3aY2cqzItyzcgA0KezGXsqfkZcab45Ll3j
- qcsP0fCbw9MXYDWpkcpOv7xYTChZlQ4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=odDLa6KsxvuskxWO7HBlkhbdU2fzAGQo4bSupCSccbE=;
+ b=Q/TiRBNKQstFkXEyqUc5jNSelBZre33yxt97Mn68SlDSvXJySYcypdE9SNXaBxN+KW5tQW
+ FMkwp5pp3Ne3EnUY1PAL87snAOv/bGdRe3t58PPfkISat0Pv7tRGDx7hDjkA77UsfxyaYA
+ P8hoYCmJ84bIUOtiN8LvkK399KVrNXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-EU33qf56OaCss9KtKEsG5w-1; Mon, 06 Jul 2020 13:03:09 -0400
-X-MC-Unique: EU33qf56OaCss9KtKEsG5w-1
+ us-mta-68-F_6mddp0OV-dtqE56ThLrw-1; Mon, 06 Jul 2020 13:03:11 -0400
+X-MC-Unique: F_6mddp0OV-dtqE56ThLrw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA522461;
- Mon,  6 Jul 2020 17:03:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1E2C800408;
+ Mon,  6 Jul 2020 17:03:10 +0000 (UTC)
 Received: from turbo.com (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 285635BACD;
- Mon,  6 Jul 2020 17:02:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 614BACF945;
+ Mon,  6 Jul 2020 17:03:08 +0000 (UTC)
 From: Christophe de Dinechin <dinechin@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] trace: Add a trace backend for the recorder library
-Date: Mon,  6 Jul 2020 19:02:53 +0200
-Message-Id: <20200706170255.1165105-1-dinechin@redhat.com>
+Subject: [PATCH v3 1/2] trace: Add support for recorder back-end
+Date: Mon,  6 Jul 2020 19:02:54 +0200
+Message-Id: <20200706170255.1165105-2-dinechin@redhat.com>
+In-Reply-To: <20200706170255.1165105-1-dinechin@redhat.com>
+References: <20200706170255.1165105-1-dinechin@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
@@ -84,56 +87,350 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recorder library implements low-cost always-on tracing, with three=0D
-usage models:=0D
-=0D
-1. Flight recorder: Dump information on recent events in case of crash=0D
-2. Tracing: Individual traces can be enabled using environment variables=0D
-3. Real-time graphing / control, using the recorder_scope application=0D
-=0D
-This short series introduces a new "recorder" back-end which connects=0D
-to the recorder. Traces using the recorder are intentionally "always on",=
-=0D
-because the recorder library is primarily designed to record=0D
-information for later playback in case of crash, tracing being only a=0D
-secondary capability.=0D
-=0D
-An example is given of how the recorder can also be used separately=0D
-from generated traces. The example uses locking, which can make sense=0D
-for both post-mortem and real-time graphing.=0D
-=0D
-Changes in v3:=0D
-* Address coding style issues (C++ comments, wrong include, etc)=0D
-* Fix args type for HMP command (for now, still a single command)=0D
-* Add basic help for HMP command=0D
-* Use pkg-config for recorder information. This requires recorder=0D
-  1.0.10 or later.=0D
-=0D
-Later patches wil address larger topics that were discussed that=0D
-would impact other tracing mechanisms, as well as GitHub / GitLab=0D
-build tests.=0D
-=0D
-Christophe de Dinechin (2):=0D
-  trace: Add support for recorder back-end=0D
-  trace: Example of non-tracing recorder use=0D
-=0D
- configure                             | 14 ++++++++=0D
- hmp-commands.hx                       | 23 +++++++++++-=0D
- monitor/misc.c                        | 27 ++++++++++++++=0D
- scripts/tracetool/backend/recorder.py | 52 +++++++++++++++++++++++++++=0D
- trace/Makefile.objs                   |  1 +=0D
- trace/control.c                       |  7 ++++=0D
- trace/recorder.c                      | 25 +++++++++++++=0D
- trace/recorder.h                      | 32 +++++++++++++++++=0D
- util/module.c                         |  8 +++++=0D
- util/qemu-thread-common.h             |  7 ++++=0D
- 10 files changed, 195 insertions(+), 1 deletion(-)=0D
- create mode 100644 scripts/tracetool/backend/recorder.py=0D
- create mode 100644 trace/recorder.c=0D
- create mode 100644 trace/recorder.h=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The recorder library provides support for low-cost continuous
+recording of events, which can then be replayed. This makes it
+possible to collect data after the fact, for example to show the
+events that led to a crash or unexpected condition.
+
+In this series, minimal recorder support in qemu is implemented using
+the existing tracing interface. For each trace, a corresponding
+recorder is created with a generic name and a default size of 8 entries.
+
+In addition, it is possible to explicitly enable recorders that are
+not qemu traces, for example in order to use actually record events
+rather than trace them, or to use the real-time graphing capabilities.
+For that reason, a limited set of recorder-related macros are defined
+as no-ops even if the recorder trace backend is not configured.
+
+Recorder-specific features, notably the ability to perform a
+post-mortem dump and to group traces by topic, are not integrated in
+this series, as doing so would require modifying the trace
+infrastructure, which is a non-objective here. This may be the topic
+of later series if there is any interest for it.
+
+HMP COMMAND:
+The 'recorder' hmp command has been added, which supports two
+sub-commands:
+* recorder dump: Dump the current state of the recorder. You can
+  give that command a recorder name, to only dump that recorder.
+* recorder trace: Set traces using the recorder_trace_set() syntax.
+  You can use "recorder trace help" to list all available recorders.
+
+Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+---
+ configure                             | 14 ++++++++
+ hmp-commands.hx                       | 23 +++++++++++-
+ monitor/misc.c                        | 27 ++++++++++++++
+ scripts/tracetool/backend/recorder.py | 52 +++++++++++++++++++++++++++
+ trace/Makefile.objs                   |  1 +
+ trace/control.c                       |  7 ++++
+ trace/recorder.c                      | 25 +++++++++++++
+ trace/recorder.h                      | 32 +++++++++++++++++
+ util/module.c                         |  8 +++++
+ 9 files changed, 188 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/tracetool/backend/recorder.py
+ create mode 100644 trace/recorder.c
+ create mode 100644 trace/recorder.h
+
+diff --git a/configure b/configure
+index 8a65240d4a..3c30f2defd 100755
+--- a/configure
++++ b/configure
+@@ -7727,6 +7727,20 @@ fi
+ if have_backend "log"; then
+   echo "CONFIG_TRACE_LOG=y" >> $config_host_mak
+ fi
++if have_backend "recorder"; then
++    recorder_minver="1.0.10"
++    if $pkg_config --atleast-version=$recorder_minver recorder ; then
++        recorder_cflags="$($pkg_config --cflags recorder)"
++        recorder_libs="$($pkg_config --libs recorder)"
++        LIBS="$recorder_libs $LIBS"
++        libs_qga="$recorder_libs $libs_qga"
++        QEMU_CFLAGS="$QEMU_CFLAGS $recorder_cflags"
++        zstd="yes"
++        echo "CONFIG_TRACE_RECORDER=y" >> $config_host_mak
++    else
++        feature_not_found "recorder" "Install recorder-devel package"
++    fi
++fi
+ if have_backend "ust"; then
+   echo "CONFIG_TRACE_UST=y" >> $config_host_mak
+ fi
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index d548a3ab74..f164ff6d65 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -302,6 +302,28 @@ SRST
+   Open, close, or flush the trace file.  If no argument is given, the
+   status of the trace file is displayed.
+ ERST
++#endif
++
++#if defined(CONFIG_TRACE_RECORDER)
++    {
++        .name       = "recorder",
++        .args_type  = "op:s?,arg:s?",
++        .params     = "trace|dump [arg]",
++        .help       = "trace selected recorders or print recorder dump",
++        .cmd        = hmp_recorder,
++    },
++
++SRST
++``trace`` *cmds*
++  Activate or deactivate tracing for individual recorder traces.
++  See recorder_trace_set(3) for the syntax of *cmds*
++  For example, to activate trace ``foo`` and disable alll traces
++  ending in ``_warning``, use ``foo:.*_warning=0``.
++  Using ``help`` will list available traces and their current setting.
++``dump`` [*name*]
++  Dump the recorder. If *name* is given, only the specific named recorder
++  will be dumped.
++ERST
+ #endif
+ 
+     {
+@@ -1828,4 +1850,3 @@ ERST
+         .sub_table  = hmp_info_cmds,
+         .flags      = "p",
+     },
+-
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 89bb970b00..0094b1860f 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -61,6 +61,9 @@
+ #ifdef CONFIG_TRACE_SIMPLE
+ #include "trace/simple.h"
+ #endif
++#ifdef CONFIG_TRACE_RECORDER
++#include "trace/recorder.h"
++#endif
+ #include "exec/memory.h"
+ #include "exec/exec-all.h"
+ #include "qemu/option.h"
+@@ -227,6 +230,30 @@ static void hmp_trace_file(Monitor *mon, const QDict *qdict)
+ }
+ #endif
+ 
++#ifdef CONFIG_TRACE_RECORDER
++static void hmp_recorder(Monitor *mon, const QDict *qdict)
++{
++    const char *op = qdict_get_try_str(qdict, "op");
++    const char *arg = qdict_get_try_str(qdict, "arg");
++
++    if (!op) {
++        monitor_printf(mon, "missing recorder command\"%s\"\n", op);
++        help_cmd(mon, "recorder");
++    } else if (!strcmp(op, "trace")) {
++        recorder_trace_set(arg);
++    } else if (!strcmp(op, "dump")) {
++        if (!arg || !*arg) {
++            recorder_dump();
++        } else {
++            recorder_dump_for(arg);
++        }
++    } else {
++        monitor_printf(mon, "unexpected recorder command \"%s\"\n", op);
++        help_cmd(mon, "recorder");
++    }
++}
++#endif
++
+ static void hmp_info_help(Monitor *mon, const QDict *qdict)
+ {
+     help_cmd(mon, "info");
+diff --git a/scripts/tracetool/backend/recorder.py b/scripts/tracetool/backend/recorder.py
+new file mode 100644
+index 0000000000..82d983ff31
+--- /dev/null
++++ b/scripts/tracetool/backend/recorder.py
+@@ -0,0 +1,52 @@
++# -*- coding: utf-8 -*-
++
++"""
++Trace back-end for recorder library
++"""
++
++__author__     = "Christophe de Dinechin <christophe@dinechin.org>"
++__copyright__  = "Copyright 2020, Christophe de Dinechin and Red Hat"
++__license__    = "GPL version 2 or (at your option) any later version"
++
++__maintainer__ = "Christophe de Dinechin"
++__email__      = "christophe@dinechin.org"
++
++
++from tracetool import out
++
++PUBLIC = True
++
++def generate_h_begin(events, group):
++    out('#include <recorder/recorder.h>', '')
++
++    for event in events:
++        out('RECORDER_DECLARE(%(name)s);', name=event.name)
++
++
++def generate_h(event, group):
++    argnames = ", ".join(event.args.names())
++    if len(event.args) > 0:
++        argnames = ", " + argnames
++
++    out('    record(%(event)s, %(fmt)s %(argnames)s);',
++        event=event.name,
++        fmt=event.fmt.rstrip("\n"),
++        argnames=argnames)
++
++
++def generate_h_backend_dstate(event, group):
++    out('    RECORDER_TWEAK(%(event_id)s) || \\', event_id=event.name)
++
++def generate_c_begin(events, group):
++    out('#include "qemu/osdep.h"',
++        '#include "trace/control.h"',
++        '#include "trace/simple.h"',
++        '#include <recorder/recorder.h>',
++        '')
++
++    for event in events:
++        out('RECORDER_DEFINE(%(name)s, 8,',
++            '                "Tracetool recorder for %(api)s(%(args)s)");',
++            name=event.name,
++            api=event.api(),
++            args=event.args)
+diff --git a/trace/Makefile.objs b/trace/Makefile.objs
+index c544509adf..13667e98d5 100644
+--- a/trace/Makefile.objs
++++ b/trace/Makefile.objs
+@@ -54,6 +54,7 @@ $(obj)/generated-tcg-tracers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/
+ 
+ util-obj-$(CONFIG_TRACE_SIMPLE) += simple.o
+ util-obj-$(CONFIG_TRACE_FTRACE) += ftrace.o
++util-obj-$(CONFIG_TRACE_RECORDER) += recorder.o
+ util-obj-y += control.o
+ obj-y += control-target.o
+ util-obj-y += qmp.o
+diff --git a/trace/control.c b/trace/control.c
+index 2ffe000818..15e5293eec 100644
+--- a/trace/control.c
++++ b/trace/control.c
+@@ -23,6 +23,9 @@
+ #ifdef CONFIG_TRACE_SYSLOG
+ #include <syslog.h>
+ #endif
++#ifdef CONFIG_TRACE_RECORDER
++#include "trace/recorder.h"
++#endif
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/config-file.h"
+@@ -282,6 +285,10 @@ bool trace_init_backends(void)
+     openlog(NULL, LOG_PID, LOG_DAEMON);
+ #endif
+ 
++#ifdef CONFIG_TRACE_RECORDER
++    recorder_trace_init();
++#endif
++
+     return true;
+ }
+ 
+diff --git a/trace/recorder.c b/trace/recorder.c
+new file mode 100644
+index 0000000000..e1859c2cf2
+--- /dev/null
++++ b/trace/recorder.c
+@@ -0,0 +1,25 @@
++/*
++ * Recorder-based trace backend
++ *
++ * Copyright Red Hat 2020
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "trace/recorder.h"
++
++RECORDER_CONSTRUCTOR
++void recorder_trace_init(void)
++{
++    const char *traces = getenv("RECORDER_TRACES");
++    recorder_trace_set(traces);
++
++    /* Allow a dump in case we receive some unhandled signal
++       For example, send USR2 to a hung process to get a dump */
++    if (traces) {
++        recorder_dump_on_common_signals(0, 0);
++    }
++}
+diff --git a/trace/recorder.h b/trace/recorder.h
+new file mode 100644
+index 0000000000..a531dc284a
+--- /dev/null
++++ b/trace/recorder.h
+@@ -0,0 +1,32 @@
++/*
++ * Recorder-based trace backend
++ *
++ * Copyright Red Hat 2020
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef TRACE_RECORDER_H
++#define TRACE_RECORDER_H
++
++#ifdef CONFIG_TRACE_RECORDER
++
++#include <recorder/recorder.h>
++
++extern void recorder_trace_init(void);
++
++#else
++
++/* Disable recorder macros */
++#define RECORDER(Name, Size, Description)
++#define RECORDER_DEFINE(Name, Size, Description)
++#define RECORDER_DECLARE(Name)
++#define RECORD(Name, ...)
++#define record(Name, ...)
++#define recorder_trace_init()
++
++#endif /* CONFIG_TRACE_RECORDER */
++
++#endif // TRACE_RECORDER_H
+diff --git a/util/module.c b/util/module.c
+index e48d9aacc0..2fa93561fe 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -22,6 +22,10 @@
+ #ifdef CONFIG_MODULE_UPGRADES
+ #include "qemu-version.h"
+ #endif
++#ifdef CONFIG_TRACE_RECORDER
++#include "trace/recorder.h"
++#endif
++
+ 
+ typedef struct ModuleEntry
+ {
+@@ -150,6 +154,10 @@ static int module_load_file(const char *fname)
+         g_module_close(g_module);
+         ret = -EINVAL;
+     } else {
++#ifdef CONFIG_TRACE_RECORDER
++        // New recorders may have been pulled in, activate them if necessary
++        recorder_trace_init();
++#endif
+         QTAILQ_FOREACH(e, &dso_init_list, node) {
+             e->init();
+             register_module_init(e->init, e->type);
+-- 
+2.26.2
 
 
