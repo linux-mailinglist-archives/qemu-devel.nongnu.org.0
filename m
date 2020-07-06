@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1565C215CC6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:14:19 +0200 (CEST)
-Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F8A215CDF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:19:41 +0200 (CEST)
+Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUh8-0001FV-4x
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1jsUmK-0005tF-CR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCb-0004GG-Cb
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37051
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCY-0003ER-An
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+iy9w5X1fz+uCMf5P7FdKYhQZHH1KM7pEmht8ZmxZVA=;
- b=SY96TQkN/UAvlEKpBZABTDAD/ZI8gH6FPzjl3tcC7IENWx1Iok2N1ocNydhDEVF0PfHqgP
- N1CAv4xUkfUHzlOXyIfcstFciC/s78WoE3dOi39516xMm2fFkVzaMiL6FQ9yXPT+ZLEHfb
- sF11WOzFR3doC//C/pJPgij6fio+7xY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-wHsiANIjM5m4jnMTje4Ruw-1; Mon, 06 Jul 2020 12:42:36 -0400
-X-MC-Unique: wHsiANIjM5m4jnMTje4Ruw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A52A08015FB;
- Mon,  6 Jul 2020 16:42:35 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55BD4100238C;
- Mon,  6 Jul 2020 16:42:35 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 52/53] target/i386: Enable TSX Suspend Load Address Tracking
- feature
-Date: Mon,  6 Jul 2020 12:41:54 -0400
-Message-Id: <20200706164155.24696-53-pbonzini@redhat.com>
-In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
-References: <20200706164155.24696-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsULN-0006XW-Dz; Mon, 06 Jul 2020 12:51:49 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:36346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsULL-0004ns-Lp; Mon, 06 Jul 2020 12:51:49 -0400
+Received: by mail-io1-xd44.google.com with SMTP id y2so40081907ioy.3;
+ Mon, 06 Jul 2020 09:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=I5OtyPLT7kBESQJdicuZvnddGyuuciNxesWYzy+1Mjs=;
+ b=SWvnqJcbBzJhYu/bXOQ+hKMBozzb7eF3y1umz2Fokk6JFjrelpEkePXIkPUQI6mFbk
+ dpNENf/rU0eX76Tb7AhqH1ePGEthpnO6IPXUbz5EB61DvQoQNAIaU6DIIcdVsHVVmws1
+ OJmTSVXUAWSPLMLvjQYBAZbYqF9f4sjGiV0YeH+hV/Yh6jvcGGJoC6+D8VS+BKiWQFiC
+ twpJaf07uRx63hrFyGfmKpi96tTYFsmPrbopnqHQaIlfY45bKyT0r6p7ISvmBRziwuIM
+ 0nR5egIBBH7M9ocIb3VqLSVkZu9wIECRqjJ+MNF8U/yM1xaPvKo/BzfuUJME/NJEBAVN
+ c8rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=I5OtyPLT7kBESQJdicuZvnddGyuuciNxesWYzy+1Mjs=;
+ b=C1YW5f7KI1oc+KDWVTBvUmTwwoGNOJTTTorPBO0451eKmTVXEMGRB4Ng7HZdEG+a7C
+ QwJYGzcxAj6kV5XMXO0Q24QiWA5Ss6Kuxfm97UAf7D4Uqo0vfc8qlbZgI19n6Tf6tnXr
+ gi7LxvmJR/8mjLq0d6qL8a6ysdlcH0HhaHDc1IC6w7hABRWoML0p//Saxo/qWOLMxzzN
+ 1fQ7ca51E/claJv4dZY6dLozNUNeHKgyQ52OyFNHonHP0S4vevH5tyXAK/E0sNYG/quj
+ +Bbt4WZCLb4NB/745eRgon9Bn6A0RAn2GluXUaoJbGQLadXnJxQMXxDuNkbeORgsbRcR
+ q6Yg==
+X-Gm-Message-State: AOAM532Wcb4twetuLB94ahPXVHALV2iapJ0l7KudIxLP8FMfXB7J9UTq
+ uEBMH1LjPiVXq4Cu52L7E3E2FCHoXwaf6ZqdYC0=
+X-Google-Smtp-Source: ABdhPJx32i6E6M9MufdeJ2NSghV6Tz6CYvlrUgC0MSQ1lEqz+1dNzvxla71CiRMtdTXGIMrAfoAe/BclQ0FduoBB8B4=
+X-Received: by 2002:a02:10c1:: with SMTP id 184mr52968031jay.135.1594054306418; 
+ Mon, 06 Jul 2020 09:51:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200705220731.28101-1-f4bug@amsat.org>
+In-Reply-To: <20200705220731.28101-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jul 2020 09:41:58 -0700
+Message-ID: <CAKmqyKOR80ORZEdzDzi5YJX7+=fsyL+9_OJwUf-_O_nP9wZ6mA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] hw/sd: Deprecate the SPI mode and the SPI to SD
+ adapter
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,59 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cathy Zhang <cathy.zhang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <huth@tuxfamily.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ libvir-list@redhat.com, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cathy Zhang <cathy.zhang@intel.com>
+On Sun, Jul 5, 2020 at 3:08 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> I tried to maintain the SPI mode because it is useful in
+> tiny embedded devices, and thought it would be helpful for
+> the AVR MCUs.
+> As AVR was blocked, I thought it was wise to deprecate the
+> SPI mode as users are interested in the faster MMC mode.
+> Today Thomas surprised me by posting an update of it!
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg720089.html
+>
+> I'm still posting this as RFC to discuss, but I'm reconsiderating
+> keeping this mode a bit more.
 
-This instruction aims to give a way to choose which memory accesses
-do not need to be tracked in the TSX read set, which is defined as
-CPUID.(EAX=7,ECX=0):EDX[bit 16].
+I think it's worth keeping.
 
-The release spec link is as follows:
-https://software.intel.com/content/dam/develop/public/us/en/documents/\
-architecture-instruction-set-extensions-programming-reference.pdf
+I'm pretty sure the HiFive Unleashed (sifive_u in QEMU) uses SD over
+SPI. There isn't an upstream model but I think there are out of tree
+patches that hopefully one day will make it upstream.
 
-The associated kvm patch link is as follows:
-https://lore.kernel.org/patchwork/patch/1268026/
+Alistair
 
-Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
-Message-Id: <1593991036-12183-3-git-send-email-cathy.zhang@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index fa9353dfba..0df2a2becb 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -987,7 +987,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, NULL, NULL,
-             "avx512-vp2intersect", NULL, "md-clear", NULL,
-             NULL, NULL, "serialize", NULL,
--            NULL, NULL, NULL /* pconfig */, NULL,
-+            "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, "spec-ctrl", "stibp",
-             NULL, "arch-capabilities", "core-capability", "ssbd",
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index bd71fe3ef2..37fffa5cac 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -779,6 +779,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_VP2INTERSECT (1U << 8)
- /* SERIALIZE instruction */
- #define CPUID_7_0_EDX_SERIALIZE         (1U << 14)
-+/* TSX Suspend Load Address Tracking instruction */
-+#define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
- /* Speculation Control */
- #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
- /* Single Thread Indirect Branch Predictors */
--- 
-2.26.2
-
-
+>
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   hw/sd/ssi-sd: Deprecate the SPI to SD card 'adapter'
+>   hw/sd/sdcard: Deprecate the SPI mode
+>
+>  docs/system/deprecated.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> --
+> 2.21.3
+>
+>
 
