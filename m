@@ -2,82 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE2B215CF8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:22:33 +0200 (CEST)
-Received: from localhost ([::1]:35018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F082B215CA2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:07:20 +0200 (CEST)
+Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUp6-0002go-4m
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
+	id 1jsUaN-0003eQ-UV
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jsUSG-0005hZ-Ug
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:58:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jsUSE-0005nn-Qc
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:58:56 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z15so30617269wrl.8
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 09:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=LIcEjIebpkVZqxUUtE1ONzS7ZlwjXksr8z4YAXj3pAU=;
- b=njLzv78u9pQynoJ6n/peCpC6z98NrkeF9kUZQmOuelkSkoR7h7IYD8lRFkRxZxdPHZ
- ljy4Qkpu/LgLP9MjR5YA21LBmHE+9zvWFS4puW80aWVLies5NFIuvYwBR01vFKBhsbJN
- D4qpCyVlWhX0oEPLS2Q+HG22dhH3WeX1AQf6ZZcjgsedPeGap0JkPNwWmjlalD9t4zIS
- 62L7umT4ua76OJCyNOeNDVvFLb4yWAKNwlfSlQ0bdR/0z023XnO6wOrLfTFaEyggYAC0
- kofxIyZQfUEIMxTnj7fa6bvAwfgf7HbsDSj+a/IYxRG5IdzkaJG9AY5x4QNF1+BPTFcV
- SHAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=LIcEjIebpkVZqxUUtE1ONzS7ZlwjXksr8z4YAXj3pAU=;
- b=NfVSIYz3Pbvk7i0IFtsOxq/CsYsaBol6sy0WccVtGUiIevHE+mDKpxMI+aBdlVcYzl
- w+4cShYrF+9w/L5TVyxoH8Boqrdv5QI0IQHPd74dt11d5bSfXhSiDgxA/gFtv+c2CTMG
- dfV/ehh2c9vpN8y7HEEH+ll0Z/O/3H90JmvkFBw06qMYr02x//ddg+LFN1o1LRxv5GG8
- W/7Hhy6G0pMKAxXce/+cfZNbjkhZsndnt599ioYGhBFK0AAEnjXPFvaIjY0Pq1Y8yA9C
- aFFQGHSKq2TTN3lv0OCTeAL/0dW/kbOL0Rfc8q27RkGe9Ya93gPtCUZkT/hci/2Yvn2M
- 4Quw==
-X-Gm-Message-State: AOAM530qMD6iHJoUb5kmOVbKg4LomAO5uDBMWJlV+p4qNLQbi7uRssRN
- h74sxhhy/27vkvxBPVKonfYQ5y7R4pg=
-X-Google-Smtp-Source: ABdhPJyuNH3Plkw7aDRkjdnmnJPeIQHfIHOnxI8Gh90pelwRZF+sxHN579HM4ujWSMwvdYnuXmIwrg==
-X-Received: by 2002:adf:ce85:: with SMTP id r5mr55092998wrn.157.1594054731979; 
- Mon, 06 Jul 2020 09:58:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d81sm572787wmc.0.2020.07.06.09.58.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 09:58:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E70051FF7E;
- Mon,  6 Jul 2020 17:58:49 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] softfloat,m68k: disable floatx80_invalid_encoding() for
- m68k
-References: <20200612140400.2130118-1-laurent@vivier.eu>
-Date: Mon, 06 Jul 2020 17:58:49 +0100
-In-Reply-To: <20200612140400.2130118-1-laurent@vivier.eu> (Laurent Vivier's
- message of "Fri, 12 Jun 2020 16:04:00 +0200")
-Message-ID: <87o8ospol2.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jsUSG-0005gB-FX; Mon, 06 Jul 2020 12:58:56 -0400
+Received: from mail-eopbgr140137.outbound.protection.outlook.com
+ ([40.107.14.137]:4072 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jsUSE-0005nU-Gt; Mon, 06 Jul 2020 12:58:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GPcD+G4SwFsbHLB1oeJsCaVIMSqCGgK1vgi+FuwIkt52q7ErAPnxOI7Yt1NjrFnpl/BTaTS2VhTaQc5y46D86oGUEC74MV9bOj0xV4UBYQp0OoqSl+DJX4cAcIC32p17fyPK/JpvEju6ZeQDB8SFL0ABV5ghBEJ0o+6FsTezbUQniEvquwT+YARAkTrUHhc2Y6TC1ZO99a1k2QgosbJmBCaMf5ogC3FrNb9MsKoFruKfOZ13M29byZNKzRC/4aRVUiBJvGNik+MFyqa4FdU5jiS3j1E86sY9vwQqJkYVQG40SZRW2B9U6/8tsLD8/3BKcNqhZFxG2kSF0sNO5AQe0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QRTzz5nQdo1nr3w8+VAXSYo9wD4nUM59kJcD+FmQbgQ=;
+ b=bKI07+2SUCChmN1EmZuXNIy1Xqz5oh7AnEvngb5+VfKt8H8sXnPdXqV/IO2v4XTtNdZF8/3xkyuUem5fkdHaKayJl0wDJntZmH+GOyc/PQRJnih8hGmOhmR0ssTvaHhIkxJClJUw0oUwaVI9PwZ23YcTf3uc2hzARSRY3/X3p95hV2YyM6jv+jcN2WC80fTKD9nyGPEMXYyo9IwCA1f2S+gzf4KzdxLEQEnWBQSp46+pT31rV4BiGfLPfUY8LNOasy29J/nFPOyKKS+FPFJVySgRS9vatXzZmyN83Qi6rQHPvS8CYnJZ3uUc+dLJNkdBKfVWWDrZ531ayOtAmf6x6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QRTzz5nQdo1nr3w8+VAXSYo9wD4nUM59kJcD+FmQbgQ=;
+ b=jqx7+APrYrqdYws/nFETknh8a1OExFTpY5iwP+p9lJJwc9HXVxL0uXT1isQ1Wd45R85kaITZUjPUqjdT4f05hMEE7prv1/yXhma/Ws5C6b3e+qhfMBYHRq8fR4kz1Lban1bmBr/utzffaqi4GspqoFoCjP0Jd2mCW/Vdy8gsy6k=
+Authentication-Results: kaod.org; dkim=none (message not signed)
+ header.d=none;kaod.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4166.eurprd08.prod.outlook.com (2603:10a6:20b:a6::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Mon, 6 Jul
+ 2020 16:58:51 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 16:58:50 +0000
+Subject: Re: [PATCH v3 30/44] qdev: Make functions taking Error ** return
+ bool, not void
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200706080950.403087-1-armbru@redhat.com>
+ <20200706080950.403087-31-armbru@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <d67e82bd-0454-542f-8c9c-ec0261534d7e@virtuozzo.com>
+Date: Mon, 6 Jul 2020 19:58:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <20200706080950.403087-31-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.12] (185.215.60.58) by
+ FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.8 via Frontend Transport; Mon, 6 Jul 2020 16:58:50 +0000
+X-Originating-IP: [185.215.60.58]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7f58e234-bdb0-474e-7e5c-08d821cddb84
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4166:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4166706DE40D538ECB2846F6C1690@AM6PR08MB4166.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:183;
+X-Forefront-PRVS: 04569283F9
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M7MIWdmPbmQ+MH34QcdT9Ss8T46zW9CsvlpOs02vn16c2RvpOlA9aU/DvIiRGkNc5ufS3gZTrwCb6Bf4bP5PmwYt/VsHcALeRoFwBJZzQ3YUfFdVV0OD8Wuy+Kr/L5WwB6MMEDNdVzHLJtuCU5zf951sn8AuXjlUxHPkvU6W7cnUBW7o/D+92Se+sKBk8eQSPe7FBgpMOxkzF4dnr8GV//eXoBDfqSZKEVUJ5LRmxl/XWWLS6J9qCrWSx8LLegyNjLh7GiWLuPs2EOU0qXBsWJDjXKcn2ysTJPiW7KRbleIIrwp3XSvy5EQKmHtdclwVCIAvMmHJsQSnSlg/F1XPqZRTFKo68vAaLopVTWTEou3vJp6NPj/3YcgdDnVjmzqY
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(366004)(346002)(39840400004)(376002)(396003)(36756003)(186003)(16526019)(558084003)(66946007)(8936002)(66556008)(66476007)(4326008)(2906002)(53546011)(86362001)(26005)(5660300002)(16576012)(316002)(956004)(31686004)(31696002)(2616005)(478600001)(6486002)(8676002)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: d3munVXPRycAX6K6nmqQuhcn06dozQygZL+cIZGdXuxUJZ/hWihnof6dnwY8FvMLedPhDybxRVBnr78v8WjzUBxyW0I9tI7OaYN65x/wJ8SLJRVBYTLf9hkaDp3Fy46GzHuz4lS3BFgIs7mO4Y5DSJfToXly5Kr4Ls4oJWWHG8NZiGNY+lMzkR0Ok5Jw5XVKnvDIGXqmt6MPe4J/VIQu5TaCJjQjbpFka7kw6CHohm2EDsq7I//ZEKBbkZ1Tyx+G10rIJC+Bt5xzjPfjxGU4ftYgd0vqkyqv4UcpdP2h2tZlUaZxSF7USokKIhEtalA9owh9R/vpyKHyIrPGcMMz5hW/wSv8EzH+olvfAlTeq/V2vK3CQwFpZ2CNS7U5uzdD5NESspCggnBar/3dvku3T3U6umrOsC0g3ljeTASHEF9JIHiPwI75R/AD9uuWY/w6snSaG4ziff2deXm/93fFBcKk6yWlVJyT6Wwr/ui0L7w=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f58e234-bdb0-474e-7e5c-08d821cddb84
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 16:58:50.9135 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4f5NKc94w1YzIUE6JxcozMW3pdrGuI4WrAUhQ9J+jQFbmhUD1nh1PgnXEHesOqM1PZ/pudUQuiMKeyP51YR40/GzzAyV2Km2SmL0uZLZKyc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4166
+Received-SPF: pass client-ip=40.107.14.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 12:58:52
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,96 +118,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, groug@kaod.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <laurent@vivier.eu> writes:
+On 06.07.2020 11:09, Markus Armbruster wrote:
+> See recent commit "error: Document Error API usage rules" for
+> rationale.
+> 
+> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+> Reviewed-by: Eric Blake<eblake@redhat.com>
 
-> According to the comment, this definition of invalid encoding is given
-> by intel developer's manual, and doesn't comply with 680x0 FPU.
->
-> With m68k, the explicit integer bit can be zero in the case of:
->  - zeros                (exp =3D=3D 0, mantissa =3D=3D 0)
->  - denormalized numbers (exp =3D=3D 0, mantissa !=3D 0)
->  - unnormalized numbers (exp !=3D 0, exp < 0x7FFF)
->  - infinities           (exp =3D=3D 0x7FFF, mantissa =3D=3D 0)
->  - not-a-numbers        (exp =3D=3D 0x7FFF, mantissa !=3D 0)
->
-> For infinities and NaNs, the explicit integer bit can be either one or
-> zero.
->
-> The IEEE 754 standard does not define a zero integer bit. Such a number
-> is an unnormalized number. Hardware does not directly support
-> denormalized and unnormalized numbers, but implicitly supports them by
-> trapping them as unimplemented data types, allowing efficient conversion
-> in software.
->
-> See "M68000 FAMILY PROGRAMMER=E2=80=99S REFERENCE MANUAL",
->     "1.6 FLOATING-POINT DATA TYPES"
->
-> We will implement in the m68k TCG emulator the FP_UNIMP exception to
-> trap into the kernel to normalize the number. In case of linux-user,
-> the number will be normalized by QEMU.
->
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 
-Apologies for the private reply, was using my fallback tooling while
-email was down and that doesn't automatically include the group address.
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-By all means take it via the m68k tree.=20
-
-> ---
->  include/fpu/softfloat.h | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->
-> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-> index 16ca697a73b7..f6eda4ca8e6c 100644
-> --- a/include/fpu/softfloat.h
-> +++ b/include/fpu/softfloat.h
-> @@ -791,7 +791,31 @@ static inline bool floatx80_unordered_quiet(floatx80=
- a, floatx80 b,
->  *-----------------------------------------------------------------------=
------*/
->  static inline bool floatx80_invalid_encoding(floatx80 a)
->  {
-> +#if defined(TARGET_M68K)
-> +    /*------------------------------------------------------------------=
--------
-> +    | With m68k, the explicit integer bit can be zero in the case of:
-> +    | - zeros                (exp =3D=3D 0, mantissa =3D=3D 0)
-> +    | - denormalized numbers (exp =3D=3D 0, mantissa !=3D 0)
-> +    | - unnormalized numbers (exp !=3D 0, exp < 0x7FFF)
-> +    | - infinities           (exp =3D=3D 0x7FFF, mantissa =3D=3D 0)
-> +    | - not-a-numbers        (exp =3D=3D 0x7FFF, mantissa !=3D 0)
-> +    |
-> +    | For infinities and NaNs, the explicit integer bit can be either on=
-e or
-> +    | zero.
-> +    |
-> +    | The IEEE 754 standard does not define a zero integer bit. Such a n=
-umber
-> +    | is an unnormalized number. Hardware does not directly support
-> +    | denormalized and unnormalized numbers, but implicitly supports the=
-m by
-> +    | trapping them as unimplemented data types, allowing efficient conv=
-ersion
-> +    | in software.
-> +    |
-> +    | See "M68000 FAMILY PROGRAMMER=E2=80=99S REFERENCE MANUAL",
-> +    |     "1.6 FLOATING-POINT DATA TYPES"
-> +    *-------------------------------------------------------------------=
------*/
-> +    return false;
-> +#else
->      return (a.low & (1ULL << 63)) =3D=3D 0 && (a.high & 0x7FFF) !=3D 0;
-> +#endif
->  }
->=20=20
->  #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
-
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
