@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E4221615B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 00:15:12 +0200 (CEST)
-Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2A221616D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 00:23:01 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsZOJ-0002a3-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 18:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41900)
+	id 1jsZVs-00063a-8z
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 18:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jsZMs-0001JS-9x; Mon, 06 Jul 2020 18:13:42 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jsZMp-0000s6-SC; Mon, 06 Jul 2020 18:13:42 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 066M23RD050939; Mon, 6 Jul 2020 18:13:33 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 324bfg9n6k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jul 2020 18:13:32 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 066M2pT3054667;
- Mon, 6 Jul 2020 18:13:32 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 324bfg9n6h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jul 2020 18:13:32 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 066MAMtT003549;
- Mon, 6 Jul 2020 22:13:32 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01wdc.us.ibm.com with ESMTP id 322hd8ax44-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jul 2020 22:13:31 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 066MDU8D59834744
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 6 Jul 2020 22:13:31 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE0AA7807C;
- Mon,  6 Jul 2020 22:13:30 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 34C727806E;
- Mon,  6 Jul 2020 22:13:30 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  6 Jul 2020 22:13:30 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-ppc@nongnu.org, marcandre.lureau@redhat.com
-Subject: [PATCH 2/2] tests: Skip over first 14 bytes when comparing TPM
- PCRRead result
-Date: Mon,  6 Jul 2020 18:13:27 -0400
-Message-Id: <20200706221327.3914491-3-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200706221327.3914491-1-stefanb@linux.vnet.ibm.com>
-References: <20200706221327.3914491-1-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1jsZV2-0005dt-37
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 18:22:08 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:39703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1jsZV0-0002Mt-E8
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 18:22:07 -0400
+Received: by mail-io1-xd33.google.com with SMTP id f23so41118792iof.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 15:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3wbbWbfEXcyN21G77rmYIqZo1suHl3PIw0CUI7nGKEU=;
+ b=RjoTMeCwfwbRIL7is9iNeE68LrpNzwLKZ3bb3e73FmKUjK2aazccDp1PveMswMmEJg
+ VLos25GM/0SuV1UeMsUiIzxg1+193OsOrbDkVA613EBVAPyfv3oEfpp1lvc7A5hOXcHM
+ 6KK83eMflvscB9vW9hjcji1mA3RL/Y+Sqyj38EctrH1oHdIcb5GAt6W4LB9oQp2NBu7W
+ Wu9FyRtWC1PdnXlr/w/KkrwNVyV8yFUPBnXXNHq4o5PTGlyq4rfFvxXjy/jnr7knmAId
+ u/2ZbI+/vQU2FE6bS2XD8hTkztnCqdd9vbzBbcEy7xDp9ZGBko6gUZ+GYRacwi2axmB3
+ Hw0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3wbbWbfEXcyN21G77rmYIqZo1suHl3PIw0CUI7nGKEU=;
+ b=bdf8oecMAYHaddIov6r73NVDrF4gIt5jJwkaM7BLURkL0moTqZftYkBQczuxJrEDG8
+ 31shrppGeScoLztQxRofzCv30SSARsWcgDif6VmpLkFujBdHqAZU6f1KnyQpF7f402cf
+ GqF7FBvuhNom1fP8rRM7yq9buqtt3u/YYw8OZ4PJnJHL+2hgWAP6EvmKnFQc65+TBpBz
+ fQrWI/PNkGg3e9EPs61ncmvcIaw8JKFIOzOpBMFFBW6PjekT5mCQLYTfM5Equ2WAAtLi
+ rRkFtDQ+/9SVvsyjyO2hznnSSwOPBSkkMNW66XOwDpf64QiZrLb7tTdkeUshP084Ra5l
+ KGxg==
+X-Gm-Message-State: AOAM5306fQ1jb8E9yvlJbGudXtWLblTCnK8ACY3T7J6zwqp7puOl+5Uu
+ eZR8+XsCT++5xaivFJ3993Yes0aqlqLpfMOoJV8=
+X-Google-Smtp-Source: ABdhPJxujCdN7+QLWBcO2DifRsxs2PP/L55b0zEGqON446X1phRtAZWjO7MnFP7fQRAJHVz3cfYi0nzPK4EnMeIZd6c=
+X-Received: by 2002:a02:70d4:: with SMTP id f203mr57529821jac.74.1594074124497; 
+ Mon, 06 Jul 2020 15:22:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-06_20:2020-07-06,
- 2020-07-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0
- cotscore=-2147483648 suspectscore=0 mlxscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2007060146
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 18:13:38
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+References: <BY5PR02MB677298C4D2C2B63EF409AA5CCA6B0@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <CADBGO7-hp4Pyfn+rq9d=ZxHmpMwitv-oLjYPJmCKSH6cLHVx=w@mail.gmail.com>
+In-Reply-To: <CADBGO7-hp4Pyfn+rq9d=ZxHmpMwitv-oLjYPJmCKSH6cLHVx=w@mail.gmail.com>
+From: Paul Zimmerman <pauldzim@gmail.com>
+Date: Mon, 6 Jul 2020 15:21:53 -0700
+Message-ID: <CADBGO78-mqwapj+mdpFUO-puL0OZ_1QeBc+4yo4S9g1O4deNjg@mail.gmail.com>
+Subject: Re: Failure prints during format or mounting a usb storage device
+To: Sai Pavan Boddu <saipava@xilinx.com>
+Content-Type: multipart/alternative; boundary="000000000000efb63605a9cd4d9f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=pauldzim@gmail.com; helo=mail-io1-xd33.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLY=1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,91 +79,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Vikram Garhwal <fnuv@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to a change in the TPM 2 code the pcrUpdate counter in the
-PCRRead response is now different. The easiest way is to skip over
-the first 14 bytes and only compare the tail of the response.
+--000000000000efb63605a9cd4d9f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- tests/qtest/tpm-tests.c | 6 +++---
- tests/qtest/tpm-util.c  | 6 ++++--
- tests/qtest/tpm-util.h  | 3 ++-
- 3 files changed, 9 insertions(+), 6 deletions(-)
+On Sat, Jul 4, 2020 at 11:24 AM Paul Zimmerman <pauldzim@gmail.com> wrote:
 
-diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
-index a2f2838e15..8f6491a4b7 100644
---- a/tests/qtest/tpm-tests.c
-+++ b/tests/qtest/tpm-tests.c
-@@ -65,7 +65,7 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
-         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
-         "\xa4\x2f\x9a\xae\xa8\xc7\xb7\xaa\x79\xa8\x62\x56\xc1\xde";
-     tpm_util_pcrread(s, tx, tpm_pcrread_resp,
--                     sizeof(tpm_pcrread_resp));
-+                     sizeof(tpm_pcrread_resp), 14);
- 
-     qtest_end();
-     tpm_util_swtpm_kill(swtpm_pid);
-@@ -113,13 +113,13 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
-         "\x98\xe5\x86\x8d\xe6\x8b\x97\x29\x99\x60\xf2\x71\x7d\x17\x67\x89"
-         "\xa4\x2f\x9a\xae\xa8\xc7\xb7\xaa\x79\xa8\x62\x56\xc1\xde";
-     tpm_util_pcrread(src_qemu, tx, tpm_pcrread_resp,
--                     sizeof(tpm_pcrread_resp));
-+                     sizeof(tpm_pcrread_resp), 14);
- 
-     tpm_util_migrate(src_qemu, uri);
-     tpm_util_wait_for_migration_complete(src_qemu);
- 
-     tpm_util_pcrread(dst_qemu, tx, tpm_pcrread_resp,
--                     sizeof(tpm_pcrread_resp));
-+                     sizeof(tpm_pcrread_resp), 14);
- 
-     qtest_quit(dst_qemu);
-     qtest_quit(src_qemu);
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index 34efae8f18..df85e23432 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -130,7 +130,8 @@ void tpm_util_pcrextend(QTestState *s, tx_func *tx)
- }
- 
- void tpm_util_pcrread(QTestState *s, tx_func *tx,
--                      const unsigned char *exp_resp, size_t exp_resp_size)
-+                      const unsigned char *exp_resp, size_t exp_resp_size,
-+                      off_t offset)
- {
-     unsigned char buffer[1024];
-     unsigned char tpm_pcrread[] =
-@@ -139,7 +140,8 @@ void tpm_util_pcrread(QTestState *s, tx_func *tx,
- 
-     tx(s, tpm_pcrread, sizeof(tpm_pcrread), buffer, sizeof(buffer));
- 
--    g_assert_cmpmem(buffer, exp_resp_size, exp_resp, exp_resp_size);
-+    g_assert_cmpmem(&buffer[offset], exp_resp_size - offset,
-+                    &exp_resp[offset], exp_resp_size - offset);
- }
- 
- bool tpm_util_swtpm_has_tpm2(void)
-diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
-index 3b97d69017..d6f4c17218 100644
---- a/tests/qtest/tpm-util.h
-+++ b/tests/qtest/tpm-util.h
-@@ -34,7 +34,8 @@ void tpm_util_tis_transfer(QTestState *s,
- void tpm_util_startup(QTestState *s, tx_func *tx);
- void tpm_util_pcrextend(QTestState *s, tx_func *tx);
- void tpm_util_pcrread(QTestState *s, tx_func *tx,
--                      const unsigned char *exp_resp, size_t exp_resp_size);
-+                      const unsigned char *exp_resp, size_t exp_resp_size,
-+                      off_t offset);
- 
- bool tpm_util_swtpm_has_tpm2(void);
- 
--- 
-2.24.1
+>
+>
+> On Sat, Jul 4, 2020 at 11:21 AM Sai Pavan Boddu <saipava@xilinx.com>
+> wrote:
+>
+>> Hi,
+>>
+>>
+>>
+>> We are seeing some errors when a usb-storage device is formatted or
+>> mounted on the guest. Below is commit I have bisected it.
+>>
+>>
+>>
+>> **************
+>>
+>> Errors:
+>>
+>>
+>>
+>> / # mount /dev/sda /mnt
+>>
+>> [New Thread 0x7fffd4680700 (LWP 23270)]
+>>
+>> [   33.258454] usb 2-1: reset SuperSpeed Gen 1 USB device number 2 using
+>> xhci_hcd
+>>
+>> [   33.399528] usb 2-1: reset SuperSpeed Gen 1 USB device number 2 using
+>> xhci_hcd
+>>
+>> [   33.544621] usb 2-1: reset SuperSpeed Gen 1 USB device number 2 using
+>> xhci_hcd
+>>
+>> [   33.560460] sd 2:0:0:0: [sda] tag#0 FAILED Result: hostbyte=3DDID_ERR=
+OR
+>> driverbyte=3DDRIVER_OK
+>>
+>> [   33.562405] sd 2:0:0:0: [sda] tag#0 CDB: Read(10) 28 00 00 00 10 00 0=
+0
+>> 00 01 00
+>>
+>> [   33.563389] blk_update_request: I/O error, dev sda, sector 4096 op
+>> 0x0:(READ) flags 0x80700 phys_seg 1 prio class 0
+>>
+>> / # [Thread 0x7fffd4680700 (LWP 23270) exited]
+>>
+>>
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> Bisect commit :
+>>
+>>
+>>
+>> commit 7ad3d51ebb8a522ffcad391c4bef281245739dde
+>>
+>> Author: Paul Zimmerman <pauldzim@gmail.com>
+>>
+>> Date:   Wed May 20 16:53:47 2020 -0700
+>>
+>>
+>>
+>>     usb: add short-packet handling to usb-storage driver
+>>
+>>
+>>
+>>     The dwc-hsotg (dwc2) USB host depends on a short packet to
+>>
+>>     indicate the end of an IN transfer. The usb-storage driver
+>>
+>>     currently doesn't provide this, so fix it.
+>>
+>>
+>>
+>>     I have tested this change rather extensively using a PC
+>>
+>>     emulation with xhci, ehci, and uhci controllers, and have
+>>
+>>     not observed any regressions.
+>>
+>>
+>>
+>>     Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
+>>
+>>     Message-id: 20200520235349.21215-6-pauldzim@gmail.com
+>>
+>>     Signed-off-by: Peter Maydell peter.maydell@linaro.org
+>>
+>>
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> Steps to reproduce:
+>>
+>>    1. x86_64-softmmu/qemu-system-x86_64 -kernel bzImage -nographic
+>>    -append "console=3DttyS0" -m 512M -initrd initramfs.cpio.gz -device
+>>    qemu-xhci,id=3Dxhci1 -drive file=3D./usb.img,if=3Dnone,id=3Dstick
+>>    2. Hotplug usb-storage:
+>>
+>>                                 device_add
+>> usb-storage,bus=3Dxhci1.0,port=3D1,id=3Dusbdev1,drive=3Dstick
+>>
+>>    1. Format &  mount the detected device
+>>
+>> mkfs.vfat -F 32 /dev/sda
+>> mount /dev/sda /mnt
+>>
+>> You can find the similar errors mentioned above at this stage.
+>>
+>> Test Environment:
+>>
+>>        Host:  Ubuntu 16.04 LTS
+>>
+>>        Guest:  kernel version: 5.4.0 & BusyBox v1.31.1
+>>
+>>
+>>
+>> Thanks & Regards,
+>>
+>> Sai Pavan
+>>
+>>
+>>
+> I can try to reproduce this on Monday, if no one beats me to it.
+>
 
+>
+I am able to reproduce this. Despite the errors in dmesg, the drive does
+end up mounting and working OK, which is probably why I didn=E2=80=99t spot=
+ it
+during testing.
+Sai, does the drive work OK for you too despite the errors?
+
+Thanks,
+Paul
+
+--000000000000efb63605a9cd4d9f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
+n Sat, Jul 4, 2020 at 11:24 AM Paul Zimmerman &lt;<a href=3D"mailto:pauldzi=
+m@gmail.com">pauldzim@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Sat, Jul 4, 2020 at 11:21 AM Sai Pavan Bod=
+du &lt;<a href=3D"mailto:saipava@xilinx.com" target=3D"_blank">saipava@xili=
+nx.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div>
+<p class=3D"MsoNormal">Hi,<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">We are seeing some errors when a usb-storage device =
+is formatted or mounted on the guest. Below is commit I have bisected it.<u=
+></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">**************<u></u><u></u></p>
+<p class=3D"MsoNormal">Errors:<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">/ # mount /dev/sda /mnt<u></u><u></u></p>
+<p class=3D"MsoNormal">[New Thread 0x7fffd4680700 (LWP 23270)]<u></u><u></u=
+></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.258454] usb 2-1: reset SuperSpeed G=
+en 1 USB device number 2 using xhci_hcd<u></u><u></u></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.399528] usb 2-1: reset SuperSpeed G=
+en 1 USB device number 2 using xhci_hcd<u></u><u></u></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.544621] usb 2-1: reset SuperSpeed G=
+en 1 USB device number 2 using xhci_hcd<u></u><u></u></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.560460] sd 2:0:0:0: [sda] tag#0 FAI=
+LED Result: hostbyte=3DDID_ERROR driverbyte=3DDRIVER_OK<u></u><u></u></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.562405] sd 2:0:0:0: [sda] tag#0 CDB=
+: Read(10) 28 00 00 00 10 00 00 00 01 00<u></u><u></u></p>
+<p class=3D"MsoNormal">[=C2=A0=C2=A0 33.563389] blk_update_request: I/O err=
+or, dev sda, sector 4096 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class =
+0<u></u><u></u></p>
+<p class=3D"MsoNormal">/ # [Thread 0x7fffd4680700 (LWP 23270) exited]<u></u=
+><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<u><=
+/u><u></u></p>
+<p class=3D"MsoNormal">Bisect commit :<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">commit 7ad3d51ebb8a522ffcad391c4bef281245739dde<u></=
+u><u></u></p>
+<p class=3D"MsoNormal">Author: Paul Zimmerman &lt;<a href=3D"mailto:pauldzi=
+m@gmail.com" target=3D"_blank">pauldzim@gmail.com</a>&gt;<u></u><u></u></p>
+<p class=3D"MsoNormal">Date:=C2=A0=C2=A0 Wed May 20 16:53:47 2020 -0700<u><=
+/u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 usb: add short-packet handling to=
+ usb-storage driver<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 The dwc-hsotg (dwc2) USB host dep=
+ends on a short packet to<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 indicate the end of an IN transfe=
+r. The usb-storage driver<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 currently doesn&#39;t provide thi=
+s, so fix it.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 I have tested this change rather =
+extensively using a PC<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 emulation with xhci, ehci, and uh=
+ci controllers, and have<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 not observed any regressions.<u><=
+/u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 Signed-off-by: Paul Zimmerman &lt=
+;<a href=3D"mailto:pauldzim@gmail.com" target=3D"_blank">pauldzim@gmail.com=
+</a>&gt;<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 Message-id: <a href=3D"mailto:202=
+00520235349.21215-6-pauldzim@gmail.com" target=3D"_blank">20200520235349.21=
+215-6-pauldzim@gmail.com</a><u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 Signed-off-by: Peter Maydell <a h=
+ref=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">
+peter.maydell@linaro.org</a><u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<u></u><u></u></p>
+<p class=3D"MsoNormal">Steps to reproduce:<u></u><u></u></p>
+<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
+<li style=3D"margin-left:.25in">x86_64-softmmu/qemu-system-x86_64 -kernel b=
+zImage -nographic -append &quot;console=3DttyS0&quot; -m 512M -initrd initr=
+amfs.cpio.gz -device qemu-xhci,id=3Dxhci1 -drive file=3D./usb.img,if=3Dnone=
+,id=3Dstick<u></u><u></u></li><li style=3D"margin-left:.25in">Hotplug usb-s=
+torage:<u></u><u></u></li></ol>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device_add usb-st=
+orage,bus=3Dxhci1.0,port=3D1,id=3Dusbdev1,drive=3Dstick<u></u><u></u></p>
+<ol style=3D"margin-top:0in" start=3D"3" type=3D"1">
+<li style=3D"margin-left:.25in">Format &amp; =C2=A0mount the detected devic=
+e<u></u><u></u></li></ol>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">mkfs.vfat -F 32 /dev/sda=
+ <br>
+mount /dev/sda /mnt<u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in;text-indent:.5in">You can =
+find the similar errors mentioned above at this stage.<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u><u></u></p>
+<p class=3D"MsoNormal">Test Environment:<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Host: =C2=A0Ubu=
+ntu 16.04 LTS<u></u><u></u></p>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Guest: =C2=A0ke=
+rnel version: 5.4.0 &amp; BusyBox v1.31.1<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Thanks &amp; Regards,<u></u><u></u></p>
+<p class=3D"MsoNormal">Sai Pavan<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+</div>
+
+</blockquote></div></div><div dir=3D"auto">I can try to reproduce this on M=
+onday, if no one beats me to it.</div></blockquote><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div dir=3D"auto"><br></div>
+</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I am=
+ able to reproduce this. Despite the errors in dmesg, the drive does end up=
+ mounting and working OK, which is probably why I didn=E2=80=99t spot it du=
+ring testing.</div><div dir=3D"auto">Sai, does the drive work OK for you to=
+o despite the errors?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Th=
+anks,</div><div dir=3D"auto">Paul</div>
+
+--000000000000efb63605a9cd4d9f--
 
