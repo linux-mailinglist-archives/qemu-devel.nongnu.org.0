@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D515215815
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 15:12:44 +0200 (CEST)
-Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A336215818
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 15:14:06 +0200 (CEST)
+Received: from localhost ([::1]:53184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsQvL-00068a-0I
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 09:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
+	id 1jsQwf-0007D4-NO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 09:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jsQuZ-0005ZN-J2
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 09:11:55 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38026)
+ id 1jsQvv-0006hS-38
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 09:13:19 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:44541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jsQuX-0008H4-Ti
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 09:11:55 -0400
-Received: by mail-ot1-x343.google.com with SMTP id t18so18774506otq.5
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 06:11:53 -0700 (PDT)
+ id 1jsQvt-0008WN-Fv
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 09:13:18 -0400
+Received: by mail-oi1-x242.google.com with SMTP id k6so28051654oij.11
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 06:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HJZIVMbh85zgg52/dXzLSk9awQ2Rxw7e9TOEaFxQrWY=;
- b=OUO8+X50b1mtJ322j/BHoRQm/GBGdEN/GDdaeN3LvH5ZMm6dEbTRCZdCE3lq1SnYfM
- D9slxNF1DnJN72rwOpMjufmFI/5dLPU93/o3E8r/MfjvCzJIoIwHNyoOAUTBzEIDQNpO
- dFx3JZWDooRVnFAkUy7wSVTCa1JaRLq9nO9EVnWP6oSr0+Tef5bGc51OjnocKzeTcOwg
- ViW76joAMWl2yIabdnOxBW7EECux5H3SumdL4M8b+cOdsJrY+1thqb1/OYXS5hZ/U2s/
- aqHKemXn4OELDolnPRTTAGJJ3mdp64MAjL2xKtiBBHyw9QkkIAcUo8+5AszF49kAgeMl
- 0IVw==
+ :cc; bh=1fT/hLLdg2+88cLUyFSAOH1/RHevrdz3wUBOHtDQG24=;
+ b=i+crjkCCZp/mK6e+6vPK4qh9VePJuVVMmDeftabgSXc3fLG/2enwse9ouVqsQzGdVQ
+ 71wAW/XlwdwdOx/KRCmPfLVYKu2Icw5rLMK3rPPoTJoCTM7o+CySuLG0PbYV3rCLqK0b
+ 1XpAs1PZdWE8aJjfXpg99UyNLILVn5ZXM25gkcEKF2BL70U5Ve+TstN19u2lDiqyrzhN
+ QfDOy1q4cM9X0P8ZAq7X4nYjfjTHhkzNi8VmnjwmgBbZ2XJgWdNQbEZ56yQnBAu8Ejvk
+ mKkvzbLiCGwJemffQTmuR7SYikQPS1LpzSUxEavYZ0sZ7CdJCX6o2C9iFVQIo3/NSjzV
+ FwGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HJZIVMbh85zgg52/dXzLSk9awQ2Rxw7e9TOEaFxQrWY=;
- b=YD7q0h+3WeRYINhsYRtqMmiWiJc895XhmKyeoqfwTjpss+1ZaP6zpP5Pr3yAVNFmBW
- S4+FcQ9KSGVtB03Bcdx/Rf2HrXc3wwDIV2zb6ZK64kjP10Nkf7oMNeGq+YTSEDG3bHqS
- to1BuCZekuuweFurQRyr0AzKNTIXQBN6Pxm27BCLAyy/aMx2g503OPR3FbkFytLhngaM
- +h7s6nj5q0LfHnPO8/6+7rUfBMLbuEY2s9OVRPmEY3uZ3x3E+eSwhqwPt3MfrzWgiwR3
- W5+r7lNGQq916hc6HnnlMiPFNko0Rn8MtBS/25d9XkDny0S3yxI74L9nnM/bELMPe3mY
- 0PNA==
-X-Gm-Message-State: AOAM5323l4UERO/4eI49Hw7x3D/7R5Md7S+SdTB3pVvz6WC7sY7XKj+F
- 54o7apOXuTTF/wFHZjsRkpoyl1s+JcafxLjlnlaywA==
-X-Google-Smtp-Source: ABdhPJx2g1zEZ24WYC4Bn9zOErerNXkbcOfrMc5owligAdP9nRWRXmsWi17mgCS+MdM+yf3sw2KU8oyB07zZGx3yeXY=
-X-Received: by 2002:a05:6830:10ce:: with SMTP id
- z14mr33885658oto.135.1594041112393; 
- Mon, 06 Jul 2020 06:11:52 -0700 (PDT)
+ bh=1fT/hLLdg2+88cLUyFSAOH1/RHevrdz3wUBOHtDQG24=;
+ b=HsCtBob47zOzY88jVJXUep+Rl0xcjzqqiFqXPH/6y3m2QnM/aGvULzIKe/HsNoOBix
+ NMbXN9D3AHI5Z3m638Lmna4K47VNNk/4RI8Dqhc5NZP+GahovWe93Hipap4W4jHzStH+
+ 7r5budszDtWnF33F0kPfkyIcla4ROvJiBlPpFjM2UG9hwrQeplbibby9eGCiUHHBbZ4I
+ NkcAMvJUbnfTZdvZ4YKUuMDIUGCPRK06/vX+BqLy9LLaRDfIm6jXQpJLMszCQ4FQYGHR
+ aoK9xpBapDlcA6zGzuiD1RSDp8p/qEhsjHlW3+/rEoWVto3gSLUYI6MDYeNTr0ASWaVm
+ WrBA==
+X-Gm-Message-State: AOAM531UZ0a+TshLPgzGItSlL8MVBypYDLx93a8grhIBrcNt1wEKPZQ0
+ nm3RHgOe5Ymy3ygt64Nm0Uoamu5CVIRLi5fgNym4pQ==
+X-Google-Smtp-Source: ABdhPJx1OgfnWBMISwWX90PwtJBRcv5KwX2TwMpsHc5RKsDS9JDQDDQXgZg+VkXd8wJQVNp+iWAxZW5tBLW4+L1hxYY=
+X-Received: by 2002:aca:1706:: with SMTP id j6mr8745856oii.146.1594041196302; 
+ Mon, 06 Jul 2020 06:13:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200702152659.8522-1-eric.auger@redhat.com>
- <20200702152659.8522-2-eric.auger@redhat.com>
-In-Reply-To: <20200702152659.8522-2-eric.auger@redhat.com>
+ <20200702152659.8522-4-eric.auger@redhat.com>
+In-Reply-To: <20200702152659.8522-4-eric.auger@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jul 2020 14:11:41 +0100
-Message-ID: <CAFEAcA9JA5xe4o_7C71K=hVDeCyno20WPi9mc-Nc+m6jvXzhfw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] hw/arm/smmu-common: Factorize some code in
- smmu_ptw_64()
+Date: Mon, 6 Jul 2020 14:13:05 +0100
+Message-ID: <CAFEAcA809S_vB2wL0Ckhem4F16iFdmO7Vtak8tpRFFEKHToN_g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] hw/arm/smmu: Introduce smmu_get_iotlb_key()
 To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,18 +91,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 2 Jul 2020 at 16:27, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Page and block PTE decoding can share some code. Let's
-> first handle table PTE and factorize some code shared by
-> page and block PTEs.
+> Introduce the smmu_get_iotlb_key() helper and the
+> SMMU_IOTLB_ASID() macro. Also move smmu_get_iotlb_key and
+> smmu_iotlb_key_hash in the IOTLB related code section.
 >
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
 >
 > ---
 >
 > v1 -> v2:
-> - restore goto error in case get_pte() fails
+> - creation
 > ---
-
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
