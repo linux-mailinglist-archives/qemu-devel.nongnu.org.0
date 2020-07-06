@@ -2,105 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57C0215FED
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:11:55 +0200 (CEST)
-Received: from localhost ([::1]:38822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385FC215FD1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:03:37 +0200 (CEST)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXT0-00084X-Qa
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46644)
+	id 1jsXKx-0000jT-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXS0-0007XS-Qk
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:10:52 -0400
-Received: from mail-dm6nam12on2100.outbound.protection.outlook.com
- ([40.107.243.100]:43201 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jsXRy-0005jv-Kt
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:10:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b6ovcfAChv9eL3eQgUoqegYyZD/FWEzpva0bx2E2H9yax5uMGxsVZNhBYWtvMQln0La77u05w3KlfE103VFHHsSvyqKy/o4e80rla8a8zTTeI0GGHDU0CFJwV34jPc3TfcKq1dQaJDZQpIZKtvjM0D2t4OB9+9dmg67YLmvphdLi4mFbeNMnoTFnnL8fPduzZoerRe80xxJN3OynXDFTUU1CLD/YFrtSQNRrN0SJ5UrPHUKp2c9eCPqMuJv8fOoTS50qHsTPRFKpdGnbhHqP0dkBlmuySYZXzdNSWFeuydW/BrB3WzMP1T4ZRW1YbJX926CPmr3as+shKoUBpuqTjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxTxRILYLSpOC6sp78mT1IgiomL+3C4KxG+GUiH7Dpg=;
- b=b+opBFBQLuUhS1DCBqjXnW8CJ1mbFXlHUenZzu1cpWez00I/sMGvhltE2+tvIHRUyDLYwTfN2ZSJdj1fTMRvxHU1ctsuUq4pbXABuuuxqdpTZla2MHDkYZ7PPbEYouLZReHQD/uYN7JWoY5glkBgTdtb1w6jMD+9rWZJZeEdU6SzgnJ9rANFNNZNh1utGDC7uTi2njyNOe98+VqLUhO1E6Y/IE+Ox3CNusGjbWoHWd8+Y5SPR5/CcE24zTxiF6G4yodiAHRLO7O9bSPVMt27JkmbvXnfMhGfOd497xvpXZvWI13qGXmCKaZLKeIca3mC+vWfH4oIkyj3Ht7M69p0gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxTxRILYLSpOC6sp78mT1IgiomL+3C4KxG+GUiH7Dpg=;
- b=8DCKW7yjUZTzIE58aaz4vJ8HzINUTNJCbgiR4/COlU9E1I/FmFBRZ32VySU6pIBQCQAYVVvhuueoU6gqo7/Mdticv94GTEUj2j0GKlbfLHMw2N9F7YbSVfAadHd+Mi9BDulqCCfOPeH3MzEuXLun6iHyYeU7j4XIYL3EpFPtg9U=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB3520.namprd03.prod.outlook.com (2603:10b6:805:4d::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Mon, 6 Jul
- 2020 19:55:45 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::8ce:29a6:77be:c35b]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::8ce:29a6:77be:c35b%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
- 19:55:45 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] fuzz: misc patches
-Date: Mon,  6 Jul 2020 15:55:30 -0400
-Message-Id: <20200706195534.14962-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.26.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR02CA0142.namprd02.prod.outlook.com
- (2603:10b6:208:35::47) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsXK9-00006c-82
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:02:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36518
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsXJD-00049r-8d
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:02:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594065706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wW7p4SO7ayt8ijVP5CH0Kw2uhl7RKOMy7Wr19duA0gI=;
+ b=DPuhzCtcN8z0j0a2e/Dpjrt/JIv6r6R0vUTOcsVKsYMTZFN0x76+Yy/er66FZLvXY5Kj1i
+ p2PyVpv0nmM92iqB+fxP0r2CDiVevsc/5bAf7o6nWjaJ0PIDHfwFqUJNapYltvs3+rczg4
+ Zccq5GnquguVeA687Ce1yfz2xZJNj3A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-Ia7-MbJyM5K2KnHdD2MtLg-1; Mon, 06 Jul 2020 16:01:42 -0400
+X-MC-Unique: Ia7-MbJyM5K2KnHdD2MtLg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 478C21005510;
+ Mon,  6 Jul 2020 20:01:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B216C10013D9;
+ Mon,  6 Jul 2020 20:01:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4000D1132FD2; Mon,  6 Jul 2020 22:01:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v3 06/44] qemu-option: Check return value instead of @err
+ where convenient
+References: <20200706080950.403087-1-armbru@redhat.com>
+ <20200706080950.403087-7-armbru@redhat.com>
+ <20200706175917.460e4817@bahia.lan>
+Date: Mon, 06 Jul 2020 22:01:38 +0200
+In-Reply-To: <20200706175917.460e4817@bahia.lan> (Greg Kurz's message of "Mon, 
+ 6 Jul 2020 17:59:17 +0200")
+Message-ID: <871rloct0d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mozz.bu.edu (128.197.127.33) by
- BL0PR02CA0142.namprd02.prod.outlook.com (2603:10b6:208:35::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.24 via Frontend Transport; Mon, 6 Jul 2020 19:55:44 +0000
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [128.197.127.33]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6410f5d7-555b-4c07-0fe2-08d821e69238
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3520:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3520FD129F44667522B7D79FBA690@SN6PR03MB3520.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 04569283F9
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cwcjx8HljyQ2PkGbB5zZFqedF4M0F7eFhRcA7W43Z7pHCkUh+aNh8h+Pgi/x7AktzvMXR993NBJVWijRwN0TbMa1d9nTA56mzMp9+vFsVHbpOH1I84m+pLYuBahgQpXF51xwG1Z2r3/7n1ablzhiNMyOKMMUc+vJz6/kz31/iNuNOfKjcTls8nCocM5ijKzebcVR5JYqNlNn8L19Phy175fHHyqge6z3GoqDi21MZE6p36RI0diafmmieD0bardaAKJka5VYDSQbFq+hBNKdzd5ZRwgJdnNg3hIQaPhIF16UOpe4nXQ5QleEayq8B9pGYG3caWw5WXDJFJSK4bw3nc01aHHFI5eLVpnimM8s4kcpzQlv1ZgQsg/NFX+C+j33qCse4tMLbhw9Bzj+/ymXfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(396003)(39860400002)(136003)(346002)(376002)(4744005)(83380400001)(16526019)(26005)(8676002)(966005)(66476007)(66556008)(7696005)(4326008)(786003)(75432002)(478600001)(8936002)(66946007)(1076003)(36756003)(86362001)(52116002)(316002)(6666004)(2906002)(186003)(5660300002)(6916009)(6486002)(956004)(2616005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: WW+aeoWbHIVFq7qWnj3d+X9nEaNTmdanLzVbbhPjgJp2VsAWv5KHiW4FCze6v5FTWW+h93R3Bpyh/F0jb/6dxUD3EoQmt4HOJDPchnzwbRCyf8GkkkV0VySbZ0iBrZJnIwSWBhT3w8/Skf4LsIJJ3KrBQF4k2haSwtszN5PKlsMXZiSIM1JcK8UE6xiBBh5NnWs+mBABhGwaStNwcp7d7OdhaZ3SgUVvL+rt3r4v3cNpMa2d1Lt6t/ZsZMXKp1U53eB7p5uGMdtuRRY0JtgRFt9rVxPdwblNedJ8qIe9yya9ItIBsRdf1lYMDOrdD44EfHhrUN8sBWxbtctCnSfQ4z1+tC1rCGQ+aQJbPwsOLlf+6fDHbtTOnHoJ5u9bJx4sgV7rXWZnmncIIeL+UFbbhLd8vIaOmlT43W8vEiVkMEYPUoOt5c8utm9dGUmkNH6qzKYtO40nR+Ix0qj4WsIryyB/Eth0TPuJpGgiK+Z4vag=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6410f5d7-555b-4c07-0fe2-08d821e69238
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 19:55:45.6365 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EguqVFeC0+W27YJSA1fziYnIEzDAsqPyJuKaIJZhmNGRvHtG1ng4cO7eUfWaTQda
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3520
-Received-SPF: pass client-ip=40.107.243.100; envelope-from=alxndr@bu.edu;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 16:10:48
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,33 +85,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, philmd@redhat.com,
- stefanha@redhat.com
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-This removes ASan from the default build of the device fuzzer (it can be
-enabled using --enable-sanitizers) and adds some content to the
-documentation.
+Greg Kurz <groug@kaod.org> writes:
 
-This set also contains a respin of this patch:
-https://patchew.org/QEMU/20200524143738.23218-1-alxndr@bu.edu/
+> On Mon,  6 Jul 2020 10:09:12 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
+>
+>> Convert uses like
+>> 
+>>     opts = qemu_opts_create(..., &err);
+>>     if (err) {
+>>         ...
+>>     }
+>> 
+>> to
+>> 
+>>     opts = qemu_opts_create(..., &err);
+>
+> The patch doesn't strictly do that since it also converts &err to errp.
 
-Thanks
--Alex
+Yes, and that's actually why I do it.  I'll change the commit message to
+say so:
 
-Alexander Bulekov (4):
-  fuzz: build without AddressSanitizer, by default
-  docs/fuzz: describe building fuzzers with enable-sanitizers
-  docs/fuzz: add information about useful libFuzzer flags
-  docs/fuzz: add instructions for generating a coverage report
+   to
+   
+       opts = qemu_opts_create(..., errp);
 
- configure              | 10 +++----
- docs/devel/fuzzing.txt | 63 ++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 66 insertions(+), 7 deletions(-)
+> This is okay because most of the changes also drop the associated
+> error_propagate(), with the exception of block/parallels.c for which
+> I had to check how local_err is used. As already noted by Vladimir
+> earlier this generates an harmless "no-op error_propagate", but it
+> could be worth mentioning that in the changelog for future reviews :)
 
--- 
-2.26.2
+Yes, error_propagate() becomes a no-op for one out of three error paths
+through it.  There's similar "partial no-opification" elsewhere in this
+series, notably in PATCH 36.
+
+Concrete suggestions for improving the commit message further are
+welcome!
+
+>>     if (!opts) {
+>>         ...
+>>     }
+>> 
+>> Eliminate error_propagate() that are now unnecessary.  Delete @err
+>> that are now unused.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>  block/parallels.c  |  4 ++--
+>>  blockdev.c         |  5 ++---
+>>  qdev-monitor.c     |  5 ++---
+>>  util/qemu-config.c | 10 ++++------
+>>  util/qemu-option.c | 12 ++++--------
+>
+> Maybe some other potential candidates ?
+>
+> chardev/char.c:
+>
+>    opts = qemu_opts_create(qemu_find_opts("chardev"), label, 1, &local_err);
+>     if (local_err) {
+>         error_report_err(local_err);
+>         return NULL;
+>     }
+>
+> monitor/hmp-cmds.c:
+>
+>     opts = qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict, &err);
+>     if (err) {
+>         goto out;
+>     }
+>
+>
+>     opts = qemu_opts_from_qdict(qemu_find_opts("object"), qdict, &err);
+>     if (err) {
+>         goto end;
+>     }
+
+Don't fit my clarified commit message, because I can't replace &err by
+errp there.
+
+I found these:
+
+  diff --git a/block/blkdebug.c b/block/blkdebug.c
+  index 7194bc7f06..471b597dfe 100644
+  --- a/block/blkdebug.c
+  +++ b/block/blkdebug.c
+  @@ -294,17 +294,13 @@ static int read_config(BDRVBlkdebugState *s, const char *filename,
+
+       d.s = s;
+       d.action = ACTION_INJECT_ERROR;
+  -    qemu_opts_foreach(&inject_error_opts, add_rule, &d, &local_err);
+  -    if (local_err) {
+  -        error_propagate(errp, local_err);
+  +    if (qemu_opts_foreach(&inject_error_opts, add_rule, &d, errp)) {
+           ret = -EINVAL;
+           goto fail;
+       }
+
+       d.action = ACTION_SET_STATE;
+  -    qemu_opts_foreach(&set_state_opts, add_rule, &d, &local_err);
+  -    if (local_err) {
+  -        error_propagate(errp, local_err);
+  +    if (qemu_opts_foreach(&set_state_opts, add_rule, &d, errp)) {
+           ret = -EINVAL;
+           goto fail;
+       }
+
+However, I really need to get a pull request out...  Can patch them
+later.
+
+> With or without the extra changes:
+>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+
+Thanks!
 
 
