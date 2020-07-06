@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25035215FE6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:07:39 +0200 (CEST)
-Received: from localhost ([::1]:57420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF1E215FEB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:09:19 +0200 (CEST)
+Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXOs-0003IV-5M
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
+	id 1jsXQU-0006Vw-R9
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNe-0001bj-4C
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:44911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNc-0004sn-DS
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:21 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mrh9Y-1kfwc51uWS-00nl1b; Mon, 06 Jul 2020 22:06:05 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] softfloat,
- m68k: disable floatx80_invalid_encoding() for m68k
-Date: Mon,  6 Jul 2020 22:05:59 +0200
-Message-Id: <20200706200559.160209-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200706200559.160209-1-laurent@vivier.eu>
-References: <20200706200559.160209-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsXPh-0005qC-Lz
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:08:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54663
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsXPf-0005MR-RS
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:08:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594066106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zFXtwG7HS+G1xidJA/diM3vo8Q7bef1yatvfa7UHzCs=;
+ b=J3cnyGFTOU+Zln0yAdNMx91dVhYPD9n9GeTpwCKrNgZ/1C28oV9ZAWw8m+CO9ylvaQU6Ry
+ XPJx7Ij3EYcL8yQwGiRvqeZCJ0qoC7aEbpqW0Jzc/yu6f1KoJpwhuvsZHq8hbqcWfvWKZk
+ EeGP8f80Sqixyyg2oWL+yxcaZC3rUyk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-adcrRh5vNKCfYhnp45xk9w-1; Mon, 06 Jul 2020 16:08:25 -0400
+X-MC-Unique: adcrRh5vNKCfYhnp45xk9w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DBA3107ACCA;
+ Mon,  6 Jul 2020 20:08:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
+ [10.36.112.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA1160BEC;
+ Mon,  6 Jul 2020 20:08:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 583861132FD2; Mon,  6 Jul 2020 22:07:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 29/44] qom: Make functions taking Error ** return bool,
+ not 0/-1
+References: <20200706080950.403087-1-armbru@redhat.com>
+ <20200706080950.403087-30-armbru@redhat.com>
+ <26905451-4a8f-87af-4414-560ea0f3c735@virtuozzo.com>
+Date: Mon, 06 Jul 2020 22:07:43 +0200
+In-Reply-To: <26905451-4a8f-87af-4414-560ea0f3c735@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Mon, 6 Jul 2020 19:52:28 +0300")
+Message-ID: <87wo3gbe5s.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hQ7+V73jS8osY4BZP51pZsm/CritqkcXleC1/1o3Xwq5vssvZZX
- 6/hO8faAlvKOQXTvOx4+1R4p0xypYk3Rz/6gySKrueYVbexmw4Du2SNeGH8WBiscCmeBU1p
- JlGGFpmV+E8SRJ5Ivf9UjfQWr1ZgLOglD7+V69CiwIDFxKtPhVRz2cQger6KU6dxkZKZgmS
- 6fHXr7FFTC4j9Uv/AMCYQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jRjAnRCLjns=:6Z4QqL4mMD9xrLJOumVLo4
- kyOmk2oRI2HZQcdHVg3qmsgLaJzzc5HBM5oZO3IgGWMYHIka/HmpgUxOglxwnso4yWutNuFYh
- RqGUhm0CPJtt2ncWpccAShHyd5hgPEFWSQWoye+g4jWvI821melSNrcsOFWr1xsIaWLPNCUzX
- VbnIyntCME3Dmab7J8qNaV5i5UPcXAV6pmVWtoL9MlKZH92AutC3VP3p01rCftaZrRKgVv+zR
- hANv23a+LWTvc15kOD0S3xlwdOCWT0W3Ktjqfv2PT0uD6bTToT+0DD8dtm5e4ITo76JAoI8Zj
- F1pFJLtykpudry8fPiqWYSnwsYmfnGeAxem9VmBcPd7twPxdYEt8nAqHrwtQTVdWyVufFtNhy
- FcO+6DQ0HNm/6xcvoIiyLJAudLcwHt+Y3AyN5pbTI5dLz5YemtKWFmVkKnmlqh/aCYM+FdbdY
- yVpsvNANIaJTj7waV1MNW+4BFo7bqnvFrDd1y3DGx57IMw4xX9yCNnBXRcFNBnrG0rSQ+PajC
- SKafVBAeq4sAzf7YDFQTD+frQe/RJ41t/ZSbMD8Nr+64mpyiIM3Tz5joNBRgTognWXc/UpAKF
- ZVJ1hOQm8Q1USZdpYsF4LHNYB7mbVDsXIQwYPwXRhqVnY3xHyOVl0MADctwPAp8vRWDS5Z4iV
- LCIfdJRBQE9rKXXMOAX62O+nrlyVW0aOT97qREXt3HNlBdLkHOS/TA09LDMWl5dlgk5+8d7xd
- wHQPVG40QfbwsQ8jI2SnFsCainFc+OddaJTZd5vakoQXso8xjFjqicX7Usp4ZSuGS9OskaPQM
- /4zY0ljmioNwaCJP0J9bylsvV/hgZP7EIR2NQhxiodzxsPZ+X9EgULuhYTUExWJURnbZfHV
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:40:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,82 +85,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, groug@kaod.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the comment, this definition of invalid encoding is given
-by intel developer's manual, and doesn't comply with 680x0 FPU.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-With m68k, the explicit integer bit can be zero in the case of:
- - zeros                (exp == 0, mantissa == 0)
- - denormalized numbers (exp == 0, mantissa != 0)
- - unnormalized numbers (exp != 0, exp < 0x7FFF)
- - infinities           (exp == 0x7FFF, mantissa == 0)
- - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
+> On 06.07.2020 11:09, Markus Armbruster wrote:
+>> Just for consistency.  Also fix the example in object_set_props()'s
+>> documentation.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+> Note, that object_set_props is unused and may be dropped.
 
-For infinities and NaNs, the explicit integer bit can be either one or
-zero.
+True.  It's never been used.  It was added together with
+object_set_propv(), probably out of habit to always have both a ... and
+the va_list function.
 
-The IEEE 754 standard does not define a zero integer bit. Such a number
-is an unnormalized number. Hardware does not directly support
-denormalized and unnormalized numbers, but implicitly supports them by
-trapping them as unimplemented data types, allowing efficient conversion
-in software.
-
-See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
-    "1.6 FLOATING-POINT DATA TYPES"
-
-We will implement in the m68k TCG emulator the FP_UNIMP exception to
-trap into the kernel to normalize the number. In case of linux-user,
-the number will be normalized by QEMU.
-
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200612140400.2130118-1-laurent@vivier.eu>
----
- include/fpu/softfloat.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index ff4e2605b16d..f1a19df066b7 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -794,7 +794,31 @@ static inline bool floatx80_unordered_quiet(floatx80 a, floatx80 b,
- *----------------------------------------------------------------------------*/
- static inline bool floatx80_invalid_encoding(floatx80 a)
- {
-+#if defined(TARGET_M68K)
-+    /*-------------------------------------------------------------------------
-+    | With m68k, the explicit integer bit can be zero in the case of:
-+    | - zeros                (exp == 0, mantissa == 0)
-+    | - denormalized numbers (exp == 0, mantissa != 0)
-+    | - unnormalized numbers (exp != 0, exp < 0x7FFF)
-+    | - infinities           (exp == 0x7FFF, mantissa == 0)
-+    | - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
-+    |
-+    | For infinities and NaNs, the explicit integer bit can be either one or
-+    | zero.
-+    |
-+    | The IEEE 754 standard does not define a zero integer bit. Such a number
-+    | is an unnormalized number. Hardware does not directly support
-+    | denormalized and unnormalized numbers, but implicitly supports them by
-+    | trapping them as unimplemented data types, allowing efficient conversion
-+    | in software.
-+    |
-+    | See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
-+    |     "1.6 FLOATING-POINT DATA TYPES"
-+    *------------------------------------------------------------------------*/
-+    return false;
-+#else
-     return (a.low & (1ULL << 63)) == 0 && (a.high & 0x7FFF) != 0;
-+#endif
- }
- 
- #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
--- 
-2.26.2
+Thanks!
 
 
