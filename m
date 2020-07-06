@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82189215356
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:32:21 +0200 (CEST)
-Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B44021535A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:35:48 +0200 (CEST)
+Received: from localhost ([::1]:48454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsLbw-0007FD-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47390)
+	id 1jsLfH-0002k2-LI
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:35:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYe-0003Rh-Li
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35590
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYc-0004OD-JV
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594020533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w7fayRfJ+K1Jey/JgnKgo/mWJTVh1oMX96XU6QaK7nY=;
- b=M0gvpWVjRjXGa/YEwQYPPfkQA3Nm99sM6Thm1K6b2Y6g9WkCMgsEHDhsKuVzFRPZ8YdMLR
- 57VvlUMS+9fJUGQxifUPDy9SYvGYCdKGIrhGl+Xn46yQi4guO3PzpMaomBab1dbO1SCbVx
- D1ARAe9/PAeNG0PVDgJnqAjvTtJHAPA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-ihA_DYXXNsiQptRpw_1KaQ-1; Mon, 06 Jul 2020 03:28:48 -0400
-X-MC-Unique: ihA_DYXXNsiQptRpw_1KaQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159A5107ACF3;
- Mon,  6 Jul 2020 07:28:48 +0000 (UTC)
-Received: from thuth.com (ovpn-112-144.ams2.redhat.com [10.36.112.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D09C5D9CC;
- Mon,  6 Jul 2020 07:28:47 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/6] tests/acceptance: Add a test for the sun4u sparc64 machine
-Date: Mon,  6 Jul 2020 09:28:35 +0200
-Message-Id: <20200706072835.23582-7-thuth@redhat.com>
-In-Reply-To: <20200706072835.23582-1-thuth@redhat.com>
-References: <20200706072835.23582-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsLe6-0001bf-1S
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:34:34 -0400
+Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:56595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jsLe3-0005Xx-U5
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:34:33 -0400
+Received: from player779.ha.ovh.net (unknown [10.110.103.112])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id D3949144ACB
+ for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 09:34:21 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player779.ha.ovh.net (Postfix) with ESMTPSA id 78455140A9E7C;
+ Mon,  6 Jul 2020 07:34:13 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0014494c1af-d210-4b67-90d6-1f3790b67fed,C4ABCEF356A601883B7DEB1AA4190402CFF29AFD)
+ smtp.auth=groug@kaod.org
+Date: Mon, 6 Jul 2020 09:34:12 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v4 00/11] Add several Power ISA 3.1 32/64-bit vector
+ instructions
+Message-ID: <20200706093412.51d3e514@bahia.lan>
+In-Reply-To: <20200705091046.GE12576@umbus.fritz.box>
+References: <20200701234344.91843-1-ljp@linux.ibm.com>
+ <20200705091046.GE12576@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/X4wOqI4iMears9J0O04IOVW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 15275365514807056870
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -51
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduiedruddvgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejjeffgfeitdegtdehudeuudeitedtlefguddugfeujeejleeufeektdehheetgfenucffohhmrghinhepihgsmhdrtghomhdpsghogidrtghomhenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.44.159; envelope-from=groug@kaod.org;
+ helo=7.mo173.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 03:34:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,82 +66,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
+ Lijun Pan <ljp@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can use the image from the advent calendar 2018 to test the sun4u
-machine. It's not using the "QEMU advent calendar" string, so we can
-not use the do_test_advcal_2018() from boot_linux_console.py, thus
-let's also put it into a separate file to also be able to add an
-entry to the MAINTAINERS file.
+--Sig_/X4wOqI4iMears9J0O04IOVW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Message-Id: <20200704173519.26087-1-thuth@redhat.com>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS                               |  1 +
- tests/acceptance/machine_sparc64_sun4u.py | 36 +++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 tests/acceptance/machine_sparc64_sun4u.py
+On Sun, 5 Jul 2020 19:10:46 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c31c878c63..a8e2d46e9d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1319,6 +1319,7 @@ F: include/hw/pci-host/sabre.h
- F: hw/pci-bridge/simba.c
- F: include/hw/pci-bridge/simba.h
- F: pc-bios/openbios-sparc64
-+F: tests/acceptance/machine_sparc64_sun4u.py
- 
- Sun4v
- M: Artyom Tarasenko <atar4qemu@gmail.com>
-diff --git a/tests/acceptance/machine_sparc64_sun4u.py b/tests/acceptance/machine_sparc64_sun4u.py
-new file mode 100644
-index 0000000000..458165500e
---- /dev/null
-+++ b/tests/acceptance/machine_sparc64_sun4u.py
-@@ -0,0 +1,36 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Thomas Huth <thuth@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later. See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import archive
-+from boot_linux_console import LinuxKernelTest
-+
-+class Sun4uMachine(LinuxKernelTest):
-+    """Boots the Linux kernel and checks that the console is operational"""
-+
-+    timeout = 90
-+
-+    def test_sparc64_sun4u(self):
-+        """
-+        :avocado: tags=arch:sparc64
-+        :avocado: tags=machine:sun4u
-+        """
-+        tar_url = ('https://www.qemu-advent-calendar.org'
-+                   '/2018/download/day23.tar.xz')
-+        tar_hash = '142db83cd974ffadc4f75c8a5cad5bcc5722c240'
-+        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(file_path, self.workdir)
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', self.workdir + '/day23/vmlinux',
-+                         '-append', self.KERNEL_COMMON_COMMAND_LINE)
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Starting logging: OK')
--- 
-2.18.1
+> On Wed, Jul 01, 2020 at 06:43:35PM -0500, Lijun Pan wrote:
+> > This patch series add several newly introduced 32/64-bit vector
+> > instructions in Power ISA 3.1. Power ISA 3.1 flag is introduced in
+> > this version. In v4 version, coding style issues are fixed, community
+> > reviews/suggestions are taken into consideration.
+>=20
+> So, is the ISA 3.1 document available somewhere?
+>=20
 
+In https://www-355.ibm.com/systems/power/openpower/ there's a link to
+the PDF:
+
+https://ibm.ent.box.com/s/hhjfw0x0lrbtyzmiaffnbxh2fuo0fog0
+
+> >=20
+> > Lijun Pan (11):
+> >   target/ppc: Introduce Power ISA 3.1 flag
+> >   target/ppc: Enable Power ISA 3.1
+> >   target/ppc: add byte-reverse br[dwh] instructions
+> >   target/ppc: convert vmuluwm to tcg_gen_gvec_mul
+> >   target/ppc: add vmulld instruction
+> >   Update PowerPC AT_HWCAP2 definition
+> >   target/ppc: add vmulld to INDEX_op_mul_vec case
+> >   target/ppc: add vmulh{su}w instructions
+> >   fix the prototype of muls64/mulu64
+> >   target/ppc: add vmulh{su}d instructions
+> >   target/ppc: add vdiv{su}{wd} vmod{su}{wd} instructions
+> >=20
+> >  include/elf.h                       |  1 +
+> >  include/qemu/host-utils.h           |  4 +-
+> >  target/ppc/cpu.h                    |  4 +-
+> >  target/ppc/helper.h                 | 13 ++++-
+> >  target/ppc/int_helper.c             | 75 ++++++++++++++++++++++++-----
+> >  target/ppc/translate.c              | 43 +++++++++++++++++
+> >  target/ppc/translate/vmx-impl.inc.c | 26 +++++++++-
+> >  target/ppc/translate/vmx-ops.inc.c  | 27 +++++++++--
+> >  target/ppc/translate_init.inc.c     |  2 +-
+> >  tcg/ppc/tcg-target.h                |  2 +
+> >  tcg/ppc/tcg-target.inc.c            | 12 ++++-
+> >  11 files changed, 184 insertions(+), 25 deletions(-)
+> >=20
+>=20
+
+
+--Sig_/X4wOqI4iMears9J0O04IOVW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl8C0/QACgkQcdTV5YIv
+c9ZhbQ//fHBDAO+rrYhMrlQw8jnr9n1zen7EPnwpQ17XmK3sNKrzs50Q2dNkCvPL
+YfDKjzvmgD0LeTuNvZmv8m2btoUOJBagQj8lTxH54RXtNlxVbrSHKyP+u/cO/HxK
+NZW8fUJIhMtTEtGSYGHn6OsugyTzlJjpi8AIK9sfJ4yQudkeLDkjvtWW23iGtMth
+y5FW56F3Do5lJ3fKrEVChnoM5wBxpiAD1+bGcN4aTs9snT/pqqQ3km7TKgPmyjWd
+o7cUcFnH+K8xuR9bAMDE2t+g0h89l89C/z4XG2CD8Y9DYWt9VDioLv5uEhLpawIT
+qm+vVp6x8lSv0cttl8xYXTR29aQYs9bmx8uZ5f91gy8v7GPtfg7sOSOx8IYQSfIE
+NIQe4fsgq/UO1bsg8yJ9SAy28jJyY/leGWxL5Ct3GyXGqyXVKpY8v1gN6IIlLKPv
+t2bjqFjvdQHhSKt9nWgtXznKK45dULit2jG2WsvbHtKtAbMNPs+zTfSW26sVEuWm
+S3/5YgVj6NCstOjymy2jEcRv3Y6FQkTySM7+B8S1PPD2njQ5W5nObcXFw72R4/Cw
+C0wssWKJ4LGJM0fs6vmuqr7smAACIBaR3H/3rh1fxXnia5SVM2jyQSSu4CqXGdvT
+48r6kwy5SRxdh/dCdbSZa+4kM2oEtDQdJFQNlxm7aZ14iPlV1Jk=
+=usUA
+-----END PGP SIGNATURE-----
+
+--Sig_/X4wOqI4iMears9J0O04IOVW--
 
