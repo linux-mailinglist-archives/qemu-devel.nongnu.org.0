@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EF921584C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 15:28:00 +0200 (CEST)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6D6215851
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 15:28:24 +0200 (CEST)
+Received: from localhost ([::1]:42496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsRA7-0006qI-5x
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 09:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
+	id 1jsRAV-0007nF-BM
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 09:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsR8i-00052l-5b; Mon, 06 Jul 2020 09:26:32 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40796)
+ id 1jsR8j-00055F-JU; Mon, 06 Jul 2020 09:26:33 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jsR8g-0001xX-LP; Mon, 06 Jul 2020 09:26:31 -0400
-Received: by mail-wr1-x431.google.com with SMTP id f2so12936434wrp.7;
- Mon, 06 Jul 2020 06:26:29 -0700 (PDT)
+ id 1jsR8i-0001xg-2U; Mon, 06 Jul 2020 09:26:33 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 17so42035888wmo.1;
+ Mon, 06 Jul 2020 06:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tSVh3xZmU5Rl/VlxY1hhYknTsE0eO5DVOcNMGKELemE=;
- b=qbnbFANxBTkqeC8ntLvePUEA/6O+OhVKoiQ3wU8s9JPQSj4pshbaGeOTNW7MAamPcu
- Su+J3Dd1u74P4moHRgtiNEk57vt/sKjMkE9cJ46oAlj8Xe4Ltx59jSHx/tSifGlkp9jT
- jbSmk+3wA+8Uyjfv74QRqOXNsvpz9jkOL8r40qFfwnHqcWwWPWUUu5MwltusREfB6Yc0
- pS6kgkug7Yp/zCYMoPi2XhqG6MiJiRGd7USoADPe+zJglJiboMUZG8IhQY4v81cPu9zV
- mQl7kmK5T2dLV1wubFA+r0qPiAve69N7SG3QCH2MZOTHvjpa/0djo5deiRXNEJBfIsQR
- 1Ayg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3YzIzSCf4xQQ4VX+CJllu+9r7xAX8oggdf7gxj4TtyA=;
+ b=OLOCiChN4U2lmokDjguLFHw3NqgvzCz+ll7+2OxnLlKwNm/dOiupl0tgi/aB+OAAyK
+ I/F6mS93iP2S859lCocZLYpI9hQ85S/00BO+Hlc4l8+Zno1Q3ve55ymxlclpIRWSSEzf
+ dL1ciEGs3i7GHTaDS/vcjcuqtxw0BHZi/GGbuuJ2Z39hhexlqPdC1MHrt6mmmo4K09Qx
+ 6ESeQafi2xa8PK2l9D4UBFncrvVNv0BYL1B3PsGbkc0GhKxJEufjJpSnNYqcmxEeMFO+
+ 2iEI9NBmhocTbqGetsGXVwYt+C5l1sLBzikTUOq4PzOO6dixzuba1/zNRepylUTvGcgV
+ ne1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=tSVh3xZmU5Rl/VlxY1hhYknTsE0eO5DVOcNMGKELemE=;
- b=bD9r9k5G3O34e52/wtXKNYexLHdipKKHWWHbUCE7po9KDudmVlQ73I/16RENSj9Dfx
- SNFIw3Iw3Pf+rWYH9RXWmwJhFzQsNCHBbLxWEUDMr7wx0virjYBmVGHJ5lXl2qvSwR3d
- xkT9YWfrjQT4Xa/75d0xI5RHZiUVoBulCzndiGT+ahOWt1UDiKc+4KEZzcz0XLklrmlE
- sgY5yZGPUyVO1lxG3iuGfjyVxPr/EaLUmkgsBzN2N9J0yBL9hOzBW7Y7H8JWUYkAxow2
- jPVs3GdgRNe2pUX4GxWMjBBjTl6RroC5tIZLy8tNJi9ra8HbsJp1d6tLLSCWTE7qNBZK
- FP3Q==
-X-Gm-Message-State: AOAM531uWu7jC1k77KNZSiF3jlGlumNAQk3iPGOTqCtUluPb30QtsGLr
- NTsB7vCex8qbp9JkUwv4+6s=
-X-Google-Smtp-Source: ABdhPJy3fteBFpWnCcBm76WBnCreC3Ozl3AURYlcuW7tquHy8jvwLRuhDJFqfAi9hiIEX+1alLgbyg==
-X-Received: by 2002:adf:f203:: with SMTP id p3mr20519115wro.331.1594041988856; 
- Mon, 06 Jul 2020 06:26:28 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=3YzIzSCf4xQQ4VX+CJllu+9r7xAX8oggdf7gxj4TtyA=;
+ b=j6D4O+nqWSTkG6kp2cxVeifvoiz1sxoKidjxWgiFuEw5NXY7ldKMMkVaXihbH+AmBK
+ MB+Q0G09g+AIxElcgb5l/8YtfqsswjzTBI1cImbw2P6rKkuFW+Xo1fbUvNrAJZVeOON8
+ JYkYUXwpud0kJrZmBOJZiDxq4ZMINcaqo6xPugoSk3VQoomo7nboC5kwAV55kRe6yv3N
+ k6klCRN8YYBsMhiR4GYMBOIFoCf6UePnEUQo4DFhdQXTDzpRSmgrcHJzX6LfD2KsGD0o
+ S2Ej+QeQouedSrkenjIAJywPiZQDjnhhyx/dFrwPb4HA7sRigztOId3c8UR4mfrMIhxP
+ uXLA==
+X-Gm-Message-State: AOAM533f3Kyb55v6f8Iz9BMDWCoYz/GsGYEjYddh8c+x1L7wCZCJ8xSM
+ +SlxyThEB+O1OaF8f7DeE/Y=
+X-Google-Smtp-Source: ABdhPJzzgZUaGkuExMqbsCd96/zTEdWjJCyCUJK2slIkLxntVuI+YroZIga1OuRs954c/HT+Jfs5VQ==
+X-Received: by 2002:a1c:1b0d:: with SMTP id b13mr47841887wmb.169.1594041990469; 
+ Mon, 06 Jul 2020 06:26:30 -0700 (PDT)
 Received: from localhost.localdomain
  (138.red-83-57-170.dynamicip.rima-tde.net. [83.57.170.138])
- by smtp.gmail.com with ESMTPSA id w2sm24447004wrs.77.2020.07.06.06.26.27
+ by smtp.gmail.com with ESMTPSA id w2sm24447004wrs.77.2020.07.06.06.26.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 06:26:28 -0700 (PDT)
+ Mon, 06 Jul 2020 06:26:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] block/block-backend: Let blk_attach_dev() provide helpful
- error
-Date: Mon,  6 Jul 2020 15:26:24 +0200
-Message-Id: <20200706132626.22133-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] block/block-backend: Trace blk_attach_dev()
+Date: Mon,  6 Jul 2020 15:26:25 +0200
+Message-Id: <20200706132626.22133-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200706132626.22133-1-f4bug@amsat.org>
+References: <20200706132626.22133-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 0
@@ -97,27 +98,43 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A pair of patches which helps me debug an issue with block
-drive already attached.
+Add a trace event to follow devices attaching block drives:
 
-Suggestions to correctly/better use the Error API welcome, in
-particular in qdev-properties-system::set_drive_helper().
+  $ qemu-system-arm -M n800 -trace blk_\*
+  9513@1594040428.738162:blk_attach_dev attaching blk 'sd0' to device 'omap2-mmc'
+  9513@1594040428.738189:blk_attach_dev attaching blk 'sd0' to device 'sd-card'
+  qemu-system-arm: sd_init failed: blk 'sd0' already attached by device 'sd-card'
 
-Philippe Mathieu-Daudé (2):
-  block/block-backend: Trace blk_attach_dev()
-  block/block-backend: Let blk_attach_dev() provide helpful error
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ block/block-backend.c | 1 +
+ block/trace-events    | 1 +
+ 2 files changed, 2 insertions(+)
 
- include/sysemu/block-backend.h   |  2 +-
- block/block-backend.c            | 12 +++++++++++-
- hw/block/fdc.c                   |  4 +---
- hw/block/swim.c                  |  4 +---
- hw/block/xen-block.c             |  5 +++--
- hw/core/qdev-properties-system.c | 17 ++++++++++-------
- hw/ide/qdev.c                    |  4 +---
- hw/scsi/scsi-disk.c              |  4 +---
- block/trace-events               |  1 +
- 9 files changed, 30 insertions(+), 23 deletions(-)
-
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6936b25c83..23caa45e6a 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -886,6 +886,7 @@ void blk_get_perm(BlockBackend *blk, uint64_t *perm, uint64_t *shared_perm)
+  */
+ int blk_attach_dev(BlockBackend *blk, DeviceState *dev)
+ {
++    trace_blk_attach_dev(blk_name(blk), object_get_typename(OBJECT(dev)));
+     if (blk->dev) {
+         return -EBUSY;
+     }
+diff --git a/block/trace-events b/block/trace-events
+index dbe76a7613..aa641c2034 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -9,6 +9,7 @@ blk_co_preadv(void *blk, void *bs, int64_t offset, unsigned int bytes, int flags
+ blk_co_pwritev(void *blk, void *bs, int64_t offset, unsigned int bytes, int flags) "blk %p bs %p offset %"PRId64" bytes %u flags 0x%x"
+ blk_root_attach(void *child, void *blk, void *bs) "child %p blk %p bs %p"
+ blk_root_detach(void *child, void *blk, void *bs) "child %p blk %p bs %p"
++blk_attach_dev(const char *blk_name, const char *dev_name) "attaching blk '%s' to device '%s'"
+ 
+ # io.c
+ bdrv_co_preadv(void *bs, int64_t offset, int64_t nbytes, unsigned int flags) "bs %p offset %"PRId64" nbytes %"PRId64" flags 0x%x"
 -- 
 2.21.3
 
