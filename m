@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A073215CF9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:22:41 +0200 (CEST)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18EB215CE9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:21:05 +0200 (CEST)
+Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUpE-0002y6-FX
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60302)
+	id 1jsUng-0000E1-MG
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUPw-0000yu-T2; Mon, 06 Jul 2020 12:56:33 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44731)
+ id 1jsUR9-00038J-Gy; Mon, 06 Jul 2020 12:57:47 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUPu-0005XS-Nw; Mon, 06 Jul 2020 12:56:32 -0400
-Received: by mail-il1-x141.google.com with SMTP id h16so10172002ilj.11;
- Mon, 06 Jul 2020 09:56:29 -0700 (PDT)
+ id 1jsUR7-0005hA-Kt; Mon, 06 Jul 2020 12:57:47 -0400
+Received: by mail-io1-xd44.google.com with SMTP id i25so40215363iog.0;
+ Mon, 06 Jul 2020 09:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=L1yDIvA88vi1SgltVFMfPCZczTxmxTH0/nCyzEY2sLM=;
- b=Aqh+O/XyfP+h5qtevBYxfA2ozEfP3E38+RL+UpEl8kroHP77+5qRgTCik/GCicN+6S
- +rKRRRmasE1xQxg7houBPEQLk9fZyBXJz3Gd/aPzGeHbLPJuiwUR93vNoKORGH/3K0Zj
- XRraX/qVHeyon7mx5KjL5ftajYCyy9590ZCI69XiiWA4AGIBJ4VbVlu1dtlogNRIbVJt
- F/SzwCM4CTBlLS9Oep876d3Zo5skaH7N0kJ19Jgqacx7q5n4pHOby1h3rfdbcX+JUkMW
- O2JhjisLiDRQJM5Yl4Ax2ACke9kc9WWwEsAtkjrYOqkjVofEl6bD2uRyP5YVPuBA9oaO
- XQmQ==
+ bh=jbu76fBiXNYavUN7hJcbgVnTcX2cRFUs4aT7tEW/KCU=;
+ b=ubHpKe3Nm/Sr5j6MorIaPojzmsRHj5+fmcltESNG2gAbWTvX1yCj86i/BloyiAH3SL
+ xWhHSfxANC145Do+ytU9h3x6gUWXXpxoJbax6p8l+3hblfd3vf/ZAPYv7trfCqGSSgM7
+ ULfQdyQJbfWa7bnl+6S/qg9ngCL58WTQ9YsqfvGxRjz48ApcTCue/jtHA4PiCxoPwZhs
+ CTGRtaolavDk8YuMP5fi1gXkm8RHoEKlXhKjVg2jvZnxY6lwWUiXLwfdbEuPrlbjmpfN
+ ZYZ+D4DfO4FNsz/Cko3Rugg6gv4hh5P11TwOjAfiM1LmFxrBE++T4JSXMs2EiDcjqq0I
+ iI4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=L1yDIvA88vi1SgltVFMfPCZczTxmxTH0/nCyzEY2sLM=;
- b=MP2+ZBbNMf6i2ZIIbwaJ+Nw+j4Nwvll9qmTWdFgg2p0DNt4ktoBfb1dj+Yb0tH3pej
- yzyzi4KsfdhtsYXLfT7j1Ih1aIoaYZv6hU/POyGUdbm/r+66ASg+lQxYs5O2KFyPKX+/
- lkzb8Rw/Kbj38SNrezeXiluecIo4slo01O/V78rK6C44D9fK95r604mqADH/QigWlXvw
- 2fmsBNxTdfEh/cfUAfTF1UXcqgL19zwCsqpobvATF1kdCw3DMefFDUWHRj9edY6PQ4DL
- AOmFmDpoIhCHic7A4rHvgABwTgeNu41ZoVDRdPDPUjObwxkhavPfi9m2obKAw0SxWvUP
- P5KQ==
-X-Gm-Message-State: AOAM530ugJZ7xrFMO6mRkEzSRRopG3jFKdIjViEljS04tC9x+BLFSpcK
- VsN8Ml/hEeg3L2GqH1VagejXMxGuGfDsjn9hKo4=
-X-Google-Smtp-Source: ABdhPJw/uGqEBJeyth+hrcyWGteDMhEzQn23gr50loOewZAqiVJNtM1FfMLGJkQCgbvJlCnRPxvOQh0duo89p2KIWqY=
-X-Received: by 2002:a92:c213:: with SMTP id j19mr31576589ilo.40.1594054588655; 
- Mon, 06 Jul 2020 09:56:28 -0700 (PDT)
+ bh=jbu76fBiXNYavUN7hJcbgVnTcX2cRFUs4aT7tEW/KCU=;
+ b=QaKAeFSsD93f34FOGlmeH65kaYNubpLpjaO55X2xgiROq6nTSrjmh2yCQ6NsphbW6F
+ FvN9e4Lntqfb4mhZjVW+/l5uInc+NOgCeHrT4rbrA0e/JU94XBbXPU2xEqg3SgDlBZgA
+ H8Qsh7oq27ZFwGorRYX3jBAvNPf+4p5+hKYFeWC87OoqXF9QSjIGnO81tyCYtkBn5jo4
+ GgmpD7caHFFQT2N89XAsnNGbHJLH88EA8MT2G5pG8o1BZUCjrtwOlRwrxW+gtP7+Qi3G
+ fAInqkkBcbgYsioPenN8s7026gUyNIUCLyXZ421q1myWsriwZEaS3XzlNrCiN4fg9AQD
+ WIIg==
+X-Gm-Message-State: AOAM5321+3tdRa0+J02ShkdNUUIkArsQr2f3v3iB4yJkF2oxlz22O/Hk
+ 4Bj/yQoIm2r0Ceg6H7qgNjFpGVHGGak38brcU/Q=
+X-Google-Smtp-Source: ABdhPJz4Nagjt4yMPeIUiuanaZZK73HDv7ILWk0uVF4t2Q+HCp1PRj88webbTw+MS2P2VLqMmcsYgAWk06cLvYu6Q4g=
+X-Received: by 2002:a02:1a06:: with SMTP id 6mr55748921jai.8.1594054664021;
+ Mon, 06 Jul 2020 09:57:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200704153908.12118-1-philmd@redhat.com>
- <20200704153908.12118-22-philmd@redhat.com>
-In-Reply-To: <20200704153908.12118-22-philmd@redhat.com>
+References: <20200704144943.18292-1-f4bug@amsat.org>
+ <20200704144943.18292-9-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-9-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:46:42 -0700
-Message-ID: <CAKmqyKNaTK+CSDvy-C0_go0EeggGYvWP4sjFmGkEF1cJSnBXUQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 21/23] hw/riscv: Emit warning when old code is used
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 6 Jul 2020 09:47:55 -0700
+Message-ID: <CAKmqyKNeuFosuMbvQ80EQ2uCEXpxfii=8WZE_njt8=3UyzUMqw@mail.gmail.com>
+Subject: Re: [PATCH 08/26] hw/usb/hcd-dwc2: Restrict 'dwc2-regs.h' scope
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -81,92 +81,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
  "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Stafford Horne <shorne@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
  "open list:New World" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 8:48 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
+On Sat, Jul 4, 2020 at 7:53 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
 >
-> This code hasn't been QOM'ified yet. Warn the user.
+> We only use these register definitions in files under the
+> hw/usb/ directory. Keep that header local by moving it there.
 >
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/riscv/riscv_htif.c  | 4 ++++
->  hw/riscv/sifive_uart.c | 4 ++++
->  2 files changed, 8 insertions(+)
+>  {include/hw =3D> hw}/usb/dwc2-regs.h | 0
+>  hw/usb/hcd-dwc2.c                  | 2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename {include/hw =3D> hw}/usb/dwc2-regs.h (100%)
 >
-> diff --git a/hw/riscv/riscv_htif.c b/hw/riscv/riscv_htif.c
-> index ca87a5cf9f..bd080dbefb 100644
-> --- a/hw/riscv/riscv_htif.c
-> +++ b/hw/riscv/riscv_htif.c
-> @@ -30,6 +30,7 @@
->  #include "hw/riscv/riscv_htif.h"
->  #include "qemu/timer.h"
->  #include "qemu/error-report.h"
-> +#include "hw/qdev-deprecated.h"
->
->  #define RISCV_DEBUG_HTIF 0
->  #define HTIF_DEBUG(fmt, ...)                                            =
-       \
-> @@ -238,6 +239,9 @@ HTIFState *htif_mm_init(MemoryRegion *address_space, =
-MemoryRegion *main_mem,
->      uint64_t fromhost_offset =3D fromhost_addr - base;
->
->      HTIFState *s =3D g_malloc0(sizeof(HTIFState));
-> +
-> +    qdev_warn_deprecated_function_used();
-> +
->      s->address_space =3D address_space;
->      s->main_mem =3D main_mem;
->      s->main_mem_ram_ptr =3D memory_region_get_ram_ptr(main_mem);
-> diff --git a/hw/riscv/sifive_uart.c b/hw/riscv/sifive_uart.c
-> index 9350482662..1a5890d5f7 100644
-> --- a/hw/riscv/sifive_uart.c
-> +++ b/hw/riscv/sifive_uart.c
-> @@ -25,6 +25,7 @@
->  #include "hw/hw.h"
+> diff --git a/include/hw/usb/dwc2-regs.h b/hw/usb/dwc2-regs.h
+> similarity index 100%
+> rename from include/hw/usb/dwc2-regs.h
+> rename to hw/usb/dwc2-regs.h
+> diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+> index ccf05d0823..252b60ef65 100644
+> --- a/hw/usb/hcd-dwc2.c
+> +++ b/hw/usb/hcd-dwc2.c
+> @@ -34,7 +34,6 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "qapi/error.h"
+> -#include "hw/usb/dwc2-regs.h"
+>  #include "hw/usb/hcd-dwc2.h"
 >  #include "hw/irq.h"
->  #include "hw/riscv/sifive_uart.h"
-> +#include "hw/qdev-deprecated.h"
+>  #include "sysemu/dma.h"
+> @@ -43,6 +42,7 @@
+>  #include "qemu/timer.h"
+>  #include "qemu/log.h"
+>  #include "hw/qdev-properties.h"
+> +#include "dwc2-regs.h"
 >
->  /*
->   * Not yet implemented:
-> @@ -183,6 +184,9 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *add=
-ress_space, hwaddr base,
->      Chardev *chr, qemu_irq irq)
->  {
->      SiFiveUARTState *s =3D g_malloc0(sizeof(SiFiveUARTState));
-> +
-> +    qdev_warn_deprecated_function_used();
-> +
->      s->irq =3D irq;
->      qemu_chr_fe_init(&s->chr, chr, &error_abort);
->      qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
+>  #define USB_HZ_FS       12000000
+>  #define USB_HZ_HS       96000000
 > --
 > 2.21.3
 >
