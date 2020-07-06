@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1257216295
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:52:52 +0200 (CEST)
-Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6747C21629F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jul 2020 01:55:34 +0200 (CEST)
+Received: from localhost ([::1]:36582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsaup-0001Fc-J5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
+	id 1jsaxR-0006QP-6C
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 19:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaqB-00015m-MR
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:03 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34814)
+ id 1jsaqC-00019A-Te
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:04 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:34877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jsaq9-0000vg-Sx
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:03 -0400
-Received: by mail-pf1-x444.google.com with SMTP id u185so15583498pfu.1
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:48:01 -0700 (PDT)
+ id 1jsaqA-0000w6-Pp
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 19:48:04 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id f16so7309692pjt.0
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 16:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eUiNODQ/7a2hmywnzx9VN+sLDGZQNqSwzW1+Xp1VjYg=;
- b=bcjOY7mfMWjziri4RE/Tmc/o7/eH/xBiA3t93b2Tnb9cuPMdCw0KtgJLeCllYc3uHZ
- ZB4IhWiTWkfnWbX7J5/78OukFqub+Si/5NELSBhaNU2DF36YQFeDXNgjWrN2Gb9JxWB3
- PCDTMcqz/Oi6czeiCj7ngxU1bdXK25am+zWA0zHEupqx/0TGXM1jNeShOQ8/ESGeXWGm
- slF4OyPu37ck0V3tniL6aWiha3InPPSecZVerIhU3MzBHQ6JvnSIHyjFASzu6PLpHjJw
- wC31QiPyNohroDy4pOFewSTA4qDTqADtXA2m4MTRJxntGaMI55NX9uw9zlxZ3ZAE5FBi
- LpUA==
+ bh=ON8TlGBWP6j9tnyoD1Ob1PnTUOjdjsUaKfXxF5xWLoo=;
+ b=mGBB5ADWjkw1K2wH++Ya1kMjmO9oW/mtQSBcKxb3Fb1lUBDOkiqN+4qdV2EEEfwSSg
+ 1or8AO/uz0Lrzght15bNNC/6Udn+9vBA4rFsbfkpWFoBYZAoqUKIIDvzDRzPFQJWDKWi
+ VI64Py4Tvey+Ts9frcfe/3JFnV0OZqLnnAKXnYyJ9AEIyzb3B2LuK0aMPssOZCtAp4Wr
+ uQA1GdFi6b27Lfg1XR1fLHvp3SZRyXazITkXvXEU7cyFJl0onyINYaKjneyVTUyb59RW
+ TCNej0SBmdY0i2BZqJeWclLsvvcHrwLycQi8zS/H8S9OiYnwfyD6E+ucu9Iff6gidcmT
+ 3Rdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eUiNODQ/7a2hmywnzx9VN+sLDGZQNqSwzW1+Xp1VjYg=;
- b=VS+xjZ/hYdx4vxwgHsF1H9dZ1bEwZ5pwlWnCk7HEqi9bj6aNhgx9f1KWVMnlGJ/GCq
- oYU9WdIRZXGl7rEBnwBwBAS14T3/HOuIhaGZ25oK4HBJ/GAnnZ5VISuMTRtBUkxI0rGc
- 2uQUbL2AXiEdynor1BQAyJFYwJ/bGQ32evxgWUcoYWYoJb0cq5h1hAggklPAaC72PaTG
- 0zY0ctoLk52pYG+4/3T8m56wMyQ+OHMU/yxsZGX46DcgtJHN8p6uw9So5Yrf+mJklUAT
- FbI/8qJXoKYVeTKSGKc1j/AsynmkYTxzgHZr8KrOtr+uvs3ggQNMGafJJBR/37yyj+aW
- a9jA==
-X-Gm-Message-State: AOAM532tRENgdwI0tVOLW/B16geAW7sU4mqa0tIXrINs3AumJ19UP21l
- rBMFEVoPDBmTSOXEeC3aWR0Ih8l0
-X-Google-Smtp-Source: ABdhPJxRgzVcQMiGKj05hWVRaqlMTkhgh8P4CuO6nPMoUx74mySkWQD8JbpORNPqxeeHAzHNNhkGHg==
-X-Received: by 2002:a63:745:: with SMTP id 66mr43769626pgh.316.1594079280470; 
- Mon, 06 Jul 2020 16:48:00 -0700 (PDT)
+ bh=ON8TlGBWP6j9tnyoD1Ob1PnTUOjdjsUaKfXxF5xWLoo=;
+ b=AxOWzZL/RBwKEJ9wsHS3hHOYu7jIkkTd42em2wMYQ5eyN7Y+YDLOi4vQ4NCm8mJe7W
+ CRViIiTyJIPN3ZkTFM5PLEqz6dMy8m29VWjqKG5ujisnDPzuc0rvWm1Oe/jaoKi5Cu9R
+ bX99wD9ditfgj/eAYUhMAOX19jnxFTHjHz+XxF+VmEh83cJhLz1EcX4aaoMt7TgDjEHM
+ 7oF3ZYBnir0tXC+a374Eme7LwSlsEf/MWT7TFuKFyq/AgDmKYsWjBkaGnv8+u4te2jg8
+ oeL06Bbxhn03lfPbPLAlE4f3byBpyTpWEqehDnqHYEGNgKg2curMWU8SSCJIV9u/c62I
+ cCnw==
+X-Gm-Message-State: AOAM530DKf6RI6EWBvINx38V+hDUFSI52EnEVsoLFHfchKluNVFoEZMA
+ zHd+W3n7DAElAAJMtdx2HiCmUt9Y
+X-Google-Smtp-Source: ABdhPJyYoIBJaMcxfQ+mXAWmbtd1k2e+oH6ovoluwJqZRotaCH8DZR3TUkFUBDdjr4mzciNpq1Y/hQ==
+X-Received: by 2002:a17:90a:240a:: with SMTP id
+ h10mr1532565pje.225.1594079281418; 
+ Mon, 06 Jul 2020 16:48:01 -0700 (PDT)
 Received: from octofox.cadence.com ([2601:641:400:e00:19b7:f650:7bbe:a7fb])
- by smtp.gmail.com with ESMTPSA id e15sm19647649pgt.17.2020.07.06.16.47.59
+ by smtp.gmail.com with ESMTPSA id e15sm19647649pgt.17.2020.07.06.16.48.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 06 Jul 2020 16:48:00 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/21] target/xtensa: implement FPU division and square root
-Date: Mon,  6 Jul 2020 16:47:26 -0700
-Message-Id: <20200706234737.32378-11-jcmvbkbc@gmail.com>
+Subject: [PATCH 11/21] tests/tcg/xtensa: fix test execution on ISS
+Date: Mon,  6 Jul 2020 16:47:27 -0700
+Message-Id: <20200706234737.32378-12-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 References: <20200706234737.32378-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x102d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -5
@@ -71,8 +72,8 @@ X-Spam_bar: /
 X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,227 +90,57 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This does not implement all opcodes related to div/sqrt as specified in
-the xtensa ISA, partly because the official specification is not
-complete and partly because precise implementation is unnecessarily
-complex. Instead instructions specific to the div/sqrt sequences are
-implemented differently, most of them as nops, but the results of
-div/sqrt sequences is preserved.
+Space for test results may be allocated in IRAM which is only
+word-accessible. Use full 32-bit words to access test results.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/fpu_helper.c |  24 +++++++++
- target/xtensa/helper.h     |   4 ++
- target/xtensa/translate.c  | 104 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 132 insertions(+)
+ tests/tcg/xtensa/macros.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/xtensa/fpu_helper.c b/target/xtensa/fpu_helper.c
-index 514b888b3d9a..f03a6b000460 100644
---- a/target/xtensa/fpu_helper.c
-+++ b/target/xtensa/fpu_helper.c
-@@ -203,6 +203,30 @@ float32 HELPER(msub_s)(CPUXtensaState *env, float32 a, float32 b, float32 c)
-                           &env->fp_status);
- }
+diff --git a/tests/tcg/xtensa/macros.inc b/tests/tcg/xtensa/macros.inc
+index aa8f95bce879..f88937c7bf82 100644
+--- a/tests/tcg/xtensa/macros.inc
++++ b/tests/tcg/xtensa/macros.inc
+@@ -3,7 +3,7 @@
+ .macro test_suite name
+ .data
+ status: .word result
+-result: .space 256
++result: .space 1024
+ .text
+ .global main
+ .align 4
+@@ -25,9 +25,9 @@ main:
+     movi    a3, 0
+     beqz    a2, 2f
+ 1:
+-    l8ui    a1, a0, 0
++    l32i    a1, a0, 0
+     or      a3, a3, a1
+-    addi    a0, a0, 1
++    addi    a0, a0, 4
+     addi    a2, a2, -1
+     bnez    a2, 1b
+ 2:
+@@ -65,7 +65,7 @@ test_\name:
+     reset_ps
+     movi    a2, status
+     l32i    a3, a2, 0
+-    addi    a3, a3, 1
++    addi    a3, a3, 4
+     s32i    a3, a2, 0
+ .endm
  
-+float64 HELPER(mkdadj_d)(CPUXtensaState *env, float64 a, float64 b)
-+{
-+    set_use_first_nan(true, &env->fp_status);
-+    return float64_div(b, a, &env->fp_status);
-+}
-+
-+float32 HELPER(mkdadj_s)(CPUXtensaState *env, float32 a, float32 b)
-+{
-+    set_use_first_nan(env->config->use_first_nan, &env->fp_status);
-+    return float32_div(b, a, &env->fp_status);
-+}
-+
-+float64 HELPER(mksadj_d)(CPUXtensaState *env, float64 v)
-+{
-+    set_use_first_nan(true, &env->fp_status);
-+    return float64_sqrt(v, &env->fp_status);
-+}
-+
-+float32 HELPER(mksadj_s)(CPUXtensaState *env, float32 v)
-+{
-+    set_use_first_nan(env->config->use_first_nan, &env->fp_status);
-+    return float32_sqrt(v, &env->fp_status);
-+}
-+
- uint32_t HELPER(ftoi_d)(CPUXtensaState *env, float64 v,
-                         uint32_t rounding_mode, uint32_t scale)
- {
-diff --git a/target/xtensa/helper.h b/target/xtensa/helper.h
-index a328af47cd31..d38432bab2a0 100644
---- a/target/xtensa/helper.h
-+++ b/target/xtensa/helper.h
-@@ -54,6 +54,8 @@ DEF_HELPER_3(sub_s, f32, env, f32, f32)
- DEF_HELPER_3(mul_s, f32, env, f32, f32)
- DEF_HELPER_4(madd_s, f32, env, f32, f32, f32)
- DEF_HELPER_4(msub_s, f32, env, f32, f32, f32)
-+DEF_HELPER_3(mkdadj_s, f32, env, f32, f32)
-+DEF_HELPER_2(mksadj_s, f32, env, f32)
- DEF_HELPER_4(ftoi_s, i32, env, f32, i32, i32)
- DEF_HELPER_4(ftoui_s, i32, env, f32, i32, i32)
- DEF_HELPER_3(itof_s, f32, env, i32, i32)
-@@ -78,6 +80,8 @@ DEF_HELPER_3(sub_d, f64, env, f64, f64)
- DEF_HELPER_3(mul_d, f64, env, f64, f64)
- DEF_HELPER_4(madd_d, f64, env, f64, f64, f64)
- DEF_HELPER_4(msub_d, f64, env, f64, f64, f64)
-+DEF_HELPER_3(mkdadj_d, f64, env, f64, f64)
-+DEF_HELPER_2(mksadj_d, f64, env, f64)
- DEF_HELPER_4(ftoi_d, i32, env, f64, i32, i32)
- DEF_HELPER_4(ftoui_d, i32, env, f64, i32, i32)
- DEF_HELPER_3(itof_d, f64, env, i32, i32)
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index ab83e259917a..ea8bac29831f 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -7254,6 +7254,38 @@ static void translate_ldstx_s(DisasContext *dc, const OpcodeArg arg[],
-     }
- }
- 
-+static void translate_mkdadj_d(DisasContext *dc, const OpcodeArg arg[],
-+                               const uint32_t par[])
-+{
-+    gen_helper_mkdadj_d(arg[0].out, cpu_env, arg[0].in, arg[1].in);
-+}
-+
-+static void translate_mkdadj_s(DisasContext *dc, const OpcodeArg arg[],
-+                               const uint32_t par[])
-+{
-+    OpcodeArg arg32[2];
-+
-+    get_f32_o1_i2(arg, arg32, 0, 0, 1);
-+    gen_helper_mkdadj_s(arg32[0].out, cpu_env, arg32[0].in, arg32[1].in);
-+    put_f32_o1_i2(arg, arg32, 0, 0, 1);
-+}
-+
-+static void translate_mksadj_d(DisasContext *dc, const OpcodeArg arg[],
-+                               const uint32_t par[])
-+{
-+    gen_helper_mksadj_d(arg[0].out, cpu_env, arg[1].in);
-+}
-+
-+static void translate_mksadj_s(DisasContext *dc, const OpcodeArg arg[],
-+                               const uint32_t par[])
-+{
-+    OpcodeArg arg32[2];
-+
-+    get_f32_o1_i1(arg, arg32, 0, 1);
-+    gen_helper_mksadj_s(arg32[0].out, cpu_env, arg32[1].in);
-+    put_f32_o1_i1(arg, arg32, 0, 1);
-+}
-+
- static void translate_wur_fpu_fcr(DisasContext *dc, const OpcodeArg arg[],
-                                   const uint32_t par[])
- {
-@@ -7289,6 +7321,22 @@ static const XtensaOpcodeOps fpu_ops[] = {
-         .name = "add.s",
-         .translate = translate_add_s,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "addexp.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "addexp.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "addexpm.d",
-+        .translate = translate_mov_s,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "addexpm.s",
-+        .translate = translate_mov_s,
-+        .coprocessor = 0x1,
-     }, {
-         .name = "ceil.d",
-         .translate = translate_ftoi_d,
-@@ -7315,6 +7363,22 @@ static const XtensaOpcodeOps fpu_ops[] = {
-         .name = "cvts.d",
-         .translate = translate_cvts_d,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "div0.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "div0.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "divn.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "divn.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-     }, {
-         .name = "float.d",
-         .translate = translate_float_d,
-@@ -7415,6 +7479,30 @@ static const XtensaOpcodeOps fpu_ops[] = {
-         .name = "madd.s",
-         .translate = translate_madd_s,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "maddn.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "maddn.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "mkdadj.d",
-+        .translate = translate_mkdadj_d,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "mkdadj.s",
-+        .translate = translate_mkdadj_s,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "mksadj.d",
-+        .translate = translate_mksadj_d,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "mksadj.s",
-+        .translate = translate_mksadj_s,
-+        .coprocessor = 0x1,
-     }, {
-         .name = "mov.d",
-         .translate = translate_mov_d,
-@@ -7507,6 +7595,14 @@ static const XtensaOpcodeOps fpu_ops[] = {
-         .name = "neg.s",
-         .translate = translate_neg_s,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "nexp01.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "nexp01.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-     }, {
-         .name = "oeq.d",
-         .translate = translate_compare_d,
-@@ -7600,6 +7696,14 @@ static const XtensaOpcodeOps fpu_ops[] = {
-         .par = (const uint32_t[]){true, true, true},
-         .op_flags = XTENSA_OP_STORE,
-         .coprocessor = 0x1,
-+    }, {
-+        .name = "sqrt0.d",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-+    }, {
-+        .name = "sqrt0.s",
-+        .translate = translate_nop,
-+        .coprocessor = 0x1,
-     }, {
-         .name = "ssi",
-         .translate = translate_ldsti_s,
+@@ -78,7 +78,7 @@ test_\name:
+     movi    a2, status
+     l32i    a2, a2, 0
+     movi    a3, 1
+-    s8i     a3, a2, 0
++    s32i    a3, a2, 0
+ #ifdef DEBUG
+     print   failed
+ #endif
 -- 
 2.20.1
 
