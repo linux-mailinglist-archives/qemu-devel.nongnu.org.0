@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3A21606C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:41:47 +0200 (CEST)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFACF216074
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:43:42 +0200 (CEST)
+Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXvt-0004jE-OT
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52510)
+	id 1jsXxl-0000Cn-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuN-0002zj-IU
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20687
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuT-00038P-9z
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55154
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuK-0002T8-J9
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:11 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuQ-0002VF-6H
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594068007;
+ s=mimecast20190719; t=1594068013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=b1TX1DgeBrDNcQ8i7BNWXPZR6629OOyXYFtQ/bDhXMk=;
- b=OwZs0SmakUa91lrWtV1sazD0+l+DRW4Zpr88rpV7G+XhRWkezAQoCVo+2aMCTiG4ZUB1N+
- 5J198ZKXsfAeDAws5M5ggPKoasG92p1fb2LOWDOXg5wtfgEY7MlLi6JQU3fYR9k9n6AtZc
- nS3xcHW90AgHJGxniDKU5GMbbSUah/k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lJvFO5Pb/vWMhSFo8+5u9ofTXO9NYGyp5FgW59rhl2k=;
+ b=htj+Zcfzm/tIAY6JxnxLWvcNtCutPfALMoPcjG+0U2N1hesPnsISBKYg84nsKCvfTdkyJX
+ U1dGiMSsNBDA+byE4L6IDEdRprQr3mWqRkF1hT+HVq2vzSh+NUGhlIBmEnY3t+pk2BWfuX
+ gC3GYtAETYS0rIrPLDQIdDfu/YSmeMI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-HS9ozvHAO3aRd7TyQGHBrg-1; Mon, 06 Jul 2020 16:39:58 -0400
-X-MC-Unique: HS9ozvHAO3aRd7TyQGHBrg-1
+ us-mta-34-SVhZTrjxOTyjZpVIy4Awkg-1; Mon, 06 Jul 2020 16:40:09 -0400
+X-MC-Unique: SVhZTrjxOTyjZpVIy4Awkg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E469580B70A;
- Mon,  6 Jul 2020 20:39:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6108E8015F5;
+ Mon,  6 Jul 2020 20:40:08 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-97.phx2.redhat.com [10.3.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93ED81C4;
- Mon,  6 Jul 2020 20:39:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 15B617B400;
+ Mon,  6 Jul 2020 20:40:07 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/10] Tighten qemu-img rules on missing backing format
-Date: Mon,  6 Jul 2020 15:39:44 -0500
-Message-Id: <20200706203954.341758-1-eblake@redhat.com>
+Subject: [PATCH v6 01/10] qemu-img: Flush stdout before before potential
+ stderr messages
+Date: Mon,  6 Jul 2020 15:39:45 -0500
+Message-Id: <20200706203954.341758-2-eblake@redhat.com>
+In-Reply-To: <20200706203954.341758-1-eblake@redhat.com>
+References: <20200706203954.341758-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,192 +85,145 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v5 was here:
-https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg00679.html
-In v6:
-- add a few more patches
-- change qcow semantics based on several iterations of mailing list
-debates on what behavior is easiest to support
-- add iotesting that a probed raw file cannot be committed into
-- instead of recording an implicit probed raw file, instead we record
-only a non-raw file
-- rebase to a few more affected iotests, plus s/5.0/5.1/
+During 'qemu-img create ... 2>&1', if --quiet is not in force, we can
+end up with buffered I/O in stdout that was produced before failure,
+but which appears in output after failure.  This is confusing; the fix
+is to flush stdout prior to attempting anything that might produce an
+error message.  Several iotests demonstrate the resulting ordering
+change now that the merged outputs now reflect chronology.  (An even
+better fix would be to avoid printf from within block.c altogether,
+but that's much more invasive...)
 
-Yes, I know this is really short notice to make it in before feature
-freeze for 5.1 (removal in 6.0), so it may end up slipping into 5.2
-(removal in 6.1); but we'll see how things go.
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ block.c                    | 1 +
+ tests/qemu-iotests/049.out | 8 ++++----
+ tests/qemu-iotests/054.out | 2 +-
+ tests/qemu-iotests/079.out | 2 +-
+ tests/qemu-iotests/112.out | 4 ++--
+ tests/qemu-iotests/259.out | 2 +-
+ 6 files changed, 10 insertions(+), 9 deletions(-)
 
-Also available at
-https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-create-backing-v6
+diff --git a/block.c b/block.c
+index 6dbcb7e083ea..a568196ba250 100644
+--- a/block.c
++++ b/block.c
+@@ -6186,6 +6186,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
+         printf("Formatting '%s', fmt=%s ", filename, fmt);
+         qemu_opts_print(opts, " ");
+         puts("");
++        fflush(stdout);
+     }
 
-001/10:[down] 'qemu-img: Flush stdout before before potential stderr messages'
-002/10:[down] 'block: Finish deprecation of 'qemu-img convert -n -o''
-003/10:[----] [--] 'sheepdog: Add trivial backing_fmt support'
-004/10:[----] [--] 'vmdk: Add trivial backing_fmt support'
-005/10:[0088] [FC] 'qcow: Tolerate backing_fmt='
-006/10:[down] 'block: Error if backing file fails during creation without -u'
-007/10:[0004] [FC] 'qcow2: Deprecate use of qemu-img amend to change backing file'
-008/10:[0059] [FC] 'iotests: Specify explicit backing format where sensible'
-009/10:[----] [-C] 'block: Add support to warn on backing file change without format'
-010/10:[0027] [FC] 'qemu-img: Deprecate use of -b without -F'
+     ret = bdrv_create(drv, filename, opts, &local_err);
+diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
+index c54ae21b868a..22f395246b37 100644
+--- a/tests/qemu-iotests/049.out
++++ b/tests/qemu-iotests/049.out
+@@ -167,12 +167,12 @@ qemu-img create -f qcow2 -o compat=1.1 TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
 
-Eric Blake (10):
-  qemu-img: Flush stdout before before potential stderr messages
-  block: Finish deprecation of 'qemu-img convert -n -o'
-  sheepdog: Add trivial backing_fmt support
-  vmdk: Add trivial backing_fmt support
-  qcow: Tolerate backing_fmt=
-  block: Error if backing file fails during creation without -u
-  qcow2: Deprecate use of qemu-img amend to change backing file
-  iotests: Specify explicit backing format where sensible
-  block: Add support to warn on backing file change without format
-  qemu-img: Deprecate use of -b without -F
+ qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.42 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
 
- docs/system/deprecated.rst    | 58 +++++++++++++++++++----
- docs/tools/qemu-img.rst       |  4 ++
- include/block/block.h         |  4 +-
- block.c                       | 53 +++++++++++++++------
- block/qcow.c                  | 20 +++++++-
- block/qcow2.c                 |  7 ++-
- block/sheepdog.c              | 18 ++++++-
- block/stream.c                |  2 +-
- block/vmdk.c                  | 14 ++++++
- blockdev.c                    |  3 +-
- qemu-img.c                    | 15 ++++--
- tests/qemu-iotests/017        |  2 +-
- tests/qemu-iotests/017.out    |  2 +-
- tests/qemu-iotests/018        |  2 +-
- tests/qemu-iotests/018.out    |  2 +-
- tests/qemu-iotests/019        |  5 +-
- tests/qemu-iotests/019.out    |  2 +-
- tests/qemu-iotests/020        |  4 +-
- tests/qemu-iotests/020.out    |  4 +-
- tests/qemu-iotests/024        |  8 ++--
- tests/qemu-iotests/024.out    |  5 +-
- tests/qemu-iotests/028        |  4 +-
- tests/qemu-iotests/028.out    |  2 +-
- tests/qemu-iotests/030        | 26 ++++++++---
- tests/qemu-iotests/034        |  2 +-
- tests/qemu-iotests/034.out    |  2 +-
- tests/qemu-iotests/037        |  2 +-
- tests/qemu-iotests/037.out    |  2 +-
- tests/qemu-iotests/038        |  2 +-
- tests/qemu-iotests/038.out    |  2 +-
- tests/qemu-iotests/039        |  3 +-
- tests/qemu-iotests/039.out    |  2 +-
- tests/qemu-iotests/040        | 47 +++++++++++++------
- tests/qemu-iotests/041        | 37 ++++++++++-----
- tests/qemu-iotests/042        |  4 +-
- tests/qemu-iotests/043        | 18 +++----
- tests/qemu-iotests/043.out    | 16 ++++---
- tests/qemu-iotests/046        |  2 +-
- tests/qemu-iotests/046.out    |  2 +-
- tests/qemu-iotests/049.out    |  8 ++--
- tests/qemu-iotests/050        |  4 +-
- tests/qemu-iotests/050.out    |  2 +-
- tests/qemu-iotests/051        |  2 +-
- tests/qemu-iotests/051.out    |  2 +-
- tests/qemu-iotests/051.pc.out |  2 +-
- tests/qemu-iotests/054.out    |  2 +-
- tests/qemu-iotests/056        |  3 +-
- tests/qemu-iotests/060        |  2 +-
- tests/qemu-iotests/060.out    |  2 +-
- tests/qemu-iotests/061        | 10 ++--
- tests/qemu-iotests/061.out    | 11 +++--
- tests/qemu-iotests/069        |  2 +-
- tests/qemu-iotests/069.out    |  2 +-
- tests/qemu-iotests/073        |  2 +-
- tests/qemu-iotests/073.out    |  2 +-
- tests/qemu-iotests/079.out    |  2 +-
- tests/qemu-iotests/082        | 10 ++--
- tests/qemu-iotests/082.out    | 14 +++---
- tests/qemu-iotests/085        |  4 +-
- tests/qemu-iotests/085.out    |  6 +--
- tests/qemu-iotests/089        |  2 +-
- tests/qemu-iotests/089.out    |  2 +-
- tests/qemu-iotests/095        |  4 +-
- tests/qemu-iotests/095.out    |  4 +-
- tests/qemu-iotests/097        |  4 +-
- tests/qemu-iotests/097.out    | 16 +++----
- tests/qemu-iotests/098        |  2 +-
- tests/qemu-iotests/098.out    |  8 ++--
- tests/qemu-iotests/110        |  4 +-
- tests/qemu-iotests/110.out    |  4 +-
- tests/qemu-iotests/111.out    |  2 +-
- tests/qemu-iotests/112.out    |  4 +-
- tests/qemu-iotests/114        | 12 +++++
- tests/qemu-iotests/114.out    |  9 ++++
- tests/qemu-iotests/122        | 34 +++++++++-----
- tests/qemu-iotests/122.out    | 12 +++--
- tests/qemu-iotests/126        |  4 +-
- tests/qemu-iotests/126.out    |  4 +-
- tests/qemu-iotests/127        |  4 +-
- tests/qemu-iotests/127.out    |  4 +-
- tests/qemu-iotests/129        |  3 +-
- tests/qemu-iotests/133        |  2 +-
- tests/qemu-iotests/133.out    |  2 +-
- tests/qemu-iotests/139        |  2 +-
- tests/qemu-iotests/141        |  4 +-
- tests/qemu-iotests/141.out    |  4 +-
- tests/qemu-iotests/142        |  2 +-
- tests/qemu-iotests/142.out    |  2 +-
- tests/qemu-iotests/153        | 14 +++---
- tests/qemu-iotests/153.out    | 35 +++++++-------
- tests/qemu-iotests/154        | 42 ++++++++---------
- tests/qemu-iotests/154.out    | 42 ++++++++---------
- tests/qemu-iotests/155        | 12 +++--
- tests/qemu-iotests/156        |  9 ++--
- tests/qemu-iotests/156.out    |  6 +--
- tests/qemu-iotests/158        |  2 +-
- tests/qemu-iotests/158.out    |  2 +-
- tests/qemu-iotests/161        |  8 ++--
- tests/qemu-iotests/161.out    |  8 ++--
- tests/qemu-iotests/176        |  4 +-
- tests/qemu-iotests/176.out    | 32 ++++++-------
- tests/qemu-iotests/177        |  2 +-
- tests/qemu-iotests/177.out    |  2 +-
- tests/qemu-iotests/179        |  2 +-
- tests/qemu-iotests/179.out    |  2 +-
- tests/qemu-iotests/189        |  2 +-
- tests/qemu-iotests/189.out    |  2 +-
- tests/qemu-iotests/191        | 12 ++---
- tests/qemu-iotests/191.out    | 12 ++---
- tests/qemu-iotests/195        |  6 +--
- tests/qemu-iotests/195.out    |  6 +--
- tests/qemu-iotests/198        |  2 +-
- tests/qemu-iotests/198.out    |  3 +-
- tests/qemu-iotests/204        |  2 +-
- tests/qemu-iotests/204.out    |  2 +-
- tests/qemu-iotests/216        |  2 +-
- tests/qemu-iotests/224        |  4 +-
- tests/qemu-iotests/225        |  2 +-
- tests/qemu-iotests/225.out    |  2 +-
- tests/qemu-iotests/228        |  5 +-
- tests/qemu-iotests/245        |  3 +-
- tests/qemu-iotests/249        |  4 +-
- tests/qemu-iotests/249.out    |  4 +-
- tests/qemu-iotests/252        |  2 +-
- tests/qemu-iotests/257        |  3 +-
- tests/qemu-iotests/259.out    |  2 +-
- tests/qemu-iotests/267        |  4 +-
- tests/qemu-iotests/267.out    |  6 +--
- tests/qemu-iotests/270        |  2 +-
- tests/qemu-iotests/270.out    |  2 +-
- tests/qemu-iotests/273        |  4 +-
- tests/qemu-iotests/273.out    |  4 +-
- tests/qemu-iotests/274        | 12 ++---
- tests/qemu-iotests/274.out    | 29 ++++++------
- tests/qemu-iotests/279        |  4 +-
- tests/qemu-iotests/279.out    |  4 +-
- tests/qemu-iotests/290        |  2 +-
- tests/qemu-iotests/290.out    |  4 +-
- tests/qemu-iotests/293        | 88 +++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/293.out    | 59 +++++++++++++++++++++++
- tests/qemu-iotests/group      |  1 +
- 141 files changed, 792 insertions(+), 402 deletions(-)
- create mode 100755 tests/qemu-iotests/293
- create mode 100644 tests/qemu-iotests/293.out
+ qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=foobar cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
 
+ == Check preallocation option ==
+
+@@ -183,8 +183,8 @@ qemu-img create -f qcow2 -o preallocation=metadata TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=metadata lazy_refcounts=off refcount_bits=16 compression_type=zlib
+
+ qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=1234 lazy_refcounts=off refcount_bits=16 compression_type=zlib
++qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
+
+ == Check encryption option ==
+
+@@ -206,7 +206,7 @@ qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=off TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
+
+ qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=on TEST_DIR/t.qcow2 64M
+-qemu-img: TEST_DIR/t.qcow2: Lazy refcounts only supported with compatibility level 1.1 and above (use version=v3 or greater)
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=on refcount_bits=16 compression_type=zlib
++qemu-img: TEST_DIR/t.qcow2: Lazy refcounts only supported with compatibility level 1.1 and above (use version=v3 or greater)
+
+ *** done
+diff --git a/tests/qemu-iotests/054.out b/tests/qemu-iotests/054.out
+index e6ec430edd47..71f18bb98760 100644
+--- a/tests/qemu-iotests/054.out
++++ b/tests/qemu-iotests/054.out
+@@ -1,8 +1,8 @@
+ QA output created by 054
+
+ creating too large image (1 EB)
+-qemu-img: TEST_DIR/t.IMGFMT: The image size is too large for file format 'IMGFMT' (try using a larger cluster size)
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1152921504606846976
++qemu-img: TEST_DIR/t.IMGFMT: The image size is too large for file format 'IMGFMT' (try using a larger cluster size)
+
+ creating too large image (1 EB) using qcow2.py
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296
+diff --git a/tests/qemu-iotests/079.out b/tests/qemu-iotests/079.out
+index aab922fb369b..f65a9ca84fea 100644
+--- a/tests/qemu-iotests/079.out
++++ b/tests/qemu-iotests/079.out
+@@ -9,6 +9,6 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadat
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
+ qemu-img: TEST_DIR/t.IMGFMT: Cluster size must be a power of two between 512 and 2048k
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
+ *** done
+diff --git a/tests/qemu-iotests/112.out b/tests/qemu-iotests/112.out
+index ae0318cabea6..5e77e38a7a13 100644
+--- a/tests/qemu-iotests/112.out
++++ b/tests/qemu-iotests/112.out
+@@ -2,7 +2,6 @@ QA output created by 112
+
+ === refcount_bits limits ===
+
+-qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 refcount_bits=-1
+@@ -10,6 +9,7 @@ qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not e
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ refcount bits: 1
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+@@ -21,10 +21,10 @@ refcount bits: 16
+
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ refcount bits: 16
+-qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
+
+ === Snapshot limit on refcount_bits=1 ===
+
+diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+index ffed19c2a0af..e27b9ff38d75 100644
+--- a/tests/qemu-iotests/259.out
++++ b/tests/qemu-iotests/259.out
+@@ -9,6 +9,6 @@ virtual size: 64 MiB (67108864 bytes)
+ disk size: unavailable
+
+ --- Testing creation for which the node would need to grow ---
+-qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864 preallocation=metadata
++qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
+ *** done
 -- 
 2.27.0
 
