@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11829215EFB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 20:47:31 +0200 (CEST)
-Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3EA215F0F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 20:54:16 +0200 (CEST)
+Received: from localhost ([::1]:46872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsW9K-00073Q-5u
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 14:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57234)
+	id 1jsWFr-0002W6-NR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 14:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsW8B-0005sE-7w
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:46:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47133
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsW88-0008Bg-Dl
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:46:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594061175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fpqnGn82Pia6Q5GSbGRbSgNiA8bZkSWC3AHSZ5CsGhE=;
- b=WXMi3rP3Xn5qUa5XyzSisWYtxVA/MLhSGcl7nTJ7x+eDWMb2mloYshy2aGqeLvAlw3A6gT
- ON8s6u5XAQZe8cBwNO0eDnyc3znL+u1LRVa93wZ9d9wvrXUan8/TkiwyoMIcOgC5G8FvsT
- l4yt+oaHb5QQJ+YAcRKIGD/kqw6MB+o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-0pK_os06Mz69ArgVCtFCvw-1; Mon, 06 Jul 2020 14:46:13 -0400
-X-MC-Unique: 0pK_os06Mz69ArgVCtFCvw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E53AE19057A0;
- Mon,  6 Jul 2020 18:46:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
- [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 860F25D9CD;
- Mon,  6 Jul 2020 18:46:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A4ECB9D71; Mon,  6 Jul 2020 20:46:10 +0200 (CEST)
-Date: Mon, 6 Jul 2020 20:46:10 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/7] audio: Spring cleaning
-Message-ID: <20200706184610.2vjhruoarwuzpmcr@sirius.home.kraxel.org>
-References: <20200505132603.8575-1-f4bug@amsat.org>
- <f516d99c-1816-674d-3f83-ad8b6a55bfb8@amsat.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jsWEY-0000qr-B3
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:52:54 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:47042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jsWEW-0000fC-Nc
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 14:52:54 -0400
+Received: by mail-pl1-x635.google.com with SMTP id j7so2332073plk.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 11:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GVTDiY0ZsA/nF7FM/+lifohaf9ERBm26oBV/l0jEJ6o=;
+ b=OYPATk30bDHCZ0Syi2yg+G7tKhzFdgzbG7soVynVqyMeATXYaKlub6u72RS10h3Ar/
+ SsP9gK4y1Kex64z8x+thR4Ro1g7fovuOTXNDgwUvmjZjmMuZ4vtJX3ctfgjuFCjOWKKM
+ G5c/YP6SS5zlVa9NCgwsfXO0G7MX9E8aapdN3u6oZJBNy5mMdVVezlu6azcsO3fgtEQH
+ 43PRDTFrBN3K5IIoutu++g+RxC8V6eK6wKgSI9JRO9TUy9wV5JkPukDjzjj8Sql5kViP
+ YeiOjI0T0VKp6TBVGkZ+I2lYC8nIVkHlxkWit9hxyF4uhWi6+4iVXyZZn51+iol/kH64
+ CNoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GVTDiY0ZsA/nF7FM/+lifohaf9ERBm26oBV/l0jEJ6o=;
+ b=nmJpZkw4HgPrceYzCGqdbMwTZI+T0memR+ujO5X0txOm8HAD/eSR9e6Xmu86TXgzmn
+ mfjdHmk0c6twwj/3yByPwouSOXmGDqvM7e0HNqZqA0o4DKPa/0rczcgDdACpjdWauJyn
+ 21AUiMnsYGvfcjtp3K20i2/2/fjGS5JwaC9mCVh1LoIv2LnVDUMRZOa4wnvyRTuRaFbV
+ c5k1oBqHhwHIp26avegzWw7IbFZ5yYSYVmh3CvlrhqhCUbSRTmkL6NeIxXw7qhH5hMxa
+ qoYbxVVhBXAhHbo0LxxRA22We0IkSQkd8sav7IhxolH2MHt1GfTll7UX23QqqmSnbmvW
+ Rwrw==
+X-Gm-Message-State: AOAM530s1r3940ftXAZ1yawMUy6kObuePesj/zle1X3gDTDID/vU7mti
+ TBOd7AD/aLlCRoYGXrNUVLPZjXf8zSg=
+X-Google-Smtp-Source: ABdhPJxAApUR4Gah6kboMdUyJs8aC3Rcb7iiTz9SMkTFvMcVLsfl8/g4nqUADcZVl7fwM80iZl2SVQ==
+X-Received: by 2002:a17:90a:df0f:: with SMTP id
+ gp15mr580205pjb.98.1594061570268; 
+ Mon, 06 Jul 2020 11:52:50 -0700 (PDT)
+Received: from localhost.localdomain (097-090-106-114.biz.spectrum.com.
+ [97.90.106.114])
+ by smtp.gmail.com with ESMTPSA id q6sm19988179pfg.76.2020.07.06.11.52.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jul 2020 11:52:49 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] tcg patch queue
+Date: Mon,  6 Jul 2020 11:52:45 -0700
+Message-Id: <20200706185248.118447-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <f516d99c-1816-674d-3f83-ad8b6a55bfb8@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,37 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>,
- qemu-devel@nongnu.org,
- =?utf-8?B?S8WRdsOhZ8OzIFpvbHTDoW4=?= <DirtY.iCE.hu@gmail.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 06, 2020 at 08:09:47PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi Gerd,
-> 
-> On 5/5/20 3:25 PM, Philippe Mathieu-Daudé wrote:
-> > Cleaning old branches, salvaging what seems worthwhile...
-> > This series is from the time I wanted cleaner buffer handling
-> > to avoid abuses, started with chardev/ but got lost with reviews.
-> > audio/ is smaller, so easier.
-> > 
-> > - Convert various prototypes to use const buffers
-> > - Expose 'audio/audio.h' via public include directory.
-> 
-> You didn't commented on this series.
-> 
-> We might use a LPVOID in dsound_get_buffer_in() as suggested
-> by Volker but I don't like it much. What do you think otherwise?
+The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450:
 
-Well, your reply to Volker was "This is unfortunate, because a single
-backend invalidates the whole series.", so I dropped it from my
-TODO/review/merge list ...
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200703' into staging (2020-07-04 16:08:41 +0100)
 
-Tagging the buffers as const, then cast the const away (even if only
-in dsound) isn't a good idea IMHO.
+are available in the Git repository at:
 
-take care,
-  Gerd
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20200706
 
+for you to fetch changes up to 852f933e482518797f7785a2e017a215b88df815:
+
+  tcg: Fix do_nonatomic_op_* vs signed operations (2020-07-06 10:58:19 -0700)
+
+----------------------------------------------------------------
+Fix for ppc shifts
+Fix for non-parallel atomic ops
+
+----------------------------------------------------------------
+Catherine A. Frederick (1):
+      tcg/ppc: Sanitize immediate shifts
+
+Richard Henderson (1):
+      tcg: Fix do_nonatomic_op_* vs signed operations
+
+ tcg/ppc/tcg-target.inc.c | 15 ++++++++++-----
+ tcg/tcg-op.c             | 10 ++++++----
+ 2 files changed, 16 insertions(+), 9 deletions(-)
 
