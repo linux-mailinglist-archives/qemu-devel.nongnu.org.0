@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06B9215C61
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:57:26 +0200 (CEST)
-Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE6D215C27
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:45:46 +0200 (CEST)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUQn-0000w4-QS
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
+	id 1jsUFV-0008U5-6J
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCM-0003en-BS
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44150
+ id 1jsUC7-0003Jj-DR
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37363
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCF-000372-AJ
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:29 -0400
+ id 1jsUC5-000350-J0
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053741;
+ s=mimecast20190719; t=1594053732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fBB65MnNg9u2PaUFPswO5ijYUE99YGGjTJSGMEtR2ZQ=;
- b=X/5waZSsERd9s6mbdb9ywiQluBOi7XbWm0cUyBwEzDIxGi1z0fjJrtQcRCvgT/5O83AAiq
- PblADjOlWmo2yevhesDT+2G0zmGKEYKb/jPVB++IKTCXWgqHdzTf80fqa4BJgBbvrMShL+
- wssWWcUe7CSqLW52Rtx0F5sZDzDHC5s=
+ bh=ivYHD2g3Jxw1934ZPVIeMU+0jTpdt7CUCeoEcyeUUFU=;
+ b=iIfvQKOktwk5S3YT8z1k/V/lmnStUBJy1XuGmm+i8bA8SD39IWHVLUBgeOzZO4JkS25sjD
+ vGud2Ty7vNgNZkA7QZzdDGcYpXshlJV+CdPn8giUSR6OYF/EXiUdc0ERS1CiWJqVTsGgjd
+ x+wPvPnY8YwsfWYO5SenZut9lmOcmsk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-7WR0Q20VMzOXILzI3k7m1A-1; Mon, 06 Jul 2020 12:42:10 -0400
-X-MC-Unique: 7WR0Q20VMzOXILzI3k7m1A-1
+ us-mta-258-zYfbo6IRNAK44MlSGdqn1g-1; Mon, 06 Jul 2020 12:42:10 -0400
+X-MC-Unique: zYfbo6IRNAK44MlSGdqn1g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42813107ACF2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B62E01937FDD;
  Mon,  6 Jul 2020 16:42:09 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E00D5B3A7E;
- Mon,  6 Jul 2020 16:42:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F12ACF94F;
+ Mon,  6 Jul 2020 16:42:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/53] coverity: provide Coverity-friendly MIN_CONST and
- MAX_CONST
-Date: Mon,  6 Jul 2020 12:41:13 -0400
-Message-Id: <20200706164155.24696-12-pbonzini@redhat.com>
+Subject: [PULL 12/53] i386: hvf: Set env->eip in macvm_set_rip()
+Date: Mon,  6 Jul 2020 12:41:14 -0400
+Message-Id: <20200706164155.24696-13-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,84 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-Coverity has problems seeing through __builtin_choose_expr, which
-result in it abandoning analysis of later functions that utilize a
-definition that used MIN_CONST or MAX_CONST, such as in qemu-file.c:
+cpu_synchronize_state() is currently no-op for hvf but BIOS will hang in
+vAPIC option ROM when cpu_synchronize_state() is wired to
+hvf_cpu_synchronize_state().
 
- 50    DECLARE_BITMAP(may_free, MAX_IOV_SIZE);
+cpu_synchronize_state() state is called from vapic_write() during option
+ROM initialization. It sets dirty flag on the cpu. macvm_set_rip() is
+then invoked to advance IP after the I/O write to vAPIC port.
 
-CID 1429992 (#1 of 1): Unrecoverable parse warning (PARSE_ERROR)1.
-expr_not_constant: expression must have a constant value
+macvm_set_rip() only modifies VMCS, it doesn't change env->eip.
+Therefore on the next iteration of vCPU loop, vcpu_dirty flag is checked
+and hvf_put_registers() overwrites correct RIP in VMCS with the value of
+env->eip that points to the I/O write instruction. Execution of the CPU
+gets stuck on the instruction.
 
-As has been done in the past (see 07d66672), it's okay to dumb things
-down when compiling for static analyzers.  (Of course, now the
-syntax-checker has a false positive on our reference to
-__COVERITY__...)
+The issue can be avoided if eip doesn't contain stale value when dirty
+flag is set on cpu.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: CID 1429992, CID 1429995, CID 1429997, CID 1429999
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200629162804.1096180-1-eblake@redhat.com>
+Cc: Cameron Esfahani <dirty@apple.com>
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Message-Id: <20200630102824.77604-2-r.bolshakov@yadro.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/osdep.h | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ target/i386/hvf/vmx.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 0d26a1b9bd..0fc206ae61 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -250,7 +250,8 @@ extern int daemon(int, int);
-  * Note that neither form is usable as an #if condition; if you truly
-  * need to write conditional code that depends on a minimum or maximum
-  * determined by the pre-processor instead of the compiler, you'll
-- * have to open-code it.
-+ * have to open-code it.  Sadly, Coverity is severely confused by the
-+ * constant variants, so we have to dumb things down there.
-  */
- #undef MIN
- #define MIN(a, b)                                       \
-@@ -258,22 +259,28 @@ extern int daemon(int, int);
-         typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
-         _a < _b ? _a : _b;                              \
-     })
--#define MIN_CONST(a, b)                                         \
--    __builtin_choose_expr(                                      \
--        __builtin_constant_p(a) && __builtin_constant_p(b),     \
--        (a) < (b) ? (a) : (b),                                  \
--        ((void)0))
- #undef MAX
- #define MAX(a, b)                                       \
-     ({                                                  \
-         typeof(1 ? (a) : (b)) _a = (a), _b = (b);       \
-         _a > _b ? _a : _b;                              \
-     })
--#define MAX_CONST(a, b)                                         \
-+
-+#ifdef __COVERITY__
-+# define MIN_CONST(a, b) ((a) < (b) ? (a) : (b))
-+# define MAX_CONST(a, b) ((a) > (b) ? (a) : (b))
-+#else
-+# define MIN_CONST(a, b)                                        \
-+    __builtin_choose_expr(                                      \
-+        __builtin_constant_p(a) && __builtin_constant_p(b),     \
-+        (a) < (b) ? (a) : (b),                                  \
-+        ((void)0))
-+# define MAX_CONST(a, b)                                        \
-     __builtin_choose_expr(                                      \
-         __builtin_constant_p(a) && __builtin_constant_p(b),     \
-         (a) > (b) ? (a) : (b),                                  \
-         ((void)0))
-+#endif
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index ce2a1532d5..1e8b29bf7d 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -173,6 +173,7 @@ static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
  
- /*
-  * Minimum function that returns zero only if both values are zero.
+     /* BUG, should take considering overlap.. */
+     wreg(cpu->hvf_fd, HV_X86_RIP, rip);
++    env->eip = rip;
+ 
+     /* after moving forward in rip, we need to clean INTERRUPTABILITY */
+    val = rvmcs(cpu->hvf_fd, VMCS_GUEST_INTERRUPTIBILITY);
 -- 
 2.26.2
 
