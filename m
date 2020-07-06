@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7002B215C40
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:52:47 +0200 (CEST)
-Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A89215C6E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:59:57 +0200 (CEST)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUMI-0007hm-Du
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
+	id 1jsUTE-0005cm-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCB-0003RA-P3
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39307
- helo=us-smtp-1.mimecast.com)
+ id 1jsUCI-0003Y4-Tf
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:27 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31897
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUC8-00035n-Fq
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:19 -0400
+ id 1jsUCF-00036q-5t
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053735;
+ s=mimecast20190719; t=1594053740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R1+vZEAHkXZ+3r9qbN9gysTqbpARWv/Xkk3DWlAMb3E=;
- b=b0nKODow6cAxIqYb9Tt0cxv1RAb47BTZxUrlKjtc7ZgLyiRlUPmgF8ZKoYBPyQ1Urr9PTg
- rfKkw1xOntr2etxGbZ6l5pGHkiK4zcEsM8oprxMdXmtjVr7AkCQwJ1U2hM6uHRPlnb2B6a
- vvkwq9p46tRjo3qC3TfQ8GTk5ulrGnI=
+ bh=sbm4dlmKzlJfS+PAYK5L34O3rkpwzn8YdKzds1qva5g=;
+ b=VwTVCfXdNuzTuI8pkrlcSl8XTDJuheHZhoxOjdr3vKuN3UuRRio6IB8M2i35oPNGoCD9Mi
+ 9JYrjuq93bqflfSQ/EeFE4xcoZDB9rrylfhw6E+AfB7HucCO//mYHvOnmobekJ5O/4JeQW
+ K55xlLxKm+j12Spb5MPGlHPxVLHJKJE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-jT8x8QflM0iKX16V-cpBvQ-1; Mon, 06 Jul 2020 12:42:13 -0400
-X-MC-Unique: jT8x8QflM0iKX16V-cpBvQ-1
+ us-mta-206-7TfVLgn8M3yrRVem0GEUHw-1; Mon, 06 Jul 2020 12:42:14 -0400
+X-MC-Unique: 7TfVLgn8M3yrRVem0GEUHw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8775B8010EF;
- Mon,  6 Jul 2020 16:42:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05728EC1A2;
+ Mon,  6 Jul 2020 16:42:13 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32C2A5BACD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4D495BACD;
  Mon,  6 Jul 2020 16:42:12 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/53] i386: hvf: Clean up synchronize functions
-Date: Mon,  6 Jul 2020 12:41:20 -0400
-Message-Id: <20200706164155.24696-19-pbonzini@redhat.com>
+Subject: [PULL 19/53] MAINTAINERS: Add Cameron as HVF co-maintainer
+Date: Mon,  6 Jul 2020 12:41:21 -0400
+Message-Id: <20200706164155.24696-20-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,85 +88,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-Make them more concise and consitent with the rest of the code in the
-file and drop non-relevant TODO.
+Similar patch was sent a while ago but got lost.
+While at it, add a status wiki page.
 
 Cc: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20200630102824.77604-9-r.bolshakov@yadro.com>
+Message-Id: <20200624225850.16982-9-r.bolshakov@yadro.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/hvf.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 2a12867ef0..d81f569aed 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -282,47 +282,43 @@ void hvf_handle_io(CPUArchState *env, uint16_t port, void *buffer,
-     }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dec252f38b..b6d4f62ba2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -417,7 +417,9 @@ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
  
--/* TODO: synchronize vcpu state */
- static void do_hvf_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
- {
--    CPUState *cpu_state = cpu;
--    if (cpu_state->vcpu_dirty == 0) {
--        hvf_get_registers(cpu_state);
-+    if (!cpu->vcpu_dirty) {
-+        hvf_get_registers(cpu);
-+        cpu->vcpu_dirty = true;
-     }
--
--    cpu_state->vcpu_dirty = 1;
- }
- 
--void hvf_cpu_synchronize_state(CPUState *cpu_state)
-+void hvf_cpu_synchronize_state(CPUState *cpu)
- {
--    if (cpu_state->vcpu_dirty == 0) {
--        run_on_cpu(cpu_state, do_hvf_cpu_synchronize_state, RUN_ON_CPU_NULL);
-+    if (!cpu->vcpu_dirty) {
-+        run_on_cpu(cpu, do_hvf_cpu_synchronize_state, RUN_ON_CPU_NULL);
-     }
- }
- 
--static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu, run_on_cpu_data arg)
-+static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
-+                                              run_on_cpu_data arg)
- {
--    CPUState *cpu_state = cpu;
--    hvf_put_registers(cpu_state);
--    cpu_state->vcpu_dirty = false;
-+    hvf_put_registers(cpu);
-+    cpu->vcpu_dirty = false;
- }
- 
--void hvf_cpu_synchronize_post_reset(CPUState *cpu_state)
-+void hvf_cpu_synchronize_post_reset(CPUState *cpu)
- {
--    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
- 
- static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
-                                              run_on_cpu_data arg)
- {
--    CPUState *cpu_state = cpu;
--    hvf_put_registers(cpu_state);
--    cpu_state->vcpu_dirty = false;
-+    hvf_put_registers(cpu);
-+    cpu->vcpu_dirty = false;
- }
- 
--void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
-+void hvf_cpu_synchronize_post_init(CPUState *cpu)
- {
--    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
- 
- static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
+ X86 HVF CPUs
++M: Cameron Esfahani <dirty@apple.com>
+ M: Roman Bolshakov <r.bolshakov@yadro.com>
++W: https://wiki.qemu.org/Features/HVF
+ S: Maintained
+ F: accel/stubs/hvf-stub.c
+ F: target/i386/hvf/
 -- 
 2.26.2
 
