@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332F321606E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:42:03 +0200 (CEST)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86974216076
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:44:09 +0200 (CEST)
+Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXwA-0005Q0-6C
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
+	id 1jsXyC-0000gr-J8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuX-0003Gz-VI
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48168
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuU-0003B2-LR
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:18 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28855
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuV-0002aj-CM
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:21 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuS-0002We-Ji
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594068018;
+ s=mimecast20190719; t=1594068015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dNzyunD+pXhvAn7yN59D05TDaVZOw7qKdTybXGhF/gE=;
- b=W2CSzn8biLyNueKZoPkLLyT9C0m+1PKnapwdIFHSaa9RWUarLkMeXxzm7R0pdIEGXbwoy2
- gOPxKelZrT63qMBhepkuWVvWnCnLFORZHF/SlnSy8UfF8EHiWF8Uvtud+58bjkRMlG0+y/
- R9iAjS7+cQGJZQ3CuoQqohx8fjLUFVU=
+ bh=/EPqpSgUt6DDbkbtCknxzu7tgVde2nJvZJCDkg/HX0w=;
+ b=JROnbTxHe5zK2BZe9aJY243eIiX1HE5IIR3R6zofvZY6lsx1TAuk53/bpaqwSs802edaxd
+ XE3QNjuA146n/rl9N9J9iMo4JwsfrkO+Vtule0o3GghG2gB4gyaV9bwUVoaag9nNF6wtA8
+ awpnDYTzGwEY3aUCRV979yf5g9X9WNI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-Lv8V9O8BNdq1Jot4-GkQng-1; Mon, 06 Jul 2020 16:40:14 -0400
-X-MC-Unique: Lv8V9O8BNdq1Jot4-GkQng-1
+ us-mta-117-IouY_cVpNMm-FoMF_BOIHA-1; Mon, 06 Jul 2020 16:40:14 -0400
+X-MC-Unique: IouY_cVpNMm-FoMF_BOIHA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFC97100CCC4;
- Mon,  6 Jul 2020 20:40:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B88A8107ACF3;
+ Mon,  6 Jul 2020 20:40:12 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-97.phx2.redhat.com [10.3.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72D3F7B400;
- Mon,  6 Jul 2020 20:40:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEE697B419;
+ Mon,  6 Jul 2020 20:40:11 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/10] sheepdog: Add trivial backing_fmt support
-Date: Mon,  6 Jul 2020 15:39:47 -0500
-Message-Id: <20200706203954.341758-4-eblake@redhat.com>
+Subject: [PATCH v6 04/10] vmdk: Add trivial backing_fmt support
+Date: Mon,  6 Jul 2020 15:39:48 -0500
+Message-Id: <20200706203954.341758-5-eblake@redhat.com>
 In-Reply-To: <20200706203954.341758-1-eblake@redhat.com>
 References: <20200706203954.341758-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -79,76 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- kchamart@redhat.com, libvir-list@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, mreitz@redhat.com,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Liu Yuan <namei.unix@gmail.com>
+Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, pkrempa@redhat.com,
+ qemu-block@nongnu.org, kchamart@redhat.com, libvir-list@redhat.com,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ mreitz@redhat.com, "open list:Trivial patches" <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sheepdog already requires that if backing_file is present, that it be
-another sheepdog image (see sd_co_create).  Meanwhile, we want to move
-towards always being explicit about the backing format for other
+vmdk already requires that if backing_file is present, that it be
+another vmdk image (see vmdk_co_do_create).  Meanwhile, we want to
+move towards always being explicit about the backing format for other
 drivers where it matters.  So for convenience, make qemu-img create -F
-sheepdog work, while rejecting all other explicit formats (note that
-this is only for QemuOpts usage; there is no change to the QAPI to
-allow a format through -blockdev).
+vmdk work, while rejecting all other explicit formats (note that this
+is only for QemuOpts usage; there is no change to the QAPI to allow a
+format through -blockdev).
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/sheepdog.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ block/vmdk.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 27a30d17f4c9..548ce54cbc7e 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -2157,13 +2157,21 @@ static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
-                                           Error **errp)
- {
-     BlockdevCreateOptions *create_options = NULL;
--    QDict *qdict, *location_qdict;
-+    QDict *qdict = NULL, *location_qdict;
-     Visitor *v;
--    char *redundancy;
-+    char *redundancy = NULL;
-     Error *local_err = NULL;
-     int ret;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 62da4651263b..6c58e5ec2e43 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2638,6 +2638,14 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+     bool zeroed_grain;
+     bool compat6;
+     VMDKCreateOptsData data;
 +    char *backing_fmt = NULL;
-
-     redundancy = qemu_opt_get_del(opts, BLOCK_OPT_REDUNDANCY);
-+    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
 +
-+    if (backing_fmt && strcmp(backing_fmt, "sheepdog") != 0) {
-+        error_setg(errp, "backing_file must be a sheepdog image");
++    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
++    if (backing_fmt && strcmp(backing_fmt, "vmdk") != 0) {
++        error_setg(errp, "backing_file must be a vmdk image");
 +        ret = -EINVAL;
-+        goto fail;
++        goto exit;
 +    }
 
-     qdict = qemu_opts_to_qdict(opts, NULL);
-     qdict_put_str(qdict, "driver", "sheepdog");
-@@ -2228,6 +2236,7 @@ fail:
-     qapi_free_BlockdevCreateOptions(create_options);
-     qobject_unref(qdict);
-     g_free(redundancy);
-+    g_free(backing_fmt);
-     return ret;
- }
+     if (filename_decompose(filename, path, prefix, postfix, PATH_MAX, errp)) {
+         ret = -EINVAL;
+@@ -2696,6 +2704,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+                             vmdk_co_create_opts_cb, &data, errp);
 
-@@ -3185,6 +3194,11 @@ static QemuOptsList sd_create_opts = {
+ exit:
++    g_free(backing_fmt);
+     g_free(adapter_type);
+     g_free(backing_file);
+     g_free(hw_version);
+@@ -3031,6 +3040,11 @@ static QemuOptsList vmdk_create_opts = {
              .type = QEMU_OPT_STRING,
              .help = "File name of a base image"
          },
 +        {
 +            .name = BLOCK_OPT_BACKING_FMT,
 +            .type = QEMU_OPT_STRING,
-+            .help = "Must be 'sheepdog' if present",
++            .help = "Must be 'vmdk' if present",
 +        },
          {
-             .name = BLOCK_OPT_PREALLOC,
-             .type = QEMU_OPT_STRING,
+             .name = BLOCK_OPT_COMPAT6,
+             .type = QEMU_OPT_BOOL,
 -- 
 2.27.0
 
