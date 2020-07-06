@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5E121557A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:26:09 +0200 (CEST)
-Received: from localhost ([::1]:38244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6159A215589
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:29:34 +0200 (CEST)
+Received: from localhost ([::1]:48002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOK8-0005UY-CP
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58272)
+	id 1jsONR-0001nd-FP
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
- id 1jsOHN-0003O5-Qe; Mon, 06 Jul 2020 06:23:17 -0400
-Received: from ppsw-32.csi.cam.ac.uk ([131.111.8.132]:37740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
- id 1jsOHL-00073c-26; Mon, 06 Jul 2020 06:23:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
- s=20180806.ppsw;
- h=Sender:Content-Transfer-Encoding:Content-Type:Cc:To:
- Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CV14eKLNAeAzlJkwjnWkbyhiRKz8m9XvLDvFxgC1l98=; b=QwLS5Mh87UKJ7BAEKqcLgPxKyM
- O0YUcZVSFtkAU+wvikQrL2WEUHwU+KcTIkmFQr2DuUKSLNDDQOjbim4FJK5RHIpRzBw6f8Eb48aTr
- ywH1+JvcqH+GoOKqMAY7Dlqqnky+mIT1P0IM60j2t+Sa2If02QzJlmPIyf4uorHZJFR4=;
-X-Cam-AntiVirus: no malware found
-X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
-Received: from mail-io1-f41.google.com ([209.85.166.41]:36110)
- by ppsw-32.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.156]:587)
- with esmtpsa (PLAIN:alr48) (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- id 1jsOHF-000F7J-35 (Exim 4.94)
- (return-path <alr48@hermes.cam.ac.uk>); Mon, 06 Jul 2020 11:23:10 +0100
-Received: by mail-io1-f41.google.com with SMTP id y2so38749522ioy.3;
- Mon, 06 Jul 2020 03:23:09 -0700 (PDT)
-X-Gm-Message-State: AOAM530Dr4jtze/PORklJOEh3+olUSMGiPrpnyM/xHE0JRI70YUbg++I
- JdV3Oy/GVa73mJ7GUgfJYNjEPNJoGGma0M6InPk=
-X-Google-Smtp-Source: ABdhPJwiCTOCipz0b/eeOxADDgjJiu37q8JnZVwmCTdKGpiauFCW9uDp+r1ODGUiBE8Yl1Hp/oNiYxv6tVHJybP5D9I=
-X-Received: by 2002:a5e:cb42:: with SMTP id h2mr24283572iok.43.1594030988870; 
- Mon, 06 Jul 2020 03:23:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jsOHm-00045L-La
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:23:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43813
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jsOHk-000754-AF
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:23:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594031019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d7lEmMYN+o5ltYyBHvwWHyN3STBUY3oftm7QMnv6Gv4=;
+ b=HzL1It/+mbDMR6Zito3dDY0xvdHssNldGPkNxl0J136ZEtGxG/SveMp5j6sV+sp+0UR7Lk
+ ck0UX++cFrNufh5obJcqjCBY5HAl3s9w4N/YqqxFx1IzGtPYwSawEOtTJqdE7LP05UnHxf
+ lJWkIyfXO/BtCdcEg1VY/GMjpmQLMM8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-AnIZO5mePMSS7TDt3ka3zA-1; Mon, 06 Jul 2020 06:23:36 -0400
+X-MC-Unique: AnIZO5mePMSS7TDt3ka3zA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 336AC91164;
+ Mon,  6 Jul 2020 10:23:34 +0000 (UTC)
+Received: from localhost (ovpn-114-217.ams2.redhat.com [10.36.114.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46C6C71662;
+ Mon,  6 Jul 2020 10:23:25 +0000 (UTC)
+Date: Mon, 6 Jul 2020 11:23:24 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 4/7] vhost: involve device backends in feature
+ negotiation
+Message-ID: <20200706102324.GB328186@stefanha-x1.localdomain>
+References: <20200609170218.246468-1-stefanha@redhat.com>
+ <20200609170218.246468-5-stefanha@redhat.com>
+ <20200609135007-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20200703161515.25966-1-Alexander.Richardson@cl.cam.ac.uk>
- <013da4b5-be9e-aeae-5e88-82188a26d4bf@amsat.org>
-In-Reply-To: <013da4b5-be9e-aeae-5e88-82188a26d4bf@amsat.org>
-From: Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>
-Date: Mon, 6 Jul 2020 11:22:51 +0100
-X-Gmail-Original-Message-ID: <CAEeofcjJjAffMTg+cj5Y+HUZ9+bfkKMtKQRXMdk6FQgm-45KWQ@mail.gmail.com>
-Message-ID: <CAEeofcjJjAffMTg+cj5Y+HUZ9+bfkKMtKQRXMdk6FQgm-45KWQ@mail.gmail.com>
-Subject: Re: [PATCH] Fix MIPS add.s after
- 1ace099f2acb952eaaef0ba7725879949a7e4406
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=131.111.8.132;
- envelope-from=alr48@hermes.cam.ac.uk; helo=ppsw-32.csi.cam.ac.uk
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 06:23:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200609135007-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="eJnRUKwClWJh1Khz"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,65 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+--eJnRUKwClWJh1Khz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 3 Jul 2020 at 19:40, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> Hi Alex,
->
-> On 7/3/20 6:15 PM, Alex Richardson wrote:
-> > After merging latest QEMU upstream into our CHERI fork, I noticed that
-> > some of the FPU tests in our MIPS baremetal testsuite
->
-> I understand by baremetal your soft core implementation running on
-> a FPGA, right?
->
-By baremetal I mean small test binaries running without a host OS.
-The test suite was originally written for the CHERI FPGAs, but it also
-supports various MIPS simulators, our executable formal model written
-in sail and our fork of QEMU (https://github.com/CTSRD-CHERI/qemu).
-Unfortunately it cannot be run with upstream QEMU as it requires a
-special MTC0 instruction to dump register values in a textual format
-to the logfile.
+On Tue, Jun 09, 2020 at 02:07:44PM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 09, 2020 at 06:02:15PM +0100, Stefan Hajnoczi wrote:
+> > Many vhost devices in QEMU currently do not involve the device backend
+> > in feature negotiation. This seems fine at first glance when no
+> > device-specific feature bits are defined (virtio-net has many but some
+> > devices have none).
+> >=20
+> > Unfortunately this causes problems when QEMU's virtqueue implementation
+> > and the device backend's implementation support different features.
+> > QEMU must not report features to the guest that aren't supported by the
+> > device backend.
+> >=20
+> > For example, QEMU supports VIRTIO 1.1 packed virtqueues while many
+> > existing vhost device backends do not. The device backend breaks when
+> > the user sets packed=3Don. This should have been handled gracefully by
+> > feature negotiation instead of resulting in a cryptic failure when the
+> > device backend cannot parse the vring.
+> >=20
+> > Introduce the vhost_old_default_feature_bits[] array so existing
+> > devices can involve the device backend in feature negotiation.
+> > libvhost-user does not report VIRTIO_RING_F_INDIRECT_DESC and other cor=
+e
+> > feature bits even though it implements them. Therefore
+> > vhost_old_default_feature_bits[] only includes feature bits that can be
+> > explicitly negotiated without breaking existing libvhost-user device
+> > backends.
+>=20
+> libvhost-user is in contrib. Can't we just fix it as appropriate?
+> Work arounds have their cost ..
 
-> > (https://github.com/CTSRD-CHERI/cheritest) started failing. It turns ou=
-t
-> > this commit accidentally changed add.s into a subtract.
->
-> Fixes: 1ace099f2a ("target/mips: fpu: Demacro ADD.<D|S|PS>")
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> Thanks for your quick fix!
->
-> Phil.
->
-> > Signed-off-by: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-> > ---
-> >  target/mips/fpu_helper.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-> > index 7a3a61cab3..56beda49d8 100644
-> > --- a/target/mips/fpu_helper.c
-> > +++ b/target/mips/fpu_helper.c
-> > @@ -1221,7 +1221,7 @@ uint32_t helper_float_add_s(CPUMIPSState *env,
-> >  {
-> >      uint32_t wt2;
-> >
-> > -    wt2 =3D float32_sub(fst0, fst1, &env->active_fpu.fp_status);
-> > +    wt2 =3D float32_add(fst0, fst1, &env->active_fpu.fp_status);
-> >      update_fcr31(env, GETPC());
-> >      return wt2;
-> >  }
-> >
->
+libvhost-user's behavior is unfortunate but the bigger problem is that
+QEMU does not include backends in feature negotiation. Existing backends
+for devices touched in this patch may have a broken
+VHOST_USER_GET_FEATURES implementations and changing QEMU's behavior
+will break them.
+
+If you feel confident that third-party vhost-user backends will work,
+then we can simplify this patch series. I think we should be very
+careful but it's up to you.
+
+Stefan
+
+--eJnRUKwClWJh1Khz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8C+5wACgkQnKSrs4Gr
+c8hjxAf+LPWcTIlC2XeAfMQ6jEJzgRIRSmpxooh6RkK3Tb6ezLiMn44/UcEKW6cv
+sp4ihxJEFrfsYwnsS82GORjMxd3MzX3+kkh9hUP24PVVLyBeCTKXTfENJ49rMBVo
+LT9rPtO4PQol9YNJMRZrbpsO6Ojh7axilLK+mPJtdjSgtBWbWXty2/szISoNv95B
+Jd9F7c363MTOEHAZLzFarZz5I0jE4U1GZouQfif9lVHAjE21l+DlapGBSOqnoF1k
+UjRfXQUJzjxdo4YNLcI/RP85XIUBKGRvIV3nBoqeclwfHcxiUqrkwIdi/xcOAEtu
+hTuOLh3CxkZYRHPl693J62IqMsMfsQ==
+=pMw8
+-----END PGP SIGNATURE-----
+
+--eJnRUKwClWJh1Khz--
+
 
