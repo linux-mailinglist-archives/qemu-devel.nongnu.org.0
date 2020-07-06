@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EEB21556F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:21:57 +0200 (CEST)
-Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5057921554D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:15:04 +0200 (CEST)
+Received: from localhost ([::1]:52884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOG4-0001LF-4V
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53810)
+	id 1jsO9P-0003rN-94
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO05-00042h-Br
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48028
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO09-00044w-4Z
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51624
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO02-00048N-3V
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:25 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO05-000493-U7
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594029921;
+ s=mimecast20190719; t=1594029925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=izuy53HpCfbY4Wj31Xz6HKjJGdWIlXO7S22gmtfVZB4=;
- b=By9w9xOiI3VC5VM+OPQrxb+r7O87ghOaDZxvHooLPAxa5EcGlMt9xN0UcnkwpGM4Wkg/Ti
- TiDfplqEFyMdtM61fBa2DIDZH0T4Y1ypRmY6bX4B58bE+djrnYvaUgcFhcV99Z0BOw+HKk
- sXTASFHA1X27+QGVWn3xuQDTh7DiwpQ=
+ bh=gj98eBMjQ8Y9gSHoOf1w2VXvi0IRo7VNE0AcsD+Z034=;
+ b=NL/eBKZbehEJbb6p9pVT3V7e3lB0Wbn0IEghxyNrhSJCLzKq5jvKVlMIGSHiZD+yBhfMF4
+ ehN/P3xTkwU42d5oOtdDOUnvgeFB6vndx3Oo+Ca/D2MJRvuIVeV2KPgGXC/Vgx8YP54Tsb
+ gA7OI4KV591ybybkaGDWLQmVe78cqds=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-Yfq1RYflNymMCTLAHrBkiA-1; Mon, 06 Jul 2020 06:05:19 -0400
-X-MC-Unique: Yfq1RYflNymMCTLAHrBkiA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-319-AfTO67rFMEWhcKwIqqnLNg-1; Mon, 06 Jul 2020 06:05:21 -0400
+X-MC-Unique: AfTO67rFMEWhcKwIqqnLNg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5621107B267;
- Mon,  6 Jul 2020 10:05:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39C9318A8221;
+ Mon,  6 Jul 2020 10:05:20 +0000 (UTC)
 Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3193D71662;
- Mon,  6 Jul 2020 10:05:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE4A45C241;
+ Mon,  6 Jul 2020 10:05:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/31] block/core: add generic infrastructure for
- x-blockdev-amend qmp command
-Date: Mon,  6 Jul 2020 12:04:19 +0200
-Message-Id: <20200706100432.2301919-19-mreitz@redhat.com>
+Subject: [PULL 19/31] block/crypto: implement blockdev-amend
+Date: Mon,  6 Jul 2020 12:04:20 +0200
+Message-Id: <20200706100432.2301919-20-mreitz@redhat.com>
 In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
 References: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,272 +86,158 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-blockdev-amend will be used similiar to blockdev-create
-to allow on the fly changes of the structure of the format based block devices.
-
-Current plan is to first support encryption keyslot management for luks
-based formats (raw and embedded in qcow2)
-
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200608094030.670121-12-mlevitsk@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200608094030.670121-13-mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json      |  42 ++++++++++++++
- qapi/job.json             |   4 +-
- include/block/block_int.h |  21 +++++--
- block/amend.c             | 113 ++++++++++++++++++++++++++++++++++++++
- block/Makefile.objs       |   2 +-
- 5 files changed, 174 insertions(+), 8 deletions(-)
- create mode 100644 block/amend.c
+ qapi/block-core.json | 14 ++++++++-
+ block/crypto.c       | 72 ++++++++++++++++++++++++++++++++------------
+ 2 files changed, 66 insertions(+), 20 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0e1c6a59f2..c22996282f 100644
+index c22996282f..cd679ad435 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -4674,6 +4674,48 @@
+@@ -4674,6 +4674,18 @@
    'data': { 'job-id': 'str',
              'options': 'BlockdevCreateOptions' } }
  
 +##
-+# @BlockdevAmendOptions:
++# @BlockdevAmendOptionsLUKS:
 +#
-+# Options for amending an image format
-+#
-+# @driver:          Block driver of the node to amend.
++# Driver specific image amend options for LUKS.
 +#
 +# Since: 5.1
 +##
-+{ 'union': 'BlockdevAmendOptions',
-+  'base': {
-+      'driver':         'BlockdevDriver' },
-+  'discriminator': 'driver',
-+  'data': {
-+  } }
-+
-+##
-+# @x-blockdev-amend:
-+#
-+# Starts a job to amend format specific options of an existing open block device
-+# The job is automatically finalized, but a manual job-dismiss is required.
-+#
-+# @job-id:          Identifier for the newly created job.
-+#
-+# @node-name:       Name of the block node to work on
-+#
-+# @options:         Options (driver specific)
-+#
-+# @force:           Allow unsafe operations, format specific
-+#                   For luks that allows erase of the last active keyslot
-+#                   (permanent loss of data),
-+#                   and replacement of an active keyslot
-+#                   (possible loss of data if IO error happens)
-+#
-+# Since: 5.1
-+##
-+{ 'command': 'x-blockdev-amend',
-+  'data': { 'job-id': 'str',
-+            'node-name': 'str',
-+            'options': 'BlockdevAmendOptions',
-+            '*force': 'bool' } }
++{ 'struct': 'BlockdevAmendOptionsLUKS',
++  'base': 'QCryptoBlockAmendOptionsLUKS',
++  'data': { }
++}
 +
  ##
- # @BlockErrorAction:
+ # @BlockdevAmendOptions:
  #
-diff --git a/qapi/job.json b/qapi/job.json
-index 5e658281f5..c48a0c3e34 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -19,10 +19,12 @@
- #
- # @create: image creation job type, see "blockdev-create" (since 3.0)
- #
-+# @amend: image options amend job type, see "x-blockdev-amend" (since 5.1)
-+#
- # Since: 1.7
- ##
- { 'enum': 'JobType',
--  'data': ['commit', 'stream', 'mirror', 'backup', 'create'] }
-+  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend'] }
+@@ -4688,7 +4700,7 @@
+       'driver':         'BlockdevDriver' },
+   'discriminator': 'driver',
+   'data': {
+-  } }
++      'luks':           'BlockdevAmendOptionsLUKS' } }
  
  ##
- # @JobStatus:
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index ed335519cc..1b86b59af1 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -141,12 +141,27 @@ struct BlockDriver {
-     int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
-                           Error **errp);
-     void (*bdrv_close)(BlockDriverState *bs);
-+
-+
-     int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
-                                        Error **errp);
-     int coroutine_fn (*bdrv_co_create_opts)(BlockDriver *drv,
-                                             const char *filename,
-                                             QemuOpts *opts,
-                                             Error **errp);
-+
-+    int coroutine_fn (*bdrv_co_amend)(BlockDriverState *bs,
-+                                      BlockdevAmendOptions *opts,
-+                                      bool force,
-+                                      Error **errp);
-+
-+    int (*bdrv_amend_options)(BlockDriverState *bs,
-+                              QemuOpts *opts,
-+                              BlockDriverAmendStatusCB *status_cb,
-+                              void *cb_opaque,
-+                              bool force,
-+                              Error **errp);
-+
-     int (*bdrv_make_empty)(BlockDriverState *bs);
+ # @x-blockdev-amend:
+diff --git a/block/crypto.c b/block/crypto.c
+index b9c40e6922..3fbd68832b 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -791,32 +791,21 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
+ }
  
-     /*
-@@ -441,12 +456,6 @@ struct BlockDriver {
-                                       BdrvCheckResult *result,
-                                       BdrvCheckMode fix);
+ static int
+-block_crypto_amend_options_luks(BlockDriverState *bs,
+-                                QemuOpts *opts,
+-                                BlockDriverAmendStatusCB *status_cb,
+-                                void *cb_opaque,
+-                                bool force,
+-                                Error **errp)
++block_crypto_amend_options_generic_luks(BlockDriverState *bs,
++                                        QCryptoBlockAmendOptions *amend_options,
++                                        bool force,
++                                        Error **errp)
+ {
+     BlockCrypto *crypto = bs->opaque;
+-    QDict *cryptoopts = NULL;
+-    QCryptoBlockAmendOptions *amend_options = NULL;
+     int ret;
  
--    int (*bdrv_amend_options)(BlockDriverState *bs, QemuOpts *opts,
--                              BlockDriverAmendStatusCB *status_cb,
--                              void *cb_opaque,
--                              bool force,
--                              Error **errp);
+     assert(crypto);
+     assert(crypto->block);
+-    crypto->updating_keys = true;
+ 
++    /* apply for exclusive read/write permissions to the underlying file*/
++    crypto->updating_keys = true;
+     ret = bdrv_child_refresh_perms(bs, bs->file, errp);
+-    if (ret < 0) {
+-        goto cleanup;
+-    }
 -
-     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
+-    cryptoopts = qemu_opts_to_qdict(opts, NULL);
+-    qdict_put_str(cryptoopts, "format", "luks");
+-    amend_options = block_crypto_amend_opts_init(cryptoopts, errp);
+-    if (!amend_options) {
+-        ret = -EINVAL;
++    if (ret) {
+         goto cleanup;
+     }
  
-     /* TODO Better pass a option string/QDict/QemuOpts to add any rule? */
-diff --git a/block/amend.c b/block/amend.c
-new file mode 100644
-index 0000000000..f4612dcf08
---- /dev/null
-+++ b/block/amend.c
-@@ -0,0 +1,113 @@
-+/*
-+ * Block layer code related to image options amend
-+ *
-+ * Copyright (c) 2018 Kevin Wolf <kwolf@redhat.com>
-+ * Copyright (c) 2020 Red Hat. Inc
-+ *
-+ * Heavily based on create.c
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "block/block_int.h"
-+#include "qemu/job.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/qapi-commands-block-core.h"
-+#include "qapi/qapi-visit-block-core.h"
-+#include "qapi/clone-visitor.h"
-+#include "qapi/error.h"
-+
-+typedef struct BlockdevAmendJob {
-+    Job common;
-+    BlockdevAmendOptions *opts;
-+    BlockDriverState *bs;
-+    bool force;
-+} BlockdevAmendJob;
-+
-+static int coroutine_fn blockdev_amend_run(Job *job, Error **errp)
-+{
-+    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
-+    int ret;
-+
-+    job_progress_set_remaining(&s->common, 1);
-+    ret = s->bs->drv->bdrv_co_amend(s->bs, s->opts, s->force, errp);
-+    job_progress_update(&s->common, 1);
-+    qapi_free_BlockdevAmendOptions(s->opts);
+@@ -828,13 +817,57 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
+                                       force,
+                                       errp);
+ cleanup:
++    /* release exclusive read/write permissions to the underlying file*/
+     crypto->updating_keys = false;
+     bdrv_child_refresh_perms(bs, bs->file, errp);
+-    qapi_free_QCryptoBlockAmendOptions(amend_options);
 +    return ret;
 +}
 +
-+static const JobDriver blockdev_amend_job_driver = {
-+    .instance_size = sizeof(BlockdevAmendJob),
-+    .job_type      = JOB_TYPE_AMEND,
-+    .run           = blockdev_amend_run,
-+};
-+
-+void qmp_x_blockdev_amend(const char *job_id,
-+                          const char *node_name,
-+                          BlockdevAmendOptions *options,
-+                          bool has_force,
-+                          bool force,
-+                          Error **errp)
++static int
++block_crypto_amend_options_luks(BlockDriverState *bs,
++                                QemuOpts *opts,
++                                BlockDriverAmendStatusCB *status_cb,
++                                void *cb_opaque,
++                                bool force,
++                                Error **errp)
 +{
-+    BlockdevAmendJob *s;
-+    const char *fmt = BlockdevDriver_str(options->driver);
-+    BlockDriver *drv = bdrv_find_format(fmt);
-+    BlockDriverState *bs = bdrv_find_node(node_name);
++    BlockCrypto *crypto = bs->opaque;
++    QDict *cryptoopts = NULL;
++    QCryptoBlockAmendOptions *amend_options = NULL;
++    int ret = -EINVAL;
 +
++    assert(crypto);
++    assert(crypto->block);
 +
-+    if (!drv) {
-+        error_setg(errp, "Block driver '%s' not found or not supported", fmt);
-+        return;
++    cryptoopts = qemu_opts_to_qdict(opts, NULL);
++    qdict_put_str(cryptoopts, "format", "luks");
++    amend_options = block_crypto_amend_opts_init(cryptoopts, errp);
+     qobject_unref(cryptoopts);
++    if (!amend_options) {
++        goto cleanup;
 +    }
++    ret = block_crypto_amend_options_generic_luks(bs, amend_options,
++                                                  force, errp);
++cleanup:
++    qapi_free_QCryptoBlockAmendOptions(amend_options);
+     return ret;
+ }
+ 
++static int
++coroutine_fn block_crypto_co_amend_luks(BlockDriverState *bs,
++                                        BlockdevAmendOptions *opts,
++                                        bool force,
++                                        Error **errp)
++{
++    QCryptoBlockAmendOptions amend_opts;
 +
-+    /*
-+     * If the driver is in the schema, we know that it exists. But it may not
-+     * be whitelisted.
-+     */
-+    if (bdrv_uses_whitelist() && !bdrv_is_whitelisted(drv, false)) {
-+        error_setg(errp, "Driver is not whitelisted");
-+        return;
-+    }
-+
-+    if (bs->drv != drv) {
-+        error_setg(errp,
-+                   "x-blockdev-amend doesn't support changing the block driver");
-+        return;
-+    }
-+
-+    /* Error out if the driver doesn't support .bdrv_co_amend */
-+    if (!drv->bdrv_co_amend) {
-+        error_setg(errp, "Driver does not support x-blockdev-amend");
-+        return;
-+    }
-+
-+    /* Create the block job */
-+    s = job_create(job_id, &blockdev_amend_job_driver, NULL,
-+                   bdrv_get_aio_context(bs), JOB_DEFAULT | JOB_MANUAL_DISMISS,
-+                   NULL, NULL, errp);
-+    if (!s) {
-+        return;
-+    }
-+
-+    s->bs = bs,
-+    s->opts = QAPI_CLONE(BlockdevAmendOptions, options),
-+    s->force = has_force ? force : false;
-+    job_start(&s->common);
++    amend_opts = (QCryptoBlockAmendOptions) {
++        .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
++        .u.luks = *qapi_BlockdevAmendOptionsLUKS_base(&opts->u.luks),
++    };
++    return block_crypto_amend_options_generic_luks(bs, &amend_opts,
++                                                   force, errp);
 +}
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index 96028eedce..577e578bc2 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -19,7 +19,7 @@ block-obj-$(CONFIG_WIN32) += file-win32.o win32-aio.o
- block-obj-$(CONFIG_POSIX) += file-posix.o
- block-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
- block-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
--block-obj-y += null.o mirror.o commit.o io.o create.o
-+block-obj-y += null.o mirror.o commit.o io.o create.o amend.o
- block-obj-y += throttle-groups.o
- block-obj-$(CONFIG_LINUX) += nvme.o
+ 
+ static void
+ block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+@@ -910,6 +943,7 @@ static BlockDriver bdrv_crypto_luks = {
+     .bdrv_get_info      = block_crypto_get_info_luks,
+     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
+     .bdrv_amend_options = block_crypto_amend_options_luks,
++    .bdrv_co_amend      = block_crypto_co_amend_luks,
+ 
+     .is_format          = true,
  
 -- 
 2.26.2
