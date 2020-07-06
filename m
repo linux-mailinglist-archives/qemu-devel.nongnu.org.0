@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35ABE2155DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:53:12 +0200 (CEST)
-Received: from localhost ([::1]:35366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A05E215606
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 13:03:11 +0200 (CEST)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOkI-0003k0-PH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35560)
+	id 1jsOty-0007Fk-94
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 07:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jsOjZ-0003KW-Ax
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:52:25 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43147)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsOtE-0006qS-0I
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 07:02:24 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jsOjX-0003PU-80
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:52:25 -0400
-Received: by mail-lj1-x244.google.com with SMTP id f5so28852345ljj.10
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 03:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mfg3UXx+kQ8L82ftMFnvaicyP4lVZZK0W3m5aNci2oc=;
- b=HSNr36AQOJ9HhnMUrN67miV23jPkiQDIs34Hhcwe1CEadx/pnvFvzJYnbFo6PBjjnP
- lMedTMh6Q+S/NCno3laB6fCjqk9TE7/DmUj4S7sNjkBnrd5lnSX2lXaR3OE6RqFcYfO2
- /DY05UCu4zmbVBT5J6OvnYKBxUuvUdYVE5EjD6PPEpyLE353uQllOQySJ5TznBASFLwW
- MOElRm9uod+wb5mavZyOsfLJux5WdrEbTjrMJ488X/57mzCaNsHOWRdYH4Js+rLt9shr
- 0rrlieh4APYu4ha/UAQCSHSNlAGb+rdAolNCeEA4M5oZAMmv7oiymzBJPcIk2UpzXiYn
- OZKA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jsOtB-0004ze-Ft
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 07:02:23 -0400
+Received: by mail-ot1-x342.google.com with SMTP id 95so20692961otw.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 04:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tYfG6sqlNtbGZ093DOP5+S26tmkxyqo9ErRc+U9zh7I=;
+ b=n6htDz3qZOWBBmxlJV4mQ/d+NiosBj5r1gwSjnZBRCX9jFLH9mTvYEOKU2yF1xl3ra
+ 5NjOYhT7cLexOC2UUBE+oVxsPwBDIs3lF3+zkZZO6ufp6LG/fNIh+Rz6kMKB1hkX6U+V
+ Sl455W4PjH/NocfpetVioL+UFzm58Lwv3xtkVZFKUP0aBCKD17cOBnM1Lo0aWV6hyg00
+ CzWImnW/8Sg2Q1nZ+/y0a1XAfOKe+/FGlYR9UkPkc4GRdJgdztlR5xMMQvBfhZeUQwWt
+ NzIApyLLHzDGTU7sxnp+l1pmucIgZbuI2dq9Hh5w8x0T6ZG4lucadF7zAd7omBaq1ZoB
+ T8HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mfg3UXx+kQ8L82ftMFnvaicyP4lVZZK0W3m5aNci2oc=;
- b=PlFa49VFSHUxlQEfwpWdTSkyZ3WUiIeWM4JwUfGD3r4p28PuC0ZLkQPOBOIbmL9xC8
- veYNDMzr/mKmj8TECbEmrzuAujDPCbHOOIL9pSKCQQkVcGPKqv3NepyinMPtM6TJhoGl
- NBbmgfB3ubsSVm+7rD+FVS/aXgRYm1EdKiumyzUbsfuZlHHPQoCyssYMr+XYl0E/mp7/
- MryHwMcilD8JHLddhu5ktrM3xGNhX4MtzdZ4aQr/U7eRTft7SsDaNnbqlir+GtlVkS/J
- NqYwW+ysy993yxTDZGObb9bt3UEmRDPiyiOl6YCEp9lham7l/MqNKPnFUJfQxRS9vCEI
- T+Cg==
-X-Gm-Message-State: AOAM530r3lDpTM+PXJTK/YfuPoI1ZY+Up4O6E1h7hbnuXqIcEzpawhTy
- 4kV37AVTBXVxHLMlCZEUBtqjiU6xKXOJkg==
-X-Google-Smtp-Source: ABdhPJzCTXmBowDXATh3NsXUVzpmIHDTEg1kvh6OgNEz/p64z0ZLu8V0vOJcypgU7hTQjO83h73J4A==
-X-Received: by 2002:a2e:80da:: with SMTP id r26mr13930572ljg.179.1594032740559; 
- Mon, 06 Jul 2020 03:52:20 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id h22sm7791940ljg.1.2020.07.06.03.52.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 03:52:19 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-pci: Changed vdev to proxy for VirtIO PCI BAR
- callbacks.
-Date: Mon,  6 Jul 2020 14:21:23 +0300
-Message-Id: <20200706112123.971087-1-andrew@daynix.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tYfG6sqlNtbGZ093DOP5+S26tmkxyqo9ErRc+U9zh7I=;
+ b=L/D+xSKkhH1g+6XAkIANN/SBZxJqUkQmWZpkE6T653FLDKCI4wnhxIj6Z1cfl6CVpz
+ xtLyeRifXffMXIClULQoPgbkSi+ZglPPsaFBC4jEv2pTu+C5nHFK3w1KEUYxaUMRCHYZ
+ UwNQ/hv5mS/ACAA10gl9U01cMNXVuwg/ivXifbdAUBLJIYBZbAenhmbZ58xsdPxfRh1L
+ rUgXCs4eh1SxHuHTvt/B6j+onIc9Tk51XO3su7CzCiByVqjEhHnBVqkiC8gYrweVyezk
+ pEHp/bOjz2A/EWHuc8XQDWSO1W4D8zpn5rH87Qk+KlGVBZJ195901bWFWFAA+yC2n/Mo
+ V+FA==
+X-Gm-Message-State: AOAM533iWy26u0/vv8B9OsByWbvliP+uMcjujJ7NZH+qaVLTirdPoWQI
+ MXG/+WkYreaGA+399egDXdWs56MrS9W1RCVkujLMTQ==
+X-Google-Smtp-Source: ABdhPJxgeIBLNJ/Gy6tEyRECGyfejDT/9UA1VuyWeQ7MU4hdwXKhOnnTWk3sIYyjcxPbx/rusNQ40blxdWsvJfAJXGg=
+X-Received: by 2002:a05:6830:10ce:: with SMTP id
+ z14mr33428376oto.135.1594033339896; 
+ Mon, 06 Jul 2020 04:02:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::244;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x244.google.com
+References: <20200520172800.8499-1-richard.henderson@linaro.org>
+ <20200520172800.8499-2-richard.henderson@linaro.org>
+In-Reply-To: <20200520172800.8499-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Jul 2020 12:02:08 +0100
+Message-ID: <CAFEAcA_fjbyGHyOGDZZrMnEfZuw-iLkDR76Df875a4oaJMJUeg@mail.gmail.com>
+Subject: Re: [PATCH v9 1/5] linux-user/aarch64: Reset btype for signals
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,114 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+On Wed, 20 May 2020 at 18:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The kernel sets btype for the signal handler as if for a call.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/aarch64/signal.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+> index cd521ee42d..2c596a7088 100644
+> --- a/linux-user/aarch64/signal.c
+> +++ b/linux-user/aarch64/signal.c
+> @@ -506,10 +506,16 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+>              + offsetof(struct target_rt_frame_record, tramp);
+>      }
+>      env->xregs[0] = usig;
+> -    env->xregs[31] = frame_addr;
+>      env->xregs[29] = frame_addr + fr_ofs;
+> -    env->pc = ka->_sa_handler;
+>      env->xregs[30] = return_addr;
+> +    env->xregs[31] = frame_addr;
+> +    env->pc = ka->_sa_handler;
+> +
+> +    /* Invoke the signal handler as if by indirect call.  */
+> +    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
+> +        env->btype = 2;
+> +    }
+> +
 
-There is an issue when callback may be called with invalid vdev.
-It happens on unplug when vdev already deleted and VirtIOPciProxy is not.
-So now, callbacks accept proxy device, and vdev retrieved from it.
-Technically memio callbacks should be removed during the flatview update,
-but memoryregions remain til PCI device(and it's address space) completely deleted.
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1716352
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 7bc8c1c056..904010f1cc 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1321,11 +1321,12 @@ static uint64_t virtio_pci_notify_read(void *opaque, hwaddr addr,
- static void virtio_pci_notify_write(void *opaque, hwaddr addr,
-                                     uint64_t val, unsigned size)
- {
--    VirtIODevice *vdev = opaque;
--    VirtIOPCIProxy *proxy = VIRTIO_PCI(DEVICE(vdev)->parent_bus->parent);
-+    VirtIOPCIProxy *proxy = opaque;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-     unsigned queue = addr / virtio_pci_queue_mem_mult(proxy);
- 
--    if (queue < VIRTIO_QUEUE_MAX) {
-+    if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
-         virtio_queue_notify(vdev, queue);
-     }
- }
-@@ -1333,10 +1334,12 @@ static void virtio_pci_notify_write(void *opaque, hwaddr addr,
- static void virtio_pci_notify_write_pio(void *opaque, hwaddr addr,
-                                         uint64_t val, unsigned size)
- {
--    VirtIODevice *vdev = opaque;
-+    VirtIOPCIProxy *proxy = opaque;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-     unsigned queue = val;
- 
--    if (queue < VIRTIO_QUEUE_MAX) {
-+    if (vdev != NULL && queue < VIRTIO_QUEUE_MAX) {
-         virtio_queue_notify(vdev, queue);
-     }
- }
-@@ -1360,9 +1363,14 @@ static void virtio_pci_isr_write(void *opaque, hwaddr addr,
- static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
-                                        unsigned size)
- {
--    VirtIODevice *vdev = opaque;
-+    VirtIOPCIProxy *proxy = opaque;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     uint64_t val = 0;
- 
-+    if (vdev == NULL) {
-+        return val;
-+    }
-+
-     switch (size) {
-     case 1:
-         val = virtio_config_modern_readb(vdev, addr);
-@@ -1380,7 +1388,13 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
- static void virtio_pci_device_write(void *opaque, hwaddr addr,
-                                     uint64_t val, unsigned size)
- {
--    VirtIODevice *vdev = opaque;
-+    VirtIOPCIProxy *proxy = opaque;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-+    if (vdev == NULL) {
-+        return;
-+    }
-+
-     switch (size) {
-     case 1:
-         virtio_config_modern_writeb(vdev, addr, val);
-@@ -1457,19 +1471,19 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
- 
-     memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
-                           &device_ops,
--                          virtio_bus_get_device(&proxy->bus),
-+                          proxy,
-                           "virtio-pci-device",
-                           proxy->device.size);
- 
-     memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
-                           &notify_ops,
--                          virtio_bus_get_device(&proxy->bus),
-+                          proxy,
-                           "virtio-pci-notify",
-                           proxy->notify.size);
- 
-     memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
-                           &notify_pio_ops,
--                          virtio_bus_get_device(&proxy->bus),
-+                          proxy,
-                           "virtio-pci-notify-pio",
-                           proxy->notify_pio.size);
- }
--- 
-2.27.0
-
+thanks
+-- PMM
 
