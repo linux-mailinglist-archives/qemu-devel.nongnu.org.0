@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207F3215D69
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:45:27 +0200 (CEST)
-Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBFA215D81
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:56:19 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsVBF-0003rs-Vr
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
+	id 1jsVLn-0007tJ-1n
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsVAP-0003Pt-1p
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:44:33 -0400
-Resent-Date: Mon, 06 Jul 2020 13:44:33 -0400
-Resent-Message-Id: <E1jsVAP-0003Pt-1p@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jsVAM-00063W-KP
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 13:44:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1594057464; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bZJO/R3hr8pH5XpXjWUz2o+cHyM0+/+FVpWyYt1IQvuciQTHTxm1uTVjiLCBGjmpZSaAdHLsoMjLJ7VIvQYDwjH9iC9AeC4MIvVjwZGxkDDTrT/dXf6k1NwCmQ7e5Jy59zds2IJhvyaNW8ZbXMomOAIC99e4QWu0ost3dqUwC50=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1594057464;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=37hWl3l5jvASc7bAVb1yHg1Egnmrj3/UuEhNTf/hpoo=; 
- b=j9+wIyTH0wV+Hn1aGHEfYPGszCkP5ziaT4C6Gk/ovd1S9o7kfrm5SrJmq/SXl1sEuEpJ2PFRIXTTbGGjfXertVZxdO4w9lZcxVTB1vkeWbBOMTKMn0MdlCp68Tt+BznxxlW45Ta3gkAX02R6nY19kZGSuYzh51nq7NemT4hkVAA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1594057462713733.2240573743182;
- Mon, 6 Jul 2020 10:44:22 -0700 (PDT)
-Message-ID: <159405746133.7847.6146784276688587643@d1fd068a5071>
-Subject: Re: [PATCH v3 0/2] trace: Add a trace backend for the recorder library
-In-Reply-To: <20200706170255.1165105-1-dinechin@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsVKh-000746-J4; Mon, 06 Jul 2020 13:55:11 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:35860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsVKf-00089r-PW; Mon, 06 Jul 2020 13:55:11 -0400
+Received: by mail-il1-x144.google.com with SMTP id x9so33709723ila.3;
+ Mon, 06 Jul 2020 10:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZmQuG2AsZpbcelM7uL4uy958NUT2KgddZYhFWXtMNSA=;
+ b=sw3EFcVvNcwfVu/7C/5MKee4SfHxGIkTeN62Bpx/IWWA6WEjBoEsPgTFuyYd6ZY1Gr
+ Qwm/uOcoKwEe7yPYLDyX6FKsDnnjIKYbDfhXcIVJoaIWO51pxpebtQvXo1r77bVQsIV2
+ snUKierNhFsvQkA+r4nhTOEPGaPvgQucQE7v1hXTNwuO6Bflgp9C4akbtRkZFD2Bn56i
+ Va703Rt1blJoaKzcsdzSBGIjNvCPgsv8s+J8CuUiWFaVS09XY83K4ePMKOa2uI/x5fBF
+ ilYijGKucyyL6AqRX03DPpw8PttqRUK+wW2UNv+aMLPfL/FGkxT/vFWlOeK6Jh5ql4cc
+ xxFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZmQuG2AsZpbcelM7uL4uy958NUT2KgddZYhFWXtMNSA=;
+ b=cRzknMfI6zfbIFQu5Gu36u+SH/CL5gMm/R1GWeHvu7eHOuRe35GfQgziw6ftb5sEWX
+ nLwFTfN3qVpyxzc3gkCC5tkJ+V1/7mOZIUZUHqwUDxKoNZd6gUfEVjWsWr+4iJdnU3VA
+ cfKLWf67IwuryWbKn12gvhHGHAdvxkAYKmHVhHzzeri+p9l/imIQvtWyYp1QCVB3EIPr
+ 5jER+Ys5aa0wn9eBN0fAloOEHLmS0nskzkntPgp41FXKfHBSUdvtSnDRx4qmDVxL+NJ9
+ 3GYvQ1D/icNFEhoJp5AlO4OSNbwr3VaqjL4JdYxPr79XJ0zenuQwRY/cZEo5VTKhuMGz
+ +SQQ==
+X-Gm-Message-State: AOAM532g47bRd7YzbbHfq+QVMSVva1a2h4C6jKaWBHaNTqoD9JkS2f/C
+ 5kWTn32UsvPAWMyAktqQmZD9ghPzXM8kM948/js=
+X-Google-Smtp-Source: ABdhPJzISbzqletUc82Eswi6ouHI51/TKv7NeZldaWm+9iDTc1RF7eyNcAo0E5IEVoJI+14cfVcFe8k3uljOlhawiqg=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr33477001ilz.227.1594058108088; 
+ Mon, 06 Jul 2020 10:55:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dinechin@redhat.com
-Date: Mon, 6 Jul 2020 10:44:22 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 12:33:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20200704144943.18292-1-f4bug@amsat.org>
+ <20200704144943.18292-16-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-16-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jul 2020 10:45:21 -0700
+Message-ID: <CAKmqyKMk1b28i9xh_w1tp2hUcbxWNPUxWthy9VbRbnMtkrVpcQ@mail.gmail.com>
+Subject: Re: [PATCH 15/26] hw/usb: Add new 'usb-quirks.h' local header
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,51 +80,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, mjt@tls.msk.ru, laurent@vivier.eu, armbru@redhat.com,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDcwNjE3MDI1NS4xMTY1
-MTA1LTEtZGluZWNoaW5AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYzIDAvMl0gdHJhY2U6IEFkZCBhIHRyYWNl
-IGJhY2tlbmQgZm9yIHRoZSByZWNvcmRlciBsaWJyYXJ5ClR5cGU6IHNlcmllcwpNZXNzYWdlLWlk
-OiAyMDIwMDcwNjE3MDI1NS4xMTY1MTA1LTEtZGluZWNoaW5AcmVkaGF0LmNvbQoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251
-bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFs
-Z29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNl
-Li4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0
-ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyNmVm
-MzNiIHRyYWNlOiBFeGFtcGxlIG9mIG5vbi10cmFjaW5nIHJlY29yZGVyIHVzZQo2NGVlMjBiIHRy
-YWNlOiBBZGQgc3VwcG9ydCBmb3IgcmVjb3JkZXIgYmFjay1lbmQKCj09PSBPVVRQVVQgQkVHSU4g
-PT09CjEvMiBDaGVja2luZyBjb21taXQgNjRlZTIwYjMwNGFiICh0cmFjZTogQWRkIHN1cHBvcnQg
-Zm9yIHJlY29yZGVyIGJhY2stZW5kKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBm
-aWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNDg6IApuZXcgZmlsZSBt
-b2RlIDEwMDY0NAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
-IHNlcGFyYXRlIGxpbmUKIzI2NzogRklMRTogdHJhY2UvcmVjb3JkZXIuYzoyMDoKKyAgICAvKiBB
-bGxvdyBhIGR1bXAgaW4gY2FzZSB3ZSByZWNlaXZlIHNvbWUgdW5oYW5kbGVkIHNpZ25hbAoKV0FS
-TklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjY4OiBGSUxF
-OiB0cmFjZS9yZWNvcmRlci5jOjIxOgorICAgIC8qIEFsbG93IGEgZHVtcCBpbiBjYXNlIHdlIHJl
-Y2VpdmUgc29tZSB1bmhhbmRsZWQgc2lnbmFsCisgICAgICAgRm9yIGV4YW1wbGUsIHNlbmQgVVNS
-MiB0byBhIGh1bmcgcHJvY2VzcyB0byBnZXQgYSBkdW1wICovCgpXQVJOSU5HOiBCbG9jayBjb21t
-ZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzI2ODogRklMRTogdHJh
-Y2UvcmVjb3JkZXIuYzoyMToKKyAgICAgICBGb3IgZXhhbXBsZSwgc2VuZCBVU1IyIHRvIGEgaHVu
-ZyBwcm9jZXNzIHRvIGdldCBhIGR1bXAgKi8KCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21t
-ZW50cwojMzEwOiBGSUxFOiB0cmFjZS9yZWNvcmRlci5oOjMyOgorI2VuZGlmIC8vIFRSQUNFX1JF
-Q09SREVSX0gKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMzMxOiBGSUxFOiB1
-dGlsL21vZHVsZS5jOjE1ODoKKyAgICAgICAgLy8gTmV3IHJlY29yZGVycyBtYXkgaGF2ZSBiZWVu
-IHB1bGxlZCBpbiwgYWN0aXZhdGUgdGhlbSBpZiBuZWNlc3NhcnkKCnRvdGFsOiAyIGVycm9ycywg
-NCB3YXJuaW5ncywgMjQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxl
-bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
-dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
-SU5UQUlORVJTLgoKMi8yIENoZWNraW5nIGNvbW1pdCAyNmVmMzNiM2Y5ZTEgKHRyYWNlOiBFeGFt
-cGxlIG9mIG5vbi10cmFjaW5nIHJlY29yZGVyIHVzZSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0
-IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
-YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA3MDYxNzAyNTUuMTE2NTEwNS0xLWRpbmVj
-aGluQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
-bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
-L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Sat, Jul 4, 2020 at 7:56 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> Only redirect.c consumes the quirks API. Reduce the big "hw/usb.h"
+> header by moving the quirks related declaration into their own
+> header. As nothing out of hw/usb/ requires it, keep it local.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  hw/usb/usb-quirks.h | 27 +++++++++++++++++++++++++++
+>  include/hw/usb.h    | 11 -----------
+>  hw/usb/quirks.c     |  1 +
+>  hw/usb/redirect.c   |  1 +
+>  4 files changed, 29 insertions(+), 11 deletions(-)
+>  create mode 100644 hw/usb/usb-quirks.h
+>
+> diff --git a/hw/usb/usb-quirks.h b/hw/usb/usb-quirks.h
+> new file mode 100644
+> index 0000000000..542889efc4
+> --- /dev/null
+> +++ b/hw/usb/usb-quirks.h
+> @@ -0,0 +1,27 @@
+> +/*
+> + * USB quirk handling
+> + *
+> + * Copyright (c) 2012 Red Hat, Inc.
+> + *
+> + * Red Hat Authors:
+> + * Hans de Goede <hdegoede@redhat.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + */
+> +
+> +#ifndef HW_USB_QUIRKS_H
+> +#define HW_USB_QUIRKS_H
+> +
+> +/* In bulk endpoints are streaming data sources (iow behave like isoc ep=
+s) */
+> +#define USB_QUIRK_BUFFER_BULK_IN        0x01
+> +/* Bulk pkts in FTDI format, need special handling when combining packet=
+s */
+> +#define USB_QUIRK_IS_FTDI               0x02
+> +
+> +int usb_get_quirks(uint16_t vendor_id, uint16_t product_id,
+> +                   uint8_t interface_class, uint8_t interface_subclass,
+> +                   uint8_t interface_protocol);
+> +
+> +#endif
+> diff --git a/include/hw/usb.h b/include/hw/usb.h
+> index 18f1349bdc..8c3bc920ff 100644
+> --- a/include/hw/usb.h
+> +++ b/include/hw/usb.h
+> @@ -549,15 +549,4 @@ int usb_device_alloc_streams(USBDevice *dev, USBEndp=
+oint **eps, int nr_eps,
+>                               int streams);
+>  void usb_device_free_streams(USBDevice *dev, USBEndpoint **eps, int nr_e=
+ps);
+>
+> -/* quirks.c */
+> -
+> -/* In bulk endpoints are streaming data sources (iow behave like isoc ep=
+s) */
+> -#define USB_QUIRK_BUFFER_BULK_IN       0x01
+> -/* Bulk pkts in FTDI format, need special handling when combining packet=
+s */
+> -#define USB_QUIRK_IS_FTDI              0x02
+> -
+> -int usb_get_quirks(uint16_t vendor_id, uint16_t product_id,
+> -                   uint8_t interface_class, uint8_t interface_subclass,
+> -                   uint8_t interface_protocol);
+> -
+>  #endif
+> diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
+> index 655b36f2d5..b0d0f87e35 100644
+> --- a/hw/usb/quirks.c
+> +++ b/hw/usb/quirks.c
+> @@ -15,6 +15,7 @@
+>  #include "qemu/osdep.h"
+>  #include "quirks.inc.c"
+>  #include "hw/usb.h"
+> +#include "usb-quirks.h"
+>
+>  static bool usb_id_match(const struct usb_device_id *ids,
+>                           uint16_t vendor_id, uint16_t product_id,
+> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+> index 417a60a2e6..4c5925a039 100644
+> --- a/hw/usb/redirect.c
+> +++ b/hw/usb/redirect.c
+> @@ -45,6 +45,7 @@
+>  #include "hw/usb.h"
+>  #include "migration/qemu-file-types.h"
+>  #include "migration/vmstate.h"
+> +#include "usb-quirks.h"
+>
+>  /* ERROR is defined below. Remove any previous definition. */
+>  #undef ERROR
+> --
+> 2.21.3
+>
+>
 
