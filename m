@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C685215C8B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:03:48 +0200 (CEST)
-Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56515215C93
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:05:15 +0200 (CEST)
+Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUWx-0004EV-2m
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
+	id 1jsUYM-0007gj-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCO-0003jO-CU
+ id 1jsUCO-0003kV-SB
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32098
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48787
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCI-00037w-Gp
+ id 1jsUCK-00038O-0F
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053745;
+ s=mimecast20190719; t=1594053746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7uKH6bDprWMUIb2yAp/kP2fo8MVORpp/N/W8X49E8GM=;
- b=YsnrHPjYrptkS4TdnGP04etasKrLXl4nMjhv53y4AkAa0OjL9BjjOHRy8uFomRXUUh3fkl
- paXhaYoLWeiLpg2vTPnHic/MlRGdsB1pLMekhKQl29QfRsXUPy3ZX4MOHEPLY0tGmZJFNi
- 5gD7wrCju3g5midLs7UUk72hc7Ps9Jk=
+ bh=waFFuaiZ7wPfC/nzV327aHNRxP/Wwk9Pt0g/LfKKdgo=;
+ b=ErlRAyw9zOVzl4fSwVkZwCemCOUX+28R8oCVieDGxeE3xP5FOphgemAKPIQ7Z8ExXyWaJO
+ gTWT22uX7wh9snsefF2N6aOhkPYV/MsICaRuoyF3gTyFGxEWN4l2wMjSmYsL6tFlGdq9fD
+ 31jJfxc/K0H078mIaU8XilrarES2yvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-RnFSLhX2NgmRv1AL3LStVw-1; Mon, 06 Jul 2020 12:42:22 -0400
-X-MC-Unique: RnFSLhX2NgmRv1AL3LStVw-1
+ us-mta-217-XHbT8Z5kMrCm5VfBGDCINA-1; Mon, 06 Jul 2020 12:42:22 -0400
+X-MC-Unique: XHbT8Z5kMrCm5VfBGDCINA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81AB8107ACCA
- for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F40F980183C;
+ Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4592A71667
- for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A45A671667;
+ Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/53] Makefile: simplify MINIKCONF rules
-Date: Mon,  6 Jul 2020 12:41:30 -0400
-Message-Id: <20200706164155.24696-29-pbonzini@redhat.com>
+Subject: [PULL 29/53] target/i386: remove gen_io_end
+Date: Mon,  6 Jul 2020 12:41:31 -0400
+Message-Id: <20200706164155.24696-30-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -69,7 +69,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no reason to write MINIKCONF_DEPS manually, since minikconf.py
-emits a dependency file, and also no reason to list multiple Kconfig
-files on the command line since they can be included from a master file
-in the top-level source directory.
+Force the end of a translation block after an I/O instruction in
+icount mode.  For consistency, all CF_USE_ICOUNT code is kept in
+disas_insn instead of having it in gen_ins and gen_outs.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Kconfig  |  4 ++++
- Makefile | 10 ++--------
- 2 files changed, 6 insertions(+), 8 deletions(-)
- create mode 100644 Kconfig
+ target/i386/translate.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/Kconfig b/Kconfig
-new file mode 100644
-index 0000000000..bf694c42af
---- /dev/null
-+++ b/Kconfig
-@@ -0,0 +1,4 @@
-+source Kconfig.host
-+source backends/Kconfig
-+source accel/Kconfig
-+source hw/Kconfig
-diff --git a/Makefile b/Makefile
-index d4a971283c..32345c610e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -404,7 +404,7 @@ endif
- # This has to be kept in sync with Kconfig.host.
- MINIKCONF_ARGS = \
-     $(CONFIG_MINIKCONF_MODE) \
--    $@ $*/config-devices.mak.d $< $(MINIKCONF_INPUTS) \
-+    $@ $*/config-devices.mak.d $< $(SRC_PATH)/Kconfig \
-     CONFIG_TCG=$(CONFIG_TCG) \
-     CONFIG_KVM=$(CONFIG_KVM) \
-     CONFIG_SPICE=$(CONFIG_SPICE) \
-@@ -419,15 +419,9 @@ MINIKCONF_ARGS = \
-     CONFIG_LINUX=$(CONFIG_LINUX) \
-     CONFIG_PVRDMA=$(CONFIG_PVRDMA)
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index b3fea54411..5ef72ff401 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -1128,9 +1128,6 @@ static void gen_bpt_io(DisasContext *s, TCGv_i32 t_port, int ot)
  
--MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host \
--                   $(SRC_PATH)/backends/Kconfig \
--                   $(SRC_PATH)/accel/Kconfig \
--                   $(SRC_PATH)/hw/Kconfig
--MINIKCONF_DEPS = $(MINIKCONF_INPUTS) \
--                 $(wildcard $(SRC_PATH)/hw/*/Kconfig)
- MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
+ static inline void gen_ins(DisasContext *s, MemOp ot)
+ {
+-    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-        gen_io_start();
+-    }
+     gen_string_movl_A0_EDI(s);
+     /* Note: we must do this dummy write first to be restartable in
+        case of page fault. */
+@@ -1143,16 +1140,10 @@ static inline void gen_ins(DisasContext *s, MemOp ot)
+     gen_op_movl_T0_Dshift(s, ot);
+     gen_op_add_reg_T0(s, s->aflag, R_EDI);
+     gen_bpt_io(s, s->tmp2_i32, ot);
+-    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-        gen_io_end();
+-    }
+ }
  
--$(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
-+$(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(SRC_PATH)/Kconfig $(BUILD_DIR)/config-host.mak
- 	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) \
- 		> $@.tmp, "GEN", "$@.tmp")
- 	$(call quiet-command, if test -f $@; then \
+ static inline void gen_outs(DisasContext *s, MemOp ot)
+ {
+-    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-        gen_io_start();
+-    }
+     gen_string_movl_A0_ESI(s);
+     gen_op_ld_v(s, ot, s->T0, s->A0);
+ 
+@@ -1163,9 +1154,6 @@ static inline void gen_outs(DisasContext *s, MemOp ot)
+     gen_op_movl_T0_Dshift(s, ot);
+     gen_op_add_reg_T0(s, s->aflag, R_ESI);
+     gen_bpt_io(s, s->tmp2_i32, ot);
+-    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-        gen_io_end();
+-    }
+ }
+ 
+ /* same method as Valgrind : we generate jumps to current or next
+@@ -6400,8 +6388,12 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+         gen_check_io(s, ot, pc_start - s->cs_base, 
+                      SVM_IOIO_TYPE_MASK | svm_is_rep(prefixes) | 4);
++        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
+         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
+             gen_repz_ins(s, ot, pc_start - s->cs_base, s->pc - s->cs_base);
++            /* jump generated by gen_repz_ins */
+         } else {
+             gen_ins(s, ot);
+             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -6415,8 +6407,12 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+         gen_check_io(s, ot, pc_start - s->cs_base,
+                      svm_is_rep(prefixes) | 4);
++        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
+         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
+             gen_repz_outs(s, ot, pc_start - s->cs_base, s->pc - s->cs_base);
++            /* jump generated by gen_repz_outs */
+         } else {
+             gen_outs(s, ot);
+             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -8039,7 +8035,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                     gen_helper_read_crN(s->T0, cpu_env, tcg_const_i32(reg));
+                     gen_op_mov_reg_v(s, ot, rm, s->T0);
+                     if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+-                        gen_io_end();
++                        gen_jmp(s, s->pc - s->cs_base);
+                     }
+                 }
+                 break;
 -- 
 2.26.2
 
