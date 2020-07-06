@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4A8215CDB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:18:19 +0200 (CEST)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57982215CA1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:06:58 +0200 (CEST)
+Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUl0-00032I-4D
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:18:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59030)
+	id 1jsUa1-0002vB-9R
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUIz-0000wH-El; Mon, 06 Jul 2020 12:49:21 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:40080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUIx-0004Pa-5U; Mon, 06 Jul 2020 12:49:21 -0400
-Received: by mail-il1-x141.google.com with SMTP id e18so22772008ilr.7;
- Mon, 06 Jul 2020 09:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Nbx9IfByicVhiGofOcBwvynyHEZt9D8sbVE/rksuBKQ=;
- b=VlAqpNrKxCPkyItSx5oheqbtPIm7Un993nTRk23s0wL2NGLawIMQzVHROozLKBVDd5
- LHl0zYjP+OtF6o5KCM2TWF3D0trQbqJllGxBp/wF+wAPypXHEobmGRqxoL3/0xh7rWkx
- j8jaHHPy4a3YnQNaORJvKpS9ppo1SeXplNNrhFolASokM8S9gInT9SKRXoF2QgD1Bqwf
- G86D9t4nLxd8UmlSyxQKfE3ljgAnll5zJQsGFXoPMQCHU4wy1XSfk8jrIjyh0LqkA3be
- yuS9Ls/ayZyVBKoKQ/zfRkyO0KCCrzz2lnyozUyBx9gJU0kF+xCHjyT8aIU9ckdbqsrY
- /WrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nbx9IfByicVhiGofOcBwvynyHEZt9D8sbVE/rksuBKQ=;
- b=NDdfFxXHNxI4w2ZJkSE2AvbHuJmSicrfxbPndy1TT0nDUzDl7KtTG4bMoPYOUDXq1y
- 3K/bZEMQaPpH6I/jNlNAgmMMnKdSDtWZhpYYGRxdcskfd3C7SoSXq8HNnCl6mKE0EUTq
- pR4YXpVYF0bR7koZyvrU+UqDtRhm1vW90HhAzcmmV3FVX32laqtiwf/hl2hqjxnZUGbz
- Koue6oMwUZUQyTyT/ZIOcFdEJQ1AxLhcyCKIatdYFag6YYJmQnYqXJRZaZs/COYq5ltT
- Cx1FIy41KQSIkoqucMutCdzRnFIMbdeXX+SX2UIh/N9WWKFSEjM9CLJFWQ7sek/D+er9
- lvBA==
-X-Gm-Message-State: AOAM530tQQsuCBPPU5sFSCCwKllEtvVu4SOncZVaIf1DbOiYt5RuN6fR
- Wqcp75h63k5aDxdGeGoUxk+cP3NkwuIw1ZGAmm4=
-X-Google-Smtp-Source: ABdhPJypGlcxLt+/3A86jvbCmBdwPrEotQsvQy+ykkvFqxTLUIHFUaSlyTkUU3qqKxSjMlyvMcc7jR24Tfa5V1UmX+s=
-X-Received: by 2002:a92:5f12:: with SMTP id t18mr31642216ilb.267.1594054157141; 
- Mon, 06 Jul 2020 09:49:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jsUCP-0003kx-6d
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50443
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jsUCJ-00038J-V5
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594053746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N2363Qz78RAefbxXlGgGXjtJ/e1aGGa8CB1sLvZRrfM=;
+ b=amYHw5BFlUvvWZV3A4PX+SSiySgvRgQaH85D385QWgO31slL3d/1Crpjef7O8TF82PDvrC
+ JcQLcE98ykpJOnnziThgsBR5UC9+9YVWvg3Rqkc/Saxdxb81imSrMa00tQYqDUinkrpBzl
+ HJ+OIfkYvvRbLzywGbDPkWgie/8Z628=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-xy3FHCqNMxqpg4hW5-p4lQ-1; Mon, 06 Jul 2020 12:42:18 -0400
+X-MC-Unique: xy3FHCqNMxqpg4hW5-p4lQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD32110524FF;
+ Mon,  6 Jul 2020 16:42:17 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3810571667;
+ Mon,  6 Jul 2020 16:42:17 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 26/53] accel/Kconfig: Add the TCG selector
+Date: Mon,  6 Jul 2020 12:41:28 -0400
+Message-Id: <20200706164155.24696-27-pbonzini@redhat.com>
+In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
+References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20200705213350.24725-1-f4bug@amsat.org>
- <20200705213350.24725-3-f4bug@amsat.org>
-In-Reply-To: <20200705213350.24725-3-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:39:25 -0700
-Message-ID: <CAKmqyKO_1HhM4WVejpEBcqNW9W6Ept9Vks0E75uF2CJAxHH0HQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/sd/pxa2xx_mmci: Trivial simplification
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,57 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 5, 2020 at 2:35 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> Avoid declaring PXA2xxMMCIState local variable, return it directly.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Expose the CONFIG_TCG selector to let minikconf.py uses it.
 
-Alistair
+When building with --disable-tcg build, this helps to deselect
+devices that are TCG-dependent.
 
-> ---
->  hw/sd/pxa2xx_mmci.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-> index 9482b9212d..2996a2ef17 100644
-> --- a/hw/sd/pxa2xx_mmci.c
-> +++ b/hw/sd/pxa2xx_mmci.c
-> @@ -480,10 +480,8 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysm=
-em,
->  {
->      DeviceState *dev;
->      SysBusDevice *sbd;
-> -    PXA2xxMMCIState *s;
->
->      dev =3D qdev_new(TYPE_PXA2XX_MMCI);
-> -    s =3D PXA2XX_MMCI(dev);
->      sbd =3D SYS_BUS_DEVICE(dev);
->      sysbus_mmio_map(sbd, 0, base);
->      sysbus_connect_irq(sbd, 0, irq);
-> @@ -491,7 +489,7 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysme=
-m,
->      qdev_connect_gpio_out_named(dev, "tx-dma", 0, tx_dma);
->      sysbus_realize_and_unref(sbd, &error_fatal);
->
-> -    return s;
-> +    return PXA2XX_MMCI(dev);
->  }
->
->  static void pxa2xx_mmci_set_inserted(DeviceState *dev, bool inserted)
-> --
-> 2.21.3
->
->
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile      | 1 +
+ accel/Kconfig | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index ae025d41ea..d4a971283c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -405,6 +405,7 @@ endif
+ MINIKCONF_ARGS = \
+     $(CONFIG_MINIKCONF_MODE) \
+     $@ $*/config-devices.mak.d $< $(MINIKCONF_INPUTS) \
++    CONFIG_TCG=$(CONFIG_TCG) \
+     CONFIG_KVM=$(CONFIG_KVM) \
+     CONFIG_SPICE=$(CONFIG_SPICE) \
+     CONFIG_IVSHMEM=$(CONFIG_IVSHMEM) \
+diff --git a/accel/Kconfig b/accel/Kconfig
+index c21802bb49..2ad94a3839 100644
+--- a/accel/Kconfig
++++ b/accel/Kconfig
+@@ -1,3 +1,6 @@
++config TCG
++    bool
++
+ config KVM
+     bool
+ 
+-- 
+2.26.2
+
+
 
