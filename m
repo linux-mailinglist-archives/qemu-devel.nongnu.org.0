@@ -2,75 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719EF2155A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:34:28 +0200 (CEST)
-Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2944C2155E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:56:03 +0200 (CEST)
+Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOSB-0005fi-HR
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60124)
+	id 1jsOn4-0005K4-8C
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jsOQK-0004EF-18
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:32:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22266
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jsOQI-0000EY-0L
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:32:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594031548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tck+FYb3MzmUZGZImWPXD/wpFI9mFcNKufwgm2E/s88=;
- b=BZEfINC0NAQ+J+z8LggmmMxnx87GjushtsUo5Fj0yNoR5WptW3283+fsMXPSNpUuyQdFay
- 2qQi7l3aG6f82pR6ijiKVvMLG1+XiuiWREOOAvC+0eyekfonCq8WBKzYez/Ebtz5Cyov/P
- IQVvVbr2Jil6V56YE0mLLHsBwisP+KU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-F-tit_QYNtyNGSupqdATNQ-1; Mon, 06 Jul 2020 06:32:26 -0400
-X-MC-Unique: F-tit_QYNtyNGSupqdATNQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411318015CB;
- Mon,  6 Jul 2020 10:32:25 +0000 (UTC)
-Received: from localhost (ovpn-114-217.ams2.redhat.com [10.36.114.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB9321A912;
- Mon,  6 Jul 2020 10:32:24 +0000 (UTC)
-Date: Mon, 6 Jul 2020 11:32:23 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 05/16] block/nvme: Improve error message when IO queue
- creation failed
-Message-ID: <20200706103223.GA342708@stefanha-x1.localdomain>
-References: <20200704213051.19749-1-philmd@redhat.com>
- <20200704213051.19749-6-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1jsOmF-0004kt-9P
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:55:11 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:29060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1jsOmC-0003cv-8P
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:55:11 -0400
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 066Asgow023532; Mon, 6 Jul 2020 03:55:02 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=aYCtOPg50lt6i64bB6BvmAjHPr4FDQkGCr4bcyeNEWA=;
+ b=RMENLqAGlWYKOx1VCjD38kqm+BssoUROtJK0E6v2dMHP7F9uZ88t815/sju8sIySxXbv
+ 9h4zxRf2oJ1NjQs5Jh8Lwt/9beAOLE7Q9XPkz4C1Nyykc+ncjhj7jQO2ghoAZMqDHvsC
+ FU5W6RzazsFwvWBJ5vA3yD4aLzlvqKjcUAnBWL56UaB2ipkSm9x+Vjmi7op61k1/9RWv
+ 4aN/B01kn8t/1i2bvwGkjV9FoWAgPX9lN1k7JYVUZaKbJjwfUwGPc6LL5RYbDjmEAiB4
+ uWE/WrYLmNj3umUQhIrU4WnCdrCrp776fDXuiUIwX0O591AO6ovNlE7K3O6pDXLiEIeq Uw== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 322ruhaxea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jul 2020 03:55:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WqGrgncR4G9KYPmkitdxH8u+eqviOj0jamcJWyWRSv2+0o2UP4JyUoP2Ca6EKv4rRX45tQbXcFUL4ATX/fblcADhkikTQavFwNHPDgwvrji2Jp2zJ6+697/uNKf0C8u8h8G9QPpYViCizu9rSFesaU7bfqmejnmL0vRGGlvOrrBBIg/Wbtprxka9QpU7pJySo5B1phkKKjGF3um5jp+FcDoBZkVAOahRNQoiSQXD1e/H7I+Z8j84WoDPMH7BBrEdLe0sFNDQ+VfoxvfXGbGYtgVFRqXvobjaR+Ra1pXkvNYIV8ixoWKofxZOhbF3+NYtIgUBjf6rnqst+0Obh5lz4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aYCtOPg50lt6i64bB6BvmAjHPr4FDQkGCr4bcyeNEWA=;
+ b=V0mdoan6vezSqdAvE7NcLaK7PxcqQeTt5zGyWxMeZUOws8TPcyqQKwnymTR8hBqhujeBDwtutsm1jsTMUAa2x3nVYqD4KUYjQdHGs0h9P0WuOwrGVms6iiL7HmvFGL7xUjON826LbzwNoya//Q9T0KxR743XfWCe8K/c6t2mKfOMDM/kgPNwRurHQcMQYzvcwOVmNFQUCZxl81CleOBcppfoDlOCfqltAy4ChfSK3huOht3HUyr6MHSYBhycNrahsu8RWCZfpxD6oCLTKZcyi6KStgZqQ6Y3xfWHCRnGMB3+lDGUtvF+F3lYvsVy+qiQ5I0emDSwLrwITVLA/6vXww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com (2603:10b6:907:2::32)
+ by MWHPR02MB3151.namprd02.prod.outlook.com (2603:10b6:301:65::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.22; Mon, 6 Jul
+ 2020 10:55:00 +0000
+Received: from MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::accb:7583:c55c:acd2]) by MW2PR02MB3723.namprd02.prod.outlook.com
+ ([fe80::accb:7583:c55c:acd2%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 10:55:00 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: DMA region abruptly removed from PCI device
+Thread-Topic: DMA region abruptly removed from PCI device
+Thread-Index: AdZTg3uLE9L5RNQrTJ25kTkeyN20cw==
+Date: Mon, 6 Jul 2020 10:55:00 +0000
+Message-ID: <MW2PR02MB3723509CC4795066274C9D4C8B690@MW2PR02MB3723.namprd02.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [92.29.225.29]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 86a552c6-1703-42c7-df11-08d8219b07c3
+x-ms-traffictypediagnostic: MWHPR02MB3151:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB3151A4C235040E4A80B9067C8B690@MWHPR02MB3151.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 04569283F9
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UZeL5okq8Hr2TVmTHdxNM8NjzMuL18A2HMhgMpw15Nh43Hz8qr8LYwYkfpLLI6pyYVn8lj42xJStki+0MZ3iEp91qEU5X3JbbUZ1BeX/DANrWfDGmNF4twAfeyg4jkKd0RZBQcGfaHPRGRQvYce3POqLHZ9PMeNWD80E2/QrgPfn86cpl4o3zM1iHelhfmFhAQm360dlsAUXLLdm5KoEuF0znyD4F+XOz5m18a7kcNLVw17iONlcew3hCM0usnjNGkF9oHUgg5t2U/FcR5HLps+RwYbM8bP82DampsQq/X/Cz5uVWARHaJrU4rhR6dbWcLKn86fBEa5bIFaVo0VTGiSpccGRTaYTh0EhVHeT7orWL/ozJP1MfvdyHdwFkpfeAO4aNOq2dw/YdIyhUiw45g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR02MB3723.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(478600001)(4326008)(7696005)(83380400001)(6916009)(6506007)(66476007)(5660300002)(186003)(316002)(33656002)(9686003)(55016002)(66446008)(52536014)(44832011)(8676002)(66946007)(86362001)(64756008)(66556008)(54906003)(76116006)(8936002)(2906002)(71200400001)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: n9vBhDBB3nlzgPvWrzcg8aNCCEp2S3xbtKBArB+WsBGwNmeNAlbSBR6SkZ8XOM/iDWFMaMhDCsGwEzVMDrf/kExVs49O2NZK11Rj6w3VFbIndK4AOsorTuVqo8GzF2OHAq1HQXS7VYGAvLMJ0Bw+48KEzMA0HfgJJuBhX2UxmXpZFIPxiNXF8iAGNgUUuyk7UNIaxNXtqjQZS0H2a1mTVZROFx/Rrb1vkWfUJgoAYCvYyO/IksxRk+D6BV/rD1sIOt7tFBOZ/u5W9HF+Chech1n3t6bDIvdZhoT5BsWz3hAs36PDgnpGXNqC6nVno2WIWhiYFHeD/GUNTzq5+JZcyzq6TI/iyv3rBPkkl1k/MHqS957cr6pZWnj1QXeugLbh6isLyAEKq+o8WAkNpaIfQElVrZA+vZPeJtxk35rItBhECHf2Dw/LH9/KBSYU/xt6Yy5V6KcrkEPEtyOKAix6QHfGSb9zP6hye5+PG82Z4Rk=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20200704213051.19749-6-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR02MB3723.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86a552c6-1703-42c7-df11-08d8219b07c3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2020 10:55:00.6210 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Oyf9Tcaky6b092deydFp4l0TpQWGmLpHen0aJQryJqUYsYsco3SpZkHCo2rfh21dVoZ6G2VgEyzvH7Zqket4fl9o3YIEELM2AiWFYjEwpaA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB3151
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-06_08:2020-07-06,
+ 2020-07-06 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 06:55:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,43 +127,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ "Liu, Changpeng" <changpeng.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---SUOF0GtieIMvvwua
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We have an issue when using the VFIO-over-socket libmuser PoC
+(https://www.mail-archive.com/qemu-devel@nongnu.org/msg692251.html) instead=
+ of
+the VFIO kernel module: we notice that DMA regions used by the emulated dev=
+ice
+can be abruptly removed while the device is still using them.
 
-On Sat, Jul 04, 2020 at 11:30:40PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Do not use the same error message for different failures.
-> Display a different error whether it is the CQ or the SQ.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  block/nvme.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---SUOF0GtieIMvvwua
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl8C/bcACgkQnKSrs4Gr
-c8h56wgAhlRadzVTbXh2OYgHpSFLN71mn/titI8drL6VSTYtAuZqkQd/INn7zbyc
-F9TK41z3mPJMtSUv85PB/vHAA+UDrIDgHamnjIklYZXVoJLdk+2VP4JMwXd8KC3V
-D2g/sTIVEUyurP25QN7Iz5w+NJAugPq9I+FYV6ivmZOljoDQibjTnDPTKs4ka4z5
-0g1LZ1hl3L6vT3e7+WtohUgIFAYA6FA+C3/B/Ey7YTQrEDB91qY6vXoGd/jcpAm+
-430C5hWc097H/lHDGsxRU/tC9jkAiI85Y8R4F2g/qyOfyFEUKXNYsTZQSmG38Yst
-8vzn8gBZcfJ39BlxTDnWLQ4Amm07Mw==
-=r/mC
------END PGP SIGNATURE-----
-
---SUOF0GtieIMvvwua--
-
+The PCI device we've implemented is an NVMe controller using SPDK, so it po=
+lls
+the submission queues for new requests. We use the latest SeaBIOS where it =
+tries
+to boot from the NVMe controller. Several DMA regions are registered
+(VFIO_IOMMU_MAP_DMA) and then the admin and a submission queues are created=
+.
+From this point SPDK polls both queues. Then, the DMA region where the
+submission queue lies is removed (VFIO_IOMMU_UNMAP_DMA) and then re-added a=
+t the
+same IOVA but at a different offset. SPDK crashes soon after as it accesses
+invalid memory. There is no other event (e.g. some PCI config space or NVMe
+register write) happening between unmapping and mapping the DMA region. My =
+guess
+is that this behavior is legitimate and that this is solved in the VFIO ker=
+nel
+module by releasing the DMA region only after all references to it have bee=
+n
+released, which is handled by vfio_pin/unpin_pages, correct? If this is the=
+ case
+then I suppose we need to implement the same logic in libmuser, but I just =
+want
+to make sure I'm not missing anything as this is a substantial change.
 
