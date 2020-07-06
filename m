@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E224E215D33
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:30:56 +0200 (CEST)
-Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7DF215D37
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:32:33 +0200 (CEST)
+Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUxD-0006Fr-MK
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34996)
+	id 1jsUym-0001Rc-9V
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUdj-0004D5-Sz; Mon, 06 Jul 2020 13:10:47 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:34930)
+ id 1jsUf5-0006ah-Es; Mon, 06 Jul 2020 13:12:11 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:42803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUdh-0007rx-Em; Mon, 06 Jul 2020 13:10:47 -0400
-Received: by mail-io1-xd41.google.com with SMTP id v8so40052002iox.2;
- Mon, 06 Jul 2020 10:10:44 -0700 (PDT)
+ id 1jsUf3-0008Fp-Cd; Mon, 06 Jul 2020 13:12:11 -0400
+Received: by mail-io1-xd42.google.com with SMTP id c16so40148349ioi.9;
+ Mon, 06 Jul 2020 10:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=wZPcNnfJm5MPTasltoq/pBa3iV0LcdhND5nIpKUJi/8=;
- b=k/1aoEljxB0uBEqfqH0Zn4KhFaSEHuRC7puZspsg00ZQnuYbG361wHg3SacgFJDj5D
- tsj3n5BFbxJduCK35tjRhuF2/a9NzvStraAOtyCnDhA1x3ZIDzvxsj0SeVn96GcH66cQ
- +fOPAx/5lIiJ6CUyYV8ORDaUEU0GMk/TmxFz2lsMqQ1ZPLYRTUaOZTHWIAoFD6WwT2w9
- dE0VZxLY1HVMcUMAVCCqzToMHhxxVykCFBb3WPUEtZ8T5PdUIBDhJKXxk1Spjm8NLNHs
- uMj6b4Ox5j2PchTgKufiol5/oFIvZYBrDFwPFhjtdYp+E3sHNnFizOD1mX/9Z5ZYBI8v
- cucQ==
+ bh=P0d8Iq06s1RxhBs4I7BZ5yRhluIYSvpMY7wkvFtI2Xg=;
+ b=Y+NfzrMhVjazx3jBHloldv5qQ1eAAl6uiOiG7IwSb4NMG6+903IYIYU0tSMwa8mrC3
+ cTQQBM94OvCgQ7efQJmM6schD+rLNB+ozc5/uJgypYi55rBKWT+NxRBPTgvuL6eWEhhE
+ 7rUuX7OsT4URw2jWCniwP0L1yU131oOJcE/YnIXdhlnn6n4G1LcX+iI6fNOgQFNSh157
+ m2EprNayyIy7Rbewu0VeNMbCXbX+6iCdEKOcr8WRTrTBw4Gh4m+fC7fmitA3XMXG66WL
+ XqFVF5UEWj2WlfQevGi6yVpV9hZNiy39mq2dQqoo5OhqyH5Quk+sfoOIKSNr3g+956up
+ gJjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=wZPcNnfJm5MPTasltoq/pBa3iV0LcdhND5nIpKUJi/8=;
- b=MskhW81joZ+3jmobz2zIHp+l3yRAanBxR6fKnIPM9VHB9dxf2+8kExoS0L4YSlFL81
- AxN9y0BV9zP7WUkbDu6PAckQdMo8/HP4KEG3ZRbEtZ0a41foBEogpSSfHeVLJv4xgpex
- Ha0pcia8Vrd7nTQVL5jktNSKUxwfJldI1Fnapyho8Rh3DG7vEWNeVcCro1aUClFiaSso
- yqIzyHXV+meM+aT0KsMA9uFLXfISZZRihbkDKx/8DpsGJOhxrahSG4baM4yuXhYYJf0N
- CH8ingrMv2Xx7pRWGqFbKme8oHe8fRKx5ZSEreMu/AtCfoj8mVz4vdkhGBKo+K5wvwjK
- Sksg==
-X-Gm-Message-State: AOAM530dQANcaIXBqppbdGqW46KLTXHkenWB4GUrE4uU9hKJfR91b7qR
- wrB78K5UwntIslSZ5gnZDb+K46qNOfiMIe+VpQE=
-X-Google-Smtp-Source: ABdhPJx4Y0GqgQR2J49zdJrF6Wimg0enF5qkXxsI0KvUd7/3ziu/gL8IcMOHx3OKEzWPz3QhdGIRQSrp8CAFUbt1qmc=
-X-Received: by 2002:a02:6c4c:: with SMTP id w73mr55529406jab.26.1594055443540; 
- Mon, 06 Jul 2020 10:10:43 -0700 (PDT)
+ bh=P0d8Iq06s1RxhBs4I7BZ5yRhluIYSvpMY7wkvFtI2Xg=;
+ b=o9kr4IPVkgZwGwhTRvh1Dg+4z3YgYEMtmUBL0sWZadUqvnpHLwWc1LjXgWwF31X5G/
+ GJ3eG5rsMWkWrvxKfbXByasaNm2oKFbUoiEZ7q9YVn7lA6e3VZnc+ylsp2mZ14750nOc
+ 4ag0OgDwcaGFRN4bs0kZZc3TN+Wsx2zk3tpgXCuhiwb2cFX5Q2wb72Ua3vp88RgutASg
+ XywiOIg66/jJ/XttM8aZz2vu+9n8hL+K8v/g263f6UUrTJ6C8+op+7jZw5vHmCP99r6W
+ gzl/4C9Ze/aCuVzx9LCl/NOwwAB2/3lxlTxNNljluynun+E0tAYtMODT3uKCA//PnjFg
+ Md6Q==
+X-Gm-Message-State: AOAM532fnfOxkGZyGoYLqxq/wX07oCUO0QfAoWupwLarON+//1f5gukM
+ cT2uJkvQkwxXkHZjemufnjgEaOoFZ0YvRrPTsGI=
+X-Google-Smtp-Source: ABdhPJwQ4Y5SU2PHxNBgM6arl9mZiS4VMzkN+WtIMsTLI4VHjyaJG6nzbQPzYC2Wzjh5CnPd7DP0E6zy1bY/U6O6MAw=
+X-Received: by 2002:a5d:9306:: with SMTP id l6mr26961459ion.105.1594055527579; 
+ Mon, 06 Jul 2020 10:12:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200704144943.18292-1-f4bug@amsat.org>
- <20200704144943.18292-14-f4bug@amsat.org>
-In-Reply-To: <20200704144943.18292-14-f4bug@amsat.org>
+ <20200704144943.18292-15-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-15-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 10:00:56 -0700
-Message-ID: <CAKmqyKOcdG_Wv8yectwwHaxmryB9uBKK+GX1ZGtrq7ZCRcRsAw@mail.gmail.com>
-Subject: Re: [PATCH 13/26] hw/usb/desc: Reduce some declarations scope
+Date: Mon, 6 Jul 2020 10:02:20 -0700
+Message-ID: <CAKmqyKNYrB+BxS41KFWhYc2wXetJH4sJ_18kEDcaYPzu87r49A@mail.gmail.com>
+Subject: Re: [PATCH 14/26] hw/usb/quirks: Rename included source with '.inc.c'
+ suffix
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -111,13 +112,13 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 7:59 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+On Sat, Jul 4, 2020 at 7:58 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> USBDescString is forward-declared. Only bus.c uses the
-> usb_device_get_product_desc() and usb_device_get_usb_desc()
-> function. Move all that to the "desc.h" header to reduce
-> the big "hw/usb.h" header a bit.
+> This file is not a header, but contains source code which is
+> included and compiled once. We use the '.inc.c' suffix in few
+> other cases in the repository. Follow the same convention with
+> this file.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -126,75 +127,48 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/usb/desc.h    | 10 ++++++++++
->  include/hw/usb.h | 10 ----------
->  hw/usb/bus.c     |  1 +
->  3 files changed, 11 insertions(+), 10 deletions(-)
+>  hw/usb/quirks.c                   | 2 +-
+>  hw/usb/{quirks.h =3D> quirks.inc.c} | 5 -----
+>  2 files changed, 1 insertion(+), 6 deletions(-)
+>  rename hw/usb/{quirks.h =3D> quirks.inc.c} (99%)
 >
-> diff --git a/hw/usb/desc.h b/hw/usb/desc.h
-> index 92594fbe29..4bf6966c4b 100644
-> --- a/hw/usb/desc.h
-> +++ b/hw/usb/desc.h
-> @@ -242,4 +242,14 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacke=
-t *p,
->  int usb_desc_handle_control(USBDevice *dev, USBPacket *p,
->          int request, int value, int index, int length, uint8_t *data);
+> diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
+> index 23ea7a23ea..655b36f2d5 100644
+> --- a/hw/usb/quirks.c
+> +++ b/hw/usb/quirks.c
+> @@ -13,7 +13,7 @@
+>   */
 >
-> +const char *usb_device_get_product_desc(USBDevice *dev);
-> +
-> +const USBDesc *usb_device_get_usb_desc(USBDevice *dev);
-> +
-> +struct USBDescString {
-> +    uint8_t index;
-> +    char *str;
-> +    QLIST_ENTRY(USBDescString) next;
-> +};
-> +
->  #endif /* QEMU_HW_USB_DESC_H */
-> diff --git a/include/hw/usb.h b/include/hw/usb.h
-> index 15b2ef300a..18f1349bdc 100644
-> --- a/include/hw/usb.h
-> +++ b/include/hw/usb.h
-> @@ -192,12 +192,6 @@ typedef struct USBDescOther USBDescOther;
->  typedef struct USBDescString USBDescString;
->  typedef struct USBDescMSOS USBDescMSOS;
+>  #include "qemu/osdep.h"
+> -#include "quirks.h"
+> +#include "quirks.inc.c"
+>  #include "hw/usb.h"
 >
-> -struct USBDescString {
-> -    uint8_t index;
-> -    char *str;
-> -    QLIST_ENTRY(USBDescString) next;
-> -};
+>  static bool usb_id_match(const struct usb_device_id *ids,
+> diff --git a/hw/usb/quirks.h b/hw/usb/quirks.inc.c
+> similarity index 99%
+> rename from hw/usb/quirks.h
+> rename to hw/usb/quirks.inc.c
+> index 50ef2f9c2e..004b228aba 100644
+> --- a/hw/usb/quirks.h
+> +++ b/hw/usb/quirks.inc.c
+> @@ -12,9 +12,6 @@
+>   * (at your option) any later version.
+>   */
+>
+> -#ifndef HW_USB_QUIRKS_H
+> -#define HW_USB_QUIRKS_H
 > -
->  #define USB_MAX_ENDPOINTS  15
->  #define USB_MAX_INTERFACES 16
+>  /* 1 on 1 copy of linux/drivers/usb/serial/ftdi_sio_ids.h */
+>  #include "quirks-ftdi-ids.h"
+>  /* 1 on 1 copy of linux/drivers/usb/serial/pl2303.h */
+> @@ -915,5 +912,3 @@ static const struct usb_device_id usbredir_ftdi_seria=
+l_ids[] =3D {
 >
-> @@ -555,10 +549,6 @@ int usb_device_alloc_streams(USBDevice *dev, USBEndp=
-oint **eps, int nr_eps,
->                               int streams);
->  void usb_device_free_streams(USBDevice *dev, USBEndpoint **eps, int nr_e=
-ps);
->
-> -const char *usb_device_get_product_desc(USBDevice *dev);
+>  #undef USB_DEVICE
+>  #undef USB_DEVICE_AND_INTERFACE_INFO
 > -
-> -const USBDesc *usb_device_get_usb_desc(USBDevice *dev);
-> -
->  /* quirks.c */
->
->  /* In bulk endpoints are streaming data sources (iow behave like isoc ep=
-s) */
-> diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-> index 957559b18d..111c3af7c1 100644
-> --- a/hw/usb/bus.c
-> +++ b/hw/usb/bus.c
-> @@ -9,6 +9,7 @@
->  #include "monitor/monitor.h"
->  #include "trace.h"
->  #include "qemu/cutils.h"
-> +#include "desc.h"
->
->  static void usb_bus_dev_print(Monitor *mon, DeviceState *qdev, int inden=
-t);
->
+> -#endif
 > --
 > 2.21.3
 >
