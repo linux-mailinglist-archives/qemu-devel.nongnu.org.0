@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC13215F72
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:35:15 +0200 (CEST)
-Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C05215F79
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:37:41 +0200 (CEST)
+Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsWtV-0007Eo-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37298)
+	id 1jsWvs-0002gp-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoF-00060V-Ms
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60441
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoI-00069D-MD
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43167
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoC-0006pD-4M
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoF-0006qI-7L
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594063783;
+ s=mimecast20190719; t=1594063786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=h28zMD6URWY6OWZ2UYqvO0ELREgernsL0OjLDrINyp8=;
- b=i16utsV9LVmhFDUglLP+R+EH4eXSK8/jxnHpzAwyLziU5N28zdqRQ0vN0VX/1CDo1TDV4P
- Ov/rE1idj+8/FYRnaVSqTsFzkGNE1UGACRjBN8frfDTCbQurBoztP3B6/wXgLJ2Z4WUOJE
- urchaS7w6gDfdciUAptwKRoTJDhQdQk=
+ references:references; bh=ypBDj9iOQmS3IS4aoP9yAfZs7NFT2hN/vWTpLdr78PM=;
+ b=We3BbBCxBOFEg0LZLHof4h7f43kX1FXM8NE7gbjVoY6e/yo5tN+LFuNvniDYK4HjygebgH
+ Vp5spusVwJ1zrX0fxTsd5/EtT0uslfQ8mhsLnQitULV0Agf/4scDI5ySfMRy31+UYByDBO
+ nwJjqzOU2ajSELGQvs38KjOtFScNsMw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-zdR1HjFYMguTgfMo5iS3og-1; Mon, 06 Jul 2020 15:29:34 -0400
-X-MC-Unique: zdR1HjFYMguTgfMo5iS3og-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-47-d0wenmnvMV6hlZtvYIKG1g-1; Mon, 06 Jul 2020 15:29:42 -0400
+X-MC-Unique: d0wenmnvMV6hlZtvYIKG1g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36629100A8E7;
- Mon,  6 Jul 2020 19:29:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BF558015F6;
+ Mon,  6 Jul 2020 19:29:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D72187B420;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1A395D9CD;
  Mon,  6 Jul 2020 19:29:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3307631E77; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
+ id 3BC2631E79; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] audio: deprecate -soundhw adlib
-Date: Mon,  6 Jul 2020 21:29:07 +0200
-Message-Id: <20200706192921.1154-7-kraxel@redhat.com>
+Subject: [PULL 07/20] audio: deprecate -soundhw cs4231a
+Date: Mon,  6 Jul 2020 21:29:08 +0200
+Message-Id: <20200706192921.1154-8-kraxel@redhat.com>
 In-Reply-To: <20200706192921.1154-1-kraxel@redhat.com>
 References: <20200706192921.1154-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,33 +93,37 @@ Switch to deprecated_register_soundhw().
 Remove the now obsolete init function.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200702132525.6849-7-kraxel@redhat.com
+Message-id: 20200702132525.6849-8-kraxel@redhat.com
 ---
- hw/audio/adlib.c | 8 +-------
+ hw/audio/cs4231a.c | 8 +-------
  1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index 7c3b67dcfb8c..65dff5b6fca4 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -319,16 +319,10 @@ static const TypeInfo adlib_info = {
-     .class_init    = adlib_class_initfn,
- };
+diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
+index ffdbb58d6a11..59705a8d4701 100644
+--- a/hw/audio/cs4231a.c
++++ b/hw/audio/cs4231a.c
+@@ -683,12 +683,6 @@ static void cs4231a_realizefn (DeviceState *dev, Error **errp)
+     AUD_register_card ("cs4231a", &s->card);
+ }
  
--static int Adlib_init (ISABus *bus)
+-static int cs4231a_init (ISABus *bus)
 -{
--    isa_create_simple (bus, TYPE_ADLIB);
+-    isa_create_simple (bus, TYPE_CS4231A);
 -    return 0;
 -}
 -
- static void adlib_register_types (void)
+ static Property cs4231a_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(CSState, card),
+     DEFINE_PROP_UINT32 ("iobase",  CSState, port, 0x534),
+@@ -720,7 +714,7 @@ static const TypeInfo cs4231a_info = {
+ static void cs4231a_register_types (void)
  {
-     type_register_static (&adlib_info);
--    isa_register_soundhw("adlib", ADLIB_DESC, Adlib_init);
-+    deprecated_register_soundhw("adlib", ADLIB_DESC, 1, TYPE_ADLIB);
+     type_register_static (&cs4231a_info);
+-    isa_register_soundhw("cs4231a", "CS4231A", cs4231a_init);
++    deprecated_register_soundhw("cs4231a", "CS4231A", 1, TYPE_CS4231A);
  }
  
- type_init (adlib_register_types)
+ type_init (cs4231a_register_types)
 -- 
 2.18.4
 
