@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402CC2153DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:20:26 +0200 (CEST)
-Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DD22153E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:21:33 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMMT-0004ye-9T
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:20:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
+	id 1jsMNZ-0007hk-09
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCm-0002OM-84
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20881
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCk-0002K1-EL
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:22 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34054
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0003FY-78
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCQ-0003F8-QO
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023001;
+ s=mimecast20190719; t=1594023000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hll8vBewecymRqfZFlO3Xccr8uRsxpPGe2FHFSIy0NQ=;
- b=LCXq5JN1pTZq1t8AjYoQ9IfRUzEGyJ0dPD7eiUhvS3iO5kwMaZBKAiREk4nzXmvbOkewoG
- 1s52SZtfmKrqwmDGwtKwWtFMz4W3KrZ0Q2xLq6V7GCRH7bR9AJIpN/BRtE6/Tm3Mr0OR0S
- rTUu8ZlhHC4f1dzA2cQ//35xjrELTNQ=
+ bh=l+rLohLgZnTu2IlzcsMOXdC76WUa2zsCZUV0lG6faCw=;
+ b=b9pcoNK5rBwRpuuqb7UwCKX2DN3JPeVXHw2djMDXkNaYfWWtKeMNB7nST7zt+L5vNOS0kx
+ vjCoJURadA2dYi8atTtlES6UiX+dfVBHfTKYgEywwPL4wnhofDAUPwdUWJxT0XqIQYlyrD
+ +jmTs5yo351gcoWoV18E9Zxbzk9RzO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-nsw0zsEiOXm0MdYvj2eEgA-1; Mon, 06 Jul 2020 04:09:59 -0400
-X-MC-Unique: nsw0zsEiOXm0MdYvj2eEgA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-297-BSIlcZ3MPrqKfo44uJyhCg-1; Mon, 06 Jul 2020 04:09:59 -0400
+X-MC-Unique: BSIlcZ3MPrqKfo44uJyhCg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB6008015F7;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2B45107ACCA;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7080C7B40A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70F1B28550;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5E7EB113524B; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 715281135251; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 36/44] error: Reduce unnecessary error propagation
-Date: Mon,  6 Jul 2020 10:09:42 +0200
-Message-Id: <20200706080950.403087-37-armbru@redhat.com>
+Subject: [PATCH v3 38/44] qapi: Smooth another visitor error checking pattern
+Date: Mon,  6 Jul 2020 10:09:44 +0200
+Message-Id: <20200706080950.403087-39-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,174 +88,431 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When all we do with an Error we receive into a local variable is
-propagating to somewhere else, we can just as well receive it there
-right away, even when we need to keep error_propagate() for other
-error paths.
+Convert
+
+    visit_type_FOO(v, ..., &ptr, &err);
+    ...
+    if (err) {
+        ...
+    }
+
+to
+
+    visit_type_FOO(v, ..., &ptr, errp);
+    ...
+    if (!ptr) {
+        ...
+    }
+
+for functions that set @ptr to non-null / null on success / error.
+
+Eliminate error_propagate() that are now unnecessary.  Delete @err
+that are now unused.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block.c             | 2 +-
- block/gluster.c     | 8 ++++----
- block/parallels.c   | 2 +-
- block/quorum.c      | 2 +-
- block/replication.c | 3 +--
- block/vxhs.c        | 4 ++--
- hw/core/qdev.c      | 2 +-
- hw/net/virtio-net.c | 4 ++--
- 8 files changed, 13 insertions(+), 14 deletions(-)
+ block/nfs.c          |  7 ++-----
+ block/parallels.c    |  7 ++-----
+ block/qcow.c         |  7 ++-----
+ block/qcow2.c        |  7 ++-----
+ block/qed.c          |  7 ++-----
+ block/rbd.c          |  7 ++-----
+ block/sheepdog.c     |  6 ++----
+ block/ssh.c          |  7 ++-----
+ block/vdi.c          |  7 ++-----
+ block/vhdx.c         |  7 ++-----
+ block/vpc.c          |  7 ++-----
+ hw/acpi/core.c       |  5 ++---
+ hw/block/xen-block.c |  6 ++----
+ hw/core/numa.c       |  7 +++----
+ monitor/monitor.c    | 21 +++++++--------------
+ 15 files changed, 36 insertions(+), 79 deletions(-)
 
-diff --git a/block.c b/block.c
-index 60d2945c2c..2dcf9afd61 100644
---- a/block.c
-+++ b/block.c
-@@ -6073,7 +6073,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
+diff --git a/block/nfs.c b/block/nfs.c
+index b1718d125a..61a249a9fc 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -563,18 +563,15 @@ static BlockdevOptionsNfs *nfs_options_qdict_to_qapi(QDict *options,
+     BlockdevOptionsNfs *opts = NULL;
+     Visitor *v;
+     const QDictEntry *e;
+-    Error *local_err = NULL;
  
-     /* Parse -o options */
-     if (options) {
--        if (!qemu_opts_do_parse(opts, options, NULL, &local_err)) {
-+        if (!qemu_opts_do_parse(opts, options, NULL, errp)) {
-             goto out;
-         }
-     }
-diff --git a/block/gluster.c b/block/gluster.c
-index c620880f27..4f1448e2bc 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -523,7 +523,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
- 
-     /* create opts info from runtime_json_opts list */
-     opts = qemu_opts_create(&runtime_json_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         goto out;
+     v = qobject_input_visitor_new_flat_confused(options, errp);
+     if (!v) {
+         return NULL;
      }
  
-@@ -554,7 +554,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
- 
-         /* create opts info from runtime_type_opts list */
-         opts = qemu_opts_create(&runtime_type_opts, NULL, 0, &error_abort);
--        if (!qemu_opts_absorb_qdict(opts, backing_options, &local_err)) {
-+        if (!qemu_opts_absorb_qdict(opts, backing_options, errp)) {
-             goto out;
-         }
- 
-@@ -584,7 +584,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
-         if (gsconf->type == SOCKET_ADDRESS_TYPE_INET) {
-             /* create opts info from runtime_inet_opts list */
-             opts = qemu_opts_create(&runtime_inet_opts, NULL, 0, &error_abort);
--            if (!qemu_opts_absorb_qdict(opts, backing_options, &local_err)) {
-+            if (!qemu_opts_absorb_qdict(opts, backing_options, errp)) {
-                 goto out;
-             }
- 
-@@ -632,7 +632,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
-         } else {
-             /* create opts info from runtime_unix_opts list */
-             opts = qemu_opts_create(&runtime_unix_opts, NULL, 0, &error_abort);
--            if (!qemu_opts_absorb_qdict(opts, backing_options, &local_err)) {
-+            if (!qemu_opts_absorb_qdict(opts, backing_options, errp)) {
-                 goto out;
-             }
+-    visit_type_BlockdevOptionsNfs(v, NULL, &opts, &local_err);
++    visit_type_BlockdevOptionsNfs(v, NULL, &opts, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!opts) {
+         return NULL;
+     }
  
 diff --git a/block/parallels.c b/block/parallels.c
-index ff27a85c01..180dd41e2b 100644
+index cb5259ac44..f489c0d4ba 100644
 --- a/block/parallels.c
 +++ b/block/parallels.c
-@@ -828,7 +828,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
-         goto fail_options;
-     }
- 
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         goto fail_options;
-     }
- 
-diff --git a/block/quorum.c b/block/quorum.c
-index 5d52e605db..6df9449fc2 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -921,7 +921,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     opts = qemu_opts_create(&quorum_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto exit;
-     }
-diff --git a/block/replication.c b/block/replication.c
-index dcd430624e..0c70215784 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -85,7 +85,6 @@ static int replication_open(BlockDriverState *bs, QDict *options,
+@@ -625,7 +625,6 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
+                                                  Error **errp)
  {
-     int ret;
-     BDRVReplicationState *s = bs->opaque;
+     BlockdevCreateOptions *create_options = NULL;
 -    Error *local_err = NULL;
-     QemuOpts *opts = NULL;
-     const char *mode;
-     const char *top_id;
-@@ -99,7 +98,7 @@ static int replication_open(BlockDriverState *bs, QDict *options,
+     BlockDriverState *bs = NULL;
+     QDict *qdict;
+     Visitor *v;
+@@ -668,11 +667,9 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
+         goto done;
+     }
  
-     ret = -EINVAL;
-     opts = qemu_opts_create(&replication_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto done;
+     }
+diff --git a/block/qcow.c b/block/qcow.c
+index dca2a1fe7d..c22d1bf6b8 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -943,7 +943,6 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+     QDict *qdict;
+     Visitor *v;
+     const char *val;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     static const QDictRenames opt_renames[] = {
+@@ -995,11 +994,9 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
          goto fail;
      }
  
-diff --git a/block/vxhs.c b/block/vxhs.c
-index fecaeb82c9..dc0e254730 100644
---- a/block/vxhs.c
-+++ b/block/vxhs.c
-@@ -318,7 +318,7 @@ static int vxhs_open(BlockDriverState *bs, QDict *options,
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
-     tcp_opts = qemu_opts_create(&runtime_tcp_opts, NULL, 0, &error_abort);
- 
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
          ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index a9137a535b..9ed2396c88 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3683,7 +3683,6 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+     Visitor *v;
+     BlockDriverState *bs = NULL;
+     BlockDriverState *data_bs = NULL;
+-    Error *local_err = NULL;
+     const char *val;
+     int ret;
+ 
+@@ -3779,11 +3778,9 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+         goto finish;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto finish;
+     }
+diff --git a/block/qed.c b/block/qed.c
+index e369fd360a..7fa7f880f6 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -729,7 +729,6 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
+     QDict *qdict;
+     Visitor *v;
+     BlockDriverState *bs = NULL;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     static const QDictRenames opt_renames[] = {
+@@ -771,11 +770,9 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
+         goto fail;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/rbd.c b/block/rbd.c
+index 617553b022..688074c64b 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -681,7 +681,6 @@ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
+                                     Error **errp)
+ {
+     Visitor *v;
+-    Error *local_err = NULL;
+ 
+     /* Convert the remaining options into a QAPI object */
+     v = qobject_input_visitor_new_flat_confused(options, errp);
+@@ -689,11 +688,9 @@ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
+         return -EINVAL;
+     }
+ 
+-    visit_type_BlockdevOptionsRbd(v, NULL, opts, &local_err);
++    visit_type_BlockdevOptionsRbd(v, NULL, opts, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!opts) {
+         return -EINVAL;
+     }
+ 
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index a6a91442c9..6c487c8322 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -2193,11 +2193,9 @@ static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
+         goto fail;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/ssh.c b/block/ssh.c
+index f00b89684a..ebe3d8b631 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -616,7 +616,6 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
+ {
+     BlockdevOptionsSsh *result = NULL;
+     QemuOpts *opts = NULL;
+-    Error *local_err = NULL;
+     const QDictEntry *e;
+     Visitor *v;
+ 
+@@ -636,11 +635,9 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
+         goto fail;
+     }
+ 
+-    visit_type_BlockdevOptionsSsh(v, NULL, &result, &local_err);
++    visit_type_BlockdevOptionsSsh(v, NULL, &result, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!result) {
+         goto fail;
+     }
+ 
+diff --git a/block/vdi.c b/block/vdi.c
+index 2f506a01ba..0a60be773e 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -907,7 +907,6 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
+     uint64_t block_size = DEFAULT_CLUSTER_SIZE;
+     bool is_static = false;
+     Visitor *v;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     /* Parse options and convert legacy syntax.
+@@ -958,11 +957,9 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
+         ret = -EINVAL;
+         goto done;
+     }
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto done;
+     }
+diff --git a/block/vhdx.c b/block/vhdx.c
+index ac5a9094c4..eed9c3b860 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2067,7 +2067,6 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
+     QDict *qdict;
+     Visitor *v;
+     BlockDriverState *bs = NULL;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     static const QDictRenames opt_renames[] = {
+@@ -2108,11 +2107,9 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
+         goto fail;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/vpc.c b/block/vpc.c
+index c8cf3957bc..77043c2424 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1096,7 +1096,6 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
+     QDict *qdict;
+     Visitor *v;
+     BlockDriverState *bs = NULL;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     static const QDictRenames opt_renames[] = {
+@@ -1135,11 +1134,9 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
+         goto fail;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!create_options) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 8b240c3e09..f6d9ec4f13 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -239,7 +239,6 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+ void acpi_table_add(const QemuOpts *opts, Error **errp)
+ {
+     AcpiTableOptions *hdrs = NULL;
+-    Error *err = NULL;
+     char **pathnames = NULL;
+     char **cur;
+     size_t bloblen = 0;
+@@ -249,11 +248,11 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+         Visitor *v;
+ 
+         v = opts_visitor_new(opts);
+-        visit_type_AcpiTableOptions(v, NULL, &hdrs, &err);
++        visit_type_AcpiTableOptions(v, NULL, &hdrs, errp);
+         visit_free(v);
+     }
+ 
+-    if (err) {
++    if (!hdrs) {
          goto out;
      }
-@@ -345,7 +345,7 @@ static int vxhs_open(BlockDriverState *bs, QDict *options,
-     /* get the 'server.' arguments */
-     qdict_extract_subqdict(options, &backing_options, VXHS_OPT_SERVER".");
+     if (hdrs->has_file == hdrs->has_data) {
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 96c6c009c7..a775fba7c0 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -682,11 +682,9 @@ static char *xen_block_blockdev_add(const char *id, QDict *qdict,
+     trace_xen_block_blockdev_add(node_name);
  
--    if (!qemu_opts_absorb_qdict(tcp_opts, backing_options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(tcp_opts, backing_options, errp)) {
-         ret = -EINVAL;
-         goto out;
+     v = qobject_input_visitor_new(QOBJECT(qdict));
+-    visit_type_BlockdevOptions(v, NULL, &options, &local_err);
++    visit_type_BlockdevOptions(v, NULL, &options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!options) {
+         goto fail;
      }
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 17bd8fc2ec..62b45af8e9 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -869,7 +869,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+ 
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index d208fd5008..c83f1f01c4 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -516,10 +516,10 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
+     Error *err = NULL;
+     Visitor *v = opts_visitor_new(opts);
+ 
+-    visit_type_NumaOptions(v, NULL, &object, &err);
++    visit_type_NumaOptions(v, NULL, &object, errp);
+     visit_free(v);
+-    if (err) {
+-        goto end;
++    if (!object) {
++        return -1;
      }
  
-     if (value && !dev->realized) {
--        if (!check_only_migratable(obj, &local_err)) {
-+        if (!check_only_migratable(obj, errp)) {
-             goto fail;
-         }
+     /* Fix up legacy suffix-less format */
+@@ -530,7 +530,6 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
  
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 04b012e487..7502ff0b1e 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3119,8 +3119,8 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-     qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-     n->primary_should_be_hidden = false;
-     if (!qemu_opt_set_bool(n->primary_device_opts,
--                           "partially_hotplugged", true, &err)) {
+     set_numa_options(ms, object, &err);
+ 
+-end:
+     qapi_free_NumaOptions(object);
+     if (err) {
+         error_propagate(errp, err);
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 125494410a..47167ac2a3 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -656,25 +656,18 @@ int monitor_init_opts(QemuOpts *opts, Error **errp)
+ {
+     Visitor *v;
+     MonitorOptions *options;
+-    Error *local_err = NULL;
++    int ret;
+ 
+     v = opts_visitor_new(opts);
+-    visit_type_MonitorOptions(v, NULL, &options, &local_err);
++    visit_type_MonitorOptions(v, NULL, &options, errp);
+     visit_free(v);
+-
+-    if (local_err) {
 -        goto out;
-+                           "partially_hotplugged", true, errp)) {
-+        return false;
+-    }
+-
+-    monitor_init(options, true, &local_err);
+-    qapi_free_MonitorOptions(options);
+-
+-out:
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!options) {
+         return -1;
      }
-     hotplug_ctrl = qdev_get_hotplug_handler(n->primary_dev);
-     if (hotplug_ctrl) {
+-    return 0;
++
++    ret = monitor_init(options, true, errp);
++    qapi_free_MonitorOptions(options);
++    return ret;
+ }
+ 
+ QemuOptsList qemu_mon_opts = {
 -- 
 2.26.2
 
