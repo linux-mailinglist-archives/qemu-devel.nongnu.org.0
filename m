@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4292153F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:26:11 +0200 (CEST)
-Received: from localhost ([::1]:34550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407F12153F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:25:30 +0200 (CEST)
+Received: from localhost ([::1]:59732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMS2-0007JS-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:26:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
+	id 1jsMRN-000601-Ai
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCt-0002fI-Ct
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40177
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCk-0002Km-QS
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38076
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0003GV-UY
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:31 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCQ-0003Eu-Tw
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023001;
+ s=mimecast20190719; t=1594023000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PHPrf4CoEIah77RobW83ZCh8oZf0jzMGgZFjhqN1hME=;
- b=eRmnXNOCnH/QiT0sAl9MvoXgVb65b071SIc1Mxre0Wva7TnqrPCPTJLrtpWmCuK8GTyg4U
- OPxRwpnoQ6na8wOuo8TLq4agyec7cvXfo+sBhl2e4kb+L24cWa6jgcFOEyzkLjQLgCwrw1
- zQWBtnE24dqfDvKJQul4heGUs1+7vF4=
+ bh=/Tb9tbFNEivbwXeQfyYX3OlnVz+SuTj5EDq6+gyM6Pw=;
+ b=BA7K3o9XinBWwu5fNe+bO+hJym4v/WQmFxue6QkSoJVHL5yozVg25LRoH4wCnn0uC0qCMA
+ AqQVPzqGI84enXDL7bRjLEJZS2IIaP0zXE0zhJ4bvIZE6RBcx+kAdvzhEKrU8lzUnO11f2
+ smf+zHQNyWN1GvixPMZnsPXXq17/Mm8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-87aB-DpQNdmpwQ7ZvL5s2g-1; Mon, 06 Jul 2020 04:09:57 -0400
-X-MC-Unique: 87aB-DpQNdmpwQ7ZvL5s2g-1
+ us-mta-470-uJDinb9mM5ytRy6-XuKNWQ-1; Mon, 06 Jul 2020 04:09:57 -0400
+X-MC-Unique: uJDinb9mM5ytRy6-XuKNWQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10A4E2D0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B94188362D;
  Mon,  6 Jul 2020 08:09:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97DC16E6E4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97E1973FE5;
  Mon,  6 Jul 2020 08:09:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0A41A11358D7; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 0F9A411358DB; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/44] s390x/pci: Fix harmless mistake in zpci's property
- fid's setter
-Date: Mon,  6 Jul 2020 10:09:25 +0200
-Message-Id: <20200706080950.403087-20-armbru@redhat.com>
+Subject: [PATCH v3 20/44] qom: Use error_reportf_err() instead of g_printerr()
+ in examples
+Date: Mon,  6 Jul 2020 10:09:26 +0200
+Message-Id: <20200706080950.403087-21-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -84,40 +84,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- groug@kaod.org, pbonzini@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>
+ ehabkost@redhat.com, qemu-block@nongnu.org, groug@kaod.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390_pci_set_fid() sets zpci->fid_defined to true even when
-visit_type_uint32() failed.  Reproducer: "-device zpci,fid=junk".
-Harmless in practice, because qdev_device_add() then fails, throwing
-away @zpci.  Fix it anyway.
-
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/s390x/s390-pci-bus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/qom/object.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index 0517901024..07e1e4d7a3 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -1267,7 +1267,9 @@ static void s390_pci_set_fid(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    visit_type_uint32(v, name, ptr, errp);
-+    if (!visit_type_uint32(v, name, ptr, errp)) {
-+        return;
-+    }
-     zpci->fid_defined = true;
- }
- 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 94a61ccc3f..b70edd8cd9 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -671,8 +671,7 @@ Object *object_new(const char *typename);
+  *                               NULL);
+  *
+  *   if (!obj) {
+- *     g_printerr("Cannot create memory backend: %s\n",
+- *                error_get_pretty(err));
++ *     error_reportf_err(err, "Cannot create memory backend: ");
+  *   }
+  *   </programlisting>
+  * </example>
+@@ -739,8 +738,7 @@ void object_apply_compat_props(Object *obj);
+  *                          NULL);
+  *
+  *   if (!obj) {
+- *     g_printerr("Cannot set properties: %s\n",
+- *                error_get_pretty(err));
++ *     error_reportf_err(err, "Cannot set properties: ");
+  *   }
+  *   </programlisting>
+  * </example>
 -- 
 2.26.2
 
