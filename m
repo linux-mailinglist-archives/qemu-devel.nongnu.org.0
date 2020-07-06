@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B248021526F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:14:47 +0200 (CEST)
-Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BCD215298
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:20:16 +0200 (CEST)
+Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsKOs-0002Nv-7r
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60422)
+	id 1jsKUB-00041t-I8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNT-0000eA-1C; Mon, 06 Jul 2020 02:13:19 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:57952)
+ id 1jsKNY-0000jU-Qd; Mon, 06 Jul 2020 02:13:24 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:57964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNP-0000uF-0c; Mon, 06 Jul 2020 02:13:18 -0400
+ id 1jsKNQ-0000uW-9s; Mon, 06 Jul 2020 02:13:24 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 4FA9DBF5FF;
- Mon,  6 Jul 2020 06:13:10 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 7A220BF7A1;
+ Mon,  6 Jul 2020 06:13:11 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 00/18] hw/block/nvme: bump to v1.3
-Date: Mon,  6 Jul 2020 08:12:45 +0200
-Message-Id: <20200706061303.246057-1-its@irrelevant.dk>
+Subject: [PATCH v3 01/18] hw/block/nvme: bump spec data structures to v1.3
+Date: Mon,  6 Jul 2020 08:12:46 +0200
+Message-Id: <20200706061303.246057-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200706061303.246057-1-its@irrelevant.dk>
+References: <20200706061303.246057-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
  helo=charlie.dont.surf
@@ -51,10 +52,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
  Maxim Levitsky <mlevitsk@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -62,107 +64,379 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds mandatory features of NVM Express v1.3 to the emulated NVMe
-device.
+Add missing fields in the Identify Controller and Identify Namespace
+data structures to bring them in line with NVMe v1.3.
 
+This also adds data structures and defines for SGL support which
+requires a couple of trivial changes to the nvme block driver as well.
 
-v3:
-  * hw/block/nvme: additional tracing
-    - Reverse logic in nvme_cid(). (Philippe)
-    - Move nvme_cid() and nvme_sqid() to source file. (Philippe)
-  * hw/block/nvme: fix missing endian conversion
-    - Move this patch to very early in the series and fix the bug properly as
-      suggested by Philippe. Then let the change trickle down through
-      the series. (Philippe)
-  * hw/block/nvme: add remaining mandatory controller parameters
-    - Move the nvme_feature_{support,default} arrays to the source file.
-      (Philippe)
-    - Add a NVME_FID_MAX constant. (Philippe)
-  * hw/block/nvme: support the get/set features select and save fields
-    - Move the nvme_feature_cap array to the source file. (Philippe)
-  * hw/block/nvme: reject invalid nsid values in active namespace id list
-    - Rework the condition and add a comment and reference to the spec.
-      (Philippe)
-  * hw/block/nvme: provide the mandatory subnqn field
-    - Change to use strpadcpy(). (Philippe)
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Acked-by: Fam Zheng <fam@euphon.net>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/nvme.c         |  18 ++---
+ hw/block/nvme.c      |  12 ++--
+ include/block/nvme.h | 156 ++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 154 insertions(+), 32 deletions(-)
 
-  Had to clear some R-b's due to functional changes.
-
-  Missing review: 2, 3, 7, 12, 16, 17
-
-
-v2:
-  * hw/block/nvme: bump spec data structures to v1.3
-    - Shorten some constants. (Dmitry)
-  * hw/block/nvme: add temperature threshold feature
-    - Remove unused temp_thresh member. (Dmitry)
-  * hw/block/nvme: add support for the get log page command
-    - Change the temperature field in the NvmeSmartLog struct to be an
-      uint16_t and handle wierd alignment by adding QEMU_PACKED to the
-      struct. (Dmitry)
-  * hw/block/nvme: add remaining mandatory controller parameters
-    - Fix spelling. (Dmitry)
-  * hw/block/nvme: support the get/set features select and save fields
-    - Fix bad logic causing temperature thresholds to always report
-      defaults. (Dmitry)
-  * hw/block/nvme: reject invalid nsid values in active namespace id list
-    - Added patch; reject the 0xfffffffe and 0xffffffff nsid values.
-
-
-$ git-backport-diff -u for-master/bump-to-v1.3-v2 -r upstream/master... -S
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/18:[----] [--] 'hw/block/nvme: bump spec data structures to v1.3'
-002/18:[0008] [FC] 'hw/block/nvme: fix missing endian conversion'
-003/18:[0028] [FC] 'hw/block/nvme: additional tracing'
-004/18:[----] [--] 'hw/block/nvme: add support for the abort command'
-005/18:[0004] [FC] 'hw/block/nvme: add temperature threshold feature'
-006/18:[----] [--] 'hw/block/nvme: mark fw slot 1 as read-only'
-007/18:[----] [--] 'hw/block/nvme: add support for the get log page command'
-008/18:[0002] [FC] 'hw/block/nvme: add support for the asynchronous event request command'
-009/18:[----] [--] 'hw/block/nvme: move NvmeFeatureVal into hw/block/nvme.h'
-010/18:[----] [--] 'hw/block/nvme: flush write cache when disabled'
-011/18:[0044] [FC] 'hw/block/nvme: add remaining mandatory controller parameters'
-012/18:[0024] [FC] 'hw/block/nvme: support the get/set features select and save fields'
-013/18:[----] [--] 'hw/block/nvme: make sure ncqr and nsqr is valid'
-014/18:[----] [--] 'hw/block/nvme: support identify namespace descriptor list'
-015/18:[0008] [FC] 'hw/block/nvme: reject invalid nsid values in active namespace id list'
-016/18:[----] [--] 'hw/block/nvme: enforce valid queue creation sequence'
-017/18:[0006] [FC] 'hw/block/nvme: provide the mandatory subnqn field'
-018/18:[----] [--] 'hw/block/nvme: bump supported version to v1.3'
-
-
-Klaus Jensen (18):
-  hw/block/nvme: bump spec data structures to v1.3
-  hw/block/nvme: fix missing endian conversion
-  hw/block/nvme: additional tracing
-  hw/block/nvme: add support for the abort command
-  hw/block/nvme: add temperature threshold feature
-  hw/block/nvme: mark fw slot 1 as read-only
-  hw/block/nvme: add support for the get log page command
-  hw/block/nvme: add support for the asynchronous event request command
-  hw/block/nvme: move NvmeFeatureVal into hw/block/nvme.h
-  hw/block/nvme: flush write cache when disabled
-  hw/block/nvme: add remaining mandatory controller parameters
-  hw/block/nvme: support the get/set features select and save fields
-  hw/block/nvme: make sure ncqr and nsqr is valid
-  hw/block/nvme: support identify namespace descriptor list
-  hw/block/nvme: reject invalid nsid values in active namespace id list
-  hw/block/nvme: enforce valid queue creation sequence
-  hw/block/nvme: provide the mandatory subnqn field
-  hw/block/nvme: bump supported version to v1.3
-
- block/nvme.c          |  18 +-
- hw/block/nvme.c       | 676 ++++++++++++++++++++++++++++++++++++++++--
- hw/block/nvme.h       |  22 +-
- hw/block/trace-events |  27 +-
- include/block/nvme.h  | 225 +++++++++++---
- 5 files changed, 892 insertions(+), 76 deletions(-)
-
+diff --git a/block/nvme.c b/block/nvme.c
+index 374e26891573..c1c4c07ac6cc 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -518,7 +518,7 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+         error_setg(errp, "Cannot map buffer for DMA");
+         goto out;
+     }
+-    cmd.prp1 = cpu_to_le64(iova);
++    cmd.dptr.prp1 = cpu_to_le64(iova);
+ 
+     if (nvme_cmd_sync(bs, s->queues[0], &cmd)) {
+         error_setg(errp, "Failed to identify controller");
+@@ -629,7 +629,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     }
+     cmd = (NvmeCmd) {
+         .opcode = NVME_ADM_CMD_CREATE_CQ,
+-        .prp1 = cpu_to_le64(q->cq.iova),
++        .dptr.prp1 = cpu_to_le64(q->cq.iova),
+         .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | (n & 0xFFFF)),
+         .cdw11 = cpu_to_le32(0x3),
+     };
+@@ -640,7 +640,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     }
+     cmd = (NvmeCmd) {
+         .opcode = NVME_ADM_CMD_CREATE_SQ,
+-        .prp1 = cpu_to_le64(q->sq.iova),
++        .dptr.prp1 = cpu_to_le64(q->sq.iova),
+         .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | (n & 0xFFFF)),
+         .cdw11 = cpu_to_le32(0x1 | (n << 16)),
+     };
+@@ -988,16 +988,16 @@ try_map:
+     case 0:
+         abort();
+     case 1:
+-        cmd->prp1 = pagelist[0];
+-        cmd->prp2 = 0;
++        cmd->dptr.prp1 = pagelist[0];
++        cmd->dptr.prp2 = 0;
+         break;
+     case 2:
+-        cmd->prp1 = pagelist[0];
+-        cmd->prp2 = pagelist[1];
++        cmd->dptr.prp1 = pagelist[0];
++        cmd->dptr.prp2 = pagelist[1];
+         break;
+     default:
+-        cmd->prp1 = pagelist[0];
+-        cmd->prp2 = cpu_to_le64(req->prp_list_iova + sizeof(uint64_t));
++        cmd->dptr.prp1 = pagelist[0];
++        cmd->dptr.prp2 = cpu_to_le64(req->prp_list_iova + sizeof(uint64_t));
+         break;
+     }
+     trace_nvme_cmd_map_qiov(s, cmd, req, qiov, entries);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 1aee042d4cb2..71b388aa0e20 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -397,8 +397,8 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeNamespace *ns, NvmeCmd *cmd,
+     NvmeRwCmd *rw = (NvmeRwCmd *)cmd;
+     uint32_t nlb  = le32_to_cpu(rw->nlb) + 1;
+     uint64_t slba = le64_to_cpu(rw->slba);
+-    uint64_t prp1 = le64_to_cpu(rw->prp1);
+-    uint64_t prp2 = le64_to_cpu(rw->prp2);
++    uint64_t prp1 = le64_to_cpu(rw->dptr.prp1);
++    uint64_t prp2 = le64_to_cpu(rw->dptr.prp2);
+ 
+     uint8_t lba_index  = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+     uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
+@@ -795,8 +795,8 @@ static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
+ 
+ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
+ {
+-    uint64_t prp1 = le64_to_cpu(cmd->prp1);
+-    uint64_t prp2 = le64_to_cpu(cmd->prp2);
++    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
++    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+ 
+     uint64_t timestamp = nvme_get_timestamp(n);
+ 
+@@ -834,8 +834,8 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
+ {
+     uint16_t ret;
+     uint64_t timestamp;
+-    uint64_t prp1 = le64_to_cpu(cmd->prp1);
+-    uint64_t prp2 = le64_to_cpu(cmd->prp2);
++    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
++    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+ 
+     ret = nvme_dma_write_prp(n, (uint8_t *)&timestamp,
+                                 sizeof(timestamp), prp1, prp2);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 1720ee1d5158..2a80d2a7ed89 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -377,15 +377,53 @@ enum NvmePmrmscMask {
+ #define NVME_PMRMSC_SET_CBA(pmrmsc, val)   \
+     (pmrmsc |= (uint64_t)(val & PMRMSC_CBA_MASK) << PMRMSC_CBA_SHIFT)
+ 
++enum NvmeSglDescriptorType {
++    NVME_SGL_DESCR_TYPE_DATA_BLOCK          = 0x0,
++    NVME_SGL_DESCR_TYPE_BIT_BUCKET          = 0x1,
++    NVME_SGL_DESCR_TYPE_SEGMENT             = 0x2,
++    NVME_SGL_DESCR_TYPE_LAST_SEGMENT        = 0x3,
++    NVME_SGL_DESCR_TYPE_KEYED_DATA_BLOCK    = 0x4,
++
++    NVME_SGL_DESCR_TYPE_VENDOR_SPECIFIC     = 0xf,
++};
++
++enum NvmeSglDescriptorSubtype {
++    NVME_SGL_DESCR_SUBTYPE_ADDRESS = 0x0,
++};
++
++typedef struct NvmeSglDescriptor {
++    uint64_t addr;
++    uint32_t len;
++    uint8_t  rsvd[3];
++    uint8_t  type;
++} NvmeSglDescriptor;
++
++#define NVME_SGL_TYPE(type)     ((type >> 4) & 0xf)
++#define NVME_SGL_SUBTYPE(type)  (type & 0xf)
++
++typedef union NvmeCmdDptr {
++    struct {
++        uint64_t    prp1;
++        uint64_t    prp2;
++    };
++
++    NvmeSglDescriptor sgl;
++} NvmeCmdDptr;
++
++enum NvmePsdt {
++    PSDT_PRP                 = 0x0,
++    PSDT_SGL_MPTR_CONTIGUOUS = 0x1,
++    PSDT_SGL_MPTR_SGL        = 0x2,
++};
++
+ typedef struct NvmeCmd {
+     uint8_t     opcode;
+-    uint8_t     fuse;
++    uint8_t     flags;
+     uint16_t    cid;
+     uint32_t    nsid;
+     uint64_t    res1;
+     uint64_t    mptr;
+-    uint64_t    prp1;
+-    uint64_t    prp2;
++    NvmeCmdDptr dptr;
+     uint32_t    cdw10;
+     uint32_t    cdw11;
+     uint32_t    cdw12;
+@@ -394,6 +432,9 @@ typedef struct NvmeCmd {
+     uint32_t    cdw15;
+ } NvmeCmd;
+ 
++#define NVME_CMD_FLAGS_FUSE(flags) (flags & 0x3)
++#define NVME_CMD_FLAGS_PSDT(flags) ((flags >> 6) & 0x3)
++
+ enum NvmeAdminCommands {
+     NVME_ADM_CMD_DELETE_SQ      = 0x00,
+     NVME_ADM_CMD_CREATE_SQ      = 0x01,
+@@ -493,8 +534,7 @@ typedef struct NvmeRwCmd {
+     uint32_t    nsid;
+     uint64_t    rsvd2;
+     uint64_t    mptr;
+-    uint64_t    prp1;
+-    uint64_t    prp2;
++    NvmeCmdDptr dptr;
+     uint64_t    slba;
+     uint16_t    nlb;
+     uint16_t    control;
+@@ -534,8 +574,7 @@ typedef struct NvmeDsmCmd {
+     uint16_t    cid;
+     uint32_t    nsid;
+     uint64_t    rsvd2[2];
+-    uint64_t    prp1;
+-    uint64_t    prp2;
++    NvmeCmdDptr dptr;
+     uint32_t    nr;
+     uint32_t    attributes;
+     uint32_t    rsvd12[4];
+@@ -599,6 +638,12 @@ enum NvmeStatusCodes {
+     NVME_CMD_ABORT_MISSING_FUSE = 0x000a,
+     NVME_INVALID_NSID           = 0x000b,
+     NVME_CMD_SEQ_ERROR          = 0x000c,
++    NVME_INVALID_SGL_SEG_DESCR  = 0x000d,
++    NVME_INVALID_NUM_SGL_DESCRS = 0x000e,
++    NVME_DATA_SGL_LEN_INVALID   = 0x000f,
++    NVME_MD_SGL_LEN_INVALID     = 0x0010,
++    NVME_SGL_DESCR_TYPE_INVALID = 0x0011,
++    NVME_INVALID_USE_OF_CMB     = 0x0012,
+     NVME_LBA_RANGE              = 0x0080,
+     NVME_CAP_EXCEEDED           = 0x0081,
+     NVME_NS_NOT_READY           = 0x0082,
+@@ -687,7 +732,7 @@ enum NvmeSmartWarn {
+     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
+ };
+ 
+-enum LogIdentifier {
++enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     = 0x01,
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
+@@ -711,6 +756,7 @@ enum {
+     NVME_ID_CNS_NS             = 0x0,
+     NVME_ID_CNS_CTRL           = 0x1,
+     NVME_ID_CNS_NS_ACTIVE_LIST = 0x2,
++    NVME_ID_CNS_NS_DESCR_LIST  = 0x3,
+ };
+ 
+ typedef struct NvmeIdCtrl {
+@@ -723,7 +769,15 @@ typedef struct NvmeIdCtrl {
+     uint8_t     ieee[3];
+     uint8_t     cmic;
+     uint8_t     mdts;
+-    uint8_t     rsvd255[178];
++    uint16_t    cntlid;
++    uint32_t    ver;
++    uint32_t    rtd3r;
++    uint32_t    rtd3e;
++    uint32_t    oaes;
++    uint32_t    ctratt;
++    uint8_t     rsvd100[12];
++    uint8_t     fguid[16];
++    uint8_t     rsvd128[128];
+     uint16_t    oacs;
+     uint8_t     acl;
+     uint8_t     aerl;
+@@ -731,10 +785,28 @@ typedef struct NvmeIdCtrl {
+     uint8_t     lpa;
+     uint8_t     elpe;
+     uint8_t     npss;
+-    uint8_t     rsvd511[248];
++    uint8_t     avscc;
++    uint8_t     apsta;
++    uint16_t    wctemp;
++    uint16_t    cctemp;
++    uint16_t    mtfa;
++    uint32_t    hmpre;
++    uint32_t    hmmin;
++    uint8_t     tnvmcap[16];
++    uint8_t     unvmcap[16];
++    uint32_t    rpmbs;
++    uint16_t    edstt;
++    uint8_t     dsto;
++    uint8_t     fwug;
++    uint16_t    kas;
++    uint16_t    hctma;
++    uint16_t    mntmt;
++    uint16_t    mxtmt;
++    uint32_t    sanicap;
++    uint8_t     rsvd332[180];
+     uint8_t     sqes;
+     uint8_t     cqes;
+-    uint16_t    rsvd515;
++    uint16_t    maxcmd;
+     uint32_t    nn;
+     uint16_t    oncs;
+     uint16_t    fuses;
+@@ -742,8 +814,14 @@ typedef struct NvmeIdCtrl {
+     uint8_t     vwc;
+     uint16_t    awun;
+     uint16_t    awupf;
+-    uint8_t     rsvd703[174];
+-    uint8_t     rsvd2047[1344];
++    uint8_t     nvscc;
++    uint8_t     rsvd531;
++    uint16_t    acwu;
++    uint8_t     rsvd534[2];
++    uint32_t    sgls;
++    uint8_t     rsvd540[228];
++    uint8_t     subnqn[256];
++    uint8_t     rsvd1024[1024];
+     NvmePSD     psd[32];
+     uint8_t     vs[1024];
+ } NvmeIdCtrl;
+@@ -769,6 +847,16 @@ enum NvmeIdCtrlOncs {
+ #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
+ #define NVME_CTRL_CQES_MAX(cqes) (((cqes) >> 4) & 0xf)
+ 
++#define NVME_CTRL_SGLS_SUPPORT_MASK        (0x3 <<  0)
++#define NVME_CTRL_SGLS_SUPPORT_NO_ALIGN    (0x1 <<  0)
++#define NVME_CTRL_SGLS_SUPPORT_DWORD_ALIGN (0x1 <<  1)
++#define NVME_CTRL_SGLS_KEYED               (0x1 <<  2)
++#define NVME_CTRL_SGLS_BITBUCKET           (0x1 << 16)
++#define NVME_CTRL_SGLS_MPTR_CONTIGUOUS     (0x1 << 17)
++#define NVME_CTRL_SGLS_EXCESS_LENGTH       (0x1 << 18)
++#define NVME_CTRL_SGLS_MPTR_SGL            (0x1 << 19)
++#define NVME_CTRL_SGLS_ADDR_OFFSET         (0x1 << 20)
++
+ typedef struct NvmeFeatureVal {
+     uint32_t    arbitration;
+     uint32_t    power_mgmt;
+@@ -791,6 +879,15 @@ typedef struct NvmeFeatureVal {
+ #define NVME_INTC_THR(intc)     (intc & 0xff)
+ #define NVME_INTC_TIME(intc)    ((intc >> 8) & 0xff)
+ 
++#define NVME_TEMP_THSEL(temp)  ((temp >> 20) & 0x3)
++#define NVME_TEMP_THSEL_OVER   0x0
++#define NVME_TEMP_THSEL_UNDER  0x1
++
++#define NVME_TEMP_TMPSEL(temp)     ((temp >> 16) & 0xf)
++#define NVME_TEMP_TMPSEL_COMPOSITE 0x0
++
++#define NVME_TEMP_TMPTH(temp) ((temp >>  0) & 0xffff)
++
+ enum NvmeFeatureIds {
+     NVME_ARBITRATION                = 0x1,
+     NVME_POWER_MANAGEMENT           = 0x2,
+@@ -833,18 +930,43 @@ typedef struct NvmeIdNs {
+     uint8_t     mc;
+     uint8_t     dpc;
+     uint8_t     dps;
+-
+     uint8_t     nmic;
+     uint8_t     rescap;
+     uint8_t     fpi;
+     uint8_t     dlfeat;
+-
+-    uint8_t     res34[94];
++    uint16_t    nawun;
++    uint16_t    nawupf;
++    uint16_t    nacwu;
++    uint16_t    nabsn;
++    uint16_t    nabo;
++    uint16_t    nabspf;
++    uint16_t    noiob;
++    uint8_t     nvmcap[16];
++    uint8_t     rsvd64[40];
++    uint8_t     nguid[16];
++    uint64_t    eui64;
+     NvmeLBAF    lbaf[16];
+-    uint8_t     res192[192];
++    uint8_t     rsvd192[192];
+     uint8_t     vs[3712];
+ } NvmeIdNs;
+ 
++typedef struct NvmeIdNsDescr {
++    uint8_t nidt;
++    uint8_t nidl;
++    uint8_t rsvd2[2];
++} NvmeIdNsDescr;
++
++enum {
++    NVME_NIDT_EUI64_LEN =  8,
++    NVME_NIDT_NGUID_LEN = 16,
++    NVME_NIDT_UUID_LEN  = 16,
++};
++
++enum NvmeNsIdentifierType {
++    NVME_NIDT_EUI64 = 0x1,
++    NVME_NIDT_NGUID = 0x2,
++    NVME_NIDT_UUID  = 0x3,
++};
+ 
+ /*Deallocate Logical Block Features*/
+ #define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
 -- 
 2.27.0
 
