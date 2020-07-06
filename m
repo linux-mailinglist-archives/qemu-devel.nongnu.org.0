@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6A4215FE5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:07:38 +0200 (CEST)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62F7215FE9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:08:02 +0200 (CEST)
+Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXOr-0003Ga-MJ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45686)
+	id 1jsXPF-0004cA-Ur
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNe-0001c3-OV
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:53427)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNf-0001cV-Ge
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:44951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNc-0004sq-Dy
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:22 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNd-0004sz-Fy
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MsI4Q-1kkvVm0EIs-00thKT; Mon, 06 Jul 2020 22:06:04 +0200
+ id 1MirSu-1kX6vQ3PLo-00evKx; Mon, 06 Jul 2020 22:06:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] target/m68k: fix physical address translation in
- m68k_cpu_get_phys_page_debug()
-Date: Mon,  6 Jul 2020 22:05:57 +0200
-Message-Id: <20200706200559.160209-2-laurent@vivier.eu>
+Subject: [PULL 2/3] target/m68k: consolidate physical translation offset into
+ get_physical_address()
+Date: Mon,  6 Jul 2020 22:05:58 +0200
+Message-Id: <20200706200559.160209-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200706200559.160209-1-laurent@vivier.eu>
 References: <20200706200559.160209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cKeJsdyi0MwlEnEzFBeJKdeh6bhOx7DNo8NUVe7tPVWhxaXPVAA
- ZOpevYKNDAItU8uOSKc1+bJFv9Le75ay0Y8auuSja9+HWjBxEbNdGpEgFXRUO7Rcg7n4LNa
- 5PswsWwcxFFYT00hf0cfPgJhmkQmW4HbnxQNKt6glGvkGxmZpiCIcMuC8XJbbaJXYBCuuVu
- IPajnI6sTjsjEwlEU6PGQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cNZt1kfyLoo=:JFZLyMm/iFn47s+QxZKSHw
- BgFmGNZHgXUqQg4WEJ0T/ZE6ydeWlo+cAC4/vQcWGw6Cf5gu5ghTxoD2TJVjWyL53DrP/ikmJ
- 0K0obObZE5uF2idT58f3bM1Q59WvWYcU3a2iB7UvChBWIEc5T/j6v70YVDRQ+5EEKN5tCsxmC
- vGmZARYugVhDSrqdBWEF+CS4VHrNL5FehFhe9XEZQMLCPR6yyDzv5oQFAPNDn9xZqwdr9Dal4
- 7g3ABCGb1zXrzk7vF3kz3ipIkaC0Y0Fkc6U8gIzel9UVptwOXZttqrdtfTZAgudDniQmsC7iG
- Y+HmbB49XUV482y1DlUtgEuLXyKcc6YspMDQhAEVEq9ffQEme5AhctXt5Dv/aufygjSLuB3dP
- OZoT81Pz+64ciyFf7GAdfyEPg+FQqaNfrOK7l2Bo8GKvn+1fVqZ8ttYr9KZKVcmCh8ZRXWAXB
- wm5kcD32uMHDDP40D4YSDrQPAkwajd3VR6tJ23X0jpY2+jXWkMjuAer4Br2r/oGgHMzV1dkX4
- lg+zuQxfkPLbiMKVhGwmE6O2Np1nekvRunnjOdc9ju9bk0tSONkDH3SksatX8Q20ZQxZaiWHP
- 99/LItbrtHKiwy8U0pXhzzzrsnxLpmrD/EcvsMObW9P669pOacrQq+7dwd9iYZPSIOhMDRnWb
- t6joT6kB0Gqv05IrkgH0EjsXMPKZzIWcV4/eLMGMh3M8blkpm5AhmdKk6fak2Bit674NEXOeb
- 5ykwHYE/YVTuWPRr7WW8hMmnW1Wo4Siz0Rwmt8zh5+Xo2Pa5Ag0A8HjOM3+pI1QWUcJKO42Oe
- JsOYio7jn+IyRMMtGqZCkLSyAnhMREkMZlIqgKxkGfMpKuzZNL8acBo9MtMB3FvP+Ao/c34
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:6ByfCQdS36HnRHicBYjzL4lbMjnxZSZ4ub5HbgTD6hI+ZAOAReI
+ A1EG33JFp3hN7BIzVZR5RqT3iiI+ZhzCQP1yZqcWi7OabOkb2yPXUQ71Jjbc5uGFP2ZvyJj
+ ePwjlbBzxMJ88sXHzIMl+059ERuHVe9/AVOEkZCM6qGMd7E3idsSxao6M1yvo/044rXjPvk
+ +pwmoNQRGU87NWww9T6vg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sspCEf3us1c=:RKzRNrR17UetWFa+R4STeM
+ RZ2YVBe4ITGFzrQzjo+F3Kd63OtBoK7K5cbknfKvrWyYLrzJQSTDpB0UpSAD448rgV2CWPGJy
+ kb593GwOrNLAS5AyrPlcdpoa1Pml83ZC5lMA2xr3I/r2IpVmnq+++JibGS1vWQyJCtLw6DQrx
+ B9d0LmnVkSz0EP7pC0tVKwyJ23MI91hcrpGCD1FocRk7c0y7kFSIaInWI9NTkF+sP8OO7KqgJ
+ 0+1TQlzCUqq9YDTWIzIbA+lxyrE9Gbpcz44HNOL6sKj7LZig8A9v0CC7d7sZucSWzUhskEyh6
+ nBdpsMXN3aOWIrQunqxvnedCCphBDQ8TusBKAESKY6Yc50YRoDGP5mWbVa8C52Uc+WsCMiK3D
+ iYn0uszYebyYxbpJjYOJsGFkRiCmZjQ8P/69P+DVGt1fI6ttmjH3VwRJwO0g/kyM8Ipfmevt+
+ Delt5Z8rQ9nZS0ou0N5tmiUIzfKm6Z4tOrBWu4s/RroaoV1BoE3KC/dGzV92Mj4PRDZ9H2ojw
+ gP5cqroNNTAbYWU/C4uuaLQuiFoYtoQgRqT+yS/ESpavXcn/Kc8nij4NNQmbGS5oz0CT8pp63
+ nL7fG+kq20fWltupojZF6ZC/+qNeVY9p6Rytp1DNO+6LOMcNCU5lQIP3rUNga5jLLce8xaj0m
+ IQVhOr74X4CLWLAcR09+yvR1+Ql+7Y03jJrTr1zYLiVzesgQ6ES2XV2CkMrAEn9UYb0NA+q3j
+ T6R+56IaVBPKgH/ODAQTKduciLxz9BrsVMVxnEa4Lr4c/DM9ImQHfxZETozjSkNx5ksgfi1wz
+ JTDpzU7Z5Fc8EoZ5g2Xgbp2juB2pM1ndXlEflKD2iTmh7SPamx/+4zZ0oZBrCe9peNbjKFq
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:30:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 16:06:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,41 +81,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The result of the get_physical_address() function should be combined with the
-offset of the original page access before being returned. Otherwise the
-m68k_cpu_get_phys_page_debug() function can round to the wrong page causing
-incorrect lookups in gdbstub and various "Disassembler disagrees with
-translator over instruction decoding" warnings to appear at translation time.
+Since all callers to get_physical_address() now apply the same page offset to
+the translation result, move the logic into get_physical_address() itself to
+avoid duplication.
 
-Fixes: 88b2fef6c3 ("target/m68k: add MC68040 MMU")
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200701201531.13828-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20200701201531.13828-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/m68k/helper.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 79b0b10ea9bc..631eab777494 100644
+index 631eab777494..3ff57657958c 100644
 --- a/target/m68k/helper.c
 +++ b/target/m68k/helper.c
-@@ -820,10 +820,14 @@ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     if (env->sr & SR_S) {
-         access_type |= ACCESS_SUPER;
+@@ -643,7 +643,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
+                 /* Transparent Translation Register bit */
+                 env->mmu.mmusr = M68K_MMU_T_040 | M68K_MMU_R_040;
+             }
+-            *physical = address & TARGET_PAGE_MASK;
++            *physical = address;
+             *page_size = TARGET_PAGE_SIZE;
+             return 0;
+         }
+@@ -771,7 +771,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
      }
-+
-     if (get_physical_address(env, &phys_addr, &prot,
-                              addr, access_type, &page_size) != 0) {
+     *page_size = 1 << page_bits;
+     page_mask = ~(*page_size - 1);
+-    *physical = next & page_mask;
++    *physical = (next & page_mask) + (address & (*page_size - 1));
+ 
+     if (access_type & ACCESS_PTEST) {
+         env->mmu.mmusr |= next & M68K_MMU_SR_MASK_040;
+@@ -826,8 +826,6 @@ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
          return -1;
      }
-+
-+    addr &= TARGET_PAGE_MASK;
-+    phys_addr += addr & (page_size - 1);
+ 
+-    addr &= TARGET_PAGE_MASK;
+-    phys_addr += addr & (page_size - 1);
      return phys_addr;
  }
  
+@@ -891,10 +889,8 @@ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     ret = get_physical_address(&cpu->env, &physical, &prot,
+                                address, access_type, &page_size);
+     if (likely(ret == 0)) {
+-        address &= TARGET_PAGE_MASK;
+-        physical += address & (page_size - 1);
+-        tlb_set_page(cs, address, physical,
+-                     prot, mmu_idx, TARGET_PAGE_SIZE);
++        tlb_set_page(cs, address & TARGET_PAGE_MASK,
++                     physical & TARGET_PAGE_MASK, prot, mmu_idx, page_size);
+         return true;
+     }
+ 
+@@ -1383,9 +1379,8 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
+     ret = get_physical_address(env, &physical, &prot, addr,
+                                access_type, &page_size);
+     if (ret == 0) {
+-        addr &= TARGET_PAGE_MASK;
+-        physical += addr & (page_size - 1);
+-        tlb_set_page(env_cpu(env), addr, physical,
++        tlb_set_page(env_cpu(env), addr & TARGET_PAGE_MASK,
++                     physical & TARGET_PAGE_MASK,
+                      prot, access_type & ACCESS_SUPER ?
+                      MMU_KERNEL_IDX : MMU_USER_IDX, page_size);
+     }
 -- 
 2.26.2
 
