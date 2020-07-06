@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FAC215565
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:18:39 +0200 (CEST)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD0A215564
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:18:17 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOCs-000335-9B
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54048)
+	id 1jsOCW-0002Fw-Q7
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0Q-0004ct-HP
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56749
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0R-0004g7-Q4
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:47 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23694
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0O-0004I5-Rs
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:46 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0O-0004IX-VG
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594029944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIAaiX5eMN8SvqXSJDe6YcUVZSAkXMZJuPkTPEj/XbA=;
- b=AsQ66R7Y+pr23017E/I+psRawVQG2lrBD4AAIXVbV5DnSAhULDlCGBIWPOfcyUHIScuNKv
- EqE7nZfVoPI0nPO0si962G4uF3Af7F65k6tFt/G8uLNzLCB8Z4p2eDayrnBFGid3EESrSA
- zF6rISAVhFuG2iaUDRgff6CEWsS/3ac=
+ bh=tYqUh9yU/lLrdyro0oK4O21QFQPyVLzXnu47co6F3WQ=;
+ b=HcBfMHPde8E+rmDBK2eL/RF3aUjCoPQb32jodu2X7WgMrnNRaAkuc/LaySLe5IyfpSPXse
+ SAUVSX3KEwp11KZZpbezpHcHlTVUlK2+JgcA0gkgdPOM7D9yc35xi2JwH4m9mJTDgVeLVi
+ SkYJyEOVwoO/u8Amv70i7v+0Kh8Pens=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-VEjKQrh5Oky-iDADv-smDA-1; Mon, 06 Jul 2020 06:05:40 -0400
-X-MC-Unique: VEjKQrh5Oky-iDADv-smDA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-498-XN9ApyQTMFGPhfhIvfabhA-1; Mon, 06 Jul 2020 06:05:42 -0400
+X-MC-Unique: XN9ApyQTMFGPhfhIvfabhA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19145A0BD7;
- Mon,  6 Jul 2020 10:05:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37A1318A8228;
+ Mon,  6 Jul 2020 10:05:41 +0000 (UTC)
 Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD1522DE81;
- Mon,  6 Jul 2020 10:05:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDC7771662;
+ Mon,  6 Jul 2020 10:05:40 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 27/31] block/iscsi: drop unallocated_blocks_are_zero
-Date: Mon,  6 Jul 2020 12:04:28 +0200
-Message-Id: <20200706100432.2301919-28-mreitz@redhat.com>
+Subject: [PULL 28/31] block/file-posix: drop unallocated_blocks_are_zero
+Date: Mon,  6 Jul 2020 12:04:29 +0200
+Message-Id: <20200706100432.2301919-29-mreitz@redhat.com>
 In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
 References: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,32 +86,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We set bdi->unallocated_blocks_are_zero = iscsilun->lbprz, but
-iscsi_co_block_status doesn't return 0 in case of iscsilun->lbprz, it
-returns ZERO when appropriate. So actually unallocated_blocks_are_zero
-is useless (it doesn't affect the only user of the field:
-bdrv_co_block_status()). Drop it now.
+raw_co_block_status() in block/file-posix.c never returns 0, so
+unallocated_blocks_are_zero is useless (it doesn't affect the only user
+of the field: bdrv_co_block_status()). Drop it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200528094405.145708-7-vsementsov@virtuozzo.com>
+Message-Id: <20200528094405.145708-8-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/iscsi.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/file-posix.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a8b76979d8..767e3e75fd 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2163,7 +2163,6 @@ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
- static int iscsi_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 3ab8f5a0fa..d86ea57769 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2878,9 +2878,6 @@ static int coroutine_fn raw_co_pwrite_zeroes(
+ 
+ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
  {
-     IscsiLun *iscsilun = bs->opaque;
--    bdi->unallocated_blocks_are_zero = iscsilun->lbprz;
-     bdi->cluster_size = iscsilun->cluster_size;
+-    BDRVRawState *s = bs->opaque;
+-
+-    bdi->unallocated_blocks_are_zero = s->discard_zeroes;
      return 0;
  }
+ 
 -- 
 2.26.2
 
