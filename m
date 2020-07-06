@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F642153D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:16:59 +0200 (CEST)
-Received: from localhost ([::1]:47886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA822153E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:20:44 +0200 (CEST)
+Received: from localhost ([::1]:38988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMJ8-0005oH-GK
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
+	id 1jsMMl-0005ct-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCq-0002b8-PM
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27207
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMD0-0002pX-Mq
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43090
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0003Fu-8d
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCS-0003I0-6U
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023001;
+ s=mimecast20190719; t=1594023003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SajwbOA3q+BFVEaYguEWZE2v+qy5fEMthmeAVWqKVoo=;
- b=fR3gWqbd0xIAF6Y3s97YSVDRBB8uPB+wu1qJqTXBZjmAtLJuhVwlOot8j+Ho9CDfJ2gYFg
- lWIE/UuZDyP+SrxL12K3Neyb/lpuGNvvcUkJmbHLAL1dMKxHDJTQkRjFRtN8ywo3tFfSzD
- /R6XffLPuSLV3YFePGOMQMYvi521xeo=
+ bh=fQK4J0DLCVNLdfH2FwrTZDGmeWOKVG9kotoq1MjZjqk=;
+ b=f6AxLt4syafakC3krTMrjSr1gtOkShBQaqnarn+q+fW7W7nUXqjLs74Er3/cpaWhouLuY8
+ 8Pa/n4/Qe+K54y4GZWZYwpoJHyU2mLh2zMKtQz/gjy0CFtjY3P+1K9Sa0J6HXe268LvPuu
+ AB8TB1xD079A+qzQ6HMrYz4ccM5Hi8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-mBgA2gliPsWZKfyrbWqWJg-1; Mon, 06 Jul 2020 04:09:59 -0400
-X-MC-Unique: mBgA2gliPsWZKfyrbWqWJg-1
+ us-mta-327-rTI705NdN_KNpVRlh1CU_w-1; Mon, 06 Jul 2020 04:09:59 -0400
+X-MC-Unique: rTI705NdN_KNpVRlh1CU_w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00F4B80040B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 066E8188360D;
  Mon,  6 Jul 2020 08:09:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7026310013C2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7060210013D9;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 569E9113523F; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 5AAD41135247; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 34/44] error: Eliminate error_propagate() with Coccinelle,
- part 2
-Date: Mon,  6 Jul 2020 10:09:40 +0200
-Message-Id: <20200706080950.403087-35-armbru@redhat.com>
+Subject: [PATCH v3 35/44] error: Eliminate error_propagate() manually
+Date: Mon,  6 Jul 2020 10:09:41 +0200
+Message-Id: <20200706080950.403087-36-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -70,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,557 +90,740 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When all we do with an Error we receive into a local variable is
 propagating to somewhere else, we can just as well receive it there
-right away.  The previous commit did that with a Coccinelle script I
-consider fairly trustworthy.  This commit uses the same script with
-the matching of return taken out, i.e. we convert
-
-    if (!foo(..., &err)) {
-        ...
-        error_propagate(errp, err);
-        ...
-    }
-
-to
-
-    if (!foo(..., errp)) {
-        ...
-        ...
-    }
-
-This is unsound: @err could still be read between afterwards.  I don't
-know how to express "no read of @err without an intervening write" in
-Coccinelle.  Instead, I manually double-checked for uses of @err.
-
-Suboptimal line breaks tweaked manually.  qdev_realize() simplified
-further to placate scripts/checkpatch.pl.
+right away.  The previous two commits did that for sufficiently simple
+cases with Coccinelle.  Do it for several more manually.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block.c              |  6 ++----
- block/blkdebug.c     |  7 ++-----
- block/blklogwrites.c |  3 +--
- block/blkverify.c    |  3 +--
- block/crypto.c       |  4 +---
- block/file-posix.c   |  6 ++----
- block/file-win32.c   |  6 ++----
- block/gluster.c      |  4 +---
- block/iscsi.c        |  3 +--
- block/nbd.c          |  8 ++------
- block/qcow2.c        | 13 ++++---------
- block/raw-format.c   |  4 +---
- block/sheepdog.c     |  8 ++------
- block/ssh.c          |  3 +--
- block/throttle.c     |  4 +---
- block/vmdk.c         |  4 +---
- block/vpc.c          |  3 +--
- block/vvfat.c        |  3 +--
- blockdev.c           |  3 +--
- hw/intc/xics.c       |  4 +---
- hw/vfio/pci.c        |  3 +--
- net/tap.c            |  3 +--
- qom/object.c         |  4 +---
- 23 files changed, 32 insertions(+), 77 deletions(-)
+ block/replication.c        |  4 +---
+ blockdev.c                 | 16 ++++----------
+ bootdevice.c               |  6 ++----
+ dump/dump.c                |  7 ++----
+ hw/block/fdc.c             |  8 +++----
+ hw/core/numa.c             | 44 ++++++++++++--------------------------
+ hw/i386/x86.c              |  6 ++----
+ hw/intc/xive.c             | 12 +++--------
+ hw/ppc/spapr_cpu_core.c    | 14 ++++--------
+ hw/s390x/s390-pci-bus.c    |  4 +---
+ hw/s390x/s390-virtio-ccw.c |  6 ++----
+ hw/s390x/sclp.c            | 12 ++++-------
+ hw/usb/bus.c               |  4 +---
+ qdev-monitor.c             | 12 ++++-------
+ qga/commands-posix.c       |  4 +---
+ qom/object.c               | 33 +++++++++++-----------------
+ qom/qom-qobject.c          |  5 +----
+ target/i386/cpu.c          | 19 +++++-----------
+ 18 files changed, 67 insertions(+), 149 deletions(-)
 
-diff --git a/block.c b/block.c
-index 7f3091da63..60d2945c2c 100644
---- a/block.c
-+++ b/block.c
-@@ -1629,8 +1629,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
-     assert(options != NULL && bs->options != options);
- 
-     opts = qemu_opts_create(&bdrv_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail_opts;
-     }
-@@ -4090,8 +4089,7 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue *queue,
- 
-     /* Process generic block layer options */
-     opts = qemu_opts_create(&bdrv_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, reopen_state->options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, reopen_state->options, errp)) {
-         ret = -EINVAL;
-         goto error;
-     }
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 3c0a9d45cc..9c08d8a005 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -359,7 +359,6 @@ static int blkdebug_parse_perm_list(uint64_t *dest, QDict *options,
-     QObject *crumpled_subqdict = NULL;
-     Visitor *v = NULL;
-     BlockPermissionList *perm_list = NULL, *element;
--    Error *local_err = NULL;
- 
-     *dest = 0;
- 
-@@ -375,8 +374,7 @@ static int blkdebug_parse_perm_list(uint64_t *dest, QDict *options,
-     }
- 
-     v = qobject_input_visitor_new(crumpled_subqdict);
--    if (!visit_type_BlockPermissionList(v, NULL, &perm_list, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!visit_type_BlockPermissionList(v, NULL, &perm_list, errp)) {
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -471,8 +469,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-     uint64_t align;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto out;
-     }
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 0c93e926b1..57315f56b4 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -149,9 +149,8 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
-     bool log_append;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-diff --git a/block/blkverify.c b/block/blkverify.c
-index 666d626c57..4aed53ab59 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -116,8 +116,7 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
-     int ret;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/crypto.c b/block/crypto.c
-index 301fa4da8e..5b2b97ea2f 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -212,7 +212,6 @@ static int block_crypto_open_generic(QCryptoBlockFormat format,
+diff --git a/block/replication.c b/block/replication.c
+index b844a09eb1..dcd430624e 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -367,7 +367,6 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
  {
-     BlockCrypto *crypto = bs->opaque;
-     QemuOpts *opts = NULL;
--    Error *local_err = NULL;
-     int ret = -EINVAL;
-     QCryptoBlockOpenOptions *open_opts = NULL;
-     unsigned int cflags = 0;
-@@ -228,8 +227,7 @@ static int block_crypto_open_generic(QCryptoBlockFormat format,
-         bs->file->bs->supported_write_flags;
- 
-     opts = qemu_opts_create(opts_spec, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         goto cleanup;
-     }
- 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 78f9dc8ab4..70cbb8460c 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -490,8 +490,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     OnOffAuto locking;
- 
-     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -999,8 +998,7 @@ static int raw_reopen_prepare(BDRVReopenState *state,
- 
-     /* Handle options changes */
-     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, state->options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, state->options, errp)) {
-         ret = -EINVAL;
-         goto out;
-     }
-diff --git a/block/file-win32.c b/block/file-win32.c
-index 5f8015319a..ab69bd811a 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -338,8 +338,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-     s->type = FTYPE_FILE;
- 
-     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -738,8 +737,7 @@ static int hdev_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     QemuOpts *opts = qemu_opts_create(&raw_runtime_opts, NULL, 0,
-                                       &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto done;
-     }
-diff --git a/block/gluster.c b/block/gluster.c
-index b68bd32d47..c620880f27 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -811,12 +811,10 @@ static int qemu_gluster_open(BlockDriverState *bs,  QDict *options,
-     int ret = 0;
-     BlockdevOptionsGluster *gconf = NULL;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     const char *filename, *logfile;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto out;
-     }
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a4383150d4..78d58ff400 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -1792,8 +1792,7 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-     int i, ret = 0, timeout = 0, lun;
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto out;
-     }
-diff --git a/block/nbd.c b/block/nbd.c
-index 1331307ffb..6876da04a7 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1726,7 +1726,6 @@ static SocketAddress *nbd_config(BDRVNBDState *s, QDict *options,
-     SocketAddress *saddr = NULL;
-     QDict *addr = NULL;
-     Visitor *iv = NULL;
+     BDRVReplicationState *s = bs->opaque;
+     BlockReopenQueue *reopen_queue = NULL;
 -    Error *local_err = NULL;
  
-     qdict_extract_subqdict(options, &addr, "server.");
-     if (!qdict_size(addr)) {
-@@ -1739,8 +1738,7 @@ static SocketAddress *nbd_config(BDRVNBDState *s, QDict *options,
-         goto done;
+     if (writable) {
+         s->orig_hidden_read_only = bdrv_is_read_only(s->hidden_disk->bs);
+@@ -392,8 +391,7 @@ static void reopen_backing_file(BlockDriverState *bs, bool writable,
      }
  
--    if (!visit_type_SocketAddress(iv, NULL, &saddr, &local_err)) {
+     if (reopen_queue) {
+-        bdrv_reopen_multiple(reopen_queue, &local_err);
 -        error_propagate(errp, local_err);
-+    if (!visit_type_SocketAddress(iv, NULL, &saddr, errp)) {
-         goto done;
++        bdrv_reopen_multiple(reopen_queue, errp);
      }
  
-@@ -1835,12 +1833,10 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
- {
-     BDRVNBDState *s = bs->opaque;
-     QemuOpts *opts;
--    Error *local_err = NULL;
-     int ret = -EINVAL;
- 
-     opts = qemu_opts_create(&nbd_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         goto error;
-     }
- 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index d9e64f51ad..a9137a535b 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -977,8 +977,7 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-     encryptfmt = qdict_get_try_str(encryptopts, "format");
- 
-     opts = qemu_opts_create(&qcow2_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -1582,8 +1581,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
- 
-     /* read qcow2 extensions */
-     if (qcow2_read_extensions(bs, header.header_length, ext_end, NULL,
--                              flags, &update_header, &local_err)) {
--        error_propagate(errp, local_err);
-+                              flags, &update_header, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -3355,7 +3353,6 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     int version;
-     int refcount_order;
-     uint64_t* refcount_table;
--    Error *local_err = NULL;
-     int ret;
-     uint8_t compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
- 
-@@ -3581,9 +3578,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     }
-     blk = blk_new_open(NULL, NULL, options,
-                        BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_NO_FLUSH,
--                       &local_err);
-+                       errp);
-     if (blk == NULL) {
--        error_propagate(errp, local_err);
-         ret = -EIO;
-         goto out;
-     }
-@@ -3663,9 +3659,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     }
-     blk = blk_new_open(NULL, NULL, options,
-                        BDRV_O_RDWR | BDRV_O_NO_BACKING | BDRV_O_NO_IO,
--                       &local_err);
-+                       errp);
-     if (blk == NULL) {
--        error_propagate(errp, local_err);
-         ret = -EIO;
-         goto out;
-     }
-diff --git a/block/raw-format.c b/block/raw-format.c
-index a66fbe77c7..42ec50802b 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -74,13 +74,11 @@ static QemuOptsList raw_create_opts = {
- static int raw_read_options(QDict *options, uint64_t *offset, bool *has_size,
-                             uint64_t *size, Error **errp)
- {
--    Error *local_err = NULL;
-     QemuOpts *opts = NULL;
-     int ret;
- 
-     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto end;
-     }
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index e3bcb05f60..a6a91442c9 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -532,7 +532,6 @@ static SocketAddress *sd_server_config(QDict *options, Error **errp)
-     QDict *server = NULL;
-     Visitor *iv = NULL;
-     SocketAddress *saddr = NULL;
--    Error *local_err = NULL;
- 
-     qdict_extract_subqdict(options, &server, "server.");
- 
-@@ -541,8 +540,7 @@ static SocketAddress *sd_server_config(QDict *options, Error **errp)
-         goto done;
-     }
- 
--    if (!visit_type_SocketAddress(iv, NULL, &saddr, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!visit_type_SocketAddress(iv, NULL, &saddr, errp)) {
-         goto done;
-     }
- 
-@@ -1549,14 +1547,12 @@ static int sd_open(BlockDriverState *bs, QDict *options, int flags,
-     uint64_t snap_id;
-     char *buf = NULL;
-     QemuOpts *opts;
--    Error *local_err = NULL;
- 
-     s->bs = bs;
-     s->aio_context = bdrv_get_aio_context(bs);
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto err_no_fd;
-     }
-diff --git a/block/ssh.c b/block/ssh.c
-index 13a2964621..f00b89684a 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -622,8 +622,7 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
- 
-     /* Translate legacy options */
-     opts = qemu_opts_create(&ssh_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         goto fail;
-     }
- 
-diff --git a/block/throttle.c b/block/throttle.c
-index c0802addbb..1c1ac57bee 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -46,11 +46,9 @@ static int throttle_parse_options(QDict *options, char **group, Error **errp)
- {
-     int ret;
-     const char *group_name;
--    Error *local_err = NULL;
-     QemuOpts *opts = qemu_opts_create(&throttle_opts, NULL, 0, &error_abort);
- 
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fin;
-     }
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 4d42d2fbe1..9a09193f3b 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2250,7 +2250,6 @@ static int vmdk_create_extent(const char *filename, int64_t filesize,
- {
-     int ret;
-     BlockBackend *blk = NULL;
--    Error *local_err = NULL;
- 
-     ret = bdrv_create_file(filename, opts, errp);
-     if (ret < 0) {
-@@ -2259,9 +2258,8 @@ static int vmdk_create_extent(const char *filename, int64_t filesize,
- 
-     blk = blk_new_open(filename, NULL, NULL,
-                        BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL,
--                       &local_err);
-+                       errp);
-     if (blk == NULL) {
--        error_propagate(errp, local_err);
-         ret = -EIO;
-         goto exit;
-     }
-diff --git a/block/vpc.c b/block/vpc.c
-index a5bab92f64..c8cf3957bc 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -235,8 +235,7 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     opts = qemu_opts_create(&vpc_runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/vvfat.c b/block/vvfat.c
-index e3e27e0d6c..24d36220d3 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1149,8 +1149,7 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
- #endif
- 
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    if (!qemu_opts_absorb_qdict(opts, options, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-         goto fail;
-     }
+     bdrv_subtree_drained_end(s->hidden_disk->bs);
 diff --git a/blockdev.c b/blockdev.c
-index 705869d849..1f254e7110 100644
+index 1f254e7110..59b0b8ffaf 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -863,8 +863,7 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+@@ -793,7 +793,6 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
+     bool read_only = false;
+     bool copy_on_read;
+     const char *filename;
+-    Error *local_err = NULL;
+     int i;
  
-     legacy_opts = qemu_opts_create(&qemu_legacy_drive_opts, NULL, 0,
-                                    &error_abort);
--    if (!qemu_opts_absorb_qdict(legacy_opts, bs_opts, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!qemu_opts_absorb_qdict(legacy_opts, bs_opts, errp)) {
-         goto fail;
+     /* Change legacy command line options into QMP ones */
+@@ -1003,13 +1002,10 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
      }
  
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index c1feb649fb..68f9d44feb 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -376,7 +376,6 @@ static const TypeInfo icp_info = {
+     /* Actual block device init: Functionality shared with blockdev-add */
+-    blk = blockdev_init(filename, bs_opts, &local_err);
++    blk = blockdev_init(filename, bs_opts, errp);
+     bs_opts = NULL;
+     if (!blk) {
+-        error_propagate(errp, local_err);
+         goto fail;
+-    } else {
+-        assert(!local_err);
+     }
  
- Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
+     /* Create legacy DriveInfo */
+@@ -3141,9 +3137,8 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+                            arg->has_copy_mode, arg->copy_mode,
+                            arg->has_auto_finalize, arg->auto_finalize,
+                            arg->has_auto_dismiss, arg->auto_dismiss,
+-                           &local_err);
++                           errp);
+     bdrv_unref(target_bs);
+-    error_propagate(errp, local_err);
+ out:
+     aio_context_release(aio_context);
+ }
+@@ -3171,7 +3166,6 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+     AioContext *aio_context;
+     AioContext *old_context;
+     BlockMirrorBackingMode backing_mode = MIRROR_LEAVE_BACKING_CHAIN;
+-    Error *local_err = NULL;
+     bool zero_target;
+     int ret;
+ 
+@@ -3213,8 +3207,7 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+                            has_copy_mode, copy_mode,
+                            has_auto_finalize, auto_finalize,
+                            has_auto_dismiss, auto_dismiss,
+-                           &local_err);
+-    error_propagate(errp, local_err);
++                           errp);
+ out:
+     aio_context_release(aio_context);
+ }
+@@ -3433,8 +3426,7 @@ void qmp_change_backing_file(const char *device,
+     }
+ 
+     if (ro) {
+-        bdrv_reopen_set_read_only(image_bs, true, &local_err);
+-        error_propagate(errp, local_err);
++        bdrv_reopen_set_read_only(image_bs, true, errp);
+     }
+ 
+ out:
+diff --git a/bootdevice.c b/bootdevice.c
+index 8185402a5a..add4e3d2d1 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -303,15 +303,13 @@ static void device_set_bootindex(Object *obj, Visitor *v, const char *name,
+     /* check whether bootindex is present in fw_boot_order list  */
+     check_boot_index(boot_index, &local_err);
+     if (local_err) {
+-        goto out;
++        error_propagate(errp, local_err);
++        return;
+     }
+     /* change bootindex to a new one */
+     *prop->bootindex = boot_index;
+ 
+     add_boot_device_path(*prop->bootindex, prop->dev, prop->suffix);
+-
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static void property_release_bootindex(Object *obj, const char *name,
+diff --git a/dump/dump.c b/dump/dump.c
+index 248ea06370..383bc7876b 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -1031,14 +1031,11 @@ out:
+ 
+ static void write_dump_header(DumpState *s, Error **errp)
+ {
+-     Error *local_err = NULL;
+-
+     if (s->dump_info.d_class == ELFCLASS32) {
+-        create_header32(s, &local_err);
++        create_header32(s, errp);
+     } else {
+-        create_header64(s, &local_err);
++        create_header64(s, errp);
+     }
+-    error_propagate(errp, local_err);
+ }
+ 
+ static size_t dump_bitmap_get_bufsize(DumpState *s)
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index f22f46c9c9..e9ed3eef45 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2528,7 +2528,7 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
+     FDrive *drive;
+     DeviceState *dev;
+     BlockBackend *blk;
+-    Error *local_err = NULL;
++    bool ok;
+     const char *fdc_name, *drive_suffix;
+ 
+     for (i = 0; i < MAX_FD; i++) {
+@@ -2567,11 +2567,9 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
+         blk_ref(blk);
+         blk_detach_dev(blk, fdc_dev);
+         fdctrl->qdev_for_drives[i].blk = NULL;
+-        qdev_prop_set_drive_err(dev, "drive", blk, &local_err);
++        ok = qdev_prop_set_drive_err(dev, "drive", blk, errp);
+         blk_unref(blk);
+-
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        if (!ok) {
+             return;
+         }
+ 
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 0e311a12df..d208fd5008 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -456,40 +456,33 @@ void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
+ 
+ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+ {
+-    Error *err = NULL;
+-
+     if (!ms->numa_state) {
+         error_setg(errp, "NUMA is not supported by this machine-type");
+-        goto end;
++        return;
+     }
+ 
+     switch (object->type) {
+     case NUMA_OPTIONS_TYPE_NODE:
+-        parse_numa_node(ms, &object->u.node, &err);
+-        if (err) {
+-            goto end;
+-        }
++        parse_numa_node(ms, &object->u.node, errp);
+         break;
+     case NUMA_OPTIONS_TYPE_DIST:
+-        parse_numa_distance(ms, &object->u.dist, &err);
+-        if (err) {
+-            goto end;
+-        }
++        parse_numa_distance(ms, &object->u.dist, errp);
+         break;
+     case NUMA_OPTIONS_TYPE_CPU:
+         if (!object->u.cpu.has_node_id) {
+-            error_setg(&err, "Missing mandatory node-id property");
+-            goto end;
++            error_setg(errp, "Missing mandatory node-id property");
++            return;
+         }
+         if (!ms->numa_state->nodes[object->u.cpu.node_id].present) {
+-            error_setg(&err, "Invalid node-id=%" PRId64 ", NUMA node must be "
+-                "defined with -numa node,nodeid=ID before it's used with "
+-                "-numa cpu,node-id=ID", object->u.cpu.node_id);
+-            goto end;
++            error_setg(errp, "Invalid node-id=%" PRId64 ", NUMA node must be "
++                       "defined with -numa node,nodeid=ID before it's used with "
++                       "-numa cpu,node-id=ID", object->u.cpu.node_id);
++            return;
+         }
+ 
+-        machine_set_cpu_numa_node(ms, qapi_NumaCpuOptions_base(&object->u.cpu),
+-                                  &err);
++        machine_set_cpu_numa_node(ms,
++                                  qapi_NumaCpuOptions_base(&object->u.cpu),
++                                  errp);
+         break;
+     case NUMA_OPTIONS_TYPE_HMAT_LB:
+         if (!ms->numa_state->hmat_enabled) {
+@@ -499,10 +492,7 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+             return;
+         }
+ 
+-        parse_numa_hmat_lb(ms->numa_state, &object->u.hmat_lb, &err);
+-        if (err) {
+-            goto end;
+-        }
++        parse_numa_hmat_lb(ms->numa_state, &object->u.hmat_lb, errp);
+         break;
+     case NUMA_OPTIONS_TYPE_HMAT_CACHE:
+         if (!ms->numa_state->hmat_enabled) {
+@@ -512,17 +502,11 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+             return;
+         }
+ 
+-        parse_numa_hmat_cache(ms, &object->u.hmat_cache, &err);
+-        if (err) {
+-            goto end;
+-        }
++        parse_numa_hmat_cache(ms, &object->u.hmat_cache, errp);
+         break;
+     default:
+         abort();
+     }
+-
+-end:
+-    error_propagate(errp, err);
+ }
+ 
+ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 22b524e0ab..67bee1bcb8 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -118,17 +118,15 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
+ 
+ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+ {
+-    Error *local_err = NULL;
+     Object *cpu = object_new(MACHINE(x86ms)->cpu_type);
+ 
+-    if (!object_property_set_uint(cpu, "apic-id", apic_id, &local_err)) {
++    if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
+         goto out;
+     }
+-    qdev_realize(DEVICE(cpu), NULL, &local_err);
++    qdev_realize(DEVICE(cpu), NULL, errp);
+ 
+ out:
+     object_unref(cpu);
+-    error_propagate(errp, local_err);
+ }
+ 
+ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 34591659d3..9a162431e0 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -757,7 +757,6 @@ static const TypeInfo xive_tctx_info = {
+ 
+ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)
  {
 -    Error *local_err = NULL;
      Object *obj;
  
-     obj = object_new(type);
-@@ -384,9 +383,8 @@ Object *icp_create(Object *cpu, const char *type, XICSFabric *xi, Error **errp)
+     obj = object_new(TYPE_XIVE_TCTX);
+@@ -765,16 +764,11 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)
      object_unref(obj);
-     object_property_set_link(obj, ICP_PROP_XICS, OBJECT(xi), &error_abort);
-     object_property_set_link(obj, ICP_PROP_CPU, cpu, &error_abort);
+     object_property_set_link(obj, "cpu", cpu, &error_abort);
+     object_property_set_link(obj, "presenter", OBJECT(xptr), &error_abort);
 -    if (!qdev_realize(DEVICE(obj), NULL, &local_err)) {
+-        goto error;
 +    if (!qdev_realize(DEVICE(obj), NULL, errp)) {
-         object_unparent(obj);
--        error_propagate(errp, local_err);
-         obj = NULL;
++        object_unparent(obj);
++        return NULL;
+     }
+-
+     return obj;
+-
+-error:
+-    object_unparent(obj);
+-    error_propagate(errp, local_err);
+-    return NULL;
+ }
+ 
+ void xive_tctx_destroy(XiveTCTX *tctx)
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 85330d08a1..c4f47dcc04 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -239,8 +239,8 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     CPUState *cs = CPU(cpu);
+     Error *local_err = NULL;
+ 
+-    if (!qdev_realize(DEVICE(cpu), NULL, &local_err)) {
+-        goto error;
++    if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
++        return;
      }
  
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index c1802441d9..fb51fc9f6e 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -292,8 +292,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
-     qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
+     /* Set time-base frequency to 512 MHz */
+@@ -250,20 +250,14 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     kvmppc_set_papr(cpu);
  
-     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
--                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
--        error_propagate(errp, err);
-+                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
-         qemu_set_fd_handler(fd, NULL, NULL, vdev);
-         event_notifier_cleanup(&vdev->intx.interrupt);
-         return -errno;
-diff --git a/net/tap.c b/net/tap.c
-index 2d8d83a30b..f9dcc2ef51 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -836,9 +836,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
-         }
+     if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
+-        goto error_intc_create;
++        cpu_remove_sync(CPU(cpu));
++        return;
+     }
  
-         for (i = 0; i < nfds; i++) {
--            fd = monitor_fd_param(cur_mon, fds[i], &err);
-+            fd = monitor_fd_param(cur_mon, fds[i], errp);
-             if (fd == -1) {
--                error_propagate(errp, err);
-                 ret = -1;
-                 goto free_fail;
-             }
-diff --git a/qom/object.c b/qom/object.c
-index 84b7b52dda..6b0d06c4fa 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1585,11 +1585,9 @@ char *object_property_print(Object *obj, const char *name, bool human,
- {
-     Visitor *v;
-     char *string = NULL;
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
+     }
+-
+-    return;
+-
+-error_intc_create:
+-    cpu_remove_sync(CPU(cpu));
+-error:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index c3b2a1eeda..b23956b42e 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -741,7 +741,6 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+     BusState *bus;
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     S390pciState *s = S390_PCI_HOST_BRIDGE(dev);
 -    Error *local_err = NULL;
  
-     v = string_output_visitor_new(human, &string);
--    if (!object_property_get(obj, name, v, &local_err)) {
--        error_propagate(errp, local_err);
-+    if (!object_property_get(obj, name, v, errp)) {
+     DPRINTF("host_init\n");
+ 
+@@ -765,8 +764,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+     QTAILQ_INIT(&s->zpci_devs);
+ 
+     css_register_io_adapters(CSS_IO_ADAPTER_PCI, true, false,
+-                             S390_ADAPTER_SUPPRESSIBLE, &local_err);
+-    error_propagate(errp, local_err);
++                             S390_ADAPTER_SUPPRESSIBLE, errp);
+ }
+ 
+ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index f7a68343ef..877ea2af9d 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -69,20 +69,18 @@ static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
+                               Error **errp)
+ {
+     S390CPU *cpu = S390_CPU(object_new(typename));
+-    Error *err = NULL;
+     S390CPU *ret = NULL;
+ 
+-    if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, &err)) {
++    if (!object_property_set_int(OBJECT(cpu), "core-id", core_id, errp)) {
          goto out;
      }
+-    if (!qdev_realize(DEVICE(cpu), NULL, &err)) {
++    if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
+         goto out;
+     }
+     ret = cpu;
  
+ out:
+     object_unref(OBJECT(cpu));
+-    error_propagate(errp, err);
+     return ret;
+ }
+ 
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 03364343eb..a0ce444b4b 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -329,7 +329,6 @@ static void sclp_realize(DeviceState *dev, Error **errp)
+ {
+     MachineState *machine = MACHINE(qdev_get_machine());
+     SCLPDevice *sclp = SCLP(dev);
+-    Error *err = NULL;
+     uint64_t hw_limit;
+     int ret;
+ 
+@@ -338,20 +337,17 @@ static void sclp_realize(DeviceState *dev, Error **errp)
+      * as we can't find a fitting bus via the qom tree, we have to add the
+      * event facility to the sysbus, so e.g. a sclp console can be created.
+      */
+-    if (!sysbus_realize(SYS_BUS_DEVICE(sclp->event_facility), &err)) {
+-        goto out;
++    if (!sysbus_realize(SYS_BUS_DEVICE(sclp->event_facility), errp)) {
++        return;
+     }
+ 
+     ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
+     if (ret == -E2BIG) {
+-        error_setg(&err, "host supports a maximum of %" PRIu64 " GB",
++        error_setg(errp, "host supports a maximum of %" PRIu64 " GB",
+                    hw_limit / GiB);
+     } else if (ret) {
+-        error_setg(&err, "setting the guest size failed");
++        error_setg(errp, "setting the guest size failed");
+     }
+-
+-out:
+-    error_propagate(errp, err);
+ }
+ 
+ static void sclp_memory_init(SCLPDevice *sclp)
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index ba27afe9f2..b17bda3b29 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -723,15 +723,13 @@ static bool usb_get_attached(Object *obj, Error **errp)
+ static void usb_set_attached(Object *obj, bool value, Error **errp)
+ {
+     USBDevice *dev = USB_DEVICE(obj);
+-    Error *err = NULL;
+ 
+     if (dev->attached == value) {
+         return;
+     }
+ 
+     if (value) {
+-        usb_device_attach(dev, &err);
+-        error_propagate(errp, err);
++        usb_device_attach(dev, errp);
+     } else {
+         usb_device_detach(dev);
+     }
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 4139dd2fe3..96e52a9e81 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -597,7 +597,6 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     const char *driver, *path;
+     DeviceState *dev = NULL;
+     BusState *bus = NULL;
+-    Error *err = NULL;
+     bool hide;
+ 
+     driver = qemu_opt_get(opts, "driver");
+@@ -652,15 +651,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     dev = qdev_new(driver);
+ 
+     /* Check whether the hotplug is allowed by the machine */
+-    if (qdev_hotplug && !qdev_hotplug_allowed(dev, &err)) {
+-        /* Error must be set in the machine hook */
+-        assert(err);
++    if (qdev_hotplug && !qdev_hotplug_allowed(dev, errp)) {
+         goto err_del_dev;
+     }
+ 
+     if (!bus && qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
+         /* No bus, no machine hotplug handler --> device is not hotpluggable */
+-        error_setg(&err, "Device '%s' can not be hotplugged on this machine",
++        error_setg(errp, "Device '%s' can not be hotplugged on this machine",
+                    driver);
+         goto err_del_dev;
+     }
+@@ -668,19 +665,18 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     qdev_set_id(dev, qemu_opts_id(opts));
+ 
+     /* set properties */
+-    if (qemu_opt_foreach(opts, set_property, dev, &err)) {
++    if (qemu_opt_foreach(opts, set_property, dev, errp)) {
+         goto err_del_dev;
+     }
+ 
+     dev->opts = opts;
+-    if (!qdev_realize(DEVICE(dev), bus, &err)) {
++    if (!qdev_realize(DEVICE(dev), bus, errp)) {
+         dev->opts = NULL;
+         goto err_del_dev;
+     }
+     return dev;
+ 
+ err_del_dev:
+-    error_propagate(errp, err);
+     if (dev) {
+         object_unparent(OBJECT(dev));
+         object_unref(OBJECT(dev));
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index cdbeb59dcc..1a62a3a70d 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -1552,13 +1552,12 @@ static int run_process_child(const char *command[], Error **errp)
+ 
+ static bool systemd_supports_mode(SuspendMode mode, Error **errp)
+ {
+-    Error *local_err = NULL;
+     const char *systemctl_args[3] = {"systemd-hibernate", "systemd-suspend",
+                                      "systemd-hybrid-sleep"};
+     const char *cmd[4] = {"systemctl", "status", systemctl_args[mode], NULL};
+     int status;
+ 
+-    status = run_process_child(cmd, &local_err);
++    status = run_process_child(cmd, errp);
+ 
+     /*
+      * systemctl status uses LSB return codes so we can expect
+@@ -1572,7 +1571,6 @@ static bool systemd_supports_mode(SuspendMode mode, Error **errp)
+         return true;
+     }
+ 
+-    error_propagate(errp, local_err);
+     return false;
+ }
+ 
+diff --git a/qom/object.c b/qom/object.c
+index 6b0d06c4fa..d6bba48e41 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -549,7 +549,6 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+                                          const char *type,
+                                          Error **errp, va_list vargs)
+ {
+-    Error *local_err = NULL;
+     bool ok = false;
+     Object *obj;
+     UserCreatable *uc;
+@@ -565,7 +564,7 @@ bool object_initialize_child_with_propsv(Object *parentobj,
+ 
+     uc = (UserCreatable *)object_dynamic_cast(obj, TYPE_USER_CREATABLE);
+     if (uc) {
+-        if (!user_creatable_complete(uc, &local_err)) {
++        if (!user_creatable_complete(uc, errp)) {
+             object_unparent(obj);
+             goto out;
+         }
+@@ -583,8 +582,6 @@ out:
+      * the reference taken by object_property_add_child().
+      */
+     object_unref(obj);
+-
+-    error_propagate(errp, local_err);
+     return ok;
+ }
+ 
+@@ -737,7 +734,6 @@ Object *object_new_with_propv(const char *typename,
+ {
+     Object *obj;
+     ObjectClass *klass;
+-    Error *local_err = NULL;
+     UserCreatable *uc;
+ 
+     klass = object_class_by_name(typename);
+@@ -762,7 +758,7 @@ Object *object_new_with_propv(const char *typename,
+ 
+     uc = (UserCreatable *)object_dynamic_cast(obj, TYPE_USER_CREATABLE);
+     if (uc) {
+-        if (!user_creatable_complete(uc, &local_err)) {
++        if (!user_creatable_complete(uc, errp)) {
+             if (id != NULL) {
+                 object_unparent(obj);
+             }
+@@ -774,7 +770,6 @@ Object *object_new_with_propv(const char *typename,
+     return obj;
+ 
+  error:
+-    error_propagate(errp, local_err);
+     object_unref(obj);
+     return NULL;
+ }
+@@ -2312,36 +2307,34 @@ static void property_get_tm(Object *obj, Visitor *v, const char *name,
+ 
+     prop->get(obj, &value, &err);
+     if (err) {
+-        goto out;
++        error_propagate(errp, err);
++        return;
+     }
+ 
+-    if (!visit_start_struct(v, name, NULL, 0, &err)) {
+-        goto out;
++    if (!visit_start_struct(v, name, NULL, 0, errp)) {
++        return;
+     }
+-    if (!visit_type_int32(v, "tm_year", &value.tm_year, &err)) {
++    if (!visit_type_int32(v, "tm_year", &value.tm_year, errp)) {
+         goto out_end;
+     }
+-    if (!visit_type_int32(v, "tm_mon", &value.tm_mon, &err)) {
++    if (!visit_type_int32(v, "tm_mon", &value.tm_mon, errp)) {
+         goto out_end;
+     }
+-    if (!visit_type_int32(v, "tm_mday", &value.tm_mday, &err)) {
++    if (!visit_type_int32(v, "tm_mday", &value.tm_mday, errp)) {
+         goto out_end;
+     }
+-    if (!visit_type_int32(v, "tm_hour", &value.tm_hour, &err)) {
++    if (!visit_type_int32(v, "tm_hour", &value.tm_hour, errp)) {
+         goto out_end;
+     }
+-    if (!visit_type_int32(v, "tm_min", &value.tm_min, &err)) {
++    if (!visit_type_int32(v, "tm_min", &value.tm_min, errp)) {
+         goto out_end;
+     }
+-    if (!visit_type_int32(v, "tm_sec", &value.tm_sec, &err)) {
++    if (!visit_type_int32(v, "tm_sec", &value.tm_sec, errp)) {
+         goto out_end;
+     }
+-    visit_check_struct(v, &err);
++    visit_check_struct(v, errp);
+ out_end:
+     visit_end_struct(v, NULL);
+-out:
+-    error_propagate(errp, err);
+-
+ }
+ 
+ static void property_release_tm(Object *obj, const char *name,
+diff --git a/qom/qom-qobject.c b/qom/qom-qobject.c
+index 62ac5e07ac..21ce22de94 100644
+--- a/qom/qom-qobject.c
++++ b/qom/qom-qobject.c
+@@ -34,15 +34,12 @@ QObject *object_property_get_qobject(Object *obj, const char *name,
+                                      Error **errp)
+ {
+     QObject *ret = NULL;
+-    Error *local_err = NULL;
+     Visitor *v;
+ 
+     v = qobject_output_visitor_new(&ret);
+-    object_property_get(obj, name, v, &local_err);
+-    if (!local_err) {
++    if (object_property_get(obj, name, v, errp)) {
+         visit_complete(v, &ret);
+     }
+-    error_propagate(errp, local_err);
+     visit_free(v);
+     return ret;
+ }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6f27f12ec7..e46ab8f774 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5260,16 +5260,13 @@ static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
+ static void object_apply_props(Object *obj, QDict *props, Error **errp)
+ {
+     const QDictEntry *prop;
+-    Error *err = NULL;
+ 
+     for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
+         if (!object_property_set_qobject(obj, qdict_entry_key(prop),
+-                                         qdict_entry_value(prop), &err)) {
++                                         qdict_entry_value(prop), errp)) {
+             break;
+         }
+     }
+-
+-    error_propagate(errp, err);
+ }
+ 
+ /* Create X86CPU object according to model+props specification */
+@@ -6327,19 +6324,18 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+     FeatureWord w;
+     int i;
+     GList *l;
+-    Error *local_err = NULL;
+ 
+     for (l = plus_features; l; l = l->next) {
+         const char *prop = l->data;
+-        if (!object_property_set_bool(OBJECT(cpu), prop, true, &local_err)) {
+-            goto out;
++        if (!object_property_set_bool(OBJECT(cpu), prop, true, errp)) {
++            return;
+         }
+     }
+ 
+     for (l = minus_features; l; l = l->next) {
+         const char *prop = l->data;
+-        if (!object_property_set_bool(OBJECT(cpu), prop, false, &local_err)) {
+-            goto out;
++        if (!object_property_set_bool(OBJECT(cpu), prop, false, errp)) {
++            return;
+         }
+     }
+ 
+@@ -6437,11 +6433,6 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+     if (env->cpuid_xlevel2 == UINT32_MAX) {
+         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
+     }
+-
+-out:
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
+-    }
+ }
+ 
+ /*
 -- 
 2.26.2
 
