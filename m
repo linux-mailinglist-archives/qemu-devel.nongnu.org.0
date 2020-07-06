@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9837215D01
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:24:32 +0200 (CEST)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF72215CDC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:18:27 +0200 (CEST)
+Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUr1-00064H-VP
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
+	id 1jsUl8-0003Id-MS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jsUS4-0005BB-ER
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:58:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57196
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1jsUS2-0005lx-CW
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:58:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594054721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=d+awHNnQN0cvhBVX9Omo27saMLgfwp2Qps5HODapz7U=;
- b=h6I8PZSVMPAt7YLy1ARh3aGp6wHTuBJJe9btzVP6huSNov01zigPU+6TTaKOYPmml2gfc+
- JDC/U4jgHZgkxAyTEgwaQMbvjuQZp8fy2d4p/6sm8LTwv6JXXLtSyN/ejDCbBfYRcsbqV9
- zOuEaaK9RrBzuZN7fB4EraP4K/XaJLk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-wR1DPRPDMzq8GoyQt3P06w-1; Mon, 06 Jul 2020 12:58:36 -0400
-X-MC-Unique: wR1DPRPDMzq8GoyQt3P06w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30852461;
- Mon,  6 Jul 2020 16:58:35 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E9707B603;
- Mon,  6 Jul 2020 16:58:31 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] RFC: qemu-ga: skip loop mount fs to avoid qemu-ga hang
-Date: Mon,  6 Jul 2020 20:58:28 +0400
-Message-Id: <20200706165828.273523-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsUbX-0007tm-Jb; Mon, 06 Jul 2020 13:08:31 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:33334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jsUbV-0007UH-Rb; Mon, 06 Jul 2020 13:08:31 -0400
+Received: by mail-il1-x141.google.com with SMTP id a11so25295635ilk.0;
+ Mon, 06 Jul 2020 10:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=aJ+NMNUyWOSeU76/wZH/xOla8z/F8BGLKK6NO+daT7c=;
+ b=DCtHRVbfbNdZdHrkno7Pg0sSHF/TO28JTJSsk4CQyuv3rpTGwPimzgtRdeipMmeYC8
+ aUYtMHdn8ZYb548p0TC5sD7ZpYCJiiGQvNkmx5Fh+Y1+2AWdNXgyTbZF5g/nSA0CaFXC
+ xiRGdWCgbqjAb5Jb4EW+JexNsAlDtpzx8H6+qoa4BE4MW1vaDJzHgM4Qc/aMXC3ErDa+
+ xscFDbu167g1VZgMknCoWSYpzxdRsorPrRCP5QF0sWCErssL7NXmx5bWwMfBYg4XsY6P
+ iFeF9TqxPGvbOg5sN22Y7ZvG9cGuDvhz6MRZPNAzvoxaV4xjYoy11GgiUBRGvz6pcpCz
+ OlkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aJ+NMNUyWOSeU76/wZH/xOla8z/F8BGLKK6NO+daT7c=;
+ b=AhhNL8AIYDlSaWvbY1o8X+zvRFnpYqjHdm9SZWnctSBq4IdnegoEp2RXjl53CjUYci
+ F7zLOxCUR68oV1IKYJspcDYJy6XIAyUx81Ofhk6e1Q0UwY3Lfcl+gprZxSi6B67XocTq
+ gvmNxRDpmt1cRG546Sykv8vREAoHqZY0i6I/lPOOKZWB4wFNmV/aAV9OLQvntUOiOkwk
+ /upZFkdjknvxG57Ee2VLf/GyBmDQiSNfbIDlaB9yx5aYHstU3X5DCQxDpcspFdiigQKZ
+ vQDBaU1Pw6XbnuaIixQUvNLbdHZhd7YMwnIdt3oQ+Bn0f8nVgI5Kg2iHDbwfrPkowR79
+ ZjFA==
+X-Gm-Message-State: AOAM530EMvGmhUGDeva1CxJlh0KnWFOUlIdy0waiL0NfsP97STV66EGh
+ UIduvUoCg9QkvR+T0/y7+OxFQESV5t9PX0oM5u4=
+X-Google-Smtp-Source: ABdhPJztbbycqoucR5VA9L3J/eqZEps73vsP7bMZlYGOF7l5+CP/IDu5wRU4G+LaN3QoYCbBFL9miKesApB55IKBhTM=
+X-Received: by 2002:a92:c213:: with SMTP id j19mr31628274ilo.40.1594055308108; 
+ Mon, 06 Jul 2020 10:08:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=marcandre.lureau@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200704144943.18292-1-f4bug@amsat.org>
+ <20200704144943.18292-13-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-13-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jul 2020 09:58:41 -0700
+Message-ID: <CAKmqyKP1PJVHc=At4EM_60NZrdkokwOW9iwvqTHBoaYShWLUYg@mail.gmail.com>
+Subject: Re: [PATCH 12/26] hw/usb/hcd-musb: Restrict header scope
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +80,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- mdroth@linux.vnet.ibm.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Paul Zimmerman <pauldzim@gmail.com>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the underlying filesystem is already frozen, ioctl(FIFREEZE) might hang.
+On Sat, Jul 4, 2020 at 7:56 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> "hcd-musb.h" is only required by USB device implementions.
+> As we keep these implementations in the hw/usb/ directory,
+> move the header there.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-guest-fsfreeze is done in reverse order of /proc/self/mountinfo list,
-but it seems insufficient to prevent that situation.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=1782626
+Alistair
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- qga/commands-posix.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index cdbeb59dccd..c4dce400302 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -623,6 +623,7 @@ typedef struct FsMount {
-     char *dirname;
-     char *devtype;
-     unsigned int devmajor, devminor;
-+    bool is_loop;
-     QTAILQ_ENTRY(FsMount) next;
- } FsMount;
- 
-@@ -668,6 +669,11 @@ static int dev_major_minor(const char *devpath,
-     return -1;
- }
- 
-+static bool
-+fsname_is_loop_device(const char *fsname)
-+{
-+    return g_str_has_prefix(fsname, "/dev/loop");
-+}
- /*
-  * Walk the mount table and build a list of local file systems
-  */
-@@ -707,6 +713,7 @@ static void build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
-         mount->devtype = g_strdup(ment->mnt_type);
-         mount->devmajor = devmajor;
-         mount->devminor = devminor;
-+        mount->is_loop = fsname_is_loop_device(ment->mnt_fsname);
- 
-         QTAILQ_INSERT_TAIL(mounts, mount, next);
-     }
-@@ -786,6 +793,7 @@ static void build_fs_mount_list(FsMountList *mounts, Error **errp)
-         mount->devtype = g_strdup(dash + type_s);
-         mount->devmajor = devmajor;
-         mount->devminor = devminor;
-+        mount->is_loop = fsname_is_loop_device(dash + dev_s);
- 
-         QTAILQ_INSERT_TAIL(mounts, mount, next);
-     }
-@@ -1304,6 +1312,10 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-             }
-         }
- 
-+        if (mount->is_loop) {
-+            continue;
-+        }
-+
-         fd = qemu_open(mount->dirname, O_RDONLY);
-         if (fd == -1) {
-             error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
--- 
-2.27.0.90.geebb51ba8c
-
+> ---
+>  {include/hw =3D> hw}/usb/hcd-musb.h | 0
+>  hw/usb/hcd-musb.c                 | 2 +-
+>  hw/usb/tusb6010.c                 | 2 +-
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>  rename {include/hw =3D> hw}/usb/hcd-musb.h (100%)
+>
+> diff --git a/include/hw/usb/hcd-musb.h b/hw/usb/hcd-musb.h
+> similarity index 100%
+> rename from include/hw/usb/hcd-musb.h
+> rename to hw/usb/hcd-musb.h
+> diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+> index 85f5ff5bd4..b8d8766a4a 100644
+> --- a/hw/usb/hcd-musb.c
+> +++ b/hw/usb/hcd-musb.c
+> @@ -23,9 +23,9 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/timer.h"
+>  #include "hw/usb.h"
+> -#include "hw/usb/hcd-musb.h"
+>  #include "hw/irq.h"
+>  #include "hw/hw.h"
+> +#include "hcd-musb.h"
+>
+>  /* Common USB registers */
+>  #define MUSB_HDRC_FADDR                0x00    /* 8-bit */
+> diff --git a/hw/usb/tusb6010.c b/hw/usb/tusb6010.c
+> index 27eb28d3e4..9f9b81b09d 100644
+> --- a/hw/usb/tusb6010.c
+> +++ b/hw/usb/tusb6010.c
+> @@ -23,11 +23,11 @@
+>  #include "qemu/module.h"
+>  #include "qemu/timer.h"
+>  #include "hw/usb.h"
+> -#include "hw/usb/hcd-musb.h"
+>  #include "hw/arm/omap.h"
+>  #include "hw/hw.h"
+>  #include "hw/irq.h"
+>  #include "hw/sysbus.h"
+> +#include "hcd-musb.h"
+>
+>  #define TYPE_TUSB6010 "tusb6010"
+>  #define TUSB(obj) OBJECT_CHECK(TUSBState, (obj), TYPE_TUSB6010)
+> --
+> 2.21.3
+>
+>
 
