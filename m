@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F7215F63
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:32:16 +0200 (CEST)
-Received: from localhost ([::1]:38264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F4C4215F8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 21:42:07 +0200 (CEST)
+Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsWqd-0008O9-1I
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37146)
+	id 1jsX0A-0001UA-J2
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 15:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoB-0005oy-GE
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44244
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoJ-0006AX-7M
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52849
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWo6-0006m3-5Y
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jsWoF-0006qQ-LX
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 15:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594063777;
+ s=mimecast20190719; t=1594063786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Ha4H29dBpYkCiyyMg7fh9dqHB/8h+lRStArIAPNOce0=;
- b=OX23bAj60h+Dfaj+JO8I4y4trcLY+NXmzMCTKJaT21t76npSoMS3gE5xtbiyFCSKPnENJ5
- /eVBWjbuu28EXwz79IKsjsi7kUVwJbS8VwKIZ6/v8m9D2SXUdKdOhcch3tonsS6Yj6UvLb
- itoZC6hurprDAY+iKPcNzBib5C/B260=
+ references:references; bh=2rOF0vIczdeD9fjALP1QYsU4NX3PjQQWiQ37J65TZUg=;
+ b=ABzfkoJoRPTHxcLghEWyYgjLNws31liP0rdK38tqr7QrCXijSirI8gVacWj0mNxy8jTo2Y
+ Ra0TKldHr6gSMKee9GSHa9QcUROnUbfcqWlplHAMP0Nc/79Gg19ygYD44IIhuoOh7idYhg
+ i2hb1/yHqiqLf8Atn1IMU4YClKRnPdI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-6oQ-8NAJM0KlXJlHYxt9tg-1; Mon, 06 Jul 2020 15:29:35 -0400
-X-MC-Unique: 6oQ-8NAJM0KlXJlHYxt9tg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-237-FbIU1H2TNHOae6PqLfLhjw-1; Mon, 06 Jul 2020 15:29:42 -0400
+X-MC-Unique: FbIU1H2TNHOae6PqLfLhjw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E01488014D7;
- Mon,  6 Jul 2020 19:29:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4279519057AD;
+ Mon,  6 Jul 2020 19:29:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
  [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8668B7B411;
- Mon,  6 Jul 2020 19:29:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00BCE5D9F5;
+ Mon,  6 Jul 2020 19:29:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 94FCD31EBF; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
+ id 9F9EA31EE4; Mon,  6 Jul 2020 21:29:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/20] audio: rework pcspk_init()
-Date: Mon,  6 Jul 2020 21:29:16 +0200
-Message-Id: <20200706192921.1154-16-kraxel@redhat.com>
+Subject: [PULL 16/20] audio: create pcspk device early
+Date: Mon,  6 Jul 2020 21:29:17 +0200
+Message-Id: <20200706192921.1154-17-kraxel@redhat.com>
 In-Reply-To: <20200706192921.1154-1-kraxel@redhat.com>
 References: <20200706192921.1154-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,81 +89,49 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of creating and returning the pc speaker accept it as argument.
-That allows to rework the initialization workflow in followup patches.
+Create the pcspk device early, so it exists at
+machine type initialization time.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200702132525.6849-16-kraxel@redhat.com
+Message-id: 20200702132525.6849-17-kraxel@redhat.com
 ---
- include/hw/audio/pcspk.h | 6 +-----
- hw/i386/pc.c             | 2 +-
- hw/isa/i82378.c          | 2 +-
- hw/mips/jazz.c           | 2 +-
- 4 files changed, 4 insertions(+), 8 deletions(-)
+ include/hw/i386/pc.h | 1 +
+ hw/i386/pc.c         | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
-index 7e7f5f49dcb0..8b485602675f 100644
---- a/include/hw/audio/pcspk.h
-+++ b/include/hw/audio/pcspk.h
-@@ -31,18 +31,14 @@
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index d7690bf4290f..a802e699749a 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -33,6 +33,7 @@ struct PCMachineState {
+     PCIBus *bus;
+     I2CBus *smbus;
+     PFlashCFI01 *flash[2];
++    ISADevice *pcspk;
  
- #define TYPE_PC_SPEAKER "isa-pcspk"
- 
--static inline ISADevice *pcspk_init(ISABus *bus, ISADevice *pit)
-+static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
- {
-     DeviceState *dev;
--    ISADevice *isadev;
- 
--    isadev = isa_new(TYPE_PC_SPEAKER);
-     dev = DEVICE(isadev);
-     qdev_prop_set_uint32(dev, "iobase", 0x61);
-     object_property_set_link(OBJECT(dev), OBJECT(pit), "pit", NULL);
-     isa_realize_and_unref(isadev, bus, &error_fatal);
--
--    return isadev;
- }
- 
- #endif /* HW_PCSPK_H */
+     /* Configuration options: */
+     uint64_t max_ram_below_4g;
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 407c782b5d42..4fc1b7048b28 100644
+index 4fc1b7048b28..88785f9dcc70 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
 @@ -1219,7 +1219,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
              /* connect PIT to output control line of the HPET */
              qdev_connect_gpio_out(hpet, 0, qdev_get_gpio_in(DEVICE(pit), 0));
          }
--        pcspk_init(isa_bus, pit);
-+        pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
+-        pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
++        pcspk_init(pcms->pcspk, isa_bus, pit);
      }
  
      i8257_dma_init(isa_bus, 0);
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index d9e6c7fa0096..75a2da288157 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -102,7 +102,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     pit = i8254_pit_init(isabus, 0x40, 0, NULL);
+@@ -1891,6 +1891,7 @@ static void pc_machine_initfn(Object *obj)
+     pcms->pit_enabled = true;
  
-     /* speaker */
--    pcspk_init(isabus, pit);
-+    pcspk_init(isa_new(TYPE_PC_SPEAKER), isabus, pit);
+     pc_system_flash_create(pcms);
++    pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
+ }
  
-     /* 2 82C37 (dma) */
-     isa_create_simple(isabus, "i82374");
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index c3b0da60ccc1..0002bff69590 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -250,7 +250,7 @@ static void mips_jazz_init(MachineState *machine,
-     isa_bus_irqs(isa_bus, i8259);
-     i8257_dma_init(isa_bus, 0);
-     pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
--    pcspk_init(isa_bus, pit);
-+    pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
- 
-     /* Video card */
-     switch (jazz_model) {
+ static void pc_machine_reset(MachineState *machine)
 -- 
 2.18.4
 
