@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56515215C93
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:05:15 +0200 (CEST)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8524D215C85
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:02:19 +0200 (CEST)
+Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUYM-0007gj-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57178)
+	id 1jsUVW-0000or-C0
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCO-0003kV-SB
+ id 1jsUCO-0003j4-9K
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48787
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45782
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCK-00038O-0F
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:32 -0400
+ id 1jsUCJ-00038G-Ve
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594053746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=waFFuaiZ7wPfC/nzV327aHNRxP/Wwk9Pt0g/LfKKdgo=;
- b=ErlRAyw9zOVzl4fSwVkZwCemCOUX+28R8oCVieDGxeE3xP5FOphgemAKPIQ7Z8ExXyWaJO
- gTWT22uX7wh9snsefF2N6aOhkPYV/MsICaRuoyF3gTyFGxEWN4l2wMjSmYsL6tFlGdq9fD
- 31jJfxc/K0H078mIaU8XilrarES2yvc=
+ bh=VjzbHJB011P4JrSJGu5RW392psBXRe2s43oXx8KYWow=;
+ b=Or9cLG7oYY7MZdnYOSeZAVTPRZfwH/w9Mn+lsQ8SeF6F4LnSQXdM72G5ISnA8zWre8QgiH
+ rT1ainOZCPz1PLXSaoxxh2CCTfl8cqjnmD85+EvKKYGiLeBMMU9v6ntFLUB7uPP+dgT92J
+ u0N5gDzeLlPg5isxo75ZUQT0KrCfl7g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-XHbT8Z5kMrCm5VfBGDCINA-1; Mon, 06 Jul 2020 12:42:22 -0400
-X-MC-Unique: XHbT8Z5kMrCm5VfBGDCINA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-266-jGM_f0jxPFGYplIyAsNk6w-1; Mon, 06 Jul 2020 12:42:24 -0400
+X-MC-Unique: jGM_f0jxPFGYplIyAsNk6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F40F980183C;
- Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD9851005510
+ for <qemu-devel@nongnu.org>; Mon,  6 Jul 2020 16:42:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A45A671667;
- Mon,  6 Jul 2020 16:42:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C9047B40D;
+ Mon,  6 Jul 2020 16:42:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/53] target/i386: remove gen_io_end
-Date: Mon,  6 Jul 2020 12:41:31 -0400
-Message-Id: <20200706164155.24696-30-pbonzini@redhat.com>
+Subject: [PULL 32/53] target/i386: sev: provide proper error reporting for
+ query-sev-capabilities
+Date: Mon,  6 Jul 2020 12:41:34 -0400
+Message-Id: <20200706164155.24696-33-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,96 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Force the end of a translation block after an I/O instruction in
-icount mode.  For consistency, all CF_USE_ICOUNT code is kept in
-disas_insn instead of having it in gen_ins and gen_outs.
+The query-sev-capabilities was reporting errors through error_report;
+change it to use Error** so that the cause of the failure is clearer.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/translate.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ target/i386/monitor.c  | 10 +---------
+ target/i386/sev-stub.c |  3 ++-
+ target/i386/sev.c      | 18 +++++++++---------
+ target/i386/sev_i386.h |  2 +-
+ 4 files changed, 13 insertions(+), 20 deletions(-)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index b3fea54411..5ef72ff401 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -1128,9 +1128,6 @@ static void gen_bpt_io(DisasContext *s, TCGv_i32 t_port, int ot)
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 27ebfa3ad2..7abae3c8df 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -726,13 +726,5 @@ SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
  
- static inline void gen_ins(DisasContext *s, MemOp ot)
+ SevCapability *qmp_query_sev_capabilities(Error **errp)
  {
--    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--        gen_io_start();
+-    SevCapability *data;
+-
+-    data = sev_get_capabilities();
+-    if (!data) {
+-        error_setg(errp, "SEV feature is not available");
+-        return NULL;
 -    }
-     gen_string_movl_A0_EDI(s);
-     /* Note: we must do this dummy write first to be restartable in
-        case of page fault. */
-@@ -1143,16 +1140,10 @@ static inline void gen_ins(DisasContext *s, MemOp ot)
-     gen_op_movl_T0_Dshift(s, ot);
-     gen_op_add_reg_T0(s, s->aflag, R_EDI);
-     gen_bpt_io(s, s->tmp2_i32, ot);
--    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--        gen_io_end();
--    }
+-
+-    return data;
++    return sev_get_capabilities(errp);
+ }
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index e5ee13309c..88e3f39a1e 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -44,7 +44,8 @@ char *sev_get_launch_measurement(void)
+     return NULL;
  }
  
- static inline void gen_outs(DisasContext *s, MemOp ot)
+-SevCapability *sev_get_capabilities(void)
++SevCapability *sev_get_capabilities(Error **errp)
  {
--    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--        gen_io_start();
--    }
-     gen_string_movl_A0_ESI(s);
-     gen_op_ld_v(s, ot, s->T0, s->A0);
++    error_setg(errp, "SEV is not available in this QEMU");
+     return NULL;
+ }
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index d273174ad3..70f9ee026f 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -399,7 +399,7 @@ sev_get_info(void)
  
-@@ -1163,9 +1154,6 @@ static inline void gen_outs(DisasContext *s, MemOp ot)
-     gen_op_movl_T0_Dshift(s, ot);
-     gen_op_add_reg_T0(s, s->aflag, R_ESI);
-     gen_bpt_io(s, s->tmp2_i32, ot);
--    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--        gen_io_end();
--    }
+ static int
+ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
+-                 size_t *cert_chain_len)
++                 size_t *cert_chain_len, Error **errp)
+ {
+     guchar *pdh_data = NULL;
+     guchar *cert_chain_data = NULL;
+@@ -410,8 +410,8 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
+     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
+     if (r < 0) {
+         if (err != SEV_RET_INVALID_LEN) {
+-            error_report("failed to export PDH cert ret=%d fw_err=%d (%s)",
+-                         r, err, fw_error_to_str(err));
++            error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
++                       r, err, fw_error_to_str(err));
+             return 1;
+         }
+     }
+@@ -423,8 +423,8 @@ sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
+ 
+     r = sev_platform_ioctl(fd, SEV_PDH_CERT_EXPORT, &export, &err);
+     if (r < 0) {
+-        error_report("failed to export PDH cert ret=%d fw_err=%d (%s)",
+-                     r, err, fw_error_to_str(err));
++        error_setg(errp, "failed to export PDH cert ret=%d fw_err=%d (%s)",
++                   r, err, fw_error_to_str(err));
+         goto e_free;
+     }
+ 
+@@ -441,7 +441,7 @@ e_free:
  }
  
- /* same method as Valgrind : we generate jumps to current or next
-@@ -6400,8 +6388,12 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
-         gen_check_io(s, ot, pc_start - s->cs_base, 
-                      SVM_IOIO_TYPE_MASK | svm_is_rep(prefixes) | 4);
-+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
-             gen_repz_ins(s, ot, pc_start - s->cs_base, s->pc - s->cs_base);
-+            /* jump generated by gen_repz_ins */
-         } else {
-             gen_ins(s, ot);
-             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-@@ -6415,8 +6407,12 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
-         gen_check_io(s, ot, pc_start - s->cs_base,
-                      svm_is_rep(prefixes) | 4);
-+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
-             gen_repz_outs(s, ot, pc_start - s->cs_base, s->pc - s->cs_base);
-+            /* jump generated by gen_repz_outs */
-         } else {
-             gen_outs(s, ot);
-             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-@@ -8039,7 +8035,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-                     gen_helper_read_crN(s->T0, cpu_env, tcg_const_i32(reg));
-                     gen_op_mov_reg_v(s, ot, rm, s->T0);
-                     if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_io_end();
-+                        gen_jmp(s, s->pc - s->cs_base);
-                     }
-                 }
-                 break;
+ SevCapability *
+-sev_get_capabilities(void)
++sev_get_capabilities(Error **errp)
+ {
+     SevCapability *cap = NULL;
+     guchar *pdh_data = NULL;
+@@ -452,13 +452,13 @@ sev_get_capabilities(void)
+ 
+     fd = open(DEFAULT_SEV_DEVICE, O_RDWR);
+     if (fd < 0) {
+-        error_report("%s: Failed to open %s '%s'", __func__,
+-                     DEFAULT_SEV_DEVICE, strerror(errno));
++        error_setg_errno(errp, errno, "Failed to open %s",
++                         DEFAULT_SEV_DEVICE);
+         return NULL;
+     }
+ 
+     if (sev_get_pdh_info(fd, &pdh_data, &pdh_len,
+-                         &cert_chain_data, &cert_chain_len)) {
++                         &cert_chain_data, &cert_chain_len, errp)) {
+         goto out;
+     }
+ 
+diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+index 8eb7de1bef..4db6960f60 100644
+--- a/target/i386/sev_i386.h
++++ b/target/i386/sev_i386.h
+@@ -34,6 +34,6 @@ extern SevInfo *sev_get_info(void);
+ extern uint32_t sev_get_cbit_position(void);
+ extern uint32_t sev_get_reduced_phys_bits(void);
+ extern char *sev_get_launch_measurement(void);
+-extern SevCapability *sev_get_capabilities(void);
++extern SevCapability *sev_get_capabilities(Error **errp);
+ 
+ #endif
 -- 
 2.26.2
 
