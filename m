@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79D02153F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:27:56 +0200 (CEST)
-Received: from localhost ([::1]:41894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91432153E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:20:34 +0200 (CEST)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMTj-0002CS-Tv
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
+	id 1jsMMb-0005Hj-LV
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCy-0002jk-6v
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:36 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47162
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCc-00020Q-Gw
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:14 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51471
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCS-0003HJ-1p
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:35 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCO-0003Ct-LE
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023002;
+ s=mimecast20190719; t=1594022999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rvBDMmtYvVkY3jVOUFPXEZPVFsdhSQqoZM3UWCNt/ok=;
- b=WZf1LX7he0uEcU5uOIDpAlT+XzajLlNX05YsPE83l/B0I1b2VJkU80rowYusigXeiWdgc0
- AepFOYv5yPzgkcSnH+40hQVy3KQ8ZRsEUL77wdxzxhld79sNCsaF4lGciy+yc/XkSdq0AL
- V4s9PC6+F92sDQ91olfauV//jE4xtTo=
+ bh=rrBvTNiGCibp/BhPYTKKaF8k1cyKBd+CLsON+OQORcU=;
+ b=Ndi6jsGxLntm3iiExllwuwqQHOml7l31z4NUBRngxDfmUUpO0feL0lkU1BxiSJEoqFilJX
+ i7nsjgQ8Kgy8RtQSnw8LZu8LZIDaaelXAT/3VmI4aTXy7xxaodLtdi/pnnnGS6hBaZT87c
+ d5QiVxXJU0/WuE7DNLWwGjgZD/7VZYU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-nqD9eO03O9CeIgG73shkPg-1; Mon, 06 Jul 2020 04:09:58 -0400
-X-MC-Unique: nqD9eO03O9CeIgG73shkPg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-396-jYARexagMtGkL1uebIpdyQ-1; Mon, 06 Jul 2020 04:09:55 -0400
+X-MC-Unique: jYARexagMtGkL1uebIpdyQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 143C5800407;
- Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 562FB1883619;
+ Mon,  6 Jul 2020 08:09:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B29910013C2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC85519C71;
  Mon,  6 Jul 2020 08:09:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AFB6311385FC; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
+ id B3688113860E; Mon,  6 Jul 2020 10:09:50 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/44] virtio-crypto-pci: Tidy up
- virtio_crypto_pci_realize()
-Date: Mon,  6 Jul 2020 10:09:11 +0200
-Message-Id: <20200706080950.403087-6-armbru@redhat.com>
+Subject: [PATCH v3 06/44] qemu-option: Check return value instead of @err
+ where convenient
+Date: Mon,  6 Jul 2020 10:09:12 +0200
+Message-Id: <20200706080950.403087-7-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,42 +84,146 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, groug@kaod.org,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, pbonzini@redhat.com
+ ehabkost@redhat.com, qemu-block@nongnu.org, groug@kaod.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio_crypto_pci_realize() continues after realization of its
-"virtio-crypto-device" fails.  Only an object_property_set_link()
-follows; looks harmless to me.  Tidy up anyway: return after failure,
-just like virtio_rng_pci_realize() does.
+Convert uses like
 
-Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
+    opts = qemu_opts_create(..., &err);
+    if (err) {
+        ...
+    }
+
+to
+
+    opts = qemu_opts_create(..., &err);
+    if (!opts) {
+        ...
+    }
+
+Eliminate error_propagate() that are now unnecessary.  Delete @err
+that are now unused.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Gonglei < arei.gonglei@huawei.com>
 ---
- hw/virtio/virtio-crypto-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/parallels.c  |  4 ++--
+ blockdev.c         |  5 ++---
+ qdev-monitor.c     |  5 ++---
+ util/qemu-config.c | 10 ++++------
+ util/qemu-option.c | 12 ++++--------
+ 5 files changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.c
-index 72be531c95..0755722288 100644
---- a/hw/virtio/virtio-crypto-pci.c
-+++ b/hw/virtio/virtio-crypto-pci.c
-@@ -54,7 +54,9 @@ static void virtio_crypto_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+diff --git a/block/parallels.c b/block/parallels.c
+index 63a1cde8af..f26f03c926 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -824,8 +824,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+         }
      }
  
-     virtio_pci_force_virtio_1(vpci_dev);
--    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+    if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-+        return;
-+    }
-     object_property_set_link(OBJECT(vcrypto),
-                  OBJECT(vcrypto->vdev.conf.cryptodev), "cryptodev",
-                  NULL);
+-    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, &local_err);
+-    if (local_err != NULL) {
++    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
++    if (!opts) {
+         goto fail_options;
+     }
+ 
+diff --git a/blockdev.c b/blockdev.c
+index 31d5eaf6bf..b52ed9de86 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -504,9 +504,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+     /* Check common options by copying from bs_opts to opts, all other options
+      * stay in bs_opts for processing by bdrv_open(). */
+     id = qdict_get_try_str(bs_opts, "id");
+-    opts = qemu_opts_create(&qemu_common_drive_opts, id, 1, &error);
+-    if (error) {
+-        error_propagate(errp, error);
++    opts = qemu_opts_create(&qemu_common_drive_opts, id, 1, errp);
++    if (!opts) {
+         goto err_no_opts;
+     }
+ 
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 13a13a811a..079cb6001e 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -799,9 +799,8 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
+     QemuOpts *opts;
+     DeviceState *dev;
+ 
+-    opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
++    if (!opts) {
+         return;
+     }
+     if (!monitor_cur_is_qmp() && qdev_device_help(opts)) {
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 772f5a219e..c0d0e9b8ef 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -493,9 +493,8 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
+         goto out;
+     }
+ 
+-    subopts = qemu_opts_create(opts, NULL, 0, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    subopts = qemu_opts_create(opts, NULL, 0, errp);
++    if (!subopts) {
+         goto out;
+     }
+ 
+@@ -538,10 +537,9 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
+             }
+ 
+             opt_name = g_strdup_printf("%s.%u", opts->name, i++);
+-            subopts = qemu_opts_create(opts, opt_name, 1, &local_err);
++            subopts = qemu_opts_create(opts, opt_name, 1, errp);
+             g_free(opt_name);
+-            if (local_err) {
+-                error_propagate(errp, local_err);
++            if (!subopts) {
+                 goto out;
+             }
+ 
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 0ebfd97a98..fd1fd23521 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -670,11 +670,9 @@ void qemu_opts_set(QemuOptsList *list, const char *id,
+                    const char *name, const char *value, Error **errp)
+ {
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+ 
+-    opts = qemu_opts_create(list, id, 1, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    opts = qemu_opts_create(list, id, 1, errp);
++    if (!opts) {
+         return;
+     }
+     qemu_opt_set(opts, name, value, errp);
+@@ -1012,10 +1010,8 @@ QemuOpts *qemu_opts_from_qdict(QemuOptsList *list, const QDict *qdict,
+     QemuOpts *opts;
+     const QDictEntry *entry;
+ 
+-    opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1,
+-                            &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1, errp);
++    if (!opts) {
+         return NULL;
+     }
+ 
 -- 
 2.26.2
 
