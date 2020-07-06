@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B3C215517
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:06:13 +0200 (CEST)
-Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE937215519
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:06:21 +0200 (CEST)
+Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsO0q-0004Jt-KU
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
+	id 1jsO0y-0004k3-LR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzO-0002Z4-1e
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32611
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzS-0002eh-W7
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:47 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53409
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzM-0003zU-3A
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:41 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzR-00040V-8M
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594029879;
+ s=mimecast20190719; t=1594029884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kWlk0RfHP85NHjTYR1qqmW5V+NFFmlDtq7OQu6ex83E=;
- b=ZdnqONjmdxUdiQp1NWZx0aqfcG3zvKzRbX0by1LSR9IABbxBOsRmNl4z04Qd9XOBBWkMuK
- b8vXRBQ2M9MnEzHrllT6EDaai94LbBpSRLbtdhtHxb4oVDGGv1+FmIqFLrLF6J8vH14Vhk
- Zsfkci+UXRlFUm96x0Og5arkaeQ9yy8=
+ bh=eVYR/K11nGkGqENmn7dDzzY0OhxOmePiTgzCFoaGOWE=;
+ b=i3GutNzmoQCjMACXnO4YarVbixpGu9oTeMza3+Vz33AaXqjRfzknLYWDR/TRPYPmaI+ryS
+ aKny38PwSUYrpR6l2J8Kfi8N3YdM84YyUyImF9IzwFJYWAbXipDQQzGmPS9VnzMrK94tVF
+ KFMYfOaVMpOHf9DdhNDQ6FMB29GxC7A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-QVpRdZtAP5yXOXyBY5HTqw-1; Mon, 06 Jul 2020 06:04:37 -0400
-X-MC-Unique: QVpRdZtAP5yXOXyBY5HTqw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-5-hGfP0s5KPYqPt2d3BKZ01A-1; Mon, 06 Jul 2020 06:04:40 -0400
+X-MC-Unique: hGfP0s5KPYqPt2d3BKZ01A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F32A800C64;
- Mon,  6 Jul 2020 10:04:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6070518A8222;
+ Mon,  6 Jul 2020 10:04:39 +0000 (UTC)
 Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E65492DE8F;
- Mon,  6 Jul 2020 10:04:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1F0E7B41B;
+ Mon,  6 Jul 2020 10:04:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/31] block/block-copy: block_copy_dirty_clusters: fix failure
- check
-Date: Mon,  6 Jul 2020 12:04:02 +0200
-Message-Id: <20200706100432.2301919-2-mreitz@redhat.com>
+Subject: [PULL 02/31] qcow2: Fix preallocation on images with unaligned sizes
+Date: Mon,  6 Jul 2020 12:04:03 +0200
+Message-Id: <20200706100432.2301919-3-mreitz@redhat.com>
 In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
 References: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,35 +84,127 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Alberto Garcia <berto@igalia.com>
 
-ret may be > 0 on success path at this point. Fix assertion, which may
-crash currently.
+When resizing an image with qcow2_co_truncate() using the falloc or
+full preallocation modes the code assumes that both the old and new
+sizes are cluster-aligned.
 
-Fixes: 4ce5dd3e9b5ee0fac18625860eb3727399ee965e
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200526181347.489557-1-vsementsov@virtuozzo.com>
+There are two problems with this:
+
+  1) The calculation of how many clusters are involved does not always
+     get the right result.
+
+     Example: creating a 60KB image and resizing it (with
+     preallocation=full) to 80KB won't allocate the second cluster.
+
+  2) No copy-on-write is performed, so in the previous example if
+     there is a backing file then the first 60KB of the first cluster
+     won't be filled with data from the backing file.
+
+This patch fixes both issues.
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Message-Id: <20200617140036.20311-1-berto@igalia.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/qcow2.c              | 17 ++++++++++++++---
+ tests/qemu-iotests/125     | 24 ++++++++++++++++++++++++
+ tests/qemu-iotests/125.out |  9 +++++++++
+ 3 files changed, 47 insertions(+), 3 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index bb8d0569f2..f7428a7c08 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -622,8 +622,10 @@ out:
-          * block_copy_task_run. If it fails, it means some task already failed
-          * for real reason, let's return first failure.
-          * Still, assert that we don't rewrite failure by success.
-+         *
-+         * Note: ret may be positive here because of block-status result.
-          */
--        assert(ret == 0 || aio_task_pool_status(aio) < 0);
-+        assert(ret >= 0 || aio_task_pool_status(aio) < 0);
-         ret = aio_task_pool_status(aio);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0cd2e6757e..e20590c3b7 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4239,8 +4239,8 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+             old_file_size = ROUND_UP(old_file_size, s->cluster_size);
+         }
  
-         aio_task_pool_free(aio);
+-        nb_new_data_clusters = DIV_ROUND_UP(offset - old_length,
+-                                            s->cluster_size);
++        nb_new_data_clusters = (ROUND_UP(offset, s->cluster_size) -
++            start_of_cluster(s, old_length)) >> s->cluster_bits;
+ 
+         /* This is an overestimation; we will not actually allocate space for
+          * these in the file but just make sure the new refcount structures are
+@@ -4317,10 +4317,21 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+             int64_t nb_clusters = MIN(
+                 nb_new_data_clusters,
+                 s->l2_slice_size - offset_to_l2_slice_index(s, guest_offset));
+-            QCowL2Meta allocation = {
++            unsigned cow_start_length = offset_into_cluster(s, guest_offset);
++            QCowL2Meta allocation;
++            guest_offset = start_of_cluster(s, guest_offset);
++            allocation = (QCowL2Meta) {
+                 .offset       = guest_offset,
+                 .alloc_offset = host_offset,
+                 .nb_clusters  = nb_clusters,
++                .cow_start    = {
++                    .offset       = 0,
++                    .nb_bytes     = cow_start_length,
++                },
++                .cow_end      = {
++                    .offset       = nb_clusters << s->cluster_bits,
++                    .nb_bytes     = 0,
++                },
+             };
+             qemu_co_queue_init(&allocation.dependent_requests);
+ 
+diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
+index d510984045..7cb1c19730 100755
+--- a/tests/qemu-iotests/125
++++ b/tests/qemu-iotests/125
+@@ -164,6 +164,30 @@ for GROWTH_SIZE in 16 48 80; do
+ done
+ done
+ 
++# Test image resizing using preallocation and unaligned offsets
++$QEMU_IMG create -f raw "$TEST_IMG.base" 128k | _filter_img_create
++$QEMU_IO -c 'write -q -P 1 0 128k' -f raw "$TEST_IMG.base"
++for orig_size in 31k 33k; do
++    echo "--- Resizing image from $orig_size to 96k ---"
++    _make_test_img -F raw -b "$TEST_IMG.base" -o cluster_size=64k "$orig_size"
++    $QEMU_IMG resize -f "$IMGFMT" --preallocation=full "$TEST_IMG" 96k
++    # The first part of the image should contain data from the backing file
++    $QEMU_IO -c "read -q -P 1 0 ${orig_size}" "$TEST_IMG"
++    # The resized part of the image should contain zeroes
++    $QEMU_IO -c "read -q -P 0 ${orig_size} 63k" "$TEST_IMG"
++    # If the image does not have an external data file we can also verify its
++    # actual size. The resized image should have 7 clusters:
++    # header, L1 table, L2 table, refcount table, refcount block, 2 data clusters
++    if ! _get_data_file "$TEST_IMG" > /dev/null; then
++        expected_file_length=$((65536 * 7))
++        file_length=$(stat -c '%s' "$TEST_IMG_FILE")
++        if [ "$file_length" != "$expected_file_length" ]; then
++            echo "ERROR: file length $file_length (expected $expected_file_length)"
++        fi
++    fi
++    echo
++done
++
+ # success, all done
+ echo '*** done'
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/125.out b/tests/qemu-iotests/125.out
+index 596905f533..7f76f7af20 100644
+--- a/tests/qemu-iotests/125.out
++++ b/tests/qemu-iotests/125.out
+@@ -767,4 +767,13 @@ wrote 2048000/2048000 bytes at offset 0
+ wrote 81920/81920 bytes at offset 2048000
+ 80 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=raw size=131072
++--- Resizing image from 31k to 96k ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=31744 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=raw
++Image resized.
++
++--- Resizing image from 33k to 96k ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33792 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=raw
++Image resized.
++
+ *** done
 -- 
 2.26.2
 
