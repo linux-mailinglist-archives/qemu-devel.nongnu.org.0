@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86974216076
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:44:09 +0200 (CEST)
-Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FF221607A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:46:36 +0200 (CEST)
+Received: from localhost ([::1]:44370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXyC-0000gr-J8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
+	id 1jsY0Z-0004CY-IR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuU-0003B2-LR
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:18 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28855
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXub-0003S3-VR
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:26 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58938
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuS-0002We-Ji
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:18 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuY-0002ei-Mw
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594068015;
+ s=mimecast20190719; t=1594068022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/EPqpSgUt6DDbkbtCknxzu7tgVde2nJvZJCDkg/HX0w=;
- b=JROnbTxHe5zK2BZe9aJY243eIiX1HE5IIR3R6zofvZY6lsx1TAuk53/bpaqwSs802edaxd
- XE3QNjuA146n/rl9N9J9iMo4JwsfrkO+Vtule0o3GghG2gB4gyaV9bwUVoaag9nNF6wtA8
- awpnDYTzGwEY3aUCRV979yf5g9X9WNI=
+ bh=a7kzcP6lvLKEs41zUi2YzVsM6sMm4JZ4BTW7VEBxVvc=;
+ b=Fvd6yPHkP5y0jdR5YaHgIcCgttbbKeHWorF14oCp6e7UDAdMLBkV49N+7BKAQzN/eGKBH0
+ gcqUaO47DqSWD1QuuTQmhm5a1JdscuaXOd/yZ9+v7nIOX2/E8mycD3oXpF+WiOZ1Qmqyi/
+ nFaRDdn7LxnlG/UioxydmAc5mWWF0qk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-IouY_cVpNMm-FoMF_BOIHA-1; Mon, 06 Jul 2020 16:40:14 -0400
-X-MC-Unique: IouY_cVpNMm-FoMF_BOIHA-1
+ us-mta-328-VZ9WVeGFNuqjcOCyy7N5TQ-1; Mon, 06 Jul 2020 16:40:17 -0400
+X-MC-Unique: VZ9WVeGFNuqjcOCyy7N5TQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B88A8107ACF3;
- Mon,  6 Jul 2020 20:40:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C10F41902EA9;
+ Mon,  6 Jul 2020 20:40:16 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-97.phx2.redhat.com [10.3.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEE697B419;
- Mon,  6 Jul 2020 20:40:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F03977B400;
+ Mon,  6 Jul 2020 20:40:12 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/10] vmdk: Add trivial backing_fmt support
-Date: Mon,  6 Jul 2020 15:39:48 -0500
-Message-Id: <20200706203954.341758-5-eblake@redhat.com>
+Subject: [PATCH v6 05/10] qcow: Tolerate backing_fmt=
+Date: Mon,  6 Jul 2020 15:39:49 -0500
+Message-Id: <20200706203954.341758-6-eblake@redhat.com>
 In-Reply-To: <20200706203954.341758-1-eblake@redhat.com>
 References: <20200706203954.341758-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,65 +79,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, pkrempa@redhat.com,
- qemu-block@nongnu.org, kchamart@redhat.com, libvir-list@redhat.com,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- mreitz@redhat.com, "open list:Trivial patches" <qemu-trivial@nongnu.org>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
+ kchamart@redhat.com, libvir-list@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vmdk already requires that if backing_file is present, that it be
-another vmdk image (see vmdk_co_do_create).  Meanwhile, we want to
-move towards always being explicit about the backing format for other
-drivers where it matters.  So for convenience, make qemu-img create -F
-vmdk work, while rejecting all other explicit formats (note that this
-is only for QemuOpts usage; there is no change to the QAPI to allow a
-format through -blockdev).
+qcow has no space in the metadata to store a backing format, and there
+are existing qcow images backed both by raw or by other formats
+(usually qcow) images, reliant on probing to tell the difference.  On
+the bright side, because we probe every time, raw files are marked as
+probed and we thus forbid a commit action into the backing file where
+guest-controlled contents could change the result of the probe next
+time around (the iotest added here proves that).
+
+Still, allowing the user to specify the backing format during
+creation, even if we can't record it, is a good thing.  This patch
+blindly allows any value that resolves to a known driver, even if the
+user's request is a mismatch from what probing finds; then the next
+patch will further enhance things to verify that the user's request
+matches what we actually probe.  With this and the next patch in
+place, we will finally be ready to deprecate the creation of images
+where a backing format was not explicitly specified by the user.
+
+Note that this is only for QemuOpts usage; there is no change to the
+QAPI to allow a format through -blockdev.
+
+Add a new iotest 293 just for qcow, to demonstrate the latest
+behavior, and to make it easier to show the improvements made in the
+next patch.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/vmdk.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ block/qcow.c               | 20 ++++++++-
+ tests/qemu-iotests/293     | 88 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/293.out | 60 ++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 4 files changed, 168 insertions(+), 1 deletion(-)
+ create mode 100755 tests/qemu-iotests/293
+ create mode 100644 tests/qemu-iotests/293.out
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 62da4651263b..6c58e5ec2e43 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2638,6 +2638,14 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
-     bool zeroed_grain;
-     bool compat6;
-     VMDKCreateOptsData data;
-+    char *backing_fmt = NULL;
-+
+diff --git a/block/qcow.c b/block/qcow.c
+index ee5d35fe20ed..e91aa2d8c4d0 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -940,11 +940,12 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     BlockDriverState *bs = NULL;
+-    QDict *qdict;
++    QDict *qdict = NULL;
+     Visitor *v;
+     const char *val;
+     Error *local_err = NULL;
+     int ret;
++    char *backing_fmt;
+
+     static const QDictRenames opt_renames[] = {
+         { BLOCK_OPT_BACKING_FILE,       "backing-file" },
+@@ -952,6 +953,17 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+         { NULL, NULL },
+     };
+
++    /*
++     * We can't actually store a backing format, but can check that
++     * the user's request made sense.
++     */
 +    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
-+    if (backing_fmt && strcmp(backing_fmt, "vmdk") != 0) {
-+        error_setg(errp, "backing_file must be a vmdk image");
++    if (backing_fmt && !bdrv_find_format(backing_fmt)) {
++        error_setg(errp, "unrecognized backing format '%s'", backing_fmt);
 +        ret = -EINVAL;
-+        goto exit;
++        goto fail;
 +    }
++
+     /* Parse options and convert legacy syntax */
+     qdict = qemu_opts_to_qdict_filtered(opts, NULL, &qcow_create_opts, true);
 
-     if (filename_decompose(filename, path, prefix, postfix, PATH_MAX, errp)) {
-         ret = -EINVAL;
-@@ -2696,6 +2704,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
-                             vmdk_co_create_opts_cb, &data, errp);
+@@ -1018,6 +1030,7 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
 
- exit:
+     ret = 0;
+ fail:
 +    g_free(backing_fmt);
-     g_free(adapter_type);
-     g_free(backing_file);
-     g_free(hw_version);
-@@ -3031,6 +3040,11 @@ static QemuOptsList vmdk_create_opts = {
+     qobject_unref(qdict);
+     bdrv_unref(bs);
+     qapi_free_BlockdevCreateOptions(create_options);
+@@ -1152,6 +1165,11 @@ static QemuOptsList qcow_create_opts = {
              .type = QEMU_OPT_STRING,
              .help = "File name of a base image"
          },
 +        {
 +            .name = BLOCK_OPT_BACKING_FMT,
 +            .type = QEMU_OPT_STRING,
-+            .help = "Must be 'vmdk' if present",
++            .help = "Format of the backing image",
 +        },
          {
-             .name = BLOCK_OPT_COMPAT6,
+             .name = BLOCK_OPT_ENCRYPT,
              .type = QEMU_OPT_BOOL,
+diff --git a/tests/qemu-iotests/293 b/tests/qemu-iotests/293
+new file mode 100755
+index 000000000000..3823e956175a
+--- /dev/null
++++ b/tests/qemu-iotests/293
+@@ -0,0 +1,88 @@
++#!/usr/bin/env bash
++#
++# Test qcow backing file warnings
++#
++# Copyright (C) 2020 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1 # failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++    _rm_test_img "$TEST_IMG.qcow2"
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow
++_supported_proto file
++_supported_os Linux
++
++size=32M
++
++echo
++echo "== qcow backed by qcow =="
++
++TEST_IMG="$TEST_IMG.base" _make_test_img $size
++_make_test_img -b "$TEST_IMG.base" $size
++_img_info
++_make_test_img -b "$TEST_IMG.base" -F $IMGFMT $size
++_img_info
++
++echo
++echo "== mismatched command line detection =="
++
++_make_test_img -b "$TEST_IMG.base" -F vmdk
++_make_test_img -b "$TEST_IMG.base" -F vmdk $size
++echo
++# Use of -u bypasses the backing format sanity check
++_make_test_img -u -b "$TEST_IMG.base" -F vmdk
++_make_test_img -u -b "$TEST_IMG.base" -F vmdk $size
++echo
++# But the format must still be recognized
++_make_test_img -b "$TEST_IMG.base" -F garbage $size
++_make_test_img -u -b "$TEST_IMG.base" -F garbage $size
++_img_info
++
++echo
++echo "== qcow backed by raw =="
++
++rm "$TEST_IMG.base"
++truncate --size=$size "$TEST_IMG.base"
++_make_test_img -b "$TEST_IMG.base" $size
++_img_info
++_make_test_img -b "$TEST_IMG.base" -F raw $size
++_img_info
++
++echo
++echo "== commit cannot change type of raw backing file =="
++TEST_IMG="$TEST_IMG.qcow2" IMGFMT=qcow2 _make_test_img $size
++truncate --size=$size "$TEST_IMG.qcow2"
++$QEMU_IMG convert -n -f raw -O $IMGFMT "$TEST_IMG.qcow2" "$TEST_IMG"
++$QEMU_IMG commit -f $IMGFMT "$TEST_IMG" && echo "unexpected success"
++TEST_IMG="$TEST_IMG.base" _img_info
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/293.out b/tests/qemu-iotests/293.out
+new file mode 100644
+index 000000000000..d07918b6d74b
+--- /dev/null
++++ b/tests/qemu-iotests/293.out
+@@ -0,0 +1,60 @@
++QA output created by 293
++
++== qcow backed by qcow ==
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=33554432
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++cluster_size: 512
++backing file: TEST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++cluster_size: 512
++backing file: TEST_DIR/t.IMGFMT.base
++
++== mismatched command line detection ==
++qemu-img: TEST_DIR/t.IMGFMT: invalid VMDK image descriptor
++Could not open backing image to determine size.
++qemu-img: warning: Could not verify backing image. This may become an error in future versions.
++invalid VMDK image descriptor
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=vmdk
++
++qemu-img: TEST_DIR/t.IMGFMT: Image creation needs a size parameter
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=vmdk
++
++qemu-img: warning: Could not verify backing image. This may become an error in future versions.
++Unknown driver 'garbage'
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=garbage
++qemu-img: TEST_DIR/t.IMGFMT: unrecognized backing format 'garbage'
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=garbage
++qemu-img: TEST_DIR/t.IMGFMT: unrecognized backing format 'garbage'
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++cluster_size: 512
++backing file: TEST_DIR/t.IMGFMT.base
++
++== qcow backed by raw ==
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++cluster_size: 512
++backing file: TEST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=raw
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++cluster_size: 512
++backing file: TEST_DIR/t.IMGFMT.base
++
++== commit cannot change type of raw backing file ==
++Formatting 'TEST_DIR/t.qcow.IMGFMT', fmt=IMGFMT size=33554432
++qemu-img: Block job failed: Operation not permitted
++image: TEST_DIR/t.IMGFMT.base
++file format: raw
++virtual size: 32 MiB (33554432 bytes)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index d886fa0cb355..0dcfffdcad4a 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -301,4 +301,5 @@
+ 290 rw auto quick
+ 291 rw quick
+ 292 rw auto quick
++293 backing quick
+ 297 meta
 -- 
 2.27.0
 
