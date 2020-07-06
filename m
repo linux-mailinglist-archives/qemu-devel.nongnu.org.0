@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E70B215578
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:24:46 +0200 (CEST)
-Received: from localhost ([::1]:37478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0D215568
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:19:08 +0200 (CEST)
+Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsOIn-0005B3-Dg
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
+	id 1jsODL-0004BG-GL
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0V-0004pe-MT
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32818
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0Y-0004vy-5Q
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:54 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24451
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0T-0004Mu-SP
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:51 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0W-0004ND-7N
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594029949;
+ s=mimecast20190719; t=1594029951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UrKoebiL2UfqTB2RJFDxEt9GUE2N/cuYD81ybQUoEMc=;
- b=Znf+B9u8iwC4FTmuMKnKCiZBMIRzv0nHNSpVdj59s4BX+XNwl2isMjskXy6JXxfY2l8xs5
- G+i3y5Uf8fK5df0JVy6SwF0jhZ/VgavFz6hfsRkX+qCJuTFWLkSJP6VaYGnxgZLiVluKPU
- VPVVggmElXD+D4U6iiX9Yqxa5ACohAo=
+ bh=u004E6Ep2Z81gMtCqTLi6rp1iyBNdEC4/fTCVYChyRI=;
+ b=FLNE9Jo9QquuZiVa5ODNtbu8J8tB16jG6fjP1zMAvRvsacHdrOzGO+kFglCtZ/qapjvc1B
+ O2MX13ou6s1FU9910Om0h8uVX5A0dyp+fIjqefb89a6j9sjOo5kgzG9xkXxlSsmRqDcqiS
+ C1cLktVA0z6VhwFxTx15np7Mj3tcsf0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-Z8mfu8oMO0SayqObcMufeA-1; Mon, 06 Jul 2020 06:05:47 -0400
-X-MC-Unique: Z8mfu8oMO0SayqObcMufeA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-407-W4Uz5gDRMlCgZ60pO16yyQ-1; Mon, 06 Jul 2020 06:05:49 -0400
+X-MC-Unique: W4Uz5gDRMlCgZ60pO16yyQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C6FB80183C;
- Mon,  6 Jul 2020 10:05:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4778A800D5C;
+ Mon,  6 Jul 2020 10:05:48 +0000 (UTC)
 Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DB48275E3B;
- Mon,  6 Jul 2020 10:05:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAB6810013D9;
+ Mon,  6 Jul 2020 10:05:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 30/31] block: drop unallocated_blocks_are_zero
-Date: Mon,  6 Jul 2020 12:04:31 +0200
-Message-Id: <20200706100432.2301919-31-mreitz@redhat.com>
+Subject: [PULL 31/31] qed: Simplify backing reads
+Date: Mon,  6 Jul 2020 12:04:32 +0200
+Message-Id: <20200706100432.2301919-32-mreitz@redhat.com>
 In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
 References: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,118 +84,145 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
 
-Currently this field only set by qed and qcow2. But in fact, all
-backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
-these semantics: on unallocated blocks, if there is no backing file they
-just memset the buffer with zeroes.
+The other four drivers that support backing files (qcow, qcow2,
+parallels, vmdk) all rely on the block layer to populate zeroes when
+reading beyond EOF of a short backing file.  We can simplify the qed
+code by doing likewise.
 
-So, document this behavior for .supports_backing and drop
-.unallocated_blocks_are_zero
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200528094405.145708-10-vsementsov@virtuozzo.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200528094405.145708-11-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block.h     |  5 -----
- include/block/block_int.h | 12 +++++++++++-
- block/io.c                |  9 ++-------
- block/qcow2.c             |  1 -
- block/qed.c               |  1 -
- 5 files changed, 13 insertions(+), 15 deletions(-)
+ block/qed.h |  1 -
+ block/qed.c | 64 +++++------------------------------------------------
+ 2 files changed, 6 insertions(+), 59 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index e7934e07f2..bca3bb831c 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -21,11 +21,6 @@ typedef struct BlockDriverInfo {
-     /* offset at which the VM state can be saved (0 if not possible) */
-     int64_t vm_state_offset;
-     bool is_dirty;
--    /*
--     * True if unallocated blocks read back as zeroes. This is equivalent
--     * to the LBPRZ flag in the SCSI logical block provisioning page.
--     */
--    bool unallocated_blocks_are_zero;
-     /*
-      * True if this block driver only supports compressed writes
-      */
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 1b86b59af1..3d6cf88592 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -123,7 +123,17 @@ struct BlockDriver {
-      */
-     bool bdrv_needs_filename;
+diff --git a/block/qed.h b/block/qed.h
+index 42c115d822..3d12bf78d4 100644
+--- a/block/qed.h
++++ b/block/qed.h
+@@ -140,7 +140,6 @@ typedef struct QEDAIOCB {
  
--    /* Set if a driver can support backing files */
-+    /*
-+     * Set if a driver can support backing files. This also implies the
-+     * following semantics:
-+     *
-+     *  - Return status 0 of .bdrv_co_block_status means that corresponding
-+     *    blocks are not allocated in this layer of backing-chain
-+     *  - For such (unallocated) blocks, read will:
-+     *    - fill buffer with zeros if there is no backing file
-+     *    - read from the backing file otherwise, where the block layer
-+     *      takes care of reading zeros beyond EOF if backing file is short
-+     */
-     bool supports_backing;
- 
-     /* For handling image reopen for split or non-split files */
-diff --git a/block/io.c b/block/io.c
-index 36d4d562a6..b6564e34c5 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2406,7 +2406,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
- 
-     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
-         ret |= BDRV_BLOCK_ALLOCATED;
--    } else if (want_zero) {
-+    } else if (want_zero && bs->drv->supports_backing) {
-         if (bs->backing) {
-             BlockDriverState *bs2 = bs->backing->bs;
-             int64_t size2 = bdrv_getlength(bs2);
-@@ -2415,12 +2415,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
-                 ret |= BDRV_BLOCK_ZERO;
-             }
-         } else {
--            BlockDriverInfo bdi;
--            int ret2 = bdrv_get_info(bs, &bdi);
--
--            if (ret2 == 0 && bdi.unallocated_blocks_are_zero) {
--                ret |= BDRV_BLOCK_ZERO;
--            }
-+            ret |= BDRV_BLOCK_ZERO;
-         }
-     }
- 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 30f073cf2a..38198b4e75 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4987,7 +4987,6 @@ err:
- static int qcow2_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
-     BDRVQcow2State *s = bs->opaque;
--    bdi->unallocated_blocks_are_zero = true;
-     bdi->cluster_size = s->cluster_size;
-     bdi->vm_state_offset = qcow2_vm_state_offset(s);
-     return 0;
+     /* Current cluster scatter-gather list */
+     QEMUIOVector cur_qiov;
+-    QEMUIOVector *backing_qiov;
+     uint64_t cur_pos;               /* position on block device, in bytes */
+     uint64_t cur_cluster;           /* cluster offset in image file */
+     unsigned int cur_nclusters;     /* number of clusters being accessed */
 diff --git a/block/qed.c b/block/qed.c
-index c0c65015c7..a2dd952699 100644
+index a2dd952699..ece8b9bb60 100644
 --- a/block/qed.c
 +++ b/block/qed.c
-@@ -1514,7 +1514,6 @@ static int bdrv_qed_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     memset(bdi, 0, sizeof(*bdi));
-     bdi->cluster_size = s->header.cluster_size;
-     bdi->is_dirty = s->header.features & QED_F_NEED_CHECK;
--    bdi->unallocated_blocks_are_zero = true;
+@@ -849,56 +849,18 @@ static BDRVQEDState *acb_to_s(QEDAIOCB *acb)
+  * @s:              QED state
+  * @pos:            Byte position in device
+  * @qiov:           Destination I/O vector
+- * @backing_qiov:   Possibly shortened copy of qiov, to be allocated here
+- * @cb:             Completion function
+- * @opaque:         User data for completion function
+  *
+  * This function reads qiov->size bytes starting at pos from the backing file.
+  * If there is no backing file then zeroes are read.
+  */
+ static int coroutine_fn qed_read_backing_file(BDRVQEDState *s, uint64_t pos,
+-                                              QEMUIOVector *qiov,
+-                                              QEMUIOVector **backing_qiov)
++                                              QEMUIOVector *qiov)
+ {
+-    uint64_t backing_length = 0;
+-    size_t size;
+-    int ret;
+-
+-    /* If there is a backing file, get its length.  Treat the absence of a
+-     * backing file like a zero length backing file.
+-     */
+     if (s->bs->backing) {
+-        int64_t l = bdrv_getlength(s->bs->backing->bs);
+-        if (l < 0) {
+-            return l;
+-        }
+-        backing_length = l;
+-    }
+-
+-    /* Zero all sectors if reading beyond the end of the backing file */
+-    if (pos >= backing_length ||
+-        pos + qiov->size > backing_length) {
+-        qemu_iovec_memset(qiov, 0, 0, qiov->size);
+-    }
+-
+-    /* Complete now if there are no backing file sectors to read */
+-    if (pos >= backing_length) {
+-        return 0;
+-    }
+-
+-    /* If the read straddles the end of the backing file, shorten it */
+-    size = MIN((uint64_t)backing_length - pos, qiov->size);
+-
+-    assert(*backing_qiov == NULL);
+-    *backing_qiov = g_new(QEMUIOVector, 1);
+-    qemu_iovec_init(*backing_qiov, qiov->niov);
+-    qemu_iovec_concat(*backing_qiov, qiov, 0, size);
+-
+-    BLKDBG_EVENT(s->bs->file, BLKDBG_READ_BACKING_AIO);
+-    ret = bdrv_co_preadv(s->bs->backing, pos, size, *backing_qiov, 0);
+-    if (ret < 0) {
+-        return ret;
++        BLKDBG_EVENT(s->bs->file, BLKDBG_READ_BACKING_AIO);
++        return bdrv_co_preadv(s->bs->backing, pos, qiov->size, qiov, 0);
+     }
++    qemu_iovec_memset(qiov, 0, 0, qiov->size);
      return 0;
  }
  
+@@ -915,7 +877,6 @@ static int coroutine_fn qed_copy_from_backing_file(BDRVQEDState *s,
+                                                    uint64_t offset)
+ {
+     QEMUIOVector qiov;
+-    QEMUIOVector *backing_qiov = NULL;
+     int ret;
+ 
+     /* Skip copy entirely if there is no work to do */
+@@ -925,13 +886,7 @@ static int coroutine_fn qed_copy_from_backing_file(BDRVQEDState *s,
+ 
+     qemu_iovec_init_buf(&qiov, qemu_blockalign(s->bs, len), len);
+ 
+-    ret = qed_read_backing_file(s, pos, &qiov, &backing_qiov);
+-
+-    if (backing_qiov) {
+-        qemu_iovec_destroy(backing_qiov);
+-        g_free(backing_qiov);
+-        backing_qiov = NULL;
+-    }
++    ret = qed_read_backing_file(s, pos, &qiov);
+ 
+     if (ret) {
+         goto out;
+@@ -1339,8 +1294,7 @@ static int coroutine_fn qed_aio_read_data(void *opaque, int ret,
+         qemu_iovec_memset(&acb->cur_qiov, 0, 0, acb->cur_qiov.size);
+         r = 0;
+     } else if (ret != QED_CLUSTER_FOUND) {
+-        r = qed_read_backing_file(s, acb->cur_pos, &acb->cur_qiov,
+-                                  &acb->backing_qiov);
++        r = qed_read_backing_file(s, acb->cur_pos, &acb->cur_qiov);
+     } else {
+         BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+         r = bdrv_co_preadv(bs->file, offset, acb->cur_qiov.size,
+@@ -1365,12 +1319,6 @@ static int coroutine_fn qed_aio_next_io(QEDAIOCB *acb)
+     while (1) {
+         trace_qed_aio_next_io(s, acb, 0, acb->cur_pos + acb->cur_qiov.size);
+ 
+-        if (acb->backing_qiov) {
+-            qemu_iovec_destroy(acb->backing_qiov);
+-            g_free(acb->backing_qiov);
+-            acb->backing_qiov = NULL;
+-        }
+-
+         acb->qiov_offset += acb->cur_qiov.size;
+         acb->cur_pos += acb->cur_qiov.size;
+         qemu_iovec_reset(&acb->cur_qiov);
 -- 
 2.26.2
 
