@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFACF216074
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:43:42 +0200 (CEST)
-Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636E621606D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:41:51 +0200 (CEST)
+Received: from localhost ([::1]:57540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXxl-0000Cn-Oi
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1jsXvy-0004ve-DS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuT-00038P-9z
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55154
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuQ-00033V-I0
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45431
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuQ-0002VF-6H
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:16 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jsXuO-0002Ua-Jp
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:40:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594068013;
+ s=mimecast20190719; t=1594068011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lJvFO5Pb/vWMhSFo8+5u9ofTXO9NYGyp5FgW59rhl2k=;
- b=htj+Zcfzm/tIAY6JxnxLWvcNtCutPfALMoPcjG+0U2N1hesPnsISBKYg84nsKCvfTdkyJX
- U1dGiMSsNBDA+byE4L6IDEdRprQr3mWqRkF1hT+HVq2vzSh+NUGhlIBmEnY3t+pk2BWfuX
- gC3GYtAETYS0rIrPLDQIdDfu/YSmeMI=
+ bh=FMd2/ba9VVPZz6QMl3NG1Nf/5kpoc5P1u2WSfB4bIyw=;
+ b=idMapMFmf+k91FF3hlEorPc1LjYdUE3g8T9jMNbDARY0ywqkSPeMGnd4/u4C2uLHfSoNmE
+ s2dgCwM0rAPf1r4lIHgCsdg4vqRWAqjCoPjDiuP90IDyArhDh0LrdU7tvp9Ckx8031aF9n
+ 3at4VylaRrPTw4CkT3C7VkxG5z2Bxq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-SVhZTrjxOTyjZpVIy4Awkg-1; Mon, 06 Jul 2020 16:40:09 -0400
-X-MC-Unique: SVhZTrjxOTyjZpVIy4Awkg-1
+ us-mta-445-Mfk0mwkwNSa0VmoqNttnVQ-1; Mon, 06 Jul 2020 16:40:10 -0400
+X-MC-Unique: Mfk0mwkwNSa0VmoqNttnVQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6108E8015F5;
- Mon,  6 Jul 2020 20:40:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4556C1902EA0;
+ Mon,  6 Jul 2020 20:40:09 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-97.phx2.redhat.com [10.3.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15B617B400;
- Mon,  6 Jul 2020 20:40:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E2227B400;
+ Mon,  6 Jul 2020 20:40:08 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/10] qemu-img: Flush stdout before before potential
- stderr messages
-Date: Mon,  6 Jul 2020 15:39:45 -0500
-Message-Id: <20200706203954.341758-2-eblake@redhat.com>
+Subject: [PATCH v6 02/10] block: Finish deprecation of 'qemu-img convert -n -o'
+Date: Mon,  6 Jul 2020 15:39:46 -0500
+Message-Id: <20200706203954.341758-3-eblake@redhat.com>
 In-Reply-To: <20200706203954.341758-1-eblake@redhat.com>
 References: <20200706203954.341758-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -40
 X-Spam_score: -4.1
@@ -67,7 +66,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,144 +84,109 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During 'qemu-img create ... 2>&1', if --quiet is not in force, we can
-end up with buffered I/O in stdout that was produced before failure,
-but which appears in output after failure.  This is confusing; the fix
-is to flush stdout prior to attempting anything that might produce an
-error message.  Several iotests demonstrate the resulting ordering
-change now that the merged outputs now reflect chronology.  (An even
-better fix would be to avoid printf from within block.c altogether,
-but that's much more invasive...)
+It's been two releases since we started warning; time to make the
+combination an error as promised.  There was no iotest coverage, so
+add some.
+
+While touching the documentation, tweak another section heading for
+consistent style.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block.c                    | 1 +
- tests/qemu-iotests/049.out | 8 ++++----
- tests/qemu-iotests/054.out | 2 +-
- tests/qemu-iotests/079.out | 2 +-
- tests/qemu-iotests/112.out | 4 ++--
- tests/qemu-iotests/259.out | 2 +-
- 6 files changed, 10 insertions(+), 9 deletions(-)
+ docs/system/deprecated.rst | 18 ++++++++----------
+ qemu-img.c                 |  4 ++--
+ tests/qemu-iotests/122     |  7 +++++++
+ tests/qemu-iotests/122.out |  4 ++++
+ 4 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/block.c b/block.c
-index 6dbcb7e083ea..a568196ba250 100644
---- a/block.c
-+++ b/block.c
-@@ -6186,6 +6186,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
-         printf("Formatting '%s', fmt=%s ", filename, fmt);
-         qemu_opts_print(opts, " ");
-         puts("");
-+        fflush(stdout);
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 47f84be8e09f..73b9d9f37848 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -418,14 +418,6 @@ kernel in 2018, and has also been dropped from glibc.
+ Related binaries
+ ----------------
+
+-``qemu-img convert -n -o`` (since 4.2.0)
+-''''''''''''''''''''''''''''''''''''''''
+-
+-All options specified in ``-o`` are image creation options, so
+-they have no effect when used with ``-n`` to skip image creation.
+-Silently ignored options can be confusing, so this combination of
+-options will be made an error in future versions.
+-
+ Backwards compatibility
+ -----------------------
+
+@@ -531,8 +523,8 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
+ Related binaries
+ ----------------
+
+-``qemu-nbd --partition`` (removed in 5.0.0)
+-'''''''''''''''''''''''''''''''''''''''''''
++``qemu-nbd --partition`` (removed in 5.0)
++'''''''''''''''''''''''''''''''''''''''''
+
+ The ``qemu-nbd --partition $digit`` code (also spelled ``-P``)
+ could only handle MBR partitions, and never correctly handled logical
+@@ -548,6 +540,12 @@ can be rewritten as::
+
+   qemu-nbd -t --image-opts driver=raw,offset=1M,size=100M,file.driver=qcow2,file.file.driver=file,file.file.filename=file.qcow2
+
++``qemu-img convert -n -o`` (removed in 5.1)
++'''''''''''''''''''''''''''''''''''''''''''
++
++All options specified in ``-o`` are image creation options, so
++they are now rejected when used with ``-n`` to skip image creation.
++
+ Command line options
+ --------------------
+
+diff --git a/qemu-img.c b/qemu-img.c
+index bdb9f6aa46a3..9efe1f13482b 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2369,8 +2369,8 @@ static int img_convert(int argc, char **argv)
      }
 
-     ret = bdrv_create(drv, filename, opts, &local_err);
-diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
-index c54ae21b868a..22f395246b37 100644
---- a/tests/qemu-iotests/049.out
-+++ b/tests/qemu-iotests/049.out
-@@ -167,12 +167,12 @@ qemu-img create -f qcow2 -o compat=1.1 TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=1.1 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
+     if (skip_create && options) {
+-        warn_report("-o has no effect when skipping image creation");
+-        warn_report("This will become an error in future QEMU versions.");
++        error_report("-o has no effect when skipping image creation");
++        goto fail_getopt;
+     }
 
- qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.42 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
-+qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
+     if (s.has_zero_init && !skip_create) {
+diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
+index f7a3ae684a7c..2dc16b2ca484 100755
+--- a/tests/qemu-iotests/122
++++ b/tests/qemu-iotests/122
+@@ -290,6 +290,13 @@ TEST_IMG="$TEST_IMG".orig _make_test_img 64M
+ # backing file"
+ $QEMU_IMG convert -O $IMGFMT -B "$TEST_IMG".base -n "$TEST_IMG" "$TEST_IMG".orig
 
- qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=foobar cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
-+qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
++echo
++echo '=== -n incompatible with -o ==='
++echo
++
++$QEMU_IMG convert -O $IMGFMT -o preallocation=metadata -n \
++	  "$TEST_IMG" "$TEST_IMG".orig && echo "unexpected success"
++
+ # success, all done
+ echo '*** done'
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
+index 1a35951a80a8..c2e154a1e556 100644
+--- a/tests/qemu-iotests/122.out
++++ b/tests/qemu-iotests/122.out
+@@ -233,4 +233,8 @@ Images are identical.
 
- == Check preallocation option ==
-
-@@ -183,8 +183,8 @@ qemu-img create -f qcow2 -o preallocation=metadata TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=metadata lazy_refcounts=off refcount_bits=16 compression_type=zlib
-
- qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
--qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 cluster_size=65536 preallocation=1234 lazy_refcounts=off refcount_bits=16 compression_type=zlib
-+qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
-
- == Check encryption option ==
-
-@@ -206,7 +206,7 @@ qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=off TEST_DIR/t.qcow2 64M
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=off refcount_bits=16 compression_type=zlib
-
- qemu-img create -f qcow2 -o compat=0.10,lazy_refcounts=on TEST_DIR/t.qcow2 64M
--qemu-img: TEST_DIR/t.qcow2: Lazy refcounts only supported with compatibility level 1.1 and above (use version=v3 or greater)
- Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 size=67108864 compat=0.10 cluster_size=65536 lazy_refcounts=on refcount_bits=16 compression_type=zlib
-+qemu-img: TEST_DIR/t.qcow2: Lazy refcounts only supported with compatibility level 1.1 and above (use version=v3 or greater)
-
- *** done
-diff --git a/tests/qemu-iotests/054.out b/tests/qemu-iotests/054.out
-index e6ec430edd47..71f18bb98760 100644
---- a/tests/qemu-iotests/054.out
-+++ b/tests/qemu-iotests/054.out
-@@ -1,8 +1,8 @@
- QA output created by 054
-
- creating too large image (1 EB)
--qemu-img: TEST_DIR/t.IMGFMT: The image size is too large for file format 'IMGFMT' (try using a larger cluster size)
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1152921504606846976
-+qemu-img: TEST_DIR/t.IMGFMT: The image size is too large for file format 'IMGFMT' (try using a larger cluster size)
-
- creating too large image (1 EB) using qcow2.py
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296
-diff --git a/tests/qemu-iotests/079.out b/tests/qemu-iotests/079.out
-index aab922fb369b..f65a9ca84fea 100644
---- a/tests/qemu-iotests/079.out
-+++ b/tests/qemu-iotests/079.out
-@@ -9,6 +9,6 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadat
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
- qemu-img: TEST_DIR/t.IMGFMT: Cluster size must be a power of two between 512 and 2048k
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4294967296 preallocation=metadata
- *** done
-diff --git a/tests/qemu-iotests/112.out b/tests/qemu-iotests/112.out
-index ae0318cabea6..5e77e38a7a13 100644
---- a/tests/qemu-iotests/112.out
-+++ b/tests/qemu-iotests/112.out
-@@ -2,7 +2,6 @@ QA output created by 112
-
- === refcount_bits limits ===
-
--qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 refcount_bits=-1
-@@ -10,6 +9,7 @@ qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not e
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+qemu-img: TEST_DIR/t.IMGFMT: Refcount width must be a power of two and may not exceed 64 bits
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- refcount bits: 1
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-@@ -21,10 +21,10 @@ refcount bits: 16
-
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- refcount bits: 16
--qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+qemu-img: TEST_DIR/t.IMGFMT: Different refcount widths than 16 bits require compatibility level 1.1 or above (use version=v3 or greater)
-
- === Snapshot limit on refcount_bits=1 ===
-
-diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
-index ffed19c2a0af..e27b9ff38d75 100644
---- a/tests/qemu-iotests/259.out
-+++ b/tests/qemu-iotests/259.out
-@@ -9,6 +9,6 @@ virtual size: 64 MiB (67108864 bytes)
- disk size: unavailable
-
- --- Testing creation for which the node would need to grow ---
--qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
- Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864 preallocation=metadata
-+qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
++
++=== -n incompatible with -o ===
++
++qemu-img: -o has no effect when skipping image creation
  *** done
 -- 
 2.27.0
