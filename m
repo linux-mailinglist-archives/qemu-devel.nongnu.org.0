@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62F7215FE9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:08:02 +0200 (CEST)
-Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25035215FE6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 22:07:39 +0200 (CEST)
+Received: from localhost ([::1]:57420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsXPF-0004cA-Ur
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45690)
+	id 1jsXOs-0003IV-5M
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 16:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNf-0001cV-Ge
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:23 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:44951)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNe-0001bj-4C
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNd-0004sz-Fy
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:23 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jsXNc-0004sn-DS
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 16:06:21 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MirSu-1kX6vQ3PLo-00evKx; Mon, 06 Jul 2020 22:06:05 +0200
+ id 1Mrh9Y-1kfwc51uWS-00nl1b; Mon, 06 Jul 2020 22:06:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] target/m68k: consolidate physical translation offset into
- get_physical_address()
-Date: Mon,  6 Jul 2020 22:05:58 +0200
-Message-Id: <20200706200559.160209-3-laurent@vivier.eu>
+Subject: [PULL 3/3] softfloat,
+ m68k: disable floatx80_invalid_encoding() for m68k
+Date: Mon,  6 Jul 2020 22:05:59 +0200
+Message-Id: <20200706200559.160209-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200706200559.160209-1-laurent@vivier.eu>
 References: <20200706200559.160209-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6ByfCQdS36HnRHicBYjzL4lbMjnxZSZ4ub5HbgTD6hI+ZAOAReI
- A1EG33JFp3hN7BIzVZR5RqT3iiI+ZhzCQP1yZqcWi7OabOkb2yPXUQ71Jjbc5uGFP2ZvyJj
- ePwjlbBzxMJ88sXHzIMl+059ERuHVe9/AVOEkZCM6qGMd7E3idsSxao6M1yvo/044rXjPvk
- +pwmoNQRGU87NWww9T6vg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sspCEf3us1c=:RKzRNrR17UetWFa+R4STeM
- RZ2YVBe4ITGFzrQzjo+F3Kd63OtBoK7K5cbknfKvrWyYLrzJQSTDpB0UpSAD448rgV2CWPGJy
- kb593GwOrNLAS5AyrPlcdpoa1Pml83ZC5lMA2xr3I/r2IpVmnq+++JibGS1vWQyJCtLw6DQrx
- B9d0LmnVkSz0EP7pC0tVKwyJ23MI91hcrpGCD1FocRk7c0y7kFSIaInWI9NTkF+sP8OO7KqgJ
- 0+1TQlzCUqq9YDTWIzIbA+lxyrE9Gbpcz44HNOL6sKj7LZig8A9v0CC7d7sZucSWzUhskEyh6
- nBdpsMXN3aOWIrQunqxvnedCCphBDQ8TusBKAESKY6Yc50YRoDGP5mWbVa8C52Uc+WsCMiK3D
- iYn0uszYebyYxbpJjYOJsGFkRiCmZjQ8P/69P+DVGt1fI6ttmjH3VwRJwO0g/kyM8Ipfmevt+
- Delt5Z8rQ9nZS0ou0N5tmiUIzfKm6Z4tOrBWu4s/RroaoV1BoE3KC/dGzV92Mj4PRDZ9H2ojw
- gP5cqroNNTAbYWU/C4uuaLQuiFoYtoQgRqT+yS/ESpavXcn/Kc8nij4NNQmbGS5oz0CT8pp63
- nL7fG+kq20fWltupojZF6ZC/+qNeVY9p6Rytp1DNO+6LOMcNCU5lQIP3rUNga5jLLce8xaj0m
- IQVhOr74X4CLWLAcR09+yvR1+Ql+7Y03jJrTr1zYLiVzesgQ6ES2XV2CkMrAEn9UYb0NA+q3j
- T6R+56IaVBPKgH/ODAQTKduciLxz9BrsVMVxnEa4Lr4c/DM9ImQHfxZETozjSkNx5ksgfi1wz
- JTDpzU7Z5Fc8EoZ5g2Xgbp2juB2pM1ndXlEflKD2iTmh7SPamx/+4zZ0oZBrCe9peNbjKFq
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hQ7+V73jS8osY4BZP51pZsm/CritqkcXleC1/1o3Xwq5vssvZZX
+ 6/hO8faAlvKOQXTvOx4+1R4p0xypYk3Rz/6gySKrueYVbexmw4Du2SNeGH8WBiscCmeBU1p
+ JlGGFpmV+E8SRJ5Ivf9UjfQWr1ZgLOglD7+V69CiwIDFxKtPhVRz2cQger6KU6dxkZKZgmS
+ 6fHXr7FFTC4j9Uv/AMCYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jRjAnRCLjns=:6Z4QqL4mMD9xrLJOumVLo4
+ kyOmk2oRI2HZQcdHVg3qmsgLaJzzc5HBM5oZO3IgGWMYHIka/HmpgUxOglxwnso4yWutNuFYh
+ RqGUhm0CPJtt2ncWpccAShHyd5hgPEFWSQWoye+g4jWvI821melSNrcsOFWr1xsIaWLPNCUzX
+ VbnIyntCME3Dmab7J8qNaV5i5UPcXAV6pmVWtoL9MlKZH92AutC3VP3p01rCftaZrRKgVv+zR
+ hANv23a+LWTvc15kOD0S3xlwdOCWT0W3Ktjqfv2PT0uD6bTToT+0DD8dtm5e4ITo76JAoI8Zj
+ F1pFJLtykpudry8fPiqWYSnwsYmfnGeAxem9VmBcPd7twPxdYEt8nAqHrwtQTVdWyVufFtNhy
+ FcO+6DQ0HNm/6xcvoIiyLJAudLcwHt+Y3AyN5pbTI5dLz5YemtKWFmVkKnmlqh/aCYM+FdbdY
+ yVpsvNANIaJTj7waV1MNW+4BFo7bqnvFrDd1y3DGx57IMw4xX9yCNnBXRcFNBnrG0rSQ+PajC
+ SKafVBAeq4sAzf7YDFQTD+frQe/RJ41t/ZSbMD8Nr+64mpyiIM3Tz5joNBRgTognWXc/UpAKF
+ ZVJ1hOQm8Q1USZdpYsF4LHNYB7mbVDsXIQwYPwXRhqVnY3xHyOVl0MADctwPAp8vRWDS5Z4iV
+ LCIfdJRBQE9rKXXMOAX62O+nrlyVW0aOT97qREXt3HNlBdLkHOS/TA09LDMWl5dlgk5+8d7xd
+ wHQPVG40QfbwsQ8jI2SnFsCainFc+OddaJTZd5vakoQXso8xjFjqicX7Usp4ZSuGS9OskaPQM
+ /4zY0ljmioNwaCJP0J9bylsvV/hgZP7EIR2NQhxiodzxsPZ+X9EgULuhYTUExWJURnbZfHV
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 16:06:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 15:40:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -71,85 +71,80 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+According to the comment, this definition of invalid encoding is given
+by intel developer's manual, and doesn't comply with 680x0 FPU.
 
-Since all callers to get_physical_address() now apply the same page offset to
-the translation result, move the logic into get_physical_address() itself to
-avoid duplication.
+With m68k, the explicit integer bit can be zero in the case of:
+ - zeros                (exp == 0, mantissa == 0)
+ - denormalized numbers (exp == 0, mantissa != 0)
+ - unnormalized numbers (exp != 0, exp < 0x7FFF)
+ - infinities           (exp == 0x7FFF, mantissa == 0)
+ - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
 
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200701201531.13828-3-mark.cave-ayland@ilande.co.uk>
+For infinities and NaNs, the explicit integer bit can be either one or
+zero.
+
+The IEEE 754 standard does not define a zero integer bit. Such a number
+is an unnormalized number. Hardware does not directly support
+denormalized and unnormalized numbers, but implicitly supports them by
+trapping them as unimplemented data types, allowing efficient conversion
+in software.
+
+See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
+    "1.6 FLOATING-POINT DATA TYPES"
+
+We will implement in the m68k TCG emulator the FP_UNIMP exception to
+trap into the kernel to normalize the number. In case of linux-user,
+the number will be normalized by QEMU.
+
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200612140400.2130118-1-laurent@vivier.eu>
 ---
- target/m68k/helper.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ include/fpu/softfloat.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 631eab777494..3ff57657958c 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -643,7 +643,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
-                 /* Transparent Translation Register bit */
-                 env->mmu.mmusr = M68K_MMU_T_040 | M68K_MMU_R_040;
-             }
--            *physical = address & TARGET_PAGE_MASK;
-+            *physical = address;
-             *page_size = TARGET_PAGE_SIZE;
-             return 0;
-         }
-@@ -771,7 +771,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
-     }
-     *page_size = 1 << page_bits;
-     page_mask = ~(*page_size - 1);
--    *physical = next & page_mask;
-+    *physical = (next & page_mask) + (address & (*page_size - 1));
- 
-     if (access_type & ACCESS_PTEST) {
-         env->mmu.mmusr |= next & M68K_MMU_SR_MASK_040;
-@@ -826,8 +826,6 @@ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-         return -1;
-     }
- 
--    addr &= TARGET_PAGE_MASK;
--    phys_addr += addr & (page_size - 1);
-     return phys_addr;
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index ff4e2605b16d..f1a19df066b7 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -794,7 +794,31 @@ static inline bool floatx80_unordered_quiet(floatx80 a, floatx80 b,
+ *----------------------------------------------------------------------------*/
+ static inline bool floatx80_invalid_encoding(floatx80 a)
+ {
++#if defined(TARGET_M68K)
++    /*-------------------------------------------------------------------------
++    | With m68k, the explicit integer bit can be zero in the case of:
++    | - zeros                (exp == 0, mantissa == 0)
++    | - denormalized numbers (exp == 0, mantissa != 0)
++    | - unnormalized numbers (exp != 0, exp < 0x7FFF)
++    | - infinities           (exp == 0x7FFF, mantissa == 0)
++    | - not-a-numbers        (exp == 0x7FFF, mantissa != 0)
++    |
++    | For infinities and NaNs, the explicit integer bit can be either one or
++    | zero.
++    |
++    | The IEEE 754 standard does not define a zero integer bit. Such a number
++    | is an unnormalized number. Hardware does not directly support
++    | denormalized and unnormalized numbers, but implicitly supports them by
++    | trapping them as unimplemented data types, allowing efficient conversion
++    | in software.
++    |
++    | See "M68000 FAMILY PROGRAMMER’S REFERENCE MANUAL",
++    |     "1.6 FLOATING-POINT DATA TYPES"
++    *------------------------------------------------------------------------*/
++    return false;
++#else
+     return (a.low & (1ULL << 63)) == 0 && (a.high & 0x7FFF) != 0;
++#endif
  }
  
-@@ -891,10 +889,8 @@ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     ret = get_physical_address(&cpu->env, &physical, &prot,
-                                address, access_type, &page_size);
-     if (likely(ret == 0)) {
--        address &= TARGET_PAGE_MASK;
--        physical += address & (page_size - 1);
--        tlb_set_page(cs, address, physical,
--                     prot, mmu_idx, TARGET_PAGE_SIZE);
-+        tlb_set_page(cs, address & TARGET_PAGE_MASK,
-+                     physical & TARGET_PAGE_MASK, prot, mmu_idx, page_size);
-         return true;
-     }
- 
-@@ -1383,9 +1379,8 @@ void HELPER(ptest)(CPUM68KState *env, uint32_t addr, uint32_t is_read)
-     ret = get_physical_address(env, &physical, &prot, addr,
-                                access_type, &page_size);
-     if (ret == 0) {
--        addr &= TARGET_PAGE_MASK;
--        physical += addr & (page_size - 1);
--        tlb_set_page(env_cpu(env), addr, physical,
-+        tlb_set_page(env_cpu(env), addr & TARGET_PAGE_MASK,
-+                     physical & TARGET_PAGE_MASK,
-                      prot, access_type & ACCESS_SUPER ?
-                      MMU_KERNEL_IDX : MMU_USER_IDX, page_size);
-     }
+ #define floatx80_zero make_floatx80(0x0000, 0x0000000000000000LL)
 -- 
 2.26.2
 
