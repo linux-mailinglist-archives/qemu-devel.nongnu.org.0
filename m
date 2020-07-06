@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56206215270
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:14:53 +0200 (CEST)
-Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA66521527B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 08:17:30 +0200 (CEST)
+Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsKOy-0002fX-C1
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60456)
+	id 1jsKRV-0006wZ-MS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 02:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNU-0000eL-Oe; Mon, 06 Jul 2020 02:13:20 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:57990)
+ id 1jsKNY-0000ig-Gy; Mon, 06 Jul 2020 02:13:24 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:58086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jsKNQ-0000ux-9e; Mon, 06 Jul 2020 02:13:20 -0400
+ id 1jsKNU-0000vi-OT; Mon, 06 Jul 2020 02:13:24 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 373DDBF83E;
+ by charlie.dont.surf (Postfix) with ESMTPSA id E1B5ABF849;
  Mon,  6 Jul 2020 06:13:13 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 04/18] hw/block/nvme: add support for the abort command
-Date: Mon,  6 Jul 2020 08:12:49 +0200
-Message-Id: <20200706061303.246057-5-its@irrelevant.dk>
+Subject: [PATCH v3 05/18] hw/block/nvme: add temperature threshold feature
+Date: Mon,  6 Jul 2020 08:12:50 +0200
+Message-Id: <20200706061303.246057-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200706061303.246057-1-its@irrelevant.dk>
 References: <20200706061303.246057-1-its@irrelevant.dk>
@@ -52,7 +52,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
  Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
  Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
@@ -63,73 +63,138 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Required for compliance with NVMe revision 1.3d. See NVM Express 1.3d,
-Section 5.1 ("Abort command").
+It might seem weird to implement this feature for an emulated device,
+but it is mandatory to support and the feature is useful for testing
+asynchronous event request support, which will be added in a later
+patch.
 
-The Abort command is a best effort command; for now, the device always
-fails to abort the given command.
-
-Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Acked-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ hw/block/nvme.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/block/nvme.h      |  1 +
+ include/block/nvme.h |  5 ++++-
+ 3 files changed, 53 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 09ef54d771c4..415d3b036897 100644
+index 415d3b036897..a330ccf91620 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -775,6 +775,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
-     }
+@@ -59,6 +59,9 @@
+ #define NVME_DB_SIZE  4
+ #define NVME_CMB_BIR 2
+ #define NVME_PMR_BIR 2
++#define NVME_TEMPERATURE 0x143
++#define NVME_TEMPERATURE_WARNING 0x157
++#define NVME_TEMPERATURE_CRITICAL 0x175
+ 
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+@@ -841,9 +844,31 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
+ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+ {
+     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
++    uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+     uint32_t result;
+ 
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        result = 0;
++
++        /*
++         * The controller only implements the Composite Temperature sensor, so
++         * return 0 for all other sensors.
++         */
++        if (NVME_TEMP_TMPSEL(dw11) != NVME_TEMP_TMPSEL_COMPOSITE) {
++            break;
++        }
++
++        switch (NVME_TEMP_THSEL(dw11)) {
++        case NVME_TEMP_THSEL_OVER:
++            result = n->features.temp_thresh_hi;
++            break;
++        case NVME_TEMP_THSEL_UNDER:
++            result = n->features.temp_thresh_low;
++            break;
++        }
++
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         result = blk_enable_write_cache(n->conf.blk);
+         trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+@@ -888,6 +913,23 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+ 
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        if (NVME_TEMP_TMPSEL(dw11) != NVME_TEMP_TMPSEL_COMPOSITE) {
++            break;
++        }
++
++        switch (NVME_TEMP_THSEL(dw11)) {
++        case NVME_TEMP_THSEL_OVER:
++            n->features.temp_thresh_hi = NVME_TEMP_TMPTH(dw11);
++            break;
++        case NVME_TEMP_THSEL_UNDER:
++            n->features.temp_thresh_low = NVME_TEMP_TMPTH(dw11);
++            break;
++        default:
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+         break;
+@@ -1468,6 +1510,7 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
+     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
+     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
++    n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
  }
  
-+static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-+{
-+    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
-+
-+    req->cqe.result = 1;
-+    if (nvme_check_sqid(n, sqid)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    return NVME_SUCCESS;
-+}
-+
- static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
- {
-     trace_pci_nvme_setfeat_timestamp(ts);
-@@ -911,6 +923,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-         return nvme_create_cq(n, cmd);
-     case NVME_ADM_CMD_IDENTIFY:
-         return nvme_identify(n, cmd);
-+    case NVME_ADM_CMD_ABORT:
-+        return nvme_abort(n, cmd, req);
-     case NVME_ADM_CMD_SET_FEATURES:
-         return nvme_set_feature(n, cmd, req);
-     case NVME_ADM_CMD_GET_FEATURES:
-@@ -1596,6 +1610,19 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->ieee[1] = 0x02;
-     id->ieee[2] = 0xb3;
-     id->oacs = cpu_to_le16(0);
-+
-+    /*
-+     * Because the controller always completes the Abort command immediately,
-+     * there can never be more than one concurrently executing Abort command,
-+     * so this value is never used for anything. Note that there can easily be
-+     * many Abort commands in the queues, but they are not considered
-+     * "executing" until processed by nvme_abort.
-+     *
-+     * The specification recommends a value of 3 for Abort Command Limit (four
-+     * concurrently outstanding Abort commands), so lets use that though it is
-+     * inconsequential.
-+     */
-+    id->acl = 3;
+ static void nvme_init_blk(NvmeCtrl *n, Error **errp)
+@@ -1625,6 +1668,11 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
      id->frmw = 7 << 1;
      id->lpa = 1 << 0;
++
++    /* recommended default value (~70 C) */
++    id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
++    id->cctemp = cpu_to_le16(NVME_TEMPERATURE_CRITICAL);
++
      id->sqes = (0x6 << 4) | 0x6;
+     id->cqes = (0x4 << 4) | 0x4;
+     id->nn = cpu_to_le32(n->num_namespaces);
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 1d30c0bca283..e3a2c907e210 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -107,6 +107,7 @@ typedef struct NvmeCtrl {
+     NvmeSQueue      admin_sq;
+     NvmeCQueue      admin_cq;
+     NvmeIdCtrl      id_ctrl;
++    NvmeFeatureVal  features;
+ } NvmeCtrl;
+ 
+ /* calculate the number of LBAs that the namespace can accomodate */
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 2a80d2a7ed89..d2c457695b38 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -860,7 +860,10 @@ enum NvmeIdCtrlOncs {
+ typedef struct NvmeFeatureVal {
+     uint32_t    arbitration;
+     uint32_t    power_mgmt;
+-    uint32_t    temp_thresh;
++    struct {
++        uint16_t temp_thresh_hi;
++        uint16_t temp_thresh_low;
++    };
+     uint32_t    err_rec;
+     uint32_t    volatile_wc;
+     uint32_t    num_queues;
 -- 
 2.27.0
 
