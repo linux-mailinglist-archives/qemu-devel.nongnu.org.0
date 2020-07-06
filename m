@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88762215BD9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:33:02 +0200 (CEST)
-Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723B6215BE2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:35:35 +0200 (CEST)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsU3B-0008Av-LR
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54252)
+	id 1jsU5e-0002If-I8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsU1w-0007Ed-0u
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:31:44 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:44527)
+ id 1jsU4q-0001U5-UO; Mon, 06 Jul 2020 12:34:44 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsU1u-0000wb-A9
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:31:43 -0400
-Received: by mail-io1-xd43.google.com with SMTP id i4so39943314iov.11
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 09:31:41 -0700 (PDT)
+ id 1jsU4p-0001dQ-AV; Mon, 06 Jul 2020 12:34:44 -0400
+Received: by mail-il1-x143.google.com with SMTP id h16so10109363ilj.11;
+ Mon, 06 Jul 2020 09:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=snNJeTF3aNNQfDgoZci8OJFgmXxVfy5o8eCq0InE4hs=;
- b=RI6UW1gcbRxd6/mz1iKsyJESjzVu1j/4bMiybJoNSHBWqtqCcB6CWbfM7okfBX27Mc
- OXbQH5TbE7Q5doUPLJqD/mIP1i4RnAZl5rKx6zdn7PJZHE65gCscDKMZePC9Lq/Dkcl+
- 7Hr8Utv/kzdG8/pDZr90S8SJ+YXeHysVH1EYLW17YMSWOnuwfQPn5aaVS4sXFWy3z1qa
- klW8RtHYuJ4w+Qr/z5RfdgLb/2RgrAEoPuYevLXUtVmP1EwhWduRxdsVV0MrcZIsN9ud
- QFRIh40lk1BTCGdH+3pPsqJxG8PN8C/yn3n+3mIPHBVSt/nedpMwyl0EgUrT7LNTWVDH
- NyYw==
+ bh=9F4XfPVeQyIXBGJHPYC+xSPNy3jKuipkM2klDZi9MoE=;
+ b=iuZ2bECvPfHW2qUpL5HnKUtKslVR1pEL2RVbubtIzumrK+hQ6hN2k+wf8baGFBYaWM
+ GJ+iVCooJhG8AyQuSxWNHZnqKO12PRFhcXco0LlrCHTvXsd75cN4pC2asx9hDVw+Jxe+
+ 4lIN7izyFkFkIeLWjQH3H6Y7QSxhdLQ6FOH4dPn88YYO1NgQxsRcDVyFNFfi9lt/B2Ks
+ sQO0vgPojMtqurkiHtTGevshCInUElTrVHj+HKUOX1ilPVTP46olxl7k9rdDQoSBD0s9
+ y+dx+uxTPzgvX7U9pBi8pAgCp8WDIdyx5Y+eskU0fx+kgKfGmxDLxf3C7MQGc0eqaC5p
+ 7KZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=snNJeTF3aNNQfDgoZci8OJFgmXxVfy5o8eCq0InE4hs=;
- b=Mizftb7keE6uS8bi5rWc+6LY/Y9rgk7XxDYM1kU/tx1J1uEhhveeZiJFYicCC9UD2F
- kY9hQmW1FDt2Zrwrs98LPDbERcuxO9RZQxqxwapbyNn3n5uXUUkEhMmO6R5FR9eVhewv
- wZBoxyyCTiC4Br4+e2YMyqM0ltwXcQGh3H2o+jUD8DrZIRGUdeABN++1N+Nr/rYG/aWQ
- bS1H2d67pCLjCl9+Wnp0acplgDhQf5kPSKqj4ebmnQqgu+Kdmd1O0J9DeiFKC+2lPlGV
- nVLeo5FL//GaCIHhbYli4JeZ03bDPq8FLQKT0T3+I6yOAlPlDNr7ffaHRHv5i695Vbll
- zlLQ==
-X-Gm-Message-State: AOAM531cpaJcNdmbdlc8gfuf6HOvqxF8VdbctpbZDlvq3xvSsvzEsi2h
- 1RbMoptZb2gyi2kP+6Mq8y6r+rntOefR0PwTMz0=
-X-Google-Smtp-Source: ABdhPJx43lz+Z/RA0w3Wn3mS5XePj3J1AHxL2dj1dt/yWnWv3/Y5MGrIZHzrUd9GzYWZiv20TwQ1aoYPBVg5zkUixzc=
-X-Received: by 2002:a6b:8dd1:: with SMTP id
- p200mr26271411iod.118.1594053101123; 
- Mon, 06 Jul 2020 09:31:41 -0700 (PDT)
+ bh=9F4XfPVeQyIXBGJHPYC+xSPNy3jKuipkM2klDZi9MoE=;
+ b=M+T7HJEik5Iy0a/wYWFe+qHvUGiRV4jOKXfVhYWUm3jbplGvcLHzgAJ0fvHd7OJapG
+ ACzs8QPZVCD4Vn1WJsTLFg97EMUqEjUmyo5RDzzbyJ6G3E5z+bj2QORD/2gEtn7/Svfk
+ 5RwcPobpDgdX1j/d/r5XGvKGvRKYSGRCOcbmUzoyf3vCSoMMF03hd5ZhYUTC6x3/615U
+ f+IWIzHwCEwVqS4XGrNPWk6Rvb9RuiASdrWHlOU6o+rHiGxocjJ5NCsf4xeOwtO5C6TG
+ 6zscDg7DRwqvTIwcA9eWwXn87zyF6pD47eXL9yRqIkFkcOoQewM7JgYsOpANTEe4zomK
+ N5wQ==
+X-Gm-Message-State: AOAM5338HH+oaxPvFtEu4dkx/luMYM9bTcwn++cEVRNpR6zvLS4tJElq
+ KO47M2YWKAr8x1dkM3x8HTtXt8c+JwNwRn46XeQ=
+X-Google-Smtp-Source: ABdhPJxq9PBzpERlcAnPbmosIZmQNDi0fMUHtaGYD3388iCOVLvvHtyuATBgVsbXa/JRvApFr34DRMhpG643X983F2w=
+X-Received: by 2002:a92:5f12:: with SMTP id t18mr31581266ilb.267.1594053262004; 
+ Mon, 06 Jul 2020 09:34:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200705211016.15241-1-f4bug@amsat.org>
- <20200705211016.15241-5-f4bug@amsat.org>
-In-Reply-To: <20200705211016.15241-5-f4bug@amsat.org>
+References: <20200630133912.9428-1-f4bug@amsat.org>
+ <20200630133912.9428-3-f4bug@amsat.org>
+In-Reply-To: <20200630133912.9428-3-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:21:54 -0700
-Message-ID: <CAKmqyKMJf6fWgmKsxFVDxVxZ4qYgesrUr9FexKc+eL4Aaxg7AQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] hw/sd/milkymist: Do not create SD card within the
- SDHCI controller
+Date: Mon, 6 Jul 2020 09:24:33 -0700
+Message-ID: <CAKmqyKNYpOoG7ReqAzBCkcXS-q1UAzbnXTZCatWKWwrCWeN-Mw@mail.gmail.com>
+Subject: Re: [PATCH v7 02/17] hw/sd/sdcard: Update coding style to make
+ checkpatch.pl happy
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -70,8 +67,8 @@ X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,169 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 5, 2020 at 2:10 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
+On Tue, Jun 30, 2020 at 6:40 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> SDHCI controllers provide a SD Bus to plug SD cards, but don't
-> come with SD card plugged in :) Let the machine/board object
-> create and plug the SD cards when required.
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> To make the next commit easier to review, clean this code first.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/lm32/milkymist.c       | 13 +++++++++
->  hw/sd/milkymist-memcard.c | 55 +++++++++++++++++++++++----------------
->  2 files changed, 45 insertions(+), 23 deletions(-)
+>  hw/sd/sd.c | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
 >
-> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-> index 117973c967..8e2c68da5a 100644
-> --- a/hw/lm32/milkymist.c
-> +++ b/hw/lm32/milkymist.c
-> @@ -34,6 +34,7 @@
->  #include "elf.h"
->  #include "milkymist-hw.h"
->  #include "hw/display/milkymist_tmu2.h"
-> +#include "hw/sd/sd.h"
->  #include "lm32.h"
->  #include "exec/address-spaces.h"
->  #include "qemu/cutils.h"
-> @@ -83,12 +84,24 @@ static void main_cpu_reset(void *opaque)
->  static DeviceState *milkymist_memcard_create(hwaddr base)
->  {
->      DeviceState *dev;
-> +    DriveInfo *dinfo;
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 97a9d32964..cac8d7d828 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -1170,8 +1170,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd,=
+ SDRequest req)
+>              sd->data_start =3D addr;
+>              sd->data_offset =3D 0;
 >
->      dev =3D qdev_new("milkymist-memcard");
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
->      /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
+> -            if (sd->data_start + sd->blk_len > sd->size)
+> +            if (sd->data_start + sd->blk_len > sd->size) {
+>                  sd->card_status |=3D ADDRESS_ERROR;
+> +            }
+>              return sd_r1;
 >
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
-> +
->      return dev;
->  }
+>          default:
+> @@ -1186,8 +1187,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd,=
+ SDRequest req)
+>              sd->data_start =3D addr;
+>              sd->data_offset =3D 0;
 >
-> diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-> index fb02309f07..e9f5db5e22 100644
-> --- a/hw/sd/milkymist-memcard.c
-> +++ b/hw/sd/milkymist-memcard.c
-> @@ -66,6 +66,8 @@ enum {
->  #define MILKYMIST_MEMCARD(obj) \
->      OBJECT_CHECK(MilkymistMemcardState, (obj), TYPE_MILKYMIST_MEMCARD)
+> -            if (sd->data_start + sd->blk_len > sd->size)
+> +            if (sd->data_start + sd->blk_len > sd->size) {
+>                  sd->card_status |=3D ADDRESS_ERROR;
+> +            }
+>              return sd_r1;
 >
-> +#define TYPE_MILKYMIST_SDBUS "milkymist-sdbus"
-> +
->  struct MilkymistMemcardState {
->      SysBusDevice parent_obj;
+>          default:
+> @@ -1232,12 +1234,15 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
+d, SDRequest req)
+>              sd->data_offset =3D 0;
+>              sd->blk_written =3D 0;
 >
-> @@ -253,6 +255,19 @@ static void milkymist_memcard_reset(DeviceState *d)
->      }
->  }
+> -            if (sd->data_start + sd->blk_len > sd->size)
+> +            if (sd->data_start + sd->blk_len > sd->size) {
+>                  sd->card_status |=3D ADDRESS_ERROR;
+> -            if (sd_wp_addr(sd, sd->data_start))
+> +            }
+> +            if (sd_wp_addr(sd, sd->data_start)) {
+>                  sd->card_status |=3D WP_VIOLATION;
+> -            if (sd->csd[14] & 0x30)
+> +            }
+> +            if (sd->csd[14] & 0x30) {
+>                  sd->card_status |=3D WP_VIOLATION;
+> +            }
+>              return sd_r1;
 >
-> +static void milkymist_memcard_set_readonly(DeviceState *dev, bool level)
-> +{
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "milkymist_memcard: read-only mode not supported\n");
-> +}
-> +
-> +static void milkymist_memcard_set_inserted(DeviceState *dev, bool level)
-> +{
-> +    MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(dev);
-> +
-> +    s->enabled =3D !!level;
-> +}
-> +
->  static void milkymist_memcard_init(Object *obj)
->  {
->      MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(obj);
-> @@ -266,27 +281,6 @@ static void milkymist_memcard_init(Object *obj)
->                          DEVICE(obj), "sd-bus");
->  }
+>          default:
+> @@ -1256,12 +1261,15 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
+d, SDRequest req)
+>              sd->data_offset =3D 0;
+>              sd->blk_written =3D 0;
 >
-> -static void milkymist_memcard_realize(DeviceState *dev, Error **errp)
-> -{
-> -    MilkymistMemcardState *s =3D MILKYMIST_MEMCARD(dev);
-> -    DeviceState *carddev;
-> -    BlockBackend *blk;
-> -    DriveInfo *dinfo;
-> -    Error *err =3D NULL;
-> -
-> -    /* Create and plug in the sd card */
-> -    /* FIXME use a qdev drive property instead of drive_get_next() */
-> -    dinfo =3D drive_get_next(IF_SD);
-> -    blk =3D dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
-> -    carddev =3D qdev_new(TYPE_SD_CARD);
-> -    qdev_prop_set_drive(carddev, "drive", blk);
-> -    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), &err)) {
-> -        error_propagate_prepend(errp, err, "failed to init SD card: %s")=
-;
-> -        return;
-> -    }
-> -    s->enabled =3D blk && blk_is_inserted(blk);
-> -}
-> -
->  static const VMStateDescription vmstate_milkymist_memcard =3D {
->      .name =3D "milkymist-memcard",
->      .version_id =3D 1,
-> @@ -308,10 +302,9 @@ static void milkymist_memcard_class_init(ObjectClass=
- *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> -            if (sd->data_start + sd->blk_len > sd->size)
+> +            if (sd->data_start + sd->blk_len > sd->size) {
+>                  sd->card_status |=3D ADDRESS_ERROR;
+> -            if (sd_wp_addr(sd, sd->data_start))
+> +            }
+> +            if (sd_wp_addr(sd, sd->data_start)) {
+>                  sd->card_status |=3D WP_VIOLATION;
+> -            if (sd->csd[14] & 0x30)
+> +            }
+> +            if (sd->csd[14] & 0x30) {
+>                  sd->card_status |=3D WP_VIOLATION;
+> +            }
+>              return sd_r1;
 >
-> -    dc->realize =3D milkymist_memcard_realize;
->      dc->reset =3D milkymist_memcard_reset;
->      dc->vmsd =3D &vmstate_milkymist_memcard;
-> -    /* Reason: init() method uses drive_get_next() */
-> +    /* Reason: output IRQs should be wired up */
->      dc->user_creatable =3D false;
->  }
->
-> @@ -323,9 +316,25 @@ static const TypeInfo milkymist_memcard_info =3D {
->      .class_init    =3D milkymist_memcard_class_init,
->  };
->
-> +static void milkymist_sdbus_class_init(ObjectClass *klass, void *data)
-> +{
-> +    SDBusClass *sbc =3D SD_BUS_CLASS(klass);
-> +
-> +    sbc->set_inserted =3D milkymist_memcard_set_inserted;
-> +    sbc->set_readonly =3D milkymist_memcard_set_readonly;
-> +}
-> +
-> +static const TypeInfo milkymist_sdbus_info =3D {
-> +    .name =3D TYPE_MILKYMIST_SDBUS,
-> +    .parent =3D TYPE_SD_BUS,
-> +    .instance_size =3D sizeof(SDBus),
-> +    .class_init =3D milkymist_sdbus_class_init,
-> +};
-> +
->  static void milkymist_memcard_register_types(void)
->  {
->      type_register_static(&milkymist_memcard_info);
-> +    type_register_static(&milkymist_sdbus_info);
->  }
->
->  type_init(milkymist_memcard_register_types)
+>          default:
 > --
 > 2.21.3
 >
