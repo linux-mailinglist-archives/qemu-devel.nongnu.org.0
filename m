@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DD22153E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:21:33 +0200 (CEST)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CB02153F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 10:27:30 +0200 (CEST)
+Received: from localhost ([::1]:39642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsMNZ-0007hk-09
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
+	id 1jsMTJ-0000wh-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 04:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCk-0002K1-EL
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34054
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCo-0002WO-QB
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32195
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCQ-0003F8-QO
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jsMCR-0003FO-Br
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 04:10:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594023000;
+ s=mimecast20190719; t=1594023001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l+rLohLgZnTu2IlzcsMOXdC76WUa2zsCZUV0lG6faCw=;
- b=b9pcoNK5rBwRpuuqb7UwCKX2DN3JPeVXHw2djMDXkNaYfWWtKeMNB7nST7zt+L5vNOS0kx
- vjCoJURadA2dYi8atTtlES6UiX+dfVBHfTKYgEywwPL4wnhofDAUPwdUWJxT0XqIQYlyrD
- +jmTs5yo351gcoWoV18E9Zxbzk9RzO0=
+ bh=N4azpmc9rB+4CBBmQSzlqTOouprq/lBfFIMBJAbTPG8=;
+ b=asbm3rIxTVZzF1ghv+zNjxrZc7pU7/XYY+Vl8h9rxNyNLR2jOD5+2OSawxKGpVRdZRdA6Q
+ Loy5OdVjO+QJ286SyUqu6KP59tivZ7LU8NvG4MyZjqZ5xDZtYWbdKHQrV9Y0PbQG16oEuU
+ Lua/SFVLth2NRqanR//oBXc0zVRHEr0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-BSIlcZ3MPrqKfo44uJyhCg-1; Mon, 06 Jul 2020 04:09:59 -0400
-X-MC-Unique: BSIlcZ3MPrqKfo44uJyhCg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-105-LRMh96w9NPeGmXrbLv3aWg-1; Mon, 06 Jul 2020 04:09:59 -0400
+X-MC-Unique: LRMh96w9NPeGmXrbLv3aWg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2B45107ACCA;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC8F6107ACF2;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-143.ams2.redhat.com
  [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70F1B28550;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70A415D9D7;
  Mon,  6 Jul 2020 08:09:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 715281135251; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
+ id 7A46B1135255; Mon,  6 Jul 2020 10:09:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 38/44] qapi: Smooth another visitor error checking pattern
-Date: Mon,  6 Jul 2020 10:09:44 +0200
-Message-Id: <20200706080950.403087-39-armbru@redhat.com>
+Subject: [PATCH v3 39/44] qapi: Smooth visitor error checking in generated code
+Date: Mon,  6 Jul 2020 10:09:45 +0200
+Message-Id: <20200706080950.403087-40-armbru@redhat.com>
 In-Reply-To: <20200706080950.403087-1-armbru@redhat.com>
 References: <20200706080950.403087-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,431 +88,443 @@ Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert
-
-    visit_type_FOO(v, ..., &ptr, &err);
-    ...
-    if (err) {
-        ...
-    }
-
-to
-
-    visit_type_FOO(v, ..., &ptr, errp);
-    ...
-    if (!ptr) {
-        ...
-    }
-
-for functions that set @ptr to non-null / null on success / error.
-
-Eliminate error_propagate() that are now unnecessary.  Delete @err
-that are now unused.
+Use visitor functions' return values to check for failure.  Eliminate
+error_propagate() that are now unnecessary.  Delete @err that are now
+unused.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/nfs.c          |  7 ++-----
- block/parallels.c    |  7 ++-----
- block/qcow.c         |  7 ++-----
- block/qcow2.c        |  7 ++-----
- block/qed.c          |  7 ++-----
- block/rbd.c          |  7 ++-----
- block/sheepdog.c     |  6 ++----
- block/ssh.c          |  7 ++-----
- block/vdi.c          |  7 ++-----
- block/vhdx.c         |  7 ++-----
- block/vpc.c          |  7 ++-----
- hw/acpi/core.c       |  5 ++---
- hw/block/xen-block.c |  6 ++----
- hw/core/numa.c       |  7 +++----
- monitor/monitor.c    | 21 +++++++--------------
- 15 files changed, 36 insertions(+), 79 deletions(-)
+ docs/devel/qapi-code-gen.txt | 60 ++++++++++++++----------------------
+ scripts/qapi/commands.py     | 22 ++++++-------
+ scripts/qapi/visit.py        | 57 ++++++++++++++--------------------
+ 3 files changed, 55 insertions(+), 84 deletions(-)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index b1718d125a..61a249a9fc 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -563,18 +563,15 @@ static BlockdevOptionsNfs *nfs_options_qdict_to_qapi(QDict *options,
-     BlockdevOptionsNfs *opts = NULL;
-     Visitor *v;
-     const QDictEntry *e;
--    Error *local_err = NULL;
+diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+index 9bfc57063c..69eede6c28 100644
+--- a/docs/devel/qapi-code-gen.txt
++++ b/docs/devel/qapi-code-gen.txt
+@@ -1420,8 +1420,6 @@ Example:
  
-     v = qobject_input_visitor_new_flat_confused(options, errp);
-     if (!v) {
-         return NULL;
-     }
- 
--    visit_type_BlockdevOptionsNfs(v, NULL, &opts, &local_err);
-+    visit_type_BlockdevOptionsNfs(v, NULL, &opts, errp);
-     visit_free(v);
+     bool visit_type_UserDefOne_members(Visitor *v, UserDefOne *obj, Error **errp)
+     {
+-        Error *err = NULL;
 -
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!opts) {
-         return NULL;
+         if (!visit_type_int(v, "integer", &obj->integer, errp)) {
+             return false;
+         }
+@@ -1430,13 +1428,12 @@ Example:
+                 return false;
+             }
+         }
+-        error_propagate(errp, err);
+-        return !err;
++        return true;
      }
  
-diff --git a/block/parallels.c b/block/parallels.c
-index cb5259ac44..f489c0d4ba 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -625,7 +625,6 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
-                                                  Error **errp)
- {
-     BlockdevCreateOptions *create_options = NULL;
--    Error *local_err = NULL;
-     BlockDriverState *bs = NULL;
-     QDict *qdict;
-     Visitor *v;
-@@ -668,11 +667,9 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
-         goto done;
+     bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne **obj, Error **errp)
+     {
+-        Error *err = NULL;
++        bool ok = false;
+ 
+         if (!visit_start_struct(v, name, (void **)obj, sizeof(UserDefOne), errp)) {
+             return false;
+@@ -1446,24 +1443,22 @@ Example:
+             assert(visit_is_dealloc(v));
+             goto out_obj;
+         }
+-        visit_type_UserDefOne_members(v, *obj, &err);
+-        if (err) {
++        if (!visit_type_UserDefOne_members(v, *obj, errp)) {
+             goto out_obj;
+         }
+-        visit_check_struct(v, &err);
++        ok = visit_check_struct(v, errp);
+     out_obj:
+         visit_end_struct(v, (void **)obj);
+-        if (err && visit_is_input(v)) {
++        if (!ok && visit_is_input(v)) {
+             qapi_free_UserDefOne(*obj);
+             *obj = NULL;
+         }
+-        error_propagate(errp, err);
+-        return !err;
++        return ok;
      }
  
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
+     bool visit_type_UserDefOneList(Visitor *v, const char *name, UserDefOneList **obj, Error **errp)
+     {
+-        Error *err = NULL;
++        bool ok = false;
+         UserDefOneList *tail;
+         size_t size = sizeof(**obj);
+ 
+@@ -1473,33 +1468,27 @@ Example:
+ 
+         for (tail = *obj; tail;
+              tail = (UserDefOneList *)visit_next_list(v, (GenericList *)tail, size)) {
+-            visit_type_UserDefOne(v, NULL, &tail->value, &err);
+-            if (err) {
+-                break;
++            if (!visit_type_UserDefOne(v, NULL, &tail->value, errp)) {
++                goto out_obj;
+             }
+         }
+ 
+-        if (!err) {
+-            visit_check_list(v, &err);
+-        }
++        ok = visit_check_list(v, errp);
++    out_obj:
+         visit_end_list(v, (void **)obj);
+-        if (err && visit_is_input(v)) {
++        if (!ok && visit_is_input(v)) {
+             qapi_free_UserDefOneList(*obj);
+             *obj = NULL;
+         }
+-        error_propagate(errp, err);
+-        return !err;
++        return ok;
+     }
+ 
+     bool visit_type_q_obj_my_command_arg_members(Visitor *v, q_obj_my_command_arg *obj, Error **errp)
+     {
+-        Error *err = NULL;
 -
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto done;
-     }
-diff --git a/block/qcow.c b/block/qcow.c
-index dca2a1fe7d..c22d1bf6b8 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -943,7 +943,6 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
-     QDict *qdict;
-     Visitor *v;
-     const char *val;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -995,11 +994,9 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
-         goto fail;
+         if (!visit_type_UserDefOneList(v, "arg1", &obj->arg1, errp)) {
+             return false;
+         }
+-        error_propagate(errp, err);
+-        return !err;
++        return true;
      }
  
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index a9137a535b..9ed2396c88 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3683,7 +3683,6 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
-     Visitor *v;
-     BlockDriverState *bs = NULL;
-     BlockDriverState *data_bs = NULL;
--    Error *local_err = NULL;
-     const char *val;
-     int ret;
+ [Uninteresting stuff omitted...]
+@@ -1554,15 +1543,12 @@ Example:
  
-@@ -3779,11 +3778,9 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
-         goto finish;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto finish;
-     }
-diff --git a/block/qed.c b/block/qed.c
-index e369fd360a..7fa7f880f6 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -729,7 +729,6 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
-     QDict *qdict;
-     Visitor *v;
-     BlockDriverState *bs = NULL;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -771,11 +770,9 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/rbd.c b/block/rbd.c
-index 617553b022..688074c64b 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -681,7 +681,6 @@ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
-                                     Error **errp)
- {
-     Visitor *v;
--    Error *local_err = NULL;
- 
-     /* Convert the remaining options into a QAPI object */
-     v = qobject_input_visitor_new_flat_confused(options, errp);
-@@ -689,11 +688,9 @@ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
-         return -EINVAL;
-     }
- 
--    visit_type_BlockdevOptionsRbd(v, NULL, opts, &local_err);
-+    visit_type_BlockdevOptionsRbd(v, NULL, opts, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!opts) {
-         return -EINVAL;
-     }
- 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index a6a91442c9..6c487c8322 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -2193,11 +2193,9 @@ static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/ssh.c b/block/ssh.c
-index f00b89684a..ebe3d8b631 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -616,7 +616,6 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
- {
-     BlockdevOptionsSsh *result = NULL;
-     QemuOpts *opts = NULL;
--    Error *local_err = NULL;
-     const QDictEntry *e;
-     Visitor *v;
- 
-@@ -636,11 +635,9 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
-         goto fail;
-     }
- 
--    visit_type_BlockdevOptionsSsh(v, NULL, &result, &local_err);
-+    visit_type_BlockdevOptionsSsh(v, NULL, &result, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!result) {
-         goto fail;
-     }
- 
-diff --git a/block/vdi.c b/block/vdi.c
-index 2f506a01ba..0a60be773e 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -907,7 +907,6 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
-     uint64_t block_size = DEFAULT_CLUSTER_SIZE;
-     bool is_static = false;
-     Visitor *v;
--    Error *local_err = NULL;
-     int ret;
- 
-     /* Parse options and convert legacy syntax.
-@@ -958,11 +957,9 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
-         ret = -EINVAL;
-         goto done;
-     }
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto done;
-     }
-diff --git a/block/vhdx.c b/block/vhdx.c
-index ac5a9094c4..eed9c3b860 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -2067,7 +2067,6 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
-     QDict *qdict;
-     Visitor *v;
-     BlockDriverState *bs = NULL;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -2108,11 +2107,9 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/block/vpc.c b/block/vpc.c
-index c8cf3957bc..77043c2424 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -1096,7 +1096,6 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
-     QDict *qdict;
-     Visitor *v;
-     BlockDriverState *bs = NULL;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -1135,11 +1134,9 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!create_options) {
-         ret = -EINVAL;
-         goto fail;
-     }
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 8b240c3e09..f6d9ec4f13 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -239,7 +239,6 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
- void acpi_table_add(const QemuOpts *opts, Error **errp)
- {
-     AcpiTableOptions *hdrs = NULL;
--    Error *err = NULL;
-     char **pathnames = NULL;
-     char **cur;
-     size_t bloblen = 0;
-@@ -249,11 +248,11 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+     static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in, QObject **ret_out, Error **errp)
+     {
+-        Error *err = NULL;
          Visitor *v;
  
-         v = opts_visitor_new(opts);
--        visit_type_AcpiTableOptions(v, NULL, &hdrs, &err);
-+        visit_type_AcpiTableOptions(v, NULL, &hdrs, errp);
+         v = qobject_output_visitor_new(ret_out);
+-        visit_type_UserDefOne(v, "unused", &ret_in, &err);
+-        if (!err) {
++        if (visit_type_UserDefOne(v, "unused", &ret_in, errp)) {
+             visit_complete(v, ret_out);
+         }
+-        error_propagate(errp, err);
+         visit_free(v);
+         v = qapi_dealloc_visitor_new();
+         visit_type_UserDefOne(v, "unused", &ret_in, NULL);
+@@ -1572,33 +1558,32 @@ Example:
+     void qmp_marshal_my_command(QDict *args, QObject **ret, Error **errp)
+     {
+         Error *err = NULL;
++        bool ok = false;
+         Visitor *v;
+         UserDefOne *retval;
+         q_obj_my_command_arg arg = {0};
+ 
+         v = qobject_input_visitor_new(QOBJECT(args));
+-        visit_start_struct(v, NULL, NULL, 0, &err);
+-        if (err) {
++        if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
+             goto out;
+         }
+-        visit_type_q_obj_my_command_arg_members(v, &arg, &err);
+-        if (!err) {
+-            visit_check_struct(v, &err);
++        if (visit_type_q_obj_my_command_arg_members(v, &arg, errp)) {
++            ok = visit_check_struct(v, errp);
+         }
+         visit_end_struct(v, NULL);
+-        if (err) {
++        if (!ok) {
+             goto out;
+         }
+ 
+         retval = qmp_my_command(arg.arg1, &err);
++        error_propagate(errp, err);
+         if (err) {
+             goto out;
+         }
+ 
+-        qmp_marshal_output_UserDefOne(retval, ret, &err);
++        qmp_marshal_output_UserDefOne(retval, ret, errp);
+ 
+     out:
+-        error_propagate(errp, err);
+         visit_free(v);
+         v = qapi_dealloc_visitor_new();
+         visit_start_struct(v, NULL, NULL, 0, NULL);
+@@ -1606,6 +1591,7 @@ Example:
+         visit_end_struct(v, NULL);
          visit_free(v);
      }
++
+ [Uninteresting stuff omitted...]
+     $ cat qapi-generated/example-qapi-init-commands.h
+ [Uninteresting stuff omitted...]
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 6809b0fb6e..3cf9e1110b 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -47,6 +47,7 @@ def gen_call(name, arg_type, boxed, ret_type):
+     ret = mcgen('''
  
--    if (err) {
-+    if (!hdrs) {
+     %(lhs)sqmp_%(c_name)s(%(args)s&err);
++    error_propagate(errp, err);
+ ''',
+                 c_name=c_name(name), args=argstr, lhs=lhs)
+     if ret_type:
+@@ -55,7 +56,7 @@ def gen_call(name, arg_type, boxed, ret_type):
          goto out;
      }
-     if (hdrs->has_file == hdrs->has_data) {
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 96c6c009c7..a775fba7c0 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -682,11 +682,9 @@ static char *xen_block_blockdev_add(const char *id, QDict *qdict,
-     trace_xen_block_blockdev_add(node_name);
  
-     v = qobject_input_visitor_new(QOBJECT(qdict));
--    visit_type_BlockdevOptions(v, NULL, &options, &local_err);
-+    visit_type_BlockdevOptions(v, NULL, &options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!options) {
-         goto fail;
-     }
+-    qmp_marshal_output_%(c_name)s(retval, ret, &err);
++    qmp_marshal_output_%(c_name)s(retval, ret, errp);
+ ''',
+                      c_name=ret_type.c_name())
+     return ret
+@@ -66,15 +67,12 @@ def gen_marshal_output(ret_type):
  
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index d208fd5008..c83f1f01c4 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -516,10 +516,10 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
-     Error *err = NULL;
-     Visitor *v = opts_visitor_new(opts);
- 
--    visit_type_NumaOptions(v, NULL, &object, &err);
-+    visit_type_NumaOptions(v, NULL, &object, errp);
-     visit_free(v);
--    if (err) {
--        goto end;
-+    if (!object) {
-+        return -1;
-     }
- 
-     /* Fix up legacy suffix-less format */
-@@ -530,7 +530,6 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
- 
-     set_numa_options(ms, object, &err);
- 
--end:
-     qapi_free_NumaOptions(object);
-     if (err) {
-         error_propagate(errp, err);
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 125494410a..47167ac2a3 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -656,25 +656,18 @@ int monitor_init_opts(QemuOpts *opts, Error **errp)
+ static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
  {
+-    Error *err = NULL;
      Visitor *v;
-     MonitorOptions *options;
--    Error *local_err = NULL;
-+    int ret;
  
-     v = opts_visitor_new(opts);
--    visit_type_MonitorOptions(v, NULL, &options, &local_err);
-+    visit_type_MonitorOptions(v, NULL, &options, errp);
-     visit_free(v);
--
--    if (local_err) {
--        goto out;
--    }
--
--    monitor_init(options, true, &local_err);
--    qapi_free_MonitorOptions(options);
--
--out:
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!options) {
-         return -1;
+     v = qobject_output_visitor_new(ret_out);
+-    visit_type_%(c_name)s(v, "unused", &ret_in, &err);
+-    if (!err) {
++    if (visit_type_%(c_name)s(v, "unused", &ret_in, errp)) {
+         visit_complete(v, ret_out);
      }
--    return 0;
-+
-+    ret = monitor_init(options, true, errp);
-+    qapi_free_MonitorOptions(options);
-+    return ret;
- }
+-    error_propagate(errp, err);
+     visit_free(v);
+     v = qapi_dealloc_visitor_new();
+     visit_type_%(c_name)s(v, "unused", &ret_in, NULL);
+@@ -104,6 +102,7 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+ %(proto)s
+ {
+     Error *err = NULL;
++    bool ok = false;
+     Visitor *v;
+ ''',
+                 proto=build_marshal_proto(name))
+@@ -123,28 +122,26 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+     ret += mcgen('''
  
- QemuOptsList qemu_mon_opts = {
+     v = qobject_input_visitor_new(QOBJECT(args));
+-    visit_start_struct(v, NULL, NULL, 0, &err);
+-    if (err) {
++    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
+         goto out;
+     }
+ ''')
+ 
+     if have_args:
+         ret += mcgen('''
+-    visit_type_%(c_arg_type)s_members(v, &arg, &err);
+-    if (!err) {
+-        visit_check_struct(v, &err);
++    if (visit_type_%(c_arg_type)s_members(v, &arg, errp)) {
++        ok = visit_check_struct(v, errp);
+     }
+ ''',
+                      c_arg_type=arg_type.c_name())
+     else:
+         ret += mcgen('''
+-    visit_check_struct(v, &err);
++    ok = visit_check_struct(v, errp);
+ ''')
+ 
+     ret += mcgen('''
+     visit_end_struct(v, NULL);
+-    if (err) {
++    if (!ok) {
+         goto out;
+     }
+ ''')
+@@ -154,7 +151,6 @@ def gen_marshal(name, arg_type, boxed, ret_type):
+     ret += mcgen('''
+ 
+ out:
+-    error_propagate(errp, err);
+     visit_free(v);
+ ''')
+ 
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index ba0cf0b074..3fb2f30510 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -41,8 +41,6 @@ def gen_visit_object_members(name, base, members, variants):
+ 
+ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+ {
+-    Error *err = NULL;
+-
+ ''',
+                 c_name=c_name(name))
+ 
+@@ -97,8 +95,7 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+             else:
+                 ret += mcgen('''
+     case %(case)s:
+-        visit_type_%(c_type)s_members(v, &obj->u.%(c_name)s, &err);
+-        break;
++        return visit_type_%(c_type)s_members(v, &obj->u.%(c_name)s, errp);
+ ''',
+                              case=case_str,
+                              c_type=var.type.c_name(), c_name=c_name(var.name))
+@@ -111,8 +108,7 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+ ''')
+ 
+     ret += mcgen('''
+-    error_propagate(errp, err);
+-    return !err;
++    return true;
+ }
+ ''')
+     return ret
+@@ -123,7 +119,7 @@ def gen_visit_list(name, element_type):
+ 
+ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok = false;
+     %(c_name)s *tail;
+     size_t size = sizeof(**obj);
+ 
+@@ -133,22 +129,19 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+ 
+     for (tail = *obj; tail;
+          tail = (%(c_name)s *)visit_next_list(v, (GenericList *)tail, size)) {
+-        visit_type_%(c_elt_type)s(v, NULL, &tail->value, &err);
+-        if (err) {
+-            break;
++        if (!visit_type_%(c_elt_type)s(v, NULL, &tail->value, errp)) {
++            goto out_obj;
+         }
+     }
+ 
+-    if (!err) {
+-        visit_check_list(v, &err);
+-    }
++    ok = visit_check_list(v, errp);
++out_obj:
+     visit_end_list(v, (void **)obj);
+-    if (err && visit_is_input(v)) {
++    if (!ok && visit_is_input(v)) {
+         qapi_free_%(c_name)s(*obj);
+         *obj = NULL;
+     }
+-    error_propagate(errp, err);
+-    return !err;
++    return ok;
+ }
+ ''',
+                  c_name=c_name(name), c_elt_type=element_type.c_name())
+@@ -173,7 +166,7 @@ def gen_visit_alternate(name, variants):
+ 
+ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok = false;
+ 
+     if (!visit_start_alternate(v, name, (GenericAlternate **)obj,
+                                sizeof(**obj), errp)) {
+@@ -182,6 +175,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+     if (!*obj) {
+         /* incomplete */
+         assert(visit_is_dealloc(v));
++        ok = true;
+         goto out_obj;
+     }
+     switch ((*obj)->type) {
+@@ -196,13 +190,11 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+                      case=var.type.alternate_qtype())
+         if isinstance(var.type, QAPISchemaObjectType):
+             ret += mcgen('''
+-        visit_start_struct(v, name, NULL, 0, &err);
+-        if (err) {
++        if (!visit_start_struct(v, name, NULL, 0, errp)) {
+             break;
+         }
+-        visit_type_%(c_type)s_members(v, &(*obj)->u.%(c_name)s, &err);
+-        if (!err) {
+-            visit_check_struct(v, &err);
++        if (visit_type_%(c_type)s_members(v, &(*obj)->u.%(c_name)s, errp)) {
++            ok = visit_check_struct(v, errp);
+         }
+         visit_end_struct(v, NULL);
+ ''',
+@@ -210,7 +202,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+                          c_name=c_name(var.name))
+         else:
+             ret += mcgen('''
+-        visit_type_%(c_type)s(v, name, &(*obj)->u.%(c_name)s, &err);
++        ok = visit_type_%(c_type)s(v, name, &(*obj)->u.%(c_name)s, errp);
+ ''',
+                          c_type=var.type.c_name(),
+                          c_name=c_name(var.name))
+@@ -224,7 +216,7 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+         abort();
+     default:
+         assert(visit_is_input(v));
+-        error_setg(&err, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
++        error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
+                    "%(name)s");
+         /* Avoid passing invalid *obj to qapi_free_%(c_name)s() */
+         g_free(*obj);
+@@ -232,12 +224,11 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+     }
+ out_obj:
+     visit_end_alternate(v, (void **)obj);
+-    if (err && visit_is_input(v)) {
++    if (!ok && visit_is_input(v)) {
+         qapi_free_%(c_name)s(*obj);
+         *obj = NULL;
+     }
+-    error_propagate(errp, err);
+-    return !err;
++    return ok;
+ }
+ ''',
+                  name=name, c_name=c_name(name))
+@@ -250,7 +241,7 @@ def gen_visit_object(name, base, members, variants):
+ 
+ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ {
+-    Error *err = NULL;
++    bool ok = false;
+ 
+     if (!visit_start_struct(v, name, (void **)obj, sizeof(%(c_name)s), errp)) {
+         return false;
+@@ -260,19 +251,17 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error
+         assert(visit_is_dealloc(v));
+         goto out_obj;
+     }
+-    visit_type_%(c_name)s_members(v, *obj, &err);
+-    if (err) {
++    if (!visit_type_%(c_name)s_members(v, *obj, errp)) {
+         goto out_obj;
+     }
+-    visit_check_struct(v, &err);
++    ok = visit_check_struct(v, errp);
+ out_obj:
+     visit_end_struct(v, (void **)obj);
+-    if (err && visit_is_input(v)) {
++    if (!ok && visit_is_input(v)) {
+         qapi_free_%(c_name)s(*obj);
+         *obj = NULL;
+     }
+-    error_propagate(errp, err);
+-    return !err;
++    return ok;
+ }
+ ''',
+                  c_name=c_name(name))
 -- 
 2.26.2
 
