@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAB8215CBB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:11:54 +0200 (CEST)
-Received: from localhost ([::1]:50474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B698215C91
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:04:43 +0200 (CEST)
+Received: from localhost ([::1]:41946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUen-0004wd-I0
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
+	id 1jsUXq-0006Ri-0p
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:04:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCa-0004Cc-0A
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43871
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jsUCU-0003zS-QD
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42528
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCX-0003Cz-93
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:43 -0400
+ id 1jsUCS-0003BG-GE
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053760;
+ s=mimecast20190719; t=1594053755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZYIuYhb+zYChQRuWbnOvJoxrja7P5iRG2waMsb5gLE=;
- b=ZKuVdECESUOsUkV4LuPbwvDaRw8CNXOFXIT3mao3/KoGqgo+AsDthHBvVYhrLpFC7AgKEJ
- fJnhEB3OseZs3HGQlOAiZ/lncaDyCBriO7IwAyF78HL9YJKrnERbctae5n8i/oR0hOhP8m
- cY6oBKkljMnUEAnD8DzeHx9VXjSZUKM=
+ bh=Cuu7Gd/0ThqafhqxDN6MKfshUHRjWDAKG8WjMu6RZ7Q=;
+ b=bPtHVPQsizonmu+OiqxFpyj2uPjfLUm0V8X1/AcCsDd7EnWKVUhwVZf1Nx3EUXyJl3s7My
+ hGEGRVqo8n7lDYZUvr/g+XrhDEHEUHTuLMaKc4oSTdpgML4VsqEii14Q6sZaZVJqnVVrM1
+ F0tx+KAjkUo8ZmSvhEIP/sQu5NEqRw8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-sbWzbLK2PIiDU71WEHtHPQ-1; Mon, 06 Jul 2020 12:42:28 -0400
-X-MC-Unique: sbWzbLK2PIiDU71WEHtHPQ-1
+ us-mta-62-a1AJTvZePxijmPu31iHoFA-1; Mon, 06 Jul 2020 12:42:30 -0400
+X-MC-Unique: a1AJTvZePxijmPu31iHoFA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC2A81937FC4;
- Mon,  6 Jul 2020 16:42:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FD388010C7;
+ Mon,  6 Jul 2020 16:42:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3577F5F7D8;
- Mon,  6 Jul 2020 16:42:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C3885F7D8;
+ Mon,  6 Jul 2020 16:42:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/53] cpus: Move CPU code from exec.c to cpus-common.c
-Date: Mon,  6 Jul 2020 12:41:41 -0400
-Message-Id: <20200706164155.24696-40-pbonzini@redhat.com>
+Subject: [PULL 41/53] softmmu: move softmmu only files from root
+Date: Mon,  6 Jul 2020 12:41:43 -0400
+Message-Id: <20200706164155.24696-42-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -69,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,104 +82,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
 
-This code was introduced with SMP support in commit 6a00d60127,
-later commit 267f685b8b moved CPU list management to common code
-but forgot this code. Move now and simplify ifdef'ry.
+move arch_init, balloon, cpus, ioport, memory, memory_mapping, qtest.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+They are all specific to CONFIG_SOFTMMU.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200702104017.14057-1-philmd@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200629093504.3228-2-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- cpus-common.c | 18 ++++++++++++++++++
- exec.c        | 22 ----------------------
- 2 files changed, 18 insertions(+), 22 deletions(-)
+ MAINTAINERS                                  | 12 ++++++------
+ Makefile.target                              |  7 ++-----
+ softmmu/Makefile.objs                        | 10 ++++++++++
+ arch_init.c => softmmu/arch_init.c           |  0
+ balloon.c => softmmu/balloon.c               |  0
+ cpus.c => softmmu/cpus.c                     |  0
+ ioport.c => softmmu/ioport.c                 |  0
+ memory.c => softmmu/memory.c                 |  0
+ memory_mapping.c => softmmu/memory_mapping.c |  0
+ qtest.c => softmmu/qtest.c                   |  0
+ 10 files changed, 18 insertions(+), 11 deletions(-)
+ rename arch_init.c => softmmu/arch_init.c (100%)
+ rename balloon.c => softmmu/balloon.c (100%)
+ rename cpus.c => softmmu/cpus.c (100%)
+ rename ioport.c => softmmu/ioport.c (100%)
+ rename memory.c => softmmu/memory.c (100%)
+ rename memory_mapping.c => softmmu/memory_mapping.c (100%)
+ rename qtest.c => softmmu/qtest.c (100%)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 8f5512b3d7..34044f4e4c 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -72,6 +72,8 @@ static int cpu_get_free_index(void)
-     return max_cpu_index;
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 72d5871f41..fdf43228b5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -115,7 +115,7 @@ Overall TCG CPUs
+ M: Richard Henderson <rth@twiddle.net>
+ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: cpus.c
++F: softmmu/cpus.c
+ F: cpus-common.c
+ F: exec.c
+ F: accel/tcg/
+@@ -1722,7 +1722,7 @@ M: David Hildenbrand <david@redhat.com>
+ S: Maintained
+ F: hw/virtio/virtio-balloon*.c
+ F: include/hw/virtio/virtio-balloon.h
+-F: balloon.c
++F: softmmu/balloon.c
+ F: include/sysemu/balloon.h
  
-+CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
-+
- void cpu_list_add(CPUState *cpu)
- {
-     QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-@@ -96,6 +98,22 @@ void cpu_list_remove(CPUState *cpu)
-     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
- }
+ virtio-9p
+@@ -2191,12 +2191,12 @@ Memory API
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ S: Supported
+ F: include/exec/ioport.h
+-F: ioport.c
+ F: include/exec/memop.h
+ F: include/exec/memory.h
+ F: include/exec/ram_addr.h
+ F: include/exec/ramblock.h
+-F: memory.c
++F: softmmu/ioport.c
++F: softmmu/memory.c
+ F: include/exec/memory-internal.h
+ F: exec.c
+ F: scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -2228,13 +2228,13 @@ F: ui/cocoa.m
+ Main loop
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: cpus.c
+ F: include/qemu/main-loop.h
+ F: include/sysemu/runstate.h
+ F: util/main-loop.c
+ F: util/qemu-timer.c
+ F: softmmu/vl.c
+ F: softmmu/main.c
++F: softmmu/cpus.c
+ F: qapi/run-state.json
  
-+CPUState *qemu_get_cpu(int index)
-+{
-+    CPUState *cpu;
-+
-+    CPU_FOREACH(cpu) {
-+        if (cpu->cpu_index == index) {
-+            return cpu;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/* current CPU in the current thread. It is only valid inside cpu_exec() */
-+__thread CPUState *current_cpu;
-+
- struct qemu_work_item {
-     QSIMPLEQ_ENTRY(qemu_work_item) node;
-     run_on_cpu_func func;
-diff --git a/exec.c b/exec.c
-index 21926dc9c7..997b7db15f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -98,12 +98,6 @@ AddressSpace address_space_memory;
- static MemoryRegion io_mem_unassigned;
- #endif
+ Human Monitor (HMP)
+@@ -2389,7 +2389,7 @@ M: Thomas Huth <thuth@redhat.com>
+ M: Laurent Vivier <lvivier@redhat.com>
+ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+-F: qtest.c
++F: softmmu/qtest.c
+ F: accel/qtest.c
+ F: tests/qtest/
+ X: tests/qtest/bios-tables-test-allowed-diff.h
+diff --git a/Makefile.target b/Makefile.target
+index 8ed1eba95b..7fbf5d8b92 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -152,16 +152,13 @@ endif #CONFIG_BSD_USER
+ #########################################################
+ # System emulator target
+ ifdef CONFIG_SOFTMMU
+-obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+-obj-y += qtest.o
++obj-y += softmmu/
++obj-y += gdbstub.o
+ obj-y += dump/
+ obj-y += hw/
+ obj-y += monitor/
+ obj-y += qapi/
+-obj-y += memory.o
+-obj-y += memory_mapping.o
+ obj-y += migration/ram.o
+-obj-y += softmmu/
+ LIBS := $(libs_softmmu) $(LIBS)
  
--CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
--
--/* current CPU in the current thread. It is only valid inside
--   cpu_exec() */
--__thread CPUState *current_cpu;
--
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
- 
-@@ -832,22 +826,6 @@ const VMStateDescription vmstate_cpu_common = {
-     }
- };
- 
--#endif
--
--CPUState *qemu_get_cpu(int index)
--{
--    CPUState *cpu;
--
--    CPU_FOREACH(cpu) {
--        if (cpu->cpu_index == index) {
--            return cpu;
--        }
--    }
--
--    return NULL;
--}
--
--#if !defined(CONFIG_USER_ONLY)
- void cpu_address_space_init(CPUState *cpu, int asidx,
-                             const char *prefix, MemoryRegion *mr)
- {
+ # Hardware support
+diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
+index dd15c24346..a4bd9f2f52 100644
+--- a/softmmu/Makefile.objs
++++ b/softmmu/Makefile.objs
+@@ -1,3 +1,13 @@
+ softmmu-main-y = softmmu/main.o
++
++obj-y += arch_init.o
++obj-y += cpus.o
++obj-y += balloon.o
++obj-y += ioport.o
++obj-y += memory.o
++obj-y += memory_mapping.o
++
++obj-y += qtest.o
++
+ obj-y += vl.o
+ vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
+diff --git a/arch_init.c b/softmmu/arch_init.c
+similarity index 100%
+rename from arch_init.c
+rename to softmmu/arch_init.c
+diff --git a/balloon.c b/softmmu/balloon.c
+similarity index 100%
+rename from balloon.c
+rename to softmmu/balloon.c
+diff --git a/cpus.c b/softmmu/cpus.c
+similarity index 100%
+rename from cpus.c
+rename to softmmu/cpus.c
+diff --git a/ioport.c b/softmmu/ioport.c
+similarity index 100%
+rename from ioport.c
+rename to softmmu/ioport.c
+diff --git a/memory.c b/softmmu/memory.c
+similarity index 100%
+rename from memory.c
+rename to softmmu/memory.c
+diff --git a/memory_mapping.c b/softmmu/memory_mapping.c
+similarity index 100%
+rename from memory_mapping.c
+rename to softmmu/memory_mapping.c
+diff --git a/qtest.c b/softmmu/qtest.c
+similarity index 100%
+rename from qtest.c
+rename to softmmu/qtest.c
 -- 
 2.26.2
 
