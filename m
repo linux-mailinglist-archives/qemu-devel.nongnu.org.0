@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F500215515
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:02:59 +0200 (CEST)
-Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEBD215518
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:06:17 +0200 (CEST)
+Received: from localhost ([::1]:43342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsNxi-0001Wj-1R
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
+	id 1jsO0u-0004ZH-KT
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jsNwP-0000XB-Sc
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:01:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38645
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzQ-0002a8-Go
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:44 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60380
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jsNwN-0003aU-3N
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:01:37 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsNzM-0003za-Ky
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:04:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594029693;
+ s=mimecast20190719; t=1594029879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2PoSHfLvZYYyAhaNzGNJIFSEA0jdVd2Q91HeAITdRuk=;
- b=aPcBrYp7fo6M00vn2Qwvh0hJLZsgOdXFirQ2T1ZtYDmnbi7I28k3j6j5kz/VJiB57CkDbD
- dUAvNoegUAF7lv7HwaFgiYNIPs0CZbMmt3WTFA0rMeVNQrWRsFOPRkUhKmFUUbV5bOA5So
- DHspHpsnAO7IWCwpmtPPf89loSAzIEc=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-KlNRPGiLO2KrHxIKeKswXg-1; Mon, 06 Jul 2020 06:01:31 -0400
-X-MC-Unique: KlNRPGiLO2KrHxIKeKswXg-1
-Received: by mail-io1-f72.google.com with SMTP id g11so22709255ioc.20
- for <qemu-devel@nongnu.org>; Mon, 06 Jul 2020 03:01:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2PoSHfLvZYYyAhaNzGNJIFSEA0jdVd2Q91HeAITdRuk=;
- b=KbDAQMFI5jjdW+eRD0Iaw4E8Hd/Ug4C5Hu3zqNcBkhQKgv77a40wODV/V5Rvsa6Y37
- 6SgajrpLUeroQQSbM1JiVG/noYiA1pViBjDdd/Ha/5nDZnQgdZceXMOkfXakdnryKAmn
- plMHwdiWQWigNoGgIN7Zu+3QxsVT3vZh3oZr4/OkZmZRqd5t9upcIifsvzvkDXJX18jt
- 0Tuoo91pA+8IsmqHYPcbEYwKS8OswtNi+ud1Byp05VW4ESuZKh4jCGROEZDbs+DJcRl7
- 9rg1kQXowlB4szNBUUpQo8fLapM06PR32YTQRS3H5LXK6TkdbEDIS/4W30ba7nStElVo
- mwKw==
-X-Gm-Message-State: AOAM530UXsKzbLLAlV5JXuIVda4UHCp02roMV8NcwZRDjIT+SVPCUD3J
- 0jm2KwSHofK0g7xpFvm0IMFFx0G2Tn8syaq0viJBe60hYg4nl5g2x9acrqQjnumD37ftrY1jQaR
- 5xeY/o3wQ/IWbiScr4sSsX+v+SVAsHD4=
-X-Received: by 2002:a92:79cb:: with SMTP id
- u194mr29587254ilc.161.1594029691028; 
- Mon, 06 Jul 2020 03:01:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwL8Pymtn9Jd0hFABPvOpimIN/+TalTEYzsFBM912BG6WTQivuZfI2RoylLFMB7V4UWNpROLW318GdLOFmtvwk=
-X-Received: by 2002:a92:79cb:: with SMTP id
- u194mr29587186ilc.161.1594029690315; 
- Mon, 06 Jul 2020 03:01:30 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/BPo28YlJ57+VfG/SR2fhG6F/1v7/syCVKHonFD1hwU=;
+ b=h6A2IEvBK21xzNJ+14zjonMvbORp26z5pZJYzirH0I3ia/7SbIipXSE4q/yxiqRATPIifv
+ odkQRdTRxVdRTqMlA4Lyaai4qDkb5IqZQayNfGui9wKVqRFF+ffjOnakZgTjfbCzDOUk3Y
+ X3wfBvwcZBJ7mJ3x1Sx7clI86ExQ6mc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-8F6crobEOx2slSadO4PViQ-1; Mon, 06 Jul 2020 06:04:35 -0400
+X-MC-Unique: 8F6crobEOx2slSadO4PViQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29648805F0C;
+ Mon,  6 Jul 2020 10:04:34 +0000 (UTC)
+Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B7CA65D9F3;
+ Mon,  6 Jul 2020 10:04:33 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/31] Block patches
+Date: Mon,  6 Jul 2020 12:04:01 +0200
+Message-Id: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
- <20200107150442.1727958-37-marcandre.lureau@redhat.com>
- <13c91f97-a7e6-adbd-9c23-2464f2b1b46e@amsat.org>
-In-Reply-To: <13c91f97-a7e6-adbd-9c23-2464f2b1b46e@amsat.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 6 Jul 2020 14:01:19 +0400
-Message-ID: <CAMxuvaxx0bM5yhZcmc7LPmpMt-qvuB+zjhRR1mpUiNm=DyasoQ@mail.gmail.com>
-Subject: Re: [PULL 36/37] qdev: remove QDEV_PROP_PTR
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlureau@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,139 +76,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+The following changes since commit eb6490f544388dd24c0d054a96dd304bc7284450:
 
-On Mon, Jul 6, 2020 at 12:44 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 1/7/20 4:04 PM, Marc-Andr=C3=A9 Lureau wrote:
-> > No longer used in the tree. The comment about user_creatable is still
-> > quite relevant, but there is already a similar comment in qdev-core.h.
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  include/hw/qdev-properties.h | 22 ----------------------
-> >  hw/core/qdev-properties.c    | 18 ------------------
-> >  2 files changed, 40 deletions(-)
-> >
-> > diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.=
-h
-> > index 16837ab5dd..a90a9cec80 100644
-> > --- a/include/hw/qdev-properties.h
-> > +++ b/include/hw/qdev-properties.h
-> > @@ -18,7 +18,6 @@ extern const PropertyInfo qdev_prop_size;
-> >  extern const PropertyInfo qdev_prop_string;
-> >  extern const PropertyInfo qdev_prop_chr;
-> >  extern const PropertyInfo qdev_prop_tpm;
-> > -extern const PropertyInfo qdev_prop_ptr;
-> >  extern const PropertyInfo qdev_prop_macaddr;
-> >  extern const PropertyInfo qdev_prop_on_off_auto;
-> >  extern const PropertyInfo qdev_prop_losttickpolicy;
-> > @@ -171,25 +170,6 @@ extern const PropertyInfo qdev_prop_pcie_link_widt=
-h;
-> >  #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-> >      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-> >
-> > -/*
-> > - * Please avoid pointer properties.  If you must use them, you must
-> > - * cover them in their device's class init function as follows:
-> > - *
-> > - * - If the property must be set, the device cannot be used with
-> > - *   device_add, so add code like this:
-> > - *   |* Reason: pointer property "NAME-OF-YOUR-PROP" *|
-> > - *   DeviceClass *dc =3D DEVICE_CLASS(class);
-> > - *   dc->user_creatable =3D false;
-> > - *
-> > - * - If the property may safely remain null, document it like this:
-> > - *   |*
-> > - *    * Note: pointer property "interrupt_vector" may remain null, thu=
-s
-> > - *    * no need for dc->user_creatable =3D false;
-> > - *    *|
-> > - */
-> > -#define DEFINE_PROP_PTR(_n, _s, _f)             \
-> > -    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, void*)
->
-> So the replacement is DEFINE_PROP_LINK()? It is not documented, but
-> it takes a TYPENAME argument, so I assume we can only LINK QOM types.
-> Can the documentation be improved?
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200703' into staging (2020-07-04 16:08:41 +0100)
 
-Certainly, although we already have some documentation in
-object_property_add_link(). It's annoying that we have several places
-documenting similar/close API, or API docs in docs/ that quickly
-becomes outdated, or more difficult to find. Root of the issue is that
-there are at least 3 ways to add props: object_{,class}_property &
-QDEV_PROPS ...
+are available in the Git repository at:
 
-> Yet another sneaky way to force forks to either update to QOM or die...
+  https://github.com/XanClic/qemu.git tags/pull-block-2020-07-06
 
-You can't blame upstream from doing cleanups and modernization, or
-stagnating. Forks are forks, with all the pain they carry. If they
-want to avoid the maintenance cost, they have to do the extra effort
-to get it upstream. This is also a "sneaky way" to remind them that
-effort is better spent in this direction.
+for you to fetch changes up to 365fed5111b06d31c1632af63c7528dfe49d62a2:
 
-> > -
-> >  #define DEFINE_PROP_CHR(_n, _s, _f)             \
-> >      DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
-> >  #define DEFINE_PROP_STRING(_n, _s, _f)             \
-> > @@ -262,8 +242,6 @@ void qdev_prop_set_drive(DeviceState *dev, const ch=
-ar *name,
-> >  void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-> >                             const uint8_t *value);
-> >  void qdev_prop_set_enum(DeviceState *dev, const char *name, int value)=
-;
-> > -/* FIXME: Remove opaque pointer properties.  */
-> > -void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value=
-);
-> >
-> >  void qdev_prop_register_global(GlobalProperty *prop);
-> >  int qdev_prop_check_globals(void);
-> > diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-> > index ac28890e5a..6ca7697599 100644
-> > --- a/hw/core/qdev-properties.c
-> > +++ b/hw/core/qdev-properties.c
-> > @@ -501,13 +501,6 @@ const PropertyInfo qdev_prop_string =3D {
-> >      .set   =3D set_string,
-> >  };
-> >
-> > -/* --- pointer --- */
-> > -
-> > -/* Not a proper property, just for dirty hacks.  TODO Remove it!  */
-> > -const PropertyInfo qdev_prop_ptr =3D {
-> > -    .name  =3D "ptr",
-> > -};
-> > -
-> >  /* --- mac address --- */
-> >
-> >  /*
-> > @@ -1165,17 +1158,6 @@ void qdev_prop_set_enum(DeviceState *dev, const =
-char *name, int value)
-> >                              name, &error_abort);
-> >  }
-> >
-> > -void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value=
-)
-> > -{
-> > -    Property *prop;
-> > -    void **ptr;
-> > -
-> > -    prop =3D qdev_prop_find(dev, name);
-> > -    assert(prop && prop->info =3D=3D &qdev_prop_ptr);
-> > -    ptr =3D qdev_get_prop_ptr(dev, prop);
-> > -    *ptr =3D value;
-> > -}
-> > -
-> >  static GPtrArray *global_props(void)
-> >  {
-> >      static GPtrArray *gp;
-> >
->
+  qed: Simplify backing reads (2020-07-06 10:34:14 +0200)
+
+----------------------------------------------------------------
+Block patches for 5.1:
+- LUKS keyslot amendment
+  (+ patches to make the iotests pass on non-Linux systems, and to keep
+     the tests passing for qcow v1, and to skip LUKS tests (including
+     qcow2 LUKS) when the built qemu does not support it)
+- Refactoring in the block layer: Drop the basically unnecessary
+  unallocated_blocks_are_zero field from BlockDriverInfo
+- Fix qcow2 preallocation when the image size is not a multiple of the
+  cluster size
+- Fix in block-copy code
+
+----------------------------------------------------------------
+Alberto Garcia (1):
+  qcow2: Fix preallocation on images with unaligned sizes
+
+Eric Blake (1):
+  qed: Simplify backing reads
+
+Max Reitz (5):
+  iotests: Make _filter_img_create more active
+  iotests/common.rc: Add _require_working_luks
+  iotests.py: Add qemu_img_pipe_and_status()
+  iotests.py: Add (verify|has)_working_luks()
+  iotests: Check whether luks works
+
+Maxim Levitsky (14):
+  iotests: filter few more luks specific create options
+  qcrypto/core: add generic infrastructure for crypto options amendment
+  qcrypto/luks: implement encryption key management
+  block/amend: add 'force' option
+  block/amend: separate amend and create options for qemu-img
+  block/amend: refactor qcow2 amend options
+  block/crypto: rename two functions
+  block/crypto: implement the encryption key management
+  block/qcow2: extend qemu-img amend interface with crypto options
+  iotests: qemu-img tests for luks key management
+  block/core: add generic infrastructure for x-blockdev-amend qmp
+    command
+  block/crypto: implement blockdev-amend
+  block/qcow2: implement blockdev-amend
+  iotests: add tests for blockdev-amend
+
+Vladimir Sementsov-Ogievskiy (10):
+  block/block-copy: block_copy_dirty_clusters: fix failure check
+  qemu-img: convert: don't use unallocated_blocks_are_zero
+  block: inline bdrv_unallocated_blocks_are_zero()
+  block/vdi: return ZERO block-status when appropriate
+  block/vpc: return ZERO block-status when appropriate
+  block/crypto: drop unallocated_blocks_are_zero
+  block/iscsi: drop unallocated_blocks_are_zero
+  block/file-posix: drop unallocated_blocks_are_zero
+  block/vhdx: drop unallocated_blocks_are_zero
+  block: drop unallocated_blocks_are_zero
+
+ docs/tools/qemu-img.rst          |   5 +-
+ qapi/block-core.json             |  68 +++++
+ qapi/crypto.json                 |  73 +++++-
+ qapi/job.json                    |   4 +-
+ block/crypto.h                   |  37 +++
+ block/qed.h                      |   1 -
+ crypto/blockpriv.h               |   8 +
+ include/block/block.h            |   7 +-
+ include/block/block_int.h        |  36 ++-
+ include/crypto/block.h           |  22 ++
+ block.c                          |  19 +-
+ block/amend.c                    | 113 +++++++++
+ block/block-copy.c               |   4 +-
+ block/crypto.c                   | 207 +++++++++++++--
+ block/file-posix.c               |   3 -
+ block/io.c                       |   8 +-
+ block/iscsi.c                    |   1 -
+ block/qcow2.c                    | 350 +++++++++++++++-----------
+ block/qed.c                      |  65 +----
+ block/vdi.c                      |   3 +-
+ block/vhdx.c                     |   3 -
+ block/vpc.c                      |   3 +-
+ crypto/block-luks.c              | 416 ++++++++++++++++++++++++++++++-
+ crypto/block.c                   |  29 +++
+ qemu-img.c                       |  48 ++--
+ block/Makefile.objs              |   2 +-
+ qemu-img-cmds.hx                 |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++++----
+ tests/qemu-iotests/061.out       |  12 +-
+ tests/qemu-iotests/082.out       | 185 ++++----------
+ tests/qemu-iotests/085.out       |  38 +--
+ tests/qemu-iotests/087           |   1 +
+ tests/qemu-iotests/087.out       |   6 +-
+ tests/qemu-iotests/112.out       |   2 +-
+ tests/qemu-iotests/125           |  24 ++
+ tests/qemu-iotests/125.out       |   9 +
+ tests/qemu-iotests/134.out       |   2 +-
+ tests/qemu-iotests/141           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/146           |  60 +++--
+ tests/qemu-iotests/146.out       | 405 ++++++++++++++++++++++++++++--
+ tests/qemu-iotests/153           |   9 +-
+ tests/qemu-iotests/158.out       |   4 +-
+ tests/qemu-iotests/178           |   1 +
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/188           |   1 +
+ tests/qemu-iotests/188.out       |   2 +-
+ tests/qemu-iotests/189           |   1 +
+ tests/qemu-iotests/189.out       |   4 +-
+ tests/qemu-iotests/198           |   1 +
+ tests/qemu-iotests/198.out       |   4 +-
+ tests/qemu-iotests/206           |   1 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/263           |   1 +
+ tests/qemu-iotests/263.out       |   4 +-
+ tests/qemu-iotests/274.out       |  46 ++--
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/284           |   1 +
+ tests/qemu-iotests/284.out       |   6 +-
+ tests/qemu-iotests/293           | 208 ++++++++++++++++
+ tests/qemu-iotests/293.out       |  99 ++++++++
+ tests/qemu-iotests/294           |  90 +++++++
+ tests/qemu-iotests/294.out       |  30 +++
+ tests/qemu-iotests/295           | 280 +++++++++++++++++++++
+ tests/qemu-iotests/295.out       |  40 +++
+ tests/qemu-iotests/296           | 234 +++++++++++++++++
+ tests/qemu-iotests/296.out       |  33 +++
+ tests/qemu-iotests/common.filter | 106 ++++++--
+ tests/qemu-iotests/common.rc     |  30 +++
+ tests/qemu-iotests/group         |   4 +
+ tests/qemu-iotests/iotests.py    |  84 +++++--
+ 72 files changed, 3103 insertions(+), 632 deletions(-)
+ create mode 100644 block/amend.c
+ create mode 100755 tests/qemu-iotests/293
+ create mode 100644 tests/qemu-iotests/293.out
+ create mode 100755 tests/qemu-iotests/294
+ create mode 100644 tests/qemu-iotests/294.out
+ create mode 100755 tests/qemu-iotests/295
+ create mode 100644 tests/qemu-iotests/295.out
+ create mode 100755 tests/qemu-iotests/296
+ create mode 100644 tests/qemu-iotests/296.out
+
+-- 
+2.26.2
 
 
