@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E4B215BEB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:37:23 +0200 (CEST)
-Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D19215BF4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:38:37 +0200 (CEST)
+Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsU7O-0004if-5K
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55624)
+	id 1jsU8a-0006ZO-Cn
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsU6V-0003o8-Lh; Mon, 06 Jul 2020 12:36:27 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:39150)
+ id 1jsU7V-0005X5-Bl; Mon, 06 Jul 2020 12:37:29 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:39989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsU6T-00024x-LX; Mon, 06 Jul 2020 12:36:27 -0400
-Received: by mail-io1-xd43.google.com with SMTP id f23so40047396iof.6;
- Mon, 06 Jul 2020 09:36:24 -0700 (PDT)
+ id 1jsU7T-0002AR-NJ; Mon, 06 Jul 2020 12:37:29 -0400
+Received: by mail-il1-x143.google.com with SMTP id e18so22738885ilr.7;
+ Mon, 06 Jul 2020 09:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=yyuj29I1KssESzbm0ObS4zW8l8xx+VlZ9cn9lqaJVb0=;
- b=skxynAhdQaaSfgvGHlb6Byr95jv8pSZZxvKdiScKqsr/x5ySgA+ZUZx58YZ3eYUf4b
- UKpln/6VhhuTO1jEPumRLkm6skZbpQcJtvGqTX5rkRda/6iRrKk48cZMbPKVYJK2grlP
- qKHjiBpaK8FqvxaV/rzalU4NUbK6vBYja3mRB4bkxDKz7fYmJpQuzZ1IDP+0le+w356w
- oqqpHAeOruSknshIQRCKjsxTuAMzJo1L3200mrSunti09uSUgFuc92ytV3FSXokxwTnt
- 4Gi3T6zTDY6bVjvbSgHy4OBiYVoEmnSmgv86+U+8QkPeUL+f+rAerrlAJ8gK5OyLvx9w
- E0vg==
+ bh=gUa/JAequ5IOqanfZzjwe7iEx/8B4O6WJ7E2KVpYgKc=;
+ b=GNFMlh4/llPGqic0xnoM+u3q+H/vXIj80H2Lyck23QC2borcKGqxnQze4wwpxW0bv2
+ Jno8bRQsCim2lV8QgIrJ/KyA+7UdOEGZnUDt5TbMbENY7/JempE8lNA74CyQMOAH1+yU
+ xtZ/UcVGUCFvlJ1+QjD0Ztz0RHMkMa3/sW13+i0c/hdvuuRPCjvwhhUxQwDCHl4J1oN7
+ K+ahdUPvIHnEgfEEYw0tx2ek0itPAh4oSJQCXYYEjaJvoyjIdeOwX3ElYWl0OpD0LmDZ
+ aNUej1qzFnvvlBwlMjT8LImsVYK4I7x7oMGgEBp9S+Cf/MH4sr1IA+eStjS7OHJQVzrg
+ hlsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=yyuj29I1KssESzbm0ObS4zW8l8xx+VlZ9cn9lqaJVb0=;
- b=HbCSQbp1xfZWoqAPaO2gGclPFSHf4lLdXiIGAeF/KARfsa9VkJVYPZRCoKbPF2goJN
- 9U7yI8XzYtpVe0LpC3h8A6jkhlz4MQ2vY4VGiweTWTzVZTrC+EkiscYcN+SLjZenp7iX
- gYHMPdg5RxJAZqP3N4u3E8X593PXFrcHvRH3nyYC0+CnySvOPanEf3CvZy5ovk/Kxth2
- 9Y47AzR40zFFSfFkcznSVyfvG6GzB/i5ikjHfuHJGHDJ0PdF1n9BLAeYogwZDg/s0HA9
- kV4PSomKd5sdGhqW5uNlOIUevMcHcOXvvgPiBnZDJwfgA31Hbw0mjEYvnlNES00mXlL5
- 7SKw==
-X-Gm-Message-State: AOAM531RfLsevtbdGduoG1O6NIYfY3lKY7vdJQiqe8EeGEdz8yl1Sv60
- o1E1Ljyy6wgn9eym2Dxghr5QeraEs/ccvW5+qrU=
-X-Google-Smtp-Source: ABdhPJy0fywygdzTcF8C8ewblkSwbfVR57x6YFaSI8QsOG5dlr5LLGjroQ2qrYB0N1AhGWOIZ+iT11TCDXCMMPhxMWA=
-X-Received: by 2002:a5d:97d9:: with SMTP id k25mr26377713ios.42.1594053384330; 
- Mon, 06 Jul 2020 09:36:24 -0700 (PDT)
+ bh=gUa/JAequ5IOqanfZzjwe7iEx/8B4O6WJ7E2KVpYgKc=;
+ b=GGjU41DEI6HradF0QwIQ/Uj51hd+ab4cQi9lKH+Er52MBNz8stJmrTtcIfrQMqDMhC
+ Kxoy+p+8lxhyTga6imFgbk2mEdd9V0HoMkBx602t6ITNxp28j6yux8FtHShlxWOmBZ48
+ U9NhNfBi85z3j97aqnfA+05Lx2dEP8rjfonPlWeigAA/i7YJaumTQUkYOtJNIksVtBAn
+ G2WbN8m9UydlTKaM6H7wAx9x2jUdZ/rUZWD7gpEWjlvs7cJn5btUvr/rtcc5T8wU4C+b
+ GUQLbW2b7lmmMvl9zvTQR1NcJVmeDVaySBCbrGh3j/jy9G5ld9m6Wtn4wbCgwHPKIT+Q
+ ZMrA==
+X-Gm-Message-State: AOAM530C+dcxeZhYjfPgM2d7+KAFtR8rgVp/ATfm/LxOS0/0EjbFd1pS
+ AtnlOQ/H/21y3Cts7G8XyLPIabIeUy4B+usuHFPAgtNO
+X-Google-Smtp-Source: ABdhPJzCWYErNKhtLyQYqRHLcYxzZZg7PCRyk6WbfeM2A8lD/Mpyhxguk7UVN+YsUOsdEzSnhtvBTxI2ahx4PLseIX0=
+X-Received: by 2002:a92:bb84:: with SMTP id x4mr32098391ilk.177.1594053446396; 
+ Mon, 06 Jul 2020 09:37:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200630133912.9428-1-f4bug@amsat.org>
- <20200630133912.9428-6-f4bug@amsat.org>
-In-Reply-To: <20200630133912.9428-6-f4bug@amsat.org>
+ <20200630133912.9428-7-f4bug@amsat.org>
+In-Reply-To: <20200630133912.9428-7-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:26:35 -0700
-Message-ID: <CAKmqyKPbTfCWcPiBbDeSfnmdYJq6DpdNrnrzvtxfAPLTdYKZDw@mail.gmail.com>
-Subject: Re: [PATCH v7 05/17] hw/sd/sdcard: Do not switch to ReceivingData if
- address is invalid
+Date: Mon, 6 Jul 2020 09:27:36 -0700
+Message-ID: <CAKmqyKN6h1BWaD3kryxkAHDGwsiMbJoLWTckZ+borPbOCQeMyg@mail.gmail.com>
+Subject: Re: [PATCH v7 06/17] hw/sd/sdcard: Restrict Class 6 commands to SCSD
+ cards
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -82,41 +82,28 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>, Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 30, 2020 at 6:42 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Tue, Jun 30, 2020 at 6:44 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> Only move the state machine to ReceivingData if there is no
-> pending error. This avoids later OOB access while processing
-> commands queued.
+> Only SCSD cards support Class 6 (Block Oriented Write Protection)
+> commands.
 >
 >   "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
 >
->   4.3.3 Data Read
+>   4.3.14 Command Functional Difference in Card Capacity Types
 >
->   Read command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
->   occurred and no data transfer is performed.
+>   * Write Protected Group
 >
->   4.3.4 Data Write
+>   SDHC and SDXC do not support write-protected groups. Issuing
+>   CMD28, CMD29 and CMD30 generates the ILLEGAL_COMMAND error.
 >
->   Write command is rejected if BLOCK_LEN_ERROR or ADDRESS_ERROR
->   occurred and no data transfer is performed.
->
-> WP_VIOLATION errors are not modified: the error bit is set, we
-> stay in receive-data state, wait for a stop command. All further
-> data transfer is ignored. See the check on sd->card_status at the
-> beginning of sd_read_data() and sd_write_data().
->
-> Fixes: CVE-2020-13253
-> Cc: Prasad J Pandit <pjp@fedoraproject.org>
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1880822
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -124,99 +111,27 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
-> v4: Only modify ADDRESS_ERROR, not WP_VIOLATION (pm215)
-> ---
->  hw/sd/sd.c | 34 ++++++++++++++++++++++------------
->  1 file changed, 22 insertions(+), 12 deletions(-)
+>  hw/sd/sd.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
 > diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 04451fdad2..7e0d684aca 100644
+> index 7e0d684aca..871c30a67f 100644
 > --- a/hw/sd/sd.c
 > +++ b/hw/sd/sd.c
-> @@ -1167,13 +1167,15 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
-d, SDRequest req)
->      case 17:   /* CMD17:  READ_SINGLE_BLOCK */
->          switch (sd->state) {
->          case sd_transfer_state:
-> -            sd->state =3D sd_sendingdata_state;
-> -            sd->data_start =3D addr;
-> -            sd->data_offset =3D 0;
+> @@ -922,6 +922,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, =
+SDRequest req)
+>          sd->multi_blk_cnt =3D 0;
+>      }
 >
->              if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |=3D ADDRESS_ERROR;
-> +                return sd_r1;
->              }
+> +    if (sd_cmd_class[req.cmd] =3D=3D 6 && FIELD_EX32(sd->ocr, OCR, CARD_=
+CAPACITY)) {
+> +        /* Only Standard Capacity cards support class 6 commands */
+> +        return sd_illegal;
+> +    }
 > +
-> +            sd->state =3D sd_sendingdata_state;
-> +            sd->data_start =3D addr;
-> +            sd->data_offset =3D 0;
->              return sd_r1;
->
->          default:
-> @@ -1184,13 +1186,15 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
-d, SDRequest req)
->      case 18:   /* CMD18:  READ_MULTIPLE_BLOCK */
->          switch (sd->state) {
->          case sd_transfer_state:
-> -            sd->state =3D sd_sendingdata_state;
-> -            sd->data_start =3D addr;
-> -            sd->data_offset =3D 0;
->
->              if (sd->data_start + sd->blk_len > sd->size) {
->                  sd->card_status |=3D ADDRESS_ERROR;
-> +                return sd_r1;
->              }
-> +
-> +            sd->state =3D sd_sendingdata_state;
-> +            sd->data_start =3D addr;
-> +            sd->data_offset =3D 0;
->              return sd_r1;
->
->          default:
-> @@ -1230,14 +1234,17 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
-d, SDRequest req)
->              /* Writing in SPI mode not implemented.  */
->              if (sd->spi)
->                  break;
-> +
-> +            if (sd->data_start + sd->blk_len > sd->size) {
-> +                sd->card_status |=3D ADDRESS_ERROR;
-> +                return sd_r1;
-> +            }
-> +
->              sd->state =3D sd_receivingdata_state;
->              sd->data_start =3D addr;
->              sd->data_offset =3D 0;
->              sd->blk_written =3D 0;
->
-> -            if (sd->data_start + sd->blk_len > sd->size) {
-> -                sd->card_status |=3D ADDRESS_ERROR;
-> -            }
->              if (sd_wp_addr(sd, sd->data_start)) {
->                  sd->card_status |=3D WP_VIOLATION;
->              }
-> @@ -1257,14 +1264,17 @@ static sd_rsp_type_t sd_normal_command(SDState *s=
-d, SDRequest req)
->              /* Writing in SPI mode not implemented.  */
->              if (sd->spi)
->                  break;
-> +
-> +            if (sd->data_start + sd->blk_len > sd->size) {
-> +                sd->card_status |=3D ADDRESS_ERROR;
-> +                return sd_r1;
-> +            }
-> +
->              sd->state =3D sd_receivingdata_state;
->              sd->data_start =3D addr;
->              sd->data_offset =3D 0;
->              sd->blk_written =3D 0;
->
-> -            if (sd->data_start + sd->blk_len > sd->size) {
-> -                sd->card_status |=3D ADDRESS_ERROR;
-> -            }
->              if (sd_wp_addr(sd, sd->data_start)) {
->                  sd->card_status |=3D WP_VIOLATION;
->              }
+>      switch (req.cmd) {
+>      /* Basic commands (Class 0 and Class 1) */
+>      case 0:    /* CMD0:   GO_IDLE_STATE */
 > --
 > 2.21.3
 >
