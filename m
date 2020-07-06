@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7960221554A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:14:58 +0200 (CEST)
-Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846F621555A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 12:16:59 +0200 (CEST)
+Received: from localhost ([::1]:33772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsO9J-0003gY-EP
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
+	id 1jsOBG-00082C-I5
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 06:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0C-00048S-QI
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:32 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54449
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0G-0004Cv-9C
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:36 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22906
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0A-0004AB-Om
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:32 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jsO0D-0004BC-IT
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 06:05:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594029930;
+ s=mimecast20190719; t=1594029932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wdEbVbX3Z61jyldCHMRCapQ7vjSG4vYACWPwWORtrLA=;
- b=YGGExz3PTHzONhG89ley583oQbyzLFF4FTdhcLWICBpZsWXqPbfjChOiGfP57qaBRMm7w0
- sd14wP1e49Nh2eirXR5qG84xzujy3NSQ5Rr0HcXdRteFrUSxQ3ZnXtiDWcOTVuyokbmAdO
- XzekhNj/7G7axLytaLbwFvQZJDQHWB4=
+ bh=dBcMJ46Jn3ReNscVGlgV/9oO1tSfI2BymR9OJQzxv04=;
+ b=CQzgYuH7tM28x1WZN4tHRtlUD0PnkchBftuH4f3pdf20SS9ku5MLQnJA+RxRuCy9Eh9Fm1
+ 2IdzbnKLtEq5IgGuxrCKWR4zd4j9L3dWWEmW7lwxiV9itkKUiIJOlLj5Xdjor+aWGJjHDK
+ go/P0zYJrRqYoB7sDt3+zpoK/MyZZtk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-5Pda6o7-NESwFB_qYbGQPw-1; Mon, 06 Jul 2020 06:05:28 -0400
-X-MC-Unique: 5Pda6o7-NESwFB_qYbGQPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-182-Ikn9zxpsPau0sKu8jMvKwg-1; Mon, 06 Jul 2020 06:05:30 -0400
+X-MC-Unique: Ikn9zxpsPau0sKu8jMvKwg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22CFC107ACCD;
- Mon,  6 Jul 2020 10:05:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44EBFA0BD7;
+ Mon,  6 Jul 2020 10:05:29 +0000 (UTC)
 Received: from localhost (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7266CF945;
- Mon,  6 Jul 2020 10:05:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E022A5DD61;
+ Mon,  6 Jul 2020 10:05:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 22/31] qemu-img: convert: don't use unallocated_blocks_are_zero
-Date: Mon,  6 Jul 2020 12:04:23 +0200
-Message-Id: <20200706100432.2301919-23-mreitz@redhat.com>
+Subject: [PULL 23/31] block: inline bdrv_unallocated_blocks_are_zero()
+Date: Mon,  6 Jul 2020 12:04:24 +0200
+Message-Id: <20200706100432.2301919-24-mreitz@redhat.com>
 In-Reply-To: <20200706100432.2301919-1-mreitz@redhat.com>
 References: <20200706100432.2301919-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,48 +86,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-qemu-img convert wants to distinguish ZERO which comes from short
-backing files. unallocated_blocks_are_zero field of bdi is unrelated:
-space after EOF is always considered to be zero anyway. So, just make
-post_backing_zero true in case of short backing file.
+The function has only one user: bdrv_co_block_status(). Inline it to
+simplify reviewing of the following patches, which will finally drop
+unallocated_blocks_are_zero field too.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200528094405.145708-2-vsementsov@virtuozzo.com>
+Message-Id: <20200528094405.145708-3-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-img.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/block/block.h |  1 -
+ block.c               | 15 ---------------
+ block/io.c            | 11 ++++++++---
+ 3 files changed, 8 insertions(+), 19 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 7f4938a5ef..53bd32bf8f 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1681,7 +1681,6 @@ typedef struct ImgConvertState {
-     BlockBackend *target;
-     bool has_zero_init;
-     bool compressed;
--    bool unallocated_blocks_are_zero;
-     bool target_is_new;
-     bool target_has_backing;
-     int64_t target_backing_sectors; /* negative if unknown */
-@@ -1726,7 +1725,7 @@ static int convert_iteration_sectors(ImgConvertState *s, int64_t sector_num)
+diff --git a/include/block/block.h b/include/block/block.h
+index a2414a58c5..e7934e07f2 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -489,7 +489,6 @@ int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+ int bdrv_has_zero_init_1(BlockDriverState *bs);
+ int bdrv_has_zero_init(BlockDriverState *bs);
+-bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+                       int64_t bytes, int64_t *pnum, int64_t *map,
+diff --git a/block.c b/block.c
+index 144f52e413..62e40db2f1 100644
+--- a/block.c
++++ b/block.c
+@@ -5408,21 +5408,6 @@ int bdrv_has_zero_init(BlockDriverState *bs)
+     return 0;
+ }
  
-     if (s->target_backing_sectors >= 0) {
-         if (sector_num >= s->target_backing_sectors) {
--            post_backing_zero = s->unallocated_blocks_are_zero;
-+            post_backing_zero = true;
-         } else if (sector_num + n > s->target_backing_sectors) {
-             /* Split requests around target_backing_sectors (because
-              * starting from there, zeros are handled differently) */
-@@ -2678,7 +2677,6 @@ static int img_convert(int argc, char **argv)
-     } else {
-         s.compressed = s.compressed || bdi.needs_compressed_writes;
-         s.cluster_sectors = bdi.cluster_size / BDRV_SECTOR_SIZE;
--        s.unallocated_blocks_are_zero = bdi.unallocated_blocks_are_zero;
+-bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs)
+-{
+-    BlockDriverInfo bdi;
+-
+-    if (bs->backing) {
+-        return false;
+-    }
+-
+-    if (bdrv_get_info(bs, &bdi) == 0) {
+-        return bdi.unallocated_blocks_are_zero;
+-    }
+-
+-    return false;
+-}
+-
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs)
+ {
+     if (!(bs->open_flags & BDRV_O_UNMAP)) {
+diff --git a/block/io.c b/block/io.c
+index df8f2a98d4..36d4d562a6 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2407,15 +2407,20 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+         ret |= BDRV_BLOCK_ALLOCATED;
+     } else if (want_zero) {
+-        if (bdrv_unallocated_blocks_are_zero(bs)) {
+-            ret |= BDRV_BLOCK_ZERO;
+-        } else if (bs->backing) {
++        if (bs->backing) {
+             BlockDriverState *bs2 = bs->backing->bs;
+             int64_t size2 = bdrv_getlength(bs2);
+ 
+             if (size2 >= 0 && offset >= size2) {
+                 ret |= BDRV_BLOCK_ZERO;
+             }
++        } else {
++            BlockDriverInfo bdi;
++            int ret2 = bdrv_get_info(bs, &bdi);
++
++            if (ret2 == 0 && bdi.unallocated_blocks_are_zero) {
++                ret |= BDRV_BLOCK_ZERO;
++            }
+         }
      }
  
-     ret = convert_do_copy(&s);
 -- 
 2.26.2
 
