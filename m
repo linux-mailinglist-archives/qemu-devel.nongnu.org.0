@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0935D215C54
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:55:17 +0200 (CEST)
-Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABBF215C5A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:57:01 +0200 (CEST)
+Received: from localhost ([::1]:35874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUOh-0005a7-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
+	id 1jsUQO-0000e2-5m
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCQ-0003oo-Mk
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38036
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jsUCS-0003uA-G5
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46388
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCM-00039E-JC
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:34 -0400
+ id 1jsUCO-00039y-9G
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594053749;
+ s=mimecast20190719; t=1594053751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+VI38xdcKMs4a0lmMer25zVKAbiddD34f5rQr7Z4gMY=;
- b=SZ/3jYLD1O5G8dPOTOpcG400LbNThx0hNzeN0nPJZUkpi6HexRsQ3w0H4gqaAgSLtYicOo
- QZ0pV4aR7/Xu35MKvL1RH5zdEtt7+yul4Ftpu0O8BekZ5SjwNJ0sBIkwA5N5lZjsrNHi6d
- sl7o2Qxe693tvP5TtYL0Iy6PRv59K/0=
+ bh=OXRW3Q/WETn+JuDwQAj4PBLKu+E9iCTUxcQIDvJfX0A=;
+ b=fiIhluPCgUamFTQ4funFmWyiY3UDqlyaGYP0YkbZ1NiyIaL787NHdLNN9jCWrtWLyaHyAb
+ 9Hj8L1ULkKE1Kflj/2dJ2QbH+VOks0aSzJzVn2nFnEz/B7QNqqr4aUqGxLau0BIFsDr1WM
+ LPiHv51jLEWrCPkd2TlS3qST99e8zYU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-bTCIZ9UVNsOFTU4BW7v9OQ-1; Mon, 06 Jul 2020 12:42:27 -0400
-X-MC-Unique: bTCIZ9UVNsOFTU4BW7v9OQ-1
+ us-mta-391-YP884jmwNqGPDizIxk_-wA-1; Mon, 06 Jul 2020 12:42:29 -0400
+X-MC-Unique: YP884jmwNqGPDizIxk_-wA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DEE6107ACCD;
- Mon,  6 Jul 2020 16:42:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EEE4107ACF2;
+ Mon,  6 Jul 2020 16:42:28 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BA7E7B40D;
- Mon,  6 Jul 2020 16:42:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19FC87B40D;
+ Mon,  6 Jul 2020 16:42:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/53] checkpatch: Change occurences of 'kernel' to 'qemu' in
- user messages
-Date: Mon,  6 Jul 2020 12:41:39 -0400
-Message-Id: <20200706164155.24696-38-pbonzini@redhat.com>
+Subject: [PULL 40/53] pc: fix leak in pc_system_flash_cleanup_unused
+Date: Mon,  6 Jul 2020 12:41:42 -0400
+Message-Id: <20200706164155.24696-41-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -60,17 +59,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,57 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-It is odd that we inform user that, for example, his current working
-directory is not kernel root, when, in face, we mean qemu root.
+tries to fix a leak detected when building with --enable-sanitizers:
+./i386-softmmu/qemu-system-i386
+Upon exit:
+==13576==ERROR: LeakSanitizer: detected memory leaks
 
-Replace that and few other similar odd user messages.
+Direct leak of 1216 byte(s) in 1 object(s) allocated from:
+    #0 0x7f9d2ed5c628 in malloc (/usr/lib/x86_64-linux-gnu/libasan.so.5)
+    #1 0x7f9d2e963500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.)
+    #2 0x55fa646d25cc in object_new_with_type /tmp/qemu/qom/object.c:686
+    #3 0x55fa63dbaa88 in qdev_new /tmp/qemu/hw/core/qdev.c:140
+    #4 0x55fa638a533f in pc_pflash_create /tmp/qemu/hw/i386/pc_sysfw.c:88
+    #5 0x55fa638a54c4 in pc_system_flash_create /tmp/qemu/hw/i386/pc_sysfw.c:106
+    #6 0x55fa646caa1d in object_init_with_type /tmp/qemu/qom/object.c:369
+    #7 0x55fa646d20b5 in object_initialize_with_type /tmp/qemu/qom/object.c:511
+    #8 0x55fa646d2606 in object_new_with_type /tmp/qemu/qom/object.c:687
+    #9 0x55fa639431e9 in qemu_init /tmp/qemu/softmmu/vl.c:3878
+    #10 0x55fa6335c1b8 in main /tmp/qemu/softmmu/main.c:48
+    #11 0x7f9d2cf06e0a in __libc_start_main ../csu/libc-start.c:308
+    #12 0x55fa6335f8e9 in _start (/tmp/qemu/build/i386-softmmu/qemu-system-i386)
 
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <20200620133207.26849-3-aleksandar.qemu.devel@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200701145231.19531-1-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/checkpatch.pl | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/i386/pc_sysfw.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 2d2e922d89..bd3faa154c 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -49,7 +49,7 @@ Version: $V
- 
- Options:
-   -q, --quiet                quiet
--  --no-tree                  run without a kernel tree
-+  --no-tree                  run without a qemu tree
-   --no-signoff               do not check for 'Signed-off-by' line
-   --patch                    treat FILE as patchfile
-   --branch                   treat args as GIT revision list
-@@ -57,7 +57,7 @@ Options:
-   --terse                    one line per report
-   -f, --file                 treat FILE as regular source file
-   --strict                   fail if only warnings are found
--  --root=PATH                PATH to the kernel tree root
-+  --root=PATH                PATH to the qemu tree root
-   --no-summary               suppress the per-file summary
-   --mailback                 only produce a report in case of warnings/errors
-   --summary-file             include the filename in summary
-@@ -203,7 +203,7 @@ if ($tree) {
- 	}
- 
- 	if (!defined $root) {
--		print "Must be run from the top-level dir. of a kernel tree\n";
-+		print "Must be run from the top-level dir. of a qemu tree\n";
- 		exit(2);
- 	}
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index ec2a3b3e7e..71ce273a14 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -93,6 +93,11 @@ static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
+     object_property_add_child(OBJECT(pcms), name, OBJECT(dev));
+     object_property_add_alias(OBJECT(pcms), alias_prop_name,
+                               OBJECT(dev), "drive");
++    /*
++     * The returned reference is tied to the child property and
++     * will be removed with object_unparent.
++     */
++    object_unref(OBJECT(dev));
+     return PFLASH_CFI01(dev);
  }
+ 
 -- 
 2.26.2
 
