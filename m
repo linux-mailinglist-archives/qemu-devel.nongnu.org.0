@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024D1215357
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:33:27 +0200 (CEST)
-Received: from localhost ([::1]:43552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E855215355
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:32:20 +0200 (CEST)
+Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsLd0-0000MD-35
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47342)
+	id 1jsLbv-0007BO-5l
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYa-0003Pp-7T
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42364
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYZ-0003PV-9X
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56784
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYW-0004Je-HG
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYW-0004JT-7s
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594020527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cOkxXc0ueiZaRz5g1RX9AYMF0NElufVcQ7OAgBddovc=;
- b=dLFjaNQqXbFCEls8Ds234g97NOV8hbzE+8i9SBbnn35bV4nCeZqxszbzViVIxDLyCREqTm
- 7xAYoFeA6dU6eRtW/rLEzNMvR3kLct+S4CIFxvdOjOhxAEGuvhceveKLFhUKfkKDICWlhW
- Q2NEVJyWvJcBKNtGUwfll++cVpkbUr0=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=jGUD4WlCyQd1mVPrOaPOyVNr+AJza26/lZEXObIon+Y=;
+ b=ahJlcNplroVJqZLHVKT6GJ94kWjoYfnQ7BuXrWKAEvw35diZpfcSToLwk5gV254tzHSNjK
+ TM0rmafPExVPYfI93AzN0dlTV0jfaFMx2onX3s0uOesaXYPg5LA/LILBIMmLs/yS055Ay2
+ 5DU+Rkys4/2GZfQ9P4DH6d05wj120Ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-a0KkDMrvMJyprIJimDnk8A-1; Mon, 06 Jul 2020 03:28:43 -0400
-X-MC-Unique: a0KkDMrvMJyprIJimDnk8A-1
+ us-mta-260-gWOa-RSwMR6EpfLydGNjLg-1; Mon, 06 Jul 2020 03:28:45 -0400
+X-MC-Unique: gWOa-RSwMR6EpfLydGNjLg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC1A980183C;
- Mon,  6 Jul 2020 07:28:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 300408014D4;
+ Mon,  6 Jul 2020 07:28:44 +0000 (UTC)
 Received: from thuth.com (ovpn-112-144.ams2.redhat.com [10.36.112.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FB4A5D9CC;
- Mon,  6 Jul 2020 07:28:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 578985D9CC;
+ Mon,  6 Jul 2020 07:28:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/6] tests/qtest: Unify the test for the xenfv and xenpv
- machines
-Date: Mon,  6 Jul 2020 09:28:32 +0200
-Message-Id: <20200706072835.23582-4-thuth@redhat.com>
+Subject: [PULL 4/6] configure / util: Auto-detect the availability of openpty()
+Date: Mon,  6 Jul 2020 09:28:33 +0200
+Message-Id: <20200706072835.23582-5-thuth@redhat.com>
 In-Reply-To: <20200706072835.23582-1-thuth@redhat.com>
 References: <20200706072835.23582-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:52:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:22:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,82 +79,74 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have the same check in three places. Let's unify it in a central
-place instead.
+Recent versions of Solaris (v11.4) now feature an openpty() function,
+too, causing a build failure since we ship our own implementation of
+openpty() for Solaris in util/qemu-openpty.c so far. Since there are
+now both variants available in the wild, with and without this function
+(and illumos is said to not have this function yet), let's introduce a
+proper HAVE_OPENPTY define for this to fix the build failure.
 
-Message-Id: <20200622104339.21000-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200702143955.678-1-thuth@redhat.com>
+Tested-by: Michele Denber <denber@mindspring.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/device-introspect-test.c | 5 -----
- tests/qtest/libqtest.c               | 4 ++++
- tests/qtest/qom-test.c               | 5 -----
- tests/qtest/test-hmp.c               | 5 -----
- 4 files changed, 4 insertions(+), 15 deletions(-)
+ configure           | 9 ++++++++-
+ util/qemu-openpty.c | 5 ++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
-index f2c1576cae..9abb5ec889 100644
---- a/tests/qtest/device-introspect-test.c
-+++ b/tests/qtest/device-introspect-test.c
-@@ -287,11 +287,6 @@ static void add_machine_test_case(const char *mname)
- {
-     char *path, *args;
+diff --git a/configure b/configure
+index 8a65240d4a..f8dc64beab 100755
+--- a/configure
++++ b/configure
+@@ -5134,10 +5134,14 @@ extern int openpty(int *am, int *as, char *name, void *termp, void *winp);
+ int main(void) { return openpty(0, 0, 0, 0, 0); }
+ EOF
  
--    /* Ignore blacklisted machines */
--    if (!memcmp("xenfv", mname, 5) || g_str_equal("xenpv", mname)) {
--        return;
--    }
--
-     path = g_strdup_printf("device/introspect/concrete/defaults/%s", mname);
-     args = g_strdup_printf("-M %s", mname);
-     qtest_add_data_func(path, args, test_device_intro_concrete);
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 49075b55a1..fd4680590d 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1232,6 +1232,10 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-         qstr = qobject_to(QString, qobj);
-         g_assert(qstr);
-         mname = qstring_get_str(qstr);
-+        /* Ignore machines that cannot be used for qtests */
-+        if (!memcmp("xenfv", mname, 5) || g_str_equal("xenpv", mname)) {
-+            continue;
-+        }
-         if (!skip_old_versioned || !qtest_is_old_versioned_machine(mname)) {
-             cb(mname);
-         }
-diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
-index e338a41194..1acf0d7369 100644
---- a/tests/qtest/qom-test.c
-+++ b/tests/qtest/qom-test.c
-@@ -81,11 +81,6 @@ static void add_machine_test_case(const char *mname)
- {
-     char *path;
+-if ! compile_prog "" "" ; then
++have_openpty="no"
++if compile_prog "" "" ; then
++  have_openpty="yes"
++else
+   if compile_prog "" "-lutil" ; then
+     libs_softmmu="-lutil $libs_softmmu"
+     libs_tools="-lutil $libs_tools"
++    have_openpty="yes"
+   fi
+ fi
  
--    /* Ignore blacklisted machines that have known problems */
--    if (!memcmp("xenfv", mname, 5) || g_str_equal("xenpv", mname)) {
--        return;
--    }
--
-     path = g_strdup_printf("qom/%s", mname);
-     qtest_add_data_func(path, g_strdup(mname), test_machine);
-     g_free(path);
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index b8b1271b9e..d5e7ebd176 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -143,11 +143,6 @@ static void add_machine_test_case(const char *mname)
- {
-     char *path;
+@@ -7380,6 +7384,9 @@ fi
+ if test "$have_broken_size_max" = "yes" ; then
+     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
+ fi
++if test "$have_openpty" = "yes" ; then
++    echo "HAVE_OPENPTY=y" >> $config_host_mak
++fi
  
--    /* Ignore blacklisted machines that have known problems */
--    if (!memcmp("xenfv", mname, 5) || g_str_equal("xenpv", mname)) {
--        return;
--    }
--
-     path = g_strdup_printf("hmp/%s", mname);
-     qtest_add_data_func(path, g_strdup(mname), test_machine);
-     g_free(path);
+ # Work around a system header bug with some kernel/XFS header
+ # versions where they both try to define 'struct fsxattr':
+diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
+index 2e8b43bdf5..4b8df96f38 100644
+--- a/util/qemu-openpty.c
++++ b/util/qemu-openpty.c
+@@ -52,7 +52,9 @@
+ #endif
+ 
+ #ifdef __sun__
+-/* Once Solaris has openpty(), this is going to be removed. */
++
++#if !defined(HAVE_OPENPTY)
++/* Once illumos has openpty(), this is going to be removed. */
+ static int openpty(int *amaster, int *aslave, char *name,
+                    struct termios *termp, struct winsize *winp)
+ {
+@@ -93,6 +95,7 @@ err:
+         close(mfd);
+         return -1;
+ }
++#endif
+ 
+ static void cfmakeraw (struct termios *termios_p)
+ {
 -- 
 2.18.1
 
