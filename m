@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7FB215D2A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:27:56 +0200 (CEST)
-Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056F2215D31
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:29:33 +0200 (CEST)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUuJ-0001sU-NG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33020)
+	id 1jsUvs-00044X-2x
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUUX-0000Mn-AE; Mon, 06 Jul 2020 13:01:17 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42232)
+ id 1jsUVb-0002EQ-O7; Mon, 06 Jul 2020 13:02:23 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsUUV-0006Rt-JJ; Mon, 06 Jul 2020 13:01:16 -0400
-Received: by mail-il1-x144.google.com with SMTP id t27so28559432ill.9;
- Mon, 06 Jul 2020 10:01:14 -0700 (PDT)
+ id 1jsUVZ-0006a2-UJ; Mon, 06 Jul 2020 13:02:23 -0400
+Received: by mail-il1-x141.google.com with SMTP id h16so10189564ilj.11;
+ Mon, 06 Jul 2020 10:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=7ctzFV2wTSbf5LJWwfLFnbYaCCE17qTbQd0y6awEpBc=;
- b=ThO12PL7aDHTt6y75GpT9dyrfdUt5rmmp4Txh+Dd0WmdKFnGjk/r9Dm6MWbmdmKR2f
- gOl0EW560gWgAJC7KKPMPgy4RIOmmwIgVNkZadxV2u9D/dIfPdqotN2IpqAS9ycNQYHr
- hJ9dyDKYM4nPXV77ZHg3NPuffoCiRMGhmOByeH/avHgJv72C6g/CaXRvi9GUJfH3XClO
- jPo8NpRGszmVDXb43aPBUiVyM1/rwXiSMxzSVdmimKA5ZzWoLBOmJH+tqoSpPtKZ+8bh
- T2k+MkLuNEDO3YFDdNOzo/NtrgfOqqzzZgI1tkCp+0f10xp8ZpF+n8HFKOdAoTs7T00N
- VhyA==
+ bh=SURriqbHZVXTTwsvXZaGt8gxbHhNclYTbkHoMvIQmpM=;
+ b=MioVaGq1jCalxgWYpPdotTkyVsAMeK/bshk85fNYAhYubO4nVFHSOeCUz0kSho8p9p
+ 6Y83qIJELSpr9VN9VFzq+lTIUscnBNyLwqUC24IyYDjx/4cG7EfaP2YEZc6BAomYyDpg
+ 4WJqsPVXOVt3XY2x1ZsaQLbg24wvg5Vy/7YqNFE+T3a7KXvhOx34JOs9fSXv1n/wrIC6
+ 8CzhLDbRxujPAE056QBW2Z/dWImCVitmNebYDtS6btqpo7FzR6vkHFi2ue676ojVEt9W
+ vkRi2J6vudadAMoruzF52cpovO1cMqBkDNoVdP47mEGcUSBlNOyPMoeOEOsRimXSU/ZU
+ vZxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7ctzFV2wTSbf5LJWwfLFnbYaCCE17qTbQd0y6awEpBc=;
- b=GC+iYabkjjhtiURT1WKlPhDK84DXtPDSJ1SUb7X07NSN7ICnfFrgwd7Ee5J1kh/o+S
- h5eLIiH9yP97QNxOUq2qVoigIS8qVzdI89XroBMxx1cnaTKubP2rJ/BDPnP8XblThRFl
- zOVZqdxCHr3qwTYuNRhlBaJRa6QPS2ZdP7gBPMZ4GGlDPiMP2eBvZgDYiPJsO+WTZbr5
- fAOOEknIcJvhMQiRavAaJ76IHQvTyyQ5AlKHHF7eMx4PZRh15n3bR4ePvcjNK0jxBIN9
- zo7/eiNhzkLEZjCEY4N1a7Ll4fhYWZQQd/stn3WuUmFf9DNNQaR9ICGH7s8YtGImfWXk
- SdBg==
-X-Gm-Message-State: AOAM531hR+m89Y3CLgPJyG+uzjaoM9LCpz+MU9w4gLIKJACw7JZv9Vf+
- s4GvX/vI1/G7BhwPE8XSjIo2ORHbmxVHF6QfZT0=
-X-Google-Smtp-Source: ABdhPJwXFWIOkq2ujd/ddpYJrT5qb6ZnY2NEtThTElkRWlGkJW2XtpKOBtiOhFAWAiQeMsquUUzqsZikNh2Q3JoY55o=
-X-Received: by 2002:a05:6e02:d51:: with SMTP id
- h17mr31745866ilj.131.1594054872136; 
- Mon, 06 Jul 2020 10:01:12 -0700 (PDT)
+ bh=SURriqbHZVXTTwsvXZaGt8gxbHhNclYTbkHoMvIQmpM=;
+ b=rU5wTaR/pZA9HUFdWbrwkwEN+hURz1bQPM5qUChxwkMWGvuJyvUNWugiOu1oFWO55Y
+ /G5uW1VoRTDpuzdkzcsbzLR4eW1hWHUuhOcxb5Ws1wkwPRGP/tEEqyqrtPthogP9Yd6a
+ t95DT8NQFgChR7Ev+/BTcRGqQD3NmzuOH00PH/Dm1sHNyFiG59uEcNW2br5LA1ogUxmv
+ gtji8PCpaekWSBsQUTqg8J6rpobs+zGjTyL9gi/KtwP/UCBlVC5aRgqZu7JNJ1jNchrQ
+ BRkqy6ktQ1BxJv21myCFWVJU6CzmlwIE00ei/luVq7/dFXFrWJRsqWyt9XrVib/TVej3
+ x06g==
+X-Gm-Message-State: AOAM533SVmsIgQ4JllIU0rX7ViKHnrgJLj7WToaN6ez7g+oT7pCIbcXi
+ HVF8Md/sRNjN/cVLnOKHohlVmw+YTVPsCKSUmRA=
+X-Google-Smtp-Source: ABdhPJw3irY14ekgg5HFZwY3uijUbo8j99jRr5i12obU9BK983EmEFW1tqXdt4MQ3PGmM1qTVFVUGr89GwGbxSSoFdg=
+X-Received: by 2002:a92:d186:: with SMTP id z6mr33254547ilz.227.1594054940213; 
+ Mon, 06 Jul 2020 10:02:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200704144943.18292-1-f4bug@amsat.org>
- <20200704144943.18292-4-f4bug@amsat.org>
-In-Reply-To: <20200704144943.18292-4-f4bug@amsat.org>
+ <20200704144943.18292-5-f4bug@amsat.org>
+In-Reply-To: <20200704144943.18292-5-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:51:17 -0700
-Message-ID: <CAKmqyKOXnBzRC6-FQ664k-g8gQkByLEGq1MxBJ97eddL+OcH1A@mail.gmail.com>
-Subject: Re: [PATCH 03/26] hw/usb: Remove unused VM_USB_HUB_SIZE definition
+Date: Mon, 6 Jul 2020 09:52:26 -0700
+Message-ID: <CAKmqyKMm2xhgxSqX5mHAkELfBnWhzqw-ruf3oATFvB8sohnw2w@mail.gmail.com>
+Subject: Re: [PATCH 04/26] hw/usb: Reduce 'exec/memory.h' inclusion
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -112,12 +111,11 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 4, 2020 at 7:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+On Sat, Jul 4, 2020 at 7:52 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> Commit a5d2f7273c ("qdev/usb: make qemu aware of usb busses")
-> removed the last use of VM_USB_HUB_SIZE, 11 years ago. Time
-> to drop it.
+> "exec/memory.h" is only required by "hw/usb/hcd-musb.h".
+> Include it there directly.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -126,25 +124,35 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/hw/usb.h | 4 ----
->  1 file changed, 4 deletions(-)
+>  include/hw/usb.h          | 1 -
+>  include/hw/usb/hcd-musb.h | 2 ++
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/include/hw/usb.h b/include/hw/usb.h
-> index e29a37635b..4f04a1a879 100644
+> index 4f04a1a879..15b2ef300a 100644
 > --- a/include/hw/usb.h
 > +++ b/include/hw/usb.h
-> @@ -470,10 +470,6 @@ void usb_generic_async_ctrl_complete(USBDevice *s, U=
-SBPacket *p);
->  void hmp_info_usbhost(Monitor *mon, const QDict *qdict);
->  bool usb_host_dev_is_scsi_storage(USBDevice *usbdev);
+> @@ -25,7 +25,6 @@
+>   * THE SOFTWARE.
+>   */
 >
-> -/* usb ports of the VM */
-> -
-> -#define VM_USB_HUB_SIZE 8
-> -
->  /* usb-bus.c */
+> -#include "exec/memory.h"
+>  #include "hw/qdev-core.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/queue.h"
+> diff --git a/include/hw/usb/hcd-musb.h b/include/hw/usb/hcd-musb.h
+> index c874b9f292..ec3ee5c4b0 100644
+> --- a/include/hw/usb/hcd-musb.h
+> +++ b/include/hw/usb/hcd-musb.h
+> @@ -13,6 +13,8 @@
+>  #ifndef HW_USB_MUSB_H
+>  #define HW_USB_MUSB_H
 >
->  #define TYPE_USB_BUS "usb-bus"
+> +#include "exec/memory.h"
+> +
+>  enum musb_irq_source_e {
+>      musb_irq_suspend =3D 0,
+>      musb_irq_resume,
 > --
 > 2.21.3
 >
