@@ -2,73 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3682215BAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:17:30 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F31215B7D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 18:09:14 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsTo9-0008W1-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1jsTg8-0001iP-W8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 12:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsTms-00076T-4E; Mon, 06 Jul 2020 12:16:10 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:38259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jsTmq-000619-2U; Mon, 06 Jul 2020 12:16:09 -0400
-Received: by mail-il1-x141.google.com with SMTP id s21so18232951ilk.5;
- Mon, 06 Jul 2020 09:16:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jmXfsXUcrMyDhuGgwizq9hHr2suvn5ExzLDQJR6dd+k=;
- b=O50exWR2Kb/fmJrXTjWTOo3fBm5a0XJkvO6TkdCPLh9DYEmW+VxnHEJO/+3KvuPqbP
- RsGRsmMiRBVVXXItd09ClyDoqzSH5T07OnBwl646EsIpyAifEu11zR1FGdeUPoFRN+OI
- U/UdZlW7j8+7n837SC8maf4Fuyh3jRCkG4F7883mXw/xVQGdlGQYNxHmyoPsv0dAwGJI
- 92aocYgi5Tjqfy2nSVQBFkYmKFj3omqYtchgzNBtjswADIbxO3YPF+jwSI9OxkJIjEL2
- IF64hN/l1FARCtviw1K+84bAH5qJgKdmSMcZiexVugcRCMoniNIs8EWT2CRWelnn5vmM
- IRdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jmXfsXUcrMyDhuGgwizq9hHr2suvn5ExzLDQJR6dd+k=;
- b=Et0zIyS1EAs8LKpBtlJGiAIqH1pO6u5AcSQ/1RbcPFgW2E/d/quaPbOQXOpDXHXCxK
- uXkoJ07CmHlzdb4Fm2vrT9Uzjg6vAfwb2po8+Hpe9Se8IxFaVMEcNx2hty8qEF0tpkRe
- LsNoYyUG/NVbsI0qTDNuBSEWWV+HQ72+R9J5r4MOYpfGpBwWWJSrfQO3GU+PyFMZpc86
- 4ehFjm06aeXAFV9tO0i8c53A3JFZRhIeVQJPB7+nN0W2mmn3Io1w++SXD7BBGHeWCSoG
- BoY/OuO6mak3HZkxazvef6tsV01alCSSautzXD2DCaD0CMaqhMfeNGOHOlnDWdh8UkJq
- Ru5A==
-X-Gm-Message-State: AOAM530H9xPEgy8zKQ4cVy8kfZw2t8X4EdyoFTb29qmV3Mp6rriaHpHX
- A8XzBtB7Co0P4GRREoDTmCEHPfulVYNf9yHqPVA=
-X-Google-Smtp-Source: ABdhPJzExAX8s6Woh8/JFOEL/tSpfoTOZznYmhO54jDwwWcLjSOY9xD+7+uWD/S/O9RzluWVpsSA+xb1qz/UZ/f9Kik=
-X-Received: by 2002:a92:bb84:: with SMTP id x4mr32007885ilk.177.1594052166361; 
- Mon, 06 Jul 2020 09:16:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1jsTeu-0000vQ-He; Mon, 06 Jul 2020 12:07:56 -0400
+Received: from mail-eopbgr60108.outbound.protection.outlook.com
+ ([40.107.6.108]:34880 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1jsTer-00043Z-2A; Mon, 06 Jul 2020 12:07:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GkAd3ojTPfiZDu+H0RWT7JvHODGhOP/Q71Wa2ei7EZ1VPeC5hOsXCTloon+MCHBgZFx8OY7O0tjpu4RSLqbwI0FUSKAT5zEfcpMhoCI+G5/7rTgI3batPUh95gSpDD2QlaLV5s5iv0KDsIZ2/82dy8iWwXLI2PYNj/PHEbWuA7xzkfTBcS9YzKhOufpQZDt7q+t580ogrizJBT5CWJZOYoqT5Zcl1XVzMk/o9vslfDR7YHwPC+FSQ8MMl7vhQT9uYns2YNe/qC7ZeNpVSJ37j3mLzbCzuwnxjSBsDUdxdiXzeA/KktFZ2MCCwQWwVbMX/QB1Dwp3jwQT8D6EiH4NMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t9pMS5jTwUe9EVmzz8sdPEGXAmftYQw6+5sQoZdsDSw=;
+ b=FNOl44o4ZiiCIQ1GSIa8rIf8OkIHXorVWMHDHTU0yAirrhHtQfugnRUHVCmbTo0tkcZUsuJIvakKeRcFW1c9IpWRhgxBfmlU4rDeAGAcxx7hrDenUMZLXcNsQhuU0sCxXh6k7kBr/aW5G9dhVRsvsAQad5Y44Wh8KYOGo6qHDZFug+tv9gme7chckDRD5zIZ9BMtC/I3qRC4zrwQZDB/S1YtnkB9XhFj+aF/M2rh89pJWwFMvm9H9vjH4dnTH3TWUrFi71+EO2qt2JDpGLXlgcYzK91j/UXB2+HP05qqOx5NmLzM9+jyEc4lHDZynbR4B4nya5fUe3qngw4XA9tQjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t9pMS5jTwUe9EVmzz8sdPEGXAmftYQw6+5sQoZdsDSw=;
+ b=DaJR+iI7K452owq150Zj9kZ03jBCh6Qap1X5cPLLiqZQZIO8XHaK7sS0ATKy9p5FsbpvukfcX9SQ1ss53tD4fjNL9ScAvweGInT4WGWnpohSEDWPXqWbN5M+cBAXgnCwekttHFpeGxegecsbNwz7CCpu/g9i8TJ8j7wb41V9mBM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
+ by AM6PR08MB4691.eurprd08.prod.outlook.com (2603:10a6:20b:cc::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.21; Mon, 6 Jul
+ 2020 16:07:48 +0000
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::821:7596:cf7f:68f8]) by AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::821:7596:cf7f:68f8%4]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
+ 16:07:48 +0000
+Subject: Re: [PATCH 0/6] migration: bring savevm/loadvm/delvm over to QMP
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200702175754.2211821-1-berrange@redhat.com>
+ <a747fcd4-d87e-8124-a988-f3ae678c856e@virtuozzo.com>
+ <20200703172224.GT2213227@redhat.com>
+ <a8015fd3-e73e-c70e-9ba7-fa1bc047a1c2@virtuozzo.com>
+ <20200706142834.GF2603839@redhat.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+Message-ID: <d02ffd2e-959a-70ac-0feb-b31935babfe9@virtuozzo.com>
+Date: Mon, 6 Jul 2020 19:07:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200706142834.GF2603839@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: HE1PR0501CA0034.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::44) To AM6PR08MB4214.eurprd08.prod.outlook.com
+ (2603:10a6:20b:8d::30)
 MIME-Version: 1.0
-References: <20200705204630.4133-1-f4bug@amsat.org>
- <20200705204630.4133-8-f4bug@amsat.org>
-In-Reply-To: <20200705204630.4133-8-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Jul 2020 09:06:19 -0700
-Message-ID: <CAKmqyKOuSuaaf547WtR84Y5gqC0XTJfykPD_Xv5VFuJu1HeOTQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] hw/sd/pl181: Do not create SD card within the
- SDHCI controller
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.27] (31.148.204.195) by
+ HE1PR0501CA0034.eurprd05.prod.outlook.com (2603:10a6:3:1a::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.21 via Frontend Transport; Mon, 6 Jul 2020 16:07:47 +0000
+X-Originating-IP: [31.148.204.195]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2cd19e58-49a0-4922-4908-08d821c6ba1c
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4691:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB469175B859419DD1D8FF7B3FB6690@AM6PR08MB4691.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04569283F9
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QmXZXzGA1BYhL1oQVKrcmxZe1NzZ/GEQYhSxf2UhX7/0Rr6ncZyb/5kiIpcjLpp1LPrV7XlVXPqrhK0Uaha7edhAm7wQVa8yDPJofkeo2tHBaJ4d+/Ayj+uOzAkaspmSBz2WPmTXv0R6nrY1k2V+L2YCbbywoatgB28WYig5YMkUFW/roQPUxJkKm6sDNarAP+zXeh8Hr2xBXknMO/PaVN6WwVPKkPSr6dZkvIg0kyzWsbBOmMJ5hCIMUn8lkpcgaklr/cGtu7QF0sz+zdNsoeIQMmCj6REXL8a02oORCmWJ0RCJdQBs06ER6zirrbnySASTCiV3xgvJrt2t46Vv7MSewrSnQDQ5y6uHhpTi0TLva7/Kdhj5fjbMluSBbIcqaYhVAEyT9u+xuUIOTecxb0JrVZ8j4OsXUYa2yCVA+RVOBsJzy90VakXbY5fdHGMFVS2GZYCK2kzI2KUZCn1ryg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(39840400004)(396003)(136003)(346002)(376002)(53546011)(6486002)(186003)(26005)(6916009)(2906002)(52116002)(2616005)(956004)(966005)(31686004)(31696002)(83380400001)(36756003)(86362001)(478600001)(66476007)(66946007)(66556008)(316002)(5660300002)(16576012)(16526019)(8676002)(4326008)(7416002)(54906003)(8936002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: FxVowPfBxmMYbTIeXqV9iqeDAFxsAJBIZOynZ3fQLtsCiVWehb+1RWqAgL2S/u3EQwVNjx5Czv0O0pk2icjwuRMK2cSS0ILrI4HW8R/FxNMCAPIM2J1cEq4Y2M2BMmBlb969pWUVHK+MnklRwEL9T/SRsK+ZC4I3tPdH4I/8AJtK85OWVc33tAFnmWkh2WTH8rWCpNGuS83ETKyWb/HqapX+X34si1itMseBE20SLwvvtuQaUQ4dG7pFg+AIaOBaowGEpW3yofU7z2+/RwrTOcnurK1B9KiD6VdICnm5lBptt6c2Hv8AXmGtLlSIEkiCJUH/ggSS+tMy3lhn9UVyFHxjTLT1/vEReOLj12cGy1nuCb8iUuw6lR39heFVQPpiBez1QTtfhLIWlWuoUmGu0sY9eGwAD2ObUCCSTzdDZfG8B7vTPnfXoITeZi10s8vqJyASyEZYaiSEPPIsT+xsmMs6SDmMs4Fgk3CMpFKhdUk=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd19e58-49a0-4922-4908-08d821c6ba1c
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2020 16:07:48.4051 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +WthiGvjx7m8VtYX5DZdB/fUjOjmMwuB+1P4RqUS2ON8WqufbKEFmestnW2vfmILfMT1jwy2ZFrxQM6t+NGxnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4691
+Received-SPF: pass client-ip=40.107.6.108; envelope-from=den@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 12:07:50
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,242 +119,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 5, 2020 at 1:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
+On 7/6/20 5:28 PM, Daniel P. Berrangé wrote:
+> On Fri, Jul 03, 2020 at 08:29:08PM +0300, Denis V. Lunev wrote:
+>> On 7/3/20 8:22 PM, Daniel P. Berrangé wrote:
+>>> On Fri, Jul 03, 2020 at 08:15:44PM +0300, Denis V. Lunev wrote:
+>>>> On 7/2/20 8:57 PM, Daniel P. Berrangé wrote:
+>>>>> When QMP was first introduced some 10+ years ago now, the snapshot
+>>>>> related commands (savevm/loadvm/delvm) were not converted. This was
+>>>>> primarily because their implementation causes blocking of the thread
+>>>>> running the monitor commands. This was (and still is) considered
+>>>>> undesirable behaviour both in HMP and QMP.
+>>>>>
+>>>>> In theory someone was supposed to fix this flaw at some point in the
+>>>>> past 10 years and bring them into the QMP world. Sadly, thus far it
+>>>>> hasn't happened as people always had more important things to work
+>>>>> on. Enterprise apps were much more interested in external snapshots
+>>>>> than internal snapshots as they have many more features.
+>>>>>
+>>>>> Meanwhile users still want to use internal snapshots as there is
+>>>>> a certainly simplicity in having everything self-contained in one
+>>>>> image, even though it has limitations. Thus the apps that end up
+>>>>> executing the savevm/loadvm/delvm via the "human-monitor-command"
+>>>>> QMP command.
+>>>>>
+>>>>>
+>>>>> IOW, the problematic blocking behaviour that was one of the reasons
+>>>>> for not having savevm/loadvm/delvm in QMP is experienced by applications
+>>>>> regardless. By not portting the commands to QMP due to one design flaw,
+>>>>> we've forced apps and users to suffer from other design flaws of HMP (
+>>>>> bad error reporting, strong type checking of args, no introspection) for
+>>>>> an additional 10 years. This feels rather sub-optimal :-(
+>>>>>
+>>>>> In practice users don't appear to care strongly about the fact that these
+>>>>> commands block the VM while they run. I might have seen one bug report
+>>>>> about it, but it certainly isn't something that comes up as a frequent
+>>>>> topic except among us QEMU maintainers. Users do care about having
+>>>>> access to the snapshot feature.
+>>>>>
+>>>>> Where I am seeing frequent complaints is wrt the use of OVMF combined
+>>>>> with snapshots which has some serious pain points. This is getting worse
+>>>>> as the push to ditch legacy BIOS in favour of UEFI gain momentum both
+>>>>> across OS vendors and mgmt apps. Solving it requires new parameters to
+>>>>> the commands, but doing this in HMP is super unappealing.
+>>>>>
+>>>>>
+>>>>>
+>>>>> After 10 years, I think it is time for us to be a little pragmatic about
+>>>>> our handling of snapshots commands. My desire is that libvirt should never
+>>>>> use "human-monitor-command" under any circumstances, because of the
+>>>>> inherant flaws in HMP as a protocol for machine consumption. If there
+>>>>> are flaws in QMP commands that's fine. If we fix them in future, we can
+>>>>> deprecate the current QMP commands and remove them not too long after,
+>>>>> without being locked in forever.
+>>>>>
+>>>>>
+>>>>> Thus in this series I'm proposing a direct 1-1 mapping of the existing
+>>>>> HMP commands for savevm/loadvm/delvm into QMP as a first step. This does
+>>>>> not solve the blocking thread problem, but it does eliminate the error
+>>>>> reporting, type checking and introspection problems inherant to HMP.
+>>>>> We're winning on 3 out of the 4 long term problems.
+>>>>>
+>>>>> If someone can suggest a easy way to fix the thread blocking problem
+>>>>> too, I'd be interested to hear it. If it involves a major refactoring
+>>>>> then I think user are better served by unlocking what look like easy
+>>>>> wins today.
+>>>>>
+>>>>> With a QMP variant, we reasonably deal with the problems related to OVMF:
+>>>>>
+>>>>>  - The logic to pick which disk to store the vmstate in is not
+>>>>>    satsifactory.
+>>>>>
+>>>>>    The first block driver state cannot be assumed to be the root disk
+>>>>>    image, it might be OVMF varstore and we don't want to store vmstate
+>>>>>    in there.
+>>>>>
+>>>>>  - The logic to decide which disks must be snapshotted is hardwired
+>>>>>    to all disks which are writable
+>>>>>
+>>>>>    Again with OVMF there might be a writable varstore, but this can be
+>>>>>    raw rather than qcow2 format, and thus unable to be snapshotted.
+>>>>>    While users might wish to snapshot their varstore, in some/many/most
+>>>>>    cases it is entirely uneccessary. Users are blocked from snapshotting
+>>>>>    their VM though due to this varstore.
+>>>>>
+>>>>> These are solved by adding two parameters to the commands. The first is
+>>>>> a block device node name that identifies the image to store vmstate in,
+>>>>> and the second is a list of node names to exclude from snapshots.
+>>>>>
+>>>>> In the block code I've only dealt with node names for block devices, as
+>>>>> IIUC, this is all that libvirt should need in the -blockdev world it now
+>>>>> lives in. IOW, I've made not attempt to cope with people wanting to use
+>>>>> these QMP commands in combination with -drive args.
+>>>>>
+>>>>> I've done some minimal work in libvirt to start to make use of the new
+>>>>> commands to validate their functionality, but this isn't finished yet.
+>>>>>
+>>>>> My ultimate goal is to make the GNOME Boxes maintainer happy again by
+>>>>> having internal snapshots work with OVMF:
+>>>>>
+>>>>>   https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb5e=
+>>>>> f45c5f64048f16a6e
+>>>>>
+>>>>> Daniel P. Berrang=C3=A9 (6):
+>>>>>   migration: improve error reporting of block driver state name
+>>>>>   migration: introduce savevm, loadvm, delvm QMP commands
+>>>>>   block: add ability to filter out blockdevs during snapshot
+>>>>>   block: allow specifying name of block device for vmstate storage
+>>>>>   migration: support excluding block devs in QMP snapshot commands
+>>>>>   migration: support picking vmstate disk in QMP snapshot commands
+>>>>>
+>>>>>  block/monitor/block-hmp-cmds.c |  4 +-
+>>>>>  block/snapshot.c               | 68 +++++++++++++++++++------
+>>>>>  include/block/snapshot.h       | 21 +++++---
+>>>>>  include/migration/snapshot.h   | 10 +++-
+>>>>>  migration/savevm.c             | 71 +++++++++++++++++++-------
+>>>>>  monitor/hmp-cmds.c             | 20 ++------
+>>>>>  qapi/migration.json            | 91 ++++++++++++++++++++++++++++++++++
+>>>>>  replay/replay-snapshot.c       |  4 +-
+>>>>>  softmmu/vl.c                   |  2 +-
+>>>>>  9 files changed, 228 insertions(+), 63 deletions(-)
+>>>> I have tried to work in this interface in 2016. That time
+>>>> we have struggled with the idea that this QMP interface should
+>>>> be ready to work asynchronously.
+>>>>
+>>>> Write-protect userfaultfd was merged into vanilla Linux
+>>>> thus it is time to async savevm interface, which will also
+>>>> bring async loadvm and some rework for state storing.
+>>>>
+>>>> Thus I think that with the introduction of the QMP interface
+>>>> we should at least run save VM not from the main
+>>>> thread but from the background with the event at the end.
+>>> spawning a thread in which to invoke save_snapshot() and load_snapshot()
+>>> is easy enough.  I'm not at all clear on what we need in the way of
+>>> mutex locking though, to make those methods safe to run in a thread
+>>> that isn't the main event loop.
+>> I am unsure that this is so easy. We need to be protected from other
+>> operations
+>> coming through QMP interface. Right now parallel operations are not allowed.
+>>
+>>> Even with savevm/loadvm being blocking, we could introduce a QMP event
+>>> straight away, and document that users shouldn't assume the operation
+>>> is complete until they see the event. That would let us make the commands
+>>> non-blocking later with same documented semantics.
+>> OK. Let us assume that you have added QMP savevm as proposed. It is
+>> sync now. Sooner or later (I hope sooner) we will have to re-implement
+>> this command with async version of the command, which will bring
+>> again event etc and thus you will have to add compat layers to the
+>> libvirt.
+>>
+>> I think that it would be cleaner to start with the interface suitable for
+>> further (coming) features and not copy obsolete implementation.
+>> Yes, unfortunately, this is much more complex :(
+> QMP-ifying the current design gives us a quick win by removing the
+> dependancy on HMP, for negligible effort. It further lets us unlock
+> a few extra useful features, again for negligible effort or maint
+> burden, since we already have pretty much all the code already for HMP.
 >
-> SDHCI controllers provide a SD Bus to plug SD cards, but don't
-> come with SD card plugged in :) Let the machine/board object
-> create and plug the SD cards when required.
+> Supporting internal snapshots is an explicit non-goal for Red Hat in terms
+> of the products we're using QEMU with, as they all use external snapshots.
+> Thus I'm very limited in time I can put into this feature myself. I am 
+> proposing this QMP-ification with my community hat on instead, as it looks
+> like a quick win to help out various apps today, but it limits the amount
+> of time I can justify spending on this.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> If someone wants to work on a perfect design that's great, but I don't
+> want us to do nothing now, and continue to wait for a perfect solution
+> that has shown no sign of arriving in 10 years.
+>
+> Regards,
+> Daniel
+I understand this. My proposal is may be a bit controversal but affordable.
+Let us make current synchronous implementation as-is, not changes
+at all, but design API in async way. Thus the command
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
++{ 'command': 'savevm',
++  'data': { 'tag': 'str' } }
 
-Alistair
+should be considered as "start the operations", while the end is
+signaled via event.
 
-> ---
->  hw/arm/integratorcp.c | 13 +++++++++++++
->  hw/arm/realview.c     | 12 ++++++++++++
->  hw/arm/versatilepb.c  | 26 ++++++++++++++++++++++++--
->  hw/arm/vexpress.c     | 11 +++++++++++
->  hw/sd/pl181.c         | 19 +------------------
->  5 files changed, 61 insertions(+), 20 deletions(-)
->
-> diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-> index 2595e4d052..9bf25945d2 100644
-> --- a/hw/arm/integratorcp.c
-> +++ b/hw/arm/integratorcp.c
-> @@ -25,6 +25,7 @@
->  #include "hw/char/pl011.h"
->  #include "hw/hw.h"
->  #include "hw/irq.h"
-> +#include "hw/sd/sd.h"
->
->  #define TYPE_INTEGRATOR_CM "integrator_core"
->  #define INTEGRATOR_CM(obj) \
-> @@ -595,6 +596,7 @@ static void integratorcp_init(MachineState *machine)
->      MemoryRegion *ram_alias =3D g_new(MemoryRegion, 1);
->      qemu_irq pic[32];
->      DeviceState *dev, *sic, *icp;
-> +    DriveInfo *dinfo;
->      int i;
->
->      cpuobj =3D object_new(machine->cpu_type);
-> @@ -649,6 +651,17 @@ static void integratorcp_init(MachineState *machine)
->                            qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_WPROT=
-, 0));
->      qdev_connect_gpio_out_named(dev, "card-inserted", 0,
->                            qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_CARDI=
-N, 0));
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
-> +
->      sysbus_create_varargs("pl041", 0x1d000000, pic[25], NULL);
->
->      if (nd_table[0].used)
-> diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-> index 8dc5f77139..4df8ea4fce 100644
-> --- a/hw/arm/realview.c
-> +++ b/hw/arm/realview.c
-> @@ -27,6 +27,7 @@
->  #include "hw/intc/realview_gic.h"
->  #include "hw/irq.h"
->  #include "hw/i2c/arm_sbcon_i2c.h"
-> +#include "hw/sd/sd.h"
->
->  #define SMP_BOOT_ADDR 0xe0000000
->  #define SMP_BOOTREG_ADDR 0x10000030
-> @@ -69,6 +70,7 @@ static void realview_init(MachineState *machine,
->      qemu_irq mmc_irq[2];
->      PCIBus *pci_bus =3D NULL;
->      NICInfo *nd;
-> +    DriveInfo *dinfo;
->      I2CBus *i2c;
->      int n;
->      unsigned int smp_cpus =3D machine->smp.cpus;
-> @@ -236,6 +238,16 @@ static void realview_init(MachineState *machine,
->          qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
->      qdev_connect_gpio_out_named(dev, "card-read-only", 0, mmc_irq[0]);
->      qdev_connect_gpio_out_named(dev, "card-inserted", 0, mmc_irq[1]);
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
->
->      sysbus_create_simple("pl031", 0x10017000, pic[10]);
->
-> diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-> index 45a13ae2b9..7fb9da5a47 100644
-> --- a/hw/arm/versatilepb.c
-> +++ b/hw/arm/versatilepb.c
-> @@ -25,6 +25,7 @@
->  #include "hw/block/flash.h"
->  #include "qemu/error-report.h"
->  #include "hw/char/pl011.h"
-> +#include "hw/sd/sd.h"
->
->  #define VERSATILE_FLASH_ADDR 0x34000000
->  #define VERSATILE_FLASH_SIZE (64 * 1024 * 1024)
-> @@ -309,10 +310,31 @@ static void versatile_init(MachineState *machine, i=
-nt board_id)
->      /* Wire up the mux control signals from the SYS_CLCD register */
->      qdev_connect_gpio_out(sysctl, 0, qdev_get_gpio_in(dev, 0));
->
-> -    sysbus_create_varargs("pl181", 0x10005000, sic[22], sic[1], NULL);
-> +    dev =3D sysbus_create_varargs("pl181", 0x10005000, sic[22], sic[1], =
-NULL);
->      /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
-> -    sysbus_create_varargs("pl181", 0x1000b000, sic[23], sic[2], NULL);
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
-> +
-> +    dev =3D sysbus_create_varargs("pl181", 0x1000b000, sic[23], sic[2], =
-NULL);
->      /* FIXME wire 'card is readonly' and 'card inserted' IRQs? */
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
->
->      /* Add PL031 Real Time Clock. */
->      sysbus_create_simple("pl031", 0x101e8000, pic[10]);
-> diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-> index 16629d6599..a2f70588bd 100644
-> --- a/hw/arm/vexpress.c
-> +++ b/hw/arm/vexpress.c
-> @@ -43,6 +43,7 @@
->  #include "hw/cpu/a9mpcore.h"
->  #include "hw/cpu/a15mpcore.h"
->  #include "hw/i2c/arm_sbcon_i2c.h"
-> +#include "hw/sd/sd.h"
->
->  #define VEXPRESS_BOARD_ID 0x8e0
->  #define VEXPRESS_FLASH_SIZE (64 * 1024 * 1024)
-> @@ -628,6 +629,16 @@ static void vexpress_common_init(MachineState *machi=
-ne)
->                            qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_W=
-PROT));
->      qdev_connect_gpio_out_named(dev, "card-inserted", 0,
->                            qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_C=
-ARDIN));
-> +    dinfo =3D drive_get_next(IF_SD);
-> +    if (dinfo) {
-> +        DeviceState *card;
-> +
-> +        card =3D qdev_new(TYPE_SD_CARD);
-> +        qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo=
-),
-> +                                &error_fatal);
-> +        qdev_realize_and_unref(card, qdev_get_child_bus(dev, "sd-bus"),
-> +                               &error_fatal);
-> +    }
->
->      sysbus_create_simple("pl050_keyboard", map[VE_KMI0], pic[12]);
->      sysbus_create_simple("pl050_mouse", map[VE_KMI1], pic[13]);
-> diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-> index f6de06ece8..f69488ebac 100644
-> --- a/hw/sd/pl181.c
-> +++ b/hw/sd/pl181.c
-> @@ -17,7 +17,6 @@
->  #include "qemu/module.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> -#include "hw/qdev-properties.h"
->
->  //#define DEBUG_PL181 1
->
-> @@ -518,30 +517,14 @@ static void pl181_init(Object *obj)
->                          TYPE_PL181_BUS, dev, "sd-bus");
->  }
->
-> -static void pl181_realize(DeviceState *dev, Error **errp)
-> -{
-> -    DeviceState *card;
-> -    DriveInfo *dinfo;
-> -
-> -    /* FIXME use a qdev drive property instead of drive_get_next() */
-> -    card =3D qdev_new(TYPE_SD_CARD);
-> -    dinfo =3D drive_get_next(IF_SD);
-> -    qdev_prop_set_drive_err(card, "drive", blk_by_legacy_dinfo(dinfo),
-> -                            &error_fatal);
-> -    qdev_realize_and_unref(card,
-> -                           qdev_get_child_bus(dev, "sd-bus"),
-> -                           &error_fatal);
-> -}
-> -
->  static void pl181_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *k =3D DEVICE_CLASS(klass);
->
->      k->vmsd =3D &vmstate_pl181;
->      k->reset =3D pl181_reset;
-> -    /* Reason: init() method uses drive_get_next() */
-> +    /* Reason: output IRQs should be wired up */
->      k->user_creatable =3D false;
-> -    k->realize =3D pl181_realize;
->  }
->
->  static const TypeInfo pl181_info =3D {
-> --
-> 2.21.3
->
->
+In this case we will be able to separate API part and implementation
+part. What do you think on this?
+
+Den
+
 
