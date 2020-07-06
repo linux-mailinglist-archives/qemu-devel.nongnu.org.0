@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6E8215C82
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:01:41 +0200 (CEST)
-Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1565C215CC6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 19:14:19 +0200 (CEST)
+Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsUUu-0008Fk-SZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57530)
+	id 1jsUh8-0001FV-4x
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 13:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCa-0004FF-UT
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:44 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32065
+ id 1jsUCb-0004GG-Cb
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37051
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jsUCY-0003EL-3e
+ id 1jsUCY-0003ER-An
  for qemu-devel@nongnu.org; Mon, 06 Jul 2020 12:42:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1594053761;
@@ -26,29 +26,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3GxL6btt/Ogdx87xX8H9KeDltY/mkqzmXGn7AWxglbs=;
- b=dpDUuuz7ERnySaAkY7N0pjBVyc2XlrHbneekxHe9KNPa+j5VyjqpGGLkW1ld6j0mdvav77
- hH3qnSGZlC++2alUwwJA1wMpNC6i8KVBnc2aSKI2ROEFAkkzJ9lG+OPzBUXrTXpo+WTXV2
- k10r7utAwnlFNMJ8Jo25OGTQ3B9IBm8=
+ bh=+iy9w5X1fz+uCMf5P7FdKYhQZHH1KM7pEmht8ZmxZVA=;
+ b=SY96TQkN/UAvlEKpBZABTDAD/ZI8gH6FPzjl3tcC7IENWx1Iok2N1ocNydhDEVF0PfHqgP
+ N1CAv4xUkfUHzlOXyIfcstFciC/s78WoE3dOi39516xMm2fFkVzaMiL6FQ9yXPT+ZLEHfb
+ sF11WOzFR3doC//C/pJPgij6fio+7xY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-gpSolqQkOEq0tUUfhUAQkw-1; Mon, 06 Jul 2020 12:42:36 -0400
-X-MC-Unique: gpSolqQkOEq0tUUfhUAQkw-1
+ us-mta-465-wHsiANIjM5m4jnMTje4Ruw-1; Mon, 06 Jul 2020 12:42:36 -0400
+X-MC-Unique: wHsiANIjM5m4jnMTje4Ruw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33EE0EC1A0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A52A08015FB;
  Mon,  6 Jul 2020 16:42:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7974100238C;
- Mon,  6 Jul 2020 16:42:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55BD4100238C;
+ Mon,  6 Jul 2020 16:42:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/53] target/i386: Add SERIALIZE cpu feature
-Date: Mon,  6 Jul 2020 12:41:53 -0400
-Message-Id: <20200706164155.24696-52-pbonzini@redhat.com>
+Subject: [PULL 52/53] target/i386: Enable TSX Suspend Load Address Tracking
+ feature
+Date: Mon,  6 Jul 2020 12:41:54 -0400
+Message-Id: <20200706164155.24696-53-pbonzini@redhat.com>
 In-Reply-To: <20200706164155.24696-1-pbonzini@redhat.com>
 References: <20200706164155.24696-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -88,19 +89,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cathy Zhang <cathy.zhang@intel.com>
 
-The availability of the SERIALIZATION instruction is indicated
-by the presence of the CPUID feature flag SERIALIZE, which is
-defined as CPUID.(EAX=7,ECX=0):ECX[bit 14].
+This instruction aims to give a way to choose which memory accesses
+do not need to be tracked in the TSX read set, which is defined as
+CPUID.(EAX=7,ECX=0):EDX[bit 16].
 
 The release spec link is as follows:
 https://software.intel.com/content/dam/develop/public/us/en/documents/\
 architecture-instruction-set-extensions-programming-reference.pdf
 
 The associated kvm patch link is as follows:
-https://lore.kernel.org/patchwork/patch/1268025/
+https://lore.kernel.org/patchwork/patch/1268026/
 
 Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
-Message-Id: <1593991036-12183-2-git-send-email-cathy.zhang@intel.com>
+Message-Id: <1593991036-12183-3-git-send-email-cathy.zhang@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  target/i386/cpu.c | 2 +-
@@ -108,28 +109,28 @@ Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index be9a0aa76d..fa9353dfba 100644
+index fa9353dfba..0df2a2becb 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -986,7 +986,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
+@@ -987,7 +987,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
              NULL, NULL, NULL, NULL,
              "avx512-vp2intersect", NULL, "md-clear", NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, "serialize", NULL,
-             NULL, NULL, NULL /* pconfig */, NULL,
+             NULL, NULL, "serialize", NULL,
+-            NULL, NULL, NULL /* pconfig */, NULL,
++            "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
              NULL, NULL, NULL, NULL,
              NULL, NULL, "spec-ctrl", "stibp",
+             NULL, "arch-capabilities", "core-capability", "ssbd",
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9284f96896..bd71fe3ef2 100644
+index bd71fe3ef2..37fffa5cac 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -777,6 +777,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
- /* AVX512 Vector Pair Intersection to a Pair of Mask Registers */
+@@ -779,6 +779,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
  #define CPUID_7_0_EDX_AVX512_VP2INTERSECT (1U << 8)
-+/* SERIALIZE instruction */
-+#define CPUID_7_0_EDX_SERIALIZE         (1U << 14)
+ /* SERIALIZE instruction */
+ #define CPUID_7_0_EDX_SERIALIZE         (1U << 14)
++/* TSX Suspend Load Address Tracking instruction */
++#define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
  /* Speculation Control */
  #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
  /* Single Thread Indirect Branch Predictors */
