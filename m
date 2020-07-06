@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3C3215358
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:34:32 +0200 (CEST)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82189215356
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jul 2020 09:32:21 +0200 (CEST)
+Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jsLe3-0001G3-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1jsLbw-0007FD-Jh
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jul 2020 03:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYb-0003QL-Nd
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52266
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYe-0003Rh-Li
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:57 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35590
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYY-0004Lt-VK
- for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jsLYc-0004OD-JV
+ for qemu-devel@nongnu.org; Mon, 06 Jul 2020 03:28:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594020530;
+ s=mimecast20190719; t=1594020533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NpLhPcTzNcz5EtG/xYX0R96tjV4b1A8773ZUPrdDRUg=;
- b=CLqDLsb6CVKUaG7UCVGgtVYAPkOFzeQJsfMCsAzmphoRP5nk44drYG91Vu9j5UGtUwS8lO
- NHPJRvmwUqPF3gzQec1x/I38C7H0sXC1uGO9rj5rEZEfhPKEM+NVArulagxfXgDzAkUBxO
- sMlgeOpJfv39WvdRgQHw9zpoOOVWED8=
+ bh=w7fayRfJ+K1Jey/JgnKgo/mWJTVh1oMX96XU6QaK7nY=;
+ b=M0gvpWVjRjXGa/YEwQYPPfkQA3Nm99sM6Thm1K6b2Y6g9WkCMgsEHDhsKuVzFRPZ8YdMLR
+ 57VvlUMS+9fJUGQxifUPDy9SYvGYCdKGIrhGl+Xn46yQi4guO3PzpMaomBab1dbO1SCbVx
+ D1ARAe9/PAeNG0PVDgJnqAjvTtJHAPA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-LecQw-LdOfGZXFgyTts6KQ-1; Mon, 06 Jul 2020 03:28:48 -0400
-X-MC-Unique: LecQw-LdOfGZXFgyTts6KQ-1
+ us-mta-486-ihA_DYXXNsiQptRpw_1KaQ-1; Mon, 06 Jul 2020 03:28:48 -0400
+X-MC-Unique: ihA_DYXXNsiQptRpw_1KaQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3AC28014D7;
- Mon,  6 Jul 2020 07:28:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159A5107ACF3;
+ Mon,  6 Jul 2020 07:28:48 +0000 (UTC)
 Received: from thuth.com (ovpn-112-144.ams2.redhat.com [10.36.112.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F3235D9CC;
- Mon,  6 Jul 2020 07:28:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D09C5D9CC;
+ Mon,  6 Jul 2020 07:28:47 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/6] hw/m68k/mcf5206: Replace remaining hw_error()s by
- qemu_log_mask()
-Date: Mon,  6 Jul 2020 09:28:34 +0200
-Message-Id: <20200706072835.23582-6-thuth@redhat.com>
+Subject: [PULL 6/6] tests/acceptance: Add a test for the sun4u sparc64 machine
+Date: Mon,  6 Jul 2020 09:28:35 +0200
+Message-Id: <20200706072835.23582-7-thuth@redhat.com>
 In-Reply-To: <20200706072835.23582-1-thuth@redhat.com>
 References: <20200706072835.23582-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:39:15
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/07/06 01:59:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -67,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,126 +79,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@tuxfamily.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <huth@tuxfamily.org>
+We can use the image from the advent calendar 2018 to test the sun4u
+machine. It's not using the "QEMU advent calendar" string, so we can
+not use the do_test_advcal_2018() from boot_linux_console.py, thus
+let's also put it into a separate file to also be able to add an
+entry to the MAINTAINERS file.
 
-hw_error() dumps the CPU state and exits QEMU. This is ok during initial
-code development (to see where the guest code is currently executing),
-but it is certainly not the desired behavior that we want to present to
-normal users, and it can also cause trouble when e.g. fuzzing devices.
-Thus let's replace these hw_error()s by qemu_log_mask()s instead.
-
-Message-Id: <20200611055807.15921-1-huth@tuxfamily.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200704173519.26087-1-thuth@redhat.com>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Thomas Huth <thuth@tuxfamily.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/m68k/mcf5206.c | 39 ++++++++++++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 11 deletions(-)
+ MAINTAINERS                               |  1 +
+ tests/acceptance/machine_sparc64_sun4u.py | 36 +++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 tests/acceptance/machine_sparc64_sun4u.py
 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index a2fef04f8e..94a37a1a46 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -10,7 +10,6 @@
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "cpu.h"
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/m68k/mcf.h"
- #include "qemu/timer.h"
-@@ -69,10 +68,16 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
-     if (mode == 2)
-         prescale *= 16;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c31c878c63..a8e2d46e9d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1319,6 +1319,7 @@ F: include/hw/pci-host/sabre.h
+ F: hw/pci-bridge/simba.c
+ F: include/hw/pci-bridge/simba.h
+ F: pc-bios/openbios-sparc64
++F: tests/acceptance/machine_sparc64_sun4u.py
  
--    if (mode == 3 || mode == 0)
--        hw_error("m5206_timer: mode %d not implemented\n", mode);
--    if ((s->tmr & TMR_FRR) == 0)
--        hw_error("m5206_timer: free running mode not implemented\n");
-+    if (mode == 3 || mode == 0) {
-+        qemu_log_mask(LOG_UNIMP, "m5206_timer: mode %d not implemented\n",
-+                      mode);
-+        goto exit;
-+    }
-+    if ((s->tmr & TMR_FRR) == 0) {
-+        qemu_log_mask(LOG_UNIMP,
-+                      "m5206_timer: free running mode not implemented\n");
-+        goto exit;
-+    }
- 
-     /* Assume 66MHz system clock.  */
-     ptimer_set_freq(s->timer, 66000000 / prescale);
-@@ -391,7 +396,9 @@ static uint32_t m5206_mbar_readb(void *opaque, hwaddr offset)
-     m5206_mbar_state *s = (m5206_mbar_state *)opaque;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR read offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return 0;
-     }
-     if (m5206_mbar_width[offset >> 2] > 1) {
-         uint16_t val;
-@@ -410,7 +417,9 @@ static uint32_t m5206_mbar_readw(void *opaque, hwaddr offset)
-     int width;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR read offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return 0;
-     }
-     width = m5206_mbar_width[offset >> 2];
-     if (width > 2) {
-@@ -434,7 +443,9 @@ static uint32_t m5206_mbar_readl(void *opaque, hwaddr offset)
-     int width;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR read offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR read offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return 0;
-     }
-     width = m5206_mbar_width[offset >> 2];
-     if (width < 4) {
-@@ -458,7 +469,9 @@ static void m5206_mbar_writeb(void *opaque, hwaddr offset,
-     int width;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR write offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return;
-     }
-     width = m5206_mbar_width[offset >> 2];
-     if (width > 1) {
-@@ -482,7 +495,9 @@ static void m5206_mbar_writew(void *opaque, hwaddr offset,
-     int width;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR write offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return;
-     }
-     width = m5206_mbar_width[offset >> 2];
-     if (width > 2) {
-@@ -510,7 +525,9 @@ static void m5206_mbar_writel(void *opaque, hwaddr offset,
-     int width;
-     offset &= 0x3ff;
-     if (offset >= 0x200) {
--        hw_error("Bad MBAR write offset 0x%x", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Bad MBAR write offset 0x%" HWADDR_PRIX,
-+                      offset);
-+        return;
-     }
-     width = m5206_mbar_width[offset >> 2];
-     if (width < 4) {
+ Sun4v
+ M: Artyom Tarasenko <atar4qemu@gmail.com>
+diff --git a/tests/acceptance/machine_sparc64_sun4u.py b/tests/acceptance/machine_sparc64_sun4u.py
+new file mode 100644
+index 0000000000..458165500e
+--- /dev/null
++++ b/tests/acceptance/machine_sparc64_sun4u.py
+@@ -0,0 +1,36 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# Copyright (c) 2020 Red Hat, Inc.
++#
++# Author:
++#  Thomas Huth <thuth@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later. See the COPYING file in the top-level directory.
++
++import os
++
++from avocado_qemu import wait_for_console_pattern
++from avocado.utils import archive
++from boot_linux_console import LinuxKernelTest
++
++class Sun4uMachine(LinuxKernelTest):
++    """Boots the Linux kernel and checks that the console is operational"""
++
++    timeout = 90
++
++    def test_sparc64_sun4u(self):
++        """
++        :avocado: tags=arch:sparc64
++        :avocado: tags=machine:sun4u
++        """
++        tar_url = ('https://www.qemu-advent-calendar.org'
++                   '/2018/download/day23.tar.xz')
++        tar_hash = '142db83cd974ffadc4f75c8a5cad5bcc5722c240'
++        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
++        archive.extract(file_path, self.workdir)
++        self.vm.set_console()
++        self.vm.add_args('-kernel', self.workdir + '/day23/vmlinux',
++                         '-append', self.KERNEL_COMMON_COMMAND_LINE)
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Starting logging: OK')
 -- 
 2.18.1
 
